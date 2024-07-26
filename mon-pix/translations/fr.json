@@ -115,13 +115,17 @@
       "reconciliation": {
         "title": "Rejoignez l'organisation { organizationName }",
         "error-message": {
+          "date-field": "Veuillez utiliser le format jj/mm/aaaa pour la saisie du champ {fieldName}",
           "invalid-reconciliation-error": "Vérifiez vos informations ({fields}) ou contactez un enseignant.",
-          "mandatory-field": "Ce champ est obligatoire"
+          "mandatory-field": "Veuillez remplir le champ {fieldName}"
         },
         "field": {
           "birthdate": "Date de naissance",
           "firstname": "Prénom",
-          "lastname": "Nom"
+          "lastname": "Nom",
+          "sub-label": {
+            "date": "Au format (jj/mm/aaaa), par exemple : {dateFormat}"
+          }
         }
       }
     }

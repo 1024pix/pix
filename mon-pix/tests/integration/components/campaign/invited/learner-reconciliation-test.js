@@ -17,10 +17,12 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
       {
         fieldId: 'field2',
         name: 'COMMON_FIRSTNAME',
+        type: 'string',
       },
       {
         fieldId: 'field1',
         name: 'COMMON_BIRTHDATE',
+        type: 'date',
       },
     ];
 
@@ -40,10 +42,10 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
     // given / when
     const screen = await render(
       hbs`<Campaigns::Invited::LearnerReconciliation
-        @reconciliationFields={{this.reconciliationFields}}
-        @organizationName={{this.organizationName}}
-        @mappingFields={{this.mappingFields}}
-      />`,
+  @reconciliationFields={{this.reconciliationFields}}
+  @organizationName={{this.organizationName}}
+  @mappingFields={{this.mappingFields}}
+/>`,
     );
     // then
     assert.ok(
@@ -53,9 +55,12 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
       }),
     );
     assert.ok(screen.getByText(this.intl.t('common.form.mandatory-all-fields')));
-
-    assert.ok(screen.getByRole('textbox', { name: 'Prénom' }));
-    assert.ok(screen.getByRole('textbox', { name: 'Date de naissance' }));
+    assert.ok(screen.getByRole('textbox', { name: this.intl.t('components.invited.reconciliation.field.firstname') }));
+    assert.ok(
+      screen.getByRole('textbox', {
+        name: `${this.intl.t('components.invited.reconciliation.field.birthdate')} ${this.intl.t('components.invited.reconciliation.field.sub-label.date', { dateFormat: '31/12/2020' })}`,
+      }),
+    );
     assert.ok(screen.getByRole('button', { name: this.intl.t('common.actions.lets-go') }));
   });
 
@@ -64,32 +69,73 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
       // given
       const screen = await render(
         hbs`<Campaigns::Invited::LearnerReconciliation
-          @reconciliationFields={{this.reconciliationFields}}
-          @organizationName={{this.organizationName}}
-          @mappingFields={{this.mappingFields}}
-        />`,
+  @reconciliationFields={{this.reconciliationFields}}
+  @organizationName={{this.organizationName}}
+  @mappingFields={{this.mappingFields}}
+/>`,
       );
       // when
       const button = screen.getByRole('button', { name: this.intl.t('common.actions.lets-go') });
 
       await click(button);
       // then
-      assert.strictEqual(
-        screen.getAllByText(this.intl.t('components.invited.reconciliation.error-message.mandatory-field')).length,
-        2,
+      assert.ok(
+        screen.getByText(
+          this.intl.t('components.invited.reconciliation.error-message.mandatory-field', {
+            fieldName: this.intl.t('components.invited.reconciliation.field.firstname'),
+          }),
+        ),
+      );
+      assert.ok(
+        screen.getByText(
+          this.intl.t('components.invited.reconciliation.error-message.mandatory-field', {
+            fieldName: this.intl.t('components.invited.reconciliation.field.birthdate'),
+          }),
+        ),
       );
     });
+
+    test('should display error date when wrong date written', async function (assert) {
+      // given
+      const screen = await render(
+        hbs`<Campaigns::Invited::LearnerReconciliation
+  @reconciliationFields={{this.reconciliationFields}}
+  @organizationName={{this.organizationName}}
+  @mappingFields={{this.mappingFields}}
+/>`,
+      );
+      // when
+      await fillIn(
+        screen.getByRole('textbox', {
+          name: `${this.intl.t('components.invited.reconciliation.field.birthdate')} ${this.intl.t('components.invited.reconciliation.field.sub-label.date', { dateFormat: '31/12/2020' })}`,
+        }),
+        '2020-45-12',
+      );
+
+      const button = screen.getByRole('button', { name: this.intl.t('common.actions.lets-go') });
+
+      await click(button);
+      // then
+      assert.ok(
+        screen.getByText(
+          this.intl.t('components.invited.reconciliation.error-message.date-field', {
+            fieldName: this.intl.t('components.invited.reconciliation.field.birthdate'),
+          }),
+        ),
+      );
+    });
+
     module('isLoading', function () {
       test('should not disable button', async function (assert) {
         // given
         const screen = await render(
           hbs`<Campaigns::Invited::LearnerReconciliation
-            @reconciliationFields={{this.reconciliationFields}}
-            @organizationName={{this.organizationName}}
-            @onSubmit={{this.onSubmit}}
-            @mappingFields={{this.mappingFields}}
-            @isLoading={{false}}
-          />`,
+  @reconciliationFields={{this.reconciliationFields}}
+  @organizationName={{this.organizationName}}
+  @onSubmit={{this.onSubmit}}
+  @mappingFields={{this.mappingFields}}
+  @isLoading={{false}}
+/>`,
         );
         // when
         const button = screen.getByRole('button', { name: this.intl.t('common.actions.lets-go') });
@@ -100,12 +146,12 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
         // given
         const screen = await render(
           hbs`<Campaigns::Invited::LearnerReconciliation
-            @reconciliationFields={{this.reconciliationFields}}
-            @organizationName={{this.organizationName}}
-            @onSubmit={{this.onSubmit}}
-            @mappingFields={{this.mappingFields}}
-            @isLoading={{true}}
-          />`,
+  @reconciliationFields={{this.reconciliationFields}}
+  @organizationName={{this.organizationName}}
+  @onSubmit={{this.onSubmit}}
+  @mappingFields={{this.mappingFields}}
+  @isLoading={{true}}
+/>`,
         );
         // when
         const form = screen.getByRole('form');
@@ -118,22 +164,30 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
       // given
       const screen = await render(
         hbs`<Campaigns::Invited::LearnerReconciliation
-          @reconciliationFields={{this.reconciliationFields}}
-          @organizationName={{this.organizationName}}
-          @mappingFields={{this.mappingFields}}
-          @onSubmit={{this.onSubmit}}
-        />`,
+  @reconciliationFields={{this.reconciliationFields}}
+  @organizationName={{this.organizationName}}
+  @mappingFields={{this.mappingFields}}
+  @onSubmit={{this.onSubmit}}
+/>`,
       );
       // when
-      await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), 'jaune');
-      await fillIn(screen.getByRole('textbox', { name: 'Date de naissance' }), '06/01/2020');
+      await fillIn(
+        screen.getByRole('textbox', { name: this.intl.t('components.invited.reconciliation.field.firstname') }),
+        'jaune',
+      );
+      await fillIn(
+        screen.getByRole('textbox', {
+          name: `${this.intl.t('components.invited.reconciliation.field.birthdate')} ${this.intl.t('components.invited.reconciliation.field.sub-label.date', { dateFormat: '31/12/2020' })}`,
+        }),
+        '06/01/2020',
+      );
 
       const button = screen.getByRole('button', { name: this.intl.t('common.actions.lets-go') });
 
       await click(button);
 
       // then
-      assert.true(onSubmit.calledWithExactly({ field2: 'jaune', field1: '06/01/2020' }));
+      assert.true(onSubmit.calledWithExactly({ field2: 'jaune', field1: '2020-01-06' }));
     });
   });
 
@@ -142,12 +196,12 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
       // given
       const screen = await render(
         hbs`<Campaigns::Invited::LearnerReconciliation
-          @reconciliationFields={{this.reconciliationFields}}
-          @organizationName={{this.organizationName}}
-          @reconciliationError={{'Une erreur!!!'}}
-          @mappingFields={{this.mappingFields}}
-          @onSubmit={{this.onSubmit}}
-        />`,
+  @reconciliationFields={{this.reconciliationFields}}
+  @organizationName={{this.organizationName}}
+  @reconciliationError={{'Une erreur!!!'}}
+  @mappingFields={{this.mappingFields}}
+  @onSubmit={{this.onSubmit}}
+/>`,
       );
       assert.ok(screen.getByText('Une erreur!!!'));
     });
