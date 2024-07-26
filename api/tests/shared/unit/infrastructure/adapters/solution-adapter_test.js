@@ -1,6 +1,6 @@
-import { Solution } from '../../../../src/shared/domain/models/Solution.js';
-import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { Solution } from '../../../../../src/shared/domain/models/Solution.js';
+import * as solutionAdapter from '../../../../../src/shared/infrastructure/adapters/solution-adapter.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Adapter | Solution', function () {
   describe('#fromDatasourceObject', function () {
