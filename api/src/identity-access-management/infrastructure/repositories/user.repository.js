@@ -1,5 +1,5 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
+import { BookshelfUser } from '../../../../src/shared/infrastructure/orm-models/User.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import {

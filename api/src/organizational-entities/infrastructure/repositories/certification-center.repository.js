@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { BookshelfCertificationCenter } from '../../../../lib/infrastructure/orm-models/CertificationCenter.js';
+import { BookshelfCertificationCenter } from '../../../../src/shared/infrastructure/orm-models/CertificationCenter.js';
 import { ComplementaryCertification } from '../../../certification/complementary-certification/domain/models/ComplementaryCertification.js';
 import { CertificationCenter } from '../../../shared/domain/models/index.js';
 

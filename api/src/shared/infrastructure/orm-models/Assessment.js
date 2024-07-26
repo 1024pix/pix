@@ -3,7 +3,7 @@ import './User.js';
 import './KnowledgeElement.js';
 import './CampaignParticipation.js';
 
-import { Bookshelf } from '../bookshelf.js';
+import { Bookshelf } from '../../../../lib/infrastructure/bookshelf.js';
 
 const modelName = 'Assessment';
 

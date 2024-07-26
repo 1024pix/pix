@@ -3,10 +3,10 @@ import { User } from '../../../src/identity-access-management/domain/models/User
 import { Organization } from '../../../src/organizational-entities/domain/models/Organization.js';
 import { MembershipCreationError, MembershipUpdateError, NotFoundError } from '../../../src/shared/domain/errors.js';
 import { Membership } from '../../../src/shared/domain/models/Membership.js';
+import { BookshelfMembership } from '../../../src/shared/infrastructure/orm-models/Membership.js';
 import * as bookshelfToDomainConverter from '../../../src/shared/infrastructure/utils/bookshelf-to-domain-converter.js';
 import * as knexUtils from '../../../src/shared/infrastructure/utils/knex-utils.js';
 import { DomainTransaction } from '../DomainTransaction.js';
-import { BookshelfMembership } from '../orm-models/Membership.js';
 
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_NUMBER = 1;

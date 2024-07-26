@@ -10,10 +10,10 @@ import {
 } from '../../../src/shared/domain/errors.js';
 import { CertificationCenter } from '../../../src/shared/domain/models/CertificationCenter.js';
 import { CertificationCenterMembership } from '../../../src/shared/domain/models/CertificationCenterMembership.js';
+import { BookshelfCertificationCenterMembership } from '../../../src/shared/infrastructure/orm-models/CertificationCenterMembership.js';
 import * as bookshelfToDomainConverter from '../../../src/shared/infrastructure/utils/bookshelf-to-domain-converter.js';
 import * as knexUtils from '../../../src/shared/infrastructure/utils/knex-utils.js';
 import { DomainTransaction } from '../DomainTransaction.js';
-import { BookshelfCertificationCenterMembership } from '../orm-models/CertificationCenterMembership.js';
 
 const CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME = 'certification-center-memberships';
 

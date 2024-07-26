@@ -1,4 +1,4 @@
-import { BookshelfMembership } from '../../../../lib/infrastructure/orm-models/Membership.js';
+import { BookshelfMembership } from '../../../../src/shared/infrastructure/orm-models/Membership.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 
 const findByUserId = function ({ userId }) {

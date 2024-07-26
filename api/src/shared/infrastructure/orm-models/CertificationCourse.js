@@ -4,7 +4,7 @@ import './CertificationIssueReport.js';
 import './ComplementaryCertificationCourse.js';
 import './Session.js';
 
-import { Bookshelf } from '../bookshelf.js';
+import { Bookshelf } from '../../../../lib/infrastructure/bookshelf.js';
 
 const modelName = 'CertificationCourse';
 

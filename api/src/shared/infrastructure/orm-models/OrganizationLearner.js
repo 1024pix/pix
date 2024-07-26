@@ -1,14 +1,14 @@
-import './Organization.js';
 import './User.js';
+import './Organization.js';
 
-import { Bookshelf } from '../bookshelf.js';
+import { Bookshelf } from '../../../../lib/infrastructure/bookshelf.js';
 
-const modelName = 'Membership';
+const modelName = 'OrganizationLearner';
 
-const BookshelfMembership = Bookshelf.model(
+const BookshelfOrganizationLearner = Bookshelf.model(
   modelName,
   {
-    tableName: 'memberships',
+    tableName: 'organization-learners',
     hasTimestamps: ['createdAt', 'updatedAt'],
 
     user() {
@@ -24,4 +24,4 @@ const BookshelfMembership = Bookshelf.model(
   },
 );
 
-export { BookshelfMembership };
+export { BookshelfOrganizationLearner };

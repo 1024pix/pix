@@ -2,8 +2,8 @@ import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { Bookshelf } from '../../../../../lib/infrastructure/bookshelf.js';
-import { BookshelfAssessment } from '../../../../../lib/infrastructure/orm-models/Assessment.js';
-import { BookshelfCertificationCourse } from '../../../../../lib/infrastructure/orm-models/CertificationCourse.js';
+import { BookshelfAssessment } from '../../../../shared/infrastructure/orm-models/Assessment.js';
+import { BookshelfCertificationCourse } from '../../../../shared/infrastructure/orm-models/CertificationCourse.js';
 import * as bookshelfToDomainConverter from '../../../../shared/infrastructure/utils/bookshelf-to-domain-converter.js';
 import { ComplementaryCertificationCourse } from '../../../session-management/domain/models/ComplementaryCertificationCourse.js';
 import { CertificationCourseUpdateError } from '../../domain/errors.js';

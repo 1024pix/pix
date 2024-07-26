@@ -1,7 +1,6 @@
 import lodash from 'lodash';
 const { omit, pick } = lodash;
 
-import { BookshelfCertificationCenterMembership } from '../../../../lib/infrastructure/orm-models/CertificationCenterMembership.js';
 import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
 import { User } from '../../../../src/identity-access-management/domain/models/User.js';
 import {
@@ -14,6 +13,7 @@ import {
   CERTIFICATION_CENTER_MEMBERSHIP_ROLES,
   CertificationCenterMembership,
 } from '../../../../src/shared/domain/models/CertificationCenterMembership.js';
+import { BookshelfCertificationCenterMembership } from '../../../../src/shared/infrastructure/orm-models/CertificationCenterMembership.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | Certification Center Membership', function () {

@@ -1,6 +1,6 @@
 import './User.js';
 
-import { Bookshelf } from '../bookshelf.js';
+import { Bookshelf } from '../../../../lib/infrastructure/bookshelf.js';
 
 const modelName = 'AuthenticationMethod';
 

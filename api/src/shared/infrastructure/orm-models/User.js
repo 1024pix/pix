@@ -6,7 +6,7 @@ import './UserOrgaSettings.js';
 import './OrganizationLearner.js';
 import './AuthenticationMethod.js';
 
-import { Bookshelf } from '../bookshelf.js';
+import { Bookshelf } from '../../../../lib/infrastructure/bookshelf.js';
 
 const modelName = 'User';
 
