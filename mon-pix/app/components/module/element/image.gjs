@@ -30,7 +30,7 @@ export default class ModulixImageElement extends Component {
         <img class="element-image-container__image" alt={{@image.alt}} src={{@image.url}} />
       </div>
       {{#if this.hasAlternativeText}}
-        <PixButton @variant="secondary" @size="small" @type="button" @triggerAction={{this.showModal}}>
+        <PixButton @variant="tertiary" @triggerAction={{this.showModal}}>
           {{t "pages.modulix.buttons.element.alternativeText"}}
         </PixButton>
         <PixModal
