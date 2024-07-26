@@ -21,8 +21,9 @@
     "test:ci": "NODE_ENV=test npm run db:prepare && vitest",
     "test:coverage": "NODE_ENV=test vitest --coverage.enabled",
     "test:watch": "NODE_ENV=test npm run db:prepare && vitest --watch",
+    "dev": "nodemon src/lib/index.ts",
     "start": "node dist/lib/index.js",
-    "start:watch": "nodemon src/lib/index.ts"
+    "start:watch": "npm run dev"
   },
   "repository": {
     "type": "git",
