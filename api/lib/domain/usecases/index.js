@@ -18,6 +18,7 @@ import * as flashAlgorithmService from '../../../src/certification/flash-certifi
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as certificationOfficerRepository from '../../../src/certification/session-management/infrastructure/repositories/certification-officer-repository.js';
 import * as finalizedSessionRepository from '../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
+import * as juryCertificationRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-certification-repository.js';
 import * as jurySessionRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-session-repository.js';
 import * as sessionRepository from '../../../src/certification/session-management/infrastructure/repositories/session-repository.js';
 import * as sessionSummaryRepository from '../../../src/certification/session-management/infrastructure/repositories/session-summary-repository.js';
@@ -133,7 +134,6 @@ import * as dataProtectionOfficerRepository from '../../infrastructure/repositor
 import * as flashAssessmentResultRepository from '../../infrastructure/repositories/flash-assessment-result-repository.js';
 import * as frameworkRepository from '../../infrastructure/repositories/framework-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
-import * as juryCertificationRepository from '../../infrastructure/repositories/jury-certification-repository.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as learningContentRepository from '../../infrastructure/repositories/learning-content-repository.js';

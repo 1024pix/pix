@@ -2,10 +2,7 @@ import lodash from 'lodash';
 
 const { minBy } = lodash;
 
-import {
-  juryOptions,
-  sources,
-} from '../../../certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { juryOptions, sources } from '../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
 
 const { EXTERNAL, PIX } = sources;
 

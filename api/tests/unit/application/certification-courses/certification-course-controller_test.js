@@ -3,11 +3,9 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Controller | certification-course-controller', function () {
   let certificationCourseSerializer;
-  let juryCertificationSerializer;
   let certifiedProfileSerializer;
   let certifiedProfileRepository;
   let requestResponseUtils;
@@ -18,9 +16,6 @@ describe('Unit | Controller | certification-course-controller', function () {
       serializeFromCertificationCourse: sinon.stub(),
       deserializeCertificationCandidateModificationCommand: sinon.stub(),
     };
-    juryCertificationSerializer = {
-      serialize: sinon.stub(),
-    };
     certifiedProfileSerializer = {
       serialize: sinon.stub(),
     };
@@ -28,59 +23,6 @@ describe('Unit | Controller | certification-course-controller', function () {
       get: sinon.stub(),
     };
     requestResponseUtils = { extractLocaleFromRequest: sinon.stub() };
-  });
-
-  describe('#getJuryCertification', function () {
-    it('should return serialized jury certification returned by the usecase', async function () {
-      // given
-      const certificationCourseId = 1;
-      const request = {
-        params: {
-          id: certificationCourseId,
-        },
-        i18n: getI18n(),
-      };
-
-      const juryCertification = domainBuilder.buildJuryCertification({
-        certificationCourseId: 123,
-        sessionId: 456,
-        userId: 789,
-        assessmentId: 159,
-        firstName: 'Buffy',
-        lastName: 'Summers',
-        birthplace: 'Torreilles',
-        birthdate: '2000-08-30',
-        birthINSEECode: '66212',
-        birthPostalCode: null,
-        birthCountry: 'France',
-        sex: 'F',
-        status: 'rejected',
-        isCancelled: false,
-        isPublished: true,
-        createdAt: new Date('2020-01-01'),
-        completedAt: new Date('2020-02-01'),
-        pixScore: 55,
-        juryId: 66,
-        commentForCandidate: 'comment candidate',
-        commentForOrganization: 'comment organization',
-        commentByJury: 'comment jury',
-        competenceMarks: [],
-        certificationIssueReports: [],
-        commonComplementaryCertificationCourseResult: null,
-        complementaryCertificationCourseResultWithExternal: null,
-      });
-      const stubbedUsecase = sinon.stub(usecases, 'getJuryCertification');
-      stubbedUsecase.withArgs({ certificationCourseId }).resolves(juryCertification);
-      juryCertificationSerializer.serialize.withArgs(juryCertification).returns('ok');
-
-      // when
-      const response = await certificationCourseController.getJuryCertification(request, hFake, {
-        juryCertificationSerializer,
-      });
-
-      // then
-      expect(response).to.deep.equal('ok');
-    });
   });
 
   describe('#save', function () {

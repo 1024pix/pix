@@ -35,31 +35,6 @@ const register = async function (server) {
         ],
       },
     },
-    {
-      method: 'GET',
-      path: '/api/admin/certifications/{id}',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.certificationCourseId,
-          }),
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: certificationCourseController.getJuryCertification,
-        tags: ['api'],
-      },
-    },
   ];
   server.route([
     ...adminRoutes,

@@ -1,13 +1,13 @@
 import _ from 'lodash';
 
-import { knex } from '../../../db/knex-database-connection.js';
-import { JuryCertification } from '../../../src/certification/session-management/domain/models/JuryCertification.js';
-import { CertificationIssueReport } from '../../../src/certification/shared/domain/models/CertificationIssueReport.js';
-import { NotFoundError } from '../../../src/shared/domain/errors.js';
-import { ComplementaryCertificationCourseResultForJuryCertification } from '../../../src/shared/domain/read-models/ComplementaryCertificationCourseResultForJuryCertification.js';
-import { ComplementaryCertificationCourseResultForJuryCertificationWithExternal } from '../../../src/shared/domain/read-models/ComplementaryCertificationCourseResultForJuryCertificationWithExternal.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { CertificationIssueReport } from '../../../shared/domain/models/CertificationIssueReport.js';
+import { JuryCertification } from '../../domain/models/JuryCertification.js';
+import { ComplementaryCertificationCourseResultForJuryCertification } from '../../domain/read-models/ComplementaryCertificationCourseResultForJuryCertification.js';
+import { ComplementaryCertificationCourseResultForJuryCertificationWithExternal } from '../../domain/read-models/ComplementaryCertificationCourseResultForJuryCertificationWithExternal.js';
 
-const get = async function (certificationCourseId) {
+const get = async function ({ certificationCourseId }) {
   const juryCertificationDTO = await _selectJuryCertifications()
     .where('certification-courses.id', certificationCourseId)
     .first();

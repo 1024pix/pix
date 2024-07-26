@@ -1,8 +1,8 @@
-import { ComplementaryCertificationCourseResult } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-import { ComplementaryCertificationCourseResultForJuryCertificationWithExternal } from '../../../../src/shared/domain/read-models/ComplementaryCertificationCourseResultForJuryCertificationWithExternal.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { ComplementaryCertificationCourseResultForJuryCertificationWithExternal } from '../../../../../../src/certification/session-management/domain/read-models/ComplementaryCertificationCourseResultForJuryCertificationWithExternal.js';
+import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJuryCertificationWithExternal', function () {
+describe('Certification | Session-management | Unit | Domain | Read-models | ComplementaryCertificationCourseResultForJuryCertificationWithExternal', function () {
   describe('#finalResult', function () {
     context('when external section is not scored yet', function () {
       it('should return "En attente volet jury" ', function () {

@@ -1,10 +1,10 @@
-import * as juryCertificationRepository from '../../../../lib/infrastructure/repositories/jury-certification-repository.js';
-import { ComplementaryCertificationCourseResult } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
-import { NotFoundError } from '../../../../src/shared/domain/errors.js';
-import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
+import * as juryCertificationRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/jury-certification-repository.js';
+import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Integration | Infrastructure | Repository | Jury Certification', function () {
+describe('Certification | Session-management | Integration | Infrastructure | Repositories | jury-certification-repository', function () {
   describe('#get', function () {
     it('should throw a NotFoundError when no JuryCertification exists for given certification course id', async function () {
       // given
@@ -13,7 +13,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(juryCertificationRepository.get)(2);
+      const error = await catchErr(juryCertificationRepository.get)({ certificationCourseId: 2 });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -100,7 +100,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         await databaseBuilder.commit();
 
         // when
-        const juryCertification = await juryCertificationRepository.get(1);
+        const juryCertification = await juryCertificationRepository.get({ certificationCourseId: 1 });
 
         // then
         const expectedCompetenceMark = domainBuilder.buildCompetenceMark({
@@ -227,7 +227,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         await databaseBuilder.commit();
 
         // when
-        const juryCertification = await juryCertificationRepository.get(1);
+        const juryCertification = await juryCertificationRepository.get({ certificationCourseId: 1 });
 
         // then
         const expectedJuryCertification = {
@@ -357,7 +357,9 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         await databaseBuilder.commit();
 
         // when
-        const { complementaryCertificationCourseResultWithExternal } = await juryCertificationRepository.get(1);
+        const { complementaryCertificationCourseResultWithExternal } = await juryCertificationRepository.get({
+          certificationCourseId: 1,
+        });
 
         // then
         expect(complementaryCertificationCourseResultWithExternal.allowedExternalLevels).to.deep.equals([
@@ -414,7 +416,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       await databaseBuilder.commit();
 
       // when
-      const juryCertification = await juryCertificationRepository.get(1);
+      const juryCertification = await juryCertificationRepository.get({ certificationCourseId: 1 });
 
       // then
       expect(juryCertification.certificationIssueReports).to.deepEqualArray([

@@ -1,9 +1,9 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-serializer.js';
-import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
-import { getI18n } from '../../../../tooling/i18n/i18n.js';
+import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/jury-certification-serializer.js';
+import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
-describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function () {
+describe('Certification | Session-management | Unit | Infrastructure | Serializers | jury-certification-serializer', function () {
   let translate;
 
   beforeEach(function () {
