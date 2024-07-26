@@ -1,14 +1,18 @@
 import lodash from 'lodash';
 
-import { CertificationsResults } from '../../../../src/shared/domain/read-models/livret-scolaire/CertificationsResults.js';
-import { Competence } from '../../../../src/shared/domain/read-models/livret-scolaire/Competence.js';
+import { CertificationsResults } from '../read-models/livret-scolaire/CertificationsResults.js';
+import { Competence } from '../read-models/livret-scolaire/Competence.js';
 
 const { sortBy } = lodash;
 
-const getCertificationsResultsForLS = async function ({ uai, certificationLsRepository, competenceTreeRepository }) {
+const getCertificationsResultsForLivretScolaire = async function ({
+  uai,
+  certificationLivretScolaireRepository,
+  competenceTreeRepository,
+}) {
   const [referential, certifications] = await Promise.all([
     competenceTreeRepository.get(),
-    certificationLsRepository.getCertificatesByOrganizationUAI(uai),
+    certificationLivretScolaireRepository.getCertificatesByOrganizationUAI(uai),
   ]);
 
   const areas = referential.areas;
@@ -23,4 +27,4 @@ const getCertificationsResultsForLS = async function ({ uai, certificationLsRepo
   return new CertificationsResults({ certifications, competences: sortedCompetences });
 };
 
-export { getCertificationsResultsForLS };
+export { getCertificationsResultsForLivretScolaire };
