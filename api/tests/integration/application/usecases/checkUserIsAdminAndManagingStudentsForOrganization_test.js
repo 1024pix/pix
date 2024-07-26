@@ -1,4 +1,4 @@
-import * as checkUserIsAdminAndManagingStudentsForOrganization from '../../../../lib/application/usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
+import * as checkUserIsAdminAndManagingStudentsForOrganization from '../../../../src/shared/application/usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
 import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { databaseBuilder, expect } from '../../../test-helper.js';
 
