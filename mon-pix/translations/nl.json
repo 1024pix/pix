@@ -1699,7 +1699,12 @@
     "timed-challenge-instructions": {
       "action": "De test beginnen",
       "primary": "Je hebt '<span class=\"timed-challenge-instructies__time\">'{time}'</span>' om de volgende vraag te beantwoorden.",
-      "secondary": "Als je doorgaat wordt de opdracht niet als voltooid beschouwd."
+      "secondary": "Als je doorgaat wordt de opdracht niet als voltooid beschouwd.",
+      "time": {
+        "and": " en ",
+        "minutes": "{minutes, plural, =0 {} =1 {# minuut} other {# minuten}}",
+        "seconds": "{seconds, plural, =0 {} =1 {# seconde} other {# seconden}}"
+      }
     },
     "training": {
       "editor": "Inhoud van de training voorgesteld door",
@@ -1724,27 +1729,22 @@
       "pages": {
         "page0": {
           "explanation": "Als je het antwoord niet weet, vind je het vast wel op\n.",
-          "icon": "icn-recherche.svg",
           "title": "Je kunt op internet zoeken ..."
         },
         "page1": {
           "explanation": "Als deze afbeelding wordt weergegeven, gebruik dan alleen je eigen kennis!\nJe mag het internet of je software niet gebruiken.",
-          "icon": "icn-focus.svg",
           "title": "... behalve voor bepaalde vragen"
         },
         "page2": {
           "explanation": "Neem zoveel tijd als je nodig hebt om de cursus te voltooien.\nAls een vraag een tijdslimiet heeft, wordt dit aangegeven.",
-          "icon": "icn-temps.svg",
           "title": "Geen tijdslimiet!"
         },
         "page3": {
           "explanation": "Ga naar tutorials om meer te leren\nover elke vraag en boek vooruitgang.",
-          "icon": "icn-tutos.svg",
           "title": "Tutorials om te leren"
         },
         "page4": {
           "explanation": "Afhankelijk van je antwoorden past\nPix de moeilijkheidsgraad van de vragen aan.",
-          "icon": "icn-algo.svg",
           "title": "De juiste moeilijkheidsgraad"
         }
       },

@@ -1,25 +1,23 @@
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import isInteger from 'lodash/isInteger';
 
 export default class TimedChallengeInstructions extends Component {
+  @service intl;
+
   get allocatedTime() {
-    return _formatTime(this.args.time);
+    if (!isInteger(this.args.time)) {
+      return '';
+    }
+
+    const minutes = _getMinutes(this.args.time);
+    const seconds = _getSeconds(this.args.time);
+
+    let allocatedTime = this.intl.t('pages.timed-challenge-instructions.time.minutes', { minutes });
+    if (minutes && seconds) allocatedTime += this.intl.t('pages.timed-challenge-instructions.time.and');
+    allocatedTime += this.intl.t('pages.timed-challenge-instructions.time.seconds', { seconds });
+    return allocatedTime;
   }
-}
-
-function _formatTime(time) {
-  if (!isInteger(time)) {
-    return '';
-  }
-
-  const minutes = _getMinutes(time);
-  const seconds = _getSeconds(time);
-
-  const formattedMinutes = _pluralize('minute', minutes);
-  const formattedSeconds = _pluralize('seconde', seconds);
-  const joiningWord = !minutes || !seconds ? '' : ' et ';
-
-  return `${formattedMinutes}${joiningWord}${formattedSeconds}`;
 }
 
 function _getMinutes(time) {
@@ -28,11 +26,4 @@ function _getMinutes(time) {
 
 function _getSeconds(time) {
   return time % 60;
-}
-
-function _pluralize(word, count) {
-  if (!count) {
-    return '';
-  }
-  return count > 1 ? `${count} ${word}s` : `${count} ${word}`;
 }

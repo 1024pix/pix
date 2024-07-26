@@ -1699,7 +1699,12 @@
     "timed-challenge-instructions": {
       "action": "Empezar la prueba",
       "primary": "Dispondrás de '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' para superar la siguiente pregunta.",
-      "secondary": "Podrás seguir respondiendo después, pero la pregunta no se considerará acertada."
+      "secondary": "Podrás seguir respondiendo después, pero la pregunta no se considerará acertada.",
+      "time": {
+        "and": " y ",
+        "minutes": "{minutes, plural, =0 {} =1 {# minuto} other {# minutos}}",
+        "seconds": "{seconds, plural, =0 {} =1 {# segundo} other {# segundos}}"
+      }
     },
     "training": {
       "editor": "Contenido formativo propuesto por",
@@ -1724,27 +1729,22 @@
       "pages": {
         "page0": {
           "explanation": "Si no conoces una respuesta, probablemente esté en Internet.",
-          "icon": "icn-recherche.svg",
           "title": "Puedes buscar en internet..."
         },
         "page1": {
           "explanation": "Si aparece esta imagen, ¡utiliza solo tus conocimientos! No debes utilizar Internet ni ningún software.",
-          "icon": "icn-focus.svg",
           "title": "... excepto para ciertas preguntas"
         },
         "page2": {
           "explanation": "Tómate el tiempo que necesites para completar el test. Si una pregunta está cronometrada, se te indicará.",
-          "icon": "icn-temps.svg",
           "title": "¡Sin límite de tiempo!"
         },
         "page3": {
           "explanation": "Accede a tutoriales para aprender más sobre cada pregunta y progresar.",
-          "icon": "icn-tutos.svg",
           "title": "Tutoriales para aprender"
         },
         "page4": {
           "explanation": "Pix adapta la dificultad de las preguntas en función de tus respuestas.",
-          "icon": "icn-algo.svg",
           "title": "Un nivel adecuado de dificultad"
         }
       },
