@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { constants } from '../../../src/shared/domain/constants.js';
+import { constants } from '../../../shared/domain/constants.js';
 
 function _keepKnowledgeElementsRecentOrValidated({ currentUserKnowledgeElements, assessment, minimumDelayInDays }) {
   const startedDateOfAssessment = assessment.createdAt;
