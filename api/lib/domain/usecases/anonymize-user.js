@@ -1,3 +1,4 @@
+import { anonymizeGeneralizeDate } from '../../../src/shared/infrastructure/utils/date-utils.js';
 import { UserAnonymized } from '../events/UserAnonymized.js';
 
 const anonymizeUser = async function ({
@@ -13,6 +14,8 @@ const anonymizeUser = async function ({
   userLoginRepository,
   adminMemberRepository,
 }) {
+  const user = await userRepository.get(userId);
+
   const anonymizedUser = {
     firstName: '(anonymised)',
     lastName: '(anonymised)',
@@ -25,9 +28,9 @@ const anonymizeUser = async function ({
     lastPixOrgaTermsOfServiceValidatedAt: null,
     lastPixCertifTermsOfServiceValidatedAt: null,
     lastDataProtectionPolicySeenAt: null,
+    createdAt: anonymizeGeneralizeDate(user.createdAt),
+    updatedAt: anonymizeGeneralizeDate(user.updatedAt),
   };
-
-  const user = await userRepository.get(userId);
 
   await authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({ userId });
 

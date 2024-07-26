@@ -287,33 +287,39 @@ describe('Unit | Domain | Models | UserLogin', function () {
   describe('#anonymize', function () {
     it('anonymizes user login info', function () {
       // given
-      const userLogin = new UserLogin({ id: 1, temporaryBlockedUntil: new Date(), blockedAt: new Date() });
+      const userLogin = new UserLogin({
+        id: 1,
+        createdAt: new Date('2012-12-12T12:25:34Z'),
+        updatedAt: new Date('2023-03-23T09:44:30Z'),
+        temporaryBlockedUntil: new Date('2023-03-23T08:16:16Z'),
+        blockedAt: new Date('2023-03-23T09:44:30Z'),
+      });
 
       // when
-      const result = userLogin.anonymize();
+      const anonymizedUserLogin = userLogin.anonymize();
 
       // then
-      expect(result.id).to.be.equal(1);
-      expect(result.temporaryBlockedUntil).to.be.null;
-      expect(result.blockedAt).to.be.null;
-      expect(result.lastLoggedAt).to.be.null;
+      expect(anonymizedUserLogin.id).to.be.equal(1);
+      expect(anonymizedUserLogin.createdAt.toISOString()).to.equal('2012-12-01T00:00:00.000Z');
+      expect(anonymizedUserLogin.updatedAt.toISOString()).to.equal('2023-03-01T00:00:00.000Z');
+      expect(anonymizedUserLogin.temporaryBlockedUntil).to.be.null;
+      expect(anonymizedUserLogin.blockedAt).to.be.null;
+      expect(anonymizedUserLogin.lastLoggedAt).to.be.undefined;
     });
 
     context('when there is a lastLoggedAt', function () {
       it('keeps the lastLoggedAt date and generalizes it', function () {
         // given
-        const someDate = new Date('2019-03-12T19:37:03Z');
         const userLogin = new UserLogin({
           id: 1,
-          lastLoggedAt: someDate,
+          lastLoggedAt: new Date('2023-02-18T18:18:02Z'),
         });
 
         // when
-        const result = userLogin.anonymize();
+        const anonymizedUserLogin = userLogin.anonymize();
 
         // then
-        expect(result.lastLoggedAt).to.be.an.instanceOf(Date);
-        expect(result.lastLoggedAt.toISOString()).to.equal('2019-03-01T00:00:00.000Z');
+        expect(anonymizedUserLogin.lastLoggedAt.toISOString()).to.equal('2023-02-01T00:00:00.000Z');
       });
     });
   });

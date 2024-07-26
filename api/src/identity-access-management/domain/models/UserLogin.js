@@ -1,4 +1,5 @@
 import { config } from '../../../shared/config.js';
+import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
 
 class UserLogin {
   constructor({
@@ -69,8 +70,11 @@ class UserLogin {
   anonymize() {
     return new UserLogin({
       ...this,
+      createdAt: anonymizeGeneralizeDate(this.createdAt),
+      updatedAt: anonymizeGeneralizeDate(this.updatedAt),
       temporaryBlockedUntil: null,
       blockedAt: null,
+      lastLoggedAt: this.lastLoggedAt && anonymizeGeneralizeDate(this.lastLoggedAt),
     });
   }
 }

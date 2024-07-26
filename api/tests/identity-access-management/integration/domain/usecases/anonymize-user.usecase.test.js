@@ -33,7 +33,15 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
     const updatedAt = new Date('2023-03-23T23:23:23Z');
     const user = databaseBuilder.factory.buildUser({ createdAt, updatedAt });
     const userId = user.id;
-    const userLogin = databaseBuilder.factory.buildUserLogin({ userId });
+    const userLoginCreatedAt = new Date('2014-01-17T17:17:17Z');
+    const userLoginUpdatedAt = new Date('2023-03-23T09:44:30Z');
+    const lastLoggedAt = new Date('2023-03-23T09:44:30Z');
+    const userLogin = databaseBuilder.factory.buildUserLogin({
+      userId,
+      createdAt: userLoginCreatedAt,
+      updatedAt: userLoginUpdatedAt,
+      lastLoggedAt,
+    });
     await databaseBuilder.commit();
 
     const expectedUserAnonymizedEvent = new UserAnonymized({
@@ -68,9 +76,14 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
     expect(anonymizedUser.firstName).to.equal('(anonymised)');
     expect(anonymizedUser.lastName).to.equal('(anonymised)');
     expect(anonymizedUser.hasBeenAnonymisedBy).to.equal(admin.id);
+    expect(anonymizedUser.createdAt.toISOString()).to.equal('2012-12-01T00:00:00.000Z');
+    expect(anonymizedUser.updatedAt.toISOString()).to.equal('2023-03-01T00:00:00.000Z');
 
     const anonymizedUserLogin = await knex('user-logins').where({ id: userLogin.id }).first();
     expect(anonymizedUserLogin.temporaryBlockedUntil).to.be.null;
     expect(anonymizedUserLogin.blockedAt).to.be.null;
+    expect(anonymizedUserLogin.createdAt.toISOString()).to.equal('2014-01-01T00:00:00.000Z');
+    expect(anonymizedUserLogin.updatedAt.toISOString()).to.equal('2023-03-01T00:00:00.000Z');
+    expect(anonymizedUserLogin.lastLoggedAt.toISOString()).to.equal('2023-03-01T00:00:00.000Z');
   });
 });
