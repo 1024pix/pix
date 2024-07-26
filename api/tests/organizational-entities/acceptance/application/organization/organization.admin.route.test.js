@@ -14,9 +14,13 @@ import {
 const { ROLES } = PIX_ADMIN;
 
 describe('Acceptance | Organizational Entities | Application | Route | Admin | Organization', function () {
+  let admin;
   let server;
 
   beforeEach(async function () {
+    admin = await insertUserWithRoleSuperAdmin();
+    await databaseBuilder.commit();
+
     server = await createServer();
   });
 
@@ -68,7 +72,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
         const response = await server.inject({
           method: 'GET',
           url: `/api/admin/organizations/${organization.id}`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(superAdminUserId) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(admin.id) },
         });
 
         // then
@@ -146,15 +150,11 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       });
 
       it('should return a 404 error when organization was not found', async function () {
-        // given
-        const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
-        await databaseBuilder.commit();
-
         // when
         const response = await server.inject({
           method: 'GET',
           url: `/api/admin/organizations/999`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(superAdminUserId) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(admin.id) },
         });
 
         // then
@@ -207,8 +207,6 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
   describe('PATCH /api/admin/organizations/{id}', function () {
     it('should return the updated organization and status code 200', async function () {
       // given
-      await insertUserWithRoleSuperAdmin();
-
       const organizationAttributes = {
         externalId: '0446758F',
         provinceCode: '044',
@@ -261,15 +259,13 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
 
       it('responds with a 204 - no content', async function () {
         // given
-        const user = await insertUserWithRoleSuperAdmin();
-
         const input = `Feature ID;Organization ID;Params
       ${feature.id};${firstOrganization.id};{"id": 123}
       ${feature.id};${otherOrganization.id};{"id": 123}`;
 
         const options = {
           method: 'POST',
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(admin.id) },
           url: '/api/admin/organizations/add-organization-features',
           payload: iconv.encode(input, 'UTF-8'),
         };
@@ -300,13 +296,10 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       context('when user has "SUPER_ADMIN" role', function () {
         it('attach child organization', async function () {
           // given
-          const userId = databaseBuilder.factory.buildUser.withRole({ role: ROLES.SUPER_ADMIN }).id;
-          await databaseBuilder.commit();
-
           const options = {
             method: 'POST',
             url: `/api/admin/organizations/${parentOrganizationId}/attach-child-organization`,
-            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+            headers: { authorization: generateValidRequestAuthorizationHeader(admin.id) },
             payload: {
               childOrganizationId: childOrganization.id,
             },
@@ -420,13 +413,10 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
         context('when child organization id does not exist', function () {
           it('returns a 404 HTTP status code', async function () {
             // given
-            const userId = databaseBuilder.factory.buildUser.withRole().id;
-            await databaseBuilder.commit();
-
             const options = {
               method: 'POST',
               url: `/api/admin/organizations/${parentOrganizationId}/attach-child-organization`,
-              headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+              headers: { authorization: generateValidRequestAuthorizationHeader(admin.id) },
               payload: {
                 childOrganizationId: 984512,
               },
@@ -444,14 +434,13 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       context('when attaching child organization to itself', function () {
         it('returns a 409 HTTP status code with detailed error info', async function () {
           // given
-          const userId = databaseBuilder.factory.buildUser.withRole().id;
           const parentOrganizationId = databaseBuilder.factory.buildOrganization().id;
           await databaseBuilder.commit();
 
           const options = {
             method: 'POST',
             url: `/api/admin/organizations/${parentOrganizationId}/attach-child-organization`,
-            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+            headers: { authorization: generateValidRequestAuthorizationHeader(admin.id) },
             payload: {
               childOrganizationId: parentOrganizationId,
             },
@@ -476,7 +465,6 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       context('when attaching an already attached child organization', function () {
         it('returns a 409 HTTP status code with detailed error info', async function () {
           // given
-          const userId = databaseBuilder.factory.buildUser.withRole().id;
           const parentOrganizationId = databaseBuilder.factory.buildOrganization().id;
           const anotherParentOrganizationId = databaseBuilder.factory.buildOrganization().id;
           const childOrganizationId = databaseBuilder.factory.buildOrganization({
@@ -487,7 +475,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
           const options = {
             method: 'POST',
             url: `/api/admin/organizations/${parentOrganizationId}/attach-child-organization`,
-            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+            headers: { authorization: generateValidRequestAuthorizationHeader(admin.id) },
             payload: {
               childOrganizationId,
             },
@@ -512,7 +500,6 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       context('when parent organization is already child of an organization', function () {
         it('returns a 409 HTTP status code with detailed error info', async function () {
           // given
-          const userId = databaseBuilder.factory.buildUser.withRole().id;
           const anotherParentOrganizationId = databaseBuilder.factory.buildOrganization().id;
           const parentOrganizationId = databaseBuilder.factory.buildOrganization({
             parentOrganizationId: anotherParentOrganizationId,
@@ -523,7 +510,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
           const options = {
             method: 'POST',
             url: `/api/admin/organizations/${parentOrganizationId}/attach-child-organization`,
-            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+            headers: { authorization: generateValidRequestAuthorizationHeader(admin.id) },
             payload: {
               childOrganizationId,
             },
@@ -548,7 +535,6 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       context('when attaching child organization without the same type as parent organization', function () {
         it('returns a 409 HTTP status code with detailed error info', async function () {
           // given
-          const userId = databaseBuilder.factory.buildUser.withRole().id;
           const parentOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
           const childOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'PRO' }).id;
           await databaseBuilder.commit();
@@ -556,7 +542,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
           const options = {
             method: 'POST',
             url: `/api/admin/organizations/${parentOrganizationId}/attach-child-organization`,
-            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+            headers: { authorization: generateValidRequestAuthorizationHeader(admin.id) },
             payload: {
               childOrganizationId,
             },
@@ -586,7 +572,6 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       context('when child organization is already parent', function () {
         it('returns a 409 HTTP status code with detailed error info', async function () {
           // given
-          const userId = databaseBuilder.factory.buildUser.withRole().id;
           const parentOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'PRO' }).id;
           const childOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'PRO' }).id;
           databaseBuilder.factory.buildOrganization({ type: 'PRO', parentOrganizationId: childOrganizationId });
@@ -595,7 +580,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
           const options = {
             method: 'POST',
             url: `/api/admin/organizations/${parentOrganizationId}/attach-child-organization`,
-            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+            headers: { authorization: generateValidRequestAuthorizationHeader(admin.id) },
             payload: {
               childOrganizationId,
             },
@@ -634,14 +619,13 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
 
       it('responds with a 204 - no content', async function () {
         // given
-        const user = await insertUserWithRoleSuperAdmin();
         const input = `Organization ID;Organization Name;Organization External ID;Organization Parent ID;Organization Identity Provider Code;Organization Documentation URL;Organization Province Code;DPO Last Name;DPO First Name;DPO E-mail
       ${firstOrganization.id};MSFT;12;;OIDC_EXAMPLE_NET;https://doc.url;;Troisjour;Adam;
       ${otherOrganization.id};APPL;;;;;;;Cali;`;
 
         const options = {
           method: 'POST',
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(admin.id) },
           url: '/api/admin/organizations/update-organizations',
           payload: iconv.encode(input, 'UTF-8'),
         };
@@ -711,7 +695,6 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       let thirdTag;
       let firstOrganizationId;
       let secondOrganizationId;
-      let admin;
 
       beforeEach(async function () {
         firstTag = databaseBuilder.factory.buildTag({ name: 'tag1' });
@@ -720,8 +703,6 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
 
         firstOrganizationId = databaseBuilder.factory.buildOrganization().id;
         secondOrganizationId = databaseBuilder.factory.buildOrganization().id;
-
-        admin = await insertUserWithRoleSuperAdmin();
 
         return databaseBuilder.commit();
       });
