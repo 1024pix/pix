@@ -1,33 +1,33 @@
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import {
-  buildOrganization,
-  buildOrganizationLearner,
-  buildUser,
-  buildValidatedPublishedCertificationData,
-  mockLearningContentCompetences,
-} from '../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
   createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   generateValidRequestAuthorizationHeaderForApplication,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
+import {
+  buildOrganization,
+  buildOrganizationLearner,
+  buildUser,
+  buildValidatedPublishedCertificationData,
+  mockLearningContentCompetences,
+} from '../../../../tooling/domain-builder/factory/build-certifications-results-for-livret-scolaire.js';
 
-describe('Acceptance | API | Certifications', function () {
+describe('Certification | Results | Acceptance | Application | Livret Scolaire', function () {
   let server, options;
-  const OSMOSE_CLIENT_ID = 'apimOsmoseClientId';
-  const OSMOSE_SCOPE = 'organizations-certifications-result';
-  const OSMOSE_SOURCE = 'livretScolaire';
 
-  describe('GET /api/organizations/:id/certifications', function () {
+  describe('GET /api/organizations/{uai}/certifications', function () {
+    let organizationId;
     const pixScore = 400;
     const uai = '789567AA';
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     const type = Assessment.types.CERTIFICATION;
     const verificationCode = 'P-123498NN';
-    let organizationId;
+    const OSMOSE_CLIENT_ID = 'apimOsmoseClientId';
+    const OSMOSE_SCOPE = 'organizations-certifications-result';
+    const OSMOSE_SOURCE = 'livretScolaire';
 
     const referentialCompetences = {
       data: [

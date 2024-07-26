@@ -1,6 +1,6 @@
-import * as competenceTreeRepository from '../../../../lib/infrastructure/repositories/competence-tree-repository.js';
-import { CompetenceTree } from '../../../../src/shared/domain/models/CompetenceTree.js';
-import { expect, sinon } from '../../../test-helper.js';
+import * as competenceTreeRepository from '../../../../../../src/certification/results/infrastructure/repositories/competence-tree-repository.js';
+import { CompetenceTree } from '../../../../../../src/shared/domain/models/index.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Repository | competence-tree-repository', function () {
   let areaRepository;

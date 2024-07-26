@@ -1,5 +1,6 @@
-import * as certificationLsRepository from '../../../../lib/infrastructure/repositories/certification-livret-scolaire-repository.js';
-import { status } from '../../../../src/shared/domain/read-models/livret-scolaire/CertificateStatus.js';
+import { status } from '../../../../../../src/certification/results/domain/read-models/livret-scolaire/CertificateStatus.js';
+import * as certificationLsRepository from '../../../../../../src/certification/results/infrastructure/repositories/certification-livret-scolaire-repository.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 import {
   buildCancelledCertificationData,
   buildCertificationDataWithNoCompetenceMarks,
@@ -10,8 +11,7 @@ import {
   buildUser,
   buildValidatedPublishedCertificationData,
   buildValidatedUnpublishedCertificationData,
-} from '../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls.js';
-import { databaseBuilder, expect } from '../../../test-helper.js';
+} from '../../../../../tooling/domain-builder/factory/build-certifications-results-for-livret-scolaire.js';
 
 describe('Integration | Repository | Certification-ls ', function () {
   const pixScore = 400;

@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { responseObjectErrorDoc } from '../../../../lib/infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';
+import { responseObjectErrorDoc } from '../../../../src/shared/infrastructure/open-api-doc/response-object-error-doc.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { assessmentSupervisorAuthorization } from '../../shared/application/pre-handlers/session-supervisor-authorization.js';
 import { sessionLiveAlertController } from './session-live-alert-controller.js';

@@ -124,11 +124,9 @@ import * as certifiableProfileForLearningContentRepository from '../../infrastru
 import * as certificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin-repository.js';
 import * as certificationCenterInvitedUserRepository from '../../infrastructure/repositories/certification-center-invited-user-repository.js';
 import * as certificationCenterMembershipRepository from '../../infrastructure/repositories/certification-center-membership-repository.js';
-import * as certificationLsRepository from '../../infrastructure/repositories/certification-livret-scolaire-repository.js';
 import * as certificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact-repository.js';
 import * as certificationRepository from '../../infrastructure/repositories/certification-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
-import * as competenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../infrastructure/repositories/complementary-certification-habilitation-repository.js';
 import * as dataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer-repository.js';
@@ -230,7 +228,6 @@ const dependencies = {
   certificationCourseRepository,
   certificationCpfCityRepository,
   certificationIssueReportRepository,
-  certificationLsRepository,
   certificationOfficerRepository,
   certificationPointOfContactRepository,
   certificationRepository,
@@ -240,7 +237,6 @@ const dependencies = {
   competenceEvaluationRepository,
   competenceMarkRepository,
   competenceRepository,
-  competenceTreeRepository,
   complementaryCertificationCourseRepository,
   complementaryCertificationCourseResultRepository,
   complementaryCertificationHabilitationRepository,
@@ -352,7 +348,6 @@ const path = dirname(fileURLToPath(import.meta.url));
 
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './'), ignoredFileNames: ['index.js'] })),
-  ...(await importNamedExportsFromDirectory({ path: join(path, './certificate') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './stages') })),
   getNextChallengeForV2Certification,
   getNextChallengeForV3Certification,

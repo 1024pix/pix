@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { status } from '../../../../src/shared/domain/read-models/livret-scolaire/CertificateStatus.js';
+import { status } from '../../../domain/read-models/livret-scolaire/CertificateStatus.js';
 import { competenceResultDoc } from './competence-result-doc.js';
 
 const joiObject = Joi.object({

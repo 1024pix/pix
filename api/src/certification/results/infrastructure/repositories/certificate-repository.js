@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import * as competenceTreeRepository from '../../../../../lib/infrastructure/repositories/competence-tree-repository.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import {
   AssessmentResult,
@@ -12,6 +11,7 @@ import {
 } from '../../../../shared/domain/models/index.js';
 import { CertificationAttestation } from '../../domain/models/CertificationAttestation.js';
 import { CertifiedBadge } from '../../domain/read-models/CertifiedBadge.js';
+import * as competenceTreeRepository from './competence-tree-repository.js';
 
 const findByDivisionForScoIsManagingStudentsOrganization = async function ({ organizationId, division }) {
   const certificationCourseDTOs = await _selectCertificationAttestations()
