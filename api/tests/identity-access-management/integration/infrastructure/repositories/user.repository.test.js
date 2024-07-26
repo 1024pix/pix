@@ -35,12 +35,15 @@ const expectedUserDetailsForAdminAttributes = [
 ];
 
 describe('Integration | Identity Access Management | Infrastructure | Repository | User', function () {
+  const creationDate = new Date('2019-03-12T19:37:03Z');
   const userToInsert = {
     firstName: 'Jojo',
     lastName: 'LaFripouille',
     email: 'jojo@example.net',
     cgu: true,
     locale: 'fr-FR',
+    createdAt: creationDate,
+    updatedAt: creationDate,
   };
 
   let userInDB;
@@ -674,6 +677,8 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         expect(user.lastName).to.equal(userInDb.lastName);
         expect(user.email).to.equal(userInDb.email);
         expect(user.cgu).to.be.true;
+        expect(user.createdAt.toISOString()).to.equal('2019-03-12T19:37:03.000Z');
+        expect(user.updatedAt.toISOString()).to.equal('2019-03-12T19:37:03.000Z');
       });
 
       it('should return a UserNotFoundError if no user is found', async function () {

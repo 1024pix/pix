@@ -14,6 +14,7 @@ class User {
     {
       id,
       cgu,
+      createdAt,
       pixOrgaTermsOfServiceAccepted,
       pixCertifTermsOfServiceAccepted,
       email,
@@ -39,6 +40,7 @@ class User {
       certificationCenterMemberships = [],
       pixScore,
       scorecards = [],
+      updatedAt,
       campaignParticipations = [],
       authenticationMethods = [],
       hasBeenAnonymised,
@@ -60,6 +62,7 @@ class User {
     this.emailConfirmedAt = emailConfirmedAt;
     this.emailConfirmed = !!emailConfirmedAt && dayjs(emailConfirmedAt).isValid();
     this.cgu = cgu;
+    this.createdAt = createdAt;
     this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
     this.lastPixOrgaTermsOfServiceValidatedAt = lastPixOrgaTermsOfServiceValidatedAt;
     this.lastPixCertifTermsOfServiceValidatedAt = lastPixCertifTermsOfServiceValidatedAt;
@@ -80,6 +83,7 @@ class User {
     this.memberships = memberships;
     this.certificationCenterMemberships = certificationCenterMemberships;
     this.scorecards = scorecards;
+    this.updatedAt = updatedAt;
     this.campaignParticipations = campaignParticipations;
     this.authenticationMethods = authenticationMethods;
     this.hasBeenAnonymised = hasBeenAnonymised;
@@ -140,6 +144,8 @@ class User {
   mapToDatabaseDto() {
     return {
       id: this.id,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
       firstName: this.firstName,
       lastName: this.lastName,
       username: this.username,

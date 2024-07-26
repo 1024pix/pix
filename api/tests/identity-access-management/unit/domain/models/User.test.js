@@ -24,6 +24,18 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
   });
 
   describe('constructor', function () {
+    it('handles createdAt and updatedAt', function () {
+      // given
+      const creationDate = new Date('2019-03-12T19:37:03Z');
+
+      // when
+      const user = new User({ createdAt: creationDate, updatedAt: creationDate });
+
+      // then
+      expect(user.createdAt.toISOString()).to.equal('2019-03-12T19:37:03.000Z');
+      expect(user.updatedAt.toISOString()).to.equal('2019-03-12T19:37:03.000Z');
+    });
+
     context('locale', function () {
       it('accepts no locale', function () {
         // given
@@ -545,6 +557,8 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
       // given
       const expectedAttributes = [
         'id',
+        'createdAt',
+        'updatedAt',
         'firstName',
         'lastName',
         'username',
