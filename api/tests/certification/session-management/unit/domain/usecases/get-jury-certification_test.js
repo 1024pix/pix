@@ -6,7 +6,7 @@ describe('Certification | Session-management | Unit | Domain | Usecases | get-ju
     // given
     const expectedJuryCertification = domainBuilder.buildJuryCertification({ certificationCourseId: 777 });
     const juryCertificationRepository = { get: sinon.stub() };
-    juryCertificationRepository.get.withArgs(123).resolves(expectedJuryCertification);
+    juryCertificationRepository.get.withArgs({ certificationCourseId: 123 }).resolves(expectedJuryCertification);
 
     // when
     const juryCertification = await getJuryCertification({

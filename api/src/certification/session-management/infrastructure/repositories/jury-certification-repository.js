@@ -7,7 +7,7 @@ import { JuryCertification } from '../../domain/models/JuryCertification.js';
 import { ComplementaryCertificationCourseResultForJuryCertification } from '../../domain/read-models/ComplementaryCertificationCourseResultForJuryCertification.js';
 import { ComplementaryCertificationCourseResultForJuryCertificationWithExternal } from '../../domain/read-models/ComplementaryCertificationCourseResultForJuryCertificationWithExternal.js';
 
-const get = async function (certificationCourseId) {
+const get = async function ({ certificationCourseId }) {
   const juryCertificationDTO = await _selectJuryCertifications()
     .where('certification-courses.id', certificationCourseId)
     .first();

@@ -13,7 +13,7 @@ describe('Certification | Session-management | Integration | Infrastructure | Re
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(juryCertificationRepository.get)(2);
+      const error = await catchErr(juryCertificationRepository.get)({ certificationCourseId: 2 });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -100,7 +100,7 @@ describe('Certification | Session-management | Integration | Infrastructure | Re
         await databaseBuilder.commit();
 
         // when
-        const juryCertification = await juryCertificationRepository.get(1);
+        const juryCertification = await juryCertificationRepository.get({ certificationCourseId: 1 });
 
         // then
         const expectedCompetenceMark = domainBuilder.buildCompetenceMark({
@@ -227,7 +227,7 @@ describe('Certification | Session-management | Integration | Infrastructure | Re
         await databaseBuilder.commit();
 
         // when
-        const juryCertification = await juryCertificationRepository.get(1);
+        const juryCertification = await juryCertificationRepository.get({ certificationCourseId: 1 });
 
         // then
         const expectedJuryCertification = {
@@ -357,7 +357,9 @@ describe('Certification | Session-management | Integration | Infrastructure | Re
         await databaseBuilder.commit();
 
         // when
-        const { complementaryCertificationCourseResultWithExternal } = await juryCertificationRepository.get(1);
+        const { complementaryCertificationCourseResultWithExternal } = await juryCertificationRepository.get({
+          certificationCourseId: 1,
+        });
 
         // then
         expect(complementaryCertificationCourseResultWithExternal.allowedExternalLevels).to.deep.equals([
@@ -414,7 +416,7 @@ describe('Certification | Session-management | Integration | Infrastructure | Re
       await databaseBuilder.commit();
 
       // when
-      const juryCertification = await juryCertificationRepository.get(1);
+      const juryCertification = await juryCertificationRepository.get({ certificationCourseId: 1 });
 
       // then
       expect(juryCertification.certificationIssueReports).to.deepEqualArray([
