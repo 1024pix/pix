@@ -1,6 +1,6 @@
-import { AnswerStatusJsonApiAdapter } from '../../../../lib/infrastructure/adapters/answer-status-json-api-adapter.js';
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
-import { expect } from '../../../test-helper.js';
+import { AnswerStatusJsonApiAdapter } from '../../../../../src/evaluation/infrastructure/adapters/answer-status-json-api-adapter.js';
+import { AnswerStatus } from '../../../../../src/shared/domain/models/index.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('AnswerStatusJsonApiAdapter', function () {
   describe('#adapt', function () {
