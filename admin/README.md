@@ -24,7 +24,7 @@ $ npm install
 > Vous devez au préalable avoir une instance de [Pix API](https://github.com/1024pix/pix/tree/dev/api) qui tourne à l'URL : [http://localhost:3000](http://localhost:3000).
 
 ```bash
-$ npm run start
+$ npm run dev
 ```
 
 Accédez à l'application locale via l'URL : [http://localhost:4202](http://localhost:4202).

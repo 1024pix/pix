@@ -14,7 +14,7 @@ Ce fichier sert de documentation interne pour guider les équipes dans leurs con
 
 Il est fortement recommandé de suivre [le guide d'installation](/INSTALLATION.md) pour prévisualiser les contenus sur la plateforme Pix directement sur son poste.
 
-Pour accéder à la plateforme, il est nécessaire de démarrer le projet `mon-pix` et `api`. Pour itérer de manière optimale, on recommande de lancer le serveur avec redémarrage automatique via la commande `npm run start:watch`.
+Pour accéder à la plateforme, il est nécessaire de démarrer le projet `mon-pix` et `api`. Pour itérer de manière optimale, on recommande de lancer le serveur avec redémarrage automatique via la commande `npm run dev`.
 
 Les modules sont accessibles via l'URL : `http://localhost:4200/modules/<slug-du-module>`.
 
