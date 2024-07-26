@@ -1,10 +1,10 @@
-import * as juryCertificationRepository from '../../../../lib/infrastructure/repositories/jury-certification-repository.js';
-import { ComplementaryCertificationCourseResult } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
-import { NotFoundError } from '../../../../src/shared/domain/errors.js';
-import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
+import * as juryCertificationRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/jury-certification-repository.js';
+import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Integration | Infrastructure | Repository | Jury Certification', function () {
+describe('Certification | Session-management | Integration | Infrastructure | Repositories | jury-certification-repository', function () {
   describe('#get', function () {
     it('should throw a NotFoundError when no JuryCertification exists for given certification course id', async function () {
       // given
