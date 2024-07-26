@@ -13,6 +13,7 @@ import * as certificationCandidateForSupervisingRepository from './certification
 import * as certificationOfficerRepository from './certification-officer-repository.js';
 import * as competenceMarkRepository from './competence-mark-repository.js';
 import * as finalizedSessionRepository from './finalized-session-repository.js';
+import * as juryCertificationRepository from './jury-certification-repository.js';
 import * as jurySessionRepository from './jury-session-repository.js';
 import * as sessionForInvigilatorKitRepository from './session-for-invigilator-kit-repository.js';
 import * as sessionForSupervisingRepository from './session-for-supervising-repository.js';
@@ -31,6 +32,7 @@ import * as supervisorAccessRepository from './supervisor-access-repository.js';
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
+ * @typedef {juryCertificationRepository} JuryCertificationRepository
  * @typedef {jurySessionRepository} JurySessionRepository
  * @typedef {sessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
@@ -54,6 +56,7 @@ const repositoriesWithoutInjectedDependencies = {
   certificationOfficerRepository,
   competenceMarkRepository,
   finalizedSessionRepository,
+  juryCertificationRepository,
   jurySessionRepository,
   sessionForInvigilatorKitRepository,
   issueReportCategoryRepository,

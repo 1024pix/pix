@@ -18,6 +18,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationOfficerRepository} CertificationOfficerRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationAssessmentRepository} CertificationAssessmentRepository
  * @typedef {import('../../infrastructure/repositories/index.js').FinalizedSessionRepository} FinalizedSessionRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').JuryCertificationRepository} JuryCertificationRepository
  * @typedef {import('../../infrastructure/repositories/index.js').JurySessionRepository} JurySessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
  * @typedef {import('../../infrastructure/repositories/index.js').AssessmentRepository} AssessmentRepository
@@ -52,6 +53,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
+ * @typedef {juryCertificationRepository} JuryCertificationRepository
  * @typedef {jurySessionRepository} JurySessionRepository
  * @typedef {sessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
  * @typedef {sessionForSupervisingRepository} SessionForSupervisingRepository
