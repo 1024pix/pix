@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
-import * as recommendationService from './../../../../lib/domain/services/recommendation-service.js';
+import * as recommendationService from '../../../../../../src/prescription/campaign/domain/services/recommendation-service.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Service | Campaign Recommendation Service', function () {
   describe('computeRecommendationScore', function () {
