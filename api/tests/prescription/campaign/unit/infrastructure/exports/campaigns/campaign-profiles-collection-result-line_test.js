@@ -1,7 +1,7 @@
-import { CampaignProfilesCollectionResultLine } from '../../../../../lib/infrastructure/exports/campaigns/campaign-profiles-collection-result-line.js';
-import { PlacementProfile } from '../../../../../src/shared/domain/models/PlacementProfile.js';
-import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
-import { getI18n } from '../../../../tooling/i18n/i18n.js';
+import { CampaignProfilesCollectionResultLine } from '../../../../../../../src/prescription/campaign/infrastructure/exports/campaigns/campaign-profiles-collection-result-line.js';
+import { PlacementProfile } from '../../../../../../../src/shared/domain/models/index.js';
+import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
+import { getI18n } from '../../../../../../tooling/i18n/i18n.js';
 
 describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', function () {
   describe('#toCsvLine', function () {
