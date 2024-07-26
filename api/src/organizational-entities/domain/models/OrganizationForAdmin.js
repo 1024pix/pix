@@ -138,6 +138,13 @@ class OrganizationForAdmin {
     this.identityProviderForCampaigns = identityProviderForCampaigns;
   }
 
+  updateIsManagingStudents(isManagingStudents, features) {
+    const hasLearnerImportFeature =
+      features[ORGANIZATION_FEATURE.LEARNER_IMPORT.key] && features[ORGANIZATION_FEATURE.LEARNER_IMPORT.key].active;
+
+    this.isManagingStudents = hasLearnerImportFeature ? false : isManagingStudents;
+  }
+
   updateWithDataProtectionOfficerAndTags(organization, dataProtectionOfficer = {}, tags = []) {
     const isAEFE = Boolean(tags.find((tag) => tag.name === 'AEFE'));
 
@@ -148,8 +155,8 @@ class OrganizationForAdmin {
     this.credit = organization.credit;
     this.externalId = organization.externalId;
     this.updateProvinceCode(organization.provinceCode);
-    this.isManagingStudents = organization.isManagingStudents;
     this.documentationUrl = organization.documentationUrl;
+    this.updateIsManagingStudents(organization.isManagingStudents, organization.features);
     this.showSkills = organization.showSkills;
     this.updateIdentityProviderForCampaigns(organization.identityProviderForCampaigns);
     this.dataProtectionOfficer.updateInformation(dataProtectionOfficer);

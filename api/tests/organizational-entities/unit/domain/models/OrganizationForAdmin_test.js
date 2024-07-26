@@ -267,20 +267,56 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
       expect(givenOrganization.provinceCode).to.equal(newProvinceCode);
     });
 
-    it('updates organization isManagingStudents', function () {
-      // given
-      const givenOrganization = new OrganizationForAdmin({
-        isManagingStudents: false,
+    context('updates organization isManagingStudents', function () {
+      it('updates organization isManagingStudents when LEARNER_IMPORT feature does not exist', function () {
+        // given
+        const givenOrganization = new OrganizationForAdmin({
+          isManagingStudents: false,
+        });
+
+        // when
+        givenOrganization.updateWithDataProtectionOfficerAndTags({
+          isManagingStudents: true,
+          features: {},
+        });
+
+        // then
+        expect(givenOrganization.isManagingStudents).to.equal(true);
       });
 
-      // when
-      givenOrganization.updateWithDataProtectionOfficerAndTags({
-        isManagingStudents: true,
-        features: {},
+      it('updates organization isManagingStudents when LEARNER_IMPORT feature is false', function () {
+        // given
+        const givenOrganization = new OrganizationForAdmin({
+          isManagingStudents: false,
+          features: { LEARNER_IMPORT: { active: false } },
+        });
+
+        // when
+        givenOrganization.updateWithDataProtectionOfficerAndTags({
+          isManagingStudents: true,
+          features: {},
+        });
+
+        // then
+        expect(givenOrganization.isManagingStudents).to.equal(true);
       });
 
-      // then
-      expect(givenOrganization.isManagingStudents).to.equal(true);
+      it('not updates organization isManagingStudents when LEARNER_IMPORT feature is true', function () {
+        // given
+        const givenOrganization = new OrganizationForAdmin({
+          isManagingStudents: false,
+          features: {},
+        });
+
+        // when
+        givenOrganization.updateWithDataProtectionOfficerAndTags({
+          isManagingStudents: true,
+          features: { LEARNER_IMPORT: { active: true } },
+        });
+
+        // then
+        expect(givenOrganization.isManagingStudents).to.equal(false);
+      });
     });
 
     it('enables compute organization learner certificability when updating SCO organization isManagingStudents to true', function () {
