@@ -1,7 +1,7 @@
-import { ComplementaryCertificationCourseResultForJuryCertification } from '../../../../src/shared/domain/read-models/ComplementaryCertificationCourseResultForJuryCertification.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { ComplementaryCertificationCourseResultForJuryCertification } from '../../../../../../src/certification/session-management/domain/read-models/ComplementaryCertificationCourseResultForJuryCertification.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJuryCertification', function () {
+describe('Certification | Session-management | Unit | Domain | Read-models | ComplementaryCertificationCourseResultForJuryCertification', function () {
   describe('#status', function () {
     describe('when the complementary certification course result is acquired', function () {
       it('should return Validée', function () {
