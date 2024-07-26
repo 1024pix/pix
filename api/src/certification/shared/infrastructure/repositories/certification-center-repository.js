@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { BookshelfCertificationCenter } from '../../../../../lib/infrastructure/orm-models/CertificationCenter.js';
+import { BookshelfCertificationCenter } from '../../../../../src/shared/infrastructure/orm-models/CertificationCenter.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationCenter } from '../../../../shared/domain/models/CertificationCenter.js';
 import { ComplementaryCertification } from '../../../complementary-certification/domain/models/ComplementaryCertification.js';

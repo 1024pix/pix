@@ -1,4 +1,4 @@
-import { Bookshelf } from '../../../../../../lib/infrastructure/bookshelf.js';
+import { Bookshelf } from '../../../../../../src/shared/infrastructure/bookshelf.js';
 import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/validation-error-serializer.js';
 import { expect } from '../../../../../test-helper.js';
 

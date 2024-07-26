@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import { BookshelfCertificationCourse } from '../../../../../../lib/infrastructure/orm-models/CertificationCourse.js';
 import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import * as certificationCourseRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { BookshelfCertificationCourse } from '../../../../../../src/shared/infrastructure/orm-models/CertificationCourse.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Certification Course', function () {
