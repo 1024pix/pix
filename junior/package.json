@@ -28,7 +28,8 @@
     "lint:scss": "stylelint app/styles/*.scss 'app/styles/**/*.scss' 'app/**/*.scss'",
     "lint:scss:fix": "npm run lint:scss -- --fix",
     "preinstall": "npx check-engine",
-    "start": "ember serve --proxy http://localhost:3000",
+    "dev": "ember serve --proxy http://localhost:3000",
+    "start": "npm run dev",
     "test": "ember test",
     "test:ci": "npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX))",
     "test:lint": "run-p --continue-on-error test lint"

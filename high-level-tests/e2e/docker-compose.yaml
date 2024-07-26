@@ -51,7 +51,7 @@ services:
     user: node
     image: node:20.15.1
     env_file: ./env-api
-    command: npm run start:watch
+    command: npm run dev
     volumes:
       - ../..:/code
     working_dir: /code/api
