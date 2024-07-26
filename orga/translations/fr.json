@@ -102,12 +102,12 @@
     "place-info": {
       "with-account": {
         "heading": "'<strong>'Le participant a un compte Pix :'</strong>'",
-        "message-description": "Vous pouvez Libérer des places en supprimant des participants depuis l'onglet Participants.",
+        "message-description": "Vous pouvez libérer des places en supprimant des participants depuis l'onglet Participants.",
         "message-main": "1 participant ayant au moins une participation à une campagne = 1 place occupée."
       },
       "without-account": {
         "heading": "'<strong>'Le participant n'a pas de compte Pix'</strong>' (campagne avec accès sans compte) :",
-        "message-description": "Vous pouvez Libérer ces places en supprimant des participations dans la campagne avec accès sans compte concernée ou supprimer la campagne.",
+        "message-description": "Vous pouvez libérer ces places en supprimant des participations dans la campagne avec accès sans compte concernée ou supprimer la campagne.",
         "message-main": "1 participation sans compte = 1 place occupée."
       }
     },
@@ -488,7 +488,7 @@
       "legal-warning": "* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.",
       "multiple-sendings": {
         "assessments": {
-          "info": "Si vous choisissez l’envoi multiple, le participant pourra repasser la campagne 4 jours après et envoyer ses résultats plusieurs fois, en saisissant à nouveau le code. Au sein de Pix Orga, vous verrez sa dernière participation.",
+          "info": "Si vous choisissez l’envoi multiple, le participant pourra repasser la campagne 4 jours après et envoyer ses résultats plusieurs fois, en saisissant à nouveau le code.",
           "question-label": "Souhaitez-vous permettre aux participants d’envoyer plusieurs fois leurs résultats ?"
         },
         "info-title": "Envoi multiple",
