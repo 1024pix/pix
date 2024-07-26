@@ -1,7 +1,7 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/shareable-certificate-serializer.js';
-import { ResultCompetenceTree } from '../../../../../src/certification/results/domain/models/ResultCompetenceTree.js';
-import { ResultCompetence } from '../../../../../src/shared/domain/models/ResultCompetence.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import { ResultCompetenceTree } from '../../../../../../src/certification/results/domain/models/ResultCompetenceTree.js';
+import * as serializer from '../../../../../../src/certification/results/infrastructure/serializers/shareable-certificate-serializer.js';
+import { ResultCompetence } from '../../../../../../src/shared/domain/models/index.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | shareable-certificate-serializer', function () {
   describe('#serialize', function () {
