@@ -11,6 +11,7 @@ import * as organizationFeaturesAPI from '../../../../organizational-entities/ap
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as groupRepository from '../../../campaign/infrastructure/repositories/group-repository.js';
+import * as organizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 import * as organizationLearnerActivityRepository from '../../infrastructure/repositories/organization-learner-activity-repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as organizationParticipantRepository from '../../infrastructure/repositories/organization-participant-repository.js';
@@ -26,6 +27,7 @@ const dependencies = {
   organizationLearnerActivityRepository,
   organizationLearnerRepository,
   registrationOrganizationLearnerRepository,
+  organizationLearnerImportFormatRepository,
   organizationFeaturesAPI,
   campaignRepository,
 };

@@ -10,4 +10,5 @@ export default class OrganizationParticipant extends Model {
   @attr('string') participationStatus;
   @attr('boolean', { allowNull: true }) isCertifiable;
   @attr('date') certifiableAt;
+  @attr() extraColumns;
 }

@@ -4,7 +4,6 @@ const Joi = BaseJoi.extend(JoiDate);
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { learnerActivityController } from './learner-activity-controller.js';
-import { organizationLearnerController } from './organization-learner-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -46,7 +45,7 @@ const register = async function (server) {
             id: identifiersType.organizationLearnerId,
           }),
         },
-        handler: organizationLearnerController.getLearner,
+        handler: learnerActivityController.getLearner,
         notes: [
           "- **Cette route est restreinte aux membres authentifiés d'une organisation**\n" +
             "- Récupération d'un prescrit'\n",

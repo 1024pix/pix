@@ -219,6 +219,12 @@
     "fullname": "{firstName} {lastName}",
     "help-form": "https://pix.org/en/contact-form",
     "home-page": "Pix Orga home page",
+    "import": {
+      "field": {
+        "birthdate": "Birthdate",
+        "division": "Class"
+      }
+    },
     "loading": "Loading",
     "pagination": {
       "action": {

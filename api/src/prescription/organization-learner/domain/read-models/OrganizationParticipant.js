@@ -13,6 +13,7 @@ class OrganizationParticipant {
     certifiableAtFromCampaign,
     isCertifiableFromLearner,
     certifiableAtFromLearner,
+    ...attributes
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -22,6 +23,7 @@ class OrganizationParticipant {
     this.campaignName = campaignName;
     this.campaignType = campaignType;
     this.participationStatus = participationStatus;
+    this.extraColumns = attributes;
 
     this._buildCertificability({
       isCertifiableFromCampaign,

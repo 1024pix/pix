@@ -13,6 +13,7 @@ const serialize = function ({ organizationParticipants, meta }) {
       'campaignName',
       'campaignType',
       'participationStatus',
+      'extraColumns',
       'isCertifiable',
       'certifiableAt',
     ],

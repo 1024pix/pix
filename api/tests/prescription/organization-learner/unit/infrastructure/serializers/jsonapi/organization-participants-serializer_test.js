@@ -16,8 +16,9 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
           campaignName: 'King Karam',
           campaignType: 'ASSESSMENT',
           participationStatus: campaignParticipationsStatuses.TO_SHARE,
-          isCertifiable: null,
-          certifiableAt: null,
+          'my.awesome.custom.field': 'genki',
+          isCertifiableFromCampaign: null,
+          certifiableAtFromCampaign: null,
         }),
         new OrganizationParticipant({
           id: 778,
@@ -28,8 +29,8 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
           campaignName: 'King Xavier',
           campaignType: 'PROFILES_COLLECTION',
           participationStatus: campaignParticipationsStatuses.SHARED,
-          isCertifiable: true,
-          certifiableAt: '2021-03-04',
+          isCertifiableFromCampaign: true,
+          certifiableAtFromCampaign: '2021-03-04',
         }),
       ];
       const pagination = { page: { number: 1, pageSize: 2 } };
@@ -50,6 +51,9 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
               'campaign-type': organizationParticipants[0].campaignType,
               'participation-status': organizationParticipants[0].participationStatus,
               'is-certifiable': organizationParticipants[0].isCertifiable,
+              'extra-columns': {
+                'my.awesome.custom.field': 'genki',
+              },
               'certifiable-at': organizationParticipants[0].certifiableAt,
             },
           },
@@ -64,6 +68,7 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
               'campaign-name': organizationParticipants[1].campaignName,
               'campaign-type': organizationParticipants[1].campaignType,
               'participation-status': organizationParticipants[1].participationStatus,
+              'extra-columns': {},
               'is-certifiable': organizationParticipants[1].isCertifiable,
               'certifiable-at': organizationParticipants[1].certifiableAt,
             },

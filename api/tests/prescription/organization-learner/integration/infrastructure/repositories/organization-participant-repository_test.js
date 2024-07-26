@@ -1590,7 +1590,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
       context('return participant', function () {
         it('should return participants', async function () {
-          databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+          databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({ organizationId });
 
           await databaseBuilder.commit();
 
@@ -1602,6 +1602,25 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
           // then
           expect(organizationParticipants.length).to.equal(1);
+        });
+
+        it('should return extra parameters from participant', async function () {
+          databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            organizationId,
+            attributes: { hobby: 'genki' },
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const { organizationParticipants } =
+            await organizationParticipantRepository.findPaginatedFilteredImportedParticipants({
+              organizationId,
+              extraColumns: [{ key: 'hobby', name: 'HOBBY_KEY' }],
+            });
+
+          // then
+          expect(organizationParticipants[0].extraColumns).to.be.deep.equal({ HOBBY_KEY: 'genki' });
         });
 
         it('from participant with deleted participations', async function () {
@@ -1639,9 +1658,10 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       });
 
       it('should return only 1 participation even when the participant has improved its participation', async function () {
-        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId,
-        });
+        const { id: organizationLearnerId, userId } =
+          databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            organizationId,
+          });
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
         databaseBuilder.factory.buildCampaignParticipation({
           organizationLearnerId,
@@ -1681,16 +1701,18 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       });
 
       it('should return 1 as result even when the participant has participated to several campaigns from different the organization with the same organizationLearner', async function () {
-        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId,
-        });
+        const { id: organizationLearnerId, userId } =
+          databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            organizationId,
+          });
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
 
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-        const { id: otherOrganizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
-          otherOrganizationId,
-          userId,
-        });
+        const { id: otherOrganizationLearnerId } =
+          databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            otherOrganizationId,
+            userId,
+          });
         const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
 
         databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, userId, campaignId });
@@ -1900,15 +1922,18 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
               const campaignId1 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
               const campaignId2 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
               const campaignId3 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-              const organizationLearner1 = databaseBuilder.factory.buildOrganizationLearner({
-                organizationId,
-              });
-              const organizationLearner2 = databaseBuilder.factory.buildOrganizationLearner({
-                organizationId,
-              });
-              const organizationLearner3 = databaseBuilder.factory.buildOrganizationLearner({
-                organizationId,
-              });
+              const organizationLearner1 =
+                databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+                  organizationId,
+                });
+              const organizationLearner2 =
+                databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+                  organizationId,
+                });
+              const organizationLearner3 =
+                databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+                  organizationId,
+                });
 
               organizationLearnerId1 = organizationLearner1.id;
               organizationLearnerId2 = organizationLearner2.id;
@@ -1986,18 +2011,21 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             const organizationId = databaseBuilder.factory.buildOrganization().id;
             const campaignId1 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
             const campaignId2 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-            const { id: organizationLearnerId1, userId: userId1 } = databaseBuilder.factory.buildOrganizationLearner({
-              organizationId,
-              lastName: 'Aaaah',
-            });
-            const { id: organizationLearnerId2, userId: userId2 } = databaseBuilder.factory.buildOrganizationLearner({
-              organizationId,
-              lastName: 'Dupont',
-            });
-            const { id: organizationLearnerId3, userId: userId3 } = databaseBuilder.factory.buildOrganizationLearner({
-              organizationId,
-              lastName: 'Dupond',
-            });
+            const { id: organizationLearnerId1, userId: userId1 } =
+              databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+                organizationId,
+                lastName: 'Aaaah',
+              });
+            const { id: organizationLearnerId2, userId: userId2 } =
+              databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+                organizationId,
+                lastName: 'Dupont',
+              });
+            const { id: organizationLearnerId3, userId: userId3 } =
+              databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+                organizationId,
+                lastName: 'Dupond',
+              });
 
             databaseBuilder.factory.buildCampaignParticipation({
               campaignId: campaignId1,
@@ -2043,15 +2071,18 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             beforeEach(async function () {
               organizationId = databaseBuilder.factory.buildOrganization().id;
               const campaignId1 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-              const organizationLearner1 = databaseBuilder.factory.buildOrganizationLearner({
-                organizationId,
-              });
-              const organizationLearner2 = databaseBuilder.factory.buildOrganizationLearner({
-                organizationId,
-              });
-              const organizationLearner3 = databaseBuilder.factory.buildOrganizationLearner({
-                organizationId,
-              });
+              const organizationLearner1 =
+                databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+                  organizationId,
+                });
+              const organizationLearner2 =
+                databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+                  organizationId,
+                });
+              const organizationLearner3 =
+                databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+                  organizationId,
+                });
 
               organizationLearnerId1 = organizationLearner1.id;
               organizationLearnerId2 = organizationLearner2.id;
@@ -2116,18 +2147,21 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           it('should return participants sorted by name if participation date are identical', async function () {
             const organizationId = databaseBuilder.factory.buildOrganization().id;
             const campaignId1 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-            const { id: organizationLearnerId1, userId: userId1 } = databaseBuilder.factory.buildOrganizationLearner({
-              organizationId,
-              lastName: 'Aaaah',
-            });
-            const { id: organizationLearnerId2, userId: userId2 } = databaseBuilder.factory.buildOrganizationLearner({
-              organizationId,
-              lastName: 'Dupont',
-            });
-            const { id: organizationLearnerId3, userId: userId3 } = databaseBuilder.factory.buildOrganizationLearner({
-              organizationId,
-              lastName: 'Dupond',
-            });
+            const { id: organizationLearnerId1, userId: userId1 } =
+              databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+                organizationId,
+                lastName: 'Aaaah',
+              });
+            const { id: organizationLearnerId2, userId: userId2 } =
+              databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+                organizationId,
+                lastName: 'Dupont',
+              });
+            const { id: organizationLearnerId3, userId: userId3 } =
+              databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+                organizationId,
+                lastName: 'Dupond',
+              });
 
             databaseBuilder.factory.buildCampaignParticipation({
               campaignId: campaignId1,
@@ -2169,18 +2203,21 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           const organizationId = databaseBuilder.factory.buildOrganization().id;
           const campaignId1 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
           const campaignId2 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-          const { id: organizationLearnerId1, userId: userId1 } = databaseBuilder.factory.buildOrganizationLearner({
-            organizationId,
-            lastName: 'Aaaah',
-          });
-          const { id: organizationLearnerId2, userId: userId2 } = databaseBuilder.factory.buildOrganizationLearner({
-            organizationId,
-            lastName: 'Dupont',
-          });
-          const { id: organizationLearnerId3, userId: userId3 } = databaseBuilder.factory.buildOrganizationLearner({
-            organizationId,
-            lastName: 'Dupond',
-          });
+          const { id: organizationLearnerId1, userId: userId1 } =
+            databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+              organizationId,
+              lastName: 'Aaaah',
+            });
+          const { id: organizationLearnerId2, userId: userId2 } =
+            databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+              organizationId,
+              lastName: 'Dupont',
+            });
+          const { id: organizationLearnerId3, userId: userId3 } =
+            databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+              organizationId,
+              lastName: 'Dupond',
+            });
 
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId: campaignId1,
@@ -2226,15 +2263,15 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             organizationId = databaseBuilder.factory.buildOrganization().id;
 
             const campaignId1 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-            const jackson = databaseBuilder.factory.buildOrganizationLearner({
+            const jackson = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
               organizationId,
               lastName: 'Jackson',
             });
-            const eminem = databaseBuilder.factory.buildOrganizationLearner({
+            const eminem = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
               organizationId,
               lastName: 'Eminem',
             });
-            const timberlake = databaseBuilder.factory.buildOrganizationLearner({
+            const timberlake = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
               organizationId,
               lastName: 'Timberlake',
             });
