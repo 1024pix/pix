@@ -422,7 +422,7 @@
       "legal-warning": "* In overeenstemming met de Franse wet op gegevensbescherming en als verantwoordelijke voor de verwerking van de gegevens, vragen we niet naar bijzonder identificerende of belangrijke gegevens, tenzij dit absoluut noodzakelijk is. Het burgerservicenummer (BSN) moet worden vermeden, net als gevoelige gegevens.",
       "multiple-sendings": {
         "assessments": {
-          "info": "Als je ervoor kiest om meerdere inzendingen te verzenden, kan de deelnemer de campagne 4 dagen later opnieuw uitvoeren en zijn resultaten meerdere keren verzenden door de code opnieuw in te voeren. In Pix Orga zie je hun laatste inzending.",
+          "info": "Als je ervoor kiest om meerdere inzendingen te verzenden, kan de deelnemer de campagne 4 dagen later opnieuw uitvoeren en zijn resultaten meerdere keren verzenden door de code opnieuw in te voeren.",
           "question-label": "Wil je deelnemers toestaan hun resultaten meer dan één keer te versturen?"
         },
         "info-title": "Meervoudig verzenden",
