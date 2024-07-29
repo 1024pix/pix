@@ -671,6 +671,36 @@ module('Integration | Component | users | user-overview', function (hooks) {
         });
       });
     });
+
+    module('when the displayed user is a Pix agent', function (hooks) {
+      let user = null;
+
+      hooks.beforeEach(function () {
+        user = EmberObject.create({
+          lastName: 'Harry',
+          firstName: 'John',
+          email: 'john.harry@gmail.com',
+          isPixAgent: true,
+        });
+      });
+
+      test('shows the anonymize button as disabled', async function (assert) {
+        // given
+        this.set('user', user);
+
+        // when
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+
+        // then
+        const anonymizeButton = await screen.findByRole('button', { name: 'Anonymiser cet utilisateur' });
+        assert.dom(anonymizeButton).isDisabled();
+
+        const anonymizationDisabledTooltip = await screen.getByText(
+          "Vous ne pouvez pas anonymiser le compte d'un agent Pix.",
+        );
+        assert.dom(anonymizationDisabledTooltip).exists();
+      });
+    });
   });
 
   module('When the admin member does not have access to users actions scope', function () {

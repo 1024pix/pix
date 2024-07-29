@@ -20,6 +20,7 @@ export default class User extends Model {
   @attr() emailConfirmedAt;
   @attr() hasBeenAnonymised;
   @attr() anonymisedByFullName;
+  @attr() isPixAgent;
 
   // includes
   @belongsTo('profile', { async: true, inverse: null }) profile;
