@@ -1,13 +1,13 @@
-import lodash from 'lodash';
-
-const { toLower, isNil } = lodash;
-
 import dayjs from 'dayjs';
+import lodash from 'lodash';
 
 import { config } from '../../../../src/shared/config.js';
 import * as languageService from '../../../shared/domain/services/language-service.js';
 import * as localeService from '../../../shared/domain/services/locale-service.js';
+import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
+
+const { toLower, isNil } = lodash;
 
 class User {
   constructor(
@@ -139,6 +139,25 @@ class User {
 
   markEmailAsValid() {
     this.emailConfirmedAt = new Date();
+  }
+
+  anonymize(anonymizedByUserId) {
+    return new User({
+      ...this,
+      createdAt: anonymizeGeneralizeDate(this.createdAt),
+      updatedAt: anonymizeGeneralizeDate(this.updatedAt),
+      firstName: '(anonymised)',
+      lastName: '(anonymised)',
+      email: null,
+      emailConfirmedAt: null,
+      username: null,
+      hasBeenAnonymised: true,
+      hasBeenAnonymisedBy: anonymizedByUserId,
+      lastTermsOfServiceValidatedAt: null,
+      lastPixOrgaTermsOfServiceValidatedAt: null,
+      lastPixCertifTermsOfServiceValidatedAt: null,
+      lastDataProtectionPolicySeenAt: null,
+    });
   }
 
   mapToDatabaseDto() {
