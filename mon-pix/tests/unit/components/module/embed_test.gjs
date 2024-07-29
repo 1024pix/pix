@@ -14,7 +14,7 @@ module('Unit | Component | Module | Embed', function (hooks) {
         id: 'id',
         title: 'title',
         isCompletionRequired: false,
-        url: 'https://embed-pix.com',
+        url: 'https://example.org',
         height: 800,
       };
       const component = createGlimmerComponent('module/element/embed', {
@@ -37,7 +37,7 @@ module('Unit | Component | Module | Embed', function (hooks) {
         id: 'id',
         title: 'title',
         isCompletionRequired: false,
-        url: 'https://embed-pix.com',
+        url: 'https://example.org',
         height: 800,
       };
       const component = createGlimmerComponent('module/element/embed', {
