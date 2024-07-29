@@ -15,7 +15,7 @@ module('Acceptance | Display missions list', function (hooks) {
     // when
     const screen = await visit('/');
     // then
-    assert.equal(screen.getAllByRole('button').length, 2);
+    assert.strictEqual(screen.getAllByRole('button').length, 2);
     assert.dom(screen.getByText('mission_1')).exists();
     assert.dom(screen.getByText('mission_2')).exists();
   });

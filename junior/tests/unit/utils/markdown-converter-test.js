@@ -12,7 +12,7 @@ module('Unit | Utils | MarkdownConverter', function (hooks) {
 
     const resultText = markdownConverter.toHTML(text);
 
-    assert.equal(expectedText, resultText);
+    assert.strictEqual(expectedText, resultText);
   });
 
   test('text with bold', function (assert) {
@@ -21,6 +21,6 @@ module('Unit | Utils | MarkdownConverter', function (hooks) {
 
     const resultText = markdownConverter.toHTML(text);
 
-    assert.equal(expectedText, resultText);
+    assert.strictEqual(expectedText, resultText);
   });
 });

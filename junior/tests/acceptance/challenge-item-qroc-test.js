@@ -84,7 +84,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       await fillIn(input, '1990');
       await click(screen.getByRole('button', { name: t('pages.challenge.actions.check') }));
 
-      assert.equal(this.server.schema.activityAnswers.first().value, '1990');
+      assert.strictEqual(this.server.schema.activityAnswers.first().value, '1990');
       assert.dom(screen.getByText(t('pages.challenge.messages.correct-answer'))).exists();
       assert.dom(input).isDisabled();
     });
