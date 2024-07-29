@@ -38,6 +38,7 @@ const serialize = function (usersDetailsForAdmin) {
       'organizationMemberships',
       'certificationCenterMemberships',
       'userLogin',
+      'isPixAgent',
     ],
     organizationLearners: {
       ref: 'id',
