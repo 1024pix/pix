@@ -27,6 +27,8 @@ class Challenge {
    * @param embedHeight
    * @param embedTitle
    * @param embedUrl
+   * @param webComponentTagName
+   * @param webComponentProps
    * @param illustrationUrl
    * @param instruction
    * @param proposals
@@ -54,6 +56,8 @@ class Challenge {
     embedHeight,
     embedTitle,
     embedUrl,
+    webComponentTagName,
+    webComponentProps,
     format,
     illustrationAlt,
     alternativeInstruction,
@@ -83,6 +87,8 @@ class Challenge {
     this.embedHeight = embedHeight;
     this.embedTitle = embedTitle;
     this.embedUrl = embedUrl;
+    this.webComponentTagName = webComponentTagName;
+    this.webComponentProps = webComponentProps;
     this.format = format;
     this.illustrationAlt = illustrationAlt;
     this.illustrationUrl = illustrationUrl;

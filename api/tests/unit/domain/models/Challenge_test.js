@@ -87,6 +87,84 @@ describe('Unit | Domain | Models | Challenge', function () {
       expect(challengeDataObject).to.be.an.instanceof(Challenge);
       expect(challengeDataObject).to.deep.include(expectedChallengeDataObject);
     });
+
+    it('should construct a model Challenge with embed web component from attributes', function () {
+      // given
+      const challengeRawData = {
+        id: 'recwWzTquPlvIl4So',
+        type: 'QCM',
+        instruction:
+          "Les moteurs de recherche affichent certains liens en raison d'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?",
+        proposals: '- 1\n- 2\n- 3\n- 4\n- 5',
+        timer: 1234,
+        illustrationUrl: 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
+        attachments: [
+          'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
+          'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp',
+        ],
+        embedUrl: 'https://github.page.io/pages/mon-epreuve.json',
+        webComponentTagName: 'embed-web-component-tag-name',
+        webComponentProps: { prop1: 'value1', prop2: 'value2' },
+        status: 'validé',
+        answer: [],
+        skill: new Skill('recUDrCWD76fp5MsE'),
+        validator: undefined,
+        competenceId: 'recsvLz0W2ShyfD63',
+        illustrationAlt: "Texte alternatif à l'image",
+        format: 'phrase',
+        locales: ['fr'],
+        autoReply: true,
+        alternativeInstruction: 'Pour aider les personnes ne pouvant voir ou afficher les instructions',
+        focused: false,
+        discriminant: 0.75,
+        difficulty: -0.23,
+        successProbabilityThreshold: 0.85,
+        responsive: 'Smartphone',
+        shuffled: false,
+        alternativeVersion: 1,
+      };
+
+      const expectedChallengeDataObject = {
+        id: 'recwWzTquPlvIl4So',
+        type: 'QCM',
+        instruction:
+          "Les moteurs de recherche affichent certains liens en raison d'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?",
+        proposals: '- 1\n- 2\n- 3\n- 4\n- 5',
+        timer: 1234,
+        illustrationUrl: 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
+        attachments: [
+          'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
+          'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp',
+        ],
+        embedUrl: 'https://github.page.io/pages/mon-epreuve.json',
+        webComponentTagName: 'embed-web-component-tag-name',
+        webComponentProps: { prop1: 'value1', prop2: 'value2' },
+        status: 'validé',
+        answer: [],
+        skill: new Skill('recUDrCWD76fp5MsE'),
+        validator: undefined,
+        competenceId: 'recsvLz0W2ShyfD63',
+        illustrationAlt: "Texte alternatif à l'image",
+        format: 'phrase',
+        locales: ['fr'],
+        autoReply: true,
+        alternativeInstruction: 'Pour aider les personnes ne pouvant voir ou afficher les instructions',
+        focused: false,
+        discriminant: 0.75,
+        difficulty: -0.23,
+        minimumCapability: 2.0828014071841414,
+        responsive: 'Smartphone',
+        shuffled: false,
+        alternativeVersion: 1,
+      };
+
+      // when
+      const challengeDataObject = new Challenge(challengeRawData);
+
+      // then
+      expect(challengeDataObject).to.be.an.instanceof(Challenge);
+      expect(challengeDataObject).to.deep.include(expectedChallengeDataObject);
+    });
   });
 
   describe('#successProbabilityThreshold', function () {
@@ -250,36 +328,6 @@ describe('Unit | Domain | Models | Challenge', function () {
 
       // when then
       expect(challenge.isFocused()).to.be.false;
-    });
-  });
-
-  describe('#hasEmbedWebComponentConfig', function () {
-    it('returns true when embedUrl ends with `.json`', function () {
-      // given
-      const challenge = domainBuilder.buildChallenge({
-        embedUrl: 'https://epreuves.pix.fr/fr/qcu_image/1d_MiseEnForme_mots.json',
-      });
-
-      // when then
-      expect(challenge.hasEmbedWebComponentConfig()).to.be.true;
-    });
-
-    it('returns false when embedUrl does not end with `.json`', function () {
-      // given
-      const challenge = domainBuilder.buildChallenge({
-        embedUrl: 'https://epreuves.pix.fr/fr/qcu_image/1d_MiseEnForme_mots.html',
-      });
-
-      // when then
-      expect(challenge.hasEmbedWebComponentConfig()).to.be.false;
-    });
-
-    it('returns false when embedUrl is not given', function () {
-      // given
-      const challenge = domainBuilder.buildChallenge({ embedUrl: null });
-
-      // when then
-      expect(challenge.hasEmbedWebComponentConfig()).to.be.false;
     });
   });
 });
