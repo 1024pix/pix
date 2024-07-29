@@ -4,7 +4,7 @@ import { Validator } from '../../../../../src/evaluation/domain/models/Validator
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { Challenge } from '../../../../../src/shared/domain/models/Challenge.js';
 import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
-import { catchErr, domainBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
+import { catchErr, domainBuilder, expect, mockLearningContent, nock } from '../../../../test-helper.js';
 
 describe('Integration | Repository | challenge-repository', function () {
   describe('#get', function () {
@@ -61,6 +61,71 @@ describe('Integration | Repository | challenge-repository', function () {
       expect(actualChallenge.validator.solution.isT3Enabled).to.equal(false);
       expect(actualChallenge.validator.solution.type).to.equal(challenge.type);
       expect(actualChallenge.validator.solution.value).to.equal(challenge.solution);
+    });
+
+    describe('when has a web component embedURL', function () {
+      it('should add webComponentTagName and webComponentProps', async function () {
+        // given
+        const webComponentServerCall = nock('https://example.com')
+          .get('/embed.json')
+          .reply(200, JSON.stringify({ name: 'web-component', props: { prop1: 'value1', prop2: 'value2' } }));
+        const challengeId = 'recCHAL1';
+
+        const skill = _buildSkill({ id: 'recSkill1' });
+
+        const challenge = _buildChallenge({ id: challengeId, skill });
+        challenge.embedUrl = 'https://example.com/embed.json';
+
+        const learningContent = {
+          skills: [{ ...skill, status: 'actif' }],
+          challenges: [{ ...challenge, skillId: 'recSkill1', alpha: 1, delta: 0 }],
+        };
+
+        mockLearningContent(learningContent);
+
+        const expectedChallenge = domainBuilder.buildChallengeWithWebComponent({
+          ...challenge,
+          webComponentTagName: 'web-component',
+          webComponentProps: { prop1: 'value1', prop2: 'value2' },
+          focused: challenge.focusable,
+          skill: domainBuilder.buildSkill({ ...skill, difficulty: skill.level }),
+        });
+
+        // when
+        const actualChallenge = await challengeRepository.get(challengeId);
+
+        // then
+        expect(actualChallenge).to.be.instanceOf(Challenge);
+        expect(webComponentServerCall.isDone()).to.equal(true);
+        expect(_.omit(actualChallenge, 'validator')).to.deep.equal(_.omit(expectedChallenge, 'validator'));
+      });
+
+      describe('when .json file is not found', function () {
+        it('should throw a NotFoundError', async function () {
+          // given
+          const webComponentServerCall = nock('https://example.com').get('/embed.json').reply(404);
+          const challengeId = 'recCHAL1';
+
+          const skill = _buildSkill({ id: 'recSkill1' });
+
+          const challenge = _buildChallenge({ id: challengeId, skill });
+          challenge.embedUrl = 'https://example.com/embed.json';
+
+          const learningContent = {
+            skills: [{ ...skill, status: 'actif' }],
+            challenges: [{ ...challenge, skillId: 'recSkill1', alpha: 1, delta: 0 }],
+          };
+
+          mockLearningContent(learningContent);
+
+          // when
+          const error = await catchErr(challengeRepository.get)(challengeId);
+
+          // then
+          expect(webComponentServerCall.isDone()).to.equal(true);
+          expect(error).to.be.instanceOf(NotFoundError);
+        });
+      });
     });
   });
 
