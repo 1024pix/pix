@@ -13,6 +13,17 @@ module('Integration | Component | challenge', function (hooks) {
     await render(hbs`<Challenge::Item @challenge={{this.challenge}} @assessment={{this.assessment}} />`);
 
     assert.dom('.challenge-item__embed').exists();
+    assert.dom('.challenge-item__web-component').doesNotExist();
+  });
+
+  test('displays web component', async function (assert) {
+    this.set('challenge', { hasWebComponent: true });
+    this.set('assessment', {});
+
+    await render(hbs`<Challenge::Item @challenge={{this.challenge}} @assessment={{this.assessment}} />`);
+
+    assert.dom('.challenge-item__web-component').exists();
+    assert.dom('.challenge-item__embed').doesNotExist();
   });
 
   test('displays image', async function (assert) {

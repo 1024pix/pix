@@ -6,6 +6,10 @@ export default class Item extends Component {
   }
 
   get hasMedia() {
-    return this.args.challenge.illustrationUrl || this.args.challenge.hasValidEmbedDocument;
+    return (
+      this.args.challenge.illustrationUrl ||
+      this.args.challenge.hasValidEmbedDocument ||
+      this.args.challenge.hasWebComponent
+    );
   }
 }
