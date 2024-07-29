@@ -279,25 +279,28 @@ describe('Integration | Repository | Campaign Participation', function () {
       expect(campaignParticipation.status).to.equals(SHARED);
     });
 
-    it('should not update because the learner can not have 2 active participations for the same campaign', async function () {
+    it('should not update campaignId', async function () {
+      const campaignParticipationId = 12;
       const campaignId = databaseBuilder.factory.buildCampaign().id;
-      const userId = databaseBuilder.factory.buildUser().id;
-      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ userId }).id;
-      databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId });
       const campaignParticipationToUpdate = databaseBuilder.factory.buildCampaignParticipation({
-        organizationLearnerId,
+        id: campaignParticipationId,
+        campaignId,
+        status: STARTED,
+        sharedAt: null,
       });
 
       await databaseBuilder.commit();
+      const participation = new CampaignParticipation(campaignParticipationToUpdate);
 
-      const error = await DomainTransaction.execute(async () => {
-        return catchErr(campaignParticipationRepository.update)({
-          ...campaignParticipationToUpdate,
-          campaignId,
-        });
+      await DomainTransaction.execute(async () => {
+        await campaignParticipationRepository.update(participation);
       });
 
-      expect(error.constraint).to.equals('one_active_participation_by_learner');
+      const campaignParticipation = await knex('campaign-participations')
+        .where({ id: campaignParticipationId })
+        .first();
+
+      expect(campaignParticipation.campaignId).to.equal(campaignId);
     });
   });
 
