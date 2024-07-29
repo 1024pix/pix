@@ -9,7 +9,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Embed', function () {
         id: 'id',
         isCompletionRequired: false,
         title: 'title',
-        url: 'https://embed.com',
+        url: 'https://example.org',
         instruction: '<p>instruction</p>',
         height: 150,
       };
@@ -22,7 +22,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Embed', function () {
       expect(embed.type).to.equal('embed');
       expect(embed.isCompletionRequired).to.equal(false);
       expect(embed.title).to.equal('title');
-      expect(embed.url).to.equal('https://embed.com');
+      expect(embed.url).to.equal('https://example.org');
       expect(embed.instruction).to.equal('<p>instruction</p>');
       expect(embed.height).to.equal(150);
     });
@@ -33,7 +33,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Embed', function () {
         const props = {
           id: 'id',
           title: 'title',
-          url: 'https://embed.com',
+          url: 'https://example.org',
           isCompletionRequired: false,
           height: 150,
         };
@@ -50,7 +50,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Embed', function () {
         const props = {
           id: 'id',
           title: 'title',
-          url: 'https://embed.com',
+          url: 'https://example.org',
           isCompletionRequired: true,
           height: 150,
         };
@@ -95,7 +95,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Embed', function () {
       describe('An embed without a height', function () {
         it('should throw an error', function () {
           expect(
-            () => new Embed({ id: 'id', isCompletionRequired: false, title: 'title', url: 'https://embed.com' }),
+            () => new Embed({ id: 'id', isCompletionRequired: false, title: 'title', url: 'https://example.org' }),
           ).to.throw('The height is required for an embed');
         });
       });
