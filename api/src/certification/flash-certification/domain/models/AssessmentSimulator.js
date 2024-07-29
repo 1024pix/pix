@@ -1,3 +1,5 @@
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+
 export class AssessmentSimulator {
   constructor({ getStrategy }) {
     this.getStrategy = getStrategy;
@@ -19,11 +21,13 @@ export class AssessmentSimulator {
         stepIndex = simulatorStepResult.nextStepIndex;
         challengesAnswers.push(...simulatorStepResult.challengeAnswers);
         result.push(...simulatorStepResult.results);
-      } catch (err) {
+      } catch (error) {
+        logger.error(error);
         break;
       }
     }
 
+    logger.trace({ result }, 'AssessmentSimulator result');
     return result;
   }
 }
