@@ -54,7 +54,7 @@
     "@1024pix/ember-cli-notifications": "^8.0.2",
     "@1024pix/ember-testing-library": "^3.0.3",
     "@1024pix/eslint-config": "^1.3.7",
-    "@1024pix/pix-ui": "^46.12.11",
+    "@1024pix/pix-ui": "^46.12.15",
     "@1024pix/stylelint-config": "^5.1.16",
     "@babel/eslint-parser": "^7.19.1",
     "@babel/plugin-proposal-decorators": "^7.20.13",
