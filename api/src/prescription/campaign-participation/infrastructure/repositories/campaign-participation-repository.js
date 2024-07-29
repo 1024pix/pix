@@ -18,7 +18,6 @@ const CAMPAIGN_PARTICIPATION_ATTRIBUTES = [
   'participantExternalId',
   'sharedAt',
   'status',
-  'campaignId',
   'userId',
   'organizationLearnerId',
   'deletedAt',
