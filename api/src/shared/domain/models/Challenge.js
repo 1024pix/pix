@@ -107,7 +107,7 @@ class Challenge {
   }
 
   isTimed() {
-    return Number.isFinite(parseFloat(this.timer));
+    return Number.isFinite(Number.parseFloat(this.timer));
   }
 
   hasIllustration() {
@@ -124,6 +124,14 @@ class Challenge {
 
   isFocused() {
     return this.focused;
+  }
+
+  hasEmbedWebComponentConfig() {
+    if (!this.embedUrl) {
+      return false;
+    }
+
+    return this.embedUrl.endsWith('.json');
   }
 
   get isMobileCompliant() {
