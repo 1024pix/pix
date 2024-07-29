@@ -27,6 +27,42 @@ describe('Unit | Devcomp | Domain | Models | Element | Embed', function () {
       expect(embed.height).to.equal(150);
     });
 
+    describe('isAnswerable', function () {
+      it('should be false when isCompletionRequired is false', function () {
+        // given
+        const props = {
+          id: 'id',
+          title: 'title',
+          url: 'https://embed.com',
+          isCompletionRequired: false,
+          height: 150,
+        };
+
+        // when
+        const embed = new Embed(props);
+
+        // then
+        expect(embed.isAnswerable).to.equal(false);
+      });
+
+      it('should be true when isCompletionRequired is true', function () {
+        // given
+        const props = {
+          id: 'id',
+          title: 'title',
+          url: 'https://embed.com',
+          isCompletionRequired: true,
+          height: 150,
+        };
+
+        // when
+        const embed = new Embed(props);
+
+        // then
+        expect(embed.isAnswerable).to.equal(true);
+      });
+    });
+
     describe('errors', function () {
       describe('An embed without an id', function () {
         it('should throw an error', function () {
