@@ -23,7 +23,7 @@ export default class ModulixElement extends Component {
     {{else if (eq @element.type "video")}}
       <VideoElement @video={{@element}} @openTranscription={{@openTranscription}} />
     {{else if (eq @element.type "embed")}}
-      <EmbedElement @embed={{@element}} />
+      <EmbedElement @embed={{@element}} @submitAnswer={{@submitAnswer}} />
     {{else if (eq @element.type "qcu")}}
       <QcuElement
         @element={{@element}}
