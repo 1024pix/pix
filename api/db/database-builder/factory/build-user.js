@@ -50,10 +50,8 @@ function _generateEmailIfUndefined(email, id, lastName, firstName) {
   if (isUndefined(email)) {
     return `${firstName}.${lastName}${id}@example.net`.replaceAll(/\s+/g, '_').toLowerCase();
   }
-  if (email) {
-    return email;
-  }
-  return null;
+
+  return email;
 }
 
 /**

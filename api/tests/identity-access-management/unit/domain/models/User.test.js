@@ -325,6 +325,20 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
       // then
       expect(userObject.email).to.be.undefined;
     });
+
+    it('it accepts null as a valid value for email', function () {
+      // given
+      const userData = {
+        firstName: 'Alice',
+        email: null,
+      };
+
+      // when
+      const userObject = new User(userData, dependencies);
+
+      // then
+      expect(userObject.email).to.be.null;
+    });
   });
 
   describe('#shouldChangePassword', function () {

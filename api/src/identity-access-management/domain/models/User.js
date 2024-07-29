@@ -56,7 +56,7 @@ class User {
     this.firstName = firstName;
     this.lastName = lastName;
     this.username = username;
-    this.email = email ? toLower(email) : undefined;
+    this.email = email && toLower(email);
     this.emailConfirmedAt = emailConfirmedAt;
     this.emailConfirmed = !!emailConfirmedAt && dayjs(emailConfirmedAt).isValid();
     this.cgu = cgu;
