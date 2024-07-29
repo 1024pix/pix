@@ -12,9 +12,8 @@ module('Integration | Component | ComplementaryCertifications::AttachBadges::Bad
   test('it should display the header label with no tooltip by default', async function (assert) {
     // given & when
     const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::Header>
-          LABEL
-        </ComplementaryCertifications::AttachBadges::Badges::Header>
-      `);
+  LABEL
+</ComplementaryCertifications::AttachBadges::Badges::Header>`);
 
     // then
     assert.dom(screen.getByText('LABEL')).exists();
@@ -25,10 +24,9 @@ module('Integration | Component | ComplementaryCertifications::AttachBadges::Bad
   test('it should display the tooltip if provided', async function (assert) {
     // given & when
     const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::Header>
-          <:default>Label</:default>
-          <:tooltip>A compléter</:tooltip>
-        </ComplementaryCertifications::AttachBadges::Badges::Header>
-      `);
+  <:default>Label</:default>
+  <:tooltip>A compléter</:tooltip>
+</ComplementaryCertifications::AttachBadges::Badges::Header>`);
 
     // then
     assert.dom(screen.getByRole('tooltip')).exists();
@@ -38,9 +36,8 @@ module('Integration | Component | ComplementaryCertifications::AttachBadges::Bad
     test('it should display the mandatory mark', async function (assert) {
       // given & when
       const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::Header>
-          LABEL
-        </ComplementaryCertifications::AttachBadges::Badges::Header>
-      `);
+  LABEL
+</ComplementaryCertifications::AttachBadges::Badges::Header>`);
 
       // then
       assert.dom(screen.getByText('LABEL')).exists();

@@ -22,7 +22,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Insights @targetProfile={{this.targetProfile}} @stageCollection={{this.stageCollection}}/>`,
+        hbs`<TargetProfiles::Insights @targetProfile={{this.targetProfile}} @stageCollection={{this.stageCollection}} />`,
       );
 
       // then

@@ -50,11 +50,11 @@ module('Integration | Component | users | certification-centers | memberships', 
 
       // when
       const screen = await render(
-        hbs`<Users::CertificationCenters::Memberships 
-          @certificationCenterMemberships={{this.certificationCenterMemberships}}
-          @onCertificationCenterMembershipRoleChange={{this.updateCertificationCenterMembershipRole}}
-          @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
-        />`,
+        hbs`<Users::CertificationCenters::Memberships
+  @certificationCenterMemberships={{this.certificationCenterMemberships}}
+  @onCertificationCenterMembershipRoleChange={{this.updateCertificationCenterMembershipRole}}
+  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
+/>`,
       );
 
       // then

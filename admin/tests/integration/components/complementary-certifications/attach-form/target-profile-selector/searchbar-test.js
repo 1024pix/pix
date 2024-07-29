@@ -28,9 +28,9 @@ module(
       this.set('options', options);
 
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
-        @options={{this.options}}
-      />`);
+      const screen = await render(
+        hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar @options={{this.options}} />`,
+      );
 
       // then
       const searchResult = await screen.findByRole('option', { name: '3 - ALEX TARGET' });
@@ -40,9 +40,9 @@ module(
     module('when the search returns no results', function () {
       test('it should display the no results message', async function (assert) {
         // given & when
-        const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
-         @isNoResult={{true}}
-        />`);
+        const screen = await render(
+          hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar @isNoResult={{true}} />`,
+        );
 
         // then
         assert.dom(screen.getByText('Aucun résultat')).exists();
@@ -55,9 +55,9 @@ module(
         const isLoading = true;
         this.set('isLoading', isLoading);
         // when
-        const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
-          @isLoading={{this.isLoading}}
-        />`);
+        const screen = await render(
+          hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar @isLoading={{this.isLoading}} />`,
+        );
 
         // then
         assert.dom(screen.getByRole('progressbar', { value: 'Recherche en cours...' })).exists();
@@ -70,9 +70,9 @@ module(
         const isLoading = false;
         this.set('isLoading', isLoading);
         // when
-        const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
-          @isLoading={{this.isLoading}}
-        />`);
+        const screen = await render(
+          hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar @isLoading={{this.isLoading}} />`,
+        );
 
         // then
         assert.dom(screen.queryByRole('progressbar')).doesNotExist();
@@ -86,9 +86,9 @@ module(
         this.set('onSearchStub', onSearchStub);
 
         // when
-        const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
-          @onSearch={{this.onSearchStub}}
-        />`);
+        const screen = await render(
+          hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar @onSearch={{this.onSearchStub}} />`,
+        );
         const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
         await fillIn(input, '3');
 
@@ -109,9 +109,9 @@ module(
 
         // when
         const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
-            @onSelection={{this.onSelection}}
-            @options={{this.options}}
-        />`);
+  @onSelection={{this.onSelection}}
+  @options={{this.options}}
+/>`);
         const targetProfileSelectable = await screen.findByRole('option', { name: '3 - ALEX TARGET' });
         await targetProfileSelectable.click();
 

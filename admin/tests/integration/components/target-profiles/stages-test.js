@@ -25,7 +25,11 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`,
+      hbs`<TargetProfiles::Stages
+  @targetProfileId={{123}}
+  @stageCollection={{this.stageCollection}}
+  @maxLevel={{this.maxLevel}}
+/>`,
     );
 
     // then
@@ -43,7 +47,11 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`,
+        hbs`<TargetProfiles::Stages
+  @targetProfileId={{123}}
+  @stageCollection={{this.stageCollection}}
+  @maxLevel={{this.maxLevel}}
+/>`,
       );
 
       // then
@@ -62,7 +70,11 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`,
+          hbs`<TargetProfiles::Stages
+  @targetProfileId={{123}}
+  @stageCollection={{this.stageCollection}}
+  @maxLevel={{this.maxLevel}}
+/>`,
         );
 
         // then
@@ -88,7 +100,11 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`,
+        hbs`<TargetProfiles::Stages
+  @targetProfileId={{123}}
+  @stageCollection={{this.stageCollection}}
+  @maxLevel={{this.maxLevel}}
+/>`,
       );
 
       // then
@@ -109,7 +125,11 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`,
+        hbs`<TargetProfiles::Stages
+  @targetProfileId={{123}}
+  @stageCollection={{this.stageCollection}}
+  @maxLevel={{this.maxLevel}}
+/>`,
       );
 
       // then
@@ -130,7 +150,11 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`,
+        hbs`<TargetProfiles::Stages
+  @targetProfileId={{123}}
+  @stageCollection={{this.stageCollection}}
+  @maxLevel={{this.maxLevel}}
+/>`,
       );
       await click(screen.getByRole('button', { name: /Supprimer/ }));
       await screen.findByRole('dialog');
@@ -153,7 +177,11 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`,
+        hbs`<TargetProfiles::Stages
+  @targetProfileId={{123}}
+  @stageCollection={{this.stageCollection}}
+  @maxLevel={{this.maxLevel}}
+/>`,
       );
 
       // then
@@ -182,7 +210,11 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`,
+        hbs`<TargetProfiles::Stages
+  @targetProfileId={{123}}
+  @stageCollection={{this.stageCollection}}
+  @maxLevel={{this.maxLevel}}
+/>`,
       );
 
       // then
@@ -209,7 +241,11 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}}/>`,
+        hbs`<TargetProfiles::Stages
+  @targetProfileId={{123}}
+  @stageCollection={{this.stageCollection}}
+  @maxLevel={{this.maxLevel}}
+/>`,
       );
 
       // then
@@ -250,7 +286,11 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} />`,
+        hbs`<TargetProfiles::Stages
+  @targetProfileId={{123}}
+  @stageCollection={{this.stageCollection}}
+  @maxLevel={{this.maxLevel}}
+/>`,
       );
 
       // then
@@ -286,7 +326,12 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @hasLinkedCampaign={{true}} />`,
+          hbs`<TargetProfiles::Stages
+  @targetProfileId={{123}}
+  @stageCollection={{this.stageCollection}}
+  @maxLevel={{this.maxLevel}}
+  @hasLinkedCampaign={{true}}
+/>`,
         );
 
         // then
@@ -314,7 +359,12 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
         this.set('hasLinkedCampaign', true);
         // when
         screen = await render(
-          hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @hasLinkedCampaign={{true}} />`,
+          hbs`<TargetProfiles::Stages
+  @targetProfileId={{123}}
+  @stageCollection={{this.stageCollection}}
+  @maxLevel={{this.maxLevel}}
+  @hasLinkedCampaign={{true}}
+/>`,
         );
       });
       test('it should not be possible to create new stages', async function (assert) {

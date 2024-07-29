@@ -75,11 +75,11 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
 
     screen = await render(
       hbs`<Common::TubesSelection
-          @frameworks={{this.frameworks}}
-          @onChange={{this.onChangeFunction}}
-          @displayJsonImportButton={{true}}
-          @displayDeviceCompatibility={{true}}
-          />`,
+  @frameworks={{this.frameworks}}
+  @onChange={{this.onChangeFunction}}
+  @displayJsonImportButton={{true}}
+  @displayDeviceCompatibility={{true}}
+/>`,
     );
   });
 

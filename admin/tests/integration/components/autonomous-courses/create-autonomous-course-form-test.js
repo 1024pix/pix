@@ -30,11 +30,11 @@ module('Integration | Component | AutonomousCourses::CreateAutonomousCourseForm'
     // when
     const screen = await render(
       hbs`<AutonomousCourses::CreateAutonomousCourseForm
-        @autonomousCourse={{this.autonomousCourse}}
-        @targetProfiles={{this.targetProfiles}}
-        @onSubmit={{this.onSubmit}}
-        @onCancel={{this.onCancel}}
-      />`,
+  @autonomousCourse={{this.autonomousCourse}}
+  @targetProfiles={{this.targetProfiles}}
+  @onSubmit={{this.onSubmit}}
+  @onCancel={{this.onCancel}}
+/>`,
     );
 
     // then

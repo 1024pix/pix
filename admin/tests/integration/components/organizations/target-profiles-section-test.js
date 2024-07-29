@@ -61,7 +61,10 @@ module('Integration | Component | organizations/target-profiles-section', functi
 
       // when
       await render(
-        hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} @targetProfileSummaries={{this.targetProfileSummaries}} />`,
+        hbs`<Organizations::TargetProfilesSection
+  @organization={{this.organization}}
+  @targetProfileSummaries={{this.targetProfileSummaries}}
+/>`,
       );
       await fillByLabel('ID du ou des profil(s) cible(s)', '1');
       await clickByName('Valider');
@@ -88,7 +91,10 @@ module('Integration | Component | organizations/target-profiles-section', functi
 
       // when
       const screen = await render(
-        hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} @targetProfileSummaries={{this.targetProfileSummaries}}/>`,
+        hbs`<Organizations::TargetProfilesSection
+  @organization={{this.organization}}
+  @targetProfileSummaries={{this.targetProfileSummaries}}
+/>`,
       );
 
       assert
@@ -120,7 +126,10 @@ module('Integration | Component | organizations/target-profiles-section', functi
 
         // when
         const screen = await render(
-          hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} @targetProfileSummaries={{this.targetProfileSummaries}}/>`,
+          hbs`<Organizations::TargetProfilesSection
+  @organization={{this.organization}}
+  @targetProfileSummaries={{this.targetProfileSummaries}}
+/>`,
         );
 
         //then
@@ -146,7 +155,10 @@ module('Integration | Component | organizations/target-profiles-section', functi
         this.set('organization', organization);
         // when
         const screen = await render(
-          hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} @targetProfileSummaries={{this.targetProfileSummaries}}/>`,
+          hbs`<Organizations::TargetProfilesSection
+  @organization={{this.organization}}
+  @targetProfileSummaries={{this.targetProfileSummaries}}
+/>`,
         );
         const detachButton = screen.getByRole('button', { name: 'Détacher' });
         await click(detachButton);
@@ -180,7 +192,10 @@ module('Integration | Component | organizations/target-profiles-section', functi
 
         //when
         const screen = await render(
-          hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} @targetProfileSummaries={{this.targetProfileSummaries}}/>`,
+          hbs`<Organizations::TargetProfilesSection
+  @organization={{this.organization}}
+  @targetProfileSummaries={{this.targetProfileSummaries}}
+/>`,
         );
         const detachButton = screen.getByRole('button', { name: 'Détacher' });
         await click(detachButton);
@@ -215,7 +230,10 @@ module('Integration | Component | organizations/target-profiles-section', functi
         this.set('organization', organization);
         // when
         const screen = await render(
-          hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} @targetProfileSummaries={{this.targetProfileSummaries}}/>`,
+          hbs`<Organizations::TargetProfilesSection
+  @organization={{this.organization}}
+  @targetProfileSummaries={{this.targetProfileSummaries}}
+/>`,
         );
         const detachButton = screen.getByRole('button', { name: 'Détacher' });
         await click(detachButton);

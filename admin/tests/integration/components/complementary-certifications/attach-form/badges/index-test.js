@@ -22,9 +22,9 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
 
       // when
       const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::Badges
-          @targetProfile={{this.attachableTargetProfile}}
-          @onError={{this.noop}}
-        />`);
+  @targetProfile={{this.attachableTargetProfile}}
+  @onError={{this.noop}}
+/>`);
 
       // then
       assert.dom(screen.getByRole('progressbar', { name: 'chargement' })).exists();
@@ -52,9 +52,9 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
 
         // when
         const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::Badges
-            @targetProfile={{this.attachableTargetProfile}}
-            @onError={{this.noop}}
-          />`);
+  @targetProfile={{this.attachableTargetProfile}}
+  @onError={{this.noop}}
+/>`);
 
         // then
         assert
@@ -92,9 +92,9 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
 
         // when
         const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::Badges
-            @targetProfile={{this.attachableTargetProfile}}
-            @onError={{this.noop}}
-          />`);
+  @targetProfile={{this.attachableTargetProfile}}
+  @onError={{this.noop}}
+/>`);
 
         // then
         assert.dom(await screen.queryByRole('alert')).doesNotExist();

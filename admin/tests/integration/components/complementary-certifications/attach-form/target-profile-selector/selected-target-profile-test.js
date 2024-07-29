@@ -21,8 +21,8 @@ module(
       // when
       const screen =
         await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::SelectedTargetProfile
-        @attachableTargetProfile={{this.attachableTargetProfile}}
-      />`);
+  @attachableTargetProfile={{this.attachableTargetProfile}}
+/>`);
 
       // then
       assert.dom(screen.getByRole('link', { name: 'ALEX TARGET' })).exists();
@@ -34,10 +34,9 @@ module(
         // given
         const onResetStub = sinon.stub();
         this.set('onReset', onResetStub);
-        const screen =
-          await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::SelectedTargetProfile
-        @onChange={{this.onReset}}
-         />`);
+        const screen = await renderScreen(
+          hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::SelectedTargetProfile @onChange={{this.onReset}} />`,
+        );
 
         // when
         const button = screen.getByRole('button', { name: 'Changer' });

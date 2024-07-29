@@ -57,9 +57,9 @@ module(
         const store = this.owner.lookup('service:store');
         store.query = sinon.stub().rejects();
         this.set('noop', () => {});
-        const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector
-          @onError={{this.noop}}
-        />`);
+        const screen = await renderScreen(
+          hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector @onError={{this.noop}} />`,
+        );
 
         // when
         const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
@@ -80,9 +80,9 @@ module(
         });
         store.query = sinon.stub().resolves([attachableTargetProfile]);
         this.set('noop', () => {});
-        const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector
-          @onSelection={{this.noop}}
-        />`);
+        const screen = await renderScreen(
+          hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector @onSelection={{this.noop}} />`,
+        );
 
         // when
         const input = screen.getByRole('textbox', { name: 'ID du profil cible' });

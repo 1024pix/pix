@@ -33,7 +33,11 @@ module('Integration | Component |  certification-centers/membership-item-actions
 
         //  when
         await renderScreen(
-          hbs`<CertificationCenters::MembershipItemActions @isEditionMode={{this.isEditionMode}} @onModifyRoleButtonClicked={{this.onModifyRoleButtonClicked}} @onDeactivateMembershipButtonClicked={{this.onDeactivateMembershipButtonClicked}} />`,
+          hbs`<CertificationCenters::MembershipItemActions
+  @isEditionMode={{this.isEditionMode}}
+  @onModifyRoleButtonClicked={{this.onModifyRoleButtonClicked}}
+  @onDeactivateMembershipButtonClicked={{this.onDeactivateMembershipButtonClicked}}
+/>`,
         );
         await clickByName('Modifier le rôle');
 
@@ -53,7 +57,11 @@ module('Integration | Component |  certification-centers/membership-item-actions
 
         //  when
         await renderScreen(
-          hbs`<CertificationCenters::MembershipItemActions @isEditionMode={{this.isEditionMode}} @onModifyRoleButtonClicked={{this.onModifyRoleButtonClicked}} @onDeactivateMembershipButtonClicked={{this.onDeactivateMembershipButtonClicked}} />`,
+          hbs`<CertificationCenters::MembershipItemActions
+  @isEditionMode={{this.isEditionMode}}
+  @onModifyRoleButtonClicked={{this.onModifyRoleButtonClicked}}
+  @onDeactivateMembershipButtonClicked={{this.onDeactivateMembershipButtonClicked}}
+/>`,
         );
         await clickByName('Désactiver');
 
@@ -91,7 +99,11 @@ module('Integration | Component |  certification-centers/membership-item-actions
 
         //  when
         await renderScreen(
-          hbs`<CertificationCenters::MembershipItemActions @isEditionMode={{this.isEditionMode}} @onSaveRoleButtonClicked={{this.onSaveRoleButtonClicked}} @onCancelButtonClicked={{this.onCancelButtonClicked}} />`,
+          hbs`<CertificationCenters::MembershipItemActions
+  @isEditionMode={{this.isEditionMode}}
+  @onSaveRoleButtonClicked={{this.onSaveRoleButtonClicked}}
+  @onCancelButtonClicked={{this.onCancelButtonClicked}}
+/>`,
         );
         await clickByName('Enregistrer');
 
@@ -111,7 +123,11 @@ module('Integration | Component |  certification-centers/membership-item-actions
 
         //  when
         await renderScreen(
-          hbs`<CertificationCenters::MembershipItemActions @isEditionMode={{this.isEditionMode}} @onSaveRoleButtonClicked={{this.onSaveRoleButtonClicked}} @onCancelButtonClicked={{this.onCancelButtonClicked}} />`,
+          hbs`<CertificationCenters::MembershipItemActions
+  @isEditionMode={{this.isEditionMode}}
+  @onSaveRoleButtonClicked={{this.onSaveRoleButtonClicked}}
+  @onCancelButtonClicked={{this.onCancelButtonClicked}}
+/>`,
         );
         await clickByName('Annuler');
 

@@ -254,7 +254,12 @@ module('Integration | Component | certification-centers/information-edit', funct
         this.certificationCenter = certificationCenter;
 
         const screen = await render(
-          hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} @availableHabilitations={{this.availableHabilitations}} @toggleEditMode={{this.toggleEditModeStub}} @onSubmit={{this.onSubmit}}/>`,
+          hbs`<CertificationCenters::InformationEdit
+  @certificationCenter={{this.certificationCenter}}
+  @availableHabilitations={{this.availableHabilitations}}
+  @toggleEditMode={{this.toggleEditModeStub}}
+  @onSubmit={{this.onSubmit}}
+/>`,
         );
 
         // when
@@ -294,7 +299,12 @@ module('Integration | Component | certification-centers/information-edit', funct
         this.certificationCenter = certificationCenter;
 
         const screen = await render(
-          hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} @availableHabilitations={{this.availableHabilitations}} @toggleEditMode={{this.toggleEditModeStub}} @onSubmit={{this.onSubmit}}/>`,
+          hbs`<CertificationCenters::InformationEdit
+  @certificationCenter={{this.certificationCenter}}
+  @availableHabilitations={{this.availableHabilitations}}
+  @toggleEditMode={{this.toggleEditModeStub}}
+  @onSubmit={{this.onSubmit}}
+/>`,
         );
 
         // when

@@ -20,18 +20,16 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
     this.set('loadCampaignParams', loadCampaignParams);
     this.set('updateParametersValue', () => {});
 
-    component = hbs`
-      <SmartRandomSimulator::SmartRandomParams
-        @knowledgeElements={{this.knowledgeElements}}
-        @answers={{this.answers}}
-        @skills={{this.skills}}
-        @challenges={{this.challenges}}
-        @locale={{this.locale}}
-        @assessmentId={{this.assessmentId}}
-        @loadCampaignParams={{this.loadCampaignParams}}
-        @updateParametersValue={{this.updateParametersValue}}
-      />
-    `;
+    component = hbs`<SmartRandomSimulator::SmartRandomParams
+  @knowledgeElements={{this.knowledgeElements}}
+  @answers={{this.answers}}
+  @skills={{this.skills}}
+  @challenges={{this.challenges}}
+  @locale={{this.locale}}
+  @assessmentId={{this.assessmentId}}
+  @loadCampaignParams={{this.loadCampaignParams}}
+  @updateParametersValue={{this.updateParametersValue}}
+/>`;
   });
 
   module('when url does not contain campaign id search query', function () {

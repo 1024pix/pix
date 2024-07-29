@@ -313,18 +313,16 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
     this.selectDisplayedStepIndex = selectDisplayedStepIndex;
     this.numberOfSkillsStillAvailable = numberOfSkillsStillAvailable;
 
-    screen = await render(hbs`
-      <SmartRandomSimulator::TubesViewer
-        @tubes={{this.tubes}}
-        @currentSkillId={{this.currentSkillId}}
-        @knowledgeElements={{this.knowledgeElements}}
-        @smartRandomDetails={{this.smartRandomDetails}}
-        @displayedStepIndex={{this.displayedStepIndex}}
-        @totalNumberOfSkills={{this.totalNumberOfSkills}}
-        @selectDisplayedStepIndex={{this.selectDisplayedStepIndex}}
-        @numberOfSkillsStillAvailable={{this.numberOfSkillsStillAvailable}}
-      />
-    `);
+    screen = await render(hbs`<SmartRandomSimulator::TubesViewer
+  @tubes={{this.tubes}}
+  @currentSkillId={{this.currentSkillId}}
+  @knowledgeElements={{this.knowledgeElements}}
+  @smartRandomDetails={{this.smartRandomDetails}}
+  @displayedStepIndex={{this.displayedStepIndex}}
+  @totalNumberOfSkills={{this.totalNumberOfSkills}}
+  @selectDisplayedStepIndex={{this.selectDisplayedStepIndex}}
+  @numberOfSkillsStillAvailable={{this.numberOfSkillsStillAvailable}}
+/>`);
   });
 
   test('should display the predicted level', async function (assert) {

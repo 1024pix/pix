@@ -19,7 +19,10 @@ module('Integration | Component | complementary-certifications/target-profiles/i
 
     // when
     const screen = await render(
-      hbs`<ComplementaryCertifications::TargetProfiles::Information @complementaryCertification={{this.complementaryCertification}} @currentTargetProfile={{this.currentTargetProfile}}/>`,
+      hbs`<ComplementaryCertifications::TargetProfiles::Information
+  @complementaryCertification={{this.complementaryCertification}}
+  @currentTargetProfile={{this.currentTargetProfile}}
+/>`,
     );
 
     // then
@@ -45,7 +48,10 @@ module('Integration | Component | complementary-certifications/target-profiles/i
 
       // when
       const screen = await render(
-        hbs`<ComplementaryCertifications::TargetProfiles::Information @complementaryCertification={{this.complementaryCertification}} @currentTargetProfile={{this.currentTargetProfile}}/>`,
+        hbs`<ComplementaryCertifications::TargetProfiles::Information
+  @complementaryCertification={{this.complementaryCertification}}
+  @currentTargetProfile={{this.currentTargetProfile}}
+/>`,
       );
 
       // then
@@ -67,7 +73,10 @@ module('Integration | Component | complementary-certifications/target-profiles/i
 
       // when
       const screen = await render(
-        hbs`<ComplementaryCertifications::TargetProfiles::Information @complementaryCertification={{this.complementaryCertification}} @currentTargetProfile={{this.currentTargetProfile}}/>`,
+        hbs`<ComplementaryCertifications::TargetProfiles::Information
+  @complementaryCertification={{this.complementaryCertification}}
+  @currentTargetProfile={{this.currentTargetProfile}}
+/>`,
       );
 
       // then
@@ -91,7 +100,10 @@ module('Integration | Component | complementary-certifications/target-profiles/i
 
       // when
       const screen = await render(
-        hbs`<ComplementaryCertifications::TargetProfiles::Information @complementaryCertification={{this.complementaryCertification}} @currentTargetProfile={{this.currentTargetProfile}}/>`,
+        hbs`<ComplementaryCertifications::TargetProfiles::Information
+  @complementaryCertification={{this.complementaryCertification}}
+  @currentTargetProfile={{this.currentTargetProfile}}
+/>`,
       );
 
       // then
@@ -113,7 +125,10 @@ module('Integration | Component | complementary-certifications/target-profiles/i
 
       // when
       const screen = await render(
-        hbs`<ComplementaryCertifications::TargetProfiles::Information @complementaryCertification={{this.complementaryCertification}} @currentTargetProfile={{this.currentTargetProfile}}/>`,
+        hbs`<ComplementaryCertifications::TargetProfiles::Information
+  @complementaryCertification={{this.complementaryCertification}}
+  @currentTargetProfile={{this.currentTargetProfile}}
+/>`,
       );
 
       // then

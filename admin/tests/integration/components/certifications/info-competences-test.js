@@ -17,7 +17,7 @@ module('Integration | Component | certifications/competence-list', function (hoo
 
     // when
     const screen = await render(
-      hbs`<Certifications::CompetenceList @competences={{this.competences}} @shouldDisplayPixScore={{true}}//>`,
+      hbs`<Certifications::CompetenceList @competences={{this.competences}} @shouldDisplayPixScore={{true}} />`,
     );
 
     // then
@@ -47,7 +47,7 @@ module('Integration | Component | certifications/competence-list', function (hoo
 
     // when
     const screen = await render(
-      hbs`<Certifications::CompetenceList @competences={{this.competences}}  @shouldDisplayPixScore={{true}}/>`,
+      hbs`<Certifications::CompetenceList @competences={{this.competences}} @shouldDisplayPixScore={{true}} />`,
     );
 
     // then
@@ -112,7 +112,7 @@ module('Integration | Component | certifications/competence-list', function (hoo
 
       // when
       const screen = await render(
-        hbs`<Certifications::CompetenceList @competences={{this.competences}}  @shouldDisplayPixScore={{false}}/>`,
+        hbs`<Certifications::CompetenceList @competences={{this.competences}} @shouldDisplayPixScore={{false}} />`,
       );
 
       // then

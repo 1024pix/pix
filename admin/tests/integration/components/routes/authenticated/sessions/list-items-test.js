@@ -134,7 +134,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
         hbs`<Sessions::ListItems
   @certificationCenterType={{this.certificationCenterType}}
   @onChangeCertificationCenterType={{this.updateCertificationCenterTypeFilter}}
-  @triggerFiltering={{this.triggerFiltering}} />`,
+  @triggerFiltering={{this.triggerFiltering}}
+/>`,
       );
 
       // when
@@ -178,7 +179,11 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       this.set('status', 'finalized');
       this.set('updateSessionStatusFilter', (newValue) => this.set('status', newValue));
       const screen = await render(
-        hbs`<Sessions::ListItems @status={{this.status}} @onChangeSessionStatus={{this.updateSessionStatusFilter}} @triggerFiltering={{this.triggerFiltering}} />`,
+        hbs`<Sessions::ListItems
+  @status={{this.status}}
+  @onChangeSessionStatus={{this.updateSessionStatusFilter}}
+  @triggerFiltering={{this.triggerFiltering}}
+/>`,
       );
 
       // when
@@ -219,7 +224,11 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       this.set('version', 2);
       this.set('updateSessionVersionFilter', (newValue) => this.set('version', newValue));
       const screen = await render(
-        hbs`<Sessions::ListItems @version={{this.version}} @onChangeSessionVersion={{this.updateSessionVersionFilter}} @triggerFiltering={{this.triggerFiltering}} />`,
+        hbs`<Sessions::ListItems
+  @version={{this.version}}
+  @onChangeSessionVersion={{this.updateSessionVersionFilter}}
+  @triggerFiltering={{this.triggerFiltering}}
+/>`,
       );
 
       // when

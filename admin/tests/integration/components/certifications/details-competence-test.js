@@ -33,10 +33,7 @@ module('Integration | Component | certifications/details-competence', function (
 
     // when
     const screen = await render(
-      hbs`<Certifications::DetailsCompetence
-  @competence={{this.competenceData}}
-  rate={{60}}
-/>`,
+      hbs`<Certifications::DetailsCompetence @competence={{this.competenceData}} rate={{60}} />`,
     );
 
     // then

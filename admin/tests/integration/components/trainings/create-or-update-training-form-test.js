@@ -36,10 +36,9 @@ module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', functi
     this.set('form', form);
 
     // when
-    const screen = await render(hbs`<Trainings::CreateOrUpdateTrainingForm
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`);
+    const screen = await render(
+      hbs`<Trainings::CreateOrUpdateTrainingForm @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`,
+    );
 
     // then
     assert.dom(screen.getByLabelText('Titre')).exists();
@@ -67,10 +66,9 @@ module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', functi
     this.set('form', form);
 
     // when
-    await render(hbs`<Trainings::CreateOrUpdateTrainingForm
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`);
+    await render(
+      hbs`<Trainings::CreateOrUpdateTrainingForm @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`,
+    );
 
     await triggerEvent('form', 'submit');
 
@@ -83,10 +81,9 @@ module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', functi
     this.set('form', form);
 
     // when
-    await render(hbs`<Trainings::CreateOrUpdateTrainingForm
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`);
+    await render(
+      hbs`<Trainings::CreateOrUpdateTrainingForm @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`,
+    );
 
     await clickByName('Annuler');
 
@@ -112,11 +109,9 @@ module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', functi
       this.set('model', model);
 
       // when
-      const screen = await render(hbs`<Trainings::CreateOrUpdateTrainingForm
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-  @model={{this.model}}
-/>`);
+      const screen = await render(
+        hbs`<Trainings::CreateOrUpdateTrainingForm @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} @model={{this.model}} />`,
+      );
 
       // then
       assert.dom(screen.getByLabelText('Titre')).hasValue(model.title);

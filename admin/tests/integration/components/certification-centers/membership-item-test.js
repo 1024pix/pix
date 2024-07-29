@@ -40,7 +40,10 @@ module('Integration | Component |  certification-centers/membership-item', funct
 
     //  when
     const screen = await renderScreen(
-      hbs`<CertificationCenters::MembershipItem @certificationCenterMembership={{this.certificationCenterMembership}} @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`,
+      hbs`<CertificationCenters::MembershipItem
+  @certificationCenterMembership={{this.certificationCenterMembership}}
+  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
+/>`,
     );
 
     // then
@@ -79,7 +82,10 @@ module('Integration | Component |  certification-centers/membership-item', funct
 
       // when
       const screen = await renderScreen(
-        hbs`<CertificationCenters::MembershipItem @certificationCenterMembership={{this.certificationCenterMembership}} @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`,
+        hbs`<CertificationCenters::MembershipItem
+  @certificationCenterMembership={{this.certificationCenterMembership}}
+  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
+/>`,
       );
       await clickByName('Modifier le rôle');
 
@@ -114,7 +120,11 @@ module('Integration | Component |  certification-centers/membership-item', funct
 
         // when
         const screen = await renderScreen(
-          hbs`<CertificationCenters::MembershipItem @certificationCenterMembership={{this.certificationCenterMembership}} @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} @onCertificationCenterMembershipRoleChange={{this.onCertificationCenterMembershipRoleChange}} />`,
+          hbs`<CertificationCenters::MembershipItem
+  @certificationCenterMembership={{this.certificationCenterMembership}}
+  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
+  @onCertificationCenterMembershipRoleChange={{this.onCertificationCenterMembershipRoleChange}}
+/>`,
         );
         await clickByName('Modifier le rôle');
         await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
@@ -153,7 +163,10 @@ module('Integration | Component |  certification-centers/membership-item', funct
 
         // when
         const screen = await renderScreen(
-          hbs`<CertificationCenters::MembershipItem @certificationCenterMembership={{this.certificationCenterMembership}} @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`,
+          hbs`<CertificationCenters::MembershipItem
+  @certificationCenterMembership={{this.certificationCenterMembership}}
+  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
+/>`,
         );
         await clickByName('Modifier le rôle');
         await clickByName('Annuler');

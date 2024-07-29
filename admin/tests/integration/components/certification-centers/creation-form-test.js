@@ -17,10 +17,10 @@ module('Integration | Component | certification-centers/creation-form', function
     // when
     const screen = await render(
       hbs`<CertificationCenters::CreationForm
-        @certificationCenter={{this.certificationCenter}}
-        @onSubmit={{this.onSubmit}}
-        @onCancel={{this.onCancel}}
-      />`,
+  @certificationCenter={{this.certificationCenter}}
+  @onSubmit={{this.onSubmit}}
+  @onCancel={{this.onCancel}}
+/>`,
     );
 
     // then
@@ -48,11 +48,11 @@ module('Integration | Component | certification-centers/creation-form', function
 
       const screen = await render(
         hbs`<CertificationCenters::CreationForm
-          @certificationCenter={{this.certificationCenter}}
-          @habilitations={{this.habilitations}}
-          @onSubmit={{this.stub}}
-          @onCancel={{this.stub}}
-        />`,
+  @certificationCenter={{this.certificationCenter}}
+  @habilitations={{this.habilitations}}
+  @onSubmit={{this.stub}}
+  @onCancel={{this.stub}}
+/>`,
       );
 
       // when
@@ -75,10 +75,10 @@ module('Integration | Component | certification-centers/creation-form', function
       this.certificationCenter = {};
       const screen = await render(
         hbs`<CertificationCenters::CreationForm
-          @certificationCenter={{this.certificationCenter}}
-          @onSubmit={{this.onSubmit}}
-          @onCancel={{this.onCancel}}
-        />`,
+  @certificationCenter={{this.certificationCenter}}
+  @onSubmit={{this.onSubmit}}
+  @onCancel={{this.onCancel}}
+/>`,
       );
 
       // when
@@ -103,11 +103,11 @@ module('Integration | Component | certification-centers/creation-form', function
 
       const screen = await render(
         hbs`<CertificationCenters::CreationForm
-          @certificationCenter={{this.certificationCenter}}
-          @habilitations={{this.habilitations}}
-          @onSubmit={{this.stub}}
-          @onCancel={{this.stub}}
-        />`,
+  @certificationCenter={{this.certificationCenter}}
+  @habilitations={{this.habilitations}}
+  @onSubmit={{this.stub}}
+  @onCancel={{this.stub}}
+/>`,
       );
 
       // when
@@ -131,11 +131,11 @@ module('Integration | Component | certification-centers/creation-form', function
 
       const screen = await render(
         hbs`<CertificationCenters::CreationForm
-          @certificationCenter={{this.certificationCenter}}
-          @habilitations={{this.habilitations}}
-          @onSubmit={{this.stub}}
-          @onCancel={{this.stub}}
-        />`,
+  @certificationCenter={{this.certificationCenter}}
+  @habilitations={{this.habilitations}}
+  @onSubmit={{this.stub}}
+  @onCancel={{this.stub}}
+/>`,
       );
 
       // when
@@ -154,7 +154,11 @@ module('Integration | Component | certification-centers/creation-form', function
     const store = this.owner.lookup('service:store');
     this.certificationCenter = store.createRecord('certification-center', { name: 'Super centre' });
     await render(
-      hbs`<CertificationCenters::CreationForm @certificationCenter={{this.certificationCenter}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`,
+      hbs`<CertificationCenters::CreationForm
+  @certificationCenter={{this.certificationCenter}}
+  @onSubmit={{this.onSubmit}}
+  @onCancel={{this.onCancel}}
+/>`,
     );
 
     // when

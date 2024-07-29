@@ -27,10 +27,10 @@ module('Integration | Component | Target Profiles | Modal | Copy', function (hoo
 
     // when
     const screen = await render(hbs`<TargetProfiles::Modal::Copy
-        @isOpen={{this.showCopyModal}}
-        @onClose={{this.closeCopyModal}}
-        @onSubmit={{this.copyTargetProfile}}
-      />`);
+  @isOpen={{this.showCopyModal}}
+  @onClose={{this.closeCopyModal}}
+  @onSubmit={{this.copyTargetProfile}}
+/>`);
 
     // then
     assert.dom(screen.getByText('Dupliquer le profil cible ?')).exists();
@@ -50,10 +50,10 @@ module('Integration | Component | Target Profiles | Modal | Copy', function (hoo
     this.set('closeCopyModal', closeCopyModal);
     this.set('showCopyModal', showCopyModal);
     await render(hbs`<TargetProfiles::Modal::Copy
-        @isOpen={{this.showCopyModal}}
-        @onClose={{this.closeCopyModal}}
-        @onSubmit={{this.copyTargetProfile}}
-      />`);
+  @isOpen={{this.showCopyModal}}
+  @onClose={{this.closeCopyModal}}
+  @onSubmit={{this.copyTargetProfile}}
+/>`);
 
     // when
     await clickByText('Valider');
@@ -69,10 +69,10 @@ module('Integration | Component | Target Profiles | Modal | Copy', function (hoo
     this.set('closeCopyModal', closeCopyModal);
     this.set('showCopyModal', showCopyModal);
     await render(hbs`<TargetProfiles::Modal::Copy
-        @isOpen={{this.showCopyModal}}
-        @onClose={{this.closeCopyModal}}
-        @onSubmit={{this.copyTargetProfile}}
-      />`);
+  @isOpen={{this.showCopyModal}}
+  @onClose={{this.closeCopyModal}}
+  @onSubmit={{this.copyTargetProfile}}
+/>`);
 
     // when
     await clickByText('Annuler');
@@ -88,10 +88,10 @@ module('Integration | Component | Target Profiles | Modal | Copy', function (hoo
     this.set('closeCopyModal', closeCopyModal);
     this.set('showCopyModal', showCopyModal);
     const screen = await render(hbs`<TargetProfiles::Modal::Copy
-        @isOpen={{this.showCopyModal}}
-        @onClose={{this.closeCopyModal}}
-        @onSubmit={{this.copyTargetProfile}}
-      />`);
+  @isOpen={{this.showCopyModal}}
+  @onClose={{this.closeCopyModal}}
+  @onSubmit={{this.copyTargetProfile}}
+/>`);
 
     // when
     await click(screen.getByRole('button', { name: 'Fermer' }));

@@ -199,7 +199,12 @@ module('Integration | Component | Stages::Stage', function (hooks) {
 
       //when
       const screen = await render(
-        hbs`<Stages::Stage @stage={{this.stage}} @toggleEditMode={{this.toggleEditMode}} @isEditMode={{this.isEditMode}} @hasLinkedCampaign={{this.hasLinkedCampaign}} />`,
+        hbs`<Stages::Stage
+  @stage={{this.stage}}
+  @toggleEditMode={{this.toggleEditMode}}
+  @isEditMode={{this.isEditMode}}
+  @hasLinkedCampaign={{this.hasLinkedCampaign}}
+/>`,
       );
 
       // then
@@ -234,11 +239,12 @@ module('Integration | Component | Stages::Stage', function (hooks) {
       // when
       const screen = await render(
         hbs`<Stages::Stage
-          @stage={{this.stage}}
-          @toggleEditMode={{this.toggleEditMode}}
-          @isEditMode={{this.isEditMode}}
-          @hasLinkedCampaign={{this.hasLinkedCampaign}}
-          @onUpdate={{this.update}} />`,
+  @stage={{this.stage}}
+  @toggleEditMode={{this.toggleEditMode}}
+  @isEditMode={{this.isEditMode}}
+  @hasLinkedCampaign={{this.hasLinkedCampaign}}
+  @onUpdate={{this.update}}
+/>`,
       );
 
       await fillByLabel(/Titre du palier/, 'New title');

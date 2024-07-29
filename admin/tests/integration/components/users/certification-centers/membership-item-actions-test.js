@@ -35,7 +35,11 @@ module('Integration | Component |  users/certification-centers/membership-item-a
 
         //  when
         await renderScreen(
-          hbs`<Users::CertificationCenters::MembershipItemActions @isEditionMode={{this.isEditionMode}} @onEditRoleButtonClicked={{this.onEditRoleButtonClicked}} @onDeactivateMembershipButtonClicked={{this.onDeactivateMembershipButtonClicked}} />`,
+          hbs`<Users::CertificationCenters::MembershipItemActions
+  @isEditionMode={{this.isEditionMode}}
+  @onEditRoleButtonClicked={{this.onEditRoleButtonClicked}}
+  @onDeactivateMembershipButtonClicked={{this.onDeactivateMembershipButtonClicked}}
+/>`,
         );
         await clickByName('Modifier le rôle du membre de ce centre de certification');
 
@@ -55,7 +59,11 @@ module('Integration | Component |  users/certification-centers/membership-item-a
 
         //  when
         await renderScreen(
-          hbs`<Users::CertificationCenters::MembershipItemActions @isEditionMode={{this.isEditionMode}} @onEditRoleButtonClicked={{this.onEditRoleButtonClicked}} @onDeactivateMembershipButtonClicked={{this.onDeactivateMembershipButtonClicked}} />`,
+          hbs`<Users::CertificationCenters::MembershipItemActions
+  @isEditionMode={{this.isEditionMode}}
+  @onEditRoleButtonClicked={{this.onEditRoleButtonClicked}}
+  @onDeactivateMembershipButtonClicked={{this.onDeactivateMembershipButtonClicked}}
+/>`,
         );
         await clickByName('Désactiver le membre de centre de certification');
 
@@ -97,7 +105,11 @@ module('Integration | Component |  users/certification-centers/membership-item-a
 
         //  when
         await renderScreen(
-          hbs`<Users::CertificationCenters::MembershipItemActions @isEditionMode={{this.isEditionMode}} @onSaveRoleButtonClicked={{this.onSaveRoleButtonClicked}} @onCancelButtonClicked={{this.onCancelButtonClicked}} />`,
+          hbs`<Users::CertificationCenters::MembershipItemActions
+  @isEditionMode={{this.isEditionMode}}
+  @onSaveRoleButtonClicked={{this.onSaveRoleButtonClicked}}
+  @onCancelButtonClicked={{this.onCancelButtonClicked}}
+/>`,
         );
         await clickByName('Enregistrer la modification du rôle');
 
@@ -117,7 +129,11 @@ module('Integration | Component |  users/certification-centers/membership-item-a
 
         //  when
         await renderScreen(
-          hbs`<Users::CertificationCenters::MembershipItemActions @isEditionMode={{this.isEditionMode}} @onSaveRoleButtonClicked={{this.onSaveRoleButtonClicked}} @onCancelButtonClicked={{this.onCancelButtonClicked}} />`,
+          hbs`<Users::CertificationCenters::MembershipItemActions
+  @isEditionMode={{this.isEditionMode}}
+  @onSaveRoleButtonClicked={{this.onSaveRoleButtonClicked}}
+  @onCancelButtonClicked={{this.onCancelButtonClicked}}
+/>`,
         );
         await clickByName('Annuler la modification de rôle');
 

@@ -30,13 +30,7 @@ module('Integration | Component | AutonomousCourses::Details', function (hooks) 
     });
 
     screen = await render(
-      hbs`
-        <AutonomousCourses::Details
-          @autonomousCourse={{this.autonomousCourse}}
-          @update={{this.update}}
-          @reset={{this.reset}}
-        />
-        `,
+      hbs`<AutonomousCourses::Details @autonomousCourse={{this.autonomousCourse}} @update={{this.update}} @reset={{this.reset}} />`,
     );
   });
 

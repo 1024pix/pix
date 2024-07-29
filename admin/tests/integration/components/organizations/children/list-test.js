@@ -23,7 +23,7 @@ module('Integration | Component | organizations/children/list', function (hooks)
     this.set('organizations', [organization1, organization2]);
 
     //  when
-    const screen = await renderScreen(hbs`<Organizations::Children::List @organizations={{this.organizations}}/>`);
+    const screen = await renderScreen(hbs`<Organizations::Children::List @organizations={{this.organizations}} />`);
 
     // then
     assert.dom(screen.getByRole('table', { name: 'Liste des organisations filles' })).exists();

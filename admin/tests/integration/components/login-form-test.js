@@ -67,7 +67,7 @@ module('Integration | Component | login-form', function (hooks) {
         this.set('userShouldCreateAnAccount', true);
 
         // when
-        const screen = await render(hbs`<LoginForm @userShouldCreateAnAccount={{this.userShouldCreateAnAccount}}/>`);
+        const screen = await render(hbs`<LoginForm @userShouldCreateAnAccount={{this.userShouldCreateAnAccount}} />`);
 
         // then
         assert.dom(screen.getByText("Vous n'avez pas de compte Pix.")).exists();
@@ -80,7 +80,7 @@ module('Integration | Component | login-form', function (hooks) {
         this.set('userShouldRequestAccess', true);
 
         // when
-        const screen = await render(hbs`<LoginForm @userShouldRequestAccess={{this.userShouldRequestAccess}}/>`);
+        const screen = await render(hbs`<LoginForm @userShouldRequestAccess={{this.userShouldRequestAccess}} />`);
 
         // then
         assert
@@ -99,7 +99,7 @@ module('Integration | Component | login-form', function (hooks) {
         this.set('unknownErrorHasOccured', true);
 
         // when
-        const screen = await render(hbs`<LoginForm @unknownErrorHasOccured={{this.unknownErrorHasOccured}}/>`);
+        const screen = await render(hbs`<LoginForm @unknownErrorHasOccured={{this.unknownErrorHasOccured}} />`);
 
         // then
         assert

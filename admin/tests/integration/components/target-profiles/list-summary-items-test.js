@@ -28,9 +28,9 @@ module('Integration | Component | TargetProfiles::ListSummaryItems', function (h
     // when
     const screen = await render(
       hbs`<TargetProfiles::ListSummaryItems
-      @id={{this.id}}
-      @summaries={{this.summaries}}
-      @name={{this.name}}
+  @id={{this.id}}
+  @summaries={{this.summaries}}
+  @name={{this.name}}
   @triggerFiltering={{this.triggerFiltering}}
 />`,
     );

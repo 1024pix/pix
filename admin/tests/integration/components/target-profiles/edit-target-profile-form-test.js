@@ -39,11 +39,11 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
     test('it should display the items', async function (assert) {
       // when
       const screen = await render(hbs`<TargetProfiles::EditTargetProfileForm
-        @targetProfile={{this.targetProfile}}
-        @frameworks={{this.frameworks}}
-        @onSubmit={{this.onSubmit}}
-        @onCancel={{this.onCancel}}
-      />`);
+  @targetProfile={{this.targetProfile}}
+  @frameworks={{this.frameworks}}
+  @onSubmit={{this.onSubmit}}
+  @onCancel={{this.onCancel}}
+/>`);
 
       // then
       assert.dom(screen.getByText(/Information sur le profil cible/)).exists();

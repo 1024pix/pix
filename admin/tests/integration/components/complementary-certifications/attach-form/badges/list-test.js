@@ -60,10 +60,10 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
 
         // when
         const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
-        @options={{this.options}}
-        @onBadgeUpdated={{this.noop}}
-        @hasExternalJury={{true}}
-      />`);
+  @options={{this.options}}
+  @onBadgeUpdated={{this.noop}}
+  @hasExternalJury={{true}}
+/>`);
 
         // then
         assert.strictEqual(screen.getAllByRole('row').length, 2);
@@ -115,10 +115,10 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
 
         // when
         const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
-        @options={{this.options}}
-        @onBadgeUpdated={{this.noop}}
-        @hasExternalJury={{false}}
-      />`);
+  @options={{this.options}}
+  @onBadgeUpdated={{this.noop}}
+  @hasExternalJury={{false}}
+/>`);
 
         // then
         assert.dom(screen.queryByText('textbox', { name: '12 BadgeLabel Message du certificat' })).doesNotExist();
@@ -139,9 +139,9 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
 
       // when
       const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
-        @options={{this.options}}
-        @onBadgeUpdated={{this.onBadgeUpdated}}
-      />`);
+  @options={{this.options}}
+  @onBadgeUpdated={{this.onBadgeUpdated}}
+/>`);
 
       const input = screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Image svg certificat Pix App' });
       await fillIn(input, 'image');
@@ -174,9 +174,9 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
       const errorText = 'Erreur';
       this.set('error', errorText);
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
-        @error={{this.error}}
-      />`);
+      const screen = await render(
+        hbs`<ComplementaryCertifications::AttachBadges::Badges::List @error={{this.error}} />`,
+      );
 
       // then
       const errorMessage = screen.getByRole('alert');

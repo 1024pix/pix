@@ -17,7 +17,10 @@ module('Integration | Component | users/certification-centers/membership-item-ro
 
       //  when
       const screen = await renderScreen(
-        hbs`<Users::CertificationCenters::MembershipItemRole @isEditionMode={{this.isEditionMode}} @roleLabelKey={{this.roleLabelKey}} />`,
+        hbs`<Users::CertificationCenters::MembershipItemRole
+  @isEditionMode={{this.isEditionMode}}
+  @roleLabelKey={{this.roleLabelKey}}
+/>`,
       );
 
       // then
@@ -45,7 +48,12 @@ module('Integration | Component | users/certification-centers/membership-item-ro
 
       //  when
       const screen = await renderScreen(
-        hbs`<Users::CertificationCenters::MembershipItemRole @isEditionMode={{this.isEditionMode}} @certificationCenterRoles={{this.certificationCenterRoles}} @role={{this.role}} @onRoleSelected={{this.onRoleSelected}} />`,
+        hbs`<Users::CertificationCenters::MembershipItemRole
+  @isEditionMode={{this.isEditionMode}}
+  @certificationCenterRoles={{this.certificationCenterRoles}}
+  @role={{this.role}}
+  @onRoleSelected={{this.onRoleSelected}}
+/>`,
       );
 
       // then
@@ -63,7 +71,12 @@ module('Integration | Component | users/certification-centers/membership-item-ro
 
         //  when
         const screen = await renderScreen(
-          hbs`<Users::CertificationCenters::MembershipItemRole @isEditionMode={{this.isEditionMode}} @certificationCenterRoles={{this.certificationCenterRoles}} @role={{this.role}} @onRoleSelected={{this.onRoleSelected}} />`,
+          hbs`<Users::CertificationCenters::MembershipItemRole
+  @isEditionMode={{this.isEditionMode}}
+  @certificationCenterRoles={{this.certificationCenterRoles}}
+  @role={{this.role}}
+  @onRoleSelected={{this.onRoleSelected}}
+/>`,
         );
         await clickByName('Sélectionner un rôle');
         await screen.findByRole('listbox');
@@ -85,7 +98,12 @@ module('Integration | Component | users/certification-centers/membership-item-ro
 
           //  when
           const screen = await renderScreen(
-            hbs`<Users::CertificationCenters::MembershipItemRole @isEditionMode={{this.isEditionMode}} @certificationCenterRoles={{this.certificationCenterRoles}} @role={{this.role}} @onRoleSelected={{this.onRoleSelected}} />`,
+            hbs`<Users::CertificationCenters::MembershipItemRole
+  @isEditionMode={{this.isEditionMode}}
+  @certificationCenterRoles={{this.certificationCenterRoles}}
+  @role={{this.role}}
+  @onRoleSelected={{this.onRoleSelected}}
+/>`,
           );
           await clickByName('Sélectionner un rôle');
           await screen.findByRole('listbox');

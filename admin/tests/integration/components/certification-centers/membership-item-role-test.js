@@ -34,7 +34,11 @@ module('Integration | Component |  certification-centers/membership-item-role', 
 
       //  when
       const screen = await renderScreen(
-        hbs`<CertificationCenters::MembershipItemRole @isEditionMode={{this.isEditionMode}} @role={{this.role}} @onRoleSelected={{this.onRoleSelected}} />`,
+        hbs`<CertificationCenters::MembershipItemRole
+  @isEditionMode={{this.isEditionMode}}
+  @role={{this.role}}
+  @onRoleSelected={{this.onRoleSelected}}
+/>`,
       );
 
       // then
@@ -50,7 +54,11 @@ module('Integration | Component |  certification-centers/membership-item-role', 
 
         //  when
         const screen = await renderScreen(
-          hbs`<CertificationCenters::MembershipItemRole @isEditionMode={{this.isEditionMode}} @role={{this.role}} @onRoleSelected={{this.onRoleSelected}} />`,
+          hbs`<CertificationCenters::MembershipItemRole
+  @isEditionMode={{this.isEditionMode}}
+  @role={{this.role}}
+  @onRoleSelected={{this.onRoleSelected}}
+/>`,
         );
         await clickByName('Sélectionner un rôle');
         await screen.findByRole('listbox');
@@ -70,7 +78,11 @@ module('Integration | Component |  certification-centers/membership-item-role', 
 
           //  when
           const screen = await renderScreen(
-            hbs`<CertificationCenters::MembershipItemRole @isEditionMode={{this.isEditionMode}} @role={{this.role}} @onRoleSelected={{this.onRoleSelected}} />`,
+            hbs`<CertificationCenters::MembershipItemRole
+  @isEditionMode={{this.isEditionMode}}
+  @role={{this.role}}
+  @onRoleSelected={{this.onRoleSelected}}
+/>`,
           );
           await clickByName('Sélectionner un rôle');
           await screen.findByRole('listbox');

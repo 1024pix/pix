@@ -17,7 +17,11 @@ module('Integration | Component | organizations/creation-form', function (hooks)
   test('it renders', async function (assert) {
     // when
     const screen = await render(
-      hbs`<Organizations::CreationForm @organization={{this.organization}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`,
+      hbs`<Organizations::CreationForm
+  @organization={{this.organization}}
+  @onSubmit={{this.onSubmit}}
+  @onCancel={{this.onCancel}}
+/>`,
     );
 
     // then
@@ -32,7 +36,11 @@ module('Integration | Component | organizations/creation-form', function (hooks)
     test('should update attribute organization.type', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Organizations::CreationForm @organization={{this.organization}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`,
+        hbs`<Organizations::CreationForm
+  @organization={{this.organization}}
+  @onSubmit={{this.onSubmit}}
+  @onCancel={{this.onCancel}}
+/>`,
       );
 
       // when
@@ -48,7 +56,11 @@ module('Integration | Component | organizations/creation-form', function (hooks)
   test('Adds data protection officer information', async function (assert) {
     // given
     await render(
-      hbs`<Organizations::CreationForm @organization={{this.organization}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`,
+      hbs`<Organizations::CreationForm
+  @organization={{this.organization}}
+  @onSubmit={{this.onSubmit}}
+  @onCancel={{this.onCancel}}
+/>`,
     );
 
     // when
@@ -65,7 +77,11 @@ module('Integration | Component | organizations/creation-form', function (hooks)
   test('Credits can be added', async function (assert) {
     // given
     await render(
-      hbs`<Organizations::CreationForm @organization={{this.organization}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`,
+      hbs`<Organizations::CreationForm
+  @organization={{this.organization}}
+  @onSubmit={{this.onSubmit}}
+  @onCancel={{this.onCancel}}
+/>`,
     );
 
     // when
