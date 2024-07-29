@@ -1,8 +1,7 @@
 import jsonapiSerializer from 'jsonapi-serializer';
+import _ from 'lodash';
 
 const { Serializer } = jsonapiSerializer;
-
-import _ from 'lodash';
 
 const serialize = function (challenges) {
   return new Serializer('challenge', {
@@ -18,6 +17,8 @@ const serialize = function (challenges) {
       'embedUrl',
       'embedTitle',
       'embedHeight',
+      'webComponentTagName',
+      'webComponentProps',
       'illustrationAlt',
       'format',
       'autoReply',
