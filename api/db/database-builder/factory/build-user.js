@@ -352,6 +352,8 @@ buildUser.withMembership = function buildUserWithMemberships({
     pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted,
     hasSeenAssessmentInstructions,
+    createdAt,
+    updatedAt,
   };
 
   const user = databaseBuffer.pushInsertable({
