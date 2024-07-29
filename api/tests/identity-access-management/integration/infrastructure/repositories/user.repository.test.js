@@ -1118,6 +1118,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         expect(userDetailsForAdmin.lastLoggedAt).to.deep.equal(lastLoggedAt);
         expect(userDetailsForAdmin.emailConfirmedAt).to.deep.equal(emailConfirmedAt);
         expect(userDetailsForAdmin.hasBeenAnonymised).to.be.false;
+        expect(userDetailsForAdmin.isPixAgent).to.be.false;
       });
 
       it('should return a UserNotFoundError if no user is found', async function () {
@@ -1303,6 +1304,21 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
             temporaryBlockedUntil: null,
             failureCount: 5,
           });
+        });
+      });
+
+      context('when user is a Pix agent', function () {
+        it('returns the user with isPixAgent true', async function () {
+          // given
+          const userInDB = databaseBuilder.factory.buildUser.withRole({ role: 'SUPPORT' });
+          await databaseBuilder.commit();
+
+          // when
+          const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+
+          // then
+          expect(userDetailsForAdmin.id).to.equal(userInDB.id);
+          expect(userDetailsForAdmin.isPixAgent).to.be.true;
         });
       });
     });

@@ -26,6 +26,7 @@ class UserDetailsForAdmin {
       hasBeenAnonymised,
       anonymisedByFirstName,
       anonymisedByLastName,
+      isPixAgent,
     } = {},
     dependencies = { localeService },
   ) {
@@ -56,6 +57,7 @@ class UserDetailsForAdmin {
     this.updatedAt = updatedAt;
     this.anonymisedByFirstName = anonymisedByFirstName;
     this.anonymisedByLastName = anonymisedByLastName;
+    this.isPixAgent = isPixAgent;
   }
 
   get anonymisedByFullName() {
