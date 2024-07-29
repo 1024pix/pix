@@ -28,14 +28,12 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     this.set('onClickIssueReport', onClickIssueReportStub);
 
     // when
-    const { getByRole } = await render(hbs`
-      <IssueReportModal::IssueReportsModal
-        @showModal={{true}}
-        @report={{this.reportToEdit}}
-        @closeModal={{this.closeIssueReportsModal}}
-        @onClickIssueReport={{this.onClickIssueReport}}
-      />
-    `);
+    const { getByRole } = await render(hbs`<IssueReportModal::IssueReportsModal
+  @showModal={{true}}
+  @report={{this.reportToEdit}}
+  @closeModal={{this.closeIssueReportsModal}}
+  @onClickIssueReport={{this.onClickIssueReport}}
+/>`);
 
     // then
     assert.dom(getByRole('heading', { name: 'Signalement du candidat : Lisa Monpud' })).exists();
@@ -53,14 +51,12 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     this.set('closeIssueReportsModal', closeIssueReportsModalStub);
 
     // when
-    const { getByRole } = await render(hbs`
-      <IssueReportModal::IssueReportsModal
-        @showModal={{true}}
-        @report={{this.report}}
-        @closeModal={{this.closeIssueReportsModal}}
-        @onClickIssueReport={{this.onClickIssueReport}}
-      />
-    `);
+    const { getByRole } = await render(hbs`<IssueReportModal::IssueReportsModal
+  @showModal={{true}}
+  @report={{this.report}}
+  @closeModal={{this.closeIssueReportsModal}}
+  @onClickIssueReport={{this.onClickIssueReport}}
+/>`);
     await click(getByRole('button', { name: 'Ajouter un signalement' }));
 
     // then
@@ -88,14 +84,12 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     this.set('closeIssueReportsModal', closeIssueReportsModalStub);
 
     // when
-    const screen = await render(hbs`
-      <IssueReportModal::IssueReportsModal
-        @showModal={{true}}
-        @report={{this.report}}
-        @closeModal={{this.closeIssueReportsModal}}
-        @onClickIssueReport={{this.onClickIssueReport}}
-      />
-    `);
+    const screen = await render(hbs`<IssueReportModal::IssueReportsModal
+  @showModal={{true}}
+  @report={{this.report}}
+  @closeModal={{this.closeIssueReportsModal}}
+  @onClickIssueReport={{this.onClickIssueReport}}
+/>`);
 
     // then
     assert.dom(screen.getByRole('heading', { name: 'Mes signalements (2)', level: 2 })).exists();
@@ -123,14 +117,12 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     this.set('closeIssueReportsModal', closeIssueReportsModalStub);
 
     // when
-    const screen = await render(hbs`
-      <IssueReportModal::IssueReportsModal
-        @showModal={{true}}
-        @report={{this.report}}
-        @closeModal={{this.closeIssueReportsModal}}
-        @onClickIssueReport={{this.onClickIssueReport}}
-      />
-    `);
+    const screen = await render(hbs`<IssueReportModal::IssueReportsModal
+  @showModal={{true}}
+  @report={{this.report}}
+  @closeModal={{this.closeIssueReportsModal}}
+  @onClickIssueReport={{this.onClickIssueReport}}
+/>`);
 
     // then
     assert

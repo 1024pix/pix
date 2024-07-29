@@ -35,14 +35,12 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     this.set('certificationReports', [certificationReport]);
 
     // when
-    await render(hbs`
-        <SessionFinalization::CompletedReportsInformationStep
-          @certificationReports={{this.certificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
-          @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
-        />
-      `);
+    await render(hbs`<SessionFinalization::CompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+  @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
+  @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
+/>`);
 
     // then
     assert
@@ -70,14 +68,12 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     this.set('certificationReports', [certificationReport]);
 
     // when
-    await render(hbs`
-        <SessionFinalization::CompletedReportsInformationStep
-          @certificationReports={{this.certificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
-          @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
-        />
-      `);
+    await render(hbs`<SessionFinalization::CompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+  @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
+  @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
+/>`);
 
     // then
     assert
@@ -97,15 +93,13 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     this.set('session', session);
 
     // when
-    const screen = await render(hbs`
-        <SessionFinalization::CompletedReportsInformationStep
-          @session={{this.session}}
-          @certificationReports={{this.certificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
-          @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
-        />
-      `);
+    const screen = await render(hbs`<SessionFinalization::CompletedReportsInformationStep
+  @session={{this.session}}
+  @certificationReports={{this.certificationReports}}
+  @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+  @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
+  @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
+/>`);
 
     // then
     assert
@@ -128,15 +122,13 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     this.set('session', session);
 
     // when
-    const screen = await render(hbs`
-        <SessionFinalization::CompletedReportsInformationStep
-          @session={{this.session}}
-          @certificationReports={{this.certificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
-          @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
-        />
-      `);
+    const screen = await render(hbs`<SessionFinalization::CompletedReportsInformationStep
+  @session={{this.session}}
+  @certificationReports={{this.certificationReports}}
+  @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+  @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
+  @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
+/>`);
 
     // then
     assert
@@ -165,15 +157,13 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
       this.shouldDisplayHasSeenEndTestScreenCheckbox = true;
 
       // when
-      const screen = await render(hbs`
-        <SessionFinalization::CompletedReportsInformationStep
-          @certificationReports={{this.certificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
-          @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
-          @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
-        />
-      `);
+      const screen = await render(hbs`<SessionFinalization::CompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+  @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
+  @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
+  @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
+/>`);
 
       // then
       assert.dom(screen.getByRole('checkbox', { name: 'Écran de fin du test vu' })).exists();
@@ -200,13 +190,11 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
       this.shouldDisplayHasSeenEndTestScreenCheckbox = false;
 
       // when
-      await render(hbs`
-        <SessionFinalization::CompletedReportsInformationStep
-          @certificationReports={{this.certificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
-        />
-      `);
+      await render(hbs`<SessionFinalization::CompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+  @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
+/>`);
 
       // then
       assert.dom('[data-test-id="finalization-report-all-candidates-have-seen-end-test-screen"]').doesNotExist();
@@ -243,12 +231,10 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
         this.set('certificationReports', certificationReports);
 
         // when
-        const screen = await render(hbs`
-        <SessionFinalization::CompletedReportsInformationStep
-          @session={{this.session}}
-          @certificationReports={{this.certificationReports}}
-        />
-      `);
+        const screen = await render(hbs`<SessionFinalization::CompletedReportsInformationStep
+  @session={{this.session}}
+  @certificationReports={{this.certificationReports}}
+/>`);
 
         await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
         await screen.findByRole('dialog');
@@ -286,12 +272,10 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
         this.set('certificationReports', certificationReports);
 
         // when
-        const screen = await render(hbs`
-        <SessionFinalization::CompletedReportsInformationStep
-          @session={{this.session}}
-          @certificationReports={{this.certificationReports}}
-        />
-      `);
+        const screen = await render(hbs`<SessionFinalization::CompletedReportsInformationStep
+  @session={{this.session}}
+  @certificationReports={{this.certificationReports}}
+/>`);
 
         await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
         await screen.findByRole('dialog');
@@ -335,12 +319,10 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
         this.set('certificationReports', certificationReports);
 
         // when
-        const screen = await render(hbs`
-        <SessionFinalization::CompletedReportsInformationStep
-          @session={{this.session}}
-          @certificationReports={{this.certificationReports}}
-        />
-      `);
+        const screen = await render(hbs`<SessionFinalization::CompletedReportsInformationStep
+  @session={{this.session}}
+  @certificationReports={{this.certificationReports}}
+/>`);
 
         await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
         await screen.findByRole('dialog');

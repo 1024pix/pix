@@ -198,7 +198,7 @@ module('Integration | Component | login-form', function (hooks) {
   module('when an invitation is cancelled', function () {
     test('it should display an error message', async function (assert) {
       // given & when
-      const screen = await renderScreen(hbs`<LoginForm @isInvitationCancelled="true" />`);
+      const screen = await renderScreen(hbs`<LoginForm @isInvitationCancelled='true' />`);
 
       // then
       assert
@@ -216,7 +216,7 @@ module('Integration | Component | login-form', function (hooks) {
   module('when an invitation has already been accepted', function () {
     test('it should display an error message', async function (assert) {
       // given & when
-      const screen = await renderScreen(hbs`<LoginForm @hasInvitationAlreadyBeenAccepted="true" />`);
+      const screen = await renderScreen(hbs`<LoginForm @hasInvitationAlreadyBeenAccepted='true' />`);
 
       // then
       assert

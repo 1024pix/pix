@@ -19,12 +19,11 @@ module(
       this.set('nonBlockingTechnicalIssueCategory', nonBlockingTechnicalIssueCategory);
 
       // when
-      const screen = await renderScreen(hbs`
-      <IssueReportModal::NonBlockingTechnicalIssueCertificationIssueReportFields
-        @nonBlockingTechnicalIssueCategory={{this.nonBlockingTechnicalIssueCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-      />`);
+      const screen = await renderScreen(hbs`<IssueReportModal::NonBlockingTechnicalIssueCertificationIssueReportFields
+  @nonBlockingTechnicalIssueCategory={{this.nonBlockingTechnicalIssueCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+  @maxlength={{500}}
+/>`);
       await click(screen.getByRole('radio'));
 
       // then
@@ -41,13 +40,12 @@ module(
       this.set('updateNonBlockingTechnicalIssueCategory', updateNonBlockingTechnicalIssueCategory);
 
       // when
-      const screen = await renderScreen(hbs`
-      <IssueReportModal::NonBlockingTechnicalIssueCertificationIssueReportFields
-        @nonBlockingTechnicalIssueCategory={{this.nonBlockingTechnicalIssueCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-        @updateNonBlockingTechnicalIssueCategoryDescription={{this.updateNonBlockingTechnicalIssueCategory}}
-      />`);
+      const screen = await renderScreen(hbs`<IssueReportModal::NonBlockingTechnicalIssueCertificationIssueReportFields
+  @nonBlockingTechnicalIssueCategory={{this.nonBlockingTechnicalIssueCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+  @maxlength={{500}}
+  @updateNonBlockingTechnicalIssueCategoryDescription={{this.updateNonBlockingTechnicalIssueCategory}}
+/>`);
       await click(screen.getByRole('radio'));
 
       // then
@@ -64,13 +62,12 @@ module(
       this.set('updateNonBlockingTechnicalIssueCategory', updateNonBlockingTechnicalIssueCategory);
 
       // when
-      const screen = await renderScreen(hbs`
-      <IssueReportModal::NonBlockingTechnicalIssueCertificationIssueReportFields
-        @nonBlockingTechnicalIssueCategory={{this.nonBlockingTechnicalIssueCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-        @updateNonBlockingTechnicalIssueCategoryDescription={{this.updateNonBlockingTechnicalIssueCategory}}
-      />`);
+      const screen = await renderScreen(hbs`<IssueReportModal::NonBlockingTechnicalIssueCertificationIssueReportFields
+  @nonBlockingTechnicalIssueCategory={{this.nonBlockingTechnicalIssueCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+  @maxlength={{500}}
+  @updateNonBlockingTechnicalIssueCategoryDescription={{this.updateNonBlockingTechnicalIssueCategory}}
+/>`);
       await click(screen.getByRole('radio'));
 
       // then

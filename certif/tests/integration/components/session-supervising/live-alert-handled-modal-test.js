@@ -24,14 +24,12 @@ module('Integration | Component | live-alert-handled-modal', function (hooks) {
     this.set('candidateFullName', `${candidate.firstName} ${candidate.lastName}`);
 
     // when
-    const screen = await renderScreen(hbs`
-        <SessionSupervising::LiveAlertHandledModal
-          @showModal={{this.isModalDisplayed}}
-          @closeConfirmationModal={{this.closeModal}}
-          @title={{this.candidateFullName}}
-          @isLiveAlertValidated={{false}}
-        />
-      `);
+    const screen = await renderScreen(hbs`<SessionSupervising::LiveAlertHandledModal
+  @showModal={{this.isModalDisplayed}}
+  @closeConfirmationModal={{this.closeModal}}
+  @title={{this.candidateFullName}}
+  @isLiveAlertValidated={{false}}
+/>`);
 
     // then
     assert.dom(screen.getByText('Le signalement a bien été refusé', { exact: false })).exists();
@@ -55,14 +53,12 @@ module('Integration | Component | live-alert-handled-modal', function (hooks) {
     this.set('candidateFullName', `${candidate.firstName} ${candidate.lastName}`);
 
     // when
-    const screen = await renderScreen(hbs`
-        <SessionSupervising::LiveAlertHandledModal
-          @showModal={{this.isModalDisplayed}}
-          @closeConfirmationModal={{this.closeModal}}
-          @title={{this.candidateFullName}}
-          @isLiveAlertValidated={{true}}
-        />
-      `);
+    const screen = await renderScreen(hbs`<SessionSupervising::LiveAlertHandledModal
+  @showModal={{this.isModalDisplayed}}
+  @closeConfirmationModal={{this.closeModal}}
+  @title={{this.candidateFullName}}
+  @isLiveAlertValidated={{true}}
+/>`);
 
     // then
     assert.dom(screen.getByText('Le signalement a bien été validé', { exact: false })).exists();

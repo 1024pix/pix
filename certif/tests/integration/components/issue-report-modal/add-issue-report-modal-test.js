@@ -29,13 +29,11 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
     this.set('maxlength', 500);
 
     // when
-    const screen = await renderScreen(hbs`
-          <IssueReportModal::AddIssueReportModal
-            @closeModal={{this.closeAddIssueReportModal}}
-            @report={{this.reportToEdit}}
-            @maxlength={{this.maxLength}}
-          />
-        `);
+    const screen = await renderScreen(hbs`<IssueReportModal::AddIssueReportModal
+  @closeModal={{this.closeAddIssueReportModal}}
+  @report={{this.reportToEdit}}
+  @maxlength={{this.maxLength}}
+/>`);
 
     // then
     assert.dom(screen.getByText('Signalement du candidat : Lisa Monpud', { exact: false })).exists();
@@ -56,14 +54,12 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
       this.set('maxlength', 500);
 
       // when
-      const screen = await renderScreen(hbs`
-            <IssueReportModal::AddIssueReportModal
-              @closeModal={{this.closeAddIssueReportModal}}
-              @report={{this.reportToEdit}}
-              @maxlength={{this.maxlength}}
-              @version={{2}}
-            />
-          `);
+      const screen = await renderScreen(hbs`<IssueReportModal::AddIssueReportModal
+  @closeModal={{this.closeAddIssueReportModal}}
+  @report={{this.reportToEdit}}
+  @maxlength={{this.maxlength}}
+  @version={{2}}
+/>`);
 
       // then
       for (const category of Object.values(certificationIssueReportCategories)) {
@@ -93,14 +89,12 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
       this.set('maxlength', 500);
 
       // when
-      const screen = await renderScreen(hbs`
-            <IssueReportModal::AddIssueReportModal
-              @closeModal={{this.closeAddIssueReportModal}}
-              @report={{this.reportToEdit}}
-              @maxlength={{this.maxlength}}
-              @version={{3}}
-            />
-          `);
+      const screen = await renderScreen(hbs`<IssueReportModal::AddIssueReportModal
+  @closeModal={{this.closeAddIssueReportModal}}
+  @report={{this.reportToEdit}}
+  @maxlength={{this.maxlength}}
+  @version={{3}}
+/>`);
 
       // then
       for (const category of Object.values(v3CertificationIssueReportCategories)) {
@@ -136,13 +130,11 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
     this.set('maxlength', 500);
 
     // when
-    const screen = await renderScreen(hbs`
-          <IssueReportModal::AddIssueReportModal
-            @closeModal={{this.closeAddIssueReportModal}}
-            @report={{this.reportToEdit}}
-            @maxlength={{this.maxLength}}
-          />
-        `);
+    const screen = await renderScreen(hbs`<IssueReportModal::AddIssueReportModal
+  @closeModal={{this.closeAddIssueReportModal}}
+  @report={{this.reportToEdit}}
+  @maxlength={{this.maxLength}}
+/>`);
 
     // when
     await click(screen.getByLabelText('Ajouter le signalement'));

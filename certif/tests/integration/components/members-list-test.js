@@ -42,7 +42,7 @@ module('Integration | Component | MembersList', function (hooks) {
       this.set('members', members);
 
       // when
-      const screen = await render(hbs`<MembersList @members={{this.members}}/>`);
+      const screen = await render(hbs`<MembersList @members={{this.members}} />`);
 
       // then
       assert.dom(screen.getByRole('columnheader', { name: this.intl.t('common.labels.candidate.lastname') })).exists();
@@ -172,7 +172,7 @@ module('Integration | Component | MembersList', function (hooks) {
 
       test('displays a modal', async function (assert) {
         // given
-        const screen = await render(hbs`<MembersList @members={{this.members}}/>`);
+        const screen = await render(hbs`<MembersList @members={{this.members}} />`);
 
         await click(screen.getAllByRole('button', { name: 'Gérer' })[0]);
 
@@ -189,7 +189,7 @@ module('Integration | Component | MembersList', function (hooks) {
         module('when clicking on "Annuler" button', function () {
           test('closes the modal', async function (assert) {
             // given
-            const screen = await render(hbs`<MembersList @members={{this.members}}/>`);
+            const screen = await render(hbs`<MembersList @members={{this.members}} />`);
 
             await click(screen.getAllByRole('button', { name: 'Gérer' })[0]);
             await clickByName('Quitter cet espace Pix Certif');
@@ -215,7 +215,7 @@ module('Integration | Component | MembersList', function (hooks) {
             sinon.stub(session, 'waitBeforeInvalidation');
 
             const screen = await render(
-              hbs`<MembersList @members={{this.members}} @onLeaveCertificationCenter={{this.onLeaveCertificationCenter}}/>`,
+              hbs`<MembersList @members={{this.members}} @onLeaveCertificationCenter={{this.onLeaveCertificationCenter}} />`,
             );
 
             await click(screen.getAllByRole('button', { name: 'Gérer' })[0]);

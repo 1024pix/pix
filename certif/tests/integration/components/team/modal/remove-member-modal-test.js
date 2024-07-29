@@ -24,7 +24,11 @@ module('Integration | Components | Team::Modal::RemoveMemberModal', function (ho
       this.set('closeRemoveMembershipModal', closeRemoveMembershipModal);
 
       screen = await render(
-        hbs`<Team::Modal::RemoveMemberModal  @isOpen={{this.isOpen}} @onSubmit={{this.onRemoveButtonClicked}} @onClose={{this.closeRemoveMembershipModal}} />`,
+        hbs`<Team::Modal::RemoveMemberModal
+  @isOpen={{this.isOpen}}
+  @onSubmit={{this.onRemoveButtonClicked}}
+  @onClose={{this.closeRemoveMembershipModal}}
+/>`,
       );
     });
 

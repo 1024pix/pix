@@ -20,14 +20,14 @@ module('Integration | Component | Import::StepOneSection', function (hooks) {
     // when
     const { getByText, getByRole } = await render(
       hbs`<Import::StepOneSection
-        @downloadSessionImportTemplate={{this.downloadSessionImportTemplate}}
-        @preImportSessions={{this.preImportSessions}}
-        @file={{this.file}}
-        @filename={{this.filename}}
-        @removeImport={{this.removeImport}}
-        @validateSessions={{this.validateSessions}}
-        @isImportDisabled={{this.isImportDisabled}}
-      />`,
+  @downloadSessionImportTemplate={{this.downloadSessionImportTemplate}}
+  @preImportSessions={{this.preImportSessions}}
+  @file={{this.file}}
+  @filename={{this.filename}}
+  @removeImport={{this.removeImport}}
+  @validateSessions={{this.validateSessions}}
+  @isImportDisabled={{this.isImportDisabled}}
+/>`,
     );
 
     // then

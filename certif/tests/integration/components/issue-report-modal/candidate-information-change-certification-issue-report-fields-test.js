@@ -18,12 +18,11 @@ module('Integration | Component | candidate-information-change-certification-iss
     this.set('candidateInformationChangeCategory', candidateInformationChangeCategory);
 
     // when
-    const screen = await render(hbs`
-      <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
-        @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-      />`);
+    const screen = await render(hbs`<IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
+  @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+  @maxlength={{500}}
+/>`);
 
     await click(screen.getByRole('radio'));
 
@@ -44,13 +43,12 @@ module('Integration | Component | candidate-information-change-certification-iss
     this.set('updateCandidateInformationChangeCategory', updateCandidateInformationChangeCategory);
 
     // when
-    const screen = await render(hbs`
-      <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
-        @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-        @updateCandidateInformationChangeCategoryDescription={{this.updateCandidateInformationChangeCategory}}
-      />`);
+    const screen = await render(hbs`<IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
+  @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+  @maxlength={{500}}
+  @updateCandidateInformationChangeCategoryDescription={{this.updateCandidateInformationChangeCategory}}
+/>`);
     await click(screen.getByRole('radio'));
 
     // then
@@ -71,13 +69,12 @@ module('Integration | Component | candidate-information-change-certification-iss
     this.set('updateCandidateInformationChangeCategory', updateCandidateInformationChangeCategory);
 
     // when
-    const screen = await render(hbs`
-      <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
-        @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-        @updateCandidateInformationChangeCategoryDescription={{this.updateCandidateInformationChangeCategory}}
-      />`);
+    const screen = await render(hbs`<IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
+  @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+  @maxlength={{500}}
+  @updateCandidateInformationChangeCategoryDescription={{this.updateCandidateInformationChangeCategory}}
+/>`);
     await click(screen.getByRole('radio'));
 
     // then
@@ -98,13 +95,12 @@ module('Integration | Component | candidate-information-change-certification-iss
     this.set('updateCandidateInformationChangeCategory', updateCandidateInformationChangeCategory);
 
     // when
-    const screen = await render(hbs`
-      <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
-        @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-        @updateCandidateInformationChangeCategoryDescription={{this.updateCandidateInformationChangeCategory}}
-      />`);
+    const screen = await render(hbs`<IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
+  @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+  @maxlength={{500}}
+  @updateCandidateInformationChangeCategoryDescription={{this.updateCandidateInformationChangeCategory}}
+/>`);
     await click(screen.getByRole('radio'));
 
     // then

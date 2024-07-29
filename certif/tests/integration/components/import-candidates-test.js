@@ -20,10 +20,9 @@ module('Integration | Component | import-candidates', function (hooks) {
     this.set('importAllowed', true);
 
     // when
-    const screen = await render(hbs`<ImportCandidates
-      @session={{this.session}}
-      @importAllowed={{this.importAllowed}}
-      />`);
+    const screen = await render(
+      hbs`<ImportCandidates @session={{this.session}} @importAllowed={{this.importAllowed}} />`,
+    );
 
     // then
     assert.dom(screen.getByText('Télécharger le modèle de liste des candidats')).exists();

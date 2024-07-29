@@ -22,7 +22,12 @@ module('Integration | Components | Team::Modal::LeaveCertificationCenter', funct
       this.set('closeModal', closeModal);
 
       screen = await render(
-        hbs`<Team::Modal::LeaveCertificationCenter @certificationCenterName={{this.certificationCenterName}} @isOpen={{this.isOpen}} @onSubmit={{this.leaveCertificationCenter}} @onClose={{this.closeModal}} />`,
+        hbs`<Team::Modal::LeaveCertificationCenter
+  @certificationCenterName={{this.certificationCenterName}}
+  @isOpen={{this.isOpen}}
+  @onSubmit={{this.leaveCertificationCenter}}
+  @onClose={{this.closeModal}}
+/>`,
       );
     });
 

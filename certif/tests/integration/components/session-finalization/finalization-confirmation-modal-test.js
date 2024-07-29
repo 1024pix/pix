@@ -18,16 +18,14 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
     this.set('finalizeSession', sinon.stub());
 
     // when
-    const screen = await renderScreen(hbs`
-    <SessionFinalization::FinalizationConfirmationModal
-      @showModal={{true}}
-      @closeModal={{this.closeModal}}
-      @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
-      @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
-      @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
-      @finalizeSession={{this.finalizeSession}}
-    />
-    `);
+    const screen = await renderScreen(hbs`<SessionFinalization::FinalizationConfirmationModal
+  @showModal={{true}}
+  @closeModal={{this.closeModal}}
+  @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
+  @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
+  @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
+  @finalizeSession={{this.finalizeSession}}
+/>`);
 
     // then
     assert.dom(screen.getByText('Finalisation de la session')).exists();
@@ -50,15 +48,13 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
       this.set('finalizeSession', sinon.stub());
 
       // when
-      const screen = await renderScreen(hbs`
-      <SessionFinalization::FinalizationConfirmationModal
-        @closeModal={{this.closeModal}}
-        @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
-        @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
-        @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
-        @finalizeSession={{this.finalizeSession}}
-      />
-      `);
+      const screen = await renderScreen(hbs`<SessionFinalization::FinalizationConfirmationModal
+  @closeModal={{this.closeModal}}
+  @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
+  @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
+  @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
+  @finalizeSession={{this.finalizeSession}}
+/>`);
 
       // then
       assert.dom(screen.getByText('La case "Écran de fin du test vu" n\'est pas cochée pour 2 candidats')).exists();
@@ -76,16 +72,14 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
       this.set('finalizeSession', sinon.stub());
 
       // when
-      const screen = await renderScreen(hbs`
-      <SessionFinalization::FinalizationConfirmationModal
-        @showModal={{true}}
-        @closeModal={{this.closeModal}}
-        @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
-        @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
-        @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
-        @finalizeSession={{this.finalizeSession}}
-      />
-      `);
+      const screen = await renderScreen(hbs`<SessionFinalization::FinalizationConfirmationModal
+  @showModal={{true}}
+  @closeModal={{this.closeModal}}
+  @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
+  @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
+  @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
+  @finalizeSession={{this.finalizeSession}}
+/>`);
 
       await click(screen.getByRole('button', { name: 'Fermer' }));
 
@@ -106,16 +100,14 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
       this.set('finalizeSession', sinon.stub());
 
       // when
-      const screen = await renderScreen(hbs`
-      <SessionFinalization::FinalizationConfirmationModal
-        @showModal={{true}}
-        @closeModal={{this.closeModal}}
-        @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
-        @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
-        @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
-        @finalizeSession={{this.finalizeSession}}
-      />
-      `);
+      const screen = await renderScreen(hbs`<SessionFinalization::FinalizationConfirmationModal
+  @showModal={{true}}
+  @closeModal={{this.closeModal}}
+  @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
+  @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
+  @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
+  @finalizeSession={{this.finalizeSession}}
+/>`);
 
       await click(screen.getByRole('button', { name: 'Annuler' }));
 
@@ -136,16 +128,14 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
       this.set('finalizeSession', finalizeSessionStub);
 
       // when
-      const screen = await renderScreen(hbs`
-    <SessionFinalization::FinalizationConfirmationModal
-      @showModal={{true}}
-      @closeModal={{this.closeModal}}
-      @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
-      @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
-      @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
-      @finalizeSession={{this.finalizeSession}}
-    />
-    `);
+      const screen = await renderScreen(hbs`<SessionFinalization::FinalizationConfirmationModal
+  @showModal={{true}}
+  @closeModal={{this.closeModal}}
+  @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
+  @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
+  @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
+  @finalizeSession={{this.finalizeSession}}
+/>`);
 
       await click(screen.getByRole('button', { name: 'Confirmer la finalisation' }));
 

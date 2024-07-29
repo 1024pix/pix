@@ -56,7 +56,12 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
 
       // When
       await render(
-        hbs`<Team::InviteForm @email={{this.email}} @onSubmit={{this.inviteStub}} @onCancel={{this.cancelStub}} @onUpdateEmail={{this.updateEmailStub}} />`,
+        hbs`<Team::InviteForm
+  @email={{this.email}}
+  @onSubmit={{this.inviteStub}}
+  @onCancel={{this.cancelStub}}
+  @onUpdateEmail={{this.updateEmailStub}}
+/>`,
       );
       await clickByName(this.intl.t('pages.team-invite.invite-button'));
 

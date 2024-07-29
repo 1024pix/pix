@@ -31,7 +31,11 @@ module('Integration | Component |  team/invitation-list', function (hooks) {
 
     // when
     const screen = await renderScreen(
-      hbs`<Team::InvitationsList @invitations={{this.invitations}} @onCancelInvitationButtonClicked={{this.cancelInvitation}} @onResendInvitationButtonClicked={{this.resendInvitation}} />`,
+      hbs`<Team::InvitationsList
+  @invitations={{this.invitations}}
+  @onCancelInvitationButtonClicked={{this.cancelInvitation}}
+  @onResendInvitationButtonClicked={{this.resendInvitation}}
+/>`,
     );
 
     // then
@@ -59,7 +63,11 @@ module('Integration | Component |  team/invitation-list', function (hooks) {
 
     //  when
     const screen = await renderScreen(
-      hbs`<Team::InvitationsList @invitations={{this.invitations}} @onCancelInvitationButtonClicked={{this.cancelInvitation}} @onResendInvitationButtonClicked={{this.resendInvitation}} />`,
+      hbs`<Team::InvitationsList
+  @invitations={{this.invitations}}
+  @onCancelInvitationButtonClicked={{this.cancelInvitation}}
+  @onResendInvitationButtonClicked={{this.resendInvitation}}
+/>`,
     );
 
     // then
@@ -75,7 +83,11 @@ module('Integration | Component |  team/invitation-list', function (hooks) {
       this.set('invitations', [invitation]);
 
       await renderScreen(
-        hbs`<Team::InvitationsList @invitations={{this.invitations}} @onCancelInvitationButtonClicked={{this.cancelInvitation}} @onResendInvitationButtonClicked={{this.resendInvitation}} />`,
+        hbs`<Team::InvitationsList
+  @invitations={{this.invitations}}
+  @onCancelInvitationButtonClicked={{this.cancelInvitation}}
+  @onResendInvitationButtonClicked={{this.resendInvitation}}
+/>`,
       );
 
       // when
@@ -94,7 +106,11 @@ module('Integration | Component |  team/invitation-list', function (hooks) {
       this.set('invitations', [invitation]);
 
       await renderScreen(
-        hbs`<Team::InvitationsList @invitations={{this.invitations}} @onCancelInvitationButtonClicked={{this.cancelInvitation}} @onResendInvitationButtonClicked={{this.resendInvitation}} />`,
+        hbs`<Team::InvitationsList
+  @invitations={{this.invitations}}
+  @onCancelInvitationButtonClicked={{this.cancelInvitation}}
+  @onResendInvitationButtonClicked={{this.resendInvitation}}
+/>`,
       );
 
       // when

@@ -38,14 +38,12 @@ module('Integration | Component | certification-candidate-details-modal', functi
     this.set('displayComplementaryCertification', true);
 
     // when
-    const screen = await renderScreen(hbs`
-      <CertificationCandidateDetailsModal
-        @closeModal={{this.closeModal}}
-        @showModal={{true}}
-        @candidate={{this.candidate}}
-        @displayComplementaryCertification={{this.displayComplementaryCertification}}
-      />
-    `);
+    const screen = await renderScreen(hbs`<CertificationCandidateDetailsModal
+  @closeModal={{this.closeModal}}
+  @showModal={{true}}
+  @candidate={{this.candidate}}
+  @displayComplementaryCertification={{this.displayComplementaryCertification}}
+/>`);
 
     // then
     assert.dom(screen.getByText('Détail du candidat')).exists();
@@ -87,14 +85,12 @@ module('Integration | Component | certification-candidate-details-modal', functi
       this.set('displayComplementaryCertification', true);
 
       // when
-      const screen = await renderScreen(hbs`
-        <CertificationCandidateDetailsModal
-          @closeModal={{this.closeModal}}
-          @showModal={{true}}
-          @candidate={{this.candidate}}
-          @displayComplementaryCertification={{this.displayComplementaryCertification}}
-        />
-      `);
+      const screen = await renderScreen(hbs`<CertificationCandidateDetailsModal
+  @closeModal={{this.closeModal}}
+  @showModal={{true}}
+  @candidate={{this.candidate}}
+  @displayComplementaryCertification={{this.displayComplementaryCertification}}
+/>`);
 
       // then
       assert.strictEqual(screen.getAllByText('-').length, 13);
@@ -130,14 +126,12 @@ module('Integration | Component | certification-candidate-details-modal', functi
       this.set('shouldDisplayPaymentOptions', true);
 
       // when
-      const screen = await renderScreen(hbs`
-      <CertificationCandidateDetailsModal
-        @closeModal={{this.closeModal}}
-        @candidate={{this.candidate}}
-        @displayComplementaryCertification={{this.displayComplementaryCertification}}
-        @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
-      />
-    `);
+      const screen = await renderScreen(hbs`<CertificationCandidateDetailsModal
+  @closeModal={{this.closeModal}}
+  @candidate={{this.candidate}}
+  @displayComplementaryCertification={{this.displayComplementaryCertification}}
+  @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
+/>`);
 
       // then
       assert.dom(screen.getByText('Détail du candidat')).exists();
@@ -187,14 +181,12 @@ module('Integration | Component | certification-candidate-details-modal', functi
       this.set('shouldDisplayPaymentOptions', false);
 
       // when
-      const screen = await renderScreen(hbs`
-      <CertificationCandidateDetailsModal
-        @closeModal={{this.closeModal}}
-        @candidate={{this.candidate}}
-        @displayComplementaryCertification={{this.displayComplementaryCertification}}
-        @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
-      />
-    `);
+      const screen = await renderScreen(hbs`<CertificationCandidateDetailsModal
+  @closeModal={{this.closeModal}}
+  @candidate={{this.candidate}}
+  @displayComplementaryCertification={{this.displayComplementaryCertification}}
+  @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
+/>`);
 
       // then
       assert.dom(screen.getByText('Détail du candidat')).exists();
@@ -224,13 +216,9 @@ module('Integration | Component | certification-candidate-details-modal', functi
       this.set('candidate', candidate);
 
       // when
-      const screen = await renderScreen(hbs`
-        <CertificationCandidateDetailsModal
-          @showModal={{true}}
-          @closeModal={{this.closeModal}}
-          @candidate={{this.candidate}}
-        />
-      `);
+      const screen = await renderScreen(
+        hbs`<CertificationCandidateDetailsModal @showModal={{true}} @closeModal={{this.closeModal}} @candidate={{this.candidate}} />`,
+      );
 
       await click(screen.getByRole('button', { name: 'Fermer la fenêtre de détail du candidat' }));
 
@@ -249,13 +237,9 @@ module('Integration | Component | certification-candidate-details-modal', functi
       this.set('candidate', candidate);
 
       // when
-      const screen = await renderScreen(hbs`
-        <CertificationCandidateDetailsModal
-          @showModal={{true}}
-          @closeModal={{this.closeModal}}
-          @candidate={{this.candidate}}
-        />
-      `);
+      const screen = await renderScreen(
+        hbs`<CertificationCandidateDetailsModal @showModal={{true}} @closeModal={{this.closeModal}} @candidate={{this.candidate}} />`,
+      );
       await click(screen.getByRole('button', { name: 'Fermer la fenêtre de détail du candidat' }));
 
       // then

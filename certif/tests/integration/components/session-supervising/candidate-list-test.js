@@ -38,7 +38,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
 
       // when
       const screen = await renderScreen(
-        hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`,
+        hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}} />`,
       );
 
       // then
@@ -58,7 +58,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
 
       // when
       const screen = await renderScreen(
-        hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`,
+        hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}} />`,
       );
 
       // then
@@ -79,7 +79,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
           }),
         ];
         const screen = await renderScreen(
-          hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`,
+          hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}} />`,
         );
 
         // when
@@ -122,7 +122,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
             }),
           ];
           const screen = await renderScreen(
-            hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`,
+            hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}} />`,
           );
 
           // when
@@ -144,7 +144,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
             }),
           ];
           const screen = await renderScreen(
-            hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`,
+            hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}} />`,
           );
           await fillIn(screen.getByRole('textbox', { name: 'Rechercher un candidat' }), 'Champs rempli');
 
@@ -181,7 +181,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
 
         // when
         const screen = await renderScreen(
-          hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`,
+          hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}} />`,
         );
 
         // then
@@ -216,7 +216,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
 
       // when
       const screen = await renderScreen(
-        hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}}  />`,
+        hbs`<SessionSupervising::CandidateList @candidates={{this.certificationCandidates}} />`,
       );
 
       // then

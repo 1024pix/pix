@@ -16,12 +16,10 @@ module('Integration | Component | SessionFinalization::ComplementaryInformationS
     this.set('toggleSessionJoiningIssue', toggleSessionJoiningIssueStub);
     this.set('toggleIncidentDuringCertificationSession', toggleIncidentDuringCertificationSessionStub);
 
-    const screen = await renderScreen(hbs`
-        <SessionFinalization::ComplementaryInformationStep
-          @toggleIncidentDuringCertificationSession={{this.toggleIncidentDuringCertificationSession}}
-          @toggleSessionJoiningIssue={{this.toggleSessionJoiningIssue}}
-        />
-      `);
+    const screen = await renderScreen(hbs`<SessionFinalization::ComplementaryInformationStep
+  @toggleIncidentDuringCertificationSession={{this.toggleIncidentDuringCertificationSession}}
+  @toggleSessionJoiningIssue={{this.toggleSessionJoiningIssue}}
+/>`);
 
     // when
     await click(
@@ -42,12 +40,10 @@ module('Integration | Component | SessionFinalization::ComplementaryInformationS
     this.set('toggleSessionJoiningIssue', toggleSessionJoiningIssueStub);
     this.set('toggleIncidentDuringCertificationSession', toggleIncidentDuringCertificationSessionStub);
 
-    const screen = await renderScreen(hbs`
-        <SessionFinalization::ComplementaryInformationStep
-          @toggleIncidentDuringCertificationSession={{this.toggleIncidentDuringCertificationSession}}
-          @toggleSessionJoiningIssue={{this.toggleSessionJoiningIssue}}
-        />
-      `);
+    const screen = await renderScreen(hbs`<SessionFinalization::ComplementaryInformationStep
+  @toggleIncidentDuringCertificationSession={{this.toggleIncidentDuringCertificationSession}}
+  @toggleSessionJoiningIssue={{this.toggleSessionJoiningIssue}}
+/>`);
 
     // when
     await click(
@@ -69,12 +65,10 @@ module('Integration | Component | SessionFinalization::ComplementaryInformationS
     this.set('hasIncidentDuringCertificationSession', hasIncidentDuringCertificationSessionStub);
 
     // when
-    const screen = await renderScreen(hbs`
-        <SessionFinalization::ComplementaryInformationStep
-          @onCheckIncidentDuringCertificationSession={{this.hasIncidentDuringCertificationSession}}
-          @onCheckSessionJoiningIssue={{this.hasIssueWithJoiningSession}}
-        />
-      `);
+    const screen = await renderScreen(hbs`<SessionFinalization::ComplementaryInformationStep
+  @onCheckIncidentDuringCertificationSession={{this.hasIncidentDuringCertificationSession}}
+  @onCheckSessionJoiningIssue={{this.hasIssueWithJoiningSession}}
+/>`);
 
     // then
     assert.false(
@@ -96,12 +90,10 @@ module('Integration | Component | SessionFinalization::ComplementaryInformationS
     this.set('toggleSessionJoiningIssue', toggleSessionJoiningIssueStub);
     this.set('toggleIncidentDuringCertificationSession', toggleIncidentDuringCertificationSessionStub);
 
-    const screen = await renderScreen(hbs`
-        <SessionFinalization::ComplementaryInformationStep
-          @toggleIncidentDuringCertificationSession={{this.toggleIncidentDuringCertificationSession}}
-          @toggleSessionJoiningIssue={{this.toggleSessionJoiningIssue}}
-        />
-      `);
+    const screen = await renderScreen(hbs`<SessionFinalization::ComplementaryInformationStep
+  @toggleIncidentDuringCertificationSession={{this.toggleIncidentDuringCertificationSession}}
+  @toggleSessionJoiningIssue={{this.toggleSessionJoiningIssue}}
+/>`);
 
     // when
     await click(

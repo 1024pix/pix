@@ -17,11 +17,10 @@ module('Integration | Component | issue-report-modal/fraud-certification-issue-r
     this.set('fraudCategory', fraudCategory);
 
     // when
-    const screen = await renderScreen(hbs`
-      <IssueReportModal::FraudCertificationIssueReportFields
-        @fraudCategory={{this.fraudCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-      />`);
+    const screen = await renderScreen(hbs`<IssueReportModal::FraudCertificationIssueReportFields
+  @fraudCategory={{this.fraudCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+/>`);
     await click(screen.getByRole('radio'));
 
     // then
@@ -34,11 +33,10 @@ module('Integration | Component | issue-report-modal/fraud-certification-issue-r
     this.set('fraudCategory', { isChecked: true });
 
     // when
-    const screen = await renderScreen(hbs`
-        <IssueReportModal::FraudCertificationIssueReportFields
-          @fraudCategory={{this.fraudCategory}}
-          @toggleOnCategory={{this.toggleOnCategory}}
-        />`);
+    const screen = await renderScreen(hbs`<IssueReportModal::FraudCertificationIssueReportFields
+  @fraudCategory={{this.fraudCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+/>`);
     await click(screen.getByRole('radio'));
 
     // then

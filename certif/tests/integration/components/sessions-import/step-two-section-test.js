@@ -17,7 +17,12 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
 
     // when
     const { getByText } = await render(
-      hbs`<Import::StepTwoSection @sessionsCount={{this.sessionsCount}} @sessionsWithoutCandidatesCount={{this.sessionsWithoutCandidatesCount}}  @candidatesCount={{this.candidatesCount}} @errorReports={{this.errorReports}}/>`,
+      hbs`<Import::StepTwoSection
+  @sessionsCount={{this.sessionsCount}}
+  @sessionsWithoutCandidatesCount={{this.sessionsWithoutCandidatesCount}}
+  @candidatesCount={{this.candidatesCount}}
+  @errorReports={{this.errorReports}}
+/>`,
     );
 
     // then
@@ -34,7 +39,12 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
 
     // when
     const { getByRole } = await render(
-      hbs`<Import::StepTwoSection @sessionsCount={{this.sessionsCount}} @sessionsWithoutCandidatesCount={{this.sessionsWithoutCandidatesCount}}  @candidatesCount={{this.candidatesCount}} @errorReports={{this.errorReports}}/>`,
+      hbs`<Import::StepTwoSection
+  @sessionsCount={{this.sessionsCount}}
+  @sessionsWithoutCandidatesCount={{this.sessionsWithoutCandidatesCount}}
+  @candidatesCount={{this.candidatesCount}}
+  @errorReports={{this.errorReports}}
+/>`,
     );
 
     // then
@@ -156,9 +166,9 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
         this.set('validateSessions', () => {});
 
         // when
-        const { getByText, getByRole } = await render(hbs`<Import::StepTwoSection
-          @errorReports={{this.errorReports}} @validateSessions={{this.validateSessions}}
-          />`);
+        const { getByText, getByRole } = await render(
+          hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} @validateSessions={{this.validateSessions}} />`,
+        );
 
         await click(getByRole('button', { name: '1 erreur bloquante' }));
 
@@ -175,10 +185,10 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       // when
       const screen = await render(
         hbs`<Import::StepTwoSection
-          @errorReports={{this.errorReports}}
-          @validateSessions={{this.validateSessions}}
-          @isImportDisabled={{true}}
-          />`,
+  @errorReports={{this.errorReports}}
+  @validateSessions={{this.validateSessions}}
+  @isImportDisabled={{true}}
+/>`,
       );
 
       // then
@@ -204,7 +214,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
 
         // when
         const { getByText, getByRole } = await render(
-          hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} @validateSessions={{this.validateSessions}}/>`,
+          hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} @validateSessions={{this.validateSessions}} />`,
         );
 
         await click(getByRole('button', { name: '1 point d’attention non bloquant' }));
@@ -221,7 +231,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
 
       // when
       const { getByRole } = await render(
-        hbs`<Import::StepTwoSection @errorReports={{this.errorReports}}  @validateSessions={{this.validateSessions}}/>`,
+        hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} @validateSessions={{this.validateSessions}} />`,
       );
 
       // then
@@ -234,9 +244,9 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       this.set('validateSessions', () => {});
 
       // when
-      const screen = await render(hbs`<Import::StepTwoSection
-          @errorReports={{this.errorReports}} @validateSessions={{this.validateSessions}}
-          />`);
+      const screen = await render(
+        hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} @validateSessions={{this.validateSessions}} />`,
+      );
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Importer à nouveau' })).exists();
@@ -262,9 +272,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       this.set('errorReports', []);
 
       // when
-      const screen = await render(hbs`<Import::StepTwoSection
-          @errorReports={{this.errorReports}}
-          />`);
+      const screen = await render(hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} />`);
 
       // then
       assert.dom(screen.queryByRole('heading', { name: 'Importer à nouveau' })).doesNotExist();

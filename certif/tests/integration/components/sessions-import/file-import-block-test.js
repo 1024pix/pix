@@ -17,12 +17,12 @@ module('Integration | Component | Import::FileImportBlock', function (hooks) {
     // when
     const screen = await render(
       hbs`<Import::FileImportBlock
-        @preImportSessions={{this.preImportSessions}}
-        @file={{this.file}}
-        @filename={{this.filename}}
-        @removeImport={{this.removeImport}}
-        @buttonLabel="Importer (.csv)"
-      />`,
+  @preImportSessions={{this.preImportSessions}}
+  @file={{this.file}}
+  @filename={{this.filename}}
+  @removeImport={{this.removeImport}}
+  @buttonLabel='Importer (.csv)'
+/>`,
     );
 
     // then

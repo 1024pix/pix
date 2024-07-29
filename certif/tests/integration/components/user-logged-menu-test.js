@@ -32,7 +32,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
 
   test("should display user's firstName and lastName", async function (assert) {
     // when
-    const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
+    const screen = await renderScreen(hbs`<UserLoggedMenu />`);
 
     // then
     assert.dom(screen.getByText('Buffy Summers')).exists();
@@ -44,7 +44,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       currentAllowedCertificationCenterAccess.externalId = '';
 
       // when
-      const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
+      const screen = await renderScreen(hbs`<UserLoggedMenu />`);
 
       // then
       assert.dom(screen.getByText('Sunnydale')).exists();
@@ -57,7 +57,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       currentAllowedCertificationCenterAccess.externalId = 'GILES123';
 
       // when
-      const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
+      const screen = await renderScreen(hbs`<UserLoggedMenu />`);
 
       // then
       assert.dom(screen.getByText('Sunnydale (GILES123)')).exists();
@@ -70,7 +70,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       const userMenuInformation = 'Buffy Summers Sunnydale Ouvrir le menu utilisateur';
 
       // when
-      const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
+      const screen = await renderScreen(hbs`<UserLoggedMenu />`);
       await click(screen.getByRole('button', { name: userMenuInformation }));
       await click(screen.getByRole('button', { name: userMenuInformation }));
 
@@ -83,7 +83,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       const userMenuInformation = 'Buffy Summers Sunnydale Ouvrir le menu utilisateur';
 
       // when
-      const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
+      const screen = await renderScreen(hbs`<UserLoggedMenu />`);
       await click(screen.getByRole('button', { name: userMenuInformation }));
       await click(screen.getByRole('button', { name: userMenuInformation }));
 
@@ -98,7 +98,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       const userMenuInformation = 'Buffy Summers Sunnydale Ouvrir le menu utilisateur';
 
       // when
-      const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
+      const screen = await renderScreen(hbs`<UserLoggedMenu />`);
       await click(screen.getByRole('button', { name: userMenuInformation }));
 
       // then
@@ -107,7 +107,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
 
     test('should display the disconnect link', async function (assert) {
       // when
-      const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
+      const screen = await renderScreen(hbs`<UserLoggedMenu />`);
       await click(screen.getByRole('button', { name: 'Buffy Summers Sunnydale Ouvrir le menu utilisateur' }));
 
       // then
@@ -133,7 +133,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       ]);
 
       // when
-      const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
+      const screen = await renderScreen(hbs`<UserLoggedMenu />`);
       await click(screen.getByRole('button', { name: 'Buffy Summers Sunnydale Ouvrir le menu utilisateur' }));
 
       // then
@@ -158,7 +158,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
 
       // when
       const screen = await renderScreen(
-        hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`,
+        hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}} />`,
       );
       await click(screen.getByRole('button', { name: 'Buffy Summers Sunnydale Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Torreilles (externalId1)' }));
@@ -183,7 +183,7 @@ module('Integration | Component | user-logged-menu', function (hooks) {
 
       // when
       const screen = await renderScreen(
-        hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`,
+        hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}} />`,
       );
       await click(screen.getByRole('button', { name: 'Buffy Summers Sunnydale Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Torreilles (externalId1)' }));

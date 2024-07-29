@@ -22,9 +22,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     });
 
     // when
-    const screen = await renderScreen(hbs`
-      <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-    `);
+    const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
 
     // then
     assert.dom(screen.getByText('Inscription à Super Certification Complémentaire')).exists();
@@ -44,9 +42,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     });
 
     // when
-    const screen = await renderScreen(hbs`
-      <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-    `);
+    const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
 
     // then
     assert.dom(screen.getByText('Zen Whoberi Ben Titan Gamora')).exists();
@@ -78,9 +74,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       });
 
       // when
-      const screen = await renderScreen(hbs`
-        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-      `);
+      const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
 
       // then
       assert.dom(screen.getByText('Lord Star')).exists();
@@ -105,9 +99,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       });
 
       // when
-      const screen = await renderScreen(hbs`
-        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-      `);
+      const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
 
       // then
       assert
@@ -134,11 +126,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         });
         this.toggleCandidate = sinon.spy();
 
-        const screen = await renderScreen(hbs`
-          <SessionSupervising::CandidateInList
-            @candidate={{this.candidate}}
-            @toggleCandidate={{this.toggleCandidate}}
-          />`);
+        const screen = await renderScreen(
+          hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} @toggleCandidate={{this.toggleCandidate}} />`,
+        );
 
         const cancelButton = screen.getByRole('button', {
           name: "Annuler la confirmation de présence de l'élève Toto Tutu",
@@ -167,12 +157,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         });
         this.toggleCandidate = sinon.spy();
 
-        const screen = await renderScreen(hbs`
-          <SessionSupervising::CandidateInList
-            @candidate={{this.candidate}}
-            @toggleCandidate={{this.toggleCandidate}}
-          />
-        `);
+        const screen = await renderScreen(
+          hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} @toggleCandidate={{this.toggleCandidate}} />`,
+        );
         const confirmationButton = screen.getByRole('button', {
           name: "Confirmer la présence de l'élève Toto Tutu",
         });
@@ -199,9 +186,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         });
 
         // when
-        const screen = await renderScreen(hbs`
-          <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-        `);
+        const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
 
         // then
         assert.dom(screen.getByRole('button', { name: "Confirmer la présence de l'élève Toto Tutu" })).exists();
@@ -224,9 +209,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         });
 
         // when
-        const screen = await renderScreen(hbs`
-            <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-          `);
+        const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
 
         // then
         assert
@@ -250,9 +233,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         });
 
         // when
-        const screen = await renderScreen(hbs`
-            <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-          `);
+        const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
 
         // then
         assert
@@ -276,9 +257,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       });
 
       // when
-      const screen = await renderScreen(hbs`
-            <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-          `);
+      const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
 
       // then
       assert
@@ -304,9 +283,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       });
 
       // when
-      const screen = await renderScreen(hbs`
-        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-      `);
+      const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
 
       // then
       assert.dom(screen.getByText('En cours')).exists();
@@ -331,9 +308,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         });
 
         // when
-        const screen = await renderScreen(hbs`
-        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-      `);
+        const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
         await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
 
         // then
@@ -359,9 +334,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         });
 
         // when
-        const screen = await renderScreen(hbs`
-        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-      `);
+        const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
         await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
 
         // then
@@ -383,9 +356,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       });
 
       // when
-      const screen = await renderScreen(hbs`
-        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-      `);
+      const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
 
       // then
       assert
@@ -405,9 +376,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       });
 
       // when
-      const screen = await renderScreen(hbs`
-        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-      `);
+      const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
 
       // then
       assert
@@ -429,9 +398,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       });
 
       // when
-      const screen = await renderScreen(hbs`
-        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-      `);
+      const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
 
       // then
       assert.dom(screen.getByText('Autorisé à reprendre')).exists();
@@ -457,9 +424,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       });
 
       // when
-      const screen = await renderScreen(hbs`
-        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-      `);
+      const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
 
       // then
       assert.dom(screen.getByText('Terminé')).exists();
@@ -488,9 +453,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       });
 
       // when
-      const screen = await renderScreen(hbs`
-              <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-            `);
+      const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
 
       // then
       assert.dom(screen.getByText('Signalement en cours')).exists();
@@ -514,9 +477,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       });
 
       // when
-      const screen = await renderScreen(hbs`
-              <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-            `);
+      const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
       await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
       await click(screen.getByRole('button', { name: 'Gérer le signalement' }));
 

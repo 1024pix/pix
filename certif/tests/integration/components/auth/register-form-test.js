@@ -31,7 +31,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
   test('[a11y] it should display a message that all inputs are required', async function (assert) {
     // when
-    const screen = await render(hbs`<Auth::RegisterForm/>`);
+    const screen = await render(hbs`<Auth::RegisterForm />`);
 
     // then
     assert.dom(screen.getByText('Tous les champs sont obligatoires.')).exists();
@@ -48,7 +48,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     service.currentDomain = { getExtension: sinon.stub().returns('fr') };
 
     // when
-    const screen = await render(hbs`<Auth::RegisterForm/>`);
+    const screen = await render(hbs`<Auth::RegisterForm />`);
 
     // then
     assert
@@ -77,7 +77,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     module('when first name is not valid', () => {
       test('it should display error message', async function (assert) {
         // given
-        const screen = await render(hbs`<Auth::RegisterForm/>`);
+        const screen = await render(hbs`<Auth::RegisterForm />`);
 
         // when
         await fillByLabel(firstNameInputLabel, '');
@@ -92,7 +92,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     module('when last name is not valid', () => {
       test('it should display error message', async function (assert) {
         // given
-        const screen = await render(hbs`<Auth::RegisterForm/>`);
+        const screen = await render(hbs`<Auth::RegisterForm />`);
 
         // when
         await fillByLabel(lastNameInputLabel, '');
@@ -107,7 +107,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     module('when email is not valid', () => {
       test('it should display error message', async function (assert) {
         // given
-        const screen = await render(hbs`<Auth::RegisterForm/>`);
+        const screen = await render(hbs`<Auth::RegisterForm />`);
 
         // when
         await fillByLabel(emailInputLabel, 'incorrectEmailFormat');
@@ -122,7 +122,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     module('when password is not valid', () => {
       test('it should display error message', async function (assert) {
         // given
-        const screen = await render(hbs`<Auth::RegisterForm/>`);
+        const screen = await render(hbs`<Auth::RegisterForm />`);
 
         // when
         await fillByLabel(passwordInputLabel, '');
@@ -137,7 +137,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     module('when cgu have not been accepted', () => {
       test('it should display error message', async function (assert) {
         // given
-        const screen = await render(hbs`<Auth::RegisterForm/>`);
+        const screen = await render(hbs`<Auth::RegisterForm />`);
 
         // when
         await clickByName(cguAriaLabel);

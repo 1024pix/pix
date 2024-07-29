@@ -33,7 +33,7 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
     this.set('sessionForSupervising', sessionForSupervising);
 
     // when
-    const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}}  />`);
+    const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}} />`);
 
     // then
     const termsList = screen.getAllByRole('term');
@@ -70,7 +70,7 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
       this.set('sessionForSupervising', sessionForSupervising);
 
       // when
-      const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}}  />`);
+      const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}} />`);
 
       await click(screen.getByRole('button', { name: 'Quitter la surveillance de la session 12345' }));
       await screen.findByRole('dialog');
@@ -102,7 +102,7 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
       this.set('sessionForSupervising', sessionForSupervising);
 
       // when
-      const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}}  />`);
+      const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}} />`);
 
       await click(screen.getByRole('button', { name: 'Quitter la surveillance de la session 12345' }));
       await screen.findByRole('dialog');
@@ -136,7 +136,7 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
       this.set('sessionForSupervising', sessionForSupervising);
 
       // when
-      const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}}  />`);
+      const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}} />`);
 
       await click(screen.getByRole('button', { name: 'Quitter la surveillance de la session 12345' }));
       await screen.findByRole('dialog');

@@ -30,12 +30,11 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
     this.set('inChallengeCategory', inChallengeCategory);
 
     // when
-    await render(hbs`
-      <IssueReportModal::InChallengeCertificationIssueReportFields
-        @inChallengeCategory={{this.inChallengeCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-      />`);
+    await render(hbs`<IssueReportModal::InChallengeCertificationIssueReportFields
+  @inChallengeCategory={{this.inChallengeCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+  @maxlength={{500}}
+/>`);
 
     await click(
       `[aria-label="${this.intl.t(
@@ -93,12 +92,11 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
       this.set('inChallengeCategory', inChallengeCategory);
 
       // when
-      const screen = await render(hbs`
-      <IssueReportModal::InChallengeCertificationIssueReportFields
-        @inChallengeCategory={{this.inChallengeCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-      />`);
+      const screen = await render(hbs`<IssueReportModal::InChallengeCertificationIssueReportFields
+  @inChallengeCategory={{this.inChallengeCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+  @maxlength={{500}}
+/>`);
 
       await click(
         screen.getByLabelText(this.intl.t('pages.session-finalization.add-issue-modal.actions.select-subcategory')),
@@ -135,11 +133,10 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
     this.set('inChallengeCategory', inChallengeCategory);
 
     // when
-    const screen = await render(hbs`
-      <IssueReportModal::InChallengeCertificationIssueReportFields
-        @inChallengeCategory={{this.inChallengeCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-      />`);
+    const screen = await render(hbs`<IssueReportModal::InChallengeCertificationIssueReportFields
+  @inChallengeCategory={{this.inChallengeCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+/>`);
 
     //
     assert.dom(screen.getByText(`E1-E12`)).exists();
@@ -158,12 +155,11 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
     this.set('inChallengeCategory', inChallengeCategory);
 
     // when
-    const screen = await render(hbs`
-      <IssueReportModal::InChallengeCertificationIssueReportFields
-        @inChallengeCategory={{this.inChallengeCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-      />`);
+    const screen = await render(hbs`<IssueReportModal::InChallengeCertificationIssueReportFields
+  @inChallengeCategory={{this.inChallengeCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+  @maxlength={{500}}
+/>`);
     await click(
       screen.getByLabelText(this.intl.t('pages.session-finalization.add-issue-modal.actions.select-subcategory')),
     );

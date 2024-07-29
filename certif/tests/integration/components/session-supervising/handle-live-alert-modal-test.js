@@ -77,15 +77,13 @@ module('Integration | Component | handle-live-alert-modal', function (hooks) {
       });
 
       // when
-      const screen = await renderScreen(hbs`
-        <SessionSupervising::HandleLiveAlertModal
-          @showModal={{this.isModalDisplayed}}
-          @closeConfirmationModal={{this.closeModal}}
-          @title={{this.candidateFullName}}
-          @rejectLiveAlert={{this.rejectLiveAlert}}
-          @liveAlert={{this.liveAlert}}
-        />
-      `);
+      const screen = await renderScreen(hbs`<SessionSupervising::HandleLiveAlertModal
+  @showModal={{this.isModalDisplayed}}
+  @closeConfirmationModal={{this.closeModal}}
+  @title={{this.candidateFullName}}
+  @rejectLiveAlert={{this.rejectLiveAlert}}
+  @liveAlert={{this.liveAlert}}
+/>`);
 
       // then
       const radioButtons = screen.getAllByRole('radio');
@@ -116,15 +114,13 @@ module('Integration | Component | handle-live-alert-modal', function (hooks) {
     this.set('liveAlert', { status: 'ongoing' });
 
     // when
-    const screen = await renderScreen(hbs`
-        <SessionSupervising::HandleLiveAlertModal
-          @showModal={{this.isModalDisplayed}}
-          @closeConfirmationModal={{this.closeModal}}
-          @title={{this.candidateFullName}}
-          @rejectLiveAlert={{this.rejectLiveAlert}}
-          @liveAlert={{this.liveAlert}}
-        />
-      `);
+    const screen = await renderScreen(hbs`<SessionSupervising::HandleLiveAlertModal
+  @showModal={{this.isModalDisplayed}}
+  @closeConfirmationModal={{this.closeModal}}
+  @title={{this.candidateFullName}}
+  @rejectLiveAlert={{this.rejectLiveAlert}}
+  @liveAlert={{this.liveAlert}}
+/>`);
 
     // then
     assert.dom(screen.getByText('Jean-Paul Candidat')).exists();

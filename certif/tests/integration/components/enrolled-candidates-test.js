@@ -29,14 +29,11 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     this.set('countries', [countries]);
 
     // when
-    const screen = await renderScreen(hbs`
-        <EnrolledCandidates
-          @sessionId="1"
-          @certificationCandidates={{this.certificationCandidates}}
-          @countries={{this.countries}}
-          >
-        </EnrolledCandidates>
-      `);
+    const screen = await renderScreen(hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @countries={{this.countries}}
+/>`);
 
     // then
     assert
@@ -62,15 +59,12 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     this.set('countries', [countries]);
 
     // when
-    const screen = await renderScreen(hbs`
-        <EnrolledCandidates
-          @sessionId="1"
-          @certificationCandidates={{this.certificationCandidates}}
-          @displayComplementaryCertification={{this.displayComplementaryCertification}}
-          @countries={{this.countries}}
-          >
-        </EnrolledCandidates>
-      `);
+    const screen = await renderScreen(hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @displayComplementaryCertification={{this.displayComplementaryCertification}}
+  @countries={{this.countries}}
+/>`);
 
     // then
     assert.dom(screen.getByRole('cell', { name: certificationCandidate.externalId })).exists();
@@ -99,15 +93,12 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     this.set('countries', [countries]);
 
     // when
-    const screen = await renderScreen(hbs`
-        <EnrolledCandidates
-          @sessionId="1"
-          @certificationCandidates={{this.certificationCandidates}}
-          @displayComplementaryCertification={{this.displayComplementaryCertification}}
-          @countries={{this.countries}}
-          >
-        </EnrolledCandidates>
-      `);
+    const screen = await renderScreen(hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @displayComplementaryCertification={{this.displayComplementaryCertification}}
+  @countries={{this.countries}}
+/>`);
 
     // then
     assert.dom(screen.getByRole('cell', { name: '-' })).exists();
@@ -123,14 +114,11 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     this.set('countries', [countries]);
 
     // when
-    const screen = await renderScreen(hbs`
-        <EnrolledCandidates
-          @sessionId="1"
-          @certificationCandidates={{this.certificationCandidates}}
-          @countries={{this.countries}}
-        >
-        </EnrolledCandidates>
-    `);
+    const screen = await renderScreen(hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @countries={{this.countries}}
+/>`);
 
     // then
     assert
@@ -153,14 +141,11 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     this.set('certificationCandidates', certificationCandidates);
 
     // when
-    const screen = await renderScreen(hbs`
-      <EnrolledCandidates
-        @sessionId="1"
-        @certificationCandidates={{this.certificationCandidates}}
-        @countries={{this.countries}}
-        >
-      </EnrolledCandidates>
-    `);
+    const screen = await renderScreen(hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @countries={{this.countries}}
+/>`);
 
     // then
     assert
@@ -190,15 +175,12 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       this.set('certificationCandidates', [certificationCandidate]);
 
       // when
-      const screen = await renderScreen(hbs`
-          <EnrolledCandidates
-            @sessionId="1"
-            @certificationCandidates={{this.certificationCandidates}}
-            @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
-            @countries={{this.countries}}
-            >
-          </EnrolledCandidates>
-        `);
+      const screen = await renderScreen(hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
+  @countries={{this.countries}}
+/>`);
 
       // then
       assert.dom(screen.queryByRole('columnheader', { name: 'Tarification part Pix' })).exists();
@@ -232,15 +214,12 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
         );
 
         // when
-        const screen = await renderScreen(hbs`
-          <EnrolledCandidates
-            @sessionId="1"
-            @certificationCandidates={{this.certificationCandidates}}
-            @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-            @countries={{this.countries}}
-          >
-          </EnrolledCandidates>
-        `);
+        const screen = await renderScreen(hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+  @countries={{this.countries}}
+/>`);
 
         // then
         if (multipleButtonVisible) {
@@ -279,15 +258,12 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       );
 
       // when
-      const screen = await renderScreen(hbs`
-        <EnrolledCandidates
-          @sessionId="1"
-          @certificationCandidates={{this.certificationCandidates}}
-          @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-          @countries={{this.countries}}
-        >
-        </EnrolledCandidates>
-    `);
+      const screen = await renderScreen(hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+  @countries={{this.countries}}
+/>`);
 
       // then
       if (shouldColumnsBeEmpty) {

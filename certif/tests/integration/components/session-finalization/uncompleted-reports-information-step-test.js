@@ -32,13 +32,11 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     this.set('abort', abortStub);
 
     // when
-    const screen = await renderScreen(hbs`
-        <SessionFinalization::UncompletedReportsInformationStep
-          @certificationReports={{this.certificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onChangeAbortReason = {{this.abort}}
-        />
-      `);
+    const screen = await renderScreen(hbs`<SessionFinalization::UncompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+  @onChangeAbortReason={{this.abort}}
+/>`);
 
     // then
     assert
@@ -76,13 +74,11 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     this.set('abort', abortStub);
 
     // when
-    const screen = await renderScreen(hbs`
-        <SessionFinalization::UncompletedReportsInformationStep
-          @certificationReports={{this.certificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onChangeAbortReason = {{this.abort}}
-        />
-      `);
+    const screen = await renderScreen(hbs`<SessionFinalization::UncompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+  @onChangeAbortReason={{this.abort}}
+/>`);
 
     // then
     assert
@@ -111,12 +107,10 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     this.set('abort', abortStub);
 
     // when
-    const screen = await renderScreen(hbs`
-        <SessionFinalization::UncompletedReportsInformationStep
-          @certificationReports={{this.certificationReports}}
-          @onChangeAbortReason = {{this.abort}}
-        />
-      `);
+    const screen = await renderScreen(hbs`<SessionFinalization::UncompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @onChangeAbortReason={{this.abort}}
+/>`);
 
     await click(screen.getByRole('button', { name: "Sélectionner la raison de l'abandon" }));
     await click(
@@ -152,13 +146,11 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     this.set('abort', abortStub);
 
     // when
-    const screen = await renderScreen(hbs`
-        <SessionFinalization::UncompletedReportsInformationStep
-          @certificationReports={{this.certificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onChangeAbortReason = {{this.abort}}
-        />
-      `);
+    const screen = await renderScreen(hbs`<SessionFinalization::UncompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+  @onChangeAbortReason={{this.abort}}
+/>`);
     await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
     await screen.findByRole('dialog');
 
@@ -184,13 +176,11 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     this.set('abort', abortStub);
 
     // when
-    const screen = await renderScreen(hbs`
-        <SessionFinalization::UncompletedReportsInformationStep
-          @certificationReports={{this.certificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onChangeAbortReason = {{this.abort}}
-        />
-      `);
+    const screen = await renderScreen(hbs`<SessionFinalization::UncompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+  @onChangeAbortReason={{this.abort}}
+/>`);
 
     await click(screen.getByRole('button', { name: 'Ajouter' }));
     await screen.findByRole('dialog');
@@ -214,13 +204,11 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     this.abort = sinon.stub();
 
     // when
-    const screen = await renderScreen(hbs`
-      <SessionFinalization::UncompletedReportsInformationStep
-        @certificationReports={{this.certificationReports}}
-        @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-        @onChangeAbortReason={{this.abort}}
-      />
-    `);
+    const screen = await renderScreen(hbs`<SessionFinalization::UncompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+  @onChangeAbortReason={{this.abort}}
+/>`);
 
     // then
     assert
@@ -262,14 +250,12 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
         this.set('session', session);
 
         // when
-        const screen = await renderScreen(hbs`
-        <SessionFinalization::UncompletedReportsInformationStep
-          @certificationReports={{this.certificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onChangeAbortReason = {{this.abort}}
-          @session={{this.session}}
-        />
-      `);
+        const screen = await renderScreen(hbs`<SessionFinalization::UncompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+  @onChangeAbortReason={{this.abort}}
+  @session={{this.session}}
+/>`);
 
         await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
         await screen.findByRole('dialog');
@@ -308,14 +294,12 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
         this.set('session', session);
 
         // when
-        const screen = await renderScreen(hbs`
-        <SessionFinalization::UncompletedReportsInformationStep
-          @certificationReports={{this.certificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onChangeAbortReason = {{this.abort}}
-          @session={{this.session}}
-        />
-      `);
+        const screen = await renderScreen(hbs`<SessionFinalization::UncompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+  @onChangeAbortReason={{this.abort}}
+  @session={{this.session}}
+/>`);
 
         await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
         await screen.findByRole('dialog');
@@ -358,14 +342,12 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
         this.set('session', session);
 
         // when
-        const screen = await renderScreen(hbs`
-        <SessionFinalization::UncompletedReportsInformationStep
-          @certificationReports={{this.certificationReports}}
-          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onChangeAbortReason = {{this.abort}}
-          @session={{this.session}}
-        />
-      `);
+        const screen = await renderScreen(hbs`<SessionFinalization::UncompletedReportsInformationStep
+  @certificationReports={{this.certificationReports}}
+  @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+  @onChangeAbortReason={{this.abort}}
+  @session={{this.session}}
+/>`);
 
         await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
         await screen.findByRole('dialog');

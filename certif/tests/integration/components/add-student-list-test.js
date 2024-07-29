@@ -45,12 +45,9 @@ module('Integration | Component | add-student-list', function (hooks) {
       this.set('divisions', divisions);
 
       // when
-      const screen = await render(hbs`
-        <AddStudentList
-          @studentList={{this.students}}
-          @certificationCenterDivisions={{this.divisions}}
-        />
-      `);
+      const screen = await render(
+        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}} />`,
+      );
       await click(
         screen.getByRole('textbox', { name: 'Filtrer la liste des élèves en cochant la ou les classes souhaitées' }),
       );
@@ -84,7 +81,7 @@ module('Integration | Component | add-student-list', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
+        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}} />`,
       );
 
       // then
@@ -115,7 +112,7 @@ module('Integration | Component | add-student-list', function (hooks) {
       this.set('divisions', divisions);
 
       const screen = await render(
-        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
+        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}} />`,
       );
 
       // when
@@ -144,7 +141,7 @@ module('Integration | Component | add-student-list', function (hooks) {
       this.set('divisions', divisions);
 
       const screen = await render(
-        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
+        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}} />`,
       );
 
       // when
@@ -181,7 +178,7 @@ module('Integration | Component | add-student-list', function (hooks) {
         this.set('divisions', divisions);
 
         const screen = await render(
-          hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
+          hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}} />`,
         );
 
         // when
@@ -210,7 +207,7 @@ module('Integration | Component | add-student-list', function (hooks) {
       this.set('divisions', divisions);
 
       const screen = await render(
-        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
+        hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}} />`,
       );
 
       // when
@@ -248,11 +245,11 @@ module('Integration | Component | add-student-list', function (hooks) {
 
             // when
             const screen = await render(hbs`<AddStudentList
-              @studentList={{this.students}}
-              @session={{this.session}}
-              @certificationCenterDivisions={{this.divisions}}
-              @returnToSessionCandidates={{this.returnToSessionCandidates}}>
-            </AddStudentList>`);
+  @studentList={{this.students}}
+  @session={{this.session}}
+  @certificationCenterDivisions={{this.divisions}}
+  @returnToSessionCandidates={{this.returnToSessionCandidates}}
+/>`);
 
             // then
             assert.dom(screen.queryByText('0 candidat(s) déjà inscrit(s) à la session')).doesNotExist();
@@ -289,12 +286,12 @@ module('Integration | Component | add-student-list', function (hooks) {
 
             // when
             const screen = await render(hbs`<AddStudentList
-              @studentList={{this.students}}
-              @session={{this.session}}
-              @certificationCenterDivisions={{this.divisions}}
-              @returnToSessionCandidates={{this.returnToSessionCandidates}}
-              @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
-            </AddStudentList>`);
+  @studentList={{this.students}}
+  @session={{this.session}}
+  @certificationCenterDivisions={{this.divisions}}
+  @returnToSessionCandidates={{this.returnToSessionCandidates}}
+  @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}
+/>`);
 
             // then
             assert.dom(screen.getByText('0 candidat(s) déjà inscrit(s) à la session')).exists();
@@ -334,12 +331,12 @@ module('Integration | Component | add-student-list', function (hooks) {
           test('it should display a label accordingly', async function (assert) {
             // when
             const screen = await render(hbs`<AddStudentList
-              @studentList={{this.students}}
-              @session={{this.session}}
-              @certificationCenterDivisions={{this.divisions}}
-              @returnToSessionCandidates={{this.returnToSessionCandidates}}
-              @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
-            </AddStudentList>`);
+  @studentList={{this.students}}
+  @session={{this.session}}
+  @certificationCenterDivisions={{this.divisions}}
+  @returnToSessionCandidates={{this.returnToSessionCandidates}}
+  @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}
+/>`);
 
             // then
             assert.dom(screen.getByText('2 candidat(s) déjà inscrit(s) à la session')).exists();
@@ -349,12 +346,12 @@ module('Integration | Component | add-student-list', function (hooks) {
           test('it should disable the "Inscrire" button', async function (assert) {
             // when
             const screen = await render(hbs`<AddStudentList
-              @studentList={{this.students}}
-              @session={{this.session}}
-              @certificationCenterDivisions={{this.divisions}}
-              @returnToSessionCandidates={{this.returnToSessionCandidates}}
-              @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
-            </AddStudentList>`);
+  @studentList={{this.students}}
+  @session={{this.session}}
+  @certificationCenterDivisions={{this.divisions}}
+  @returnToSessionCandidates={{this.returnToSessionCandidates}}
+  @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}
+/>`);
 
             // then
             assert.dom(screen.getByRole('button', { name: 'Inscrire' })).isDisabled();
@@ -393,12 +390,12 @@ module('Integration | Component | add-student-list', function (hooks) {
           test('it should display a label accordingly', async function (assert) {
             // when
             const screen = await render(hbs`<AddStudentList
-              @studentList={{this.students}}
-              @session={{this.session}}
-              @certificationCenterDivisions={{this.divisions}}
-              @returnToSessionCandidates={{this.returnToSessionCandidates}}
-              @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
-            </AddStudentList>`);
+  @studentList={{this.students}}
+  @session={{this.session}}
+  @certificationCenterDivisions={{this.divisions}}
+  @returnToSessionCandidates={{this.returnToSessionCandidates}}
+  @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}
+/>`);
 
             // then
             assert.dom(screen.getByText('2 candidat(s) déjà inscrit(s) à la session')).exists();
@@ -408,12 +405,12 @@ module('Integration | Component | add-student-list', function (hooks) {
           test('it should show "Inscrire" button', async function (assert) {
             // when
             const screen = await render(hbs`<AddStudentList
-              @studentList={{this.students}}
-              @session={{this.session}}
-              @certificationCenterDivisions={{this.divisions}}
-              @returnToSessionCandidates={{this.returnToSessionCandidates}}
-              @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
-            </AddStudentList>`);
+  @studentList={{this.students}}
+  @session={{this.session}}
+  @certificationCenterDivisions={{this.divisions}}
+  @returnToSessionCandidates={{this.returnToSessionCandidates}}
+  @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}
+/>`);
 
             // then
             assert.dom(screen.getByRole('button', { name: 'Inscrire' })).isNotDisabled();
@@ -444,7 +441,11 @@ module('Integration | Component | add-student-list', function (hooks) {
           sinon.stub(store, 'peekAll').withArgs('student').returns(students);
 
           const screen = await render(
-            hbs`<AddStudentList @studentList={{this.students}} @session={{this.session}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
+            hbs`<AddStudentList
+  @studentList={{this.students}}
+  @session={{this.session}}
+  @certificationCenterDivisions={{this.divisions}}
+/>`,
           );
 
           // when
@@ -478,7 +479,11 @@ module('Integration | Component | add-student-list', function (hooks) {
         sinon.stub(store, 'peekAll').withArgs('student').returns(students);
 
         const screen = await render(
-          hbs`<AddStudentList @studentList={{this.students}} @session={{this.session}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
+          hbs`<AddStudentList
+  @studentList={{this.students}}
+  @session={{this.session}}
+  @certificationCenterDivisions={{this.divisions}}
+/>`,
         );
 
         // when

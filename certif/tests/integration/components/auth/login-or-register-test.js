@@ -16,7 +16,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
   test('it should display login-or-register form', async function (assert) {
     // when
-    const screen = await render(hbs`<Auth::LoginOrRegister/>`);
+    const screen = await render(hbs`<Auth::LoginOrRegister />`);
 
     // then
     assert.dom(screen.getByRole('img', { name: 'Pix Certif' })).exists();
@@ -33,7 +33,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
       certificationCenterName: 'Centre de Certif',
     });
 
-    const screen = await render(hbs`<Auth::LoginOrRegister @certificationCenterName='Centre de Certif'/>`);
+    const screen = await render(hbs`<Auth::LoginOrRegister @certificationCenterName='Centre de Certif' />`);
 
     // then
     assert.dom(screen.getByText(invitationMessage)).exists();
@@ -45,7 +45,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
     const firstNameInputLabelFromRegisterForm = this.intl.t('common.labels.candidate.firstname');
 
     // when
-    const screen = await render(hbs`<Auth::LoginOrRegister/>`);
+    const screen = await render(hbs`<Auth::LoginOrRegister />`);
 
     // then
     assert.dom(screen.getByRole('textbox', { name: firstNameInputLabelFromRegisterForm })).exists();
@@ -56,7 +56,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
   test('it toggle the login form on click on login button', async function (assert) {
     // given
     const emailInputLabelFromLoginForm = this.intl.t('common.forms.login.email');
-    const screen = await render(hbs`<Auth::LoginOrRegister/>`);
+    const screen = await render(hbs`<Auth::LoginOrRegister />`);
 
     // when
     await clickByName(loginButton);
@@ -70,7 +70,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
     const emailInputLabelFromRegisterForm = this.intl.t('common.forms.login.email');
     const registerButtonLabel = this.intl.t('pages.login-or-register.register-form.actions.login');
 
-    const screen = await render(hbs`<Auth::LoginOrRegister/>`);
+    const screen = await render(hbs`<Auth::LoginOrRegister />`);
 
     // when
     await clickByName(loginButton);
@@ -94,7 +94,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
       this.owner.register('service:currentDomain', CurrentDomainServiceStub);
 
       // when
-      const screen = await render(hbs`<Auth::LoginOrRegister @certificationCenterName='Centre de Certif'/>`);
+      const screen = await render(hbs`<Auth::LoginOrRegister @certificationCenterName='Centre de Certif' />`);
 
       // then
       assert.dom(screen.queryByRole('button', { name: 'Sélectionnez une langue' })).exists();
@@ -116,7 +116,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
       this.owner.register('service:currentDomain', CurrentDomainServiceStub);
 
       // when
-      const screen = await render(hbs`<Auth::LoginOrRegister @certificationCenterName='Centre de Certif'/>`);
+      const screen = await render(hbs`<Auth::LoginOrRegister @certificationCenterName='Centre de Certif' />`);
 
       // then
       assert.dom(screen.queryByRole('button', { name: 'Sélectionnez une langue' })).doesNotExist();

@@ -202,7 +202,11 @@ module('Integration | Component | MembersListItem', function (hooks) {
               sinon.stub(currentUser, 'certificationPointOfContact').value({ id: memberWithAdminRole.id });
 
               const screen = await renderScreen(
-                hbs`<MembersListItem @member={{this.member}} @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}} @onLeaveCertificationCenterButtonClicked={{this.leaveCertificationCenter}} />`,
+                hbs`<MembersListItem
+  @member={{this.member}}
+  @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}}
+  @onLeaveCertificationCenterButtonClicked={{this.leaveCertificationCenter}}
+/>`,
               );
 
               // when
@@ -230,7 +234,12 @@ module('Integration | Component | MembersListItem', function (hooks) {
                 sinon.stub(currentUser, 'certificationPointOfContact').value({ id: memberWithAdminRole.id });
 
                 await renderScreen(
-                  hbs`<MembersListItem @member={{this.member}} @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}} @onLeaveCertificationCenterButtonClicked={{this.leaveCertificationCenter}}  @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}} />`,
+                  hbs`<MembersListItem
+  @member={{this.member}}
+  @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}}
+  @onLeaveCertificationCenterButtonClicked={{this.leaveCertificationCenter}}
+  @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}}
+/>`,
                 );
 
                 // when

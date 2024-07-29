@@ -30,15 +30,13 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     this.set('onClickDeleteIssueReport', sinon.stub());
 
     // when
-    const screen = await render(hbs`
-    <IssueReportModal::IssueReportsModal
-      @showModal={{true}}
-      @closeModal={{this.closeModal}}
-      @onClickIssueReport={{this.onClickIssueReport}}
-      @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
-      @report={{this.report}}
-      />
-    `);
+    const screen = await render(hbs`<IssueReportModal::IssueReportsModal
+  @showModal={{true}}
+  @closeModal={{this.closeModal}}
+  @onClickIssueReport={{this.onClickIssueReport}}
+  @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
+  @report={{this.report}}
+/>`);
 
     // then
     assert.dom(screen.getByRole('heading', { name: 'Signalement du candidat : Lisa Monpud', level: 1 })).exists();
@@ -69,15 +67,13 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     this.set('onClickDeleteIssueReport', sinon.stub());
 
     // when
-    const screen = await render(hbs`
-    <IssueReportModal::IssueReportsModal
-      @showModal={{true}}
-      @closeModal={{this.closeModal}}
-      @onClickIssueReport={{this.onClickIssueReport}}
-      @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
-      @report={{this.report}}
-      />
-    `);
+    const screen = await render(hbs`<IssueReportModal::IssueReportsModal
+  @showModal={{true}}
+  @closeModal={{this.closeModal}}
+  @onClickIssueReport={{this.onClickIssueReport}}
+  @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
+  @report={{this.report}}
+/>`);
 
     // then
     assert.dom(screen.getByRole('heading', { name: 'Mes signalements (2)', level: 2 })).exists();
@@ -108,15 +104,13 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     this.set('onClickDeleteIssueReport', sinon.stub());
 
     // when
-    const screen = await render(hbs`
-    <IssueReportModal::IssueReportsModal
-      @showModal={{true}}
-      @closeModal={{this.closeModal}}
-      @onClickIssueReport={{this.onClickIssueReport}}
-      @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
-      @report={{this.report}}
-      />
-    `);
+    const screen = await render(hbs`<IssueReportModal::IssueReportsModal
+  @showModal={{true}}
+  @closeModal={{this.closeModal}}
+  @onClickIssueReport={{this.onClickIssueReport}}
+  @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
+  @report={{this.report}}
+/>`);
 
     // then
     assert
@@ -154,15 +148,13 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     this.set('onClickDeleteIssueReport', sinon.stub());
 
     // when
-    const screen = await render(hbs`
-    <IssueReportModal::IssueReportsModal
-      @showModal={{true}}
-      @closeModal={{this.closeModal}}
-      @onClickIssueReport={{this.onClickIssueReport}}
-      @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
-      @report={{this.report}}
-      />
-    `);
+    const screen = await render(hbs`<IssueReportModal::IssueReportsModal
+  @showModal={{true}}
+  @closeModal={{this.closeModal}}
+  @onClickIssueReport={{this.onClickIssueReport}}
+  @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
+  @report={{this.report}}
+/>`);
 
     await click(screen.getByRole('button', { name: 'Fermer' }));
 
@@ -188,15 +180,13 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     this.set('onClickDeleteIssueReport', sinon.stub());
 
     // when
-    const screen = await render(hbs`
-    <IssueReportModal::IssueReportsModal
-      @showModal={{true}}
-      @closeModal={{this.closeModal}}
-      @onClickIssueReport={{this.onClickIssueReport}}
-      @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
-      @report={{this.report}}
-      />
-    `);
+    const screen = await render(hbs`<IssueReportModal::IssueReportsModal
+  @showModal={{true}}
+  @closeModal={{this.closeModal}}
+  @onClickIssueReport={{this.onClickIssueReport}}
+  @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
+  @report={{this.report}}
+/>`);
 
     await click(screen.getByRole('button', { name: 'Ajouter un signalement' }));
 
@@ -228,15 +218,13 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     this.set('onClickDeleteIssueReport', onClickDeleteIssueReport);
 
     // when
-    const screen = await render(hbs`
-    <IssueReportModal::IssueReportsModal
-      @showModal={{true}}
-      @closeModal={{this.closeModal}}
-      @onClickIssueReport={{this.onClickIssueReport}}
-      @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
-      @report={{this.report}}
-      />
-    `);
+    const screen = await render(hbs`<IssueReportModal::IssueReportsModal
+  @showModal={{true}}
+  @closeModal={{this.closeModal}}
+  @onClickIssueReport={{this.onClickIssueReport}}
+  @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
+  @report={{this.report}}
+/>`);
 
     await click(screen.getByRole('button', { name: 'Supprimer le signalement' }));
 

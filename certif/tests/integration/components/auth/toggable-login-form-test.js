@@ -28,7 +28,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
   module('Login Inputs', function () {
     test('it should display email and password inputs', async function (assert) {
       // when
-      const screen = await render(hbs`<Auth::ToggableLoginForm/>`);
+      const screen = await render(hbs`<Auth::ToggableLoginForm />`);
 
       // then
       assert.dom(screen.getByRole('textbox', { name: emailInputLabel })).exists();
@@ -37,7 +37,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
 
     test('[a11y] it should display a message that all inputs are required', async function (assert) {
       // when
-      const screen = await render(hbs`<Auth::ToggableLoginForm/>`);
+      const screen = await render(hbs`<Auth::ToggableLoginForm />`);
 
       // then
       assert.dom(screen.getByText('Tous les champs sont obligatoires.')).exists();
@@ -49,7 +49,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
       test('should display an invalid email error message when focus-out', async function (assert) {
         //given
         const invalidEmail = 'invalidEmail';
-        const screen = await render(hbs`<Auth::ToggableLoginForm/>`);
+        const screen = await render(hbs`<Auth::ToggableLoginForm />`);
 
         // when
         await fillByLabel(emailInputLabel, invalidEmail);
@@ -62,7 +62,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
 
       test('should display an empty password error message when focus-out', async function (assert) {
         //given
-        const screen = await render(hbs`<Auth::ToggableLoginForm/>`);
+        const screen = await render(hbs`<Auth::ToggableLoginForm />`);
 
         // when
         await fillByLabel(passwordInputLabel, '');
@@ -100,7 +100,12 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
       test('it should accept invitation with appropriate parameters', async function (assert) {
         // given
         await render(
-          hbs`<Auth::ToggableLoginForm @isWithInvitation="true" @certificationCenterInvitationId='1' @certificationCenterInvitationCode='C0D3' @certificationCenterInvitation={{this.certificationCenterInvitation}} />`,
+          hbs`<Auth::ToggableLoginForm
+  @isWithInvitation='true'
+  @certificationCenterInvitationId='1'
+  @certificationCenterInvitationCode='C0D3'
+  @certificationCenterInvitation={{this.certificationCenterInvitation}}
+/>`,
         );
 
         // when
@@ -133,7 +138,12 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
           });
 
           const screen = await render(
-            hbs`<Auth::ToggableLoginForm @isWithInvitation="true" @certificationCenterInvitationId='1' @certificationCenterInvitationCode='C0D3' @certificationCenterInvitation={{this.certificationCenterInvitation}} />`,
+            hbs`<Auth::ToggableLoginForm
+  @isWithInvitation='true'
+  @certificationCenterInvitationId='1'
+  @certificationCenterInvitationCode='C0D3'
+  @certificationCenterInvitation={{this.certificationCenterInvitation}}
+/>`,
           );
 
           await fillByLabel(emailInputLabel, 'pix@example.net');
@@ -169,7 +179,12 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
             const sessionServiceObserver = this.owner.lookup('service:session');
 
             await render(
-              hbs`<Auth::ToggableLoginForm @isWithInvitation="true" @certificationCenterInvitationId='1' @certificationCenterInvitationCode='C0D3' @certificationCenterInvitation={{this.certificationCenterInvitation}} />`,
+              hbs`<Auth::ToggableLoginForm
+  @isWithInvitation='true'
+  @certificationCenterInvitationId='1'
+  @certificationCenterInvitationCode='C0D3'
+  @certificationCenterInvitation={{this.certificationCenterInvitation}}
+/>`,
             );
 
             await fillByLabel(emailInputLabel, 'pix@example.net');

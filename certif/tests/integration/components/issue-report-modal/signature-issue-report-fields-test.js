@@ -17,12 +17,11 @@ module('Integration | Component | signature-issue-report-fields', function (hook
     this.set('signatureIssueCategory', signatureIssueCategory);
 
     // when
-    const screen = await render(hbs`
-      <IssueReportModal::SignatureIssueReportFields
-        @signatureIssueCategory={{this.signatureIssueCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-      />`);
+    const screen = await render(hbs`<IssueReportModal::SignatureIssueReportFields
+  @signatureIssueCategory={{this.signatureIssueCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+  @maxlength={{500}}
+/>`);
 
     await click(screen.getByRole('radio'));
 
@@ -40,13 +39,12 @@ module('Integration | Component | signature-issue-report-fields', function (hook
     this.set('updateSignatureIssueCategory', updateSignatureIssueCategory);
 
     // when
-    const screen = await render(hbs`
-      <IssueReportModal::SignatureIssueReportFields
-        @signatureIssueCategory={{this.signatureIssueCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-        @updateSignatureIssueCategoryDescription={{this.updateSignatureIssueCategory}}
-      />`);
+    const screen = await render(hbs`<IssueReportModal::SignatureIssueReportFields
+  @signatureIssueCategory={{this.signatureIssueCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+  @maxlength={{500}}
+  @updateSignatureIssueCategoryDescription={{this.updateSignatureIssueCategory}}
+/>`);
     await click(screen.getByRole('radio'));
 
     // then
@@ -65,13 +63,12 @@ module('Integration | Component | signature-issue-report-fields', function (hook
     this.set('updateSignatureIssueCategory', updateSignatureIssueCategory);
 
     // when
-    const screen = await render(hbs`
-      <IssueReportModal::SignatureIssueReportFields
-        @signatureIssueCategory={{this.signatureIssueCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-        @updateSignatureIssueCategoryDescription={{this.updateSignatureIssueCategory}}
-      />`);
+    const screen = await render(hbs`<IssueReportModal::SignatureIssueReportFields
+  @signatureIssueCategory={{this.signatureIssueCategory}}
+  @toggleOnCategory={{this.toggleOnCategory}}
+  @maxlength={{500}}
+  @updateSignatureIssueCategoryDescription={{this.updateSignatureIssueCategory}}
+/>`);
     await click(screen.getByRole('radio'));
 
     // then
