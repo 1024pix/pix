@@ -2,4 +2,8 @@
   display: flex;
   gap: var(--pix-spacing-2x);
   margin: var(--pix-spacing-8x) 0;
+
+  legend {
+    margin-bottom: var(--pix-spacing-8x);
+  }
 }

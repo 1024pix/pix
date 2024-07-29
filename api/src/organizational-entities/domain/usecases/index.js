@@ -1,6 +1,7 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import * as organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository.js';
 import * as schoolRepository from '../../../school/infrastructure/repositories/school-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -24,6 +25,7 @@ const repositories = {
   organizationForAdminRepository,
   organizationFeatureRepository,
   schoolRepository,
+  organizationTagRepository,
   tagRepository,
 };
 

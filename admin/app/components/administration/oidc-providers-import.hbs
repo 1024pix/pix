@@ -2,8 +2,7 @@
   <header class="page-section__header">
     <h2 class="page-section__title">{{t "components.administration.oidc-providers-import.title"}}</h2>
   </header>
-  <p>{{t "components.administration.oidc-providers-import.description"}}</p>
-  <br />
+  <p class="description">{{t "components.administration.oidc-providers-import.description"}}</p>
   <PixButtonUpload
     @id="oidc-providers-file-upload"
     @onChange={{this.importOidcProviders}}

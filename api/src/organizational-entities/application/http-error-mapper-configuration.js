@@ -7,6 +7,7 @@ import {
   FeatureParamsNotProcessable,
   OrganizationBatchUpdateError,
   OrganizationNotFound,
+  TagNotFoundError,
   UnableToAttachChildOrganizationToParentOrganizationError,
 } from '../domain/errors.js';
 
@@ -22,6 +23,10 @@ const organizationalEntitiesDomainErrorMappingConfiguration = [
   {
     name: OrganizationNotFound.name,
     httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta),
+  },
+  {
+    name: TagNotFoundError.name,
+    httpErrorFn: (error) => new HttpErrors.NotFoundError(error.message, error.code, error.meta),
   },
   {
     name: FeatureNotFound.name,
