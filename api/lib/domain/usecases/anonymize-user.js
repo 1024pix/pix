@@ -1,4 +1,3 @@
-import { anonymizeGeneralizeDate } from '../../../src/shared/infrastructure/utils/date-utils.js';
 import { UserAnonymized } from '../events/UserAnonymized.js';
 
 const anonymizeUser = async function ({
@@ -15,22 +14,6 @@ const anonymizeUser = async function ({
   adminMemberRepository,
 }) {
   const user = await userRepository.get(userId);
-
-  const anonymizedUser = {
-    firstName: '(anonymised)',
-    lastName: '(anonymised)',
-    email: null,
-    emailConfirmedAt: null,
-    username: null,
-    hasBeenAnonymised: true,
-    hasBeenAnonymisedBy: updatedByUserId,
-    lastTermsOfServiceValidatedAt: null,
-    lastPixOrgaTermsOfServiceValidatedAt: null,
-    lastPixCertifTermsOfServiceValidatedAt: null,
-    lastDataProtectionPolicySeenAt: null,
-    createdAt: anonymizeGeneralizeDate(user.createdAt),
-    updatedAt: anonymizeGeneralizeDate(user.updatedAt),
-  };
 
   await authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({ userId });
 
@@ -49,15 +32,9 @@ const anonymizeUser = async function ({
 
   await organizationLearnerRepository.dissociateAllStudentsByUserId({ userId });
 
-  await _anonymizeUserLogin(user.id, userLoginRepository);
+  await _anonymizeUserLogin({ userId, userLoginRepository });
 
-  await userRepository.updateUserDetailsForAdministration(
-    {
-      id: userId,
-      userAttributes: anonymizedUser,
-    },
-    { preventUpdatedAt: true },
-  );
+  await _anonymizeUser({ user, updatedByUserId, userRepository });
 
   const adminMember = await adminMemberRepository.get({ userId: updatedByUserId });
   const event = new UserAnonymized({
@@ -69,13 +46,23 @@ const anonymizeUser = async function ({
   return event;
 };
 
-async function _anonymizeUserLogin(userId, userLoginRepository) {
+async function _anonymizeUserLogin({ userId, userLoginRepository }) {
   const userLogin = await userLoginRepository.findByUserId(userId);
   if (!userLogin) return;
 
   const anonymizedUserLogin = userLogin.anonymize();
 
   await userLoginRepository.update(anonymizedUserLogin, { preventUpdatedAt: true });
+}
+
+async function _anonymizeUser({ user, updatedByUserId, userRepository }) {
+  await userRepository.updateUserDetailsForAdministration(
+    {
+      id: user.id,
+      userAttributes: user.anonymize(updatedByUserId).mapToDatabaseDto(),
+    },
+    { preventUpdatedAt: true },
+  );
 }
 
 export { anonymizeUser };
