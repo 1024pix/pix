@@ -25,7 +25,9 @@ module(
 
           // when
           const screen = await render(
-            hbs`<CertificationBanners::EligibleComplementaryCertificationBanner @complementaryCertifications={{this.eligibleComplementaryCertifications}} />`,
+            hbs`<CertificationBanners::EligibleComplementaryCertificationBanner
+  @complementaryCertifications={{this.eligibleComplementaryCertifications}}
+/>`,
           );
 
           // then
@@ -56,7 +58,9 @@ module(
 
           // when
           const screen = await render(
-            hbs`<CertificationBanners::EligibleComplementaryCertificationBanner @complementaryCertifications={{this.eligibleComplementaryCertifications}} />`,
+            hbs`<CertificationBanners::EligibleComplementaryCertificationBanner
+  @complementaryCertifications={{this.eligibleComplementaryCertifications}}
+/>`,
           );
 
           // then

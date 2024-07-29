@@ -15,7 +15,7 @@ module('Integration | Component | Module | Text', function (hooks) {
     this.set('text', textElement);
 
     //  when
-    const screen = await render(hbs`<Module::Element::Text @text={{this.text}}/>`);
+    const screen = await render(hbs`<Module::Element::Text @text={{this.text}} />`);
 
     // then
     assert.ok(screen);

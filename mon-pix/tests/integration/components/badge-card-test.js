@@ -16,7 +16,12 @@ module('Integration | Component | Badge Card', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<BadgeCard @message={{this.message}} @title={{this.title}} @imageUrl={{this.imageUrl}} @altMessage={{this.altMessage}} />`,
+      hbs`<BadgeCard
+  @message={{this.message}}
+  @title={{this.title}}
+  @imageUrl={{this.imageUrl}}
+  @altMessage={{this.altMessage}}
+/>`,
     );
 
     // then

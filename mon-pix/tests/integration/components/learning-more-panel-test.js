@@ -24,7 +24,7 @@ module('Integration | Component | learning-more-panel', function (hooks) {
       ]);
 
       // when
-      await render(hbs`<LearningMorePanel @learningMoreTutorials={{this.learningMoreTutorials}}/>`);
+      await render(hbs`<LearningMorePanel @learningMoreTutorials={{this.learningMoreTutorials}} />`);
 
       // then
       assert.dom('.learning-more-panel__container').exists({ count: 1 });
@@ -61,7 +61,7 @@ module('Integration | Component | learning-more-panel', function (hooks) {
     this.set('learningMoreTutorials', null);
 
     // when
-    await render(hbs`<LearningMorePanel @learningMoreTutorials={{this.learningMoreTutorials}}/>`);
+    await render(hbs`<LearningMorePanel @learningMoreTutorials={{this.learningMoreTutorials}} />`);
 
     // then
     assert.dom('.learning-more-panel__container').doesNotExist();

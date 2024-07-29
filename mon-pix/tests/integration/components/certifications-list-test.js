@@ -37,7 +37,7 @@ module('Integration | Component | certifications list', function (hooks) {
       this.set('certifications', completedCertifications);
 
       // when
-      await render(hbs`<CertificationsList @certifications={{this.certifications}}/>`);
+      await render(hbs`<CertificationsList @certifications={{this.certifications}} />`);
 
       // then
       assert.strictEqual(findAll('.certifications-list__table-body .certifications-list-item').length, 2);

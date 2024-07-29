@@ -116,7 +116,12 @@ module('Integration | Component | assessment-banner', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<AssessmentBanner @displayHomeLink={{true}} @displayTextToSpeechActivationButton={{true}} @isTextToSpeechActivated={{true}} @toggleTextToSpeech={{this.toggleTextToSpeech}}/>`,
+          hbs`<AssessmentBanner
+  @displayHomeLink={{true}}
+  @displayTextToSpeechActivationButton={{true}}
+  @isTextToSpeechActivated={{true}}
+  @toggleTextToSpeech={{this.toggleTextToSpeech}}
+/>`,
         );
 
         // then
@@ -134,7 +139,12 @@ module('Integration | Component | assessment-banner', function (hooks) {
 
           // when
           const screen = await render(
-            hbs`<AssessmentBanner @displayHomeLink={{true}} @displayTextToSpeechActivationButton={{true}} @isTextToSpeechActivated={{true}} @toggleTextToSpeech={{this.toggleTextToSpeech}}/>`,
+            hbs`<AssessmentBanner
+  @displayHomeLink={{true}}
+  @displayTextToSpeechActivationButton={{true}}
+  @isTextToSpeechActivated={{true}}
+  @toggleTextToSpeech={{this.toggleTextToSpeech}}
+/>`,
           );
 
           // then
@@ -154,7 +164,12 @@ module('Integration | Component | assessment-banner', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<AssessmentBanner @displayHomeLink={{true}} @displayTextToSpeechActivationButton={{false}} @isTextToSpeechActivated={{true}} @toggleTextToSpeech={{this.toggleTextToSpeech}}/>`,
+          hbs`<AssessmentBanner
+  @displayHomeLink={{true}}
+  @displayTextToSpeechActivationButton={{false}}
+  @isTextToSpeechActivated={{true}}
+  @toggleTextToSpeech={{this.toggleTextToSpeech}}
+/>`,
         );
 
         // then
@@ -180,7 +195,12 @@ module('Integration | Component | assessment-banner', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<AssessmentBanner @displayHomeLink={{true}} @displayTextToSpeechActivationButton={{true}} @isTextToSpeechActivated={{true}} @toggleTextToSpeech={{this.toggleTextToSpeech}}/>`,
+        hbs`<AssessmentBanner
+  @displayHomeLink={{true}}
+  @displayTextToSpeechActivationButton={{true}}
+  @isTextToSpeechActivated={{true}}
+  @toggleTextToSpeech={{this.toggleTextToSpeech}}
+/>`,
       );
 
       // then

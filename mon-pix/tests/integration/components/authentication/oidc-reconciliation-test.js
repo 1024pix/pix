@@ -29,7 +29,13 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
 
     //  when
     const screen = await render(
-      hbs`<Authentication::OidcReconciliation @identityProviderSlug={{this.identityProviderSlug}} @authenticationMethods={{this.authenticationMethods}} @fullNameFromPix={{this.fullNameFromPix}} @fullNameFromExternalIdentityProvider={{this.fullNameFromExternalIdentityProvider}} @email={{this.email}}/>`,
+      hbs`<Authentication::OidcReconciliation
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @authenticationMethods={{this.authenticationMethods}}
+  @fullNameFromPix={{this.fullNameFromPix}}
+  @fullNameFromExternalIdentityProvider={{this.fullNameFromExternalIdentityProvider}}
+  @email={{this.email}}
+/>`,
     );
 
     // then

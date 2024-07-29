@@ -29,7 +29,7 @@ module('Integration | Component | Tutorials | Header', function (hooks) {
   module('when shouldShowFilterButton is true', function () {
     test('should render filter button', async function (assert) {
       // when
-      const screen = await render(hbs`<Tutorials::Header @shouldShowFilterButton={{true}}/>`);
+      const screen = await render(hbs`<Tutorials::Header @shouldShowFilterButton={{true}} />`);
 
       // then
       assert.ok(screen.getByRole('button', { name: 'Filtrer' }));
@@ -39,7 +39,7 @@ module('Integration | Component | Tutorials | Header', function (hooks) {
   module('when shouldShowFilterButton is false', function () {
     test('should render filter button', async function (assert) {
       // when
-      const screen = await render(hbs`<Tutorials::Header @shouldShowFilterButton={{false}}/>`);
+      const screen = await render(hbs`<Tutorials::Header @shouldShowFilterButton={{false}} />`);
 
       // then
       assert.notOk(screen.queryByRole('button', { name: 'Filtrer' }));

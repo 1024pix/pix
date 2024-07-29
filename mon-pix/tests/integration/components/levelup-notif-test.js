@@ -25,7 +25,7 @@ module('Integration | Component | levelup-notif', function (hooks) {
     });
 
     // when
-    await render(hbs`<LevelupNotif @level={{this.newLevel}} @competenceName={{this.model.title}}/>`);
+    await render(hbs`<LevelupNotif @level={{this.newLevel}} @competenceName={{this.model.title}} />`);
 
     // then
     assert.strictEqual(

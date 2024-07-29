@@ -143,7 +143,11 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qcm
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then
@@ -169,7 +173,11 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qcm
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then
@@ -196,7 +204,11 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qcm
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then
@@ -217,7 +229,11 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qcm
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then
@@ -240,7 +256,11 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qcm
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then

@@ -26,7 +26,7 @@ module('Integration | Component | certification-starter', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
+        hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
       );
 
       // then
@@ -54,7 +54,7 @@ module('Integration | Component | certification-starter', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
         );
 
         // then
@@ -79,7 +79,7 @@ module('Integration | Component | certification-starter', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
         );
 
         // then
@@ -101,7 +101,7 @@ module('Integration | Component | certification-starter', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
         );
 
         // then
@@ -125,7 +125,7 @@ module('Integration | Component | certification-starter', function (hooks) {
 
         // when
         const screen = await render(
-          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
         );
 
         // then
@@ -175,7 +175,7 @@ module('Integration | Component | certification-starter', function (hooks) {
 
           this.set('certificationCandidateSubscription', { sessionId: 123 });
           await render(
-            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
           );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           routerObserver.replaceWith.returns('ok');
@@ -230,7 +230,10 @@ module('Integration | Component | certification-starter', function (hooks) {
           this.set('certificationCandidateSubscription', { sessionId: 123 });
           this.set('postMessageStub', postMessageStub);
           const screen = await render(
-            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} @postMessage={{this.postMessageStub}}/>`,
+            hbs`<CertificationStarter
+  @certificationCandidateSubscription={{this.certificationCandidateSubscription}}
+  @postMessage={{this.postMessageStub}}
+/>`,
           );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           certificationCourse.save.rejects({ errors: [{ status: '404' }] });
@@ -267,7 +270,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           createRecordStub.returns(certificationCourse);
           this.set('certificationCandidateSubscription', { sessionId: 123 });
           const screen = await render(
-            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
           );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           certificationCourse.save.rejects({ errors: [{ status: '404' }] });
@@ -303,7 +306,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           createRecordStub.returns(certificationCourse);
           this.set('certificationCandidateSubscription', { sessionId: 123 });
           const screen = await render(
-            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
           );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           certificationCourse.save.rejects({ errors: [{ status: '412' }] });
@@ -340,7 +343,7 @@ module('Integration | Component | certification-starter', function (hooks) {
             createRecordStub.returns(certificationCourse);
             this.set('certificationCandidateSubscription', { sessionId: 123 });
             const screen = await render(
-              hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
+              hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
             );
             await fillIn('#certificationStarterSessionCode', 'ABC123');
             certificationCourse.save.rejects({
@@ -382,7 +385,7 @@ module('Integration | Component | certification-starter', function (hooks) {
             createRecordStub.returns(certificationCourse);
             this.set('certificationCandidateSubscription', { sessionId: 123 });
             const screen = await render(
-              hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
+              hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
             );
             await fillIn('#certificationStarterSessionCode', 'ABC123');
             certificationCourse.save.rejects({
@@ -426,7 +429,7 @@ module('Integration | Component | certification-starter', function (hooks) {
             createRecordStub.returns(certificationCourse);
             this.set('certificationCandidateSubscription', { sessionId: 123 });
             const screen = await render(
-              hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
+              hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
             );
             await fillIn('#certificationStarterSessionCode', 'ABC123');
             certificationCourse.save.throws(new Error("Détails de l'erreur à envoyer à Pix"));

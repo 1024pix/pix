@@ -59,7 +59,14 @@ const buildComponentArguments = (
 
 const renderComponent = () =>
   render(
-    hbs`<SolutionPanel::QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @answersEvaluation={{this.answersEvaluation}} @solutionsWithoutGoodAnswers={{this.solutionsWithoutGoodAnswers}} @solutionToDisplay={{this.solutionToDisplay}} />`,
+    hbs`<SolutionPanel::QrocmDepSolutionPanel
+  @challenge={{this.challenge}}
+  @solution={{this.solution}}
+  @answer={{this.answer}}
+  @answersEvaluation={{this.answersEvaluation}}
+  @solutionsWithoutGoodAnswers={{this.solutionsWithoutGoodAnswers}}
+  @solutionToDisplay={{this.solutionToDisplay}}
+/>`,
   );
 
 module('Integration | Component | QROCm dep solution panel', function (hooks) {

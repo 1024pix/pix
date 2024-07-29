@@ -31,7 +31,7 @@ module('Integration | Component | Tooltip', function (hooks) {
           id: 'rec_challenge',
           focused: true,
         });
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
+        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} />`);
       });
 
       test('should render the tooltip with a confirmation button', async function (assert) {
@@ -67,7 +67,7 @@ module('Integration | Component | Tooltip', function (hooks) {
           id: 'rec_challenge',
           focused: true,
         });
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
+        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} />`);
       });
 
       module('when the challenge starts', function () {
@@ -147,7 +147,7 @@ module('Integration | Component | Tooltip', function (hooks) {
           id: 'rec_challenge',
           focused: false,
         });
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
+        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} />`);
       });
 
       test('should render the tooltip with a confirmation button', async function (assert) {
@@ -183,7 +183,7 @@ module('Integration | Component | Tooltip', function (hooks) {
           id: 'rec_challenge',
           focused: false,
         });
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}}/>`);
+        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} />`);
       });
 
       module('when the challenge starts', function () {

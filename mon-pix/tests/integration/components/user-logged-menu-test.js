@@ -24,7 +24,7 @@ module('Integration | Component | user logged menu', function (hooks) {
 
     test('should display logged user name with a11y guidance', async function (assert) {
       // when
-      const screen = await render(hbs`<UserLoggedMenu/>`);
+      const screen = await render(hbs`<UserLoggedMenu />`);
 
       // then
       const buttonMenu = screen.getByRole('button', {
@@ -40,7 +40,7 @@ module('Integration | Component | user logged menu', function (hooks) {
 
     test('should hide user menu, when no action on user-name', async function (assert) {
       // when
-      const screen = await render(hbs`<UserLoggedMenu/>`);
+      const screen = await render(hbs`<UserLoggedMenu />`);
 
       // then
       assert
@@ -59,7 +59,7 @@ module('Integration | Component | user logged menu', function (hooks) {
 
     test('should display a user menu, when user-name is clicked', async function (assert) {
       // when
-      const screen = await render(hbs`<UserLoggedMenu/>`);
+      const screen = await render(hbs`<UserLoggedMenu />`);
       await click(
         screen.getByRole('button', {
           name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
@@ -80,7 +80,7 @@ module('Integration | Component | user logged menu', function (hooks) {
 
     test('should display link to user certifications', async function (assert) {
       // when
-      const screen = await render(hbs`<UserLoggedMenu/>`);
+      const screen = await render(hbs`<UserLoggedMenu />`);
       await click(
         screen.getByRole('button', {
           name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
@@ -93,7 +93,7 @@ module('Integration | Component | user logged menu', function (hooks) {
 
     test('should display link to help center', async function (assert) {
       // when
-      const screen = await render(hbs`<UserLoggedMenu/>`);
+      const screen = await render(hbs`<UserLoggedMenu />`);
       await click(
         screen.getByRole('button', {
           name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
@@ -106,7 +106,7 @@ module('Integration | Component | user logged menu', function (hooks) {
 
     test('should hide user menu, when it was previously open and user-name is clicked one more time', async function (assert) {
       // given
-      const screen = await render(hbs`<UserLoggedMenu/>`);
+      const screen = await render(hbs`<UserLoggedMenu />`);
       const buttonMenu = screen.getByRole('button', {
         name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
       });
@@ -129,7 +129,7 @@ module('Integration | Component | user logged menu', function (hooks) {
 
     test('should hide user menu, when it was previously open and user press key escape', async function (assert) {
       // given
-      const screen = await render(hbs`<UserLoggedMenu/>`);
+      const screen = await render(hbs`<UserLoggedMenu />`);
       const buttonMenu = screen.getByRole('button', {
         name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
       });
@@ -152,7 +152,7 @@ module('Integration | Component | user logged menu', function (hooks) {
 
     test('should hide user menu, when it was previously open and user press shift-tab key', async function (assert) {
       // given
-      const screen = await render(hbs`<UserLoggedMenu/>`);
+      const screen = await render(hbs`<UserLoggedMenu />`);
       const buttonMenu = screen.getByRole('button', {
         name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
       });
@@ -188,7 +188,7 @@ module('Integration | Component | user logged menu', function (hooks) {
 
         test('should display link to user tests', async function (assert) {
           // when
-          const screen = await render(hbs`<UserLoggedMenu/>`);
+          const screen = await render(hbs`<UserLoggedMenu />`);
           await click(
             screen.getByRole('button', {
               name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
@@ -203,7 +203,7 @@ module('Integration | Component | user logged menu', function (hooks) {
       module('when user has no participation', function () {
         test('should not display link to user tests', async function (assert) {
           // when
-          const screen = await render(hbs`<UserLoggedMenu/>`);
+          const screen = await render(hbs`<UserLoggedMenu />`);
           await click(
             screen.getByRole('button', {
               name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
@@ -227,7 +227,7 @@ module('Integration | Component | user logged menu', function (hooks) {
 
     test('should not display user information, for unlogged', async function (assert) {
       // when
-      const screen = await render(hbs`<UserLoggedMenu/>`);
+      const screen = await render(hbs`<UserLoggedMenu />`);
 
       // then
       assert

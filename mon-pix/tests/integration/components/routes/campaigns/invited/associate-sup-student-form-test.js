@@ -33,7 +33,7 @@ module('Integration | Component | routes/campaigns/invited/associate-sup-student
   module('when user fill the form correctly', function () {
     test('should save form', async function (assert) {
       // given
-      const screen = await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
+      const screen = await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}} />`);
 
       // when
       await _fillInputsAndValidate({ screen });
@@ -45,7 +45,7 @@ module('Integration | Component | routes/campaigns/invited/associate-sup-student
 
     test('should transition to fill-in-participant-external-id', async function (assert) {
       // given
-      const screen = await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
+      const screen = await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}} />`);
 
       // when
       await _fillInputsAndValidate({ screen });
@@ -64,7 +64,7 @@ module('Integration | Component | routes/campaigns/invited/associate-sup-student
     test('should display server error', async function (assert) {
       // given
       saveStub.rejects();
-      const screen = await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}}/>`);
+      const screen = await render(hbs`<Routes::Campaigns::Invited::AssociateSupStudentForm @campaignCode={{123}} />`);
 
       // when
       await _fillInputsAndValidate({ screen });

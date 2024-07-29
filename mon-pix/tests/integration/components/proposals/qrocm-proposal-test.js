@@ -20,7 +20,11 @@ module('Integration | Component | QROCm proposal', function (hooks) {
       this.set('answersValue', { potato: null });
       this.set('onChangeSelect', onChangeSelectStub);
       const screen = await render(
-        hbs`<Proposals::QrocmProposal @proposals={{this.proposals}} @answersValue={{this.answersValue}} @onChangeSelect={{this.onChangeSelect}}/>`,
+        hbs`<Proposals::QrocmProposal
+  @proposals={{this.proposals}}
+  @answersValue={{this.answersValue}}
+  @onChangeSelect={{this.onChangeSelect}}
+/>`,
       );
 
       // when

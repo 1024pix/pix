@@ -20,9 +20,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
   }
 
   function renderChallengeStatement() {
-    return render(hbs`<ChallengeStatement
-                          @challenge={{this.challenge}}
-                          @assessment={{this.assessment}}/>`);
+    return render(hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} />`);
   }
 
   hooks.beforeEach(function () {
@@ -112,7 +110,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}}/>`,
+        hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} />`,
       );
 
       // then
@@ -227,11 +225,9 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               });
 
               // when
-              const screen = await render(hbs`<ChallengeStatement
-                          @challenge={{this.challenge}}
-                          @assessment={{this.assessment}}
-                          @isTextToSpeechActivated={{true}}
-                          />`);
+              const screen = await render(
+                hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{true}} />`,
+              );
 
               // then
               assert
@@ -252,11 +248,9 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
                   id: 'rec_challenge1',
                   locales: ['fr'],
                 });
-                const screen = await render(hbs`<ChallengeStatement
-                          @challenge={{this.challenge}}
-                          @assessment={{this.assessment}}
-                          @isTextToSpeechActivated={{true}}
-                          />`);
+                const screen = await render(
+                  hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{true}} />`,
+                );
 
                 // when
                 await click(
@@ -292,11 +286,9 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
                 }
                 this.owner.register('service:metrics', MetricsStubService);
 
-                const screen = await render(hbs`<ChallengeStatement
-                          @challenge={{this.challenge}}
-                          @assessment={{this.assessment}}
-                          @isTextToSpeechActivated={{true}}
-                          />`);
+                const screen = await render(
+                  hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{true}} />`,
+                );
 
                 // when
                 await click(
@@ -326,11 +318,9 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               });
 
               // when
-              const screen = await render(hbs`<ChallengeStatement
-                          @challenge={{this.challenge}}
-                          @assessment={{this.assessment}}
-                          @isTextToSpeechActivated={{false}}
-                          />`);
+              const screen = await render(
+                hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{false}} />`,
+              );
 
               // then
               assert
@@ -355,11 +345,9 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
             });
 
             // when
-            const screen = await render(hbs`<ChallengeStatement
-                          @challenge={{this.challenge}}
-                          @assessment={{this.assessment}}
-                          @isTextToSpeechActivated={{true}}
-                          />`);
+            const screen = await render(
+              hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{true}} />`,
+            );
 
             // then
             assert
@@ -394,11 +382,9 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               });
 
               // when
-              const screen = await render(hbs`<ChallengeStatement
-                          @challenge={{this.challenge}}
-                          @assessment={{this.assessment}}
-                          @isTextToSpeechActivated={{true}}
-                          />`);
+              const screen = await render(
+                hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{true}} />`,
+              );
 
               // then
               assert
@@ -422,11 +408,9 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               });
 
               // when
-              const screen = await render(hbs`<ChallengeStatement
-                          @challenge={{this.challenge}}
-                          @assessment={{this.assessment}}
-                          @isTextToSpeechActivated={{false}}
-                          />`);
+              const screen = await render(
+                hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{false}} />`,
+              );
 
               // then
               assert
@@ -454,11 +438,9 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
           delete window.speechSynthesis;
 
           // when
-          const screen = await render(hbs`<ChallengeStatement
-                    @challenge={{this.challenge}}
-                    @assessment={{this.assessment}}
-                    @isTextToSpeechActivated={{true}}
-                    />`);
+          const screen = await render(
+            hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @isTextToSpeechActivated={{true}} />`,
+          );
 
           // then
           assert

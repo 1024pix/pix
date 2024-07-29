@@ -9,7 +9,7 @@ module('Integration | Component | Skip Link', function (hooks) {
 
   test('displays supplied label and links to the correct anchor', async function (assert) {
     // given & when
-    const screen = await render(hbs`<Skiplink @href="#anchor-link" @label="go-to-link" />`);
+    const screen = await render(hbs`<Skiplink @href='#anchor-link' @label='go-to-link' />`);
 
     // then
     assert.ok(screen.getByRole('link', { name: 'go-to-link' }).hasAttribute('href', '#anchor-link'));

@@ -22,7 +22,7 @@ module('Integration | Component | circle-chart', function (hooks) {
       this.set('value', value);
 
       // when
-      await render(hbs`<CircleChart @value={{this.value}}/>`);
+      await render(hbs`<CircleChart @value={{this.value}} />`);
 
       // then
       assert.strictEqual(
@@ -36,7 +36,7 @@ module('Integration | Component | circle-chart', function (hooks) {
       this.set('value', '60');
 
       // when
-      await render(hbs`<CircleChart @value={{this.value}} @sliceColor='green'/>`);
+      await render(hbs`<CircleChart @value={{this.value}} @sliceColor='green' />`);
 
       // then
       assert.ok(this.element.querySelector('.circle--slice').getAttribute('class').includes('circle--green'));
@@ -47,7 +47,7 @@ module('Integration | Component | circle-chart', function (hooks) {
       this.set('value', '60');
 
       // when
-      await render(hbs`<CircleChart @value={{this.value}} @thicknessClass='circle--thick'/>`);
+      await render(hbs`<CircleChart @value={{this.value}} @thicknessClass='circle--thick' />`);
 
       // then
       assert.ok(this.element.querySelector('.circle').getAttribute('class').includes('circle--thick'));
@@ -56,7 +56,7 @@ module('Integration | Component | circle-chart', function (hooks) {
 
     test('should display the chart with given width and height', async function (assert) {
       // when
-      await render(hbs`<CircleChart @chartClass='circle-chart__content--big'/>`);
+      await render(hbs`<CircleChart @chartClass='circle-chart__content--big' />`);
 
       // then
       assert.ok(

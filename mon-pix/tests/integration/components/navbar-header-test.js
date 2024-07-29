@@ -15,7 +15,7 @@ module('Integration | Component | navbar-header', function (hooks) {
       setBreakpoint('desktop');
 
       // when
-      const screen = await render(hbs`<NavbarHeader/>`);
+      const screen = await render(hbs`<NavbarHeader />`);
 
       // then
       assert.ok(screen.getByRole('link', { name: this.intl.t('common.skip-links.skip-to-content') }));
@@ -53,7 +53,7 @@ module('Integration | Component | navbar-header', function (hooks) {
       this.owner.register('service:session', SessionStub);
 
       // when
-      const screen = await render(hbs`<NavbarHeader/>`);
+      const screen = await render(hbs`<NavbarHeader />`);
 
       // then
       assert.dom(screen.queryByRole('navigation', { name: this.intl.t('navigation.main.label') })).doesNotExist();
@@ -65,7 +65,7 @@ module('Integration | Component | navbar-header', function (hooks) {
       setBreakpoint('tablet');
 
       // when
-      const screen = await render(hbs`<NavbarHeader/>`);
+      const screen = await render(hbs`<NavbarHeader />`);
 
       // then
       assert.ok(screen.getByRole('link', { name: this.intl.t('common.skip-links.skip-to-content') }));

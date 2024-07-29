@@ -17,7 +17,10 @@ module('Integration | Component | routes/campaigns/profiles_collection/send-prof
 
       // when
       const screen = await render(
-        hbs`<Routes::Campaigns::ProfilesCollection::SendProfile @isDisabled={{this.isDisabled}} @campaignParticipation={{this.campaignParticipation}} />`,
+        hbs`<Routes::Campaigns::ProfilesCollection::SendProfile
+  @isDisabled={{this.isDisabled}}
+  @campaignParticipation={{this.campaignParticipation}}
+/>`,
       );
 
       // then
@@ -33,7 +36,11 @@ module('Integration | Component | routes/campaigns/profiles_collection/send-prof
       this.set('sendProfile', sendProfile);
       this.set('campaignParticipation', { isShared: false });
       const screen = await render(
-        hbs`<Routes::Campaigns::ProfilesCollection::SendProfile @isDisabled={{this.isDisabled}} @campaignParticipation={{this.campaignParticipation}} @sendProfile={{this.sendProfile}} />`,
+        hbs`<Routes::Campaigns::ProfilesCollection::SendProfile
+  @isDisabled={{this.isDisabled}}
+  @campaignParticipation={{this.campaignParticipation}}
+  @sendProfile={{this.sendProfile}}
+/>`,
       );
 
       // when

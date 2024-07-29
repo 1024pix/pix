@@ -28,7 +28,7 @@ module('Integration | Component | user certifications detail result', function (
       this.set('certification', certification);
 
       // when
-      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}} />`);
 
       // then
       assert.ok(screen.getByText('Comment for candidate'));
@@ -53,7 +53,7 @@ module('Integration | Component | user certifications detail result', function (
       this.set('certification', certification);
 
       // when
-      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}} />`);
 
       // then
       assert.notOk(screen.queryByRole('heading', { name: this.intl.t('pages.certificate.jury-title') }));
@@ -84,7 +84,7 @@ module('Integration | Component | user certifications detail result', function (
       this.set('certification', certification);
 
       // when
-      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}} />`);
 
       // then
       assert.ok(screen.getByRole('heading', { name: this.intl.t('pages.certificate.complementary.title') }));
@@ -114,7 +114,9 @@ module('Integration | Component | user certifications detail result', function (
         this.set('certification', certification);
 
         // when
-        const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+        const screen = await renderScreen(
+          hbs`<UserCertificationsDetailResult @certification={{this.certification}} />`,
+        );
 
         // then
         assert.ok(screen.getByRole('img', { name: 'Certification complémentaire' }));
@@ -146,7 +148,7 @@ module('Integration | Component | user certifications detail result', function (
 
           // when
           const screen = await renderScreen(
-            hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`,
+            hbs`<UserCertificationsDetailResult @certification={{this.certification}} />`,
           );
 
           // then
@@ -174,7 +176,9 @@ module('Integration | Component | user certifications detail result', function (
         this.set('certification', certification);
 
         // when
-        const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+        const screen = await renderScreen(
+          hbs`<UserCertificationsDetailResult @certification={{this.certification}} />`,
+        );
 
         // then
         assert.notOk(screen.queryByRole('img', { name: 'Certification complémentaire' }));
@@ -201,7 +205,7 @@ module('Integration | Component | user certifications detail result', function (
       this.set('certification', certification);
 
       // when
-      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}} />`);
 
       // then
       assert.notOk(screen.queryByRole('heading', { name: this.intl.t('pages.certificate.complementary.title') }));

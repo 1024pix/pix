@@ -35,7 +35,7 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
         this.set('assessment', mockAssessment);
         this.set('submitLiveAlert', submitLiveAlert);
         const screen = await render(
-          hbs`<FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{this.assessment}}/>`,
+          hbs`<FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{this.assessment}} />`,
         );
 
         // when
@@ -61,7 +61,7 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
           this.set('assessment', mockAssessment);
 
           const screen = await render(
-            hbs`<FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{this.assessment}}/>`,
+            hbs`<FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{this.assessment}} />`,
           );
 
           // then
@@ -82,7 +82,7 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
           this.set('assessment', mockAssessment);
 
           const screen = await render(
-            hbs`<FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{this.assessment}}/>`,
+            hbs`<FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{this.assessment}} />`,
           );
 
           // then

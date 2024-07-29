@@ -12,7 +12,7 @@ module('Integration | Component | Language Switcher', function (hooks) {
   module('when component renders', function () {
     test('displays a button with default option selected', async function (assert) {
       // when
-      const screen = await render(hbs`<LanguageSwitcher @selectedLanguage="en" />`);
+      const screen = await render(hbs`<LanguageSwitcher @selectedLanguage='en' />`);
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Sélectionnez une langue' })).exists();
@@ -22,7 +22,7 @@ module('Integration | Component | Language Switcher', function (hooks) {
   module('when component is clicked', function () {
     test('displays a list of available languages with french language first', async function (assert) {
       // given
-      const screen = await render(hbs`<LanguageSwitcher @selectedLanguage="en" />`);
+      const screen = await render(hbs`<LanguageSwitcher @selectedLanguage='en' />`);
 
       // when
       await click(screen.getByRole('button', { name: 'Sélectionnez une langue' }));
@@ -43,10 +43,9 @@ module('Integration | Component | Language Switcher', function (hooks) {
       // given
       const onLanguageChangeStub = sinon.stub();
       this.set('onLanguageChange', onLanguageChangeStub);
-      const screen = await render(hbs`<LanguageSwitcher
-        @onLanguageChange={{this.onLanguageChange}}
-        @selectedLanguage="en"
-      />`);
+      const screen = await render(
+        hbs`<LanguageSwitcher @onLanguageChange={{this.onLanguageChange}} @selectedLanguage='en' />`,
+      );
 
       // when
       await click(screen.getByRole('button', { name: 'Sélectionnez une langue' }));

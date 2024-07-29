@@ -47,7 +47,11 @@ module('Integration | Component | authentication | login-or-register-oidc', func
     test('should display elements for OIDC identity provider', async function (assert) {
       // given & when
       const screen = await render(
-        hbs`<Authentication::LoginOrRegisterOidc @identityProviderSlug={{this.identityProviderSlug}} @givenName={{this.givenName}} @familyName={{this.familyName}}/>`,
+        hbs`<Authentication::LoginOrRegisterOidc
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @givenName={{this.givenName}}
+  @familyName={{this.familyName}}
+/>`,
       );
 
       // then
@@ -83,7 +87,11 @@ module('Integration | Component | authentication | login-or-register-oidc', func
     test('should display elements for OIDC identity provider', async function (assert) {
       // given & when
       const screen = await render(
-        hbs`<Authentication::LoginOrRegisterOidc @identityProviderSlug={{this.identityProviderSlug}} @givenName={{this.givenName}} @familyName={{this.familyName}}/>`,
+        hbs`<Authentication::LoginOrRegisterOidc
+  @identityProviderSlug={{this.identityProviderSlug}}
+  @givenName={{this.givenName}}
+  @familyName={{this.familyName}}
+/>`,
       );
 
       // then

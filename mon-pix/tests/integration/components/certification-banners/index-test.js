@@ -33,7 +33,11 @@ module('Integration | Component | Certification Banners | index.js', function (h
 
       // when
       const screen = await render(
-        hbs`<CertificationBanners @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`,
+        hbs`<CertificationBanners
+  @certificationEligibility={{this.certificationEligibility}}
+  @fullName={{this.fullName}}
+  @closeBanner={{this.closeBanner}}
+/>`,
       );
 
       // then
@@ -66,7 +70,11 @@ module('Integration | Component | Certification Banners | index.js', function (h
 
         // when
         const screen = await render(
-          hbs`<CertificationBanners @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`,
+          hbs`<CertificationBanners
+  @certificationEligibility={{this.certificationEligibility}}
+  @fullName={{this.fullName}}
+  @closeBanner={{this.closeBanner}}
+/>`,
         );
 
         // then
@@ -103,7 +111,11 @@ module('Integration | Component | Certification Banners | index.js', function (h
 
         // when
         const screen = await render(
-          hbs`<CertificationBanners @certificationEligibility={{this.certificationEligibility}} @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`,
+          hbs`<CertificationBanners
+  @certificationEligibility={{this.certificationEligibility}}
+  @fullName={{this.fullName}}
+  @closeBanner={{this.closeBanner}}
+/>`,
         );
 
         // then

@@ -8,7 +8,7 @@ module('Integration | Component | challenge actions', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('renders', async function (assert) {
-    await render(hbs`<ChallengeActions/>`);
+    await render(hbs`<ChallengeActions />`);
     assert.dom('.challenge-actions__group').exists();
   });
 
@@ -22,10 +22,11 @@ module('Integration | Component | challenge actions', function (hooks) {
 
       // when
       await render(hbs`<ChallengeActions
-                          @validateAnswer={{this.validateActionStub}}
-                          @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
-                          @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-                          @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>`);
+  @validateAnswer={{this.validateActionStub}}
+  @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+  @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
+  @isSkipButtonEnabled={{this.isSkipButtonEnabled}}
+/>`);
 
       // then
       assert.dom('.challenge-actions__action-validated').doesNotExist();
@@ -49,13 +50,14 @@ module('Integration | Component | challenge actions', function (hooks) {
 
           // when
           await render(hbs`<ChallengeActions
-                            @isCertification={{this.isCertification}}
-                            @validateAnswer={{this.validateActionStub}}
-                            @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
-                            @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-                            @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
-                            @isSkipButtonEnabled={{this.isSkipButtonEnabled}}
-                            @certificationVersion={{this.certificationVersion}}/>`);
+  @isCertification={{this.isCertification}}
+  @validateAnswer={{this.validateActionStub}}
+  @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
+  @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
+  @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+  @isSkipButtonEnabled={{this.isSkipButtonEnabled}}
+  @certificationVersion={{this.certificationVersion}}
+/>`);
 
           // then
           assert.dom('[data-test="default-focused-out-error-message"]').doesNotExist();
@@ -77,13 +79,14 @@ module('Integration | Component | challenge actions', function (hooks) {
 
           // when
           await render(hbs`<ChallengeActions
-                            @isCertification={{this.isCertification}}
-                            @validateAnswer={{this.validateActionStub}}
-                            @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
-                            @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-                            @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
-                            @isSkipButtonEnabled={{this.isSkipButtonEnabled}}
-                            @certificationVersion={{this.certificationVersion}}/>`);
+  @isCertification={{this.isCertification}}
+  @validateAnswer={{this.validateActionStub}}
+  @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
+  @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
+  @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+  @isSkipButtonEnabled={{this.isSkipButtonEnabled}}
+  @certificationVersion={{this.certificationVersion}}
+/>`);
 
           // then
           assert.dom('[data-test="default-focused-out-error-message"]').doesNotExist();
@@ -105,12 +108,13 @@ module('Integration | Component | challenge actions', function (hooks) {
 
         // when
         await render(hbs`<ChallengeActions
-                            @isCertification={{this.isCertification}}
-                            @validateAnswer={{this.validateActionStub}}
-                            @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
-                            @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-                            @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
-                            @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>`);
+  @isCertification={{this.isCertification}}
+  @validateAnswer={{this.validateActionStub}}
+  @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
+  @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
+  @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+  @isSkipButtonEnabled={{this.isSkipButtonEnabled}}
+/>`);
 
         // then
         assert.dom('[data-test="certification-focused-out-error-message"]').doesNotExist();

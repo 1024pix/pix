@@ -28,7 +28,7 @@ module('Integration | Component | navbar-burger-menu', function (hooks) {
 
   test('should display the navigation menu with "Home", "Skills", "Certification", "My tutorials" and "I have a code" links', async function (assert) {
     // when
-    const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}}/>`);
+    const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}} />`);
 
     // then
     assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.main.code') }));
@@ -40,7 +40,7 @@ module('Integration | Component | navbar-burger-menu', function (hooks) {
 
   test('should display the user menu with "My account", "My certifications", "Help", "Log-out" links', async function (assert) {
     // when
-    const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}}/>`);
+    const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}} />`);
 
     // then
     assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.user.account') }));
@@ -64,7 +64,7 @@ module('Integration | Component | navbar-burger-menu', function (hooks) {
 
     test('should display "My tests" link', async function (assert) {
       // when
-      const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}}/>`);
+      const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}} />`);
 
       // then
       assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.user.tests') }));

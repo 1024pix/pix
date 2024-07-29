@@ -23,7 +23,11 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
 
       // when
       const screen = await render(
-        hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @existingEmail={{this.existingEmail}} @resetErrors={{this.resetErrors}}/>`,
+        hbs`<AccountRecovery::BackupEmailConfirmationForm
+  @firstName={{this.firstName}}
+  @existingEmail={{this.existingEmail}}
+  @resetErrors={{this.resetErrors}}
+/>`,
       );
 
       // then
@@ -180,7 +184,7 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       const email = '';
 
       const screen = await render(
-        hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}}/>`,
+        hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}} />`,
       );
       const emailInput = screen.getByRole('textbox', {
         name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
@@ -231,7 +235,11 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       this.set('sendEmail', () => {});
       const email = 'Philipe@example.net';
       const screen = await render(
-        hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}} @sendEmail={{this.sendEmail}}/>`,
+        hbs`<AccountRecovery::BackupEmailConfirmationForm
+  @firstName={{this.firstName}}
+  @resetErrors={{this.resetErrors}}
+  @sendEmail={{this.sendEmail}}
+/>`,
       );
 
       // when

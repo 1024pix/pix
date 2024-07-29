@@ -28,7 +28,11 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
 
       // given
       await render(
-        hbs`<Routes::Campaigns::Invited::FillInParticipantExternalId @campaign={{this.campaign}} @onSubmit={{this.onSubmitStub}} @onCancel={{this.onCancelStub}}/>`,
+        hbs`<Routes::Campaigns::Invited::FillInParticipantExternalId
+  @campaign={{this.campaign}}
+  @onSubmit={{this.onSubmitStub}}
+  @onCancel={{this.onCancelStub}}
+/>`,
       );
 
       // then
@@ -47,7 +51,11 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
 
       // given
       await render(
-        hbs`<Routes::Campaigns::Invited::FillInParticipantExternalId @campaign={{this.campaign}} @onSubmit={{this.onSubmitStub}} @onCancel={{this.onCancelStub}}/>`,
+        hbs`<Routes::Campaigns::Invited::FillInParticipantExternalId
+  @campaign={{this.campaign}}
+  @onSubmit={{this.onSubmitStub}}
+  @onCancel={{this.onCancelStub}}
+/>`,
       );
 
       // then

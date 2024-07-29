@@ -36,11 +36,9 @@ module('Integration | Component | Campaign | Skill Review | share-badge-icons', 
     this.set('model', model);
 
     // when
-    const screen = await render(hbs`
-        <Campaigns::Assessment::SkillReview::ShareBadgeIcons
-          @badges={{this.model.campaignParticipationResult.campaignParticipationBadges}}
-        />
-      `);
+    const screen = await render(hbs`<Campaigns::Assessment::SkillReview::ShareBadgeIcons
+  @badges={{this.model.campaignParticipationResult.campaignParticipationBadges}}
+/>`);
 
     // then
     assert.strictEqual(screen.getAllByRole('listitem').length, 4);
@@ -57,11 +55,9 @@ module('Integration | Component | Campaign | Skill Review | share-badge-icons', 
     this.set('model', model);
 
     // when
-    const screen = await render(hbs`
-        <Campaigns::Assessment::SkillReview::ShareBadgeIcons
-          @badges={{this.model.campaignParticipationResult.campaignParticipationBadges}}
-        />
-      `);
+    const screen = await render(hbs`<Campaigns::Assessment::SkillReview::ShareBadgeIcons
+  @badges={{this.model.campaignParticipationResult.campaignParticipationBadges}}
+/>`);
 
     // then
     assert.strictEqual(screen.queryByRole('list'), null);

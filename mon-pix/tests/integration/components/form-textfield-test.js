@@ -31,7 +31,12 @@ module('Integration | Component | form textfield', function (hooks) {
 
       // When
       await render(
-        hbs`<FormTextfield @label={{this.label}} @validationStatus={{this.validationStatus}} @validationMessage={{this.validationMessage}} @textfieldName={{this.textfieldName}}/>`,
+        hbs`<FormTextfield
+  @label={{this.label}}
+  @validationStatus={{this.validationStatus}}
+  @validationMessage={{this.validationMessage}}
+  @textfieldName={{this.textfieldName}}
+/>`,
       );
     });
 
@@ -76,7 +81,13 @@ module('Integration | Component | form textfield', function (hooks) {
       this.set('textfieldName', 'firstname');
 
       await render(
-        hbs`<FormTextfield @label={{this.label}} @validationStatus={{this.validationStatus}} @validationMessage={{this.validationMessage}} @textfieldName={{this.textfieldName}} @onValidate={{this.validate}}/>`,
+        hbs`<FormTextfield
+  @label={{this.label}}
+  @validationStatus={{this.validationStatus}}
+  @validationMessage={{this.validationMessage}}
+  @textfieldName={{this.textfieldName}}
+  @onValidate={{this.validate}}
+/>`,
       );
 
       // when
@@ -97,7 +108,12 @@ module('Integration | Component | form textfield', function (hooks) {
 
         // When
         await render(
-          hbs`<FormTextfield @label={{this.label}} @validationStatus={{this.validationStatus}} @validationMessage={{this.validationMessage}} @textfieldName={{this.textfieldName}}/>`,
+          hbs`<FormTextfield
+  @label={{this.label}}
+  @validationStatus={{this.validationStatus}}
+  @validationMessage={{this.validationMessage}}
+  @textfieldName={{this.textfieldName}}
+/>`,
         );
       });
 
@@ -123,7 +139,12 @@ module('Integration | Component | form textfield', function (hooks) {
 
         // When
         await render(
-          hbs`<FormTextfield @label={{this.label}} @validationStatus={{this.validationStatus}} @validationMessage={{this.validationMessage}} @textfieldName={{this.textfieldName}}/>`,
+          hbs`<FormTextfield
+  @label={{this.label}}
+  @validationStatus={{this.validationStatus}}
+  @validationMessage={{this.validationMessage}}
+  @textfieldName={{this.textfieldName}}
+/>`,
         );
       });
 
@@ -153,7 +174,12 @@ module('Integration | Component | form textfield', function (hooks) {
 
         // When
         await render(
-          hbs`<FormTextfield @label={{this.label}} @validationStatus={{this.validationStatus}} @validationMessage={{this.validationMessage}} @textfieldName={{this.textfieldName}}/>`,
+          hbs`<FormTextfield
+  @label={{this.label}}
+  @validationStatus={{this.validationStatus}}
+  @validationMessage={{this.validationMessage}}
+  @textfieldName={{this.textfieldName}}
+/>`,
         );
       });
 
@@ -183,7 +209,13 @@ module('Integration | Component | form textfield', function (hooks) {
 
         // given
         await render(
-          hbs`<FormTextfield @label={{this.label}} @validationStatus={{this.validationStatus}} @validationMessage={{this.validationMessage}} @textfieldName={{this.textfieldName}} @inputValue={{this.inputValue}}/>`,
+          hbs`<FormTextfield
+  @label={{this.label}}
+  @validationStatus={{this.validationStatus}}
+  @validationMessage={{this.validationMessage}}
+  @textfieldName={{this.textfieldName}}
+  @inputValue={{this.inputValue}}
+/>`,
         );
       });
 

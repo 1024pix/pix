@@ -22,7 +22,12 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
 
       // when
       await render(
-        hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @onSubmit={{this.onSubmit}} @onClose={{this.onClose}} @areas={{this.areas}}/>`,
+        hbs`<UserTutorials::Filters::Sidebar
+  @isVisible={{this.isVisible}}
+  @onSubmit={{this.onSubmit}}
+  @onClose={{this.onClose}}
+  @areas={{this.areas}}
+/>`,
       );
 
       // then
@@ -43,7 +48,12 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
 
         // when
         const screen = await render(
-          hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @onSubmit={{this.onSubmit}} @onClose={{this.onClose}} @areas={{this.areas}}/>`,
+          hbs`<UserTutorials::Filters::Sidebar
+  @isVisible={{this.isVisible}}
+  @onSubmit={{this.onSubmit}}
+  @onClose={{this.onClose}}
+  @areas={{this.areas}}
+/>`,
         );
         await click(screen.getByRole('button', { name: 'Area 1' }));
         const checkbox = screen.getByRole('checkbox', { name: 'Ma superbe compétence' });
@@ -69,7 +79,12 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
 
           // when
           const screen = await render(
-            hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @onSubmit={{this.onSubmit}} @onClose={{this.onClose}} @areas={{this.areas}}/>`,
+            hbs`<UserTutorials::Filters::Sidebar
+  @isVisible={{this.isVisible}}
+  @onSubmit={{this.onSubmit}}
+  @onClose={{this.onClose}}
+  @areas={{this.areas}}
+/>`,
           );
           await click(screen.getByRole('button', { name: 'Area 1' }));
           const checkbox = screen.getByRole('checkbox', { name: 'Ma superbe compétence' });
@@ -96,7 +111,12 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
 
       // when
       await render(
-        hbs`<UserTutorials::Filters::Sidebar @isVisible={{this.isVisible}} @onSubmit={{this.onSubmit}} @onClose={{this.onClose}} @areas={{this.areas}}/>`,
+        hbs`<UserTutorials::Filters::Sidebar
+  @isVisible={{this.isVisible}}
+  @onSubmit={{this.onSubmit}}
+  @onClose={{this.onClose}}
+  @areas={{this.areas}}
+/>`,
       );
 
       // then

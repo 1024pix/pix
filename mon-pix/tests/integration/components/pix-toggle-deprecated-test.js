@@ -18,7 +18,11 @@ module('Integration | Component | pix-toggle-deprecated', function (hooks) {
     this.set('isFirstOn', 'true');
 
     await render(
-      hbs`<PixToggleDeprecated @onToggle={{this.onToggle}} @valueFirstLabel={{this.valueFirstLabel}} @valueSecondLabel={{this.valueSecondLabel}} />`,
+      hbs`<PixToggleDeprecated
+  @onToggle={{this.onToggle}}
+  @valueFirstLabel={{this.valueFirstLabel}}
+  @valueSecondLabel={{this.valueSecondLabel}}
+/>`,
     );
   });
 

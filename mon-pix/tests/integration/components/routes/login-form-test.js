@@ -12,7 +12,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
 
   test('should ask for login and password', async function (assert) {
     // when
-    const screen = await render(hbs`<Routes::LoginForm/>`);
+    const screen = await render(hbs`<Routes::LoginForm />`);
 
     // then
     assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' })).exists();
@@ -33,7 +33,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
     }
     this.owner.register('service:session', SessionStub);
 
-    const screen = await render(hbs`<Routes::LoginForm/>`);
+    const screen = await render(hbs`<Routes::LoginForm />`);
     await fillByLabel('Adresse e-mail ou identifiant', 'pix@example.net');
     await fillByLabel('Mot de passe', 'Mauvais mot de passe');
 
@@ -46,7 +46,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
 
   test('should display password when user click', async function (assert) {
     // given
-    const screen = await render(hbs`<Routes::LoginForm/>`);
+    const screen = await render(hbs`<Routes::LoginForm />`);
     const passwordInput = screen.getByLabelText('Mot de passe');
     await fillIn(passwordInput, 'pix123');
 
@@ -67,7 +67,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       const sessionServiceObserver = this.owner.lookup('service:session');
 
       // when
-      const screen = await render(hbs`<Routes::LoginForm/>`);
+      const screen = await render(hbs`<Routes::LoginForm />`);
       await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), 'pix@example.net');
       await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
       await click(screen.getByRole('button', { name: this.intl.t('pages.login-or-register.login-form.button') }));
@@ -93,7 +93,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       const sessionServiceObserver = this.owner.lookup('service:session');
 
       //  when
-      const screen = await render(hbs`<Routes::LoginForm/>`);
+      const screen = await render(hbs`<Routes::LoginForm />`);
       await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), 'pix@example.net');
       await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
       await click(screen.getByRole('button', { name: this.intl.t('pages.login-or-register.login-form.button') }));
@@ -136,7 +136,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       routerObserver.replaceWith = sinon.stub();
 
       // when
-      const screen = await render(hbs`<Routes::LoginForm/>`);
+      const screen = await render(hbs`<Routes::LoginForm />`);
       await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), 'pix@example.net');
       await fillIn(screen.getByLabelText('Mot de passe'), 'Mauvais mot de passe');
       await click(screen.getByRole('button', { name: this.intl.t('pages.login-or-register.login-form.button') }));

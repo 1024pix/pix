@@ -28,7 +28,7 @@ module('Integration | Component | progress-bar', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<ProgressBar @assessment={{ this.assessment }} @currentChallengeNumber={{ this.currentChallengeNumber }} />`,
+      hbs`<ProgressBar @assessment={{this.assessment}} @currentChallengeNumber={{this.currentChallengeNumber}} />`,
     );
 
     // then

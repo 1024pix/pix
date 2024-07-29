@@ -28,7 +28,8 @@ module(
         // when
         const screen = await render(
           hbs`<CertificationBanners::OutdatedComplementaryCertificationBanner
-          @complementaryCertifications={{this.outdatedLowerLevelComplementaryCertifications}} />`,
+  @complementaryCertifications={{this.outdatedLowerLevelComplementaryCertifications}}
+/>`,
         );
 
         // then

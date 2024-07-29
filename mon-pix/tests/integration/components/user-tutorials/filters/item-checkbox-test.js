@@ -19,11 +19,11 @@ module('Integration | Component | User-Tutorials | Filters | ItemCheckbox', func
       // when
       await render(
         hbs`<UserTutorials::Filters::ItemCheckbox
-              @type="competences"
-              @item={{this.item}}
-              @currentFilters={{this.currentFilters}}
-              @handleFilterChange={{this.handleFilterChange}}
-            />`,
+  @type='competences'
+  @item={{this.item}}
+  @currentFilters={{this.currentFilters}}
+  @handleFilterChange={{this.handleFilterChange}}
+/>`,
       );
 
       // then
@@ -41,11 +41,11 @@ module('Integration | Component | User-Tutorials | Filters | ItemCheckbox', func
       // when
       await render(
         hbs`<UserTutorials::Filters::ItemCheckbox
-              @type="competences"
-              @item={{this.item}}
-              @currentFilters={{this.currentFilters}}
-              @handleFilterChange={{this.handleFilterChange}}
-            />`,
+  @type='competences'
+  @item={{this.item}}
+  @currentFilters={{this.currentFilters}}
+  @handleFilterChange={{this.handleFilterChange}}
+/>`,
       );
 
       // then

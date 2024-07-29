@@ -133,7 +133,11 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qcu
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then
@@ -158,7 +162,11 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qcu
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then
@@ -183,7 +191,11 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qcu
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then
@@ -204,7 +216,11 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qcu
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then
@@ -227,7 +243,11 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qcu
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then

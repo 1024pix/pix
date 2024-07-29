@@ -17,7 +17,7 @@ module('Integration | Component | challenge-illustration', function (hooks) {
     this.set('alt', imageAlternativeText);
 
     // when
-    const screen = await render(hbs`<ChallengeIllustration @src={{this.src}} @alt={{this.alt}}/>`);
+    const screen = await render(hbs`<ChallengeIllustration @src={{this.src}} @alt={{this.alt}} />`);
 
     // then
     const hiddenImage = await screen.getByAltText(imageAlternativeText);
@@ -40,7 +40,7 @@ module('Integration | Component | challenge-illustration', function (hooks) {
     this.set('alt', imageAlternativeText);
 
     // when
-    const screen = await render(hbs`<ChallengeIllustration @src={{this.src}} @alt={{this.alt}}/>`);
+    const screen = await render(hbs`<ChallengeIllustration @src={{this.src}} @alt={{this.alt}} />`);
 
     // then
     const hiddenImage = await screen.getByAltText('');

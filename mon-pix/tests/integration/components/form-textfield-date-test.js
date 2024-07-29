@@ -37,20 +37,20 @@ module('Integration | Component | form textfield date', function (hooks) {
 
       // When
       await render(hbs`<FormTextfieldDate
-        @label={{this.label}}
-        @dayValidationStatus={{this.dayValidationStatus}}
-        @monthValidationStatus={{this.monthValidationStatus}}
-        @yearValidationStatus={{this.yearValidationStatus}}
-        @dayValidationMessage={{this.dayValidationMessage}}
-        @monthValidationMessage={{this.monthValidationMessage}}
-        @yearValidationMessage={{this.yearValidationMessage}}
-        @dayTextfieldName={{this.dayTextfieldName}}
-        @monthTextfieldName={{this.monthTextfieldName}}
-        @yearTextfieldName={{this.yearTextfieldName}}
-        @onValidateDay={{this.validateStub}}
-        @onValidateMonth={{this.validateStub}}
-        @onValidateYear={{this.validateStub}}
-      />`);
+  @label={{this.label}}
+  @dayValidationStatus={{this.dayValidationStatus}}
+  @monthValidationStatus={{this.monthValidationStatus}}
+  @yearValidationStatus={{this.yearValidationStatus}}
+  @dayValidationMessage={{this.dayValidationMessage}}
+  @monthValidationMessage={{this.monthValidationMessage}}
+  @yearValidationMessage={{this.yearValidationMessage}}
+  @dayTextfieldName={{this.dayTextfieldName}}
+  @monthTextfieldName={{this.monthTextfieldName}}
+  @yearTextfieldName={{this.yearTextfieldName}}
+  @onValidateDay={{this.validateStub}}
+  @onValidateMonth={{this.validateStub}}
+  @onValidateYear={{this.validateStub}}
+/>`);
     });
 
     [
@@ -102,23 +102,23 @@ module('Integration | Component | form textfield date', function (hooks) {
       this.set('yearOfBirth', inputValueToValidate['year']);
 
       await render(hbs`<FormTextfieldDate
-        @label={{this.label}}
-        @dayInputBindingValue={{this.dayOfBirth}}
-        @monthInputBindingValue={{this.monthOfBirth}}
-        @yearInputBindingValue={{this.yearOfBirth}}
-        @dayValidationStatus={{this.dayValidationStatus}}
-        @monthValidationStatus={{this.monthValidationStatus}}
-        @yearValidationStatus={{this.yearValidationStatus}}
-        @dayValidationMessage={{this.dayValidationMessage}}
-        @monthValidationMessage={{this.monthValidationMessage}}
-        @yearValidationMessage={{this.yearValidationMessage}}
-        @dayTextfieldName={{this.dayTextfieldName}}
-        @monthTextfieldName={{this.monthTextfieldName}}
-        @yearTextfieldName={{this.yearTextfieldName}}
-        @onValidateDay={{this.validateStub}}
-        @onValidateMonth={{this.validateStub}}
-        @onValidateYear={{this.validateStub}}
-      />`);
+  @label={{this.label}}
+  @dayInputBindingValue={{this.dayOfBirth}}
+  @monthInputBindingValue={{this.monthOfBirth}}
+  @yearInputBindingValue={{this.yearOfBirth}}
+  @dayValidationStatus={{this.dayValidationStatus}}
+  @monthValidationStatus={{this.monthValidationStatus}}
+  @yearValidationStatus={{this.yearValidationStatus}}
+  @dayValidationMessage={{this.dayValidationMessage}}
+  @monthValidationMessage={{this.monthValidationMessage}}
+  @yearValidationMessage={{this.yearValidationMessage}}
+  @dayTextfieldName={{this.dayTextfieldName}}
+  @monthTextfieldName={{this.monthTextfieldName}}
+  @yearTextfieldName={{this.yearTextfieldName}}
+  @onValidateDay={{this.validateStub}}
+  @onValidateMonth={{this.validateStub}}
+  @onValidateYear={{this.validateStub}}
+/>`);
 
       // when
       await fillIn('#day', '10');
@@ -153,20 +153,20 @@ module('Integration | Component | form textfield date', function (hooks) {
 
         // When
         await render(hbs`<FormTextfieldDate
-          @label={{this.label}}
-          @dayValidationStatus={{this.dayValidationStatus}}
-          @monthValidationStatus={{this.monthValidationStatus}}
-          @yearValidationStatus={{this.yearValidationStatus}}
-          @dayValidationMessage={{this.dayValidationMessage}}
-          @monthValidationMessage={{this.monthValidationMessage}}
-          @yearValidationMessage={{this.yearValidationMessage}}
-          @dayTextfieldName={{this.dayTextfieldName}}
-          @monthTextfieldName={{this.monthTextfieldName}}
-          @yearTextfieldName={{this.yearTextfieldName}}
-          @onValidateDay={{this.validateStub}}
-          @onValidateMonth={{this.validateStub}}
-          @onValidateYear={{this.validateStub}}
-        />`);
+  @label={{this.label}}
+  @dayValidationStatus={{this.dayValidationStatus}}
+  @monthValidationStatus={{this.monthValidationStatus}}
+  @yearValidationStatus={{this.yearValidationStatus}}
+  @dayValidationMessage={{this.dayValidationMessage}}
+  @monthValidationMessage={{this.monthValidationMessage}}
+  @yearValidationMessage={{this.yearValidationMessage}}
+  @dayTextfieldName={{this.dayTextfieldName}}
+  @monthTextfieldName={{this.monthTextfieldName}}
+  @yearTextfieldName={{this.yearTextfieldName}}
+  @onValidateDay={{this.validateStub}}
+  @onValidateMonth={{this.validateStub}}
+  @onValidateYear={{this.validateStub}}
+/>`);
       });
 
       test("return true if any svg doesn't exist", function (assert) {
@@ -203,20 +203,20 @@ module('Integration | Component | form textfield date', function (hooks) {
 
         // When
         await render(hbs`<FormTextfieldDate
-          @label={{this.label}}
-          @dayValidationStatus={{this.dayValidationStatus}}
-          @monthValidationStatus={{this.monthValidationStatus}}
-          @yearValidationStatus={{this.yearValidationStatus}}
-          @dayValidationMessage={{this.dayValidationMessage}}
-          @monthValidationMessage={{this.monthValidationMessage}}
-          @yearValidationMessage={{this.yearValidationMessage}}
-          @dayTextfieldName={{this.dayTextfieldName}}
-          @monthTextfieldName={{this.monthTextfieldName}}
-          @yearTextfieldName={{this.yearTextfieldName}}
-          @onValidateDay={{this.validateStub}}
-          @onValidateMonth={{this.validateStub}}
-          @onValidateYear={{this.validateStub}}
-        />`);
+  @label={{this.label}}
+  @dayValidationStatus={{this.dayValidationStatus}}
+  @monthValidationStatus={{this.monthValidationStatus}}
+  @yearValidationStatus={{this.yearValidationStatus}}
+  @dayValidationMessage={{this.dayValidationMessage}}
+  @monthValidationMessage={{this.monthValidationMessage}}
+  @yearValidationMessage={{this.yearValidationMessage}}
+  @dayTextfieldName={{this.dayTextfieldName}}
+  @monthTextfieldName={{this.monthTextfieldName}}
+  @yearTextfieldName={{this.yearTextfieldName}}
+  @onValidateDay={{this.validateStub}}
+  @onValidateMonth={{this.validateStub}}
+  @onValidateYear={{this.validateStub}}
+/>`);
       });
 
       test('return true if any img does exist', function (assert) {
@@ -251,20 +251,20 @@ module('Integration | Component | form textfield date', function (hooks) {
 
         // When
         await render(hbs`<FormTextfieldDate
-          @label={{this.label}}
-          @dayValidationStatus={{this.dayValidationStatus}}
-          @monthValidationStatus={{this.monthValidationStatus}}
-          @yearValidationStatus={{this.yearValidationStatus}}
-          @dayValidationMessage={{this.dayValidationMessage}}
-          @monthValidationMessage={{this.monthValidationMessage}}
-          @yearValidationMessage={{this.yearValidationMessage}}
-          @dayTextfieldName={{this.dayTextfieldName}}
-          @monthTextfieldName={{this.monthTextfieldName}}
-          @yearTextfieldName={{this.yearTextfieldName}}
-          @onValidateDay={{this.validateStub}}
-          @onValidateMonth={{this.validateStub}}
-          @onValidateYear={{this.validateStub}}
-        />`);
+  @label={{this.label}}
+  @dayValidationStatus={{this.dayValidationStatus}}
+  @monthValidationStatus={{this.monthValidationStatus}}
+  @yearValidationStatus={{this.yearValidationStatus}}
+  @dayValidationMessage={{this.dayValidationMessage}}
+  @monthValidationMessage={{this.monthValidationMessage}}
+  @yearValidationMessage={{this.yearValidationMessage}}
+  @dayTextfieldName={{this.dayTextfieldName}}
+  @monthTextfieldName={{this.monthTextfieldName}}
+  @yearTextfieldName={{this.yearTextfieldName}}
+  @onValidateDay={{this.validateStub}}
+  @onValidateMonth={{this.validateStub}}
+  @onValidateYear={{this.validateStub}}
+/>`);
       });
 
       test('return true if any img does exist', function (assert) {

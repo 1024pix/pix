@@ -54,9 +54,10 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
 
         // when
         screen = await render(hbs`<SolutionPanel::QrocmIndSolutionPanel
-          @answer={{this.answer}}
-          @solution={{this.solution}}
-          @challenge={{this.challenge}} />`);
+  @answer={{this.answer}}
+  @solution={{this.solution}}
+  @challenge={{this.challenge}}
+/>`);
       });
 
       test('should display the labels', function (assert) {
@@ -122,7 +123,12 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
           const solutionToDisplay = 'Ceci est la solution !';
           this.set('solutionToDisplay', solutionToDisplay);
           await render(
-            hbs`<SolutionPanel::QrocmIndSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @solutionToDisplay={{this.solutionToDisplay}}/>`,
+            hbs`<SolutionPanel::QrocmIndSolutionPanel
+  @challenge={{this.challenge}}
+  @solution={{this.solution}}
+  @answer={{this.answer}}
+  @solutionToDisplay={{this.solutionToDisplay}}
+/>`,
           );
 
           // then
@@ -153,7 +159,11 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
       const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
       //when
       await render(
-        hbs`<SolutionPanel::QrocmIndSolutionPanel @challenge={{this.challenge}} @answer={{this.answer}} @solution={{this.solution}} />`,
+        hbs`<SolutionPanel::QrocmIndSolutionPanel
+  @challenge={{this.challenge}}
+  @answer={{this.answer}}
+  @solution={{this.solution}}
+/>`,
       );
       //then
 
@@ -177,7 +187,11 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
     test('should display a disabled textarea', async function (assert) {
       // when
       await render(
-        hbs`<SolutionPanel::QrocmIndSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} />`,
+        hbs`<SolutionPanel::QrocmIndSolutionPanel
+  @answer={{this.answer}}
+  @solution={{this.solution}}
+  @challenge={{this.challenge}}
+/>`,
       );
 
       // then
@@ -200,7 +214,11 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
     test('should display a disabled input', async function (assert) {
       // when
       await render(
-        hbs`<SolutionPanel::QrocmIndSolutionPanel @answer={{this.answer}} @solution={{this.solution}} @challenge={{this.challenge}} />`,
+        hbs`<SolutionPanel::QrocmIndSolutionPanel
+  @answer={{this.answer}}
+  @solution={{this.solution}}
+  @challenge={{this.challenge}}
+/>`,
       );
 
       // then

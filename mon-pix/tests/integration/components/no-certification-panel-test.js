@@ -8,7 +8,7 @@ module('Integration | Component | no certification panel', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('renders', async function (assert) {
-    await render(hbs`<NoCertificationPanel/>`);
+    await render(hbs`<NoCertificationPanel />`);
     assert.dom('.no-certification-panel').exists();
   });
 });

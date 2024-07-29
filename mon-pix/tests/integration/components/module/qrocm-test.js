@@ -110,8 +110,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       type: 'qrocm',
     };
     this.set('el', qrocm);
-    const screen = await render(hbs`
-        <Module::Element::Qrocm @element={{this.el}} />`);
+    const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} />`);
 
     // then
     assert.ok(screen);
@@ -157,8 +156,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       type: 'qrocm',
     };
     this.set('el', qrocm);
-    const screen = await render(hbs`
-        <Module::Element::Qrocm @element={{this.el}} />`);
+    const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} />`);
 
     // when
     await clickByName('select-aria');
@@ -373,7 +371,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qrocm
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then
@@ -395,7 +397,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qrocm
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then
@@ -418,7 +424,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qrocm
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then
@@ -466,7 +476,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qrocm
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then
@@ -489,7 +503,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qrocm
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then
@@ -512,7 +530,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Element::Qrocm
+  @element={{this.el}}
+  @submitAnswer={{this.submitAnswer}}
+  @correction={{this.correctionResponse}}
+/>`,
     );
 
     // then

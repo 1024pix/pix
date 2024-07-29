@@ -18,7 +18,11 @@ module('Integration | Component | Certification Banners | Congratulations Certif
 
     // when
     const screen = await render(
-      hbs`<CertificationBanners::CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}} @certificationEligibility={{this.certificationEligibility}}/>`,
+      hbs`<CertificationBanners::CongratulationsCertificationBanner
+  @fullName={{this.fullName}}
+  @closeBanner={{this.closeBanner}}
+  @certificationEligibility={{this.certificationEligibility}}
+/>`,
     );
 
     // then
@@ -34,7 +38,11 @@ module('Integration | Component | Certification Banners | Congratulations Certif
     this.set('certificationEligibility', store.createRecord('is-certifiable', {}));
 
     const screen = await render(
-      hbs`<CertificationBanners::CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}} @certificationEligibility={{this.certificationEligibility}}/>`,
+      hbs`<CertificationBanners::CongratulationsCertificationBanner
+  @fullName={{this.fullName}}
+  @closeBanner={{this.closeBanner}}
+  @certificationEligibility={{this.certificationEligibility}}
+/>`,
     );
 
     // when

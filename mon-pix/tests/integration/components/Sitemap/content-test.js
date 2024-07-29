@@ -57,7 +57,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     this.set('model', model);
 
     // when
-    const screen = await render(hbs`<Sitemap::Content @model={{this.model}}/>`);
+    const screen = await render(hbs`<Sitemap::Content @model={{this.model}} />`);
 
     // then
     assert.dom(screen.getByRole('link', { name: 'Name 1' })).exists();

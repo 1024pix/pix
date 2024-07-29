@@ -37,7 +37,7 @@ module('Integration | Component | user certifications panel', function (hooks) {
       this.set('certifications', certifications);
 
       // when
-      const screen = await render(hbs`<UserCertificationsPanel @certifications={{this.certifications}}/>`);
+      const screen = await render(hbs`<UserCertificationsPanel @certifications={{this.certifications}} />`);
 
       // then
       assert.dom(screen.getByText('date')).exists();

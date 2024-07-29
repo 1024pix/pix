@@ -49,11 +49,9 @@ module('Integration | Component | student-information-form', function (hooks) {
     submitStudentInformation.resolves();
     this.set('submitStudentInformation', submitStudentInformation);
 
-    const screen = await render(hbs`
-      <AccountRecovery::StudentInformationForm
-        @submitStudentInformation={{this.submitStudentInformation}}
-      />
-    `);
+    const screen = await render(
+      hbs`<AccountRecovery::StudentInformationForm @submitStudentInformation={{this.submitStudentInformation}} />`,
+    );
 
     // when
     await fillIn(

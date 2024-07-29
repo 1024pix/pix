@@ -16,7 +16,7 @@ module('Integration | Component | inaccessible-campaign', function (hooks) {
     this.owner.register('service:currentDomain', Service.extend({ isFranceDomain: false }));
 
     // when
-    await render(hbs`<InaccessibleCampaign></InaccessibleCampaign>`);
+    await render(hbs`<InaccessibleCampaign />`);
 
     // then
     assert.dom('.campaign-landing-page__marianne-logo').doesNotExist();
@@ -27,7 +27,7 @@ module('Integration | Component | inaccessible-campaign', function (hooks) {
     this.owner.register('service:currentDomain', Service.extend({ isFranceDomain: true }));
 
     // when
-    await render(hbs`<InaccessibleCampaign></InaccessibleCampaign>`);
+    await render(hbs`<InaccessibleCampaign />`);
 
     // then
     assert.dom('.campaign-landing-page__marianne-logo').exists();

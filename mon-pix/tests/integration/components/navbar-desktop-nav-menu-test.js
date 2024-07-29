@@ -22,7 +22,7 @@ module('Integration | Component | navbar desktop menu', function (hooks) {
     ]);
 
     // when
-    const screen = await render(hbs`<NavbarDesktopMenu @menu={{this.menu}}  />`);
+    const screen = await render(hbs`<NavbarDesktopMenu @menu={{this.menu}} />`);
 
     // then
     assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.not-logged.sign-up') })).exists();

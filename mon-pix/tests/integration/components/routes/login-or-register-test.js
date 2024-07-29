@@ -14,7 +14,7 @@ module('Integration | Routes | routes/login-or-register', function (hooks) {
   test('should display the organization name the user is invited to', async function (assert) {
     // when
     await render(
-      hbs`<Routes::LoginOrRegister @organizationName="Organization Aztec" @toggleFormsVisibility="toggleFormsVisibility" />`,
+      hbs`<Routes::LoginOrRegister @organizationName='Organization Aztec' @toggleFormsVisibility='toggleFormsVisibility' />`,
     );
 
     // then
@@ -24,7 +24,7 @@ module('Integration | Routes | routes/login-or-register', function (hooks) {
   test('should contain an open register form and closed login form', async function (assert) {
     // when
     await render(
-      hbs`<Routes::LoginOrRegister @displayRegisterForm={{true}} @toggleFormsVisibility="toggleFormsVisibility" />`,
+      hbs`<Routes::LoginOrRegister @displayRegisterForm={{true}} @toggleFormsVisibility='toggleFormsVisibility' />`,
     );
 
     // then
@@ -35,7 +35,7 @@ module('Integration | Routes | routes/login-or-register', function (hooks) {
   test('should open the login panel and close the register panel when clicking on login button', async function (assert) {
     // given
     await render(
-      hbs`<Routes::LoginOrRegister @displayRegisterForm={{false}} @toggleFormsVisibility="toggleFormsVisibility" />`,
+      hbs`<Routes::LoginOrRegister @displayRegisterForm={{false}} @toggleFormsVisibility='toggleFormsVisibility' />`,
     );
 
     // when

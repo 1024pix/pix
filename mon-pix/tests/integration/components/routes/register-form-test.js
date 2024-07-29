@@ -223,7 +223,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
       }) {
         test(`should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
           // given
-          const screen = await render(hbs`<Routes::RegisterForm /> `);
+          const screen = await render(hbs`<Routes::RegisterForm />`);
 
           await fillInputReconciliationForm({ screen, intl: this.intl });
           await click(
@@ -249,7 +249,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
       ].forEach(function ({ stringFilledIn }) {
         test(`should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
           // given
-          const screen = await render(hbs`<Routes::RegisterForm /> `);
+          const screen = await render(hbs`<Routes::RegisterForm />`);
 
           await fillInputReconciliationForm({ screen, intl: this.intl });
           await click(
@@ -268,7 +268,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
     test('should not call api when email is invalid', async function (assert) {
       // given
-      const screen = await render(hbs`<Routes::RegisterForm /> `);
+      const screen = await render(hbs`<Routes::RegisterForm />`);
 
       await fillInputReconciliationForm({ screen, intl: this.intl });
       await click(
@@ -347,7 +347,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
     test('should not call api when password is invalid', async function (assert) {
       // given
-      const screen = await render(hbs`<Routes::RegisterForm /> `);
+      const screen = await render(hbs`<Routes::RegisterForm />`);
 
       await fillInputReconciliationForm({ screen, intl: this.intl });
       await click(

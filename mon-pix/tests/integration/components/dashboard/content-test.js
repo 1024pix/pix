@@ -389,7 +389,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       });
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Bonjour Banana, découvrez votre tableau de bord.' })).exists();
@@ -417,7 +417,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       });
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
 
       // then
       assert
@@ -454,7 +454,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       });
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
 
       // then
       assert
@@ -490,7 +490,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       });
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Bonjour Banana, découvrez votre tableau de bord.' })).exists();
@@ -523,7 +523,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       });
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
 
       // then
       assert
@@ -556,7 +556,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       });
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
 
       // then
       assert
@@ -591,7 +591,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       });
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
 
       // then
       assert.dom(screen.getByText(pixScore)).exists();
@@ -623,7 +623,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       });
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
 
       // then
       assert.ok(screen.getByRole('link', { name: this.intl.t('pages.dashboard.campaigns.resume.action') }));
@@ -651,7 +651,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       });
 
       // when
-      const screen = await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+      const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
 
       // then
       assert.notOk(screen.queryByRole('link', { name: this.intl.t('pages.dashboard.campaigns.resume.action') }));

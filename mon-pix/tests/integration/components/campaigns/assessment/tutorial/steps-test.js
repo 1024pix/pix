@@ -11,7 +11,7 @@ module('Integration | Component |  Campaigns::Assessment::Tutorial | Steps', fun
   module('on init', function () {
     test('it should display the first step', async function (assert) {
       //  when
-      const screen = await render(hbs`<Campaigns::Assessment::Tutorial::Steps @campaignCode="campaignCode" />`);
+      const screen = await render(hbs`<Campaigns::Assessment::Tutorial::Steps @campaignCode='campaignCode' />`);
 
       // then
       assert.dom(screen.getByText(this.intl.t('pages.tutorial.pages.page0.title'))).exists();
@@ -28,7 +28,7 @@ module('Integration | Component |  Campaigns::Assessment::Tutorial | Steps', fun
   module('on next step action', function () {
     test('it should display the next step', async function (assert) {
       //  when
-      const screen = await render(hbs`<Campaigns::Assessment::Tutorial::Steps @campaignCode="campaignCode" />`);
+      const screen = await render(hbs`<Campaigns::Assessment::Tutorial::Steps @campaignCode='campaignCode' />`);
       await click(screen.getByRole('button', { name: this.intl.t('pages.tutorial.next') }));
 
       // then
@@ -46,7 +46,7 @@ module('Integration | Component |  Campaigns::Assessment::Tutorial | Steps', fun
   module('on last step', function () {
     test('it should display the last step', async function (assert) {
       //  when
-      const screen = await render(hbs`<Campaigns::Assessment::Tutorial::Steps @campaignCode="campaignCode" />`);
+      const screen = await render(hbs`<Campaigns::Assessment::Tutorial::Steps @campaignCode='campaignCode' />`);
       await click(
         screen.getByRole('button', {
           name: this.intl.t('pages.tutorial.dot-action-title', { stepNumber: 5, stepsCount: 5 }),

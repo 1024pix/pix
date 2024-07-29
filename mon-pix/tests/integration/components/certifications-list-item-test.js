@@ -41,7 +41,7 @@ module('Integration | Component | certifications list item', function (hooks) {
       this.set('certification', certification);
 
       // when
-      await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+      await render(hbs`<CertificationsListItem @certification={{this.certification}} />`);
     });
 
     // then
@@ -75,7 +75,7 @@ module('Integration | Component | certifications list item', function (hooks) {
         this.set('certification', certification);
 
         // when
-        screen = await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+        screen = await render(hbs`<CertificationsListItem @certification={{this.certification}} />`);
       });
 
       // then
@@ -121,7 +121,7 @@ module('Integration | Component | certifications list item', function (hooks) {
         this.set('certification', certification);
 
         // when
-        screen = await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+        screen = await render(hbs`<CertificationsListItem @certification={{this.certification}} />`);
       });
 
       // then
@@ -164,7 +164,7 @@ module('Integration | Component | certifications list item', function (hooks) {
       this.set('certification', certification);
 
       // when
-      await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+      await render(hbs`<CertificationsListItem @certification={{this.certification}} />`);
     });
 
     // then
@@ -205,7 +205,7 @@ module('Integration | Component | certifications list item', function (hooks) {
           this.set('certification', certification);
 
           // when
-          await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+          await render(hbs`<CertificationsListItem @certification={{this.certification}} />`);
 
           assert.dom(PUBLISH_CLASS).exists();
           assert.dom(IMG_FOR_STATUS_SELECTOR).exists();
@@ -223,7 +223,7 @@ module('Integration | Component | certifications list item', function (hooks) {
           this.set('certification', certification);
 
           // when
-          await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+          await render(hbs`<CertificationsListItem @certification={{this.certification}} />`);
 
           assert.dom(NOT_CLICKABLE_SELECTOR).exists();
           assert.dom(CLICKABLE_SELECTOR).doesNotExist();
@@ -245,7 +245,7 @@ module('Integration | Component | certifications list item', function (hooks) {
           this.set('certification', certification);
 
           // when
-          await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+          await render(hbs`<CertificationsListItem @certification={{this.certification}} />`);
 
           assert.dom('button').exists();
         });
@@ -261,7 +261,7 @@ module('Integration | Component | certifications list item', function (hooks) {
         this.set('certification', certification);
 
         // when
-        await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+        await render(hbs`<CertificationsListItem @certification={{this.certification}} />`);
 
         assert.dom(CLICKABLE_SELECTOR).exists();
         assert.dom(NOT_CLICKABLE_SELECTOR).doesNotExist();
@@ -278,7 +278,7 @@ module('Integration | Component | certifications list item', function (hooks) {
         this.set('certification', certification);
 
         // when
-        await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+        await render(hbs`<CertificationsListItem @certification={{this.certification}} />`);
       });
 
       // then

@@ -23,8 +23,8 @@ module('Integration | Component | confirmation-step', function (hooks) {
 
     // when
     const screen = await render(hbs`<AccountRecovery::ConfirmationStep
-      @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
-    />`);
+  @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
+/>`);
 
     // then
     assert
@@ -73,8 +73,8 @@ module('Integration | Component | confirmation-step', function (hooks) {
 
       // when
       const screen = await render(hbs`<AccountRecovery::ConfirmationStep
-        @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
-      />`);
+  @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
+/>`);
 
       // then
       assert
@@ -100,9 +100,9 @@ module('Integration | Component | confirmation-step', function (hooks) {
 
     // when
     const screen = await render(hbs`<AccountRecovery::ConfirmationStep
-      @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
-      @cancelAccountRecovery={{this.cancelAccountRecovery}}
-    />`);
+  @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
+  @cancelAccountRecovery={{this.cancelAccountRecovery}}
+/>`);
     await click(
       screen.getByRole('button', {
         name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel'),
@@ -129,9 +129,9 @@ module('Integration | Component | confirmation-step', function (hooks) {
 
     // when
     const screen = await render(hbs`<AccountRecovery::ConfirmationStep
-      @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
-      @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
-    />`);
+  @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
+  @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
+/>`);
 
     // then
     const confirmButton = screen.getByRole('button', {
@@ -156,9 +156,9 @@ module('Integration | Component | confirmation-step', function (hooks) {
 
     // when
     const screen = await render(hbs`<AccountRecovery::ConfirmationStep
-      @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
-      @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
-    />`);
+  @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
+  @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
+/>`);
     await click(
       screen.getByRole('checkbox', {
         name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'),

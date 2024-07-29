@@ -21,11 +21,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
       this.set('startCampaignParticipation', sinon.stub());
 
       // when
-      const screen = await render(hbs`
-        <CampaignStartBlock
-          @campaign={{this.campaign}}
-          @startCampaignParticipation={{this.startCampaignParticipation}}
-        />`);
+      const screen = await render(
+        hbs`<CampaignStartBlock @campaign={{this.campaign}} @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+      );
 
       // then
       assert.dom(screen.getByRole('img', { name: 'My organisation' })).hasAttribute('src', 'http://orga.com/logo.png');
@@ -68,11 +66,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
     test('should display the link to disconnect', async function (assert) {
       // when
-      const screen = await render(hbs`
-        <CampaignStartBlock
-          @campaign={{this.campaign}}
-          @startCampaignParticipation={{this.startCampaignParticipation}}
-        />`);
+      const screen = await render(
+        hbs`<CampaignStartBlock @campaign={{this.campaign}} @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+      );
 
       // then
       assert.ok(
@@ -87,11 +83,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
     test('should call session.invalidate to shut down the session when user click on disconnect', async function (assert) {
       // when
-      const screen = await render(hbs`
-        <CampaignStartBlock
-          @campaign={{this.campaign}}
-          @startCampaignParticipation={{this.startCampaignParticipation}}
-        />`);
+      const screen = await render(
+        hbs`<CampaignStartBlock @campaign={{this.campaign}} @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+      );
 
       await click(screen.getByRole('link', { name: this.intl.t('pages.campaign-landing.warning-message-logout') }));
 
@@ -107,11 +101,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
       test('should display all text arguments correctly', async function (assert) {
         // when
-        const screen = await render(hbs`
-          <CampaignStartBlock
-            @campaign={{this.campaign}}
-            @startCampaignParticipation={{this.startCampaignParticipation}}
-          />`);
+        const screen = await render(
+          hbs`<CampaignStartBlock @campaign={{this.campaign}} @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+        );
 
         // then
         assert
@@ -133,11 +125,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
       test('should display the userName', async function (assert) {
         // when
-        const screen = await render(hbs`
-          <CampaignStartBlock
-            @campaign={{this.campaign}}
-            @startCampaignParticipation={{this.startCampaignParticipation}}
-          />`);
+        const screen = await render(
+          hbs`<CampaignStartBlock @campaign={{this.campaign}} @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+        );
 
         // then
         assert
@@ -157,11 +147,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
       });
       test('should display all text arguments correctly', async function (assert) {
         // when
-        const screen = await render(hbs`
-          <CampaignStartBlock
-            @campaign={{this.campaign}}
-            @startCampaignParticipation={{this.startCampaignParticipation}}
-          />`);
+        const screen = await render(
+          hbs`<CampaignStartBlock @campaign={{this.campaign}} @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+        );
 
         // then
         assert
@@ -183,11 +171,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
       test('should display the userName', async function (assert) {
         // when
-        const screen = await render(hbs`
-          <CampaignStartBlock
-            @campaign={{this.campaign}}
-            @startCampaignParticipation={{this.startCampaignParticipation}}
-          />`);
+        const screen = await render(
+          hbs`<CampaignStartBlock @campaign={{this.campaign}} @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+        );
 
         // then
         assert
@@ -226,11 +212,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
     test('should not display the link to disconnect', async function (assert) {
       // when
-      const screen = await render(hbs`
-        <CampaignStartBlock
-          @campaign={{this.campaign}}
-          @startCampaignParticipation={{this.startCampaignParticipation}}
-        />`);
+      const screen = await render(
+        hbs`<CampaignStartBlock @campaign={{this.campaign}} @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+      );
 
       // then
       assert
@@ -252,11 +236,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
       test('should not display the userName', async function (assert) {
         // when
-        const screen = await render(hbs`
-          <CampaignStartBlock
-            @campaign={{this.campaign}}
-            @startCampaignParticipation={{this.startCampaignParticipation}}
-          />`);
+        const screen = await render(
+          hbs`<CampaignStartBlock @campaign={{this.campaign}} @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+        );
 
         // then
         assert
@@ -277,11 +259,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
       test('should not display the userName', async function (assert) {
         // when
-        const screen = await render(hbs`
-          <CampaignStartBlock
-            @campaign={{this.campaign}}
-            @startCampaignParticipation={{this.startCampaignParticipation}}
-          />`);
+        const screen = await render(
+          hbs`<CampaignStartBlock @campaign={{this.campaign}} @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+        );
 
         // then
         assert
@@ -320,11 +300,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
     test('should not display the link to disconnect', async function (assert) {
       // when
-      const screen = await render(hbs`
-        <CampaignStartBlock
-          @campaign={{this.campaign}}
-          @startCampaignParticipation={{this.startCampaignParticipation}}
-        />`);
+      const screen = await render(
+        hbs`<CampaignStartBlock @campaign={{this.campaign}} @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+      );
 
       // then
       assert
@@ -346,11 +324,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
       test('should not display the userName', async function (assert) {
         // when
-        const screen = await render(hbs`
-          <CampaignStartBlock
-            @campaign={{this.campaign}}
-            @startCampaignParticipation={{this.startCampaignParticipation}}
-          />`);
+        const screen = await render(
+          hbs`<CampaignStartBlock @campaign={{this.campaign}} @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+        );
 
         // then
         assert
@@ -371,11 +347,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
       test('should not display the userName', async function (assert) {
         // when
-        const screen = await render(hbs`
-          <CampaignStartBlock
-            @campaign={{this.campaign}}
-            @startCampaignParticipation={{this.startCampaignParticipation}}
-          />`);
+        const screen = await render(
+          hbs`<CampaignStartBlock @campaign={{this.campaign}} @startCampaignParticipation={{this.startCampaignParticipation}} />`,
+        );
 
         // then
         assert
