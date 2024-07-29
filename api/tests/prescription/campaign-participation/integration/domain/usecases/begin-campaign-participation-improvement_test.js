@@ -19,13 +19,12 @@ describe('Integration | UseCase | begin-campaign-participation-improvement', fun
     });
     await databaseBuilder.commit();
 
-    await DomainTransaction.execute(async (domainTransaction) => {
+    await DomainTransaction.execute(async () => {
       await beginCampaignParticipationImprovement({
         campaignParticipationRepository,
         assessmentRepository,
         campaignParticipationId: campaignParticipation.id,
         userId: campaignParticipation.userId,
-        domainTransaction,
       });
     });
 

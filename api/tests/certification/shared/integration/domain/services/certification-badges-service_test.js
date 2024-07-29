@@ -101,8 +101,8 @@ describe('Integration | Service | Certification-Badges Service', function () {
       mockLearningContent(learningContentObjects);
 
       // when
-      const badgeAcquisitions = await DomainTransaction.execute(async (domainTransaction) => {
-        return certificationBadgesService.findStillValidBadgeAcquisitions({ userId, domainTransaction });
+      const badgeAcquisitions = await DomainTransaction.execute(async () => {
+        return certificationBadgesService.findStillValidBadgeAcquisitions({ userId });
       });
 
       // then
@@ -163,8 +163,8 @@ describe('Integration | Service | Certification-Badges Service', function () {
           mockLearningContent(learningContentObjects);
 
           // when
-          const badgeAcquisitions = await DomainTransaction.execute(async (domainTransaction) => {
-            return certificationBadgesService.findStillValidBadgeAcquisitions({ userId, domainTransaction });
+          const badgeAcquisitions = await DomainTransaction.execute(async () => {
+            return certificationBadgesService.findStillValidBadgeAcquisitions({ userId });
           });
 
           // then
@@ -225,11 +225,10 @@ describe('Integration | Service | Certification-Badges Service', function () {
           mockLearningContent(learningContentObjects);
 
           // when
-          const badgeAcquisitions = await DomainTransaction.execute(async (domainTransaction) => {
+          const badgeAcquisitions = await DomainTransaction.execute(async () => {
             return certificationBadgesService.findStillValidBadgeAcquisitions({
               userId,
               limitDate: new Date('2022-01-02'),
-              domainTransaction,
             });
           });
 

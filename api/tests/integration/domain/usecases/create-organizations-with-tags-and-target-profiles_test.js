@@ -2,7 +2,6 @@ import lodash from 'lodash';
 
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import * as organizationValidator from '../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
-import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
 import * as organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository.js';
 import * as targetProfileShareRepository from '../../../../lib/infrastructure/repositories/target-profile-share-repository.js';
@@ -50,7 +49,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
         // when
         const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-          domainTransaction,
           organizations,
           organizationRepository,
           organizationForAdminRepository,
@@ -90,7 +88,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
         // when
         const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-          domainTransaction,
           organizations: organizationsWithEmptyValues,
           organizationRepository,
           organizationForAdminRepository,
@@ -192,7 +189,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
         // when
         const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-          domainTransaction,
           organizations: organizationsWithTagsWithOneMissingExternalId,
           organizationRepository,
           organizationForAdminRepository,
@@ -266,7 +262,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
         // when
         const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-          domainTransaction,
           organizations: organizationsWithTagsWithOneMissingName,
           organizationRepository,
           organizationForAdminRepository,
@@ -343,7 +338,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
         // when
         const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-          domainTransaction,
           organizations: organizationsWithTagsNotExists,
           organizationRepository,
           organizationForAdminRepository,
@@ -423,7 +417,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       // when
       await createOrganizationsWithTagsAndTargetProfiles({
-        domainTransaction,
         organizations: organizationsWithTagsAlreadyExist,
         organizationRepository,
         organizationForAdminRepository,
@@ -522,7 +515,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       // when
       const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-        domainTransaction,
         organizations: organizationsWithNonExistingTargetProfile,
         organizationRepository,
         organizationForAdminRepository,
@@ -601,7 +593,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       // when
       await createOrganizationsWithTagsAndTargetProfiles({
-        domainTransaction,
         organizations: organizationsWithExistingTargetProfiles,
         organizationRepository,
         organizationForAdminRepository,
@@ -688,7 +679,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       // when
       await createOrganizationsWithTagsAndTargetProfiles({
-        domainTransaction,
         organizations: organizationsWithInvitationRole,
         organizationRepository,
         organizationForAdminRepository,
@@ -737,7 +727,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       // when
       const createdOrganizations = await createOrganizationsWithTagsAndTargetProfiles({
-        domainTransaction,
         organizations,
         organizationRepository,
         organizationForAdminRepository,
@@ -805,7 +794,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       // when
       await createOrganizationsWithTagsAndTargetProfiles({
-        domainTransaction,
         organizations,
         organizationRepository,
         organizationForAdminRepository,
@@ -868,7 +856,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       // when
       await createOrganizationsWithTagsAndTargetProfiles({
-        domainTransaction,
         organizations,
         organizationRepository,
         organizationForAdminRepository,

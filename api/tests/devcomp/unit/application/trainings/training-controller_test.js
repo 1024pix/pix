@@ -269,9 +269,8 @@ describe('Unit | Devcomp | Application | Trainings | Controller | training-contr
         tubes: Symbol('tubes'),
       };
 
-      const domainTransaction = Symbol();
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-        return callback(domainTransaction);
+        return callback();
       });
 
       const createdTrigger = Symbol('createdTrigger');
@@ -300,7 +299,6 @@ describe('Unit | Devcomp | Application | Trainings | Controller | training-contr
         threshold: deserializedTrigger.threshold,
         type: deserializedTrigger.type,
         tubes: deserializedTrigger.tubes,
-        domainTransaction,
       });
       expect(result).to.be.equal(serializedTrigger);
     });

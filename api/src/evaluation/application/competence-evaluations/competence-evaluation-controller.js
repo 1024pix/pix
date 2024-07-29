@@ -19,11 +19,10 @@ const improve = async function (request, h, dependencies = { competenceEvaluatio
   const userId = request.auth.credentials.userId;
   const competenceId = request.payload.competenceId;
 
-  const competenceEvaluation = await DomainTransaction.execute(async (domainTransaction) => {
+  const competenceEvaluation = await DomainTransaction.execute(async () => {
     const competenceEvaluation = await usecases.improveCompetenceEvaluation({
       competenceId,
       userId,
-      domainTransaction,
     });
     return competenceEvaluation;
   });

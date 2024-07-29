@@ -49,8 +49,8 @@ const finalize = async function ({ id, examinerGlobalComment, hasIncident, hasJo
   return new SessionManagement(finalizedSession);
 };
 
-const unfinalize = async function ({ id, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+const unfinalize = async function ({ id }) {
+  const knexConn = DomainTransaction.getConnection();
   const updates = await knexConn('sessions')
     .where({ id })
     .update({ finalizedAt: null, assignedCertificationOfficerId: null });

@@ -6,12 +6,9 @@ const deleteUnassociatedBadge = async function ({
   badgeRepository,
   complementaryCertificationBadgeRepository,
 }) {
-  return DomainTransaction.execute(async (domainTransaction) => {
-    const isAssociated = await badgeRepository.isAssociated(badgeId, domainTransaction);
-    const isRelatedToCertification = await complementaryCertificationBadgeRepository.isRelatedToCertification(
-      badgeId,
-      domainTransaction,
-    );
+  return DomainTransaction.execute(async () => {
+    const isAssociated = await badgeRepository.isAssociated(badgeId);
+    const isRelatedToCertification = await complementaryCertificationBadgeRepository.isRelatedToCertification(badgeId);
 
     if (isAssociated) {
       throw new AcquiredBadgeForbiddenDeletionError();
@@ -21,7 +18,7 @@ const deleteUnassociatedBadge = async function ({
       throw new CertificationBadgeForbiddenDeletionError();
     }
 
-    return badgeRepository.remove(badgeId, domainTransaction);
+    return badgeRepository.remove(badgeId);
   });
 };
 export { deleteUnassociatedBadge };

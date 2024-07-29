@@ -71,11 +71,8 @@ const get = async function (id) {
   });
 };
 
-const getByCertificationCourseId = async function ({
-  certificationCourseId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const getByCertificationCourseId = async function ({ certificationCourseId }) {
+  const knexConn = DomainTransaction.getConnection();
   const certificationAssessmentRow = await knexConn('assessments')
     .join('certification-courses', 'certification-courses.id', 'assessments.certificationCourseId')
     .select({

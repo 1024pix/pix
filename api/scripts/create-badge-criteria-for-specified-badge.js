@@ -48,8 +48,8 @@ function checkCriteriaFormat(criteria) {
   });
 }
 
-async function _createBadgeCriterion(badgeCriterion, domainTransaction) {
-  return badgeCriteriaRepository.save({ badgeCriterion: { ...badgeCriterion } }, domainTransaction);
+async function _createBadgeCriterion(badgeCriterion) {
+  return badgeCriteriaRepository.save({ badgeCriterion: { ...badgeCriterion } });
 }
 
 const modulePath = url.fileURLToPath(import.meta.url);
@@ -71,9 +71,9 @@ async function main() {
   console.log('BadgeCriteria schema ok');
 
   console.log('Saving badge criteria... ');
-  return DomainTransaction.execute(async (domainTransaction) => {
+  return DomainTransaction.execute(async () => {
     await bluebird.mapSeries(jsonFile.criteria, (badgeCriterion) => {
-      return _createBadgeCriterion({ ...badgeCriterion, badgeId: jsonFile.badgeId }, domainTransaction);
+      return _createBadgeCriterion({ ...badgeCriterion, badgeId: jsonFile.badgeId });
     });
   });
 }

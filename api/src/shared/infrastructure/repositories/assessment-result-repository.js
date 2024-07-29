@@ -40,11 +40,7 @@ function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   });
 }
 
-const save = async function ({
-  certificationCourseId,
-  assessmentResult,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
+const save = async function ({ certificationCourseId, assessmentResult }) {
   const { pixScore, reproducibilityRate, status, emitter, commentByJury, id, juryId, assessmentId } = assessmentResult;
   const commentByAutoJury = _getCommentByAutoJury(assessmentResult);
 
@@ -52,7 +48,7 @@ const save = async function ({
     throw new MissingAssessmentId();
   }
   try {
-    const knexConn = domainTransaction.knexTransaction || knex;
+    const knexConn = DomainTransaction.getConnection();
     const [savedAssessmentResultData] = await knexConn('assessment-results')
       .insert({
         pixScore,

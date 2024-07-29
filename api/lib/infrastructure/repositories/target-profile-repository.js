@@ -8,8 +8,8 @@ import { TargetProfile } from '../../../src/shared/domain/models/index.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
-const create = async function ({ targetProfileForCreation, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const create = async function ({ targetProfileForCreation }) {
+  const knexConn = DomainTransaction.getConnection();
   const targetProfileRawData = _.pick(targetProfileForCreation, [
     'name',
     'category',
@@ -32,8 +32,8 @@ const create = async function ({ targetProfileForCreation, domainTransaction = D
   return targetProfileId;
 };
 
-const get = async function (id, domainTransaction = DomainTransaction.emptyTransaction()) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const get = async function (id) {
+  const knexConn = DomainTransaction.getConnection();
   const targetProfile = await knexConn('target-profiles').where({ id }).first();
   const badges = await knexConn('badges').where('targetProfileId', id);
 
@@ -44,10 +44,10 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
   return new TargetProfile({ ...targetProfile, badges: badges.map((badge) => new Badge(badge)) });
 };
 
-const getTubesByTargetProfileId = async (targetProfileId, { knexTransaction } = DomainTransaction.emptyTransaction()) =>
-  await (knexTransaction ?? knex)('target-profile_tubes')
-    .select('tubeId', 'level')
-    .where('targetProfileId', targetProfileId);
+const getTubesByTargetProfileId = async (targetProfileId) => {
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn('target-profile_tubes').select('tubeId', 'level').where('targetProfileId', targetProfileId);
+};
 
 const findByIds = async function (targetProfileIds) {
   const targetProfiles = await knex('target-profiles').whereIn('id', targetProfileIds);
@@ -68,13 +68,11 @@ const findOrganizationIds = async function (targetProfileId) {
   return targetProfileShares.map((targetProfileShare) => targetProfileShare.organizationId);
 };
 
-const hasTubesWithLevels = async function (
-  { targetProfileId, tubesWithLevels },
-  { knexTransaction } = DomainTransaction.emptyTransaction(),
-) {
+const hasTubesWithLevels = async function ({ targetProfileId, tubesWithLevels }) {
+  const knexConn = DomainTransaction.getConnection();
   const tubeIds = tubesWithLevels.map(({ id }) => id);
 
-  const result = await (knexTransaction ?? knex)('target-profile_tubes')
+  const result = await knexConn('target-profile_tubes')
     .whereIn('tubeId', tubeIds)
     .andWhere('targetProfileId', targetProfileId);
 

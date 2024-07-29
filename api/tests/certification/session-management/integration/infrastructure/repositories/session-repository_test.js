@@ -260,7 +260,7 @@ describe('Integration | Repository | Certification | session | SessionManagement
 
         // when
         await DomainTransaction.execute(async (domainTransaction) => {
-          await sessionRepository.unfinalize({ id: 99, domainTransaction });
+          await sessionRepository.unfinalize({ id: 99 });
           return domainTransaction.knexTransaction.rollback();
         });
 

@@ -45,8 +45,8 @@ const findByOrganization = async function ({ organizationId }) {
   return results.map((attributes) => new TargetProfileSummaryForAdmin(attributes));
 };
 
-const findByTraining = async function ({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction?.knexTransaction || knex;
+const findByTraining = async function ({ trainingId }) {
+  const knexConn = DomainTransaction.getConnection();
 
   const results = await knexConn('target-profiles')
     .select({

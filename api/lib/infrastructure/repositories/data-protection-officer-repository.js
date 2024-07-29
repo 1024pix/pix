@@ -1,16 +1,11 @@
-import { knex } from '../../../db/knex-database-connection.js';
 import { DataProtectionOfficer } from '../../../src/organizational-entities/domain/models/DataProtectionOfficer.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const DATA_PROTECTION_OFFICERS_TABLE_NAME = 'data-protection-officers';
 
-async function batchAddDataProtectionOfficerToOrganization(
-  organizationDataProtectionOfficer,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-) {
-  await knex
-    .batchInsert(DATA_PROTECTION_OFFICERS_TABLE_NAME, organizationDataProtectionOfficer)
-    .transacting(domainTransaction.knexTransaction);
+async function batchAddDataProtectionOfficerToOrganization(organizationDataProtectionOfficer) {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn.batchInsert(DATA_PROTECTION_OFFICERS_TABLE_NAME, organizationDataProtectionOfficer);
 }
 
 async function get({ organizationId = null, certificationCenterId = null }) {
@@ -24,9 +19,10 @@ async function get({ organizationId = null, certificationCenterId = null }) {
   return new DataProtectionOfficer(dataProtectionOfficerRow);
 }
 
-async function create(dataProtectionOfficer, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+async function create(dataProtectionOfficer) {
+  const knexConn = DomainTransaction.getConnection();
   const { firstName, lastName, email, organizationId, certificationCenterId } = dataProtectionOfficer;
-  const query = knex(DATA_PROTECTION_OFFICERS_TABLE_NAME).insert({
+  const query = knexConn(DATA_PROTECTION_OFFICERS_TABLE_NAME).insert({
     firstName,
     lastName,
     email,
@@ -34,17 +30,15 @@ async function create(dataProtectionOfficer, { knexTransaction } = DomainTransac
     certificationCenterId,
   });
 
-  if (knexTransaction) query.transacting(knexTransaction);
-
   const [dataProtectionOfficerRow] = await query.returning('*');
 
   return new DataProtectionOfficer(dataProtectionOfficerRow);
 }
 
 async function update(dataProtectionOfficer) {
+  const knexConn = DomainTransaction.getConnection();
   const { firstName, lastName, email, organizationId, certificationCenterId } = dataProtectionOfficer;
   const updatedAt = new Date();
-  const knexConn = DomainTransaction.getConnection();
 
   const query = knexConn(DATA_PROTECTION_OFFICERS_TABLE_NAME).update({
     firstName,

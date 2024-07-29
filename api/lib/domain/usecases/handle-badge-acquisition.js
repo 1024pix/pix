@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 const handleBadgeAcquisition = async function ({
   assessment,
-  domainTransaction,
   badgeForCalculationRepository,
   badgeAcquisitionRepository,
   knowledgeElementRepository,
@@ -12,14 +11,12 @@ const handleBadgeAcquisition = async function ({
     const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(
       campaignParticipationId,
       badgeForCalculationRepository,
-      domainTransaction,
     );
     if (_.isEmpty(associatedBadges)) {
       return;
     }
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
       userId: assessment.userId,
-      domainTransaction,
     });
 
     const obtainedBadgesByUser = associatedBadges.filter((badge) => badge.shouldBeObtained(knowledgeElements));
@@ -33,17 +30,13 @@ const handleBadgeAcquisition = async function ({
     });
 
     if (!_.isEmpty(badgeAcquisitionsToCreate)) {
-      await badgeAcquisitionRepository.createOrUpdate({ badgeAcquisitionsToCreate, domainTransaction });
+      await badgeAcquisitionRepository.createOrUpdate({ badgeAcquisitionsToCreate });
     }
   }
 };
 
-function _fetchPossibleCampaignAssociatedBadges(
-  campaignParticipationId,
-  badgeForCalculationRepository,
-  domainTransaction,
-) {
-  return badgeForCalculationRepository.findByCampaignParticipationId({ campaignParticipationId, domainTransaction });
+function _fetchPossibleCampaignAssociatedBadges(campaignParticipationId, badgeForCalculationRepository) {
+  return badgeForCalculationRepository.findByCampaignParticipationId({ campaignParticipationId });
 }
 
 export { handleBadgeAcquisition };

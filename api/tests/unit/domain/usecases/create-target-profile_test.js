@@ -18,7 +18,6 @@ describe('Unit | UseCase | create-target-profile', function () {
 
   it('should throw a TargetProfileCannotBeCreated error with non existant owner organization', async function () {
     // given
-    const domainTransaction = Symbol('DomainTransaction');
     organizationRepositoryStub.get.rejects(new Error());
 
     // when
@@ -36,7 +35,6 @@ describe('Unit | UseCase | create-target-profile', function () {
 
     const error = await catchErr(createTargetProfile)({
       targetProfileCreationCommand,
-      domainTransaction,
       targetProfileRepository: targetProfileRepositoryStub,
       organizationRepository: organizationRepositoryStub,
     });
@@ -48,7 +46,7 @@ describe('Unit | UseCase | create-target-profile', function () {
   it('should create target profile with tubes by passing over creation command', async function () {
     // given
     organizationRepositoryStub.get.resolves();
-    const domainTransaction = Symbol('DomainTransaction');
+
     const expectedTargetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
       name: 'myFirstTargetProfile',
       category: categories.SUBJECT,
@@ -75,7 +73,6 @@ describe('Unit | UseCase | create-target-profile', function () {
     };
     await createTargetProfile({
       targetProfileCreationCommand,
-      domainTransaction,
       targetProfileRepository: targetProfileRepositoryStub,
       organizationRepository: organizationRepositoryStub,
     });
@@ -83,14 +80,13 @@ describe('Unit | UseCase | create-target-profile', function () {
     // then
     expect(targetProfileRepositoryStub.create).to.have.been.calledWithExactly({
       targetProfileForCreation: expectedTargetProfileForCreation,
-      domainTransaction,
     });
   });
 
   it('should return the created target profile ID', async function () {
     // given
     organizationRepositoryStub.get.resolves();
-    const domainTransaction = Symbol('DomainTransaction');
+
     const expectedTargetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
       name: 'myFirstTargetProfile',
       category: categories.SUBJECT,
@@ -104,7 +100,6 @@ describe('Unit | UseCase | create-target-profile', function () {
     targetProfileRepositoryStub.create
       .withArgs({
         targetProfileForCreation: expectedTargetProfileForCreation,
-        domainTransaction,
       })
       .resolves(123);
 
@@ -122,7 +117,6 @@ describe('Unit | UseCase | create-target-profile', function () {
     };
     const targetProfileId = await createTargetProfile({
       targetProfileCreationCommand,
-      domainTransaction,
       targetProfileRepository: targetProfileRepositoryStub,
       organizationRepository: organizationRepositoryStub,
     });

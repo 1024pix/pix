@@ -6,8 +6,8 @@ import { NotFoundError } from '../../../shared/domain/errors.js';
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
 import { CompetenceEvaluation } from '../../domain/models/CompetenceEvaluation.js';
 
-const save = async function ({ competenceEvaluation, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const save = async function ({ competenceEvaluation }) {
+  const knexConn = DomainTransaction.getConnection();
   const foundCompetenceEvaluation = await _getByCompetenceIdAndUserId({
     competenceId: competenceEvaluation.competenceId,
     userId: competenceEvaluation.userId,
@@ -35,12 +35,8 @@ const updateStatusByUserIdAndCompetenceId = async function ({ userId, competence
   return _toDomain({ competenceEvaluation, assessment: null });
 };
 
-const updateAssessmentId = async function ({
-  currentAssessmentId,
-  newAssessmentId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const updateAssessmentId = async function ({ currentAssessmentId, newAssessmentId }) {
+  const knexConn = DomainTransaction.getConnection();
   const [competenceEvaluation] = await knexConn('competence-evaluations')
     .where({ assessmentId: currentAssessmentId })
     .update({ assessmentId: newAssessmentId })
@@ -63,10 +59,10 @@ const getByAssessmentId = async function (assessmentId) {
 const getByCompetenceIdAndUserId = async function ({
   competenceId,
   userId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
+
   forUpdate = false,
 }) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+  const knexConn = DomainTransaction.getConnection();
   const competenceEvaluation = await _getByCompetenceIdAndUserId({
     competenceId,
     userId,
@@ -104,12 +100,8 @@ const findByAssessmentId = async function (assessmentId) {
   return competenceEvaluations.map((competenceEvaluation) => _toDomain({ competenceEvaluation, assessment: null }));
 };
 
-const existsByCompetenceIdAndUserId = async function ({
-  competenceId,
-  userId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const existsByCompetenceIdAndUserId = async function ({ competenceId, userId }) {
+  const knexConn = DomainTransaction.getConnection();
   const competenceEvaluation = await _getByCompetenceIdAndUserId({ competenceId, userId, knexConn });
   return competenceEvaluation ? true : false;
 };

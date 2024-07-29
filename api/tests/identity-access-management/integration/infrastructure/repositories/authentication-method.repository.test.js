@@ -129,8 +129,8 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
       // when
       await catchErr(async function () {
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
+        await DomainTransaction.execute(async () => {
+          await authenticationMethodRepository.create({ authenticationMethod });
           throw new Error('Error occurs in transaction');
         });
       })();
@@ -251,11 +251,8 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
       // when
       await catchErr(async function () {
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await authenticationMethodRepository.updateChangedPassword(
-            { userId, hashedPassword: 'coucou' },
-            domainTransaction,
-          );
+        await DomainTransaction.execute(async () => {
+          await authenticationMethodRepository.updateChangedPassword({ userId, hashedPassword: 'coucou' });
           throw new Error('Error occurs in transaction');
         });
       })();
@@ -607,11 +604,10 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
       // when
       await catchErr(async function () {
-        await DomainTransaction.execute(async (domainTransaction) => {
+        await DomainTransaction.execute(async () => {
           await authenticationMethodRepository.updatePasswordThatShouldBeChanged({
             userId,
             hashedPassword: newHashedPassword,
-            domainTransaction,
           });
           throw new Error('Error occurs in transaction');
         });
@@ -693,11 +689,10 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     it('should be DomainTransaction compliant', async function () {
       // when
       await catchErr(async function () {
-        await DomainTransaction.execute(async (domainTransaction) => {
+        await DomainTransaction.execute(async () => {
           await authenticationMethodRepository.createPasswordThatShouldBeChanged({
             userId,
             hashedPassword: newHashedPassword,
-            domainTransaction,
           });
           throw new Error('Error occurs in transaction');
         });
@@ -1230,10 +1225,9 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
         // when
         await catchErr(async function () {
-          await DomainTransaction.execute(async (domainTransaction) => {
+          await DomainTransaction.execute(async () => {
             await authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged({
               usersToUpdateWithNewPassword,
-              domainTransaction,
             });
             throw new Error('Error occurs in transaction');
           });

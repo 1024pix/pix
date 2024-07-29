@@ -107,7 +107,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       // when
       const knowledgeElementsFound = await DomainTransaction.execute(async (domainTransaction) => {
         await domainTransaction.knexTransaction('knowledge-elements').insert(extraKnowledgeElement);
-        return knowledgeElementRepository.findUniqByUserId({ userId, domainTransaction });
+        return knowledgeElementRepository.findUniqByUserId({ userId });
       });
 
       // then

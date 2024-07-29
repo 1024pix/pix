@@ -6,8 +6,8 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationCenter } from '../../../../shared/domain/models/index.js';
 import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
 
-const save = async function ({ session, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+const save = async function ({ session }) {
+  const knexConn = DomainTransaction.getConnection();
   const [savedSession] = await knexConn('sessions')
     .insert({
       accessCode: session.accessCode,

@@ -217,8 +217,8 @@ export class OidcAuthenticationService {
   }) {
     let createdUserId;
 
-    await DomainTransaction.execute(async (domainTransaction) => {
-      createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
+    await DomainTransaction.execute(async () => {
+      createdUserId = (await userToCreateRepository.create({ user })).id;
 
       const authenticationComplement = this.createAuthenticationComplement({ userInfo });
       const authenticationMethod = new AuthenticationMethod({
@@ -227,7 +227,7 @@ export class OidcAuthenticationService {
         externalIdentifier: externalIdentityId,
         authenticationComplement,
       });
-      await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
+      await authenticationMethodRepository.create({ authenticationMethod });
     });
 
     return createdUserId;

@@ -48,10 +48,6 @@ describe('Unit | UseCase | anonymize-user', function () {
       role,
     });
 
-    const domainTransaction = {
-      knexTransaction: Symbol('transaction'),
-    };
-
     const userRepository = {
       get: sinon.stub(),
       updateUserDetailsForAdministration: sinon.stub(),
@@ -85,7 +81,6 @@ describe('Unit | UseCase | anonymize-user', function () {
       resetPasswordDemandRepository,
       adminMemberRepository,
       userLoginRepository,
-      domainTransaction,
     });
 
     // then
@@ -93,7 +88,6 @@ describe('Unit | UseCase | anonymize-user', function () {
 
     expect(authenticationMethodRepository.removeAllAuthenticationMethodsByUserId).to.have.been.calledWithExactly({
       userId,
-      domainTransaction,
     });
 
     expect(refreshTokenService.revokeRefreshTokensForUserId).to.have.been.calledWithExactly({ userId });
@@ -103,13 +97,11 @@ describe('Unit | UseCase | anonymize-user', function () {
     expect(membershipRepository.disableMembershipsByUserId).to.have.been.calledWithExactly({
       userId,
       updatedByUserId,
-      domainTransaction,
     });
 
     expect(certificationCenterMembershipRepository.disableMembershipsByUserId).to.have.been.calledWithExactly({
       userId,
       updatedByUserId,
-      domainTransaction,
     });
 
     expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWithExactly(
@@ -124,7 +116,6 @@ describe('Unit | UseCase | anonymize-user', function () {
 
     expect(organizationLearnerRepository.dissociateAllStudentsByUserId).to.have.been.calledWithExactly({
       userId,
-      domainTransaction,
     });
 
     expect(userLoginRepository.update).to.have.been.calledWithExactly(userLogin.anonymize(), {

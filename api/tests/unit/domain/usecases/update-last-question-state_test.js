@@ -6,7 +6,6 @@ describe('Unit | UseCase | update-last-question-state', function () {
   const assessmentId = 'assessmentId';
   const focusedChallengeId = 'focusedChallengeId';
   const notFocusedChallengeId = 'notFocusedChallengeId';
-  let domainTransaction;
   let challengeRepository;
   let assessmentRepository;
   let lastQuestionState;
@@ -14,7 +13,6 @@ describe('Unit | UseCase | update-last-question-state', function () {
   let notFocusedChallenge;
 
   beforeEach(function () {
-    domainTransaction = Symbol('domainTransaction');
     challengeRepository = {
       get: sinon.stub(),
     };
@@ -41,16 +39,13 @@ describe('Unit | UseCase | update-last-question-state', function () {
 
     it('should call assessmentRepository.updateLastQuestionState', async function () {
       // Given
-      assessmentRepository.updateLastQuestionState
-        .withArgs({ id: assessmentId, lastQuestionState, domainTransaction })
-        .resolves();
+      assessmentRepository.updateLastQuestionState.withArgs({ id: assessmentId, lastQuestionState }).resolves();
 
       // When
       await updateLastQuestionState({
         assessmentId,
         lastQuestionState,
         challengeId: focusedChallengeId,
-        domainTransaction,
         assessmentRepository,
         challengeRepository,
       });
@@ -67,14 +62,14 @@ describe('Unit | UseCase | update-last-question-state', function () {
 
     it('should return early when challengeId is not provided', async function () {
       // Given
-      challengeRepository.get.withArgs(notFocusedChallengeId, domainTransaction).resolves(notFocusedChallenge);
+      challengeRepository.get.withArgs(notFocusedChallengeId).resolves(notFocusedChallenge);
 
       // When
       await updateLastQuestionState({
         assessmentId,
         lastQuestionState,
         challengeId: undefined,
-        domainTransaction,
+
         assessmentRepository,
         challengeRepository,
       });
@@ -86,14 +81,14 @@ describe('Unit | UseCase | update-last-question-state', function () {
 
     it('should early return if challenge is not focused', async function () {
       // Given
-      challengeRepository.get.withArgs(notFocusedChallengeId, domainTransaction).resolves(notFocusedChallenge);
+      challengeRepository.get.withArgs(notFocusedChallengeId).resolves(notFocusedChallenge);
 
       // When
       await updateLastQuestionState({
         assessmentId,
         lastQuestionState,
         challengeId: notFocusedChallengeId,
-        domainTransaction,
+
         assessmentRepository,
         challengeRepository,
       });
@@ -105,21 +100,21 @@ describe('Unit | UseCase | update-last-question-state', function () {
     context('when challenge is focused', function () {
       it('should return early if the provided challenge id differs from assessment.lastChallengeId in repository', async function () {
         // Given
-        challengeRepository.get.withArgs(focusedChallengeId, domainTransaction).resolves(focusedChallenge);
+        challengeRepository.get.withArgs(focusedChallengeId).resolves(focusedChallenge);
 
         const assessment = domainBuilder.buildAssessment({
           id: assessmentId,
           lastChallengeId: notFocusedChallengeId,
           state: 'started',
         });
-        assessmentRepository.get.withArgs(assessmentId, domainTransaction).resolves(assessment);
+        assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
 
         // When
         await updateLastQuestionState({
           assessmentId,
           lastQuestionState,
           challengeId: focusedChallengeId,
-          domainTransaction,
+
           assessmentRepository,
           challengeRepository,
         });
@@ -130,25 +125,23 @@ describe('Unit | UseCase | update-last-question-state', function () {
 
       it('should call assessmentRepository.updateLastQuestionState when the challenge id equals assessment.lastChallengeId', async function () {
         // Given
-        challengeRepository.get.withArgs(focusedChallengeId, domainTransaction).resolves(focusedChallenge);
+        challengeRepository.get.withArgs(focusedChallengeId).resolves(focusedChallenge);
 
         const assessment = domainBuilder.buildAssessment({
           id: assessmentId,
           lastChallengeId: focusedChallengeId,
           state: 'started',
         });
-        assessmentRepository.get.withArgs(assessmentId, domainTransaction).resolves(assessment);
+        assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
 
-        assessmentRepository.updateLastQuestionState
-          .withArgs({ id: assessmentId, lastQuestionState, domainTransaction })
-          .resolves();
+        assessmentRepository.updateLastQuestionState.withArgs({ id: assessmentId, lastQuestionState }).resolves();
 
         // When
         await updateLastQuestionState({
           assessmentId,
           lastQuestionState,
           challengeId: focusedChallengeId,
-          domainTransaction,
+
           assessmentRepository,
           challengeRepository,
         });

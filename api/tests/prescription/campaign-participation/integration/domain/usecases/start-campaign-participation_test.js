@@ -12,11 +12,10 @@ describe('Integration | UseCases | startCampaignParticipation', function () {
     await databaseBuilder.commit();
     const campaignParticipation = { campaignId };
 
-    const { campaignParticipation: startedParticipation } = await DomainTransaction.execute((domainTransaction) => {
+    const { campaignParticipation: startedParticipation } = await DomainTransaction.execute(() => {
       return usecases.startCampaignParticipation({
         userId,
         campaignParticipation,
-        domainTransaction,
       });
     });
 

@@ -48,8 +48,8 @@ const findByIds = async function ({ ids }) {
   return rawOrganizationLearners.map((rawOrganizationLearner) => new OrganizationLearner(rawOrganizationLearner));
 };
 
-const findByOrganizationId = function ({ organizationId }, transaction = DomainTransaction.emptyTransaction()) {
-  const knexConn = transaction.knexTransaction || knex;
+const findByOrganizationId = function ({ organizationId }) {
+  const knexConn = DomainTransaction.getConnection();
   return knexConn('view-active-organization-learners')
     .where({ organizationId })
     .orderByRaw('LOWER("lastName") ASC, LOWER("firstName") ASC')
@@ -100,16 +100,12 @@ const isOrganizationLearnerIdLinkedToUserAndSCOOrganization = async function ({ 
   return Boolean(exist);
 };
 
-const _reconcileOrganizationLearners = async function (
-  studentsToImport,
-  allOrganizationLearnersInSameOrganization,
-  domainTransaction,
-) {
+const _reconcileOrganizationLearners = async function (studentsToImport, allOrganizationLearnersInSameOrganization) {
   const nationalStudentIdsFromFile = studentsToImport
     .map((organizationLearnerData) => organizationLearnerData.nationalStudentId)
     .filter(Boolean);
   const organizationLearnersWithSameNationalStudentIdsAsImported =
-    await studentRepository.findReconciledStudentsByNationalStudentId(nationalStudentIdsFromFile, domainTransaction);
+    await studentRepository.findReconciledStudentsByNationalStudentId(nationalStudentIdsFromFile);
 
   organizationLearnersWithSameNationalStudentIdsAsImported.forEach((organizationLearner) => {
     const alreadyReconciledStudentToImport = studentsToImport.find(
@@ -148,13 +144,9 @@ const findByOrganizationIdAndBirthdate = async function ({ organizationId, birth
   return rawOrganizationLearners.map((rawOrganizationLearner) => new OrganizationLearner(rawOrganizationLearner));
 };
 
-const reconcileUserToOrganizationLearner = async function ({
-  userId,
-  organizationLearnerId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
+const reconcileUserToOrganizationLearner = async function ({ userId, organizationLearnerId }) {
   try {
-    const knexConn = domainTransaction.knexTransaction ?? knex;
+    const knexConn = DomainTransaction.getConnection();
     const [rawOrganizationLearner] = await knexConn('organization-learners')
       .where({ id: organizationLearnerId })
       .where('isDisabled', false)
@@ -218,11 +210,8 @@ const dissociateUserFromOrganizationLearner = async function (organizationLearne
   await _queryBuilderDissociation(knex).where({ id: organizationLearnerId });
 };
 
-const dissociateAllStudentsByUserId = async function ({
-  userId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+const dissociateAllStudentsByUserId = async function ({ userId }) {
+  const knexConn = DomainTransaction.getConnection();
   await _queryBuilderDissociation(knexConn)
     .where({ userId })
     .whereIn(
@@ -269,12 +258,8 @@ const getLatestOrganizationLearner = async function ({ nationalStudentId, birthd
   return organizationLearner;
 };
 
-const updateUserIdWhereNull = async function ({
-  organizationLearnerId,
-  userId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const updateUserIdWhereNull = async function ({ organizationLearnerId, userId }) {
+  const knexConn = DomainTransaction.getConnection();
   const [rawOrganizationLearner] = await knexConn('organization-learners')
     .where({ id: organizationLearnerId, userId: null })
     .update({ userId, updatedAt: knex.fn.now() })
@@ -316,14 +301,12 @@ async function countByOrganizationsWhichNeedToComputeCertificability({
   onlyNotComputed = false,
   fromUserActivityDate,
   toUserActivityDate,
-  domainTransaction,
 } = {}) {
   const queryBuilder = _queryBuilderForCertificability({
     fromUserActivityDate,
     toUserActivityDate,
     skipLoggedLastDayCheck,
     onlyNotComputed,
-    domainTransaction,
   });
   const [{ count }] = await queryBuilder.count('view-active-organization-learners.id');
   return count;
@@ -336,14 +319,12 @@ function findByOrganizationsWhichNeedToComputeCertificability({
   toUserActivityDate,
   skipLoggedLastDayCheck = false,
   onlyNotComputed = false,
-  domainTransaction,
 } = {}) {
   const queryBuilder = _queryBuilderForCertificability({
     fromUserActivityDate,
     toUserActivityDate,
     skipLoggedLastDayCheck,
     onlyNotComputed,
-    domainTransaction,
   });
 
   return queryBuilder
@@ -364,9 +345,8 @@ function _queryBuilderForCertificability({
   toUserActivityDate,
   skipLoggedLastDayCheck,
   onlyNotComputed,
-  domainTransaction,
 }) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+  const knexConn = DomainTransaction.getConnection();
   return knexConn('view-active-organization-learners')
     .join(
       'organization-features',

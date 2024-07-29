@@ -146,12 +146,8 @@ const updateById = async function ({ id, membership }) {
   return bookshelfToDomainConverter.buildDomainObject(BookshelfMembership, updatedMembershipWithUserAndOrganization);
 };
 
-const disableMembershipsByUserId = async function ({
-  userId,
-  updatedByUserId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+const disableMembershipsByUserId = async function ({ userId, updatedByUserId }) {
+  const knexConn = DomainTransaction.getConnection();
   await knexConn('memberships').where({ userId }).update({ disabledAt: new Date(), updatedByUserId });
 };
 

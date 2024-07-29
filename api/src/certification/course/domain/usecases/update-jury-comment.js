@@ -24,10 +24,9 @@ const updateJuryComment = async function ({
   assessmentResultRepository,
   competenceMarkRepository,
 }) {
-  await DomainTransaction.execute(async (domainTransaction) => {
+  await DomainTransaction.execute(async () => {
     const latestAssessmentResult = await courseAssessmentResultRepository.getLatestAssessmentResult({
       certificationCourseId,
-      domainTransaction,
     });
 
     const updatedAssessmentResult = latestAssessmentResult.clone();
@@ -38,14 +37,10 @@ const updateJuryComment = async function ({
     const { id: assessmentResultId } = await assessmentResultRepository.save({
       certificationCourseId,
       assessmentResult: updatedAssessmentResult,
-      domainTransaction,
     });
 
     for (const competenceMark of latestAssessmentResult.competenceMarks) {
-      await competenceMarkRepository.save(
-        new CompetenceMark({ ...competenceMark, assessmentResultId }),
-        domainTransaction,
-      );
+      await competenceMarkRepository.save(new CompetenceMark({ ...competenceMark, assessmentResultId }));
     }
   });
 };

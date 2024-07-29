@@ -759,12 +759,10 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
   describe('#createUserAccount', function () {
     let userToCreateRepository, authenticationMethodRepository;
-    let domainTransaction;
 
     beforeEach(function () {
-      domainTransaction = Symbol();
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
-        return lambda(domainTransaction);
+        return lambda();
       });
 
       userToCreateRepository = {
@@ -784,7 +782,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
       const userInfo = {};
       const userId = 1;
-      userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
+      userToCreateRepository.create.withArgs({ user }).resolves({ id: userId });
 
       const identityProvider = 'genericOidcProviderCode';
       const expectedAuthenticationMethod = new AuthenticationMethod({
@@ -806,7 +804,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       // then
       expect(authenticationMethodRepository.create).to.have.been.calledWithExactly({
         authenticationMethod: expectedAuthenticationMethod,
-        domainTransaction,
       });
       expect(result).to.equal(userId);
     });
@@ -821,7 +818,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         });
         const userInfo = {};
         const userId = 1;
-        userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
+        userToCreateRepository.create.withArgs({ user }).resolves({ id: userId });
 
         const identityProvider = 'genericOidcProviderCode';
         const expectedAuthenticationMethod = new AuthenticationMethod({
@@ -843,7 +840,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(authenticationMethodRepository.create).to.have.been.calledWithExactly({
           authenticationMethod: expectedAuthenticationMethod,
-          domainTransaction,
         });
       });
     });
@@ -860,7 +856,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const claimsToStoreWithValues = { employeeNumber: 'some-opaque-value', studentGroup: 'another-opaque-value' };
         const userInfo = { ...claimsToStoreWithValues };
         const userId = 1;
-        userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
+        userToCreateRepository.create.withArgs({ user }).resolves({ id: userId });
 
         const identityProvider = 'genericOidcProviderCode';
         const expectedAuthenticationMethod = new AuthenticationMethod({
@@ -883,7 +879,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(authenticationMethodRepository.create).to.have.been.calledWithExactly({
           authenticationMethod: expectedAuthenticationMethod,
-          domainTransaction,
         });
       });
     });

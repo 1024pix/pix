@@ -4,9 +4,6 @@ import { expect, sinon } from '../../../../test-helper.js';
 describe('Unit | Identity Access Management | Domain | UseCases | add-oidc-provider', function () {
   it('creates an OIDC Provider in the oidc-provider-repository', async function () {
     // given
-    const domainTransaction = {
-      knexTransaction: null,
-    };
     const oidcProviderRepository = {
       create: sinon.stub(),
     };
@@ -56,7 +53,6 @@ describe('Unit | Identity Access Management | Domain | UseCases | add-oidc-provi
       oidcProviderRepository,
       cryptoService,
       addOidcProviderValidator,
-      domainTransaction,
     });
 
     // then
@@ -81,8 +77,6 @@ describe('Unit | Identity Access Management | Domain | UseCases | add-oidc-provi
       source: 'oidcexamplenet',
     });
     expect(cryptoService.encrypt).to.have.been.calledWithExactly('secret');
-    expect(oidcProviderRepository.create).to.have.been.calledWithExactly(expectedOidcProviderProperties, {
-      domainTransaction,
-    });
+    expect(oidcProviderRepository.create).to.have.been.calledWithExactly(expectedOidcProviderProperties);
   });
 });

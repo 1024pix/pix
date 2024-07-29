@@ -3,7 +3,6 @@ import { TargetProfileForCreation } from '../../../src/shared/domain/models/Targ
 
 const createTargetProfile = async function ({
   targetProfileCreationCommand,
-  domainTransaction,
   targetProfileRepository,
   organizationRepository,
 }) {
@@ -18,7 +17,6 @@ const createTargetProfile = async function ({
 
   return targetProfileRepository.create({
     targetProfileForCreation,
-    domainTransaction,
   });
 };
 

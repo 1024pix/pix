@@ -2,7 +2,6 @@ import { handleBadgeAcquisition } from '../../../../lib/domain/usecases/handle-b
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | handle-badge-acquisition', function () {
-  let domainTransaction;
   let badgeForCalculationRepository, badgeAcquisitionRepository, knowledgeElementRepository;
   let args;
 
@@ -10,12 +9,10 @@ describe('Unit | UseCase | handle-badge-acquisition', function () {
     badgeForCalculationRepository = { findByCampaignParticipationId: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
     badgeAcquisitionRepository = { createOrUpdate: sinon.stub() };
-    domainTransaction = Symbol('domainTransaction');
     args = {
       badgeForCalculationRepository,
       knowledgeElementRepository,
       badgeAcquisitionRepository,
-      domainTransaction,
     };
   });
 
@@ -48,9 +45,7 @@ describe('Unit | UseCase | handle-badge-acquisition', function () {
     context('when campaign has no badges', function () {
       it('should not attempt to create any badge acquisition', async function () {
         // given
-        badgeForCalculationRepository.findByCampaignParticipationId
-          .withArgs({ campaignParticipationId, domainTransaction })
-          .resolves([]);
+        badgeForCalculationRepository.findByCampaignParticipationId.withArgs({ campaignParticipationId }).resolves([]);
         knowledgeElementRepository.findUniqByUserId.rejects('I should not be called');
 
         // when
@@ -73,10 +68,10 @@ describe('Unit | UseCase | handle-badge-acquisition', function () {
       it('should create or update badge acquisitions of obtained badges', async function () {
         // given
         badgeForCalculationRepository.findByCampaignParticipationId
-          .withArgs({ campaignParticipationId, domainTransaction })
+          .withArgs({ campaignParticipationId })
           .resolves([badgeObtained1, badgeNotObtained2, badgeObtained3]);
         knowledgeElementRepository.findUniqByUserId
-          .withArgs({ userId, domainTransaction })
+          .withArgs({ userId })
           .resolves([domainBuilder.buildKnowledgeElement()]);
 
         // when
@@ -90,7 +85,6 @@ describe('Unit | UseCase | handle-badge-acquisition', function () {
         expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledOnce;
         expect(badgeAcquisitionRepository.createOrUpdate.firstCall).to.have.been.calledWithExactly({
           badgeAcquisitionsToCreate,
-          domainTransaction,
         });
       });
     });

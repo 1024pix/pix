@@ -33,8 +33,8 @@ const getCodeOfLastParticipationToProfilesCollectionCampaignForUser = async func
   return result?.code || null;
 };
 
-const get = async function (id, domainTransaction = DomainTransaction.emptyTransaction()) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+const get = async function (id) {
+  const knexConn = DomainTransaction.getConnection();
   const campaignParticipation = await knexConn('campaign-participations').where({ id }).first();
   const campaign = await knexConn('campaigns').where({ id: campaignParticipation.campaignId }).first();
   const assessments = await knexConn('assessments').where({ campaignParticipationId: id });

@@ -8,7 +8,6 @@ describe('Unit | UseCase | Update organization identityProviderForCampaigns', fu
     context('when updating only "identityProviderForCampaigns" property', function () {
       it('updates only "identityProviderForCampaigns" property and returns updated organization domain object', async function () {
         // given
-        const domainTransaction = Symbol('domainTransaction');
         const organization = domainBuilder.buildOrganization();
         const organizationForAdminRepository = {
           get: sinon.stub().resolves(new OrganizationForAdmin({ ...organization })),
@@ -21,17 +20,13 @@ describe('Unit | UseCase | Update organization identityProviderForCampaigns', fu
           organizationId: organization.id,
           identityProviderForCampaigns: organization.identityProviderForCampaigns,
           organizationForAdminRepository,
-          domainTransaction,
         });
 
         // then
-        expect(organizationForAdminRepository.get).to.have.been.calledWithExactly(organization.id, domainTransaction);
-        expect(organizationForAdminRepository.update).to.have.been.calledWithMatch(
-          {
-            identityProviderForCampaigns: organization.identityProviderForCampaigns,
-          },
-          domainTransaction,
-        );
+        expect(organizationForAdminRepository.get).to.have.been.calledWithExactly(organization.id);
+        expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
+          identityProviderForCampaigns: organization.identityProviderForCampaigns,
+        });
       });
     });
   });
@@ -39,7 +34,6 @@ describe('Unit | UseCase | Update organization identityProviderForCampaigns', fu
   context('when organization does not exists', function () {
     it('throws an OrganizationNotFoundError', async function () {
       // given
-      const domainTransaction = Symbol('domainTransaction');
       const organizationForAdminRepository = { get: sinon.stub().resolves(), update: sinon.stub().resolves() };
       const organization = domainBuilder.buildOrganization();
 
@@ -48,11 +42,10 @@ describe('Unit | UseCase | Update organization identityProviderForCampaigns', fu
         organizationId: organization.id,
         identityProviderForCampaigns: organization.identityProviderForCampaigns,
         organizationForAdminRepository,
-        domainTransaction,
       });
 
       // then
-      expect(organizationForAdminRepository.get).to.have.been.calledWithExactly(organization.id, domainTransaction);
+      expect(organizationForAdminRepository.get).to.have.been.calledWithExactly(organization.id);
       expect(organizationForAdminRepository.update).to.not.have.been.called;
       expect(error).to.be.an.instanceOf(OrganizationNotFoundError);
     });

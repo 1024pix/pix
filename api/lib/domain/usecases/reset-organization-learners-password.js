@@ -9,7 +9,6 @@ const resetOrganizationLearnersPassword = async function ({
   organizationId,
   organizationLearnersId,
   userId,
-  domainTransaction,
   cryptoService,
   passwordGenerator,
   authenticationMethodRepository,
@@ -65,7 +64,6 @@ const resetOrganizationLearnersPassword = async function ({
 
   await authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged({
     usersToUpdateWithNewPassword,
-    domainTransaction,
   });
 
   return organizationLearnersPasswordResets;

@@ -5,7 +5,6 @@ const handleTrainingRecommendation = async function ({
   knowledgeElementRepository,
   trainingRepository,
   userRecommendedTrainingRepository,
-  domainTransaction,
 }) {
   if (!assessment.isForCampaign()) {
     return;
@@ -14,7 +13,6 @@ const handleTrainingRecommendation = async function ({
   const trainings = await trainingRepository.findWithTriggersByCampaignParticipationIdAndLocale({
     campaignParticipationId,
     locale,
-    domainTransaction,
   });
 
   if (trainings.length === 0) {
@@ -23,11 +21,9 @@ const handleTrainingRecommendation = async function ({
 
   const campaignSkills = await campaignRepository.findSkillsByCampaignParticipationId({
     campaignParticipationId,
-    domainTransaction,
   });
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
     userId: assessment.userId,
-    domainTransaction,
   });
 
   for (const training of trainings) {
@@ -36,7 +32,6 @@ const handleTrainingRecommendation = async function ({
         userId: assessment.userId,
         trainingId: training.id,
         campaignParticipationId,
-        domainTransaction,
       });
     }
   }

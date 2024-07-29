@@ -30,11 +30,10 @@ const updateUserAccountFromRecoveryDemand = async function (request, h) {
   const temporaryKey = request.payload.data.attributes['temporary-key'];
   const password = request.payload.data.attributes.password;
 
-  await DomainTransaction.execute(async (domainTransaction) => {
+  await DomainTransaction.execute(async () => {
     await usecases.updateUserForAccountRecovery({
       password,
       temporaryKey,
-      domainTransaction,
     });
   });
 

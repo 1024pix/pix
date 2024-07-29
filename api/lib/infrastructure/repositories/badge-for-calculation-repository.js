@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { knex } from '../../../db/knex-database-connection.js';
 import { SCOPES } from '../../../src/shared/domain/models/BadgeDetails.js';
 import { BadgeCriterionForCalculation, BadgeForCalculation } from '../../../src/shared/domain/models/index.js';
 import { DomainTransaction } from '../DomainTransaction.js';
@@ -8,11 +7,8 @@ import * as campaignRepository from './campaign-repository.js';
 
 export { findByCampaignId, findByCampaignParticipationId, getByCertifiableBadgeAcquisition };
 
-const findByCampaignParticipationId = async function ({
-  campaignParticipationId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction?.knexTransaction || knex;
+const findByCampaignParticipationId = async function ({ campaignParticipationId }) {
+  const knexConn = DomainTransaction.getConnection();
   const badgesDTO = await knexConn('badges')
     .select('badges.id')
     .join('target-profiles', 'target-profiles.id', 'badges.targetProfileId')
@@ -30,7 +26,6 @@ const findByCampaignParticipationId = async function ({
 
   const campaignSkills = await campaignRepository.findSkillsByCampaignParticipationId({
     campaignParticipationId,
-    domainTransaction,
   });
   const campaignSkillIds = campaignSkills.map(({ id }) => id);
   const campaignSkillsByTube = _.groupBy(campaignSkills, 'tubeId');
@@ -49,8 +44,8 @@ const findByCampaignParticipationId = async function ({
   return _.compact(badges);
 };
 
-const findByCampaignId = async function ({ campaignId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const knexConn = domainTransaction?.knexTransaction || knex;
+const findByCampaignId = async function ({ campaignId }) {
+  const knexConn = DomainTransaction.getConnection();
   const badgesDTO = await knexConn('badges')
     .select('badges.id')
     .join('target-profiles', 'target-profiles.id', 'badges.targetProfileId')
@@ -67,7 +62,6 @@ const findByCampaignId = async function ({ campaignId, domainTransaction = Domai
 
   const campaignSkills = await campaignRepository.findSkills({
     campaignId,
-    domainTransaction,
   });
   const campaignSkillIds = campaignSkills.map(({ id }) => id);
   const campaignSkillsByTube = _.groupBy(campaignSkills, 'tubeId');
@@ -86,13 +80,11 @@ const findByCampaignId = async function ({ campaignId, domainTransaction = Domai
   return _.compact(badges);
 };
 
-const getByCertifiableBadgeAcquisition = async function ({
-  certifiableBadgeAcquisition,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
+const getByCertifiableBadgeAcquisition = async function ({ certifiableBadgeAcquisition }) {
+  const knexConn = DomainTransaction.getConnection();
   const badgeId = certifiableBadgeAcquisition.badgeId;
   const campaignId = certifiableBadgeAcquisition.campaignId;
-  const knexConn = domainTransaction?.knexTransaction || knex;
+
   const badgeDTO = await knexConn('badges')
     .select('badges.id')
     .join('target-profiles', 'target-profiles.id', 'badges.targetProfileId')
@@ -109,7 +101,6 @@ const getByCertifiableBadgeAcquisition = async function ({
 
   const campaignSkills = await campaignRepository.findSkills({
     campaignId,
-    domainTransaction,
   });
   const campaignSkillIds = campaignSkills.map(({ id }) => id);
   const campaignSkillsByTube = _.groupBy(campaignSkills, 'tubeId');

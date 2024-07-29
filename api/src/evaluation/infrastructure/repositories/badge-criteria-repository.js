@@ -22,10 +22,9 @@ const save = async function ({ badgeCriterion }) {
   await knexConnection(TABLE_NAME).insert(data);
 };
 
-const saveAll = async function (badgeCriteria, { knexTransaction } = DomainTransaction.emptyTransaction()) {
-  const savedBadgeCriteria = await (knexTransaction ?? knex)(TABLE_NAME)
-    .insert(badgeCriteria.map(adaptModelToDb))
-    .returning('*');
+const saveAll = async function (badgeCriteria) {
+  const knexConn = DomainTransaction.getConnection();
+  const savedBadgeCriteria = await knexConn(TABLE_NAME).insert(badgeCriteria.map(adaptModelToDb)).returning('*');
   return savedBadgeCriteria.map((badgeCriteria) => new BadgeCriterion(badgeCriteria));
 };
 
@@ -43,8 +42,9 @@ const updateCriterion = async function (id, attributesToUpdate) {
   return new BadgeCriterion(updatedCriterion);
 };
 
-const findAllByBadgeId = async (badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) => {
-  const badgeCriteria = await (knexTransaction ?? knex)(TABLE_NAME).where('badgeId', badgeId);
+const findAllByBadgeId = async (badgeId) => {
+  const knexConn = DomainTransaction.getConnection();
+  const badgeCriteria = await knexConn(TABLE_NAME).where('badgeId', badgeId);
   return badgeCriteria.map((badgeCriteria) => new BadgeCriterion(badgeCriteria));
 };
 

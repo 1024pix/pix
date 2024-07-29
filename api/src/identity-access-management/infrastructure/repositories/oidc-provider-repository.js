@@ -31,14 +31,10 @@ const OIDC_PROVIDERS_TABLE_NAME = 'oidc-providers';
  * @param {string} oidcProviderProperties.slug
  * @param {string} oidcProviderProperties.source
  * @param {Object} dependencies
- * @param {DomainTransaction} dependencies.domainTransaction
  * @returns {Promise<any[]>}
  */
-const create = async function (
-  oidcProviderProperties,
-  dependencies = { domainTransaction: DomainTransaction.emptyTransaction() },
-) {
-  const knexConn = dependencies.domainTransaction.knexTransaction ?? knex;
+const create = async function (oidcProviderProperties) {
+  const knexConn = DomainTransaction.getConnection();
   try {
     const result = await knexConn(OIDC_PROVIDERS_TABLE_NAME).insert(oidcProviderProperties).returning('*');
     return result;

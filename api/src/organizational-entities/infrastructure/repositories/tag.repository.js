@@ -1,12 +1,12 @@
 import lodash from 'lodash';
 
+import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { AlreadyExistingEntityError } from '../../../shared/domain/errors.js';
 import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
+import { Tag } from '../../domain/models/Tag.js';
 
 const { omit } = lodash;
-
-import { knex } from '../../../../db/knex-database-connection.js';
-import { Tag } from '../../domain/models/Tag.js';
 
 const create = async function (tag) {
   try {
@@ -34,8 +34,8 @@ const findAll = async function () {
   return rows.map((row) => new Tag(row));
 };
 
-const findByIds = async function (tagIds, domainTransaction) {
-  const knexConn = domainTransaction.knexTransaction;
+const findByIds = async function (tagIds) {
+  const knexConn = DomainTransaction.getConnection();
   const rows = await knexConn('tags').whereIn('id', tagIds);
   return rows.map((row) => new Tag(row));
 };

@@ -38,7 +38,6 @@ describe('Integration | Usecase | Complete Assessment', function () {
           // when
           await completeAssessment({
             assessmentId,
-            domainTransaction,
             campaignParticipationBCRepository,
             assessmentRepository,
           });

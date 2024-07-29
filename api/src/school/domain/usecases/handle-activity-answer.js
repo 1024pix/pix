@@ -15,7 +15,7 @@ const handleActivityAnswer = async function ({
   missionAssessmentRepository,
   missionRepository,
 }) {
-  return DomainTransaction.execute(async (domainTransaction) => {
+  return DomainTransaction.execute(async () => {
     const correctedAnswer = await correctAnswer({
       activityAnswer,
       assessmentId,
@@ -24,7 +24,6 @@ const handleActivityAnswer = async function ({
       activityAnswerRepository,
       activityRepository,
       examiner,
-      domainTransaction,
     });
 
     let lastActivity = await updateCurrentActivity({
@@ -33,7 +32,6 @@ const handleActivityAnswer = async function ({
       activityRepository,
       missionAssessmentRepository,
       missionRepository,
-      domainTransaction,
     });
 
     lastActivity = await initMissionActivity({
@@ -42,14 +40,12 @@ const handleActivityAnswer = async function ({
       activityRepository,
       missionAssessmentRepository,
       missionRepository,
-      domainTransaction,
     });
 
     await updateAssessment({
       lastActivity,
       assessmentId,
       assessmentRepository,
-      domainTransaction,
     });
 
     return correctedAnswer;

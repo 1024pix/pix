@@ -236,12 +236,8 @@ const getRefererByCertificationCenterId = async function ({ certificationCenterI
   return _toDomain(refererCertificationCenterMembership);
 };
 
-const disableMembershipsByUserId = async function ({
-  userId,
-  updatedByUserId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction ?? knex;
+const disableMembershipsByUserId = async function ({ userId, updatedByUserId }) {
+  const knexConn = DomainTransaction.getConnection();
   await knexConn(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
     .whereNull('disabledAt')
     .andWhere({ userId })

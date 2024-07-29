@@ -8,7 +8,6 @@ describe('Unit | Controller | target-profile-controller', function () {
   describe('#createTargetProfile', function () {
     it('should succeed', async function () {
       // given
-      const domainTransaction = Symbol('domainTr');
       sinon.stub(usecases, 'createTargetProfile');
       const targetProfileCreationCommand = {
         name: 'targetProfileName',
@@ -23,10 +22,9 @@ describe('Unit | Controller | target-profile-controller', function () {
       sinon.stub(DomainTransaction, 'execute').callsFake(() => {
         return usecases.createTargetProfile({
           targetProfileCreationCommand,
-          domainTransaction,
         });
       });
-      usecases.createTargetProfile.withArgs({ targetProfileCreationCommand, domainTransaction }).resolves(123);
+      usecases.createTargetProfile.withArgs({ targetProfileCreationCommand }).resolves(123);
       const request = {
         payload: {
           data: {
@@ -80,9 +78,7 @@ describe('Unit | Controller | target-profile-controller', function () {
             deserialize: sinon.stub().returns(attributesToUpdate),
           },
         };
-
-        const domainTransaction = Symbol('domain transaction');
-        sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+        sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
 
         // when
         const response = await targetProfileController.updateTargetProfile(request, hFake, dependencies);
@@ -93,7 +89,6 @@ describe('Unit | Controller | target-profile-controller', function () {
         expect(dependencies.usecases.updateTargetProfile).to.have.been.calledOnceWithExactly({
           id: request.params.id,
           attributesToUpdate,
-          domainTransaction,
         });
       });
     });

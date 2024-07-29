@@ -89,7 +89,6 @@ describe('Unit | Identity Access Management | Application | Controller | account
       // given
       const user = domainBuilder.buildUser({ id: 1 });
       const temporaryKey = 'validTemporaryKey';
-      const domainTransaction = Symbol();
 
       const request = {
         params: {
@@ -107,7 +106,7 @@ describe('Unit | Identity Access Management | Application | Controller | account
 
       sinon.stub(usecases, 'updateUserForAccountRecovery').resolves();
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
-        return lambda(domainTransaction);
+        return lambda();
       });
 
       // when
@@ -117,7 +116,6 @@ describe('Unit | Identity Access Management | Application | Controller | account
       expect(usecases.updateUserForAccountRecovery).calledWithMatch({
         password: user.password,
         temporaryKey,
-        domainTransaction,
       });
       expect(response.statusCode).to.equal(204);
     });

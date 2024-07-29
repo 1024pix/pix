@@ -86,12 +86,11 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
       const reconciliationUserId = error.meta.userId;
       const identityProvider = NON_OIDC_IDENTITY_PROVIDERS.GAR.code;
 
-      await DomainTransaction.execute(async (domainTransaction) => {
+      await DomainTransaction.execute(async () => {
         await authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider({
           externalIdentifier: samlId,
           userId: reconciliationUserId,
           identityProvider,
-          domainTransaction,
         });
 
         const authenticationComplement = new AuthenticationMethod.GARAuthenticationComplement({
@@ -102,12 +101,10 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
           authenticationComplement,
           userId: reconciliationUserId,
           identityProvider,
-          domainTransaction,
         });
         const organizationLearner = await organizationLearnerRepository.reconcileUserToOrganizationLearner({
           userId: reconciliationUserId,
           organizationLearnerId: matchedOrganizationLearner.id,
-          domainTransaction,
         });
         userId = organizationLearner.userId;
       });

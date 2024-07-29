@@ -444,8 +444,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     it('should complete an assessment if not already existing and commited', async function () {
       // when
-      await DomainTransaction.execute(async (domainTransaction) => {
-        await assessmentRepository.completeByAssessmentId(assessmentId, domainTransaction);
+      await DomainTransaction.execute(async () => {
+        await assessmentRepository.completeByAssessmentId(assessmentId);
       });
 
       // then
@@ -459,8 +459,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     it('should not complete an assessment if not already existing but rolled back', async function () {
       // when
       catchErr(async () => {
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await assessmentRepository.completeByAssessmentId(assessmentId, domainTransaction);
+        await DomainTransaction.execute(async () => {
+          await assessmentRepository.completeByAssessmentId(assessmentId);
           throw new Error('an error occurs within the domain transaction');
         });
       });
@@ -635,8 +635,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const lastQuestionState = 'timeout';
 
       // when
-      await DomainTransaction.execute(async (domainTransaction) => {
-        await assessmentRepository.updateLastQuestionState({ id: assessment.id, lastQuestionState, domainTransaction });
+      await DomainTransaction.execute(async () => {
+        await assessmentRepository.updateLastQuestionState({ id: assessment.id, lastQuestionState });
       });
 
       // then
@@ -653,11 +653,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         let result;
 
         // when
-        await DomainTransaction.execute(async (domainTransaction) => {
+        await DomainTransaction.execute(async () => {
           result = await assessmentRepository.updateLastQuestionState({
             id: notExistingAssessmentId,
             lastQuestionState: 'timeout',
-            domainTransaction,
           });
         });
 

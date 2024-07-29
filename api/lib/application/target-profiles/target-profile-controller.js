@@ -31,11 +31,10 @@ const updateTargetProfile = async function (request, h, dependencies = { usecase
   const targetProfileId = request.params.id;
   const attributesToUpdate = dependencies.targetProfileSerializer.deserialize(request.payload);
 
-  await DomainTransaction.execute(async (domainTransaction) => {
+  await DomainTransaction.execute(async () => {
     await dependencies.usecases.updateTargetProfile({
       id: targetProfileId,
       attributesToUpdate,
-      domainTransaction,
     });
   });
 
@@ -45,10 +44,9 @@ const updateTargetProfile = async function (request, h, dependencies = { usecase
 const createTargetProfile = async function (request) {
   const targetProfileCreationCommand = targetProfileSerializer.deserialize(request.payload);
 
-  const targetProfileId = await DomainTransaction.execute(async (domainTransaction) => {
+  const targetProfileId = await DomainTransaction.execute(async () => {
     return usecases.createTargetProfile({
       targetProfileCreationCommand,
-      domainTransaction,
     });
   });
   return targetProfileSerializer.serializeId(targetProfileId);

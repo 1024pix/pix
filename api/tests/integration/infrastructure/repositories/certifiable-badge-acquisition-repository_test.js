@@ -32,10 +32,9 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
         await databaseBuilder.commit();
 
         // when
-        const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+        const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async () => {
           return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
             userId: user.id,
-            domainTransaction,
           });
         });
 
@@ -134,10 +133,9 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
         await databaseBuilder.commit();
 
         // when
-        const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+        const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async () => {
           return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
             userId: user.id,
-            domainTransaction,
           });
         });
 
@@ -222,10 +220,9 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           await databaseBuilder.commit();
 
           // when
-          const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+          const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async () => {
             return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
               userId,
-              domainTransaction,
             });
           });
 
@@ -278,10 +275,9 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
             await databaseBuilder.commit();
 
             // when
-            const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+            const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async () => {
               return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
                 userId,
-                domainTransaction,
               });
             });
 
@@ -337,10 +333,9 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
             await databaseBuilder.commit();
 
             // when
-            const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+            const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async () => {
               return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
                 userId,
-                domainTransaction,
               });
             });
 
@@ -376,10 +371,10 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           await databaseBuilder.commit();
 
           // when
-          const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+          const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async () => {
             return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
               userId,
-              domainTransaction,
+
               limitDate: new Date('2021-01-01'),
             });
           });
@@ -406,10 +401,9 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
         await databaseBuilder.commit();
 
         // when
-        const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+        const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async () => {
           return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
             userId: userWithoutCertifiableBadge.id,
-            domainTransaction,
           });
         });
 

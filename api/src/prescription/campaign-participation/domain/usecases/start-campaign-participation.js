@@ -10,12 +10,10 @@ const startCampaignParticipation = async function ({
   campaignParticipantRepository,
   campaignParticipationRepository,
   competenceEvaluationRepository,
-  domainTransaction,
 }) {
   const campaignParticipant = await campaignParticipantRepository.get({
     userId,
     campaignId: campaignParticipation.campaignId,
-    domainTransaction,
   });
 
   campaignParticipant.start({
@@ -23,16 +21,12 @@ const startCampaignParticipation = async function ({
     isReset: campaignParticipation.isReset,
   });
 
-  const campaignParticipationId = await campaignParticipantRepository.save({ campaignParticipant, domainTransaction });
+  const campaignParticipationId = await campaignParticipantRepository.save({ campaignParticipant });
 
-  const createdCampaignParticipation = await campaignParticipationRepository.get(
-    campaignParticipationId,
-    domainTransaction,
-  );
+  const createdCampaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
 
   const areKnowledgeElementsResettable = await campaignRepository.areKnowledgeElementsResettable({
     id: campaignParticipation.campaignId,
-    domainTransaction,
   });
 
   if (areKnowledgeElementsResettable && campaignParticipation.isReset) {
@@ -43,7 +37,6 @@ const startCampaignParticipation = async function ({
       campaignRepository,
       competenceEvaluationRepository,
       knowledgeElementRepository,
-      domainTransaction,
     });
   }
 
@@ -60,20 +53,18 @@ async function _resetCampaignParticipation({
   campaignRepository,
   competenceEvaluationRepository,
   knowledgeElementRepository,
-  domainTransaction,
 }) {
   const skills = await campaignRepository.findAllSkills({
     campaignId: campaignParticipation.campaignId,
-    domainTransaction,
   });
   const skillIds = skills.map(({ id }) => id);
   const competenceIds = skills.map(({ competenceId }) => competenceId);
 
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId, domainTransaction });
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
 
   const resetKes = knowledgeElements.filter((ke) => skillIds.includes(ke.skillId)).map(KnowledgeElement.reset);
 
-  await knowledgeElementRepository.batchSave({ knowledgeElements: resetKes, domainTransaction });
+  await knowledgeElementRepository.batchSave({ knowledgeElements: resetKes });
   const competenceEvaluations = await competenceEvaluationRepository.findByUserId(userId);
   if (!competenceEvaluations) {
     return;
@@ -82,7 +73,7 @@ async function _resetCampaignParticipation({
   const assessmentIds = competenceEvaluations
     .filter((competenceEvaluation) => competenceIds.includes(competenceEvaluation.competenceId))
     .map(({ assessmentId }) => assessmentId);
-  await assessmentRepository.setAssessmentsAsStarted({ assessmentIds, domainTransaction });
+  await assessmentRepository.setAssessmentsAsStarted({ assessmentIds });
 }
 
 export { startCampaignParticipation };
