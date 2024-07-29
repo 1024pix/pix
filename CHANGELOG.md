@@ -1,5 +1,42 @@
 # Pix Changelog
 
+## v4.189.0 (29/07/2024)
+
+
+### :rocket: Amélioration
+- [#9715](https://github.com/1024pix/pix/pull/9715) [FEATURE] Mettre en retrait certains boutons de Modulix (PIX-13635) (PIX-13200).
+- [#9559](https://github.com/1024pix/pix/pull/9559) [FEATURE] Ajout d'un feature toggle pour la nouvelle page de fin de parcours.
+- [#9719](https://github.com/1024pix/pix/pull/9719) [FEATURE] Informer l'API qu'un embed auto a été réussi dans un module (PIX-13096).
+- [#9609](https://github.com/1024pix/pix/pull/9609) [FEATURE] [Pix Admin] Ajouter en masse des tags d'organisations (PIX-13456).
+- [#9701](https://github.com/1024pix/pix/pull/9701) [FEATURE] Modifier le verbe valider par vérifier dans l'e-mail de création de compte (PIX-13612).
+- [#9544](https://github.com/1024pix/pix/pull/9544) [FEATURE] Traduction en anglais du processus de récupération d'un compte SCO (PIX-13277).
+- [#9702](https://github.com/1024pix/pix/pull/9702) [FEATURE] Changement de wording dans la bannière info sur Pix Orga avec les orga SCO-1D (Pix-13533).
+- [#9714](https://github.com/1024pix/pix/pull/9714) [FEATURE] Changement de wording sur l'envoi multiple à la création de campagne  (PIX-13605).
+- [#9705](https://github.com/1024pix/pix/pull/9705) [FEATURE] Ajout d'un faicon pour Pix Junior (Pix-13615).
+- [#9628](https://github.com/1024pix/pix/pull/9628) [FEATURE] Afficher les colonnes custom des imports générique (PIX-13508).
+
+### :building_construction: Tech
+- [#9669](https://github.com/1024pix/pix/pull/9669) [TECH] Supprimer tous les arguments de transactions inutiles (PIX-13581).
+- [#9717](https://github.com/1024pix/pix/pull/9717) [TECH] Déplace les `orm-models` vers `src`.
+- [#9711](https://github.com/1024pix/pix/pull/9711) [TECH] Mise en place de scripts `npm run dev` pour lancer les environnement de développement.
+- [#9710](https://github.com/1024pix/pix/pull/9710) [TECH] Déplace les `lib/application/usecases` vers `src/shared/application`.
+- [#9703](https://github.com/1024pix/pix/pull/9703) [TECH] Migration de la route /api/admin/certifications/:id vers src (PIX-13608).
+- [#9707](https://github.com/1024pix/pix/pull/9707) [TECH] déplace le répertoire `open-api-doc` vers `src/shared/infrastructure/`.
+- [#9588](https://github.com/1024pix/pix/pull/9588) [TECH] Migration de la route LSU/LSL vers src/results (PIX-13500).
+- [#9697](https://github.com/1024pix/pix/pull/9697) [TECH] Déplace l'ensemble des `models` et `read-models` restant dans `lib/` vers `src/shared/`.
+- [#9650](https://github.com/1024pix/pix/pull/9650) [TECH] Script temporaire de rescoring de complementaire (PIX-10340).
+
+### :bug: Correction
+- [#9726](https://github.com/1024pix/pix/pull/9726) [BUGFIX] Ne pas mettre a jour le champ campaignId quand on met a jour la campagn-participations (PIX-13644).
+- [#9696](https://github.com/1024pix/pix/pull/9696) [BUGFIX] Épreuves timées : traduction du temps imparti (PIX-13514).
+
+### :arrow_up: Montée de version
+- [#9724](https://github.com/1024pix/pix/pull/9724) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.13 (junior).
+- [#9722](https://github.com/1024pix/pix/pull/9722) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.13 (admin).
+- [#9721](https://github.com/1024pix/pix/pull/9721) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.12 (mon-pix).
+- [#9693](https://github.com/1024pix/pix/pull/9693) [BUMP] Lock file maintenance (mon-pix).
+- [#9695](https://github.com/1024pix/pix/pull/9695) [BUMP] Lock file maintenance (e2e).
+
 ## v4.188.0 (25/07/2024)
 
 
