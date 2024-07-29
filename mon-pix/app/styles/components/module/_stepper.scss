@@ -7,7 +7,8 @@
     justify-content: center;
     width: 100%;
 
-    &::before, &::after {
+    &::before,
+    &::after {
       flex: 1;
       height: 2px;
       background: var(--pix-neutral-100);
@@ -39,11 +40,30 @@
       margin: var(--pix-spacing-1x) 0 var(--pix-spacing-4x) 0;
     }
   }
+
+  &__next {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+
+    &::before,
+    &::after {
+      flex-grow: 1;
+      border-top: 3px dotted var(--pix-neutral-100);
+      content: '';
+    }
+  }
 }
 
 .stepper-step-position {
   &__content {
     padding: var(--pix-spacing-1x) var(--pix-spacing-4x);
     color: var(--pix-neutral-800);
+  }
+}
+
+.stepper-next {
+  &__button {
+    width: 190px;
   }
 }
