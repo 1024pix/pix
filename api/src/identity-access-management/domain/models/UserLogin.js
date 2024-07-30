@@ -1,7 +1,17 @@
 import { config } from '../../../shared/config.js';
+import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
 
 class UserLogin {
-  constructor({ id, userId, failureCount = 0, temporaryBlockedUntil, blockedAt, createdAt, updatedAt } = {}) {
+  constructor({
+    id,
+    userId,
+    failureCount = 0,
+    temporaryBlockedUntil,
+    blockedAt,
+    createdAt,
+    updatedAt,
+    lastLoggedAt,
+  } = {}) {
     this.id = id;
     this.userId = userId;
     this.failureCount = failureCount;
@@ -9,6 +19,7 @@ class UserLogin {
     this.blockedAt = blockedAt;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.lastLoggedAt = lastLoggedAt;
   }
 
   incrementFailureCount() {
@@ -59,8 +70,11 @@ class UserLogin {
   anonymize() {
     return new UserLogin({
       ...this,
+      createdAt: anonymizeGeneralizeDate(this.createdAt),
+      updatedAt: anonymizeGeneralizeDate(this.updatedAt),
       temporaryBlockedUntil: null,
       blockedAt: null,
+      lastLoggedAt: this.lastLoggedAt && anonymizeGeneralizeDate(this.lastLoggedAt),
     });
   }
 }

@@ -1,7 +1,5 @@
 import { randomUUID } from 'node:crypto';
 
-import bluebird from 'bluebird';
-
 import { UnauthorizedError } from '../../../shared/application/http-errors.js';
 import { config } from '../../../shared/config.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
@@ -72,9 +70,9 @@ async function revokeRefreshToken({ refreshToken }) {
 async function revokeRefreshTokensForUserId({ userId }) {
   const refreshTokens = await userRefreshTokensTemporaryStorage.lrange(userId);
   await userRefreshTokensTemporaryStorage.delete(userId);
-  await bluebird.mapSeries(refreshTokens, (refreshToken) => {
-    return refreshTokenTemporaryStorage.delete(refreshToken);
-  });
+  for (const refreshToken of refreshTokens) {
+    await refreshTokenTemporaryStorage.delete(refreshToken);
+  }
 }
 
 /**

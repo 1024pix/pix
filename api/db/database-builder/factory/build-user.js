@@ -46,14 +46,12 @@ function _buildPixAuthenticationMethod({
   });
 }
 
-function _generateAnEmailIfNecessary(email, id, lastName, firstName) {
+function _generateEmailIfUndefined(email, id, lastName, firstName) {
   if (isUndefined(email)) {
     return `${firstName}.${lastName}${id}@example.net`.replaceAll(/\s+/g, '_').toLowerCase();
   }
-  if (email) {
-    return email;
-  }
-  return null;
+
+  return email;
 }
 
 /**
@@ -115,7 +113,7 @@ const buildUser = function buildUser({
   hasBeenAnonymisedBy = null,
   lastDataProtectionPolicySeenAt = null,
 } = {}) {
-  email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
+  email = _generateEmailIfUndefined(email, id, lastName, firstName);
 
   const values = {
     id,
@@ -174,7 +172,7 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   shouldChangePassword = false,
   emailConfirmedAt = new Date('2021-04-28T02:42:00Z'),
 } = {}) {
-  email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
+  email = _generateEmailIfUndefined(email, id, lastName, firstName);
 
   const values = {
     id,
@@ -276,7 +274,7 @@ buildUser.withRole = function buildUserWithRole({
   rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
 } = {}) {
-  email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
+  email = _generateEmailIfUndefined(email, id, lastName, firstName);
 
   const values = {
     id,
@@ -335,7 +333,7 @@ buildUser.withMembership = function buildUserWithMemberships({
   rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
 } = {}) {
-  email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
+  email = _generateEmailIfUndefined(email, id, lastName, firstName);
 
   const values = {
     id,
@@ -352,6 +350,8 @@ buildUser.withMembership = function buildUserWithMemberships({
     pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted,
     hasSeenAssessmentInstructions,
+    createdAt,
+    updatedAt,
   };
 
   const user = databaseBuffer.pushInsertable({
@@ -400,7 +400,7 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
   role = 'MEMBER',
   membershipDisabledAt = null,
 } = {}) {
-  email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
+  email = _generateEmailIfUndefined(email, id, lastName, firstName);
 
   const user = buildUser({
     id,

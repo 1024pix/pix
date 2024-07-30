@@ -14,6 +14,7 @@ function _toDomain(userLoginDTO) {
     blockedAt: userLoginDTO.blockedAt,
     createdAt: userLoginDTO.createdAt,
     updatedAt: userLoginDTO.updatedAt,
+    lastLoggedAt: userLoginDTO.lastLoggedAt,
   });
 }
 

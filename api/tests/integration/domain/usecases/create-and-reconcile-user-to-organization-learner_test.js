@@ -354,7 +354,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             firstName: userAttributes.firstName,
             lastName: userAttributes.lastName,
             username,
-            email: undefined,
+            email: null,
             cgu: false,
           };
 

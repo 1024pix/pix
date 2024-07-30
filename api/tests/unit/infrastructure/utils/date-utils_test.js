@@ -1,4 +1,8 @@
-import { convertDateValue, isValidDate } from '../../../../src/shared/infrastructure/utils/date-utils.js';
+import {
+  anonymizeGeneralizeDate,
+  convertDateValue,
+  isValidDate,
+} from '../../../../src/shared/infrastructure/utils/date-utils.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Utils | date-utils', function () {
@@ -141,6 +145,21 @@ describe('Unit | Utils | date-utils', function () {
           ).to.equal(expectedDate);
         });
       });
+    });
+  });
+
+  describe('#anonymizeGeneralizeDate', function () {
+    it('anonymizes a date through generalization to the 1st day of the same month at midnight', function () {
+      // given
+      const someDate = new Date('2019-03-12T19:37:03Z');
+
+      // when
+      const anonymizedGeneralizedDate = anonymizeGeneralizeDate(someDate);
+
+      // then
+      expect(anonymizedGeneralizedDate).to.be.an.instanceOf(Date);
+      expect(anonymizedGeneralizedDate).to.not.equal(someDate);
+      expect(anonymizedGeneralizedDate.toISOString()).to.equal('2019-03-01T00:00:00.000Z');
     });
   });
 });

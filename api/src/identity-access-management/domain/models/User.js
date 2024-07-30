@@ -1,19 +1,20 @@
-import lodash from 'lodash';
-
-const { toLower, isNil } = lodash;
-
 import dayjs from 'dayjs';
+import lodash from 'lodash';
 
 import { config } from '../../../../src/shared/config.js';
 import * as languageService from '../../../shared/domain/services/language-service.js';
 import * as localeService from '../../../shared/domain/services/locale-service.js';
+import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
+
+const { toLower, isNil } = lodash;
 
 class User {
   constructor(
     {
       id,
       cgu,
+      createdAt,
       pixOrgaTermsOfServiceAccepted,
       pixCertifTermsOfServiceAccepted,
       email,
@@ -39,6 +40,7 @@ class User {
       certificationCenterMemberships = [],
       pixScore,
       scorecards = [],
+      updatedAt,
       campaignParticipations = [],
       authenticationMethods = [],
       hasBeenAnonymised,
@@ -56,10 +58,11 @@ class User {
     this.firstName = firstName;
     this.lastName = lastName;
     this.username = username;
-    this.email = email ? toLower(email) : undefined;
+    this.email = email && toLower(email);
     this.emailConfirmedAt = emailConfirmedAt;
     this.emailConfirmed = !!emailConfirmedAt && dayjs(emailConfirmedAt).isValid();
     this.cgu = cgu;
+    this.createdAt = createdAt;
     this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
     this.lastPixOrgaTermsOfServiceValidatedAt = lastPixOrgaTermsOfServiceValidatedAt;
     this.lastPixCertifTermsOfServiceValidatedAt = lastPixCertifTermsOfServiceValidatedAt;
@@ -80,6 +83,7 @@ class User {
     this.memberships = memberships;
     this.certificationCenterMemberships = certificationCenterMemberships;
     this.scorecards = scorecards;
+    this.updatedAt = updatedAt;
     this.campaignParticipations = campaignParticipations;
     this.authenticationMethods = authenticationMethods;
     this.hasBeenAnonymised = hasBeenAnonymised;
@@ -137,9 +141,30 @@ class User {
     this.emailConfirmedAt = new Date();
   }
 
+  anonymize(anonymizedByUserId) {
+    return new User({
+      ...this,
+      createdAt: anonymizeGeneralizeDate(this.createdAt),
+      updatedAt: anonymizeGeneralizeDate(this.updatedAt),
+      firstName: '(anonymised)',
+      lastName: '(anonymised)',
+      email: null,
+      emailConfirmedAt: null,
+      username: null,
+      hasBeenAnonymised: true,
+      hasBeenAnonymisedBy: anonymizedByUserId,
+      lastTermsOfServiceValidatedAt: null,
+      lastPixOrgaTermsOfServiceValidatedAt: null,
+      lastPixCertifTermsOfServiceValidatedAt: null,
+      lastDataProtectionPolicySeenAt: null,
+    });
+  }
+
   mapToDatabaseDto() {
     return {
       id: this.id,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
       firstName: this.firstName,
       lastName: this.lastName,
       username: this.username,

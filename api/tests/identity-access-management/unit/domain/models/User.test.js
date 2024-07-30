@@ -24,6 +24,18 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
   });
 
   describe('constructor', function () {
+    it('handles createdAt and updatedAt', function () {
+      // given
+      const creationDate = new Date('2019-03-12T19:37:03Z');
+
+      // when
+      const user = new User({ createdAt: creationDate, updatedAt: creationDate });
+
+      // then
+      expect(user.createdAt.toISOString()).to.equal('2019-03-12T19:37:03.000Z');
+      expect(user.updatedAt.toISOString()).to.equal('2019-03-12T19:37:03.000Z');
+    });
+
     context('locale', function () {
       it('accepts no locale', function () {
         // given
@@ -325,6 +337,20 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
       // then
       expect(userObject.email).to.be.undefined;
     });
+
+    it('it accepts null as a valid value for email', function () {
+      // given
+      const userData = {
+        firstName: 'Alice',
+        email: null,
+      };
+
+      // when
+      const userObject = new User(userData, dependencies);
+
+      // then
+      expect(userObject.email).to.be.null;
+    });
   });
 
   describe('#shouldChangePassword', function () {
@@ -531,6 +557,8 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
       // given
       const expectedAttributes = [
         'id',
+        'createdAt',
+        'updatedAt',
         'firstName',
         'lastName',
         'username',
@@ -563,6 +591,37 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
 
       // then
       expect(attributes).to.deep.equal(expectedAttributes);
+    });
+  });
+
+  describe('#anonymize', function () {
+    it('anonymizes user info', function () {
+      // given
+      const adminId = 1;
+      const user = new User({
+        id: 1000,
+        createdAt: new Date('2012-12-12T12:12:12Z'),
+        updatedAt: new Date('2023-03-23T23:23:23Z'),
+      });
+
+      // when
+      const anonymizedUser = user.anonymize(adminId);
+
+      // then
+      expect(anonymizedUser.id).to.be.equal(1000);
+      expect(anonymizedUser.firstName).to.equal('(anonymised)');
+      expect(anonymizedUser.lastName).to.equal('(anonymised)');
+      expect(anonymizedUser.email).to.be.null;
+      expect(anonymizedUser.emailConfirmedAt).to.be.null;
+      expect(anonymizedUser.username).to.be.null;
+      expect(anonymizedUser.hasBeenAnonymised).to.be.true;
+      expect(anonymizedUser.hasBeenAnonymisedBy).to.equal(adminId);
+      expect(anonymizedUser.lastTermsOfServiceValidatedAt).to.be.null;
+      expect(anonymizedUser.lastPixOrgaTermsOfServiceValidatedAt).to.be.null;
+      expect(anonymizedUser.lastPixCertifTermsOfServiceValidatedAt).to.be.null;
+      expect(anonymizedUser.lastDataProtectionPolicySeenAt).to.be.null;
+      expect(anonymizedUser.createdAt.toISOString()).to.equal('2012-12-01T00:00:00.000Z');
+      expect(anonymizedUser.updatedAt.toISOString()).to.equal('2023-03-01T00:00:00.000Z');
     });
   });
 });

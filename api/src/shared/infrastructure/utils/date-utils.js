@@ -37,4 +37,15 @@ function getNowDate() {
   return new Date();
 }
 
-export { convertDateValue, getNowDate, isValidDate };
+/**
+ * @param {Date} date
+ * @returns {Date} a new Date object
+ */
+function anonymizeGeneralizeDate(date) {
+  const newDate = new Date(date);
+  newDate.setUTCDate(1);
+  newDate.setUTCHours(0, 0, 0, 0);
+  return newDate;
+}
+
+export { anonymizeGeneralizeDate, convertDateValue, getNowDate, isValidDate };
