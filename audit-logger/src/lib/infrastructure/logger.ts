@@ -14,7 +14,6 @@ const loggerOptions: LoggerOptions = {
 
 if (logging.logForHumans) {
   const omitDay = 'HH:MM:ss';
-  // @ts-expect-error library types definitions are not correct
   const prettyPrint = pretty({
     sync: true,
     colorize: true,
