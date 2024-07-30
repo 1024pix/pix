@@ -1,5 +1,6 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import { findAll } from '@ember/test-helpers';
+// eslint-disable-next-line no-restricted-imports
+import { find, findAll } from '@ember/test-helpers';
 import ModulePassage from 'mon-pix/components/module/passage';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -660,6 +661,48 @@ module('Integration | Component | Module | Passage', function (hooks) {
             .exists();
         });
       });
+    });
+  });
+
+  module('when a video element is played', function () {
+    test('should push an event', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+
+      const videoElement = {
+        id: 'id',
+        url: 'https://videos.pix.fr/modulix/placeholder-video.mp4',
+        title: 'title',
+        subtitles: 'subtitles',
+        type: 'video',
+        transcription: '',
+      };
+      const grain = store.createRecord('grain', {
+        id: '123',
+        components: [{ type: 'element', element: videoElement }],
+      });
+
+      const module = store.createRecord('module', { id: '1', title: 'Module title', grains: [grain] });
+      const passage = store.createRecord('passage');
+
+      await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+      const video = find(`#${videoElement.id}`);
+
+      //  when
+      const event = new Event('play');
+      video.dispatchEvent(event);
+      await new Promise((resolve) => setTimeout(resolve, 0));
+
+      // then
+      sinon.assert.calledWithExactly(metrics.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${module.id}`,
+        'pix-event-name': `Clic sur le bouton Play : ${videoElement.id}`,
+      });
+      assert.ok(true);
     });
   });
 });

@@ -1,7 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -13,7 +13,7 @@ import player_fr from '../plyr-translation/player_fr';
 
 export default class ModulixVideoElement extends Component {
   @tracked modalIsOpen = false;
-  @service metrics;
+  videoWasStarted = false;
 
   get hasSubtitles() {
     return this.args.video.subtitles.length > 0;
@@ -45,6 +45,15 @@ export default class ModulixVideoElement extends Component {
     });
   }
 
+  @action
+  onPlay() {
+    if (this.videoWasStarted) {
+      return;
+    }
+    this.videoWasStarted = true;
+    this.args.clickOnPlayButton({ elementId: this.args.video.id });
+  }
+
   <template>
     <div class="element-video">
       <div class="element-video__container">
@@ -57,6 +66,7 @@ export default class ModulixVideoElement extends Component {
           playsinline
           controls
           crossorigin
+          {{on "play" this.onPlay}}
           data-poster={{@video.poster}}
         >
           <source src={{@video.url}} type="video/mp4" />
