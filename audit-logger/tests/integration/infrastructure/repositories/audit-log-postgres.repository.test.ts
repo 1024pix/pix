@@ -9,7 +9,7 @@ describe('Integration | Infrastructure | Repositories | AuditLogPostgresReposito
     vi.useFakeTimers({ now: new Date('2023-08-29') });
   });
 
-  afterEach(async() => {
+  afterEach(async () => {
     vi.useRealTimers();
     await knex('audit-log').truncate();
   });

@@ -13,16 +13,14 @@ export default class PgClient {
     await this.client.end();
   }
 
-  /* eslint-disable @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-base-to-string */
-  async queryAndLog(query: string | pg.QueryConfig): Promise<any> {
+  async queryAndLog(query: string | pg.QueryConfig): Promise<unknown> {
     console.log(`query: ${query}`);
-    return await this.client.query(query).then((result: any) => {
+    return await this.client.query(query).then((result) => {
       const { command, rowCount, rows } = result;
       console.log(`result: command ${command} (rowCount ${rowCount}) = ${JSON.stringify(rows)}`);
       return result;
     });
   }
-  /* eslint-enable @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-base-to-string */
 
   static async createClient(databaseUrl: string): Promise<PgClient> {
     const instance = new PgClient(databaseUrl);

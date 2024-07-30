@@ -27,6 +27,7 @@ async function main(): Promise<void> {
     client = await PgClient.createClient(url.href);
     await client.queryAndLog(`DROP DATABASE ${dbNameToDelete}${_withForceOption()};`);
     logger.info('Database dropped');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.code === PGSQL_NON_EXISTENT_DATABASE_ERROR) {
       logger.info(`Database ${dbNameToDelete} does not exist`);

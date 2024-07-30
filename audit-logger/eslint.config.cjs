@@ -16,4 +16,9 @@ module.exports = tseslint.config(
   prettier,
   { plugins: { knex: fixupPluginRules(knex) } },
   { languageOptions: { globals: { ...globals.node } } },
+  {
+    rules: {
+      'n/no-extraneous-require': ['error', { allowModules: ['@1024pix/eslint-plugin'] }],
+    },
+  },
 );
