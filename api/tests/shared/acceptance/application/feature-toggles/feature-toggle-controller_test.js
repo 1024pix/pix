@@ -29,6 +29,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
             'is-text-to-speech-button-enabled': false,
             'is-need-to-adjust-certification-accessibility-enabled': false,
             'show-new-result-page': false,
+            'show-experimental-missions': false,
           },
         },
       };
