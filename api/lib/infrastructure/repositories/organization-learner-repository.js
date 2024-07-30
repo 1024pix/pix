@@ -379,7 +379,8 @@ function _queryBuilderForCertificability({
  * @returns {Promise<ParticipantRepartition>}
  */
 const findAllLearnerWithAtLeastOneParticipationByOrganizationId = async function (organizationId) {
-  const result = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const result = await knexConn
     .select('users.isAnonymous')
     .distinct('view-active-organization-learners.id')
     .from('view-active-organization-learners')

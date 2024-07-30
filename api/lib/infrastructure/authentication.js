@@ -81,6 +81,13 @@ const authentication = {
         validate: validateClientApplication,
       },
     },
+    {
+      name: 'jwt-pix-data',
+      configuration: {
+        key: config.jwtConfig.pixData.secret,
+        validate: validateClientApplication,
+      },
+    },
   ],
 
   defaultStrategy: 'jwt-user',

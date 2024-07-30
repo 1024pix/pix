@@ -84,6 +84,12 @@ const configuration = (function () {
         scope: 'pole-emploi-participants-result',
         source: 'poleEmploi',
       },
+      {
+        clientId: process.env.APIM_PIX_DATA_CLIENT_ID,
+        clientSecret: process.env.APIM_PIX_DATA_CLIENT_SECRET,
+        scope: 'statistics',
+        source: 'pixData',
+      },
     ],
     auditLogger: {
       isEnabled: toBoolean(process.env.PIX_AUDIT_LOGGER_ENABLED),
@@ -216,6 +222,10 @@ const configuration = (function () {
       },
       poleEmploi: {
         secret: process.env.POLE_EMPLOI_AUTH_SECRET,
+        tokenLifespan: process.env.TOKEN_LIFE_SPAN || '1h',
+      },
+      pixData: {
+        secret: process.env.PIX_DATA_AUTH_SECRET,
         tokenLifespan: process.env.TOKEN_LIFE_SPAN || '1h',
       },
     },
@@ -432,6 +442,12 @@ const configuration = (function () {
         scope: 'pole-emploi-participants-result',
         source: 'poleEmploi',
       },
+      {
+        clientId: 'pixDataCliendId',
+        clientSecret: 'pixDataClientSecret',
+        scope: 'statistics',
+        source: 'pixData',
+      },
     ];
 
     config.cpf.storage = {
@@ -464,6 +480,7 @@ const configuration = (function () {
 
     config.jwtConfig.livretScolaire = { secret: 'secretosmose', tokenLifespan: '1h' };
     config.jwtConfig.poleEmploi = { secret: 'secretPoleEmploi', tokenLifespan: '1h' };
+    config.jwtConfig.pixData = { secret: 'secretPixData', tokenLifespan: '1h' };
 
     config.logging.enabled = toBoolean(process.env.TEST_LOG_ENABLED);
     config.logging.enableLogKnexQueries = false;

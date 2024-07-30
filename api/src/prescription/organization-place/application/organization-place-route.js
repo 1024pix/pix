@@ -141,6 +141,19 @@ const register = async (server) => {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/data/organization-places',
+      config: {
+        auth: 'jwt-pix-data',
+        handler: organizationPlaceController.getDataOrganizationsPlacesStatistics,
+        tags: ['api', 'organization-places', 'data'],
+        notes: [
+          '- **Cette route est restreinte a la stack data**\n' +
+            '- Elle permet la récuperation des statistiques de places de toutes les organisations',
+        ],
+      },
+    },
   ]);
 };
 

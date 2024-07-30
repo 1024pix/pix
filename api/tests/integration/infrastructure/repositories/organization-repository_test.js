@@ -1046,4 +1046,174 @@ describe('Integration | Repository | Organization', function () {
       });
     });
   });
+
+  describe('#getOrganizationsWithPlaces', function () {
+    it('should only return organizations not archived', async function () {
+      // given
+      const superAdminUserId = databaseBuilder.factory.buildUser().id;
+
+      const firstOrganization = databaseBuilder.factory.buildOrganization({
+        type: 'SCO',
+        name: 'Organization of the dark side',
+        archivedAt: null,
+        isArchived: false,
+      });
+
+      databaseBuilder.factory.buildOrganizationPlace({
+        count: 3,
+        organizationId: firstOrganization.id,
+        activationDate: new Date(),
+        expirationDate: new Date(),
+        createdBy: superAdminUserId,
+        createdAt: new Date(),
+        deletedAt: null,
+        deletedBy: null,
+      });
+
+      const secondOrganization = databaseBuilder.factory.buildOrganization({
+        type: 'SCO',
+        name: 'Organization of the BRIGHT side',
+        archivedAt: new Date(),
+        isArchived: true,
+      });
+
+      databaseBuilder.factory.buildOrganizationPlace({
+        count: 3,
+        organizationId: secondOrganization.id,
+        activationDate: new Date(),
+        expirationDate: new Date(),
+        createdBy: superAdminUserId,
+        createdAt: new Date(),
+        deletedAt: null,
+        deletedBy: null,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const organizationsWithPlaces = await organizationRepository.getOrganizationsWithPlaces();
+
+      // then
+      expect(organizationsWithPlaces.length).to.equal(1);
+      expect(organizationsWithPlaces[0]).to.be.instanceOf(Organization);
+      expect(organizationsWithPlaces[0].id).to.equal(firstOrganization.id);
+      expect(organizationsWithPlaces[0].name).to.equal(firstOrganization.name);
+      expect(organizationsWithPlaces[0].type).to.equal(firstOrganization.type);
+    });
+
+    it('should only return organizations with places', async function () {
+      // given
+      const superAdminUserId = databaseBuilder.factory.buildUser().id;
+
+      const firstOrganization = databaseBuilder.factory.buildOrganization({
+        type: 'SCO',
+        name: 'Organization of the dark side',
+        archivedAt: null,
+        isArchived: false,
+      });
+
+      databaseBuilder.factory.buildOrganizationPlace({
+        count: 3,
+        organizationId: firstOrganization.id,
+        activationDate: new Date(),
+        expirationDate: new Date(),
+        createdBy: superAdminUserId,
+        createdAt: new Date(),
+        deletedAt: null,
+        deletedBy: null,
+      });
+
+      databaseBuilder.factory.buildOrganization({
+        type: 'SCO',
+        name: 'Organization of the rainbow side',
+        archivedAt: null,
+        isArchived: false,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const organizationsWithPlaces = await organizationRepository.getOrganizationsWithPlaces();
+
+      // then
+      expect(organizationsWithPlaces.length).to.equal(1);
+      expect(organizationsWithPlaces[0]).to.be.instanceOf(Organization);
+      expect(organizationsWithPlaces[0].id).to.equal(firstOrganization.id);
+      expect(organizationsWithPlaces[0].name).to.equal(firstOrganization.name);
+      expect(organizationsWithPlaces[0].type).to.equal(firstOrganization.type);
+    });
+
+    it('should return only once an organization with many placeLots', async function () {
+      // given
+      const superAdminUserId = databaseBuilder.factory.buildUser().id;
+
+      const firstOrganization = databaseBuilder.factory.buildOrganization({
+        type: 'SCO',
+        name: 'Organization of the dark side',
+        archivedAt: null,
+        isArchived: false,
+      });
+
+      databaseBuilder.factory.buildOrganizationPlace({
+        count: 3,
+        organizationId: firstOrganization.id,
+        activationDate: new Date(),
+        expirationDate: new Date(),
+        createdBy: superAdminUserId,
+        createdAt: new Date(),
+        deletedAt: null,
+        deletedBy: null,
+      });
+
+      databaseBuilder.factory.buildOrganizationPlace({
+        count: 25,
+        organizationId: firstOrganization.id,
+        activationDate: new Date(),
+        expirationDate: new Date(),
+        createdBy: superAdminUserId,
+        createdAt: new Date(),
+        deletedAt: null,
+        deletedBy: null,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const organizationsWithPlaces = await organizationRepository.getOrganizationsWithPlaces();
+
+      // then
+      expect(organizationsWithPlaces.length).to.equal(1);
+    });
+
+    it('should not return organization with null place count', async function () {
+      // given
+      const superAdminUserId = databaseBuilder.factory.buildUser().id;
+
+      const firstOrganization = databaseBuilder.factory.buildOrganization({
+        type: 'SCO',
+        name: 'Organization of the dark side',
+        archivedAt: null,
+        isArchived: false,
+      });
+
+      databaseBuilder.factory.buildOrganizationPlace({
+        count: null,
+        organizationId: firstOrganization.id,
+        activationDate: new Date(),
+        expirationDate: new Date(),
+        createdBy: superAdminUserId,
+        createdAt: new Date(),
+        deletedAt: null,
+        deletedBy: null,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const organizationsWithPlaces = await organizationRepository.getOrganizationsWithPlaces();
+
+      // then
+      expect(organizationsWithPlaces.length).to.equal(0);
+    });
+  });
 });

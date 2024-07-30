@@ -1,7 +1,7 @@
 import { organizationPlaceController } from '../../../../../src/prescription/organization-place/application/organization-place-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/organization-place/application/organization-place-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
+import { expect, generateValidRequestAuthorizationHeader, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Application | organization-place-route', function () {
   describe('GET /api/admin/organizations/:id/places', function () {
@@ -15,10 +15,13 @@ describe('Integration | Application | organization-place-route', function () {
         .stub(organizationPlaceController, 'findOrganizationPlacesLot')
         .callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
+      httpTestServer.setupAuthentication();
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request(method, url);
+      const response = await httpTestServer.request(method, url, null, null, {
+        authorization: generateValidRequestAuthorizationHeader(),
+      });
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -42,10 +45,13 @@ describe('Integration | Application | organization-place-route', function () {
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }));
 
         const httpTestServer = new HttpTestServer();
+        httpTestServer.setupAuthentication();
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request(method, url);
+        const response = await httpTestServer.request(method, url, null, null, {
+          authorization: generateValidRequestAuthorizationHeader(),
+        });
 
         // then
         expect(organizationPlaceController.findOrganizationPlacesLot).to.not.have.been.called;

@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { knex } from '../../../../db/knex-database-connection.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { Tag } from '../../../organizational-entities/domain/models/Tag.js';
+import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { fetchPage } from '../utils/knex-utils.js';
 
@@ -171,7 +172,10 @@ const findActiveScoOrganizationsByExternalId = async function (externalId) {
 };
 
 const findPaginatedFiltered = async function ({ filter, page }) {
-  const query = knex(ORGANIZATIONS_TABLE_NAME).modify(_setSearchFiltersForQueryBuilder, filter).orderBy('name', 'ASC');
+  const knexConn = DomainTransaction.getConnection();
+  const query = knexConn(ORGANIZATIONS_TABLE_NAME)
+    .modify(_setSearchFiltersForQueryBuilder, filter)
+    .orderBy('name', 'ASC');
 
   const { results, pagination } = await fetchPage(query, page);
   const organizations = results.map((model) => _toDomain(model));
@@ -190,6 +194,18 @@ const findPaginatedFilteredByTargetProfile = async function ({ targetProfileId, 
   return { models: organizations, pagination };
 };
 
+const getOrganizationsWithPlaces = async function () {
+  const knexConn = DomainTransaction.getConnection();
+  const organizations = await knexConn('organizations')
+    .select('organizations.id', 'name', 'type')
+    .innerJoin('organization-places', 'organizations.id', 'organization-places.organizationId')
+    .whereNotNull('organization-places.count')
+    .whereNull('archivedAt')
+    .distinct();
+
+  return organizations.map((organization) => _toDomain(organization));
+};
+
 export {
   create,
   findActiveScoOrganizationsByExternalId,
@@ -199,6 +215,7 @@ export {
   findScoOrganizationsByUai,
   get,
   getIdByCertificationCenterId,
+  getOrganizationsWithPlaces,
   getScoOrganizationByExternalId,
   update,
 };
