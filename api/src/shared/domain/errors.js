@@ -560,6 +560,7 @@ class UserNotAuthorizedToUpdateEmailError extends DomainError {
     super(message);
   }
 }
+
 class UserNotAuthorizedToUpdatePasswordError extends DomainError {
   constructor(
     message = "L'utilisateur n'est pas autorisé à mettre à jour ce mot de passe.",
@@ -602,6 +603,7 @@ class AnswerEvaluationError extends DomainError {
   }
 }
 
+// FIXME: used ?
 class AccountRecoveryDemandNotCreatedError extends DomainError {
   constructor(message = "La demande de récupération de compte n'a pas pu être générée.") {
     super(message);
@@ -650,6 +652,7 @@ class AuthenticationMethodAlreadyExistsError extends DomainError {
   }
 }
 
+// FIXME: used ?
 class OrganizationAlreadyExistError extends DomainError {
   constructor(message = "L'organisation existe déjà.") {
     super(message);
@@ -866,6 +869,7 @@ class NotEnoughDaysPassedBeforeResetCampaignParticipationError extends DomainErr
   }
 }
 
+// FIXME: used ?
 class SupervisorAccessNotAuthorizedError extends DomainError {
   constructor(
     message = "Cette session est organisée dans un centre de certification pour lequel l'espace surveillant n'a pas été activé par Pix.",
@@ -917,6 +921,7 @@ class AssessmentNotCompletedError extends DomainError {
   }
 }
 
+// FIXME: used ?
 class NotEligibleCandidateError extends DomainError {
   constructor(message = 'Erreur, candidat non éligible à la certification.') {
     super(message);
@@ -932,12 +937,6 @@ class DeletedError extends DomainError {
 
 class ObjectValidationError extends DomainError {
   constructor(message = 'Erreur, objet non valide.') {
-    super(message);
-  }
-}
-
-class OrganizationArchivedError extends DomainError {
-  constructor(message = "L'organisation est archivée.") {
     super(message);
   }
 }
@@ -1253,7 +1252,6 @@ export {
   OidcError,
   OidcMissingFieldsError,
   OrganizationAlreadyExistError,
-  OrganizationArchivedError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
   OrganizationLearnerAlreadyLinkedToUserError,
   OrganizationLearnerCannotBeDissociatedError,

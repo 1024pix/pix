@@ -1,6 +1,10 @@
 import { HttpErrors } from '../../shared/application/http-errors.js';
 import { DomainErrorMappingConfiguration } from '../../shared/application/models/domain-error-mapping-configuration.js';
-import { AlreadyExistingAdminMemberError, UncancellableOrganizationInvitationError } from '../domain/errors.js';
+import {
+  AlreadyExistingAdminMemberError,
+  OrganizationArchivedError,
+  UncancellableOrganizationInvitationError,
+} from '../domain/errors.js';
 
 const teamDomainErrorMappingConfiguration = [
   {
@@ -9,6 +13,10 @@ const teamDomainErrorMappingConfiguration = [
   },
   {
     name: AlreadyExistingAdminMemberError.name,
+    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message),
+  },
+  {
+    name: OrganizationArchivedError.name,
     httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message),
   },
 ].map((domainErrorMappingConfiguration) => new DomainErrorMappingConfiguration(domainErrorMappingConfiguration));
