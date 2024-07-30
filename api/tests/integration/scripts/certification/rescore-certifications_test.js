@@ -14,12 +14,13 @@ describe('Integration | Scripts | Certification | rescore-certfication', functio
       .where({ name: 'CertificationRescoringByScriptJob' })
       .orderBy('createdon', 'asc');
 
-    expect(job1.data).to.deep.equal({
-      certificationCourseId: 1,
-    });
-
-    expect(job2.data).to.deep.equal({
-      certificationCourseId: 2,
-    });
+    expect([job1.data, job2.data]).to.have.deep.members([
+      {
+        certificationCourseId: 1,
+      },
+      {
+        certificationCourseId: 2,
+      },
+    ]);
   });
 });
