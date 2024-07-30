@@ -1,18 +1,17 @@
 .pix-choice-chip {
+  @extend %pix-cta-s;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 16px;
+  padding: var(--pix-spacing-2x) var(--pix-spacing-6x);
   color: var(--pix-neutral-800);
-  font-weight: var(--pix-font-medium);
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  letter-spacing: 0.028rem;
   white-space: nowrap;
   text-decoration: none;
   background: var(--pix-neutral-20);
   border: 2px solid transparent;
-  border-radius: 50px;
+  border-radius: 25px;
+  outline: none;
   cursor: pointer;
 
   &--active {

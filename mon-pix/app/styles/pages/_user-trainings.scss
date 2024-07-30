@@ -1,32 +1,25 @@
 .user-trainings-banner {
-  margin: 0 24px;
-  padding-bottom: 16px;
-  font-family: $font-roboto;
+  margin: 0 var(--pix-spacing-6x);
+  padding-bottom: var(--pix-spacing-4x);
 
   @include device-is('desktop') {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 0 20px 16px;
+    padding: var(--pix-spacing-4x) 20px;
   }
 
   &__title {
+    @extend %pix-title-m;
+
     color: var(--pix-neutral-900);
-    font-weight: var(--pix-font-normal);
-    font-size: 2rem;
-    font-family: $font-open-sans;
-    line-height: 2.6875rem;
-    letter-spacing: 0.0093rem;
   }
 
   &__description {
+    @extend %pix-body-m;
+
     margin: 0;
-    padding: 8px 0 32px;
+    padding: var(--pix-spacing-2x) 0 var(--pix-spacing-8x);
     color: var(--pix-neutral-500);
-    font-weight: var(--pix-font-normal);
-    font-size: 1rem;
-    font-family: $font-roboto;
-    line-height: 1.375rem;
-    letter-spacing: 0.0093rem;
   }
 }
 
@@ -35,8 +28,8 @@
   flex-direction: column;
   width: 100%;
   min-height: inherit;
-  margin: var(--pix-spacing-6x) auto 0;
-  padding: 20px 32px 0;
+  margin: 0 auto;
+  padding: var(--pix-spacing-6x) 20px 0;
   color: var(--pix-neutral-900);
 
   @include device-is('tablet') {
@@ -60,7 +53,7 @@
   &__list {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: var(--pix-spacing-6x);
     margin-bottom: var(--pix-spacing-8x);
     padding: 0;
     list-style: none;
@@ -79,8 +72,8 @@
   &__item {
     &:hover {
       box-shadow:
-        0 7px 14px 0 rgb(12 22 58 / 20%),
-        0 3px 6px 0 rgb(var(--pix-neutral-900) 0.2);
+        0 7px 14px 0 var(--pix-neutral-100),
+        0 3px 6px 0 var(--pix-neutral-500);
     }
   }
 }
