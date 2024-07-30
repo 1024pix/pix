@@ -1,3 +1,4 @@
+import { Membership } from '../../../../../src/shared/domain/models/index.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import {
   createServer,
@@ -99,6 +100,44 @@ describe('Acceptance | Team | Route | Admin | organization-invitation', function
 
       // then
       expect(response.statusCode).to.equal(204);
+    });
+  });
+
+  describe('POST /api/admin/organizations/{id}/invitations', function () {
+    it('should return 201 HTTP status code', async function () {
+      // given
+      const server = await createServer();
+
+      const superAdmin = await insertUserWithRoleSuperAdmin();
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'user1@organization.org',
+            lang: 'fr',
+            role: Membership.roles.ADMIN,
+          },
+        },
+      };
+
+      const options = {
+        method: 'POST',
+        url: `/api/admin/organizations/${organization.id}/invitations`,
+        payload,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
+        },
+      };
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(201);
     });
   });
 });
