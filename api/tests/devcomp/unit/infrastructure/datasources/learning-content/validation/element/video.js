@@ -7,6 +7,7 @@ const videoElementSchema = Joi.object({
   type: Joi.string().valid('video').required(),
   title: htmlNotAllowedSchema.required(),
   url: Joi.string().uri().required(),
+  poster: Joi.string().uri(),
   subtitles: Joi.string().uri().allow('').required(),
   transcription: htmlSchema.allow(''),
 }).required();
