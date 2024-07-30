@@ -1,0 +1,344 @@
+import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+
+module('Integration | Component | MembersListItem', function (hooks) {
+  setupIntlRenderingTest(hooks);
+
+  let store;
+  let currentUser;
+  let openRemoveMemberModal;
+
+  hooks.beforeEach(function () {
+    store = this.owner.lookup('service:store');
+    currentUser = this.owner.lookup('service:current-user');
+    openRemoveMemberModal = sinon.stub();
+    this.set('openRemoveMemberModal', openRemoveMemberModal);
+  });
+
+  hooks.afterEach(function () {
+    sinon.restore();
+  });
+
+  module('when current user has a member role', function (hooks) {
+    hooks.beforeEach(function () {
+      sinon.stub(currentUser, 'isAdminOfCurrentCertificationCenter').value(false);
+    });
+
+    module('when member has a member role', function () {
+      test('it shows member firstName, lastName and role', async function (assert) {
+        // given
+        const memberWithMemberRole = store.createRecord('member', {
+          firstName: 'John',
+          lastName: 'Williams',
+          role: 'MEMBER',
+        });
+
+        sinon.stub(currentUser, 'certificationPointOfContact').value({ id: memberWithMemberRole.id });
+        this.set('member', memberWithMemberRole);
+
+        // when
+        const screen = await renderScreen(hbs`<MembersListItem @member={{this.member}} />`);
+
+        // then
+        assert.dom(screen.getByRole('cell', { name: 'John' })).exists();
+        assert.dom(screen.getByRole('cell', { name: 'Williams' })).exists();
+        assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.members.role.member') })).exists();
+        assert
+          .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.members.role.member') }))
+          .doesNotExist();
+      });
+    });
+
+    module('when member has an admin role', function () {
+      test('it shows admin firstName, lastName and role', async function (assert) {
+        // given
+        const memberWithAdminRole = store.createRecord('member', {
+          firstName: 'Maria',
+          lastName: 'Carré',
+          role: 'ADMIN',
+        });
+
+        sinon.stub(currentUser, 'certificationPointOfContact').value({ id: memberWithAdminRole.id });
+        this.set('member', memberWithAdminRole);
+
+        // when
+        const screen = await renderScreen(hbs`<MembersListItem @member={{this.member}} />`);
+
+        // then
+        assert.dom(screen.getByRole('cell', { name: 'Maria' })).exists();
+        assert.dom(screen.getByRole('cell', { name: 'Carré' })).exists();
+        assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.members.role.admin') })).exists();
+        assert
+          .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.members.role.member') }))
+          .doesNotExist();
+      });
+    });
+  });
+
+  module('when current user has an admin role', function (hooks) {
+    hooks.beforeEach(function () {
+      sinon.stub(currentUser, 'isAdminOfCurrentCertificationCenter').value(true);
+    });
+
+    module('when not in edit mode', function () {
+      module('when member is not the connected user', function () {
+        test('it shows member firstName, lastName, role and manage button', async function (assert) {
+          // given
+          const memberWithMemberRole = store.createRecord('member', {
+            id: '123',
+            firstName: 'John',
+            lastName: 'Williams',
+            role: 'MEMBER',
+          });
+
+          sinon.stub(currentUser, 'certificationPointOfContact').value({ id: '1' });
+          this.set('member', memberWithMemberRole);
+
+          // when
+          const screen = await renderScreen(hbs`<MembersListItem @member={{this.member}} />`);
+
+          // then
+          assert.dom(screen.getByRole('cell', { name: 'John' })).exists();
+          assert.dom(screen.getByRole('cell', { name: 'Williams' })).exists();
+          assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.members.role.member') })).exists();
+          assert.dom(screen.getByRole('button', { name: this.intl.t('pages.team.members.actions.manage') })).exists();
+        });
+
+        module('when user clicks the manage button', function () {
+          test('it shows `edit role` and `delete` actions', async function (assert) {
+            // given
+            const memberWithMemberRole = store.createRecord('member', {
+              id: '123',
+              firstName: 'John',
+              lastName: 'Williams',
+              role: 'MEMBER',
+            });
+
+            sinon.stub(currentUser, 'certificationPointOfContact').value({ id: '1' });
+            this.set('member', memberWithMemberRole);
+
+            const screen = await renderScreen(
+              hbs`<MembersListItem @member={{this.member}} @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}} />`,
+            );
+
+            // when
+            await clickByName(this.intl.t('pages.team.members.actions.manage'));
+
+            // then
+            assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
+            assert.dom(screen.getByRole('button', { name: 'Supprimer' })).exists();
+          });
+        });
+      });
+
+      module('when member is the connected user', function () {
+        module('and is the only admin in the certification center', function () {
+          test('it shows member firstName, lastName, role but does not show manage button', async function (assert) {
+            // given
+            const memberWithMemberRole = store.createRecord('member', {
+              id: '123',
+              firstName: 'John',
+              lastName: 'Williams',
+              role: 'MEMBER',
+            });
+            this.set('member', memberWithMemberRole);
+            this.set('isMultipleAdminsAvailable', false);
+            sinon.stub(currentUser, 'certificationPointOfContact').value({ id: memberWithMemberRole.id });
+
+            // when
+            const screen = await renderScreen(
+              hbs`<MembersListItem @member={{this.member}} @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}} />`,
+            );
+
+            // then
+            assert.dom(screen.getByRole('cell', { name: 'John' })).exists();
+            assert.dom(screen.getByRole('cell', { name: 'Williams' })).exists();
+            assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.members.role.member') })).exists();
+            assert
+              .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.members.actions.manage') }))
+              .doesNotExist();
+          });
+        });
+
+        module('and is not the only admin in the certification center', function () {
+          test('shows manage button', async function (assert) {
+            // given
+            const memberWithAdminRole = store.createRecord('member', {
+              id: '123',
+              firstName: 'John',
+              lastName: 'Williams',
+              role: 'ADMIN',
+            });
+            this.set('member', memberWithAdminRole);
+            this.set('isMultipleAdminsAvailable', true);
+            sinon.stub(currentUser, 'certificationPointOfContact').value({ id: memberWithAdminRole.id });
+
+            // when
+            const screen = await renderScreen(
+              hbs`<MembersListItem @member={{this.member}} @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}} />`,
+            );
+
+            // then
+            assert.dom(screen.getByRole('button', { name: this.intl.t('pages.team.members.actions.manage') })).exists();
+          });
+
+          module('when clicking on manage button', function () {
+            test('displays a dropdown with one option to leave the current certification center', async function (assert) {
+              // given
+              const memberWithAdminRole = store.createRecord('member', {
+                id: '123',
+                firstName: 'John',
+                lastName: 'Williams',
+                role: 'ADMIN',
+              });
+              this.set('member', memberWithAdminRole);
+              this.set('isMultipleAdminsAvailable', true);
+              this.set('leaveCertificationCenter', sinon.stub());
+              sinon.stub(currentUser, 'certificationPointOfContact').value({ id: memberWithAdminRole.id });
+
+              const screen = await renderScreen(
+                hbs`<MembersListItem
+  @member={{this.member}}
+  @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}}
+  @onLeaveCertificationCenterButtonClicked={{this.leaveCertificationCenter}}
+/>`,
+              );
+
+              // when
+              await clickByName('Gérer');
+
+              // then
+              assert.dom(screen.getByRole('list')).exists();
+              assert.strictEqual(screen.getAllByRole('listitem').length, 1);
+              assert.dom(screen.getByText('Quitter cet espace Pix Certif')).exists();
+            });
+
+            module('when clicking on "Quitter cet espace Pix Certif"', function () {
+              test('calls the onLeaveCertificationCenterButtonClicked event handler', async function (assert) {
+                // given
+                const memberWithAdminRole = store.createRecord('member', {
+                  id: '123',
+                  firstName: 'John',
+                  lastName: 'Williams',
+                  role: 'ADMIN',
+                });
+                const leaveCertificationCenter = sinon.stub();
+                this.set('member', memberWithAdminRole);
+                this.set('isMultipleAdminsAvailable', true);
+                this.set('leaveCertificationCenter', leaveCertificationCenter);
+                sinon.stub(currentUser, 'certificationPointOfContact').value({ id: memberWithAdminRole.id });
+
+                await renderScreen(
+                  hbs`<MembersListItem
+  @member={{this.member}}
+  @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}}
+  @onLeaveCertificationCenterButtonClicked={{this.leaveCertificationCenter}}
+  @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}}
+/>`,
+                );
+
+                // when
+                await clickByName('Gérer');
+                await clickByName('Quitter cet espace Pix Certif');
+
+                // then
+                assert.true(leaveCertificationCenter.calledOnce);
+              });
+            });
+          });
+        });
+      });
+    });
+
+    module('when mode edition is enabled', function (hooks) {
+      hooks.beforeEach(function () {
+        const memberWithMemberRole = store.createRecord('member', {
+          id: '123',
+          firstName: 'John',
+          lastName: 'Williams',
+          role: 'MEMBER',
+        });
+
+        sinon.stub(currentUser, 'certificationPointOfContact').value({ id: '1' });
+        this.set('member', memberWithMemberRole);
+      });
+
+      test('it shows role selection menu, save button and cancel button', async function (assert) {
+        // given
+        // when
+        const screen = await renderScreen(
+          hbs`<MembersListItem @member={{this.member}} @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}} />`,
+        );
+        await clickByName(this.intl.t('pages.team.members.actions.manage'));
+        await clickByName(this.intl.t('pages.team.members.actions.edit-role'));
+
+        // then
+        assert.dom(screen.getByLabelText(this.intl.t('pages.team.members.actions.select-role.label'))).exists();
+        assert.dom(screen.getByRole('button', { name: this.intl.t('pages.team.members.actions.save') })).exists();
+        assert.dom(screen.getByRole('button', { name: this.intl.t('common.actions.cancel') })).exists();
+        assert
+          .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.members.actions.manage') }))
+          .doesNotExist();
+        assert
+          .dom(
+            screen.queryByRole('button', {
+              name: this.intl.t('pages.team.members.actions.edit-role'),
+            }),
+          )
+          .doesNotExist();
+      });
+
+      module('when selecting a new role', function () {
+        test('it displays the selected role', async function (assert) {
+          // given
+          const screen = await renderScreen(
+            hbs`<MembersListItem @member={{this.member}} @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}} />`,
+          );
+          await clickByName(this.intl.t('pages.team.members.actions.manage'));
+          await clickByName(this.intl.t('pages.team.members.actions.edit-role'));
+
+          // when
+          await clickByName(this.intl.t('pages.team.members.actions.select-role.label'));
+          await screen.findByRole('listbox');
+          await click(
+            screen.getByRole('option', { name: this.intl.t('pages.team.members.actions.select-role.options.admin') }),
+          );
+
+          // then
+          assert
+            .dom(screen.getByRole('button', { name: this.intl.t('pages.team.members.actions.select-role.label') }))
+            .containsText(this.intl.t('pages.team.members.actions.select-role.options.admin'));
+        });
+      });
+    });
+
+    module('When remove member button is clicked', (hooks) => {
+      hooks.beforeEach(async function () {
+        const memberWithMemberRole = store.createRecord('member', {
+          id: '123',
+          firstName: 'John',
+          lastName: 'Williams',
+          role: 'MEMBER',
+        });
+        sinon.stub(currentUser, 'certificationPointOfContact').value({ id: '1' });
+        this.set('member', memberWithMemberRole);
+
+        await renderScreen(
+          hbs`<MembersListItem @member={{this.member}} @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}} />`,
+        );
+        await clickByName('Gérer');
+        await clickByName('Supprimer');
+      });
+
+      test('emits an event to the parent with member', async function (assert) {
+        // then
+        assert.true(openRemoveMemberModal.calledOnceWith(this.member));
+      });
+    });
+  });
+});
