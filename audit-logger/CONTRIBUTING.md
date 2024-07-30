@@ -1,1 +1,0 @@
-# Guide de contribution
