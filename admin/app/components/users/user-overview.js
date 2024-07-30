@@ -74,6 +74,11 @@ export default class UserOverview extends Component {
     return this.locales;
   }
 
+  get isAnonymizationDisabled() {
+    const { hasBeenAnonymised, isPixAgent } = this.args.user;
+    return hasBeenAnonymised || isPixAgent;
+  }
+
   _formatValidatedTermsOfServiceText(date, hasValidatedTermsOfService) {
     const formattedDateText = date ? `, le ${dayjs(date).format('DD/MM/YYYY')}` : '';
     return hasValidatedTermsOfService ? `OUI${formattedDateText}` : 'NON';

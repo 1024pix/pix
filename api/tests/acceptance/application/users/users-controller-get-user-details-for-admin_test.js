@@ -99,6 +99,7 @@ describe('Acceptance | Controller | users-controller-get-user-details-for-admin'
           username: user.username,
           'has-been-anonymised': false,
           'anonymised-by-full-name': null,
+          'is-pix-agent': false,
         });
 
         expect(response.result.data.relationships).to.deep.equal({

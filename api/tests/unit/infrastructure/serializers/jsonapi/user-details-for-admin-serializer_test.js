@@ -48,6 +48,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'email-confirmed-at': now,
             'has-been-anonymised': false,
             'anonymised-by-full-name': null,
+            'is-pix-agent': false,
           },
           relationships: {
             'certification-center-memberships': {

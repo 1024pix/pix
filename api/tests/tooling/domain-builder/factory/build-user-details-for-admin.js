@@ -24,6 +24,7 @@ const buildUserDetailsForAdmin = function ({
   userLogin = [],
   hasBeenAnonymised = false,
   hasBeenAnonymisedBy = null,
+  isPixAgent = false,
 } = {}) {
   return new UserDetailsForAdmin({
     id,
@@ -49,6 +50,7 @@ const buildUserDetailsForAdmin = function ({
     userLogin,
     hasBeenAnonymised,
     hasBeenAnonymisedBy,
+    isPixAgent,
   });
 };
 

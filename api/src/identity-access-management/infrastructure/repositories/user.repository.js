@@ -141,7 +141,14 @@ const getUserDetailsForAdmin = async function (userId) {
     .where({ userId })
     .orderBy('id');
 
-  return _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, authenticationMethodsDTO });
+  const pixAdminRolesDTO = await knex('pix-admin-roles').where({ userId });
+
+  return _fromKnexDTOToUserDetailsForAdmin({
+    userDTO,
+    organizationLearnersDTO,
+    authenticationMethodsDTO,
+    pixAdminRolesDTO,
+  });
 };
 
 const findPaginatedFiltered = async function ({ filter, page }) {
@@ -472,7 +479,12 @@ export {
   updateWithEmailConfirmed,
 };
 
-function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, authenticationMethodsDTO }) {
+function _fromKnexDTOToUserDetailsForAdmin({
+  userDTO,
+  organizationLearnersDTO,
+  authenticationMethodsDTO,
+  pixAdminRolesDTO,
+}) {
   const organizationLearners = organizationLearnersDTO.map(
     (organizationLearnerDTO) =>
       new OrganizationLearnerForAdmin({
@@ -538,6 +550,7 @@ function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, a
     createdAt: userDTO.createdAt,
     anonymisedByFirstName: userDTO.anonymisedByFirstName,
     anonymisedByLastName: userDTO.anonymisedByLastName,
+    isPixAgent: pixAdminRolesDTO.length > 0,
   });
 }
 

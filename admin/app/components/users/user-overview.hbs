@@ -195,14 +195,21 @@
           >
             Modifier
           </PixButton>
-          <PixButton
-            @size="small"
-            @variant="error"
-            @triggerAction={{this.toggleDisplayAnonymizeModal}}
-            @isDisabled={{@user.hasBeenAnonymised}}
-          >
-            Anonymiser cet utilisateur
-          </PixButton>
+
+          <PixTooltip @position="bottom" @hide={{not @user.isPixAgent}} @isInline="{{true}}">
+            <:triggerElement>
+              <PixButton
+                @size="small"
+                @variant="error"
+                @triggerAction={{this.toggleDisplayAnonymizeModal}}
+                @isDisabled={{this.isAnonymizationDisabled}}
+              >
+                Anonymiser cet utilisateur
+              </PixButton>
+            </:triggerElement>
+            <:tooltip>Vous ne pouvez pas anonymiser le compte d'un agent Pix.</:tooltip>
+          </PixTooltip>
+
           {{#if @user.userLogin.blockedAt}}
             <PixButton @variant="primary-bis" @triggerAction={{this.unblockUserAccount}} @size="small">
               Débloquer l'utilisateur
