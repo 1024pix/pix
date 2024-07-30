@@ -6,6 +6,8 @@ export default class CheckpointRoute extends Route {
   }
 
   async afterModel(assessment) {
+    await assessment.hasMany('answers').reload();
+
     if (assessment.isCompetenceEvaluation || assessment.isForCampaign) {
       await assessment.belongsTo('progression').reload();
     }

@@ -13,6 +13,7 @@ module('Unit | Route | Assessments | Checkpoint', function (hooks) {
       const assessment = {
         isCompetenceEvaluation: true,
         belongsTo: sinon.stub().returns({ reload: reloadStub }),
+        hasMany: sinon.stub().returns({ reload: sinon.stub().resolves() }),
       };
 
       // when
@@ -33,6 +34,7 @@ module('Unit | Route | Assessments | Checkpoint', function (hooks) {
       const assessment = {
         isForCampaign: true,
         belongsTo: sinon.stub().returns({ reload: reloadStub }),
+        hasMany: sinon.stub().returns({ reload: sinon.stub().resolves() }),
       };
 
       // when
