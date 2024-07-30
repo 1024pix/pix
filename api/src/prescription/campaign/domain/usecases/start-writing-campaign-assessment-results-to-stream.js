@@ -10,9 +10,9 @@ import {
   CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
   CONCURRENCY_HEAVY_OPERATIONS,
 } from '../../../../../lib/infrastructure/constants.js';
-import * as csvSerializer from '../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
 import { CampaignTypeError } from '../../../../shared/domain/errors.js';
 import { CampaignLearningContent } from '../../../../shared/domain/models/CampaignLearningContent.js';
+import * as csvSerializer from '../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 
 const startWritingCampaignAssessmentResultsToStream = async function ({
   campaignId,

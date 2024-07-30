@@ -5,7 +5,7 @@ import {
   CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
   CONCURRENCY_HEAVY_OPERATIONS,
 } from '../../../../../../lib/infrastructure/constants.js';
-import * as csvSerializer from '../../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
+import * as csvSerializer from '../../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 import { CampaignProfilesCollectionResultLine } from '../../exports/campaigns/campaign-profiles-collection-result-line.js';
 class CampaignProfilesCollectionExport {
   constructor(outputStream, organization, campaign, competences, translate) {

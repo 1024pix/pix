@@ -1,5 +1,5 @@
-import * as csvSerializer from '../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
+import * as csvSerializer from '../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 import { SupOrganizationLearnerImportHeader } from '../../infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 
 const ERROR_MESSAGE = 'User is not allowed to download csv template.';

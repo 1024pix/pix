@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
 dayjs.extend(utc);
-import * as csvSerializer from '../../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
+import * as csvSerializer from '../../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 
 const EMPTY_ARRAY = [];
 

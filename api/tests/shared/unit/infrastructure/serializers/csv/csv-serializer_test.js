@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
-import * as csvSerializer from '../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
-import { emptySession } from '../../../../../src/certification/shared/infrastructure/utils/csv/sessions-import.js';
-import { FileValidationError } from '../../../../../src/shared/domain/errors.js';
-import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
-import { catchErr, expect, sinon } from '../../../../test-helper.js';
+import { emptySession } from '../../../../../../src/certification/shared/infrastructure/utils/csv/sessions-import.js';
+import { FileValidationError } from '../../../../../../src/shared/domain/errors.js';
+import * as csvSerializer from '../../../../../../src/shared/infrastructure/serializers/csv/csv-serializer.js';
+import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | CSV | csv-serializer', function () {
   describe('#serializeLine', function () {
