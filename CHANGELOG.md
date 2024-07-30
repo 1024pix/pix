@@ -1,5 +1,30 @@
 # Pix Changelog
 
+## v4.190.0 (30/07/2024)
+
+
+### :building_construction: Tech
+- [#9741](https://github.com/1024pix/pix/pull/9741) [TECH] Renomme les fichiers de tests des applications front en "-test.js".
+- [#9720](https://github.com/1024pix/pix/pull/9720) [TECH] Migration des routes pour modifier le rôle d'un membre d'une organisation dans le contexte team (PIX-13641).
+- [#9730](https://github.com/1024pix/pix/pull/9730) [TECH] Ajout de trace d'erreur pour le simulateur de certification (PIX-13575).
+
+### :bug: Correction
+- [#9718](https://github.com/1024pix/pix/pull/9718) [BUGFIX] Empêcher l'accès au contenu d'un embed au lecteur d'écran avant de cliquer sur le bouton "Commencer".
+
+### :arrow_up: Montée de version
+- [#9746](https://github.com/1024pix/pix/pull/9746) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.15 (orga).
+- [#9745](https://github.com/1024pix/pix/pull/9745) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.15 (mon-pix).
+- [#9744](https://github.com/1024pix/pix/pull/9744) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.15 (junior).
+- [#9743](https://github.com/1024pix/pix/pull/9743) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.15 (certif).
+- [#9742](https://github.com/1024pix/pix/pull/9742) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.15 (admin).
+- [#9737](https://github.com/1024pix/pix/pull/9737) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.3 (mon-pix).
+- [#9738](https://github.com/1024pix/pix/pull/9738) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.3 (orga).
+- [#9735](https://github.com/1024pix/pix/pull/9735) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.3 (junior).
+- [#9734](https://github.com/1024pix/pix/pull/9734) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.3 (certif).
+- [#9733](https://github.com/1024pix/pix/pull/9733) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.3 (admin).
+- [#9731](https://github.com/1024pix/pix/pull/9731) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.14 (mon-pix) (PIX-13529).
+- [#9723](https://github.com/1024pix/pix/pull/9723) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.14 (certif).
+
 ## v4.189.0 (29/07/2024)
 
 
