@@ -1,4 +1,5 @@
 import { MissingQueryParamError } from '../../../../../lib/application/http-errors.js';
+import { Membership } from '../../../../../src/shared/domain/models/index.js';
 import { organizationInvitationController } from '../../../../../src/team/application/organization-invitations/organization-invitation.controller.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
@@ -221,6 +222,65 @@ describe('Unit | Team | Application | Controller | organization-invitation', fun
         emails,
         locale,
       });
+    });
+  });
+
+  describe('#sendInvitationByLangAndRole', function () {
+    it('should call the usecase to create invitation with organizationId, email, role and lang', async function () {
+      //given
+      const userId = 1;
+      const invitation = domainBuilder.buildOrganizationInvitation();
+
+      const organizationId = invitation.organizationId;
+      const email = invitation.email;
+      const lang = 'en';
+      const role = Membership.roles.ADMIN;
+      const serializedInvitation = Symbol();
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: organizationId },
+        payload: {
+          data: {
+            type: 'organization-invitations',
+            attributes: {
+              email: invitation.email,
+              lang,
+              role,
+            },
+          },
+        },
+      };
+
+      const organizationInvitationSerializerStub = {
+        deserializeForCreateOrganizationInvitationAndSendEmail: sinon.stub(),
+        serialize: sinon.stub(),
+      };
+      organizationInvitationSerializerStub.deserializeForCreateOrganizationInvitationAndSendEmail
+        .withArgs(request.payload)
+        .returns({ lang, role, email });
+
+      organizationInvitationSerializerStub.serialize.withArgs(invitation).returns(serializedInvitation);
+      const dependencies = {
+        organizationInvitationSerializer: organizationInvitationSerializerStub,
+      };
+
+      sinon
+        .stub(usecases, 'createOrganizationInvitationByAdmin')
+        .withArgs({
+          organizationId,
+          email: email,
+          locale: lang,
+          role,
+        })
+        .resolves(invitation);
+
+      // when
+      const response = await organizationInvitationController.sendInvitationByLangAndRole(request, hFake, dependencies);
+
+      // then
+      expect(response.statusCode).to.be.equal(201);
+      expect(response.source).to.be.equal(serializedInvitation);
     });
   });
 });

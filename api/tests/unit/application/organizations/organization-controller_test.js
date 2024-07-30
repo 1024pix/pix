@@ -1,6 +1,6 @@
 import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { Membership, Organization } from '../../../../src/shared/domain/models/index.js';
+import { Organization } from '../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Organizations | organization-controller', function () {
@@ -184,65 +184,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
           },
         ],
       });
-    });
-  });
-
-  describe('#sendInvitationByLangAndRole', function () {
-    it('should call the usecase to create invitation with organizationId, email, role and lang', async function () {
-      //given
-      const userId = 1;
-      const invitation = domainBuilder.buildOrganizationInvitation();
-
-      const organizationId = invitation.organizationId;
-      const email = invitation.email;
-      const lang = 'en';
-      const role = Membership.roles.ADMIN;
-      const serializedInvitation = Symbol();
-
-      const request = {
-        auth: { credentials: { userId } },
-        params: { id: organizationId },
-        payload: {
-          data: {
-            type: 'organization-invitations',
-            attributes: {
-              email: invitation.email,
-              lang,
-              role,
-            },
-          },
-        },
-      };
-
-      const organizationInvitationSerializerStub = {
-        deserializeForCreateOrganizationInvitationAndSendEmail: sinon.stub(),
-        serialize: sinon.stub(),
-      };
-      organizationInvitationSerializerStub.deserializeForCreateOrganizationInvitationAndSendEmail
-        .withArgs(request.payload)
-        .returns({ lang, role, email });
-
-      organizationInvitationSerializerStub.serialize.withArgs(invitation).returns(serializedInvitation);
-      const dependencies = {
-        organizationInvitationSerializer: organizationInvitationSerializerStub,
-      };
-
-      sinon
-        .stub(usecases, 'createOrganizationInvitationByAdmin')
-        .withArgs({
-          organizationId,
-          email: email,
-          locale: lang,
-          role,
-        })
-        .resolves(invitation);
-
-      // when
-      const response = await organizationController.sendInvitationByLangAndRole(request, hFake, dependencies);
-
-      // then
-      expect(response.statusCode).to.be.equal(201);
-      expect(response.source).to.be.equal(serializedInvitation);
     });
   });
 
