@@ -422,10 +422,11 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
                   element: {
                     id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
                     type: 'video',
-                    title: 'Le format des adress mail',
+                    title: 'Le format des adresses mail',
                     url: 'https://videos.pix.fr/modulix/chat_animation_2.webm',
                     subtitles: 'Insert subtitles here',
                     transcription: 'Insert transcription here',
+                    poster: 'https://example.org/modulix/video-poster.jpg',
                   },
                 },
               ],
@@ -438,6 +439,16 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
 
         // then
         expect(module.grains[0].components[0].element).to.be.an.instanceOf(Video);
+        expect(module.grains[0].components[0].element).to.deep.equal({
+          id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
+          type: 'video',
+          title: 'Le format des adresses mail',
+          url: 'https://videos.pix.fr/modulix/chat_animation_2.webm',
+          subtitles: 'Insert subtitles here',
+          transcription: 'Insert transcription here',
+          isAnswerable: false,
+          poster: 'https://example.org/modulix/video-poster.jpg',
+        });
       });
 
       it('should instantiate a Module with a ComponentElement which contains an Embed Element', function () {
