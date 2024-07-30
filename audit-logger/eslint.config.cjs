@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { fixupPluginRules } = require('@eslint/compat');
+const { fixupPluginRules, includeIgnoreFile } = require('@eslint/compat');
 
+const path = require('node:path');
 const globals = require('globals');
 const eslintConfig = require('@1024pix/eslint-plugin/config');
 const tseslint = require('typescript-eslint');
@@ -9,7 +10,11 @@ const nodeConfig = require('eslint-plugin-n');
 const knex = require('eslint-plugin-knex');
 /*eslint-enable*/
 
+const gitignorePath = path.resolve(__dirname, '.gitignore');
+const { ignores } = includeIgnoreFile(gitignorePath);
+
 module.exports = tseslint.config(
+  { ignores },
   ...eslintConfig,
   ...tseslint.configs.recommended,
   nodeConfig.configs['flat/recommended'],
