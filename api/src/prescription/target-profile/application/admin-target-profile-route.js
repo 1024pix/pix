@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { NotFoundError, sendJsonApiError } from '../../../../lib/application/http-errors.js';
+import { NotFoundError, sendJsonApiError } from '../../../shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType, optionalIdentifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { targetProfileController } from './admin-target-profile-controller.js';

@@ -2,8 +2,8 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 import { expect } from '../../../../test-helper.js';
 const { Error: JSONAPIError } = jsonapiSerializer;
-import { ConflictError, MissingQueryParamError } from '../../../../../lib/application/http-errors.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/error-serializer.js';
+import { ConflictError, MissingQueryParamError } from '../../../../../src/shared/application/http-errors.js';
 
 describe('Unit | Serializer | JSONAPI | error-serializer', function () {
   describe('#serialize()', function () {

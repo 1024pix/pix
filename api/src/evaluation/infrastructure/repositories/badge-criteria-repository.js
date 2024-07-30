@@ -1,6 +1,6 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { BadRequestError } from '../../../../lib/application/http-errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { BadRequestError } from '../../../shared/application/http-errors.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import BadgeCriterion from '../../domain/models/BadgeCriterion.js';
 

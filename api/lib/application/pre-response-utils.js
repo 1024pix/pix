@@ -1,7 +1,7 @@
+import { BaseHttpError as OldBaseHttpError } from '../../src/shared/application/http-errors.js';
 import { BaseHttpError } from '../../src/shared/application/http-errors.js';
 import { DomainError } from '../../src/shared/domain/errors.js';
 import * as errorManager from './error-manager.js';
-import { BaseHttpError as OldBaseHttpError } from './http-errors.js';
 
 function handleDomainAndHttpErrors(
   request,

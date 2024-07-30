@@ -1,5 +1,5 @@
+import { HttpErrors } from '../../src/shared/application//http-errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
-import { HttpErrors } from './http-errors.js';
 
 function _mapToHttpError(error) {
   if (error instanceof HttpErrors.BaseHttpError) {

@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { BadRequestError, sendJsonApiError } from '../../../../lib/application/http-errors.js';
+import { BadRequestError, sendJsonApiError } from '../../../shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { tokenController } from './token.controller.js';
 

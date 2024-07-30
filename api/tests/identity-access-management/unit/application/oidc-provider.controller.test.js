@@ -1,6 +1,6 @@
-import { BadRequestError, UnauthorizedError } from '../../../../lib/application/http-errors.js';
 import { oidcProviderController } from '../../../../src/identity-access-management/application/oidc-provider/oidc-provider.controller.js';
 import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
+import { BadRequestError, UnauthorizedError } from '../../../../src/shared/application/http-errors.js';
 import { catchErr, domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Application | Controller | oidc-provider', function () {

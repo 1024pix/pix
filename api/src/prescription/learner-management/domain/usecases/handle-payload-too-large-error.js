@@ -1,4 +1,4 @@
-import { PayloadTooLargeError } from '../../../../../lib/application/http-errors.js';
+import { PayloadTooLargeError } from '../../../../shared/application/http-errors.js';
 import { OrganizationImport } from '../models/OrganizationImport.js';
 const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',

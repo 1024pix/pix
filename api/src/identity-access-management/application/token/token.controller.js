@@ -1,4 +1,4 @@
-import { BadRequestError } from '../../../../lib/application/http-errors.js';
+import { BadRequestError } from '../../../shared/application/http-errors.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { usecases } from '../../domain/usecases/index.js';
 

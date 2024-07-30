@@ -1,5 +1,5 @@
-import { BaseHttpError } from '../../../lib/application/http-errors.js';
 import { handleDomainAndHttpErrors } from '../../../lib/application/pre-response-utils.js';
+import { BaseHttpError } from '../../../src/shared/application/http-errors.js';
 import { DomainError } from '../../../src/shared/domain/errors.js';
 import { expect, hFake, sinon } from '../../test-helper.js';
 

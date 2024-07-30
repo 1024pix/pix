@@ -1,6 +1,6 @@
 import stream from 'node:stream';
 
-import { MissingQueryParamError } from '../../../../lib/application/http-errors.js';
+import { MissingQueryParamError } from '../../../shared/application/http-errors.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { escapeFileName } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';

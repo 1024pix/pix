@@ -2,9 +2,13 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
+import {
+  BadRequestError,
+  PayloadTooLargeError,
+  sendJsonApiError,
+} from '../../../src/shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
-import { BadRequestError, PayloadTooLargeError, sendJsonApiError } from '../http-errors.js';
 import { organizationController } from './organization-controller.js';
 
 const ERRORS = {
