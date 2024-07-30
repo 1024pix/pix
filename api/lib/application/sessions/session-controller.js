@@ -2,13 +2,13 @@ import lodash from 'lodash';
 
 import * as sessionManagementSerializer from '../../../src/certification/session-management/infrastructure/serializers/session-serializer.js';
 import * as certificationCandidateSerializer from '../../../src/certification/shared/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
+import { SessionPublicationBatchError } from '../../../src/shared/application/http-errors.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
 import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
-import { SessionPublicationBatchError } from '../http-errors.js';
 
 const { trim } = lodash;
 

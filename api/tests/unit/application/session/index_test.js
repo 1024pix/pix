@@ -1,7 +1,7 @@
-import { NotFoundError } from '../../../../lib/application/http-errors.js';
 import * as moduleUnderTest from '../../../../lib/application/sessions/index.js';
 import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
 import { authorization } from '../../../../src/certification/shared/application/pre-handlers/authorization.js';
+import { NotFoundError } from '../../../../src/shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 

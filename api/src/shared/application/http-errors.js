@@ -184,6 +184,7 @@ export {
   PreconditionFailedError,
   sendJsonApiError,
   ServiceUnavailableError,
+  SessionPublicationBatchError,
   TooManyRequestsError,
   UnauthorizedError,
   UnprocessableEntityError,

@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { sendJsonApiError } from '../../../../lib/application/http-errors.js';
+import { sendJsonApiError } from '../../../shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';

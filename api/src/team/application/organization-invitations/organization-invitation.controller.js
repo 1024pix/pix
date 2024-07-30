@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { MissingQueryParamError } from '../../../../lib/application/http-errors.js';
+import { MissingQueryParamError } from '../../../shared/application/http-errors.js';
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { extractLocaleFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';

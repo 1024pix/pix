@@ -1,8 +1,8 @@
-import { SessionPublicationBatchError } from '../../../../lib/application/http-errors.js';
 import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
 import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { SessionPublicationBatchError } from '../../../../src/shared/application/http-errors.js';
 import { SessionPublicationBatchResult } from '../../../../src/shared/domain/models/index.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';

@@ -2,8 +2,8 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
-import { sendJsonApiError } from '../../../../lib/application/http-errors.js';
-import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { sendJsonApiError } from '../../../shared/application/http-errors.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { usecases } from '../domain/usecases/index.js';
 import { scoOrganizationManagementController } from './sco-organization-management-controller.js';

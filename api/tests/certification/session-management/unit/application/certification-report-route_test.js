@@ -1,7 +1,7 @@
-import { NotFoundError } from '../../../../../lib/application/http-errors.js';
 import { certificationReportController } from '../../../../../src/certification/session-management/application/certification-report-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/session-management/application/certification-report-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
+import { NotFoundError } from '../../../../../src/shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 

@@ -1,6 +1,6 @@
-import { PayloadTooLargeError } from '../../../../../../lib/application/http-errors.js';
 import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 import { handlePayloadTooLargeError } from '../../../../../../src/prescription/learner-management/domain/usecases/handle-payload-too-large-error.js';
+import { PayloadTooLargeError } from '../../../../../../src/shared/application/http-errors.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | Organization Learners Management | Handle Payload Too Large Error', function () {
