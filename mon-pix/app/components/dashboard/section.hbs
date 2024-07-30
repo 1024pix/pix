@@ -5,11 +5,12 @@
       <p class="dashboard-section__subtitle">{{@subtitle}}</p>
     </div>
     {{#if this.hasLink}}
-      <LinkTo
+      <PixButtonLink
         @route={{@linkRoute}}
         class="dashboard-section__button"
+        @variant="secondary"
         aria-label={{@ariaLabelLink}}
-      >{{@linkText}}</LinkTo>
+      >{{@linkText}}</PixButtonLink>
     {{/if}}
   </div>
 
