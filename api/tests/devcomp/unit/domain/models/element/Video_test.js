@@ -11,6 +11,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Video', function () {
         url: 'url',
         subtitles: 'subtitles',
         transcription: 'transcription',
+        poster: 'https://example.org/modulix/video-poster.jpg',
       });
 
       // then
@@ -20,6 +21,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Video', function () {
       expect(video.url).to.equal('url');
       expect(video.subtitles).to.equal('subtitles');
       expect(video.transcription).to.equal('transcription');
+      expect(video.poster).to.equal('https://example.org/modulix/video-poster.jpg');
     });
   });
 

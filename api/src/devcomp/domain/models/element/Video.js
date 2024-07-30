@@ -2,7 +2,7 @@ import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asser
 import { Element } from './Element.js';
 
 class Video extends Element {
-  constructor({ id, title, url, subtitles, transcription }) {
+  constructor({ id, title, url, subtitles, transcription, poster }) {
     super({ id, type: 'video' });
 
     assertNotNullOrUndefined(title, 'The title is required for a video');
@@ -14,6 +14,7 @@ class Video extends Element {
     this.title = title;
     this.subtitles = subtitles;
     this.transcription = transcription;
+    this.poster = poster ?? null;
   }
 }
 
