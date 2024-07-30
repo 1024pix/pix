@@ -1,9 +1,9 @@
 .challenge-actions {
   display: flex;
   flex-direction: column;
-  gap: $pix-spacing-s;
+  gap: var(--pix-spacing-4x);
   justify-content: center;
-  margin: $pix-spacing-xxs;
+  margin: var(--pix-spacing-1x);
   background-color: var(--pix-neutral-20);
 
   &__already-answered {
@@ -29,7 +29,7 @@
     &__buttons {
       display: flex;
       flex-direction: row-reverse;
-      gap: $pix-spacing-s;
+      gap: var(--pix-spacing-4x);
     }
 
     &__action-validate {

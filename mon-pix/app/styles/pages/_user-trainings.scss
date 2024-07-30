@@ -35,7 +35,7 @@
   flex-direction: column;
   width: 100%;
   min-height: inherit;
-  margin: $pix-spacing-m auto 0;
+  margin: var(--pix-spacing-6x) auto 0;
   padding: 20px 32px 0;
   color: var(--pix-neutral-900);
 
@@ -61,7 +61,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 24px;
-    margin-bottom: $pix-spacing-l;
+    margin-bottom: var(--pix-spacing-8x);
     padding: 0;
     list-style: none;
 

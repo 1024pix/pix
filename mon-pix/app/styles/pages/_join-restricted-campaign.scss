@@ -41,7 +41,7 @@
   &__subtitle {
     @extend %pix-title-xs;
 
-    margin: $pix-spacing-m 0;
+    margin: var(--pix-spacing-6x) 0;
     color: var(--pix-neutral-900);
     text-align: center;
   }

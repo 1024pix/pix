@@ -204,7 +204,7 @@
 .challenge-statement__action-link {
   width: 156px;
   height: 46px;
-  margin-bottom: $pix-spacing-m;
+  margin-bottom: var(--pix-spacing-6x);
   color: var(--pix-neutral-0);
   text-align: center;
   background-color: var(--pix-primary-500);

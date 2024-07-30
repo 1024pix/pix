@@ -1,6 +1,6 @@
 /* ------------------------ START ------------------------ */
 .campaign-landing-page__container {
-  margin-bottom: $pix-spacing-xxl;
+  margin-bottom: var(--pix-spacing-12x);
 }
 
 .campaign-landing-page__container__start {
@@ -8,7 +8,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 25px;
-  padding-bottom: $pix-spacing-xl;
+  padding-bottom: var(--pix-spacing-10x);
 }
 
 .campaign-landing-page__start__image__container {
@@ -47,7 +47,7 @@
   &__subtitle {
     @extend %pix-title-xs;
 
-    margin-top: $pix-spacing-s;
+    margin-top: var(--pix-spacing-4x);
   }
 
   &__legal {
@@ -92,7 +92,7 @@
 }
 
 .campaign-landing-page__start__warning {
-  margin-top: $pix-spacing-xl;
+  margin-top: var(--pix-spacing-10x);
   color: var(--pix-neutral-900);
   font-size: 0.875rem;
   text-align: center;

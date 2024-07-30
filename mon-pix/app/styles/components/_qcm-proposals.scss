@@ -3,9 +3,9 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  margin-left: $pix-spacing-xs;
+  margin-left: var(--pix-spacing-2x);
 
   & + .proposal-paragraph {
-    margin-top: $pix-spacing-s;
+    margin-top: var(--pix-spacing-4x);
   }
 }

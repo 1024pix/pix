@@ -42,18 +42,18 @@
       margin: 0 auto ;
 
       &:first-child {
-        margin-bottom: $pix-spacing-xs;
+        margin-bottom: var(--pix-spacing-2x);
       }
     }
   }
 
   &__action-banner {
-    margin-top: $pix-spacing-s;
+    margin-top: var(--pix-spacing-4x);
   }
 
   &__trainings {
-    margin-top: $pix-spacing-xl;
-    padding: $pix-spacing-l 0;
+    margin-top: var(--pix-spacing-10x);
+    padding: var(--pix-spacing-8x) 0;
     border-top: 2px solid var(--pix-neutral-20);
   }
 
@@ -161,7 +161,7 @@
   &__description {
     @extend %pix-body-s;
 
-    margin-top: $pix-spacing-xs;
+    margin-top: var(--pix-spacing-2x);
     color: var(--pix-neutral-500);
   }
 
@@ -169,7 +169,7 @@
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
-    margin-top: $pix-spacing-m;
+    margin-top: var(--pix-spacing-6x);
     padding: 0;
     column-gap: 24px;
     row-gap: 24px;
@@ -222,7 +222,7 @@
   }
 
   &__column-header {
-    padding-bottom: $pix-spacing-xs;
+    padding-bottom: var(--pix-spacing-2x);
     text-align: left;
   }
 
@@ -230,16 +230,16 @@
     display: flex;
     align-items: center;
     height: 100%;
-    padding: $pix-spacing-s $pix-spacing-s $pix-spacing-s 0;
+    padding: var(--pix-spacing-4x) var(--pix-spacing-4x) var(--pix-spacing-4x) 0;
   }
 
   &__name {
-    margin-left: $pix-spacing-s;
+    margin-left: var(--pix-spacing-4x);
     text-align: left;
   }
 
   &__border {
-    padding: $pix-spacing-s 0;
+    padding: var(--pix-spacing-4x) 0;
     border-style: solid;
     border-width: 1.5px;
     border-radius: 1.5px;
@@ -275,12 +275,12 @@
   &__title {
     @extend %pix-title-s;
 
-    padding-bottom: $pix-spacing-m;
+    padding-bottom: var(--pix-spacing-6x);
     color: var(--pix-neutral-900);
   }
 
   &__content {
-    padding-top: $pix-spacing-m;
+    padding-top: var(--pix-spacing-6x);
 
     &:nth-child(2) {
       padding-top: 0;
@@ -290,7 +290,7 @@
   &__area {
     display: flex;
     align-items: center;
-    padding-bottom: $pix-spacing-xs;
+    padding-bottom: var(--pix-spacing-2x);
   }
 
   &__subtitle {
@@ -301,7 +301,7 @@
   }
 
   &__border {
-    margin-right: $pix-spacing-xs;
+    margin-right: var(--pix-spacing-2x);
     padding: 0.7rem 0;
     border-style: solid;
     border-width: 2.5px;
@@ -317,14 +317,14 @@
       background-color: var(--pix-neutral-20);
 
       & + tr {
-        border-top: $pix-spacing-xs solid var(--pix-neutral-0);
+        border-top: var(--pix-spacing-2x) solid var(--pix-neutral-0);
       }
     }
 
     th {
       @extend %pix-body-m;
 
-      padding: $pix-spacing-xs $pix-spacing-s;
+      padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
       color: var(--pix-neutral-900);
       font-weight: $font-normal;
       text-align: left;
@@ -335,13 +335,13 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: $pix-spacing-xs $pix-spacing-s;
+    padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
   }
 
   &__reached-stage-percentage {
     @extend %pix-body-xs;
 
-    margin-right: $pix-spacing-s;
+    margin-right: var(--pix-spacing-4x);
   }
 
   &__reached-stage-stars {
@@ -503,12 +503,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: $pix-spacing-l;
+    margin-bottom: var(--pix-spacing-8x);
     text-align: center;
 
     @include device-is('tablet') {
       flex-direction: row;
-      margin-bottom: $pix-spacing-s;
+      margin-bottom: var(--pix-spacing-4x);
     }
   }
 

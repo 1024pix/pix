@@ -12,7 +12,7 @@
   /* CSS patch to delete when screen improved */
   &-statement {
     p + p {
-      margin-top: $pix-spacing-xxs;
+      margin-top: var(--pix-spacing-1x);
     }
 
     h2 {
@@ -45,7 +45,7 @@
     z-index: 1;
     width: 100%;
     max-width: 990px;
-    margin: $pix-spacing-s 0;
+    margin: var(--pix-spacing-4x) 0;
     padding: 0 20px;
     text-align: left;
 

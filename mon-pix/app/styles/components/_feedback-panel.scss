@@ -1,6 +1,6 @@
 .feedback-panel {
   z-index: 1;
-  padding: 0 $pix-spacing-s;
+  padding: 0 var(--pix-spacing-4x);
   color: var(--pix-neutral-800);
   font-size: 0.938rem;
 }
@@ -9,7 +9,7 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .feedback-panel__open-button {
-  gap: $pix-spacing-xxs;
+  gap: var(--pix-spacing-1x);
   width: 100%;
   padding: 0.75rem 0;
   color: var(--pix-neutral-800);
@@ -24,7 +24,7 @@
   cursor: pointer;
 
   svg {
-    margin-right: $pix-spacing-xxs;
+    margin-right: var(--pix-spacing-1x);
   }
 
   &[aria-expanded='true'] {
@@ -46,7 +46,7 @@
 }
 
 .feedback-panel__view--form {
-  padding: $pix-spacing-xs 0;
+  padding: var(--pix-spacing-2x) 0;
 }
 
 .feedback-panel__form-description {
@@ -63,7 +63,7 @@
 
 .feedback-panel__form-wrapper {
   display: flex;
-  margin-top: $pix-spacing-s;
+  margin-top: var(--pix-spacing-4x);
 }
 
 .feedback-panel__form {
@@ -75,7 +75,7 @@
 
   display: flex;
   align-items: center;
-  margin: $pix-spacing-s 0;
+  margin: var(--pix-spacing-4x) 0;
   color: var(--pix-neutral-800);
   font-weight: 500;
   text-decoration: underline;
@@ -83,20 +83,20 @@
 
 .feedback-panel-comment {
   &__icon {
-    margin-right: $pix-spacing-xxs;
-    padding: $pix-spacing-xxs;
+    margin-right: var(--pix-spacing-1x);
+    padding: var(--pix-spacing-1x);
   }
 }
 
 .feedback-panel__field-notice {
-  margin: $pix-spacing-s 0 $pix-spacing-xxs;
+  margin: var(--pix-spacing-4x) 0 var(--pix-spacing-1x);
   font-size: 0.75rem;
 }
 
 .feedback-panel__category-selection {
   display: flex;
   flex-direction: column;
-  gap: $pix-spacing-s;
+  gap: var(--pix-spacing-4x);
 
   > div {
     max-width: 100%;
@@ -160,8 +160,8 @@
 }
 
 .feedback-panel__form-legal-notice {
-  margin-top: $pix-spacing-s;
-  padding-top: $pix-spacing-s;
+  margin-top: var(--pix-spacing-4x);
+  padding-top: var(--pix-spacing-4x);
   color: var(--pix-neutral-100);
   font-size: 0.75rem;
   line-height: 1.5;
@@ -176,12 +176,12 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .feedback-panel__view--mercix {
-  padding: $pix-spacing-s 0 $pix-spacing-m;
+  padding: var(--pix-spacing-4x) 0 var(--pix-spacing-6x);
   font-size: 1rem;
   text-align: center;
 
   p + p {
-    margin-top: $pix-spacing-xs;
+    margin-top: var(--pix-spacing-2x);
   }
 }
 
@@ -195,9 +195,9 @@
 .feedback-panel__submit-modal > [class$='__footer'] {
   display: flex;
   justify-content: flex-end;
-  padding-bottom: $pix-spacing-s;
+  padding-bottom: var(--pix-spacing-4x);
 
   & > :not(:first-child) {
-    margin-left: $pix-spacing-xs;
+    margin-left: var(--pix-spacing-2x);
   }
 }

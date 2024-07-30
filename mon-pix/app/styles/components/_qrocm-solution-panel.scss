@@ -11,7 +11,7 @@
 
   &--input {
     display: inline-block;
-    padding: $pix-spacing-xxs $pix-spacing-xxs $pix-spacing-xxs 0;
+    padding: var(--pix-spacing-1x) var(--pix-spacing-1x) var(--pix-spacing-1x) 0;
     vertical-align: 0;
 
     &:not(:last-child) {
@@ -50,7 +50,7 @@
 .correction-qrocm-text {
   &__label {
     display: inline;
-    padding: $pix-spacing-xxs $pix-spacing-xxs $pix-spacing-xxs 0;
+    padding: var(--pix-spacing-1x) var(--pix-spacing-1x) var(--pix-spacing-1x) 0;
 
     &:not(:last-child) {
       padding-left: 0;
@@ -65,7 +65,7 @@
   &-text {
     @extend %pix-body-m;
 
-    margin: $pix-spacing-xxs 0 $pix-spacing-xs;
+    margin: var(--pix-spacing-1x) 0 var(--pix-spacing-2x);
     color: var(--pix-success-700);
     font-weight: $font-bold;
   }

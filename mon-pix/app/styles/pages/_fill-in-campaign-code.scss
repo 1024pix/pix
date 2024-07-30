@@ -5,22 +5,22 @@
     align-items: center;
     width: 100%;
     margin-bottom: 32px;
-    padding: 16px 16px $pix-spacing-s;
+    padding: 16px 16px var(--pix-spacing-4x);
 
     @include device-is('tablet') {
-      padding: $pix-spacing-xl;
+      padding: var(--pix-spacing-10x);
     }
   }
 
   &__title {
-    margin-bottom: $pix-spacing-l;
+    margin-bottom: var(--pix-spacing-8x);
     font-size: 2rem;
     text-align: center;
   }
 
   &__instruction {
     max-width: 600px;
-    margin-bottom: $pix-spacing-s;
+    margin-bottom: var(--pix-spacing-4x);
     color: var(--pix-neutral-900);
     font-size: 1.219rem;
     font-family: $font-open-sans;
@@ -37,7 +37,7 @@
 
   &__form-field {
     display: inline-block;
-    margin-bottom: $pix-spacing-s;
+    margin-bottom: var(--pix-spacing-4x);
     text-align: left;
 
     input {
@@ -56,19 +56,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: $pix-spacing-s;
+    margin-bottom: var(--pix-spacing-4x);
   }
 
   &__error {
-    margin-bottom: $pix-spacing-s;
+    margin-bottom: var(--pix-spacing-4x);
     color: var(--pix-warning-700);
     font-size: 0.875rem;
     text-align: center;
   }
 
   &__warning {
-    margin-top: $pix-spacing-s;
-    margin-bottom: $pix-spacing-s;
+    margin-top: var(--pix-spacing-4x);
+    margin-bottom: var(--pix-spacing-4x);
     color: var(--pix-neutral-900);
     font-size: 0.875rem;
     text-align: center;

@@ -62,9 +62,9 @@
 
 .embed__reboot {
   position: absolute;
-  top: calc(100% + $pix-spacing-xs);
+  top: calc(100% + var(--pix-spacing-2x));
   right: 0;
-  padding-right: $pix-spacing-xs;
+  padding-right: var(--pix-spacing-2x);
 }
 
 .embed-reboot__content {
