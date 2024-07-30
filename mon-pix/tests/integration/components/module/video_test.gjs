@@ -107,4 +107,25 @@ module('Integration | Component | Module | Video', function (hooks) {
     const transcriptionButton = await screen.queryByRole('button', { name: 'Afficher la transcription' });
     assert.dom(transcriptionButton).doesNotExist();
   });
+
+  module('when video has a poster', function () {
+    test('video element has a data-poster attribute', async function (assert) {
+      // given
+      const url = 'https://videos.pix.fr/modulix/placeholder-video.mp4';
+
+      const videoElement = {
+        url,
+        title: 'title',
+        subtitles: 'subtitles',
+        transcription: '',
+        poster: 'https://example.org/modulix/video-poster.jpg',
+      };
+
+      //  when
+      await render(<template><ModulixVideoElement @video={{videoElement}} /></template>);
+
+      // then
+      assert.dom('video').hasAttribute('data-poster', 'https://example.org/modulix/video-poster.jpg');
+    });
+  });
 });
