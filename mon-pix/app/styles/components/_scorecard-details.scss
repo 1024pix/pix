@@ -139,14 +139,23 @@
     text-transform: uppercase;
 
     &--jaffa {
-      color: var(--pix-information-dark);
+      // stylelint-disable-next-line color-no-hex -- il nous manque un token suffisament sombre pour éviter les problèmes de contraste
+      --pix-information-darker: #db100f;
+
+      color: var(--pix-information-darker);
     }
 
     &--emerald {
-      color: var(--pix-content-dark);
+      // stylelint-disable-next-line color-no-hex -- il nous manque un token suffisament sombre pour éviter les problèmes de contraste
+      --pix-content-darker: #12615f;
+
+      color: var(--pix-content-darker);
     }
 
     &--cerulean {
+      // stylelint-disable-next-line color-no-hex -- il nous manque un token suffisament sombre pour éviter les problèmes de contraste
+      --pix-communication-darker: #0a40ff;
+
       color: var(--pix-communication-dark);
     }
 

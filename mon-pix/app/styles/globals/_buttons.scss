@@ -192,7 +192,8 @@
 }
 
 .link {
-  color: var(--pix-primary-500);
+  // Il nous manque un token bleu pour les liens
+  color: $pix-primary;
   text-decoration: none;
   background-color: inherit;
   border: none;
