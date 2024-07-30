@@ -43,7 +43,6 @@
     "@eslint/compat": "^1.1.1",
     "@tsconfig/node20": "^20.1.4",
     "@types/bcrypt": "^5.0.0",
-    "@types/eslint__js": "^8.42.3",
     "@types/lodash": "^4.17.7",
     "@types/node": "^22.0.0",
     "@types/pg": "^8.11.6",
