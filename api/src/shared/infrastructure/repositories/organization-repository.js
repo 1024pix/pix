@@ -194,6 +194,18 @@ const findPaginatedFilteredByTargetProfile = async function ({ targetProfileId, 
   return { models: organizations, pagination };
 };
 
+const getOrganizationsWithPlaces = async function () {
+  const knexConn = DomainTransaction.getConnection();
+  const organizations = await knexConn('organizations')
+    .select('organizations.id', 'name', 'type')
+    .innerJoin('organization-places', 'organizations.id', 'organization-places.organizationId')
+    .whereNotNull('organization-places.count')
+    .whereNull('archivedAt')
+    .distinct();
+
+  return organizations.map((organization) => _toDomain(organization));
+};
+
 export {
   create,
   findActiveScoOrganizationsByExternalId,
@@ -203,6 +215,7 @@ export {
   findScoOrganizationsByUai,
   get,
   getIdByCertificationCenterId,
+  getOrganizationsWithPlaces,
   getScoOrganizationByExternalId,
   update,
 };
