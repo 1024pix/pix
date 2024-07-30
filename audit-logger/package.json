@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "build": "tsc --project tsconfig.production.json",
+    "dev": "tsx watch src/lib/index.ts",
     "clean": "rm -rf node_modules",
     "db:create": "tsx src/scripts/database/create-database.ts",
     "db:delete": "tsx src/scripts/database/drop-database.ts",
@@ -20,8 +21,8 @@
     "test": "NODE_ENV=test npm run db:prepare && vitest",
     "test:ci": "NODE_ENV=test npm run db:prepare && vitest",
     "test:watch": "NODE_ENV=test npm run db:prepare && vitest --watch",
-    "dev": "tsx watch src/lib/index.ts",
-    "start": "node dist/lib/index.js"
+    "start": "node dist/lib/index.js",
+    "tsc": "tsc -b"
   },
   "repository": {
     "type": "git",
