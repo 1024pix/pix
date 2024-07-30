@@ -1,4 +1,3 @@
-import { handleDomainAndHttpErrors } from '../../../lib/application/pre-response-utils.js';
 import {
   BadRequestError,
   BaseHttpError,
@@ -10,6 +9,7 @@ import {
   UnauthorizedError,
   UnprocessableEntityError,
 } from '../../../src/shared/application/http-errors.js';
+import { handleDomainAndHttpErrors } from '../../../src/shared/application/pre-response-utils.js';
 import { expect, hFake } from '../../test-helper.js';
 
 describe('Integration | Application | PreResponse-utils', function () {
