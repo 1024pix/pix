@@ -1,0 +1,19 @@
+.evaluation-results-tabs {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--pix-spacing-3x);
+}
+
+.evaluation-results-tab__title {
+  @extend %pix-title-s;
+
+  margin-top: var(--pix-spacing-6x);
+  color: var(--pix-neutral-900);
+}
+
+.evaluation-results-tab__description {
+  @extend %pix-body-s;
+
+  margin-top: var(--pix-spacing-2x);
+  color: var(--pix-neutral-500);
+}
