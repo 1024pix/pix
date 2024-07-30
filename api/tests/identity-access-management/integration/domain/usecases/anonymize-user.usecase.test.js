@@ -59,6 +59,8 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
 
     await databaseBuilder.commit();
 
+    await refreshTokenService.createRefreshTokenFromUserId({ userId, source: 'pix' });
+
     const expectedUserAnonymizedEvent = new UserAnonymized({
       userId,
       updatedByUserId: admin.id,
