@@ -18,7 +18,7 @@
     text-align: center;
 
     &-title {
-      color: $pix-neutral-60;
+      color: var(--pix-neutral-500);
       font-weight: lighter;
       font-size: 0.8rem;
       font-family: $font-roboto;
@@ -27,7 +27,7 @@
     }
 
     &-pix-score {
-      color: $pix-neutral-70;
+      color: var(--pix-neutral-800);
       font-weight: $font-medium;
       font-size: 2.3rem;
       font-family: $font-open-sans;
@@ -35,7 +35,7 @@
 
     &-certified {
       width: 70px;
-      color: $pix-neutral-60;
+      color: var(--pix-neutral-500);
       font-weight: $font-medium;
       font-size: 0.7rem;
       font-family: $font-roboto;

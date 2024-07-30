@@ -18,7 +18,7 @@
 
   &__info-certificate {
     align-self: center;
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
 
     & > * {
       margin: 0;
@@ -35,7 +35,7 @@
     }
 
     &--grey {
-      color: $pix-neutral-45;
+      color: var(--pix-neutral-500);
       font-size: 0.875rem;
       line-height: 23px;
 
@@ -50,7 +50,7 @@
 
     &--professionalizing-warning {
       padding-top: 12px;
-      color: $pix-neutral-45;
+      color: var(--pix-neutral-500);
       font-size: 0.875rem;
       line-height: 23px;
     }
@@ -73,7 +73,7 @@
 
 .attestation-and-verification-code {
   padding: 16px 20px;
-  background-color: $pix-neutral-10;
+  background-color: var(--pix-neutral-20);
   border-radius: 8px;
 
   .attestation {
@@ -89,19 +89,19 @@
     &__error-message {
       max-width: 250px;
       margin-top: 15px;
-      color: $pix-error-50;
+      color: var(--pix-error-500);
     }
   }
 
   hr {
     margin: 24px 0;
-    border: 1px solid $pix-neutral-15;
+    border: 1px solid var(--pix-neutral-20);
   }
 
   .verification-code {
     max-width: 250px;
     margin: auto;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-family: $font-open-sans;
     letter-spacing: 0;
 
@@ -118,8 +118,8 @@
       align-items: baseline;
       justify-content: center;
       padding: 10px 20px;
-      background-color: $pix-neutral-5;
-      border: 1.5px $pix-neutral-22 dashed;
+      background-color: var(--pix-neutral-20);
+      border: 1.5px var(--pix-neutral-100) dashed;
       border-radius: 4px;
 
       .verification-code__code {
@@ -133,14 +133,14 @@
 
       .verification-code__copy-button {
         padding: 0;
-        color: $pix-primary;
+        color: var(--pix-primary-500);
         font-size: 1.25rem;
         background: none;
         border: none;
         cursor: pointer;
 
         &:hover {
-          color: darken($pix-primary, 20%);
+          color: var(--pix-primary-700);
         }
       }
     }

@@ -25,7 +25,7 @@
     max-width: 609px;
     margin-bottom: $pix-spacing-s;
     padding: 20px 10px;
-    background-color: $pix-neutral-0;
+    background-color: var(--pix-neutral-0);
     border-radius: 10px;
 
     @include device-is('tablet') {
@@ -49,7 +49,7 @@
 
   &__notification-message--error {
     margin: 0 0 10px;
-    color: $pix-error-70;
+    color: var(--pix-error-700);
     font-weight: 400;
     font-size: 1rem;
     line-height: 1.625rem;
@@ -63,7 +63,7 @@
   &__validation-error {
     margin: 0;
     padding-bottom: 10px;
-    color: $pix-error-70;
+    color: var(--pix-error-700);
     font-weight: normal;
     font-size: 0.875rem;
   }
@@ -75,7 +75,7 @@
 
     margin-top: var(--pix-spacing-8x);
     margin-bottom: var(--pix-spacing-4x);
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
   }
 
   &__subtitle {
@@ -96,7 +96,7 @@
     @extend %pix-body-s;
 
     margin-top: var(--pix-spacing-4x);
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     text-align: center;
   }
 
@@ -136,7 +136,7 @@
     margin: var(--pix-spacing-4x) 0;
     line-height: 0.1rem;
     text-align: center;
-    border-bottom: 1.5px solid $pix-neutral-20;
+    border-bottom: 1.5px solid var(--pix-neutral-20);
 
     @include device-is('mobile') {
       width: 100%;
@@ -144,9 +144,9 @@
 
     span {
       padding: 0 10px;
-      color: $pix-neutral-80;
+      color: var(--pix-neutral-800);
       font-size: 16px;
-      background: $pix-neutral-0;
+      background: var(--pix-neutral-0);
     }
   }
 
@@ -163,8 +163,8 @@
     &:focus,
     &:hover,
     &:focus-within {
-      border: 2px solid $pix-neutral-0;
-      box-shadow: 0 0 0 2px $pix-neutral-70;
+      border: 2px solid var(--pix-neutral-0);
+      box-shadow: 0 0 0 2px var(--pix-neutral-800);
     }
 
     img {
@@ -190,15 +190,15 @@
     align-items: center;
     font-weight: $font-medium;
     text-decoration: none;
-    background-color: $pix-neutral-0;
-    border: 1px solid $pix-neutral-50;
+    background-color: var(--pix-neutral-0);
+    border: 1px solid var(--pix-neutral-100);
     border-radius: 100px;
 
     &:focus,
     &:hover,
     &:focus-within {
-      color: $pix-neutral-0;
-      border: 1px solid $pix-neutral-50;
+      color: var(--pix-neutral-0);
+      border: 1px solid var(--pix-neutral-100);
     }
 
     &__logo {
@@ -208,28 +208,28 @@
       &:focus,
       &:hover,
       &:focus-within {
-        color: $pix-neutral-0;
-        background-color: $pix-neutral-0;
+        color: var(--pix-neutral-0);
+        background-color: var(--pix-neutral-0);
       }
     }
   }
 }
 
 .oidc-provider-pole-emploi {
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
   background-color: var(--pix-primary-900);
-  border-style : 1px solid $pix-neutral-50;
+  border-style : 1px solid var(--pix-neutral-100);
 }
 
 .oidc-provider-fwb {
   padding: $pix-spacing-xs $pix-spacing-s $pix-spacing-xs $pix-spacing-xs;
-  color: $pix-neutral-90;
+  color: var(--pix-neutral-900);
   
   &:focus,
   &:hover,
   &:focus-within {
-    color: $pix-neutral-0;
-    background-color: $pix-neutral-60;
+    color: var(--pix-neutral-0);
+    background-color: var(--pix-neutral-500);
     border-radius: 0 100px 100px 0;
   }
 }

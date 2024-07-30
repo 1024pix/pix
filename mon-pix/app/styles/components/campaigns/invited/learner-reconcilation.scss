@@ -9,7 +9,7 @@
     @extend %pix-title-l;
 
     margin-bottom: var(--pix-spacing-4x);
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     text-align: center;
   }
 
@@ -17,7 +17,7 @@
     @extend %pix-body-s;
 
     padding-bottom: 10px;
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
     text-align: center;
   }
 

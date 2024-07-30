@@ -1,7 +1,7 @@
 .feedback-panel {
   z-index: 1;
   padding: 0 $pix-spacing-s;
-  color: $pix-neutral-70;
+  color: var(--pix-neutral-800);
   font-size: 0.938rem;
 }
 
@@ -12,7 +12,7 @@
   gap: $pix-spacing-xxs;
   width: 100%;
   padding: 0.75rem 0;
-  color: $pix-neutral-70;
+  color: var(--pix-neutral-800);
   font-weight: $font-normal;
   font-size: 0.875rem;
   font-family: $font-roboto;
@@ -28,7 +28,7 @@
   }
 
   &[aria-expanded='true'] {
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
   }
 }
 
@@ -53,10 +53,10 @@
   font-size: 1.25rem;
 
   & .link {
-    color: $pix-primary-60;
+    color: var(--pix-primary-700);
 
     &:hover {
-      color: $pix-primary-60;
+      color: var(--pix-primary-700);
     }
   }
 }
@@ -76,7 +76,7 @@
   display: flex;
   align-items: center;
   margin: $pix-spacing-s 0;
-  color: $pix-neutral-70;
+  color: var(--pix-neutral-800);
   font-weight: 500;
   text-decoration: underline;
 }
@@ -117,8 +117,8 @@
   font-weight: bold;
   font-size: 0.938rem;
   word-break: break-word;
-  background-color: $pix-neutral-0;
-  border: dashed $pix-neutral-70;
+  background-color: var(--pix-neutral-0);
+  border: dashed var(--pix-neutral-800);
 
   & .tuto-icon {
     width: 15px;
@@ -127,7 +127,7 @@
       float: left;
       width: 20px;
       height: 20px;
-      color: $pix-warning-60;
+      color: var(--pix-warning-700);
     }
   }
 
@@ -140,8 +140,8 @@
   box-sizing: border-box;
   margin: 0 10px 20px 0;
   padding: 10px 20px;
-  background-color: $pix-neutral-20;
-  border: 1px solid $pix-neutral-40;
+  background-color: var(--pix-neutral-20);
+  border: 1px solid var(--pix-neutral-500);
   border-radius: 3px;
 
   &[disabled] {
@@ -151,24 +151,24 @@
 
 .feedback-panel__button--send {
   color: var(--pix-neutral-0);
-  background-color: $pix-neutral-50;
+  background-color: var(--pix-neutral-100);
 
   &:hover,
   &:focus {
-    background-color: $pix-neutral-70;
+    background-color: var(--pix-neutral-800);
   }
 }
 
 .feedback-panel__form-legal-notice {
   margin-top: $pix-spacing-s;
   padding-top: $pix-spacing-s;
-  color: $pix-neutral-50;
+  color: var(--pix-neutral-100);
   font-size: 0.75rem;
   line-height: 1.5;
-  border-top: 1px solid $pix-neutral-20;
+  border-top: 1px solid var(--pix-neutral-20);
 
   & a {
-    color: $pix-primary-60;
+    color: var(--pix-primary-700);
   }
 }
 

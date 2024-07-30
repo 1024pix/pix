@@ -6,7 +6,7 @@
   padding-top: 16px;
   padding-bottom: 16px;
   word-break: break-word;
-  border-top: $pix-neutral-15 1px solid;
+  border-top: var(--pix-neutral-20) 1px solid;
 
   &--with-success-message {
     margin: 20px 0 0;
@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   margin: 0;
-  color: $pix-neutral-50;
+  color: var(--pix-neutral-100);
 }
 
 .user-account-panel-item__edit-button {

@@ -9,7 +9,7 @@
     list-style: none;
 
     a {
-      color: $pix-primary-60;
+      color: var(--pix-primary-700);
     }
   }
 
@@ -30,7 +30,7 @@
 
   &__title {
     margin-top: 48px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: $font-normal;
     font-size: 3rem;
     line-height: 4.125rem;
@@ -46,7 +46,7 @@
     }
 
     a:visited {
-      color: $pix-primary_80;
+      color: var(--pix-primary-500)_80;
       text-decoration: none;
     }
   }
@@ -60,7 +60,7 @@
     font-size: 2rem;
 
     &--title {
-      color: $pix-neutral-60;
+      color: var(--pix-neutral-500);
     }
   }
 }
@@ -70,7 +70,7 @@
   &__resources {
 
     li::before {
-      color: $pix-neutral-45;
+      color: var(--pix-neutral-500);
       content: '•';
     }
   }
@@ -79,7 +79,7 @@
 .sitemap-content-items-link-skills {
 
   li::before {
-    color: $pix-neutral-45;
+    color: var(--pix-neutral-500);
     content: '•';
   }
 

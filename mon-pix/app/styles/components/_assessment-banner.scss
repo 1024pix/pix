@@ -4,7 +4,7 @@
   justify-content: space-around;
   width: 100%;
   min-height: 180px;
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
   background: $pix-primary-app-gradient;
   box-shadow: 0 2px 8px 0 rgb(0 0 0 / 10%);
 }
@@ -52,7 +52,7 @@
   width: 1px;
   height: 16px;
   margin: 0 10px;
-  background: $pix-neutral-15;
+  background: var(--pix-neutral-20);
 
   @include device-is('desktop') {
     margin: 0 12px;
@@ -64,11 +64,11 @@
 
   z-index: 1;
   height: 1.5rem;
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
   text-align: right;
 
   &:hover {
-    color: rgb($pix-neutral-0, 0.8);
+    color: rgb(var(--pix-neutral-0) 0.8);
   }
 }
 

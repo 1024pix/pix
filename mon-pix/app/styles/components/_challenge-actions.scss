@@ -4,7 +4,7 @@
   gap: $pix-spacing-s;
   justify-content: center;
   margin: $pix-spacing-xxs;
-  background-color: $pix-neutral-10;
+  background-color: var(--pix-neutral-20);
 
   &__already-answered {
     flex-grow: 1;
@@ -42,7 +42,7 @@
     align-items: center;
     max-width: 600px;
     margin: 0 auto 24px 12px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: $font-normal;
     font-size: 0.875rem;
     font-family: $font-roboto;
@@ -59,7 +59,7 @@
   &__icon {
     margin-right: 20px;
     margin-left: 0;
-    color: $pix-neutral-45;
+    color: var(--pix-neutral-500);
     font-size: 1rem;
   }
 }

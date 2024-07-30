@@ -3,9 +3,9 @@
   gap: 12px;
   min-height: 170px;
   padding: 16px;
-  background: $pix-neutral-0;
+  background: var(--pix-neutral-0);
   border-radius: 8px;
-  box-shadow: 0 2px 5px 0 rgba($pix-neutral-90, 0.06);
+  box-shadow: 0 2px 5px 0 rgb(var(--pix-neutral-900) 0.06);
 
   &__content {
     display: flex;
@@ -28,11 +28,11 @@
     -webkit-box-orient: vertical;
 
     a {
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
 
       &:hover,
       &:focus {
-        color: $pix-primary;
+        color: var(--pix-primary-500);
       }
     }
   }
@@ -40,7 +40,7 @@
   &__details {
     height: 24px;
     margin: 0;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-100);
     font-weight: $font-normal;
     font-size: 0.813rem;
     font-family: $font-roboto;

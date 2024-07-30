@@ -19,7 +19,7 @@
   }
 
   &__title {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
     font-weight: 600;
     font-size: 1.25rem;
     font-family: $font-open-sans;
@@ -42,7 +42,7 @@
   }
 
   &__explanation-text {
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     font-size: 1.125rem;
     font-family: $font-open-sans;
     white-space: pre-line;
@@ -69,12 +69,12 @@
       width: 10px;
       height: 10px;
       margin: 2px;
-      background-color: $pix-neutral-22;
+      background-color: var(--pix-neutral-100);
       border-radius: 50%;
     }
 
     li[aria-current='step'] .dot {
-      background-color: $pix-primary;
+      background-color: var(--pix-primary-500);
     }
   }
 

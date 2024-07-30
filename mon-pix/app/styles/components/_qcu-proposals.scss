@@ -1,6 +1,6 @@
 .qcu-proposals {
   a {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
     text-decoration: underline;
 
     @include device-is('tablet') {
@@ -10,7 +10,7 @@
     &:active,
     &:focus,
     &:hover {
-      color: $pix-primary-60;
+      color: var(--pix-primary-700);
     }
 
     &::after {

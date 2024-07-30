@@ -53,7 +53,7 @@
   &__legal {
     @extend %pix-body-xs;
 
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
   }
 }
 
@@ -63,7 +63,7 @@
   padding: 50px 5px 5px;
   font-size: 1rem;
   text-align: left;
-  border-top: 1px dashed $pix-neutral-22;
+  border-top: 1px dashed var(--pix-neutral-100);
 
   strong {
     font-weight: $font-medium;
@@ -93,7 +93,7 @@
 
 .campaign-landing-page__start__warning {
   margin-top: $pix-spacing-xl;
-  color: $pix-neutral-90;
+  color: var(--pix-neutral-900);
   font-size: 0.875rem;
   text-align: center;
 }

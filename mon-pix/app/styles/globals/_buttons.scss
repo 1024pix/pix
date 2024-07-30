@@ -1,12 +1,12 @@
 .button {
   padding: 5px;
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
   font-weight: 500;
   font-size: 1rem;
   font-family: $font-roboto;
   letter-spacing: 0.012rem;
   text-align: center;
-  background-color: $pix-primary;
+  background-color: var(--pix-primary-500);
   border: none;
   border-radius: 5px;
   outline: none;
@@ -16,7 +16,7 @@
   &:hover,
   &:active,
   &:focus {
-    background-color: $pix-primary-60;
+    background-color: var(--pix-primary-700);
   }
 
   &--link {
@@ -25,7 +25,7 @@
     &:hover,
     &:active,
     &:focus {
-      color: $pix-neutral-0;
+      color: var(--pix-neutral-0);
       text-decoration: none;
     }
   }
@@ -65,88 +65,88 @@
   }
 
   &--grey {
-    color: $pix-neutral-80;
-    background: $pix-neutral-15;
-    border: 2px solid $pix-neutral-40;
+    color: var(--pix-neutral-800);
+    background: var(--pix-neutral-20);
+    border: 2px solid var(--pix-neutral-500);
 
     &:hover,
     &:active,
     &:focus {
-      background-color: $pix-neutral-20;
-      border: 2px solid $pix-neutral-80;
+      background-color: var(--pix-neutral-20);
+      border: 2px solid var(--pix-neutral-800);
     }
   }
 
   &--green {
     color: var(--pix-neutral-0);
-    background: $pix-success-60;
+    background: var(--pix-success-700);
 
     &:hover,
     &:active,
     &:focus {
-      background-color: $pix-success-70;
+      background-color: var(--pix-success-700);
     }
   }
 
   &--red {
-    color: $pix-neutral-0;
-    background: $pix-error-60;
+    color: var(--pix-neutral-0);
+    background: var(--pix-error-700);
 
     &:hover,
     &:active,
     &:focus {
-      background-color: $pix-error-70;
-      border: 2px solid $pix-warning-40;
+      background-color: var(--pix-error-700);
+      border: 2px solid var(--pix-warning-500);
     }
   }
 
   &--yellow {
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     font-weight: $font-bold;
     font-size: 0.906rem;
-    background: $pix-warning-10;
+    background: var(--pix-warning-100);
     box-shadow: 0 2px 6px 0 rgb(12 22 58 / 11%), 0 1px 3px 0 rgb(0 0 0 / 8%);
 
     &:hover,
     &:active,
     &:focus {
-      color: $pix-neutral-100;
-      background-color: $pix-warning-10;
+      color: var(--pix-neutral-900);
+      background-color: var(--pix-warning-100);
     }
   }
 
   &--dark-grey {
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     font-weight: $font-bold;
     font-size: 0.938rem;
-    background-color: $pix-neutral-60;
+    background-color: var(--pix-neutral-500);
 
     &:hover,
     &:active,
     &:focus {
-      background-color: $pix-neutral-80;
+      background-color: var(--pix-neutral-800);
     }
   }
 
   &--white {
-    color: $pix-neutral-110;
-    background-color: $pix-neutral-0;
+    color: var(--pix-neutral-900);
+    background-color: var(--pix-neutral-0);
 
     &:hover,
     &:active,
     &:focus {
-      background-color: $pix-neutral-20;
+      background-color: var(--pix-neutral-20);
     }
   }
 
   &--no-color {
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     background-color: transparent;
 
     &:hover,
     &:active,
     &:focus {
-      background-color: $pix-neutral-20;
+      background-color: var(--pix-neutral-20);
     }
   }
 
@@ -157,7 +157,7 @@
     &:hover,
     &:focus-within {
       border: 2px solid var(--pix-neutral-0);
-      box-shadow: 0 0 0 2px $pix-primary;
+      box-shadow: 0 0 0 2px var(--pix-primary-500);
     }
   }
 
@@ -168,7 +168,7 @@
 
 .icon-button {
   padding: 4px 8px;
-  color: $pix-neutral-60;
+  color: var(--pix-neutral-500);
   font-size: 1rem;
   background-color: transparent;
   border: none;
@@ -179,7 +179,7 @@
 
   &:hover,
   &:active {
-    background-color: $pix-neutral-20;
+    background-color: var(--pix-neutral-20);
   }
 }
 
@@ -190,7 +190,7 @@
 }
 
 .link {
-  color: $pix-primary;
+  color: var(--pix-primary-500);
   text-decoration: none;
   background-color: inherit;
   border: none;
@@ -199,14 +199,14 @@
   &:hover,
   &:focus,
   &:active {
-    color: $pix-primary-60;
+    color: var(--pix-primary-700);
     text-decoration: underline;
     cursor: pointer;
   }
 
   &:focus-visible {
     border-radius: 2px;
-    outline: 1.5px solid $pix-primary;
+    outline: 1.5px solid var(--pix-primary-500);
     outline-offset: 1px;
   }
 
@@ -215,6 +215,6 @@
   }
 
   &--grey {
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
   }
 }

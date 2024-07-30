@@ -47,11 +47,11 @@
   }
 
   &--white-text {
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
   }
 
   &--black-text {
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
   }
 
   &--align-text-center {
@@ -131,7 +131,7 @@
 
     &:focus span,
     &:hover span {
-      border-bottom: 1px solid $pix-neutral-0;
+      border-bottom: 1px solid var(--pix-neutral-0);
     }
   }
 }

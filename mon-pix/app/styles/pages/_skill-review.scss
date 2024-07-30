@@ -21,11 +21,11 @@
   }
 
   &__retry {
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     font-size: 1.125rem;
     font-family: $font-open-sans;
     text-align: center;
-    border-top: 1px dashed $pix-neutral-22;
+    border-top: 1px dashed var(--pix-neutral-100);
 
     @include device-is('tablet') {
       margin-top: 32px;
@@ -54,7 +54,7 @@
   &__trainings {
     margin-top: $pix-spacing-xl;
     padding: $pix-spacing-l 0;
-    border-top: 2px solid $pix-neutral-20;
+    border-top: 2px solid var(--pix-neutral-20);
   }
 
   &__share {
@@ -99,11 +99,11 @@
     justify-content: space-between;
     margin-bottom: 30px;
     padding: 30px;
-    border-bottom: 1px dashed $pix-neutral-22;
+    border-bottom: 1px dashed var(--pix-neutral-100);
   }
 
   &__explain-text {
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-size: 1.5rem;
     line-height: 33px;
   }
@@ -134,7 +134,7 @@
     align-items: flex-start;
 
     > h2 {
-      color: $pix-neutral-60;
+      color: var(--pix-neutral-500);
       font-size: 16px;
     }
 
@@ -155,14 +155,14 @@
   &__title {
     @extend %pix-title-s;
 
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
   }
 
   &__description {
     @extend %pix-body-s;
 
     margin-top: $pix-spacing-xs;
-    color: $pix-neutral-45;
+    color: var(--pix-neutral-500);
   }
 
   &__list {
@@ -188,14 +188,14 @@
     width: 100%;
     padding: 0;
     overflow: hidden;
-    border: 1px solid $pix-neutral-15;
+    border: 1px solid var(--pix-neutral-20);
     border-radius: 8px;
     transition: all 0.2s ease-in-out;
 
     &:hover {
       box-shadow:
         0 7px 14px 0 rgb(12 22 58 / 20%),
-        0 3px 6px 0 rgba($pix-neutral-110, 0.2);
+        0 3px 6px 0 rgb(var(--pix-neutral-900) 0.2);
     }
   }
 }
@@ -203,14 +203,14 @@
 .skill-review-information {
   &__info-icon {
     float: left;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-size: 0.938em;
   }
 
   &__text {
     margin-top: 14px;
     padding-left: 14px;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-size: 0.875rem;
     font-family: $font-open-sans;
   }
@@ -245,28 +245,28 @@
     border-radius: 1.5px;
 
     &--jaffa {
-      color: $pix-information-light;
-      background: $pix-information-light;
+      color: var(--pix-information-light);
+      background: var(--pix-information-light);
     }
 
     &--emerald {
-      color: $pix-content-light;
-      background: $pix-content-light;
+      color: var(--pix-content-light);
+      background: var(--pix-content-light);
     }
 
     &--cerulean {
-      color: $pix-communication-light;
-      background: $pix-communication-light;
+      color: var(--pix-communication-light);
+      background: var(--pix-communication-light);
     }
 
     &--wild-strawberry {
-      color: $pix-security-light;
-      background: $pix-security-light;
+      color: var(--pix-security-light);
+      background: var(--pix-security-light);
     }
 
     &--butterfly-bush {
-      color: $pix-environment-light;
-      background: $pix-environment-light;
+      color: var(--pix-environment-light);
+      background: var(--pix-environment-light);
     }
   }
 }
@@ -276,7 +276,7 @@
     @extend %pix-title-s;
 
     padding-bottom: $pix-spacing-m;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
   }
 
   &__content {
@@ -296,7 +296,7 @@
   &__subtitle {
     @extend %pix-body-l;
 
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: $font-medium;
   }
 
@@ -314,10 +314,10 @@
 
     tr {
       height: 3rem;
-      background-color: $pix-neutral-5;
+      background-color: var(--pix-neutral-20);
 
       & + tr {
-        border-top: $pix-spacing-xs solid $pix-neutral-0;
+        border-top: $pix-spacing-xs solid var(--pix-neutral-0);
       }
     }
 
@@ -325,7 +325,7 @@
       @extend %pix-body-m;
 
       padding: $pix-spacing-xs $pix-spacing-s;
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
       font-weight: $font-normal;
       text-align: left;
     }
@@ -351,7 +351,7 @@
 
 .skill-review-table-header {
   &__circle-chart-value {
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     font-size: 1.938rem;
     font-family: $font-roboto;
   }
@@ -375,7 +375,7 @@
 
   &__title {
     margin: 0;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-weight: $font-bold;
     font-size: 1rem;
     font-family: $font-open-sans;
@@ -383,14 +383,14 @@
 
   &__organization-name {
     margin: 8px 0;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: $font-normal;
     font-size: 1.5rem;
     font-family: $font-open-sans;
   }
 
   &__text {
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-size: 1rem;
     font-family: $font-roboto;
     line-height: 1.625rem;
@@ -404,10 +404,10 @@
     display: inline-block;
     margin-top: 12px;
     padding: 8px 12px;
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     font-size: 0.875rem;
     text-decoration: none;
-    background-color: $pix-primary;
+    background-color: var(--pix-primary-500);
     border-radius: 4px;
     cursor: pointer;
 
@@ -420,7 +420,7 @@
 .skill-review-result-abstract {
   &__text {
     margin: 16px 0;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-size: 1.625rem;
     font-family: $font-open-sans;
     line-height: 2.75rem;
@@ -435,14 +435,14 @@
 
     > strong {
       display: inline-block;
-      color: $pix-primary;
+      color: var(--pix-primary-500);
       font-weight: 300;
     }
   }
 
   &__subtext {
     margin: 40px 0;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: $font-bold;
     text-align: center;
   }
@@ -469,13 +469,13 @@
 .badge-container {
   margin-bottom: 24px;
   padding-bottom: 24px;
-  border-bottom: 1px dashed $pix-neutral-22;
+  border-bottom: 1px dashed var(--pix-neutral-100);
 }
 
 .skill-review-result-detail {
   &__badge-subtitle {
     margin: 0 0 24px;
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     font-weight: $font-normal;
     font-size: 1.5rem;
     font-family: $font-open-sans;
@@ -514,7 +514,7 @@
 
   &__subtitle {
     margin-bottom: 32px;
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     font-weight: $font-normal;
     font-size: 1.5rem;
     font-family: $font-open-sans;
@@ -533,7 +533,7 @@
 
   &__legal {
     margin: 4px 0;
-    color: $pix-neutral-45;
+    color: var(--pix-neutral-500);
     font-weight: $font-normal;
     font-size: 0.85rem;
     font-family: $font-roboto;
@@ -543,18 +543,18 @@
   &__thanks {
     margin-bottom: 16px;
     padding: 16px;
-    color: $pix-success-70;
+    color: var(--pix-success-700);
     font-weight: $font-medium;
     font-size: 1rem;
     font-family: $font-open-sans;
     line-height: 2rem;
-    background-color: $pix-success-5;
+    background-color: var(--pix-success-50);
     border-radius: 4px;
   }
 
   &__error {
     padding-bottom: 10px;
-    color: $pix-warning-60;
+    color: var(--pix-warning-700);
     font-size: 0.938rem;
   }
 
@@ -603,7 +603,7 @@
   &__text {
     max-width: 640px;
     margin: 30px auto 60px;
-    color: $pix-neutral-35;
+    color: var(--pix-neutral-100);
     font-size: 1.375rem;
     font-family: $font-open-sans;
     line-height: 30px;
@@ -613,14 +613,14 @@
 .stage-congrats {
   &__title {
     padding-bottom: 10px;
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     font-weight: $font-bold;
     font-size: 1.875rem;
     font-family: $font-open-sans;
   }
 
   &__message {
-    color: $pix-neutral-45;
+    color: var(--pix-neutral-500);
     font-weight: $font-normal;
     font-size: 1.125rem;
     font-family: $font-open-sans;
@@ -638,11 +638,11 @@
   }
 
   .progression-gauge {
-    border-bottom: 4px solid $pix-neutral-20;
+    border-bottom: 4px solid var(--pix-neutral-20);
   }
 
   .progression-gauge__marker {
-    border-bottom: 4px solid $pix-information-light;
+    border-bottom: 4px solid var(--pix-information-light);
   }
 
   .default-table thead {

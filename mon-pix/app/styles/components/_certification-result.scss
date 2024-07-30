@@ -8,7 +8,7 @@
   margin: -150px auto;
   padding-top: 10px;
   line-height: 1.875rem;
-  background-color: $pix-neutral-0;
+  background-color: var(--pix-neutral-0);
 
   @include device-is('tablet') {
     padding: 41px 0;
@@ -17,7 +17,7 @@
 
 .result-content__panel-title {
   margin-top: 11px;
-  color: $pix-neutral-80;
+  color: var(--pix-neutral-800);
   font-weight: $font-bold;
   font-size: 1.563rem;
   font-family: $font-open-sans;
@@ -32,7 +32,7 @@
 .result-content__panel-description {
   margin-top: 21px;
   padding: 0 3px;
-  color: $pix-neutral-80;
+  color: var(--pix-neutral-800);
   font-size: 1.25rem;
   font-family: $font-open-sans;
   line-height: 1.875rem;
@@ -42,7 +42,7 @@
 .result-content__panel-description-supervisor {
   margin-top: 21px;
   padding: 0 3px;
-  color: $pix-warning-60;
+  color: var(--pix-warning-700);
   font-weight: bold;
   font-size: 1.25rem;
   line-height: 1.875rem;
@@ -57,7 +57,7 @@
 .result-content__warning-text {
   padding-bottom: 30px;
   padding-left: 0.625rem;
-  color: $pix-neutral-80;
+  color: var(--pix-neutral-800);
   font-size: 0.938rem;
   line-height: normal;
   text-align: center;
@@ -87,5 +87,5 @@
 
 .result-content__logout-button,
 .result-content__logout-button:hover {
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
 }

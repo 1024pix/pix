@@ -30,7 +30,7 @@
 
   &__footer {
     padding: 20px 0;
-    background-color: $pix-primary;
+    background-color: var(--pix-primary-500);
   }
 }
 
@@ -39,24 +39,24 @@
     display: inline-block;
     width: 100%;
     padding: 12px 32px;
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
     font-size: 1.125rem;
     font-family: $font-roboto;
 
     &.active {
       padding-left: calc(32px - 5px);
-      color: $pix-primary;
-      border-left: 5px solid $pix-primary;
+      color: var(--pix-primary-500);
+      border-left: 5px solid var(--pix-primary-500);
     }
 
     &:hover {
-      color: $pix-primary-60;
-      background-color: $pix-neutral-10;
+      color: var(--pix-primary-700);
+      background-color: var(--pix-neutral-20);
     }
 
     &:active {
-      color: $pix-primary-70;
-      background-color: $pix-neutral-15;
+      color: var(--pix-primary-700);
+      background-color: var(--pix-neutral-20);
     }
   }
 }
@@ -75,19 +75,19 @@
     display: inline-block;
     width: 100%;
     padding: 10px 32px;
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
 
     &.active {
       padding-left: calc(32px - 5px);
-      border-left: 5px solid $pix-neutral-0;
+      border-left: 5px solid var(--pix-neutral-0);
     }
 
     &:hover {
-      background-color: $pix-primary-60;
+      background-color: var(--pix-primary-700);
     }
 
     &:active {
-      background-color: $pix-primary-70;
+      background-color: var(--pix-primary-700);
     }
 
     &--logout {

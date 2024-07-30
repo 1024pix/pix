@@ -13,7 +13,7 @@
   font-family: $font-open-sans;
 
   hr {
-    border-top: 1px solid $pix-neutral-15;
+    border-top: 1px solid var(--pix-neutral-20);
     border-bottom: none;
   }
 
@@ -46,7 +46,7 @@
     display: block;
     width: 4px;
     height: 100%;
-    background-color: $pix-neutral-20;
+    background-color: var(--pix-neutral-20);
     border-radius: 2px;
     content: '';
   }
@@ -57,7 +57,7 @@
     @extend %pix-body-l;
 
     width: 100%;
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
 
     p {
       overflow-wrap: break-word;
@@ -68,7 +68,7 @@
     }
 
     a {
-      color: $pix-primary;
+      color: var(--pix-primary-500);
       text-decoration: underline;
 
       @include device-is('tablet') {
@@ -78,7 +78,7 @@
       &:active,
       &:focus,
       &:hover {
-        color: $pix-primary-60;
+        color: var(--pix-primary-700);
       }
     }
 
@@ -93,13 +93,13 @@
   box-sizing: content-box;
   padding: 10px 0;
   text-align: center;
-  border-top: 1px solid $pix-neutral-20;
+  border-top: 1px solid var(--pix-neutral-20);
 }
 
 .challenge-statement__attachments-section {
   padding: 20px;
   text-align: center;
-  background-color: $pix-neutral-15;
+  background-color: var(--pix-neutral-20);
 }
 
 .challenge-statement__text {
@@ -110,7 +110,7 @@
   position: relative;
   display: inline-block;
   margin: 0 5px;
-  color: $pix-primary;
+  color: var(--pix-primary-500);
   cursor: pointer;
 }
 
@@ -123,10 +123,10 @@
   height: auto;
   margin-left: -400px;
   padding: 15px;
-  color: $pix-neutral-22;
+  color: var(--pix-neutral-100);
   text-align: justify;
-  background-color: $pix-neutral-0;
-  border: solid 1px $pix-neutral-20;
+  background-color: var(--pix-neutral-0);
+  border: solid 1px var(--pix-neutral-20);
   border-radius: 6px;
   box-shadow: 1px 1px 1px 0 rgb(0 0 0 / 10%);
   visibility: hidden;
@@ -140,7 +140,7 @@
   width: 0;
   height: 0;
   margin-left: -10px;
-  border-top: 10px solid $pix-neutral-20;
+  border-top: 10px solid var(--pix-neutral-20);
   border-right: 10px solid transparent;
   border-left: 10px solid transparent;
   content: '';
@@ -165,7 +165,7 @@
 }
 
 .challenge-statement__help-text {
-  color: $pix-neutral-80;
+  color: var(--pix-neutral-800);
   font-size: 0.875rem;
 }
 
@@ -205,33 +205,33 @@
   width: 156px;
   height: 46px;
   margin-bottom: $pix-spacing-m;
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
   text-align: center;
-  background-color: $pix-primary;
+  background-color: var(--pix-primary-500);
   border-radius: 23px;
   cursor: pointer;
 }
 
 .challenge-statement__action-link:hover,
 .challenge-statement__action-link:focus {
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
 }
 
 .challenge-statement__action-help {
   font-size: 0.825rem;
 
   &--link {
-    color: $pix-primary-60;
+    color: var(--pix-primary-700);
     text-decoration: underline;
 
     &:active,
     &:focus,
     &:hover {
-      color: $pix-primary-60;
+      color: var(--pix-primary-700);
     }
 
     &:visited {
-      color: $pix-primary;
+      color: var(--pix-primary-500);
     }
 
     &::after {
@@ -257,7 +257,7 @@
 
   button {
     padding: 0;
-    color: $pix-primary;
+    color: var(--pix-primary-500);
     font-weight: 500;
     font-size: 1rem;
     background-color: transparent;
@@ -267,7 +267,7 @@
     &:hover,
     &:focus,
     &:active {
-      color: $pix-neutral-0;
+      color: var(--pix-neutral-0);
     }
   }
 

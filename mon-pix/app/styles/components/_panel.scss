@@ -9,7 +9,7 @@
   }
 
   &--link {
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     text-decoration: none;
     border: solid 2px var(--pix-neutral-0);
     outline: none;
@@ -18,7 +18,7 @@
     &:hover,
     &:active,
     &:focus {
-      border-color: $pix-primary-40;
+      border-color: var(--pix-primary-500);
       box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%);
       transition: border-color 1s ease;
     }

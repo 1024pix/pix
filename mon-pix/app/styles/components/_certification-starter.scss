@@ -43,20 +43,20 @@
     justify-content: center;
     margin-top: 16px;
     padding: 16px;
-    color: $pix-neutral-70;
-    background-color: $pix-neutral-10;
+    color: var(--pix-neutral-800);
+    background-color: var(--pix-neutral-20);
     border-radius: 8px;
 
     a,
     a:visited {
-      color: $pix-neutral-70;
+      color: var(--pix-neutral-800);
       text-decoration-line: underline;
     }
   }
 
   &__title {
     margin-bottom: 20px;
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     font-size: 2.625rem;
     font-family: $font-open-sans;
     text-align: center;
@@ -65,13 +65,13 @@
 
 .certification-starter-subscriptions {
   margin-bottom: 32px;
-  color: $pix-neutral-90;
+  color: var(--pix-neutral-900);
   font-size: 0.875rem;
 
   &-container {
     padding: 16px 0;
     text-align: center;
-    background-color: $pix-neutral-10;
+    background-color: var(--pix-neutral-20);
 
     &-title {
       font-size: 1rem;
@@ -88,12 +88,12 @@
       }
 
       &__eligible-icon {
-        color: $pix-success-70;
+        color: var(--pix-success-700);
       }
 
       &__non-eligible-item,
       &__non-eligible-icon {
-        color: $pix-neutral-50;
+        color: var(--pix-neutral-100);
       }
     }
 
@@ -101,8 +101,8 @@
       display: flex;
       align-items: center;
       padding: 10px 16px;
-      color: $pix-warning-70;
-      background-color: $pix-warning-5;
+      color: var(--pix-warning-700);
+      background-color: var(--pix-warning-50);
     }
 
     &__info-icon {
@@ -115,7 +115,7 @@
   display: block;
   margin-top: 5px;
   margin-bottom: 5px;
-  color: $pix-neutral-80;
+  color: var(--pix-neutral-800);
   font-size: 1.25rem;
   font-family: $font-open-sans;
   line-height: 28px;
@@ -124,7 +124,7 @@
 
 .certification-start-page__cgu {
   margin: 5px 30px;
-  color: $pix-neutral-80;
+  color: var(--pix-neutral-800);
   font-size: 0.75rem;
   line-height: 18px;
   text-align: justify;
@@ -156,15 +156,15 @@
   text-transform: uppercase;
   background: repeating-linear-gradient(
       90deg,
-      $pix-neutral-22 0,
-      $pix-neutral-22 1ch,
+      var(--pix-neutral-100) 0,
+      var(--pix-neutral-100) 1ch,
       transparent 0,
       transparent 1ch + $space-between-dashes
     )
     0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
   background-position-x: 0.5ch;
   background-position-y: 2.5ch;
-  border: solid 2px $pix-neutral-20;
+  border: solid 2px var(--pix-neutral-20);
   border-radius: 3px;
   outline: none;
 
@@ -181,8 +181,8 @@
     letter-spacing: $space-between-dashes;
     background: repeating-linear-gradient(
         90deg,
-        $pix-neutral-22 0,
-        $pix-neutral-22 1.3ch,
+        var(--pix-neutral-100) 0,
+        var(--pix-neutral-100) 1.3ch,
         transparent 0,
         transparent 1.3ch + $space-between-dashes
       )
@@ -193,7 +193,7 @@
   }
 
   &:focus {
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
     outline: none;
   }
 }

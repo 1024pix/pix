@@ -1,6 +1,6 @@
 @mixin add-dashboard-content-separator() {
   padding: 24px 0;
-  border-bottom: 1px solid $pix-neutral-20;
+  border-bottom: 1px solid var(--pix-neutral-20);
 }
 
 .dashboard-content {
@@ -136,7 +136,7 @@
     flex-direction: column;
     align-items: center;
     padding: 19px 0;
-    background-color: $pix-neutral-0;
+    background-color: var(--pix-neutral-0);
     border-radius: 10px;
     box-shadow: 0 1px 0 0 rgb(23 43 77 / 12%);
 
@@ -170,7 +170,7 @@
 
 .dashboard-section {
   &__title {
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     font-weight: $font-medium;
     font-size: 1.125rem;
     font-family: $font-open-sans;
@@ -180,7 +180,7 @@
 
   &__subtitle {
     margin: 4px 0 24px;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-100);
     font-size: 0.8125rem;
     font-family: $font-roboto;
     letter-spacing: 0.009rem;

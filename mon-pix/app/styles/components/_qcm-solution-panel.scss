@@ -34,7 +34,7 @@
 
   &__answer-details[data-goodness='good'] {
     display: inline;
-    color: $pix-success-70;
+    color: var(--pix-success-700);
     font-weight: $font-bold;
   }
 
@@ -57,7 +57,7 @@
     min-width: 18px;
     min-height: 18px;
     margin: 4px 10px;
-    border: 1.2px solid $pix-neutral-90;
+    border: 1.2px solid var(--pix-neutral-900);
     border-radius: 2px;
   }
 }

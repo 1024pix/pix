@@ -27,11 +27,11 @@
 
   &__informations {
     padding: 32px 0 16px;
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
     font-size: 0.875rem;
     font-family: $font-roboto;
     line-height: 1.5rem;
-    border-top: 1px solid $pix-neutral-20;
+    border-top: 1px solid var(--pix-neutral-20);
 
     @include device-is('tablet') {
       margin-right: 8px;

@@ -8,14 +8,14 @@
   &__login-options {
     display: inline-block;
     margin-bottom: 5px;
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     font-weight: $font-bold;
     font-size: 0.875rem;
     font-family: $font-roboto;
   }
 
   &__required-inputs {
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-weight: $font-normal;
     font-size: 1rem;
     font-family: $font-roboto;
@@ -38,7 +38,7 @@
   }
 
   &__validation-error {
-    color: $pix-error-70;
+    color: var(--pix-error-700);
     font-weight: normal;
   }
 
@@ -54,8 +54,8 @@
   hr {
     height: 2px;
     margin: 20px 0;
-    color: $pix-neutral-20;
-    background-color: $pix-neutral-20;
+    color: var(--pix-neutral-20);
+    background-color: var(--pix-neutral-20);
     border: none;
   }
 
@@ -68,7 +68,7 @@
 
   &__error {
     padding: 4px 10px;
-    color: $pix-warning-60;
+    color: var(--pix-warning-700);
     font-size: 0.938rem;
     text-align: center;
 
@@ -83,7 +83,7 @@
     margin-top: 20px;
 
     &__label {
-      color: $pix-neutral-80;
+      color: var(--pix-neutral-800);
       font-weight: $font-medium;
       font-size: 0.938rem;
       letter-spacing: 0.031rem;
@@ -91,10 +91,10 @@
 
     &__span {
       padding: 15px 10px;
-      color: $pix-neutral-50;
+      color: var(--pix-neutral-100);
       font-size: 0.875rem;
       font-family: $font-roboto;
-      background-color: $pix-neutral-20;
+      background-color: var(--pix-neutral-20);
       border-radius: 3px;
     }
   }

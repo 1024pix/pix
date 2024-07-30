@@ -11,14 +11,14 @@
   &__title {
     @extend %pix-title-m;
 
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
   }
 
   &__description {
     @extend %pix-body-m;
 
     padding: $pix-spacing-xs 0 $pix-spacing-l;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
   }
 
   &__filters {
@@ -73,7 +73,7 @@
     @extend %pix-title-s;
 
     margin-top: $pix-spacing-m;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
 
     @include device-is('desktop') {
       margin-top: 0;

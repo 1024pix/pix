@@ -7,7 +7,7 @@
   height: 273px;
   padding: 16px 24px 32px;
   font-family: $font-roboto;
-  background: $pix-neutral-0;
+  background: var(--pix-neutral-0);
   border-radius: 8px;
   box-shadow: 0 2px 0 0 rgb(23 43 77 / 6%);
 
@@ -28,10 +28,10 @@
     min-height: 50px;
     max-height: 50px;
     margin-bottom: 12px;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-weight: $font-medium;
     font-size: 1.125rem;
-    background-color: $pix-neutral-10;
+    background-color: var(--pix-neutral-20);
     border-radius: 4px;
   }
 
@@ -69,7 +69,7 @@
 
   &__title {
     overflow: hidden;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: $font-medium;
     font-size: 1.125rem;
     line-height: normal;
@@ -80,13 +80,13 @@
   &__subtitle {
     display: block;
     margin-top: 8px;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-100);
     font-weight: $font-medium;
     font-size: 0.875rem;
   }
 
   &__date {
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-100);
     font-size: 0.8125rem;
   }
 }

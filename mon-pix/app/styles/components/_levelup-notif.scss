@@ -8,10 +8,10 @@
   justify-content: center;
   width: 300px;
   height: 80px;
-  color: $pix-neutral-70;
+  color: var(--pix-neutral-800);
   background-color: rgb(255 255 255 / 92%);
   border-radius: 5px;
-  box-shadow: 0 0 10px $pix-neutral-80;
+  box-shadow: 0 0 10px var(--pix-neutral-800);
   animation-name: slidein;
   animation-duration: 1s;
   user-select: none;
@@ -46,18 +46,18 @@
     justify-content: center;
     width: 70px;
     padding: 0;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-100);
     font-size: 1.5rem;
     background-color: transparent;
     border: none;
-    border-left: 1px solid $pix-neutral-20;
+    border-left: 1px solid var(--pix-neutral-20);
     cursor: pointer;
 
     &:hover,
     &:focus,
     &:active {
-      color: $pix-neutral-70;
-      background-color: $pix-neutral-15;
+      color: var(--pix-neutral-800);
+      background-color: var(--pix-neutral-20);
       border-top-right-radius: 5px;
       border-bottom-right-radius: 5px;
     }

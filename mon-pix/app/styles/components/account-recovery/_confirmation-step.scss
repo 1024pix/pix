@@ -8,14 +8,14 @@
   height: 65px;
   margin-bottom: 8px;
   padding: 12px 20px;
-  color: $pix-neutral-70;
+  color: var(--pix-neutral-800);
   font-weight: 500;
-  background: $pix-neutral-10;
+  background: var(--pix-neutral-20);
   border-radius: 8px;
 
   & > div:first-of-type {
     margin-bottom: 6px;
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
     font-weight: normal;
     font-size: 0.875rem;
     font-family: $font-roboto;

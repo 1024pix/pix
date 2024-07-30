@@ -2,7 +2,7 @@
   display: flex;
   min-height: 100vh;
   padding: 30px;
-  background-color: $pix-neutral-0;
+  background-color: var(--pix-neutral-0);
 
   @include device-is('tablet') {
     padding: 56px 60px;
@@ -12,7 +12,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: $pix-neutral-0;
+    background-color: var(--pix-neutral-0);
 
     @include device-is('desktop') {
       flex: 1 1 0;
@@ -71,16 +71,16 @@
       @extend %pix-title-s;
 
       margin-bottom: 16px;
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
     }
 
     &--information-text {
       margin: 0;
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
       font-family: $font-roboto;
 
       a {
-        color: $pix-communication-dark;
+        color: var(--pix-communication-dark);
       }
 
       &--details {
@@ -88,10 +88,10 @@
 
         margin-top: 16px;
         margin-bottom: 24px;
-        color: $pix-neutral-90;
+        color: var(--pix-neutral-900);
 
         a {
-          color: $pix-communication-dark;
+          color: var(--pix-communication-dark);
         }
 
         &.checkbox-with-label {
@@ -118,7 +118,7 @@
       margin-top: 20px;
 
       a {
-        color: $pix-communication-dark;
+        color: var(--pix-communication-dark);
       }
     }
 

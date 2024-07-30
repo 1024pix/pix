@@ -34,7 +34,7 @@
     max-width: 991px;
     margin: 0 15px 15px;
     padding: 36px 0 28px;
-    border: 1.3px dashed $pix-neutral-40;
+    border: 1.3px dashed var(--pix-neutral-500);
     border-radius: 5px;
 
     @include device-is('desktop') {
@@ -46,7 +46,7 @@
 .comparison-windows-content-body-default-message-container {
   &__default-message-title {
     margin: 10px 25px 40px;
-    color: $pix-neutral-110;
+    color: var(--pix-neutral-900);
     font-weight: $font-medium;
     font-size: 1.063rem;
     font-family: $font-open-sans;
@@ -66,7 +66,7 @@
   &__text {
     @extend %pix-body-m;
 
-    color: $pix-success-70;
+    color: var(--pix-success-700);
     font-weight: $font-bold;
   }
 

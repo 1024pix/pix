@@ -59,10 +59,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: $pix-primary-70;
-    background-color: rgba($pix-primary-20, 0.9);
+    color: var(--pix-primary-700);
+    background-color: rgb(var(--pix-primary-100) 0.9);
     border-radius: 51px;
-    box-shadow: 0 10px 20px 0 rgba($pix-content-dark, 0.06);
+    box-shadow: 0 10px 20px 0 rgb(var(--pix-content-dark) 0.06);
 
     &.challenge__info-alert--hide {
       height: 0;
@@ -113,7 +113,7 @@
 
 .focus-zone-warning--triggered{
   z-index: 1;
-  background-color: $pix-neutral-20;
+  background-color: var(--pix-neutral-20);
   border-radius: 5px;
   outline: 5px dashed $pix-shades-100;
   outline-offset: -5px;
