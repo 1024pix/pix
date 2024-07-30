@@ -52,7 +52,7 @@
 }
 
 .form-textfield__input-container--default {
-  border: 2px solid var(--pix-neutral-20);
+  border: 2px solid var(--pix-neutral-100);
 }
 
 .form-textfield__input-container--error {
@@ -77,7 +77,7 @@
   flex-grow: 1;
   height: 40px;
   padding: 0 10px;
-  color: var(--pix-neutral-100);
+  color: var(--pix-neutral-500);
   font-size: 0.875rem;
   border: none;
   border-radius: 3px;

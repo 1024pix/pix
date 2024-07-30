@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   padding: 6px 16px;
-  color: var(--pix-neutral-100);
+  color: var(--pix-neutral-800);
   font-weight: var(--pix-font-medium);
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -22,7 +22,7 @@
 
   &:hover {
     color: var(--pix-neutral-900);
-    background: var(--pix-neutral-20);
+    background: var(--pix-neutral-100);
   }
 
   &:focus-visible {

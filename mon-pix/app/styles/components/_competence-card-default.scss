@@ -117,8 +117,8 @@
 
   .competence-card:hover {
     box-shadow:
-      0 7px 14px 0 rgb(12 22 58 / 20%),
-      0 3px 6px 0 rgb(var(--pix-neutral-900) 0.2);
+      0 7px 14px 0 var(--pix-neutral-100),
+      0 3px 6px 0 var(--pix-neutral-500);
   }
 
   .competence-card:hover .competence-card__title {

@@ -81,7 +81,7 @@
 
   &__copyrights {
     padding-top: 16px;
-    color: var(--pix-neutral-100);
+    color: var(--pix-neutral-500);
     font-size: 0.75rem;
     font-family: $font-roboto;
     letter-spacing: 0.008rem;
@@ -120,7 +120,7 @@
     }
 
     &:focus {
-      color: var(--pix-neutral-100);
+      color: var(--pix-neutral-500);
       text-decoration: none;
     }
 

@@ -1,4 +1,6 @@
 .competence-card {
+  @extend %pix-shadow-sm;
+
   position: relative;
   top: 0;
   overflow: hidden;
@@ -6,9 +8,6 @@
   background-color: var(--pix-neutral-0);
   border: 1px solid var(--pix-neutral-20);
   border-radius: 11px;
-  box-shadow:
-    0 3px 4px 0 rgb(12 22 58 / 10%),
-    0 1px 3px 0 rgb(var(--pix-neutral-900) / 10%);
   transition: all 0.1s linear;
   pointer-events: none;
   -webkit-tap-highlight-color: rgb(var(--pix-neutral-500) / 30%);

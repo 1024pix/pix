@@ -28,7 +28,7 @@
     min-height: 50px;
     max-height: 50px;
     margin-bottom: 12px;
-    color: var(--pix-neutral-500);
+    color: var(--pix-neutral-800);
     font-weight: var(--pix-font-medium);
     font-size: 1.125rem;
     background-color: var(--pix-neutral-20);
@@ -80,13 +80,13 @@
   &__subtitle {
     display: block;
     margin-top: 8px;
-    color: var(--pix-neutral-100);
+    color: var(--pix-neutral-500);
     font-weight: var(--pix-font-medium);
     font-size: 0.875rem;
   }
 
   &__date {
-    color: var(--pix-neutral-100);
+    color: var(--pix-neutral-500);
     font-size: 0.8125rem;
   }
 }

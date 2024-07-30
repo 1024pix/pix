@@ -10,13 +10,13 @@
     top: 0%;
     bottom: 0%;
     left: calc(50% - 20px / 2);
-    color: var(--pix-neutral-100);
+    color: var(--pix-neutral-500);
     font-size: 18px;
   }
 
   &:hover {
     background: var(--pix-neutral-20);
-    border: 1.4px solid var(--pix-neutral-100);
+    border: 1.4px solid var(--pix-neutral-500);
     cursor: pointer;
   }
 
