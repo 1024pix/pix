@@ -57,7 +57,7 @@
   .competence-card__area-name {
     z-index: 2;
     margin: 0;
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 0.7rem;
   }
 
@@ -65,7 +65,7 @@
     z-index: 2;
     margin: 0 3px;
     padding-top: 10px;
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 1.17rem;
   }
 
@@ -116,7 +116,9 @@
   }
 
   .competence-card:hover {
-    box-shadow: 0 7px 14px 0 rgb(12 22 58 / 20%), 0 3px 6px 0 rgb(var(--pix-neutral-900) 0.2);
+    box-shadow:
+      0 7px 14px 0 rgb(12 22 58 / 20%),
+      0 3px 6px 0 rgb(var(--pix-neutral-900) 0.2);
   }
 
   .competence-card:hover .competence-card__title {
@@ -159,7 +161,7 @@
 
   .competence-card__score-value--congrats {
     color: var(--pix-neutral-0);
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 2.813rem;
   }
 
@@ -172,7 +174,7 @@
     width: 100%;
     height: 34px;
     color: var(--pix-neutral-800);
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 0.938rem;
     font-family: $font-open-sans;
     letter-spacing: 0.063rem;

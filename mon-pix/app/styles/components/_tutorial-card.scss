@@ -19,7 +19,7 @@
     display: -webkit-box;
     margin-bottom: 4px;
     overflow: hidden;
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 1.25rem;
     font-family: $font-open-sans;
     line-height: 1.25;
@@ -41,7 +41,7 @@
     height: 24px;
     margin: 0;
     color: var(--pix-neutral-100);
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 0.813rem;
     font-family: $font-roboto;
     line-height: 1.5rem;

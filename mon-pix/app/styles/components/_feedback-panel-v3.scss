@@ -8,7 +8,7 @@
     display: flex;
     gap: 16px;
     align-items: center;
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
 
     p {
       min-width: fit-content;
@@ -21,7 +21,7 @@
       margin: 0;
       padding: 0;
       color: var(--pix-primary-700);
-      font-weight: $font-bold;
+      font-weight: var(--pix-font-bold);
     }
   }
 }
@@ -62,7 +62,7 @@
 .feedback-panel-v3__view {
   display: flex;
   gap: 24px;
-  font-weight: $font-bold;
+  font-weight: var(--pix-font-bold);
 }
 
 .feedback-panel-v3__action-buttons {
@@ -74,7 +74,7 @@
 
     &:first-of-type {
       color: var(--pix-error-700);
-      font-weight: $font-bold;
+      font-weight: var(--pix-font-bold);
       text-decoration-color: var(--pix-error-700);
     }
   }

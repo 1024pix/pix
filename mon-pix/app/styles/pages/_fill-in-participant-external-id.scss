@@ -18,7 +18,7 @@
   font-family: $font-open-sans;
 
   &__title {
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 1.875rem;
 
     @include device-is('tablet') {
@@ -52,7 +52,7 @@
 .fill-in-participant-external-id__form label {
   display: block;
   margin-bottom: 5px;
-  font-weight: $font-bold;
+  font-weight: var(--pix-font-bold);
   font-size: 0.938rem;
 }
 

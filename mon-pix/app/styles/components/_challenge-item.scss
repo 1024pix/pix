@@ -11,7 +11,7 @@
   background-color: var(--pix-neutral-20);
 
   label {
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
   }
 
   a {
@@ -45,11 +45,10 @@
     &--sentence {
       width: 100%;
 
-      .pix-input{
+      .pix-input {
         display: flex;
       }
     }
-
 
     &--selector {
       display: inline-block;
@@ -76,7 +75,7 @@
 
   &__proposal-label {
     width: 100%;
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
   }
 
   &__alert {
@@ -86,7 +85,7 @@
 
 .proposal-text {
   width: 100%;
-  font-weight: $font-normal;
+  font-weight: var(--pix-font-normal);
   line-height: 1.625rem;
   word-wrap: break-word;
   overflow-wrap: break-word;

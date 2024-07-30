@@ -17,7 +17,7 @@
   &__description {
     margin: 0 0 10px;
     color: var(--pix-neutral-900);
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 1rem;
     font-family: $font-roboto;
     line-height: 1.625rem;
@@ -30,7 +30,7 @@
   &__title {
     margin-bottom: 24px;
     color: var(--pix-neutral-900);
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 1.25rem;
     font-family: $font-open-sans;
     line-height: 2.125rem;
@@ -212,7 +212,7 @@
   &__important-message {
     margin-bottom: var(--pix-spacing-4x);
     color: var(--pix-neutral-900);
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 1.375rem;
     font-family: $font-roboto;
   }

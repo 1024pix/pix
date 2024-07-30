@@ -28,7 +28,7 @@
     position: absolute;
     top: 31px;
     left: 45px;
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 1.5rem;
     font-family: $font-open-sans;
   }
@@ -65,10 +65,9 @@
 }
 
 .levelup-competence {
-
   &__level {
     margin-bottom: 2px;
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 1rem;
     font-family: $font-open-sans;
     text-transform: uppercase;
@@ -90,7 +89,6 @@
 }
 
 @keyframes slidein {
-
   from {
     right: -500px;
     opacity: 0;

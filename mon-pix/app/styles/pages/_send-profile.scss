@@ -66,7 +66,7 @@
   &__recipient {
     margin-bottom: 1em;
     color: var(--pix-neutral-900);
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 1.25rem;
     font-family: $font-open-sans;
   }
@@ -83,7 +83,7 @@
   }
 
   &__back-to-home {
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 1rem;
     font-family: $font-open-sans;
     text-align: center;

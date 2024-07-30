@@ -102,10 +102,12 @@
 
   &--yellow {
     color: var(--pix-neutral-900);
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 0.906rem;
     background: var(--pix-warning-100);
-    box-shadow: 0 2px 6px 0 rgb(12 22 58 / 11%), 0 1px 3px 0 rgb(0 0 0 / 8%);
+    box-shadow:
+      0 2px 6px 0 rgb(12 22 58 / 11%),
+      0 1px 3px 0 rgb(0 0 0 / 8%);
 
     &:hover,
     &:active,
@@ -117,7 +119,7 @@
 
   &--dark-grey {
     color: var(--pix-neutral-0);
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 0.938rem;
     background-color: var(--pix-neutral-500);
 

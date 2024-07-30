@@ -28,7 +28,7 @@
     flex-direction: row;
     width: 100%;
     margin-left: 7px;
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     line-height: 1.2rem;
   }
 
@@ -45,7 +45,7 @@
 
     &[data-goodness='good'] {
       color: var(--pix-success-700);
-      font-weight: $font-bold;
+      font-weight: var(--pix-font-bold);
     }
 
     &[data-goodness='bad'][data-checked='yes'] {
@@ -64,6 +64,6 @@
 
 .qcu-solution-answer-feedback {
   &__expected-answer {
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
   }
 }

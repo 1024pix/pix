@@ -12,7 +12,8 @@
   &__instruction {
     font-size: 1rem;
 
-    ul, li {
+    ul,
+    li {
       list-style: unset;
     }
 
@@ -24,7 +25,6 @@
         margin-bottom: 1em;
       }
     }
-
   }
 
   &__default-message-container {
@@ -47,7 +47,7 @@
   &__default-message-title {
     margin: 10px 25px 40px;
     color: var(--pix-neutral-900);
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 1.063rem;
     font-family: $font-open-sans;
     text-align: center;
@@ -67,7 +67,7 @@
     @extend %pix-body-m;
 
     color: var(--pix-success-700);
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
   }
 
   &__img {

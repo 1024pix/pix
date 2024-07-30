@@ -9,7 +9,7 @@
   &__primary {
     margin-top: 22px;
     color: var(--pix-neutral-800);
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 1.5rem;
     font-style: normal;
     font-stretch: normal;
@@ -40,7 +40,6 @@
 }
 
 .timed-challenge-instructions-allocated-time {
-
   &__gauge {
     display: flex;
     flex-direction: row;
@@ -57,7 +56,6 @@
 }
 
 .timed-challenge-instructions-gauge {
-
   &__icon {
     width: 42px;
     padding-right: 6px;
@@ -66,7 +64,6 @@
 }
 
 .timed-challenge-instructions-action {
-
   &__confirmation-button {
     margin-top: 22px;
     font-size: 0.875rem;

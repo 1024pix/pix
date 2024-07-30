@@ -71,7 +71,7 @@
 .competence-card__area-name {
   position: relative;
   margin-bottom: 8px;
-  font-weight: $font-bold;
+  font-weight: var(--pix-font-bold);
   font-size: 0.688rem;
   letter-spacing: 0.031rem;
   text-transform: uppercase;
@@ -81,7 +81,7 @@
 .competence-card__competence-name {
   position: relative;
   color: inherit;
-  font-weight: $font-medium;
+  font-weight: var(--pix-font-medium);
   font-size: 1.125rem;
   font-family: inherit;
   line-height: inherit;
@@ -131,7 +131,7 @@
 
   &--congrats {
     color: var(--pix-neutral-0);
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
   }
 }
 

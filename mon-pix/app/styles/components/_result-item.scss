@@ -44,7 +44,7 @@
 
 .result-item__correction-button {
   color: var(--pix-primary-700);
-  font-weight: $font-normal;
+  font-weight: var(--pix-font-normal);
   font-size: 0.875rem;
   background-color: transparent;
   border: none;

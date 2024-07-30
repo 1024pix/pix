@@ -67,6 +67,6 @@
 
     margin: var(--pix-spacing-1x) 0 var(--pix-spacing-2x);
     color: var(--pix-success-700);
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
   }
 }

@@ -85,7 +85,7 @@
 
     h2 {
       margin-bottom: 14px;
-      font-weight: $font-medium;
+      font-weight: var(--pix-font-medium);
       font-size: 1.125rem;
       font-family: $font-open-sans;
       line-height: 1.875rem;
@@ -99,7 +99,7 @@
 
     p {
       margin: 0;
-      font-weight: $font-normal;
+      font-weight: var(--pix-font-normal);
       font-size: 0.875rem;
       line-height: 1.375rem;
       letter-spacing: 0.009rem;
@@ -116,7 +116,7 @@
   &__link {
     display: none;
     margin-top: 14px;
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 0.875rem;
     line-height: 1.375rem;
     letter-spacing: 0.009rem;

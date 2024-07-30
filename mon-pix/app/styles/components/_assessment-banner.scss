@@ -40,7 +40,7 @@
   }
 
   @include device-is('desktop') {
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
   }
 }
 

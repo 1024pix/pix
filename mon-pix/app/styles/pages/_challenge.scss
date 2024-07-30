@@ -39,8 +39,6 @@
     margin-bottom: 73px;
   }
 
-
-
   &__feedback {
     z-index: 1;
     width: 100%;
@@ -97,7 +95,7 @@
 
   &__title {
     margin: auto 0 7px;
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 1.125rem;
     line-height: 1.625rem;
     letter-spacing: 0.011rem;
@@ -111,7 +109,7 @@
   }
 }
 
-.focus-zone-warning--triggered{
+.focus-zone-warning--triggered {
   z-index: 1;
   background-color: var(--pix-neutral-20);
   border-radius: 5px;

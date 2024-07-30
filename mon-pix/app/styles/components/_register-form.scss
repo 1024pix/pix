@@ -9,14 +9,14 @@
     display: inline-block;
     margin-bottom: 5px;
     color: var(--pix-neutral-800);
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 0.875rem;
     font-family: $font-roboto;
   }
 
   &__required-inputs {
     color: var(--pix-neutral-500);
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 1rem;
     font-family: $font-roboto;
   }
@@ -84,7 +84,7 @@
 
     &__label {
       color: var(--pix-neutral-800);
-      font-weight: $font-medium;
+      font-weight: var(--pix-font-medium);
       font-size: 0.938rem;
       letter-spacing: 0.031rem;
     }

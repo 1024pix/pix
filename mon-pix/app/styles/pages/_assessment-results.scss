@@ -16,7 +16,9 @@
   padding: 30px;
   background: var(--pix-neutral-0);
   border-radius: 10px;
-  box-shadow: 0 7px 14px 0 rgb(12 22 58 / 10%), 0 3px 6px 0 rgb(0 0 0 / 10%);
+  box-shadow:
+    0 7px 14px 0 rgb(12 22 58 / 10%),
+    0 3px 6px 0 rgb(0 0 0 / 10%);
 }
 
 /* XXX : See https://github.com/sgmap/pix/issues/211 */
@@ -28,7 +30,7 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .assessment-results__title {
   margin: 0 0 30px;
-  font-weight: $font-medium;
+  font-weight: var(--pix-font-medium);
   font-family: $font-open-sans;
   text-transform: uppercase;
 }
@@ -55,7 +57,7 @@
 
 .assessment-results__link-back {
   color: var(--pix-neutral-0);
-  font-weight: $font-medium;
+  font-weight: var(--pix-font-medium);
   font-size: 1rem;
   font-family: $font-open-sans;
   text-align: center;

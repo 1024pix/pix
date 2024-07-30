@@ -28,7 +28,7 @@
 
   &__percentage-text {
     color: var(--pix-neutral-100);
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 0.875rem;
     font-family: $font-roboto;
     text-align: center;

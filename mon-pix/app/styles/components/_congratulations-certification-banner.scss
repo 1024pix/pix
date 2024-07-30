@@ -41,7 +41,7 @@
 
 @mixin textBannerStyle {
   color: var(--pix-neutral-0);
-  font-weight: $font-normal;
+  font-weight: var(--pix-font-normal);
   font-family: $font-open-sans;
   line-height: 2rem;
   text-align: center;

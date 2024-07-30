@@ -21,18 +21,17 @@
 }
 
 .tutorial-content {
-
   &__title {
     display: inline-block;
     margin-bottom: 4px;
     color: var(--pix-neutral-900);
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 1.125rem;
     line-height: 1.875rem;
     letter-spacing: 0;
 
     @include device-is('tablet') {
-      font-weight: $font-medium;
+      font-weight: var(--pix-font-medium);
     }
 
     &::after {
@@ -43,7 +42,7 @@
   &__description {
     margin: 0 0 14px;
     color: var(--pix-neutral-100);
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 0.875rem;
     font-family: $font-roboto;
     line-height: 1.5rem;
@@ -61,13 +60,12 @@
 }
 
 .tutorial-content-actions {
-
   &__save {
     display: block;
     margin: 0 0 16px;
     padding: 0;
     color: var(--pix-neutral-100);
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 0.813rem;
     letter-spacing: 0.028rem;
     background: transparent;
@@ -94,7 +92,7 @@
     margin: 0 0 16px;
     padding: 0;
     color: var(--pix-neutral-100);
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 0.813rem;
     letter-spacing: 0.028rem;
     background: transparent;

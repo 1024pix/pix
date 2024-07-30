@@ -29,7 +29,7 @@
     max-height: 50px;
     margin-bottom: 12px;
     color: var(--pix-neutral-500);
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 1.125rem;
     background-color: var(--pix-neutral-20);
     border-radius: 4px;
@@ -41,7 +41,7 @@
 
   &__action {
     padding: 11px 16px;
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 0.825rem;
   }
 
@@ -50,7 +50,7 @@
   }
 
   &--archived {
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 0.75rem;
     font-family: $font-open-sans;
     text-align: center;
@@ -70,7 +70,7 @@
   &__title {
     overflow: hidden;
     color: var(--pix-neutral-900);
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 1.125rem;
     line-height: normal;
     white-space: nowrap;
@@ -81,7 +81,7 @@
     display: block;
     margin-top: 8px;
     color: var(--pix-neutral-100);
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 0.875rem;
   }
 

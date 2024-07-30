@@ -43,7 +43,7 @@
     max-width: 600px;
     margin: 0 auto 24px 12px;
     color: var(--pix-neutral-900);
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 0.875rem;
     font-family: $font-roboto;
     line-height: 1.375rem;

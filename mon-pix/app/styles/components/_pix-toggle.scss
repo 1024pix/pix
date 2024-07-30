@@ -2,7 +2,7 @@
   display: flex;
   height: 44px;
   color: var(--pix-neutral-500);
-  font-weight: $font-medium;
+  font-weight: var(--pix-font-medium);
   font-size: 1rem;
   font-family: $font-roboto;
   letter-spacing: 0.45px;
@@ -24,7 +24,6 @@
   }
 
   &__off {
-
     &:hover {
       color: var(--pix-neutral-800);
     }

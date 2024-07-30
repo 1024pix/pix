@@ -17,7 +17,7 @@
   margin: 16px 16px 8px;
   overflow: hidden;
   color: var(--pix-neutral-900);
-  font-weight: $font-medium;
+  font-weight: var(--pix-font-medium);
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }

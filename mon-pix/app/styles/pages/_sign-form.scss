@@ -185,10 +185,10 @@
 
   &__fwb-oidc-connect-link {
     @extend %pix-body-s;
-    
+
     display: flex;
     align-items: center;
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     text-decoration: none;
     background-color: var(--pix-neutral-0);
     border: 1px solid var(--pix-neutral-100);
@@ -218,13 +218,13 @@
 .oidc-provider-pole-emploi {
   color: var(--pix-neutral-0);
   background-color: var(--pix-primary-900);
-  border-style : 1px solid var(--pix-neutral-100);
+  border-style: 1px solid var(--pix-neutral-100);
 }
 
 .oidc-provider-fwb {
   padding: var(--pix-spacing-2x) var(--pix-spacing-4x) var(--pix-spacing-2x) var(--pix-spacing-2x);
   color: var(--pix-neutral-900);
-  
+
   &:focus,
   &:hover,
   &:focus-within {

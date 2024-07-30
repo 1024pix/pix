@@ -31,7 +31,6 @@
 }
 
 .hexagon-score-content {
-
   &__title {
     @include hexagon-score-title;
 
@@ -86,7 +85,7 @@
   line-height: 1.6rem;
 
   &--strong {
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
   }
 
   p {

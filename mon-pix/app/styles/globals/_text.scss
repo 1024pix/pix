@@ -17,7 +17,7 @@
   z-index: 1;
   margin-bottom: 20px;
   color: var(--pix-neutral-800);
-  font-weight: $font-medium;
+  font-weight: var(--pix-font-medium);
   font-size: 1.375rem;
 
   // XXX Inspired from https://codepen.io/ericrasch/pen/Irlpm
@@ -40,7 +40,9 @@
   span {
     display: inline;
     background: $color;
-    box-shadow: 15px 0 0 $color, -15px 0 0 $color;
+    box-shadow:
+      15px 0 0 $color,
+      -15px 0 0 $color;
     box-decoration-break: clone;
   }
 

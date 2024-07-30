@@ -64,7 +64,7 @@
     }
 
     strong {
-      font-weight: $font-bold;
+      font-weight: var(--pix-font-bold);
     }
 
     a {
@@ -189,7 +189,7 @@
 }
 
 .challenge-statement__file-option-label {
-  font-weight: $font-normal;
+  font-weight: var(--pix-font-normal);
   font-size: 1rem;
   line-height: 10px;
 }
@@ -246,7 +246,7 @@
 
 .challenge-statement__action-label {
   width: 76px;
-  font-weight: $font-bold;
+  font-weight: var(--pix-font-bold);
   font-size: 1rem;
   line-height: 46px;
   text-transform: uppercase;

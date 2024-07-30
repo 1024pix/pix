@@ -50,7 +50,7 @@
     @extend %pix-body-s;
 
     margin: 0;
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-family: $font-roboto;
   }
 

@@ -39,7 +39,7 @@
 
     &__pix-button {
       width: fit-content;
-      margin: 0 auto ;
+      margin: 0 auto;
 
       &:first-child {
         margin-bottom: var(--pix-spacing-2x);
@@ -297,7 +297,7 @@
     @extend %pix-body-l;
 
     color: var(--pix-neutral-900);
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
   }
 
   &__border {
@@ -326,7 +326,7 @@
 
       padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
       color: var(--pix-neutral-900);
-      font-weight: $font-normal;
+      font-weight: var(--pix-font-normal);
       text-align: left;
     }
   }
@@ -376,7 +376,7 @@
   &__title {
     margin: 0;
     color: var(--pix-neutral-500);
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 1rem;
     font-family: $font-open-sans;
   }
@@ -384,7 +384,7 @@
   &__organization-name {
     margin: 8px 0;
     color: var(--pix-neutral-900);
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 1.5rem;
     font-family: $font-open-sans;
   }
@@ -443,7 +443,7 @@
   &__subtext {
     margin: 40px 0;
     color: var(--pix-neutral-900);
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     text-align: center;
   }
 
@@ -476,7 +476,7 @@
   &__badge-subtitle {
     margin: 0 0 24px;
     color: var(--pix-neutral-900);
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 1.5rem;
     font-family: $font-open-sans;
     text-align: center;
@@ -515,7 +515,7 @@
   &__subtitle {
     margin-bottom: 32px;
     color: var(--pix-neutral-900);
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 1.5rem;
     font-family: $font-open-sans;
   }
@@ -534,7 +534,7 @@
   &__legal {
     margin: 4px 0;
     color: var(--pix-neutral-500);
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 0.85rem;
     font-family: $font-roboto;
     line-height: 2rem;
@@ -544,7 +544,7 @@
     margin-bottom: 16px;
     padding: 16px;
     color: var(--pix-success-700);
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 1rem;
     font-family: $font-open-sans;
     line-height: 2rem;
@@ -560,7 +560,7 @@
 
   &__back-to-home {
     margin-bottom: 16px;
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 1rem;
     font-family: $font-open-sans;
     text-align: center;
@@ -614,14 +614,14 @@
   &__title {
     padding-bottom: 10px;
     color: var(--pix-neutral-900);
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 1.875rem;
     font-family: $font-open-sans;
   }
 
   &__message {
     color: var(--pix-neutral-500);
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 1.125rem;
     font-family: $font-open-sans;
     line-height: 1.8rem;

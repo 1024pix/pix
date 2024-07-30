@@ -28,7 +28,7 @@
 
     &-pix-score {
       color: var(--pix-neutral-800);
-      font-weight: $font-medium;
+      font-weight: var(--pix-font-medium);
       font-size: 2.3rem;
       font-family: $font-open-sans;
     }
@@ -36,7 +36,7 @@
     &-certified {
       width: 70px;
       color: var(--pix-neutral-500);
-      font-weight: $font-medium;
+      font-weight: var(--pix-font-medium);
       font-size: 0.7rem;
       font-family: $font-roboto;
       text-transform: uppercase;

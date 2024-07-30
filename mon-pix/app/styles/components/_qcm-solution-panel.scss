@@ -17,7 +17,7 @@
     display: inline-block;
     align-items: center;
     width: 100%;
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     line-height: 21px;
 
     p {
@@ -35,7 +35,7 @@
   &__answer-details[data-goodness='good'] {
     display: inline;
     color: var(--pix-success-700);
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
   }
 
   &__answer-details[data-goodness='bad'][data-checked='yes'] {

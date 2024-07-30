@@ -1,5 +1,4 @@
 .competence-results-panel-header {
-
   &__banner {
     display: flex;
     flex-direction: column;
@@ -11,7 +10,7 @@
     &-result-comment {
       margin: 0;
       color: var(--pix-neutral-0);
-      font-weight: $font-bold;
+      font-weight: var(--pix-font-bold);
       font-size: 3rem;
       font-family: $font-open-sans;
     }
@@ -26,14 +25,18 @@
       padding-top: 18rem;
       padding-bottom: 30px;
       text-align: center;
-      background: url('/images/background/banners/congrats-mobile.png') center -240px no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
+      background:
+        url('/images/background/banners/congrats-mobile.png') center -240px no-repeat,
+        linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
 
       @include device-is('tablet') {
         align-items: flex-start;
         justify-content: center;
         padding: 3rem;
         padding-left: 22rem;
-        background: url('/images/background/banners/congrats.png') top center no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
+        background:
+          url('/images/background/banners/congrats.png') top center no-repeat,
+          linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
         background-position: left -70px center;
       }
 
@@ -46,7 +49,9 @@
       padding: 1rem;
       padding-top: 18rem;
       text-align: center;
-      background: url('/images/background/banners/not-bad.png') top center no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
+      background:
+        url('/images/background/banners/not-bad.png') top center no-repeat,
+        linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
 
       @include device-is('tablet') {
         align-items: flex-start;
@@ -62,15 +67,15 @@
 
     &--too-bad {
       padding: 40px;
-      background: url('/images/background/banners/too-bad.png') center no-repeat, linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
+      background:
+        url('/images/background/banners/too-bad.png') center no-repeat,
+        linear-gradient(0deg, rgb(18 163 255) 0%, rgb(61 104 255) 100%);
     }
   }
 }
 
 .competence-results-banner {
-
   &__title {
-
     &--tablet {
       display: none;
 
@@ -132,7 +137,6 @@
 }
 
 .competence-results-banner-text {
-
   &__results {
     display: flex;
     flex-direction: column;
@@ -156,7 +160,6 @@
 }
 
 .competence-results-banner-text-results {
-
   &__label {
     color: var(--pix-neutral-0);
     font-size: 0.875rem;

@@ -11,7 +11,7 @@
 
   &__title {
     color: var(--pix-neutral-900);
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 2rem;
     font-family: $font-open-sans;
     line-height: 2.6875rem;
@@ -22,7 +22,7 @@
     margin: 0;
     padding: 8px 0 32px;
     color: var(--pix-neutral-500);
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 1rem;
     font-family: $font-roboto;
     line-height: 1.375rem;
@@ -78,7 +78,9 @@
 .user-trainings-content-list {
   &__item {
     &:hover {
-      box-shadow: 0 7px 14px 0 rgb(12 22 58 / 20%), 0 3px 6px 0 rgb(var(--pix-neutral-900) 0.2);
+      box-shadow:
+        0 7px 14px 0 rgb(12 22 58 / 20%),
+        0 3px 6px 0 rgb(var(--pix-neutral-900) 0.2);
     }
   }
 }

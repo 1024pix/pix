@@ -68,7 +68,9 @@
   overflow: hidden;
   background-color: var(--pix-neutral-0);
   border-radius: 4px;
-  box-shadow: 0 1px 1px 0 rgb(60 64 67 / 8%), 0 1px 3px 1px rgb(60 64 67 / 16%);
+  box-shadow:
+    0 1px 1px 0 rgb(60 64 67 / 8%),
+    0 1px 3px 1px rgb(60 64 67 / 16%);
 
   &__details {
     padding: 12px 16px;
@@ -88,7 +90,7 @@
 
 .logged-user-menu-details__fullname {
   overflow: hidden;
-  font-weight: $font-bold;
+  font-weight: var(--pix-font-bold);
   font-size: 1rem;
   white-space: nowrap;
   text-transform: capitalize;

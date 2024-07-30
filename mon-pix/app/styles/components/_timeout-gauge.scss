@@ -7,7 +7,7 @@
   flex-direction: row;
   justify-content: flex-end;
   width: 100%;
-  font-weight: $font-bold;
+  font-weight: var(--pix-font-bold);
   font-size: 1.25rem;
   font-style: normal;
 }
