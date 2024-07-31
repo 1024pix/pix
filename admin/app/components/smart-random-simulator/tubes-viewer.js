@@ -1,5 +1,6 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 import { SMART_RANDOM_STEPS } from './SMART_RANDOM_STEPS';
 
@@ -15,6 +16,8 @@ const NEUTRAL_COLOR = 'neutral';
 
 export default class TubesViewer extends Component {
   levels = [1, 2, 3, 4, 5, 6, 7, 8];
+
+  @tracked showSkillsRewards = true;
 
   get steps() {
     return this.args.smartRandomLog.steps;
@@ -76,6 +79,11 @@ export default class TubesViewer extends Component {
     if (!skillReward) return '';
 
     return skillReward.reward.toFixed(1);
+  }
+
+  @action
+  toggleShowSkillsRewards() {
+    this.showSkillsRewards = !this.showSkillsRewards;
   }
 
   isSkillTheCurrentSkill(skill) {
