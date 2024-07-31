@@ -15,6 +15,7 @@ class Embed extends Element {
     this.url = url;
     this.instruction = instruction;
     this.height = height;
+    this.isAnswerable = this.isCompletionRequired;
   }
 }
 

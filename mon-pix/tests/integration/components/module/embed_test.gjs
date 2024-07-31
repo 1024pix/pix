@@ -16,7 +16,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
       id: 'id',
       title: 'title',
       isCompletionRequired: false,
-      url: 'https://embed-pix.com',
+      url: 'https://example.org',
       instruction: "<p>Instruction de l'embed</p>",
       height: 800,
     };
@@ -44,7 +44,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
       id: 'id',
       title: 'title',
       isCompletionRequired: false,
-      url: 'https://embed-pix.com',
+      url: 'https://example.org',
       height: 800,
     };
 
@@ -62,7 +62,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
         id: 'id',
         title: 'title',
         isCompletionRequired: false,
-        url: 'https://embed-pix.com',
+        url: 'https://example.org',
         height: 800,
       };
 
@@ -84,7 +84,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
         id: 'id',
         title: 'title',
         isCompletionRequired: false,
-        url: 'https://embed-pix.com',
+        url: 'https://example.org',
         height: 800,
       };
       const screen = await render(<template><ModulixEmbed @embed={{embed}} /></template>);
@@ -105,7 +105,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
             id: 'id',
             title: 'title',
             isCompletionRequired: true,
-            url: 'https://embed-pix.com',
+            url: 'https://example.org',
             height: 800,
           };
           const submitAnswerStub = sinon.stub();
@@ -132,7 +132,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
             id: 'id',
             title: 'title',
             isCompletionRequired: true,
-            url: 'https://embed-pix.com',
+            url: 'https://example.org',
             height: 800,
           };
           const submitAnswerStub = sinon.stub();
@@ -159,7 +159,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
             id: 'id',
             title: 'title',
             isCompletionRequired: true,
-            url: 'https://embed-pix.com',
+            url: 'https://example.org',
             height: 800,
           };
           const submitAnswerStub = sinon.stub();
@@ -186,7 +186,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
             id: 'id',
             title: 'title',
             isCompletionRequired: true,
-            url: 'https://embed-pix.com',
+            url: 'https://example.org',
             height: 800,
           };
           const submitAnswerStub = sinon.stub();
@@ -215,7 +215,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
         id: 'id',
         title: 'title',
         isCompletionRequired: false,
-        url: 'https://embed-pix.com',
+        url: 'https://example.org',
         height: 800,
       };
       const screen = await render(<template><ModulixEmbed @embed={{embed}} /></template>);
