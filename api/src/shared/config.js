@@ -202,6 +202,7 @@ const configuration = (function () {
         process.env.FT_ENABLE_NEED_TO_ADJUST_CERTIFICATION_ACCESSIBILITY,
       ),
       showNewResultPage: toBoolean(process.env.FT_SHOW_NEW_RESULT_PAGE),
+      showExperimentalMissions: toBoolean(process.env.FT_SHOW_EXPERIMENTAL_MISSIONS),
     },
     hapi: {
       options: {},

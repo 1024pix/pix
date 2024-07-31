@@ -1,3 +1,4 @@
+import { config } from '../../../shared/config.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
 import { getTranslatedKey } from '../../../shared/domain/services/get-translated-text.js';
 import { Mission } from '../../domain/models/Mission.js';
@@ -32,7 +33,12 @@ async function get(id, locale = { locale: FRENCH_FRANCE }) {
 
 async function findAllActiveMissions(locale = { locale: FRENCH_FRANCE }) {
   const allMissions = await missionDatasource.list();
-  const allActiveMissions = allMissions.filter((mission) => mission.status === 'ACTIVE');
+  const allActiveMissions = allMissions.filter((mission) => {
+    return (
+      mission.status === 'VALIDATED' ||
+      (config.featureToggles.showExperimentalMissions && mission.status === 'EXPERIMENTAL')
+    );
+  });
   return allActiveMissions.map((missionData) => _toDomain(missionData, locale));
 }
 
