@@ -1,8 +1,8 @@
 import { BadRequestError, UnauthorizedError } from '../../../../lib/application/http-errors.js';
-import * as oidcSerializer from '../../../../lib/infrastructure/serializers/jsonapi/oidc-serializer.js';
 import { requestResponseUtils } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
+import * as oidcSerializer from '../../infrastructure/serializers/jsonapi/oidc-serializer.js';
 
 /**
  * @typedef {function} authenticateOidcUser

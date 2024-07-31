@@ -1,14 +1,11 @@
 import _ from 'lodash';
 
-import * as skillAdapter from '../../../../lib/infrastructure/adapters/skill-adapter.js';
 import { config } from '../../../../src/shared/config.js';
 import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
-import {
-  challengeDatasource,
-  skillDatasource,
-} from '../../../../src/shared/infrastructure/datasources/learning-content/index.js';
-import { NotFoundError } from '../../../shared/domain/errors.js';
+import { NotFoundError } from '../../domain/errors.js';
 import { Challenge } from '../../domain/models/index.js';
+import * as skillAdapter from '../adapters/skill-adapter.js';
+import { challengeDatasource, skillDatasource } from '../datasources/learning-content/index.js';
 import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
 
 const get = async function (id) {

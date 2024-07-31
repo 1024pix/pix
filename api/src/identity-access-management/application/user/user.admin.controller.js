@@ -1,5 +1,5 @@
-import * as userLoginSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-login-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
+import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
 
 /**
  * @param request

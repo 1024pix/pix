@@ -1,7 +1,7 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
-import { AnswerStatusJsonApiAdapter } from '../../../../../lib/infrastructure/adapters/answer-status-json-api-adapter.js';
 import { Answer } from '../../../domain/models/Answer.js';
+import { AnswerStatusJsonApiAdapter } from '../../adapters/answer-status-json-api-adapter.js';
 
 const { Serializer } = jsonapiSerializer;
 

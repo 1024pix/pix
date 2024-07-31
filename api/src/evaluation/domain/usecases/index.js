@@ -1,7 +1,6 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as improvementService from '../../../../lib/domain/services/improvement-service.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
@@ -25,6 +24,7 @@ import * as stageCollectionForTargetProfileRepository from '../../infrastructure
 import * as stageRepository from '../../infrastructure/repositories/stage-repository.js';
 import * as smartRandomService from '../services/algorithm-methods/smart-random.js';
 import { getCompetenceLevel } from '../services/get-competence-level.js';
+import * as improvementService from '../services/improvement-service.js';
 import { pickChallengeService } from '../services/pick-challenge-service.js';
 import * as scorecardService from '../services/scorecard-service.js';
 

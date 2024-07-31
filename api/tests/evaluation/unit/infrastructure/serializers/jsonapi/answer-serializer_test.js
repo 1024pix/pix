@@ -1,5 +1,5 @@
-import { AnswerStatusJsonApiAdapter as answerStatusJSONAPIAdapter } from '../../../../../../lib/infrastructure/adapters/answer-status-json-api-adapter.js';
 import { Answer } from '../../../../../../src/evaluation/domain/models/Answer.js';
+import { AnswerStatusJsonApiAdapter as answerStatusJSONAPIAdapter } from '../../../../../../src/evaluation/infrastructure/adapters/answer-status-json-api-adapter.js';
 import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/answer-serializer.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';

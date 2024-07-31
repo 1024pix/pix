@@ -1,5 +1,5 @@
-import { computeTubesFromSkills } from '../../../../../lib/domain/services/tube-service.js';
 import { STEPS_NAMES } from '../../models/SmartRandomStep.js';
+import { computeTubesFromSkills } from '../tube-service.js';
 import * as catAlgorithm from './cat-algorithm.js';
 import { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge } from './skills-filter.js';
 

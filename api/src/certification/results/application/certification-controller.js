@@ -1,7 +1,7 @@
-import * as shareableCertificateSerializer from '../../../../lib/infrastructure/serializers/jsonapi/shareable-certificate-serializer.js';
 import * as requestResponseUtils from '../../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as privateCertificateSerializer from '../infrastructure/serializers/private-certificate-serializer.js';
+import * as shareableCertificateSerializer from '../infrastructure/serializers/shareable-certificate-serializer.js';
 
 const getCertificationByVerificationCode = async function (request, h, dependencies = { requestResponseUtils }) {
   const verificationCode = request.payload.verificationCode;
