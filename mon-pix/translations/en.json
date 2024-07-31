@@ -516,12 +516,12 @@
           "title": "Rules to observe",
           "checkbox-label": "By ticking this box, I recognise that I have taken note of these rules and I agree to comply with them.",
           "list": {
+            "miscellaneous": "'<strong>'Mobilise any other mean that would directly give the answer'</strong>', without having to do the work required by the instructions.",
             "no-artificial-intelligence": "'<strong>'Have recourse to an artificial intelligence system'</strong>' or to a chatbot",
             "no-cheat-sheet": "'<strong>'Use cheat sheets'</strong>' (physical or digital), spoiler resources or personal notes",
             "no-communication": "'<strong>'Communicate with someone else'</strong>', within the exam room or outside of it, by physical or electronic means",
             "no-connected-device": "'<strong>'Use a mobile phone or any other connected device'</strong>' (other than the computer used for the certification)",
-            "no-forum": "'<strong>'Peruse a self-help forum'</strong>' giving a direct answer to a question",
-            "other": "'<strong>'Mobilise any other mean that would directly give the answer'</strong>', without having to do the work required by the instructions."
+            "no-forum": "'<strong>'Peruse a self-help forum'</strong>' giving a direct answer to a question"
           },
           "text": "During the certification, it is forbidden to:"
         }

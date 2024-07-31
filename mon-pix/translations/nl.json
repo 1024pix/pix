@@ -514,12 +514,12 @@
         "5": {
           "checkbox-label": "Door dit vakje aan te kruisen, bevestig ik dat ik deze regels heb gelezen en me eraan zal houden.",
           "list": {
+            "miscellaneous": "'<strong>'Zet een ander middel in dat direct het antwoord geeft'</strong>', zonder het werk te hebben gedaan dat de instructie vereist.",
             "no-artificial-intelligence": "'<strong>'Gebruik een kunstmatig intelligentiesysteem'</strong>' of een chatbot",
             "no-cheat-sheet": "'<strong>'Gebruik spiekbriefjes'</strong>' (fysiek of elektronisch), spoilerbronnen of persoonlijke aantekeningen",
             "no-communication": "'<strong>'Communiceren met iemand anders'</strong>', binnen of buiten de kamer, met fysieke of elektronische middelen",
             "no-connected-device": "'<strong>'Gebruik een mobiele telefoon of een aangesloten apparaat'</strong>' (anders dan de computer die wordt gebruikt voor de certificering)",
-            "no-forum": "'<strong>'Raadpleeg een zelfhulpforum'</strong>' direct het antwoord geven op een test",
-            "other": "'<strong>'Zet een ander middel in dat direct het antwoord geeft'</strong>', zonder het werk te hebben gedaan dat de instructie vereist."
+            "no-forum": "'<strong>'Raadpleeg een zelfhulpforum'</strong>' direct het antwoord geven op een test"
           },
           "text": "In certificering is het verboden om :",
           "title": "Regels die moeten worden nageleefd"
