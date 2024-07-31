@@ -22,21 +22,26 @@
   <dd>{{@certificationCenter.dataProtectionOfficerEmail}}</dd>
 </dl>
 
-<span class="label">{{t "pages.certification-centers.information-view.feature-habilitations.title"}}</span>
+<span class="label">{{t "pages.certification-centers.information-view.pilot-features.title"}}</span>
 <ul class="certification-center-information-display__habilitations-list">
-  {{#each this.availableFeatureHabilitations as |feature|}}
-    <CertificationCenters::HabilitationTag @label={{feature.label}} @active={{feature.isPilot}} />
+  {{#each this.availablePilotFeatures as |feature|}}
+    <CertificationCenters::HabilitationTag
+      @label={{feature.label}}
+      @active={{feature.isPilot}}
+      @arialabel={{feature.ariaLabel}}
+    />
   {{/each}}
 </ul>
 
 <div class="certification-center-information-display__divider"></div>
 
-<span class="label">Habilitations aux certifications complémentaires</span>
+<span class="label">{{t "pages.certification-centers.information-view.habilitations.title"}}</span>
 <ul class="certification-center-information-display__habilitations-list">
   {{#each this.availableHabilitations as |habilitation|}}
     <CertificationCenters::HabilitationTag
       @label={{habilitation.label}}
-      @active={{contains habilitation this.habilitations}}
+      @active={{habilitation.isHabilitated}}
+      @arialabel={{habilitation.ariaLabel}}
     />
   {{/each}}
 </ul>

@@ -134,6 +134,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       await clickByName('Enregistrer');
 
       // then
+      assert.dom(screen.getByText('Fonctionnalités pilotes')).exists();
       assert.dom(screen.getByText('Habilitations aux certifications complémentaires')).exists();
       assert.dom(screen.getByRole('heading', { name: 'nouveau nom', level: 2 })).exists();
       assert.dom(screen.getByText('Établissement supérieur')).exists();
