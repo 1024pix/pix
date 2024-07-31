@@ -705,4 +705,48 @@ module('Integration | Component | Module | Passage', function (hooks) {
       assert.ok(true);
     });
   });
+
+  module('When click on terminate button', function () {
+    test('should push an event', async function (assert) {
+      // given
+      const router = this.owner.lookup('service:router');
+      router.transitionTo = sinon.stub();
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+      const store = this.owner.lookup('service:store');
+
+      const qcuElement = {
+        instruction: 'instruction',
+        proposals: ['radio1', 'radio2'],
+        type: 'qcu',
+      };
+      const grain = store.createRecord('grain', {
+        id: '123',
+        title: 'Grain title',
+        components: [{ type: 'element', element: qcuElement }],
+      });
+
+      const module = store.createRecord('module', {
+        id: 'module-title',
+        title: 'Module title',
+        grains: [grain],
+        transitionTexts: [],
+      });
+      const passage = store.createRecord('passage');
+      passage.terminate = sinon.stub();
+      await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+      // when
+      await clickByName(this.intl.t('pages.modulix.buttons.grain.terminate'));
+
+      // then
+      sinon.assert.calledWithExactly(metrics.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${module.id}`,
+        'pix-event-name': `Clic sur le bouton Terminer du grain : ${grain.id}`,
+      });
+      assert.ok(true);
+    });
+  });
 });

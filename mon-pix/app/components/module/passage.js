@@ -96,8 +96,14 @@ export default class ModulePassage extends Component {
   }
 
   @action
-  terminateModule() {
+  terminateModule({ grainId }) {
     this.args.passage.terminate();
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Modulix',
+      'pix-event-action': `Passage du module : ${this.args.module.id}`,
+      'pix-event-name': `Clic sur le bouton Terminer du grain : ${grainId}`,
+    });
     return this.router.transitionTo('module.recap', this.args.module);
   }
 

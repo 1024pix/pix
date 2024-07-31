@@ -140,6 +140,6 @@ export default class ModuleGrain extends Component {
 
   @action
   terminateAction() {
-    this.args.terminateAction();
+    this.args.terminateAction({ grainId: this.args.grain.id });
   }
 }
