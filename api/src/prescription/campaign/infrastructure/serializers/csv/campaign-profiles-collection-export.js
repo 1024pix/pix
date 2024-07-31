@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import {
@@ -6,7 +5,9 @@ import {
   CONCURRENCY_HEAVY_OPERATIONS,
 } from '../../../../../../lib/infrastructure/constants.js';
 import * as csvSerializer from '../../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
+import { PromiseUtils } from '../../../../../shared/infrastructure/utils/promise-utils.js';
 import { CampaignProfilesCollectionResultLine } from '../../exports/campaigns/campaign-profiles-collection-result-line.js';
+
 class CampaignProfilesCollectionExport {
   constructor(outputStream, organization, campaign, competences, translate) {
     this.stream = outputStream;
@@ -29,7 +30,7 @@ class CampaignProfilesCollectionExport {
       constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
     );
 
-    return bluebird.map(
+    return PromiseUtils.map(
       campaignParticipationResultDataChunks,
       async (campaignParticipationResultDataChunk) => {
         const placementProfiles = await this._getUsersPlacementProfiles(

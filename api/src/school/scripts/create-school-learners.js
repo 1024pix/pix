@@ -1,6 +1,5 @@
 import * as url from 'node:url';
 
-import bluebird from 'bluebird';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
@@ -11,6 +10,7 @@ import { ORGANIZATION_FEATURE } from '../../shared/domain/constants.js';
 import * as codeGenerator from '../../shared/domain/services/code-generator.js';
 import * as organizationRepository from '../../shared/infrastructure/repositories/organization-repository.js';
 import { logger } from '../../shared/infrastructure/utils/logger.js';
+import { PromiseUtils } from '../../shared/infrastructure/utils/promise-utils.js';
 
 const STUDENT_NAMES = [
   { firstName: 'Ichigo', lastName: 'Hara-Masuda' },
@@ -75,7 +75,7 @@ async function buildLearners({ organizationId, quantity = STUDENT_NAMES.length }
     quantity = STUDENT_NAMES.length;
   }
   logger.info('Create learners for organization.');
-  await bluebird.map(STUDENT_NAMES.slice(0, quantity), async (studentName) => {
+  await PromiseUtils.map(STUDENT_NAMES.slice(0, quantity), async (studentName) => {
     await knex('organization-learners').insert({
       organizationId,
       firstName: studentName.firstName,
