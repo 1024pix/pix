@@ -1,5 +1,6 @@
 import { SimulationParameters } from '../../../../../src/evaluation/domain/models/SimulationParameters.js';
-import { SmartRandomDetails } from '../../../../../src/evaluation/domain/models/SmartRandomDetails.js';
+import { SmartRandomLog } from '../../../../../src/evaluation/domain/models/SmartRandomLog.js';
+import { startLogging } from '../../../../../src/evaluation/domain/services/smart-random-log-service.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { Challenge } from '../../../../../src/shared/domain/models/Challenge.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
@@ -41,12 +42,13 @@ describe('Integration | Usecases | Get next challenge for simulator', function (
       });
 
       // when
-      const { smartRandomDetails } = await evaluationUsecases.getNextChallengeForSimulator({
+      startLogging();
+      const { smartRandomLog } = await evaluationUsecases.getNextChallengeForSimulator({
         simulationParameters,
       });
 
       // then
-      expect(smartRandomDetails).to.be.instanceOf(SmartRandomDetails);
+      expect(smartRandomLog).to.be.instanceOf(SmartRandomLog);
     });
   });
 
@@ -62,13 +64,13 @@ describe('Integration | Usecases | Get next challenge for simulator', function (
       });
 
       // when
-      const { challenge, smartRandomDetails } = await evaluationUsecases.getNextChallengeForSimulator({
+      const { challenge, smartRandomLog } = await evaluationUsecases.getNextChallengeForSimulator({
         simulationParameters,
       });
 
       // then
       expect(challenge).to.be.null;
-      expect(smartRandomDetails).to.be.instanceOf(SmartRandomDetails);
+      expect(smartRandomLog).to.be.instanceOf(SmartRandomLog);
     });
   });
 });

@@ -1,6 +1,6 @@
 import { Skill } from '../../../shared/domain/models/index.js';
 
-const STEPS_NAMES = {
+export const STEPS_NAMES = {
   DEFAULT_LEVEL: 'DEFAULT_LEVEL',
   EASY_TUBES: 'EASY_TUBES',
   MAX_REWARDING_SKILLS: 'MAX_REWARDING_SKILLS',
@@ -11,20 +11,20 @@ const STEPS_NAMES = {
   ALREADY_TESTED: 'ALREADY_TESTED',
 };
 
-class SmartRandomStep {
+export class SmartRandomStep {
   /**
    * @type {string}
    */
   name;
 
   /**
-   * @type {[Skill]}
+   * @type {Skill[]}
    */
   outputSkills;
 
   /**
    * @param {string} name
-   * @param {[Skill]} outputSkills
+   * @param {Skill[]} outputSkills
    */
   constructor(name, outputSkills) {
     this.name = name;
@@ -32,5 +32,3 @@ class SmartRandomStep {
     this.outputSkills = outputSkills.map((outputSkill) => new Skill(outputSkill));
   }
 }
-
-export { SmartRandomStep, STEPS_NAMES };

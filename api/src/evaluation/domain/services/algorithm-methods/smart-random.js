@@ -1,4 +1,5 @@
 import { STEPS_NAMES } from '../../models/SmartRandomStep.js';
+import { logStep } from '../smart-random-log-service.js';
 import { computeTubesFromSkills } from '../tube-service.js';
 import * as catAlgorithm from './cat-algorithm.js';
 import { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge } from './skills-filter.js';
@@ -23,7 +24,7 @@ const getPossibleSkillsForNextChallenge = ({
   targetSkills = getSkillsWithAddedInformations({ targetSkills, filteredChallenges, locale });
 
   // First challenge has specific rules
-  const { possibleSkillsForNextChallenge, levelEstimated, smartRandomDetails } = isUserStartingTheTest
+  const { possibleSkillsForNextChallenge, levelEstimated } = isUserStartingTheTest
     ? findFirstChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, tubes })
     : findAnyChallenge({
         knowledgeElements: knowledgeElementsOfTargetSkills,
@@ -32,10 +33,10 @@ const getPossibleSkillsForNextChallenge = ({
         isLastChallengeTimed,
       });
 
-  // Test is considered finished when no challenges are returned but we don't expose this detail
+  // Test is considered finished when no challenges are returned, but we don't expose this detail
   return possibleSkillsForNextChallenge.length > 0
-    ? { hasAssessmentEnded: false, possibleSkillsForNextChallenge, levelEstimated, smartRandomDetails }
-    : { hasAssessmentEnded: true, possibleSkillsForNextChallenge, levelEstimated, smartRandomDetails };
+    ? { hasAssessmentEnded: false, possibleSkillsForNextChallenge, levelEstimated }
+    : { hasAssessmentEnded: true, possibleSkillsForNextChallenge, levelEstimated };
 };
 
 const wasLastChallengeTimed = (lastAnswer) => Boolean(lastAnswer.timeout);
@@ -52,7 +53,7 @@ const filterSkillsByChallenges = (skills, challenges) =>
 
 const findAnyChallenge = ({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed }) => {
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
-  const { availableSkills, smartRandomDetails } = getFilteredSkillsForNextChallenge({
+  const { availableSkills } = getFilteredSkillsForNextChallenge({
     knowledgeElements,
     tubes,
     predictedLevel,
@@ -66,18 +67,18 @@ const findAnyChallenge = ({ knowledgeElements, targetSkills, tubes, isLastChalle
     knowledgeElements,
   });
 
-  smartRandomDetails.addStep(STEPS_NAMES.MAX_REWARDING_SKILLS, maxRewardingSkills);
+  logStep(STEPS_NAMES.MAX_REWARDING_SKILLS, maxRewardingSkills);
 
-  return { possibleSkillsForNextChallenge: maxRewardingSkills, levelEstimated: predictedLevel, smartRandomDetails };
+  return { possibleSkillsForNextChallenge: maxRewardingSkills, levelEstimated: predictedLevel };
 };
 
 const findFirstChallenge = ({ knowledgeElements, targetSkills, tubes }) => {
-  const { availableSkills, smartRandomDetails } = getFilteredSkillsForFirstChallenge({
+  const { availableSkills } = getFilteredSkillsForFirstChallenge({
     knowledgeElements,
     tubes,
     targetSkills,
   });
-  return { possibleSkillsForNextChallenge: availableSkills, levelEstimated: 2, smartRandomDetails };
+  return { possibleSkillsForNextChallenge: availableSkills, levelEstimated: 2 };
 };
 
 const getSkillsWithAddedInformations = ({ targetSkills, filteredChallenges, locale }) =>

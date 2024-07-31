@@ -1,4 +1,3 @@
-import { SmartRandomDetails } from '../../../../../../src/evaluation/domain/models/SmartRandomDetails.js';
 import {
   focusOnDefaultLevel,
   getFilteredSkillsForFirstChallenge,
@@ -38,26 +37,6 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
 
       // then
       expect(availableSkills).to.deep.equal([skill1]);
-    });
-
-    it('should return algorithm selection details', function () {
-      // given
-      const skill1 = domainBuilder.buildSkill({ name: '@web3', difficulty: 3 });
-      const skills = [skill1];
-      const knowledgeElements = [];
-      const tubes = [new Tube({ skills: [skill1] })];
-      setPlayableSkills(skills);
-
-      // when
-      const { smartRandomDetails } = getFilteredSkillsForFirstChallenge({
-        knowledgeElements,
-        tubes,
-        targetSkills: skills,
-      });
-
-      // then
-      expect(smartRandomDetails).to.be.instanceof(SmartRandomDetails);
-      expect(smartRandomDetails.steps.length).to.equal(5);
     });
 
     it('should return a skill even if the only tube has a skill with difficulty > 3', function () {
@@ -171,26 +150,6 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
   });
 
   describe('#getFilteredSkillsForNextChallenge', function () {
-    it('should return algorithm selection details', function () {
-      // given
-      const skill1 = domainBuilder.buildSkill({ name: '@web3', difficulty: 3 });
-      const skills = [skill1];
-      const knowledgeElements = [];
-      const tubes = [new Tube({ skills: [skill1] })];
-      setPlayableSkills(skills);
-
-      // when
-      const { smartRandomDetails } = getFilteredSkillsForNextChallenge({
-        knowledgeElements,
-        tubes,
-        targetSkills: skills,
-      });
-
-      // then
-      expect(smartRandomDetails).to.be.instanceof(SmartRandomDetails);
-      expect(smartRandomDetails.steps.length).to.equal(5);
-    });
-
     describe('Verify rules : Skills not already tested', function () {
       it('should not ask a question that targets a skill already assessed', function () {
         // given
