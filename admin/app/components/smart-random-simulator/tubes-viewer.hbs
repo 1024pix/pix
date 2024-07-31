@@ -76,7 +76,9 @@
           <th class="tubes-viewer__table__name">{{tube.name}}</th>
           {{#each this.levels as |level|}}
             <td aria-label="{{tube.name}}{{level}}">
-              <span class="tubes-viewer__table__skill {{this.getSkillStatus tube level}}" />
+              <span class="tubes-viewer__table__skill {{this.getSkillStatus tube level}}">
+                {{this.getSkillReward tube level}}
+              </span>
             </td>
           {{/each}}
         </tr>

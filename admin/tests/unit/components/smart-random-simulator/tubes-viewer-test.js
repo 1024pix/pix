@@ -33,7 +33,7 @@ module('Unit | Component | Smart Random Simulator | Tubes Viewer', function (hoo
     test('it should return the number of eliminated skills by step', async function (assert) {
       const component = createComponent('component:smart-random-simulator/tubes-viewer');
       component.args.totalNumberOfSkills = 50;
-      component.args.smartRandomDetails = {
+      component.args.smartRandomLog = {
         steps: [
           {
             outputSkills: [
@@ -64,7 +64,7 @@ module('Unit | Component | Smart Random Simulator | Tubes Viewer', function (hoo
   module('#getRemainingSkillsCountAfterStep', function () {
     test('it should return the number of remaining skills after step', async function (assert) {
       const component = createComponent('component:smart-random-simulator/tubes-viewer');
-      component.args.smartRandomDetails = {
+      component.args.smartRandomLog = {
         steps: [
           {
             outputSkills: [
@@ -163,7 +163,7 @@ module('Unit | Component | Smart Random Simulator | Tubes Viewer', function (hoo
       component.args.currentSkillId = 128;
       component.args.displayedStepIndex = 3;
       component.args.knowledgeElements = [];
-      component.args.smartRandomDetails = {
+      component.args.smartRandomLog = {
         steps: [
           { outputSkills: [Symbol('skill')] },
           { outputSkills: [Symbol('skill')] },
@@ -186,6 +186,34 @@ module('Unit | Component | Smart Random Simulator | Tubes Viewer', function (hoo
       };
 
       assert.strictEqual(component.getSkillStatus(tube, 2), 'eliminated');
+    });
+  });
+
+  module('#getSkillReward', function (hooks) {
+    let component;
+
+    hooks.beforeEach(function () {
+      component = createComponent('component:smart-random-simulator/tubes-viewer');
+    });
+
+    test('it should return the reward with 1 digit after the decimal point', async function (assert) {
+      component.args.smartRandomLog = {
+        skillRewards: [
+          { skillId: 1, reward: 4.8437 },
+          { skillId: 2, reward: 12.1234568798778 },
+        ],
+      };
+      const tube = {
+        skills: [
+          { id: 1, difficulty: 1 },
+          { id: 2, difficulty: 2 },
+        ],
+      };
+      const { getSkillReward } = component;
+
+      assert.strictEqual(getSkillReward(tube, 1), '4.8');
+      assert.strictEqual(getSkillReward(tube, 2), '12.1');
+      assert.strictEqual(getSkillReward(tube, 3), '');
     });
   });
 

@@ -17,11 +17,11 @@ export default class TubesViewer extends Component {
   levels = [1, 2, 3, 4, 5, 6, 7, 8];
 
   get steps() {
-    return this.args.smartRandomDetails.steps;
+    return this.args.smartRandomLog.steps;
   }
 
   get predictedLevel() {
-    return this.args.smartRandomDetails.predictedLevel;
+    return this.args.smartRandomLog.predictedLevel;
   }
 
   @action
@@ -63,6 +63,19 @@ export default class TubesViewer extends Component {
     if (!skillInSelectedStep) return SKILLS_STATUSES.ELIMINATED;
 
     return SKILLS_STATUSES.PRESENT;
+  }
+
+  @action
+  getSkillReward(tube, level) {
+    const skillInTube = tube.skills.find((skill) => skill.difficulty === level);
+
+    if (!skillInTube) return '';
+
+    const skillReward = this.args.smartRandomLog.skillRewards.find((skill) => skill.skillId === skillInTube.id);
+
+    if (!skillReward) return '';
+
+    return skillReward.reward.toFixed(1);
   }
 
   isSkillTheCurrentSkill(skill) {
