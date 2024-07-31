@@ -867,7 +867,7 @@
           "aria-label": "Geef de indicatie op het bewijs weer.",
           "close": "Ik snap het.",
           "focused": {
-            "content": "'<p class=\"tooltip-tag-information__title--focused\">'Blijf op deze pagina om te reageren!'</p>' Gebruik geen internet of een app om te reageren. Elke activiteit buiten de zone wordt gedetecteerd.",
+            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Blijf op deze pagina om te reageren!'</strong><br/>' Gebruik geen internet of een app om te reageren. Elke activiteit buiten de zone wordt gedetecteerd.",
             "title": "Scherpstelmodus"
           },
           "other": {

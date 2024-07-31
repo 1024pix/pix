@@ -874,7 +874,7 @@
           "close": "Ok, got it",
           "focused": {
             "title": "Focus Mode",
-            "content": "'<p class=\"tooltip-tag-information__title--focused\">'Stay on this page to answer!'</p>' Do not use the internet or any application to answer. Any activity outside this zone will be detected."
+            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Stay on this page to answer!'</strong><br/>' Do not use the internet or any application to answer. Any activity outside this zone will be detected."
           },
           "other": {
             "title": "Free Mode",
