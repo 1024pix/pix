@@ -1,4 +1,5 @@
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
@@ -9,10 +10,17 @@ import Objectives from 'mon-pix/components/module/objectives';
 
 export default class ModulixDetails extends Component {
   @service router;
+  @service metrics;
 
   @action
   startModule() {
-    this.router.transitionTo('module.details');
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Modulix',
+      'pix-event-action': `Détails du module : ${this.args.module.id}`,
+      'pix-event-name': `Clic sur le bouton Commencer`,
+    });
+    this.router.transitionTo('module.passage');
   }
 
   <template>
@@ -29,7 +37,7 @@ export default class ModulixDetails extends Component {
           <p class="module-details-content-layout__description">{{@module.details.description}}</p>
 
           <div class="module-details-content-layout__link">
-            <PixButtonLink @route="module.passage" @model={{@module.id}} @size="large">{{t
+            <PixButtonLink @href="#" {{on "click" this.startModule}} @model={{@module.id}} @size="large">{{t
                 "pages.modulix.details.startModule"
               }}</PixButtonLink>
           </div>
