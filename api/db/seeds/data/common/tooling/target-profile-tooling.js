@@ -1,6 +1,6 @@
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
+import { PromiseUtils } from '../../../../../src/shared/infrastructure/utils/promise-utils.js';
 import * as learningContent from './learning-content.js';
 
 export { createBadge, createStages, createTargetProfile };
@@ -52,7 +52,7 @@ async function createTargetProfile({
 }) {
   if (!frameworkNames) {
     const allCompetences = await learningContent.getAllCompetences();
-    await bluebird.map(
+    await PromiseUtils.map(
       allCompetences,
       async (competence) => {
         if (!tubeIdsByFramework[competence.origin]) tubeIdsByFramework[competence.origin] = [];
