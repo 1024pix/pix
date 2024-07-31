@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v4.191.0 (31/07/2024)
+
+
+### :rocket: Amélioration
+- [#9755](https://github.com/1024pix/pix/pull/9755) [FEATURE] Permettre la personnalisation de l'image avant le chargement d'une vidéo (PIX-12170).
+- [#9754](https://github.com/1024pix/pix/pull/9754) [FEATURE] Ajout d'un feature toggle pour conditionner l'affichage des missions expérimentales (Pix-13585).
+- [#9732](https://github.com/1024pix/pix/pull/9732) [FEATURE] Afficher le bouton `Continuer` ou `Passer` avec les Embeds auto (PIX-13640).
+- [#9727](https://github.com/1024pix/pix/pull/9727) [FEATURE] Ne pas pouvoir anonymiser un agent Pix (PIX-12137).
+- [#9485](https://github.com/1024pix/pix/pull/9485) [FEATURE] Ajouter un composant Tabs (PIX-12982).
+- [#9706](https://github.com/1024pix/pix/pull/9706) [FEATURE] Ne plus garder les infos de type TIMESTAMP OBLIGATOIRE lors de la suppression d'un utilisateur (généralisation) (PIX-11582).
+
+### :building_construction: Tech
+- [#9641](https://github.com/1024pix/pix/pull/9641) [TECH] Ajouter de la configuration pour un token pix data (PIX-13547).
+- [#9740](https://github.com/1024pix/pix/pull/9740) [TECH] Use deep.members instead of deep.equal to avoid a flacky result (PIX-13663).
+
+### :bug: Correction
+- [#9725](https://github.com/1024pix/pix/pull/9725) [BUGFIX] Renommer other de la clé par miscellaneous (PIX-13606).
+- [#9766](https://github.com/1024pix/pix/pull/9766) [BUGFIX] Réparer l'affichage des réponses au rechargement d'un écran intermédiaire (PIX-13688).
+
 ## v4.190.0 (30/07/2024)
 
 
