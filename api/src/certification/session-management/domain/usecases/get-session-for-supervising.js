@@ -1,7 +1,7 @@
-import bluebird from 'bluebird';
 import dayjs from 'dayjs';
 
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
+import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../shared/domain/constants.js';
 
 /**
@@ -25,7 +25,7 @@ const getSessionForSupervising = async function ({
   const sessionForSupervising = await sessionForSupervisingRepository.get({ id: sessionId });
   const activatedCompanionCertificationCandidateIds = await temporaryCompanionStorageService.getBySessionId(sessionId);
 
-  await bluebird.map(
+  await PromiseUtils.map(
     sessionForSupervising.certificationCandidates,
     _computeComplementaryCertificationEligibility(certificationBadgesService),
     { concurrency: CONCURRENCY_HEAVY_OPERATIONS },

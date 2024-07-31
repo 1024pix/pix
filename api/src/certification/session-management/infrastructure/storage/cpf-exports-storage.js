@@ -1,7 +1,6 @@
-import bluebird from 'bluebird';
-
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../../lib/infrastructure/constants.js';
 import { config } from '../../../../shared/config.js';
+import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 
 class CpfExportsStorage {
@@ -16,7 +15,7 @@ class CpfExportsStorage {
   }
 
   async preSignFiles({ keys, expiresIn = config.cpf.storage.cpfExports.commands.preSignedExpiresIn }) {
-    return bluebird.map(
+    return PromiseUtils.map(
       keys,
       (key) => {
         return this.#client.preSignFile({ key, expiresIn });

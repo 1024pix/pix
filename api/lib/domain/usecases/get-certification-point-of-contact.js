@@ -2,9 +2,8 @@
  * @typedef {import('./index.js').CenterRepository} CenterRepository
  * @typedef {import('../../../src/certification/enrolment/domain/models/Center.js').Center} Center
  */
-import bluebird from 'bluebird';
-
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../src/shared/infrastructure/constants.js';
+import { PromiseUtils } from '../../../src/shared/infrastructure/utils/promise-utils.js';
 
 /**
  * @param {Object} params
@@ -38,7 +37,7 @@ export { getCertificationPointOfContact };
  * @returns {Array<Center>}
  */
 const _getCenters = async ({ authorizedCenterIds = [], centerRepository }) => {
-  return bluebird.map(authorizedCenterIds, (id) => centerRepository.getById({ id }), {
+  return PromiseUtils.map(authorizedCenterIds, (id) => centerRepository.getById({ id }), {
     concurrency: CONCURRENCY_HEAVY_OPERATIONS,
   });
 };

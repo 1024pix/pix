@@ -3,12 +3,12 @@ import 'dotenv/config';
 
 import * as url from 'node:url';
 
-import bluebird from 'bluebird';
 import yargs from 'yargs';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import * as verifyCertificateCodeService from '../../lib/domain/services/verify-certificate-code-service.js';
 import * as certificationRepository from '../../lib/infrastructure/repositories/certification-repository.js';
+import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
 
 const uniqueConstraintViolationCode = '23505';
 const DEFAULT_COUNT = 20000;
@@ -61,7 +61,7 @@ async function _do({ count, concurrency }) {
 
   console.log('\tGénération des codes de vérification des certifications...');
   let failedGenerations = 0;
-  await bluebird.map(
+  await PromiseUtils.map(
     eligibleCertificationIds,
     async (certificationId) => {
       try {
