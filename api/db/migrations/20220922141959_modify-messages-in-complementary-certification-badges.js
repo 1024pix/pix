@@ -1,5 +1,3 @@
-import bluebird from 'bluebird';
-
 import { badges } from '../constants.js';
 
 const {
@@ -31,7 +29,8 @@ const up = async function (knex) {
       PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
       PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
     ]);
-  await bluebird.each(badges, async ({ id, key }) => {
+  for (const badge of badges) {
+    const { id, key } = badge;
     let levelName;
     if ([PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE, PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE].includes(key)) {
       levelName = 'Initié (entrée dans le métier)';
@@ -59,7 +58,7 @@ const up = async function (knex) {
     await knex('complementary-certification-badges')
       .update({ certificateMessage, temporaryCertificateMessage })
       .where({ id });
-  });
+  }
 };
 // eslint-disable-next-line no-empty-function
 const down = function () {};

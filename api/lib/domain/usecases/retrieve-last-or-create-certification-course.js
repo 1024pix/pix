@@ -1,5 +1,3 @@
-import bluebird from 'bluebird';
-
 import { SessionNotAccessible } from '../../../src/certification/session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
 import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
@@ -190,30 +188,28 @@ async function _startNewCertification({
     userId,
   });
 
-  await bluebird.each(
-    highestCertifiableBadgeAcquisitions,
-    async ({
+  for (const highestCertifiableBadgeAcquisition of highestCertifiableBadgeAcquisitions) {
+    const {
       complementaryCertificationKey,
       complementaryCertificationId,
       complementaryCertificationBadgeId,
       campaignId,
       badgeKey,
-    }) => {
-      if (
-        certificationCenter.isHabilitated(complementaryCertificationKey) &&
-        certificationCandidate.isGranted(complementaryCertificationKey)
-      ) {
-        complementaryCertificationCourseData.push({ complementaryCertificationBadgeId, complementaryCertificationId });
-        const certificationChallenges = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-          campaignId,
-          badgeKey,
-          userId,
-          locale,
-        );
-        challengesForCertification.push(...certificationChallenges);
-      }
-    },
-  );
+    } = highestCertifiableBadgeAcquisition;
+    if (
+      certificationCenter.isHabilitated(complementaryCertificationKey) &&
+      certificationCandidate.isGranted(complementaryCertificationKey)
+    ) {
+      complementaryCertificationCourseData.push({ complementaryCertificationBadgeId, complementaryCertificationId });
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallengesForPixPlus(
+        campaignId,
+        badgeKey,
+        userId,
+        locale,
+      );
+      challengesForCertification.push(...certificationChallenges);
+    }
+  }
 
   let challengesForPixCertification = [];
   if (!CertificationVersion.isV3(version)) {

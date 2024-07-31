@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 const TABLE_NAME = 'flash-assessment-results';
 const COLUMN_NAME = 'assessmentId';
 
@@ -9,9 +8,10 @@ const up = async function (knex) {
     .select('answers.assessmentId', 'flash-assessment-results.id')
     .join('answers', 'answers.id', 'flash-assessment-results.answerId');
 
-  await bluebird.each(flashAssessmentResults, async function ({ assessmentId, id }) {
+  for (const flashAssessmentResult of flashAssessmentResults) {
+    const { assessmentId, id } = flashAssessmentResult;
     await knex(TABLE_NAME).update({ assessmentId }).where({ id });
-  });
+  }
 
   return knex.schema.alterTable(TABLE_NAME, function (table) {
     table.integer(COLUMN_NAME).notNullable().alter();

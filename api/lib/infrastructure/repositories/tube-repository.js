@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { Tube } from '../../../src/shared/domain/models/Tube.js';
@@ -26,9 +25,13 @@ function _toDomain({ tubeData, locale }) {
 }
 
 async function _findActive(tubes) {
-  return bluebird.filter(tubes, async ({ id: tubeId }) => {
-    const activeSkills = await skillDatasource.findActiveByTubeId(tubeId);
-    return activeSkills.length > 0;
+  const skillsByTubesIndex = await Promise.all(
+    tubes.map(async ({ id: tubeId }) => skillDatasource.findActiveByTubeId(tubeId)),
+  );
+
+  return tubes.filter((_, index) => {
+    const hasActiveSkills = skillsByTubesIndex[index].length > 0;
+    return hasActiveSkills;
   });
 }
 

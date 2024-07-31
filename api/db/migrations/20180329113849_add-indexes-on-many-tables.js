@@ -1,5 +1,3 @@
-import Promise from 'bluebird';
-
 const indexes = {
   answers: ['assessmentId'],
   assessments: ['type'],

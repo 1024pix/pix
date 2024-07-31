@@ -1,5 +1,3 @@
-import bluebird from 'bluebird';
-
 const STICKERS_URL_BY_BADGE_KEY = {
   PIX_EMPLOI_CLEA: 'https://images.pix.fr/stickers/macaron_clea.pdf',
   PIX_EMPLOI_CLEA_V2: 'https://images.pix.fr/stickers/macaron_clea.pdf',
@@ -26,13 +24,14 @@ const up = async function (knex) {
 
   const certifiableBadges = await knex('badges').select('id', 'key').where({ isCertifiable: true });
 
-  await bluebird.each(certifiableBadges, async ({ id: badgeId, key }) => {
+  for (const certifiableBadge of certifiableBadges) {
+    const { id: badgeId, key } = certifiableBadge;
     if (STICKERS_URL_BY_BADGE_KEY[key]) {
       await knex('complementary-certification-badges')
         .update({ stickerUrl: STICKERS_URL_BY_BADGE_KEY[key] })
         .where({ badgeId });
     }
-  });
+  }
 };
 
 const down = async function (knex) {

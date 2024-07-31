@@ -3,7 +3,6 @@ import * as url from 'node:url';
 
 import pdfLibFontkit from '@pdf-lib/fontkit';
 import axios from 'axios';
-import bluebird from 'bluebird';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { PDFDocument, rgb } from 'pdf-lib';
@@ -113,9 +112,9 @@ async function _embedImages(pdfDocument, viewModels) {
     .map('url')
     .uniq()
     .value();
-  await bluebird.each(uniqStickerUrls, async (url) => {
+  for (const url of uniqStickerUrls) {
     embeddedImages[url] = await _embedCertificationImage(pdfDocument, url);
-  });
+  }
   return embeddedImages;
 }
 
