@@ -148,6 +148,7 @@ export class ModuleFactory {
       url: element.url,
       subtitles: element.subtitles,
       transcription: element.transcription,
+      poster: element.poster,
     });
   }
 

@@ -372,6 +372,7 @@ function getAttributesComponents() {
       element: {
         id: '4',
         isAnswerable: false,
+        poster: null,
         subtitles: 'subtitles',
         title: 'title',
         transcription: 'transcription',

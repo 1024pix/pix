@@ -57,6 +57,7 @@ export default class ModulixVideoElement extends Component {
           playsinline
           controls
           crossorigin
+          data-poster={{@video.poster}}
         >
           <source src={{@video.url}} type="video/mp4" />
           {{#if this.hasSubtitles}}

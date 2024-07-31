@@ -5,21 +5,23 @@ describe('Unit | Devcomp | Domain | Models | Element | Video', function () {
   describe('#constructor', function () {
     it('should create a video and keep attributes', function () {
       // when
-      const image = new Video({
+      const video = new Video({
         id: 'id',
         title: 'title',
         url: 'url',
         subtitles: 'subtitles',
         transcription: 'transcription',
+        poster: 'https://example.org/modulix/video-poster.jpg',
       });
 
       // then
-      expect(image.id).to.equal('id');
-      expect(image.type).to.equal('video');
-      expect(image.title).to.equal('title');
-      expect(image.url).to.equal('url');
-      expect(image.subtitles).to.equal('subtitles');
-      expect(image.transcription).to.equal('transcription');
+      expect(video.id).to.equal('id');
+      expect(video.type).to.equal('video');
+      expect(video.title).to.equal('title');
+      expect(video.url).to.equal('url');
+      expect(video.subtitles).to.equal('subtitles');
+      expect(video.transcription).to.equal('transcription');
+      expect(video.poster).to.equal('https://example.org/modulix/video-poster.jpg');
     });
   });
 
@@ -35,7 +37,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Video', function () {
     });
   });
 
-  describe('An image without a url', function () {
+  describe('A video without a url', function () {
     it('should throw an error', function () {
       expect(() => new Video({ id: 'id', title: 'title' })).to.throw('The URL is required for a video');
     });
