@@ -18,6 +18,7 @@ import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { constants } from '../../lib/infrastructure/constants.js';
 import * as placementProfileService from '../../src/shared/domain/services/placement-profile-service.js';
 import * as competenceRepository from '../../src/shared/infrastructure/repositories/competence-repository.js';
+import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
 
 const concurrency = parseInt(process.argv[2]);
 let count;
@@ -41,7 +42,7 @@ async function computeParticipantResultsShared(concurrency = 1) {
   total = uniqueCampaigns.length;
   _log(`Campagnes à traiter ${total}`);
 
-  await bluebird.map(uniqueCampaigns, _updateCampaignParticipations, { concurrency });
+  await PromiseUtils.map(uniqueCampaigns, _updateCampaignParticipations, { concurrency });
 }
 
 async function _updateCampaignParticipations(campaign) {
