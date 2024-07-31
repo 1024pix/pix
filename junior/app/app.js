@@ -1,3 +1,5 @@
+import '@1024pix/web-components';
+
 import Application from '@ember/application';
 import loadInitializers from 'ember-load-initializers';
 import Resolver from 'ember-resolver';
