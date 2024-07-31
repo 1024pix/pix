@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { findAll } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import ModulixDetails from 'mon-pix/components/module/details';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -19,10 +19,9 @@ module('Integration | Component | Module | Details', function (hooks) {
       objectives: ['Objectif 1'],
     };
     const module = store.createRecord('module', { title: 'Module title', details });
-    this.set('module', module);
 
     // when
-    const screen = await render(hbs`<Module::Details @module={{this.module}} />`);
+    const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
 
     // then
     assert.ok(screen.getByRole('heading', { name: module.title, level: 1 }));
