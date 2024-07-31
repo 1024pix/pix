@@ -867,7 +867,7 @@
           "aria-label": "Mostrar la indicación en la prueba.",
           "close": "Lo he entendido",
           "focused": {
-            "content": "'<p class=\"tooltip-tag-information__title--focused\">'¡Quédate en esta página para responder!'</p>' No utilices internet ni ninguna aplicación para responder. Se detectará cualquier actividad fuera de la zona.",
+            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'¡Quédate en esta página para responder!'</strong><br/>' No utilices internet ni ninguna aplicación para responder. Se detectará cualquier actividad fuera de la zona.",
             "title": "Modo enfoque"
           },
           "other": {

@@ -874,7 +874,7 @@
           "close": "J'ai compris",
           "focused": {
             "title": "Mode Focus",
-            "content": "'<p class=\"tooltip-tag-information__title--focused\">'Essayez de rester sur cette page pour répondre !'</p>' Cette question ne nécessite ni internet, ni application."
+            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Essayez de rester sur cette page pour répondre !'</strong><br/>' Cette question ne nécessite ni internet, ni application."
           },
           "other": {
             "title": "Mode Libre",
