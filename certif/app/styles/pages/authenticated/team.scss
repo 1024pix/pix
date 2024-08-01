@@ -8,12 +8,12 @@
   &__header-admin-buttons {
     display: flex;
     justify-content: flex-end;
-    gap: $pix-spacing-s;
+    gap: var(--pix-spacing-4x);
   }
 
   &__tabs {
     display: flex;
-    margin-bottom: $pix-spacing-m;
+    margin-bottom: var(--pix-spacing-6x);
   }
 
   &__no-referer-container {

@@ -23,7 +23,7 @@
 
 .session-list-header__actions {
   display: flex;
-  gap: $pix-spacing-xs;
+  gap: var(--pix-spacing-2x);
 }
 
 .new-session-icon {

@@ -47,7 +47,7 @@
 
     p,
     li {
-      margin-bottom: $pix-spacing-s;
+      margin-bottom: var(--pix-spacing-4x);
     }
 
     ul {
@@ -56,7 +56,7 @@
 
     h2,
     h3 {
-      margin-bottom: $pix-spacing-m;
+      margin-bottom: var(--pix-spacing-6x);
     }
   }
 
