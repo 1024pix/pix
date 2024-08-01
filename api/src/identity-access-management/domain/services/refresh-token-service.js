@@ -97,8 +97,6 @@ async function revokeRefreshTokensForUserId({ userId }) {
  * @property {createRefreshTokenFromUserId} createRefreshTokenFromUserId
  * @property {revokeRefreshToken} revokeRefreshToken
  * @property {revokeRefreshTokensForUserId} revokeRefreshTokensForUserId
- * @property {*} refreshTokenTemporaryStorage
- * @property {*} userRefreshTokensTemporaryStorage
  */
 export const refreshTokenService = {
   findByRefreshToken,
@@ -107,8 +105,6 @@ export const refreshTokenService = {
   createRefreshTokenFromUserId,
   revokeRefreshToken,
   revokeRefreshTokensForUserId,
-  refreshTokenTemporaryStorage,
-  userRefreshTokensTemporaryStorage,
 };
 
 function _prefixForUser(userId) {
