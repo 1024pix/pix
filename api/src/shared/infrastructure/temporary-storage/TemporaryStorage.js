@@ -45,6 +45,10 @@ class TemporaryStorage {
     throw new Error('Method #keys(pattern) must be overridden');
   }
 
+  async flushAll() {
+    throw new Error('Method #flushAll() must be overridden');
+  }
+
   quit() {
     throw new Error('Method #quit() must be overridden');
   }
@@ -93,6 +97,10 @@ class TemporaryStorage {
       async keys(pattern) {
         const keys = await storage.keys(prefix + pattern);
         return keys.map((key) => key.slice(prefix.length));
+      },
+
+      flushAll() {
+        return storage.flushAll();
       },
     };
   }
