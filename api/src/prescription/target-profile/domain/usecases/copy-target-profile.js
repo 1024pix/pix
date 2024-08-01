@@ -1,6 +1,10 @@
-import { TargetProfileForCreation } from '../../../src/shared/domain/models/index.js';
+import { TargetProfileForCreation } from '../../../../shared/domain/models/index.js';
 
-const copyTargetProfile = async function ({ targetProfileId, targetProfileRepository }) {
+const copyTargetProfile = async function ({
+  targetProfileId,
+  targetProfileRepository,
+  targetProfileAdministrationRepository,
+}) {
   const targetProfileToCopy = await targetProfileRepository.get(targetProfileId);
   const targetProfileTubes = await targetProfileRepository.getTubesByTargetProfileId(targetProfileId);
 
@@ -12,7 +16,7 @@ const copyTargetProfile = async function ({ targetProfileId, targetProfileReposi
     })),
   });
 
-  return targetProfileRepository.create({
+  return targetProfileAdministrationRepository.create({
     targetProfileForCreation: copiedTargetProfile,
   });
 };

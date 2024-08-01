@@ -3,6 +3,7 @@ import * as trainingSummarySerializer from '../../../src/devcomp/infrastructure/
 import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/index.js';
 import { deserializer as badgeCreationDeserializer } from '../../../src/evaluation/infrastructure/serializers/jsonapi/badge-creation-serializer.js';
 import * as badgeSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/badge-serializer.js';
+import { usecases as prescriptionTargetProfileUsecases } from '../../../src/prescription/target-profile/domain/usecases/index.js';
 import * as targetProfileSerializer from '../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction, withTransaction } from '../../infrastructure/DomainTransaction.js';
@@ -74,7 +75,7 @@ const createBadge = async function (request, h) {
 
 const copyTargetProfile = withTransaction(async (request) => {
   const targetProfileIdToCopy = request.params.targetProfileId;
-  const copiedTargetProfileId = await usecases.copyTargetProfile({
+  const copiedTargetProfileId = await prescriptionTargetProfileUsecases.copyTargetProfile({
     targetProfileId: targetProfileIdToCopy,
   });
   await Promise.all([
