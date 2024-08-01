@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v4.192.0 (01/08/2024)
+
+
+### :rocket: Amélioration
+- [#9771](https://github.com/1024pix/pix/pull/9771) [FEATURE] Initialiser la nouvelle page de résultats de fin de parcours (PIX-13672).
+- [#9739](https://github.com/1024pix/pix/pull/9739) [FEATURE] Retourner la lucrativite des acquis dans le simulateur (PIX-13591).
+- [#9712](https://github.com/1024pix/pix/pull/9712) [FEATURE] Revue de la formulation des fonctionnalités pilotes sur Pix Admin (PIX-13531).
+
+### :building_construction: Tech
+- [#9753](https://github.com/1024pix/pix/pull/9753) [TECH] Mise à jour des dépendances d'audit logger (PIX-13684).
+- [#9759](https://github.com/1024pix/pix/pull/9759) [TECH] Migration de la route d'invitation à rejoindre une orga sur Pix Admin vers le contexte team (PIX-13666).
+- [#9709](https://github.com/1024pix/pix/pull/9709) [TECH] Migration de fichiers vers des contextes identifiés (PIX-13614).
+- [#9757](https://github.com/1024pix/pix/pull/9757) [TECH] Remplacer Bluebird : all, filter, each par des fonctions natives.
+
+### :bug: Correction
+- [#9772](https://github.com/1024pix/pix/pull/9772) [BUGFIX] Corrige un test flaky qui empêche la CI de passer sur PixOrga (PIX-13707).
+- [#9756](https://github.com/1024pix/pix/pull/9756) [BUGFIX] Rendre accessible le texte de la tooltip en mode focus sur les épreuves (PIX-8075).
+
 ## v4.191.0 (31/07/2024)
 
 
