@@ -21,6 +21,7 @@
               @openTranscription={{@openTranscription}}
               @submitAnswer={{@submitAnswer}}
               @retryElement={{@retryElement}}
+              @clickOnPlayButton={{@clickOnPlayButton}}
               @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
             />
           </div>
@@ -58,7 +59,7 @@
 
     {{#if @shouldDisplayTerminateButton}}
       <footer class="grain-card__footer">
-        <PixButton @variant="primary" @triggerAction={{@terminateAction}}>
+        <PixButton @variant="primary" @triggerAction={{this.terminateAction}}>
           {{t "pages.modulix.buttons.grain.terminate"}}
         </PixButton>
       </footer>

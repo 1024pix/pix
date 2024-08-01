@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { click, findAll } from '@ember/test-helpers';
+// eslint-disable-next-line no-restricted-imports
+import { click, find, findAll } from '@ember/test-helpers';
 import ModulixVideoElement from 'mon-pix/components/module/element/video';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -126,6 +127,68 @@ module('Integration | Component | Module | Video', function (hooks) {
 
       // then
       assert.dom('video').hasAttribute('data-poster', 'https://example.org/modulix/video-poster.jpg');
+    });
+  });
+
+  module('when the video is played', function () {
+    test('should call clickOnPlayButton prop with right argument', async function (assert) {
+      // given
+      const videoElement = {
+        id: 'id',
+        url: 'https://videos.pix.fr/modulix/placeholder-video.mp4',
+        title: 'title',
+        subtitles: 'subtitles',
+        transcription: '',
+        poster: 'https://example.org/modulix/video-poster.jpg',
+      };
+      const clickOnPlayButtonStub = sinon.stub();
+      await render(
+        <template>
+          <ModulixVideoElement @video={{videoElement}} @clickOnPlayButton={{clickOnPlayButtonStub}} />
+        </template>,
+      );
+      const video = find(`#${videoElement.id}`);
+
+      //  when
+      const event = new Event('play');
+      video.dispatchEvent(event);
+      await new Promise((resolve) => setTimeout(resolve, 0));
+
+      // then
+      sinon.assert.calledWithExactly(clickOnPlayButtonStub, {
+        elementId: videoElement.id,
+      });
+      assert.ok(true);
+    });
+
+    test('should call clickOnPlayButton prop only once', async function (assert) {
+      // given
+      const videoElement = {
+        id: 'id',
+        url: 'https://videos.pix.fr/modulix/placeholder-video.mp4',
+        title: 'title',
+        subtitles: 'subtitles',
+        transcription: '',
+        poster: 'https://example.org/modulix/video-poster.jpg',
+      };
+      const clickOnPlayButtonStub = sinon.stub();
+      await render(
+        <template>
+          <ModulixVideoElement @video={{videoElement}} @clickOnPlayButton={{clickOnPlayButtonStub}} />
+        </template>,
+      );
+      const video = find(`#${videoElement.id}`);
+
+      //  when
+      const event = new Event('play');
+      video.dispatchEvent(event);
+      video.dispatchEvent(event);
+      video.dispatchEvent(event);
+      await new Promise((resolve) => setTimeout(resolve, 0));
+
+      // then
+      sinon.assert.calledOnce(clickOnPlayButtonStub);
+      assert.ok(true);
     });
   });
 });
