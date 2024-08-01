@@ -1,5 +1,9 @@
 {{page-title (t "pages.skill-review.title")}}
 
-<div class="background-banner-wrapper">
-  <Routes::Campaigns::Assessment::SkillReview @model={{@model}} />
-</div>
+{{#if this.showNewResultPage}}
+  <Routes::Campaigns::Assessment::EvaluationResults @model={{@model}} />
+{{else}}
+  <div class="background-banner-wrapper">
+    <Routes::Campaigns::Assessment::SkillReview @model={{@model}} />
+  </div>
+{{/if}}

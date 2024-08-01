@@ -1682,6 +1682,24 @@
         "masteryPercentage": "{rate, number, ::percent} de réussite",
         "starsAcquired": "{acquired, plural, =0 {aucune étoile acquise} =1 {# étoile acquise} other {# étoiles acquises}} sur {total}"
       },
+      "tabs": {
+        "aria-label": "3 onglets détaillant vos résultats",
+        "results-details": {
+          "title": "Détails des résultats",
+          "description": "Découvrez en détail vos compétences, organisées par domaines spécifiques, pour mieux comprendre vos forces et axes d'amélioration. Identifiez vos points forts et les domaines où concentrer vos efforts pour progresser davantage.",
+          "tab-label": "Détails des résultats"
+        },
+        "rewards": {
+          "title": "Récompenses et attentes de l’organisateur",
+          "description": "Cette section met en lumière les récompenses reçues ainsi que les attentes de l’organisateur du parcours. Découvrez comment vos performances ont été évaluées et identifiez les axes d'amélioration pour votre développement de compétences.",
+          "tab-label": "Récompenses"
+        },
+        "trainings": {
+          "title": "Vous souhaitez en apprendre plus ?",
+          "description": "Obtenez des recommandations de formations personnalisées pour continuer à progresser et nourrir votre curiosité pour vous aider à réaliser votre plein potentiel.",
+          "tab-label": "Formations"
+        }
+      },
       "trainings": {
         "title": "Vous souhaitez en apprendre plus ?",
         "description": "Découvrez des formations recommandées pour vous, en fonction de vos résultats, afin de progresser !"

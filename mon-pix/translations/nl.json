@@ -1681,6 +1681,24 @@
         "starsAcquired": "{acquired, plural, =0 {aucune étoile acquise} other {# étoile acquise}} op {total}",
         "title": "Vaardigheden"
       },
+      "tabs": {
+        "aria-label": "3 tabbladen met details over uw resultaten",
+        "rewards": {
+          "tab-label": "Onderscheidingen",
+          "title": "Beloningen en verwachtingen van de organisator",
+          "description": "In dit gedeelte worden de ontvangen beloningen en de verwachtingen van de cursusorganisator belicht. Ontdek hoe uw prestaties zijn beoordeeld en identificeer verbeterpunten voor de ontwikkeling van uw vaardigheden."
+        },
+        "results-details": {
+          "tab-label": "Resultatendetails",
+          "title": "Resultatendetails",
+          "description": "Ontdek uw vaardigheden in detail, georganiseerd op specifieke gebieden, om uw sterke punten en verbeterpunten beter te begrijpen. Identificeer uw sterke punten en gebieden waarop u zich kunt richten op verdere verbetering."
+        },
+        "trainings": {
+          "tab-label": "Opleiding",
+          "title": "Wilt u meer weten?",
+          "description": "Ontvang gepersonaliseerde trainingsaanbevelingen om vooruitgang te blijven boeken en uw nieuwsgierigheid te voeden, zodat u uw volledige potentieel kunt realiseren."
+        }
+      },
       "title": "Resultaten",
       "trainings": {
         "description": "Ontdek de aanbevolen trainingen op basis van je resultaten om je te helpen vooruitgang te boeken!",

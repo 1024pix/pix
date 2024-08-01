@@ -1681,6 +1681,24 @@
         "starsAcquired": "{acquired, plural, =0 {ninguna estrella obtenida} =1 {# estrella obtenida} other {# estrellas obtenidas}} de {total}",
         "title": "Detalles de las competencias"
       },
+      "tabs": {
+        "aria-label": "3 pestañas que detallan tus resultados",
+        "rewards": {
+          "tab-label": "Recompensas",
+          "title": "Recompensas y expectativas del organizador.",
+          "description": "En esta sección se destacan las recompensas recibidas, así como las expectativas del organizador del curso. Descubra cómo se evaluó su desempeño e identifique áreas de mejora para el desarrollo de sus habilidades."
+        },
+        "results-details": {
+          "tab-label": "Detalles de los resultados",
+          "title": "Detalles de los resultados",
+          "description": "Explora tus habilidades en detalle, organizadas por áreas específicas, para entender mejor tus fortalezas y áreas de mejora. Identifica tus fortalezas y áreas en las que puedes enfocar tus esfuerzos para mejorar aún más."
+        },
+        "trainings": {
+          "tab-label": "Capacitación",
+          "title": "¿Querer aprender más?",
+          "description": "Obtén recomendaciones de entrenamiento personalizadas para seguir progresando y alimentar tu curiosidad para ayudarte a desarrollar todo tu potencial."
+        }
+      },
       "title": "Resultado",
       "trainings": {
         "description": "Descubre las formaciones recomendadas para ti, basadas en tus resultados, ¡para ayudarte a progresar!",

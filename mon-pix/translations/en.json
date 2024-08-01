@@ -1682,6 +1682,24 @@
         "masteryPercentage": "Success rate: {rate, number, ::percent}",
         "starsAcquired": "{acquired, plural, =0 {no star} =1 {# star} other {# stars}} acquired out of {total}"
       },
+      "tabs": {
+        "aria-label": "3 tabs detailing your results",
+        "results-details": {
+          "title": "Results details",
+          "description": "Explore your skills in detail, organized by specific areas, to better understand your strengths and areas for improvement. Identify your strengths and areas where you can focus your efforts to improve further.",
+          "tab-label": "Results details"
+        },
+        "rewards": {
+          "title": "Rewards and expectations of the organizer",
+          "description": "This section highlights the rewards received as well as the expectations of the course organizer. Find out how your performance was evaluated and identify areas for improvement for your skills development.",
+          "tab-label": "Rewards"
+        },
+        "trainings": {
+          "title": "Want to learn more?",
+          "description": "Get personalized training recommendations to continue progressing and feed your curiosity to help you achieve your full potential.",
+          "tab-label": "Trainings"
+        }
+      },
       "trainings": {
         "title": "Do you want to learn more?",
         "description": "Explore recommended training courses based on your results, in order to improve your skills!"

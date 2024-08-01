@@ -1,0 +1,70 @@
+.evaluation-results {
+  min-height: 100dvh;
+  padding: var(--pix-spacing-12x) var(--pix-spacing-4x);
+  color: var(--pix-neutral-900);
+  background-color: var(--pix-primary-10);
+}
+
+/**
+ * Evaluation Results Header
+ */
+.evaluation-results__header {
+  display: flex;
+  align-items: center;
+  max-width: 1280px;
+  margin: 0 auto var(--pix-spacing-8x);
+}
+
+.evaluation-results-header__logo {
+  height: 2.75rem;
+}
+
+.evaluation-results-header__title {
+  @extend %pix-body-l;
+
+  display: flex;
+  align-items: center;
+
+  &::before {
+    width: 1px;
+    height: 2rem;
+    margin: 0 var(--pix-spacing-4x);
+    background-color: currentcolor;
+    content: '';
+  }
+}
+
+.evaluation-results-header__back-link {
+  @extend %pix-body-l;
+
+  margin-left: auto;
+  font-weight: var(--pix-font-medium);
+
+  &::after {
+    margin-left: var(--pix-spacing-2x);
+    font-size: 1rem;
+    content: '✕';
+    -webkit-text-stroke: 2px currentcolor;
+  }
+}
+
+/**
+ * Evaluation Results Tabs
+ */
+.evaluation-results-tabs {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.evaluation-results-tab__title {
+  @extend %pix-title-s;
+
+  margin-top: var(--pix-spacing-6x);
+}
+
+.evaluation-results-tab__description {
+  @extend %pix-body-s;
+
+  margin-top: var(--pix-spacing-2x);
+  color: var(--pix-neutral-500);
+}
