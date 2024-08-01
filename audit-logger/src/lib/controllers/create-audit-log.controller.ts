@@ -9,12 +9,16 @@ import { createAuditLogUseCase } from '../domain/usecases/usecases.js';
 const TWENTY_MEGABYTES = 1048576 * 20;
 
 export class CreateAuditLogController {
-  constructor(private readonly createAuditLogUseCase: CreateAuditLogUseCase) { }
+  constructor(private readonly createAuditLogUseCase: CreateAuditLogUseCase) {}
 
   async handle(request: Request, h: ResponseToolkit): Promise<ResponseObject> {
     const auditLogs = request.payload as AuditLog[];
 
-    await Promise.all(auditLogs.map(async (auditLog) => { await this.createAuditLogUseCase.execute(auditLog); }));
+    await Promise.all(
+      auditLogs.map(async (auditLog) => {
+        await this.createAuditLogUseCase.execute(auditLog);
+      }),
+    );
 
     return h.response().code(204);
   }
@@ -37,10 +41,16 @@ export const CREATE_AUDIT_LOG_ROUTE: ServerRoute = {
           Joi.object({
             targetUserId: Joi.string().required(),
             userId: Joi.string().required(),
-            action: Joi.string().valid(...AuditLogActionTypes).required(),
+            action: Joi.string()
+              .valid(...AuditLogActionTypes)
+              .required(),
             occurredAt: Joi.string().isoDate().required(),
-            role: Joi.string().valid(...AuditLogRoleTypes).required(),
-            client: Joi.string().valid(...AuditLogClientTypes).required(),
+            role: Joi.string()
+              .valid(...AuditLogRoleTypes)
+              .required(),
+            client: Joi.string()
+              .valid(...AuditLogClientTypes)
+              .required(),
           }),
         )
         .single(),

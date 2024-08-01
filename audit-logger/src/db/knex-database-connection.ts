@@ -33,11 +33,7 @@ async function emptyAllTables(): Promise<void> {
 
   if (tableNames.length === 0) return;
 
-  const tablesToDelete = _.without(
-    tableNames,
-    'knex_migrations',
-    'knex_migrations_lock',
-  );
+  const tablesToDelete = _.without(tableNames, 'knex_migrations', 'knex_migrations_lock');
   const tables = _.map(tablesToDelete, (tableToDelete) => `"${tableToDelete}"`).join();
   const query = dbSpecificQueries.emptyTableQuery;
 
@@ -49,7 +45,7 @@ export { disconnect, emptyAllTables, configuredKnex as knex };
 async function _listAllTableNames(): Promise<string[]> {
   const bindings = [databaseName];
   const resultSet = await configuredKnex.raw(dbSpecificQueries.listTablesQuery, bindings);
-  const rows: any[] = resultSet.rows;
+  const rows: unknown[] = resultSet.rows;
 
   return _.map(rows, 'table_name');
 }

@@ -18,6 +18,7 @@ async function main(): Promise<void> {
     client = await PgClient.createClient(url.href);
     await client.queryAndLog(`CREATE DATABASE ${dbNameToCreate};`);
     logger.info('Database created');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.code === PGSQL_DUPLICATE_DATABASE_ERROR) {
       logger.info(`Database ${dbNameToCreate} already created`);

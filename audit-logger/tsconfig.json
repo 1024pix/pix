@@ -7,7 +7,7 @@
     /* Redirect output structure to the directory. */
     "outDir": "./dist",
     /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
-    "rootDir": "./src",
+    "rootDir": ".",
 
     /* Strict Type-Checking Options */
     /* Raise error on expressions and declarations with an implied 'any' type. */
@@ -24,8 +24,6 @@
     "noImplicitThis": true,
     /* Parse in strict mode and emit "use strict" for each source file. */
     "alwaysStrict": true,
-
-    /* Additional Checks */
     /* Report errors on unused locals. */
     "noUnusedLocals": true,
     /* Report errors on unused parameters. */
@@ -35,16 +33,8 @@
     /* Report errors for fallthrough cases in switch statement. */
     "noFallthroughCasesInSwitch": true,
     /* Type declaration files to be included in compilation. */
-    "types": [
-      "node"
-    ]
+    "types": ["node"]
   },
-  "ts-node": {
-    "esm": true
-  },
-  "exclude": [
-    "vitest.config.ts"
-  ],
   "include": [
     "src/**/*",
     "tests/**/*",

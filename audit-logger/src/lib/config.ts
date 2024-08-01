@@ -17,10 +17,10 @@ type Configuration = {
 };
 
 const config: Configuration = {
-  environment: process.env.NODE_ENV as Environment || 'development',
+  environment: (process.env.NODE_ENV as Environment) || 'development',
   logging: {
     enabled: _isFeatureEnabled(process.env.LOG_ENABLED as BooleanType),
-    logLevel: process.env.LOG_LEVEL as LevelWithSilent || 'info',
+    logLevel: (process.env.LOG_LEVEL as LevelWithSilent) || 'info',
     logForHumans: _getLogForHumans(),
   },
   port: parseInt(process.env.PORT as string, 10) || 3001,

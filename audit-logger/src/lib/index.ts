@@ -3,10 +3,16 @@ import { logger } from './infrastructure/logger.js';
 import { HapiServer } from './server.js';
 
 process.on('SIGTERM', (): void => {
-  _exitOnSignal('SIGTERM').then(() => {}, () => {});
+  _exitOnSignal('SIGTERM').then(
+    () => {},
+    () => {},
+  );
 });
 process.on('SIGINT', () => {
-  _exitOnSignal('SIGINT').then(() => {}, () => {});
+  _exitOnSignal('SIGINT').then(
+    () => {},
+    () => {},
+  );
 });
 
 const hapiServer: HapiServer = await HapiServer.createServer();

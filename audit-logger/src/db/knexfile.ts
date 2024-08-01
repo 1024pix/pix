@@ -1,3 +1,5 @@
+import 'ts-node/register';
+
 import * as dotenv from 'dotenv';
 import { type Knex } from 'knex';
 import path from 'path';
@@ -16,9 +18,15 @@ type KnexConfig = {
 };
 
 const knexConfigs: KnexConfig = {
-  development: _localPostgresEnv(process.env.DATABASE_URL as string, process.env.KNEX_ASYNC_STACKTRACE_ENABLED as BooleanType),
+  development: _localPostgresEnv(
+    process.env.DATABASE_URL as string,
+    process.env.KNEX_ASYNC_STACKTRACE_ENABLED as BooleanType,
+  ),
 
-  test: _localPostgresEnv(process.env.TEST_DATABASE_URL as string, process.env.KNEX_ASYNC_STACKTRACE_ENABLED as BooleanType),
+  test: _localPostgresEnv(
+    process.env.TEST_DATABASE_URL as string,
+    process.env.KNEX_ASYNC_STACKTRACE_ENABLED as BooleanType,
+  ),
 
   production: {
     client: 'postgresql',
@@ -30,6 +38,7 @@ const knexConfigs: KnexConfig = {
     migrations: {
       tableName: 'knex_migrations',
       directory: './migrations',
+      extension: 'ts',
     },
     seeds: {
       directory: './seeds',
