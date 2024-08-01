@@ -15,7 +15,7 @@ import Trainings from './trainings';
 
     <:panels as |Panel|>
       <Panel @index={{0}}>
-        <Rewards />
+        <Rewards @badges={{@badges}} />
       </Panel>
       <Panel @index={{1}}>
         <ResultsDetails />

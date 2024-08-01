@@ -42,6 +42,8 @@
       "confirm": "Confirmar",
       "lets-go": "¡Empecemos!",
       "quit": "Salir",
+      "show-less": "Mostrar menos",
+      "show-more": "Mostrar más",
       "sign-out": "Desconectarse",
       "stay": "Quedarse",
       "validate": "Validar"
@@ -1622,7 +1624,10 @@
       "already-shared": "¡Gracias, tus resultados se han enviado correctamente!",
       "badge-card": {
         "acquired": "Aprobado",
+        "acquired-full": "Resultado temático aprobado",
+        "certifiable": "Certificado",
         "not-acquired": "No has aprobado",
+        "not-acquired-full": "Resultado temático no has aprobado",
         "progress-bar-label": "Porcentaje de éxito del resultado temático"
       },
       "badges-title": "Tus resultados temáticos",

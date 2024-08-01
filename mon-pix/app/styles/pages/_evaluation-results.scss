@@ -59,11 +59,11 @@
 .evaluation-results-tab__title {
   @extend %pix-title-s;
 
-  margin-top: var(--pix-spacing-6x);
+  margin-top: var(--pix-spacing-10x);
 }
 
 .evaluation-results-tab__description {
-  @extend %pix-body-s;
+  @extend %pix-body-m;
 
   margin-top: var(--pix-spacing-2x);
   color: var(--pix-neutral-500);
