@@ -402,9 +402,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.WrongDateFormatError) {
     return new HttpErrors.BadRequestError(error.message);
   }
-  if (error instanceof DomainErrors.SessionWithIdAndInformationOnMassImportError) {
-    return new HttpErrors.BadRequestError(error.message);
-  }
   if (error instanceof DomainErrors.OrganizationLearnerAlreadyLinkedToUserError) {
     return new HttpErrors.ConflictError(error.message, error.code, error.meta);
   }
