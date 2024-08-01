@@ -29,7 +29,7 @@ export default class MarkdownToHtml extends Component {
     };
   }
 
-  get html() {
+  get toHtml() {
     const converter = new showdown.Converter(this.options);
     const unsafeHtml = converter.makeHtml(this.args.markdown);
     const html = xss(unsafeHtml, {
@@ -40,4 +40,10 @@ export default class MarkdownToHtml extends Component {
     });
     return htmlSafe(html);
   }
+
+  <template>
+    <div class={{@class}} ...attributes>
+      {{this.toHtml}}
+    </div>
+  </template>
 }
