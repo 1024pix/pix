@@ -560,6 +560,7 @@ class UserNotAuthorizedToUpdateEmailError extends DomainError {
     super(message);
   }
 }
+
 class UserNotAuthorizedToUpdatePasswordError extends DomainError {
   constructor(
     message = "L'utilisateur n'est pas autorisé à mettre à jour ce mot de passe.",
@@ -602,12 +603,6 @@ class AnswerEvaluationError extends DomainError {
   }
 }
 
-class AccountRecoveryDemandNotCreatedError extends DomainError {
-  constructor(message = "La demande de récupération de compte n'a pas pu être générée.") {
-    super(message);
-  }
-}
-
 class TargetProfileCannotBeCreated extends DomainError {
   constructor(message = 'Erreur lors de la création du profil cible.') {
     super(message);
@@ -646,12 +641,6 @@ class AuthenticationMethodNotFoundError extends DomainError {
 
 class AuthenticationMethodAlreadyExistsError extends DomainError {
   constructor(message = 'Authentication method already exists.') {
-    super(message);
-  }
-}
-
-class OrganizationAlreadyExistError extends DomainError {
-  constructor(message = "L'organisation existe déjà.") {
     super(message);
   }
 }
@@ -866,14 +855,6 @@ class NotEnoughDaysPassedBeforeResetCampaignParticipationError extends DomainErr
   }
 }
 
-class SupervisorAccessNotAuthorizedError extends DomainError {
-  constructor(
-    message = "Cette session est organisée dans un centre de certification pour lequel l'espace surveillant n'a pas été activé par Pix.",
-  ) {
-    super(message);
-  }
-}
-
 class MatchingReconciledStudentNotFoundError extends DomainError {
   constructor(message = "Le candidat de certification ne correspond pas à l'étudiant trouvé avec ces informations.") {
     super(message);
@@ -917,12 +898,6 @@ class AssessmentNotCompletedError extends DomainError {
   }
 }
 
-class NotEligibleCandidateError extends DomainError {
-  constructor(message = 'Erreur, candidat non éligible à la certification.') {
-    super(message);
-  }
-}
-
 class DeletedError extends DomainError {
   constructor(message = 'Erreur, ressource supprimée.', code) {
     super(message);
@@ -932,12 +907,6 @@ class DeletedError extends DomainError {
 
 class ObjectValidationError extends DomainError {
   constructor(message = 'Erreur, objet non valide.') {
-    super(message);
-  }
-}
-
-class OrganizationArchivedError extends DomainError {
-  constructor(message = "L'organisation est archivée.") {
     super(message);
   }
 }
@@ -979,13 +948,6 @@ class FileValidationError extends DomainError {
     super('An error occurred, file is invalid');
     this.code = code;
     this.meta = meta;
-  }
-}
-
-// FIXME: used ?
-class SessionWithIdAndInformationOnMassImportError extends DomainError {
-  constructor(message = 'Merci de ne pas renseigner les informations de session') {
-    super(message);
   }
 }
 
@@ -1068,12 +1030,6 @@ class InvalidMembershipOrganizationRoleError extends DomainError {
   }
 }
 
-class TooManyRows extends DomainError {
-  constructor(message = 'Plusieurs enregistrements ont été retrouvés.') {
-    super(message);
-  }
-}
-
 class OidcMissingFieldsError extends DomainError {
   constructor(
     message = 'Mandatory information returned by the identify provider about the user is missing.',
@@ -1149,7 +1105,6 @@ class OrganizationLearnerCertificabilityNotUpdatedError extends DomainError {
 
 export {
   AccountRecoveryDemandExpired,
-  AccountRecoveryDemandNotCreatedError,
   AccountRecoveryUserAlreadyConfirmEmail,
   AcquiredBadgeForbiddenDeletionError,
   AlreadyAcceptedOrCancelledInvitationError,
@@ -1245,15 +1200,12 @@ export {
   NoOrganizationToAttach,
   NoSkillsInCampaignError,
   NoStagesForCampaign,
-  NotEligibleCandidateError,
   NotEnoughDaysPassedBeforeResetCampaignParticipationError,
   NotFoundError,
   NotImplementedError,
   ObjectValidationError,
   OidcError,
   OidcMissingFieldsError,
-  OrganizationAlreadyExistError,
-  OrganizationArchivedError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
   OrganizationLearnerAlreadyLinkedToUserError,
   OrganizationLearnerCannotBeDissociatedError,
@@ -1271,13 +1223,10 @@ export {
   SendingEmailToInvalidEmailAddressError,
   SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
-  SessionWithIdAndInformationOnMassImportError,
   SIECLE_ERRORS,
-  SupervisorAccessNotAuthorizedError,
   TargetProfileCannotBeCreated,
   TargetProfileInvalidError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
-  TooManyRows,
   UnexpectedUserAccountError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserAlreadyLinkedToCandidateInSessionError,

@@ -229,9 +229,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.ApplicationWithInvalidClientSecretError) {
     return new HttpErrors.UnauthorizedError('The client secret is invalid.');
   }
-  if (error instanceof DomainErrors.OrganizationArchivedError) {
-    return new HttpErrors.UnprocessableEntityError(error.message);
-  }
   if (error instanceof DomainErrors.MissingAttributesError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
@@ -403,9 +400,6 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.WrongDateFormatError) {
-    return new HttpErrors.BadRequestError(error.message);
-  }
-  if (error instanceof DomainErrors.SessionWithIdAndInformationOnMassImportError) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.OrganizationLearnerAlreadyLinkedToUserError) {

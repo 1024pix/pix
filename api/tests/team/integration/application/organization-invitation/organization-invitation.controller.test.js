@@ -3,12 +3,12 @@ import { securityPreHandlers } from '../../../../../src/shared/application/secur
 import {
   AlreadyExistingInvitationError,
   ManyOrganizationsFoundError,
-  OrganizationArchivedError,
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
+  UserNotFoundError,
 } from '../../../../../src/shared/domain/errors.js';
-import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { teamRoutes } from '../../../../../src/team/application/routes.js';
+import { OrganizationArchivedError } from '../../../../../src/team/domain/errors.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
 import { serializer as scoOrganizationInvitationSerializer } from '../../../../../src/team/infrastructure/serializers/jsonapi/sco-organization-invitation.serializer.js';

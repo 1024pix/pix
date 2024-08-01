@@ -89,4 +89,134 @@ describe('Integration | Team | Application | Route | Admin | organization-invita
       expect(organizationInvitationController.cancelOrganizationInvitation).to.have.been.calledOnce;
     });
   });
+
+  describe('POST /api/admin/organizations/{id}/invitations', function () {
+    const method = 'POST';
+    const url = '/api/admin/organizations/1/invitations';
+
+    it('should return HTTP code 201', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+      sinon
+        .stub(organizationInvitationController, 'sendInvitationByLangAndRole')
+        .callsFake((request, h) => h.response().created());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(teamRoutes);
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'user1@organization.org',
+            lang: 'fr',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(201);
+    });
+
+    it('should reject request with HTTP code 400, when email is empty', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(teamRoutes);
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: '',
+            lang: 'fr',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should reject request with HTTP code 400, when input is not a email', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(teamRoutes);
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'azerty',
+            lang: 'fr',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should reject request with HTTP code 400, when lang is unknown', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(teamRoutes);
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'user1@organization.org',
+            lang: 'pt',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('returns forbidden access if admin member has CERTIF role', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(teamRoutes);
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'user1@organization.org',
+            lang: 'fr',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
 });

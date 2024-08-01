@@ -95,22 +95,6 @@ const resendInvitation = async function (request, h) {
   return h.response(organizationInvitationSerializer.serialize(organizationInvitation));
 };
 
-const sendInvitationByLangAndRole = async function (request, h, dependencies = { organizationInvitationSerializer }) {
-  const organizationId = request.params.id;
-  const invitationInformation =
-    await dependencies.organizationInvitationSerializer.deserializeForCreateOrganizationInvitationAndSendEmail(
-      request.payload,
-    );
-
-  const organizationInvitation = await usecases.createOrganizationInvitationByAdmin({
-    organizationId,
-    email: invitationInformation.email,
-    locale: invitationInformation.lang,
-    role: invitationInformation.role,
-  });
-  return h.response(dependencies.organizationInvitationSerializer.serialize(organizationInvitation)).created();
-};
-
 const archiveOrganization = async function (request, h, dependencies = { organizationForAdminSerializer }) {
   const organizationId = request.params.id;
   const userId = extractUserIdFromRequest(request);
@@ -148,7 +132,6 @@ const organizationController = {
   getDivisions,
   getOrganizationMemberIdentities,
   resendInvitation,
-  sendInvitationByLangAndRole,
 };
 
 export { organizationController };

@@ -26,9 +26,16 @@ class UncancellableOrganizationInvitationError extends DomainError {
 
 class MembershipNotFound extends DomainError {}
 
+class OrganizationArchivedError extends DomainError {
+  constructor(message = "L'organisation est archivée.") {
+    super(message);
+  }
+}
+
 export {
   AlreadyExistingAdminMemberError,
   MembershipNotFound,
+  OrganizationArchivedError,
   UncancellableCertificationCenterInvitationError,
   UncancellableOrganizationInvitationError,
 };
