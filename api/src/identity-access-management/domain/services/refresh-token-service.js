@@ -11,6 +11,22 @@ const userRefreshTokensTemporaryStorage = temporaryStorage.withPrefix('user-refr
 const REFRESH_TOKEN_EXPIRATION_DELAY_ADDITION_SECONDS = 60 * 60; // 1 hour
 
 /**
+ * @param refreshToken
+ * @returns {Promise<{userId: string, source: string}>}
+ */
+async function findByRefreshToken(refreshToken) {
+  return refreshTokenTemporaryStorage.get(refreshToken);
+}
+
+/**
+ * @param userId
+ * @returns {Promise<Array<string>>}
+ */
+async function findByUserId(userId) {
+  return userRefreshTokensTemporaryStorage.lrange(userId);
+}
+
+/**
  * @typedef {function} createRefreshTokenFromUserId
  * @param {Object} params
  * @param {string} params.userId
@@ -43,7 +59,7 @@ async function createRefreshTokenFromUserId({ userId, source, uuidGenerator = ra
  * @return {Promise<{expirationDelaySeconds: number, accessToken: string}>}
  */
 async function createAccessTokenFromRefreshToken({ refreshToken }) {
-  const { userId, source } = (await refreshTokenTemporaryStorage.get(refreshToken)) || {};
+  const { userId, source } = (await findByRefreshToken(refreshToken)) || {};
   if (!userId) throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
   return tokenService.createAccessTokenFromUser(userId, source);
 }
@@ -55,7 +71,7 @@ async function createAccessTokenFromRefreshToken({ refreshToken }) {
  * @return {Promise<void>}
  */
 async function revokeRefreshToken({ refreshToken }) {
-  const { userId } = (await refreshTokenTemporaryStorage.get(refreshToken)) || {};
+  const { userId } = (await findByRefreshToken(refreshToken)) || {};
   if (!userId) return;
   await userRefreshTokensTemporaryStorage.lrem({ key: userId, valueToRemove: refreshToken });
   await refreshTokenTemporaryStorage.delete(refreshToken);
@@ -68,7 +84,7 @@ async function revokeRefreshToken({ refreshToken }) {
  * @return {Promise<void>}
  */
 async function revokeRefreshTokensForUserId({ userId }) {
-  const refreshTokens = await userRefreshTokensTemporaryStorage.lrange(userId);
+  const refreshTokens = await findByUserId(userId);
   await userRefreshTokensTemporaryStorage.delete(userId);
   for (const refreshToken of refreshTokens) {
     await refreshTokenTemporaryStorage.delete(refreshToken);
@@ -79,17 +95,19 @@ async function revokeRefreshTokensForUserId({ userId }) {
  * @typedef {Object} RefreshTokenService
  * @property {createAccessTokenFromRefreshToken} createAccessTokenFromRefreshToken
  * @property {createRefreshTokenFromUserId} createRefreshTokenFromUserId
- * @property {*} refreshTokenTemporaryStorage
  * @property {revokeRefreshToken} revokeRefreshToken
  * @property {revokeRefreshTokensForUserId} revokeRefreshTokensForUserId
+ * @property {*} refreshTokenTemporaryStorage
  * @property {*} userRefreshTokensTemporaryStorage
  */
 export const refreshTokenService = {
+  findByRefreshToken,
+  findByUserId,
   createAccessTokenFromRefreshToken,
   createRefreshTokenFromUserId,
-  refreshTokenTemporaryStorage,
   revokeRefreshToken,
   revokeRefreshTokensForUserId,
+  refreshTokenTemporaryStorage,
   userRefreshTokensTemporaryStorage,
 };
 
