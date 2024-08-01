@@ -4,11 +4,11 @@ import { categories } from '../../../../src/shared/domain/models/TargetProfile.j
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-target-profile', function () {
-  let targetProfileRepositoryStub;
+  let targetProfileAdministrationRepositoryStub;
   let organizationRepositoryStub;
 
   beforeEach(function () {
-    targetProfileRepositoryStub = {
+    targetProfileAdministrationRepositoryStub = {
       create: sinon.stub(),
     };
     organizationRepositoryStub = {
@@ -35,7 +35,7 @@ describe('Unit | UseCase | create-target-profile', function () {
 
     const error = await catchErr(createTargetProfile)({
       targetProfileCreationCommand,
-      targetProfileRepository: targetProfileRepositoryStub,
+      targetProfileAdministrationRepository: targetProfileAdministrationRepositoryStub,
       organizationRepository: organizationRepositoryStub,
     });
 
@@ -57,7 +57,7 @@ describe('Unit | UseCase | create-target-profile', function () {
       ownerOrganizationId: 1,
       tubes: [{ id: 'tubeId', level: 2 }],
     });
-    targetProfileRepositoryStub.create.resolves();
+    targetProfileAdministrationRepositoryStub.create.resolves();
 
     // when
     const targetProfileCreationCommand = {
@@ -73,12 +73,12 @@ describe('Unit | UseCase | create-target-profile', function () {
     };
     await createTargetProfile({
       targetProfileCreationCommand,
-      targetProfileRepository: targetProfileRepositoryStub,
+      targetProfileAdministrationRepository: targetProfileAdministrationRepositoryStub,
       organizationRepository: organizationRepositoryStub,
     });
 
     // then
-    expect(targetProfileRepositoryStub.create).to.have.been.calledWithExactly({
+    expect(targetProfileAdministrationRepositoryStub.create).to.have.been.calledWithExactly({
       targetProfileForCreation: expectedTargetProfileForCreation,
     });
   });
@@ -97,7 +97,7 @@ describe('Unit | UseCase | create-target-profile', function () {
       ownerOrganizationId: 1,
       tubes: [{ id: 'tubeId', level: 2 }],
     });
-    targetProfileRepositoryStub.create
+    targetProfileAdministrationRepositoryStub.create
       .withArgs({
         targetProfileForCreation: expectedTargetProfileForCreation,
       })
@@ -117,7 +117,7 @@ describe('Unit | UseCase | create-target-profile', function () {
     };
     const targetProfileId = await createTargetProfile({
       targetProfileCreationCommand,
-      targetProfileRepository: targetProfileRepositoryStub,
+      targetProfileAdministrationRepository: targetProfileAdministrationRepositoryStub,
       organizationRepository: organizationRepositoryStub,
     });
 

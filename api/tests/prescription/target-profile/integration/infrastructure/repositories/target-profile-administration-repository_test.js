@@ -1,7 +1,8 @@
 import * as targetProfileAdministrationRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
+import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { NotFoundError, ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { TargetProfile } from '../../../../../../src/shared/domain/models/index.js';
-import { catchErr, databaseBuilder, expect, knex } from '../../../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#update', function () {
@@ -100,6 +101,110 @@ describe('Integration | Repository | Target-profile', function () {
 
       // then
       expect(error).to.be.instanceOf(ObjectValidationError);
+    });
+  });
+
+  describe('#create', function () {
+    it('should return the id and create the target profile in database', async function () {
+      // given
+      databaseBuilder.factory.buildOrganization({ id: 1 });
+      await databaseBuilder.commit();
+      const targetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
+        name: 'myFirstTargetProfile',
+        category: TargetProfile.categories.SUBJECT,
+        description: 'la description',
+        comment: 'le commentaire',
+        isPublic: true,
+        imageUrl: 'mon-image/stylée',
+        ownerOrganizationId: 1,
+        areKnowledgeElementsResettable: true,
+      });
+
+      // when
+      const targetProfileId = await DomainTransaction.execute(async () => {
+        return targetProfileAdministrationRepository.create({
+          targetProfileForCreation,
+        });
+      });
+
+      // then
+      const targetProfileInDB = await knex('target-profiles')
+        .select([
+          'name',
+          'category',
+          'description',
+          'comment',
+          'isPublic',
+          'imageUrl',
+          'ownerOrganizationId',
+          'areKnowledgeElementsResettable',
+        ])
+        .where({ id: targetProfileId })
+        .first();
+      expect(targetProfileInDB).to.deep.equal({
+        name: 'myFirstTargetProfile',
+        category: TargetProfile.categories.SUBJECT,
+        description: 'la description',
+        comment: 'le commentaire',
+        isPublic: true,
+        imageUrl: 'mon-image/stylée',
+        ownerOrganizationId: 1,
+        areKnowledgeElementsResettable: true,
+      });
+    });
+
+    it('should create the target profile tubes in database', async function () {
+      // given
+      const targetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
+        ownerOrganizationId: null,
+        tubes: [
+          { id: 'recTube2', level: 5 },
+          { id: 'recTube1', level: 8 },
+        ],
+      });
+
+      // when
+      const targetProfileId = await DomainTransaction.execute(async () => {
+        return targetProfileAdministrationRepository.create({
+          targetProfileForCreation,
+        });
+      });
+
+      // then
+      const targetProfileTubesInDB = await knex('target-profile_tubes')
+        .select(['targetProfileId', 'tubeId', 'level'])
+        .where({ targetProfileId })
+        .orderBy('tubeId', 'ASC');
+
+      expect(targetProfileTubesInDB).to.deep.equal([
+        { targetProfileId, tubeId: 'recTube1', level: 8 },
+        { targetProfileId, tubeId: 'recTube2', level: 5 },
+      ]);
+    });
+
+    it('should be transactional through DomainTransaction and do nothing if an error occurs', async function () {
+      // given
+      const targetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
+        ownerOrganizationId: null,
+        tubes: [{ id: 'recTube2', level: 5 }],
+      });
+
+      // when
+      try {
+        await DomainTransaction.execute(async () => {
+          await targetProfileAdministrationRepository.create({
+            targetProfileForCreation,
+          });
+          throw new Error();
+        });
+        // eslint-disable-next-line no-empty
+      } catch (error) {}
+
+      // then
+      const targetProfilesInDB = await knex('target-profiles').select('id');
+      const targetProfileTubesInDB = await knex('target-profile_tubes').select('id');
+      expect(targetProfilesInDB).to.deepEqualArray([]);
+      expect(targetProfileTubesInDB).to.deepEqualArray([]);
     });
   });
 });

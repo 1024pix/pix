@@ -70,6 +70,7 @@ import * as campaignProfileRepository from '../../../src/prescription/campaign-p
 import * as supOrganizationLearnerRepository from '../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
 import * as organizationLearnerActivityRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-activity-repository.js';
 import * as registrationOrganizationLearnerRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/registration-organization-learner-repository.js';
+import * as targetProfileAdministrationRepository from '../../../src/prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
 import * as activityAnswerRepository from '../../../src/school/infrastructure/repositories/activity-answer-repository.js';
 import * as missionRepository from '../../../src/school/infrastructure/repositories/mission-repository.js';
 import * as schoolRepository from '../../../src/school/infrastructure/repositories/school-repository.js';
@@ -310,6 +311,7 @@ const dependencies = {
   supervisorAccessRepository,
   supOrganizationLearnerRepository,
   tagRepository,
+  targetProfileAdministrationRepository,
   targetProfileForAdminRepository,
   targetProfileForUpdateRepository,
   targetProfileHistoryRepository,
