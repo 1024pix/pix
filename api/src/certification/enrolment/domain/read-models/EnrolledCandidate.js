@@ -51,22 +51,4 @@ export class EnrolledCandidate {
     this.prepaymentCode = prepaymentCode;
     this.subscriptions = subscriptions;
   }
-
-  /**
-   * @param {Object} params
-   * @param {Candidate} params.candidate (mandatory) candidate information
-   * @param {Object} params.complementaryCertification (optionnal) candidate information
-   * @returns {EnrolledCandidate}
-   */
-  static fromCandidateAndComplementaryCertification({ candidate, complementaryCertification }) {
-    const { id, label, key } = complementaryCertification ?? {};
-
-    return new EnrolledCandidate({
-      ...candidate,
-      isLinked: candidate.isLinkedToAUser(),
-      complementaryCertificationId: id,
-      complementaryCertificationLabel: label,
-      complementaryCertificationKey: key,
-    });
-  }
 }

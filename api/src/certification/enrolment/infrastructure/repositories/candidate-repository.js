@@ -2,25 +2,6 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { CertificationCandidateNotFoundError } from '../../domain/errors.js';
 import { Candidate } from '../../domain/models/Candidate.js';
 
-const findBySessionId = async function ({ sessionId }) {
-  const results = await knex
-    .select({
-      certificationCandidate: 'certification-candidates.*',
-      complementaryCertificationId: 'certification-subscriptions.complementaryCertificationId',
-    })
-    .from('certification-candidates')
-    .where({ 'certification-candidates.sessionId': sessionId })
-    .leftJoin('certification-subscriptions', (builder) =>
-      builder
-        .on('certification-candidates.id', '=', 'certification-subscriptions.certificationCandidateId')
-        .onNotNull('certification-subscriptions.complementaryCertificationId'),
-    )
-    .groupBy('certification-candidates.id', 'certification-subscriptions.complementaryCertificationId')
-    .orderByRaw('LOWER("certification-candidates"."lastName") asc')
-    .orderByRaw('LOWER("certification-candidates"."firstName") asc');
-  return results.map(_toDomain);
-};
-
 /**
  * @function
  * @param {Candidate} params
@@ -105,7 +86,7 @@ const isUserCertificationCandidate = async function ({ certificationCandidateId,
   return Boolean(certificationCandidate);
 };
 
-export { findBySessionId, get, isUserCertificationCandidate, update };
+export { get, isUserCertificationCandidate, update };
 
 function _toDomain(result) {
   return result ? new Candidate(result) : null;
