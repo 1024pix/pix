@@ -3,11 +3,12 @@ import { Serializer } from 'jsonapi-serializer';
 const serialize = function (enrolledCandidates) {
   return new Serializer('certification-candidate', {
     transform: function (enrolledCandidate) {
-      const complementaryCertification = enrolledCandidate.complementaryCertificationId
+      const complementarySubscriptionInfo = enrolledCandidate.findComplementarySubscriptionInfo();
+      const complementaryCertification = complementarySubscriptionInfo
         ? {
-            id: enrolledCandidate.complementaryCertificationId,
-            label: enrolledCandidate.complementaryCertificationLabel,
-            key: enrolledCandidate.complementaryCertificationKey,
+            id: complementarySubscriptionInfo.complementaryCertificationId,
+            label: complementarySubscriptionInfo.complementaryCertificationLabel,
+            key: complementarySubscriptionInfo.complementaryCertificationKey,
           }
         : null;
 

@@ -1,4 +1,5 @@
 import * as enrolledCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/enrolled-candidate-repository.js';
+import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
 import { CertificationCandidate } from '../../../../../../src/shared/domain/models/index.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
@@ -95,10 +96,6 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
         certificationCandidateId: jeannetteData.id,
         complementaryCertificationId: null,
       });
-      databaseBuilder.factory.buildCoreSubscription({
-        certificationCandidateId: fredericData.id,
-        complementaryCertificationId: null,
-      });
       return databaseBuilder.commit();
     });
 
@@ -111,14 +108,51 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
     });
 
     it('should fetch, alphabetically sorted, the enrolled candidates with a specific session ID', async function () {
+      // given
+      databaseBuilder.factory.buildCoreSubscription({
+        certificationCandidateId: fredericData.id,
+        complementaryCertificationId: null,
+      });
+      await databaseBuilder.commit();
+
       // when
       const actualEnrolledCandidates = await enrolledCandidateRepository.findBySessionId({ sessionId });
 
       // then
       expect(actualEnrolledCandidates).to.deepEqualArray([
-        domainBuilder.certification.enrolment.buildEnrolledCandidate(jeannetteData),
-        domainBuilder.certification.enrolment.buildEnrolledCandidate(michelData),
-        domainBuilder.certification.enrolment.buildEnrolledCandidate(fredericData),
+        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+          ...jeannetteData,
+          subscriptions: [
+            {
+              complementaryCertificationId: null,
+              type: SubscriptionTypes.CORE,
+              complementaryCertificationLabel: null,
+              complementaryCertificationKey: null,
+            },
+          ],
+        }),
+        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+          ...michelData,
+          subscriptions: [
+            {
+              complementaryCertificationId: null,
+              type: SubscriptionTypes.CORE,
+              complementaryCertificationLabel: null,
+              complementaryCertificationKey: null,
+            },
+          ],
+        }),
+        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+          ...fredericData,
+          subscriptions: [
+            {
+              complementaryCertificationId: null,
+              type: SubscriptionTypes.CORE,
+              complementaryCertificationLabel: null,
+              complementaryCertificationKey: null,
+            },
+          ],
+        }),
       ]);
     });
 
@@ -153,16 +187,42 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
       expect(actualEnrolledCandidates).to.deepEqualArray([
         domainBuilder.certification.enrolment.buildEnrolledCandidate({
           ...jeannetteData,
-          complementaryCertificationId: complementaryCertificationData1.id,
-          complementaryCertificationLabel: complementaryCertificationData1.label,
-          complementaryCertificationKey: complementaryCertificationData1.key,
+          subscriptions: [
+            {
+              complementaryCertificationId: null,
+              type: SubscriptionTypes.CORE,
+              complementaryCertificationLabel: null,
+              complementaryCertificationKey: null,
+            },
+            {
+              complementaryCertificationId: complementaryCertificationData1.id,
+              type: SubscriptionTypes.COMPLEMENTARY,
+              complementaryCertificationLabel: complementaryCertificationData1.label,
+              complementaryCertificationKey: complementaryCertificationData1.key,
+            },
+          ],
         }),
-        domainBuilder.certification.enrolment.buildEnrolledCandidate(michelData),
+        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+          ...michelData,
+          subscriptions: [
+            {
+              complementaryCertificationId: null,
+              type: SubscriptionTypes.CORE,
+              complementaryCertificationLabel: null,
+              complementaryCertificationKey: null,
+            },
+          ],
+        }),
         domainBuilder.certification.enrolment.buildEnrolledCandidate({
           ...fredericData,
-          complementaryCertificationId: complementaryCertificationData2.id,
-          complementaryCertificationLabel: complementaryCertificationData2.label,
-          complementaryCertificationKey: complementaryCertificationData2.key,
+          subscriptions: [
+            {
+              complementaryCertificationId: complementaryCertificationData2.id,
+              type: SubscriptionTypes.COMPLEMENTARY,
+              complementaryCertificationLabel: complementaryCertificationData2.label,
+              complementaryCertificationKey: complementaryCertificationData2.key,
+            },
+          ],
         }),
       ]);
     });

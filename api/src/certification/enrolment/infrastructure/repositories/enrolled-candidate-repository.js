@@ -1,6 +1,5 @@
-import _ from 'lodash';
-
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
 import { EnrolledCandidate } from '../../domain/read-models/EnrolledCandidate.js';
 
 const findBySessionId = async function ({ sessionId }) {
@@ -9,7 +8,13 @@ const findBySessionId = async function ({ sessionId }) {
     .select({ certificationCandidate: 'certification-candidates.*' })
     .select(
       knex.raw(
-        'ARRAY_AGG("complementary-certifications"."id" || \',\' || "complementary-certifications"."label" || \',\' ||"complementary-certifications"."key") OVER (PARTITION BY "certification-candidates"."id") as subscriptions',
+        `ARRAY_AGG(
+          "certification-subscriptions"."type" || ',' ||
+          COALESCE("complementary-certifications"."id", -1) || ',' ||
+          COALESCE("complementary-certifications"."label", '') || ',' ||
+          COALESCE("complementary-certifications"."key", '')
+          ) OVER (PARTITION BY "certification-candidates"."id") as subscriptions
+          `,
       ),
     )
     .from('certification-candidates')
@@ -26,23 +31,26 @@ const findBySessionId = async function ({ sessionId }) {
     );
 
   const enrolledCandidates = candidatesData.map((candidateData) => {
-    const subscriptions = _.compact(
-      _.map(candidateData.subscriptions, (subscription) => {
-        if (!subscription) return null;
+    const subscriptions = candidateData.subscriptions.map((subscription) => {
+      const subscriptionInfo = subscription.split(',');
+      if (subscriptionInfo[0] === SubscriptionTypes.CORE)
         return {
-          complementaryCertificationId: parseInt(subscription.split(',')[0]),
-          complementaryCertificationLabel: subscription.split(',')[1],
-          complementaryCertificationKey: subscription.split(',')[2],
+          complementaryCertificationId: null,
+          complementaryCertificationLabel: null,
+          complementaryCertificationKey: null,
+          type: SubscriptionTypes.CORE,
         };
-      }),
-    );
-    delete candidateData.subscriptions;
+      return {
+        complementaryCertificationId: parseInt(subscriptionInfo[1]),
+        complementaryCertificationLabel: subscriptionInfo[2],
+        complementaryCertificationKey: subscriptionInfo[3],
+        type: SubscriptionTypes.COMPLEMENTARY,
+      };
+    });
     return new EnrolledCandidate({
       ...candidateData,
+      subscriptions,
       isLinked: candidateData.userId !== null,
-      complementaryCertificationId: subscriptions?.[0]?.complementaryCertificationId ?? null,
-      complementaryCertificationLabel: subscriptions?.[0]?.complementaryCertificationLabel ?? null,
-      complementaryCertificationKey: subscriptions?.[0]?.complementaryCertificationKey ?? null,
     });
   });
   return enrolledCandidates.sort(_sortAlphabeticallyByLastNameThenFirstName);

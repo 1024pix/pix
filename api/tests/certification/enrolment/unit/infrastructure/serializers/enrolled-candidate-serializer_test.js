@@ -1,4 +1,5 @@
 import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/enrolled-candidate-serializer.js';
+import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
 import { CertificationCandidate } from '../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
@@ -25,9 +26,14 @@ describe('Certification | Enrolment | Unit | Serializer | enrolled-candidate-ser
         organizationLearnerId: null,
         billingMode: CertificationCandidate.BILLING_MODES.PAID,
         prepaymentCode: 'somePrepaymentCode1',
-        complementaryCertificationId: null,
-        complementaryCertificationLabel: null,
-        complementaryCertificationKey: null,
+        subscriptions: [
+          {
+            type: SubscriptionTypes.CORE,
+            complementaryCertificationId: null,
+            complementaryCertificationLabel: null,
+            complementaryCertificationKey: null,
+          },
+        ],
       });
       const expectedJsonApiData = {
         data: {
@@ -84,9 +90,14 @@ describe('Certification | Enrolment | Unit | Serializer | enrolled-candidate-ser
         organizationLearnerId: null,
         billingMode: CertificationCandidate.BILLING_MODES.PAID,
         prepaymentCode: 'somePrepaymentCode1',
-        complementaryCertificationId: 456,
-        complementaryCertificationLabel: 'CompLabel',
-        complementaryCertificationKey: 'CompKey',
+        subscriptions: [
+          {
+            type: SubscriptionTypes.COMPLEMENTARY,
+            complementaryCertificationId: 456,
+            complementaryCertificationLabel: 'CompLabel',
+            complementaryCertificationKey: 'CompKey',
+          },
+        ],
       });
       const expectedJsonApiData = {
         data: {
@@ -111,9 +122,9 @@ describe('Certification | Enrolment | Unit | Serializer | enrolled-candidate-ser
             'organization-learner-id': enrolledCandidate.organizationLearnerId,
             sex: enrolledCandidate.sex,
             'complementary-certification': {
-              id: enrolledCandidate.complementaryCertificationId,
-              label: enrolledCandidate.complementaryCertificationLabel,
-              key: enrolledCandidate.complementaryCertificationKey,
+              id: enrolledCandidate.subscriptions[0].complementaryCertificationId,
+              label: enrolledCandidate.subscriptions[0].complementaryCertificationLabel,
+              key: enrolledCandidate.subscriptions[0].complementaryCertificationKey,
             },
           },
         },

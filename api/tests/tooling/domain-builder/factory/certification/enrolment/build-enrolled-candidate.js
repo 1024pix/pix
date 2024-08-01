@@ -17,12 +17,10 @@ const buildEnrolledCandidate = function ({
   externalId = 'externalId',
   sessionId = 456,
   organizationLearnerId,
-  complementaryCertificationId = null,
-  complementaryCertificationLabel = null,
-  complementaryCertificationKey = null,
   billingMode = null,
   prepaymentCode = null,
   isLinked = false,
+  subscriptions = [],
 } = {}) {
   return new EnrolledCandidate({
     id,
@@ -41,12 +39,10 @@ const buildEnrolledCandidate = function ({
     externalId,
     extraTimePercentage,
     organizationLearnerId,
-    complementaryCertificationId,
-    complementaryCertificationLabel,
-    complementaryCertificationKey,
     billingMode,
     prepaymentCode,
     isLinked,
+    subscriptions,
   });
 };
 

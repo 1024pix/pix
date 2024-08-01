@@ -3,6 +3,8 @@
  */
 import _ from 'lodash';
 
+import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
+
 export class EnrolledCandidate {
   constructor({
     id,
@@ -21,10 +23,7 @@ export class EnrolledCandidate {
     extraTimePercentage,
     isLinked,
     organizationLearnerId,
-    complementaryCertificationId,
-    complementaryCertificationLabel,
-    complementaryCertificationKey,
-    subscriptions = [],
+    subscriptions,
     billingMode,
     prepaymentCode,
   } = {}) {
@@ -44,11 +43,12 @@ export class EnrolledCandidate {
     this.extraTimePercentage = !_.isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : null;
     this.isLinked = !!isLinked;
     this.organizationLearnerId = organizationLearnerId;
-    this.complementaryCertificationId = complementaryCertificationId;
-    this.complementaryCertificationLabel = complementaryCertificationLabel;
-    this.complementaryCertificationKey = complementaryCertificationKey;
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;
     this.subscriptions = subscriptions;
+  }
+
+  findComplementarySubscriptionInfo() {
+    return this.subscriptions.find((sub) => sub.type === SubscriptionTypes.COMPLEMENTARY);
   }
 }
