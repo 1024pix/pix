@@ -92,7 +92,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
     const authenticationMethods = await knex('authentication-methods').where({ userId });
     expect(authenticationMethods).to.have.length(0);
 
-    const refreshTokens = await refreshTokenService.userRefreshTokensTemporaryStorage.lrange(userId);
+    const refreshTokens = await refreshTokenService.findByUserId(userId);
     expect(refreshTokens).to.have.length(0);
 
     const resetPasswordDemands = await knex('reset-password-demands').whereRaw('LOWER("email") = LOWER(?)', user.email);
