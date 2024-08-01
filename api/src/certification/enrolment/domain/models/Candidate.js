@@ -1,5 +1,8 @@
 import _ from 'lodash';
 
+import { CertificationCandidatesError } from '../../../../shared/domain/errors.js';
+import { validate } from '../validators/candidate-validator.js';
+
 export class Candidate {
   constructor({
     id,
@@ -17,7 +20,7 @@ export class Candidate {
     birthdate,
     extraTimePercentage,
     createdAt,
-    authorizedToStart,
+    authorizedToStart = false,
     sessionId,
     userId,
     organizationLearnerId,
@@ -25,6 +28,7 @@ export class Candidate {
     billingMode,
     prepaymentCode,
     hasSeenCertificationInstructions = false,
+    subscriptions = [],
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -45,10 +49,11 @@ export class Candidate {
     this.sessionId = sessionId;
     this.userId = userId;
     this.organizationLearnerId = organizationLearnerId;
-    this.complementaryCertificationId = complementaryCertificationId;
+    this.complementaryCertificationId = complementaryCertificationId; // TODO MVP - remove me at some point
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;
     this.hasSeenCertificationInstructions = hasSeenCertificationInstructions;
+    this.subscriptions = subscriptions;
   }
 
   isLinkedToAUser() {
@@ -57,5 +62,29 @@ export class Candidate {
 
   validateCertificationInstructions() {
     this.hasSeenCertificationInstructions = true;
+  }
+
+  validate(isSco = false) {
+    const { error } = validate(this, {
+      allowUnknown: true,
+      context: {
+        isSco,
+        isSessionsMassImport: false,
+      },
+    });
+
+    if (error) {
+      throw new CertificationCandidatesError({
+        code: error.details?.[0]?.message,
+        meta: error.details?.[0]?.context?.value,
+      });
+    }
+  }
+
+  updateBirthInformation({ birthCountry, birthINSEECode, birthPostalCode, birthCity }) {
+    this.birthCountry = birthCountry;
+    this.birthINSEECode = birthINSEECode;
+    this.birthPostalCode = birthPostalCode;
+    this.birthCity = birthCity;
   }
 }

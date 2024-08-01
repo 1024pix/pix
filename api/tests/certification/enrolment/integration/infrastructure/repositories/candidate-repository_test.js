@@ -1,7 +1,8 @@
 import { CertificationCandidateNotFoundError } from '../../../../../../src/certification/enrolment/domain/errors.js';
 import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import * as candidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/candidate-repository.js';
-import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
+import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Certification | Session | Repository | Candidate', function () {
   describe('#get', function () {
@@ -119,6 +120,95 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
         // then
         expect(isUserCertificationCandidate).to.be.false;
       });
+    });
+  });
+
+  describe('#insert', function () {
+    let candidateData;
+
+    beforeEach(function () {
+      candidateData = {
+        id: null,
+        createdAt: new Date('2020-01-01'),
+        firstName: 'Jean-Charles',
+        lastName: 'Quiberon',
+        sex: 'M',
+        birthPostalCode: 'Code postal',
+        birthINSEECode: 'Insee code',
+        birthCity: 'Ma ville',
+        birthProvinceCode: 'Mon département',
+        birthCountry: 'Mon pays',
+        email: 'jc.quiberon@example.net',
+        resultRecipientEmail: 'ma_maman@example.net',
+        birthdate: '1990-05-06',
+        extraTimePercentage: 0.3,
+        externalId: 'JCQUIB',
+        userId: null,
+        sessionId: 888,
+        organizationLearnerId: null,
+        authorizedToStart: false,
+        complementaryCertificationId: null,
+        billingMode: null,
+        prepaymentCode: null,
+        hasSeenCertificationInstructions: false,
+        subscriptions: [
+          {
+            type: SubscriptionTypes.CORE,
+            complementaryCertificationId: null,
+            complementaryCertificationLabel: null,
+            complementaryCertificationKey: null,
+          },
+          {
+            type: SubscriptionTypes.COMPLEMENTARY,
+            complementaryCertificationId: 22,
+            complementaryCertificationLabel: 'Quelque',
+            complementaryCertificationKey: 'Chose',
+          },
+        ],
+      };
+      databaseBuilder.factory.buildSession({ id: candidateData.sessionId });
+      databaseBuilder.factory.buildComplementaryCertification({ id: 22, label: 'Quelque', key: 'Chose' });
+      return databaseBuilder.commit();
+    });
+
+    it('should insert candidate in DB with subscriptions', async function () {
+      // given
+      const candidateToInsert = domainBuilder.certification.enrolment.buildCandidate(candidateData);
+
+      // when
+      const candidateId = await candidateRepository.insert(candidateToInsert);
+
+      // then
+      const savedCandidateData = await knex('certification-candidates').select('*').where({ id: candidateId }).first();
+      const savedSubscriptionsData = await knex('certification-subscriptions')
+        .select('*')
+        .where({ certificationCandidateId: candidateId })
+        .orderBy('type');
+      expect(savedCandidateData).to.deepEqualInstanceOmitting(candidateData, [
+        'id',
+        'createdAt',
+        'subscriptions',
+        'complementaryCertificationId',
+        'extraTimePercentage',
+      ]);
+      expect(parseFloat(savedCandidateData.extraTimePercentage)).to.equal(candidateData.extraTimePercentage);
+      expect(savedSubscriptionsData.length).to.equal(2);
+      expect(savedSubscriptionsData[0]).to.deepEqualInstanceOmitting(
+        {
+          certificationCandidateId: candidateId,
+          type: SubscriptionTypes.COMPLEMENTARY,
+          complementaryCertificationId: 22,
+        },
+        ['createdAt'],
+      );
+      expect(savedSubscriptionsData[1]).to.deepEqualInstanceOmitting(
+        {
+          certificationCandidateId: candidateId,
+          type: SubscriptionTypes.CORE,
+          complementaryCertificationId: null,
+        },
+        ['createdAt'],
+      );
     });
   });
 });

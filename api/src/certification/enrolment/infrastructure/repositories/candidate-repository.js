@@ -1,4 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CertificationCandidateNotFoundError } from '../../domain/errors.js';
 import { Candidate } from '../../domain/models/Candidate.js';
 
@@ -9,7 +10,7 @@ import { Candidate } from '../../domain/models/Candidate.js';
  *
  * @return {Candidate}
  */
-const get = async function ({ certificationCandidateId }) {
+export async function get({ certificationCandidateId }) {
   const certificationCandidate = await knex('certification-candidates')
     .where({
       id: certificationCandidateId,
@@ -17,7 +18,7 @@ const get = async function ({ certificationCandidateId }) {
     .first();
 
   return _toDomain(certificationCandidate);
-};
+}
 
 /**
  * @function
@@ -26,7 +27,7 @@ const get = async function ({ certificationCandidateId }) {
  * @return {Candidate}
  * @throws {CertificationCandidateNotFoundError} Certification candidate not found
  */
-const update = async function (certificationCandidate) {
+export async function update(certificationCandidate) {
   const [updatedCertificationCandidate] = await knex('certification-candidates')
     .where({
       id: certificationCandidate.id,
@@ -63,7 +64,7 @@ const update = async function (certificationCandidate) {
   }
 
   return _toDomain(updatedCertificationCandidate);
-};
+}
 
 /**
  * @function
@@ -73,7 +74,7 @@ const update = async function (certificationCandidate) {
  *
  * @return {Boolean} Returns true if candidate is found or false otherwise
  */
-const isUserCertificationCandidate = async function ({ certificationCandidateId, userId }) {
+export async function isUserCertificationCandidate({ certificationCandidateId, userId }) {
   const certificationCandidate = await knex
     .select(1)
     .from('certification-candidates')
@@ -84,10 +85,59 @@ const isUserCertificationCandidate = async function ({ certificationCandidateId,
     .first();
 
   return Boolean(certificationCandidate);
-};
+}
 
-export { get, isUserCertificationCandidate, update };
+/**
+ * @function
+ * @param {Object} candidate
+ *
+ * @return {number}
+ */
+export async function insert(candidate) {
+  const candidateDataToSave = _adaptModelToDb(candidate);
+  const knexTransaction = DomainTransaction.getConnection();
+
+  const [{ id: candidateId }] = await knexTransaction('certification-candidates')
+    .insert(candidateDataToSave)
+    .returning('id');
+
+  for (const subscription of candidate.subscriptions) {
+    await knexTransaction('certification-subscriptions').insert({
+      certificationCandidateId: candidateId,
+      type: subscription.type,
+      complementaryCertificationId: subscription.complementaryCertificationId,
+    });
+  }
+
+  return candidateId;
+}
 
 function _toDomain(result) {
   return result ? new Candidate(result) : null;
+}
+
+function _adaptModelToDb(candidate) {
+  return {
+    firstName: candidate.firstName,
+    lastName: candidate.lastName,
+    sex: candidate.sex,
+    birthPostalCode: candidate.birthPostalCode,
+    birthINSEECode: candidate.birthINSEECode,
+    birthCity: candidate.birthCity,
+    birthProvinceCode: candidate.birthProvinceCode,
+    birthCountry: candidate.birthCountry,
+    email: candidate.email,
+    resultRecipientEmail: candidate.resultRecipientEmail,
+    externalId: candidate.externalId,
+    birthdate: candidate.birthdate,
+    extraTimePercentage: candidate.extraTimePercentage,
+    createdAt: candidate.createdAt,
+    authorizedToStart: candidate.authorizedToStart,
+    sessionId: candidate.sessionId,
+    userId: candidate.userId,
+    organizationLearnerId: candidate.organizationLearnerId,
+    billingMode: candidate.billingMode,
+    prepaymentCode: candidate.prepaymentCode,
+    hasSeenCertificationInstructions: candidate.hasSeenCertificationInstructions,
+  };
 }

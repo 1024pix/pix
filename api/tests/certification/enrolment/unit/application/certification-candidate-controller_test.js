@@ -1,5 +1,6 @@
 import { certificationCandidateController } from '../../../../../src/certification/enrolment/application/certification-candidate-controller.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
+import { normalize } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | certification-candidate-controller', function () {
@@ -7,8 +8,8 @@ describe('Unit | Controller | certification-candidate-controller', function () {
     it('should return the added certification candidate id', async function () {
       // given
       const sessionId = 1;
-      const certificationCandidate = 'candidate';
-      const addedCertificationCandidateId = 2;
+      const candidate = 'candidate';
+      const addedCandidateId = 2;
       const request = {
         params: { id: sessionId },
         payload: {
@@ -19,28 +20,28 @@ describe('Unit | Controller | certification-candidate-controller', function () {
           },
         },
       };
-      sinon.stub(usecases, 'addCertificationCandidateToSession');
-      usecases.addCertificationCandidateToSession
+      sinon.stub(usecases, 'addCandidateToSession');
+      usecases.addCandidateToSession
         .withArgs({
           sessionId,
-          certificationCandidate,
-          subscription: null,
+          candidate,
+          normalizeStringFnc: normalize,
         })
-        .resolves(addedCertificationCandidateId);
-      const certificationCandidateSerializer = {
+        .resolves(addedCandidateId);
+      const candidateSerializer = {
         deserialize: sinon.stub(),
       };
-      certificationCandidateSerializer.deserialize.resolves(certificationCandidate);
+      candidateSerializer.deserialize.resolves(candidate);
 
       // when
       const response = await certificationCandidateController.addCandidate(request, hFake, {
-        certificationCandidateSerializer,
+        candidateSerializer,
       });
 
       // then
       expect(response.source).to.deep.equal({
         data: {
-          id: `${addedCertificationCandidateId}`,
+          id: `${addedCandidateId}`,
           type: 'certification-candidates',
         },
       });
