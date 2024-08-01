@@ -1,5 +1,5 @@
-import { CompetenceMark } from '../../../src/certification/shared/domain/models/CompetenceMark.js';
-import { DomainTransaction } from '../DomainTransaction.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
 
 const save = async function (competenceMark) {
   await competenceMark.validate();

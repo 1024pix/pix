@@ -1,6 +1,6 @@
-import * as competenceMarkRepository from '../../../../lib/infrastructure/repositories/competence-mark-repository.js';
-import { CompetenceMark } from '../../../../src/certification/shared/domain/models/CompetenceMark.js';
-import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
+import { CompetenceMark } from '../../../../../../src/certification/shared/domain/models/CompetenceMark.js';
+import * as competenceMarkRepository from '../../../../../../src/certification/shared/infrastructure/repositories/competence-mark-repository.js';
+import { databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | CompetenceMark', function () {
   describe('#save', function () {

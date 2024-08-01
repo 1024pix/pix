@@ -16,6 +16,7 @@ import {
   challengeRepository,
   competenceMarkRepository,
   sessionRepositories,
+  sharedCompetenceMarkRepository,
 } from '../../infrastructure/repositories/index.js';
 import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-storage.js';
 import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-storage.js';
@@ -91,6 +92,7 @@ const dependencies = {
   assessmentRepository,
   assessmentResultRepository,
   answerRepository,
+  sharedCompetenceMarkRepository,
   challengeRepository,
   competenceMarkRepository,
   cpfReceiptsStorage,

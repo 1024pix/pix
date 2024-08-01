@@ -1,6 +1,6 @@
 /**
  * @typedef {import ('./index.js').CourseAssessmentResultRepository} CourseAssessmentResultRepository
- * @typedef {import ('./index.js').CompetenceMarkRepository} CompetenceMarkRepository
+ * @typedef {import ('./index.js').SharedCompetenceMarkRepository} SharedCompetenceMarkRepository
  * @typedef {import ('./index.js').AssessmentResultRepository} AssessmentResultRepository
  */
 
@@ -14,7 +14,7 @@ import { AssessmentResult, CompetenceMark } from '../../../../shared/domain/mode
  * @param {number} params.juryId
  * @param {AssessmentResultRepository} params.assessmentResultRepository
  * @param {CourseAssessmentResultRepository} params.courseAssessmentResultRepository
- * @param {CompetenceMarkRepository} params.competenceMarkRepository
+ * @param {SharedCompetenceMarkRepository} params.sharedCompetenceMarkRepository
  */
 const updateJuryComment = async function ({
   certificationCourseId,
@@ -22,7 +22,7 @@ const updateJuryComment = async function ({
   juryId,
   courseAssessmentResultRepository,
   assessmentResultRepository,
-  competenceMarkRepository,
+  sharedCompetenceMarkRepository,
 }) {
   await DomainTransaction.execute(async () => {
     const latestAssessmentResult = await courseAssessmentResultRepository.getLatestAssessmentResult({
@@ -40,7 +40,7 @@ const updateJuryComment = async function ({
     });
 
     for (const competenceMark of latestAssessmentResult.competenceMarks) {
-      await competenceMarkRepository.save(new CompetenceMark({ ...competenceMark, assessmentResultId }));
+      await sharedCompetenceMarkRepository.save(new CompetenceMark({ ...competenceMark, assessmentResultId }));
     }
   });
 };

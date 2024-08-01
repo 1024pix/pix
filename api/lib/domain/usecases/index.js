@@ -127,7 +127,6 @@ import * as certificationCenterInvitedUserRepository from '../../infrastructure/
 import * as certificationCenterMembershipRepository from '../../infrastructure/repositories/certification-center-membership-repository.js';
 import * as certificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact-repository.js';
 import * as certificationRepository from '../../infrastructure/repositories/certification-repository.js';
-import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../infrastructure/repositories/complementary-certification-habilitation-repository.js';
 import * as dataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer-repository.js';
@@ -235,7 +234,6 @@ const dependencies = {
   codeGenerator,
   codeUtils,
   competenceEvaluationRepository,
-  competenceMarkRepository,
   competenceRepository,
   complementaryCertificationCourseRepository,
   complementaryCertificationCourseResultRepository,

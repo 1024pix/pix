@@ -12,6 +12,7 @@ import * as certificationAssessmentRepository from '../../../shared/infrastructu
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
+import * as sharedCompetenceMarkRepository from '../../../shared/infrastructure/repositories/competence-mark-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../../shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as certificationCandidateForSupervisingRepository from './certification-candidate-for-supervising-repository.js';
 import * as certificationOfficerRepository from './certification-officer-repository.js';
@@ -102,4 +103,5 @@ export {
   challengeRepository,
   competenceMarkRepository,
   sessionRepositories,
+  sharedCompetenceMarkRepository,
 };
