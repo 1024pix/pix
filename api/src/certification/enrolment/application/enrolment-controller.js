@@ -3,7 +3,6 @@ import { usecases } from '../domain/usecases/index.js';
 import { fillCandidatesImportSheet } from '../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
 import * as enrolledCandidateSerializer from '../infrastructure/serializers/enrolled-candidate-serializer.js';
 
-// TODO LAURA ICI
 const enrolStudentsToSession = async function (
   request,
   h,
@@ -19,20 +18,20 @@ const enrolStudentsToSession = async function (
   return h.response(enrolledCandidatesSerialized).created();
 };
 
-// TODO LAURA ICI
 const getCandidatesImportSheet = async function (request, h, dependencies = { fillCandidatesImportSheet }) {
   const translate = request.i18n.__;
   const sessionId = request.params.id;
   const { userId } = request.auth.credentials;
   const filename = translate('candidate-list-template.filename');
 
-  const { session, certificationCenterHabilitations, isScoCertificationCenter } =
+  const { session, enrolledCandidates, certificationCenterHabilitations, isScoCertificationCenter } =
     await usecases.getCandidateImportSheetData({
       sessionId,
       userId,
     });
   const candidateImportSheet = await dependencies.fillCandidatesImportSheet({
     session,
+    enrolledCandidates,
     certificationCenterHabilitations,
     isScoCertificationCenter,
     i18n: request.i18n,

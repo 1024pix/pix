@@ -108,10 +108,18 @@ class CandidateData {
     return hasComplementaryCertification ? this.translate('candidate-list-template.yes') : '';
   }
 
-  static fromCertificationCandidateAndCandidateNumber({ certificationCandidate, number, i18n }) {
+  static fromEnrolledCandidateAndCandidateNumber({ enrolledCandidate, number, i18n }) {
+    const complementarySubscriptionInfo = enrolledCandidate.findComplementarySubscriptionInfo();
+    const complementaryCertification = complementarySubscriptionInfo
+      ? {
+          id: complementarySubscriptionInfo.complementaryCertificationId,
+          label: complementarySubscriptionInfo.complementaryCertificationLabel,
+          key: complementarySubscriptionInfo.complementaryCertificationKey,
+        }
+      : null;
     return new CandidateData({
-      ...certificationCandidate,
-      complementaryCertification: certificationCandidate.complementaryCertification,
+      ...enrolledCandidate,
+      complementaryCertification,
       number,
       i18n,
     });

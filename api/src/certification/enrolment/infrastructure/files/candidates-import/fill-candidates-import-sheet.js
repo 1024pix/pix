@@ -23,6 +23,7 @@ const CANDIDATE_TABLE_FIRST_ROW = 12;
 
 const fillCandidatesImportSheet = async function ({
   session,
+  enrolledCandidates,
   certificationCenterHabilitations,
   isScoCertificationCenter,
   i18n,
@@ -42,7 +43,7 @@ const fillCandidatesImportSheet = async function ({
     isScoCertificationCenter,
     translate,
   });
-  _addCandidateRows({ odsBuilder, certificationCandidates: session.certificationCandidates, i18n });
+  _addCandidateRows({ odsBuilder, enrolledCandidates, i18n });
 
   return odsBuilder.build({ templateFilePath: _getCandidatesImportTemplatePath() });
 };
@@ -133,9 +134,9 @@ function _addComplementaryCertificationColumns({ odsBuilder, certificationCenter
   return odsBuilder;
 }
 
-function _addCandidateRows({ odsBuilder, certificationCandidates, i18n }) {
+function _addCandidateRows({ odsBuilder, enrolledCandidates, i18n }) {
   const CANDIDATE_ROW_MARKER_PLACEHOLDER = 'COUNT';
-  const candidatesData = _getCandidatesData({ certificationCandidates, i18n });
+  const candidatesData = _getCandidatesData({ enrolledCandidates, i18n });
   return odsBuilder.updateXmlRows({
     rowMarkerPlaceholder: CANDIDATE_ROW_MARKER_PLACEHOLDER,
     rowTemplateValues: IMPORT_CANDIDATES_TEMPLATE_VALUES,
@@ -143,8 +144,8 @@ function _addCandidateRows({ odsBuilder, certificationCandidates, i18n }) {
   });
 }
 
-function _getCandidatesData({ certificationCandidates, i18n }) {
-  const enrolledCandidatesData = _certificationCandidatesToCandidatesData({ certificationCandidates, i18n });
+function _getCandidatesData({ enrolledCandidates, i18n }) {
+  const enrolledCandidatesData = _certificationCandidatesToCandidatesData({ enrolledCandidates, i18n });
 
   const emptyCandidatesData = _emptyCandidatesData({ numberOfEnrolledCandidates: enrolledCandidatesData.length, i18n });
 
@@ -155,10 +156,10 @@ function _getCandidatesImportTemplatePath() {
   return __dirname + '/1.5/candidates_import_template.ods';
 }
 
-function _certificationCandidatesToCandidatesData({ certificationCandidates, i18n }) {
-  return _.map(certificationCandidates, (candidate, index) => {
-    return CandidateData.fromCertificationCandidateAndCandidateNumber({
-      certificationCandidate: candidate,
+function _certificationCandidatesToCandidatesData({ enrolledCandidates, i18n }) {
+  return _.map(enrolledCandidates, (enrolledCandidate, index) => {
+    return CandidateData.fromEnrolledCandidateAndCandidateNumber({
+      enrolledCandidate,
       number: index + 1,
       i18n,
     });
