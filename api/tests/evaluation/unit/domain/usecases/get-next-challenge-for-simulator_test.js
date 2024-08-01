@@ -1,4 +1,4 @@
-import { SmartRandomDetails } from '../../../../../src/evaluation/domain/models/SmartRandomDetails.js';
+import { SmartRandomLog } from '../../../../../src/evaluation/domain/models/SmartRandomLog.js';
 import { getNextChallengeForSimulator } from '../../../../../src/evaluation/domain/usecases/get-next-challenge-for-simulator.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
@@ -46,7 +46,7 @@ describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
         // given
         const possibleSkillsForNextChallenge = Symbol('possibleSkillsForNextChallenge');
         const pickChallengeServiceResult = Symbol('pickChallengeServiceResult');
-        const smartRandomDetails = new SmartRandomDetails();
+        const smartRandomLog = new SmartRandomLog();
         const simulationParameters = {
           assessmentId: Symbol('assessmentId'),
           locale: Symbol('locale'),
@@ -56,7 +56,7 @@ describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
         smartRandomService.getPossibleSkillsForNextChallenge.returns({
           hasAssessmentEnded: false,
           possibleSkillsForNextChallenge,
-          smartRandomDetails,
+          smartRandomLog,
         });
 
         pickChallengeService.pickChallenge.returns(pickChallengeServiceResult);

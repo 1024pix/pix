@@ -1,28 +1,28 @@
 import { STEPS_NAMES } from '../models/SmartRandomStep.js';
+import { getSmartRandomLog, logStep } from '../services/smart-random-log-service.js';
 
 /**
  * @param {simulationParameters: SimulationParameters} simulationParameters
  * @param pickChallengeService
  * @param smartRandomService
- * @returns {Promise<{challenge: Challenge | null, smartRandomDetails: SmartRandomDetails}}
+ * @returns {Promise<{challenge: Challenge | null, smartRandomLog: SmartRandomLog}}
  */
 const getNextChallengeForSimulator = function ({ simulationParameters, pickChallengeService, smartRandomService }) {
-  const { possibleSkillsForNextChallenge, hasAssessmentEnded, smartRandomDetails } =
-    smartRandomService.getPossibleSkillsForNextChallenge({
-      knowledgeElements: simulationParameters.knowledgeElements,
-      challenges: simulationParameters.challenges,
-      locale: simulationParameters.locale,
-      targetSkills: simulationParameters.skills,
-      allAnswers: simulationParameters.answers,
-      lastAnswer: simulationParameters.answers.length
-        ? simulationParameters.answers[simulationParameters.answers.length - 1]
-        : null,
-    });
+  const { possibleSkillsForNextChallenge, hasAssessmentEnded } = smartRandomService.getPossibleSkillsForNextChallenge({
+    knowledgeElements: simulationParameters.knowledgeElements,
+    challenges: simulationParameters.challenges,
+    locale: simulationParameters.locale,
+    targetSkills: simulationParameters.skills,
+    allAnswers: simulationParameters.answers,
+    lastAnswer: simulationParameters.answers.length
+      ? simulationParameters.answers[simulationParameters.answers.length - 1]
+      : null,
+  });
 
   if (hasAssessmentEnded) {
     return {
       challenge: null,
-      smartRandomDetails,
+      smartRandomLog: getSmartRandomLog(),
     };
   }
 
@@ -32,9 +32,9 @@ const getNextChallengeForSimulator = function ({ simulationParameters, pickChall
     locale: simulationParameters.locale,
   });
 
-  smartRandomDetails.addStep(STEPS_NAMES.RANDOM_PICK, [challenge.skill]);
+  logStep(STEPS_NAMES.RANDOM_PICK, [challenge.skill]);
 
-  return { challenge, smartRandomDetails };
+  return { challenge, smartRandomLog: getSmartRandomLog() };
 };
 
 export { getNextChallengeForSimulator };

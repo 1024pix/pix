@@ -10,7 +10,7 @@
   }
 
   tr {
-    height: 40px;
+    height: 45px;
   }
 
   th {
@@ -19,16 +19,29 @@
   }
 
   td {
+    width: 45px;
     padding: 0;
     text-align: center;
   }
 
   &__skill {
     display: block;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     margin: 0 auto;
+    color: var(--pix-neutral-900);
+    font-weight: bold;
+    line-height: 30px;
+    text-shadow: 2px 0 var(--pix-neutral-0),
+      -2px 0 var(--pix-neutral-0),
+      0 2px var(--pix-neutral-0), 0
+      -2px var(--pix-neutral-0),
+      1px 1px var(--pix-neutral-0),
+      -1px -1px var(--pix-neutral-0),
+      1px -1px var(--pix-neutral-0),
+      -1px 1px var(--pix-neutral-0);
     border-radius: 5px;
+
 
     &.missing {
       background: none;
@@ -74,6 +87,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: left;
+    margin-top: var(--pix-spacing-1x);
   }
 
   .tubes-viewer__table__caption .tubes-viewer__table__skill {

@@ -1,4 +1,5 @@
 import { KnowledgeElement } from '../../../../shared/domain/models/KnowledgeElement.js';
+import { logSkillReward } from '../smart-random-log-service.js';
 
 export { findMaxRewardingSkills, getPredictedLevel };
 
@@ -81,6 +82,7 @@ const getMaxRewardingSkills = ({ availableSkills, predictedLevel, tubes, knowled
   availableSkills.reduce(
     (maxRewardingSkills, skill) => {
       const skillReward = computeReward({ skill, predictedLevel, tubes, knowledgeElements });
+      logSkillReward(skill.id, skillReward);
       if (skillReward > maxRewardingSkills.maxReward) {
         maxRewardingSkills.maxReward = skillReward;
         maxRewardingSkills.maxRewardingSkills = [skill];

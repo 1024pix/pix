@@ -20,12 +20,12 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
 
   const getNextChallengeApiResponseBody = {
     challenge: returnedChallenge,
-    smartRandomDetails: { predictedLevel: 8, steps: [] },
+    smartRandomLog: { predictedLevel: 8, steps: [] },
   };
 
   const getAssessmentCompleteApiResponseBody = {
     challenge: null,
-    smartRandomDetails: { predictedLevel: 8, steps: [] },
+    smartRandomLog: { predictedLevel: 8, steps: [] },
   };
 
   const getCampaignParamsApiResponseBody = {

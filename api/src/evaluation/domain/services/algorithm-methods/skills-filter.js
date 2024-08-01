@@ -3,10 +3,11 @@ import {
   MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL,
   MAX_LEVEL_TO_BE_AN_EASY_TUBE,
 } from '../../../../shared/domain/constants.js';
-import { SmartRandomDetails } from '../../models/SmartRandomDetails.js';
 import { STEPS_NAMES } from '../../models/SmartRandomStep.js';
+import { logPredictedLevel, logStep } from '../smart-random-log-service.js';
 
 const getPlayableSkills = (skills) => skills.filter(({ isPlayable }) => isPlayable);
+
 const notAlreadyTestedSkill = (knowledgeElements) => (skill) => {
   const alreadyTestedSkillIds = knowledgeElements.map(({ skillId }) => skillId);
   return !alreadyTestedSkillIds.includes(skill.id);
@@ -69,24 +70,22 @@ const removeTooDifficultSkills = (predictedLevel, targetSkills) =>
   targetSkills.filter((skill) => !isSkillTooHard(skill, predictedLevel));
 
 const getFilteredSkillsForFirstChallenge = ({ knowledgeElements, tubes, targetSkills }) => {
-  const smartRandomDetails = new SmartRandomDetails();
-
   const playableSkills = getPlayableSkills(targetSkills);
-  smartRandomDetails.addStep(STEPS_NAMES.NO_CHALLENGE, playableSkills);
+  logStep(STEPS_NAMES.NO_CHALLENGE, playableSkills);
 
   const untestedSkills = getUntestedSkills(knowledgeElements, playableSkills);
-  smartRandomDetails.addStep(STEPS_NAMES.ALREADY_TESTED, untestedSkills);
+  logStep(STEPS_NAMES.ALREADY_TESTED, untestedSkills);
 
   const skillsFromEasyTubes = keepSkillsFromEasyTubes(tubes, untestedSkills);
-  smartRandomDetails.addStep(STEPS_NAMES.EASY_TUBES, skillsFromEasyTubes);
+  logStep(STEPS_NAMES.EASY_TUBES, skillsFromEasyTubes);
 
   const skillsWithoutTimedSkills = removeTimedSkillsIfNeeded(true, skillsFromEasyTubes);
-  smartRandomDetails.addStep(STEPS_NAMES.TIMED_SKILLS, skillsWithoutTimedSkills);
+  logStep(STEPS_NAMES.TIMED_SKILLS, skillsWithoutTimedSkills);
 
   const skillsFocusedOnDefaultLevel = focusOnDefaultLevel(skillsWithoutTimedSkills);
-  smartRandomDetails.addStep(STEPS_NAMES.DEFAULT_LEVEL, skillsFocusedOnDefaultLevel);
+  logStep(STEPS_NAMES.DEFAULT_LEVEL, skillsFocusedOnDefaultLevel);
 
-  return { availableSkills: skillsFocusedOnDefaultLevel, smartRandomDetails };
+  return { availableSkills: skillsFocusedOnDefaultLevel };
 };
 
 const getFilteredSkillsForNextChallenge = ({
@@ -96,25 +95,24 @@ const getFilteredSkillsForNextChallenge = ({
   isLastChallengeTimed,
   targetSkills,
 }) => {
-  const smartRandomDetails = new SmartRandomDetails();
-  smartRandomDetails.predictedLevel = predictedLevel;
+  logPredictedLevel(predictedLevel);
 
   const playableSkills = getPlayableSkills(targetSkills);
-  smartRandomDetails.addStep(STEPS_NAMES.NO_CHALLENGE, playableSkills);
+  logStep(STEPS_NAMES.NO_CHALLENGE, playableSkills);
 
   const untestedSkills = getUntestedSkills(knowledgeElements, playableSkills);
-  smartRandomDetails.addStep(STEPS_NAMES.ALREADY_TESTED, untestedSkills);
+  logStep(STEPS_NAMES.ALREADY_TESTED, untestedSkills);
 
   const skillsFromEasyTubes = keepSkillsFromEasyTubes(tubes, untestedSkills);
-  smartRandomDetails.addStep(STEPS_NAMES.EASY_TUBES, skillsFromEasyTubes);
+  logStep(STEPS_NAMES.EASY_TUBES, skillsFromEasyTubes);
 
   const skillsWithoutTimedSkills = removeTimedSkillsIfNeeded(isLastChallengeTimed, skillsFromEasyTubes);
-  smartRandomDetails.addStep(STEPS_NAMES.TIMED_SKILLS, skillsWithoutTimedSkills);
+  logStep(STEPS_NAMES.TIMED_SKILLS, skillsWithoutTimedSkills);
 
   const skillsWithoutTooDifficultSkills = removeTooDifficultSkills(predictedLevel, skillsWithoutTimedSkills);
-  smartRandomDetails.addStep(STEPS_NAMES.TOO_DIFFICULT, skillsWithoutTooDifficultSkills);
+  logStep(STEPS_NAMES.TOO_DIFFICULT, skillsWithoutTooDifficultSkills);
 
-  return { availableSkills: skillsWithoutTooDifficultSkills, smartRandomDetails };
+  return { availableSkills: skillsWithoutTooDifficultSkills };
 };
 
 export { focusOnDefaultLevel, getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge };

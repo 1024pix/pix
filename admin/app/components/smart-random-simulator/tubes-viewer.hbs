@@ -39,6 +39,12 @@
 
   <p>Niveau prédit de l'utilisateur: {{if this.predictedLevel this.predictedLevel "N/A"}}</p>
 
+  <p>
+    <PixCheckbox {{on "change" this.toggleShowSkillsRewards}} checked={{this.showSkillsRewards}}>
+      <:label>Afficher la lucrativité des acquis</:label>
+    </PixCheckbox>
+  </p>
+
   <table class="tubes-viewer__table">
 
     <caption class="tubes-viewer__table__captions">
@@ -76,7 +82,11 @@
           <th class="tubes-viewer__table__name">{{tube.name}}</th>
           {{#each this.levels as |level|}}
             <td aria-label="{{tube.name}}{{level}}">
-              <span class="tubes-viewer__table__skill {{this.getSkillStatus tube level}}" />
+              <span class="tubes-viewer__table__skill {{this.getSkillStatus tube level}}">
+                {{#if this.showSkillsRewards}}
+                  {{this.getSkillReward tube level}}
+                {{/if}}
+              </span>
             </td>
           {{/each}}
         </tr>

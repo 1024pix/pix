@@ -102,7 +102,7 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
       ],
     },
   ];
-  const smartRandomDetails = {
+  const smartRandomLog = {
     steps: [
       {
         name: 'NO_CHALLENGE',
@@ -272,6 +272,11 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
       },
     ],
     predictedLevel: 2,
+    skillRewards: [
+      { skillId: 'recL0AotZshb9quhR', reward: 1.3 },
+      { skillId: 'recrOwaV2PTt1N0i5', reward: 3.3 },
+      { skillId: 'skill1g2ABCwm6z4pG1', reward: 2.3 },
+    ],
   };
   const displayedStepIndex = 3;
   const selectDisplayedStepIndex = () => null;
@@ -308,7 +313,7 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
     this.currentSkillId = currentSkillId;
     this.knowledgeElements = knowledgeElements;
     this.displayedStepIndex = displayedStepIndex;
-    this.smartRandomDetails = smartRandomDetails;
+    this.smartRandomLog = smartRandomLog;
     this.totalNumberOfSkills = totalNumberOfSkills;
     this.selectDisplayedStepIndex = selectDisplayedStepIndex;
     this.numberOfSkillsStillAvailable = numberOfSkillsStillAvailable;
@@ -317,12 +322,22 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
   @tubes={{this.tubes}}
   @currentSkillId={{this.currentSkillId}}
   @knowledgeElements={{this.knowledgeElements}}
-  @smartRandomDetails={{this.smartRandomDetails}}
+  @smartRandomLog={{this.smartRandomLog}}
   @displayedStepIndex={{this.displayedStepIndex}}
   @totalNumberOfSkills={{this.totalNumberOfSkills}}
   @selectDisplayedStepIndex={{this.selectDisplayedStepIndex}}
   @numberOfSkillsStillAvailable={{this.numberOfSkillsStillAvailable}}
 />`);
+  });
+
+  test('should display skills rewards', async function (assert) {
+    const outilsRS1Cell = screen.getByRole('cell', { name: '@outilsRS1' });
+    const outilsRS2Cell = screen.getByRole('cell', { name: '@outilsRS2' });
+    const fonctionnementStreaming5 = screen.getByRole('cell', { name: '@fonctionnementStreaming5' });
+
+    assert.strictEqual(outilsRS1Cell.children[0].innerHTML.trim(), '1.3');
+    assert.strictEqual(outilsRS2Cell.children[0].innerHTML.trim(), '3.3');
+    assert.strictEqual(fonctionnementStreaming5.children[0].innerHTML.trim(), '2.3');
   });
 
   test('should display the predicted level', async function (assert) {

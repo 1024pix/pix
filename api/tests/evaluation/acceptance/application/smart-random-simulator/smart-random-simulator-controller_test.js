@@ -83,7 +83,101 @@ describe('Acceptance | API | Smart Random Simulator', function () {
           expect(JSON.parse(response.payload).challenge.id).to.equal('challengerec1234567');
         });
         it('should return smart random details', async function () {
-          expect(JSON.parse(response.payload).smartRandomDetails).to.exist;
+          expect(JSON.parse(response.payload).smartRandomLog).to.deep.equal({
+            steps: [
+              {
+                name: 'NO_CHALLENGE',
+                outputSkills: [
+                  {
+                    id: 'recoaijndozia123',
+                    name: '@skillname3',
+                    tutorialIds: [],
+                    learningMoreTutorialIds: [],
+                    difficulty: 3,
+                  },
+                ],
+              },
+              {
+                name: 'ALREADY_TESTED',
+                outputSkills: [
+                  {
+                    id: 'recoaijndozia123',
+                    name: '@skillname3',
+                    tutorialIds: [],
+                    learningMoreTutorialIds: [],
+                    difficulty: 3,
+                  },
+                ],
+              },
+              {
+                name: 'EASY_TUBES',
+                outputSkills: [
+                  {
+                    id: 'recoaijndozia123',
+                    name: '@skillname3',
+                    tutorialIds: [],
+                    learningMoreTutorialIds: [],
+                    difficulty: 3,
+                  },
+                ],
+              },
+              {
+                name: 'TIMED_SKILLS',
+                outputSkills: [
+                  {
+                    id: 'recoaijndozia123',
+                    name: '@skillname3',
+                    tutorialIds: [],
+                    learningMoreTutorialIds: [],
+                    difficulty: 3,
+                  },
+                ],
+              },
+              {
+                name: 'TOO_DIFFICULT',
+                outputSkills: [
+                  {
+                    id: 'recoaijndozia123',
+                    name: '@skillname3',
+                    tutorialIds: [],
+                    learningMoreTutorialIds: [],
+                    difficulty: 3,
+                  },
+                ],
+              },
+              {
+                name: 'MAX_REWARDING_SKILLS',
+                outputSkills: [
+                  {
+                    id: 'recoaijndozia123',
+                    name: '@skillname3',
+                    tutorialIds: [],
+                    learningMoreTutorialIds: [],
+                    difficulty: 3,
+                  },
+                ],
+              },
+              {
+                name: 'RANDOM_PICK',
+                outputSkills: [
+                  {
+                    id: 'recoaijndozia123',
+                    name: '@skillname3',
+                    tutorialIds: [],
+                    learningMoreTutorialIds: [],
+                    difficulty: 3,
+                  },
+                ],
+              },
+            ],
+            predictedLevel: 3.5,
+            skillRewards: [
+              {
+                skillId: 'recoaijndozia123',
+                reward: 1,
+              },
+            ],
+          });
         });
       });
       context('when the route should not return a challenge', function () {
@@ -106,7 +200,7 @@ describe('Acceptance | API | Smart Random Simulator', function () {
         });
         it('should return smart random details and no challenge', async function () {
           expect(JSON.parse(response.payload).challenge).to.be.null;
-          expect(JSON.parse(response.payload).smartRandomDetails).to.exist;
+          expect(JSON.parse(response.payload).smartRandomLog).to.exist;
         });
       });
     });
