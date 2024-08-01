@@ -6,7 +6,6 @@ import { fileURLToPath } from 'node:url';
 import * as complementaryCertificationCourseRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-course-repository.js';
 import * as complementaryCertificationRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
 import * as targetProfileHistoryRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/target-profile-history-repository.js';
-import * as certificationCpfService from '../../../src/certification/enrolment/domain/services/certification-cpf-service.js';
 import * as sessionCodeService from '../../../src/certification/enrolment/domain/services/session-code-service.js';
 import { getCenterForAdmin } from '../../../src/certification/enrolment/domain/usecases/get-center-for-admin.js';
 import * as centerRepository from '../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
@@ -17,7 +16,6 @@ import * as flashAlgorithmService from '../../../src/certification/flash-certifi
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import { getNextChallengeForV2Certification } from '../../../src/certification/session-management/domain/usecases/get-next-challenge-for-v2-certification.js';
 import { getNextChallengeForV3Certification } from '../../../src/certification/session-management/domain/usecases/get-next-challenge-for-v3-certification.js';
-import * as certificationCandidateForSupervisingRepository from '../../../src/certification/session-management/infrastructure/repositories/certification-candidate-for-supervising-repository.js';
 import * as certificationOfficerRepository from '../../../src/certification/session-management/infrastructure/repositories/certification-officer-repository.js';
 import * as finalizedSessionRepository from '../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
 import * as juryCertificationRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-certification-repository.js';

@@ -1,4 +1,3 @@
-import * as competenceMarkRepository from '../../../../../lib/infrastructure/repositories/competence-mark-repository.js';
 import * as certificationIssueReportRepository from '../../../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as issueReportCategoryRepository from '../../../../certification/shared/infrastructure/repositories/issue-report-category-repository.js';
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
@@ -67,7 +66,6 @@ const repositoriesWithoutInjectedDependencies = {
   certificationCourseRepository,
   certificationChallengeLiveAlertRepository,
   certificationOfficerRepository,
-  competenceMarkRepository,
   finalizedSessionRepository,
   juryCertificationRepository,
   jurySessionRepository,

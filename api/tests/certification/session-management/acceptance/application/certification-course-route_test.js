@@ -1,4 +1,4 @@
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { Assessment } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
   databaseBuilder,
