@@ -246,14 +246,6 @@ class CertificationCandidate {
   convertExtraTimePercentageToDecimal() {
     this.extraTimePercentage = this.extraTimePercentage / 100;
   }
-
-  /**
-   * @param {Subscription} subscription
-   */
-  addSubscription(subscription) {
-    this.subscriptions = this.subscriptions.filter(({ type }) => subscription.type !== type);
-    this.subscriptions.push(subscription);
-  }
 }
 
 CertificationCandidate.BILLING_MODES = BILLING_MODES;
