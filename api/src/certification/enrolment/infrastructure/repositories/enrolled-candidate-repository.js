@@ -50,7 +50,6 @@ const findBySessionId = async function ({ sessionId }) {
     return new EnrolledCandidate({
       ...candidateData,
       subscriptions,
-      isLinked: candidateData.userId !== null,
     });
   });
   return enrolledCandidates.sort(_sortAlphabeticallyByLastNameThenFirstName);

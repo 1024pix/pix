@@ -2,6 +2,7 @@ import { EnrolledCandidate } from '../../../../../../src/certification/enrolment
 
 const buildEnrolledCandidate = function ({
   id = 123,
+  createdAt = new Date(),
   firstName = 'Poison',
   lastName = 'Ivy',
   sex = 'F',
@@ -15,15 +16,16 @@ const buildEnrolledCandidate = function ({
   birthdate = '1990-05-06',
   extraTimePercentage = 0.3,
   externalId = 'externalId',
+  userId = 789,
   sessionId = 456,
   organizationLearnerId,
   billingMode = null,
   prepaymentCode = null,
-  isLinked = false,
   subscriptions = [],
 } = {}) {
   return new EnrolledCandidate({
     id,
+    createdAt,
     firstName,
     lastName,
     sex,
@@ -41,7 +43,7 @@ const buildEnrolledCandidate = function ({
     organizationLearnerId,
     billingMode,
     prepaymentCode,
-    isLinked,
+    userId,
     subscriptions,
   });
 };

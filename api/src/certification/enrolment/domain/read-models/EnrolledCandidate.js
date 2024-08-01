@@ -8,6 +8,7 @@ import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTyp
 export class EnrolledCandidate {
   constructor({
     id,
+    createdAt,
     firstName,
     lastName,
     sex,
@@ -21,13 +22,15 @@ export class EnrolledCandidate {
     externalId,
     birthdate,
     extraTimePercentage,
-    isLinked,
+    sessionId,
+    userId,
     organizationLearnerId,
     subscriptions,
     billingMode,
     prepaymentCode,
   } = {}) {
     this.id = id;
+    this.createdAt = createdAt;
     this.firstName = firstName;
     this.lastName = lastName;
     this.birthCity = birthCity;
@@ -41,7 +44,9 @@ export class EnrolledCandidate {
     this.externalId = externalId;
     this.birthdate = birthdate;
     this.extraTimePercentage = !_.isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : null;
-    this.isLinked = !!isLinked;
+    this.isLinked = Boolean(userId);
+    this.userId = userId;
+    this.sessionId = sessionId;
     this.organizationLearnerId = organizationLearnerId;
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;

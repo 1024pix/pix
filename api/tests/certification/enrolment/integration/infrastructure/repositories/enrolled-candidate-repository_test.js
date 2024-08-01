@@ -13,6 +13,7 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
       anotherSessionId = databaseBuilder.factory.buildSession().id;
       michelData = {
         id: 1,
+        createdAt: new Date('2020-01-01'),
         firstName: 'Michel',
         lastName: 'Jacques',
         sex: 'M',
@@ -34,6 +35,7 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
       };
       jeannetteData = {
         id: 2,
+        createdAt: new Date('2021-01-01'),
         firstName: 'Jeanette',
         lastName: 'Jacques',
         sex: 'F',
@@ -55,6 +57,7 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
       };
       fredericData = {
         id: 3,
+        createdAt: new Date('2022-01-01'),
         firstName: 'Frédéric',
         lastName: 'Mercure',
         sex: 'M',
