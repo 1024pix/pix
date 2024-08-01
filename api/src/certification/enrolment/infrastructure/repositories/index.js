@@ -10,6 +10,7 @@ import * as certificationCpfCityRepository from './certification-cpf-city-reposi
 import * as certificationCpfCountryRepository from './certification-cpf-country-repository.js';
 import * as complementaryCertificationRepository from './complementary-certification-repository.js';
 import * as countryRepository from './country-repository.js';
+import * as enrolledCandidateRepository from './enrolled-candidate-repository.js';
 import * as scoCertificationCandidateRepository from './sco-certification-candidate-repository.js';
 import * as sessionForAttendanceSheetRepository from './session-for-attendance-sheet-repository.js';
 import * as sessionRepository from './session-repository.js';
@@ -40,6 +41,7 @@ const repositoriesWithoutInjectedDependencies = {
   certificationCpfCityRepository,
   complementaryCertificationRepository,
   countryRepository,
+  enrolledCandidateRepository,
   scoCertificationCandidateRepository,
   sessionForAttendanceSheetRepository,
   sessionManagementRepository,

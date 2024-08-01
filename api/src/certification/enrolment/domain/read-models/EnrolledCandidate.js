@@ -24,6 +24,7 @@ export class EnrolledCandidate {
     complementaryCertificationId,
     complementaryCertificationLabel,
     complementaryCertificationKey,
+    subscriptions = [],
     billingMode,
     prepaymentCode,
   } = {}) {
@@ -48,6 +49,7 @@ export class EnrolledCandidate {
     this.complementaryCertificationKey = complementaryCertificationKey;
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;
+    this.subscriptions = subscriptions;
   }
 
   /**

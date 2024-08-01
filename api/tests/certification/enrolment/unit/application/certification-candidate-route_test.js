@@ -220,7 +220,7 @@ describe('Unit | Application | Sessions | Routes', function () {
     it('should exist', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
-      sinon.stub(certificationCandidateController, 'getCandidate').returns('ok');
+      sinon.stub(certificationCandidateController, 'getEnrolledCandidates').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 

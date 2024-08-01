@@ -1,4 +1,3 @@
-import { EnrolledCandidate } from '../../../../../../src/certification/enrolment/domain/read-models/EnrolledCandidate.js';
 import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/certification-candidate-serializer.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
@@ -24,9 +23,12 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
   describe('#serialize()', function () {
     it('should convert a CertificationCandidate model object into JSON API data', function () {
       // given
-      const sessionCandidate = EnrolledCandidate.fromCandidateAndComplementaryCertification({
-        candidate: certificationCandidate,
-        complementaryCertification,
+      const sessionCandidate = domainBuilder.certification.enrolment.buildEnrolledCandidate({
+        ...certificationCandidate,
+        isLinked: Boolean(certificationCandidate.userId),
+        complementaryCertificationId: complementaryCertification.id,
+        complementaryCertificationLabel: complementaryCertification.label,
+        complementaryCertificationKey: complementaryCertification.key,
       });
       const expectedJsonApiData = {
         data: {
@@ -69,9 +71,12 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
     context('when candidate has no complementary certification', function () {
       it('should convert a CertificationCandidate model object into JSON API data', function () {
         // given
-        const sessionCandidate = EnrolledCandidate.fromCandidateAndComplementaryCertification({
-          candidate: certificationCandidate,
-          complementaryCertification: null,
+        const sessionCandidate = domainBuilder.certification.enrolment.buildEnrolledCandidate({
+          ...certificationCandidate,
+          isLinked: Boolean(certificationCandidate.userId),
+          complementaryCertificationId: null,
+          complementaryCertificationLabel: null,
+          complementaryCertificationKey: null,
         });
 
         const expectedJsonApiData = {

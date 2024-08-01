@@ -27,7 +27,7 @@ describe('Unit | UseCase | get-session-certification-candidates', function () {
         complementaryCertificationId: candidate.complementaryCertificationId,
       })
       .resolves(complementaryCertification);
-    const expectedCandidate = domainBuilder.certification.enrolment.buildCertificationSessionEnrolledCandidate({
+    const expectedCandidate = domainBuilder.certification.enrolment.buildEnrolledCandidate({
       complementaryCertificationId: candidate.complementaryCertificationId,
       complementaryCertificationLabel: 'JACKSON',
       complementaryCertificationKey: 'CLEA',
@@ -53,7 +53,7 @@ describe('Unit | UseCase | get-session-certification-candidates', function () {
         complementaryCertificationId: undefined,
       });
       candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([candidate]);
-      const expectedCandidate = domainBuilder.certification.enrolment.buildCertificationSessionEnrolledCandidate({
+      const expectedCandidate = domainBuilder.certification.enrolment.buildEnrolledCandidate({
         isLinked: true,
       });
 

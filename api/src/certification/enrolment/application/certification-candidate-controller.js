@@ -2,7 +2,7 @@ import { Serializer } from 'jsonapi-serializer';
 
 import * as certificationCandidateSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as sessionCertificationCandidateSerializer from '../infrastructure/serializers/certification-candidate-serializer.js';
+import * as enrolledCandidateSerializer from '../infrastructure/serializers/enrolled-candidate-serializer.js';
 
 const addCandidate = async function (request, h, dependencies = { certificationCandidateSerializer }) {
   const sessionId = request.params.id;
@@ -19,11 +19,10 @@ const addCandidate = async function (request, h, dependencies = { certificationC
     .created();
 };
 
-const getCandidate = async function (request, h, dependencies = { sessionCertificationCandidateSerializer }) {
+const getEnrolledCandidates = async function (request, h, dependencies = { enrolledCandidateSerializer }) {
   const sessionId = request.params.id;
-
-  const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
-  return dependencies.sessionCertificationCandidateSerializer.serialize(certificationCandidates);
+  const enrolledCandidates = await usecases.getEnrolledCandidatesInSession({ sessionId });
+  return dependencies.enrolledCandidateSerializer.serialize(enrolledCandidates);
 };
 
 const deleteCandidate = async function (request) {
@@ -55,7 +54,7 @@ const _getSubscriptionParameter = (request) => {
 
 const certificationCandidateController = {
   addCandidate,
-  getCandidate,
+  getEnrolledCandidates,
   deleteCandidate,
   validateCertificationInstructions,
 };

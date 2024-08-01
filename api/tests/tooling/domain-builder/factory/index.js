@@ -57,7 +57,6 @@ import { buildCertificationRescoringCompletedEvent } from './build-certification
 import { buildCertificationResult } from './build-certification-result.js';
 import { buildCertificationScoringCompletedEvent } from './build-certification-scoring-completed-event.js';
 import { buildCertificationSessionCandidate } from './build-certification-session-candidate.js';
-import { buildCertificationSessionEnrolledCandidate } from './build-certification-session-enrolled-candidate.js';
 import { buildCertifiedArea } from './build-certified-area.js';
 import { buildCertifiedCompetence } from './build-certified-competence.js';
 import { buildCertifiedProfile } from './build-certified-profile.js';
@@ -172,6 +171,7 @@ import { buildV3CertificationChallengeLiveAlertForAdministration } from './build
 import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-certification-course-details-for-administration.js';
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
+import { buildEnrolledCandidate } from './certification/enrolment/build-enrolled-candidate.js';
 import { buildSessionEnrolment } from './certification/enrolment/build-session.js';
 import { buildComplementarySubscription, buildCoreSubscription } from './certification/enrolment/build-subscription.js';
 import { buildFlashAssessmentAlgorithm } from './certification/flash-certification/build-flash-assessment-algorithm.js';
@@ -203,7 +203,7 @@ const certification = {
     buildCenter,
     buildHabilitation,
     buildCertificationSessionCandidate,
-    buildCertificationSessionEnrolledCandidate,
+    buildEnrolledCandidate,
   },
   sessionManagement: {
     buildCertificationSessionComplementaryCertification,

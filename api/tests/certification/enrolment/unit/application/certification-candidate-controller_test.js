@@ -79,38 +79,6 @@ describe('Unit | Controller | certification-candidate-controller', function () {
     });
   });
 
-  describe('#get', function () {
-    let request;
-    const sessionId = 1;
-    const certificationCandidates = 'candidates';
-    const certificationCandidatesJsonApi = 'candidatesJSONAPI';
-
-    beforeEach(function () {
-      // given
-      request = {
-        params: { id: sessionId },
-      };
-      sinon
-        .stub(usecases, 'getSessionCertificationCandidates')
-        .withArgs({ sessionId })
-        .resolves(certificationCandidates);
-    });
-
-    it('should return certification candidates', async function () {
-      // when
-      const sessionCertificationCandidateSerializer = { serialize: sinon.stub() };
-      sessionCertificationCandidateSerializer.serialize
-        .withArgs(certificationCandidates)
-        .returns(certificationCandidatesJsonApi);
-      const response = await certificationCandidateController.getCandidate(request, hFake, {
-        sessionCertificationCandidateSerializer,
-      });
-
-      // then
-      expect(response).to.deep.equal(certificationCandidatesJsonApi);
-    });
-  });
-
   describe('#deleteCandidate ', function () {
     let request;
     const sessionId = 1;

@@ -1,24 +1,25 @@
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import { fillCandidatesImportSheet } from '../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
-import * as certificationCandidateSerializer from '../infrastructure/serializers/certification-candidate-serializer.js';
+import * as enrolledCandidateSerializer from '../infrastructure/serializers/enrolled-candidate-serializer.js';
 
+// TODO LAURA ICI
 const enrolStudentsToSession = async function (
   request,
   h,
-  dependencies = { certificationCandidateSerializer, requestResponseUtils },
+  dependencies = { enrolledCandidateSerializer, requestResponseUtils },
 ) {
   const referentId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   const sessionId = request.params.id;
   const studentIds = request.deserializedPayload.organizationLearnerIds;
 
   await usecases.enrolStudentsToSession({ sessionId, referentId, studentIds });
-  const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
-  const certificationCandidatesSerialized =
-    dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
-  return h.response(certificationCandidatesSerialized).created();
+  const enrolledCandidates = await usecases.getEnrolledCandidatesInSession({ sessionId });
+  const enrolledCandidatesSerialized = dependencies.enrolledCandidateSerializer.serialize(enrolledCandidates);
+  return h.response(enrolledCandidatesSerialized).created();
 };
 
+// TODO LAURA ICI
 const getCandidatesImportSheet = async function (request, h, dependencies = { fillCandidatesImportSheet }) {
   const translate = request.i18n.__;
   const sessionId = request.params.id;

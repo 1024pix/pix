@@ -1,6 +1,6 @@
-import { EnrolledCandidate } from '../../../../src/certification/enrolment/domain/read-models/EnrolledCandidate.js';
+import { EnrolledCandidate } from '../../../../../../src/certification/enrolment/domain/read-models/EnrolledCandidate.js';
 
-const buildCertificationSessionEnrolledCandidate = function ({
+const buildEnrolledCandidate = function ({
   id = 123,
   firstName = 'Poison',
   lastName = 'Ivy',
@@ -17,9 +17,9 @@ const buildCertificationSessionEnrolledCandidate = function ({
   externalId = 'externalId',
   sessionId = 456,
   organizationLearnerId,
-  complementaryCertificationId,
-  complementaryCertificationLabel,
-  complementaryCertificationKey,
+  complementaryCertificationId = null,
+  complementaryCertificationLabel = null,
+  complementaryCertificationKey = null,
   billingMode = null,
   prepaymentCode = null,
   isLinked = false,
@@ -50,4 +50,4 @@ const buildCertificationSessionEnrolledCandidate = function ({
   });
 };
 
-export { buildCertificationSessionEnrolledCandidate };
+export { buildEnrolledCandidate };
