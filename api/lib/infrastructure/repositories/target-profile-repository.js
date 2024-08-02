@@ -19,11 +19,6 @@ const get = async function (id) {
   return new TargetProfile({ ...targetProfile, badges: badges.map((badge) => new Badge(badge)) });
 };
 
-const getTubesByTargetProfileId = async (targetProfileId) => {
-  const knexConn = DomainTransaction.getConnection();
-  return knexConn('target-profile_tubes').select('tubeId', 'level').where('targetProfileId', targetProfileId);
-};
-
 const findByIds = async function (targetProfileIds) {
   const targetProfiles = await knex('target-profiles').whereIn('id', targetProfileIds);
   return targetProfiles.map((targetProfile) => {
@@ -65,4 +60,4 @@ const hasTubesWithLevels = async function ({ targetProfileId, tubesWithLevels })
   }
 };
 
-export { findByIds, findOrganizationIds, get, getTubesByTargetProfileId, hasTubesWithLevels };
+export { findByIds, findOrganizationIds, get, hasTubesWithLevels };

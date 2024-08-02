@@ -51,4 +51,9 @@ const create = async function ({ targetProfileForCreation }) {
   return targetProfileId;
 };
 
-export { create, update };
+const getTubesByTargetProfileId = async (targetProfileId) => {
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn('target-profile_tubes').select('tubeId', 'level').where('targetProfileId', targetProfileId);
+};
+
+export { create, getTubesByTargetProfileId, update };

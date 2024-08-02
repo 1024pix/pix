@@ -11,11 +11,11 @@ describe('Unit | UseCase | copy-target-profile', function () {
   beforeEach(function () {
     targetProfileRepositoryStub = {
       get: sinon.stub(),
-      getTubesByTargetProfileId: sinon.stub(),
     };
 
     targetProfileAdministrationRepositoryStub = {
       create: sinon.stub(),
+      getTubesByTargetProfileId: sinon.stub(),
     };
 
     badgeRepositoryStub = {
@@ -41,7 +41,9 @@ describe('Unit | UseCase | copy-target-profile', function () {
       { tubeId: 123, level: 1 },
       { tubeId: 456, level: 2 },
     ];
-    targetProfileRepositoryStub.getTubesByTargetProfileId.withArgs(targetProfileId).resolves(targetProfileTubes);
+    targetProfileAdministrationRepositoryStub.getTubesByTargetProfileId
+      .withArgs(targetProfileId)
+      .resolves(targetProfileTubes);
 
     targetProfileAdministrationRepositoryStub.create.resolves(copiedTargetProfileIdSymbol);
 

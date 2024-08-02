@@ -6,7 +6,7 @@ const copyTargetProfile = async function ({
   targetProfileAdministrationRepository,
 }) {
   const targetProfileToCopy = await targetProfileRepository.get(targetProfileId);
-  const targetProfileTubes = await targetProfileRepository.getTubesByTargetProfileId(targetProfileId);
+  const targetProfileTubes = await targetProfileAdministrationRepository.getTubesByTargetProfileId(targetProfileId);
 
   const copiedTargetProfile = TargetProfileForCreation.copyTargetProfile({
     ...targetProfileToCopy,
