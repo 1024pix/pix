@@ -13,6 +13,7 @@ import {
   answerRepository,
   assessmentRepository,
   assessmentResultRepository,
+  certificationChallengeRepository,
   challengeRepository,
   competenceMarkRepository,
   sessionRepositories,
@@ -65,6 +66,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
+ * @typedef {certificationChallengeRepository} CertificationChallengeRepository
  * @typedef {challengeRepository} ChallengeRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
@@ -102,6 +104,7 @@ const dependencies = {
   placementProfileService,
   scoringCertificationService,
   certificationCpfService,
+  certificationChallengeRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

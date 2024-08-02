@@ -10,6 +10,7 @@ import * as certificationCpfCityRepository from '../../../enrolment/infrastructu
 import * as certificationCpfCountryRepository from '../../../enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as certificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
+import * as certificationChallengeRepository from '../../../shared/infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
 import * as sharedCompetenceMarkRepository from '../../../shared/infrastructure/repositories/competence-mark-repository.js';
@@ -52,6 +53,7 @@ import * as v3CertificationCourseDetailsForAdministrationRepository from './v3-c
  * @typedef {v3CertificationCourseDetailsForAdministrationRepository} V3CertificationCourseDetailsForAdministrationRepository
  * @typedef {competenceRepository} CompetenceRepository
  * @typedef {challengeRepository} ChallengeRepository
+ * @typedef {certificationChallengeRepository} CertificationChallengeRepository
  * @typedef {answerRepository} AnswerRepository
  * @typedef {assessmentResultRepository} AssessmentResultRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
@@ -100,6 +102,7 @@ export {
   answerRepository,
   assessmentRepository,
   assessmentResultRepository,
+  certificationChallengeRepository,
   challengeRepository,
   competenceMarkRepository,
   sessionRepositories,
