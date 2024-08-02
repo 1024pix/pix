@@ -1,8 +1,8 @@
 import * as url from 'node:url';
 
 import { disconnect } from '../../../db/knex-database-connection.js';
-import { FlashAssessmentAlgorithmConfiguration } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../../../src/certification/shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);

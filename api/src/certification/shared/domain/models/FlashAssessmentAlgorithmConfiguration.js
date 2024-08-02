@@ -1,5 +1,5 @@
 import { config } from '../../../../shared/config.js';
-import { FlashAssessmentSuccessRateHandler } from './FlashAssessmentSuccessRateHandler.js';
+import { FlashAssessmentSuccessRateHandler } from '../../../flash-certification/domain/models/FlashAssessmentSuccessRateHandler.js';
 
 /**
  * @param forcedCompetences - force the algorithm to ask questions on the specified competences

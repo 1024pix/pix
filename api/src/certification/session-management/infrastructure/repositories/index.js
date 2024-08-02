@@ -15,6 +15,7 @@ import * as certificationCourseRepository from '../../../shared/infrastructure/r
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
 import * as sharedCompetenceMarkRepository from '../../../shared/infrastructure/repositories/competence-mark-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../../shared/infrastructure/repositories/complementary-certification-course-result-repository.js';
+import * as flashAlgorithmConfigurationRepository from '../../../shared/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as certificationCandidateForSupervisingRepository from './certification-candidate-for-supervising-repository.js';
 import * as certificationOfficerRepository from './certification-officer-repository.js';
 import * as competenceMarkRepository from './competence-mark-repository.js';
@@ -61,6 +62,7 @@ import * as v3CertificationCourseDetailsForAdministrationRepository from './v3-c
  * @typedef {complementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
+ * @typedef {flashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   assessmentRepository,
@@ -105,6 +107,7 @@ export {
   certificationChallengeRepository,
   challengeRepository,
   competenceMarkRepository,
+  flashAlgorithmConfigurationRepository,
   sessionRepositories,
   sharedCompetenceMarkRepository,
 };

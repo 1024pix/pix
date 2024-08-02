@@ -4,7 +4,6 @@ import _ from 'lodash';
 
 import * as complementaryCertificationBadgesRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
-import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import { scoringDegradationService } from '../../../src/certification/scoring/domain/services/scoring-degradation-service.js';
 import * as certificationAssessmentHistoryRepository from '../../../src/certification/scoring/infrastructure/repositories/certification-assessment-history-repository.js';
 import * as certificationChallengeForScoringRepository from '../../../src/certification/scoring/infrastructure/repositories/certification-challenge-for-scoring-repository.js';
@@ -17,6 +16,7 @@ import * as certificationCenterRepository from '../../../src/certification/share
 import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as competenceMarkRepository from '../../../src/certification/shared/infrastructure/repositories/competence-mark-repository.js';
+import * as flashAlgorithmConfigurationRepository from '../../../src/certification/shared/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as authenticationMethodRepository from '../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { config } from '../../../src/shared/config.js';

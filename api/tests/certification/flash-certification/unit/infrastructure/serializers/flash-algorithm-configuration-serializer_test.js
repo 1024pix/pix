@@ -1,5 +1,5 @@
-import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import * as serializer from '../../../../../../src/certification/flash-certification/infrastructure/serializers/flash-algorithm-configuration-serializer.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | flash-certification | Serializer | flash-algorithm-configuration-serializer', function () {

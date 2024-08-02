@@ -1,7 +1,11 @@
-import { FlashAssessmentAlgorithmConfiguration } from '../models/FlashAssessmentAlgorithmConfiguration.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../../../shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 
-export const createFlashAssessmentConfiguration = async ({ flashAlgorithmConfigurationRepository, configuration }) => {
-  const previousConfiguration = await flashAlgorithmConfigurationRepository.getMostRecent();
+export const createFlashAssessmentConfiguration = async ({
+  configuration,
+  flashAlgorithmConfigurationRepository,
+  sharedFlashAlgorithmConfigurationRepository,
+}) => {
+  const previousConfiguration = await sharedFlashAlgorithmConfigurationRepository.getMostRecent();
   await flashAlgorithmConfigurationRepository.save(
     new FlashAssessmentAlgorithmConfiguration({
       ...previousConfiguration,

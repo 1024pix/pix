@@ -4,7 +4,6 @@ import { securityPreHandlers } from '../../../../../src/shared/application/secur
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Certification Course', function () {
-
   describe('PATCH /api/admin/certification-courses/{certificationCourseId}', function () {
     it('should exist', async function () {
       // given

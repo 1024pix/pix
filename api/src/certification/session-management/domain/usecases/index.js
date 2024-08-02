@@ -16,6 +16,7 @@ import {
   certificationChallengeRepository,
   challengeRepository,
   competenceMarkRepository,
+  flashAlgorithmConfigurationRepository,
   sessionRepositories,
   sharedCompetenceMarkRepository,
 } from '../../infrastructure/repositories/index.js';
@@ -41,6 +42,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {import('../../infrastructure/repositories/index.js').SessionForSupervisingRepository} SessionForSupervisingRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationReportRepository} CertificationReportRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CompetenceMarkRepository} CompetenceMarkRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').FlashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationAssessmentRepository} CertificationAssessmentRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
@@ -88,6 +90,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {placementProfileService} PlacementProfileService
  * @typedef {scoringCertificationService} ScoringCertificationService
  * @typedef {certificationCpfService} CertificationCpfService
+ * @typedef {flashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
  **/
 const dependencies = {
   ...sessionRepositories,
@@ -105,6 +108,7 @@ const dependencies = {
   scoringCertificationService,
   certificationCpfService,
   certificationChallengeRepository,
+  flashAlgorithmConfigurationRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
