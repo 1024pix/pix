@@ -1,4 +1,3 @@
-import { Subscription } from '../../../../src/certification/enrolment/domain/models/Subscription.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import {
   CertificationCandidatePersonalInfoFieldMissingError,

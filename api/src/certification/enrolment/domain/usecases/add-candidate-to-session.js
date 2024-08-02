@@ -14,7 +14,6 @@ import {
 } from '../../../../shared/domain/errors.js';
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
-import { insert } from '../../infrastructure/repositories/candidate-repository.js';
 
 /**
  * @param {Object} params

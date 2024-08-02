@@ -22,6 +22,7 @@ import { Subscription } from '../models/Subscription.js';
  * @param {deps["sessionsImportValidationService"]} params.sessionsImportValidationService
  * @param {deps["temporarySessionsStorageForMassImportService"]} params.temporarySessionsStorageForMassImportService
  */
+// TODO MVP - NEXT STEP - utiliser des Candidates à la place de CertificationCandidates
 const validateSessions = async function ({
   sessions,
   userId,

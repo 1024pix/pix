@@ -28,6 +28,7 @@ const deleteCandidate = async function (request) {
 
   await usecases.deleteUnlinkedCertificationCandidate({ certificationCandidateId });
 
+  // TODO MVP - NEXT STEP - le truc propre serait de retourner 204 ici
   return null;
 };
 
