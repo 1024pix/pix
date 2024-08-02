@@ -1,4 +1,4 @@
-import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
+import * as csvSerializer from '../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 import * as csvHelpers from '../../shared/application/helpers/csvHelpers.js';
 import { usecases } from '../domain/usecases/index.js';
 import { getCsvHeaders } from '../infrastructure/files/sessions-import.js';

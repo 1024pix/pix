@@ -8,7 +8,7 @@ const { isEmpty, difference } = lodash;
 
 import papa from 'papaparse';
 
-import { FileValidationError, NotFoundError } from '../../../src/shared/domain/errors.js';
+import { FileValidationError, NotFoundError } from '../../domain/errors.js';
 
 const ERRORS = {
   MISSING_REQUIRED_FIELD_NAMES: 'MISSING_REQUIRED_FIELD_NAMES',

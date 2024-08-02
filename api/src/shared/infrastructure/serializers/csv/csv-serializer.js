@@ -4,11 +4,11 @@ import {
   COMPLEMENTARY_CERTIFICATION_SUFFIX,
   emptySession,
   headers,
-} from '../../../../src/certification/shared/infrastructure/utils/csv/sessions-import.js';
-import { FileValidationError } from '../../../../src/shared/domain/errors.js';
-import { convertDateValue } from '../../../../src/shared/infrastructure/utils/date-utils.js';
-import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
+} from '../../../../../src/certification/shared/infrastructure/utils/csv/sessions-import.js';
+import { FileValidationError } from '../../../domain/errors.js';
 import { csvHelper } from '../../helpers/csv.js';
+import { convertDateValue } from '../../utils/date-utils.js';
+import { logger } from '../../utils/logger.js';
 
 const { isEmpty } = lodash;
 
