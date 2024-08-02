@@ -1,5 +1,5 @@
-import { AnswerStatus } from './AnswerStatus.js';
-import { Validation } from './Validation.js';
+import { AnswerStatus } from '../../../shared/domain/models/AnswerStatus.js';
+import { Validation } from '../../../shared/domain/models/Validation.js';
 import { Validator } from './Validator.js';
 
 class ValidatorAlwaysOK extends Validator {

@@ -1,3 +1,4 @@
+import { ValidatorAlwaysOK } from '../../../../../src/evaluation/domain/models/ValidatorAlwaysOK.js';
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
 import { handleActivityAnswer } from '../../../../../src/school/domain/usecases/handle-activity-answer.js';
@@ -6,7 +7,7 @@ import * as activityRepository from '../../../../../src/school/infrastructure/re
 import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
 import * as missionRepository from '../../../../../src/school/infrastructure/repositories/mission-repository.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
-import { Examiner, Validation, ValidatorAlwaysOK } from '../../../../../src/shared/domain/models/index.js';
+import { Examiner, Validation } from '../../../../../src/shared/domain/models/index.js';
 import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import {

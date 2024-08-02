@@ -1,7 +1,7 @@
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
-import { Validation } from '../../../../src/shared/domain/models/Validation.js';
-import { Validator } from '../../../../src/shared/domain/models/Validator.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { Validator } from '../../../../../src/evaluation/domain/models/Validator.js';
+import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
+import { Validation } from '../../../../../src/shared/domain/models/Validation.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Validator', function () {
   describe('#assess', function () {

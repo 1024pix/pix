@@ -1,15 +1,11 @@
+import { ValidatorAlwaysOK } from '../../../../../src/evaluation/domain/models/ValidatorAlwaysOK.js';
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
 import { NotInProgressAssessmentError } from '../../../../../src/school/domain/school-errors.js';
 import { correctAnswer } from '../../../../../src/school/domain/services/correct-answer.js';
 import * as activityAnswerRepository from '../../../../../src/school/infrastructure/repositories/activity-answer-repository.js';
 import * as activityRepository from '../../../../../src/school/infrastructure/repositories/activity-repository.js';
 import { ChallengeNotAskedError, NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import {
-  AnswerStatus,
-  Examiner,
-  Validation,
-  ValidatorAlwaysOK,
-} from '../../../../../src/shared/domain/models/index.js';
+import { AnswerStatus, Examiner, Validation } from '../../../../../src/shared/domain/models/index.js';
 import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import {

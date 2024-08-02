@@ -1,7 +1,7 @@
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
-import { Validation } from '../../../../src/shared/domain/models/Validation.js';
-import { ValidatorQROCMInd } from '../../../../src/shared/domain/models/ValidatorQROCMInd.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { ValidatorQROCMInd } from '../../../../../src/evaluation/domain/models/ValidatorQROCMInd.js';
+import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
+import { Validation } from '../../../../../src/shared/domain/models/Validation.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | ValidatorQROCMInd', function () {
   let solutionServiceQROCMIndStub;

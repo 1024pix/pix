@@ -1,13 +1,13 @@
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
-import { Validation } from '../../../../src/shared/domain/models/Validation.js';
-import { ValidatorQCU } from '../../../../src/shared/domain/models/ValidatorQCU.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { ValidatorQCM } from '../../../../../src/evaluation/domain/models/ValidatorQCM.js';
+import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
+import { Validation } from '../../../../../src/shared/domain/models/Validation.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Models | ValidatorQCU', function () {
-  let solutionServiceQCUStub;
+describe('Unit | Domain | Models | ValidatorQCM', function () {
+  let solutionServiceQcmStub;
 
   beforeEach(function () {
-    solutionServiceQCUStub = {
+    solutionServiceQcmStub = {
       match: sinon.stub(),
     };
   });
@@ -20,13 +20,13 @@ describe('Unit | Domain | Models | ValidatorQCU', function () {
 
     beforeEach(function () {
       // given
-      solutionServiceQCUStub.match.returns(AnswerStatus.OK);
-      solution = domainBuilder.buildSolution({ type: 'QCU' });
+      solutionServiceQcmStub.match.returns(AnswerStatus.OK);
+      solution = domainBuilder.buildSolution({ type: 'QCM' });
 
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
-      validator = new ValidatorQCU({
+      validator = new ValidatorQCM({
         solution: solution,
-        dependencies: { solutionServiceQCU: solutionServiceQCUStub },
+        dependencies: { solutionServiceQCM: solutionServiceQcmStub },
       });
 
       // when
@@ -35,7 +35,7 @@ describe('Unit | Domain | Models | ValidatorQCU', function () {
 
     it('should call solutionServiceQCU', function () {
       // then
-      expect(solutionServiceQCUStub.match).to.have.been.calledWithExactly(uncorrectedAnswer.value, solution.value);
+      expect(solutionServiceQcmStub.match).to.have.been.calledWithExactly(uncorrectedAnswer.value, solution.value);
     });
 
     it('should return a validation object with the returned status', function () {

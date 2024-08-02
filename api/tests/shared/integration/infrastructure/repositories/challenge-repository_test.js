@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
+import { Validator } from '../../../../../src/evaluation/domain/models/Validator.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { Challenge } from '../../../../../src/shared/domain/models/Challenge.js';
-import { Validator } from '../../../../../src/shared/domain/models/Validator.js';
 import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import { catchErr, domainBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
 
