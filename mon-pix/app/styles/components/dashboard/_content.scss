@@ -19,10 +19,13 @@
   }
 
   &__score {
-    @include add-dashboard-content-separator;
+    // stylelint-disable-next-line no-duplicate-selectors
+    & {
+      @include add-dashboard-content-separator;
 
-    grid-area: score;
-    margin-bottom: 20px;
+      grid-area: score;
+      margin-bottom: 20px;
+    }
   }
 
   &__main {
@@ -57,11 +60,14 @@
     }
 
     &__certif {
-      @include add-dashboard-content-separator;
+      // stylelint-disable-next-line no-duplicate-selectors
+      & {
+        @include add-dashboard-content-separator;
 
-      grid-area: certif;
-      height: 100%;
-      margin-bottom: 24px;
+        grid-area: certif;
+        height: 100%;
+        margin-bottom: 24px;
+      }
     }
 
     &__main {
@@ -91,13 +97,16 @@
       grid-area: main;
 
       .dashboard-banner {
-        @include add-dashboard-content-separator;
+        // stylelint-disable-next-line no-duplicate-selectors
+        & {
+          @include add-dashboard-content-separator;
 
-        display: block;
-        padding: 40px 0 47px;
+          display: block;
+          padding: 40px 0 47px;
+        }
 
         & > .new-information {
-          padding: 20px 5px 20px 0;
+          padding: var(--pix-spacing-6x) var(--pix-spacing-4x);
         }
       }
     }
@@ -187,24 +196,18 @@
 
   &__button {
     display: none;
-    padding: 10px 16px;
-    color: $pix-neutral-90;
-    font-size: 0.875rem;
-    border: 1px solid $pix-neutral-50;
-    border-radius: 4px;
-
-    &:hover {
-      background-color: darken($pix-neutral-10, 5%);
-    }
 
     @include device-is('tablet') {
       display: block;
     }
   }
 
-  @include add-dashboard-content-separator;
+  // stylelint-disable-next-line no-duplicate-selectors
+  & {
+    @include add-dashboard-content-separator;
 
-  padding: 24px 0;
+    padding: 24px 0;
+  }
 
   &:last-child {
     border-bottom: none;

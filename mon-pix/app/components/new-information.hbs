@@ -9,16 +9,16 @@
       {{#if @linkText}}
         {{#if (eq @linkDisplayType "button")}}
           {{#if @code}}
-            <LinkTo
+            <PixButtonLink
               @route="{{@linkTo}}"
               @model={{@code}}
-              class="new-information-content-text__button button button--extra-thin button--link"
-            >{{@linkText}}</LinkTo>
+              class="new-information-content-text__button"
+            >{{@linkText}}</PixButtonLink>
           {{else}}
-            <LinkTo
+            <PixButtonLink
               @route="{{@linkTo}}"
-              class="new-information-content-text__button button button--extra-thin button--link"
-            >{{@linkText}}</LinkTo>
+              class="new-information-content-text__button"
+            >{{@linkText}}</PixButtonLink>
           {{/if}}
         {{else}}
           <a
@@ -35,8 +35,12 @@
   </div>
 
   {{#if @closeAction}}
-    <button class="new-information__close {{@textColorClass}}" {{on "click" @closeAction}} type="button">
-      <FaIcon @icon="xmark" /><span class="sr-only">{{t "common.new-information-banner.close-label"}}</span>
-    </button>
+    <PixIconButton
+      @icon="xmark"
+      @ariaLabel={{t "common.new-information-banner.close-label"}}
+      @triggerAction={{@closeAction}}
+      @withBackground={{true}}
+      class="new-information__close"
+    />
   {{/if}}
 </div>
