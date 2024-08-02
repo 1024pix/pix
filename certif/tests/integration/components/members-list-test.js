@@ -1,6 +1,7 @@
 import { clickByName, render, within } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -45,10 +46,10 @@ module('Integration | Component | MembersList', function (hooks) {
       const screen = await render(hbs`<MembersList @members={{this.members}} />`);
 
       // then
-      assert.dom(screen.getByRole('columnheader', { name: this.intl.t('common.labels.candidate.lastname') })).exists();
-      assert.dom(screen.getByRole('columnheader', { name: this.intl.t('common.labels.candidate.firstname') })).exists();
-      assert.dom(screen.getByRole('columnheader', { name: this.intl.t('common.labels.candidate.role') })).exists();
-      assert.dom(screen.getByRole('columnheader', { name: this.intl.t('pages.team.table-headers.actions') })).exists();
+      assert.dom(screen.getByRole('columnheader', { name: t('common.labels.candidate.lastname') })).exists();
+      assert.dom(screen.getByRole('columnheader', { name: t('common.labels.candidate.firstname') })).exists();
+      assert.dom(screen.getByRole('columnheader', { name: t('common.labels.candidate.role') })).exists();
+      assert.dom(screen.getByRole('columnheader', { name: t('pages.team.table-headers.actions') })).exists();
       assert.strictEqual(members.length, 2);
 
       const table = screen.getByRole('table');
@@ -74,7 +75,7 @@ module('Integration | Component | MembersList', function (hooks) {
         hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`,
       );
       // then
-      assert.dom(screen.getByRole('columnheader', { name: this.intl.t('pages.team.referer') })).exists();
+      assert.dom(screen.getByRole('columnheader', { name: t('pages.team.referer') })).exists();
     });
   });
 
@@ -96,7 +97,7 @@ module('Integration | Component | MembersList', function (hooks) {
 
       // then
 
-      assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.pix-referer') })).exists();
+      assert.dom(screen.getByRole('cell', { name: t('pages.team.pix-referer') })).exists();
     });
   });
 
@@ -116,7 +117,7 @@ module('Integration | Component | MembersList', function (hooks) {
       );
 
       // then
-      assert.dom(screen.queryByRole('cell', { name: this.intl.t('pages.team.pix-referer') })).doesNotExist();
+      assert.dom(screen.queryByRole('cell', { name: t('pages.team.pix-referer') })).doesNotExist();
     });
   });
 
@@ -136,7 +137,7 @@ module('Integration | Component | MembersList', function (hooks) {
       );
 
       // then
-      assert.dom(screen.queryByRole('columnheader', { name: this.intl.t('pages.team.referer') })).doesNotExist();
+      assert.dom(screen.queryByRole('columnheader', { name: t('pages.team.referer') })).doesNotExist();
     });
   });
 

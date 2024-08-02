@@ -1,6 +1,7 @@
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { currentURL, settled } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -13,7 +14,7 @@ import {
 module('Acceptance | Routes | Team | Invite', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   module('when user is an admin', function (hooks) {
     let userWithAdminRole;
@@ -30,8 +31,8 @@ module('Acceptance | Routes | Team | Invite', function (hooks) {
 
     test('sends one invitation', async function (assert) {
       // given
-      const inputLabel = this.intl.t('pages.team-invite.input-label');
-      const inviteButtonLabel = this.intl.t('pages.team-invite.invite-button');
+      const inputLabel = t('pages.team-invite.input-label');
+      const inviteButtonLabel = t('pages.team-invite.invite-button');
       const email = 'flavie.eichouette@example.net';
 
       // when
@@ -51,8 +52,8 @@ module('Acceptance | Routes | Team | Invite', function (hooks) {
 
     test('sends multiple invitations', async function (assert) {
       // given
-      const inputLabel = this.intl.t('pages.team-invite.input-label');
-      const inviteButtonLabel = this.intl.t('pages.team-invite.invite-button');
+      const inputLabel = t('pages.team-invite.input-label');
+      const inviteButtonLabel = t('pages.team-invite.invite-button');
       const emails = 'flavie.eichouette@example.net,dick.tektiv@example.net';
 
       // when
@@ -79,8 +80,8 @@ module('Acceptance | Routes | Team | Invite', function (hooks) {
       module('when the email address have an invalid format', function () {
         test('it displays an error notification', async function (assert) {
           // given
-          const inputLabel = this.intl.t('pages.team-invite.input-label');
-          const inviteButtonLabel = this.intl.t('pages.team-invite.invite-button');
+          const inputLabel = t('pages.team-invite.input-label');
+          const inviteButtonLabel = t('pages.team-invite.invite-button');
           const email = 'dic.tafone@';
 
           server.post(
@@ -106,9 +107,7 @@ module('Acceptance | Routes | Team | Invite', function (hooks) {
           await settled();
 
           // then
-          const expectedErrorNotification = this.intl.t(
-            'pages.team-invite.notifications.error.invitations.invalid-email-format',
-          );
+          const expectedErrorNotification = t('pages.team-invite.notifications.error.invitations.invalid-email-format');
           assert.dom(screen.getByText(expectedErrorNotification)).exists();
           assert.strictEqual(currentURL(), '/equipe/inviter');
         });
@@ -117,8 +116,8 @@ module('Acceptance | Routes | Team | Invite', function (hooks) {
       module('when the email address have an invalid domain name', function () {
         test('it displays an error notification', async function (assert) {
           // given
-          const inputLabel = this.intl.t('pages.team-invite.input-label');
-          const inviteButtonLabel = this.intl.t('pages.team-invite.invite-button');
+          const inputLabel = t('pages.team-invite.input-label');
+          const inviteButtonLabel = t('pages.team-invite.invite-button');
           const email = 'dic.tafone@kjqsbfzdifubidqshjfbdsjlhfvjqdshf.uyt';
 
           server.post(
@@ -143,9 +142,7 @@ module('Acceptance | Routes | Team | Invite', function (hooks) {
           await settled();
 
           // then
-          const expectedErrorNotification = this.intl.t(
-            'pages.team-invite.notifications.error.invitations.invalid-email-domain',
-          );
+          const expectedErrorNotification = t('pages.team-invite.notifications.error.invitations.invalid-email-domain');
           assert.dom(screen.getByText(expectedErrorNotification)).exists();
           assert.strictEqual(currentURL(), '/equipe/inviter');
         });
@@ -154,8 +151,8 @@ module('Acceptance | Routes | Team | Invite', function (hooks) {
       module('when the email provider is unavailable', function () {
         test('it displays an error notification', async function (assert) {
           // given
-          const inputLabel = this.intl.t('pages.team-invite.input-label');
-          const inviteButtonLabel = this.intl.t('pages.team-invite.invite-button');
+          const inputLabel = t('pages.team-invite.input-label');
+          const inviteButtonLabel = t('pages.team-invite.invite-button');
           const email = 'dic.tafone@example.net';
 
           server.post(
@@ -180,7 +177,7 @@ module('Acceptance | Routes | Team | Invite', function (hooks) {
           await settled();
 
           // then
-          const expectedErrorNotification = this.intl.t(
+          const expectedErrorNotification = t(
             'pages.team-invite.notifications.error.invitations.mailer-provider-unavailable',
           );
           assert.dom(screen.getByText(expectedErrorNotification)).exists();

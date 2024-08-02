@@ -11,7 +11,7 @@ import { authenticateSession } from '../helpers/test-init';
 module('Acceptance | Session creation', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   test('it should not be accessible by an unauthenticated user', async function (assert) {
     // when

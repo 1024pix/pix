@@ -2,11 +2,12 @@ import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library'
 import { currentURL } from '@ember/test-helpers';
 import { settled } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { module, test } from 'qunit';
 
-import setupIntl from '../helpers/setup-intl';
 import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
   createCertificationPointOfContactWithTermsOfServiceNotAccepted,
@@ -15,7 +16,7 @@ import {
 module('Acceptance | join ', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   module('Login', function (hooks) {
     let emailInputLabel;
@@ -24,10 +25,10 @@ module('Acceptance | join ', function (hooks) {
     let loginFormButton;
 
     hooks.beforeEach(function () {
-      emailInputLabel = this.intl.t('common.forms.login.email');
-      passwordInputLabel = this.intl.t('common.forms.login.password');
-      loginFormButton = this.intl.t('pages.login-or-register.login-form.login');
-      toogleloginFormButton = this.intl.t('pages.login-or-register.login-form.button');
+      emailInputLabel = t('common.forms.login.email');
+      passwordInputLabel = t('common.forms.login.password');
+      loginFormButton = t('pages.login-or-register.login-form.login');
+      toogleloginFormButton = t('pages.login-or-register.login-form.button');
     });
 
     module(

@@ -11,7 +11,7 @@ import { authenticateSession } from '../helpers/test-init';
 module('Acceptance | Session Details Parameters', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   hooks.afterEach(function () {
     const notificationMessagesService = this.owner.lookup('service:notifications');

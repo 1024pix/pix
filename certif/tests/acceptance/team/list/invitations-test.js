@@ -1,6 +1,7 @@
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -13,7 +14,7 @@ import {
 module('Acceptance | Team | Invitations', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   module('When user is member', function () {
     test('redirects to team members page', async function (assert) {
@@ -73,7 +74,7 @@ module('Acceptance | Team | Invitations', function (hooks) {
         const screen = await visit('/equipe/invitations');
 
         // when
-        await clickByName(this.intl.t('pages.team-invitations.actions.cancel-invitation'));
+        await clickByName(t('pages.team-invitations.actions.cancel-invitation'));
 
         // then
         assert.dom(screen.queryByText('daisy.draté@example.net')).doesNotExist();
@@ -94,7 +95,7 @@ module('Acceptance | Team | Invitations', function (hooks) {
           const screen = await visit('/equipe/invitations');
 
           // when
-          await clickByName(this.intl.t('pages.team-invitations.actions.cancel-invitation'));
+          await clickByName(t('pages.team-invitations.actions.cancel-invitation'));
 
           // then
           assert.dom(screen.queryByText('anna.liz@example.net')).exists();
@@ -124,7 +125,7 @@ module('Acceptance | Team | Invitations', function (hooks) {
         const screen = await visit('/equipe/invitations');
 
         // when
-        await clickByName(this.intl.t('pages.team-invitations.actions.resend-invitation'));
+        await clickByName(t('pages.team-invitations.actions.resend-invitation'));
 
         // then
         const formattedDate = dayjsService.self(new Date('2023-12-05T11:35:00Z')).format('DD/MM/YYYY [-] HH:mm');
@@ -148,7 +149,7 @@ module('Acceptance | Team | Invitations', function (hooks) {
           const screen = await visit('/equipe/invitations');
 
           // when
-          await clickByName(this.intl.t('pages.team-invitations.actions.resend-invitation'));
+          await clickByName(t('pages.team-invitations.actions.resend-invitation'));
 
           // then
           assert.dom(screen.queryByText('anna.liz@example.net')).exists();

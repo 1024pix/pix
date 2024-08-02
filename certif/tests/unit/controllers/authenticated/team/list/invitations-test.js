@@ -8,7 +8,7 @@ import setupIntl from '../../../../../helpers/setup-intl';
 
 module('Unit | Controller | authenticated/team/list/invitations', function (hooks) {
   setupTest(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   let controller;
 

@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, settled, triggerEvent } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
 import { module, test } from 'qunit';
@@ -15,6 +16,7 @@ import {
 module('Acceptance | Routes | Authenticated | Sessions | import', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks, 'fr');
 
   module('When certificationPointOfContact is not authenticated', function () {
     test('it should not be accessible', async function (assert) {

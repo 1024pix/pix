@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { RadioButtonCategoryWithSubcategoryAndQuestionNumber } from 'pix-certif/components/issue-report-modal/add-issue-report-modal';
 import {
   categoryToLabel,
@@ -37,9 +38,9 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
 />`);
 
     await click(
-      `[aria-label="${this.intl.t(
+      `[aria-label="${t(
         'pages.session-finalization.add-issue-modal.actions.select-category-label',
-      )} '${this.intl.t(categoryToLabel[certificationIssueReportCategories.IN_CHALLENGE])}'"]`,
+      )} '${t(categoryToLabel[certificationIssueReportCategories.IN_CHALLENGE])}'"]`,
     );
 
     // then
@@ -98,14 +99,12 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
   @maxlength={{500}}
 />`);
 
-      await click(
-        screen.getByLabelText(this.intl.t('pages.session-finalization.add-issue-modal.actions.select-subcategory')),
-      );
+      await click(screen.getByLabelText(t('pages.session-finalization.add-issue-modal.actions.select-subcategory')));
 
       await screen.findByRole('listbox');
       await click(
         await screen.findByRole('option', {
-          name: `${subcategoryCode} ${this.intl.t(subcategoryLabel)}`,
+          name: `${subcategoryCode} ${t(subcategoryLabel)}`,
         }),
       );
 
@@ -114,7 +113,7 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
         .dom(
           screen.getByRole('option', {
             selected: true,
-            name: `${subcategoryCode} ${this.intl.t(subcategoryLabel)}`,
+            name: `${subcategoryCode} ${t(subcategoryLabel)}`,
           }),
         )
         .exists();
@@ -160,12 +159,10 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
   @toggleOnCategory={{this.toggleOnCategory}}
   @maxlength={{500}}
 />`);
-    await click(
-      screen.getByLabelText(this.intl.t('pages.session-finalization.add-issue-modal.actions.select-subcategory')),
-    );
+    await click(screen.getByLabelText(t('pages.session-finalization.add-issue-modal.actions.select-subcategory')));
     await click(
       await screen.findByRole('option', {
-        name: `${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${this.intl.t(
+        name: `${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${t(
           subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING],
         )}`,
       }),
@@ -175,7 +172,7 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
     assert
       .dom(
         screen.getByRole('option', {
-          name: `${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${this.intl.t(
+          name: `${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${t(
             subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING],
           )}`,
         }),

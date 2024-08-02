@@ -1,5 +1,6 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -39,7 +40,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     assert
       .dom(
         screen.getByRole('table', {
-          name: this.intl.t('pages.sessions.detail.candidates.list.with-details-description'),
+          name: t('pages.sessions.detail.candidates.list.with-details-description'),
         }),
       )
       .exists();

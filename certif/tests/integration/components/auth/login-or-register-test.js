@@ -1,6 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -11,7 +12,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
   let loginButton;
 
   hooks.beforeEach(function () {
-    loginButton = this.intl.t('pages.login-or-register.login-form.button');
+    loginButton = t('pages.login-or-register.login-form.button');
   });
 
   test('it should display login-or-register form', async function (assert) {
@@ -20,16 +21,14 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
     // then
     assert.dom(screen.getByRole('img', { name: 'Pix Certif' })).exists();
-    assert
-      .dom(screen.getByRole('heading', { name: this.intl.t('pages.login-or-register.register-form.title') }))
-      .exists();
-    assert.dom(screen.getByRole('heading', { name: this.intl.t('pages.login-or-register.login-form.title') })).exists();
-    assert.dom(screen.getByRole('button', { name: this.intl.t('pages.login-or-register.login-form.button') })).exists();
+    assert.dom(screen.getByRole('heading', { name: t('pages.login-or-register.register-form.title') })).exists();
+    assert.dom(screen.getByRole('heading', { name: t('pages.login-or-register.login-form.title') })).exists();
+    assert.dom(screen.getByRole('button', { name: t('pages.login-or-register.login-form.button') })).exists();
   });
 
   test('it should displays the certification center name the user is invited to', async function (assert) {
     // when
-    const invitationMessage = this.intl.t('pages.login-or-register.title', {
+    const invitationMessage = t('pages.login-or-register.title', {
       certificationCenterName: 'Centre de Certif',
     });
 
@@ -41,8 +40,8 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
   test('it toggle the register form by default', async function (assert) {
     // given
-    const registerButton = this.intl.t('pages.login-or-register.register-form.actions.login');
-    const firstNameInputLabelFromRegisterForm = this.intl.t('common.labels.candidate.firstname');
+    const registerButton = t('pages.login-or-register.register-form.actions.login');
+    const firstNameInputLabelFromRegisterForm = t('common.labels.candidate.firstname');
 
     // when
     const screen = await render(hbs`<Auth::LoginOrRegister />`);
@@ -55,7 +54,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
   test('it toggle the login form on click on login button', async function (assert) {
     // given
-    const emailInputLabelFromLoginForm = this.intl.t('common.forms.login.email');
+    const emailInputLabelFromLoginForm = t('common.forms.login.email');
     const screen = await render(hbs`<Auth::LoginOrRegister />`);
 
     // when
@@ -67,8 +66,8 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
   test('it toggle the register form on click on register button', async function (assert) {
     // given
-    const emailInputLabelFromRegisterForm = this.intl.t('common.forms.login.email');
-    const registerButtonLabel = this.intl.t('pages.login-or-register.register-form.actions.login');
+    const emailInputLabelFromRegisterForm = t('common.forms.login.email');
+    const registerButtonLabel = t('pages.login-or-register.register-form.actions.login');
 
     const screen = await render(hbs`<Auth::LoginOrRegister />`);
 

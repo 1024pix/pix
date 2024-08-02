@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import {
   categoryToLabel,
   certificationIssueReportCategories,
@@ -114,20 +115,12 @@ module('Integration | Component | issue-report-modal', function (hooks) {
 
     // then
     assert
-      .dom(
-        screen.getByText(
-          this.intl.t(categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]),
-        ),
-      )
+      .dom(screen.getByText(t(categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES])))
       .exists();
+    assert.dom(screen.getByText(t(subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED]))).exists();
+    assert.dom(screen.getByText(t(categoryToLabel[certificationIssueReportCategories.FRAUD]))).exists();
     assert
-      .dom(screen.getByText(this.intl.t(subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED])))
-      .exists();
-    assert.dom(screen.getByText(this.intl.t(categoryToLabel[certificationIssueReportCategories.FRAUD]))).exists();
-    assert
-      .dom(
-        screen.getByText(this.intl.t(subcategoryToLabel[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING])),
-      )
+      .dom(screen.getByText(t(subcategoryToLabel[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING])))
       .exists();
   });
 

@@ -76,10 +76,10 @@ module('Unit | Component | session-summary', function (hooks) {
   });
 
   module('#currentLocale', function () {
-    test('should set shouldDisplaySessionDeletionModal to false', async function (assert) {
+    test('should set currentLocale to primaryLocale', async function (assert) {
       // given
       class IntlStub extends Service {
-        locale = ['fr'];
+        primaryLocale = 'fr';
       }
       this.owner.register('service:intl', IntlStub);
 

@@ -1,4 +1,5 @@
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -8,7 +9,7 @@ import setupIntl from '../../../helpers/setup-intl';
 
 module('Unit | Component | toggable-login-form', (hooks) => {
   setupTest(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   let component;
 
@@ -112,7 +113,7 @@ module('Unit | Component | toggable-login-form', (hooks) => {
             await component.authenticate(eventStub);
 
             // then
-            assert.strictEqual(component.errorMessage, this.intl.t('common.api-error-messages.bad-request-error'));
+            assert.strictEqual(component.errorMessage, t('common.api-error-messages.bad-request-error'));
             assert.false(component.isLoading);
             assert.true(component.isErrorMessagePresent);
           });
@@ -150,10 +151,7 @@ module('Unit | Component | toggable-login-form', (hooks) => {
                 await component.authenticate(eventStub);
 
                 // then
-                assert.strictEqual(
-                  component.errorMessage,
-                  this.intl.t('common.api-error-messages.internal-server-error'),
-                );
+                assert.strictEqual(component.errorMessage, t('common.api-error-messages.internal-server-error'));
                 assert.false(component.isLoading);
                 assert.true(component.isErrorMessagePresent);
               });

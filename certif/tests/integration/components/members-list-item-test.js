@@ -1,6 +1,7 @@
 import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -47,10 +48,8 @@ module('Integration | Component | MembersListItem', function (hooks) {
         // then
         assert.dom(screen.getByRole('cell', { name: 'John' })).exists();
         assert.dom(screen.getByRole('cell', { name: 'Williams' })).exists();
-        assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.members.role.member') })).exists();
-        assert
-          .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.members.role.member') }))
-          .doesNotExist();
+        assert.dom(screen.getByRole('cell', { name: t('pages.team.members.role.member') })).exists();
+        assert.dom(screen.queryByRole('button', { name: t('pages.team.members.role.member') })).doesNotExist();
       });
     });
 
@@ -72,10 +71,8 @@ module('Integration | Component | MembersListItem', function (hooks) {
         // then
         assert.dom(screen.getByRole('cell', { name: 'Maria' })).exists();
         assert.dom(screen.getByRole('cell', { name: 'Carré' })).exists();
-        assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.members.role.admin') })).exists();
-        assert
-          .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.members.role.member') }))
-          .doesNotExist();
+        assert.dom(screen.getByRole('cell', { name: t('pages.team.members.role.admin') })).exists();
+        assert.dom(screen.queryByRole('button', { name: t('pages.team.members.role.member') })).doesNotExist();
       });
     });
   });
@@ -105,8 +102,8 @@ module('Integration | Component | MembersListItem', function (hooks) {
           // then
           assert.dom(screen.getByRole('cell', { name: 'John' })).exists();
           assert.dom(screen.getByRole('cell', { name: 'Williams' })).exists();
-          assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.members.role.member') })).exists();
-          assert.dom(screen.getByRole('button', { name: this.intl.t('pages.team.members.actions.manage') })).exists();
+          assert.dom(screen.getByRole('cell', { name: t('pages.team.members.role.member') })).exists();
+          assert.dom(screen.getByRole('button', { name: t('pages.team.members.actions.manage') })).exists();
         });
 
         module('when user clicks the manage button', function () {
@@ -127,7 +124,7 @@ module('Integration | Component | MembersListItem', function (hooks) {
             );
 
             // when
-            await clickByName(this.intl.t('pages.team.members.actions.manage'));
+            await clickByName(t('pages.team.members.actions.manage'));
 
             // then
             assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
@@ -158,10 +155,8 @@ module('Integration | Component | MembersListItem', function (hooks) {
             // then
             assert.dom(screen.getByRole('cell', { name: 'John' })).exists();
             assert.dom(screen.getByRole('cell', { name: 'Williams' })).exists();
-            assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.members.role.member') })).exists();
-            assert
-              .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.members.actions.manage') }))
-              .doesNotExist();
+            assert.dom(screen.getByRole('cell', { name: t('pages.team.members.role.member') })).exists();
+            assert.dom(screen.queryByRole('button', { name: t('pages.team.members.actions.manage') })).doesNotExist();
           });
         });
 
@@ -184,7 +179,7 @@ module('Integration | Component | MembersListItem', function (hooks) {
             );
 
             // then
-            assert.dom(screen.getByRole('button', { name: this.intl.t('pages.team.members.actions.manage') })).exists();
+            assert.dom(screen.getByRole('button', { name: t('pages.team.members.actions.manage') })).exists();
           });
 
           module('when clicking on manage button', function () {
@@ -274,20 +269,18 @@ module('Integration | Component | MembersListItem', function (hooks) {
         const screen = await renderScreen(
           hbs`<MembersListItem @member={{this.member}} @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}} />`,
         );
-        await clickByName(this.intl.t('pages.team.members.actions.manage'));
-        await clickByName(this.intl.t('pages.team.members.actions.edit-role'));
+        await clickByName(t('pages.team.members.actions.manage'));
+        await clickByName(t('pages.team.members.actions.edit-role'));
 
         // then
-        assert.dom(screen.getByLabelText(this.intl.t('pages.team.members.actions.select-role.label'))).exists();
-        assert.dom(screen.getByRole('button', { name: this.intl.t('pages.team.members.actions.save') })).exists();
-        assert.dom(screen.getByRole('button', { name: this.intl.t('common.actions.cancel') })).exists();
-        assert
-          .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.members.actions.manage') }))
-          .doesNotExist();
+        assert.dom(screen.getByLabelText(t('pages.team.members.actions.select-role.label'))).exists();
+        assert.dom(screen.getByRole('button', { name: t('pages.team.members.actions.save') })).exists();
+        assert.dom(screen.getByRole('button', { name: t('common.actions.cancel') })).exists();
+        assert.dom(screen.queryByRole('button', { name: t('pages.team.members.actions.manage') })).doesNotExist();
         assert
           .dom(
             screen.queryByRole('button', {
-              name: this.intl.t('pages.team.members.actions.edit-role'),
+              name: t('pages.team.members.actions.edit-role'),
             }),
           )
           .doesNotExist();
@@ -299,20 +292,18 @@ module('Integration | Component | MembersListItem', function (hooks) {
           const screen = await renderScreen(
             hbs`<MembersListItem @member={{this.member}} @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}} />`,
           );
-          await clickByName(this.intl.t('pages.team.members.actions.manage'));
-          await clickByName(this.intl.t('pages.team.members.actions.edit-role'));
+          await clickByName(t('pages.team.members.actions.manage'));
+          await clickByName(t('pages.team.members.actions.edit-role'));
 
           // when
-          await clickByName(this.intl.t('pages.team.members.actions.select-role.label'));
+          await clickByName(t('pages.team.members.actions.select-role.label'));
           await screen.findByRole('listbox');
-          await click(
-            screen.getByRole('option', { name: this.intl.t('pages.team.members.actions.select-role.options.admin') }),
-          );
+          await click(screen.getByRole('option', { name: t('pages.team.members.actions.select-role.options.admin') }));
 
           // then
           assert
-            .dom(screen.getByRole('button', { name: this.intl.t('pages.team.members.actions.select-role.label') }))
-            .containsText(this.intl.t('pages.team.members.actions.select-role.options.admin'));
+            .dom(screen.getByRole('button', { name: t('pages.team.members.actions.select-role.label') }))
+            .containsText(t('pages.team.members.actions.select-role.options.admin'));
         });
       });
     });

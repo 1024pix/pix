@@ -1,3 +1,4 @@
+import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { FRENCH_INTERNATIONAL_LOCALE } from 'pix-certif/services/locale';
 import { module, test } from 'qunit';
@@ -8,7 +9,7 @@ import setupIntl from '../../../helpers/setup-intl';
 
 module('Unit | Component | register-form', (hooks) => {
   setupTest(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
   const eventStub = { preventDefault: sinon.stub().returns() };
 
   let component;
@@ -109,7 +110,7 @@ module('Unit | Component | register-form', (hooks) => {
         await component.register(eventStub);
 
         // then
-        assert.strictEqual(component.errorMessage, this.intl.t('common.form-errors.default'));
+        assert.strictEqual(component.errorMessage, t('common.form-errors.default'));
         sinon.assert.calledOnce(deleteRecord);
       });
 
@@ -133,7 +134,7 @@ module('Unit | Component | register-form', (hooks) => {
           await component.register(eventStub);
 
           // then
-          assert.strictEqual(component.errorMessage, this.intl.t('common.form-errors.email.already-exists'));
+          assert.strictEqual(component.errorMessage, t('common.form-errors.email.already-exists'));
           sinon.assert.calledOnce(deleteRecord);
         });
       });

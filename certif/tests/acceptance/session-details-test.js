@@ -1,6 +1,7 @@
 import { visit, visit as visitScreen } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -10,7 +11,7 @@ import { authenticateSession } from '../helpers/test-init';
 module('Acceptance | Session Details', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   hooks.afterEach(function () {
     const notificationMessagesService = this.owner.lookup('service:notifications');
@@ -187,9 +188,9 @@ module('Acceptance | Session Details', function (hooks) {
           const screen = await visit(`/sessions/${sessionEnrolment.id}`);
 
           // then
-          assert.dom(screen.getByText(this.intl.t('pages.sessions.detail.panel-clea.title'))).exists();
+          assert.dom(screen.getByText(t('pages.sessions.detail.panel-clea.title'))).exists();
           assert
-            .dom(screen.getByRole('button', { name: this.intl.t('pages.sessions.detail.panel-clea.download-button') }))
+            .dom(screen.getByRole('button', { name: t('pages.sessions.detail.panel-clea.download-button') }))
             .exists();
         });
       });

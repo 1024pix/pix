@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import Sidebar from 'pix-certif/components/layout/sidebar';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -45,7 +46,7 @@ module('Integration | Component | Layout | Sidebar', function (hooks) {
       const screen = await render(<template><Sidebar /></template>);
 
       // then
-      assert.dom(screen.queryByLabelText(this.intl.t('navigation.main.sessions-label'))).exists();
+      assert.dom(screen.queryByLabelText(t('navigation.main.sessions-label'))).exists();
     });
 
     module('when certif center is blocked', function () {
@@ -76,7 +77,7 @@ module('Integration | Component | Layout | Sidebar', function (hooks) {
         const screen = await render(<template><Sidebar /></template>);
 
         // then
-        assert.dom(screen.queryByLabelText(this.intl.t('navigation.main.sessions-label'))).doesNotExist();
+        assert.dom(screen.queryByLabelText(t('navigation.main.sessions-label'))).doesNotExist();
       });
     });
   });
@@ -88,7 +89,7 @@ module('Integration | Component | Layout | Sidebar', function (hooks) {
 
       // then
       assert
-        .dom(screen.getByRole('link', { name: this.intl.t('navigation.main.documentation') }))
+        .dom(screen.getByRole('link', { name: t('navigation.main.documentation') }))
         .hasAttribute('href', LINK_OTHER);
     });
 
@@ -120,7 +121,7 @@ module('Integration | Component | Layout | Sidebar', function (hooks) {
 
       // then
       assert
-        .dom(screen.getByRole('link', { name: this.intl.t('navigation.main.documentation') }))
+        .dom(screen.getByRole('link', { name: t('navigation.main.documentation') }))
         .hasAttribute('href', LINK_V3_PILOT);
     });
 
@@ -150,9 +151,7 @@ module('Integration | Component | Layout | Sidebar', function (hooks) {
       const screen = await render(<template><Sidebar /></template>);
 
       // then
-      assert
-        .dom(screen.getByRole('link', { name: this.intl.t('navigation.main.documentation') }))
-        .hasAttribute('href', LINK_SCO);
+      assert.dom(screen.getByRole('link', { name: t('navigation.main.documentation') })).hasAttribute('href', LINK_SCO);
     });
   });
 });

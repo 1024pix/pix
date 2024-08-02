@@ -8,7 +8,7 @@ import setupIntl from '../../helpers/setup-intl';
 
 module('Unit | Component | enrolled-candidates', function (hooks) {
   setupTest(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   let component;
 

@@ -1,6 +1,7 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import {
   categoryToCode,
   categoryToLabel,
@@ -65,7 +66,7 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
       for (const category of Object.values(certificationIssueReportCategories)) {
         assert
           .dom(
-            screen.getByLabelText(`${categoryToCode[category]} ${this.intl.t(categoryToLabel[category])}`, {
+            screen.getByLabelText(`${categoryToCode[category]} ${t(categoryToLabel[category])}`, {
               exact: false,
             }),
           )
@@ -100,7 +101,7 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
       for (const category of Object.values(v3CertificationIssueReportCategories)) {
         assert
           .dom(
-            screen.getByLabelText(`${categoryToCode[category]} ${this.intl.t(categoryToLabel[category])}`, {
+            screen.getByLabelText(`${categoryToCode[category]} ${t(categoryToLabel[category])}`, {
               exact: false,
             }),
           )

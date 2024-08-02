@@ -1,6 +1,7 @@
 import { clickByName, visit as visitScreen, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { Response } from 'miragejs';
@@ -19,7 +20,7 @@ import { waitForDialog, waitForDialogClose } from '../../../helpers/wait-for';
 module('Acceptance | authenticated | team', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   module('when user is admin', function () {
     test('displays navbar with "members" and "invitations" links and an invite a member button', async function (assert) {
@@ -47,7 +48,7 @@ module('Acceptance | authenticated | team', function (hooks) {
       assert.dom(screen.getByRole('link', { name: 'Membres (3)' })).exists();
       assert.dom(screen.getByRole('link', { name: 'Invitations (-)' })).exists();
 
-      assert.dom(screen.getByText(this.intl.t('pages.team.invite-button'))).exists();
+      assert.dom(screen.getByText(t('pages.team.invite-button'))).exists();
     });
 
     module('when user clicks on invitations link', function () {
@@ -478,11 +479,11 @@ module('Acceptance | authenticated | team', function (hooks) {
               const screen = await visitScreen('/equipe');
 
               // then
-              assert.dom(screen.queryByText(this.intl.t('pages.team.no-referer-section.title'))).doesNotExist();
+              assert.dom(screen.queryByText(t('pages.team.no-referer-section.title'))).doesNotExist();
               assert
                 .dom(
                   screen.queryByRole('button', {
-                    name: this.intl.t('pages.team.no-referer-section.select-referer-button'),
+                    name: t('pages.team.no-referer-section.select-referer-button'),
                   }),
                 )
                 .doesNotExist();

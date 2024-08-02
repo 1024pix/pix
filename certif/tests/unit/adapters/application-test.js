@@ -41,7 +41,7 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
       test(`should add Accept-Language header from the ${locale}`, function (assert) {
         // Given
         const applicationAdapter = this.owner.lookup('adapter:application');
-        applicationAdapter.intl = { get: () => [locale] };
+        applicationAdapter.intl = { primaryLocale: locale };
 
         // Then
         assert.strictEqual(applicationAdapter.headers['Accept-Language'], locale);

@@ -1,6 +1,7 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -91,7 +92,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
         assert
           .dom(
             screen.getByText(
-              this.intl.t('pages.session-supervising.candidate-list.authorized-to-start-candidates', {
+              t('pages.session-supervising.candidate-list.authorized-to-start-candidates', {
                 authorizedToStartCandidates: 0,
                 totalCandidates: this.certificationCandidates.length,
               }),
@@ -188,7 +189,7 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
         assert
           .dom(
             screen.getByText(
-              this.intl.t('pages.session-supervising.candidate-list.authorized-to-start-candidates', {
+              t('pages.session-supervising.candidate-list.authorized-to-start-candidates', {
                 authorizedToStartCandidates: 2,
                 totalCandidates: this.certificationCandidates.length,
               }),
