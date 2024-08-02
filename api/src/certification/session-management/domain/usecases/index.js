@@ -2,6 +2,8 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { pickChallengeService } from '../../../../../src/evaluation/domain/services/pick-challenge-service.js';
+import * as flashAlgorithmService from '../../../../certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import * as scoringCertificationService from '../../../../certification/shared/domain/services/scoring-certification-service.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
@@ -90,6 +92,8 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {placementProfileService} PlacementProfileService
  * @typedef {scoringCertificationService} ScoringCertificationService
  * @typedef {certificationCpfService} CertificationCpfService
+ * @typedef {pickChallengeService} PickChallengeService
+ * @typedef {flashAlgorithmService} FlashAlgorithmService
  * @typedef {flashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
  **/
 const dependencies = {
@@ -109,6 +113,8 @@ const dependencies = {
   certificationCpfService,
   certificationChallengeRepository,
   flashAlgorithmConfigurationRepository,
+  flashAlgorithmService,
+  pickChallengeService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

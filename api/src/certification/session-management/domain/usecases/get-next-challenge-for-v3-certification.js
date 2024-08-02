@@ -5,6 +5,8 @@
  * @typedef {import('./index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('./index.js').ChallengeRepository} ChallengeRepository
  * @typedef {import('./index.js').FlashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
+ * @typedef {import('./index.js').PickChallengeService} PickChallengeService
+ * @typedef {import('./index.js').FlashAlgorithmService} FlashAlgorithmService
  */
 
 import { CertificationChallenge, FlashAssessmentAlgorithm } from '../../../../shared/domain/models/index.js';
@@ -17,6 +19,8 @@ import { CertificationChallenge, FlashAssessmentAlgorithm } from '../../../../sh
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {ChallengeRepository} params.challengeRepository
  * @param {FlashAlgorithmConfigurationRepository} params.flashAlgorithmConfigurationRepository
+ * @param {FlashAlgorithmService} params.flashAlgorithmService
+ * @param {PickChallengeService} params.pickChallengeService
  */
 const getNextChallengeForV3Certification = async function ({
   assessment,

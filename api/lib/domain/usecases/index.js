@@ -13,7 +13,6 @@ import * as certificationCandidateRepository from '../../../src/certification/en
 import * as certificationCpfCityRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as sessionEnrolmentRepository from '../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
-import { getNextChallengeForV3Certification } from '../../../src/certification/session-management/domain/usecases/get-next-challenge-for-v3-certification.js';
 import * as certificationOfficerRepository from '../../../src/certification/session-management/infrastructure/repositories/certification-officer-repository.js';
 import * as finalizedSessionRepository from '../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
 import * as juryCertificationRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-certification-repository.js';
@@ -347,7 +346,6 @@ const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './'), ignoredFileNames: ['index.js'] })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './stages') })),
   getCenterForAdmin,
-  getNextChallengeForV3Certification,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
