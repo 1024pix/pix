@@ -8,8 +8,13 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
   setupIntlRenderingTest(hooks);
 
   test('it should display a tablist with three tabs', async function (assert) {
+    // given
+    this.set('badges', []);
+
     // when
-    const screen = await render(hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs />`);
+    const screen = await render(
+      hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs @badges={{this.badges}} />`,
+    );
 
     // then
     assert.dom(screen.getByRole('tablist', { name: this.intl.t('pages.skill-review.tabs.aria-label') })).exists();
@@ -17,5 +22,18 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
     assert.dom(screen.getByRole('tab', { name: this.intl.t('pages.skill-review.tabs.rewards.tab-label') }));
     assert.dom(screen.getByRole('tab', { name: this.intl.t('pages.skill-review.tabs.results-details.tab-label') }));
     assert.dom(screen.getByRole('tab', { name: this.intl.t('pages.skill-review.tabs.trainings.tab-label') }));
+  });
+
+  test('it should display the rewards tab first', async function (assert) {
+    // given
+    this.set('badges', []);
+
+    // when
+    const screen = await render(
+      hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs @badges={{this.badges}} />`,
+    );
+
+    // then
+    assert.dom(screen.getByRole('heading', { name: this.intl.t('pages.skill-review.tabs.rewards.title') })).isVisible();
   });
 });

@@ -76,7 +76,7 @@ export default async function initUser(databaseBuilder) {
     {
       altMessage: '1 RT non-certifiable, acquis et valide',
       imageUrl: 'https://images.pix.fr/badges/Pix_plus_Droit- Pret-certif_Bronze--Initie.svg',
-      message: '1 RT non-certifiable, acquis et valide',
+      message: '1 RT non-certifiable, acquis et valide **avec markdown**',
       title: '1 RT non-certifiable, acquis et valide',
       isCertifiable: false,
       isAlwaysVisible: false,
@@ -109,7 +109,7 @@ export default async function initUser(databaseBuilder) {
     {
       altMessage: '1 RT certifiable, acquis et valide',
       imageUrl: 'https://images.pix.fr/badges/Badge_Pixome%CC%80tre-plane%CC%80te.svg',
-      message: '1 RT certifiable, acquis et valide',
+      message: '1 RT certifiable, acquis et valide **avec markdown**',
       title: '1 RT certifiable, acquis et valide',
       isCertifiable: true,
       isAlwaysVisible: false,

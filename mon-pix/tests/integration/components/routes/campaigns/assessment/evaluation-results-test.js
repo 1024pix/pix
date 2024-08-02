@@ -7,7 +7,9 @@ import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering'
 module('Integration | Components | Routes | Campaigns | Assessment | Evaluation Results', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it should display a header', async function (assert) {
+  let screen;
+
+  hooks.beforeEach(async function () {
     // given
     const store = this.owner.lookup('service:store');
 
@@ -15,19 +17,21 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
       title: 'Campaign title',
     });
 
-    this.set('model', { campaign });
+    this.set('model', {
+      campaign,
+      campaignParticipationResult: { campaignParticipationBadges: [] },
+    });
 
     // when
-    const screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+    screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+  });
 
+  test('it should display a header', async function (assert) {
     // then
     assert.dom(screen.getByRole('heading', { name: 'Campaign title' })).exists();
   });
 
-  test('it should display a tablist with three tabs', async function (assert) {
-    // when
-    const screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults />`);
-
+  test('it should display a tablist', async function (assert) {
     // then
     assert.dom(screen.getByRole('tablist', { name: this.intl.t('pages.skill-review.tabs.aria-label') })).exists();
   });
