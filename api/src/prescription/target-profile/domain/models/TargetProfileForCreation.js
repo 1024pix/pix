@@ -1,5 +1,5 @@
-import { validate } from '../../../../lib/domain/validators/target-profile/creation-command-validation.js';
-import { TARGET_PROFILE_COPY_NAME_PREFIX } from '../constants.js';
+import { validate } from '../../../../../lib/domain/validators/target-profile/creation-command-validation.js';
+import { TARGET_PROFILE_COPY_NAME_PREFIX } from '../../../../shared/domain/constants.js';
 
 const DEFAULT_IMAGE_URL = 'https://images.pix.fr/profil-cible/Illu_GEN.svg';
 

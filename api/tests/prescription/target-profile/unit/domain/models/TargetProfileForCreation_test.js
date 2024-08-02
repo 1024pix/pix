@@ -1,5 +1,5 @@
-import { TargetProfileForCreation } from '../../../../../src/shared/domain/models/index.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import { TargetProfileForCreation } from '../../../../../../src/shared/domain/models/index.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | TargetProfileForCreation', function () {
   describe('#static copyTargetProfile', function () {

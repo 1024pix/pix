@@ -1,4 +1,4 @@
-import { TargetProfileForCreation } from '../../../../shared/domain/models/index.js';
+import { TargetProfileForCreation } from '../models/TargetProfileForCreation.js';
 
 const copyTargetProfile = async function ({
   targetProfileId,
