@@ -9,8 +9,8 @@
     padding: 0;
     overflow: hidden;
     background-color: var(--pix-neutral-0);
-    border-radius: $pix-spacing-xxs;
-    box-shadow: 1px 1px 3px 1px rgb(var(--pix-neutral-900) 0.13), 0 1px 1px 0 rgba($pix-neutral-110, 0.08);
+    border-radius: var(--pix-spacing-1x);
+    box-shadow: 1px 1px 3px 1px rgb(var(--pix-neutral-900) 0.13), 0 1px 1px 0 rgb(var(--pix-neutral-900) 0.08);
   }
 
   &__item {
@@ -45,7 +45,7 @@
 
         &:focus,
         &:focus-visible {
-          border-radius: $pix-spacing-xxs;
+          border-radius: var(--pix-spacing-1x);
           outline: none;
           box-shadow: inset 0 0 0 1.6px var(--pix-primary-500);
         }

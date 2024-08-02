@@ -14,7 +14,7 @@
   }
 
   &__confirm-button {
-    margin-top: $pix-spacing-s;
+    margin-top: var(--pix-spacing-4x);
   }
 
   &__details {
@@ -38,14 +38,14 @@
     border-radius: 12px;
     font-size: 0.75rem;
     font-weight: $font-normal;
-    margin-top: $pix-spacing-xs;
-    padding: $pix-spacing-xxs 0;
+    margin-top: var(--pix-spacing-2x);
+    padding: var(--pix-spacing-1x) 0;
 
     @include device-is('tablet') {
       margin-top: 0;
       position: absolute;
-      right: $pix-spacing-s;
-      top: $pix-spacing-xxs;
+      right: var(--pix-spacing-4x);
+      top: var(--pix-spacing-1x);
     }
 
     &--ongoing-alert {
@@ -99,7 +99,7 @@
   }
 
   &__eligibility {
-    margin-top: $pix-spacing-xxs;
+    margin-top: var(--pix-spacing-1x);
   }
 }
 
@@ -112,8 +112,8 @@
 .session-supervising-candidate-in-list-details-time {
   display: flex;
   align-items: center;
-  margin-top: $pix-spacing-xs;
-  gap: $pix-spacing-xs;
+  margin-top: var(--pix-spacing-2x);
+  gap: var(--pix-spacing-2x);
   width: fit-content;
 
   @include device-is('mobile') {
@@ -126,7 +126,7 @@
   }
 
   &__text {
-    padding: 6px $pix-spacing-xs;
+    padding: 6px var(--pix-spacing-2x);
     background-color: var(--pix-neutral-500);
     border-radius: 8px;
     color: var(--pix-neutral-0);

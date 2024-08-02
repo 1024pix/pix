@@ -29,12 +29,12 @@
 .form {
   display: flex;
   flex-direction: column;
-  margin-bottom: $pix-spacing-l;
+  margin-bottom: var(--pix-spacing-8x);
 
   &__field {
     display: flex;
     flex-direction: column;
-    margin: $pix-spacing-s 0;
+    margin: var(--pix-spacing-4x) 0;
 
     @include device-is('desktop') {
       width: 500px;
@@ -51,7 +51,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: $pix-spacing-l;
+    margin-top: var(--pix-spacing-8x);
 
     @include device-is('desktop') {
       max-width: 500px;

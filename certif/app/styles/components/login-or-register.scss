@@ -19,7 +19,7 @@
 
   &__language-switcher {
     @include device-is('mobile') {
-      margin-left: $pix-spacing-s;
+      margin-left: var(--pix-spacing-4x);
     }
   }
 }

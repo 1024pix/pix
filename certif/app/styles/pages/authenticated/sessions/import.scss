@@ -7,7 +7,7 @@
   &__title {
     display: flex;
     align-items: center;
-    gap: $pix-spacing-xs;
+    gap: var(--pix-spacing-2x);
 
     > svg {
       color: var(--pix-neutral-500);
@@ -29,15 +29,15 @@
     }
 
     .pix-message--warning {
-      margin-top: $pix-spacing-s;
+      margin-top: var(--pix-spacing-4x);
     }
   }
 
   &__section--download {
     display: flex;
     flex-direction: column;
-    padding: $pix-spacing-m;
-    gap: $pix-spacing-m;
+    padding: var(--pix-spacing-6x);
+    gap: var(--pix-spacing-6x);
 
     .pix-message__content {
       color: var(--pix-neutral-800);
@@ -63,7 +63,7 @@
 
   &__section--link-buttons {
     display: flex;
-    gap: $pix-spacing-s;
+    gap: var(--pix-spacing-4x);
   }
 }
 

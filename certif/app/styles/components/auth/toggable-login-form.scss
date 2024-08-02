@@ -1,13 +1,13 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: $pix-spacing-m;
+  gap: var(--pix-spacing-6x);
   max-width: 400px;
   padding: 0 2px;
   font-size: 0.875rem;
 
   &__information {
-    margin-bottom: $pix-spacing-s;
+    margin-bottom: var(--pix-spacing-4x);
     color: var(--pix-neutral-900);
     text-align: center;
 
