@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v4.193.0 (02/08/2024)
+
+
+### :rocket: Amélioration
+- [#9768](https://github.com/1024pix/pix/pull/9768) [FEATURE] Ajout d'événements Matomo sur Modulix (PIX-13403).
+
+### :building_construction: Tech
+- [#9767](https://github.com/1024pix/pix/pull/9767) [TECH] Ajouter des tests d'intégration concernant le refreshTokenService (PIX-13665).
+- [#9547](https://github.com/1024pix/pix/pull/9547) [TECH] GJS arrive chez Junior !!!!.
+
+### :bug: Correction
+- [#9775](https://github.com/1024pix/pix/pull/9775) [BUGFIX] Corriger l'utilisation du taux de capage dans le choix des épreuves (PIX-13712).
+
+### :arrow_up: Montée de version
+- [#9781](https://github.com/1024pix/pix/pull/9781) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.18 (mon-pix).
+- [#9778](https://github.com/1024pix/pix/pull/9778) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.18 (certif).
+- [#9779](https://github.com/1024pix/pix/pull/9779) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.18 (junior).
+- [#9777](https://github.com/1024pix/pix/pull/9777) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.18 (admin).
+- [#9776](https://github.com/1024pix/pix/pull/9776) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.17 (mon-pix).
+
 ## v4.192.0 (01/08/2024)
 
 
