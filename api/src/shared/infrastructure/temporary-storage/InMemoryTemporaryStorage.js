@@ -67,6 +67,10 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
   keys(pattern) {
     return micromatch(this._client.keys(), pattern);
   }
+
+  async flushAll() {
+    this._client.flushAll();
+  }
 }
 
 export { InMemoryTemporaryStorage };

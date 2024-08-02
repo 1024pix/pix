@@ -71,6 +71,10 @@ class RedisTemporaryStorage extends TemporaryStorage {
     const keys = await this._client.keys(pattern);
     return keys.map((key) => key.slice(PREFIX.length));
   }
+
+  async flushAll() {
+    return this._client.flushall();
+  }
 }
 
 export { RedisTemporaryStorage };
