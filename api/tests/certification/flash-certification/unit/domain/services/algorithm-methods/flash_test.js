@@ -579,6 +579,184 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         // then
         expect(results[0].answerId).to.equal(answerId);
       });
+
+      describe('when limiting the capacity variation', function () {
+        describe('when limiting to a given number of challenges', function () {
+          describe('when giving right answers', function () {
+            it('should return the limited capacities for the correct number of challenges', function () {
+              // given
+              const challenges = [
+                domainBuilder.buildChallenge({
+                  discriminant: 1.86350005965093,
+                  difficulty: 0.194712138508747,
+                }),
+
+                domainBuilder.buildChallenge({
+                  discriminant: 2.056,
+                  difficulty: 0.6973893,
+                }),
+
+                domainBuilder.buildChallenge({
+                  discriminant: 2.5689203,
+                  difficulty: 1.36973893,
+                }),
+              ];
+
+              const allAnswers = [
+                domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id }),
+                domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[1].id }),
+                domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[2].id }),
+              ];
+
+              const variationPercent = 0.5;
+              const variationPercentUntil = 1;
+
+              // when
+              const capacityAndErrorRateHistory = flash.getCapacityAndErrorRateHistory({
+                allAnswers,
+                challenges,
+                variationPercent,
+                variationPercentUntil,
+              });
+
+              // then
+              const capacities = capacityAndErrorRateHistory.map(({ capacity }) => capacity);
+              expect(capacities).to.deep.equal([0.5, 0.75, 1.7005749291039245]);
+            });
+          });
+
+          describe('when giving wrong answers', function () {
+            it('should return the limited capacities for the correct number of challenges', function () {
+              // given
+              const challenges = [
+                domainBuilder.buildChallenge({
+                  discriminant: 1.86350005965093,
+                  difficulty: 0.194712138508747,
+                }),
+
+                domainBuilder.buildChallenge({
+                  discriminant: 2.056,
+                  difficulty: 0.6973893,
+                }),
+
+                domainBuilder.buildChallenge({
+                  discriminant: 2.5689203,
+                  difficulty: 1.36973893,
+                }),
+              ];
+
+              const allAnswers = [
+                domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: challenges[0].id }),
+                domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: challenges[1].id }),
+                domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: challenges[2].id }),
+              ];
+
+              const variationPercent = 0.5;
+              const variationPercentUntil = 1;
+
+              // when
+              const capacityAndErrorRateHistory = flash.getCapacityAndErrorRateHistory({
+                allAnswers,
+                challenges,
+                variationPercent,
+                variationPercentUntil,
+              });
+
+              // then
+              const capacities = capacityAndErrorRateHistory.map(({ capacity }) => capacity);
+              expect(capacities).to.deep.equal([-0.5, -0.75, -1.5100020666768261]);
+            });
+          });
+        });
+
+        describe('when not limiting to a number of challenges', function () {
+          describe('when giving right answers', function () {
+            it('should return the unlimited capacities for all challenges', function () {
+              // given
+              const challenges = [
+                domainBuilder.buildChallenge({
+                  discriminant: 1.86350005965093,
+                  difficulty: 0.194712138508747,
+                }),
+
+                domainBuilder.buildChallenge({
+                  discriminant: 2.056,
+                  difficulty: 0.6973893,
+                }),
+
+                domainBuilder.buildChallenge({
+                  discriminant: 2.5689203,
+                  difficulty: 1.36973893,
+                }),
+              ];
+
+              const allAnswers = [
+                domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id }),
+                domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[1].id }),
+                domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[2].id }),
+              ];
+
+              const variationPercent = 0.5;
+              const variationPercentUntil = null;
+
+              // when
+              const capacityAndErrorRateHistory = flash.getCapacityAndErrorRateHistory({
+                allAnswers,
+                challenges,
+                variationPercent,
+                variationPercentUntil,
+              });
+
+              // then
+              const capacities = capacityAndErrorRateHistory.map(({ capacity }) => capacity);
+              expect(capacities).to.deep.equal([0.5, 0.75, 1.125]);
+            });
+          });
+
+          describe('when giving wrong answers', function () {
+            it('should return the unlimited capacities for all challenges', function () {
+              // given
+              const challenges = [
+                domainBuilder.buildChallenge({
+                  discriminant: 1.86350005965093,
+                  difficulty: 0.194712138508747,
+                }),
+
+                domainBuilder.buildChallenge({
+                  discriminant: 2.056,
+                  difficulty: 0.6973893,
+                }),
+
+                domainBuilder.buildChallenge({
+                  discriminant: 2.5689203,
+                  difficulty: 1.36973893,
+                }),
+              ];
+
+              const allAnswers = [
+                domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: challenges[0].id }),
+                domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: challenges[1].id }),
+                domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: challenges[2].id }),
+              ];
+
+              const variationPercent = 0.5;
+              const variationPercentUntil = null;
+
+              // when
+              const capacityAndErrorRateHistory = flash.getCapacityAndErrorRateHistory({
+                allAnswers,
+                challenges,
+                variationPercent,
+                variationPercentUntil,
+              });
+
+              // then
+              const capacities = capacityAndErrorRateHistory.map(({ capacity }) => capacity);
+              expect(capacities).to.deep.equal([-0.5, -0.75, -1.125]);
+            });
+          });
+        });
+      });
     });
   });
 

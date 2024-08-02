@@ -84,7 +84,11 @@ function getCapacityAndErrorRateHistory({
 
   while (answerIndex < allAnswers.length) {
     answer = allAnswers[answerIndex];
-    const variationPercentForCurrentAnswer = variationPercentUntil >= answerIndex ? variationPercent : undefined;
+    const variationPercentForCurrentAnswer = _defineVariationPercentForCurrentAnswer(
+      variationPercent,
+      variationPercentUntil,
+      answerIndex,
+    );
 
     if (!_shouldUseDoubleMeasure({ doubleMeasuresUntil, answerIndex, answersLength: allAnswers.length })) {
       ({ latestCapacity, likelihood, normalizedPosteriori } = _singleMeasure({
@@ -120,6 +124,14 @@ function getCapacityAndErrorRateHistory({
   }
 
   return capacityHistory;
+}
+
+function _defineVariationPercentForCurrentAnswer(variationPercent, variationPercentUntil, answerIndex) {
+  if (!variationPercentUntil) {
+    return variationPercent;
+  }
+
+  return variationPercentUntil >= answerIndex ? variationPercent : undefined;
 }
 
 function _shouldUseDoubleMeasure({ doubleMeasuresUntil, answerIndex, answersLength }) {
