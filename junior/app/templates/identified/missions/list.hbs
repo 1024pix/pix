@@ -14,12 +14,22 @@
   <div class="cards">
     {{#each @model.missions as |mission|}}
       <PixButton @triggerAction={{fn this.goToMission mission.id}} class="card">
-        <MissionCard
-          @title={{mission.name}}
-          @colorClass="area-{{mission.areaCode}}"
-          @imageName="img-area-{{mission.areaCode}}"
-          @missionCompleted={{this.missionCompleted mission.id}}
-        />
+        {{#if (this.missionCompleted mission.id)}}
+          <MissionCard::CompletedMissionCard
+            @missionLabelStatus={{t "pages.missions.list.status.completed.label"}}
+            @title={{mission.name}}
+            @areaCode={{mission.areaCode}}
+            @imageName="img-area-{{mission.areaCode}}"
+          />
+        {{else}}
+          <MissionCard::MissionCard
+            @missionLabelStatus={{t "pages.missions.list.status.started.label"}}
+            @missionButtonLabel={{t "pages.missions.list.status.started.button-label"}}
+            @title={{mission.name}}
+            @areaCode={{mission.areaCode}}
+            @imageName="img-area-{{mission.areaCode}}"
+          />
+        {{/if}}
       </PixButton>
     {{/each}}
   </div>
