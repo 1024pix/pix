@@ -8,6 +8,7 @@ import { CertificationVersion } from '../../../certification/shared/domain/model
 import * as certificationChallengeRepository from '../../../certification/shared/infrastructure/repositories/certification-challenge-repository.js';
 import { usecases as devcompUsecases } from '../../../devcomp/domain/usecases/index.js';
 import { Answer } from '../../../evaluation/domain/models/Answer.js';
+import { ValidatorAlwaysOK } from '../../../evaluation/domain/models/ValidatorAlwaysOK.js';
 import * as competenceEvaluationSerializer from '../../../evaluation/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
 import {
   extractLocaleFromRequest,
@@ -16,7 +17,6 @@ import {
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { AssessmentEndedError } from '../../domain/errors.js';
 import { Examiner } from '../../domain/models/Examiner.js';
-import { ValidatorAlwaysOK } from '../../domain/models/index.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
 import * as challengeSerializer from '../../infrastructure/serializers/jsonapi/challenge-serializer.js';

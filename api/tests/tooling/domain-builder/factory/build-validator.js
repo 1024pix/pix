@@ -1,5 +1,5 @@
-import { Validator } from '../../../../src/shared/domain/models/Validator.js';
-import { ValidatorQCU } from '../../../../src/shared/domain/models/ValidatorQCU.js';
+import { Validator } from '../../../../src/evaluation/domain/models/Validator.js';
+import { ValidatorQCU } from '../../../../src/evaluation/domain/models/ValidatorQCU.js';
 import { buildSolution } from './build-solution.js';
 
 function buildValidator({ solution = buildSolution() } = {}) {
