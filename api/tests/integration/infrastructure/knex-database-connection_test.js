@@ -13,6 +13,9 @@ describe('Integration | Infrastructure | knex-database-connection', function () 
   });
 
   it('should empty all tables', async function () {
+    // Increase the test timeout because the table truncate can be long to respond sometimes.
+    this.timeout(5000);
+
     // given
     const { id } = databaseBuilder.factory.buildUser();
     await databaseBuilder.commit();
