@@ -5,7 +5,7 @@ import setupIntl from '../../helpers/setup-intl';
 
 module('Unit | Model | Member', function (hooks) {
   setupTest(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   let store;
 

@@ -7,7 +7,7 @@ import setupIntl from '../../helpers/setup-intl';
 
 module('Unit | Component | MembersListItem', (hooks) => {
   setupTest(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   module('#updateCertificationCenterMembership', () => {
     test('disables edition mode, saves membership and displays success notification', async function (assert) {

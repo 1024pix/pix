@@ -9,7 +9,7 @@ import setupIntl from '../../helpers/setup-intl';
 module('Acceptance | Routes | join', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   module('when a user wants to join a certification center', function () {
     test('it should allow the user to create his account and display the dashboard page', async function (assert) {

@@ -1,5 +1,6 @@
 import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
 import dayjs from 'dayjs';
+import { t } from 'ember-intl/test-support';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -68,7 +69,7 @@ module('Integration | Component |  team/invitation-list-item', function (hooks) 
       );
 
       // when
-      await clickByName(this.intl.t('pages.team-invitations.actions.cancel-invitation'));
+      await clickByName(t('pages.team-invitations.actions.cancel-invitation'));
 
       // then
       assert.ok(cancelInvitation.calledWith(invitation));
@@ -94,7 +95,7 @@ module('Integration | Component |  team/invitation-list-item', function (hooks) 
       );
 
       // when
-      await clickByName(this.intl.t('pages.team-invitations.actions.resend-invitation'));
+      await clickByName(t('pages.team-invitations.actions.resend-invitation'));
 
       // then
       assert.ok(resendInvitation.calledWith(invitation));

@@ -1,3 +1,4 @@
+import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon/pkg/sinon-esm';
@@ -7,7 +8,7 @@ import setupIntl from '../../helpers/setup-intl';
 
 module('Unit | Component | session-details | clea-results-download', function (hooks) {
   setupTest(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   let component;
 
@@ -87,9 +88,7 @@ module('Unit | Component | session-details | clea-results-download', function (h
       await component.downloadCleaCertifiedCandidateData(event);
 
       // then
-      assert.ok(
-        component.notifications.error.calledWith(this.intl.t('pages.sessions.detail.panel-clea.error-message')),
-      );
+      assert.ok(component.notifications.error.calledWith(t('pages.sessions.detail.panel-clea.error-message')));
     });
   });
 });

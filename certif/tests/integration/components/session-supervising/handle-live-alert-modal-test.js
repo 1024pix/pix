@@ -1,5 +1,6 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -90,7 +91,7 @@ module('Integration | Component | handle-live-alert-modal', function (hooks) {
       assert.strictEqual(radioButtons.length, numberOfRadioButtons);
       translationKeys.forEach((key) =>
         assert
-          .dom(screen.getByText(this.intl.t(`pages.session-finalization.add-issue-modal.subcategory-labels.${key}`)))
+          .dom(screen.getByText(t(`pages.session-finalization.add-issue-modal.subcategory-labels.${key}`)))
           .exists(),
       );
     });
@@ -127,18 +128,14 @@ module('Integration | Component | handle-live-alert-modal', function (hooks) {
     assert
       .dom(
         screen.getByRole('button', {
-          name: this.intl.t(
-            'pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.dismiss-alert-button',
-          ),
+          name: t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.dismiss-alert-button'),
         }),
       )
       .exists();
     assert
       .dom(
         screen.getByRole('button', {
-          name: this.intl.t(
-            'pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.validate-alert-button',
-          ),
+          name: t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.validate-alert-button'),
         }),
       )
       .exists();

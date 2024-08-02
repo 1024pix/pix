@@ -9,7 +9,7 @@ const INTERNATIONAL_TLD = 'org';
 
 module('Unit | Service | url', function (hooks) {
   setupTest(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   module('#dataProtectionPolicyUrl', function () {
     test('should get "pix.fr" url when current domain contains pix.fr', function (assert) {

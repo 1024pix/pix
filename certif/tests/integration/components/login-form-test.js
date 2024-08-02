@@ -2,6 +2,7 @@ import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import ENV from 'pix-certif/config/environment';
 import { module, test } from 'qunit';
 import { reject, resolve } from 'rsvp';
@@ -83,7 +84,7 @@ module('Integration | Component | login-form', function (hooks) {
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
-    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
+    assert.dom(screen.getByText(t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
   });
 
   test('it displays a should change password message', async function (assert) {
@@ -105,7 +106,7 @@ module('Integration | Component | login-form', function (hooks) {
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
-    const expectedErrorMessage = this.intl.t('pages.login.errors.should-change-password', {
+    const expectedErrorMessage = t('pages.login.errors.should-change-password', {
       url: 'https://app.pix.fr/mot-de-passe-oublie',
       htmlSafe: true,
     });
@@ -146,7 +147,7 @@ module('Integration | Component | login-form', function (hooks) {
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
-    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.NOT_LINKED_CERTIFICATION.I18N_KEY))).exists();
+    assert.dom(screen.getByText(t(ApiErrorMessages.NOT_LINKED_CERTIFICATION.I18N_KEY))).exists();
   });
 
   test('it should display a 504 message when authentication fails with gateway Timeout', async function (assert) {
@@ -173,7 +174,7 @@ module('Integration | Component | login-form', function (hooks) {
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
-    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.GATEWAY_TIMEOUT.I18N_KEY))).exists();
+    assert.dom(screen.getByText(t(ApiErrorMessages.GATEWAY_TIMEOUT.I18N_KEY))).exists();
   });
 
   test('it should display an internal server error message when unhandled error', async function (assert) {
@@ -192,7 +193,7 @@ module('Integration | Component | login-form', function (hooks) {
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
-    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.GATEWAY_TIMEOUT.I18N_KEY))).exists();
+    assert.dom(screen.getByText(t(ApiErrorMessages.GATEWAY_TIMEOUT.I18N_KEY))).exists();
   });
 
   module('when an invitation is cancelled', function () {

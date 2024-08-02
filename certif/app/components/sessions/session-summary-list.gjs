@@ -19,7 +19,7 @@ export default class SessionSummaryList extends Component {
   @service intl;
 
   get currentLocale() {
-    return this.intl.locale[0];
+    return this.intl.primaryLocale;
   }
 
   @action

@@ -1,5 +1,6 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -21,8 +22,8 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
     );
 
     // then
-    assert.dom(screen.getByRole('textbox', { name: this.intl.t('pages.team-invite.input-label') })).isRequired();
-    assert.dom(screen.getByRole('button', { name: this.intl.t('pages.team-invite.invite-button') })).exists();
+    assert.dom(screen.getByRole('textbox', { name: t('pages.team-invite.input-label') })).isRequired();
+    assert.dom(screen.getByRole('button', { name: t('pages.team-invite.invite-button') })).exists();
   });
 
   test('it binds certification center properties with email form input', async function (assert) {
@@ -38,7 +39,7 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
     );
 
     // when
-    const inputLabel = this.intl.t('pages.team-invite.input-label');
+    const inputLabel = t('pages.team-invite.input-label');
     await fillByLabel(inputLabel, 'dev@example.net');
 
     // then
@@ -63,7 +64,7 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
   @onUpdateEmail={{this.updateEmailStub}}
 />`,
       );
-      await clickByName(this.intl.t('pages.team-invite.invite-button'));
+      await clickByName(t('pages.team-invite.invite-button'));
 
       // Then
       assert.ok(this.inviteStub.called);
@@ -76,7 +77,7 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
       await render(
         hbs`<Team::InviteForm @onSubmit={{this.inviteStub}} @onCancel={{this.cancelStub}} @onUpdateEmail={{this.updateEmailStub}} />`,
       );
-      await clickByName(this.intl.t('common.actions.cancel'));
+      await clickByName(t('common.actions.cancel'));
 
       // Then
       assert.ok(this.cancelStub.called);

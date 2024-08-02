@@ -1,4 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
+import { t } from 'ember-intl/test-support';
 import Footer from 'pix-certif/components/layout/footer';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -17,7 +18,7 @@ module('Integration | Component | Layout | Footer', function (hooks) {
     const screen = await render(<template><Footer /></template>);
 
     // then
-    assert.dom(screen.getByText(this.intl.t('navigation.footer.current-year', { currentYear: expectedYear }))).exists();
+    assert.dom(screen.getByText(t('navigation.footer.current-year', { currentYear: expectedYear }))).exists();
   });
 
   test('should display legal notice link', async function (assert) {
@@ -30,7 +31,7 @@ module('Integration | Component | Layout | Footer', function (hooks) {
 
     // then
     assert
-      .dom(screen.getByRole('link', { name: this.intl.t('navigation.footer.legal-notice') }))
+      .dom(screen.getByRole('link', { name: t('navigation.footer.legal-notice') }))
       .hasAttribute('href', 'https://pix.fr/mentions-legales');
   });
 
@@ -44,7 +45,7 @@ module('Integration | Component | Layout | Footer', function (hooks) {
 
     // then
     assert
-      .dom(screen.getByRole('link', { name: this.intl.t('navigation.footer.a11y') }))
+      .dom(screen.getByRole('link', { name: t('navigation.footer.a11y') }))
       .hasAttribute('href', 'https://pix.fr/accessibilite-pix-certif');
   });
 });

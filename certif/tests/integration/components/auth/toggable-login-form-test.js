@@ -2,6 +2,7 @@ import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import { resolve } from 'rsvp';
 import sinon from 'sinon';
@@ -20,9 +21,9 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
   hooks.beforeEach(function () {
     this.owner.register('service:session', SessionStub);
 
-    emailInputLabel = this.intl.t('common.forms.login.email');
-    passwordInputLabel = this.intl.t('common.forms.login.password');
-    loginLabel = this.intl.t('pages.login-or-register.login-form.login');
+    emailInputLabel = t('common.forms.login.email');
+    passwordInputLabel = t('common.forms.login.password');
+    loginLabel = t('pages.login-or-register.login-form.login');
   });
 
   module('Login Inputs', function () {
@@ -57,7 +58,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
         await triggerEvent(emailInput, 'focusout');
 
         // then
-        assert.dom(screen.getByText(this.intl.t('common.form-errors.email.format'))).exists();
+        assert.dom(screen.getByText(t('common.form-errors.email.format'))).exists();
       });
 
       test('should display an empty password error message when focus-out', async function (assert) {
@@ -70,7 +71,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
         await triggerEvent(passwordInput, 'focusout');
 
         // then
-        assert.dom(screen.getByText(this.intl.t('common.form-errors.password.mandatory'))).exists();
+        assert.dom(screen.getByText(t('common.form-errors.password.mandatory'))).exists();
       });
     });
   });
@@ -153,7 +154,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
           await clickByName(loginLabel);
 
           // then
-          assert.dom(screen.getByText(this.intl.t('pages.login-or-register.login-form.errors.status.403'))).exists();
+          assert.dom(screen.getByText(t('pages.login-or-register.login-form.errors.status.403'))).exists();
         });
         module('When invitation has already been accepted by user', function () {
           test('it should call authentication service with appropriate parameters', async function (assert) {

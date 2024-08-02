@@ -1,6 +1,7 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -22,10 +23,10 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
   let cguAriaLabel;
 
   hooks.beforeEach(function () {
-    firstNameInputLabel = this.intl.t('common.labels.candidate.firstname');
-    lastNameInputLabel = this.intl.t('common.labels.candidate.lastname');
-    emailInputLabel = this.intl.t('common.forms.login.email');
-    passwordInputLabel = this.intl.t('common.forms.login.password');
+    firstNameInputLabel = t('common.labels.candidate.firstname');
+    lastNameInputLabel = t('common.labels.candidate.lastname');
+    emailInputLabel = t('common.forms.login.email');
+    passwordInputLabel = t('common.forms.login.password');
     cguAriaLabel = "J'accepte les conditions d'utilisation de Pix et la politique de confidentialité";
   });
 
@@ -52,18 +53,12 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
     // then
     assert
-      .dom(screen.getByText(this.intl.t('pages.login-or-register.register-form.fields.cgu.accept'), { exact: false }))
+      .dom(screen.getByText(t('pages.login-or-register.register-form.fields.cgu.accept'), { exact: false }))
       .exists();
+    assert.dom(screen.getByText(`${t('pages.login-or-register.register-form.fields.cgu.terms-of-use')}`)).exists();
+    assert.dom(screen.getByText(t('pages.login-or-register.register-form.fields.cgu.and'), { exact: false })).exists();
     assert
-      .dom(screen.getByText(`${this.intl.t('pages.login-or-register.register-form.fields.cgu.terms-of-use')}`))
-      .exists();
-    assert
-      .dom(screen.getByText(this.intl.t('pages.login-or-register.register-form.fields.cgu.and'), { exact: false }))
-      .exists();
-    assert
-      .dom(
-        screen.getByText(`${this.intl.t('pages.login-or-register.register-form.fields.cgu.data-protection-policy')}`),
-      )
+      .dom(screen.getByText(`${t('pages.login-or-register.register-form.fields.cgu.data-protection-policy')}`))
       .exists();
     assert
       .dom(screen.getByRole('link', { name: "conditions d'utilisation de Pix" }))
@@ -85,7 +80,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await triggerEvent(firstNameInput, 'focusout');
 
         // then
-        assert.dom(screen.getByText(this.intl.t(EMPTY_FIRSTNAME_ERROR_MESSAGE))).exists();
+        assert.dom(screen.getByText(t(EMPTY_FIRSTNAME_ERROR_MESSAGE))).exists();
       });
     });
 
@@ -100,7 +95,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await triggerEvent(lastNameInput, 'focusout');
 
         // then
-        assert.dom(screen.getByText(this.intl.t(EMPTY_LASTNAME_ERROR_MESSAGE))).exists();
+        assert.dom(screen.getByText(t(EMPTY_LASTNAME_ERROR_MESSAGE))).exists();
       });
     });
 
@@ -115,7 +110,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await triggerEvent(emailInput, 'focusout');
 
         // then
-        assert.dom(screen.getByText(this.intl.t(EMPTY_EMAIL_ERROR_MESSAGE))).exists();
+        assert.dom(screen.getByText(t(EMPTY_EMAIL_ERROR_MESSAGE))).exists();
       });
     });
 
@@ -130,7 +125,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await triggerEvent(passwordInput, 'focusout');
 
         // then
-        assert.dom(screen.getByText(this.intl.t(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE))).exists();
+        assert.dom(screen.getByText(t(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE))).exists();
       });
     });
 
@@ -146,7 +141,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         await triggerEvent(cguCheckbox, 'focusout');
 
         // then
-        assert.dom(screen.getByText(this.intl.t(CGU_ERROR_MESSAGE))).exists();
+        assert.dom(screen.getByText(t(CGU_ERROR_MESSAGE))).exists();
       });
     });
   });

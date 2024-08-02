@@ -7,7 +7,7 @@ import setupIntl from '../../helpers/setup-intl';
 
 module('Unit | Component | MembersList', (hooks) => {
   setupTest(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   let component, store;
 

@@ -23,7 +23,7 @@ export default class SessionsNewController extends Controller {
   }
 
   get currentLocale() {
-    return this.intl.locale[0];
+    return this.intl.primaryLocale;
   }
 
   @action

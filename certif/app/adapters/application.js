@@ -15,7 +15,7 @@ export default class ApplicationAdapter extends JSONAPIAdapter {
     if (this.session.isAuthenticated) {
       headers['Authorization'] = `Bearer ${this.session.data.authenticated.access_token}`;
     }
-    headers['Accept-Language'] = this._locale;
+    headers['Accept-Language'] = this.intl.primaryLocale;
     headers['X-App-Version'] = ENV.APP.APP_VERSION;
 
     return headers;
@@ -23,10 +23,5 @@ export default class ApplicationAdapter extends JSONAPIAdapter {
 
   ajax() {
     return this.ajaxQueue.add(() => super.ajax(...arguments));
-  }
-
-  get _locale() {
-    const [currentLocale] = this.intl.get('locale');
-    return currentLocale;
   }
 }

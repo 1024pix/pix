@@ -8,7 +8,7 @@ import setupIntl from '../helpers/setup-intl';
 
 module('Unit | Route | session-supervising', function (hooks) {
   setupTest(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   module('#afterModel', function (hooks) {
     let clock, sessionSupervisingPollingRate;
