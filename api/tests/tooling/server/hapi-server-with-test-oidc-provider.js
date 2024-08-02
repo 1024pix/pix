@@ -43,7 +43,7 @@ const openIdConfigurationResponse = {
 async function createServerWithTestOidcProvider() {
   nock('https://oidc.example.net').get('/.well-known/openid-configuration').reply(200, openIdConfigurationResponse);
 
-  const oidcProviderServices = [
+  await oidcAuthenticationServiceRegistry.loadOidcProviderServices([
     new OidcAuthenticationService({
       accessTokenLifespanMs: 60000,
       clientId: 'client',
@@ -59,11 +59,9 @@ async function createServerWithTestOidcProvider() {
       slug: 'oidc-example-net',
       source: 'oidcexamplenet',
     }),
-  ];
+  ]);
 
-  await oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
-
-  return createServer({ oidcProviderServices });
+  return createServer();
 }
 
 export { createServerWithTestOidcProvider };
