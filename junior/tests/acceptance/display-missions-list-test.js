@@ -31,7 +31,11 @@ module('Acceptance | Display missions list', function (hooks) {
     const screen = await visit('/');
 
     // then
-    assert.dom(within(screen.getByText('mission_1').parentElement).queryByText('Terminé')).doesNotExist();
-    assert.dom(within(screen.getByText('mission_2').parentElement).getByText('Terminé')).exists();
+    assert
+      .dom(within(screen.getByText('mission_1').parentElement.parentElement.parentElement).queryByText('Terminé'))
+      .doesNotExist();
+    assert
+      .dom(within(screen.getByText('mission_2').parentElement.parentElement.parentElement).getByText('Terminé'))
+      .exists();
   });
 });

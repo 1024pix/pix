@@ -4,11 +4,7 @@
     <Bubble @message={{t "pages.missions.end-page.congratulations"}} @status="success" />
   </RobotDialog>
   <div class="mission-page__body">
-    <MissionCard
-      @title={{@model.name}}
-      @colorClass="area-{{@model.areaCode}}"
-      @imageName="img-area-{{@model.areaCode}}"
-    />
+    <MissionCard::MissionCard @title={{@model.name}} @areaCode={{@model.areaCode}} />
 
     <div class="mission-page__details">
       <p class="details-list__title details-list__title--big">{{t "pages.missions.end-page.details-list"}}</p>

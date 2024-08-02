@@ -1,64 +1,141 @@
 .mission-card {
-  width: 250px;
+  &__container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 248px;
+    height: 368px;
+    padding: var(--pix-spacing-2x);
+    font-style: normal;
+    background-color: var(--pix-neutral-0);
+    border-radius: 15px;
+    box-shadow: 2px 4px 6px 0px rgb(70 77 98 / 20%), 0px 0px 2px 0px rgb(70 77 98 / 32%);
 
-  text {
-    font-weight: 700;
-    font-size: 18px;
+    .area-code-1 {
+      color: var(--pix-information-dark);
+
+      .background {
+        fill: var(--pix-information-light);
+      }
+    }
+
+    .area-code-2 {
+      color: var(--pix-communication-dark);
+
+      .background {
+        fill: var(--pix-communication-light);
+      }
+    }
+
+    .area-code-3 {
+      color: var(--pix-contenu-dark);
+
+      .background {
+        fill: var(--pix-contenu-light);
+      }
+    }
+
+    .area-code-4 {
+      color: var(--pix-securite-dark);
+
+      .background {
+        fill: var(--pix-securite-light);
+      }
+    }
+
+    .area-code-5 {
+      color: var(--pix-environnementnum-dark);
+
+      svg .background {
+        fill: var(--pix-environnementnum-light);
+      }
+    }
+
+    .status {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      width: fit-content;
+      color: var(--pix-primary-500);
+      font-weight: 700;
+      font-size:var(--pix-spacing-4x);
+      line-height: 21.82px;
+      text-align: center;
+      background: var(--pix-neutral-0);
+      border: solid 2px var(--pix-primary-500);
+      transform: translate(-50%);
+
+      p {
+        padding: var(--pix-spacing-1x) var(--pix-spacing-4x);
+      }
+    }
+
+    .mission-card-bottom {
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      align-self: center;
+      justify-content: center;
+      width: 200px;
+
+      .mission-name {
+        margin-bottom: var(--pix-spacing-3x);
+        font-weight: 800;
+        font-size: 22.38px;
+        line-height: normal;
+        text-align: center;
+        text-wrap: wrap;
+      }
+
+      .fake-button {
+        display: inline-flex;
+        flex-shrink: 0;
+        gap: var(--pix-spacing-2x);
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        padding: var(--pix-spacing-3x) var(--pix-spacing-8x);
+        color: var(--pix-primary-500);
+        background: var(--pix-neutral-0);
+        border: 1px solid var(--pix-primary-500);
+        border-radius: 100px;
+      }
+    }
+
+    .mission-icon {
+      position: absolute;
+      top: 75px;
+      left: 50%;
+      transform: translate(-50%);
+    }
+
+    .mission-icon--completed {
+      position: absolute;
+      top: 130px;
+      left: 50%;
+      transform: translate(-50%);
+    }
+
+    .completed-mission-card-bottom {
+      position: absolute;
+      bottom: var(--pix-spacing-8x);
+      left: 50%;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      justify-content: center;
+      width: 200px;
+      height: 62px;
+      transform: translate(-50%);
+
+      p {
+        color: var(--pix-neutral-0);
+        font-weight: 800;
+        font-size: 22.38px;
+        line-height: normal;
+        text-align: center;
+        text-wrap: wrap;
+      }
+    }
   }
-
-  .stop-start-gradient {
-    &--area-1 {
-      stop-color: var(--pix-information-dark);
-    }
-
-    &--area-2 {
-      stop-color: var(--pix-content-dark);
-    }
-
-    &--area-3 {
-      stop-color: var(--pix-communication-dark);
-    }
-
-    &--area-4 {
-      stop-color: var(--pix-security-dark);
-    }
-
-    &--area-5 {
-      stop-color: var(--pix-environment-dark);
-    }
-
-    &--purple {
-      stop-color: var(--pix-tertiary-50);
-    }
-  }
-
-  .stop-end-gradient {
-    &--area-1 {
-      stop-color: var(--pix-information-light);
-    }
-
-    &--area-2 {
-      stop-color: var(--pix-content-light);
-    }
-
-    &--area-3 {
-      stop-color: var(--pix-communication-light);
-    }
-
-    &--area-4 {
-      stop-color: var(--pix-security-light);
-    }
-
-    &--area-5 {
-      stop-color: var(--pix-environment-light);
-    }
-
-    &--purple {
-      stop-color: var(--pix-tertiary-700);
-    }
-  }
-}
-
-text.mission-card__title {
-  font-size: 22px;
 }

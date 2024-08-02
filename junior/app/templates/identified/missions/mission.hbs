@@ -4,11 +4,9 @@
     <Bubble @message={{t "pages.missions.start-page.welcome"}} />
   </RobotDialog>
   <div class="mission-page__body">
-    <MissionCard
-      @title={{@model.name}}
-      @colorClass="area-{{@model.areaCode}}"
-      @imageName="img-area-{{@model.areaCode}}"
-    />
+
+    <MissionCard::MissionCard @title={{@model.name}} @areaCode={{@model.areaCode}} />
+
     <div class="mission-page__details">
       <LinkTo @route="identified.missions" class="details-go-back">{{t
           "pages.missions.start-page.back-to-missions"

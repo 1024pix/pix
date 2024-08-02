@@ -47,7 +47,16 @@
       "list": {
         "title": "Mes Missions",
         "instruction": "Bonjour <strong>{prenom}</strong>, choisis ta mission parmi celles qui te sont proposées ci-dessous !",
-        "back-to-students": "Si tu n'es pas <strong>{prenom}</strong>, <a href=\"{backUrl}\" class=\"internal-link\">clique ici pour retourner à la liste des élèves </a>"
+        "back-to-students": "Si tu n'es pas <strong>{prenom}</strong>, <a href=\"{backUrl}\" class=\"internal-link\">clique ici pour retourner à la liste des élèves </a>",
+        "status": {
+          "started": {
+            "label": "A faire",
+            "button-label": "Commencer"
+          },
+          "completed": {
+            "label": "Terminé"
+          }
+        }
       },
       "start-page": {
         "title": "Début de mission",
