@@ -1,6 +1,7 @@
 import * as targetProfileRepository from '../../../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import { copyTargetProfile } from '../../../../../../src/prescription/target-profile/domain/usecases/copy-target-profile.js';
 import * as targetProfileAdministrationRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
+import { categories } from '../../../../../../src/shared/domain/models/TargetProfile.js';
 import { databaseBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | UseCases | copy-target-profile', function () {

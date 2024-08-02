@@ -256,6 +256,34 @@ const register = async function (server) {
       },
     },
     {
+      method: 'POST',
+      path: '/api/admin/target-profiles/{targetProfileId}/copy',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            targetProfileId: identifiersType.targetProfileId,
+          }),
+        },
+        handler: targetProfileController.copyTargetProfile,
+        tags: ['api', 'admin', 'target-profiles', 'copy'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de dupliquer un profil cible',
+        ],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/admin/target-profiles/{targetProfileId}/organizations',
       config: {
