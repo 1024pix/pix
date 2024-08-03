@@ -68,7 +68,7 @@ async function _createNewOrganizationLearner(organizationLearner) {
     if (existingOrganizationLearner) {
       if (existingOrganizationLearner.isDisabled) {
         await knexConnection('organization-learners')
-          .update({ isDisabled: false })
+          .update({ isDisabled: false, updatedAt: new Date() })
           .where({ id: existingOrganizationLearner.id })
           .returning('id');
       }

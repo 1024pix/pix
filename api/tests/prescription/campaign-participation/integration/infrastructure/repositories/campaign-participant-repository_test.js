@@ -693,18 +693,19 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           await campaignParticipantRepository.save({ campaignParticipant });
         });
 
-        const { isDisabled: expectedEnabledLearner } = await knex('organization-learners')
-          .select('isDisabled')
+        const expectedEnabledLearner = await knex('organization-learners')
+          .select('isDisabled', 'updatedAt')
           .where('id', learnerDisabled.id)
           .first();
 
-        const { isDisabled: expectedDisabledLearner } = await knex('organization-learners')
+        const expectedDisabledLearner = await knex('organization-learners')
           .select('isDisabled')
           .where('id', otherLearnerDisabled.id)
           .first();
 
-        expect(expectedEnabledLearner).to.be.false;
-        expect(expectedDisabledLearner).to.be.true;
+        expect(expectedEnabledLearner.isDisabled).to.be.false;
+        expect(expectedEnabledLearner.updatedAt).to.not.be.deep.equal(learnerDisabled.updatedAt);
+        expect(expectedDisabledLearner.isDisabled).to.be.true;
       });
     });
 
