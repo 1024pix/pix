@@ -1,13 +1,13 @@
 import bluebird from 'bluebird';
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CertificationCandidateAlreadyLinkedToUserError } from '../../../../shared/domain/errors.js';
+import { CandidateAlreadyLinkedToUserError } from '../../../../shared/domain/errors.js';
 
 const importCertificationCandidatesFromCandidatesImportSheet = async function ({
   sessionId,
   odsBuffer,
   i18n,
-  certificationCandidateRepository,
+  candidateRepository,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
@@ -16,33 +16,33 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
   certificationCandidatesOdsService,
   certificationCpfService,
 }) {
-  const linkedCandidateInSessionExists =
-    await certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist({ sessionId });
+  const linkedCandidateInSessionExists = await candidateRepository.doesLinkedCertificationCandidateInSessionExist({
+    sessionId,
+  });
 
   if (linkedCandidateInSessionExists) {
-    throw new CertificationCandidateAlreadyLinkedToUserError('At least one candidate is already linked to a user');
+    throw new CandidateAlreadyLinkedToUserError('At least one candidate is already linked to a user');
   }
 
   const isSco = await sessionRepository.isSco({ id: sessionId });
 
-  const certificationCandidates =
-    await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
-      i18n,
-      sessionId,
-      isSco,
-      odsBuffer,
-      certificationCpfService,
-      certificationCpfCountryRepository,
-      certificationCpfCityRepository,
-      complementaryCertificationRepository,
-      certificationCenterRepository,
-    });
+  const candidates = await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
+    i18n,
+    sessionId,
+    isSco,
+    odsBuffer,
+    certificationCpfService,
+    certificationCpfCountryRepository,
+    certificationCpfCityRepository,
+    complementaryCertificationRepository,
+    certificationCenterRepository,
+  });
 
   await DomainTransaction.execute(async () => {
-    await certificationCandidateRepository.deleteBySessionId({ sessionId });
-    await bluebird.mapSeries(certificationCandidates, function (certificationCandidate) {
-      return certificationCandidateRepository.saveInSession({
-        certificationCandidate,
+    await candidateRepository.deleteBySessionId({ sessionId });
+    await bluebird.mapSeries(candidates, function (candidate) {
+      return candidateRepository.saveInSession({
+        candidate,
         sessionId,
       });
     });

@@ -99,7 +99,7 @@ class CertificationCandidateOnFinalizedSessionError extends DomainError {
   }
 }
 
-class CertificationCandidateAlreadyLinkedToUserError extends DomainError {
+class CandidateAlreadyLinkedToUserError extends DomainError {
   constructor(message = 'At least one candidate is already linked to a user.') {
     super(message);
     this.code = 'SESSION_STARTED_CANDIDATE_ALREADY_LINKED_TO_USER';
@@ -1131,6 +1131,7 @@ export {
   CampaignCodeError,
   CampaignTypeError,
   CancelledInvitationError,
+  CandidateAlreadyLinkedToUserError,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   CantCalculateCampaignParticipationResultError,
@@ -1138,7 +1139,6 @@ export {
   CertificateVerificationCodeGenerationTooManyTrials,
   CertificationAttestationGenerationError,
   CertificationBadgeForbiddenDeletionError,
-  CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateCreationOrUpdateError,

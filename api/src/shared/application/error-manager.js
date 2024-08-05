@@ -305,7 +305,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserNotAuthorizedToRemoveAuthenticationMethod) {
     return new HttpErrors.ForbiddenError(error.message);
   }
-  if (error instanceof DomainErrors.CertificationCandidateAlreadyLinkedToUserError) {
+  if (error instanceof DomainErrors.CandidateAlreadyLinkedToUserError) {
     return new HttpErrors.ForbiddenError(error.message, error.code);
   }
   if (error instanceof DomainErrors.CertificationCandidateByPersonalInfoNotFoundError) {

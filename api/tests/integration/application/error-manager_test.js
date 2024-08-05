@@ -11,9 +11,7 @@ import { expect, HttpTestServer, sinon } from '../../test-helper.js';
 
 describe('Integration | API | Controller Error', function () {
   let server;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const routeHandler = sinon.stub();
+  let routeHandler;
 
   const routeUrl = '/test_route';
   const request = { method: 'GET', url: routeUrl };
@@ -49,6 +47,7 @@ describe('Integration | API | Controller Error', function () {
         ]);
       },
     };
+    routeHandler = sinon.stub();
     server = new HttpTestServer({ mustThrowOn5XXError: false });
     await server.register(moduleUnderTest);
   });
@@ -293,8 +292,8 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal('Utilisateur non autorisé à créer une campagne');
     });
 
-    it('responds Forbidden when a CertificationCandidateAlreadyLinkedToUserError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.CertificationCandidateAlreadyLinkedToUserError());
+    it('responds Forbidden when a CandidateAlreadyLinkedToUserError error occurs', async function () {
+      routeHandler.throws(new DomainErrors.CandidateAlreadyLinkedToUserError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);

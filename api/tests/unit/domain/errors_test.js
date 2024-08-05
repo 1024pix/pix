@@ -16,8 +16,8 @@ describe('Unit | Domain | Errors', function () {
     expect(AdminMemberError).to.exist;
   });
 
-  it('should export a CertificationCandidateAlreadyLinkedToUserError', function () {
-    expect(errors.CertificationCandidateAlreadyLinkedToUserError).to.exist;
+  it('should export a CandidateAlreadyLinkedToUserError', function () {
+    expect(errors.CandidateAlreadyLinkedToUserError).to.exist;
   });
 
   it('should export a CertificationCandidateByPersonalInfoNotFoundError', function () {

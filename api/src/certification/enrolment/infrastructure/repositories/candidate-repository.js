@@ -89,6 +89,41 @@ export async function isUserCertificationCandidate({ certificationCandidateId, u
 
 /**
  * @function
+ * @param sessionId
+ * @returns {boolean} True if any candidate is linked to an existing user
+ */
+export async function doesLinkedCertificationCandidateInSessionExist({ sessionId }) {
+  const anyLinkedCandidateInSession = await knex
+    .select('id')
+    .from('certification-candidates')
+    .where({
+      sessionId,
+    })
+    .whereNotNull('userId');
+
+  return anyLinkedCandidateInSession.length > 0;
+}
+
+/**
+ * @function
+ * @param id
+ * @returns {boolean}
+ */
+export async function isNotLinked({ id }) {
+  const notLinkedCandidate = await knex
+    .select('id')
+    .from('certification-candidates')
+    .where({
+      id,
+      userId: null,
+    })
+    .first();
+
+  return !!notLinkedCandidate;
+}
+
+/**
+ * @function
  * @param {Object} candidate
  *
  * @return {number}
@@ -112,6 +147,59 @@ export async function insert(candidate) {
   return candidateId;
 }
 
+/**
+ * @function
+ * @param sessionId
+ * @returns {Promise<void>}
+ */
+export async function deleteBySessionId({ sessionId }) {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('certification-subscriptions')
+    .whereIn('certificationCandidateId', knexConn.select('id').from('certification-candidates').where({ sessionId }))
+    .del();
+
+  await knexConn('certification-candidates').where({ sessionId }).del();
+}
+
+/**
+ * @function
+ * @param candidate
+ * @param sessionId
+ * @returns {number} return saved candidate id
+ */
+export async function saveInSession({ candidate, sessionId }) {
+  const candidateDataToSave = _adaptModelToDb(candidate);
+  const knexTransaction = DomainTransaction.getConnection();
+
+  const [{ id: certificationCandidateId }] = await knexTransaction('certification-candidates')
+    .insert({ ...candidateDataToSave, sessionId })
+    .returning('id');
+
+  for (const subscription of candidate.subscriptions) {
+    await knexTransaction('certification-subscriptions').insert({
+      certificationCandidateId,
+      type: subscription.type,
+      complementaryCertificationId: subscription.complementaryCertificationId,
+    });
+  }
+
+  return certificationCandidateId;
+}
+
+/**
+ * @function
+ * @param id
+ * @returns {boolean}
+ */
+export async function remove({ id }) {
+  await knex.transaction(async (trx) => {
+    await trx('certification-subscriptions').where({ certificationCandidateId: id }).del();
+    return trx('certification-candidates').where({ id }).del();
+  });
+
+  return true;
+}
+
 function _toDomain(result) {
   return result ? new Candidate(result) : null;
 }
@@ -131,7 +219,6 @@ function _adaptModelToDb(candidate) {
     externalId: candidate.externalId,
     birthdate: candidate.birthdate,
     extraTimePercentage: candidate.extraTimePercentage,
-    createdAt: candidate.createdAt,
     authorizedToStart: candidate.authorizedToStart,
     sessionId: candidate.sessionId,
     userId: candidate.userId,
