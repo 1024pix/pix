@@ -71,11 +71,11 @@ describe('Unit | Controller | sessionController', function () {
       birthdate = Symbol('birthdate');
       linkedCertificationCandidate = Symbol('candidate');
       serializedCertificationCandidate = Symbol('sCandidate');
-      const certificationCandidateSerializer = { serializeForApp: sinon.stub() };
+      const certificationCandidateSerializer = { serialize: sinon.stub() };
       dependencies = {
         certificationCandidateSerializer,
       };
-      dependencies.certificationCandidateSerializer.serializeForApp
+      dependencies.certificationCandidateSerializer.serialize
         .withArgs(linkedCertificationCandidate)
         .returns(serializedCertificationCandidate);
     });

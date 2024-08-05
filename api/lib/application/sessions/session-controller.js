@@ -55,7 +55,7 @@ const createCandidateParticipation = async function (request, h, dependencies = 
   });
 
   const certificationCandidate = await usecases.getCertificationCandidate({ userId, sessionId });
-  const serialized = await dependencies.certificationCandidateSerializer.serializeForApp(certificationCandidate);
+  const serialized = await dependencies.certificationCandidateSerializer.serialize(certificationCandidate);
   return event instanceof UserLinkedToCertificationCandidate ? h.response(serialized).created() : serialized;
 };
 

@@ -59,9 +59,9 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       };
       sinon.stub(usecases, 'candidateHasSeenCertificationInstructions');
       const certificationCandidateSerializer = {
-        serializeForApp: sinon.stub(),
+        serialize: sinon.stub(),
       };
-      certificationCandidateSerializer.serializeForApp.returns(certificationCandidatesJsonApi);
+      certificationCandidateSerializer.serialize.returns(certificationCandidatesJsonApi);
       const updatedCertificationCandidate = domainBuilder.certification.enrolment.buildCertificationSessionCandidate();
       usecases.candidateHasSeenCertificationInstructions
         .withArgs({

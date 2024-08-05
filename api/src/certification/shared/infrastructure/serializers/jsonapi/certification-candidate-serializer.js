@@ -4,7 +4,7 @@ import { CertificationCandidate } from '../../../../../shared/domain/models/inde
 
 const { Deserializer, Serializer } = jsonapiSerializer;
 
-const serializeForApp = function (certificationCandidate) {
+const serialize = function (certificationCandidate) {
   return new Serializer('certification-candidate', {
     attributes: ['firstName', 'lastName', 'birthdate', 'sessionId', 'hasSeenCertificationInstructions'],
   }).serialize(certificationCandidate);
@@ -25,4 +25,4 @@ const deserialize = async function (json) {
   });
 };
 
-export { deserialize, serializeForApp };
+export { deserialize, serialize };

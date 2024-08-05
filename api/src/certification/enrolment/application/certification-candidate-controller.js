@@ -44,7 +44,7 @@ const validateCertificationInstructions = async function (
     certificationCandidateId,
   });
 
-  return dependencies.certificationCandidateSerializer.serializeForApp(updatedCandidate);
+  return dependencies.certificationCandidateSerializer.serialize(updatedCandidate);
 };
 
 const _getSubscriptionParameter = (request) => {
