@@ -67,8 +67,8 @@ describe('Integration | Repository | mission-assessment-repository', function ()
     });
   });
 
-  describe('#getAllCompletedMissionIds', function () {
-    it('should return a list of completed mission ids for a given organization learner', async function () {
+  describe('#getMissionIdsByState', function () {
+    it('should return mission ids for all mission assessment for given organization learner', async function () {
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner();
       const completedAssessmentId = databaseBuilder.factory.buildPix1dAssessment({
         state: Assessment.states.COMPLETED,
@@ -87,11 +87,13 @@ describe('Integration | Repository | mission-assessment-repository', function ()
         missionId: completedMissionId,
         organizationLearnerId: organizationLearner.id,
         assessmentId: completedAssessmentId,
+        createdAt: new Date('2022-07-07'),
       });
       databaseBuilder.factory.buildMissionAssessment({
         missionId: otherCompletedMissionId,
         organizationLearnerId: organizationLearner.id,
         assessmentId: otherCompletedAssessmentId,
+        createdAt: new Date('2024-09-08'),
       });
       databaseBuilder.factory.buildMissionAssessment({
         missionId: startedMissionId,
@@ -100,16 +102,52 @@ describe('Integration | Repository | mission-assessment-repository', function ()
       });
       await databaseBuilder.commit();
 
-      const result = await missionAssessmentRepository.getAllCompletedMissionIds(organizationLearner.id);
-      expect(result).to.deep.equal([completedMissionId, otherCompletedMissionId]);
+      const result = await missionAssessmentRepository.getMissionIdsByState(organizationLearner.id);
+      expect(result).to.deep.equal({
+        completed: [completedMissionId, otherCompletedMissionId],
+        started: [startedMissionId],
+      });
     });
 
-    it('should return organization learner even without completed missions', async function () {
+    it('should return organization learner even without missions', async function () {
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner();
       await databaseBuilder.commit();
 
-      const result = await missionAssessmentRepository.getAllCompletedMissionIds(organizationLearner.id);
-      expect(result).to.deep.equal([]);
+      const result = await missionAssessmentRepository.getMissionIdsByState(organizationLearner.id);
+      expect(result).to.deep.equal({});
+    });
+
+    it('should group on last assessment state', async function () {
+      const missionId = 789;
+
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner();
+      const completedAssessmentId = databaseBuilder.factory.buildPix1dAssessment({
+        state: Assessment.states.COMPLETED,
+        createdAt: new Date('2024-06-21'),
+      }).id;
+      const startedAssessmentId = databaseBuilder.factory.buildPix1dAssessment({
+        state: Assessment.states.STARTED,
+        createdAt: new Date('2024-07-21'),
+      }).id;
+
+      databaseBuilder.factory.buildMissionAssessment({
+        missionId: missionId,
+        organizationLearnerId: organizationLearner.id,
+        assessmentId: completedAssessmentId,
+        createdAt: new Date('2024-06-21'),
+      });
+      databaseBuilder.factory.buildMissionAssessment({
+        missionId: missionId,
+        organizationLearnerId: organizationLearner.id,
+        assessmentId: startedAssessmentId,
+        createdAt: new Date('2024-07-21'),
+      });
+      await databaseBuilder.commit();
+
+      const result = await missionAssessmentRepository.getMissionIdsByState(organizationLearner.id);
+      expect(result).to.deep.equal({
+        started: [missionId],
+      });
     });
   });
 

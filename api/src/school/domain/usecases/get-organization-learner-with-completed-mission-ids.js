@@ -1,11 +1,13 @@
-const getOrganizationLearnerWithCompletedMissionIds = async function ({
+const getOrganizationLearnerWithMissionIdsByState = async function ({
   organizationLearnerId,
   missionAssessmentRepository,
   organizationLearnerRepository,
 } = {}) {
   const learner = await organizationLearnerRepository.getById({ organizationLearnerId });
-  learner.completedMissionIds = await missionAssessmentRepository.getAllCompletedMissionIds(organizationLearnerId);
+  const { started, completed } = await missionAssessmentRepository.getMissionIdsByState(organizationLearnerId);
+  learner.startedMissionIds = started;
+  learner.completedMissionIds = completed;
   return learner;
 };
 
-export { getOrganizationLearnerWithCompletedMissionIds };
+export { getOrganizationLearnerWithMissionIdsByState };

@@ -75,14 +75,34 @@ const getStatusesForLearners = async function (missionId, organizationLearners, 
   return decoratedMissionLearners;
 };
 
-const getAllCompletedMissionIds = async function (organizationLearnerId) {
-  const raw = await knex('mission-assessments')
-    .select('mission-assessments.missionId')
+const getMissionIdsByState = async function (organizationLearnerId) {
+  const missionAssessments = await knex('mission-assessments')
+    .select('mission-assessments.missionId', 'assessments.state', 'mission-assessments.createdAt')
     .join('assessments', 'assessments.id', 'mission-assessments.assessmentId')
-    .where({ organizationLearnerId })
-    .andWhere({ state: Assessment.states.COMPLETED });
+    .join(
+      knex
+        .select('organizationLearnerId as learnerId', 'missionId')
+        .max('createdAt', { as: 'date' })
+        .from('mission-assessments')
+        .groupBy('organizationLearnerId', 'missionId')
+        .as('max_dates'),
+      function () {
+        this.on('mission-assessments.organizationLearnerId', '=', 'max_dates.learnerId')
+          .andOn('mission-assessments.createdAt', '=', 'max_dates.date')
+          .andOn('mission-assessments.missionId', '=', 'max_dates.missionId');
+      },
+    )
+    .where({ organizationLearnerId });
 
-  return raw.map((element) => element.missionId);
+  const missionIdsGroupByState = {};
+  missionAssessments.forEach((missionAssessment) => {
+    if (missionIdsGroupByState[missionAssessment.state]) {
+      missionIdsGroupByState[missionAssessment.state].push(missionAssessment.missionId);
+    } else {
+      missionIdsGroupByState[missionAssessment.state] = [missionAssessment.missionId];
+    }
+  });
+  return missionIdsGroupByState;
 };
 
-export { getAllCompletedMissionIds, getByAssessmentId, getCurrent, getStatusesForLearners, save };
+export { getByAssessmentId, getCurrent, getMissionIdsByState, getStatusesForLearners, save };

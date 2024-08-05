@@ -6,14 +6,15 @@ import { expect, hFake, sinon } from '../../../test-helper.js';
 describe('Unit | Controller | organization-learner-controller', function () {
   describe('#getById', function () {
     it('should return the serialized organization-learner with completed mission ids', async function () {
-      sinon.stub(usecases, 'getOrganizationLearnerWithCompletedMissionIds');
-      usecases.getOrganizationLearnerWithCompletedMissionIds.resolves(
+      sinon.stub(usecases, 'getOrganizationLearnerWithMissionIdsByState');
+      usecases.getOrganizationLearnerWithMissionIdsByState.resolves(
         new OrganizationLearnerDTO({
           id: '4356',
-          completedMissionIds: ['rec12344', 'rec435'],
           firstName: 'Edward',
           division: 'CM2',
           organizationId: '345',
+          completedMissionIds: ['rec12344', 'rec435'],
+          startedMissionIds: undefined,
         }),
       );
       const id = 4356;
@@ -27,6 +28,7 @@ describe('Unit | Controller | organization-learner-controller', function () {
         data: {
           attributes: {
             'completed-mission-ids': ['rec12344', 'rec435'],
+            'started-mission-ids': undefined,
             'first-name': 'Edward',
             'display-name': undefined,
             division: 'CM2',
@@ -37,7 +39,7 @@ describe('Unit | Controller | organization-learner-controller', function () {
         },
       };
 
-      expect(usecases.getOrganizationLearnerWithCompletedMissionIds).to.have.been.calledWith({
+      expect(usecases.getOrganizationLearnerWithMissionIdsByState).to.have.been.calledWith({
         organizationLearnerId: id,
       });
       expect(response).to.deep.equal(expectedOrganizationLearner);
