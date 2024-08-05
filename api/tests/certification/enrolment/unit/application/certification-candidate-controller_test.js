@@ -98,7 +98,7 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       const response = await certificationCandidateController.deleteCandidate(request, hFake);
 
       // then
-      expect(response).to.be.null;
+      expect(response.statusCode).to.equal(204);
     });
   });
 });

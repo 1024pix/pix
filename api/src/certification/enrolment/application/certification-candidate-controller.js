@@ -23,13 +23,12 @@ const getEnrolledCandidates = async function (request, h, dependencies = { enrol
   return dependencies.enrolledCandidateSerializer.serialize(enrolledCandidates);
 };
 
-const deleteCandidate = async function (request) {
+const deleteCandidate = async function (request, h) {
   const candidateId = request.params.certificationCandidateId;
 
   await usecases.deleteUnlinkedCertificationCandidate({ candidateId });
 
-  // TODO MVP - NEXT STEP - le truc propre serait de retourner 204 ici
-  return null;
+  return h.response().code(204);
 };
 
 const validateCertificationInstructions = async function (
