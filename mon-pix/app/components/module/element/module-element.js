@@ -46,11 +46,12 @@ export default class ModuleElement extends Component {
   }
 
   @action
-  retry(button) {
-    this.isOnRetryMode = true;
+  retry(event) {
+    const retryButton = event.target;
+    const form = retryButton.form;
 
+    this.isOnRetryMode = true;
     this.resetAnswers();
-    const form = button.target.parentElement;
     form.reset();
 
     this.args.retryElement({ element: this.element });
