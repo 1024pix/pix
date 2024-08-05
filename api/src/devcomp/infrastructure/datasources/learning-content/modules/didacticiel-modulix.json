@@ -82,6 +82,50 @@
       ]
     },
     {
+      "id": "b14df125-82d5-4d55-a660-7b34cd9ea1ab",
+      "type": "activity",
+      "title": "Un fichier à télécharger",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "901ccbaa-f4e6-4322-b863-8e8eab08a33a",
+            "type": "download",
+            "files": [
+              { "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/intro.jpg", "format": ".jpg" }
+            ]
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "31106aeb-8346-44a6-8ed4-ebaa2106a373",
+            "type": "qcu",
+            "instruction": "<p>Quelle type de recette souhaite obtenir l'utilisateur dans l'image&nbsp;?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "Des recettes de lasagne"
+              },
+              {
+                "id": "2",
+                "content": "Des recettes de paté en croute"
+              },
+              {
+                "id": "3",
+                "content": "Des recettes végétariennes"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> L'image contient bien une recherche de recettes végétariennes.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Avez-vous téléchargé l'image jointe&nbsp;?</p>"
+            },
+            "solution": "3"
+          }
+        }
+      ]
+    },
+    {
       "id": "73ac3644-7637-4cee-86d4-1a75f53f0b9c",
       "type": "lesson",
       "title": "Vidéo de présentation de Pix",

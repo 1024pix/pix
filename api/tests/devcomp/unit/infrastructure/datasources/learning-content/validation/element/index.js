@@ -1,3 +1,4 @@
+import { downloadElementSchema } from './download.js';
 import { embedSchema } from './embed.js';
 import { imageElementSchema } from './image.js';
 import { qcmElementSchema } from './qcm.js';
@@ -9,6 +10,7 @@ import { videoElementSchema } from './video.js';
 export {
   blockInputSchema,
   blockSelectSchema,
+  downloadElementSchema,
   embedSchema,
   imageElementSchema,
   qcmElementSchema,
