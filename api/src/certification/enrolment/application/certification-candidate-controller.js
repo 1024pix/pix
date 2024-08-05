@@ -24,9 +24,9 @@ const getEnrolledCandidates = async function (request, h, dependencies = { enrol
 };
 
 const deleteCandidate = async function (request) {
-  const certificationCandidateId = request.params.certificationCandidateId;
+  const candidateId = request.params.certificationCandidateId;
 
-  await usecases.deleteUnlinkedCertificationCandidate({ certificationCandidateId });
+  await usecases.deleteUnlinkedCertificationCandidate({ candidateId });
 
   // TODO MVP - NEXT STEP - le truc propre serait de retourner 204 ici
   return null;

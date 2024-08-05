@@ -2,13 +2,13 @@ import { CertificationCandidateForbiddenDeletionError } from '../../../../../../
 import { deleteUnlinkedCertificationCandidate } from '../../../../../../src/certification/enrolment/domain/usecases/delete-unlinked-certification-candidate.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | delete-unlinked-sertification-candidate', function () {
-  let certificationCandidateId;
-  let certificationCandidateRepository;
+describe('Unit | UseCase | delete-unlinked-certification-candidate', function () {
+  let candidateId;
+  let candidateRepository;
 
   beforeEach(async function () {
-    certificationCandidateId = 'dummy certification candidate id';
-    certificationCandidateRepository = {
+    candidateId = 'dummy certification candidate id';
+    candidateRepository = {
       isNotLinked: sinon.stub(),
       remove: sinon.stub(),
     };
@@ -16,15 +16,15 @@ describe('Unit | UseCase | delete-unlinked-sertification-candidate', function ()
 
   context('When the certification candidate is not linked to a user', function () {
     beforeEach(function () {
-      certificationCandidateRepository.isNotLinked.withArgs({ id: certificationCandidateId }).resolves(true);
-      certificationCandidateRepository.remove.withArgs({ id: certificationCandidateId }).resolves(true);
+      candidateRepository.isNotLinked.withArgs({ id: candidateId }).resolves(true);
+      candidateRepository.remove.withArgs({ id: candidateId }).resolves(true);
     });
 
     it('should delete the certification candidate', async function () {
       // when
       const res = await deleteUnlinkedCertificationCandidate({
-        certificationCandidateId,
-        certificationCandidateRepository,
+        candidateId,
+        candidateRepository,
       });
 
       // then
@@ -34,14 +34,14 @@ describe('Unit | UseCase | delete-unlinked-sertification-candidate', function ()
 
   context('When the certification candidate is linked to a user ', function () {
     beforeEach(function () {
-      certificationCandidateRepository.isNotLinked.withArgs({ id: certificationCandidateId }).resolves(false);
+      candidateRepository.isNotLinked.withArgs({ id: candidateId }).resolves(false);
     });
 
     it('should throw a forbidden deletion error', async function () {
       // when
       const err = await catchErr(deleteUnlinkedCertificationCandidate)({
-        certificationCandidateId,
-        certificationCandidateRepository,
+        candidateId,
+        candidateRepository,
       });
 
       // then
