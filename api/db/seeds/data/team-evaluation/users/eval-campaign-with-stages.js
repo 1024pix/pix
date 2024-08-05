@@ -160,7 +160,7 @@ export default async function initUser(databaseBuilder) {
   });
 
   // 2. Build target-profile stages
-  await tooling.targetProfile.createStages({
+  const stages1 = await tooling.targetProfile.createStages({
     databaseBuilder,
     targetProfileId: targetProfile1.targetProfileId,
     cappedTubesDTO: targetProfile1.cappedTubesDTO,
@@ -168,7 +168,7 @@ export default async function initUser(databaseBuilder) {
     countStages: 1,
     includeFirstSkill: false,
   });
-  await tooling.targetProfile.createStages({
+  const stages2 = await tooling.targetProfile.createStages({
     databaseBuilder,
     targetProfileId: targetProfile2.targetProfileId,
     cappedTubesDTO: targetProfile2.cappedTubesDTO,
@@ -176,7 +176,7 @@ export default async function initUser(databaseBuilder) {
     countStages: 2,
     includeFirstSkill: true,
   });
-  await tooling.targetProfile.createStages({
+  const stages3 = await tooling.targetProfile.createStages({
     databaseBuilder,
     targetProfileId: targetProfile3.targetProfileId,
     cappedTubesDTO: targetProfile3.cappedTubesDTO,
@@ -184,7 +184,7 @@ export default async function initUser(databaseBuilder) {
     countStages: 6,
     includeFirstSkill: false,
   });
-  await tooling.targetProfile.createStages({
+  const stages4 = await tooling.targetProfile.createStages({
     databaseBuilder,
     targetProfileId: targetProfile4.targetProfileId,
     cappedTubesDTO: targetProfile4.cappedTubesDTO,
@@ -192,7 +192,7 @@ export default async function initUser(databaseBuilder) {
     countStages: 1,
     includeFirstSkill: false,
   });
-  await tooling.targetProfile.createStages({
+  const stages5 = await tooling.targetProfile.createStages({
     databaseBuilder,
     targetProfileId: targetProfile5.targetProfileId,
     cappedTubesDTO: targetProfile5.cappedTubesDTO,
@@ -200,7 +200,7 @@ export default async function initUser(databaseBuilder) {
     countStages: 2,
     includeFirstSkill: true,
   });
-  await tooling.targetProfile.createStages({
+  const stages6 = await tooling.targetProfile.createStages({
     databaseBuilder,
     targetProfileId: targetProfile6.targetProfileId,
     cappedTubesDTO: targetProfile6.cappedTubesDTO,
@@ -336,134 +336,65 @@ export default async function initUser(databaseBuilder) {
     status: 'TO_SHARE',
   });
 
+  const allCampaignParticipations = [
+    campaignParticipation1,
+    campaignParticipation2,
+    campaignParticipation3,
+    campaignParticipation4,
+    campaignParticipation5,
+    campaignParticipation6,
+  ];
+
+  // 3. Build stage-acquisitions
+  [
+    { stages: stages1, campaignParticipation: campaignParticipation1 },
+    { stages: stages2, campaignParticipation: campaignParticipation2 },
+    { stages: stages3, campaignParticipation: campaignParticipation3 },
+    { stages: stages4, campaignParticipation: campaignParticipation4 },
+    { stages: stages5, campaignParticipation: campaignParticipation5 },
+    { stages: stages6, campaignParticipation: campaignParticipation6 },
+  ].forEach(({ stages, campaignParticipation }) => {
+    stages.stageIds.forEach((stageId) => {
+      databaseBuilder.factory.buildStageAcquisition({
+        userId: user.id,
+        campaignParticipationId: campaignParticipation.id,
+        stageId,
+      });
+    });
+  });
+
   /**
    * Assesment-result configuration
    */
-  // 1. Build assessment
-  const assessment1 = await databaseBuilder.factory.buildAssessment({
-    userId: user.id,
-    type: 'CAMPAIGN',
-    campaignParticipationId: campaignParticipation1.id,
-  });
-  const assessment2 = await databaseBuilder.factory.buildAssessment({
-    userId: user.id,
-    type: 'CAMPAIGN',
-    campaignParticipationId: campaignParticipation2.id,
-  });
-  const assessment3 = await databaseBuilder.factory.buildAssessment({
-    userId: user.id,
-    type: 'CAMPAIGN',
-    campaignParticipationId: campaignParticipation3.id,
-  });
-  const assessment4 = await databaseBuilder.factory.buildAssessment({
-    userId: user.id,
-    type: 'CAMPAIGN',
-    campaignParticipationId: campaignParticipation4.id,
-  });
-  const assessment5 = await databaseBuilder.factory.buildAssessment({
-    userId: user.id,
-    type: 'CAMPAIGN',
-    campaignParticipationId: campaignParticipation5.id,
-  });
-  const assessment6 = await databaseBuilder.factory.buildAssessment({
-    userId: user.id,
-    type: 'CAMPAIGN',
-    campaignParticipationId: campaignParticipation6.id,
-  });
-
-  // 2. Build assessment result
-  databaseBuilder.factory.buildAssessmentResult({
-    assessmentId: assessment1.id,
-  });
-  databaseBuilder.factory.buildAssessmentResult({
-    assessmentId: assessment2.id,
-  });
-  databaseBuilder.factory.buildAssessmentResult({
-    assessmentId: assessment3.id,
-  });
-  databaseBuilder.factory.buildAssessmentResult({
-    assessmentId: assessment4.id,
-  });
-  databaseBuilder.factory.buildAssessmentResult({
-    assessmentId: assessment5.id,
-  });
-  databaseBuilder.factory.buildAssessmentResult({
-    assessmentId: assessment6.id,
-  });
-
-  /**
-   * Knowledge elements configuration
-   * (we need some acquired KEs to have stages)
-   */
   const answersAndKEFromAdvancedProfile = await tooling.profile.getAnswersAndKnowledgeElementsForAdvancedProfile();
 
-  for (const { answerData, keData } of answersAndKEFromAdvancedProfile) {
-    const answer1 = databaseBuilder.factory.buildAnswer({
-      assessmentId: assessment1.id,
-      answerData,
-    });
-    const answer2 = databaseBuilder.factory.buildAnswer({
-      assessmentId: assessment2.id,
-      answerData,
-    });
-    const answer3 = databaseBuilder.factory.buildAnswer({
-      assessmentId: assessment3.id,
-      answerData,
-    });
-    const answer4 = databaseBuilder.factory.buildAnswer({
-      assessmentId: assessment4.id,
-      answerData,
-    });
-    const answer5 = databaseBuilder.factory.buildAnswer({
-      assessmentId: assessment5.id,
-      answerData,
-    });
-    const answer6 = databaseBuilder.factory.buildAnswer({
-      assessmentId: assessment6.id,
-      answerData,
+  allCampaignParticipations.forEach((campaignParticipation) => {
+    // 1. Build assessment
+    const assessment = databaseBuilder.factory.buildAssessment({
+      userId: user.id,
+      type: 'CAMPAIGN',
+      campaignParticipationId: campaignParticipation.id,
     });
 
-    databaseBuilder.factory.buildKnowledgeElement({
-      assessmentId: assessment1.id,
-      answerId: answer1.id,
-      userId: user.id,
-      ...keData,
-      createdAt: dayjs().subtract(1, 'day'),
+    // 2. Build assessment result
+    databaseBuilder.factory.buildAssessmentResult({
+      assessmentId: assessment.id,
     });
-    databaseBuilder.factory.buildKnowledgeElement({
-      assessmentId: assessment2.id,
-      answerId: answer2.id,
-      userId: user.id,
-      ...keData,
-      createdAt: dayjs().subtract(1, 'day'),
-    });
-    databaseBuilder.factory.buildKnowledgeElement({
-      assessmentId: assessment3.id,
-      answerId: answer3.id,
-      userId: user.id,
-      ...keData,
-      createdAt: dayjs().subtract(1, 'day'),
-    });
-    databaseBuilder.factory.buildKnowledgeElement({
-      assessmentId: assessment4.id,
-      answerId: answer4.id,
-      userId: user.id,
-      ...keData,
-      createdAt: dayjs().subtract(1, 'day'),
-    });
-    databaseBuilder.factory.buildKnowledgeElement({
-      assessmentId: assessment5.id,
-      answerId: answer5.id,
-      userId: user.id,
-      ...keData,
-      createdAt: dayjs().subtract(1, 'day'),
-    });
-    databaseBuilder.factory.buildKnowledgeElement({
-      assessmentId: assessment6.id,
-      answerId: answer6.id,
-      userId: user.id,
-      ...keData,
-      createdAt: dayjs().subtract(1, 'day'),
-    });
-  }
+
+    // 3. Knowledge elements configuration (we need some acquired KEs to have stages)
+    for (const { answerData, keData } of answersAndKEFromAdvancedProfile) {
+      const answer = databaseBuilder.factory.buildAnswer({
+        assessmentId: assessment.id,
+        answerData,
+      });
+
+      databaseBuilder.factory.buildKnowledgeElement({
+        assessmentId: assessment.id,
+        answerId: answer.id,
+        userId: user.id,
+        ...keData,
+        createdAt: dayjs().subtract(1, 'day'),
+      });
+    }
+  });
 }

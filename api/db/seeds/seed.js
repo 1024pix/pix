@@ -68,7 +68,7 @@ const seed = async function (knex) {
   }
 
   if (hasToSeed.evaluation) {
-    logger.info('Seeding : evaluation');
+    logger.info('Seeding : Evaluation');
     await teamEvaluationDataBuilder({ databaseBuilder });
   }
 
