@@ -95,7 +95,7 @@
 
               {{#if @displayComplementaryCertification}}
                 <td>
-                  {{if candidate.complementaryCertification candidate.complementaryCertification.label "-"}}
+                  {{this.formatComplementaryCertificationLabel candidate.complementaryCertification.id}}
                 </td>
               {{/if}}
               <td>
