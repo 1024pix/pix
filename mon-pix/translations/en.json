@@ -115,8 +115,17 @@
       "reconciliation": {
         "title": "Join organization { organizationName }",
         "error-message": {
+          "date-field": "Please use this format mm/dd/yyyy for the {fieldName} field.",
           "invalid-reconciliation-error": "Check your information ({fields}) or contact a teacher.",
-          "mandatory-field": "This field is mandatory"
+          "mandatory-field": "Please fill the {fieldName} field"
+        },
+        "field": {
+          "birthdate": "Birthdate",
+          "firstname": "Firstname",
+          "lastname": "Lastname",
+          "sub-label": {
+            "date": "With format mm/dd/yyyy, for example : {dateFormat}"
+          }
         }
       }
     }

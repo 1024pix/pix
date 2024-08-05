@@ -5,8 +5,16 @@ class OrganizationLearnerImportFormat {
     this.config = config;
   }
 
+  #sortObject = (columnA, columnB) => columnA.position - columnB.position;
+
   get reconciliationFields() {
-    return this.config.reconciliationMappingColumns;
+    return this.config.reconciliationMappingColumns
+      .slice()
+      .sort(this.#sortObject)
+      .map(({ name, fieldId, key }) => {
+        const { type } = this.config.validationRules.formats.find((format) => format.key === key);
+        return { name, fieldId, type };
+      });
   }
 
   get headersFields() {
@@ -16,7 +24,7 @@ class OrganizationLearnerImportFormat {
   get orderedDisplayabledColumns() {
     if (!this.config.displayableColumns) return [];
 
-    return this.config.displayableColumns.slice().sort((columnA, columnB) => columnA.position - columnB.position);
+    return this.config.displayableColumns.slice().sort(this.#sortObject);
   }
 
   get columnsToDisplay() {
@@ -36,7 +44,7 @@ class OrganizationLearnerImportFormat {
   /**
    * @function
    * Transform form params into a repository compliant params
-   * It will take params name from reconciliationFields and
+   * It will take params name from reconciliationMappingColumns and
    * use the corresponding columns name to host the value in an attributes object
    * Values associated to header columns that have a property key will be set on
    * the main returned object.
@@ -46,9 +54,9 @@ class OrganizationLearnerImportFormat {
    */
 
   transformReconciliationData(params) {
-    return Object.entries(params).reduce((obj, [fieldName, value]) => {
-      const reconciliationField = this.reconciliationFields.find((field) => field.key === fieldName);
-      const header = this.headersFields.find((column) => column.name === reconciliationField.columnName);
+    return Object.entries(params).reduce((obj, [fieldId, value]) => {
+      const reconciliationField = this.config.reconciliationMappingColumns.find((column) => column.fieldId === fieldId);
+      const header = this.headersFields.find((column) => column.key === reconciliationField.key);
       if (header.property) {
         obj[header.property] = value;
       } else {

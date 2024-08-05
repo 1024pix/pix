@@ -8,7 +8,13 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import dayjs from 'dayjs';
+import CustomParseFormat from 'dayjs/plugin/customParseFormat';
+import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { t } from 'ember-intl';
+
+dayjs.extend(LocalizedFormat);
+dayjs.extend(CustomParseFormat);
 
 export default class LearnerReconciliation extends Component {
   @service intl;
@@ -19,13 +25,15 @@ export default class LearnerReconciliation extends Component {
 
     this.reconciliationFieldData = [];
 
-    this.args.reconciliationFields.forEach(({ key, columnName }) => {
+    this.args.reconciliationFields.forEach(({ fieldId, name, type }) => {
       this.reconciliationFieldData.push({
-        id: key,
+        id: fieldId,
+        type,
         value: null,
         status: 'default',
         errorMessage: null,
-        label: columnName,
+        label: this.args.mappingFields[name] || name,
+        subLabel: this._getSubLabel(type),
       });
     });
   }
@@ -40,7 +48,11 @@ export default class LearnerReconciliation extends Component {
 
     this.args.onSubmit(
       this.reconciliationFieldData.reduce((object, reconciliationField) => {
-        object[reconciliationField.id] = reconciliationField.value;
+        if (reconciliationField.type === 'date') {
+          object[reconciliationField.id] = dayjs(reconciliationField.value, 'L', true).format('YYYY-MM-DD');
+        } else {
+          object[reconciliationField.id] = reconciliationField.value;
+        }
 
         return object;
       }, {}),
@@ -51,17 +63,43 @@ export default class LearnerReconciliation extends Component {
     return Object.values(this.reconciliationFieldData).some((field) => field.status === 'error');
   }
 
+  _getSubLabel(type) {
+    if (type === 'date') {
+      return this.intl.t('components.invited.reconciliation.field.sub-label.date', {
+        dateFormat: dayjs('2020-12-31').format('L'),
+      });
+    } else {
+      return null;
+    }
+  }
+
   _validateForm() {
     const fields = this.reconciliationFieldData.map((field) => {
       if (!field.value) {
         return {
           ...field,
           status: 'error',
-          errorMessage: this.intl.t('components.invited.reconciliation.error-message.mandatory-field'),
+          errorMessage: this.intl.t('components.invited.reconciliation.error-message.mandatory-field', {
+            fieldName: this.intl.t(field.label),
+          }),
         };
-      } else {
-        return { ...field, status: '', errorMessage: null };
       }
+
+      if (field.type === 'date') {
+        const isValidDate = dayjs(field.value, 'L', true).isValid();
+
+        if (!isValidDate) {
+          return {
+            ...field,
+            status: 'error',
+            errorMessage: this.intl.t('components.invited.reconciliation.error-message.date-field', {
+              fieldName: this.intl.t(field.label),
+            }),
+          };
+        }
+      }
+
+      return { ...field, status: '', errorMessage: null };
     });
     // force tracked properties to update as they don't detect deep changes
     this.reconciliationFieldData = fields;
@@ -91,9 +129,10 @@ export default class LearnerReconciliation extends Component {
               @errorMessage={{reconciliationField.errorMessage}}
               @validationStatus={{reconciliationField.status}}
               @value={{reconciliationField.value}}
+              @subLabel={{reconciliationField.subLabel}}
               {{on "change" (fn this.updateFields index)}}
             >
-              <:label>{{reconciliationField.label}}</:label>
+              <:label>{{t reconciliationField.label}}</:label>
             </PixInput>
           {{/each}}
           {{#if @reconciliationError}}
