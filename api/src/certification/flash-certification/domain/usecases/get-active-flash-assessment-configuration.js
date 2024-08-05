@@ -1,3 +1,3 @@
-export const getActiveFlashAssessmentConfiguration = async ({ flashAlgorithmConfigurationRepository }) => {
-  return flashAlgorithmConfigurationRepository.getMostRecent();
+export const getActiveFlashAssessmentConfiguration = async ({ sharedFlashAlgorithmConfigurationRepository }) => {
+  return sharedFlashAlgorithmConfigurationRepository.getMostRecent();
 };

@@ -7,8 +7,10 @@ describe('Unit | Domain | UseCases | create-flash-assessment-configuration', fun
   it('should create an active flash assessment configuration', async function () {
     // given
     const flashAlgorithmConfigurationRepository = {
-      getMostRecent: sinon.stub(),
       save: sinon.stub(),
+    };
+    const sharedFlashAlgorithmConfigurationRepository = {
+      getMostRecent: sinon.stub(),
     };
 
     const configuration = {
@@ -20,11 +22,12 @@ describe('Unit | Domain | UseCases | create-flash-assessment-configuration', fun
       variationPercent: 0.5,
     });
 
-    flashAlgorithmConfigurationRepository.getMostRecent.resolves(previousConfiguration);
+    sharedFlashAlgorithmConfigurationRepository.getMostRecent.resolves(previousConfiguration);
 
     // when
     await createFlashAssessmentConfiguration({
       flashAlgorithmConfigurationRepository,
+      sharedFlashAlgorithmConfigurationRepository,
       configuration,
     });
 

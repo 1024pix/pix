@@ -2,8 +2,8 @@ import { Serializer as JSONAPISerializer } from 'jsonapi-serializer';
 
 import * as events from '../../../../lib/domain/events/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { usecases as certificationUsecases } from '../../../certification/course/domain/usecases/index.js';
 import * as certificationVersionRepository from '../../../certification/results/infrastructure/repositories/certification-version-repository.js';
+import { usecases as certificationUsecases } from '../../../certification/session-management/domain/usecases/index.js';
 import { CertificationVersion } from '../../../certification/shared/domain/models/CertificationVersion.js';
 import * as certificationChallengeRepository from '../../../certification/shared/infrastructure/repositories/certification-challenge-repository.js';
 import { usecases as devcompUsecases } from '../../../devcomp/domain/usecases/index.js';
@@ -203,9 +203,9 @@ async function _getChallengeByAssessmentType({ assessment, request, dependencies
     });
 
     if (CertificationVersion.isV3(certificationCourseVersion)) {
-      return dependencies.usecases.getNextChallengeForV3Certification({ assessment, locale });
+      return certificationUsecases.getNextChallengeForV3Certification({ assessment, locale });
     } else {
-      return dependencies.usecases.getNextChallengeForV2Certification({ assessment, locale });
+      return certificationUsecases.getNextChallengeForV2Certification({ assessment, locale });
     }
   }
 

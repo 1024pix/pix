@@ -1,11 +1,8 @@
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
- *
- * @typedef {import('../../../shared/domain/usecases/index.js').AssessmentRepository} AssessmentRepository
- *
- * @typedef {import('../../../shared/domain/usecases/index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
- *
- * @typedef {import('../../../shared/domain/usecases/index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
+ * @typedef {import('./index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
+ * @typedef {import('./index.js').AssessmentRepository} AssessmentRepository
+ * @typedef {import('./index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
+ * @typedef {import('./index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
  */
 
 import { NotFoundError } from '../../../../shared/domain/errors.js';

@@ -1,5 +1,5 @@
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
-import { FlashAssessmentAlgorithmConfiguration } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithmConfiguration.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../../../src/certification/shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { AssessmentEndedError } from '../../../src/shared/domain/errors.js';
 
 const getNextChallengeForCampaignAssessment = async function ({
