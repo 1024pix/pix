@@ -4,6 +4,9 @@ import {
   DifferentExternalIdentifierError,
   MissingOrInvalidCredentialsError,
   MissingUserAccountError,
+  OrganizationLearnerDoesAlreadyHaveAnUsernameError,
+  OrganizationLearnerDoesNotBelongToOrganizationError,
+  OrganizationLearnerDoesNotHaveAPixAccountError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   UserCantBeCreatedError,
@@ -80,6 +83,63 @@ describe('Unit | Identity Access Management | Application | HttpErrorMapperConfi
 
       //then
       expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+    });
+  });
+
+  context('when mapping "OrganizationLearnerDoesAlreadyHaveAnUsernameError"', function () {
+    it('returns an BadRequestError Http Error', function () {
+      //given
+      const httpErrorMapper = authenticationDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === OrganizationLearnerDoesAlreadyHaveAnUsernameError.name,
+      );
+      const message = 'Test message error';
+      const code = 'CODE_ERROR';
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new OrganizationLearnerDoesAlreadyHaveAnUsernameError(message, code));
+
+      //then
+      expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+      expect(error.message).to.equal(message);
+      expect(error.code).to.equal(code);
+    });
+  });
+
+  context('when mapping "OrganizationLearnerDoesNotBelongToOrganizationError"', function () {
+    it('returns an BadRequestError Http Error', function () {
+      //given
+      const httpErrorMapper = authenticationDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === OrganizationLearnerDoesNotBelongToOrganizationError.name,
+      );
+      const message = 'Test message error';
+      const code = 'CODE_ERROR';
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new OrganizationLearnerDoesNotBelongToOrganizationError(message, code));
+
+      //then
+      expect(error).to.be.instanceOf(HttpErrors.UnauthorizedError);
+      expect(error.message).to.equal(message);
+      expect(error.code).to.equal(code);
+    });
+  });
+
+  context('when mapping "OrganizationLearnerDoesNotHaveAPixAccountError"', function () {
+    it('returns an BadRequestError Http Error', function () {
+      //given
+      const httpErrorMapper = authenticationDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === OrganizationLearnerDoesNotHaveAPixAccountError.name,
+      );
+      const message = 'Test message error';
+      const code = 'CODE_ERROR';
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new OrganizationLearnerDoesNotHaveAPixAccountError(message, code));
+
+      //then
+      expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+      expect(error.message).to.equal(message);
+      expect(error.code).to.equal(code);
     });
   });
 

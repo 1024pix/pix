@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 
 import { eventBus } from '../../../../lib/domain/events/index.js';
 import { mailService } from '../../../../lib/domain/services/mail-service.js';
+import * as passwordGeneratorService from '../../../../lib/domain/services/password-generator.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/usecases/index.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
@@ -62,6 +63,7 @@ const services = {
   cryptoService,
   mailService,
   oidcAuthenticationServiceRegistry,
+  passwordGeneratorService,
   pixAuthenticationService,
   refreshTokenService,
   resetPasswordService,

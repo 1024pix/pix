@@ -26,6 +26,30 @@ class MissingUserAccountError extends DomainError {
   }
 }
 
+class OrganizationLearnerDoesAlreadyHaveAnUsernameError extends DomainError {
+  constructor(message = "L'élève a déjà un identitfiant.", code = 'ORGANIZATION_LEARNER_DOES_ALREADY_HAVE_A_USERNAME') {
+    super(message, code);
+  }
+}
+
+class OrganizationLearnerDoesNotBelongToOrganizationError extends DomainError {
+  constructor(
+    message = "L'utilisateur n'est pas autorisé à modifier cet élève.",
+    code = 'ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION',
+  ) {
+    super(message, code);
+  }
+}
+
+class OrganizationLearnerDoesNotHaveAPixAccountError extends DomainError {
+  constructor(
+    message = "L'utilisateur ne peut pas modifier un élève qui n'a pas de compte Pix associé.",
+    code = 'ORGANIZATION_LEARNER_DOES_NOT_HAVE_A_PIX_ACCOUNT',
+  ) {
+    super(message, code);
+  }
+}
+
 class PasswordNotMatching extends DomainError {
   constructor(message = 'Wrong password.') {
     super(message);
@@ -64,6 +88,9 @@ export {
   DifferentExternalIdentifierError,
   MissingOrInvalidCredentialsError,
   MissingUserAccountError,
+  OrganizationLearnerDoesAlreadyHaveAnUsernameError,
+  OrganizationLearnerDoesNotBelongToOrganizationError,
+  OrganizationLearnerDoesNotHaveAPixAccountError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   UserCantBeCreatedError,

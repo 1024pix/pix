@@ -5,6 +5,9 @@ import {
   DifferentExternalIdentifierError,
   MissingOrInvalidCredentialsError,
   MissingUserAccountError,
+  OrganizationLearnerDoesAlreadyHaveAnUsernameError,
+  OrganizationLearnerDoesNotBelongToOrganizationError,
+  OrganizationLearnerDoesNotHaveAPixAccountError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   UserCantBeCreatedError,
@@ -28,6 +31,18 @@ const authenticationDomainErrorMappingConfiguration = [
   {
     name: MissingUserAccountError.name,
     httpErrorFn: (error) => new HttpErrors.BadRequestError(error.message),
+  },
+  {
+    name: OrganizationLearnerDoesAlreadyHaveAnUsernameError.name,
+    httpErrorFn: (error) => new HttpErrors.BadRequestError(error.message, error.code),
+  },
+  {
+    name: OrganizationLearnerDoesNotBelongToOrganizationError.name,
+    httpErrorFn: (error) => new HttpErrors.UnauthorizedError(error.message, error.code),
+  },
+  {
+    name: OrganizationLearnerDoesNotHaveAPixAccountError.name,
+    httpErrorFn: (error) => new HttpErrors.BadRequestError(error.message, error.code),
   },
   {
     name: PasswordNotMatching.name,
