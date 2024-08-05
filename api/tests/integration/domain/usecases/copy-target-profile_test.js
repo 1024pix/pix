@@ -1,12 +1,15 @@
 import { copyTargetProfile } from '../../../../lib/domain/usecases/copy-target-profile.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
+import { categories } from '../../../../src/shared/domain/models/TargetProfile.js';
 import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | UseCases | copy-target-profile', function () {
   describe('when the target profile exists', function () {
     it('should copy the target profile', async function () {
       // given
-      const originTargetProfile = databaseBuilder.factory.buildTargetProfile();
+      const originTargetProfile = databaseBuilder.factory.buildTargetProfile({
+        category: categories.PIX_PLUS,
+      });
       const firstBadge = databaseBuilder.factory.buildBadge({ key: 'FOO', targetProfileId: originTargetProfile.id });
       const secondBadge = databaseBuilder.factory.buildBadge({ key: 'BAR', targetProfileId: originTargetProfile.id });
 
