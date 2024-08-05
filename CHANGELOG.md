@@ -1,5 +1,30 @@
 # Pix Changelog
 
+## v4.194.0 (05/08/2024)
+
+
+### :rocket: Amélioration
+- [#9736](https://github.com/1024pix/pix/pull/9736) [FEATURE] Afficher un QCU Image en web component sur Pix Junior TECH DAYS (Pix-13740).
+- [#9794](https://github.com/1024pix/pix/pull/9794) [FEATURE] Changement du design des cartes mission dans Pix Junior (Pix-13623).
+- [#9769](https://github.com/1024pix/pix/pull/9769) [FEATURE] Intégrer des composants Pix UI sur l'accueil de Pix App.
+
+### :building_construction: Tech
+- [#9762](https://github.com/1024pix/pix/pull/9762) [TECH] Arrêter d'utiliser des variables dépréciées de Pix UI dans mon-pix.
+- [#9763](https://github.com/1024pix/pix/pull/9763) [TECH] Migrer le helper CSV et ls serializer CSV vers la nouvelle arborescence (PIX-13673).
+- [#9787](https://github.com/1024pix/pix/pull/9787) [TECH] Déplacer les validateurs dans le scope évaluation (PIX-13733).
+- [#9789](https://github.com/1024pix/pix/pull/9789) [TECH] Augmenter le timeout de 2 tests longs (flakies).
+- [#9773](https://github.com/1024pix/pix/pull/9773) [TECH] Utiliser les nouvelles variables pour les espacements sur Pix Certif (PIX-13708).
+
+### :bug: Correction
+- [#9795](https://github.com/1024pix/pix/pull/9795) [BUGFIX] Corriger la réinitialisation d'un QCM Modulix lors du clic sur le bouton Réessayer.
+- [#9774](https://github.com/1024pix/pix/pull/9774) [BUGFIX] Import tags: gestion d'erreur pour une orga inexistante (PIX-13680).
+
+### :arrow_up: Montée de version
+- [#9784](https://github.com/1024pix/pix/pull/9784) [BUMP] Update dependency ember-intl to v7 (certif).
+
+### :coffee: Autre
+- [#9798](https://github.com/1024pix/pix/pull/9798) [FIX] Dupliquer la categorie du profil cible (PIX-13525) .
+
 ## v4.193.0 (02/08/2024)
 
 
