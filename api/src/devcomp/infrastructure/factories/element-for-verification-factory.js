@@ -18,7 +18,14 @@ export class ElementForVerificationFactory {
         case 'qrocm':
           return ElementForVerificationFactory.#buildQROCMForAnswerVerification(elementData);
         case 'embed':
-          return ElementForVerificationFactory.#buildEmbedForAnswerVerification(elementData);
+          if (elementData.isCompletionRequired) {
+            return ElementForVerificationFactory.#buildEmbedForAnswerVerification(elementData);
+          }
+          logger.warn({
+            event: 'embed_without_required_completion_is_not_handled_for_verification',
+            message: `Embed without required completion is not handled: ${elementData.id}`,
+          });
+          return undefined;
         default:
           logger.warn({
             event: 'module_element_type_not_handled_for_verification',

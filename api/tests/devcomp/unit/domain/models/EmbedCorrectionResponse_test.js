@@ -4,7 +4,7 @@ import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | EmbedCorrectionResponse', function () {
   describe('#constructor', function () {
-    it('should create a embed correction response and keep attributes', function () {
+    it('should create an embed correction response and keep attributes', function () {
       // given
       const status = AnswerStatus.OK;
 
@@ -21,14 +21,14 @@ describe('Unit | Devcomp | Domain | Models | EmbedCorrectionResponse', function 
 
   describe('A QCU correction response without status', function () {
     it('should throw an error', function () {
-      expect(() => new EmbedCorrectionResponse({})).to.throw('The result is required for a embed response');
+      expect(() => new EmbedCorrectionResponse({})).to.throw('The result is required for an embed response');
     });
   });
 
   describe('A QCU correction response without proposal id', function () {
     it('should throw an error', function () {
       expect(() => new EmbedCorrectionResponse({ status: AnswerStatus.OK, feedback: 'Bien joué !' })).to.throw(
-        'The id of the correct proposal is required for a embed response',
+        'The id of the correct proposal is required for an embed response',
       );
     });
   });

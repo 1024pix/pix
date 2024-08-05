@@ -64,26 +64,56 @@ describe('Unit | Devcomp | Infrastructure | Factories | ElementForVerification',
       });
     });
 
-    it('should instantiate a EmbedForAnswerVerification when given a data of type "embed"', function () {
-      // given
-      const feedbacks = { valid: 'valid', invalid: 'invalid' };
+    describe('When element is an embed', function () {
+      describe('When embed has required completion', function () {
+        it('should instantiate an EmbedForAnswerVerification', function () {
+          // given
+          const feedbacks = { valid: 'valid', invalid: 'invalid' };
 
-      const elementData = {
-        id: '123',
-        title: 'An embed',
-        instruction: 'instruction',
-        feedbacks,
-        type: 'embed',
-        solution: 'solution',
-        url: 'http://embed.example.net',
-        height: 800,
-      };
+          const elementData = {
+            id: '123',
+            title: 'An embed',
+            instruction: 'instruction',
+            feedbacks,
+            type: 'embed',
+            solution: 'solution',
+            url: 'http://embed.example.net',
+            height: 800,
+            isCompletionRequired: true,
+          };
 
-      // when
-      const element = ElementForVerificationFactory.build(elementData);
+          // when
+          const element = ElementForVerificationFactory.build(elementData);
 
-      // then
-      expect(element).to.be.an.instanceOf(EmbedForAnswerVerification);
+          // then
+          expect(element).to.be.an.instanceOf(EmbedForAnswerVerification);
+        });
+      });
+
+      describe('When embed has not required completion', function () {
+        it('should log a message', function () {
+          // given
+          const elementData = {
+            id: '123',
+            title: 'An embed',
+            instruction: 'instruction',
+            type: 'embed',
+            url: 'http://embed.example.net',
+            height: 800,
+            isCompletionRequired: false,
+          };
+          sinon.stub(logger, 'warn').returns();
+
+          // when
+          ElementForVerificationFactory.build(elementData);
+
+          // then
+          expect(logger.warn).to.have.been.calledWithExactly({
+            event: 'embed_without_required_completion_is_not_handled_for_verification',
+            message: `Embed without required completion is not handled: ${elementData.id}`,
+          });
+        });
+      });
     });
 
     it('should instantiate a QCUForAnswerVerification when given a data of type "qcu"', function () {

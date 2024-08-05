@@ -20,13 +20,10 @@ import { Module } from '../../domain/models/module/Module.js';
 import { QcmProposal } from '../../domain/models/QcmProposal.js';
 import { QcuProposal } from '../../domain/models/QcuProposal.js';
 import { TransitionText } from '../../domain/models/TransitionText.js';
-import { ElementForVerificationFactory } from './element-for-verification-factory.js';
 
 export class ModuleFactory {
-  static build(moduleData, options = { isForReferentialValidation: false }) {
+  static build(moduleData) {
     try {
-      const { isForReferentialValidation } = options;
-
       return new Module({
         id: moduleData.id,
         slug: moduleData.slug,
@@ -42,7 +39,7 @@ export class ModuleFactory {
               .map((component) => {
                 switch (component.type) {
                   case 'element': {
-                    const element = ModuleFactory.#buildElement(component.element, isForReferentialValidation);
+                    const element = ModuleFactory.#buildElement(component.element);
                     if (element) {
                       return new ComponentElement({ element });
                     } else {
@@ -55,7 +52,7 @@ export class ModuleFactory {
                         return new Step({
                           elements: step.elements
                             .map((element) => {
-                              const domainElement = ModuleFactory.#buildElement(element, isForReferentialValidation);
+                              const domainElement = ModuleFactory.#buildElement(element);
                               if (domainElement) {
                                 return domainElement;
                               } else {
@@ -83,7 +80,7 @@ export class ModuleFactory {
     }
   }
 
-  static #buildElement(element, isForReferentialValidation) {
+  static #buildElement(element) {
     switch (element.type) {
       case 'embed':
         return ModuleFactory.#buildEmbed(element);
@@ -94,17 +91,11 @@ export class ModuleFactory {
       case 'video':
         return ModuleFactory.#buildVideo(element);
       case 'qcm':
-        return isForReferentialValidation
-          ? ElementForVerificationFactory.build(element)
-          : ModuleFactory.#buildQCM(element);
+        return ModuleFactory.#buildQCM(element);
       case 'qcu':
-        return isForReferentialValidation
-          ? ElementForVerificationFactory.build(element)
-          : ModuleFactory.#buildQCU(element);
+        return ModuleFactory.#buildQCU(element);
       case 'qrocm':
-        return isForReferentialValidation
-          ? ElementForVerificationFactory.build(element)
-          : ModuleFactory.#buildQROCM(element);
+        return ModuleFactory.#buildQROCM(element);
       default:
         logger.warn({
           event: 'module_element_type_unknown',

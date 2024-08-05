@@ -5,7 +5,7 @@ import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerification', function () {
   describe('#constructor', function () {
-    it('should instanciate a embed For Verification with right attributes', function () {
+    it('should instanciate an embed For Verification with right attributes', function () {
       // Given
       const solution = Symbol('solution');
       const expectedSolution = { value: solution };
@@ -43,7 +43,7 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
   });
 
   describe('#assess', function () {
-    it('should return a EmbedCorrectionResponse for a valid answer', function () {
+    it('should return an EmbedCorrectionResponse for a valid answer', function () {
       // given
       const stubedIsOk = sinon.stub().returns(true);
       const assessResult = { result: { isOK: stubedIsOk } };
@@ -86,7 +86,7 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
       expect(correction).to.deepEqualInstance(new EmbedCorrectionResponse(expectedCorrection));
     });
 
-    it('should return a EmbedCorrectionResponse for a invalid answer', function () {
+    it('should return an EmbedCorrectionResponse for a invalid answer', function () {
       // given
       const stubedIsOk = sinon.stub().returns(false);
       const assessResult = { result: { isOK: stubedIsOk } };

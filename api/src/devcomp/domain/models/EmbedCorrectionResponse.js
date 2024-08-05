@@ -2,8 +2,8 @@ import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.
 
 class EmbedCorrectionResponse {
   constructor({ status, solution }) {
-    assertNotNullOrUndefined(status, 'The result is required for a embed response');
-    assertNotNullOrUndefined(solution, 'The id of the correct proposal is required for a embed response');
+    assertNotNullOrUndefined(status, 'The result is required for an embed response');
+    assertNotNullOrUndefined(solution, 'The id of the correct proposal is required for an embed response');
 
     this.status = status;
     this.feedback = '';

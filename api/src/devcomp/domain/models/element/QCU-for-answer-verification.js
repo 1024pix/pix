@@ -13,6 +13,7 @@ class QCUForAnswerVerification extends QCU {
     super({ id, instruction, locales, proposals });
 
     assertNotNullOrUndefined(solution, 'The solution is required for a verification QCU');
+    this.#assertSolutionIsAnExistingProposal(solution, proposals);
 
     this.solution = { value: solution };
 
@@ -24,6 +25,13 @@ class QCUForAnswerVerification extends QCU {
       this.validator = validator;
     } else {
       this.validator = new ValidatorQCU({ solution: this.solution });
+    }
+  }
+
+  #assertSolutionIsAnExistingProposal(solution, proposals) {
+    const isSolutionAnExistingProposal = proposals.find(({ id: proposalId }) => proposalId === solution);
+    if (!isSolutionAnExistingProposal) {
+      throw new Error('The QCU solution id is not an existing proposal id');
     }
   }
 
