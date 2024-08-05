@@ -2,8 +2,11 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntl from '../../helpers/setup-intl.js';
+
 module('Unit | Service | error-response-handler', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks);
 
   test('it notifies a non-JSONAPI error as a single notification', function (assert) {
     // given
@@ -118,10 +121,6 @@ module('Unit | Service | error-response-handler', function (hooks) {
         message: 'Cette fonctionnalité a déjà été ajouté à cette organisation',
       },
       {
-        code: 'ORGANIZATION_NOT_FOUND',
-        message: "Cette organisation n'existe pas",
-      },
-      {
         code: 'FEATURE_NOT_FOUND',
         message: "Cette fonctionnalité n'existe pas",
       },
@@ -139,6 +138,30 @@ module('Unit | Service | error-response-handler', function (hooks) {
           title: 'Sending email to an invalid domain',
           code,
         };
+
+        // when
+        service.notify({ errors: [invalidDomainError] });
+
+        // then
+        sinon.assert.calledWith(service.notifications.error, message);
+        assert.ok(true);
+      });
+    });
+  });
+
+  module('with i18n error codes', function () {
+    [
+      {
+        code: 'ORGANIZATION_NOT_FOUND',
+        meta: { organizationId: 666 },
+        message: 'L’organisation "666" n’existe pas.',
+      },
+    ].forEach(({ code, meta, message }) => {
+      test(`it notifies correct error for code ${code}`, function (assert) {
+        // given
+        const service = this.owner.lookup('service:error-response-handler');
+        service.notifications.error = sinon.stub();
+        const invalidDomainError = { status: '400', title: 'Error', code, meta };
 
         // when
         service.notify({ errors: [invalidDomainError] });

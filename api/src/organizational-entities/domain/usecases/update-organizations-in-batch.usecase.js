@@ -97,7 +97,6 @@ async function checkOrganizationUpdate(organizationBatchUpdateDto, organizationF
     throw new OrganizationNotFound({
       meta: {
         organizationId: organizationBatchUpdateDto.id,
-        value: organizationBatchUpdateDto.id,
       },
     });
   }

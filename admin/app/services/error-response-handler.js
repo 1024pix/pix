@@ -15,13 +15,17 @@ const ERROR_MESSAGES_BY_STATUS = {
 export const ERROR_MESSAGES_BY_CODE = {
   SENDING_EMAIL_TO_INVALID_DOMAIN: "Échec lors de l'envoi d'un e-mail car le domaine semble invalide.",
   ALREADY_EXISTING_ORGANIZATION_FEATURE: 'Cette fonctionnalité a déjà été ajouté à cette organisation',
-  ORGANIZATION_NOT_FOUND: "Cette organisation n'existe pas",
   FEATURE_NOT_FOUND: "Cette fonctionnalité n'existe pas",
   FEATURE_PARAMS_NOT_PROCESSABLE: 'Les paramètres de la fonctionnalité ont un format incorrect',
 };
 
+const I18N_KEYS_BY_ERROR_CODE = {
+  ORGANIZATION_NOT_FOUND: 'common.api-error-messages.organization-not-found-error',
+};
+
 export default class ErrorResponseHandlerService extends Service {
   @service notifications;
+  @service intl;
 
   notify(errorResponse, customErrorMessageByStatus) {
     if (!_isJSONAPIError(errorResponse)) {
@@ -36,7 +40,7 @@ export default class ErrorResponseHandlerService extends Service {
     }
 
     errors.forEach((error) => {
-      const messageForCode = _getErrorMessageForErrorCode(error.code);
+      const messageForCode = this._getErrorMessageForErrorCode(error.code, error.meta);
       if (messageForCode) {
         this.notifications.error(messageForCode);
         return;
@@ -46,18 +50,23 @@ export default class ErrorResponseHandlerService extends Service {
       this.notifications.error(message);
     });
   }
+
+  _getErrorMessageForErrorCode(errorCode, meta) {
+    if (I18N_KEYS_BY_ERROR_CODE[errorCode]) {
+      const i18nKey = I18N_KEYS_BY_ERROR_CODE[errorCode];
+      return this.intl.t(i18nKey, meta);
+    }
+
+    if (ERROR_MESSAGES_BY_CODE[errorCode]) {
+      return ERROR_MESSAGES_BY_CODE[errorCode];
+    }
+
+    return null;
+  }
 }
 
 function _isJSONAPIError(errorResponse) {
   return !isEmpty(errorResponse.errors) && every(errorResponse.errors, (error) => error.title);
-}
-
-function _getErrorMessageForErrorCode(errorCode) {
-  if (ERROR_MESSAGES_BY_CODE[errorCode]) {
-    return ERROR_MESSAGES_BY_CODE[errorCode];
-  }
-
-  return null;
 }
 
 function _getErrorMessageForHttpStatus(errorStatus, customErrorMessageByStatus) {

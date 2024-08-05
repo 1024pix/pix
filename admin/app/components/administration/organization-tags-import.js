@@ -46,7 +46,7 @@ export default class OrganizationTagsImport extends Component {
           return;
         }
 
-        this.errorResponseHandler.notify(await response.json());
+        this.errorResponseHandler.notify(json);
       }
     } catch (error) {
       this.notifications.error(this.intl.t('common.notifications.generic-error'));
