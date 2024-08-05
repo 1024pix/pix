@@ -1,8 +1,12 @@
+import Joi from 'joi';
+
+import { UserNotFoundError } from '../../../src/shared/domain/errors.js';
+import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
 import { UserAnonymized } from '../events/UserAnonymized.js';
 
 const anonymizeUser = async function ({
-  updatedByUserId,
   userId,
+  updatedByUserId,
   userRepository,
   authenticationMethodRepository,
   membershipRepository,
@@ -15,6 +19,11 @@ const anonymizeUser = async function ({
 }) {
   const user = await userRepository.get(userId);
 
+  const anonymizedBy = await _checkAdminUser({
+    adminUserId: updatedByUserId || user.hasBeenAnonymisedBy,
+    adminMemberRepository,
+  });
+
   await authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({ userId });
 
   await refreshTokenService.revokeRefreshTokensForUserId({ userId });
@@ -23,10 +32,10 @@ const anonymizeUser = async function ({
     await resetPasswordDemandRepository.removeAllByEmail(user.email);
   }
 
-  await membershipRepository.disableMembershipsByUserId({ userId, updatedByUserId });
+  await membershipRepository.disableMembershipsByUserId({ userId, updatedByUserId: anonymizedBy.userId });
 
   await certificationCenterMembershipRepository.disableMembershipsByUserId({
-    updatedByUserId,
+    updatedByUserId: anonymizedBy.userId,
     userId,
   });
 
@@ -34,17 +43,23 @@ const anonymizeUser = async function ({
 
   await _anonymizeUserLogin({ userId, userLoginRepository });
 
-  await _anonymizeUser({ user, updatedByUserId, userRepository });
+  await _anonymizeUser({ user, anonymizedByUserId: anonymizedBy.userId, userRepository });
 
-  const adminMember = await adminMemberRepository.get({ userId: updatedByUserId });
-  const event = new UserAnonymized({
-    userId,
-    updatedByUserId,
-    role: adminMember.role,
-  });
-
-  return event;
+  if (anonymizedBy) {
+    return new UserAnonymized({ userId, updatedByUserId: anonymizedBy.userId, role: anonymizedBy.role });
+  }
+  return null;
 };
+
+async function _checkAdminUser({ adminUserId, adminMemberRepository }) {
+  validateEntity(Joi.number().integer().required(), adminUserId);
+
+  const admin = await adminMemberRepository.get({ userId: adminUserId });
+  if (!admin) {
+    throw new UserNotFoundError(`Admin not found for id: ${adminUserId}`);
+  }
+  return admin;
+}
 
 async function _anonymizeUserLogin({ userId, userLoginRepository }) {
   const userLogin = await userLoginRepository.findByUserId(userId);
@@ -55,12 +70,11 @@ async function _anonymizeUserLogin({ userId, userLoginRepository }) {
   await userLoginRepository.update(anonymizedUserLogin, { preventUpdatedAt: true });
 }
 
-async function _anonymizeUser({ user, updatedByUserId, userRepository }) {
+async function _anonymizeUser({ user, anonymizedByUserId, userRepository }) {
+  const anonymizedUser = user.anonymize(anonymizedByUserId).mapToDatabaseDto();
+
   await userRepository.updateUserDetailsForAdministration(
-    {
-      id: user.id,
-      userAttributes: user.anonymize(updatedByUserId).mapToDatabaseDto(),
-    },
+    { id: user.id, userAttributes: anonymizedUser },
     { preventUpdatedAt: true },
   );
 }
