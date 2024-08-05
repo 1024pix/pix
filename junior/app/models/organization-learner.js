@@ -6,4 +6,5 @@ export default class OrganizationLearner extends Model {
   @attr organizationId;
   @attr division;
   @attr completedMissionIds;
+  @attr startedMissionIds;
 }

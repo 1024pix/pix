@@ -10,7 +10,7 @@ import MissionCardBackGround from './mission-card-background';
     {{/if}}
 
     <div class="mission-icon">
-      <img src="/images/mission/icon/area-code-{{@areaCode}}.svg" alt="mission-icon" />
+      <img src="/images/mission/icon/area-code-{{@areaCode}}.svg" alt="" />
     </div>
 
     <MissionCardBackGround @class="area-code-{{@areaCode}}" @areaCode={{@areaCode}} />
