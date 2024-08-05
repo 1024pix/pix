@@ -51,6 +51,18 @@ module('Unit | Model | Challenge', function (hooks) {
     });
   });
 
+  module('#hasWebComponent', function () {
+    test('should be true when web component name and web component props are fields', function (assert) {
+      const challenge = store.createRecord('challenge', {
+        webComponentProps: {
+          prop: 'value',
+        },
+        webComponentTagName: 'web-component',
+      });
+      assert.true(challenge.hasWebComponent);
+    });
+  });
+
   module('#isQROC', function () {
     test('should be true if challenge type is QROC', async function (assert) {
       const challenge = store.createRecord('challenge', {

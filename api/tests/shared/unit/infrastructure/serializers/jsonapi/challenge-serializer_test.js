@@ -23,6 +23,11 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
         embedUrl: 'https://github.io/page/epreuve.html',
         embedTitle: 'Epreuve de selection de dossier',
         embedHeight: 500,
+        webComponentTagName: 'web-component',
+        webComponentProps: {
+          prop1: 'value 1',
+          prop2: 'value 2',
+        },
         format: 'mots',
         shuffled: false,
         locales: ['fr', 'en'],
@@ -47,6 +52,11 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
             'embed-url': 'https://github.io/page/epreuve.html',
             'embed-title': 'Epreuve de selection de dossier',
             'embed-height': 500,
+            'web-component-tag-name': 'web-component',
+            'web-component-props': {
+              prop1: 'value 1',
+              prop2: 'value 2',
+            },
             format: 'mots',
             shuffled: false,
             locales: ['fr', 'en'],

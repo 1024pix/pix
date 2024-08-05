@@ -1,9 +1,10 @@
 import _ from 'lodash';
 
-import { config } from '../../../../src/shared/config.js';
-import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
+import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
+import { config } from '../../config.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Challenge } from '../../domain/models/index.js';
+import * as solutionAdapter from '../../infrastructure/adapters/solution-adapter.js';
 import * as skillAdapter from '../adapters/skill-adapter.js';
 import { challengeDatasource, skillDatasource } from '../datasources/learning-content/index.js';
 import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
@@ -11,6 +12,18 @@ import { LearningContentResourceNotFound } from '../datasources/learning-content
 const get = async function (id) {
   try {
     const challenge = await challengeDatasource.get(id);
+    if (challenge.embedUrl != null && challenge.embedUrl.endsWith('.json')) {
+      const webComponentResponse = await httpAgent.get({ url: challenge.embedUrl });
+      if (!webComponentResponse.isSuccessful) {
+        throw new NotFoundError(
+          `Embed webcomponent config with URL ${challenge.embedUrl} in challenge ${challenge.id} not found`,
+        );
+      }
+
+      challenge.webComponentTagName = webComponentResponse.data.name;
+      challenge.webComponentProps = webComponentResponse.data.props;
+    }
+
     const skill = await skillDatasource.get(challenge.skillId);
     return _toDomain({ challengeDataObject: challenge, skillDataObject: skill });
   } catch (error) {
@@ -176,6 +189,8 @@ function _toDomain({ challengeDataObject, skillDataObject, successProbabilityThr
     embedUrl: challengeDataObject.embedUrl,
     embedTitle: challengeDataObject.embedTitle,
     embedHeight: challengeDataObject.embedHeight,
+    webComponentTagName: challengeDataObject.webComponentTagName,
+    webComponentProps: challengeDataObject.webComponentProps,
     skill,
     validator,
     competenceId: challengeDataObject.competenceId,

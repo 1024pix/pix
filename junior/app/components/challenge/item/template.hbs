@@ -17,6 +17,15 @@
           />
         </div>
       {{/if}}
+      {{#if @challenge.hasWebComponent}}
+        <div class="challenge-item__web-component">
+          <Challenge::ChallengeWebComponent
+            @tagName={{@challenge.webComponentTagName}}
+            @props={{@challenge.webComponentProps}}
+            @setAnswerValue={{@setAnswerValue}}
+          />
+        </div>
+      {{/if}}
     </div>
   {{/if}}
   <div class="challenge-item__proposals {{unless this.isMediaWithForm 'challenge-item__proposals--single-display'}}">

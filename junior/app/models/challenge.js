@@ -25,13 +25,25 @@ export default class Challenge extends Model {
   @attr('boolean') autoReply;
   @attr('boolean') focused;
   @attr('boolean') shuffled;
+  @attr() webComponentProps;
+  @attr('string') webComponentTagName;
 
   @hasMany('activity-answer', { async: true, inverse: 'challenge' }) activityAnswers;
 
-  @computed('embedUrl', 'embedTitle', 'embedHeight')
+  @computed('embedHeight', 'embedTitle', 'embedUrl', 'hasWebComponent')
   get hasValidEmbedDocument() {
     const embedUrl = this.embedUrl;
-    return !!embedUrl && !!this.embedTitle && !!this.embedHeight && embedUrl.toLowerCase().indexOf('https://') === 0; // fixes bug on IE: startsWith in not supported (PR #242)
+    return (
+      !!embedUrl &&
+      !!this.embedTitle &&
+      !!this.embedHeight &&
+      !this.hasWebComponent &&
+      embedUrl.toLowerCase().indexOf('https://') === 0
+    ); // fixes bug on IE: startsWith in not supported (PR #242)
+  }
+
+  get hasWebComponent() {
+    return !!this.webComponentProps && !!this.webComponentTagName;
   }
 
   get isQROC() {
