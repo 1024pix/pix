@@ -54,6 +54,7 @@ class Challenge {
     embedHeight,
     embedTitle,
     embedUrl,
+    embedFragment,
     format,
     illustrationAlt,
     alternativeInstruction,
@@ -83,6 +84,7 @@ class Challenge {
     this.embedHeight = embedHeight;
     this.embedTitle = embedTitle;
     this.embedUrl = embedUrl;
+    this.embedFragment = embedFragment;
     this.format = format;
     this.illustrationAlt = illustrationAlt;
     this.illustrationUrl = illustrationUrl;
@@ -167,6 +169,14 @@ class Challenge {
 
   static findBySkill({ challenges, skill }) {
     return _.filter(challenges, (challenge) => challenge.skill?.id === skill.id);
+  }
+
+  hasEmbedFragment() {
+    if (!this.embedUrl) {
+      return false;
+    }
+
+    return this.embedUrl.endsWith('fragment.html');
   }
 }
 
