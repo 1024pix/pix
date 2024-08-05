@@ -8,10 +8,10 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
   describe('#constructor', function () {
     it('should instanciate a QCU For Verification with right attributes', function () {
       // Given
-      const proposal1 = Symbol('proposal1');
-      const proposal2 = Symbol('proposal2');
+      const proposal1 = { id: Symbol('proposal1') };
+      const proposal2 = { id: Symbol('proposal2') };
       const feedbacks = { valid: 'valid', invalid: 'invalid' };
-      const solution = Symbol('solution');
+      const solution = proposal1.id;
       const expectedSolution = { value: solution };
 
       // When
@@ -43,6 +43,20 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
               proposals: [Symbol('proposal1')],
             }),
         ).to.throw('The solution is required for a verification QCU');
+      });
+    });
+
+    describe('A QCU For Verification with an unexisting solution', function () {
+      it('should throw an error', function () {
+        expect(
+          () =>
+            new QCUForAnswerVerification({
+              id: '123',
+              instruction: 'toto',
+              proposals: [Symbol('proposal1')],
+              solution: Symbol('unexistingProposalId'),
+            }),
+        ).to.throw('The QCU solution id is not an existing proposal id');
       });
     });
   });
@@ -144,7 +158,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         const qcu = new QCUForAnswerVerification({
           id: 'qcu-id',
           instruction: '',
-          proposals: [{}],
+          proposals: [{ id: qcuSolution }],
           feedbacks: { valid: 'OK', invalid: 'KO' },
           solution: qcuSolution,
         });
@@ -196,7 +210,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
           const qcu = new QCUForAnswerVerification({
             id: 'qcu-id',
             instruction: '',
-            proposals: [{}],
+            proposals: [{ id: qcuSolution }],
             feedbacks: { valid: 'OK', invalid: 'KO' },
             solution: qcuSolution,
           });
