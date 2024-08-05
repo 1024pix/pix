@@ -17,7 +17,7 @@
     display: inline-block;
     align-items: center;
     width: 100%;
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     line-height: 21px;
 
     p {
@@ -34,8 +34,8 @@
 
   &__answer-details[data-goodness='good'] {
     display: inline;
-    color: $pix-success-70;
-    font-weight: $font-bold;
+    color: var(--pix-success-700);
+    font-weight: var(--pix-font-bold);
   }
 
   &__answer-details[data-goodness='bad'][data-checked='yes'] {
@@ -57,7 +57,7 @@
     min-width: 18px;
     min-height: 18px;
     margin: 4px 10px;
-    border: 1.2px solid $pix-neutral-90;
+    border: 1.2px solid var(--pix-neutral-900);
     border-radius: 2px;
   }
 }

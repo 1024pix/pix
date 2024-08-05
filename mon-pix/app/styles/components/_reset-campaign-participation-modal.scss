@@ -1,11 +1,11 @@
 .reset-campaign-participation-modal {
   &__text {
-    margin: $pix-spacing-m;
+    margin: var(--pix-spacing-6x);
   }
 
   &__footer {
     display: flex;
-    gap: $pix-spacing-s;
+    gap: var(--pix-spacing-4x);
     align-items: center;
     justify-content: end;
   }

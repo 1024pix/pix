@@ -5,7 +5,7 @@
   justify-content: flex-start;
   max-width: 370px;
   height: 100%;
-  color: $pix-neutral-80;
+  color: var(--pix-neutral-800);
   font-size: 1.125rem;
 
   div {
@@ -55,7 +55,7 @@
     }
 
     p {
-      font-weight: $font-medium;
+      font-weight: var(--pix-font-medium);
       font-family: $font-open-sans;
       line-height: 1.375rem;
     }

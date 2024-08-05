@@ -8,8 +8,8 @@
 
   &__primary {
     margin-top: 22px;
-    color: $pix-neutral-80;
-    font-weight: $font-bold;
+    color: var(--pix-neutral-800);
+    font-weight: var(--pix-font-bold);
     font-size: 1.5rem;
     font-style: normal;
     font-stretch: normal;
@@ -18,18 +18,18 @@
   &__secondary {
     margin-top: 9px;
     margin-bottom: 50px;
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     font-size: 1.125rem;
     font-style: normal;
     font-stretch: normal;
   }
 
   &__time {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
   }
 
   &__allocated-time {
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     font-size: 1.7375rem;
   }
 
@@ -40,7 +40,6 @@
 }
 
 .timed-challenge-instructions-allocated-time {
-
   &__gauge {
     display: flex;
     flex-direction: row;
@@ -51,13 +50,12 @@
     margin: 0 auto;
     padding: 4px 12px;
     line-height: 3.125rem;
-    background-color: $pix-neutral-20;
+    background-color: var(--pix-neutral-20);
     border-radius: 7px;
   }
 }
 
 .timed-challenge-instructions-gauge {
-
   &__icon {
     width: 42px;
     padding-right: 6px;
@@ -66,7 +64,6 @@
 }
 
 .timed-challenge-instructions-action {
-
   &__confirmation-button {
     margin-top: 22px;
     font-size: 0.875rem;

@@ -21,7 +21,7 @@
     @extend %pix-title-m;
 
     padding: 22px 0 38px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     text-align: center;
   }
 
@@ -42,7 +42,7 @@
     @extend %pix-title-s;
 
     padding-bottom: 24px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
   }
 
   &__description {
@@ -50,13 +50,13 @@
 
     margin: 0;
     padding-bottom: 24px;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
   }
 
   &__description em {
     padding-right: 0.2rem;
     padding-left: 0.2rem;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-style: normal;
   }
 
@@ -64,7 +64,7 @@
     @extend %pix-body-m;
 
     margin-bottom: 2rem;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
 
     ul {
       margin: 0;
@@ -98,13 +98,13 @@
   &__divider {
     width: 100%;
     margin: 50px 0 30px;
-    border-bottom: 1px solid $pix-neutral-30;
+    border-bottom: 1px solid var(--pix-neutral-100);
 
     @include device-is('desktop') {
       width: 0;
       margin: 0;
       border-bottom-style: none;
-      border-left: 1px solid $pix-neutral-30;
+      border-left: 1px solid var(--pix-neutral-100);
     }
   }
 
@@ -121,7 +121,7 @@
     @extend %pix-body-s;
 
     padding-bottom: 10px; 
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
     text-align: center;
   }
 
@@ -139,7 +139,7 @@
 
     align-self: flex-end;
     margin-top: 5px;
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
   }
 
   &__submit-button {

@@ -1,12 +1,12 @@
 .user-account-panel__item {
   display: flex;
   flex-direction: column;
-  gap: $pix-spacing-m;
+  gap: var(--pix-spacing-6x);
   justify-content: space-between;
   padding-top: 16px;
   padding-bottom: 16px;
   word-break: break-word;
-  border-top: $pix-neutral-15 1px solid;
+  border-top: var(--pix-neutral-20) 1px solid;
 
   &--with-success-message {
     margin: 20px 0 0;
@@ -29,7 +29,7 @@
 .user-account-panel-item__text {
   display: flex;
   flex-wrap: wrap;
-  gap: $pix-spacing-xs;
+  gap: var(--pix-spacing-2x);
 }
 
 .user-account-panel-item__label {
@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   margin: 0;
-  color: $pix-neutral-50;
+  color: var(--pix-neutral-500);
 }
 
 .user-account-panel-item__edit-button {

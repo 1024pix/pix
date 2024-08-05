@@ -7,7 +7,7 @@
   box-sizing: border-box;
   height: fit-content;
   padding: 24px 16px;
-  color: $pix-neutral-10;
+  color: var(--pix-neutral-20);
   background: var(--pix-certif-500);
   border-radius: 6px;
   text-rendering: optimizelegibility;
@@ -28,20 +28,20 @@
   bottom: auto;
   left: auto;
   display: flex;
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
   font-size: 1.25rem;
   cursor: pointer;
   opacity: 0.5;
 
   &:hover,
   &:active {
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
   }
 }
 
 @mixin textBannerStyle {
   color: var(--pix-neutral-0);
-  font-weight: $font-normal;
+  font-weight: var(--pix-font-normal);
   font-family: $font-open-sans;
   line-height: 2rem;
   text-align: center;
@@ -60,7 +60,7 @@
   flex-direction: column;
   margin: 0 auto;
   padding: 16px 32px;
-  background-color: $pix-success-5;
+  background-color: var(--pix-success-50);
   border-radius: 16px;
 }
 
@@ -84,7 +84,7 @@
   flex-direction: column;
   align-items: flex-start;
   margin-top: 16px;
-  color: $pix-neutral-90;
+  color: var(--pix-neutral-900);
   text-align: center;
 
   @include device-is('tablet') {
@@ -129,7 +129,7 @@
   font-weight: 500;
   font-size: 0.875rem;
   font-family: $font-roboto;
-  border: 1px solid $pix-neutral-10;
+  border: 1px solid var(--pix-neutral-20);
   border-radius: 4px;
 
   &:last-child {
@@ -147,18 +147,18 @@
 }
 
 .oudated-complementary-certification-banner {
-  margin-top: $pix-spacing-s;
+  margin-top: var(--pix-spacing-4x);
 
   &__row {
     display: flex;
-    padding: $pix-spacing-s;
-    background-color: $pix-primary-10;
+    padding: var(--pix-spacing-4x);
+    background-color: var(--pix-primary-100);
     border-radius: 16px;
   }
 
   &__icon {
     max-width: 64px;
     max-height: 64px;
-    margin-right: $pix-spacing-s;
+    margin-right: var(--pix-spacing-4x);
   }
 }

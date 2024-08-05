@@ -9,7 +9,7 @@
   align-content: flex-start;
   margin: 20px 0;
   padding-bottom: 1rem;
-  border-bottom: $pix-neutral-15 1px solid;
+  border-bottom: var(--pix-neutral-20) 1px solid;
 
   &:last-child {
     padding-bottom: 0;
@@ -25,18 +25,17 @@
 
   &__value {
     margin: 0;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-500);
   }
 
   &__select {
     width: 165px;
     margin: 0;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-100);
   }
 }
 
 @include device-is('mobile') {
-
   .personal-information {
     padding: 0;
   }

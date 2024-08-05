@@ -1,15 +1,15 @@
 .background-banner {
   width: 100%;
   min-height: 270px;
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
   background: $pix-primary-app-gradient;
   box-shadow: 0 2px 8px 0 rgb(0 0 0 / 10%);
 }
 
 .background-banner-v2 {
   width: 100%;
-  background: $pix-neutral-0;
-  box-shadow: 0 2px 5px 0 rgba($pix-neutral-90, 0.06);
+  background: var(--pix-neutral-0);
+  box-shadow: 0 2px 5px 0 rgb(var(--pix-neutral-900) 0.06);
 }
 
 .background-banner-wrapper {

@@ -1,7 +1,7 @@
 .language {
-  padding: $pix-spacing-xs 0;
+  padding: var(--pix-spacing-2x) 0;
 
   &__notification {
-    margin-top: $pix-spacing-s;
+    margin-top: var(--pix-spacing-4x);
   }
 }

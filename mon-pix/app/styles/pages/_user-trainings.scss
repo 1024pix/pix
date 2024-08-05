@@ -1,32 +1,25 @@
 .user-trainings-banner {
-  margin: 0 24px;
-  padding-bottom: 16px;
-  font-family: $font-roboto;
+  margin: 0 var(--pix-spacing-6x);
+  padding-bottom: var(--pix-spacing-4x);
 
   @include device-is('desktop') {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 0 20px 16px;
+    padding: var(--pix-spacing-4x) 20px;
   }
 
   &__title {
-    color: $pix-neutral-90;
-    font-weight: $font-normal;
-    font-size: 2rem;
-    font-family: $font-open-sans;
-    line-height: 2.6875rem;
-    letter-spacing: 0.0093rem;
+    @extend %pix-title-m;
+
+    color: var(--pix-neutral-900);
   }
 
   &__description {
+    @extend %pix-body-m;
+
     margin: 0;
-    padding: 8px 0 32px;
-    color: $pix-neutral-60;
-    font-weight: $font-normal;
-    font-size: 1rem;
-    font-family: $font-roboto;
-    line-height: 1.375rem;
-    letter-spacing: 0.0093rem;
+    padding: var(--pix-spacing-2x) 0 var(--pix-spacing-8x);
+    color: var(--pix-neutral-500);
   }
 }
 
@@ -35,9 +28,9 @@
   flex-direction: column;
   width: 100%;
   min-height: inherit;
-  margin: $pix-spacing-m auto 0;
-  padding: 20px 32px 0;
-  color: $pix-neutral-90;
+  margin: 0 auto;
+  padding: var(--pix-spacing-6x) 20px 0;
+  color: var(--pix-neutral-900);
 
   @include device-is('tablet') {
     padding: 40px 0 0;
@@ -60,8 +53,8 @@
   &__list {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 24px;
-    margin-bottom: $pix-spacing-l;
+    gap: var(--pix-spacing-6x);
+    margin-bottom: var(--pix-spacing-8x);
     padding: 0;
     list-style: none;
 
@@ -78,7 +71,9 @@
 .user-trainings-content-list {
   &__item {
     &:hover {
-      box-shadow: 0 7px 14px 0 rgb(12 22 58 / 20%), 0 3px 6px 0 rgba($pix-neutral-110, 0.2);
+      box-shadow:
+        0 7px 14px 0 var(--pix-neutral-100),
+        0 3px 6px 0 var(--pix-neutral-500);
     }
   }
 }

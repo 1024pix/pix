@@ -12,7 +12,8 @@
   &__instruction {
     font-size: 1rem;
 
-    ul, li {
+    ul,
+    li {
       list-style: unset;
     }
 
@@ -24,7 +25,6 @@
         margin-bottom: 1em;
       }
     }
-
   }
 
   &__default-message-container {
@@ -34,7 +34,7 @@
     max-width: 991px;
     margin: 0 15px 15px;
     padding: 36px 0 28px;
-    border: 1.3px dashed $pix-neutral-40;
+    border: 1.3px dashed var(--pix-neutral-500);
     border-radius: 5px;
 
     @include device-is('desktop') {
@@ -46,8 +46,8 @@
 .comparison-windows-content-body-default-message-container {
   &__default-message-title {
     margin: 10px 25px 40px;
-    color: $pix-neutral-110;
-    font-weight: $font-medium;
+    color: var(--pix-neutral-900);
+    font-weight: var(--pix-font-medium);
     font-size: 1.063rem;
     font-family: $font-open-sans;
     text-align: center;
@@ -61,13 +61,13 @@
 .comparison-window-solution {
   display: flex;
   align-items: stretch;
-  margin-top: $pix-spacing-xs;
+  margin-top: var(--pix-spacing-2x);
 
   &__text {
     @extend %pix-body-m;
 
-    color: $pix-success-70;
-    font-weight: $font-bold;
+    color: var(--pix-success-700);
+    font-weight: var(--pix-font-bold);
   }
 
   &__img {
@@ -81,5 +81,5 @@
 }
 
 .comparison-window .feedback-panel {
-  margin-bottom: $pix-spacing-xs;
+  margin-bottom: var(--pix-spacing-2x);
 }

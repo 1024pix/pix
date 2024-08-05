@@ -4,20 +4,20 @@ input.input-code {
   box-sizing: content-box;
   min-height: 50px;
   padding: 0 1px 1px 0.5ch;
-  color: $pix-neutral-70;
+  color: var(--pix-neutral-800);
   font-size: 1.875rem;
   letter-spacing: 0.5ch;
   text-transform: uppercase;
   background:
     repeating-linear-gradient(
         90deg,
-        $pix-neutral-22 0,
-        $pix-neutral-22 1ch,
+        var(--pix-neutral-100) 0,
+        var(--pix-neutral-100) 1ch,
         transparent 0,
         transparent 1.5ch
       ) 0 96% / 98% 2px no-repeat;
   background-origin: content-box;
-  border: solid 2px $pix-neutral-20;
+  border: solid 2px var(--pix-neutral-100);
   border-radius: 3px;
 
   @media all and (-ms-high-contrast: none) {
@@ -27,8 +27,8 @@ input.input-code {
     background:
       repeating-linear-gradient(
           90deg,
-          $pix-neutral-22 0,
-          $pix-neutral-22 1.33ch,
+          var(--pix-neutral-100) 0,
+          var(--pix-neutral-100) 1.33ch,
           transparent 0,
           transparent 1.733ch
         ) 0 96% / 98% 2px no-repeat;

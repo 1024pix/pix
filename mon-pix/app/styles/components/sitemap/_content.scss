@@ -9,7 +9,7 @@
     list-style: none;
 
     a {
-      color: $pix-primary-60;
+      color: var(--pix-primary-700);
     }
   }
 
@@ -27,11 +27,10 @@
 }
 
 .sitemap-content {
-
   &__title {
     margin-top: 48px;
-    color: $pix-neutral-90;
-    font-weight: $font-normal;
+    color: var(--pix-neutral-900);
+    font-weight: var(--pix-font-normal);
     font-size: 3rem;
     line-height: 4.125rem;
   }
@@ -46,40 +45,36 @@
     }
 
     a:visited {
-      color: $pix-primary_80;
+      color: var(--pix-primary-500) _80;
       text-decoration: none;
     }
   }
 }
 
 .sitemap-content-items {
-
   &__link {
     margin-top: 32px;
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 2rem;
 
     &--title {
-      color: $pix-neutral-60;
+      color: var(--pix-neutral-500);
     }
   }
 }
 
 .sitemap-content-items-link {
-
   &__resources {
-
     li::before {
-      color: $pix-neutral-45;
+      color: var(--pix-neutral-500);
       content: '•';
     }
   }
 }
 
 .sitemap-content-items-link-skills {
-
   li::before {
-    color: $pix-neutral-45;
+    color: var(--pix-neutral-500);
     content: '•';
   }
 
@@ -93,9 +88,8 @@
 }
 
 .sitemap-content-items-link-resources {
-
   &__resource {
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     font-size: 1rem;
 
     &:first-child {

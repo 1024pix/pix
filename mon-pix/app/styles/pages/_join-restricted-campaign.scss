@@ -10,15 +10,15 @@
     width: 100%;
     height: 50px;
     padding-left: 10px;
-    border: 2px solid $pix-neutral-20;
+    border: 2px solid var(--pix-neutral-100);
     border-radius: 4px;
 
     &[disabled] {
-      background-color: $pix-neutral-20;
+      background-color: var(--pix-neutral-20);
     }
 
     &.input--error {
-      border-color: $pix-warning-60;
+      border-color: var(--pix-warning-700);
     }
   }
 
@@ -34,15 +34,15 @@
   &__sco-title {
     @extend %pix-title-l;
 
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     text-align: center;
   }
 
   &__subtitle {
     @extend %pix-title-xs;
 
-    margin: $pix-spacing-m 0;
-    color: $pix-neutral-100;
+    margin: var(--pix-spacing-6x) 0;
+    color: var(--pix-neutral-900);
     text-align: center;
   }
 
@@ -50,14 +50,14 @@
     @extend %pix-body-s;
 
     margin: 0;
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-family: $font-roboto;
   }
 
   &__field-error {
     @extend %pix-body-s;
 
-    color: $pix-error-60;
+    color: var(--pix-error-700);
   }
 
   &__error {
@@ -65,7 +65,7 @@
 
     margin: 8px 0;
     padding: 4px 10px;
-    color: $pix-error-60;
+    color: var(--pix-error-700);
     text-align: center;
 
     @include device-is('tablet') {
@@ -110,7 +110,7 @@
 }
 
 .ember-modal-overlay.translucent {
-  background-color: rgba(red($pix-neutral-110), green($pix-neutral-110), blue($pix-neutral-110), 40%);
+  background-color: rgb(var(pix-neutral-900) / 40%);
 }
 
 .join-error-modal {
@@ -123,20 +123,20 @@
     justify-content: space-between;
     height: 78px;
     padding: 20px;
-    background-color: $pix-neutral-0;
+    background-color: var(--pix-neutral-0);
   }
 
   &__body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: $pix-neutral-10;
+    background-color: var(--pix-neutral-20);
   }
 
   &__footer {
     display: flex;
     justify-content: center;
-    background-color: $pix-neutral-10;
+    background-color: var(--pix-neutral-20);
 
     > button {
       margin: 0 8px;
@@ -156,7 +156,7 @@
     @extend %pix-title-xs;
 
     margin-left: 8px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
   }
 }
 
@@ -165,8 +165,8 @@
     width: 32px;
     height: 32px;
     padding: 8px;
-    color: $pix-neutral-45;
-    background-color: $pix-neutral-15;
+    color: var(--pix-neutral-500);
+    background-color: var(--pix-neutral-20);
     border-radius: 50px;
   }
 }
@@ -175,7 +175,7 @@
   &__message {
     @extend %pix-body-s;
 
-    color: $pix-neutral-110;
+    color: var(--pix-neutral-900);
     text-align: left;
   }
 

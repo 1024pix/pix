@@ -1,6 +1,6 @@
 .qcu-panel {
   a {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
     text-decoration: underline;
 
     @include device-is('tablet') {
@@ -10,7 +10,7 @@
     &:active,
     &:focus,
     &:hover {
-      color: $pix-primary-60;
+      color: var(--pix-primary-700);
     }
 
     &::after {
@@ -22,7 +22,7 @@
     position: relative;
     display: inline-block;
     padding-left: 20px;
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     line-height: 21px;
     cursor: pointer;
   }
@@ -34,7 +34,7 @@
       flex-direction: row;
       width: 100%;
       margin-left: 7px;
-      font-weight: $font-normal;
+      font-weight: var(--pix-font-normal);
       line-height: 1.2rem;
     }
 
@@ -46,8 +46,8 @@
       display: inline-block;
 
       &[data-goodness='good'] {
-        color: $pix-success-70;
-        font-weight: $font-bold;
+        color: var(--pix-success-700);
+        font-weight: var(--pix-font-bold);
       }
 
       &[data-goodness='bad'][data-checked='yes'] {

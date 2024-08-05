@@ -1,5 +1,5 @@
 .email-verification-code {
-  color: $pix-neutral-70;
+  color: var(--pix-neutral-800);
 
   &__description {
     font-size: 0.875rem;
@@ -36,7 +36,7 @@
     button {
       margin-left: 2px;
       padding: 0;
-      color: $pix-primary;
+      color: var(--pix-primary-500);
       font-size: 1rem;
       font-family: $font-roboto;
       background-color: transparent;

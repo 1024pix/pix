@@ -6,7 +6,7 @@
 
 .progress-bar-current-step {
   margin-bottom: 7px;
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
   font-size: 1rem;
 }
 
@@ -46,7 +46,7 @@
 
 .assessment-progress {
   margin: 12px 0 10px;
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
   text-align: right;
 
   &__label {

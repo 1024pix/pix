@@ -1,30 +1,30 @@
 .user-tutorials-banner {
-  margin: 0 $pix-spacing-m;
-  padding-bottom: $pix-spacing-s;
+  margin: 0 var(--pix-spacing-6x);
+  padding-bottom: var(--pix-spacing-4x);
 
   @include device-is('desktop') {
     max-width: 1280px;
     margin: 0 auto;
-    padding: $pix-spacing-s 20px;
+    padding: var(--pix-spacing-4x) 20px;
   }
 
   &__title {
     @extend %pix-title-m;
 
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
   }
 
   &__description {
     @extend %pix-body-m;
 
-    padding: $pix-spacing-xs 0 $pix-spacing-l;
-    color: $pix-neutral-60;
+    padding: var(--pix-spacing-2x) 0 var(--pix-spacing-8x);
+    color: var(--pix-neutral-500);
   }
 
   &__filters {
     display: flex;
     flex-wrap: wrap;
-    gap: $pix-spacing-s;
+    gap: var(--pix-spacing-4x);
     align-items: center;
     min-height: 2.8125rem;
   }
@@ -32,7 +32,7 @@
 
 .user-tutorials-content {
   margin: 0 auto;
-  padding: $pix-spacing-m 20px 0;
+  padding: var(--pix-spacing-6x) 20px 0;
 
   @include device-is('desktop') {
     max-width: 1280px;
@@ -41,12 +41,12 @@
   &__cards {
     display: grid;
     grid-template-columns: 1fr;
-    margin-bottom: $pix-spacing-l;
-    row-gap: $pix-spacing-s;
+    margin-bottom: var(--pix-spacing-8x);
+    row-gap: var(--pix-spacing-4x);
 
     @include device-is('desktop') {
       grid-template-columns: 1fr 1fr;
-      column-gap: $pix-spacing-m;
+      column-gap: var(--pix-spacing-6x);
     }
   }
 
@@ -72,8 +72,8 @@
   &__title {
     @extend %pix-title-s;
 
-    margin-top: $pix-spacing-m;
-    color: $pix-neutral-90;
+    margin-top: var(--pix-spacing-6x);
+    color: var(--pix-neutral-900);
 
     @include device-is('desktop') {
       margin-top: 0;

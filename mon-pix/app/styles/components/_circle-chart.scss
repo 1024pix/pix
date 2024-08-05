@@ -29,7 +29,7 @@
 .circle {
   fill: none;
   stroke-width: 1.1;
-  stroke: $pix-neutral-20;
+  stroke: var(--pix-neutral-100);
   stroke-linecap: round;
 
   &--thick {
@@ -38,27 +38,27 @@
 
   &--slice {
     animation: progress 1s ease-out forwards;
-    stroke: $pix-information-light;
+    stroke: var(--pix-information-light);
   }
 
   &--jaffa {
-    stroke: $pix-information-light;
+    stroke: var(--pix-information-light);
   }
 
   &--emerald {
-    stroke: $pix-content-light;
+    stroke: var(--pix-content-light);
   }
 
   &--cerulean {
-    stroke: $pix-communication-light;
+    stroke: var(--pix-communication-light);
   }
 
   &--wild-strawberry {
-    stroke: $pix-security-light;
+    stroke: var(--pix-security-light);
   }
 
   &--butterfly-bush {
-    stroke: $pix-environment-light;
+    stroke: var(--pix-environment-light);
   }
 }
 

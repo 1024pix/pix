@@ -7,16 +7,16 @@
 
 .checkpoint__header {
   width: 100%;
-  margin: $pix-spacing-m 0 $pix-spacing-s;
-  padding-inline: $pix-spacing-xs;
+  margin: var(--pix-spacing-6x) 0 var(--pix-spacing-4x);
+  padding-inline: var(--pix-spacing-2x);
 
   @include device-is('tablet') {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     max-width: 832px;
-    margin: $pix-spacing-l 0 $pix-spacing-xs;
-    padding: 0 $pix-spacing-s;
+    margin: var(--pix-spacing-8x) 0 var(--pix-spacing-2x);
+    padding: 0 var(--pix-spacing-4x);
   }
 }
 
@@ -98,7 +98,7 @@
     max-width: 100%;
     margin-top: 0;
     margin-bottom: 40px;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-size: 1.5rem;
     line-height: 2.063rem;
     white-space: pre-line;

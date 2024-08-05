@@ -1,6 +1,6 @@
 .skill-review-share__badge-icons {
   display: flex;
-  margin-top: $pix-spacing-s;
+  margin-top: var(--pix-spacing-4x);
 }
 
 /*
@@ -8,7 +8,7 @@
  */
 [class*='skill-review-share-badge-icons__item'] {
   position: relative;
-  padding: $pix-spacing-xs;
+  padding: var(--pix-spacing-2x);
   border-radius: 1rem;
 
   & > * {
@@ -28,24 +28,24 @@
 
 // Certifiable badge item
 .skill-review-share-badge-icons__item--certifiable {
-  background-color: $pix-success-5;
+  background-color: var(--pix-success-50);
 
   & + .skill-review-share-badge-icons__item--certifiable::before {
-    background-color: $pix-success-5;
+    background-color: var(--pix-success-50);
   }
 }
 
 // Not certifiable badge item
 .skill-review-share-badge-icons__item--not-certifiable {
-  background-color: $pix-neutral-10;
+  background-color: var(--pix-neutral-20);
 
   & + .skill-review-share-badge-icons__item--not-certifiable::before {
-    background-color: $pix-neutral-10;
+    background-color: var(--pix-neutral-20);
   }
 }
 
 .skill-review-share-badge-icons__item--certifiable + .skill-review-share-badge-icons__item--not-certifiable {
-  margin-left: $pix-spacing-xs;
+  margin-left: var(--pix-spacing-2x);
 }
 
 /*

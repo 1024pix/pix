@@ -6,7 +6,7 @@
 
 .qcu-solution-panel {
   a {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
     text-decoration: underline;
 
     @include device-is('tablet') {
@@ -14,7 +14,7 @@
     }
 
     &:focus {
-      color: $pix-primary-60;
+      color: var(--pix-primary-700);
     }
 
     &::after {
@@ -28,7 +28,7 @@
     flex-direction: row;
     width: 100%;
     margin-left: 7px;
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
     line-height: 1.2rem;
   }
 
@@ -44,8 +44,8 @@
     }
 
     &[data-goodness='good'] {
-      color: $pix-success-70;
-      font-weight: $font-bold;
+      color: var(--pix-success-700);
+      font-weight: var(--pix-font-bold);
     }
 
     &[data-goodness='bad'][data-checked='yes'] {
@@ -64,6 +64,6 @@
 
 .qcu-solution-answer-feedback {
   &__expected-answer {
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
   }
 }

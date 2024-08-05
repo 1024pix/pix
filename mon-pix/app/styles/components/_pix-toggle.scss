@@ -1,13 +1,13 @@
 .pix-toggle-deprecated {
   display: flex;
   height: 44px;
-  color: $pix-neutral-60;
-  font-weight: $font-medium;
+  color: var(--pix-neutral-500);
+  font-weight: var(--pix-font-medium);
   font-size: 1rem;
   font-family: $font-roboto;
   letter-spacing: 0.45px;
   text-align: center;
-  border: 2px solid $pix-neutral-20;
+  border: 2px solid var(--pix-neutral-20);
   border-radius: 12px;
   cursor: pointer;
 
@@ -20,13 +20,12 @@
 
   &__on {
     color: var(--pix-neutral-0);
-    background-color: $pix-neutral-60;
+    background-color: var(--pix-neutral-500);
   }
 
   &__off {
-
     &:hover {
-      color: $pix-neutral-70;
+      color: var(--pix-neutral-800);
     }
   }
 }

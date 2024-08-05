@@ -1,6 +1,6 @@
 .tutorial-item {
   margin-bottom: 24px;
-  border-bottom: 1px solid $pix-neutral-20;
+  border-bottom: 1px solid var(--pix-neutral-20);
 }
 
 .tutorial__content {
@@ -14,25 +14,24 @@
     display: block;
     width: 4px;
     height: calc(100% - 6px);
-    background: $pix-neutral-50;
+    background: var(--pix-neutral-100);
     border-radius: 50px;
     content: ' ';
   }
 }
 
 .tutorial-content {
-
   &__title {
     display: inline-block;
     margin-bottom: 4px;
-    color: $pix-neutral-90;
-    font-weight: $font-normal;
+    color: var(--pix-neutral-900);
+    font-weight: var(--pix-font-normal);
     font-size: 1.125rem;
     line-height: 1.875rem;
     letter-spacing: 0;
 
     @include device-is('tablet') {
-      font-weight: $font-medium;
+      font-weight: var(--pix-font-medium);
     }
 
     &::after {
@@ -42,8 +41,8 @@
 
   &__description {
     margin: 0 0 14px;
-    color: $pix-neutral-50;
-    font-weight: $font-normal;
+    color: var(--pix-neutral-100);
+    font-weight: var(--pix-font-normal);
     font-size: 0.875rem;
     font-family: $font-roboto;
     line-height: 1.5rem;
@@ -61,13 +60,12 @@
 }
 
 .tutorial-content-actions {
-
   &__save {
     display: block;
     margin: 0 0 16px;
     padding: 0;
-    color: $pix-neutral-50;
-    font-weight: $font-medium;
+    color: var(--pix-neutral-100);
+    font-weight: var(--pix-font-medium);
     font-size: 0.813rem;
     letter-spacing: 0.028rem;
     background: transparent;
@@ -83,7 +81,7 @@
     }
 
     &:disabled {
-      color: $pix-neutral-30;
+      color: var(--pix-neutral-100);
       cursor: auto;
       filter: brightness(90%);
     }
@@ -93,8 +91,8 @@
     display: block;
     margin: 0 0 16px;
     padding: 0;
-    color: $pix-neutral-50;
-    font-weight: $font-medium;
+    color: var(--pix-neutral-100);
+    font-weight: var(--pix-font-medium);
     font-size: 0.813rem;
     letter-spacing: 0.028rem;
     background: transparent;
@@ -110,7 +108,7 @@
     }
 
     &:disabled {
-      color: $pix-neutral-30;
+      color: var(--pix-neutral-100);
       cursor: auto;
       filter: brightness(90%);
     }

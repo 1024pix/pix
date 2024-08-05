@@ -24,8 +24,8 @@
     textarea,
     input,
     [disabled] {
-      color: $pix-success-70;
-      font-weight: $font-bold;
+      color: var(--pix-success-700);
+      font-weight: var(--pix-font-bold);
     }
   }
 
@@ -39,7 +39,7 @@
   &--aband {
     textarea,
     input {
-      color: $pix-neutral-80;
+      color: var(--pix-neutral-800);
       font-style: italic;
     }
   }

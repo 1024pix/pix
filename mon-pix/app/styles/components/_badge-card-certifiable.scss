@@ -12,8 +12,8 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
-  padding: $pix-spacing-m;
-  background-color: $pix-success-5;
+  padding: var(--pix-spacing-6x);
+  background-color: var(--pix-success-50);
   border-radius: 16px;
 
   &__header {
@@ -23,7 +23,7 @@
   }
 
   &--not-acquired {
-    background-color: $pix-neutral-10;
+    background-color: var(--pix-neutral-20);
   }
 
   @include device-is('tablet') {
@@ -52,7 +52,7 @@
   &__content {
     display: flex;
     flex-wrap: wrap;
-    gap: $pix-spacing-s;
+    gap: var(--pix-spacing-4x);
     align-items: center;
     justify-content: center;
   }
@@ -60,7 +60,7 @@
   &__title {
     @extend %pix-title-xs;
 
-    margin: $pix-spacing-xs 0 $pix-spacing-s;
+    margin: var(--pix-spacing-2x) 0 var(--pix-spacing-4x);
   }
 }
 
@@ -69,9 +69,9 @@
     @extend %pix-body-s;
 
     width: fit-content;
-    padding: $pix-spacing-xxs $pix-spacing-xs;
+    padding: var(--pix-spacing-1x) var(--pix-spacing-2x);
     white-space: nowrap;
-    background-color: $pix-neutral-0;
+    background-color: var(--pix-neutral-0);
     border-radius: 8px;
   }
 

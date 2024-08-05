@@ -1,35 +1,34 @@
 .pix-choice-chip {
+  @extend %pix-cta-s;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 16px;
-  color: $pix-neutral-50;
-  font-weight: $font-medium;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  letter-spacing: 0.028rem;
+  padding: var(--pix-spacing-2x) var(--pix-spacing-6x);
+  color: var(--pix-neutral-800);
   white-space: nowrap;
   text-decoration: none;
-  background: $pix-neutral-10;
+  background: var(--pix-neutral-20);
   border: 2px solid transparent;
-  border-radius: 50px;
+  border-radius: 25px;
+  outline: none;
   cursor: pointer;
 
   &--active {
-    color: $pix-primary-70;
-    background: $pix-primary-10;
+    color: var(--pix-primary-700);
+    background: var(--pix-primary-100);
   }
 
   &:hover {
-    color: $pix-neutral-90;
-    background: $pix-neutral-20;
+    color: var(--pix-neutral-900);
+    background: var(--pix-neutral-100);
   }
 
   &:focus-visible {
-    color: $pix-neutral-0;
-    background-color: $pix-neutral-60;
-    border-color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
+    background-color: var(--pix-neutral-500);
+    border-color: var(--pix-neutral-0);
     outline: none;
-    box-shadow: 0 0 0 2px $pix-neutral-60;
+    box-shadow: 0 0 0 2px var(--pix-neutral-500);
   }
 }

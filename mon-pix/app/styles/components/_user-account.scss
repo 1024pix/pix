@@ -7,7 +7,7 @@
     right: 0;
     margin: 0 0 8px;
     padding-bottom: 26px;
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     text-align: center;
   }
 
@@ -15,7 +15,7 @@
     @extend %pix-title-s;
 
     padding-bottom: 16px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     text-align: center;
 
     @include device-is('tablet') {
@@ -51,7 +51,7 @@
       }
 
       ul li {
-        border-bottom: 1.5px solid $pix-neutral-10;
+        border-bottom: 1.5px solid var(--pix-neutral-20);
         border-radius: 4px;
 
         &:first-child a {
@@ -67,22 +67,22 @@
       &__link {
         display: block;
         padding: var(--pix-spacing-4x);
-        color: $pix-neutral-60;
+        color: var(--pix-neutral-800);
 
         svg {
           margin-right: 8px;
         }
 
         &:hover {
-          background-color: $pix-neutral-15;
+          background-color: var(--pix-neutral-20);
         }
 
         &:focus-within {
-          background-color: $pix-neutral-15;
+          background-color: var(--pix-neutral-20);
         }
 
         &.active {
-          background-color: $pix-neutral-15;
+          background-color: var(--pix-neutral-20);
         }
       }
     }

@@ -25,39 +25,39 @@
 
     &--jaffa,
     &--jaffa::after {
-      background: radial-gradient($pix-information-dark 25%, $pix-information-light 100%);
-      background-color: $pix-information-dark;
+      background: radial-gradient(var(--pix-information-dark) 25%, var(--pix-information-light) 100%);
+      background-color: var(--pix-information-dark);
     }
 
     &--emerald,
     &--emerald::after {
-      background: radial-gradient($pix-content-dark 25%, $pix-content-light 100%);
-      background-color: $pix-content-dark;
+      background: radial-gradient(var(--pix-content-dark) 25%, var(--pix-content-light) 100%);
+      background-color: var(--pix-content-dark);
     }
 
     &--cerulean,
     &--cerulean::after {
-      background: radial-gradient($pix-communication-dark 25%, $pix-communication-light 100%);
-      background-color: $pix-communication-dark;
+      background: radial-gradient(var(--pix-communication-dark) 25%, var(--pix-communication-light) 100%);
+      background-color: var(--pix-communication-dark);
     }
 
     &--wild-strawberry,
     &--wild-strawberry::after {
-      background: radial-gradient($pix-security-dark 25%, $pix-security-light 100%);
-      background-color: $pix-security-dark;
+      background: radial-gradient(var(--pix-security-dark) 25%, var(--pix-security-light) 100%);
+      background-color: var(--pix-security-dark);
     }
 
     &--butterfly-bush,
     &--butterfly-bush::after {
-      background: radial-gradient($pix-environment-dark 25%, $pix-environment-light 100%);
-      background-color: $pix-environment-dark;
+      background: radial-gradient(var(--pix-environment-dark) 25%, var(--pix-environment-light) 100%);
+      background-color: var(--pix-environment-dark);
     }
   }
 
   .competence-card__area-name {
     z-index: 2;
     margin: 0;
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 0.7rem;
   }
 
@@ -65,7 +65,7 @@
     z-index: 2;
     margin: 0 3px;
     padding-top: 10px;
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
     font-size: 1.17rem;
   }
 
@@ -89,7 +89,7 @@
   }
 
   .competence-card__link:hover {
-    border: 12px solid rgba($pix-neutral-0, 0.4);
+    border: 12px solid rgb(var(--pix-neutral-0) 0.4);
   }
 
   .competence-card__link:hover .competence-card__score-details {
@@ -116,7 +116,9 @@
   }
 
   .competence-card:hover {
-    box-shadow: 0 7px 14px 0 rgb(12 22 58 / 20%), 0 3px 6px 0 rgba($pix-neutral-110, 0.2);
+    box-shadow:
+      0 7px 14px 0 var(--pix-neutral-100),
+      0 3px 6px 0 var(--pix-neutral-500);
   }
 
   .competence-card:hover .competence-card__title {
@@ -154,12 +156,12 @@
   }
 
   .competence-card__score-label--congrats {
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
   }
 
   .competence-card__score-value--congrats {
-    color: $pix-neutral-0;
-    font-weight: $font-bold;
+    color: var(--pix-neutral-0);
+    font-weight: var(--pix-font-bold);
     font-size: 2.813rem;
   }
 
@@ -171,8 +173,8 @@
     justify-content: center;
     width: 100%;
     height: 34px;
-    color: $pix-neutral-70;
-    font-weight: $font-bold;
+    color: var(--pix-neutral-800);
+    font-weight: var(--pix-font-bold);
     font-size: 0.938rem;
     font-family: $font-open-sans;
     letter-spacing: 0.063rem;
@@ -248,14 +250,14 @@
 
   .competence-card-improvement-countdown {
     &__label {
-      color: $pix-neutral-60;
+      color: var(--pix-neutral-500);
       font-size: 0.6875rem;
       letter-spacing: 0.0075rem;
     }
 
     &__count {
       margin-top: 6px;
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
       font-size: 1rem;
       letter-spacing: 0.01rem;
     }

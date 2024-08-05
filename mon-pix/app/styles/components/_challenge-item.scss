@@ -1,5 +1,5 @@
 .challenge-item {
-  padding: $pix-spacing-xxs;
+  padding: var(--pix-spacing-1x);
 }
 
 .challenge-response {
@@ -8,14 +8,14 @@
   display: flex;
   flex-direction: column;
   margin: 4px;
-  background-color: $pix-neutral-10;
+  background-color: var(--pix-neutral-20);
 
   label {
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
   }
 
   a {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
     text-decoration: underline;
 
     @include device-is('tablet') {
@@ -25,7 +25,7 @@
     &:active,
     &:focus,
     &:hover {
-      color: $pix-primary-60;
+      color: var(--pix-primary-700);
     }
 
     &::after {
@@ -45,11 +45,10 @@
     &--sentence {
       width: 100%;
 
-      .pix-input{
+      .pix-input {
         display: flex;
       }
     }
-
 
     &--selector {
       display: inline-block;
@@ -70,13 +69,13 @@
     }
 
     &--input {
-      margin: $pix-spacing-xs;
+      margin: var(--pix-spacing-2x);
     }
   }
 
   &__proposal-label {
     width: 100%;
-    font-weight: $font-normal;
+    font-weight: var(--pix-font-normal);
   }
 
   &__alert {
@@ -86,7 +85,7 @@
 
 .proposal-text {
   width: 100%;
-  font-weight: $font-normal;
+  font-weight: var(--pix-font-normal);
   line-height: 1.625rem;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -114,7 +113,7 @@ form .challenge-response {
 
     float: left;
     margin-top: 0;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
 
     &:not(:last-child) {
       margin-bottom: 1rem;
@@ -124,7 +123,7 @@ form .challenge-response {
   .qroc-proposal {
     display: flex;
     flex-wrap: wrap;
-    gap: $pix-spacing-xs;
+    gap: var(--pix-spacing-2x);
     align-items: center;
 
     .qroc_input-label {

@@ -1,22 +1,23 @@
 .competence-card {
+  @extend %pix-shadow-sm;
+
   position: relative;
   top: 0;
   overflow: hidden;
   font-family: $font-roboto;
   background-color: var(--pix-neutral-0);
-  border: 1px solid $pix-neutral-20;
+  border: 1px solid var(--pix-neutral-20);
   border-radius: 11px;
-  box-shadow: 0 3px 4px 0 rgb(12 22 58 / 10%), 0 1px 3px 0 rgba($pix-neutral-110, 0.1);
   transition: all 0.1s linear;
   pointer-events: none;
-  -webkit-tap-highlight-color: rgba($pix-neutral-60, 0.3);
+  -webkit-tap-highlight-color: rgb(var(--pix-neutral-500) / 30%);
 
   &--interactive {
     pointer-events: auto;
   }
 
   & a {
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     text-decoration: none;
   }
 }
@@ -29,7 +30,7 @@
   height: 100%;
   padding: 16px 12px;
   overflow: visible;
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
   transition: height 0.2s cubic-bezier(0.265, 0.075, 0.025, 0.99);
 }
 
@@ -46,30 +47,30 @@
   }
 
   &--jaffa::after {
-    background: linear-gradient(90deg, $pix-information-dark 45%, $pix-information-light 100%);
+    background: linear-gradient(90deg, var(--pix-information-dark) 45%, var(--pix-information-light) 100%);
   }
 
   &--emerald::after {
-    background: linear-gradient(90deg, $pix-content-dark 45%, $pix-content-light 100%);
+    background: linear-gradient(90deg, var(--pix-content-dark) 45%, var(--pix-content-light) 100%);
   }
 
   &--cerulean::after {
-    background: linear-gradient(90deg, $pix-primary 45%, $pix-communication-light 100%);
+    background: linear-gradient(90deg, var(--pix-primary-500) 45%, var(--pix-communication-light) 100%);
   }
 
   &--wild-strawberry::after {
-    background: linear-gradient(90deg, $pix-security-dark 45%, $pix-security-light 100%);
+    background: linear-gradient(90deg, var(--pix-security-dark) 45%, var(--pix-security-light) 100%);
   }
 
   &--butterfly-bush::after {
-    background: linear-gradient(90deg, $pix-environment-dark 45%, $pix-environment-light 100%);
+    background: linear-gradient(90deg, var(--pix-environment-dark) 45%, var(--pix-environment-light) 100%);
   }
 }
 
 .competence-card__area-name {
   position: relative;
   margin-bottom: 8px;
-  font-weight: $font-bold;
+  font-weight: var(--pix-font-bold);
   font-size: 0.688rem;
   letter-spacing: 0.031rem;
   text-transform: uppercase;
@@ -79,7 +80,7 @@
 .competence-card__competence-name {
   position: relative;
   color: inherit;
-  font-weight: $font-medium;
+  font-weight: var(--pix-font-medium);
   font-size: 1.125rem;
   font-family: inherit;
   line-height: inherit;
@@ -94,7 +95,7 @@
   justify-content: center;
   height: 80px;
   margin: 10px;
-  border: 0 solid rgba($pix-neutral-0, 0.4);
+  border: 0 solid rgb(var(--pix-neutral-0) 0.4);
   transition: border 0.1s ease-in;
 
   &--white-background {
@@ -110,9 +111,9 @@
   display: flex;
   align-items: center;
   padding: 5px;
-  background-color: $pix-neutral-0;
+  background-color: var(--pix-neutral-0);
   background-clip: padding-box;
-  border: 0 solid rgba($pix-neutral-0, 0.4);
+  border: 0 solid rgb(var(--pix-neutral-0) 0.4);
   border-radius: 50%;
   transition: border 0.1s ease-in;
 }
@@ -128,8 +129,8 @@
   font-size: 2.188rem;
 
   &--congrats {
-    color: $pix-neutral-0;
-    font-weight: $font-bold;
+    color: var(--pix-neutral-0);
+    font-weight: var(--pix-font-bold);
   }
 }
 
@@ -150,5 +151,5 @@
 }
 
 .competence-card__score-label--congrats {
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
 }

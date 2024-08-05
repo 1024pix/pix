@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   margin: 20px auto 0;
-  background: $pix-neutral-0;
+  background: var(--pix-neutral-0);
   border: 1px solid rgb(231 231 231);
   border-radius: 16px;
 
@@ -23,12 +23,12 @@
     justify-content: center;
     min-width: 200px;
     max-width: 250px;
-    margin-bottom: $pix-spacing-m;
+    margin-bottom: var(--pix-spacing-6x);
   }
 
   &__percentage-text {
-    color: $pix-neutral-50;
-    font-weight: $font-medium;
+    color: var(--pix-neutral-500);
+    font-weight: var(--pix-font-medium);
     font-size: 0.875rem;
     font-family: $font-roboto;
     text-align: center;

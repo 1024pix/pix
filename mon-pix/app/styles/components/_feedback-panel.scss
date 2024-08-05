@@ -1,7 +1,7 @@
 .feedback-panel {
   z-index: 1;
-  padding: 0 $pix-spacing-s;
-  color: $pix-neutral-70;
+  padding: 0 var(--pix-spacing-4x);
+  color: var(--pix-neutral-800);
   font-size: 0.938rem;
 }
 
@@ -9,11 +9,11 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .feedback-panel__open-button {
-  gap: $pix-spacing-xxs;
+  gap: var(--pix-spacing-1x);
   width: 100%;
   padding: 0.75rem 0;
-  color: $pix-neutral-70;
-  font-weight: $font-normal;
+  color: var(--pix-neutral-800);
+  font-weight: var(--pix-font-normal);
   font-size: 0.875rem;
   font-family: $font-roboto;
   line-height: 20px;
@@ -24,11 +24,11 @@
   cursor: pointer;
 
   svg {
-    margin-right: $pix-spacing-xxs;
+    margin-right: var(--pix-spacing-1x);
   }
 
   &[aria-expanded='true'] {
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
   }
 }
 
@@ -46,24 +46,24 @@
 }
 
 .feedback-panel__view--form {
-  padding: $pix-spacing-xs 0;
+  padding: var(--pix-spacing-2x) 0;
 }
 
 .feedback-panel__form-description {
   font-size: 1.25rem;
 
   & .link {
-    color: $pix-primary-60;
+    color: var(--pix-primary-700);
 
     &:hover {
-      color: $pix-primary-60;
+      color: var(--pix-primary-700);
     }
   }
 }
 
 .feedback-panel__form-wrapper {
   display: flex;
-  margin-top: $pix-spacing-s;
+  margin-top: var(--pix-spacing-4x);
 }
 
 .feedback-panel__form {
@@ -75,28 +75,28 @@
 
   display: flex;
   align-items: center;
-  margin: $pix-spacing-s 0;
-  color: $pix-neutral-70;
+  margin: var(--pix-spacing-4x) 0;
+  color: var(--pix-neutral-800);
   font-weight: 500;
   text-decoration: underline;
 }
 
 .feedback-panel-comment {
   &__icon {
-    margin-right: $pix-spacing-xxs;
-    padding: $pix-spacing-xxs;
+    margin-right: var(--pix-spacing-1x);
+    padding: var(--pix-spacing-1x);
   }
 }
 
 .feedback-panel__field-notice {
-  margin: $pix-spacing-s 0 $pix-spacing-xxs;
+  margin: var(--pix-spacing-4x) 0 var(--pix-spacing-1x);
   font-size: 0.75rem;
 }
 
 .feedback-panel__category-selection {
   display: flex;
   flex-direction: column;
-  gap: $pix-spacing-s;
+  gap: var(--pix-spacing-4x);
 
   > div {
     max-width: 100%;
@@ -117,8 +117,8 @@
   font-weight: bold;
   font-size: 0.938rem;
   word-break: break-word;
-  background-color: $pix-neutral-0;
-  border: dashed $pix-neutral-70;
+  background-color: var(--pix-neutral-0);
+  border: dashed var(--pix-neutral-800);
 
   & .tuto-icon {
     width: 15px;
@@ -127,7 +127,7 @@
       float: left;
       width: 20px;
       height: 20px;
-      color: $pix-warning-60;
+      color: var(--pix-warning-700);
     }
   }
 
@@ -140,8 +140,8 @@
   box-sizing: border-box;
   margin: 0 10px 20px 0;
   padding: 10px 20px;
-  background-color: $pix-neutral-20;
-  border: 1px solid $pix-neutral-40;
+  background-color: var(--pix-neutral-20);
+  border: 1px solid var(--pix-neutral-500);
   border-radius: 3px;
 
   &[disabled] {
@@ -151,24 +151,24 @@
 
 .feedback-panel__button--send {
   color: var(--pix-neutral-0);
-  background-color: $pix-neutral-50;
+  background-color: var(--pix-neutral-100);
 
   &:hover,
   &:focus {
-    background-color: $pix-neutral-70;
+    background-color: var(--pix-neutral-800);
   }
 }
 
 .feedback-panel__form-legal-notice {
-  margin-top: $pix-spacing-s;
-  padding-top: $pix-spacing-s;
-  color: $pix-neutral-50;
+  margin-top: var(--pix-spacing-4x);
+  padding-top: var(--pix-spacing-4x);
+  color: var(--pix-neutral-500);
   font-size: 0.75rem;
   line-height: 1.5;
-  border-top: 1px solid $pix-neutral-20;
+  border-top: 1px solid var(--pix-neutral-20);
 
   & a {
-    color: $pix-primary-60;
+    color: var(--pix-primary-700);
   }
 }
 
@@ -176,12 +176,12 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .feedback-panel__view--mercix {
-  padding: $pix-spacing-s 0 $pix-spacing-m;
+  padding: var(--pix-spacing-4x) 0 var(--pix-spacing-6x);
   font-size: 1rem;
   text-align: center;
 
   p + p {
-    margin-top: $pix-spacing-xs;
+    margin-top: var(--pix-spacing-2x);
   }
 }
 
@@ -195,9 +195,9 @@
 .feedback-panel__submit-modal > [class$='__footer'] {
   display: flex;
   justify-content: flex-end;
-  padding-bottom: $pix-spacing-s;
+  padding-bottom: var(--pix-spacing-4x);
 
   & > :not(:first-child) {
-    margin-left: $pix-spacing-xs;
+    margin-left: var(--pix-spacing-2x);
   }
 }

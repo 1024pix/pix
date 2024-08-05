@@ -5,13 +5,13 @@
   width: auto;
   height: 110px;
   padding: 8px 0;
-  background-color: $pix-neutral-0;
+  background-color: var(--pix-neutral-0);
   border: none;
   border-radius: 4px;
   outline: none;
 
   &:nth-child(odd) {
-    background: $pix-neutral-10;
+    background: var(--pix-neutral-20);
   }
 
   @include device-is('tablet') {
@@ -43,8 +43,8 @@
 }
 
 .result-item__correction-button {
-  color: $pix-primary-60;
-  font-weight: $font-normal;
+  color: var(--pix-primary-700);
+  font-weight: var(--pix-font-normal);
   font-size: 0.875rem;
   background-color: transparent;
   border: none;
@@ -53,7 +53,7 @@
   &:hover,
   &:focus,
   &:active {
-    color: $pix-primary-60;
+    color: var(--pix-primary-700);
     text-decoration: underline;
     cursor: pointer;
   }
@@ -68,18 +68,18 @@
   }
 
   &--green {
-    color: $pix-success-70;
+    color: var(--pix-success-700);
   }
 
   &--orange {
-    color: $pix-information-light;
+    color: var(--pix-information-light);
   }
 
   &--red {
-    color: $pix-error-50;
+    color: var(--pix-error-500);
   }
 
   &--grey {
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
   }
 }

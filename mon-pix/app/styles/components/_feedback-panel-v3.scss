@@ -1,6 +1,6 @@
 .feedback-panel-v3 {
-  margin-bottom: $pix-spacing-xl;
-  color: $pix-neutral-70;
+  margin-bottom: var(--pix-spacing-10x);
+  color: var(--pix-neutral-800);
   font-size: 0.875rem;
   font-family: $font-roboto;
 
@@ -8,7 +8,7 @@
     display: flex;
     gap: 16px;
     align-items: center;
-    font-weight: $font-bold;
+    font-weight: var(--pix-font-bold);
 
     p {
       min-width: fit-content;
@@ -16,12 +16,12 @@
 
     button {
       display: flex;
-      gap: $pix-spacing-xxs;
+      gap: var(--pix-spacing-1x);
       align-items: center;
       margin: 0;
       padding: 0;
-      color: $pix-primary-70;
-      font-weight: $font-bold;
+      color: var(--pix-primary-700);
+      font-weight: var(--pix-font-bold);
     }
   }
 }
@@ -31,21 +31,21 @@
 
 .feedback-panel-v3__open-button {
   display: flex;
-  gap: $pix-spacing-xxs;
+  gap: var(--pix-spacing-1x);
   align-items: center;
   width: 100%;
-  margin-top: $pix-spacing-s;
+  margin-top: var(--pix-spacing-4x);
   padding: 0.75rem 0;
   line-height: 20px;
   text-align: left;
   text-decoration: underline;
 
   svg {
-    margin-right: $pix-spacing-xxs;
+    margin-right: var(--pix-spacing-1x);
   }
 
   &[aria-expanded='true'] {
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
   }
 
   &--hidden {
@@ -55,14 +55,14 @@
   &:hover,
   &:focus-visible,
   &:active {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
   }
 }
 
 .feedback-panel-v3__view {
   display: flex;
   gap: 24px;
-  font-weight: $font-bold;
+  font-weight: var(--pix-font-bold);
 }
 
 .feedback-panel-v3__action-buttons {
@@ -73,13 +73,13 @@
     text-decoration: underline;
 
     &:first-of-type {
-      color: $pix-error-70;
-      font-weight: $font-bold;
-      text-decoration-color: $pix-error-70;
+      color: var(--pix-error-700);
+      font-weight: var(--pix-font-bold);
+      text-decoration-color: var(--pix-error-700);
     }
   }
 }
 
 .feedback-panel-v3__information {
-  margin-top: $pix-spacing-s;
+  margin-top: var(--pix-spacing-4x);
 }

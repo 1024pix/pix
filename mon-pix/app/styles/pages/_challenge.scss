@@ -12,7 +12,7 @@
   /* CSS patch to delete when screen improved */
   &-statement {
     p + p {
-      margin-top: $pix-spacing-xxs;
+      margin-top: var(--pix-spacing-1x);
     }
 
     h2 {
@@ -39,13 +39,11 @@
     margin-bottom: 73px;
   }
 
-
-
   &__feedback {
     z-index: 1;
     width: 100%;
     max-width: 990px;
-    margin: $pix-spacing-s 0;
+    margin: var(--pix-spacing-4x) 0;
     padding: 0 20px;
     text-align: left;
 
@@ -59,10 +57,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: $pix-primary-70;
-    background-color: rgba($pix-primary-20, 0.9);
+    color: var(--pix-primary-700);
+    background-color: rgb(var(--pix-primary-100) 0.9);
     border-radius: 51px;
-    box-shadow: 0 10px 20px 0 rgba($pix-content-dark, 0.06);
+    box-shadow: 0 10px 20px 0 rgb(var(--pix-content-dark) 0.06);
 
     &.challenge__info-alert--hide {
       height: 0;
@@ -97,7 +95,7 @@
 
   &__title {
     margin: auto 0 7px;
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
     font-size: 1.125rem;
     line-height: 1.625rem;
     letter-spacing: 0.011rem;
@@ -111,9 +109,9 @@
   }
 }
 
-.focus-zone-warning--triggered{
+.focus-zone-warning--triggered {
   z-index: 1;
-  background-color: $pix-neutral-20;
+  background-color: var(--pix-neutral-20);
   border-radius: 5px;
   outline: 5px dashed $pix-shades-100;
   outline-offset: -5px;

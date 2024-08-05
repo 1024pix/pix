@@ -40,7 +40,7 @@
     @extend %pix-body-l;
 
     margin-top: 24px;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     text-align: center;
   }
 
@@ -73,7 +73,7 @@
 
   &__divider {
     margin-top: 30px;
-    border-left: 1px solid $pix-neutral-30;
+    border-left: 1px solid var(--pix-neutral-100);
   }
 }
 
@@ -95,5 +95,5 @@
   @extend %pix-title-s;
 
   margin-bottom: 20px;
-  color: $pix-neutral-100;
+  color: var(--pix-neutral-900);
 }

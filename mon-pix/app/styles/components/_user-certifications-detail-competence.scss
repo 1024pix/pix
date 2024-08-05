@@ -40,23 +40,23 @@
   }
 
   &--jaffa {
-    @include coloriseElements($pix-information-light);
+    @include coloriseElements(var(--pix-information-light));
   }
 
   &--emerald {
-    @include coloriseElements($pix-content-light);
+    @include coloriseElements(var(--pix-content-light));
   }
 
   &--cerulean {
-    @include coloriseElements($pix-communication-light);
+    @include coloriseElements(var(--pix-communication-light));
   }
 
   &--wild-strawberry {
-    @include coloriseElements($pix-security-light);
+    @include coloriseElements(var(--pix-security-light));
   }
 
   &--butterfly-bush {
-    @include coloriseElements($pix-environment-light);
+    @include coloriseElements(var(--pix-environment-light));
   }
 }
 
@@ -66,7 +66,7 @@
     align-items: center;
     justify-content: space-between;
     height: inherit;
-    padding: $pix-spacing-m 0 $pix-spacing-m $pix-spacing-s;
+    padding: var(--pix-spacing-6x) 0 var(--pix-spacing-6x) var(--pix-spacing-4x);
     font-weight: normal;
     text-transform: uppercase;
 
@@ -77,8 +77,8 @@
 
       &:last-child {
         min-width: 90px;
-        padding-right: $pix-spacing-l;
-        color: $pix-neutral-60;
+        padding-right: var(--pix-spacing-8x);
+        color: var(--pix-neutral-500);
       }
     }
   }
@@ -104,13 +104,13 @@
 .user-certifications-detail-competence-list-row {
   &__name {
     padding: 20px 0 20px 36px;
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     font-family: $font-open-sans;
   }
 
   &__level {
     min-width: 90px;
-    padding-right: $pix-spacing-l;
+    padding-right: var(--pix-spacing-8x);
     font-weight: bold;
     font-size: 1.5rem;
     text-align: center;

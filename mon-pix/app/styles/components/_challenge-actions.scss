@@ -1,10 +1,10 @@
 .challenge-actions {
   display: flex;
   flex-direction: column;
-  gap: $pix-spacing-s;
+  gap: var(--pix-spacing-4x);
   justify-content: center;
-  margin: $pix-spacing-xxs;
-  background-color: $pix-neutral-10;
+  margin: var(--pix-spacing-1x);
+  background-color: var(--pix-neutral-20);
 
   &__already-answered {
     flex-grow: 1;
@@ -29,7 +29,7 @@
     &__buttons {
       display: flex;
       flex-direction: row-reverse;
-      gap: $pix-spacing-s;
+      gap: var(--pix-spacing-4x);
     }
 
     &__action-validate {
@@ -42,8 +42,8 @@
     align-items: center;
     max-width: 600px;
     margin: 0 auto 24px 12px;
-    color: $pix-neutral-90;
-    font-weight: $font-normal;
+    color: var(--pix-neutral-900);
+    font-weight: var(--pix-font-normal);
     font-size: 0.875rem;
     font-family: $font-roboto;
     line-height: 1.375rem;
@@ -59,7 +59,7 @@
   &__icon {
     margin-right: 20px;
     margin-left: 0;
-    color: $pix-neutral-45;
+    color: var(--pix-neutral-500);
     font-size: 1rem;
   }
 }

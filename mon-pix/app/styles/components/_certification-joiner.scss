@@ -4,7 +4,7 @@
 
   &__title {
     margin-bottom: 32px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-size: 2rem;
     font-family: $font-open-sans;
     text-align: center;
@@ -29,32 +29,32 @@
     min-width: 0;
     height: 50px;
     padding-left: 10px;
-    border: 2px solid $pix-neutral-20;
+    border: 2px solid var(--pix-neutral-100);
     border-radius: 4px;
     outline-width: 1px;
 
     &:hover {
-      box-shadow: 0 0 0 2px $pix-primary-40;
+      box-shadow: 0 0 0 2px var(--pix-primary-500);
     }
 
     &:focus {
-      outline: 1px solid $pix-primary-40;
-      box-shadow: 0 0 0 2px $pix-primary-40;
+      outline: 1px solid var(--pix-primary-500);
+      box-shadow: 0 0 0 2px var(--pix-primary-500);
     }
 
     &:focus-within {
-      outline: 1px solid $pix-primary-40;
-      box-shadow: 0 0 0 2px $pix-primary-40;
+      outline: 1px solid var(--pix-primary-500);
+      box-shadow: 0 0 0 2px var(--pix-primary-500);
     }
 
     &.certification-joiner__input--invalid:not(:hover) {
-      outline: 1px solid $pix-error-50;
-      box-shadow: 0 0 0 2px $pix-error-50;
+      outline: 1px solid var(--pix-error-500);
+      box-shadow: 0 0 0 2px var(--pix-error-500);
     }
 
     &.certification-joiner__input--invalid:focus {
-      outline: 1px solid $pix-error-50;
-      box-shadow: 0 0 0 2px $pix-error-50;
+      outline: 1px solid var(--pix-error-500);
+      box-shadow: 0 0 0 2px var(--pix-error-500);
     }
   }
 
@@ -66,20 +66,16 @@
     width: 100%;
     margin-top: 8px;
     margin-bottom: 34px;
-    border: 2px solid $pix-neutral-0;
+    border: 2px solid var(--pix-neutral-0);
 
     &:focus-within {
-      border: 2px solid $pix-neutral-0;
-      box-shadow: 0 0 0 2px $pix-primary;
+      border: 2px solid var(--pix-neutral-0);
+      box-shadow: 0 0 0 2px var(--pix-primary-500);
     }
   }
 
-  ::placeholder {
-    color: $pix-neutral-30;
-  }
-
   :input-placeholder {
-    color: $pix-neutral-30;
+    color: var(--pix-neutral-100);
   }
 
   p.certification-joiner__validation-error {

@@ -18,9 +18,9 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    color: $pix-neutral-40;
+    color: var(--pix-neutral-500);
     font-size: 4.375rem;
-    background-color: $pix-neutral-15;
+    background-color: var(--pix-neutral-20);
   }
 
   .rounded-panel {
@@ -62,9 +62,9 @@
 
 .embed__reboot {
   position: absolute;
-  top: calc(100% + $pix-spacing-xs);
+  top: calc(100% + var(--pix-spacing-2x));
   right: 0;
-  padding-right: $pix-spacing-xs;
+  padding-right: var(--pix-spacing-2x);
 }
 
 .embed-reboot__content {

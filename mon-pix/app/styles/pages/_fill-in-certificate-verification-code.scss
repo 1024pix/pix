@@ -16,7 +16,7 @@
 
     .form__title {
       margin-bottom: 16px;
-      color: $pix-neutral-80;
+      color: var(--pix-neutral-800);
       font-size: 2rem;
       font-family: $font-open-sans;
     }
@@ -24,7 +24,7 @@
     .form__description {
       max-width: 500px;
       margin-bottom: 32px;
-      color: $pix-neutral-60;
+      color: var(--pix-neutral-500);
       line-height: 22px;
     }
 
@@ -34,8 +34,8 @@
 
       label {
         margin-bottom: 6px;
-        color: $pix-neutral-100;
-        font-weight: $font-normal;
+        color: var(--pix-neutral-900);
+        font-weight: var(--pix-font-normal);
         font-size: 0.875rem;
         line-height: 22px;
         letter-spacing: 0.15px;
@@ -61,7 +61,7 @@
 
     .form__error--validation {
       margin: 16px 10px 0;
-      color: $pix-error-60;
+      color: var(--pix-error-700);
       font-size: 0.875rem;
     }
 

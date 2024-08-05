@@ -14,7 +14,7 @@
   overflow: hidden;
   word-break: break-word;
   border-radius: 10px;
-  box-shadow: 0 3px 4px 0 rgb(12 22 58 / 10%), 0 1px 3px 0 rgba($pix-neutral-110, 0.1);
+  box-shadow: 0 3px 4px 0 rgb(12 22 58 / 10%), 0 1px 3px 0 rgb(var(--pix-neutral-900) 0.1);
 
   @include device-is('desktop') {
     flex: 1 1 40%;
@@ -27,7 +27,7 @@
     display: flex;
     flex-direction: column;
     max-width: 70%;
-    padding: $pix-spacing-m $pix-spacing-s $pix-spacing-m $pix-spacing-m;
+    padding: var(--pix-spacing-6x) var(--pix-spacing-4x) var(--pix-spacing-6x) var(--pix-spacing-6x);
 
     @include device-is('desktop') {
       flex: 1 1 40%;
@@ -42,8 +42,8 @@
     justify-content: center;
     min-width: 120px;
     max-width: 120px;
-    padding: $pix-spacing-s;
-    background-color: $pix-neutral-10;
+    padding: var(--pix-spacing-4x);
+    background-color: var(--pix-neutral-20);
 
     img {
       width: 90px;
@@ -58,22 +58,22 @@
 .badge-card-content {
   &__header {
     display: flex;
-    gap: $pix-spacing-s;
+    gap: var(--pix-spacing-4x);
     align-items: center;
   }
 
   &__title {
     @extend %pix-title-xs;
 
-    margin: 12px 0 $pix-spacing-xs;
-    color: $pix-neutral-100;
+    margin: 12px 0 var(--pix-spacing-2x);
+    color: var(--pix-neutral-900);
   }
 
   &__message {
     @extend %pix-body-s;
 
     margin-bottom: 0;
-    color: $pix-neutral-45;
+    color: var(--pix-neutral-500);
   }
 }
 
@@ -81,21 +81,21 @@
   &__status {
     @extend %pix-body-s;
 
-    padding: $pix-spacing-xxs $pix-spacing-xs;
+    padding: var(--pix-spacing-1x) var(--pix-spacing-2x);
     white-space: nowrap;
-    background-color: $pix-neutral-10;
+    background-color: var(--pix-neutral-20);
     border-radius: 8px;
   }
 }
 
 .badge-card-content-header-status {
   &__acquired-icon {
-    margin-right: $pix-spacing-xxs;
-    color: $pix-success-50;
+    margin-right: var(--pix-spacing-1x);
+    color: var(--pix-success-500);
   }
 
   &__not-acquired-icon {
-    margin-right: $pix-spacing-xxs;
-    color: $pix-neutral-50;
+    margin-right: var(--pix-spacing-1x);
+    color: var(--pix-neutral-100);
   }
 }

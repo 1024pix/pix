@@ -1,6 +1,6 @@
 /* ------------------------ START ------------------------ */
 .campaign-landing-page__container {
-  margin-bottom: $pix-spacing-xxl;
+  margin-bottom: var(--pix-spacing-12x);
 }
 
 .campaign-landing-page__container__start {
@@ -8,7 +8,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 25px;
-  padding-bottom: $pix-spacing-xl;
+  padding-bottom: var(--pix-spacing-10x);
 }
 
 .campaign-landing-page__start__image__container {
@@ -47,13 +47,13 @@
   &__subtitle {
     @extend %pix-title-xs;
 
-    margin-top: $pix-spacing-s;
+    margin-top: var(--pix-spacing-4x);
   }
 
   &__legal {
     @extend %pix-body-xs;
 
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
   }
 }
 
@@ -63,10 +63,10 @@
   padding: 50px 5px 5px;
   font-size: 1rem;
   text-align: left;
-  border-top: 1px dashed $pix-neutral-22;
+  border-top: 1px dashed var(--pix-neutral-100);
 
   strong {
-    font-weight: $font-medium;
+    font-weight: var(--pix-font-medium);
   }
 
   h1 {
@@ -92,8 +92,8 @@
 }
 
 .campaign-landing-page__start__warning {
-  margin-top: $pix-spacing-xl;
-  color: $pix-neutral-90;
+  margin-top: var(--pix-spacing-10x);
+  color: var(--pix-neutral-900);
   font-size: 0.875rem;
   text-align: center;
 }
