@@ -13,18 +13,9 @@ async function getByIdForAnswerVerification({ moduleId, elementId, moduleDatasou
     throw e;
   }
 
-  const foundElement = moduleData.grains
-    .flatMap(({ components }) => components)
-    .flatMap((component) => {
-      if (component.type === 'element') {
-        return component.element;
-      } else if (component.type === 'stepper') {
-        return component.steps.flatMap(({ elements }) => elements);
-      }
-    })
-    .find((element) => {
-      return element.id === elementId;
-    });
+  const foundElement = flattenModuleElements(moduleData).find((element) => {
+    return element.id === elementId;
+  });
 
   if (foundElement === undefined) {
     throw new NotFoundError();
@@ -33,4 +24,16 @@ async function getByIdForAnswerVerification({ moduleId, elementId, moduleDatasou
   return ElementForVerificationFactory.build(foundElement);
 }
 
-export { getByIdForAnswerVerification };
+function flattenModuleElements(moduleData) {
+  return moduleData.grains
+    .flatMap(({ components }) => components)
+    .flatMap((component) => {
+      if (component.type === 'element') {
+        return component.element;
+      } else if (component.type === 'stepper') {
+        return component.steps.flatMap(({ elements }) => elements);
+      }
+    });
+}
+
+export { flattenModuleElements, getByIdForAnswerVerification };
