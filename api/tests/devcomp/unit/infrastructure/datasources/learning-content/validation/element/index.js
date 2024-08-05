@@ -1,5 +1,5 @@
 import { downloadElementSchema } from './download.js';
-import { embedSchema } from './embed.js';
+import { embedElementSchema } from './embed.js';
 import { imageElementSchema } from './image.js';
 import { qcmElementSchema } from './qcm.js';
 import { qcuElementSchema } from './qcu.js';
@@ -11,7 +11,7 @@ export {
   blockInputSchema,
   blockSelectSchema,
   downloadElementSchema,
-  embedSchema,
+  embedElementSchema,
   imageElementSchema,
   qcmElementSchema,
   qcuElementSchema,
