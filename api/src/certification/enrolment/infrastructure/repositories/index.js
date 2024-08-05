@@ -29,7 +29,7 @@ import * as sessionRepository from './session-repository.js';
  * @typedef {sessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {sessionManagementRepository} SessionManagementRepository
  * @typedef {countryRepository} CountryRepository
- * @typedef {EnrolledCandidateRepository} EnrolledCandidateRepository
+ * @typedef {enrolledCandidateRepository} EnrolledCandidateRepository
  * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {organizationLearnerRepository} OrganizationLearnerRepository
  */

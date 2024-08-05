@@ -204,6 +204,8 @@ const certification = {
     buildHabilitation,
     buildCertificationSessionCandidate,
     buildEnrolledCandidate,
+    buildCoreSubscription,
+    buildComplementarySubscription,
   },
   sessionManagement: {
     buildCertificationSessionComplementaryCertification,

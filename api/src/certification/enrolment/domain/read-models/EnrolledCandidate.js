@@ -1,11 +1,15 @@
 /**
- * @typedef {import('../models/Candidate.js').Candidate} Candidate
+ * @typedef {import('../models/Subscription.js').Subscription} Subscription
  */
 import _ from 'lodash';
 
 import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
 
 export class EnrolledCandidate {
+  /**
+   * @param {Object} params
+   * @param {Array<Subscription>} params.subscriptions
+   */
   constructor({
     id,
     createdAt,

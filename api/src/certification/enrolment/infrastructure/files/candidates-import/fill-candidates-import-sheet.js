@@ -1,10 +1,16 @@
+/**
+ * @typedef {import('../../../../session-management/domain/models/SessionManagement.js').SessionManagement} SessionManagement
+ * @typedef {import('../../../domain/read-models/EnrolledCandidate.js').EnrolledCandidate} EnrolledCandidate
+ * @typedef {import('../../../../session-management/domain/models/ComplementaryCertification.js').ComplementaryCertification} ComplementaryCertification
+ */
+
 import * as url from 'node:url';
 
 import _ from 'lodash';
 
 import { CertificationCandidate } from '../../../../../shared/domain/models/index.js';
 import * as readOdsUtils from '../../utils/ods/read-ods-utils.js';
-import * as writeOdsUtils from '../../utils/ods/write-ods-utils.js';
+import { OdsUtilsBuilder } from '../../utils/ods/write-ods-utils.js';
 import { CandidateData } from './CandidateData.js';
 import {
   EXTRA_EMPTY_CANDIDATE_ROWS,
@@ -21,6 +27,15 @@ const HEADER_ROW_SPAN = 3;
 const CANDIDATE_TABLE_HEADER_ROW = 11;
 const CANDIDATE_TABLE_FIRST_ROW = 12;
 
+/**
+ * @param {Object} params
+ * @param {SessionManagement} params.session
+ * @param {Array<EnrolledCandidate>} params.enrolledCandidates
+ * @param {Array<ComplementaryCertification>} params.certificationCenterHabilitations
+ * @param {Boolean} params.isScoCertificationCenter
+ * @param params.i18n
+ * @returns {Promise<*>}
+ */
 const fillCandidatesImportSheet = async function ({
   session,
   enrolledCandidates,
@@ -32,7 +47,7 @@ const fillCandidatesImportSheet = async function ({
   const translate = i18n.__;
   const template = await _getCandidatesImportTemplate({ locale });
 
-  const odsBuilder = new writeOdsUtils.OdsUtilsBuilder({ template, translate });
+  const odsBuilder = new OdsUtilsBuilder({ template, translate });
 
   odsBuilder.headersTranslation({ headersValues: IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS, translate });
 
@@ -43,7 +58,7 @@ const fillCandidatesImportSheet = async function ({
     isScoCertificationCenter,
     translate,
   });
-  _addCandidateRows({ odsBuilder, enrolledCandidates, i18n });
+  _addCandidateRows({ odsBuilder, enrolledCandidates, certificationCenterHabilitations, i18n });
 
   return odsBuilder.build({ templateFilePath: _getCandidatesImportTemplatePath() });
 };
@@ -134,9 +149,13 @@ function _addComplementaryCertificationColumns({ odsBuilder, certificationCenter
   return odsBuilder;
 }
 
-function _addCandidateRows({ odsBuilder, enrolledCandidates, i18n }) {
+/**
+ * @param {Object} params
+ * @param {OdsUtilsBuilder} params.odsBuilder
+ */
+function _addCandidateRows({ odsBuilder, enrolledCandidates, certificationCenterHabilitations, i18n }) {
   const CANDIDATE_ROW_MARKER_PLACEHOLDER = 'COUNT';
-  const candidatesData = _getCandidatesData({ enrolledCandidates, i18n });
+  const candidatesData = _getCandidatesData({ enrolledCandidates, certificationCenterHabilitations, i18n });
   return odsBuilder.updateXmlRows({
     rowMarkerPlaceholder: CANDIDATE_ROW_MARKER_PLACEHOLDER,
     rowTemplateValues: IMPORT_CANDIDATES_TEMPLATE_VALUES,
@@ -144,8 +163,12 @@ function _addCandidateRows({ odsBuilder, enrolledCandidates, i18n }) {
   });
 }
 
-function _getCandidatesData({ enrolledCandidates, i18n }) {
-  const enrolledCandidatesData = _certificationCandidatesToCandidatesData({ enrolledCandidates, i18n });
+function _getCandidatesData({ enrolledCandidates, certificationCenterHabilitations, i18n }) {
+  const enrolledCandidatesData = _certificationCandidatesToCandidatesData({
+    enrolledCandidates,
+    certificationCenterHabilitations,
+    i18n,
+  });
 
   const emptyCandidatesData = _emptyCandidatesData({ numberOfEnrolledCandidates: enrolledCandidatesData.length, i18n });
 
@@ -156,10 +179,11 @@ function _getCandidatesImportTemplatePath() {
   return __dirname + '/1.5/candidates_import_template.ods';
 }
 
-function _certificationCandidatesToCandidatesData({ enrolledCandidates, i18n }) {
+function _certificationCandidatesToCandidatesData({ enrolledCandidates, certificationCenterHabilitations, i18n }) {
   return _.map(enrolledCandidates, (enrolledCandidate, index) => {
     return CandidateData.fromEnrolledCandidateAndCandidateNumber({
       enrolledCandidate,
+      certificationCenterHabilitations,
       number: index + 1,
       i18n,
     });

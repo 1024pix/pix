@@ -127,10 +127,9 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
           ...jeannetteData,
           subscriptions: [
             {
-              complementaryCertificationId: null,
               type: SubscriptionTypes.CORE,
-              complementaryCertificationLabel: null,
-              complementaryCertificationKey: null,
+              certificationCandidateId: jeannetteData.id,
+              complementaryCertificationId: null,
             },
           ],
         }),
@@ -138,10 +137,9 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
           ...michelData,
           subscriptions: [
             {
-              complementaryCertificationId: null,
               type: SubscriptionTypes.CORE,
-              complementaryCertificationLabel: null,
-              complementaryCertificationKey: null,
+              certificationCandidateId: michelData.id,
+              complementaryCertificationId: null,
             },
           ],
         }),
@@ -149,10 +147,9 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
           ...fredericData,
           subscriptions: [
             {
-              complementaryCertificationId: null,
               type: SubscriptionTypes.CORE,
-              complementaryCertificationLabel: null,
-              complementaryCertificationKey: null,
+              certificationCandidateId: fredericData.id,
+              complementaryCertificationId: null,
             },
           ],
         }),
@@ -192,16 +189,14 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
           ...jeannetteData,
           subscriptions: [
             {
-              complementaryCertificationId: null,
               type: SubscriptionTypes.CORE,
-              complementaryCertificationLabel: null,
-              complementaryCertificationKey: null,
+              certificationCandidateId: jeannetteData.id,
+              complementaryCertificationId: null,
             },
             {
-              complementaryCertificationId: complementaryCertificationData1.id,
               type: SubscriptionTypes.COMPLEMENTARY,
-              complementaryCertificationLabel: complementaryCertificationData1.label,
-              complementaryCertificationKey: complementaryCertificationData1.key,
+              certificationCandidateId: jeannetteData.id,
+              complementaryCertificationId: complementaryCertificationData1.id,
             },
           ],
         }),
@@ -209,10 +204,9 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
           ...michelData,
           subscriptions: [
             {
-              complementaryCertificationId: null,
               type: SubscriptionTypes.CORE,
-              complementaryCertificationLabel: null,
-              complementaryCertificationKey: null,
+              certificationCandidateId: michelData.id,
+              complementaryCertificationId: null,
             },
           ],
         }),
@@ -220,10 +214,9 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
           ...fredericData,
           subscriptions: [
             {
-              complementaryCertificationId: complementaryCertificationData2.id,
               type: SubscriptionTypes.COMPLEMENTARY,
-              complementaryCertificationLabel: complementaryCertificationData2.label,
-              complementaryCertificationKey: complementaryCertificationData2.key,
+              certificationCandidateId: fredericData.id,
+              complementaryCertificationId: complementaryCertificationData2.id,
             },
           ],
         }),
