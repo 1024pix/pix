@@ -1,4 +1,5 @@
 import { getDownloadSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/download.sample.js';
+import { getEmbedSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/embed.sample.js';
 import { getImageSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/image.sample.js';
 import { getQcmSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/qcm.sample.js';
 import { getQcuSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/qcu.sample.js';
@@ -10,6 +11,7 @@ import {
   blockInputSchema,
   blockSelectSchema,
   downloadElementSchema,
+  embedElementSchema,
   imageElementSchema,
   qcmElementSchema,
   qcuElementSchema,
@@ -25,6 +27,15 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
     it('should validate sample download structure', async function () {
       try {
         await downloadElementSchema.validateAsync(getDownloadSample(), { abortEarly: false });
+      } catch (joiError) {
+        const formattedError = joiErrorParser.format(joiError);
+        expect(joiError).to.equal(undefined, formattedError);
+      }
+    });
+
+    it('should validate sample embed structure', async function () {
+      try {
+        await embedElementSchema.validateAsync(getEmbedSample(), { abortEarly: false });
       } catch (joiError) {
         const formattedError = joiErrorParser.format(joiError);
         expect(joiError).to.equal(undefined, formattedError);
