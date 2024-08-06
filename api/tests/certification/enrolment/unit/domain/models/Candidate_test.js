@@ -1,7 +1,12 @@
+import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
 import { CertificationCandidatesError } from '../../../../../../src/shared/domain/errors.js';
 import { CertificationCandidate } from '../../../../../../src/shared/domain/models/index.js';
 import { catchErr, catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
+
+const i18n = getI18n();
+const translate = i18n.__;
 
 describe('Certification | Enrolment | Unit | Domain | Models | Candidate', function () {
   let candidateData;
@@ -566,6 +571,20 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
           // then
           expect(call).to.not.throw();
         });
+      });
+    });
+  });
+
+  describe('parseBillingMode', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      { value: 'Gratuite', expectedTranslation: 'FREE' },
+      { value: 'Payante', expectedTranslation: 'PAID' },
+      { value: 'Prépayée', expectedTranslation: 'PREPAID' },
+    ].forEach(({ value, expectedTranslation }) => {
+      it(`should return ${expectedTranslation} when ${value} is translated`, function () {
+        expect(Candidate.parseBillingMode({ billingMode: value, translate })).to.equal(expectedTranslation);
       });
     });
   });

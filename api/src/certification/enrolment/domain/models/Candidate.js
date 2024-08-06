@@ -85,4 +85,18 @@ export class Candidate {
     this.birthPostalCode = birthPostalCode;
     this.birthCity = birthCity;
   }
+
+  static parseBillingMode({ billingMode, translate }) {
+    switch (billingMode) {
+      case translate('candidate-list-template.billing-mode.free'):
+        return 'FREE';
+      case translate('candidate-list-template.billing-mode.paid'):
+        return 'PAID';
+      case translate('candidate-list-template.billing-mode.prepaid'):
+        return 'PREPAID';
+      case null:
+      default:
+        return '';
+    }
+  }
 }
