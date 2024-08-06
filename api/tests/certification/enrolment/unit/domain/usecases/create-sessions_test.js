@@ -2,10 +2,10 @@ import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTr
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { createSessions } from '../../../../../../src/certification/enrolment/domain/usecases/create-sessions.js';
 import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { CertificationCenter } from '../../../../../../src/shared/domain/models/CertificationCenter.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { CertificationCenter } from '../../../../../../src/shared/domain/models/index.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | sessions-mass-import | create-sessions', function () {
   let certificationCenterRepository;

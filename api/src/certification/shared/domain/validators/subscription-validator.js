@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { SubscriptionTypes } from '../models/SubscriptionTypes.js';
 
 const subscriptionSchema = Joi.object({
-  certificationCandidateId: Joi.number().optional(),
+  certificationCandidateId: Joi.number().optional().allow(null),
   type: Joi.string().required().valid(SubscriptionTypes.CORE, SubscriptionTypes.COMPLEMENTARY),
   complementaryCertificationId: Joi.when('type', {
     is: SubscriptionTypes.COMPLEMENTARY,

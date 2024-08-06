@@ -1,10 +1,14 @@
 import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
 import { CertificationCandidatesError } from '../../../../../../src/shared/domain/errors.js';
 import { CertificationCandidate } from '../../../../../../src/shared/domain/models/index.js';
 import { catchErr, catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
-
+const FIRST_NAME_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code;
+const LAST_NAME_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_REQUIRED.code;
+const BIRTHDATE_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code;
+const SEX_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_REQUIRED.code;
 const i18n = getI18n();
 const translate = i18n.__;
 
@@ -571,6 +575,314 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
           // then
           expect(call).to.not.throw();
         });
+      });
+    });
+  });
+
+  describe('validateForMassSessionImport', function () {
+    const buildCertificationCandidate = (attributes) => new CertificationCandidate(attributes);
+
+    context('when all required fields are presents', function () {
+      it('should return nothing', function () {
+        // given
+        const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
+
+        // when
+        const report = candidate.validateForMassSessionImport();
+
+        // then
+        expect(report).to.be.undefined;
+      });
+    });
+
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      { field: 'firstName', expectedCode: FIRST_NAME_ERROR_CODE },
+      { field: 'lastName', expectedCode: LAST_NAME_ERROR_CODE },
+      { field: 'birthdate', expectedCode: BIRTHDATE_ERROR_CODE },
+      {
+        field: 'sex',
+        expectedCode: SEX_ERROR_CODE,
+      },
+    ].forEach(({ field, expectedCode }) => {
+      it(`should return a report when field ${field} is not present`, async function () {
+        // given
+        const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
+        delete candidate[field];
+
+        // when
+        const report = candidate.validateForMassSessionImport();
+
+        // then
+        expect(report).to.deep.equal([`${expectedCode}`]);
+      });
+
+      it(`should return a report when field ${field} is null`, async function () {
+        // given
+        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateData,
+          [field]: null,
+        });
+
+        // when
+        const report = candidate.validateForMassSessionImport();
+
+        // then
+        expect(report).to.deep.equal([expectedCode]);
+      });
+    });
+
+    it('should return a report when birthdate is not a valid format', async function () {
+      // given
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        ...candidateData,
+        birthdate: '2020/02/01',
+      });
+
+      // when
+      const report = candidate.validateForMassSessionImport();
+
+      // then
+      expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code]);
+    });
+
+    it('should return a report when birthdate is null', async function () {
+      // given
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        ...candidateData,
+        birthdate: null,
+      });
+
+      // when
+      const report = candidate.validateForMassSessionImport();
+
+      // then
+      expect(report).to.deep.equal([BIRTHDATE_ERROR_CODE]);
+    });
+
+    context('when extraTimePercentage field is presents', function () {
+      it('should return a report when field extraTimePercentage is not a number', async function () {
+        // given
+        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateData,
+          extraTimePercentage: 'salut',
+        });
+
+        // when
+        const report = candidate.validateForMassSessionImport();
+
+        //then
+        expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_INTEGER.code]);
+      });
+
+      it('should throw an error when field extraTimePercentage is greater than 10', async function () {
+        // given
+        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateData,
+          extraTimePercentage: 11,
+        });
+
+        // when
+        const report = candidate.validateForMassSessionImport();
+
+        // then
+        expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_OUT_OF_RANGE.code]);
+      });
+    });
+
+    it('should return a report when sex is neither M nor F', async function () {
+      // given
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        ...candidateData,
+        sex: 'something_else',
+      });
+
+      // when
+      const report = candidate.validateForMassSessionImport();
+
+      // then
+      expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code]);
+    });
+
+    it('should return a report when sex is null', async function () {
+      // given
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        ...candidateData,
+        sex: null,
+      });
+
+      // when
+      const report = candidate.validateForMassSessionImport();
+
+      // then
+      expect(report).to.deep.equal([SEX_ERROR_CODE]);
+    });
+
+    context('when billing mode field is presents', function () {
+      context('when the certification center is SCO', function () {
+        context('when the billing mode is null', function () {
+          it('should return nothing', async function () {
+            // given
+            const candidate = domainBuilder.certification.enrolment.buildCandidate({
+              ...candidateData,
+              billingMode: null,
+            });
+            const isSco = true;
+
+            // when
+            const report = candidate.validateForMassSessionImport(isSco);
+
+            // then
+            expect(report).to.be.undefined;
+          });
+        });
+
+        context('when the billing mode is not null', function () {
+          it('should return a report', async function () {
+            // given
+            const candidate = domainBuilder.certification.enrolment.buildCandidate({
+              ...candidateData,
+              billingMode: 'FREE',
+            });
+            const isSco = true;
+
+            // when
+            const report = candidate.validateForMassSessionImport(isSco);
+
+            // then
+            expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_MUST_BE_EMPTY.code]);
+          });
+        });
+      });
+
+      context('when the certification center is not SCO', function () {
+        context('when the billing mode is not provided', function () {
+          it('should return a report', async function () {
+            // given
+            const isSco = false;
+            const candidate = domainBuilder.certification.enrolment.buildCandidate({
+              ...candidateData,
+              billingMode: null,
+            });
+
+            // when
+            const report = candidate.validateForMassSessionImport(isSco);
+
+            // then
+            expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_REQUIRED.code]);
+          });
+        });
+
+        context('when the billing mode is not an expected value', function () {
+          it('should return a report', async function () {
+            // given
+            const candidate = domainBuilder.certification.enrolment.buildCandidate({
+              ...candidateData,
+              billingMode: 'NOT_ALLOWED_VALUE',
+            });
+            const isSco = false;
+
+            // when
+            const report = candidate.validateForMassSessionImport(isSco);
+
+            // then
+            expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_NOT_VALID.code]);
+          });
+        });
+
+        context('when billing mode is in the expected values', function () {
+          // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
+          // eslint-disable-next-line mocha/no-setup-in-describe
+          ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
+            it(`should return nothing for ${billingMode}`, async function () {
+              // given
+              const candidate = domainBuilder.certification.enrolment.buildCandidate({
+                ...candidateData,
+                billingMode,
+              });
+              candidate.prepaymentCode =
+                billingMode === CertificationCandidate.BILLING_MODES.PREPAID ? '12345' : undefined;
+
+              // when
+              const report = candidate.validateForMassSessionImport();
+
+              // then
+              expect(report).to.be.undefined;
+            });
+          });
+        });
+
+        context('when billingMode is not PREPAID', function () {
+          context('when prepaymentCode is not null', function () {
+            it('should return a report', async function () {
+              // given
+              const candidate = domainBuilder.certification.enrolment.buildCandidate({
+                ...candidateData,
+                billingMode: 'PAID',
+                prepaymentCode: 'NOT_NULL',
+              });
+
+              // when
+              const report = candidate.validateForMassSessionImport();
+
+              // then
+              expect(report).to.deep.equal([
+                CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code,
+              ]);
+            });
+          });
+        });
+
+        context('when billingMode is PREPAID', function () {
+          it('should return nothing if prepaymentCode is not null', function () {
+            // given
+            const candidate = domainBuilder.certification.enrolment.buildCandidate({
+              ...candidateData,
+              billingMode: 'PREPAID',
+              prepaymentCode: 'NOT_NULL',
+            });
+
+            // when
+            const report = candidate.validateForMassSessionImport();
+
+            // then
+            expect(report).to.be.undefined;
+          });
+
+          it('should return report if prepaymentCode is null', function () {
+            // given
+            const candidate = domainBuilder.certification.enrolment.buildCandidate({
+              ...candidateData,
+              billingMode: 'PREPAID',
+              prepaymentCode: '',
+            });
+
+            // when
+            const report = candidate.validateForMassSessionImport();
+
+            // then
+            expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code]);
+          });
+        });
+      });
+    });
+
+    context('when there are multiple errors', function () {
+      it('should return multiple message', function () {
+        // given
+        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateData,
+          billingMode: 'FREE',
+        });
+        delete candidate.firstName;
+        delete candidate.birthdate;
+
+        // when
+        const report = candidate.validateForMassSessionImport();
+
+        // then
+        expect(report).to.deep.equal([FIRST_NAME_ERROR_CODE, BIRTHDATE_ERROR_CODE]);
       });
     });
   });

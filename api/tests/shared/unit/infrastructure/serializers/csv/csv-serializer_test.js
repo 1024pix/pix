@@ -1,10 +1,11 @@
 import _ from 'lodash';
 
+import { SubscriptionTypes } from '../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
 import { emptySession } from '../../../../../../src/certification/shared/infrastructure/utils/csv/sessions-import.js';
 import { FileValidationError } from '../../../../../../src/shared/domain/errors.js';
 import * as csvSerializer from '../../../../../../src/shared/infrastructure/serializers/csv/csv-serializer.js';
 import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
-import { catchErr, expect, sinon } from '../../../../../test-helper.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | CSV | csv-serializer', function () {
   describe('#serializeLine', function () {
@@ -236,21 +237,21 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             },
           ];
           const habilitationsWithoutCleA = [
-            {
+            domainBuilder.buildComplementaryCertification({
               id: 53,
               label: 'Pix+ Droit',
               key: 'DROIT',
-            },
-            {
+            }),
+            domainBuilder.buildComplementaryCertification({
               id: 54,
               label: 'Pix+ Édu 1er degré',
               key: 'EDU_1ER_DEGRE',
-            },
-            {
+            }),
+            domainBuilder.buildComplementaryCertification({
               id: 55,
               label: 'Pix+ Édu 2nd degré',
               key: 'EDU_2ND_DEGRE',
-            },
+            }),
           ];
 
           // when
@@ -372,7 +373,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               time: null,
               examiner: 'Paul',
               description: '',
-              certificationCandidates: [],
+              candidates: [],
               line: 2,
             },
           ];
@@ -409,7 +410,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               time: null,
               examiner: 'Paul',
               description: '',
-              certificationCandidates: [],
+              candidates: [],
               line: 2,
             },
           ];
@@ -439,7 +440,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               time: '01:00',
               examiner: 'Paul',
               description: '',
-              certificationCandidates: [],
+              candidates: [],
               line: 2,
             },
           ];
@@ -468,7 +469,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                 time: '01:00',
                 examiner: 'Big, Jim',
                 description: '',
-                certificationCandidates: [],
+                candidates: [],
                 line: 2,
               },
             ];
@@ -500,7 +501,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               time: '01:00',
               examiner: 'Paul',
               description: '',
-              certificationCandidates: [],
+              candidates: [],
               line: 2,
             },
             {
@@ -511,7 +512,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               time: '01:00',
               examiner: 'Paul',
               description: '',
-              certificationCandidates: [],
+              candidates: [],
               line: 3,
             },
           ];
@@ -542,7 +543,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               time: '01:00',
               examiner: 'Paul',
               description: '',
-              certificationCandidates: [
+              candidates: [
                 {
                   lastName: 'Candidat 1',
                   firstName: 'Candidat 1',
@@ -558,7 +559,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  complementaryCertifications: [],
+                  subscriptionLabels: [SubscriptionTypes.CORE],
                   line: 2,
                 },
                 {
@@ -576,7 +577,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  complementaryCertifications: [],
+                  subscriptionLabels: [SubscriptionTypes.CORE],
                   line: 4,
                 },
               ],
@@ -590,7 +591,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               time: '01:00',
               examiner: 'Paul',
               description: '',
-              certificationCandidates: [
+              candidates: [
                 {
                   lastName: 'Candidat 1',
                   firstName: 'Candidat 1',
@@ -606,7 +607,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  complementaryCertifications: [],
+                  subscriptionLabels: [SubscriptionTypes.CORE],
                   line: 3,
                 },
               ],
@@ -643,7 +644,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               sessionId: 1,
               examiner: '',
               line: 2,
-              certificationCandidates: [
+              candidates: [
                 {
                   lastName: 'Candidat 1',
                   firstName: 'Candidat 1',
@@ -659,7 +660,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   prepaymentCode: '43',
                   resultRecipientEmail: 'robindahood@email.fr',
                   sex: 'M',
-                  complementaryCertifications: [],
+                  subscriptionLabels: [SubscriptionTypes.CORE],
                   line: 2,
                 },
                 {
@@ -677,7 +678,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   prepaymentCode: '43',
                   resultRecipientEmail: 'robindahood@email.fr',
                   sex: 'M',
-                  complementaryCertifications: [],
+                  subscriptionLabels: [SubscriptionTypes.CORE],
                   line: 3,
                 },
               ],
@@ -714,7 +715,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               examiner: 'Paul',
               description: '',
               line: 2,
-              certificationCandidates: [
+              candidates: [
                 {
                   lastName: 'Pennyworth',
                   firstName: 'Alfred',
@@ -730,7 +731,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  complementaryCertifications: [],
+                  subscriptionLabels: [SubscriptionTypes.CORE],
                   line: 3,
                 },
               ],
@@ -775,7 +776,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                 examiner: '',
                 description: '',
                 line: 2,
-                certificationCandidates: [
+                candidates: [
                   {
                     lastName: 'Pennyworth',
                     firstName: 'Alfred',
@@ -791,7 +792,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                     billingMode: '',
                     prepaymentCode: expectedParsedPrepaymentCode,
                     sex: '',
-                    complementaryCertifications: [],
+                    subscriptionLabels: [SubscriptionTypes.CORE],
                     line: 2,
                   },
                 ],
@@ -805,10 +806,10 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
       it('should return a session object with candidate information per csv line', function () {
         // given
         const parsedCsvData = [
-          _lineWithSessionAndCandidateWithComplementaryCertification({
+          lineWithSessionAndCandidateWithComplementaryCertificationSubscription({
             sessionNumber: 1,
             candidateNumber: 1,
-            complementaryCertification: 'oui',
+            shouldSubscribeToComplementaryCertification: 'oui',
           }),
         ];
 
@@ -822,7 +823,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             examiner: 'Paul',
             description: '',
             line: 2,
-            certificationCandidates: [
+            candidates: [
               {
                 lastName: 'Candidat 1',
                 firstName: 'Candidat 1',
@@ -838,7 +839,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                 prepaymentCode: '43',
                 resultRecipientEmail: 'robindahood@email.fr',
                 sex: 'M',
-                complementaryCertifications: ['Pix certif complementaire'],
+                subscriptionLabels: [SubscriptionTypes.CORE, 'Pix certif complementaire'],
                 line: 2,
               },
             ],
@@ -871,7 +872,6 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: 'Prépayée',
             prepaymentCode: '43',
-            complementaryCertifications: [],
           };
 
           const candidateWithoutFirstName = {
@@ -889,7 +889,6 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: 'Prépayée',
             prepaymentCode: '43',
-            complementaryCertifications: [],
           };
 
           const candidateWithoutBirthdate = {
@@ -907,7 +906,6 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: 'Prépayée',
             prepaymentCode: '43',
-            complementaryCertifications: [],
           };
 
           const candidateWithoutSex = {
@@ -925,7 +923,6 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: 'Prépayée',
             prepaymentCode: '43',
-            complementaryCertifications: [],
           };
 
           const candidateWithoutBillingMode = {
@@ -943,7 +940,6 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             extraTimePercentage: '',
             billingMode: '',
             prepaymentCode: '43',
-            complementaryCertifications: [],
           };
 
           const candidateWithoutBirthCountry = {
@@ -1032,7 +1028,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           const [result] = csvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
-          expect(result.certificationCandidates).to.have.length(6);
+          expect(result.candidates).to.have.length(6);
         });
       });
 
@@ -1051,7 +1047,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               examiner: 'Paul',
               description: '',
               line: 2,
-              certificationCandidates: [],
+              candidates: [],
             },
           ];
 
@@ -1092,12 +1088,12 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
       // then
       expect(firstSession.line).to.equal(2);
-      expect(firstSession.certificationCandidates[0].line).to.equal(2);
+      expect(firstSession.candidates[0].line).to.equal(2);
 
       expect(secondSession.line).to.equal(3);
-      expect(secondSession.certificationCandidates[0].line).to.equal(3);
-      expect(secondSession.certificationCandidates[1].line).to.equal(4);
-      expect(secondSession.certificationCandidates[2].line).to.equal(5);
+      expect(secondSession.candidates[0].line).to.equal(3);
+      expect(secondSession.candidates[1].line).to.equal(4);
+      expect(secondSession.candidates[2].line).to.equal(5);
     });
   });
 
@@ -1311,7 +1307,7 @@ function _line({
   extraTimePercentage = '',
   billingMode = '',
   prepaymentCode = '',
-  complementaryCertification = '',
+  shouldSubscribeToComplementaryCertification = '',
 }) {
   return {
     'Numéro de session préexistante': sessionId,
@@ -1335,7 +1331,7 @@ function _line({
     'Temps majoré ? (exemple format: 33%)': extraTimePercentage,
     '* Tarification part Pix (Gratuite, Prépayée ou Payante)': billingMode,
     'Code de prépaiement (si Tarification part Pix Prépayée)': prepaymentCode,
-    "Pix certif complementaire ('oui' ou laisser vide)": complementaryCertification,
+    "Pix certif complementaire ('oui' ou laisser vide)": shouldSubscribeToComplementaryCertification,
   };
 }
 
@@ -1428,10 +1424,10 @@ function _lineWithSessionIdAndCandidate({ sessionId, candidateNumber }) {
   });
 }
 
-function _lineWithSessionAndCandidateWithComplementaryCertification({
+function lineWithSessionAndCandidateWithComplementaryCertificationSubscription({
   sessionNumber,
   candidateNumber,
-  complementaryCertification,
+  shouldSubscribeToComplementaryCertification,
 }) {
   return _line({
     address: `Site ${sessionNumber}`,
@@ -1454,7 +1450,7 @@ function _lineWithSessionAndCandidateWithComplementaryCertification({
     extraTimePercentage: '',
     billingMode: 'Prépayée',
     prepaymentCode: '43',
-    complementaryCertification,
+    shouldSubscribeToComplementaryCertification,
   });
 }
 

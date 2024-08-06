@@ -1,5 +1,6 @@
 import lodash from 'lodash';
 
+import { SubscriptionTypes } from '../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
 import {
   COMPLEMENTARY_CERTIFICATION_SUFFIX,
   emptySession,
@@ -69,7 +70,7 @@ function deserializeForSessionsImport({ parsedCsvData, hasBillingMode, certifica
         currentParsedSession = {
           sessionId: data.sessionId,
           line: data.line,
-          certificationCandidates: [],
+          candidates: [],
         };
         sessions.push(currentParsedSession);
       }
@@ -90,7 +91,7 @@ function deserializeForSessionsImport({ parsedCsvData, hasBillingMode, certifica
     }
 
     if (_hasCandidateInformation(data)) {
-      currentParsedSession.certificationCandidates.push(_createCandidate(data));
+      currentParsedSession.candidates.push(_createCandidate(data));
     }
   });
 
@@ -238,7 +239,7 @@ function _hasSessionIdAndCandidateInformation(data) {
 
 function _getDataFromColumnNames({ expectedHeadersKeys, headers, line }) {
   const data = {};
-  data.complementaryCertifications = _extractComplementaryCertificationLabelsFromLine(line);
+  data.complementarySubscriptionLabels = _extractComplementaryCertificationLabelsFromLine(line);
 
   expectedHeadersKeys.forEach((key) => {
     const headerLabel = headers[key];
@@ -386,7 +387,7 @@ function _createSession({ sessionId, address, room, date, time, examiner, descri
     examiner: examiner ? [examiner] : [],
     description,
     line,
-    certificationCandidates: [],
+    candidates: [],
   };
 }
 
@@ -405,7 +406,7 @@ function _createCandidate({
   billingMode,
   prepaymentCode,
   sex,
-  complementaryCertifications,
+  complementarySubscriptionLabels,
   line,
 }) {
   return {
@@ -423,7 +424,7 @@ function _createCandidate({
     billingMode,
     prepaymentCode,
     sex,
-    complementaryCertifications,
+    subscriptionLabels: [SubscriptionTypes.CORE, ...complementarySubscriptionLabels],
     line,
   };
 }

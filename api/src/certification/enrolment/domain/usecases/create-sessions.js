@@ -53,7 +53,7 @@ const createSessions = async function ({
       }
 
       if (_hasCandidates(candidates)) {
-        await _saveCertificationCandidates({
+        await _saveCandidates({
           candidates,
           sessionId,
           candidateRepository,
@@ -86,9 +86,9 @@ async function _deleteExistingCandidatesInSession({ candidateRepository, session
   await candidateRepository.deleteBySessionId({ sessionId });
 }
 
-async function _saveCertificationCandidates({ candidates, sessionId, candidateRepository }) {
-  await bluebird.mapSeries(candidates, async (certificationCandidateDTO) => {
-    const candidate = new Candidate({ ...certificationCandidateDTO });
+async function _saveCandidates({ candidates, sessionId, candidateRepository }) {
+  await bluebird.mapSeries(candidates, async (candidateDTO) => {
+    const candidate = new Candidate({ ...candidateDTO });
     await candidateRepository.saveInSession({
       sessionId,
       candidate,

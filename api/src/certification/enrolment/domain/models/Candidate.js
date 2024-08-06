@@ -79,6 +79,20 @@ export class Candidate {
     }
   }
 
+  validateForMassSessionImport(isSco = false) {
+    const { error } = validate(this, {
+      abortEarly: false,
+      allowUnknown: true,
+      context: {
+        isSco,
+        isSessionsMassImport: true,
+      },
+    });
+    if (error) {
+      return error.details.map(({ message }) => message);
+    }
+  }
+
   updateBirthInformation({ birthCountry, birthINSEECode, birthPostalCode, birthCity }) {
     this.birthCountry = birthCountry;
     this.birthINSEECode = birthINSEECode;

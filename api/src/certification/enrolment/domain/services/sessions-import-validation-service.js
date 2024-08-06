@@ -3,12 +3,15 @@ import dayjs from 'dayjs';
 import * as mailCheck from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../shared/domain/constants/sessions-errors.js';
+import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
 //  should be injected
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
+import { Subscription } from '../models/Subscription.js';
 
 const validateSession = async function ({
   session,
+  candidatesData,
   line,
   certificationCenterId,
   sessionRepository,
@@ -76,7 +79,7 @@ const validateSession = async function ({
     _addToErrorList({ errorList: sessionErrors, line, codes: errorCodes });
   }
 
-  if (session.certificationCandidates.length === 0) {
+  if (candidatesData.length === 0) {
     _addToErrorList({
       errorList: sessionErrors,
       line,
@@ -116,32 +119,61 @@ const getUniqueCandidates = function (candidates) {
   return { uniqueCandidates, duplicateCandidateErrors };
 };
 
-const getValidatedComplementaryCertificationForMassImport = async function ({
-  complementaryCertifications = [],
+const getValidatedSubscriptionsForMassImport = async function ({
+  subscriptionLabels,
   line,
   complementaryCertificationRepository,
 }) {
   const certificationCandidateComplementaryErrors = [];
 
-  if (_hasMoreThanOneComplementaryCertifications(complementaryCertifications)) {
+  if (subscriptionLabels.length === 0) {
+    _addToErrorList({
+      errorList: certificationCandidateComplementaryErrors,
+      line,
+      codes: [CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_NO_SUBSCRIPTION.code],
+    });
+
+    return { certificationCandidateComplementaryErrors, subscriptions: [] };
+  }
+
+  if (!subscriptionLabels.find((label) => label === SubscriptionTypes.CORE)) {
+    _addToErrorList({
+      errorList: certificationCandidateComplementaryErrors,
+      line,
+      codes: [CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_COMPLEMENTARY_WITHOUT_CORE.code],
+    });
+
+    return { certificationCandidateComplementaryErrors, subscriptions: [] };
+  }
+
+  if (_hasMoreThanOneComplementaryCertificationSubscriptions(subscriptionLabels)) {
     _addToErrorList({
       errorList: certificationCandidateComplementaryErrors,
       line,
       codes: [CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code],
     });
 
-    return { certificationCandidateComplementaryErrors, complementaryCertification: null };
+    return { certificationCandidateComplementaryErrors, subscriptions: [] };
   }
 
-  if (complementaryCertifications?.[0]) {
-    const complementaryCertification = await complementaryCertificationRepository.getByLabel({
-      label: complementaryCertifications[0],
-    });
-
-    return { certificationCandidateComplementaryErrors, complementaryCertification };
+  const subscriptions = [];
+  for (const subscriptionLabel of subscriptionLabels) {
+    if (subscriptionLabel === SubscriptionTypes.CORE) {
+      subscriptions.push(Subscription.buildCore({ certificationCandidateId: null }));
+    } else {
+      const complementaryCertification = await complementaryCertificationRepository.getByLabel({
+        label: subscriptionLabel,
+      });
+      subscriptions.push(
+        Subscription.buildComplementary({
+          certificationCandidateId: null,
+          complementaryCertificationId: complementaryCertification.id,
+        }),
+      );
+    }
   }
 
-  return { certificationCandidateComplementaryErrors, complementaryCertification: null };
+  return { certificationCandidateComplementaryErrors, subscriptions };
 };
 
 const getValidatedCandidateBirthInformation = async function ({
@@ -225,13 +257,13 @@ const validateCandidateEmails = async function ({ candidate, line, dependencies 
 export {
   getUniqueCandidates,
   getValidatedCandidateBirthInformation,
-  getValidatedComplementaryCertificationForMassImport,
+  getValidatedSubscriptionsForMassImport,
   validateCandidateEmails,
   validateSession,
 };
 
-function _hasMoreThanOneComplementaryCertifications(complementaryCertifications) {
-  return complementaryCertifications?.length > 1;
+function _hasMoreThanOneComplementaryCertificationSubscriptions(subscriptionLabels) {
+  return subscriptionLabels.filter((label) => label !== SubscriptionTypes.CORE).length > 1;
 }
 
 function _isDateAndTimeValid(session) {

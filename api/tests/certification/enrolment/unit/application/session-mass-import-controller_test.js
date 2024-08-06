@@ -35,7 +35,7 @@ describe('Unit | Controller | mass-import-controller', function () {
 
       // then
       expect(usecases.validateSessions).to.have.been.calledWithExactly({
-        sessions: ['session'],
+        sessionsData: ['session'],
         certificationCenterId: 123,
         userId: 2,
         i18n,
