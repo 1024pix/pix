@@ -66,7 +66,13 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
 
     // when
     const screen = await renderScreen(
-      hbs`<EnrolledCandidates @sessionId='1' @certificationCandidates={{this.certificationCandidates}} @displayComplementaryCertification={{this.displayComplementaryCertification}} @countries={{this.countries}} @complementaryCertifications={{this.complementaryCertifications}} />`,
+      hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @displayComplementaryCertification={{this.displayComplementaryCertification}}
+  @countries={{this.countries}}
+  @complementaryCertifications={{this.complementaryCertifications}}
+/>`,
     );
 
     // then

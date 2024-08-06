@@ -1,0 +1,21 @@
+.certification-candidate-details-modal .row {
+  display: flex;
+  align-items: center;
+  padding: var(--pix-spacing-2x) var(--pix-spacing-8x);
+  line-height: 22px;
+  list-style: none;
+  border-bottom: 1px solid var(--pix-neutral-100);
+
+  &__label {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 200px;
+    padding-right: 25px;
+    font-weight: 600;
+  }
+
+  &__value {
+    color: var(--pix-neutral-500);
+    font-weight: 400;
+  }
+}

@@ -1,7 +1,7 @@
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import CertificationCandidateDetailsModal from 'pix-certif/components/certification-candidate-details-modal';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -27,23 +27,28 @@ module('Integration | Component | certification-candidate-details-modal', functi
       birthPostalCode: 76260,
       sex: 'F',
       complementaryCertification: {
-        id: '1',
-        label: 'Pix+Edu',
+        id: 1,
       },
     });
 
+    const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+      habilitations: [{ id: 1, label: 'Pix+Edu' }],
+    });
+
     const closeModalStub = sinon.stub();
-    this.set('closeModal', closeModalStub);
-    this.set('candidate', candidate);
-    this.set('displayComplementaryCertification', true);
 
     // when
-    const screen = await renderScreen(hbs`<CertificationCandidateDetailsModal
-  @closeModal={{this.closeModal}}
-  @showModal={{true}}
-  @candidate={{this.candidate}}
-  @displayComplementaryCertification={{this.displayComplementaryCertification}}
-/>`);
+    const screen = await render(
+      <template>
+        <CertificationCandidateDetailsModal
+          @closeModal={{closeModalStub}}
+          @showModal={{true}}
+          @candidate={{candidate}}
+          @displayComplementaryCertification={{true}}
+          @complementaryCertifications={{currentAllowedCertificationCenterAccess.habilitations}}
+        />
+      </template>,
+    );
 
     // then
     assert.dom(screen.getByText('Détail du candidat')).exists();
@@ -80,17 +85,18 @@ module('Integration | Component | certification-candidate-details-modal', functi
       });
 
       const closeModalStub = sinon.stub();
-      this.set('closeModal', closeModalStub);
-      this.set('candidate', candidate);
-      this.set('displayComplementaryCertification', true);
 
       // when
-      const screen = await renderScreen(hbs`<CertificationCandidateDetailsModal
-  @closeModal={{this.closeModal}}
-  @showModal={{true}}
-  @candidate={{this.candidate}}
-  @displayComplementaryCertification={{this.displayComplementaryCertification}}
-/>`);
+      const screen = await render(
+        <template>
+          <CertificationCandidateDetailsModal
+            @closeModal={{closeModalStub}}
+            @showModal={{true}}
+            @candidate={{candidate}}
+            @displayComplementaryCertification={{true}}
+          />
+        </template>,
+      );
 
       // then
       assert.strictEqual(screen.getAllByText('-').length, 13);
@@ -120,18 +126,18 @@ module('Integration | Component | certification-candidate-details-modal', functi
       });
 
       const closeModalStub = sinon.stub();
-      this.set('closeModal', closeModalStub);
-      this.set('candidate', candidate);
-      this.set('displayComplementaryCertification', false);
-      this.set('shouldDisplayPaymentOptions', true);
 
       // when
-      const screen = await renderScreen(hbs`<CertificationCandidateDetailsModal
-  @closeModal={{this.closeModal}}
-  @candidate={{this.candidate}}
-  @displayComplementaryCertification={{this.displayComplementaryCertification}}
-  @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
-/>`);
+      const screen = await render(
+        <template>
+          <CertificationCandidateDetailsModal
+            @closeModal={{closeModalStub}}
+            @candidate={{candidate}}
+            @displayComplementaryCertification={{false}}
+            @shouldDisplayPaymentOptions={{true}}
+          />
+        </template>,
+      );
 
       // then
       assert.dom(screen.getByText('Détail du candidat')).exists();
@@ -175,18 +181,18 @@ module('Integration | Component | certification-candidate-details-modal', functi
       });
 
       const closeModalStub = sinon.stub();
-      this.set('closeModal', closeModalStub);
-      this.set('candidate', candidate);
-      this.set('displayComplementaryCertification', false);
-      this.set('shouldDisplayPaymentOptions', false);
 
       // when
-      const screen = await renderScreen(hbs`<CertificationCandidateDetailsModal
-  @closeModal={{this.closeModal}}
-  @candidate={{this.candidate}}
-  @displayComplementaryCertification={{this.displayComplementaryCertification}}
-  @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
-/>`);
+      const screen = await render(
+        <template>
+          <CertificationCandidateDetailsModal
+            @closeModal={{closeModalStub}}
+            @candidate={{candidate}}
+            @displayComplementaryCertification={{false}}
+            @shouldDisplayPaymentOptions={{false}}
+          />
+        </template>,
+      );
 
       // then
       assert.dom(screen.getByText('Détail du candidat')).exists();
@@ -212,12 +218,16 @@ module('Integration | Component | certification-candidate-details-modal', functi
       // given
       const candidate = EmberObject.create({});
       const closeModalStub = sinon.stub();
-      this.set('closeModal', closeModalStub);
-      this.set('candidate', candidate);
 
       // when
-      const screen = await renderScreen(
-        hbs`<CertificationCandidateDetailsModal @showModal={{true}} @closeModal={{this.closeModal}} @candidate={{this.candidate}} />`,
+      const screen = await render(
+        <template>
+          <CertificationCandidateDetailsModal
+            @showModal={{true}}
+            @closeModal={{closeModalStub}}
+            @candidate={{candidate}}
+          />
+        </template>,
       );
 
       await click(screen.getByRole('button', { name: 'Fermer la fenêtre de détail du candidat' }));
@@ -233,12 +243,16 @@ module('Integration | Component | certification-candidate-details-modal', functi
       // given
       const candidate = EmberObject.create({});
       const closeModalStub = sinon.stub();
-      this.set('closeModal', closeModalStub);
-      this.set('candidate', candidate);
 
       // when
-      const screen = await renderScreen(
-        hbs`<CertificationCandidateDetailsModal @showModal={{true}} @closeModal={{this.closeModal}} @candidate={{this.candidate}} />`,
+      const screen = await render(
+        <template>
+          <CertificationCandidateDetailsModal
+            @showModal={{true}}
+            @closeModal={{closeModalStub}}
+            @candidate={{candidate}}
+          />
+        </template>,
       );
       await click(screen.getByRole('button', { name: 'Fermer la fenêtre de détail du candidat' }));
 

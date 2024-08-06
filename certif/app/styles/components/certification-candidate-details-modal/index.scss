@@ -1,0 +1,20 @@
+.certification-candidate-details-modal {
+  min-width: 550px;
+  max-width: 550px;
+  margin: 100px auto;
+
+  /* to fix in pix UI */
+
+  &__list {
+    max-width: 100%;
+  }
+
+  .pix-modal__footer {
+    justify-content: center;
+  }
+}
+
+/* Necessary to override Pix UI's per component css reset */
+.pix-modal li.certification-candidate-details-modal__row {
+  padding: var(--pix-spacing-2x) var(--pix-spacing-8x);
+}
