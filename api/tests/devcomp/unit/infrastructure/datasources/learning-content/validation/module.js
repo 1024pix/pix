@@ -1,7 +1,8 @@
 import Joi from 'joi';
 
 import {
-  embedSchema,
+  downloadElementSchema,
+  embedElementSchema,
   imageElementSchema,
   qcmElementSchema,
   qcuElementSchema,
@@ -32,7 +33,8 @@ const elementSchema = Joi.alternatives().conditional('.type', {
     { is: 'qcm', then: qcmElementSchema },
     { is: 'qrocm', then: qrocmElementSchema },
     { is: 'video', then: videoElementSchema },
-    { is: 'embed', then: embedSchema },
+    { is: 'embed', then: embedElementSchema },
+    { is: 'download', then: downloadElementSchema },
   ],
 });
 

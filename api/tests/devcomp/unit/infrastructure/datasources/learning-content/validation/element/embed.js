@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { htmlNotAllowedSchema, htmlSchema, uuidSchema } from '../utils.js';
 
-const embedSchema = Joi.object({
+const embedElementSchema = Joi.object({
   id: uuidSchema,
   type: Joi.string().valid('embed').required(),
   isCompletionRequired: Joi.boolean().required(),
@@ -17,4 +17,4 @@ const embedSchema = Joi.object({
   height: Joi.number().min(0).required(),
 }).required();
 
-export { embedSchema };
+export { embedElementSchema };

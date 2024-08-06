@@ -1,5 +1,5 @@
 import { catchErr, expect } from '../../../../../../../test-helper.js';
-import { embedSchema } from './index.js';
+import { embedElementSchema } from './index.js';
 
 describe('Unit | Infrastructure | Datasources | Learning Content | Module Datasource | Embed Element', function () {
   describe('when embed isCompletionRequired is false', function () {
@@ -16,7 +16,7 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
       };
 
       // when
-      await embedSchema.validateAsync(sampleEmbed);
+      await embedElementSchema.validateAsync(sampleEmbed);
 
       // then
       expect(true).to.be.true;
@@ -36,7 +36,7 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
       };
 
       // when
-      const error = await catchErr(embedSchema.validateAsync, embedSchema)(sampleEmbed);
+      const error = await catchErr(embedElementSchema.validateAsync, embedElementSchema)(sampleEmbed);
 
       // then
       expect(error).to.be.an.instanceOf(Error);
@@ -58,7 +58,7 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
       };
 
       // when
-      const error = await catchErr(embedSchema.validateAsync, embedSchema)(sampleEmbed);
+      const error = await catchErr(embedElementSchema.validateAsync, embedElementSchema)(sampleEmbed);
 
       // then
       expect(error).to.be.an.instanceOf(Error);
@@ -79,7 +79,7 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
       };
 
       // when
-      await embedSchema.validateAsync(sampleEmbed);
+      await embedElementSchema.validateAsync(sampleEmbed);
 
       // then
       expect(true).to.be.true;
