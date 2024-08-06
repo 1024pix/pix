@@ -2,13 +2,13 @@ import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../../db/pgsql-errors.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import {
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
   NotFoundError,
 } from '../../../../shared/domain/errors.js';
-import { CertificationCandidate } from '../../../../shared/domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../../shared/domain/models/index.js';
 import { BookshelfCertificationCandidate } from '../../../../shared/infrastructure/orm-models/CertificationCandidate.js';
 import * as bookshelfToDomainConverter from '../../../../shared/infrastructure/utils/bookshelf-to-domain-converter.js';
 import { normalize } from '../../../../shared/infrastructure/utils/string-utils.js';
@@ -30,43 +30,6 @@ const linkToUser = async function ({ id, userId }) {
       'An error occurred while linking the certification candidate to a user',
     );
   }
-};
-
-const saveInSession = async function ({ certificationCandidate, sessionId }) {
-  const certificationCandidateDataToSave = _adaptModelToDb(certificationCandidate);
-  const knexTransaction = DomainTransaction.getConnection();
-
-  const [{ id: certificationCandidateId }] = await knexTransaction('certification-candidates')
-    .insert({ ...certificationCandidateDataToSave, sessionId })
-    .returning('id');
-
-  for (const subscription of certificationCandidate.subscriptions) {
-    await knexTransaction('certification-subscriptions').insert({
-      certificationCandidateId,
-      type: subscription.type,
-      complementaryCertificationId: subscription.complementaryCertificationId,
-    });
-  }
-
-  return certificationCandidateId;
-};
-
-const remove = async function ({ id }) {
-  await knex.transaction(async (trx) => {
-    await trx('certification-subscriptions').where({ certificationCandidateId: id }).del();
-    return trx('certification-candidates').where({ id }).del();
-  });
-
-  return true;
-};
-
-const isNotLinked = async function ({ id }) {
-  const notLinkedCandidate = await BookshelfCertificationCandidate.where({
-    id,
-    userId: null,
-  }).fetch({ require: false, columns: ['id'] });
-
-  return !!notLinkedCandidate;
 };
 
 const getBySessionIdAndUserId = async function ({ sessionId, userId }) {
@@ -105,15 +68,6 @@ const findOneBySessionIdAndUserId = function ({ sessionId, userId }) {
     .then((results) => _buildCertificationCandidates(results)[0]);
 };
 
-const doesLinkedCertificationCandidateInSessionExist = async function ({ sessionId }) {
-  const anyLinkedCandidateInSession = await BookshelfCertificationCandidate.query({
-    where: { sessionId },
-    whereNotNull: 'userId',
-  }).fetch({ require: false, columns: 'id' });
-
-  return anyLinkedCandidateInSession !== null;
-};
-
 const update = async function (certificationCandidate) {
   const result = await knex('certification-candidates')
     .where({ id: certificationCandidate.id })
@@ -122,15 +76,6 @@ const update = async function (certificationCandidate) {
   if (result === 0) {
     throw new NotFoundError('Aucun candidat trouvé');
   }
-};
-
-const deleteBySessionId = async function ({ sessionId }) {
-  const knexConn = DomainTransaction.getConnection();
-  await knexConn('certification-subscriptions')
-    .whereIn('certificationCandidateId', knexConn.select('id').from('certification-candidates').where({ sessionId }))
-    .del();
-
-  await knexConn('certification-candidates').where({ sessionId }).del();
 };
 
 const getWithComplementaryCertification = async function ({ id }) {
@@ -168,18 +113,13 @@ const findCompanionPingInfoByUserId = async function ({ userId }) {
 };
 
 export {
-  deleteBySessionId,
-  doesLinkedCertificationCandidateInSessionExist,
   findBySessionId,
   findBySessionIdAndPersonalInfo,
   findCompanionPingInfoByUserId,
   findOneBySessionIdAndUserId,
   getBySessionIdAndUserId,
   getWithComplementaryCertification,
-  isNotLinked,
   linkToUser,
-  remove,
-  saveInSession,
   update,
 };
 

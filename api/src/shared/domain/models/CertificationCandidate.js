@@ -176,23 +176,6 @@ class CertificationCandidate {
     }
   }
 
-  validateForMassSessionImport(isSco = false) {
-    const { error } = validate(
-      { ...this, complementaryCertification: this.complementaryCertification },
-      {
-        abortEarly: false,
-        allowUnknown: true,
-        context: {
-          isSco,
-          isSessionsMassImport: true,
-        },
-      },
-    );
-    if (error) {
-      return error.details.map(({ message }) => message);
-    }
-  }
-
   validateParticipation() {
     const { error } = certificationCandidateParticipationJoiSchema.validate({
       ...this,
@@ -220,13 +203,6 @@ class CertificationCandidate {
 
   isLinkedToUserId(userId) {
     return this.userId === userId;
-  }
-
-  updateBirthInformation({ birthCountry, birthINSEECode, birthPostalCode, birthCity }) {
-    this.birthCountry = birthCountry;
-    this.birthINSEECode = birthINSEECode;
-    this.birthPostalCode = birthPostalCode;
-    this.birthCity = birthCity;
   }
 
   isGranted(key) {

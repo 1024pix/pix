@@ -24,7 +24,6 @@ import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constant
  * @param {CertificationCpfCountryRepository} params.certificationCpfCountryRepository
  * @param {CertificationCpfCityRepository} params.certificationCpfCityRepository
  */
-// TODO MVP - write my test ! (oups)
 export async function addCandidateToSession({
   sessionId,
   candidate,
