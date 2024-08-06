@@ -6,10 +6,9 @@ const ASSESSMENT_COUNT = parseInt(process.env.ASSESSMENT_COUNT) || 100;
 const ASSESSMENT_ID = parseInt(process.env.ASSESSMENT_ID) || null;
 import * as url from 'node:url';
 
-import bluebird from 'bluebird';
-
 import * as scoringCertificationService from '../../src/certification/shared/domain/services/scoring-certification-service.js';
 import * as certificationAssessmentRepository from '../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
+import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
 
 async function _retrieveLastScoredAssessmentIds() {
   const result = await knex.raw(
@@ -34,7 +33,7 @@ async function _retrieveLastScoredAssessmentIds() {
 }
 
 async function _computeScore(assessmentIds) {
-  const scores = await bluebird.map(
+  const scores = await PromiseUtils.map(
     assessmentIds,
     async (assessmentId) => {
       try {

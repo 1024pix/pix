@@ -1,7 +1,6 @@
-import bluebird from 'bluebird';
-
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 const EVENT_NAME = 'attach-target-profile-certif';
 
 export { sendTargetProfileNotifications };
@@ -18,7 +17,7 @@ async function sendTargetProfileNotifications({
 
   if (emails.length) {
     let sucessCounter = 0;
-    await bluebird.map(
+    await PromiseUtils.map(
       emails,
       async (email) => {
         const result = await mailService.sendNotificationToOrganizationMembersForTargetProfileDetached({

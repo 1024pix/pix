@@ -1,7 +1,5 @@
 import * as url from 'node:url';
 
-import bluebird from 'bluebird';
-
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { handleAutoJury } from '../../lib/domain/events/handle-auto-jury.js';
 import { eventDispatcher } from '../../lib/domain/events/index.js';
@@ -11,6 +9,7 @@ import * as certificationCourseRepository from '../../src/certification/shared/i
 import * as certificationIssueReportRepository from '../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as challengeRepository from '../../src/shared/infrastructure/repositories/challenge-repository.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
 
 const IS_FROM_SCRATCH = process.env.IS_FROM_SCRATCH === 'true';
 const AUDIT_TABLE = 'autojury-script-audit';
@@ -45,7 +44,7 @@ async function _retrieveFinalizedUnpublishedUnassignedSessionsData() {
 
 async function _triggerAutoJuryFromEvents(events) {
   console.error(`\nWork in progress (${events.length})...`);
-  return await bluebird.map(
+  return await PromiseUtils.map(
     events,
     async (event) => {
       try {

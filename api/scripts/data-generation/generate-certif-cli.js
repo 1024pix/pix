@@ -19,6 +19,7 @@ import { learningContentCache } from '../../src/shared/infrastructure/caches/lea
 import * as skillRepository from '../../src/shared/infrastructure/repositories/skill-repository.js';
 import { temporaryStorage } from '../../src/shared/infrastructure/temporary-storage/index.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
 import {
   makeUserCleaCertifiable,
   makeUserPixCertifiable,
@@ -125,7 +126,7 @@ async function _updateDatabaseBuilderSequenceNumber() {
 
 async function _getMaxSequenceId() {
   const sequences = await knex('information_schema.sequences').pluck('sequence_name');
-  const maxValues = await bluebird.map(sequences, (sequence) => knex(sequence).select('last_value').first());
+  const maxValues = await PromiseUtils.map(sequences, (sequence) => knex(sequence).select('last_value').first());
   const { last_value: max } = maxBy(maxValues, 'last_value');
   return max;
 }

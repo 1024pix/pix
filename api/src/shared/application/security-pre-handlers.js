@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import jsonapiSerializer from 'jsonapi-serializer';
 import lodash from 'lodash';
 
@@ -9,6 +8,7 @@ import * as isSchoolSessionActive from '../../school/application/usecases/is-sch
 import { ForbiddenAccess, NotFoundError } from '../domain/errors.js';
 import { Organization } from '../domain/models/index.js';
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
+import { PromiseUtils } from '../infrastructure/utils/promise-utils.js';
 import * as checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase from './usecases/check-user-is-admin-of-certification-center-with-certification-center-invitation-id.js';
 import * as checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipIdUseCase from './usecases/check-user-is-admin-of-certification-center-with-certification-center-membership-id.js';
 import * as checkAdminMemberHasRoleCertifUseCase from './usecases/checkAdminMemberHasRoleCertif.js';
@@ -656,7 +656,7 @@ async function checkAuthorizationToAccessCampaign(
 
 function hasAtLeastOneAccessOf(securityChecks) {
   return async (request, h) => {
-    const responses = await bluebird.map(securityChecks, (securityCheck) => securityCheck(request, h));
+    const responses = await PromiseUtils.map(securityChecks, (securityCheck) => securityCheck(request, h));
     const hasAccess = responses.some((response) => !response.source?.errors);
     return hasAccess ? hasAccess : _replyForbiddenError(h);
   };
@@ -664,7 +664,7 @@ function hasAtLeastOneAccessOf(securityChecks) {
 
 function validateAllAccess(securityChecks) {
   return async (request, h) => {
-    const responses = await bluebird.map(securityChecks, (securityCheck) => securityCheck(request, h));
+    const responses = await PromiseUtils.map(securityChecks, (securityCheck) => securityCheck(request, h));
     const hasAccess = responses.every((response) => !response.source?.errors);
     return hasAccess ? hasAccess : _replyForbiddenError(h);
   };

@@ -3,10 +3,9 @@
  *
  * @typedef {import('../../../shared/domain/usecases/index.js').CpfCertificationResultRepository} CpfCertificationResultRepository
  */
-import bluebird from 'bluebird';
-
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../../lib/infrastructure/constants.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 
 /**
  * @param {Object} params
@@ -43,7 +42,7 @@ export { integrateCpfProccessingReceipts };
 async function _updateCertificationCourses({ cpfReceipt, cpfReceiptsStorage, cpfCertificationResultRepository }) {
   const cpfInfos = await cpfReceiptsStorage.getCpfInfosByReceipt({ cpfReceipt });
 
-  await bluebird.map(cpfInfos, async (cpfInfos) => cpfCertificationResultRepository.updateCpfInfos({ cpfInfos }), {
+  await PromiseUtils.map(cpfInfos, async (cpfInfos) => cpfCertificationResultRepository.updateCpfInfos({ cpfInfos }), {
     concurrency: CONCURRENCY_HEAVY_OPERATIONS,
   });
   logger.info('%d certification courses updated from CPF receipt %s', cpfInfos.length, cpfReceipt.filename);

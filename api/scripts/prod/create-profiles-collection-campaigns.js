@@ -1,12 +1,11 @@
 import * as url from 'node:url';
 
-import bluebird from 'bluebird';
-
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import * as campaignUpdateValidator from '../../src/prescription/campaign/domain/validators/campaign-update-validator.js';
 import * as campaignRepository from '../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import { CampaignTypes } from '../../src/prescription/shared/domain/constants.js';
 import * as codeGenerator from '../../src/shared/domain/services/code-generator.js';
+import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
 
 function checkData(campaignData) {
@@ -29,7 +28,7 @@ function checkData(campaignData) {
 
 async function prepareCampaigns(campaignsData) {
   const generatedList = [];
-  const campaigns = await bluebird.map(
+  const campaigns = await PromiseUtils.map(
     campaignsData,
     async (campaignData) => {
       const campaign = {

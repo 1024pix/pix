@@ -1,7 +1,7 @@
-import bluebird from 'bluebird';
 import jsonapiSerializer from 'jsonapi-serializer';
 
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../../shared/infrastructure/constants.js';
+import { PromiseUtils } from '../../../../../shared/infrastructure/utils/promise-utils.js';
 
 const { Deserializer } = jsonapiSerializer;
 
@@ -13,7 +13,7 @@ const deserialize = async function (json) {
   const { complementaryCertificationBadges: complementaryCertificationBadgesToDeserialize } =
     deserializedComplementaryCertification;
 
-  deserializedComplementaryCertification.complementaryCertificationBadges = await bluebird.map(
+  deserializedComplementaryCertification.complementaryCertificationBadges = await PromiseUtils.map(
     complementaryCertificationBadgesToDeserialize,
     async (complementaryCertificationBadgesToDeserialize) =>
       await deserialize.deserialize(complementaryCertificationBadgesToDeserialize),
