@@ -37,6 +37,7 @@ const createSession = async function ({
     ...session,
     accessCode,
     certificationCenter: certificationCenterName,
+    certificationCandidates: [],
     version,
     createdBy: userId,
   });
