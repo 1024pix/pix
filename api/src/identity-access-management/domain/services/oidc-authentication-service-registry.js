@@ -1,6 +1,7 @@
 import { InvalidIdentityProviderError } from '../../../shared/domain/errors.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
+import { AgentConnectOidcAuthenticationService } from './agent-connect-oidc-authentication-service.js';
 import { CnfptOidcAuthenticationService } from './cnfpt-oidc-authentication-service.js';
 import { FwbOidcAuthenticationService } from './fwb-oidc-authentication-service.js';
 import { GoogleOidcAuthenticationService } from './google-oidc-authentication-service.js';
@@ -77,6 +78,8 @@ export class OidcAuthenticationServiceRegistry {
               return new PoleEmploiOidcAuthenticationService(oidcProvider);
             case 'CNFPT':
               return new CnfptOidcAuthenticationService(oidcProvider);
+            case 'AGENTCONNECT':
+              return new AgentConnectOidcAuthenticationService(oidcProvider);
             default:
               return new OidcAuthenticationService(oidcProvider);
           }
