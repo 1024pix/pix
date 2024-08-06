@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
-import { normalize } from '../../../../../../src/shared/infrastructure/utils/string-utils.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const SESSION_PROPS = [
@@ -129,9 +128,6 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
   });
 
   context('#isCandidateAlreadyEnrolled', function () {
-    // TODO MVP - c'est un genre de test d'intégration quand même là :/
-    // + ça couple le domain avec l'injection, il faut rester découpler.
-    // Ce test ne devrait pas être ici
     it('should return true when all personal info matches (case / diacritics insensitive) with an already enrolled candidate', function () {
       // given
       const candidatePersonalInfo = {
@@ -140,7 +136,6 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
         birthdate: '1990-01-04',
       };
       const session = domainBuilder.certification.enrolment.buildSession();
-      const zeroWidthSpaceChar = '​';
       const enrolledCandidates = [
         domainBuilder.certification.enrolment.buildEnrolledCandidate({
           firstName: 'Un',
@@ -148,17 +143,24 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
           birthdate: '1995-04-04',
         }),
         domainBuilder.certification.enrolment.buildEnrolledCandidate({
-          firstName: 'fr ed èrï C',
-          lastName: `  d' e-BU${zeroWidthSpaceChar} ssy `,
+          firstName: 'un prénom très proche de frederic',
+          lastName: `un nom tres proche de debussy`,
           birthdate: '1990-01-04',
         }),
       ];
+      const normalizeStringFnc = sinon.stub();
+      normalizeStringFnc.withArgs(candidatePersonalInfo.lastName).returns(candidatePersonalInfo.lastName);
+      normalizeStringFnc.withArgs(candidatePersonalInfo.firstName).returns(candidatePersonalInfo.firstName);
+      normalizeStringFnc.withArgs(enrolledCandidates[0].lastName).returns(enrolledCandidates[0].lastName);
+      normalizeStringFnc.withArgs(enrolledCandidates[0].firstName).returns(enrolledCandidates[0].firstName);
+      normalizeStringFnc.withArgs(enrolledCandidates[1].lastName).returns(candidatePersonalInfo.lastName);
+      normalizeStringFnc.withArgs(enrolledCandidates[1].firstName).returns(candidatePersonalInfo.firstName);
 
       // when
       const isCandidateEnrolled = session.isCandidateAlreadyEnrolled({
         enrolledCandidates,
         candidatePersonalInfo,
-        normalizeStringFnc: normalize,
+        normalizeStringFnc,
       });
 
       // then
@@ -185,12 +187,13 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
           birthdate: candidatePersonalInfo.birthdate,
         }),
       ];
+      const normalizeStringFnc = sinon.stub((str) => str);
 
       // when
       const isCandidateEnrolled = session.isCandidateAlreadyEnrolled({
         enrolledCandidates,
         candidatePersonalInfo,
-        normalizeStringFnc: normalize,
+        normalizeStringFnc,
       });
 
       // then
@@ -217,12 +220,13 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
           birthdate: candidatePersonalInfo.birthdate,
         }),
       ];
+      const normalizeStringFnc = sinon.stub((str) => str);
 
       // when
       const isCandidateEnrolled = session.isCandidateAlreadyEnrolled({
         enrolledCandidates,
         candidatePersonalInfo,
-        normalizeStringFnc: normalize,
+        normalizeStringFnc,
       });
 
       // then
@@ -249,12 +253,13 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
           birthdate: '1990-01-05',
         }),
       ];
+      const normalizeStringFnc = sinon.stub((str) => str);
 
       // when
       const isCandidateEnrolled = session.isCandidateAlreadyEnrolled({
         enrolledCandidates,
         candidatePersonalInfo,
-        normalizeStringFnc: normalize,
+        normalizeStringFnc,
       });
 
       // then
