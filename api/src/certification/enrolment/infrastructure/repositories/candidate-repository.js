@@ -105,24 +105,6 @@ export async function doesLinkedCertificationCandidateInSessionExist({ sessionId
 
 /**
  * @function
- * @param id
- * @returns {boolean}
- */
-export async function isNotLinked({ id }) {
-  const notLinkedCandidate = await knex
-    .select('id')
-    .from('certification-candidates')
-    .where({
-      id,
-      userId: null,
-    })
-    .first();
-
-  return !!notLinkedCandidate;
-}
-
-/**
- * @function
  * @param {Object} candidate
  *
  * @return {number}

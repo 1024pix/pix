@@ -9,9 +9,9 @@ import { CertificationCandidateForbiddenDeletionError } from '../errors.js';
  * @param {CandidateRepository} params.candidateRepository
  */
 const deleteUnlinkedCertificationCandidate = async function ({ candidateId, candidateRepository }) {
-  const isNotLinked = await candidateRepository.isNotLinked({ id: candidateId });
+  const candidate = await candidateRepository.get({ certificationCandidateId: candidateId });
 
-  if (isNotLinked) {
+  if (!candidate.isLinkedToAUser()) {
     return candidateRepository.remove({ id: candidateId });
   }
 

@@ -51,7 +51,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     };
   });
 
-  describe('updateBirthInformation', function () {
+  context('updateBirthInformation', function () {
     it("should update candidate's birth information", function () {
       // given
       const birthCountry = 'updatedBirthCountry';
@@ -76,7 +76,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     });
   });
 
-  describe('validate', function () {
+  context('validate', function () {
     context('when all required fields are presents', function () {
       it('should not throw when object is valid', function () {
         // given
@@ -579,7 +579,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     });
   });
 
-  describe('validateForMassSessionImport', function () {
+  context('validateForMassSessionImport', function () {
     const buildCertificationCandidate = (attributes) => new CertificationCandidate(attributes);
 
     context('when all required fields are presents', function () {
@@ -887,7 +887,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     });
   });
 
-  describe('parseBillingMode', function () {
+  context('parseBillingMode', function () {
     // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
@@ -898,6 +898,34 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       it(`should return ${expectedTranslation} when ${value} is translated`, function () {
         expect(Candidate.parseBillingMode({ billingMode: value, translate })).to.equal(expectedTranslation);
       });
+    });
+  });
+
+  context('isLinkedToAUser', function () {
+    it('should return false when candidate is not linked', function () {
+      // given
+      const unlinkedCandidate = domainBuilder.certification.enrolment.buildCandidate({
+        userId: null,
+      });
+
+      // when
+      const isLinked = unlinkedCandidate.isLinkedToAUser();
+
+      // then
+      expect(isLinked).to.be.false;
+    });
+
+    it('should return true when candidate is linked', function () {
+      // given
+      const unlinkedCandidate = domainBuilder.certification.enrolment.buildCandidate({
+        userId: 123,
+      });
+
+      // when
+      const isLinked = unlinkedCandidate.isLinkedToAUser();
+
+      // then
+      expect(isLinked).to.be.true;
     });
   });
 });
