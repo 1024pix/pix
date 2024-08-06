@@ -1,10 +1,10 @@
 import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
-import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
 import { CertificationCandidatesError } from '../../../../../../src/shared/domain/errors.js';
 import { CertificationCandidate } from '../../../../../../src/shared/domain/models/index.js';
 import { catchErr, catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
+import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 const FIRST_NAME_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code;
 const LAST_NAME_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_REQUIRED.code;
 const BIRTHDATE_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code;
@@ -42,7 +42,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       hasSeenCertificationInstructions: false,
       subscriptions: [
         {
-          type: SubscriptionTypes.CORE,
+          type: SUBSCRIPTION_TYPES.CORE,
           complementaryCertificationId: null,
           complementaryCertificationLabel: null,
           complementaryCertificationKey: null,
@@ -402,7 +402,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
         ...candidateData,
         subscriptions: [
           {
-            type: SubscriptionTypes.COMPLEMENTARY,
+            type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
             complementaryCertificationId: null,
           },
         ],
@@ -891,9 +891,9 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { value: 'Gratuite', expectedTranslation: 'FREE' },
-      { value: 'Payante', expectedTranslation: 'PAID' },
-      { value: 'Prépayée', expectedTranslation: 'PREPAID' },
+      { value: 'Gratuite', expectedTranslation: BILLING_MODES.FREE },
+      { value: 'Payante', expectedTranslation: BILLING_MODES.PAID },
+      { value: 'Prépayée', expectedTranslation: BILLING_MODES.PREPAID },
     ].forEach(({ value, expectedTranslation }) => {
       it(`should return ${expectedTranslation} when ${value} is translated`, function () {
         expect(Candidate.parseBillingMode({ billingMode: value, translate })).to.equal(expectedTranslation);

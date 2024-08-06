@@ -1,5 +1,5 @@
 import * as enrolledCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/enrolled-candidate-repository.js';
-import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CertificationCandidate } from '../../../../../../src/shared/domain/models/index.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
@@ -127,7 +127,7 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
           ...jeannetteData,
           subscriptions: [
             {
-              type: SubscriptionTypes.CORE,
+              type: SUBSCRIPTION_TYPES.CORE,
               certificationCandidateId: jeannetteData.id,
               complementaryCertificationId: null,
             },
@@ -137,7 +137,7 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
           ...michelData,
           subscriptions: [
             {
-              type: SubscriptionTypes.CORE,
+              type: SUBSCRIPTION_TYPES.CORE,
               certificationCandidateId: michelData.id,
               complementaryCertificationId: null,
             },
@@ -147,7 +147,7 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
           ...fredericData,
           subscriptions: [
             {
-              type: SubscriptionTypes.CORE,
+              type: SUBSCRIPTION_TYPES.CORE,
               certificationCandidateId: fredericData.id,
               complementaryCertificationId: null,
             },
@@ -189,12 +189,12 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
           ...jeannetteData,
           subscriptions: [
             {
-              type: SubscriptionTypes.CORE,
+              type: SUBSCRIPTION_TYPES.CORE,
               certificationCandidateId: jeannetteData.id,
               complementaryCertificationId: null,
             },
             {
-              type: SubscriptionTypes.COMPLEMENTARY,
+              type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
               certificationCandidateId: jeannetteData.id,
               complementaryCertificationId: complementaryCertificationData1.id,
             },
@@ -204,7 +204,7 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
           ...michelData,
           subscriptions: [
             {
-              type: SubscriptionTypes.CORE,
+              type: SUBSCRIPTION_TYPES.CORE,
               certificationCandidateId: michelData.id,
               complementaryCertificationId: null,
             },
@@ -214,7 +214,7 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
           ...fredericData,
           subscriptions: [
             {
-              type: SubscriptionTypes.COMPLEMENTARY,
+              type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
               certificationCandidateId: fredericData.id,
               complementaryCertificationId: complementaryCertificationData2.id,
             },

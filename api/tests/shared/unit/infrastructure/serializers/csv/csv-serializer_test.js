@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { SubscriptionTypes } from '../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { emptySession } from '../../../../../../src/certification/shared/infrastructure/utils/csv/sessions-import.js';
 import { FileValidationError } from '../../../../../../src/shared/domain/errors.js';
 import * as csvSerializer from '../../../../../../src/shared/infrastructure/serializers/csv/csv-serializer.js';
@@ -559,7 +559,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  subscriptionLabels: [SubscriptionTypes.CORE],
+                  subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
                   line: 2,
                 },
                 {
@@ -577,7 +577,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  subscriptionLabels: [SubscriptionTypes.CORE],
+                  subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
                   line: 4,
                 },
               ],
@@ -607,7 +607,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  subscriptionLabels: [SubscriptionTypes.CORE],
+                  subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
                   line: 3,
                 },
               ],
@@ -660,7 +660,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   prepaymentCode: '43',
                   resultRecipientEmail: 'robindahood@email.fr',
                   sex: 'M',
-                  subscriptionLabels: [SubscriptionTypes.CORE],
+                  subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
                   line: 2,
                 },
                 {
@@ -678,7 +678,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   prepaymentCode: '43',
                   resultRecipientEmail: 'robindahood@email.fr',
                   sex: 'M',
-                  subscriptionLabels: [SubscriptionTypes.CORE],
+                  subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
                   line: 3,
                 },
               ],
@@ -731,7 +731,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
-                  subscriptionLabels: [SubscriptionTypes.CORE],
+                  subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
                   line: 3,
                 },
               ],
@@ -792,7 +792,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                     billingMode: '',
                     prepaymentCode: expectedParsedPrepaymentCode,
                     sex: '',
-                    subscriptionLabels: [SubscriptionTypes.CORE],
+                    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
                     line: 2,
                   },
                 ],
@@ -839,7 +839,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                 prepaymentCode: '43',
                 resultRecipientEmail: 'robindahood@email.fr',
                 sex: 'M',
-                subscriptionLabels: [SubscriptionTypes.CORE, 'Pix certif complementaire'],
+                subscriptionLabels: [SUBSCRIPTION_TYPES.CORE, 'Pix certif complementaire'],
                 line: 2,
               },
             ],

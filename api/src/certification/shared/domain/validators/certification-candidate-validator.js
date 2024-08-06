@@ -3,12 +3,7 @@ import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
 import { subscriptionSchema } from './subscription-validator.js';
-
-const BILLING_MODES = {
-  FREE: 'FREE',
-  PAID: 'PAID',
-  PREPAID: 'PREPAID',
-};
+import { BILLING_MODES } from '../constants.js';
 
 const schema = Joi.object({
   firstName: Joi.string().trim().required().empty(['', null]).messages({

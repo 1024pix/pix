@@ -1,7 +1,7 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 const { Deserializer, Serializer } = jsonapiSerializer;
 
-import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 import { Candidate } from '../../domain/models/Candidate.js';
 
 export async function deserialize(json) {
@@ -12,7 +12,7 @@ export async function deserialize(json) {
   // TODO MVP - fixme when front will send exclusively subscriptions
   const subscriptions = [
     {
-      type: SubscriptionTypes.CORE,
+      type: SUBSCRIPTION_TYPES.CORE,
       complementaryCertificationId: null,
       complementaryCertificationLabel: null,
       complementaryCertificationKey: null,
@@ -20,7 +20,7 @@ export async function deserialize(json) {
   ];
   if (attributes['complementary-certification'] && attributes['complementary-certification'].id) {
     subscriptions.push({
-      type: SubscriptionTypes.COMPLEMENTARY,
+      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
       complementaryCertificationId: parseInt(attributes['complementary-certification'].id),
       complementaryCertificationLabel: attributes['complementary-certification'].label,
       complementaryCertificationKey: attributes['complementary-certification'].key,

@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { CertificationCandidatesError } from '../../../../shared/domain/errors.js';
 import { validate } from '../validators/candidate-validator.js';
+import { BILLING_MODES } from '../../../shared/domain/constants.js';
 
 export class Candidate {
   constructor({
@@ -103,11 +104,11 @@ export class Candidate {
   static parseBillingMode({ billingMode, translate }) {
     switch (billingMode) {
       case translate('candidate-list-template.billing-mode.free'):
-        return 'FREE';
+        return BILLING_MODES.FREE;
       case translate('candidate-list-template.billing-mode.paid'):
-        return 'PAID';
+        return BILLING_MODES.PAID;
       case translate('candidate-list-template.billing-mode.prepaid'):
-        return 'PREPAID';
+        return BILLING_MODES.PREPAID;
       case null:
       default:
         return '';

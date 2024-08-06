@@ -1,5 +1,5 @@
 import { Subscription } from '../../../../../../src/certification/enrolment/domain/models/Subscription.js';
-import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Enrolment | Domain | Models | Subscription', function () {
@@ -17,7 +17,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | Subscription', fu
       const expectedSubscription = new Subscription({
         certificationCandidateId: certificationCandidate.id,
         complementaryCertificationId: undefined,
-        type: SubscriptionTypes.CORE,
+        type: SUBSCRIPTION_TYPES.CORE,
       });
 
       // when
@@ -33,7 +33,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | Subscription', fu
       // given, when
       const error = catchErrSync((data) => new Subscription(data))({
         complementaryCertificationId: complementaryCertification.id,
-        type: SubscriptionTypes.CORE,
+        type: SUBSCRIPTION_TYPES.CORE,
       });
 
       // then
@@ -52,7 +52,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | Subscription', fu
       const expectedSubscription = new Subscription({
         certificationCandidateId: certificationCandidate.id,
         complementaryCertificationId: complementaryCertification.id,
-        type: SubscriptionTypes.COMPLEMENTARY,
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
       });
 
       // then
@@ -63,7 +63,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | Subscription', fu
       // given /  when
       const error = catchErrSync((data) => new Subscription(data))({
         complementaryCertificationId: null,
-        type: SubscriptionTypes.COMPLEMENTARY,
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
       });
 
       // then

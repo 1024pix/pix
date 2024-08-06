@@ -1,4 +1,4 @@
-import { SubscriptionTypes } from '../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
 import { CertificationCandidate } from '../../../../../src/shared/domain/models/index.js';
 import { clearResolveMx, setResolveMx } from '../../../../../src/shared/mail/infrastructure/services/mail-check.js';
 import {
@@ -135,11 +135,11 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
         .orderBy('type');
       expect(subscriptions.length).to.equal(2);
       expect(subscriptions[0]).to.deep.equal({
-        type: SubscriptionTypes.COMPLEMENTARY,
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
         complementaryCertificationId,
       });
       expect(subscriptions[1]).to.deep.equal({
-        type: SubscriptionTypes.CORE,
+        type: SUBSCRIPTION_TYPES.CORE,
         complementaryCertificationId: null,
       });
     });

@@ -1,6 +1,6 @@
 import { addCandidateToSession } from '../../../../../../src/certification/enrolment/domain/usecases/add-candidate-to-session.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
-import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
@@ -120,7 +120,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       let subscription;
       beforeEach(function () {
         subscription = {
-          type: SubscriptionTypes.CORE,
+          type: SUBSCRIPTION_TYPES.CORE,
           complementaryCertificationId: null,
           complementaryCertificationLabel: null,
           complementaryCertificationKey: null,

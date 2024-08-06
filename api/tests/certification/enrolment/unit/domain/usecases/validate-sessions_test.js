@@ -3,7 +3,7 @@ import { SessionMassImportReport } from '../../../../../../src/certification/enr
 import { validateSessions } from '../../../../../../src/certification/enrolment/domain/usecases/validate-sessions.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../../src/certification/shared/domain/constants/sessions-errors.js';
-import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import { CertificationCandidate } from '../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
@@ -72,7 +72,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       externalId: 'popi',
       birthdate: '1981-03-12',
       extraTimePercentage: '20',
-      subscriptionLabels: [SubscriptionTypes.CORE],
+      subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
       billingMode: 'Gratuite',
       prepaymentCode: 'PIX2024',
       sessionId: 1,
@@ -91,7 +91,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       externalId: 'souris',
       birthdate: '2003-07-04',
       extraTimePercentage: '20',
-      subscriptionLabels: [SubscriptionTypes.CORE],
+      subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
       billingMode: 'Gratuite',
       prepaymentCode: null,
       sessionId: 2,

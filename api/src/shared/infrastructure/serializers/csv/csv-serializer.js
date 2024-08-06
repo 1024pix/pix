@@ -1,11 +1,11 @@
 import lodash from 'lodash';
 
-import { SubscriptionTypes } from '../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../../certification/shared/domain/constants.js';
 import {
   COMPLEMENTARY_CERTIFICATION_SUFFIX,
   emptySession,
   headers,
-} from '../../../../../src/certification/shared/infrastructure/utils/csv/sessions-import.js';
+} from '../../../../certification/shared/infrastructure/utils/csv/sessions-import.js';
 import { FileValidationError } from '../../../domain/errors.js';
 import { csvHelper } from '../../helpers/csv.js';
 import { convertDateValue } from '../../utils/date-utils.js';
@@ -424,7 +424,7 @@ function _createCandidate({
     billingMode,
     prepaymentCode,
     sex,
-    subscriptionLabels: [SubscriptionTypes.CORE, ...complementarySubscriptionLabels],
+    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE, ...complementarySubscriptionLabels],
     line,
   };
 }

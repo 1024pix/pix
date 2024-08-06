@@ -4,7 +4,7 @@ import { CompanionPingInfo } from '../../../../../../src/certification/enrolment
 import * as certificationCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/session-management/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import {
   CertificationCandidateMultipleUserLinksWithinSessionError,
   NotFoundError,
@@ -47,7 +47,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
     };
 
     coreSubscription = {
-      type: SubscriptionTypes.CORE,
+      type: SUBSCRIPTION_TYPES.CORE,
       complementaryCertificationId: null,
     };
 
@@ -140,7 +140,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           expect(subscriptions).to.have.deep.members([
             coreSubscription,
             {
-              type: SubscriptionTypes.COMPLEMENTARY,
+              type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
               complementaryCertificationId: complementaryCertificationId,
             },
           ]);

@@ -2,18 +2,12 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
-import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
-
-const BILLING_MODES = {
-  FREE: 'FREE',
-  PAID: 'PAID',
-  PREPAID: 'PREPAID',
-};
+import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 
 const tempSubscriptionSchema = Joi.object({
-  type: Joi.string().required().valid(SubscriptionTypes.CORE, SubscriptionTypes.COMPLEMENTARY),
+  type: Joi.string().required().valid(SUBSCRIPTION_TYPES.CORE, SUBSCRIPTION_TYPES.COMPLEMENTARY),
   complementaryCertificationId: Joi.when('type', {
-    is: SubscriptionTypes.COMPLEMENTARY,
+    is: SUBSCRIPTION_TYPES.COMPLEMENTARY,
     then: Joi.number().required(),
     otherwise: Joi.any().valid(null).allow(null),
   }),

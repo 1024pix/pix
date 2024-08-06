@@ -1,15 +1,15 @@
 /**
- * @typedef {import ('../../../shared/domain/models/SubscriptionTypes.js').SubscriptionTypes} SubscriptionTypes
+ * @typedef {import ('../../../shared/domain/constants.js').SUBSCRIPTION_TYPES} SUBSCRIPTION_TYPES
  */
 
-import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 import { validate } from '../../../shared/domain/validators/subscription-validator.js';
 
 class Subscription {
   /**
    * @param {Object} params
    * @param {number} params.certificationCandidateId - identifier of the certification candidate
-   * @param {SubscriptionTypes} params.type
+   * @param {SUBSCRIPTION_TYPES} params.type
    * @param {number} params.complementaryCertificationId
    */
   constructor({ certificationCandidateId, type, complementaryCertificationId }) {
@@ -24,7 +24,7 @@ class Subscription {
    * @param {number} params.certificationCandidateId  - identifier of the certification candidate
    */
   static buildCore({ certificationCandidateId }) {
-    return new Subscription({ certificationCandidateId, type: SubscriptionTypes.CORE });
+    return new Subscription({ certificationCandidateId, type: SUBSCRIPTION_TYPES.CORE });
   }
 
   /**
@@ -35,7 +35,7 @@ class Subscription {
   static buildComplementary({ certificationCandidateId, complementaryCertificationId }) {
     return new Subscription({
       certificationCandidateId,
-      type: SubscriptionTypes.COMPLEMENTARY,
+      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
       complementaryCertificationId,
     });
   }

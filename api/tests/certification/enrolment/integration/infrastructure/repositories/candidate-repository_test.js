@@ -1,7 +1,7 @@
 import { CertificationCandidateNotFoundError } from '../../../../../../src/certification/enrolment/domain/errors.js';
 import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import * as candidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/candidate-repository.js';
-import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Certification | Session | Repository | Candidate', function () {
@@ -153,13 +153,13 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
         hasSeenCertificationInstructions: false,
         subscriptions: [
           {
-            type: SubscriptionTypes.CORE,
+            type: SUBSCRIPTION_TYPES.CORE,
             complementaryCertificationId: null,
             complementaryCertificationLabel: null,
             complementaryCertificationKey: null,
           },
           {
-            type: SubscriptionTypes.COMPLEMENTARY,
+            type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
             complementaryCertificationId: 22,
             complementaryCertificationLabel: 'Quelque',
             complementaryCertificationKey: 'Chose',
@@ -196,7 +196,7 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
       expect(savedSubscriptionsData[0]).to.deepEqualInstanceOmitting(
         {
           certificationCandidateId: candidateId,
-          type: SubscriptionTypes.COMPLEMENTARY,
+          type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
           complementaryCertificationId: 22,
         },
         ['createdAt'],
@@ -204,7 +204,7 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
       expect(savedSubscriptionsData[1]).to.deepEqualInstanceOmitting(
         {
           certificationCandidateId: candidateId,
-          type: SubscriptionTypes.CORE,
+          type: SUBSCRIPTION_TYPES.CORE,
           complementaryCertificationId: null,
         },
         ['createdAt'],

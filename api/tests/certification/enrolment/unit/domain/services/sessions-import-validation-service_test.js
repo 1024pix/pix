@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 import * as sessionsImportValidationService from '../../../../../../src/certification/enrolment/domain/services/sessions-import-validation-service.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
-import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -514,7 +514,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     context('when there are many complementary subscriptions', function () {
       it('should return an error accordingly and no subscriptions models', async function () {
         // given
-        const subscriptionLabels = ['MaComplémentaire1', 'MaComplémentaire2', SubscriptionTypes.CORE];
+        const subscriptionLabels = ['MaComplémentaire1', 'MaComplémentaire2', SUBSCRIPTION_TYPES.CORE];
         const line = 12;
         const complementaryCertificationRepository = {
           getByLabel: sinon.stub(),
@@ -548,7 +548,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     context('when there is only a core subscription', function () {
       it('should return no error and a core subscription', async function () {
         // given
-        const subscriptionLabels = [SubscriptionTypes.CORE];
+        const subscriptionLabels = [SUBSCRIPTION_TYPES.CORE];
         const line = 12;
 
         // when
@@ -569,7 +569,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     context('when there are a core and a complementary subscriptions', function () {
       it('should return no error and the right subscriptions', async function () {
         // given
-        const subscriptionLabels = [SubscriptionTypes.CORE, 'MaComplémentaire'];
+        const subscriptionLabels = [SUBSCRIPTION_TYPES.CORE, 'MaComplémentaire'];
         const line = 12;
         const complementaryCertificationRepository = {
           getByLabel: sinon.stub(),
@@ -973,7 +973,7 @@ function _buildValidCandidateData({ lineNumber = 0, candidateNumber = 2 } = { ca
     extraTimePercentage: 20,
     billingMode: 'PAID',
     line: lineNumber,
-    subscriptionLabels: [SubscriptionTypes.CORE],
+    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
     lineNumber,
     candidateNumber,
   };
@@ -994,6 +994,6 @@ function _buildValidCandidateModel({ lineNumber = 0, candidateNumber = 2 } = { c
     extraTimePercentage: 20,
     billingMode: 'PAID',
     line: lineNumber,
-    subscriptionLabels: [SubscriptionTypes.CORE],
+    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
   });
 }

@@ -3,7 +3,7 @@ import BaseJoi from 'joi';
 import lodash from 'lodash';
 
 import { Subscription } from '../../../certification/enrolment/domain/models/Subscription.js';
-import { SubscriptionTypes } from '../../../certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES, BILLING_MODES } from '../../../certification/shared/domain/constants.js';
 import { validate } from '../../../certification/shared/domain/validators/certification-candidate-validator.js';
 import { subscriptionSchema } from '../../../certification/shared/domain/validators/subscription-validator.js';
 import {
@@ -14,12 +14,6 @@ import {
 
 const Joi = BaseJoi.extend(JoiDate);
 const { isNil, endsWith } = lodash;
-
-const BILLING_MODES = {
-  FREE: 'FREE',
-  PAID: 'PAID',
-  PREPAID: 'PREPAID',
-};
 
 const certificationCandidateParticipationJoiSchema = Joi.object({
   id: Joi.any().allow(null).optional(),
@@ -119,7 +113,7 @@ class CertificationCandidate {
 
       set: function (complementaryCertification) {
         this.#complementaryCertification = complementaryCertification;
-        this.subscriptions = this.subscriptions.filter((subscription) => subscription.type === SubscriptionTypes.CORE);
+        this.subscriptions = this.subscriptions.filter((subscription) => subscription.type === SUBSCRIPTION_TYPES.CORE);
         if (complementaryCertification?.id) {
           this.subscriptions.push(
             Subscription.buildComplementary({

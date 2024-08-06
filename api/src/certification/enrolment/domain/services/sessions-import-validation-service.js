@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import * as mailCheck from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../shared/domain/constants/sessions-errors.js';
-import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 //  should be injected
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
@@ -136,7 +136,7 @@ const getValidatedSubscriptionsForMassImport = async function ({
     return { certificationCandidateComplementaryErrors, subscriptions: [] };
   }
 
-  if (!subscriptionLabels.find((label) => label === SubscriptionTypes.CORE)) {
+  if (!subscriptionLabels.find((label) => label === SUBSCRIPTION_TYPES.CORE)) {
     _addToErrorList({
       errorList: certificationCandidateComplementaryErrors,
       line,
@@ -158,7 +158,7 @@ const getValidatedSubscriptionsForMassImport = async function ({
 
   const subscriptions = [];
   for (const subscriptionLabel of subscriptionLabels) {
-    if (subscriptionLabel === SubscriptionTypes.CORE) {
+    if (subscriptionLabel === SUBSCRIPTION_TYPES.CORE) {
       subscriptions.push(Subscription.buildCore({ certificationCandidateId: null }));
     } else {
       const complementaryCertification = await complementaryCertificationRepository.getByLabel({
@@ -263,7 +263,7 @@ export {
 };
 
 function _hasMoreThanOneComplementaryCertificationSubscriptions(subscriptionLabels) {
-  return subscriptionLabels.filter((label) => label !== SubscriptionTypes.CORE).length > 1;
+  return subscriptionLabels.filter((label) => label !== SUBSCRIPTION_TYPES.CORE).length > 1;
 }
 
 function _isDateAndTimeValid(session) {

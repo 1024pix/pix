@@ -1,5 +1,5 @@
 import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/candidate-serializer.js';
-import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CertificationCandidate } from '../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
@@ -97,7 +97,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
           ...candidateData,
           subscriptions: [
             {
-              type: SubscriptionTypes.CORE,
+              type: SUBSCRIPTION_TYPES.CORE,
               complementaryCertificationId: null,
               complementaryCertificationLabel: null,
               complementaryCertificationKey: null,
@@ -150,7 +150,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
           ...candidateData,
           subscriptions: [
             {
-              type: SubscriptionTypes.CORE,
+              type: SUBSCRIPTION_TYPES.CORE,
               complementaryCertificationId: null,
               complementaryCertificationLabel: null,
               complementaryCertificationKey: null,
@@ -207,13 +207,13 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
           complementaryCertificationId: 777,
           subscriptions: [
             {
-              type: SubscriptionTypes.CORE,
+              type: SUBSCRIPTION_TYPES.CORE,
               complementaryCertificationId: null,
               complementaryCertificationLabel: null,
               complementaryCertificationKey: null,
             },
             {
-              type: SubscriptionTypes.COMPLEMENTARY,
+              type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
               complementaryCertificationId: 777,
               complementaryCertificationLabel: 'compLabel',
               complementaryCertificationKey: 'compKey',

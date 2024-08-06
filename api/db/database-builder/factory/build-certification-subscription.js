@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { SubscriptionTypes } from '../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../src/certification/shared/domain/constants.js';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildCertificationCandidate } from './build-certification-candidate.js';
 import { buildComplementaryCertification } from './build-complementary-certification.js';
@@ -13,7 +13,7 @@ const buildCoreSubscription = ({ certificationCandidateId, createdAt = new Date(
     values: {
       certificationCandidateId,
       createdAt,
-      type: SubscriptionTypes.CORE,
+      type: SUBSCRIPTION_TYPES.CORE,
     },
   });
 };
@@ -36,7 +36,7 @@ const buildComplementaryCertificationSubscription = function ({
       certificationCandidateId,
       complementaryCertificationId,
       createdAt,
-      type: SubscriptionTypes.COMPLEMENTARY,
+      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
     },
   });
 };
