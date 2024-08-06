@@ -1,28 +1,36 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 
 const addNonEnrolledCandidatesToSession = async function ({ sessionId, scoCertificationCandidates }) {
-  const organizationLearnerIds = scoCertificationCandidates.map((candidate) => candidate.organizationLearnerId);
+  await knex.transaction(async (trx) => {
+    const organizationLearnerIds = scoCertificationCandidates.map((candidate) => candidate.organizationLearnerId);
 
-  const alreadyEnrolledCandidate = await knex
-    .select(['organizationLearnerId'])
-    .from('certification-candidates')
-    .whereIn('organizationLearnerId', organizationLearnerIds)
-    .where({ sessionId });
+    const alreadyEnrolledCandidate = await trx
+      .select(['organizationLearnerId'])
+      .from('certification-candidates')
+      .whereIn('organizationLearnerId', organizationLearnerIds)
+      .where({ sessionId });
 
-  const alreadyEnrolledCandidateOrganizationLearnerIds = alreadyEnrolledCandidate.map(
-    (candidate) => candidate.organizationLearnerId,
-  );
+    const alreadyEnrolledCandidateOrganizationLearnerIds = alreadyEnrolledCandidate.map(
+      (candidate) => candidate.organizationLearnerId,
+    );
 
-  const scoCandidateToDTO = _scoCandidateToDTOForSession(sessionId);
-  const candidatesToBeEnrolledDTOs = scoCertificationCandidates
-    .filter((candidate) => !alreadyEnrolledCandidateOrganizationLearnerIds.includes(candidate.organizationLearnerId))
-    .map(scoCandidateToDTO);
+    const scoCandidateToDTO = _scoCandidateToDTOForSession(sessionId);
+    const candidatesToBeEnrolledDTOs = scoCertificationCandidates
+      .filter((candidate) => !alreadyEnrolledCandidateOrganizationLearnerIds.includes(candidate.organizationLearnerId))
+      .map(scoCandidateToDTO);
 
-  const coreSubscriptions = await knex
-    .batchInsert('certification-candidates', candidatesToBeEnrolledDTOs)
-    .returning(knex.raw('id as "certificationCandidateId", \'CORE\' as type'));
-
-  await knex.batchInsert('certification-subscriptions', coreSubscriptions);
+    const allSubscriptionsDTO = [];
+    for (const candidateDTO of candidatesToBeEnrolledDTOs) {
+      const subscriptions = candidateDTO.subscriptions;
+      delete candidateDTO.subscriptions;
+      const [{ id }] = await trx('certification-candidates').insert(candidateDTO).returning('id');
+      for (const subscriptionDTO of subscriptions) {
+        subscriptionDTO.certificationCandidateId = id;
+        allSubscriptionsDTO.push(subscriptionDTO);
+      }
+    }
+    await trx.batchInsert('certification-subscriptions', allSubscriptionsDTO);
+  });
 };
 
 export { addNonEnrolledCandidatesToSession };
@@ -39,6 +47,10 @@ function _scoCandidateToDTOForSession(sessionId) {
       birthCity: scoCandidate.birthCity,
       birthCountry: scoCandidate.birthCountry,
       sessionId,
+      subscriptions: scoCandidate.subscriptions.map((sub) => ({
+        type: sub.type,
+        complementaryCertificationId: sub.complementaryCertificationId,
+      })),
     };
   };
 }

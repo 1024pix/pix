@@ -12,6 +12,7 @@ import _ from 'lodash';
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 import { UnknownCountryForStudentEnrolmentError } from '../errors.js';
 import { SCOCertificationCandidate } from '../models/SCOCertificationCandidate.js';
+import { Subscription } from '../models/Subscription.js';
 const INSEE_PREFIX_CODE = '99';
 
 /**
@@ -62,8 +63,6 @@ const enrolStudentsToSession = async function ({
         lastName: student.lastName.trim(),
       });
 
-    // TODO MVP - NEXT STEP - on pourrait peut etre éditer ce modèle pour qu'il ait
-    // en permanence une CORE subscription...
     return new SCOCertificationCandidate({
       firstName: student.firstName.trim(),
       lastName: student.lastName.trim(),
@@ -74,13 +73,10 @@ const enrolStudentsToSession = async function ({
       sex: student.sex,
       sessionId,
       organizationLearnerId: student.id,
+      subscriptions: [Subscription.buildCore({ certificationCandidateId: null })],
     });
   });
 
-  // TODO MVP - NEXT STEP - ... et sauvegarder la subscription là-dedans en faisant un refacto
-  // pour utiliser la subscription
-  // Je vois que c'est dans le répo que c'est fait le fait de save une Subscription "CORE"
-  // mais ça me semble être une règle métier dont la place n'est pas dans un répo
   await scoCertificationCandidateRepository.addNonEnrolledCandidatesToSession({
     sessionId,
     scoCertificationCandidates,
