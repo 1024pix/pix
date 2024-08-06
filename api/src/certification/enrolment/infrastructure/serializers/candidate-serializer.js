@@ -18,7 +18,6 @@ export async function deserialize(json) {
       complementaryCertificationKey: null,
     },
   ];
-  let complementaryCertificationId = null;
   if (attributes['complementary-certification'] && attributes['complementary-certification'].id) {
     subscriptions.push({
       type: SubscriptionTypes.COMPLEMENTARY,
@@ -26,13 +25,11 @@ export async function deserialize(json) {
       complementaryCertificationLabel: attributes['complementary-certification'].label,
       complementaryCertificationKey: attributes['complementary-certification'].key,
     });
-    complementaryCertificationId = parseInt(attributes['complementary-certification'].id);
   }
 
   return new Candidate({
     ...deserializedCandidate,
     id: deserializedCandidate?.id ? parseInt(deserializedCandidate?.id) : null,
-    complementaryCertificationId,
     subscriptions,
     firstName: deserializedCandidate.firstName.trim(),
     lastName: deserializedCandidate.lastName.trim(),

@@ -24,7 +24,6 @@ export class Candidate {
     sessionId,
     userId,
     organizationLearnerId,
-    complementaryCertificationId,
     billingMode,
     prepaymentCode,
     hasSeenCertificationInstructions = false,
@@ -49,7 +48,6 @@ export class Candidate {
     this.sessionId = sessionId;
     this.userId = userId;
     this.organizationLearnerId = organizationLearnerId;
-    this.complementaryCertificationId = complementaryCertificationId; // TODO MVP - remove me at some point
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;
     this.hasSeenCertificationInstructions = hasSeenCertificationInstructions;

@@ -52,7 +52,6 @@ export async function update(certificationCandidate) {
       sessionId: certificationCandidate.sessionId,
       userId: certificationCandidate.userId,
       organizationLearnerId: certificationCandidate.organizationLearnerId,
-      complementaryCertificationId: certificationCandidate.complementaryCertificationId,
       billingMode: certificationCandidate.billingMode,
       prepaymentCode: certificationCandidate.prepaymentCode,
       hasSeenCertificationInstructions: certificationCandidate.hasSeenCertificationInstructions,

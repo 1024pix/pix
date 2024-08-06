@@ -5,6 +5,7 @@ import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shar
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { CertificationCenter } from '../../../../../../src/shared/domain/models/CertificationCenter.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 describe('Unit | UseCase | sessions-mass-import | create-sessions', function () {
   let certificationCenterRepository;
@@ -32,7 +33,14 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
 
     candidateData = {
       sessionId: undefined,
-      subscriptions: [domainBuilder.buildCoreSubscription()],
+      subscriptions: [
+        domainBuilder.buildCoreSubscription(),
+        domainBuilder.buildComplementaryCertification({
+          id: 1,
+          label: 'Pix+Droit',
+          key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
+        }),
+      ],
     };
   });
 
