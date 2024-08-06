@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { eq } from 'ember-truth-helpers';
+import DownloadElement from 'mon-pix/components/module/element/download';
 import EmbedElement from 'mon-pix/components/module/element/embed';
 import ImageElement from 'mon-pix/components/module/element/image';
 import QcmElement from 'mon-pix/components/module/element/qcm';
@@ -26,6 +27,8 @@ export default class ModulixElement extends Component {
         @openTranscription={{@openTranscription}}
         @clickOnPlayButton={{@clickOnPlayButton}}
       />
+    {{else if (eq @element.type "download")}}
+      <DownloadElement @download={{@element}} />
     {{else if (eq @element.type "embed")}}
       <EmbedElement @embed={{@element}} @submitAnswer={{@submitAnswer}} />
     {{else if (eq @element.type "qcu")}}
