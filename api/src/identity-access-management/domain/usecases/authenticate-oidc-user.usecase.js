@@ -21,10 +21,11 @@ import { ForbiddenAccess } from '../../../shared/domain/errors.js';
 async function authenticateOidcUser({
   audience,
   code,
+  state,
+  iss,
   identityProviderCode,
   nonce,
   sessionState,
-  state,
   authenticationSessionService,
   oidcAuthenticationServiceRegistry,
   adminMemberRepository,
@@ -42,9 +43,10 @@ async function authenticateOidcUser({
 
   const sessionContent = await oidcAuthenticationService.exchangeCodeForTokens({
     code,
+    state,
+    iss,
     nonce,
     sessionState,
-    state,
   });
   const userInfo = await oidcAuthenticationService.getUserInfo({
     idToken: sessionContent.idToken,

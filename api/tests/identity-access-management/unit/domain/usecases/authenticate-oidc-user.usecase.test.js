@@ -113,6 +113,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         sessionState: 'state',
         state: 'state',
         nonce: 'nonce',
+        iss: 'https://issuer.url',
         identityProviderCode: 'OIDC_EXAMPLE_NET',
         oidcAuthenticationServiceRegistry,
         authenticationSessionService,
@@ -128,8 +129,9 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
       );
       expect(oidcAuthenticationService.exchangeCodeForTokens).to.have.been.calledOnceWithExactly({
         code: 'code',
-        sessionState: 'state',
         state: 'state',
+        iss: 'https://issuer.url',
+        sessionState: 'state',
         nonce: 'nonce',
       });
     });

@@ -136,14 +136,14 @@ export class OidcAuthenticationService {
     return uuid;
   }
 
-  async exchangeCodeForTokens({ code, nonce, state, sessionState }) {
+  async exchangeCodeForTokens({ code, state, iss, nonce, sessionState }) {
     let tokenSet;
 
     try {
-      tokenSet = await this.client.callback(this.redirectUri, { code, state }, { nonce, state: sessionState });
+      tokenSet = await this.client.callback(this.redirectUri, { code, state, iss }, { nonce, state: sessionState });
     } catch (error) {
       _monitorOidcError(error.message, {
-        data: { code, nonce, organizationName: this.organizationName, sessionState, state },
+        data: { code, nonce, organizationName: this.organizationName, sessionState, state, iss },
         error,
         event: 'exchange-code-for-tokens',
       });

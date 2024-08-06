@@ -337,6 +337,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const openidConfigurationUrl = Symbol('openidConfigurationUrl');
         const code = 'code';
         const nonce = 'nonce';
+        const iss = 'https://issuer.url';
         const sessionState = 'sessionState';
         const state = 'state';
         const errorThrown = new Error('Fails to get tokens');
@@ -363,7 +364,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const error = await catchErr(
           oidcAuthenticationService.exchangeCodeForTokens,
           oidcAuthenticationService,
-        )({ code, nonce, sessionState, state });
+        )({ code, state, iss, nonce, sessionState });
 
         // then
         expect(error).to.be.instanceOf(OidcError);
@@ -372,10 +373,11 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           context: 'oidc',
           data: {
             code,
+            state,
+            iss,
             nonce,
             organizationName: 'Oidc Example',
             sessionState,
-            state,
           },
           error: {
             name: errorThrown.name,

@@ -9,6 +9,7 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
     const state = 'state';
     const identityProviderState = 'identityProviderState';
     const nonce = 'nonce';
+    const iss = 'https://issuer.url';
     const identityProvider = 'OIDC_EXAMPLE_NET';
     const pixAccessToken = 'pixAccessToken';
 
@@ -21,6 +22,7 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
           identityProvider,
           code,
           state: identityProviderState,
+          iss,
         },
         yar: { get: sinon.stub(), commit: sinon.stub() },
       };
@@ -50,6 +52,7 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
         nonce: 'nonce',
         sessionState: state,
         state: identityProviderState,
+        iss,
       });
       expect(request.yar.commit).to.have.been.calledOnce;
     });
