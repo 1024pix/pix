@@ -64,16 +64,7 @@ export default async function initUser(databaseBuilder) {
     },
   });
 
-  // 2. Build target-profile stages
-  await tooling.targetProfile.createStages({
-    databaseBuilder,
-    targetProfileId,
-    cappedTubesDTO,
-    type: 'THRESHOLD',
-    countStages: 4,
-  });
-
-  // 3. Build target-profile badges
+  // 2. Build target-profile badges
   const commonBadgesProps = {
     databaseBuilder,
     targetProfileId,
