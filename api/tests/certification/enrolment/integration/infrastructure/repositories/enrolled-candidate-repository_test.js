@@ -12,6 +12,7 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
       sessionId = databaseBuilder.factory.buildSession().id;
       anotherSessionId = databaseBuilder.factory.buildSession().id;
       michelData = {
+        accessibilityAdjustmentNeeded: false,
         id: 1,
         createdAt: new Date('2020-01-01'),
         firstName: 'Michel',
@@ -34,6 +35,7 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
         sessionId,
       };
       jeannetteData = {
+        accessibilityAdjustmentNeeded: false,
         id: 2,
         createdAt: new Date('2021-01-01'),
         firstName: 'Jeanette',
@@ -56,6 +58,7 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
         sessionId,
       };
       fredericData = {
+        accessibilityAdjustmentNeeded: true,
         id: 3,
         createdAt: new Date('2022-01-01'),
         firstName: 'Frédéric',
