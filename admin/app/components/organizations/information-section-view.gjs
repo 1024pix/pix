@@ -154,9 +154,6 @@ export default class OrganizationInformationSection extends Component {
           </ul>
           <h3 class="page-section__title page-section__title--sub">Fonctionnalités disponibles : </h3>
           <ul class="organization-information-section__details__list">
-            {{#if @organization.isLearnerImportEnabled}}
-              <li>Gestion des préscrits activé (format d'import: {{@organization.learnerImportFormatName}}</li>
-            {{/if}}
             <li>Affichage des acquis dans l'export de résultats : {{if @organization.showSkills "Oui" "Non"}}</li>
             {{#if this.isManagingStudentAvailable}}
               <li>Gestion d’élèves/étudiants : {{if @organization.isManagingStudents "Oui" "Non"}}</li>
@@ -168,6 +165,9 @@ export default class OrganizationInformationSection extends Component {
             {{#if @organization.code}}
               <br />
               <li>Code : {{@organization.code}}</li>
+            {{/if}}
+            {{#if @organization.isLearnerImportEnabled}}
+              <li>Import activé ({{@organization.learnerImportFormatName}})</li>
             {{/if}}
             {{#if @organization.isComputeCertificabilityEnabled}}
               <li>Certificabilité automatique activée</li>
