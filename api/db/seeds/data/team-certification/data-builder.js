@@ -427,7 +427,7 @@ async function _createSuccessCertifiableUser({ databaseBuilder }) {
 async function _createV3Session({
   databaseBuilder,
   configSession = {
-    candidatesToRegisterCount: 1,
+    candidatesToRegisterCount: 2,
     hasComplementaryCertificationsToRegister: false,
   },
 }) {

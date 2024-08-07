@@ -168,6 +168,7 @@ async function createDraftSession({
     hasJoinSession: false,
     configSession,
     certificationCenterId,
+    version,
   });
 
   await databaseBuilder.commit();
@@ -519,6 +520,7 @@ async function createPublishedSession({
     hasJoinSession: true,
     configSession,
     certificationCenterId,
+    version,
   });
 
   const { coreProfileData, complementaryCertificationsProfileData } = await _makeCandidatesCertifiable({
@@ -593,6 +595,7 @@ function _addCertificationCandidatesToScoSession(
       authorizedToStart: false,
       billingMode: null,
       prepaymentCode: null,
+      accessibilityAdjustmentNeeded: (version === 3 && accessibilityAdjustedCertificationNeeds[index]) ?? false,
     });
     databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
     certificationCandidates.push(candidate);
@@ -616,6 +619,7 @@ async function _registerCandidatesToSession({
   hasJoinSession,
   configSession,
   certificationCenterId,
+  version,
 }) {
   const certificationCandidates = [];
   if (_hasCertificationCandidatesToRegister(configSession)) {
@@ -634,6 +638,7 @@ async function _registerCandidatesToSession({
         prepaymentCode: null,
       },
     ];
+    const accessibilityAdjustedCertificationNeeds = [true, false];
 
     const complementaryCertificationIds = [null];
     if (configSession.hasComplementaryCertificationsToRegister) {
@@ -658,6 +663,8 @@ async function _registerCandidatesToSession({
         billingModes[i % billingModes.length];
 
       const randomExtraTimePercentage = extraTimePercentages[i % extraTimePercentages.length];
+      const randomAccessibilityAdjustedCertificationNeeded =
+        (version === 3 && accessibilityAdjustedCertificationNeeds[i]) ?? false;
 
       const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
         firstName: `firstname${i}-${sessionId}`,
@@ -678,6 +685,7 @@ async function _registerCandidatesToSession({
         authorizedToStart: false,
         billingMode: randomBillingMode,
         prepaymentCode: randomPrepaymentCode,
+        accessibilityAdjustmentNeeded: randomAccessibilityAdjustedCertificationNeeded,
       });
 
       databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
