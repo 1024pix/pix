@@ -62,4 +62,16 @@ export default Factory.extend({
   birthPostalCode() {
     return '35400';
   },
+
+  afterCreate(candidate, server) {
+    if (candidate.subscriptions.models.length === 0) {
+      const coreSubscription = server.create('subscription', {
+        type: 'CORE',
+        complementaryCertificationId: null,
+      });
+      candidate.update({
+        subscriptions: [coreSubscription],
+      });
+    }
+  },
 });

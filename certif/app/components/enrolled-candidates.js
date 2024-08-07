@@ -9,6 +9,7 @@ const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
 
 export default class EnrolledCandidates extends Component {
   @service store;
+  @service featureToggles;
   @service intl;
   @service notifications;
   @tracked candidatesInStaging = [];
@@ -221,4 +222,25 @@ export default class EnrolledCandidates extends Component {
       ) !== undefined
     );
   }
+
+  get showCompatibilityTooltip() {
+    return this.featureToggles.featureToggles?.isCoreComplementaryCompatibilityEnabled;
+  }
+
+  getSubscriptionsStr = (candidate) => {
+    const complementaryCertificationList = this.args.complementaryCertifications ?? [];
+    const subscriptionLabels = [];
+
+    for (const subscription of candidate.subscriptions) {
+      if (subscription.isCore) subscriptionLabels.unshift(this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.core`));
+      else {
+        const candidateComplementaryCertification = complementaryCertificationList.find(
+          (complementaryCertification) => complementaryCertification.id === subscription.complementaryCertificationId,
+        );
+        subscriptionLabels.push(candidateComplementaryCertification?.label || '-');
+      }
+    }
+
+    return subscriptionLabels.join(', ');
+  };
 }

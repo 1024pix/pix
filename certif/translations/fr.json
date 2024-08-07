@@ -110,7 +110,8 @@
         "extratime": "Temps majoré",
         "extratime-percentage": "Temps majoré (%)",
         "prepayment-code": "Code de prépaiement",
-        "pricing": "Tarification part Pix"
+        "pricing": "Tarification part Pix",
+        "selected-subscriptions": "Certification sélectionnée"
       },
       "login": {
         "choose-language-aria-label": "Sélectionnez une langue",
@@ -590,7 +591,12 @@
                 "label": "Inscrire des candidats"
               }
             },
+            "compatibility-tooltip": "Le passage des certifications Pix et Pix+ s'effectue dans deux sessions distinctes.",
+            "compatibility-tooltip-arialabel": "Informations concernant l'inscription en certification.",
             "empty": "En attente de candidats",
+            "subscriptions": {
+              "core": "Certification Pix"
+            },
             "with-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne.",
             "without-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec la possibilité de supprimer un candidat dans la dernière colonne."
           },

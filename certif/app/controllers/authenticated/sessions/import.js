@@ -8,7 +8,6 @@ import ENV from 'pix-certif/config/environment';
 export default class ImportController extends Controller {
   @service fileSaver;
   @service session;
-  @service featureToggles;
   @service notifications;
   @service intl;
   @service currentUser;

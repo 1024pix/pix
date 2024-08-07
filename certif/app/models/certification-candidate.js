@@ -1,5 +1,5 @@
 import { service } from '@ember/service';
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class CertificationCandidate extends Model {
   @service intl;
@@ -21,6 +21,8 @@ export default class CertificationCandidate extends Model {
   @attr('string') billingMode;
   @attr('string') prepaymentCode;
   @attr complementaryCertification;
+
+  @hasMany('subscription', { async: false, inverse: null }) subscriptions;
 
   get genderLabel() {
     const candidateGender = this.sex;

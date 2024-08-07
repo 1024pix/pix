@@ -68,6 +68,24 @@
             {{#if @displayComplementaryCertification}}
               <th>{{t "common.forms.certification-labels.additional-certification"}}</th>
             {{/if}}
+              <th>
+                {{t "common.forms.certification-labels.selected-subscriptions"}}
+                {{#if this.showCompatibilityTooltip}}
+                  <PixTooltip @position="right"  @id="tooltip-compatibility-subscription">
+                    <:triggerElement>
+                      <PixIconButton
+                        @icon="info"
+                        aria-label="{{t 'pages.sessions.detail.candidates.list.compatibility-tooltip-arialabel'}}"
+                        aria-disabled="true"
+                        aria-describedby="tooltip-compatibility-subscription"
+                        @withBackground={{true}}
+                        @size="small"
+                      />
+                    </:triggerElement>
+                    <:tooltip>{{t "pages.sessions.detail.candidates.list.actions.delete.tooltip"}}</:tooltip>
+                  </PixTooltip>
+                {{/if}}
+              </th>
           </tr>
         </thead>
         <tbody>
@@ -98,6 +116,9 @@
                   {{this.formatComplementaryCertificationLabel candidate.complementaryCertification.id}}
                 </td>
               {{/if}}
+              <td>
+                {{this.getSubscriptionsStr candidate}}
+              </td>
               <td>
                 <div class="certification-candidates-actions">
                   {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}

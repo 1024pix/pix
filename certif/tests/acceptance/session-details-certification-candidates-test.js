@@ -1,7 +1,7 @@
 import { visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn, find, settled, triggerEvent } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { setupIntl } from 'ember-intl/test-support/index';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -36,6 +36,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
     let allowedCertificationCenterAccess;
     let certificationPointOfContact;
     let session;
+    const complementaryCertificationId = 123;
 
     hooks.beforeEach(async () => {
       allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
@@ -43,7 +44,12 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         isAccessBlockedLycee: false,
         isAccessBlockedAEFE: false,
         isAccessBlockedAgri: false,
-        habilitations: [],
+        habilitations: [
+          {
+            id: complementaryCertificationId,
+            label: 'Pix+Droit',
+          },
+        ],
       });
       certificationPointOfContact = server.create('certification-point-of-contact', {
         firstName: 'Lena',
@@ -106,6 +112,14 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         sessionWithCandidates = server.create('session-enrolment', {
           certificationCenterId: allowedCertificationCenterAccess.id,
         });
+        const coreSubscription = server.create('subscription', {
+          type: 'CORE',
+          complementaryCertificationId: null,
+        });
+        const complementarySubscription = server.create('subscription', {
+          type: 'COMPLEMENTARY',
+          complementaryCertificationId,
+        });
         server.create('certification-candidate', {
           firstName: 'Alin',
           lastName: 'Cendy',
@@ -114,6 +128,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           resultRecipientEmail: 'cendy@example.com',
           birthdate: '10-10-2000',
           externalId: 'EXTERNAL-ID',
+          subscriptions: [coreSubscription],
         });
         server.create('certification-candidate', {
           firstName: 'Alain',
@@ -121,6 +136,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           sessionId: sessionWithCandidates.id,
           isLinked: false,
           resultRecipientEmail: 'sassin@example.com',
+          subscriptions: [complementarySubscription],
         });
         server.create('session-management', {
           id: sessionWithCandidates.id,
@@ -151,6 +167,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           .dom(screen.getByRole('cell', { name: dayjs.self('10-10-2000', 'YYYY-MM-DD').format('DD/MM/YYYY') }))
           .exists();
         assert.dom(screen.getByRole('cell', { name: 'EXTERNAL-ID' })).exists();
+        assert.dom(screen.getByRole('cell', { name: 'Certification Pix' })).exists();
+        assert.strictEqual(screen.getAllByRole('cell', { name: 'Pix+Droit' }).length, 2);
       });
 
       module('when the details button is clicked', function () {

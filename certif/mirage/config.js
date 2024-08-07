@@ -98,6 +98,7 @@ function routes() {
 
   this.get('/sessions/:id/certification-candidates', function (schema, request) {
     const sessionId = request.params.id;
+
     return schema.certificationCandidates.where({ sessionId });
   });
 
