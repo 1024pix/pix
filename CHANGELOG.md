@@ -1,5 +1,36 @@
 # Pix Changelog
 
+## v4.195.0 (07/08/2024)
+
+
+### :rocket: Amélioration
+- [#9713](https://github.com/1024pix/pix/pull/9713) [FEATURE] Ne pas afficher la possibilité d'activer la gestion des élèves lorsque l'import à format est actif (PIX-13618).
+- [#9803](https://github.com/1024pix/pix/pull/9803) [FEATURE] Ajouter un élément "download" dans le didacticiel modulix (PIX-12501).
+- [#9700](https://github.com/1024pix/pix/pull/9700) [FEATURE] Permettre la saisie au format Utilisateurs de la date (PIX-13569).
+- [#9698](https://github.com/1024pix/pix/pull/9698) [FEATURE] Script de reprise de données des utilisateurs anonymisés (PIX-4218).
+
+### :building_construction: Tech
+- [#9786](https://github.com/1024pix/pix/pull/9786) [TECH] Utiliser le modèle Enrolment/Candidate sur les usecases d'écriture du bounded-context d'inscription + préparer le terrain pour les subscriptions (PIX-13732).
+- [#9751](https://github.com/1024pix/pix/pull/9751) [TECH] Utiliser le modèle "EnrolledCandidate" partout dans le bounded-context "enrolment" dans des cas de lecture (PIX-13656).
+- [#9805](https://github.com/1024pix/pix/pull/9805) [TECH] Réparer les seeds de la team évaluation (PIX-13755).
+- [#9764](https://github.com/1024pix/pix/pull/9764) [TECH] Remplacer bluebird.map (avec concurrence) par des fonctions natives.
+- [#9497](https://github.com/1024pix/pix/pull/9497) [TECH] Suppression du contexte certification/courses (PIX-13396).
+- [#9770](https://github.com/1024pix/pix/pull/9770) [TECH] Refactoriser le test `module-instantiation_test` et la factory de `Module` (PIX-13229).
+
+### :bug: Correction
+- [#9814](https://github.com/1024pix/pix/pull/9814) [BUGFIX] Continuer la mission si la dernière des 3 tentatives à été réussie (Pix-13764).
+- [#9811](https://github.com/1024pix/pix/pull/9811) [BUGFIX] corrige le wording d'affichage de la fonctionnalité d'import sur les orgas  (PIX-13795).
+
+### :arrow_up: Montée de version
+- [#9812](https://github.com/1024pix/pix/pull/9812) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.8 (admin).
+- [#9810](https://github.com/1024pix/pix/pull/9810) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.6 (orga).
+- [#9809](https://github.com/1024pix/pix/pull/9809) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.6 (mon-pix).
+- [#9808](https://github.com/1024pix/pix/pull/9808) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.6 (junior).
+- [#9791](https://github.com/1024pix/pix/pull/9791) [BUMP] Update dependency ember-resolver to v12 (admin).
+- [#9783](https://github.com/1024pix/pix/pull/9783) [BUMP] Update Node.js to ^20.16.0.
+- [#9782](https://github.com/1024pix/pix/pull/9782) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.18 (orga).
+- [#9801](https://github.com/1024pix/pix/pull/9801) [BUMP] Update dependency node to v20.16.0.
+
 ## v4.194.0 (05/08/2024)
 
 
