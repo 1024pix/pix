@@ -30,6 +30,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
             'is-need-to-adjust-certification-accessibility-enabled': false,
             'show-new-result-page': false,
             'show-experimental-missions': false,
+            'is-core-complementary-compatibility-enabled': false,
           },
         },
       };
