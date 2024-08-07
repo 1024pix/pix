@@ -14,12 +14,12 @@ export default class List extends Controller {
   }
 
   @action
-  _hasMissionStarted(missionId) {
+  hasMissionStarted(missionId) {
     return this.model.organizationLearner.startedMissionIds?.includes(missionId);
   }
 
   _getStatus(missionId) {
-    return this._hasMissionStarted(missionId) ? 'started' : 'to-start';
+    return this.hasMissionStarted(missionId) ? 'started' : 'to-start';
   }
 
   @action

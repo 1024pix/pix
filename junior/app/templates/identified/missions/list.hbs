@@ -26,6 +26,7 @@
             @missionButtonLabel={{this.getMissionButtonLabel mission.id}}
             @title={{mission.name}}
             @areaCode={{mission.areaCode}}
+            @displayStartedIcon={{this.hasMissionStarted mission.id}}
           />
         {{/if}}
       </PixButton>

@@ -1,11 +1,14 @@
 import MissionCardBackGround from './mission-card-background';
-
 <template>
   <div class="mission-card__container">
     {{#if @missionLabelStatus}}
       <div class="status">
-
         <p>{{@missionLabelStatus}}</p>
+      </div>
+    {{/if}}
+    {{#if @displayStartedIcon}}
+      <div class="started-icon">
+        <img src="/images/mission/icon/started-icon.svg" alt="" />
       </div>
     {{/if}}
 

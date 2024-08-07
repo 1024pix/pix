@@ -75,13 +75,13 @@
       }
     }
 
+    .started-icon{
+      position: absolute;
+      top: -32px;
+      left: 164px;
+    }
+
     .mission-card-bottom {
-      //display: flex;
-      //flex-direction: column;
-      //align-content: center;
-      //align-self: center;
-      //justify-content: center;
-      ////width: 200px;
       margin-top: var(--pix-spacing-2x);
 
       .mission-name {
