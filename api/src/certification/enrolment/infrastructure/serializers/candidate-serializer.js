@@ -1,8 +1,8 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 const { Deserializer, Serializer } = jsonapiSerializer;
 
-import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 import { Candidate } from '../../domain/models/Candidate.js';
+import { Subscription } from '../../domain/models/Subscription.js';
 
 export async function deserialize(json) {
   const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
@@ -10,21 +10,14 @@ export async function deserialize(json) {
   deserializedCandidate.birthINSEECode = deserializedCandidate.birthInseeCode;
   const { attributes } = json.data;
   // TODO MVP - fixme when front will send exclusively subscriptions
-  const subscriptions = [
-    {
-      type: SUBSCRIPTION_TYPES.CORE,
-      complementaryCertificationId: null,
-      complementaryCertificationLabel: null,
-      complementaryCertificationKey: null,
-    },
-  ];
+  const subscriptions = [Subscription.buildCore({ certificationCandidateId: null })];
   if (attributes['complementary-certification'] && attributes['complementary-certification'].id) {
-    subscriptions.push({
-      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-      complementaryCertificationId: parseInt(attributes['complementary-certification'].id),
-      complementaryCertificationLabel: attributes['complementary-certification'].label,
-      complementaryCertificationKey: attributes['complementary-certification'].key,
-    });
+    subscriptions.push(
+      Subscription.buildComplementary({
+        certificationCandidateId: null,
+        complementaryCertificationId: parseInt(attributes['complementary-certification'].id),
+      }),
+    );
   }
 
   return new Candidate({

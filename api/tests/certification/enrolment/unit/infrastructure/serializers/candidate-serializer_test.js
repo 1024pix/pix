@@ -1,5 +1,4 @@
 import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/candidate-serializer.js';
-import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CertificationCandidate } from '../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
@@ -95,14 +94,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       expect(deserializedCandidate).to.deepEqualInstance(
         domainBuilder.certification.enrolment.buildCandidate({
           ...candidateData,
-          subscriptions: [
-            {
-              type: SUBSCRIPTION_TYPES.CORE,
-              complementaryCertificationId: null,
-              complementaryCertificationLabel: null,
-              complementaryCertificationKey: null,
-            },
-          ],
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         }),
       );
     });
@@ -148,14 +140,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       expect(deserializedCandidate).to.deepEqualInstance(
         domainBuilder.certification.enrolment.buildCandidate({
           ...candidateData,
-          subscriptions: [
-            {
-              type: SUBSCRIPTION_TYPES.CORE,
-              complementaryCertificationId: null,
-              complementaryCertificationLabel: null,
-              complementaryCertificationKey: null,
-            },
-          ],
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         }),
       );
     });
@@ -206,18 +191,11 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
           ...candidateData,
           complementaryCertificationId: 777,
           subscriptions: [
-            {
-              type: SUBSCRIPTION_TYPES.CORE,
-              complementaryCertificationId: null,
-              complementaryCertificationLabel: null,
-              complementaryCertificationKey: null,
-            },
-            {
-              type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+            domainBuilder.buildCoreSubscription({ certificationCandidateId: null }),
+            domainBuilder.buildComplementarySubscription({
+              certificationCandidateId: null,
               complementaryCertificationId: 777,
-              complementaryCertificationLabel: 'compLabel',
-              complementaryCertificationKey: 'compKey',
-            },
+            }),
           ],
         }),
       );
