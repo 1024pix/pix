@@ -4,12 +4,10 @@ import lodash from 'lodash';
 
 import { Subscription } from '../../../certification/enrolment/domain/models/Subscription.js';
 import { SUBSCRIPTION_TYPES, BILLING_MODES } from '../../../certification/shared/domain/constants.js';
-import { validate } from '../../../certification/shared/domain/validators/certification-candidate-validator.js';
 import { subscriptionSchema } from '../../../certification/shared/domain/validators/subscription-validator.js';
 import {
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
-  CertificationCandidatesError,
 } from '../errors.js';
 
 const Joi = BaseJoi.extend(JoiDate);
@@ -156,26 +154,6 @@ class CertificationCandidate {
     }
   }
 
-  validate(isSco = false) {
-    const { error } = validate(
-      { ...this, complementaryCertification: this.complementaryCertification },
-      {
-        allowUnknown: true,
-        context: {
-          isSco,
-          isSessionsMassImport: false,
-        },
-      },
-    );
-
-    if (error) {
-      throw new CertificationCandidatesError({
-        code: error.details?.[0]?.message,
-        meta: error.details?.[0]?.context?.value,
-      });
-    }
-  }
-
   validateParticipation() {
     const { error } = certificationCandidateParticipationJoiSchema.validate({
       ...this,
@@ -211,10 +189,6 @@ class CertificationCandidate {
 
   isBillingModePrepaid() {
     return this.billingMode === CertificationCandidate.BILLING_MODES.PREPAID;
-  }
-
-  convertExtraTimePercentageToDecimal() {
-    this.extraTimePercentage = this.extraTimePercentage / 100;
   }
 }
 
