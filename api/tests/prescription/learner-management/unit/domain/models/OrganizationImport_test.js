@@ -43,7 +43,7 @@ describe('Unit | Models | OrganizationImport', function () {
       organizationId: 1,
       createdBy: 1,
       createdAt,
-      status: undefined,
+      status: IMPORT_STATUSES.UPLOADING,
       filename: undefined,
       encoding: undefined,
       errors: undefined,

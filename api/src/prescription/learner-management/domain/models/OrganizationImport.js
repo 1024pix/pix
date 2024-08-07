@@ -2,7 +2,12 @@ import { IMPORT_STATUSES } from '../constants.js';
 
 export class OrganizationImport {
   static create({ organizationId, createdBy }) {
-    return new OrganizationImport({ organizationId, createdBy, createdAt: new Date() });
+    return new OrganizationImport({
+      organizationId,
+      createdBy,
+      createdAt: new Date(),
+      status: IMPORT_STATUSES.UPLOADING,
+    });
   }
 
   constructor({ id, status, filename, encoding, errors, updatedAt, createdAt, createdBy, organizationId }) {

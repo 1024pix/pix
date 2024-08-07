@@ -170,13 +170,13 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       const expectedResult = databaseBuilder.factory.buildOrganizationImport();
       await databaseBuilder.commit();
 
-      const originalImp = ApplicationTransaction.getConnection;
-      sinon.stub(ApplicationTransaction, 'getConnection');
-      ApplicationTransaction.getConnection.callsFake(originalImp);
+      const originalImp = DomainTransaction.getConnection;
+      sinon.stub(DomainTransaction, 'getConnection');
+      DomainTransaction.getConnection.callsFake(originalImp);
 
       await organizationImportRepository.getLastByOrganizationId(expectedResult.organizationId);
 
-      expect(ApplicationTransaction.getConnection).to.have.been.called;
+      expect(DomainTransaction.getConnection).to.have.been.called;
     });
   });
 

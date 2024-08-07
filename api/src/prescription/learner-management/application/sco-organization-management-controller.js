@@ -1,9 +1,7 @@
 import fs from 'node:fs/promises';
 
-import { eventBus } from '../../../../lib/domain/events/index.js';
 import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { FileValidationError } from '../../../../src/shared/domain/errors.js';
-import { ApplicationTransaction } from '../../shared/infrastructure/ApplicationTransaction.js';
 import { usecases } from '../domain/usecases/index.js';
 import { OrganizationLearnerParser } from '../infrastructure/serializers/csv/organization-learner-parser.js';
 
@@ -20,13 +18,10 @@ const importOrganizationLearnersFromSIECLE = async function (
   const { format } = request.query;
   try {
     if (format === 'xml') {
-      await ApplicationTransaction.execute(async () => {
-        const uploadedFileEvent = await usecases.uploadSiecleFile({
-          userId: authenticatedUserId,
-          organizationId,
-          payload: request.payload,
-        });
-        await eventBus.publish(uploadedFileEvent, ApplicationTransaction.getTransactionAsDomainTransaction());
+      await usecases.uploadSiecleFile({
+        userId: authenticatedUserId,
+        organizationId,
+        payload: request.payload,
       });
     } else if (format === 'csv') {
       await usecases.uploadCsvFile({

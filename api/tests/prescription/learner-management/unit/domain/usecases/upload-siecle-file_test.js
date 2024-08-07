@@ -3,24 +3,32 @@ import fs from 'node:fs/promises';
 import { FileUploaded } from '../../../../../../src/prescription/learner-management/domain/events/FileUploaded.js';
 import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 import { uploadSiecleFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-siecle-file.js';
+import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | upload-siecle-file', function () {
   const userId = 123;
   const organizationId = 1234;
-  const organizationImportId = 1;
   let organizationImportRepositoryStub;
   let siecleServiceStub;
   let payload;
   let importStorageStub;
   let organizationImportStub;
+  let organizationImportSavedStub;
   let encoding;
   let s3filename;
   let filename;
   let filepath;
+  let eventBusStub;
+  let domainTransactionStub;
+  let eventStub;
 
   beforeEach(function () {
     sinon.stub(fs, 'readFile');
+    domainTransactionStub = Symbol('domainTransaction');
+    sinon.stub(DomainTransaction, 'execute').callsFake((fn) => fn(domainTransactionStub));
+    eventStub = Symbol('event');
+    sinon.stub(FileUploaded, 'create').returns(eventStub);
 
     filename = Symbol('filename');
     encoding = Symbol('encoding');
@@ -28,6 +36,12 @@ describe('Unit | UseCase | upload-siecle-file', function () {
     s3filename = Symbol('filename');
 
     payload = { path: filename };
+
+    eventBusStub = {
+      publish: sinon.stub(),
+    };
+
+    eventBusStub.publish.withArgs(eventStub, domainTransactionStub).resolves();
 
     importStorageStub = {
       sendFile: sinon.stub(),
@@ -41,6 +55,9 @@ describe('Unit | UseCase | upload-siecle-file', function () {
     };
 
     organizationImportStub = { upload: sinon.stub() };
+
+    organizationImportSavedStub = { upload: sinon.stub() };
+
     sinon
       .stub(OrganizationImport, 'create')
       .withArgs({ createdBy: userId, organizationId })
@@ -52,7 +69,7 @@ describe('Unit | UseCase | upload-siecle-file', function () {
     };
     organizationImportRepositoryStub.getLastByOrganizationId
       .withArgs(organizationId)
-      .resolves({ id: organizationImportId });
+      .resolves(organizationImportSavedStub);
     siecleServiceStub.unzip.withArgs(filename).resolves({ file: filepath, directory: null });
     siecleServiceStub.detectEncoding.withArgs(filepath).resolves(encoding);
     importStorageStub.sendFile.withArgs({ filepath }).resolves(s3filename);
@@ -77,6 +94,7 @@ describe('Unit | UseCase | upload-siecle-file', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           siecleService: siecleServiceStub,
           importStorage: importStorageStub,
+          eventBus: eventBusStub,
         });
 
         expect(rmStub).to.have.been.calledWithExactly('tmp', { recursive: true });
@@ -96,32 +114,19 @@ describe('Unit | UseCase | upload-siecle-file', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           siecleService: siecleServiceStub,
           importStorage: importStorageStub,
+          eventBus: eventBusStub,
           dependencies: { logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub },
         });
 
         // then
         expect(logErrorWithCorrelationIdsStub).to.have.been.calledWithExactly(rmError);
-        expect(organizationImportStub.upload).to.have.been.calledWithExactly({
+        expect(organizationImportSavedStub.upload).to.have.been.calledWithExactly({
           filename: s3filename,
           encoding,
           errors: [],
         });
-        expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
+        expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportSavedStub);
       });
-    });
-
-    it('should return FileUploaded event', async function () {
-      const event = await uploadSiecleFile({
-        userId,
-        organizationId,
-        payload,
-        organizationImportRepository: organizationImportRepositoryStub,
-        siecleService: siecleServiceStub,
-        importStorage: importStorageStub,
-      });
-
-      expect(event).to.be.an.instanceOf(FileUploaded);
-      expect(event.organizationImportId).to.equal(organizationImportId);
     });
   });
 
@@ -135,15 +140,19 @@ describe('Unit | UseCase | upload-siecle-file', function () {
         organizationImportRepository: organizationImportRepositoryStub,
         siecleService: siecleServiceStub,
         importStorage: importStorageStub,
+        eventBus: eventBusStub,
       });
 
       // then
-      expect(organizationImportStub.upload).to.have.been.calledWithExactly({
+      expect(organizationImportSavedStub.upload).to.have.been.calledWithExactly({
         filename: s3filename,
         encoding,
         errors: [],
       });
-      expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
+      expect(organizationImportRepositoryStub.save.getCall(0)).to.have.been.calledWithExactly(organizationImportStub);
+      expect(organizationImportRepositoryStub.save.getCall(1)).to.have.been.calledWithExactly(
+        organizationImportSavedStub,
+      );
     });
 
     context('when there is an upload error', function () {
@@ -160,15 +169,16 @@ describe('Unit | UseCase | upload-siecle-file', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           siecleService: siecleServiceStub,
           importStorage: importStorageStub,
+          eventBus: eventBusStub,
         });
 
         //then
-        expect(organizationImportStub.upload).to.have.been.calledWithExactly({
+        expect(organizationImportSavedStub.upload).to.have.been.calledWithExactly({
           filename: undefined,
           encoding,
           errors: [error],
         });
-        expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
+        expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportSavedStub);
       });
 
       it('should save organizationImport if zip is invalid', async function () {
@@ -184,15 +194,16 @@ describe('Unit | UseCase | upload-siecle-file', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           siecleService: siecleServiceStub,
           importStorage: importStorageStub,
+          eventBus: eventBusStub,
         });
 
         //then
-        expect(organizationImportStub.upload).to.have.been.calledWithExactly({
+        expect(organizationImportSavedStub.upload).to.have.been.calledWithExactly({
           filename: undefined,
           encoding: undefined,
           errors: [zipError],
         });
-        expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
+        expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportSavedStub);
       });
 
       it('should save organizationImport if there is detectEncoding fails', async function () {
@@ -208,15 +219,42 @@ describe('Unit | UseCase | upload-siecle-file', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           siecleService: siecleServiceStub,
           importStorage: importStorageStub,
+          eventBus: eventBusStub,
         });
 
         //then
-        expect(organizationImportStub.upload).to.have.been.calledWithExactly({
+        expect(organizationImportSavedStub.upload).to.have.been.calledWithExactly({
           filename: undefined,
           encoding: undefined,
           errors: [encodingError],
         });
-        expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
+        expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportSavedStub);
+      });
+
+      it('should save organization import with error when event publish fails', async function () {
+        //given
+        const expectedError = new Error('publishFails');
+        eventBusStub.publish.reset();
+        eventBusStub.publish.rejects(expectedError);
+
+        // when
+        await catchErr(uploadSiecleFile)({
+          userId,
+          organizationId,
+          payload,
+          organizationImportRepository: organizationImportRepositoryStub,
+          siecleService: siecleServiceStub,
+          importStorage: importStorageStub,
+          eventBus: eventBusStub,
+        });
+
+        //then
+        expect(organizationImportSavedStub.upload).to.have.been.calledWithExactly({
+          filename: s3filename,
+          encoding,
+          errors: [expectedError],
+        });
+        expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportSavedStub);
       });
     });
   });
