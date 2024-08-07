@@ -1,3 +1,7 @@
+.certification-candidates-table th:last-child, td:last-child {
+  padding-right: 0;
+}
+
 .table__empty {
   text-align: center;
   padding: 2rem 0;
@@ -148,9 +152,17 @@
   width: 130px;
 }
 
+.certification-candidates-table__external-id {
+  width: 130px;
+}
+
 .certification-candidates-table__column-time {
   width: 50px;
   box-sizing: content-box;
+}
+
+.certification-candidates-table__column-accessibility {
+  width: 64px;
 }
 
 .certification-candidates-table__payment-options {

@@ -96,6 +96,7 @@
     },
     "forms": {
       "certification-labels": {
+        "accessibility": "Accessibility",
         "additional-certification": "Certification selection",
         "additional-certification-old": "Additional certification",
         "candidate-status": {
@@ -147,6 +148,7 @@
         "prepaid": "Prepaid"
       },
       "candidate": {
+        "accessibility-adjusted-certification-needed": "Yes",
         "birth-city": "Birth city",
         "birth-city-insee-code": "Birth city INSEE code (only for France)",
         "birth-city-postcode": "Birth city postcode",

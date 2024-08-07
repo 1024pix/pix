@@ -417,6 +417,7 @@ function _buildCertificationCandidate({
   isLinked = false,
   billingMode = null,
   prepaymentCode = null,
+  accessibilityAdjustmentNeeded = false,
   subscriptions,
 }) {
   return {
@@ -434,6 +435,7 @@ function _buildCertificationCandidate({
     isLinked,
     billingMode,
     prepaymentCode,
+    accessibilityAdjustmentNeeded,
     subscriptions,
   };
 }
