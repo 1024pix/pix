@@ -14,23 +14,23 @@ export default class List extends Controller {
   }
 
   @action
-  hasMissionStarted(missionId) {
+  isMissionStarted(missionId) {
     return this.model.organizationLearner.startedMissionIds?.includes(missionId);
   }
 
-  _getStatus(missionId) {
-    return this.hasMissionStarted(missionId) ? 'started' : 'to-start';
+  #getStatus(missionId) {
+    return this.isMissionStarted(missionId) ? 'started' : 'to-start';
   }
 
   @action
   getMissionLabelStatus(missionId) {
-    const status = this._getStatus(missionId);
+    const status = this.#getStatus(missionId);
     return this.intl.t(`pages.missions.list.status.${status}.label`);
   }
 
   @action
   getMissionButtonLabel(missionId) {
-    const status = this._getStatus(missionId);
+    const status = this.#getStatus(missionId);
     return this.intl.t(`pages.missions.list.status.${status}.button-label`);
   }
 
@@ -38,13 +38,22 @@ export default class List extends Controller {
     return this.currentLearner.learner.schoolUrl + '/students?division=' + this.model.organizationLearner.division;
   }
 
-  @action
-  goToMission(id) {
+  #disableCards() {
     const cards = document.getElementsByClassName('card');
     for (const card of cards) {
       card.classList.add('card--loading');
       card.setAttribute('disabled', '');
     }
-    this.router.transitionTo('identified.missions.mission', id);
+  }
+
+  @action
+  goToMission(missionId) {
+    this.#disableCards();
+
+    let route = 'identified.missions.mission';
+    if (this.isMissionStarted(missionId)) {
+      route += '.resume';
+    }
+    this.router.transitionTo(route, missionId);
   }
 }
