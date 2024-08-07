@@ -149,7 +149,7 @@ async function _createValidCertificationCandidates({
 
     const candidateBirthInformationValidation =
       await sessionsImportValidationService.getValidatedCandidateBirthInformation({
-        candidate: candidate,
+        candidate,
         isSco,
         isSessionsMassImport: true,
         line: candidateDTO.line,

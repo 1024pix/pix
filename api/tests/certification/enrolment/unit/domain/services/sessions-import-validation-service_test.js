@@ -979,7 +979,7 @@ function _buildValidCandidateData({ lineNumber = 0, candidateNumber = 2 } = { ca
   };
 }
 function _buildValidCandidateModel({ lineNumber = 0, candidateNumber = 2 } = { candidateNumber: 0, lineNumber: 0 }) {
-  return domainBuilder.buildCertificationCandidate({
+  return domainBuilder.certification.enrolment.buildCandidate({
     lastName: `Candidat ${candidateNumber}`,
     firstName: `Candidat ${candidateNumber}`,
     birthdate: '1981-03-12',
@@ -994,6 +994,6 @@ function _buildValidCandidateModel({ lineNumber = 0, candidateNumber = 2 } = { c
     extraTimePercentage: 20,
     billingMode: 'PAID',
     line: lineNumber,
-    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
+    subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
   });
 }

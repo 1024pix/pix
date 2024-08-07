@@ -928,4 +928,20 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       expect(isLinked).to.be.true;
     });
   });
+
+  describe('convertExtraTimePercentageToDecimal', function () {
+    it('should convert extraTimePercentageToDecimal integer to decimal', function () {
+      // given
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        ...candidateData,
+        extraTimePercentage: 20,
+      });
+
+      // when
+      candidate.convertExtraTimePercentageToDecimal();
+
+      // when / then
+      expect(candidate.extraTimePercentage).to.equal(0.2);
+    });
+  });
 });

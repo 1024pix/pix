@@ -114,4 +114,8 @@ export class Candidate {
         return '';
     }
   }
+
+  convertExtraTimePercentageToDecimal() {
+    this.extraTimePercentage = this.extraTimePercentage / 100;
+  }
 }

@@ -17,7 +17,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | Subscription', fu
       // given
       const expectedSubscription = new Subscription({
         certificationCandidateId: certificationCandidate.id,
-        complementaryCertificationId: undefined,
+        complementaryCertificationId: null,
         type: SUBSCRIPTION_TYPES.CORE,
       });
 
