@@ -3,7 +3,7 @@ import BaseJoi from 'joi';
 import lodash from 'lodash';
 
 import { Subscription } from '../../../certification/enrolment/domain/models/Subscription.js';
-import { SUBSCRIPTION_TYPES, BILLING_MODES } from '../../../certification/shared/domain/constants.js';
+import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../certification/shared/domain/constants.js';
 import { subscriptionSchema } from '../../../certification/shared/domain/validators/subscription-validator.js';
 import {
   CertificationCandidatePersonalInfoFieldMissingError,

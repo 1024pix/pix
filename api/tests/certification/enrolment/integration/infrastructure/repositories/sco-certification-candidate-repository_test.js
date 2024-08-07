@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 import * as scoCertificationCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/sco-certification-candidate-repository.js';
-import { databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
 import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
+import { databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
 
 describe('Certification | Enrolment | Integration | Repository | SCOCertificationCandidate', function () {
   describe('#addNonEnrolledCandidatesToSession', function () {

@@ -7,8 +7,8 @@ import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constant
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { getTransformationStructsForPixCertifCandidatesImport } from '../../infrastructure/files/candidates-import/candidates-import-transformation-structures.js';
 import * as readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils.js';
-import { Subscription } from '../models/Subscription.js';
 import { Candidate } from '../models/Candidate.js';
+import { Subscription } from '../models/Subscription.js';
 
 export { extractCertificationCandidatesFromCandidatesImportSheet };
 

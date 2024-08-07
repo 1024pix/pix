@@ -133,28 +133,6 @@ function _buildCertificationCandidates(results) {
   return bookshelfToDomainConverter.buildDomainObjects(BookshelfCertificationCandidate, results);
 }
 
-function _adaptModelToDb(certificationCandidateToSave) {
-  return {
-    authorizedToStart: certificationCandidateToSave.authorizedToStart,
-    billingMode: certificationCandidateToSave.billingMode,
-    birthCity: certificationCandidateToSave.birthCity,
-    birthCountry: certificationCandidateToSave.birthCountry,
-    birthINSEECode: certificationCandidateToSave.birthINSEECode,
-    birthPostalCode: certificationCandidateToSave.birthPostalCode,
-    birthProvinceCode: certificationCandidateToSave.birthProvinceCode,
-    birthdate: certificationCandidateToSave.birthdate,
-    email: certificationCandidateToSave.email,
-    externalId: certificationCandidateToSave.externalId,
-    extraTimePercentage: certificationCandidateToSave.extraTimePercentage,
-    firstName: certificationCandidateToSave.firstName,
-    lastName: certificationCandidateToSave.lastName,
-    prepaymentCode: certificationCandidateToSave.prepaymentCode,
-    resultRecipientEmail: certificationCandidateToSave.resultRecipientEmail,
-    organizationLearnerId: certificationCandidateToSave.organizationLearnerId,
-    sex: certificationCandidateToSave.sex,
-  };
-}
-
 /**
  * @deprecated migration: new ComplementaryCertification(...) should not be done here
  * it should come from internal API complementary-certification bounded context.

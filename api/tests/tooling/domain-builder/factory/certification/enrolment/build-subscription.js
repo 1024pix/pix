@@ -12,4 +12,4 @@ const buildSubscription = function ({ certificationCandidateId, complementaryCer
   return new Subscription({ certificationCandidateId, complementaryCertificationId, type });
 };
 
-export { buildSubscription, buildComplementarySubscription, buildCoreSubscription };
+export { buildComplementarySubscription, buildCoreSubscription, buildSubscription };

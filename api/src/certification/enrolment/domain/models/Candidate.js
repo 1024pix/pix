@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 import { CertificationCandidatesError } from '../../../../shared/domain/errors.js';
-import { validate } from '../validators/candidate-validator.js';
 import { BILLING_MODES } from '../../../shared/domain/constants.js';
+import { validate } from '../validators/candidate-validator.js';
 
 export class Candidate {
   constructor({

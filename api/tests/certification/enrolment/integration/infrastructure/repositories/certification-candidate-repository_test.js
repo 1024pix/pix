@@ -4,7 +4,6 @@ import { CompanionPingInfo } from '../../../../../../src/certification/enrolment
 import * as certificationCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/session-management/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import {
   CertificationCandidateMultipleUserLinksWithinSessionError,
   NotFoundError,
@@ -14,8 +13,6 @@ import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../..
 describe('Integration | Repository | CertificationCandidate', function () {
   let sessionId;
   let candidateData;
-  let candidateSavedData;
-  let coreSubscription;
 
   beforeEach(async function () {
     sessionId = databaseBuilder.factory.buildSession().id;
@@ -36,19 +33,6 @@ describe('Integration | Repository | CertificationCandidate', function () {
       resultRecipientEmail: 'lara.pafromage@example.com',
       userId: null,
       organizationLearnerId: null,
-    };
-
-    candidateSavedData = {
-      ...candidateData,
-      extraTimePercentage: '0.05',
-      authorizedToStart: false,
-      billingMode: null,
-      prepaymentCode: null,
-    };
-
-    coreSubscription = {
-      type: SUBSCRIPTION_TYPES.CORE,
-      complementaryCertificationId: null,
     };
 
     await databaseBuilder.commit();

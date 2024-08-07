@@ -1,7 +1,6 @@
 import { Subscription } from '../../../../../../src/certification/enrolment/domain/models/Subscription.js';
 import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
-import { buildSubscription } from '../../../../../tooling/domain-builder/factory/certification/enrolment/build-subscription.js';
 
 describe('Unit | Certification | Enrolment | Domain | Models | Subscription', function () {
   let certificationCandidate;
@@ -73,7 +72,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | Subscription', fu
   });
 
   describe('#isComplementary', function () {
-    it('should return true when subscription type is COMPLEMENTARY', () => {
+    it('should return true when subscription type is COMPLEMENTARY', function () {
       // given
       const subscription = domainBuilder.certification.enrolment.buildSubscription({
         type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
@@ -87,6 +86,8 @@ describe('Unit | Certification | Enrolment | Domain | Models | Subscription', fu
       expect(isComplementary).to.be.true;
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
+    // eslint-disable-next-line mocha/no-setup-in-describe
     Object.keys(SUBSCRIPTION_TYPES)
       .filter((typeKey) => typeKey !== SUBSCRIPTION_TYPES.COMPLEMENTARY)
       .forEach((typeKey) => {

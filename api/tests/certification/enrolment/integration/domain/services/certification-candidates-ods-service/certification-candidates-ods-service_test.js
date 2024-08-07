@@ -5,6 +5,7 @@ import * as complementaryCertificationRepository from '../../../../../../../src/
 import * as certificationCandidatesOdsService from '../../../../../../../src/certification/enrolment/domain/services/certification-candidates-ods-service.js';
 import * as certificationCpfCityRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
+import { BILLING_MODES } from '../../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import * as certificationCpfService from '../../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
@@ -12,7 +13,6 @@ import * as certificationCenterRepository from '../../../../../../../src/certifi
 import { CertificationCandidatesError } from '../../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
 import { getI18n } from '../../../../../../tooling/i18n/i18n.js';
-import { BILLING_MODES } from '../../../../../../../src/certification/shared/domain/constants.js';
 
 const { promises } = fs;
 

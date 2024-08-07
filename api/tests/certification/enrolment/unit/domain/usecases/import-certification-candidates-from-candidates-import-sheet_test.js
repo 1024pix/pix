@@ -108,7 +108,6 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
             i18n,
             certificationCandidatesOdsService,
             candidateRepository,
-            candidateRepository,
             certificationCpfService,
             certificationCpfCountryRepository,
             certificationCpfCityRepository,
