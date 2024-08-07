@@ -320,6 +320,7 @@ describe('Unit | Infrastructure | Datasources | Conversion | joi-to-json-schema'
         expect(jsonSchema).to.deep.equal({
           oneOf: [
             {
+              title: 'handball',
               additionalProperties: false,
               properties: {
                 type: {
@@ -334,6 +335,7 @@ describe('Unit | Infrastructure | Datasources | Conversion | joi-to-json-schema'
               type: 'object',
             },
             {
+              title: 'volleyball',
               additionalProperties: false,
               properties: {
                 type: {

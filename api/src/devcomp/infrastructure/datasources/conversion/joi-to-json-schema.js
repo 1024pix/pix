@@ -173,7 +173,10 @@ function convertAlternatives(joiAlternativesDescribedSchema) {
   const oneOf = joiAlternativesDescribedSchema.matches.flatMap((match) => {
     if (match.ref !== undefined) {
       if (match.switch !== undefined) {
-        return match.switch.map((s) => convertFromType(s.then));
+        return match.switch.map((s) => ({
+          title: s.then.keys.type.allow[0],
+          ...convertFromType(s.then),
+        }));
       } else {
         logger.warn('Unsupported conditional schema is/then/otherwise');
       }
