@@ -5,6 +5,7 @@ export default class CompetenceResult extends Model {
   @attr('string') areaColor;
   @attr('string') areaTitle;
   @attr('string') name;
+  @attr('string') description;
   @attr('string') index;
   @attr('number') masteryPercentage;
   @attr('number') totalSkillsCount;
