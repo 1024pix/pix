@@ -7,20 +7,6 @@ import { ComplementaryCertification } from '../../domain/models/ComplementaryCer
 /**
  * @function
  * @param {Object} params
- * @param {number} params.complementaryCertificationId
- * @param {ComplementaryCertificationApi} params.complementaryCertificationApi
- *
- * @returns {ComplementaryCertification}
- * @throws {NotFoundError} Complementary certification does not exist
- */
-const getById = async function ({ complementaryCertificationId, complementaryCertificationApi }) {
-  const complementaryCertification = await complementaryCertificationApi.getById({ id: complementaryCertificationId });
-  return _toDomain(complementaryCertification);
-};
-
-/**
- * @function
- * @param {Object} params
  * @param {number} params.label
  * @param {ComplementaryCertificationApi} params.complementaryCertificationApi
  *
@@ -40,7 +26,7 @@ const findAll = async function () {
   return result.map(_toDomain);
 };
 
-export { findAll, getById, getByLabel };
+export { findAll, getByLabel };
 
 function _toDomain(result) {
   return new ComplementaryCertification(result);

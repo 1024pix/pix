@@ -30,11 +30,11 @@ describe('Certification | Enrolment | Unit | Controller | enrolment-controller',
       };
       const requestResponseUtils = { extractUserIdFromRequest: sinon.stub() };
       sinon.stub(usecases, 'enrolStudentsToSession');
-      sinon.stub(usecases, 'getSessionCertificationCandidates');
-      const certificationCandidateSerializer = { serialize: sinon.stub() };
+      sinon.stub(usecases, 'getEnrolledCandidatesInSession');
+      const enrolledCandidateSerializer = { serialize: sinon.stub() };
       dependencies = {
         requestResponseUtils,
-        certificationCandidateSerializer,
+        enrolledCandidateSerializer,
       };
     });
 
@@ -42,8 +42,8 @@ describe('Certification | Enrolment | Unit | Controller | enrolment-controller',
       beforeEach(function () {
         dependencies.requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
         usecases.enrolStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
-        usecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
-        dependencies.certificationCandidateSerializer.serialize
+        usecases.getEnrolledCandidatesInSession.withArgs({ sessionId }).resolves(studentList);
+        dependencies.enrolledCandidateSerializer.serialize
           .withArgs(studentList)
           .returns(serializedCertificationCandidate);
       });

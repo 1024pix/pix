@@ -52,20 +52,28 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     const candidate = _buildCertificationCandidate({
       birthdate: new Date('2019-04-28'),
     });
+    const complementaryCertification = {
+      id: 2,
+      label: 'Pix+Droit',
+    };
 
     const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
     const certificationCandidate = store.createRecord('certification-candidate', candidate);
 
     this.set('certificationCandidates', [certificationCandidate]);
+    this.set('complementaryCertifications', [complementaryCertification]);
     this.set('countries', [countries]);
 
     // when
-    const screen = await renderScreen(hbs`<EnrolledCandidates
+    const screen = await renderScreen(
+      hbs`<EnrolledCandidates
   @sessionId='1'
   @certificationCandidates={{this.certificationCandidates}}
   @displayComplementaryCertification={{this.displayComplementaryCertification}}
   @countries={{this.countries}}
-/>`);
+  @complementaryCertifications={{this.complementaryCertifications}}
+/>`,
+    );
 
     // then
     assert.dom(screen.getByRole('cell', { name: certificationCandidate.externalId })).exists();

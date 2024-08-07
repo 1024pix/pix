@@ -1,11 +1,18 @@
 /**
- * @typedef {import('../models/Candidate.js').Candidate} Candidate
+ * @typedef {import('../models/Subscription.js').Subscription} Subscription
  */
 import _ from 'lodash';
 
+import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
+
 export class EnrolledCandidate {
+  /**
+   * @param {Object} params
+   * @param {Array<Subscription>} params.subscriptions
+   */
   constructor({
     id,
+    createdAt,
     firstName,
     lastName,
     sex,
@@ -19,15 +26,15 @@ export class EnrolledCandidate {
     externalId,
     birthdate,
     extraTimePercentage,
-    isLinked,
+    sessionId,
+    userId,
     organizationLearnerId,
-    complementaryCertificationId,
-    complementaryCertificationLabel,
-    complementaryCertificationKey,
+    subscriptions,
     billingMode,
     prepaymentCode,
   } = {}) {
     this.id = id;
+    this.createdAt = createdAt;
     this.firstName = firstName;
     this.lastName = lastName;
     this.birthCity = birthCity;
@@ -41,30 +48,16 @@ export class EnrolledCandidate {
     this.externalId = externalId;
     this.birthdate = birthdate;
     this.extraTimePercentage = !_.isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : null;
-    this.isLinked = !!isLinked;
+    this.isLinked = Boolean(userId);
+    this.userId = userId;
+    this.sessionId = sessionId;
     this.organizationLearnerId = organizationLearnerId;
-    this.complementaryCertificationId = complementaryCertificationId;
-    this.complementaryCertificationLabel = complementaryCertificationLabel;
-    this.complementaryCertificationKey = complementaryCertificationKey;
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;
+    this.subscriptions = subscriptions;
   }
 
-  /**
-   * @param {Object} params
-   * @param {Candidate} params.candidate (mandatory) candidate information
-   * @param {Object} params.complementaryCertification (optionnal) candidate information
-   * @returns {EnrolledCandidate}
-   */
-  static fromCandidateAndComplementaryCertification({ candidate, complementaryCertification }) {
-    const { id, label, key } = complementaryCertification ?? {};
-
-    return new EnrolledCandidate({
-      ...candidate,
-      isLinked: candidate.isLinkedToAUser(),
-      complementaryCertificationId: id,
-      complementaryCertificationLabel: label,
-      complementaryCertificationKey: key,
-    });
+  findComplementarySubscriptionInfo() {
+    return this.subscriptions.find((sub) => sub.type === SubscriptionTypes.COMPLEMENTARY);
   }
 }

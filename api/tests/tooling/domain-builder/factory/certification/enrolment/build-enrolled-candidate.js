@@ -1,7 +1,8 @@
-import { EnrolledCandidate } from '../../../../src/certification/enrolment/domain/read-models/EnrolledCandidate.js';
+import { EnrolledCandidate } from '../../../../../../src/certification/enrolment/domain/read-models/EnrolledCandidate.js';
 
-const buildCertificationSessionEnrolledCandidate = function ({
+const buildEnrolledCandidate = function ({
   id = 123,
+  createdAt = new Date(),
   firstName = 'Poison',
   lastName = 'Ivy',
   sex = 'F',
@@ -15,17 +16,16 @@ const buildCertificationSessionEnrolledCandidate = function ({
   birthdate = '1990-05-06',
   extraTimePercentage = 0.3,
   externalId = 'externalId',
+  userId = 789,
   sessionId = 456,
   organizationLearnerId,
-  complementaryCertificationId,
-  complementaryCertificationLabel,
-  complementaryCertificationKey,
   billingMode = null,
   prepaymentCode = null,
-  isLinked = false,
+  subscriptions = [],
 } = {}) {
   return new EnrolledCandidate({
     id,
+    createdAt,
     firstName,
     lastName,
     sex,
@@ -41,13 +41,11 @@ const buildCertificationSessionEnrolledCandidate = function ({
     externalId,
     extraTimePercentage,
     organizationLearnerId,
-    complementaryCertificationId,
-    complementaryCertificationLabel,
-    complementaryCertificationKey,
     billingMode,
     prepaymentCode,
-    isLinked,
+    userId,
+    subscriptions,
   });
 };
 
-export { buildCertificationSessionEnrolledCandidate };
+export { buildEnrolledCandidate };

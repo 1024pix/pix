@@ -130,8 +130,13 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
 
       await databaseBuilder.commit();
       // when
-      const { session } = await usecases.getCandidateImportSheetData({ sessionId, userId });
-      const updatedOdsFileBuffer = await fillCandidatesImportSheet({ session, isScoCertificationCenter: true, i18n });
+      const { session, enrolledCandidates } = await usecases.getCandidateImportSheetData({ sessionId, userId });
+      const updatedOdsFileBuffer = await fillCandidatesImportSheet({
+        session,
+        enrolledCandidates,
+        isScoCertificationCenter: true,
+        i18n,
+      });
       await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
       const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
       const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
@@ -218,13 +223,15 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
 
       await databaseBuilder.commit();
       // when
-      const { session, certificationCenterHabilitations } = await usecases.getCandidateImportSheetData({
-        sessionId,
-        userId,
-        i18n,
-      });
+      const { session, enrolledCandidates, certificationCenterHabilitations } =
+        await usecases.getCandidateImportSheetData({
+          sessionId,
+          userId,
+          i18n,
+        });
       const updatedOdsFileBuffer = await fillCandidatesImportSheet({
         session,
+        enrolledCandidates,
         certificationCenterHabilitations,
         isScoCertificationCenter: true,
         i18n,
@@ -384,12 +391,14 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
 
       await databaseBuilder.commit();
       // when
-      const { session, certificationCenterHabilitations } = await usecases.getCandidateImportSheetData({
-        sessionId,
-        userId,
-      });
+      const { session, enrolledCandidates, certificationCenterHabilitations } =
+        await usecases.getCandidateImportSheetData({
+          sessionId,
+          userId,
+        });
       const updatedOdsFileBuffer = await fillCandidatesImportSheet({
         session,
+        enrolledCandidates,
         certificationCenterHabilitations,
         isScoCertificationCenter: true,
         i18n,
@@ -468,10 +477,10 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateD.id });
 
       await databaseBuilder.commit();
-      const { session } = await usecases.getCandidateImportSheetData({ sessionId, userId });
+      const { session, enrolledCandidates } = await usecases.getCandidateImportSheetData({ sessionId, userId });
 
       // when
-      const updatedOdsFileBuffer = await fillCandidatesImportSheet({ session, i18n });
+      const updatedOdsFileBuffer = await fillCandidatesImportSheet({ session, enrolledCandidates, i18n });
 
       // then
       await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
@@ -531,14 +540,16 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         });
 
         await databaseBuilder.commit();
-        const { session, certificationCenterHabilitations } = await usecases.getCandidateImportSheetData({
-          sessionId,
-          userId,
-        });
+        const { session, enrolledCandidates, certificationCenterHabilitations } =
+          await usecases.getCandidateImportSheetData({
+            sessionId,
+            userId,
+          });
 
         // when
         const updatedOdsFileBuffer = await fillCandidatesImportSheet({
           session,
+          enrolledCandidates,
           certificationCenterHabilitations,
           i18n,
         });

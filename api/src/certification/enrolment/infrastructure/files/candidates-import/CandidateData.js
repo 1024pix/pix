@@ -1,3 +1,8 @@
+/**
+ * @typedef {import('../../../domain/models/ComplementaryCertification.js').ComplementaryCertification} ComplementaryCertification
+ * @typedef {import('../../../domain/read-models/EnrolledCandidate.js').EnrolledCandidate} EnrolledCandidate
+ * @typedef {import('i18n')} i18n
+ */
 import dayjs from 'dayjs';
 import _ from 'lodash';
 
@@ -7,6 +12,10 @@ import { ComplementaryCertificationKeys } from '../../../../shared/domain/models
 const FRANCE_COUNTRY_CODE = '99100';
 
 class CandidateData {
+  /**
+   * @param {Object} params
+   * @param {ComplementaryCertification|null} params.complementaryCertification
+   */
   constructor({
     id = null,
     firstName = null,
@@ -108,10 +117,37 @@ class CandidateData {
     return hasComplementaryCertification ? this.translate('candidate-list-template.yes') : '';
   }
 
-  static fromCertificationCandidateAndCandidateNumber({ certificationCandidate, number, i18n }) {
+  /**
+   * @param {Object} params
+   * @param {EnrolledCandidate} params.enrolledCandidate
+   * @param {Array<ComplementaryCertification>} params.certificationCenterHabilitations
+   * @param {number} params.number
+   * @param {i18n} params.i18n
+   */
+  static fromEnrolledCandidateAndCandidateNumber({
+    enrolledCandidate,
+    certificationCenterHabilitations = [],
+    number,
+    i18n,
+  }) {
+    const candidateComplementarySubscription = enrolledCandidate.findComplementarySubscriptionInfo();
+    if (!candidateComplementarySubscription) {
+      return new CandidateData({
+        ...enrolledCandidate,
+        complementaryCertification: null,
+        number,
+        i18n,
+      });
+    }
+
+    const complementaryCertification =
+      certificationCenterHabilitations.find(
+        ({ id }) => id === candidateComplementarySubscription.complementaryCertificationId,
+      ) || null;
+
     return new CandidateData({
-      ...certificationCandidate,
-      complementaryCertification: certificationCandidate.complementaryCertification,
+      ...enrolledCandidate,
+      complementaryCertification,
       number,
       i18n,
     });

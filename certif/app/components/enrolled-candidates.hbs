@@ -95,7 +95,7 @@
 
               {{#if @displayComplementaryCertification}}
                 <td>
-                  {{if candidate.complementaryCertification candidate.complementaryCertification.label "-"}}
+                  {{this.formatComplementaryCertificationLabel candidate.complementaryCertification.id}}
                 </td>
               {{/if}}
               <td>
@@ -163,6 +163,7 @@
     @closeModal={{this.closeCertificationCandidateDetailsModal}}
     @candidate={{this.certificationCandidateInDetailsModal}}
     @displayComplementaryCertification={{@displayComplementaryCertification}}
+    @complementaryCertifications={{@complementaryCertifications}}
     @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
   />
 {{/if}}

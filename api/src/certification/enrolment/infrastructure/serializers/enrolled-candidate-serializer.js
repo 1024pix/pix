@@ -1,18 +1,15 @@
 import { Serializer } from 'jsonapi-serializer';
 
-const serialize = function (certificationCandidates) {
+const serialize = function (enrolledCandidates) {
   return new Serializer('certification-candidate', {
-    transform: function (certificationCandidate) {
-      const complementaryCertification = certificationCandidate.complementaryCertificationId
-        ? {
-            id: certificationCandidate.complementaryCertificationId,
-            label: certificationCandidate.complementaryCertificationLabel,
-            key: certificationCandidate.complementaryCertificationKey,
-          }
+    transform: function (enrolledCandidate) {
+      const candidateSubscription = enrolledCandidate.findComplementarySubscriptionInfo();
+      const complementaryCertification = candidateSubscription
+        ? { id: candidateSubscription.complementaryCertificationId }
         : null;
 
       return {
-        ...certificationCandidate,
+        ...enrolledCandidate,
         complementaryCertification,
       };
     },
@@ -37,7 +34,7 @@ const serialize = function (certificationCandidates) {
       'prepaymentCode',
       'hasSeenCertificationInstructions',
     ],
-  }).serialize(certificationCandidates);
+  }).serialize(enrolledCandidates);
 };
 
 export { serialize };

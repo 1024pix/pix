@@ -1,22 +1,21 @@
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import { fillCandidatesImportSheet } from '../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
-import * as certificationCandidateSerializer from '../infrastructure/serializers/certification-candidate-serializer.js';
+import * as enrolledCandidateSerializer from '../infrastructure/serializers/enrolled-candidate-serializer.js';
 
 const enrolStudentsToSession = async function (
   request,
   h,
-  dependencies = { certificationCandidateSerializer, requestResponseUtils },
+  dependencies = { enrolledCandidateSerializer, requestResponseUtils },
 ) {
   const referentId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   const sessionId = request.params.id;
   const studentIds = request.deserializedPayload.organizationLearnerIds;
 
   await usecases.enrolStudentsToSession({ sessionId, referentId, studentIds });
-  const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
-  const certificationCandidatesSerialized =
-    dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
-  return h.response(certificationCandidatesSerialized).created();
+  const enrolledCandidates = await usecases.getEnrolledCandidatesInSession({ sessionId });
+  const enrolledCandidatesSerialized = dependencies.enrolledCandidateSerializer.serialize(enrolledCandidates);
+  return h.response(enrolledCandidatesSerialized).created();
 };
 
 const getCandidatesImportSheet = async function (request, h, dependencies = { fillCandidatesImportSheet }) {
@@ -25,13 +24,14 @@ const getCandidatesImportSheet = async function (request, h, dependencies = { fi
   const { userId } = request.auth.credentials;
   const filename = translate('candidate-list-template.filename');
 
-  const { session, certificationCenterHabilitations, isScoCertificationCenter } =
+  const { session, enrolledCandidates, certificationCenterHabilitations, isScoCertificationCenter } =
     await usecases.getCandidateImportSheetData({
       sessionId,
       userId,
     });
   const candidateImportSheet = await dependencies.fillCandidatesImportSheet({
     session,
+    enrolledCandidates,
     certificationCenterHabilitations,
     isScoCertificationCenter,
     i18n: request.i18n,

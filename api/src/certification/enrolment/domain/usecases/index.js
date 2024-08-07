@@ -28,6 +28,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterRepository} CertificationCenterRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CandidateRepository} CandidateRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').EnrolledCandidateRepository} EnrolledCandidateRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CenterRepository} CenterRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CountryRepository} CountryRepository
@@ -50,6 +51,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
  * @typedef {CandidateRepository} CandidateRepository
+ * @typedef {EnrolledCandidateRepository} EnrolledCandidateRepository
  * @typedef {ComplementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {CenterRepository} CenterRepository
  * @typedef {SessionRepository} SessionRepository

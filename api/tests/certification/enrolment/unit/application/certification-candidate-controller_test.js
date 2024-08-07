@@ -59,9 +59,9 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       };
       sinon.stub(usecases, 'candidateHasSeenCertificationInstructions');
       const certificationCandidateSerializer = {
-        serializeForApp: sinon.stub(),
+        serialize: sinon.stub(),
       };
-      certificationCandidateSerializer.serializeForApp.returns(certificationCandidatesJsonApi);
+      certificationCandidateSerializer.serialize.returns(certificationCandidatesJsonApi);
       const updatedCertificationCandidate = domainBuilder.certification.enrolment.buildCertificationSessionCandidate();
       usecases.candidateHasSeenCertificationInstructions
         .withArgs({
@@ -72,38 +72,6 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       // when
       const response = await certificationCandidateController.validateCertificationInstructions(request, hFake, {
         certificationCandidateSerializer,
-      });
-
-      // then
-      expect(response).to.deep.equal(certificationCandidatesJsonApi);
-    });
-  });
-
-  describe('#get', function () {
-    let request;
-    const sessionId = 1;
-    const certificationCandidates = 'candidates';
-    const certificationCandidatesJsonApi = 'candidatesJSONAPI';
-
-    beforeEach(function () {
-      // given
-      request = {
-        params: { id: sessionId },
-      };
-      sinon
-        .stub(usecases, 'getSessionCertificationCandidates')
-        .withArgs({ sessionId })
-        .resolves(certificationCandidates);
-    });
-
-    it('should return certification candidates', async function () {
-      // when
-      const sessionCertificationCandidateSerializer = { serialize: sinon.stub() };
-      sessionCertificationCandidateSerializer.serialize
-        .withArgs(certificationCandidates)
-        .returns(certificationCandidatesJsonApi);
-      const response = await certificationCandidateController.getCandidate(request, hFake, {
-        sessionCertificationCandidateSerializer,
       });
 
       // then

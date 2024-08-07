@@ -621,6 +621,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               const table = screen.getByRole('table', {
                 name: 'Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne.',
               });
+
               const rows = await within(table).findAllByRole('row');
               assert.dom(within(rows[1]).getByRole('cell', { name: complementaryCertificationLabel })).exists();
             });
