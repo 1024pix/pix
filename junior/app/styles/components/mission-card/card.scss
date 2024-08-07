@@ -1,15 +1,14 @@
 .mission-card {
   &__container {
     position: relative;
-    display: flex;
-    flex-direction: column;
     width: 248px;
     height: 368px;
     padding: var(--pix-spacing-2x);
+    font-family: $font-nunito;
     font-style: normal;
     background-color: var(--pix-neutral-0);
-    border-radius: 15px;
-    box-shadow: 2px 4px 6px 0px rgb(70 77 98 / 20%), 0px 0px 2px 0px rgb(70 77 98 / 32%);
+    border-radius: 16px;
+    box-shadow: 2px 4px 6px 0 rgb(70 77 98 / 20%), 0 0 2px 0 rgb(70 77 98 / 32%);
 
     .area-code-1 {
       color: var(--pix-information-dark);
@@ -63,20 +62,27 @@
       text-align: center;
       background: var(--pix-neutral-0);
       border: solid 2px var(--pix-primary-500);
+      border-radius: 4px;
       transform: translate(-50%);
+
+      &--completed {
+        color: var(--pix-success-500);
+        border: none;
+      }
 
       p {
         padding: var(--pix-spacing-1x) var(--pix-spacing-4x);
       }
     }
 
+    .started-icon{
+      position: absolute;
+      top: -32px;
+      left: 164px;
+    }
+
     .mission-card-bottom {
-      display: flex;
-      flex-direction: column;
-      align-content: center;
-      align-self: center;
-      justify-content: center;
-      width: 200px;
+      margin-top: var(--pix-spacing-2x);
 
       .mission-name {
         margin-bottom: var(--pix-spacing-3x);
@@ -90,13 +96,12 @@
       .fake-button {
         display: inline-flex;
         flex-shrink: 0;
-        gap: var(--pix-spacing-2x);
         align-items: center;
-        justify-content: center;
+        width: 140px;
         height: 40px;
+        margin: auto;
         padding: var(--pix-spacing-3x) var(--pix-spacing-8x);
         color: var(--pix-primary-500);
-        background: var(--pix-neutral-0);
         border: 1px solid var(--pix-primary-500);
         border-radius: 100px;
       }
@@ -105,8 +110,7 @@
     .mission-icon {
       position: absolute;
       top: 75px;
-      left: 50%;
-      transform: translate(-50%);
+      right: 18%;
     }
 
     .mission-icon--completed {

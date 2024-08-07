@@ -12,7 +12,7 @@
 .card {
   padding: 0;
   background-color: transparent;
-  border: none;
+  border-radius: 16px;
 
   &--loading {
     background-color: var(--pix-neutral-300);
@@ -21,7 +21,16 @@
 }
 
 .pix-button.card {
+  &:focus {
+    border: solid 3px var(--pix-primary-700);
+  }
+
   &:hover, &:focus, &:active, &:focus-visible {
     background-color: transparent;
+
+    .fake-button {
+      color: var(--pix-neutral-0);
+      background-color: var(--pix-primary-700);
+    }
   }
 }

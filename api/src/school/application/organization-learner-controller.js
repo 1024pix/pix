@@ -3,7 +3,7 @@ import * as organizationLearnerSerializer from '../infrastructure/serializers/or
 
 const getById = async function (request) {
   const organizationLearnerId = request.params.id;
-  const organizationLearner = await usecases.getOrganizationLearnerWithCompletedMissionIds({ organizationLearnerId });
+  const organizationLearner = await usecases.getOrganizationLearnerWithMissionIdsByState({ organizationLearnerId });
   return organizationLearnerSerializer.serialize(organizationLearner);
 };
 

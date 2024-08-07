@@ -12,6 +12,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner', function () {
         lastName: 'Miche',
         division: 'CM3',
         completedMissionIds: [1],
+        startedMissionIds: [2],
       });
 
       const expectedJSON = {
@@ -23,6 +24,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner', function () {
             division: 'CM3',
             'organization-id': 'orga-1',
             'completed-mission-ids': ['1'],
+            'started-mission-ids': ['2'],
           },
         },
       };
