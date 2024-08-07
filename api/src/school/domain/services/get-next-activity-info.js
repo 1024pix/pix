@@ -17,7 +17,7 @@ export function getNextActivityInfo({ activities, stepCount }) {
   const lastActivity = _lastActivity(sortedActivities);
   const currentStepActivities = sortedActivities.filter((activity) => activity.stepIndex === lastActivity.stepIndex);
 
-  if (_hasRunActivityLevel3Times(currentStepActivities, VALIDATION)) {
+  if (_hasRunActivityLevel3Times(currentStepActivities, VALIDATION) && lastActivity.isFailedOrSkipped) {
     return END_OF_MISSION;
   }
   if (lastActivity.isDare) {
