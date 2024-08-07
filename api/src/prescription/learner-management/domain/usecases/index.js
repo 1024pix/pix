@@ -1,6 +1,7 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import * as userReconciliationService from '../../../../../lib/domain/services/user-reconciliation-service.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
@@ -13,6 +14,7 @@ import * as organizationLearnerImportFormatRepository from '../../infrastructure
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as supOrganizationLearnerRepository from '../../infrastructure/repositories/sup-organization-learner-repository.js';
 import { importStorage } from '../../infrastructure/storage/import-storage.js';
+
 const dependencies = {
   campaignRepository,
   campaignParticipationRepository,
@@ -24,6 +26,7 @@ const dependencies = {
   organizationImportRepository,
   supOrganizationLearnerRepository,
   organizationFeatureApi,
+  userReconciliationService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

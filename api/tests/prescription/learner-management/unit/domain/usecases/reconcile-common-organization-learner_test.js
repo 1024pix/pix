@@ -13,14 +13,15 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
     campaignRepository,
     organizationFeatureApi,
     organizationLearnerImportFormatRepository,
-    organizationLearnerRepository;
+    organizationLearnerRepository,
+    userReconciliationService;
 
   beforeEach(function () {
     campaignCode = 'PIX123456';
     organizationId = 'organization id';
     userId = Symbol('userId');
     reconcileInfos = Symbol('reconcile infos');
-    reconcilePayload = Symbol('reconcile payload');
+    reconcilePayload = { attributes: Symbol('reconcile payload') };
     importFormat = { transformReconciliationData: sinon.stub().withArgs(reconcileInfos).returns(reconcilePayload) };
     campaignRepository = {
       getByCode: sinon.stub(),
@@ -37,6 +38,9 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
     organizationLearnerRepository = {
       findAllCommonOrganizationLearnerByReconciliationInfos: sinon.stub(),
       update: sinon.stub(),
+    };
+    userReconciliationService = {
+      findMatchingCandidateIdForGivenUser: sinon.stub(),
     };
   });
 
@@ -127,7 +131,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
         organizationLearnerRepository.findAllCommonOrganizationLearnerByReconciliationInfos
           .withArgs({
             organizationId,
-            reconciliationInformations: reconcilePayload,
+            reconciliationInformations: reconcilePayload.attributes,
           })
           .resolves([]);
 
@@ -149,18 +153,22 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
     });
 
     context('when there is multiple matching learners', function () {
-      it('should throw a ReconcileCommonOrganizationLearnerError', async function () {
+      it('should throw a ReconcileCommonOrganizationLearnerError if no one match', async function () {
         // given
+        const matchingLearners = [
+          { id: 1, firstName: 'Uno', lastName: 'Bono' },
+          { id: 2, firstName: 'Due', lastName: 'Bono' },
+        ];
         organizationLearnerRepository.findAllCommonOrganizationLearnerByReconciliationInfos
           .withArgs({
             organizationId,
-            reconciliationInformations: reconcilePayload,
+            reconciliationInformations: reconcilePayload.attributes,
           })
-          .resolves([
-            { id: 1, firstName: 'Uno', lastName: 'Bono' },
-            { id: 2, firstName: 'Due', lastName: 'Bono' },
-          ]);
+          .resolves(matchingLearners);
 
+        userReconciliationService.findMatchingCandidateIdForGivenUser
+          .withArgs(matchingLearners, reconcilePayload)
+          .returns(null);
         //when
         const error = await catchErr(reconcileCommonOrganizationLearner)({
           campaignCode,
@@ -170,11 +178,12 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
           organizationFeatureApi,
           organizationLearnerImportFormatRepository,
           organizationLearnerRepository,
+          userReconciliationService,
         });
 
         //then
         expect(error).to.be.an.instanceOf(ReconcileCommonOrganizationLearnerError);
-        expect(error.reason).to.equal('MULTIPLE_MATCHES');
+        expect(error.reason).to.equal('NO_MATCH');
       });
     });
 
@@ -193,9 +202,14 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
         organizationLearnerRepository.findAllCommonOrganizationLearnerByReconciliationInfos
           .withArgs({
             organizationId,
-            reconciliationInformations: reconcilePayload,
+            reconciliationInformations: reconcilePayload.attributes,
           })
           .resolves([learner]);
+
+        userReconciliationService.findMatchingCandidateIdForGivenUser
+          .withArgs([learner], reconcilePayload)
+          .returns(learner.id);
+
         organizationLearnerRepository.update.withArgs(learner).resolves();
 
         //when
@@ -207,6 +221,7 @@ describe('Unit | UseCase | reconcile-common-organization-learner', function () {
           organizationFeatureApi,
           organizationLearnerImportFormatRepository,
           organizationLearnerRepository,
+          userReconciliationService,
         });
 
         //then

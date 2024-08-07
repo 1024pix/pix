@@ -1,6 +1,11 @@
 import { ReconcileCommonOrganizationLearnerError } from '../errors.js';
 
 /**
+ * La réconciliation se passe en 2 étapes :
+ *  1. On récupére les utilisateurs qui correspondent aux données de l'import hors nom prénom.
+ *  2. On identifie le bon préscrit sur la base du nom prénom en utilisant le service de réconciliation
+ *     Cela nous permet d'éviter les coquilles typographiques (prénom accentué ou caractère autres qu'alphanumérique...)
+
  * @name reconcileCommonOrganizationLearner
  * @param {Object} params
  * @param {string} params.campaignCode
@@ -17,6 +22,7 @@ const reconcileCommonOrganizationLearner = async function ({
   organizationFeatureApi,
   organizationLearnerImportFormatRepository,
   organizationLearnerRepository,
+  userReconciliationService,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
   if (!campaign) {
@@ -33,18 +39,27 @@ const reconcileCommonOrganizationLearner = async function ({
     throw new ReconcileCommonOrganizationLearnerError('IMPORT_FORMAT_NOT_FOUND');
   }
 
+  const transformedReconciliationData = importFormat.transformReconciliationData(reconciliationInfos);
+
   const matchingLearners = await organizationLearnerRepository.findAllCommonOrganizationLearnerByReconciliationInfos({
     organizationId: campaign.organizationId,
-    reconciliationInformations: importFormat.transformReconciliationData(reconciliationInfos),
+    reconciliationInformations: transformedReconciliationData.attributes,
   });
 
   if (matchingLearners.length === 0) {
     throw new ReconcileCommonOrganizationLearnerError('NO_MATCH');
   }
-  if (matchingLearners.length > 1) {
-    throw new ReconcileCommonOrganizationLearnerError('MULTIPLE_MATCHES');
+
+  const learnerId = userReconciliationService.findMatchingCandidateIdForGivenUser(
+    matchingLearners,
+    transformedReconciliationData,
+  );
+  if (!learnerId) {
+    throw new ReconcileCommonOrganizationLearnerError('NO_MATCH');
   }
-  const [learnerToReconcile] = matchingLearners;
+
+  const learnerToReconcile = matchingLearners.find((matchingLearner) => matchingLearner.id === learnerId);
+
   learnerToReconcile.reconcileUser(userId);
   organizationLearnerRepository.update(learnerToReconcile);
 };
