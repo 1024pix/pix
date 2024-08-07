@@ -2,8 +2,8 @@
   <svg
     class={{if @class @class ""}}
     width="233"
-    height="231"
-    viewBox="0 0 233 231"
+    height="210"
+    viewBox="0 0 233 210"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >

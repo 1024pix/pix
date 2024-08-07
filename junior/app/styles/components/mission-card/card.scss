@@ -76,13 +76,13 @@
     }
 
     .mission-card-bottom {
-      display: flex;
-      flex-direction: column;
-      align-content: center;
-      align-self: center;
-      justify-content: center;
-      width: 200px;
-      margin: auto;
+      //display: flex;
+      //flex-direction: column;
+      //align-content: center;
+      //align-self: center;
+      //justify-content: center;
+      ////width: 200px;
+      margin-top: var(--pix-spacing-2x);
 
       .mission-name {
         margin-bottom: var(--pix-spacing-3x);
@@ -110,8 +110,7 @@
     .mission-icon {
       position: absolute;
       top: 75px;
-      left: 50%;
-      transform: translate(-50%);
+      right: 18%;
     }
 
     .mission-icon--completed {
