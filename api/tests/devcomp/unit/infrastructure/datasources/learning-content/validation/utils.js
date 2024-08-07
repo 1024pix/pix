@@ -6,7 +6,9 @@ const uuidSchema = Joi.string().guid({ version: 'uuidv4' }).required();
 const proposalIdSchema = Joi.string().regex(/^\d+$/);
 
 const htmlValidate = new HtmlValidate();
-const htmlSchema = Joi.string().external(async (value, helpers) => {
+const htmlSchema = Joi.string().external(htmlValidation);
+
+async function htmlValidation(value, helpers) {
   if (!value) {
     return;
   }
@@ -16,7 +18,7 @@ const htmlSchema = Joi.string().external(async (value, helpers) => {
   if (!report.valid) {
     return helpers.message('htmlvalidationerror', { value: report });
   }
-});
+}
 
 const htmlNotAllowedSchema = Joi.string()
   .regex(/<.*?>/, { invert: true })

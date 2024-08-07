@@ -81,6 +81,12 @@ function convertString(joiStringDescribedSchema) {
     }
   }
 
+  if (joiStringDescribedSchema.externals?.length > 0) {
+    if (joiStringDescribedSchema.externals[0].method.name === 'htmlValidation') {
+      jsonSchema.format = 'jodit';
+    }
+  }
+
   return jsonSchema;
 }
 

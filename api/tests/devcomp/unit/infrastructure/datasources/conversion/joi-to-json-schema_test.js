@@ -98,6 +98,20 @@ describe('Unit | Infrastructure | Datasources | Conversion | joi-to-json-schema'
         expect(jsonSchema).to.deep.equal({ type: 'string', enum: ['Hello'] });
       });
     });
+
+    describe('external', function () {
+      describe('htmlValidation', function () {
+        it('should convert Joi.string.external(htmlValidation) to JSON Schema with format jodit', function () {
+          // eslint-disable-next-line no-empty-function
+          function htmlValidation() {}
+          const joiSchema = Joi.string().external(htmlValidation);
+
+          const jsonSchema = convertJoiToJsonSchema(joiSchema);
+
+          expect(jsonSchema).to.deep.equal({ type: 'string', format: 'jodit' });
+        });
+      });
+    });
   });
 
   describe('number', function () {
