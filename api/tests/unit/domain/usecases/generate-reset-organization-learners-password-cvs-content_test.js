@@ -17,12 +17,12 @@ describe('Unit | UseCases | Generate reset organization learners csv', function 
         division: '3A',
         lastName: 'Lô',
         firstName: 'Ismaël',
-        password: '123456@il',
+        password: '',
         username: 'ismaelLo',
       }),
     ];
     const expectedCsvContent =
-      'division;lastName;firstName;username;password\n3A;Brown;James;123456@jb\n3A;Lô;Ismaël;123456@il\n';
+      'division;lastName;firstName;username;password\n3A;Brown;James;jamesBrown;123456@jb\n3A;Lô;Ismaël;;ismaelLo;;\n';
     const writeCsvUtils = { getCsvContent: sinon.stub().resolves(expectedCsvContent) };
 
     // when
