@@ -124,6 +124,8 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
         sinon.assert.match(response.result, {
           data: [
             {
+              type: 'certification-candidates',
+              id: sinon.match.string,
               attributes: {
                 'billing-mode': null,
                 'prepayment-code': null,
@@ -144,8 +146,26 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
                 sex: 'M',
                 'complementary-certification': null,
               },
+              relationships: {
+                subscriptions: {
+                  data: [
+                    {
+                      type: 'subscriptions',
+                      id: sinon.match.string,
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+          included: [
+            {
+              type: 'subscriptions',
               id: sinon.match.string,
-              type: 'certification-candidates',
+              attributes: {
+                type: 'CORE',
+                'complementary-certification-id': null,
+              },
             },
           ],
         });

@@ -1,4 +1,5 @@
 import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/enrolled-candidate-serializer.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CertificationCandidate } from '../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
@@ -51,7 +52,27 @@ describe('Certification | Enrolment | Unit | Serializer | enrolled-candidate-ser
             sex: enrolledCandidate.sex,
             'complementary-certification': null,
           },
+          relationships: {
+            subscriptions: {
+              data: [
+                {
+                  type: 'subscriptions',
+                  id: `${enrolledCandidate.id}-CORE`,
+                },
+              ],
+            },
+          },
         },
+        included: [
+          {
+            type: 'subscriptions',
+            id: `${enrolledCandidate.id}-CORE`,
+            attributes: {
+              'complementary-certification-id': null,
+              type: SUBSCRIPTION_TYPES.CORE,
+            },
+          },
+        ],
       };
 
       // when
@@ -83,6 +104,9 @@ describe('Certification | Enrolment | Unit | Serializer | enrolled-candidate-ser
         billingMode: CertificationCandidate.BILLING_MODES.PAID,
         prepaymentCode: 'somePrepaymentCode1',
         subscriptions: [
+          domainBuilder.certification.enrolment.buildCoreSubscription({
+            certificationCandidateId: 123,
+          }),
           domainBuilder.certification.enrolment.buildComplementarySubscription({
             certificationCandidateId: 123,
             complementaryCertificationId: 456,
@@ -112,10 +136,42 @@ describe('Certification | Enrolment | Unit | Serializer | enrolled-candidate-ser
             'organization-learner-id': enrolledCandidate.organizationLearnerId,
             sex: enrolledCandidate.sex,
             'complementary-certification': {
-              id: enrolledCandidate.subscriptions[0].complementaryCertificationId,
+              id: enrolledCandidate.subscriptions[1].complementaryCertificationId,
+            },
+          },
+          relationships: {
+            subscriptions: {
+              data: [
+                {
+                  type: 'subscriptions',
+                  id: `${enrolledCandidate.id}-CORE`,
+                },
+                {
+                  type: 'subscriptions',
+                  id: `${enrolledCandidate.id}-456`,
+                },
+              ],
             },
           },
         },
+        included: [
+          {
+            type: 'subscriptions',
+            id: `${enrolledCandidate.id}-CORE`,
+            attributes: {
+              'complementary-certification-id': null,
+              type: SUBSCRIPTION_TYPES.CORE,
+            },
+          },
+          {
+            type: 'subscriptions',
+            id: `${enrolledCandidate.id}-456`,
+            attributes: {
+              'complementary-certification-id': 456,
+              type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+            },
+          },
+        ],
       };
 
       // when
