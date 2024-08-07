@@ -147,6 +147,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
                 sex: 'M',
                 'complementary-certification': null,
                 'has-seen-certification-instructions': false,
+                'accessibility-adjustment-needed': false,
               },
               relationships: {
                 subscriptions: {

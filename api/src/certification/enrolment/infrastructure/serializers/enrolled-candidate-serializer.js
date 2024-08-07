@@ -34,6 +34,7 @@ const serialize = function (enrolledCandidates) {
       'billingMode',
       'prepaymentCode',
       'hasSeenCertificationInstructions',
+      'accessibilityAdjustmentNeeded',
     ],
     subscriptions: {
       include: true,
