@@ -1,14 +1,17 @@
 import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
-import { subscriptionSchema } from './subscription-validator.js';
+import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 
-const BILLING_MODES = {
-  FREE: 'FREE',
-  PAID: 'PAID',
-  PREPAID: 'PREPAID',
-};
+const tempSubscriptionSchema = Joi.object({
+  type: Joi.string().required().valid(SUBSCRIPTION_TYPES.CORE, SUBSCRIPTION_TYPES.COMPLEMENTARY),
+  complementaryCertificationId: Joi.when('type', {
+    is: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+    then: Joi.number().required(),
+    otherwise: Joi.any().valid(null).allow(null),
+  }),
+});
 
 const schema = Joi.object({
   firstName: Joi.string().trim().required().empty(['', null]).messages({
@@ -49,12 +52,7 @@ const schema = Joi.object({
       'number.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SESSION_ID_NOT_A_NUMBER.code,
     }),
   }),
-  complementaryCertification: Joi.object({
-    id: Joi.number().required(),
-    label: Joi.string().required().empty(null),
-    key: Joi.string().required().empty(null),
-  }).allow(null),
-  subscriptions: Joi.array().items(subscriptionSchema).unique('type').required(),
+  subscriptions: Joi.array().min(1).items(tempSubscriptionSchema).unique('type').required(),
   billingMode: Joi.when('$isSco', {
     is: false,
     then: Joi.string()

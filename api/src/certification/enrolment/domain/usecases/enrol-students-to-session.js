@@ -12,6 +12,7 @@ import _ from 'lodash';
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 import { UnknownCountryForStudentEnrolmentError } from '../errors.js';
 import { SCOCertificationCandidate } from '../models/SCOCertificationCandidate.js';
+import { Subscription } from '../models/Subscription.js';
 const INSEE_PREFIX_CODE = '99';
 
 /**
@@ -72,6 +73,7 @@ const enrolStudentsToSession = async function ({
       sex: student.sex,
       sessionId,
       organizationLearnerId: student.id,
+      subscriptions: [Subscription.buildCore({ certificationCandidateId: null })],
     });
   });
 

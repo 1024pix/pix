@@ -1,9 +1,11 @@
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { SessionMassImportReport } from '../../../../../../src/certification/enrolment/domain/models/SessionMassImportReport.js';
 import { validateSessions } from '../../../../../../src/certification/enrolment/domain/usecases/validate-sessions.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../../src/certification/shared/domain/constants/sessions-errors.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
+import { CertificationCandidate } from '../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
@@ -12,7 +14,6 @@ const cachedValidatedSessionsKey = 'uuid';
 const accessCode = 'accessCode';
 const certificationCenterId = '123';
 const certificationCenterName = 'certificationCenterName';
-const complementaryCertification = { id: 3, key: 'EDU_2ND_DEGRE', label: 'Pix+ Édu 2nd degré' };
 const cpfBirthInformation = {
   birthCountry: 'France',
   birthCity: '',
@@ -31,8 +32,8 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
   let temporarySessionsStorageForMassImportService;
   let firstSession;
   let secondSession;
-  let candidate1;
-  let candidate2;
+  let candidateData1;
+  let candidateData2;
 
   beforeEach(function () {
     i18n = getI18n();
@@ -47,7 +48,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     sessionCodeService = { getNewSessionCode: sinon.stub().returns(accessCode) };
 
     sessionsImportValidationService = {
-      getValidatedComplementaryCertificationForMassImport: sinon.stub(),
+      getValidatedSubscriptionsForMassImport: sinon.stub(),
       getValidatedCandidateBirthInformation: sinon.stub(),
       validateSession: sinon.stub(),
       getUniqueCandidates: sinon.stub(),
@@ -57,40 +58,42 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       save: sinon.stub(),
     };
 
-    candidate1 = {
-      id: 123,
+    candidateData1 = {
       firstName: 'Popi',
       lastName: 'Doudou',
       birthCity: '',
       birthCountry: 'France',
       birthPostalCode: null,
       birthINSEECode: '134',
+      birthProvinceCode: '11',
       sex: 'M',
       email: 'popidoudou@email.fr',
       resultRecipientEmail: 'popidoudou@email.fr',
       externalId: 'popi',
       birthdate: '1981-03-12',
       extraTimePercentage: '20',
-      subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: 123 })],
+      subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
       billingMode: 'Gratuite',
+      prepaymentCode: 'PIX2024',
       sessionId: 1,
     };
-    candidate2 = {
-      id: 456,
+    candidateData2 = {
       firstName: 'Lili',
       lastName: 'Souris',
       birthCity: '',
       birthCountry: 'France',
       birthPostalCode: null,
       birthINSEECode: '134',
+      birthProvinceCode: '12',
       sex: 'F',
       email: 'lilisouris@email.fr',
       resultRecipientEmail: 'lilisouris@email.fr',
       externalId: 'souris',
       birthdate: '2003-07-04',
       extraTimePercentage: '20',
-      subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: 456 })],
+      subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
       billingMode: 'Gratuite',
+      prepaymentCode: null,
       sessionId: 2,
     };
     firstSession = {
@@ -118,20 +121,28 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
   context('when sessions and candidates are valid', function () {
     it('return a sessions report', async function () {
       // given
-      const certificationCandidate1 = domainBuilder.buildCertificationCandidate({
-        ...candidate1,
-        complementaryCertification,
+      const candidate1 = domainBuilder.certification.enrolment.buildCandidate({
+        ...candidateData1,
+        id: null,
+        createdAt: null,
+        userId: null,
+        billingMode: CertificationCandidate.BILLING_MODES.FREE,
+        subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
       });
-      const session1 = { ...firstSession, certificationCandidates: [certificationCandidate1] };
-      const certificationCandidate2 = domainBuilder.buildCertificationCandidate({
-        ...candidate2,
-        complementaryCertification,
+      const session1 = { ...firstSession, candidates: [candidateData1] };
+      const candidate2 = domainBuilder.certification.enrolment.buildCandidate({
+        ...candidateData2,
+        id: null,
+        createdAt: null,
+        userId: null,
+        billingMode: CertificationCandidate.BILLING_MODES.FREE,
+        subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
       });
-      const session2 = { ...secondSession, certificationCandidates: [certificationCandidate2] };
+      const session2 = { ...secondSession, candidates: [candidateData2] };
 
-      sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
+      sessionsImportValidationService.getValidatedSubscriptionsForMassImport.resolves({
         certificationCandidateComplementaryErrors: [],
-        complementaryCertification,
+        subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
       });
 
       sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
@@ -141,12 +152,12 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
 
       temporarySessionsStorageForMassImportService.save.resolves(cachedValidatedSessionsKey);
 
-      sessionsImportValidationService.getUniqueCandidates.withArgs([certificationCandidate1]).returns({
-        uniqueCandidates: [certificationCandidate1],
+      sessionsImportValidationService.getUniqueCandidates.withArgs([candidateData1]).returns({
+        uniqueCandidates: [candidateData1],
         duplicateCandidateErrors: [],
       });
-      sessionsImportValidationService.getUniqueCandidates.withArgs([certificationCandidate2]).returns({
-        uniqueCandidates: [certificationCandidate2],
+      sessionsImportValidationService.getUniqueCandidates.withArgs([candidateData2]).returns({
+        uniqueCandidates: [candidateData2],
         duplicateCandidateErrors: [],
       });
 
@@ -156,20 +167,20 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCenterId,
           certificationCenter: certificationCenterName,
           accessCode,
-          certificationCandidates: [certificationCandidate1],
+          certificationCandidates: [candidate1],
         }),
         domainBuilder.certification.enrolment.buildSession({
           ...secondSession,
           certificationCenterId,
           certificationCenter: certificationCenterName,
           accessCode,
-          certificationCandidates: [certificationCandidate2],
+          certificationCandidates: [candidate2],
         }),
       ];
 
       // when
       const sessionsMassImportReport = await validateSessions({
-        sessions: [session1, session2],
+        sessionsData: [session1, session2],
         userId,
         certificationCenterId,
         certificationCenterRepository,
@@ -184,23 +195,13 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         sessions: [
           sinon.match({
             ...expectedSession1,
-            certificationCandidates: [
-              sinon.match({
-                ...certificationCandidate1,
-                billingMode: 'FREE',
-              }),
-            ],
+            certificationCandidates: [candidate1],
             createdBy: undefined,
             supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
           }),
           sinon.match({
             ...expectedSession2,
-            certificationCandidates: [
-              sinon.match({
-                ...certificationCandidate2,
-                billingMode: 'FREE',
-              }),
-            ],
+            certificationCandidates: [candidate2],
             createdBy: undefined,
             supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
           }),
@@ -220,33 +221,49 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     context('when there is only sessionId and candidate information', function () {
       it('should validate the candidates in the session', async function () {
         // given
-        const certificationCandidate1 = domainBuilder.buildCertificationCandidate(candidate1);
-        const session1 = { sessionId: 1, certificationCandidates: [certificationCandidate1] };
-        const certificationCandidate2 = domainBuilder.buildCertificationCandidate(candidate2);
-        const certificationCandidate3 = domainBuilder.buildCertificationCandidate({
-          ...candidate2,
-          lastName: 'Brun',
-          firstName: 'Petit Ours',
+        const candidate1 = domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateData1,
+          id: null,
+          createdAt: null,
+          userId: null,
+          billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
-        const session2 = { sessionId: 2, certificationCandidates: [certificationCandidate2, certificationCandidate3] };
+        const session1 = { ...firstSession, candidates: [candidateData1] };
+        const candidate2 = domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateData2,
+          id: null,
+          createdAt: null,
+          userId: null,
+          billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
+        });
+        const candidateData3 = { ...candidateData2, lastName: 'Brun', firstName: 'Petit Ours' };
+        const candidate3 = domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateData3,
+          id: null,
+          createdAt: null,
+          userId: null,
+          billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
+        });
+        const session2 = { sessionId: 2, candidates: [candidateData2, candidateData3] };
 
-        sessionsImportValidationService.getUniqueCandidates.withArgs([certificationCandidate1]).returns({
-          uniqueCandidates: [certificationCandidate1],
+        sessionsImportValidationService.getUniqueCandidates.withArgs([candidateData1]).returns({
+          uniqueCandidates: [candidateData1],
           duplicateCandidateErrors: [],
         });
-        sessionsImportValidationService.getUniqueCandidates
-          .withArgs([certificationCandidate2, certificationCandidate3])
-          .returns({
-            uniqueCandidates: [certificationCandidate2, certificationCandidate3],
-            duplicateCandidateErrors: [],
-          });
+        sessionsImportValidationService.getUniqueCandidates.withArgs([candidateData2, candidateData3]).returns({
+          uniqueCandidates: [candidateData2, candidateData3],
+          duplicateCandidateErrors: [],
+        });
 
         const cpfBirthInformationValidation1 = new CpfBirthInformationValidation();
-        cpfBirthInformationValidation1.success({ ...certificationCandidate1 });
+        cpfBirthInformationValidation1.success({ ...candidate1 });
         const cpfBirthInformationValidation2 = new CpfBirthInformationValidation();
-        cpfBirthInformationValidation2.success({ ...certificationCandidate2 });
+        cpfBirthInformationValidation2.success({ ...candidate2 });
         const cpfBirthInformationValidation3 = new CpfBirthInformationValidation();
-        cpfBirthInformationValidation3.success({ ...certificationCandidate3 });
+        cpfBirthInformationValidation3.success({ ...candidate3 });
         sessionsImportValidationService.getValidatedCandidateBirthInformation
           .onFirstCall()
           .resolves({ certificationCandidateErrors: [], cpfBirthInformation: cpfBirthInformationValidation1 })
@@ -255,16 +272,16 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           .onThirdCall()
           .resolves({ certificationCandidateErrors: [], cpfBirthInformation: cpfBirthInformationValidation3 });
 
-        sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
+        sessionsImportValidationService.getValidatedSubscriptionsForMassImport.resolves({
           certificationCandidateComplementaryErrors: [],
-          complementaryCertification: null,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
 
         temporarySessionsStorageForMassImportService.save.resolves(cachedValidatedSessionsKey);
 
         // when
         const sessionsMassImportReport = await validateSessions({
-          sessions: [session1, session2],
+          sessionsData: [session1, session2],
           userId,
           certificationCenterId,
           certificationCenterRepository,
@@ -283,7 +300,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
             certificationCenterId,
             certificationCenter: certificationCenterName,
             accessCode,
-            certificationCandidates: [certificationCandidate1],
+            certificationCandidates: [candidate1],
           }),
           new SessionEnrolment({
             ...session2,
@@ -291,7 +308,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
             certificationCenterId,
             certificationCenter: certificationCenterName,
             accessCode,
-            certificationCandidates: [certificationCandidate2, certificationCandidate3],
+            certificationCandidates: [candidate2, candidate3],
           }),
         ];
 
@@ -299,27 +316,13 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           sessions: [
             sinon.match({
               ...expectedSession1,
-              certificationCandidates: [
-                sinon.match({
-                  ...certificationCandidate1,
-                  billingMode: 'FREE',
-                }),
-              ],
+              certificationCandidates: [candidate1],
               createdBy: undefined,
               supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
             }),
             sinon.match({
               ...expectedSession2,
-              certificationCandidates: [
-                sinon.match({
-                  ...certificationCandidate2,
-                  billingMode: 'FREE',
-                }),
-                sinon.match({
-                  ...certificationCandidate3,
-                  billingMode: 'FREE',
-                }),
-              ],
+              certificationCandidates: [candidate2, candidate3],
               createdBy: undefined,
               supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
             }),
@@ -341,9 +344,9 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
   context('when session or candidate information is not valid', function () {
     it('should not save in temporary storage', async function () {
       // given
-      sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
+      sessionsImportValidationService.getValidatedSubscriptionsForMassImport.resolves({
         certificationCandidateComplementaryErrors: [],
-        complementaryCertification: null,
+        subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
       });
       sessionsImportValidationService.validateSession.resolves([
         { code: 'Veuillez indiquer un nom de site.', isBlocking: true },
@@ -352,18 +355,16 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         certificationCandidateErrors: [],
         cpfBirthInformation: {},
       });
-
-      const certificationCandidate = domainBuilder.buildCertificationCandidate(candidate1);
-      const sessions = [{ ...firstSession, certificationCandidates: [certificationCandidate], address: null }];
+      const sessionsData = [{ ...firstSession, candidates: [candidateData1], address: null }];
 
       sessionsImportValidationService.getUniqueCandidates.returns({
-        uniqueCandidates: [certificationCandidate],
+        uniqueCandidates: [candidateData1],
         duplicateCandidateErrors: [],
       });
 
       // when
       await validateSessions({
-        sessions,
+        sessionsData,
         certificationCenterId,
         certificationCenterRepository,
         sessionCodeService,
@@ -378,14 +379,11 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     context('when at least one of the sessions is not valid', function () {
       it('should return sessionsMassImportReport', async function () {
         // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate(candidate1);
-        const sessions = [
-          { ...firstSession, certificationCandidates: [{ ...certificationCandidate, name: null }], address: null },
-        ];
+        const sessionsData = [{ ...firstSession, candidates: [candidateData1], address: null }];
 
-        sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
+        sessionsImportValidationService.getValidatedSubscriptionsForMassImport.resolves({
           certificationCandidateComplementaryErrors: [],
-          complementaryCertification: null,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
         sessionsImportValidationService.validateSession.resolves(['Veuillez indiquer un nom de site.']);
         sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
@@ -393,13 +391,13 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         });
 
         sessionsImportValidationService.getUniqueCandidates.returns({
-          uniqueCandidates: [certificationCandidate],
+          uniqueCandidates: [candidateData1],
           duplicateCandidateErrors: [],
         });
 
         // when
         const sessionsMassImportReport = await validateSessions({
-          sessions,
+          sessionsData,
           certificationCenterId,
           certificationCenterRepository,
           sessionCodeService,
@@ -424,35 +422,32 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     context('when there is at least one duplicate candidate in a session', function () {
       it('should remove duplicate certification candidates from the session', async function () {
         // given
-        const certificationCandidate1 = domainBuilder.buildCertificationCandidate({
-          ...candidate1,
-          line: 1,
-          candidateNumber: 1,
+        const candidate1 = domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateData1,
+          id: null,
+          createdAt: null,
+          userId: null,
+          billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
-        const certificationCandidate1Duplicate = domainBuilder.buildCertificationCandidate({
-          ...candidate1,
-          line: 3,
-          candidateNumber: 1,
+        const candidate2 = domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateData2,
+          id: null,
+          createdAt: null,
+          userId: null,
+          billingMode: CertificationCandidate.BILLING_MODES.FREE,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
-        const certificationCandidate2 = domainBuilder.buildCertificationCandidate({
-          ...candidate2,
-          line: 2,
-          candidateNumber: 2,
-        });
-        const sessions = [
+        const sessionsData = [
           {
             ...firstSession,
-            certificationCandidates: [
-              certificationCandidate1,
-              certificationCandidate1Duplicate,
-              certificationCandidate2,
-            ],
+            candidates: [{ ...candidateData1 }, { ...candidateData1 }, { ...candidateData2 }],
           },
         ];
 
-        sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
+        sessionsImportValidationService.getValidatedSubscriptionsForMassImport.resolves({
           certificationCandidateComplementaryErrors: [],
-          complementaryCertification: null,
+          complementaryCertification: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
         sessionsImportValidationService.validateSession.resolves([]);
         sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
@@ -461,7 +456,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         });
 
         sessionsImportValidationService.getUniqueCandidates.returns({
-          uniqueCandidates: [certificationCandidate1, certificationCandidate2],
+          uniqueCandidates: [candidate1, candidate2],
           duplicateCandidateErrors: [
             {
               line: 3,
@@ -475,7 +470,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
 
         // when
         const sessionsMassImportReport = await validateSessions({
-          sessions,
+          sessionsData,
           certificationCenterRepository,
           certificationCenterId,
           sessionCodeService,
@@ -506,21 +501,20 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     context('when candidate recipient (or convocation) email is not valid', function () {
       it('should return sessionsMassImportReport', async function () {
         // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate(candidate1);
-        const certificationCandidateWithInvalidEmail = domainBuilder.buildCertificationCandidate({
-          ...candidate2,
+        const brokenCandidateData2 = {
+          ...candidateData2,
           resultRecipientEmail: 'invalidemail',
-        });
-        const sessions = [
+        };
+        const sessionsData = [
           {
             ...firstSession,
-            certificationCandidates: [{ certificationCandidate, certificationCandidateWithInvalidEmail }],
+            candidates: [candidateData1, brokenCandidateData2],
           },
         ];
 
-        sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport.resolves({
+        sessionsImportValidationService.getValidatedSubscriptionsForMassImport.resolves({
           certificationCandidateComplementaryErrors: [],
-          complementaryCertification: null,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
         sessionsImportValidationService.validateSession.resolves([]);
         sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
@@ -539,7 +533,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
             },
           ]);
         sessionsImportValidationService.getUniqueCandidates.returns({
-          uniqueCandidates: [certificationCandidate, certificationCandidateWithInvalidEmail],
+          uniqueCandidates: [candidateData1, brokenCandidateData2],
           duplicateCandidateErrors: [],
         });
 
@@ -547,7 +541,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
 
         // when
         const sessionsMassImportReport = await validateSessions({
-          sessions,
+          sessionsData,
           certificationCenterRepository,
           certificationCenterId,
           sessionCodeService,

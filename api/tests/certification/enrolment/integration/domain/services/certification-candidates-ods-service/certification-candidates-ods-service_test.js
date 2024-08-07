@@ -5,12 +5,12 @@ import * as complementaryCertificationRepository from '../../../../../../../src/
 import * as certificationCandidatesOdsService from '../../../../../../../src/certification/enrolment/domain/services/certification-candidates-ods-service.js';
 import * as certificationCpfCityRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
+import { BILLING_MODES } from '../../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import * as certificationCpfService from '../../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import * as certificationCenterRepository from '../../../../../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import { CertificationCandidatesError } from '../../../../../../../src/shared/domain/errors.js';
-import { CertificationCandidate } from '../../../../../../../src/shared/domain/models/index.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
 import { getI18n } from '../../../../../../tooling/i18n/i18n.js';
 
@@ -64,7 +64,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     mailCheck = { checkDomainIsValid: sinon.stub() };
 
-    candidateList = _buildCertificationCandidateList({ sessionId });
+    candidateList = _buildCandidateList({ sessionId });
   });
 
   it('should throw a CertificationCandidatesError if there is an error in the file', async function () {
@@ -192,7 +192,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const odsBuffer = await readFile(odsFilePath);
 
     // when
-    const actualCertificationCandidates =
+    const actualCandidates =
       await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
         i18n,
         sessionId,
@@ -207,9 +207,9 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
 
     // then
-    candidateList = _buildCertificationCandidateList({ sessionId });
-    const expectedCertificationCandidates = candidateList.map((candidate) => new CertificationCandidate(candidate));
-    expect(actualCertificationCandidates).to.deep.equal(expectedCertificationCandidates);
+    candidateList = _buildCandidateList({ sessionId });
+    const expectedCandidates = candidateList.map(domainBuilder.certification.enrolment.buildCandidate);
+    expect(actualCandidates).to.deep.equal(expectedCandidates);
   });
 
   context('when certification center has habilitations', function () {
@@ -327,20 +327,20 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
       const odsFilePath = `${__dirname}/attendance_sheet_extract_with_complementary_certifications_ok_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
-      candidateList = _buildCertificationCandidateList({
+      candidateList = _buildCandidateList({
         sessionId,
-        complementaryCertification: {
-          cleaComplementaryCertification,
-          pixPlusDroitComplementaryCertification,
+        complementaryCertifications: [
           pixPlusEdu1erDegreComplementaryCertification,
+          pixPlusDroitComplementaryCertification,
+          cleaComplementaryCertification,
           pixPlusEdu2ndDegreComplementaryCertification,
           PixPlusProSanteComplementaryCertification,
-        },
+        ],
       });
-      const expectedCertificationCandidates = candidateList.map((candidate) => new CertificationCandidate(candidate));
+      const expectedCandidates = candidateList.map(domainBuilder.certification.enrolment.buildCandidate);
 
       // when
-      const actualCertificationCandidates =
+      const actualCandidates =
         await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
           i18n,
           sessionId,
@@ -355,7 +355,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         });
 
       // then
-      expect(actualCertificationCandidates).to.deep.equal(expectedCertificationCandidates);
+      expect(actualCandidates).to.deep.equal(expectedCandidates);
     });
   });
 
@@ -366,11 +366,11 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     const odsFilePath = `${__dirname}/attendance_sheet_extract_with_billing_ok_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
-    candidateList = _buildCertificationCandidateList({ hasBillingMode: true, sessionId });
-    const expectedCertificationCandidates = candidateList.map((candidate) => new CertificationCandidate(candidate));
+    candidateList = _buildCandidateList({ hasBillingMode: true, sessionId });
+    const expectedCandidates = candidateList.map(domainBuilder.certification.enrolment.buildCandidate);
 
     // when
-    const actualCertificationCandidates =
+    const actualCandidates =
       await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
         i18n,
         sessionId,
@@ -385,7 +385,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
 
     // then
-    expect(actualCertificationCandidates).to.deep.equal(expectedCertificationCandidates);
+    expect(actualCandidates).to.deep.equal(expectedCandidates);
   });
 
   it('should return extracted and validated certification candidates without billing information when certification center is AEFE', async function () {
@@ -396,7 +396,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     mailCheck.checkDomainIsValid.resolves();
 
     // when
-    const actualCertificationCandidates =
+    const actualCandidates =
       await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
         i18n,
         sessionId,
@@ -411,14 +411,16 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
 
     // then
-    const expectedCertificationCandidates = candidateList.map((candidate) => new CertificationCandidate(candidate));
-    expect(actualCertificationCandidates).to.deep.equal(expectedCertificationCandidates);
+    const expectedCandidates = candidateList.map(domainBuilder.certification.enrolment.buildCandidate);
+    expect(actualCandidates).to.deep.equal(expectedCandidates);
   });
 });
 
-function _buildCertificationCandidateList({ hasBillingMode = false, sessionId, complementaryCertification = null }) {
-  let candidateList;
+function _buildCandidateList({ hasBillingMode = false, sessionId, complementaryCertifications = [] }) {
   const firstCandidate = {
+    id: null,
+    sessionId,
+    createdAt: null,
     lastName: 'Gallagher',
     firstName: 'Jack',
     birthdate: '1980-08-10',
@@ -427,12 +429,21 @@ function _buildCertificationCandidateList({ hasBillingMode = false, sessionId, c
     birthCountry: 'ANGLETERRE',
     birthINSEECode: '99132',
     birthPostalCode: null,
+    birthProvinceCode: null,
     resultRecipientEmail: 'destinataire@gmail.com',
     email: 'jack@d.it',
     externalId: null,
     extraTimePercentage: 0.15,
+    billingMode: hasBillingMode ? BILLING_MODES.PAID : null,
+    prepaymentCode: null,
+    subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
+    organizationLearnerId: null,
+    userId: null,
   };
   const secondCandidate = {
+    id: null,
+    sessionId,
+    createdAt: null,
     lastName: 'Jackson',
     firstName: 'Janet',
     birthdate: '2005-12-05',
@@ -441,12 +452,21 @@ function _buildCertificationCandidateList({ hasBillingMode = false, sessionId, c
     birthCountry: 'FRANCE',
     birthINSEECode: '2A004',
     birthPostalCode: null,
+    birthProvinceCode: null,
     resultRecipientEmail: 'destinataire@gmail.com',
     email: 'jaja@hotmail.fr',
     externalId: 'DEF456',
     extraTimePercentage: null,
+    billingMode: hasBillingMode ? BILLING_MODES.FREE : null,
+    prepaymentCode: null,
+    subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
+    organizationLearnerId: null,
+    userId: null,
   };
   const thirdCandidate = {
+    id: null,
+    sessionId,
+    createdAt: null,
     lastName: 'Jackson',
     firstName: 'Michael',
     birthdate: '2004-04-04',
@@ -455,12 +475,21 @@ function _buildCertificationCandidateList({ hasBillingMode = false, sessionId, c
     birthCountry: 'FRANCE',
     birthINSEECode: null,
     birthPostalCode: '75018',
+    birthProvinceCode: null,
     resultRecipientEmail: 'destinataire@gmail.com',
     email: 'jackson@gmail.com',
     externalId: 'ABC123',
     extraTimePercentage: 0.6,
+    billingMode: hasBillingMode ? BILLING_MODES.FREE : null,
+    prepaymentCode: null,
+    subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
+    organizationLearnerId: null,
+    userId: null,
   };
   const fourthCandidate = {
+    id: null,
+    sessionId,
+    createdAt: null,
     lastName: 'Mercury',
     firstName: 'Freddy',
     birthdate: '1925-06-28',
@@ -469,123 +498,125 @@ function _buildCertificationCandidateList({ hasBillingMode = false, sessionId, c
     birthCountry: 'FRANCE',
     birthINSEECode: null,
     birthPostalCode: '97180',
+    birthProvinceCode: null,
     resultRecipientEmail: null,
     email: null,
     externalId: 'GHI789',
     extraTimePercentage: 1.5,
+    billingMode: hasBillingMode ? BILLING_MODES.PREPAID : null,
+    prepaymentCode: hasBillingMode ? 'CODE1' : null,
+    subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
+    organizationLearnerId: null,
+    userId: null,
   };
   const fifthCandidate = {
+    id: null,
+    sessionId,
+    createdAt: null,
     firstName: 'Annie',
     lastName: 'Cordy',
     birthCity: 'BUELLAS',
-    birthProvinceCode: undefined,
     birthCountry: 'FRANCE',
     birthPostalCode: '01310',
     birthINSEECode: null,
+    birthProvinceCode: null,
     sex: 'M',
     email: null,
     resultRecipientEmail: null,
     externalId: 'GHI769',
     birthdate: '1928-06-16',
     extraTimePercentage: 1.5,
-    createdAt: undefined,
-    authorizedToStart: undefined,
-    userId: undefined,
-    organizationLearnerId: null,
-    complementaryCertification: null,
     billingMode: null,
     prepaymentCode: null,
+    subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
+    organizationLearnerId: null,
+    userId: null,
   };
   const sixthCandidate = {
+    id: null,
+    sessionId,
+    createdAt: null,
     firstName: 'Demis',
     lastName: 'Roussos',
     birthCity: 'BUELLAS',
-    birthProvinceCode: undefined,
     birthCountry: 'FRANCE',
     birthPostalCode: null,
     birthINSEECode: '01065',
+    birthProvinceCode: null,
     sex: 'M',
     email: null,
     resultRecipientEmail: null,
     externalId: 'GHI799',
     birthdate: '1946-06-15',
     extraTimePercentage: 1.5,
-    createdAt: undefined,
-    authorizedToStart: undefined,
-    userId: undefined,
-    organizationLearnerId: null,
-    complementaryCertification: null,
     billingMode: null,
     prepaymentCode: null,
+    subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
+    organizationLearnerId: null,
+    userId: null,
   };
-  const seventhCandidate = {
-    lastName: 'Cendy',
-    firstName: 'Alain',
-    birthdate: '1988-06-28',
-    sex: 'M',
-    birthCity: 'SAINT-ANNE',
-    birthCountry: 'FRANCE',
-    birthINSEECode: null,
-    birthPostalCode: '97180',
-    resultRecipientEmail: null,
-    email: null,
-    externalId: 'SDQ987',
-    extraTimePercentage: null,
-    sessionId,
-  };
-
   if (hasBillingMode) {
-    candidateList = [
-      { ...firstCandidate, billingMode: 'PAID' },
-      { ...secondCandidate, billingMode: 'FREE' },
-      { ...thirdCandidate, billingMode: 'FREE' },
-      { ...fourthCandidate, billingMode: 'PREPAID', prepaymentCode: 'CODE1' },
-    ];
-  } else if (complementaryCertification) {
-    candidateList = [
-      {
-        ...firstCandidate,
-        billingMode: 'FREE',
-        complementaryCertification: domainBuilder.buildComplementaryCertification(
-          complementaryCertification.pixPlusEdu1erDegreComplementaryCertification,
-        ),
-      },
-      {
-        ...secondCandidate,
-        billingMode: 'FREE',
-        complementaryCertification: domainBuilder.buildComplementaryCertification(
-          complementaryCertification.pixPlusDroitComplementaryCertification,
-        ),
-      },
-      {
-        ...thirdCandidate,
-        billingMode: 'FREE',
-        complementaryCertification: domainBuilder.buildComplementaryCertification(
-          complementaryCertification.cleaComplementaryCertification,
-        ),
-      },
-      {
-        ...fourthCandidate,
-        billingMode: 'FREE',
-        complementaryCertification: domainBuilder.buildComplementaryCertification(
-          complementaryCertification.pixPlusEdu2ndDegreComplementaryCertification,
-        ),
-      },
-      {
-        ...seventhCandidate,
-        billingMode: 'FREE',
-        complementaryCertification: domainBuilder.buildComplementaryCertification(
-          complementaryCertification.PixPlusProSanteComplementaryCertification,
-        ),
-      },
-    ];
-  } else {
-    candidateList = [firstCandidate, secondCandidate, thirdCandidate, fourthCandidate, fifthCandidate, sixthCandidate];
+    return [firstCandidate, secondCandidate, thirdCandidate, fourthCandidate];
   }
-
-  return candidateList.map((candidate) => ({
-    ...candidate,
-    sessionId,
-    subscriptions: [domainBuilder.buildCoreSubscription()],
-  }));
+  if (complementaryCertifications.length > 0) {
+    firstCandidate.subscriptions.push(
+      domainBuilder.buildComplementarySubscription({
+        certificationCandidateId: null,
+        complementaryCertificationId: complementaryCertifications[0].id,
+      }),
+    );
+    firstCandidate.billingMode = BILLING_MODES.FREE;
+    secondCandidate.subscriptions.push(
+      domainBuilder.buildComplementarySubscription({
+        certificationCandidateId: null,
+        complementaryCertificationId: complementaryCertifications[1].id,
+      }),
+    );
+    secondCandidate.billingMode = BILLING_MODES.FREE;
+    thirdCandidate.subscriptions.push(
+      domainBuilder.buildComplementarySubscription({
+        certificationCandidateId: null,
+        complementaryCertificationId: complementaryCertifications[2].id,
+      }),
+    );
+    thirdCandidate.billingMode = BILLING_MODES.FREE;
+    fourthCandidate.subscriptions.push(
+      domainBuilder.buildComplementarySubscription({
+        certificationCandidateId: null,
+        complementaryCertificationId: complementaryCertifications[3].id,
+      }),
+    );
+    fourthCandidate.billingMode = BILLING_MODES.FREE;
+    const seventhCandidate = {
+      sessionId,
+      id: null,
+      createdAt: null,
+      lastName: 'Cendy',
+      firstName: 'Alain',
+      birthdate: '1988-06-28',
+      sex: 'M',
+      birthCity: 'SAINT-ANNE',
+      birthCountry: 'FRANCE',
+      birthINSEECode: null,
+      birthPostalCode: '97180',
+      birthProvinceCode: null,
+      resultRecipientEmail: null,
+      email: null,
+      externalId: 'SDQ987',
+      extraTimePercentage: null,
+      organizationLearnerId: null,
+      userId: null,
+      billingMode: BILLING_MODES.FREE,
+      subscriptions: [
+        domainBuilder.buildCoreSubscription({ certificationCandidateId: null }),
+        domainBuilder.buildComplementarySubscription({
+          certificationCandidateId: null,
+          complementaryCertificationId: complementaryCertifications[4].id,
+        }),
+      ],
+      prepaymentCode: null,
+    };
+    return [firstCandidate, secondCandidate, thirdCandidate, fourthCandidate, seventhCandidate];
+  }
+  return [firstCandidate, secondCandidate, thirdCandidate, fourthCandidate, fifthCandidate, sixthCandidate];
 }

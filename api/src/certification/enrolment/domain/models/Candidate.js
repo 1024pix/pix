@@ -1,5 +1,9 @@
 import _ from 'lodash';
 
+import { CertificationCandidatesError } from '../../../../shared/domain/errors.js';
+import { BILLING_MODES } from '../../../shared/domain/constants.js';
+import { validate } from '../validators/candidate-validator.js';
+
 export class Candidate {
   constructor({
     id,
@@ -17,14 +21,14 @@ export class Candidate {
     birthdate,
     extraTimePercentage,
     createdAt,
-    authorizedToStart,
+    authorizedToStart = false,
     sessionId,
     userId,
     organizationLearnerId,
-    complementaryCertificationId,
     billingMode,
     prepaymentCode,
     hasSeenCertificationInstructions = false,
+    subscriptions = [],
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -45,10 +49,10 @@ export class Candidate {
     this.sessionId = sessionId;
     this.userId = userId;
     this.organizationLearnerId = organizationLearnerId;
-    this.complementaryCertificationId = complementaryCertificationId;
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;
     this.hasSeenCertificationInstructions = hasSeenCertificationInstructions;
+    this.subscriptions = subscriptions;
   }
 
   isLinkedToAUser() {
@@ -57,5 +61,61 @@ export class Candidate {
 
   validateCertificationInstructions() {
     this.hasSeenCertificationInstructions = true;
+  }
+
+  validate(isSco = false) {
+    const { error } = validate(this, {
+      allowUnknown: true,
+      context: {
+        isSco,
+        isSessionsMassImport: false,
+      },
+    });
+
+    if (error) {
+      throw new CertificationCandidatesError({
+        code: error.details?.[0]?.message,
+        meta: error.details?.[0]?.context?.value,
+      });
+    }
+  }
+
+  validateForMassSessionImport(isSco = false) {
+    const { error } = validate(this, {
+      abortEarly: false,
+      allowUnknown: true,
+      context: {
+        isSco,
+        isSessionsMassImport: true,
+      },
+    });
+    if (error) {
+      return error.details.map(({ message }) => message);
+    }
+  }
+
+  updateBirthInformation({ birthCountry, birthINSEECode, birthPostalCode, birthCity }) {
+    this.birthCountry = birthCountry;
+    this.birthINSEECode = birthINSEECode;
+    this.birthPostalCode = birthPostalCode;
+    this.birthCity = birthCity;
+  }
+
+  static parseBillingMode({ billingMode, translate }) {
+    switch (billingMode) {
+      case translate('candidate-list-template.billing-mode.free'):
+        return BILLING_MODES.FREE;
+      case translate('candidate-list-template.billing-mode.paid'):
+        return BILLING_MODES.PAID;
+      case translate('candidate-list-template.billing-mode.prepaid'):
+        return BILLING_MODES.PREPAID;
+      case null:
+      default:
+        return '';
+    }
+  }
+
+  convertExtraTimePercentageToDecimal() {
+    this.extraTimePercentage = this.extraTimePercentage / 100;
   }
 }

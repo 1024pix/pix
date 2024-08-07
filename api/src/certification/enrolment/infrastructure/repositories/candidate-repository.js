@@ -1,4 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CertificationCandidateNotFoundError } from '../../domain/errors.js';
 import { Candidate } from '../../domain/models/Candidate.js';
 
@@ -9,7 +10,7 @@ import { Candidate } from '../../domain/models/Candidate.js';
  *
  * @return {Candidate}
  */
-const get = async function ({ certificationCandidateId }) {
+export async function get({ certificationCandidateId }) {
   const certificationCandidate = await knex('certification-candidates')
     .where({
       id: certificationCandidateId,
@@ -17,7 +18,7 @@ const get = async function ({ certificationCandidateId }) {
     .first();
 
   return _toDomain(certificationCandidate);
-};
+}
 
 /**
  * @function
@@ -26,7 +27,7 @@ const get = async function ({ certificationCandidateId }) {
  * @return {Candidate}
  * @throws {CertificationCandidateNotFoundError} Certification candidate not found
  */
-const update = async function (certificationCandidate) {
+export async function update(certificationCandidate) {
   const [updatedCertificationCandidate] = await knex('certification-candidates')
     .where({
       id: certificationCandidate.id,
@@ -51,7 +52,6 @@ const update = async function (certificationCandidate) {
       sessionId: certificationCandidate.sessionId,
       userId: certificationCandidate.userId,
       organizationLearnerId: certificationCandidate.organizationLearnerId,
-      complementaryCertificationId: certificationCandidate.complementaryCertificationId,
       billingMode: certificationCandidate.billingMode,
       prepaymentCode: certificationCandidate.prepaymentCode,
       hasSeenCertificationInstructions: certificationCandidate.hasSeenCertificationInstructions,
@@ -63,7 +63,7 @@ const update = async function (certificationCandidate) {
   }
 
   return _toDomain(updatedCertificationCandidate);
-};
+}
 
 /**
  * @function
@@ -73,7 +73,7 @@ const update = async function (certificationCandidate) {
  *
  * @return {Boolean} Returns true if candidate is found or false otherwise
  */
-const isUserCertificationCandidate = async function ({ certificationCandidateId, userId }) {
+export async function isUserCertificationCandidate({ certificationCandidateId, userId }) {
   const certificationCandidate = await knex
     .select(1)
     .from('certification-candidates')
@@ -84,10 +84,128 @@ const isUserCertificationCandidate = async function ({ certificationCandidateId,
     .first();
 
   return Boolean(certificationCandidate);
-};
+}
 
-export { get, isUserCertificationCandidate, update };
+/**
+ * @function
+ * @param sessionId
+ * @returns {boolean} True if any candidate is linked to an existing user
+ */
+export async function doesLinkedCertificationCandidateInSessionExist({ sessionId }) {
+  const anyLinkedCandidateInSession = await knex
+    .select('id')
+    .from('certification-candidates')
+    .where({
+      sessionId,
+    })
+    .whereNotNull('userId');
+
+  return anyLinkedCandidateInSession.length > 0;
+}
+
+/**
+ * @function
+ * @param {Object} candidate
+ *
+ * @return {number}
+ */
+export async function insert(candidate) {
+  const candidateDataToSave = _adaptModelToDb(candidate);
+  const knexTransaction = DomainTransaction.getConnection();
+
+  const [{ id: candidateId }] = await knexTransaction('certification-candidates')
+    .insert(candidateDataToSave)
+    .returning('id');
+
+  for (const subscription of candidate.subscriptions) {
+    await knexTransaction('certification-subscriptions').insert({
+      certificationCandidateId: candidateId,
+      type: subscription.type,
+      complementaryCertificationId: subscription.complementaryCertificationId,
+    });
+  }
+
+  return candidateId;
+}
+
+/**
+ * @function
+ * @param sessionId
+ * @returns {Promise<void>}
+ */
+export async function deleteBySessionId({ sessionId }) {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('certification-subscriptions')
+    .whereIn('certificationCandidateId', knexConn.select('id').from('certification-candidates').where({ sessionId }))
+    .del();
+
+  await knexConn('certification-candidates').where({ sessionId }).del();
+}
+
+/**
+ * @function
+ * @param candidate
+ * @param sessionId
+ * @returns {number} return saved candidate id
+ */
+export async function saveInSession({ candidate, sessionId }) {
+  const candidateDataToSave = _adaptModelToDb(candidate);
+  const knexTransaction = DomainTransaction.getConnection();
+
+  const [{ id: certificationCandidateId }] = await knexTransaction('certification-candidates')
+    .insert({ ...candidateDataToSave, sessionId })
+    .returning('id');
+
+  for (const subscription of candidate.subscriptions) {
+    await knexTransaction('certification-subscriptions').insert({
+      certificationCandidateId,
+      type: subscription.type,
+      complementaryCertificationId: subscription.complementaryCertificationId,
+    });
+  }
+
+  return certificationCandidateId;
+}
+
+/**
+ * @function
+ * @param id
+ * @returns {boolean}
+ */
+export async function remove({ id }) {
+  await knex.transaction(async (trx) => {
+    await trx('certification-subscriptions').where({ certificationCandidateId: id }).del();
+    return trx('certification-candidates').where({ id }).del();
+  });
+
+  return true;
+}
 
 function _toDomain(result) {
   return result ? new Candidate(result) : null;
+}
+
+function _adaptModelToDb(candidate) {
+  return {
+    firstName: candidate.firstName,
+    lastName: candidate.lastName,
+    sex: candidate.sex,
+    birthPostalCode: candidate.birthPostalCode,
+    birthINSEECode: candidate.birthINSEECode,
+    birthCity: candidate.birthCity,
+    birthProvinceCode: candidate.birthProvinceCode,
+    birthCountry: candidate.birthCountry,
+    email: candidate.email,
+    resultRecipientEmail: candidate.resultRecipientEmail,
+    externalId: candidate.externalId,
+    birthdate: candidate.birthdate,
+    extraTimePercentage: candidate.extraTimePercentage,
+    authorizedToStart: candidate.authorizedToStart,
+    sessionId: candidate.sessionId,
+    userId: candidate.userId,
+    organizationLearnerId: candidate.organizationLearnerId,
+    billingMode: candidate.billingMode,
+    prepaymentCode: candidate.prepaymentCode,
+    hasSeenCertificationInstructions: candidate.hasSeenCertificationInstructions,
+  };
 }

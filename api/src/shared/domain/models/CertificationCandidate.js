@@ -3,23 +3,15 @@ import BaseJoi from 'joi';
 import lodash from 'lodash';
 
 import { Subscription } from '../../../certification/enrolment/domain/models/Subscription.js';
-import { SubscriptionTypes } from '../../../certification/shared/domain/models/SubscriptionTypes.js';
-import { validate } from '../../../certification/shared/domain/validators/certification-candidate-validator.js';
+import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../certification/shared/domain/constants.js';
 import { subscriptionSchema } from '../../../certification/shared/domain/validators/subscription-validator.js';
 import {
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
-  CertificationCandidatesError,
 } from '../errors.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 const { isNil, endsWith } = lodash;
-
-const BILLING_MODES = {
-  FREE: 'FREE',
-  PAID: 'PAID',
-  PREPAID: 'PREPAID',
-};
 
 const certificationCandidateParticipationJoiSchema = Joi.object({
   id: Joi.any().allow(null).optional(),
@@ -119,7 +111,7 @@ class CertificationCandidate {
 
       set: function (complementaryCertification) {
         this.#complementaryCertification = complementaryCertification;
-        this.subscriptions = this.subscriptions.filter((subscription) => subscription.type === SubscriptionTypes.CORE);
+        this.subscriptions = this.subscriptions.filter((subscription) => subscription.type === SUBSCRIPTION_TYPES.CORE);
         if (complementaryCertification?.id) {
           this.subscriptions.push(
             Subscription.buildComplementary({
@@ -162,43 +154,6 @@ class CertificationCandidate {
     }
   }
 
-  validate(isSco = false) {
-    const { error } = validate(
-      { ...this, complementaryCertification: this.complementaryCertification },
-      {
-        allowUnknown: true,
-        context: {
-          isSco,
-          isSessionsMassImport: false,
-        },
-      },
-    );
-
-    if (error) {
-      throw new CertificationCandidatesError({
-        code: error.details?.[0]?.message,
-        meta: error.details?.[0]?.context?.value,
-      });
-    }
-  }
-
-  validateForMassSessionImport(isSco = false) {
-    const { error } = validate(
-      { ...this, complementaryCertification: this.complementaryCertification },
-      {
-        abortEarly: false,
-        allowUnknown: true,
-        context: {
-          isSco,
-          isSessionsMassImport: true,
-        },
-      },
-    );
-    if (error) {
-      return error.details.map(({ message }) => message);
-    }
-  }
-
   validateParticipation() {
     const { error } = certificationCandidateParticipationJoiSchema.validate({
       ...this,
@@ -228,31 +183,12 @@ class CertificationCandidate {
     return this.userId === userId;
   }
 
-  updateBirthInformation({ birthCountry, birthINSEECode, birthPostalCode, birthCity }) {
-    this.birthCountry = birthCountry;
-    this.birthINSEECode = birthINSEECode;
-    this.birthPostalCode = birthPostalCode;
-    this.birthCity = birthCity;
-  }
-
   isGranted(key) {
     return this.complementaryCertification?.key === key;
   }
 
   isBillingModePrepaid() {
     return this.billingMode === CertificationCandidate.BILLING_MODES.PREPAID;
-  }
-
-  convertExtraTimePercentageToDecimal() {
-    this.extraTimePercentage = this.extraTimePercentage / 100;
-  }
-
-  /**
-   * @param {Subscription} subscription
-   */
-  addSubscription(subscription) {
-    this.subscriptions = this.subscriptions.filter(({ type }) => subscription.type !== type);
-    this.subscriptions.push(subscription);
   }
 }
 

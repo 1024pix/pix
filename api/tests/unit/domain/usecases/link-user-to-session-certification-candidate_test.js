@@ -145,7 +145,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           });
 
           context('when the linked user is not the same as the user being linked', function () {
-            it('should throw a CertificationCandidateAlreadyLinkedToUserError', async function () {
+            it('should throw a CandidateAlreadyLinkedToUserError', async function () {
               // given
               const certificationCandidate = domainBuilder.buildCertificationCandidate({
                 ...certificationCandidateData,

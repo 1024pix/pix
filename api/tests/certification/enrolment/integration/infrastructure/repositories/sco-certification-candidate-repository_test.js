@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import * as scoCertificationCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/sco-certification-candidate-repository.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
 
 describe('Certification | Enrolment | Integration | Repository | SCOCertificationCandidate', function () {
@@ -44,10 +45,12 @@ describe('Certification | Enrolment | Integration | Repository | SCOCertificatio
         domainBuilder.buildSCOCertificationCandidate({
           ...scoCandidateAlreadySaved1,
           organizationLearnerId: scoCandidateAlreadySaved1.organizationLearnerId,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         }),
         domainBuilder.buildSCOCertificationCandidate({
           ...scoCandidateAlreadySaved2,
           organizationLearnerId: scoCandidateAlreadySaved2.organizationLearnerId,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         }),
         domainBuilder.buildSCOCertificationCandidate({
           id: null,
@@ -58,11 +61,13 @@ describe('Certification | Enrolment | Integration | Repository | SCOCertificatio
           birthINSEECode: '75005',
           organizationLearnerId: organizationLearnerId3,
           sessionId,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         }),
         domainBuilder.buildSCOCertificationCandidate({
           id: null,
           organizationLearnerId: organizationLearnerId4,
           sessionId,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         }),
       ];
 
@@ -94,6 +99,7 @@ describe('Certification | Enrolment | Integration | Repository | SCOCertificatio
       // given
       const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner().id;
       const scoCandidateAlreadySaved1 = databaseBuilder.factory.buildCertificationCandidate({
+        id: 1,
         sessionId,
         organizationLearnerId: organizationLearnerId1,
       });
@@ -103,12 +109,18 @@ describe('Certification | Enrolment | Integration | Repository | SCOCertificatio
       });
       const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner().id;
       const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner().id;
+      databaseBuilder.factory.buildComplementaryCertification({
+        id: 123,
+        label: 'quelquechose',
+        key: 'quelquechose',
+      });
       await databaseBuilder.commit();
 
       const scoCandidates = [
         domainBuilder.buildSCOCertificationCandidate({
           ...scoCandidateAlreadySaved1,
           organizationLearnerId: scoCandidateAlreadySaved1.organizationLearnerId,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         }),
         domainBuilder.buildSCOCertificationCandidate({
           id: null,
@@ -119,11 +131,19 @@ describe('Certification | Enrolment | Integration | Repository | SCOCertificatio
           birthINSEECode: '75005',
           organizationLearnerId: organizationLearnerId2,
           sessionId,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         }),
         domainBuilder.buildSCOCertificationCandidate({
           id: null,
           organizationLearnerId: organizationLearnerId3,
           sessionId,
+          subscriptions: [
+            domainBuilder.buildCoreSubscription({ certificationCandidateId: null }),
+            domainBuilder.buildComplementarySubscription({
+              certificationCandidateId: null,
+              complementaryCertificationId: 123,
+            }),
+          ],
         }),
       ];
 
@@ -135,18 +155,30 @@ describe('Certification | Enrolment | Integration | Repository | SCOCertificatio
 
       // then
       const subscriptions = await knex('certification-subscriptions');
-      expect(subscriptions.length).to.equal(3);
+      expect(subscriptions.length).to.equal(4);
       sinon.assert.match(subscriptions[0], {
         certificationCandidateId: scoCandidateAlreadySaved1.id,
         complementaryCertificationId: null,
         createdAt: new Date('2024-01-01'),
-        type: 'CORE',
+        type: SUBSCRIPTION_TYPES.CORE,
       });
       sinon.assert.match(subscriptions[1], {
         certificationCandidateId: sinon.match.number,
         complementaryCertificationId: null,
         createdAt: sinon.match.date,
-        type: 'CORE',
+        type: SUBSCRIPTION_TYPES.CORE,
+      });
+      sinon.assert.match(subscriptions[2], {
+        certificationCandidateId: sinon.match.number,
+        complementaryCertificationId: null,
+        createdAt: sinon.match.date,
+        type: SUBSCRIPTION_TYPES.CORE,
+      });
+      sinon.assert.match(subscriptions[3], {
+        certificationCandidateId: sinon.match.number,
+        complementaryCertificationId: sinon.match.number,
+        createdAt: sinon.match.date,
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
       });
     });
 

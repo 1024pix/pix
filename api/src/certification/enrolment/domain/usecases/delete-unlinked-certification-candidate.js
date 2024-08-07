@@ -1,21 +1,18 @@
 /**
- * @typedef {import('./index.js').CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {import('./index.js').CandidateRepository} candidateRepository
  */
 
 import { CertificationCandidateForbiddenDeletionError } from '../errors.js';
 
 /**
  * @param {Object} params
- * @param {CertificationCandidateRepository} params.certificationCandidateRepository
+ * @param {CandidateRepository} params.candidateRepository
  */
-const deleteUnlinkedCertificationCandidate = async function ({
-  certificationCandidateId,
-  certificationCandidateRepository,
-}) {
-  const isNotLinked = await certificationCandidateRepository.isNotLinked({ id: certificationCandidateId });
+const deleteUnlinkedCertificationCandidate = async function ({ candidateId, candidateRepository }) {
+  const candidate = await candidateRepository.get({ certificationCandidateId: candidateId });
 
-  if (isNotLinked) {
-    return certificationCandidateRepository.remove({ id: certificationCandidateId });
+  if (!candidate.isLinkedToAUser()) {
+    return candidateRepository.remove({ id: candidateId });
   }
 
   throw new CertificationCandidateForbiddenDeletionError();

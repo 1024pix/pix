@@ -1,12 +1,12 @@
 import Joi from 'joi';
 
-import { SubscriptionTypes } from '../models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../constants.js';
 
 const subscriptionSchema = Joi.object({
-  certificationCandidateId: Joi.number().optional(),
-  type: Joi.string().required().valid(SubscriptionTypes.CORE, SubscriptionTypes.COMPLEMENTARY),
+  certificationCandidateId: Joi.number().optional().allow(null),
+  type: Joi.string().required().valid(SUBSCRIPTION_TYPES.CORE, SUBSCRIPTION_TYPES.COMPLEMENTARY),
   complementaryCertificationId: Joi.when('type', {
-    is: SubscriptionTypes.COMPLEMENTARY,
+    is: SUBSCRIPTION_TYPES.COMPLEMENTARY,
     then: Joi.number().required(),
     otherwise: Joi.any().valid(null).allow(null),
   }),

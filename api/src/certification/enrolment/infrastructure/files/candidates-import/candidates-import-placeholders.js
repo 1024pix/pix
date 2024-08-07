@@ -100,10 +100,6 @@ const IMPORT_CANDIDATES_TEMPLATE_VALUES = [
     propertyName: 'birthCity',
   },
   {
-    placeholder: 'BIRTH_PROVINCE_CODE',
-    propertyName: 'birthProvinceCode',
-  },
-  {
     placeholder: 'BIRTH_COUNTRY',
     propertyName: 'birthCountry',
   },

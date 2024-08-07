@@ -1,5 +1,5 @@
 import { getCandidateImportSheetData } from '../../../../../../src/certification/enrolment/domain/usecases/get-candidate-import-sheet-data.js';
-import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Certification | Enrolment | Unit | UseCase | get-candidate-import-sheet-data', function () {
@@ -31,7 +31,7 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate-import-shee
       domainBuilder.certification.enrolment.buildEnrolledCandidate({
         subscriptions: [
           {
-            type: SubscriptionTypes.CORE,
+            type: SUBSCRIPTION_TYPES.CORE,
             complementaryCertificationId: null,
             complementaryCertificationLabel: null,
             complementaryCertificationKey: null,
@@ -41,7 +41,7 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate-import-shee
       domainBuilder.certification.enrolment.buildEnrolledCandidate({
         subscriptions: [
           {
-            type: SubscriptionTypes.CORE,
+            type: SUBSCRIPTION_TYPES.CORE,
             complementaryCertificationId: null,
             complementaryCertificationLabel: null,
             complementaryCertificationKey: null,

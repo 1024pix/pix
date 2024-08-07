@@ -55,6 +55,26 @@ class SessionEnrolment {
     const sessionDate = new Date(`${this.date}T${this.time}`);
     return sessionDate < new Date();
   }
+
+  isCandidateAlreadyEnrolled({
+    enrolledCandidates,
+    candidatePersonalInfo: { firstName, lastName, birthdate },
+    normalizeStringFnc,
+  }) {
+    const normalizedInputNames = {
+      lastName: normalizeStringFnc(lastName),
+      firstName: normalizeStringFnc(firstName),
+    };
+    return _.some(enrolledCandidates, (enrolledCandidate) => {
+      const enrolledCandidatesNormalizedNames = {
+        lastName: normalizeStringFnc(enrolledCandidate.lastName),
+        firstName: normalizeStringFnc(enrolledCandidate.firstName),
+      };
+      return (
+        _.isEqual(normalizedInputNames, enrolledCandidatesNormalizedNames) && birthdate === enrolledCandidate.birthdate
+      );
+    });
+  }
 }
 
 export { SessionEnrolment };

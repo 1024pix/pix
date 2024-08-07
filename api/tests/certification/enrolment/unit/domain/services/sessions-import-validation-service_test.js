@@ -1,6 +1,7 @@
 import lodash from 'lodash';
 
 import * as sessionsImportValidationService from '../../../../../../src/certification/enrolment/domain/services/sessions-import-validation-service.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
@@ -43,6 +44,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             // when
             const sessionErrors = await sessionsImportValidationService.validateSession({
               session,
+              candidatesData: [_buildValidCandidateData()],
               line: 1,
               sessionRepository,
               sessionManagementRepository,
@@ -63,6 +65,7 @@ describe('Unit | Service | sessions import validation Service', function () {
               // when
               const sessionErrors = await sessionsImportValidationService.validateSession({
                 session,
+                candidatesData: [_buildValidCandidateData()],
                 line: 1,
                 sessionRepository,
                 sessionManagementRepository,
@@ -91,6 +94,7 @@ describe('Unit | Service | sessions import validation Service', function () {
               // when
               const sessionErrors = await sessionsImportValidationService.validateSession({
                 session,
+                candidatesData: [_buildValidCandidateData()],
                 line: 1,
                 sessionRepository,
                 sessionManagementRepository,
@@ -113,6 +117,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          candidatesData: [_buildValidCandidateData()],
           line: 2,
           sessionRepository,
           sessionManagementRepository,
@@ -139,6 +144,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           // when
           const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
+            candidatesData: [_buildValidCandidateData()],
             line: 1,
             sessionRepository,
             sessionManagementRepository,
@@ -170,6 +176,7 @@ describe('Unit | Service | sessions import validation Service', function () {
               // when
               const sessionErrors = await sessionsImportValidationService.validateSession({
                 session,
+                candidatesData: [_buildValidCandidateData()],
                 line: 1,
                 sessionRepository,
                 sessionManagementRepository,
@@ -200,7 +207,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             examiner: null,
             description: null,
             certificationCenterId: certificationCenter.id,
-            certificationCandidates: [_buildValidCandidateData()],
+            certificationCandidates: [],
           });
           sessionRepository.isSessionExistingBySessionAndCertificationCenterIds
             .withArgs({ sessionId: 5678, certificationCenterId: certificationCenter.id, sessionRepository })
@@ -209,6 +216,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           // when
           const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
+            candidatesData: [_buildValidCandidateData()],
             certificationCenterId: certificationCenter.id,
             line: 1,
             sessionRepository,
@@ -237,6 +245,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          candidatesData: [_buildValidCandidateData()],
           line: 1,
           sessionRepository,
           sessionManagementRepository,
@@ -259,6 +268,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          candidatesData: [_buildValidCandidateData()],
           line: 1,
           certificationCenterId,
           sessionRepository,
@@ -285,6 +295,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          candidatesData: [_buildValidCandidateData()],
           line: 1,
           sessionRepository,
           sessionManagementRepository,
@@ -311,6 +322,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          candidatesData: [_buildValidCandidateData()],
           line: 1,
           sessionRepository,
           sessionManagementRepository,
@@ -337,6 +349,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          candidatesData: [_buildValidCandidateData()],
           line: 1,
           sessionRepository,
           sessionManagementRepository,
@@ -363,6 +376,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          candidatesData: [_buildValidCandidateData()],
           line: 1,
           sessionRepository,
           sessionManagementRepository,
@@ -380,11 +394,11 @@ describe('Unit | Service | sessions import validation Service', function () {
       it('should return a non blocking sessionError', async function () {
         // given
         const session = _buildValidSessionWithoutId();
-        session.certificationCandidates = [];
 
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          candidatesData: [],
           line: 1,
           sessionRepository,
           sessionManagementRepository,
@@ -440,62 +454,84 @@ describe('Unit | Service | sessions import validation Service', function () {
     });
   });
 
-  describe('#getValidatedComplementaryCertificationForMassImport', function () {
-    context('when the parsed data has no complementary certification', function () {
-      it('should return no errors nor complementary certification', async function () {
+  describe('#getValidatedSubscriptionsForMassImport', function () {
+    context('when there are no subscriptions at all', function () {
+      it('should return an error accordingly and no subscriptions models', async function () {
         // given
-        const complementaryCertifications = [];
+        const subscriptionLabels = [];
         const line = 12;
 
         // when
-        const { certificationCandidateComplementaryErrors, complementaryCertification } =
-          await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
-            complementaryCertifications,
+        const { certificationCandidateComplementaryErrors, subscriptions } =
+          await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+            subscriptionLabels,
             line,
             complementaryCertificationRepository: {},
           });
 
         // then
-        expect(certificationCandidateComplementaryErrors).to.be.empty;
-        expect(complementaryCertification).to.deep.null;
+        expect(certificationCandidateComplementaryErrors).to.deep.equal([
+          {
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_NO_SUBSCRIPTION.code,
+            line,
+            isBlocking: true,
+          },
+        ]);
+        expect(subscriptions).to.be.empty;
       });
     });
-
-    context('when the parsed data has one complementary certification', function () {
-      it('should return the complementary certification', async function () {
+    context('when there is a complementary subscription without core', function () {
+      it('should return an error accordingly and no subscriptions models', async function () {
         // given
-        const complementaryCertifications = ['Pix+ Édu 2nd degré'];
+        const subscriptionLabels = ['MaComplémentaire'];
         const line = 12;
         const complementaryCertificationRepository = {
-          getByLabel: sinon.stub().resolves({ id: 3, key: 'EDU_2ND_DEGRE', label: 'Pix+ Édu 2nd degré' }),
+          getByLabel: sinon
+            .stub()
+            .withArgs({ label: 'MaComplémentaire' })
+            .resolves({ id: 3, key: 'SOME_KEY', label: 'MaComplémentaire' }),
         };
 
         // when
-        const { certificationCandidateComplementaryErrors, complementaryCertification } =
-          await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
-            complementaryCertifications,
+        const { certificationCandidateComplementaryErrors, subscriptions } =
+          await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+            subscriptionLabels,
             line,
             complementaryCertificationRepository,
           });
 
         // then
-        expect(certificationCandidateComplementaryErrors).to.be.empty;
-        expect(complementaryCertification).to.deep.equal({ id: 3, key: 'EDU_2ND_DEGRE', label: 'Pix+ Édu 2nd degré' });
+        expect(certificationCandidateComplementaryErrors).to.deep.equal([
+          {
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_COMPLEMENTARY_WITHOUT_CORE.code,
+            line,
+            isBlocking: true,
+          },
+        ]);
+        expect(subscriptions).to.be.empty;
       });
     });
-
-    context('when the parsed data has multiple complementary certifications', function () {
-      it('should return an error', async function () {
+    context('when there are many complementary subscriptions', function () {
+      it('should return an error accordingly and no subscriptions models', async function () {
         // given
-        const complementaryCertifications = ['Pix+ Édu 2nd degré', 'Pix+ Droit'];
+        const subscriptionLabels = ['MaComplémentaire1', 'MaComplémentaire2', SUBSCRIPTION_TYPES.CORE];
         const line = 12;
+        const complementaryCertificationRepository = {
+          getByLabel: sinon.stub(),
+        };
+        complementaryCertificationRepository.getByLabel
+          .withArgs({ label: 'MaComplémentaire1' })
+          .resolves({ id: 3, key: 'SOME_KEY1', label: 'MaComplémentaire1' });
+        complementaryCertificationRepository.getByLabel
+          .withArgs({ label: 'MaComplémentaire2' })
+          .resolves({ id: 4, key: 'SOME_KEY2', label: 'MaComplémentaire2' });
 
         // when
-        const { certificationCandidateComplementaryErrors, complementaryCertification } =
-          await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
-            complementaryCertifications,
+        const { certificationCandidateComplementaryErrors, subscriptions } =
+          await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+            subscriptionLabels,
             line,
-            complementaryCertificationRepository: {},
+            complementaryCertificationRepository,
           });
 
         // then
@@ -506,7 +542,59 @@ describe('Unit | Service | sessions import validation Service', function () {
             isBlocking: true,
           },
         ]);
-        expect(complementaryCertification).to.be.null;
+        expect(subscriptions).to.be.empty;
+      });
+    });
+    context('when there is only a core subscription', function () {
+      it('should return no error and a core subscription', async function () {
+        // given
+        const subscriptionLabels = [SUBSCRIPTION_TYPES.CORE];
+        const line = 12;
+
+        // when
+        const { certificationCandidateComplementaryErrors, subscriptions } =
+          await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+            subscriptionLabels,
+            line,
+            complementaryCertificationRepository: {},
+          });
+
+        // then
+        expect(certificationCandidateComplementaryErrors).to.be.empty;
+        expect(subscriptions).to.deepEqualArray([
+          domainBuilder.buildCoreSubscription({ certificationCandidateId: null }),
+        ]);
+      });
+    });
+    context('when there are a core and a complementary subscriptions', function () {
+      it('should return no error and the right subscriptions', async function () {
+        // given
+        const subscriptionLabels = [SUBSCRIPTION_TYPES.CORE, 'MaComplémentaire'];
+        const line = 12;
+        const complementaryCertificationRepository = {
+          getByLabel: sinon.stub(),
+        };
+        complementaryCertificationRepository.getByLabel
+          .withArgs({ label: 'MaComplémentaire' })
+          .resolves({ id: 3, key: 'SOME_KEY', label: 'MaComplémentaire' });
+
+        // when
+        const { certificationCandidateComplementaryErrors, subscriptions } =
+          await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+            subscriptionLabels,
+            line,
+            complementaryCertificationRepository,
+          });
+
+        // then
+        expect(certificationCandidateComplementaryErrors).to.be.empty;
+        expect(subscriptions).to.deepEqualArray([
+          domainBuilder.buildCoreSubscription({ certificationCandidateId: null }),
+          domainBuilder.buildComplementarySubscription({
+            certificationCandidateId: null,
+            complementaryCertificationId: 3,
+          }),
+        ]);
       });
     });
   });
@@ -521,7 +609,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           birthPostalCode: '44329',
           birthINSEECode: '67890',
         };
-        const candidate = _buildValidCandidateData();
+        const candidate = _buildValidCandidateModel();
         const cpfBirthInformationValidation = new CpfBirthInformationValidation();
         cpfBirthInformationValidation.success(candidateInformation);
         const certificationCpfServiceStub = {
@@ -545,7 +633,7 @@ describe('Unit | Service | sessions import validation Service', function () {
       it('should return an certificationCandidateErrors containing the specific error', async function () {
         // given
         const isSco = false;
-        const candidate = _buildValidCandidateData();
+        const candidate = _buildValidCandidateModel();
         candidate.firstName = null;
         const cpfBirthInformationValidation = new CpfBirthInformationValidation();
         cpfBirthInformationValidation.success({ ...candidate });
@@ -577,7 +665,7 @@ describe('Unit | Service | sessions import validation Service', function () {
       it('should return a report', async function () {
         // given
         const isSco = false;
-        const candidate = _buildValidCandidateData();
+        const candidate = _buildValidCandidateModel();
         candidate.extraTimePercentage = 0.33;
         const cpfBirthInformationValidation = new CpfBirthInformationValidation();
         cpfBirthInformationValidation.success({ ...candidate });
@@ -611,7 +699,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           it('should return an certificationCandidateErrors containing billing mode errors', async function () {
             // given
             const isSco = false;
-            const candidate = _buildValidCandidateData();
+            const candidate = _buildValidCandidateModel();
             candidate.billingMode = null;
             const cpfBirthInformationValidation = new CpfBirthInformationValidation();
             cpfBirthInformationValidation.success({ ...candidate });
@@ -643,7 +731,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           it('should return an certificationCandidateErrors containing billing mode errors', async function () {
             // given
             const isSco = false;
-            const candidate = _buildValidCandidateData();
+            const candidate = _buildValidCandidateModel();
             candidate.billingMode = '';
             const cpfBirthInformationValidation = new CpfBirthInformationValidation();
             cpfBirthInformationValidation.success({ ...candidate });
@@ -681,7 +769,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             birthPostalCode: '44329',
             birthINSEECode: '67890',
           };
-          const candidate = _buildValidCandidateData();
+          const candidate = _buildValidCandidateModel();
           candidate.billingMode = null;
           const cpfBirthInformationValidation = new CpfBirthInformationValidation();
           cpfBirthInformationValidation.success(candidateInformation);
@@ -707,7 +795,7 @@ describe('Unit | Service | sessions import validation Service', function () {
       context('when the error has already been raised by the validation', function () {
         it('should return the error once', async function () {
           // given
-          const candidate = _buildValidCandidateData({});
+          const candidate = _buildValidCandidateModel({});
           candidate.birthCountry = '';
           const certificationCpfCountryRepository = Symbol();
           const certificationCpfCityRepository = Symbol();
@@ -747,7 +835,7 @@ describe('Unit | Service | sessions import validation Service', function () {
 
       it('should return multiple certificationCandidateErrors that contains the incorrect CPF message', async function () {
         // given
-        const candidate = _buildValidCandidateData();
+        const candidate = _buildValidCandidateModel();
         const certificationCpfCountryRepository = Symbol();
         const certificationCpfCityRepository = Symbol();
         const certificationCandidateError = { code: 'CPF_INCORRECT', getMessage: noop };
@@ -795,8 +883,8 @@ describe('Unit | Service | sessions import validation Service', function () {
       it('returns the list without errors', function () {
         // given
         const candidates = [
-          _buildValidCandidateData({ lineNumber: 1, candidateNumber: 97 }),
-          _buildValidCandidateData({ lineNumber: 2, candidateNumber: 98 }),
+          _buildValidCandidateModel({ lineNumber: 1, candidateNumber: 97 }),
+          _buildValidCandidateModel({ lineNumber: 2, candidateNumber: 98 }),
         ];
 
         // when
@@ -812,9 +900,9 @@ describe('Unit | Service | sessions import validation Service', function () {
       it('returns the filtered list with errors', function () {
         // given
         const candidates = [
-          _buildValidCandidateData({ lineNumber: 1, candidateNumber: 97 }),
-          _buildValidCandidateData({ lineNumber: 2, candidateNumber: 98 }),
-          _buildValidCandidateData({ lineNumber: 3, candidateNumber: 97 }),
+          _buildValidCandidateModel({ lineNumber: 1, candidateNumber: 97 }),
+          _buildValidCandidateModel({ lineNumber: 2, candidateNumber: 98 }),
+          _buildValidCandidateModel({ lineNumber: 3, candidateNumber: 97 }),
         ];
 
         // when
@@ -844,7 +932,7 @@ function _createValidSessionData() {
     time: '01:00',
     examiner: 'Pierre',
     description: 'desc',
-    certificationCandidates: [_buildValidCandidateData()],
+    certificationCandidates: [],
   };
 }
 
@@ -857,7 +945,7 @@ function _buildValidSessionWithId(sessionId) {
     time: null,
     examiner: null,
     description: null,
-    certificationCandidates: [_buildValidCandidateData()],
+    certificationCandidates: [],
   });
 }
 
@@ -865,12 +953,12 @@ function _buildValidSessionWithoutId() {
   return domainBuilder.certification.enrolment.buildSession({
     id: null,
     date: '2024-03-12',
-    certificationCandidates: [_buildValidCandidateData()],
+    certificationCandidates: [],
   });
 }
 
 function _buildValidCandidateData({ lineNumber = 0, candidateNumber = 2 } = { candidateNumber: 0, lineNumber: 0 }) {
-  return domainBuilder.buildCertificationCandidate({
+  return {
     lastName: `Candidat ${candidateNumber}`,
     firstName: `Candidat ${candidateNumber}`,
     birthdate: '1981-03-12',
@@ -885,6 +973,27 @@ function _buildValidCandidateData({ lineNumber = 0, candidateNumber = 2 } = { ca
     extraTimePercentage: 20,
     billingMode: 'PAID',
     line: lineNumber,
-    subscriptions: [domainBuilder.buildCoreSubscription()],
+    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
+    lineNumber,
+    candidateNumber,
+  };
+}
+function _buildValidCandidateModel({ lineNumber = 0, candidateNumber = 2 } = { candidateNumber: 0, lineNumber: 0 }) {
+  return domainBuilder.certification.enrolment.buildCandidate({
+    lastName: `Candidat ${candidateNumber}`,
+    firstName: `Candidat ${candidateNumber}`,
+    birthdate: '1981-03-12',
+    sex: 'M',
+    birthINSEECode: '134',
+    birthPostalCode: null, //'3456',
+    birthCity: '',
+    birthCountry: 'France',
+    resultRecipientEmail: 'robindahood@email.fr',
+    email: 'robindahood2@email.fr',
+    externalId: 'htehte',
+    extraTimePercentage: 20,
+    billingMode: 'PAID',
+    line: lineNumber,
+    subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
   });
 }

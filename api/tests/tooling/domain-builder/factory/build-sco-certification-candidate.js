@@ -9,6 +9,7 @@ const buildSCOCertificationCandidate = function ({
   birthINSEECode = '66001',
   sessionId = 456,
   organizationLearnerId = 789,
+  subscriptions = [],
 } = {}) {
   return new SCOCertificationCandidate({
     id,
@@ -19,6 +20,7 @@ const buildSCOCertificationCandidate = function ({
     birthINSEECode,
     sessionId,
     organizationLearnerId,
+    subscriptions,
   });
 };
 

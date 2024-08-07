@@ -4,10 +4,9 @@
 
 import bluebird from 'bluebird';
 
-import { CertificationCandidate } from '../../../../../src/shared/domain/models/CertificationCandidate.js';
+import { Candidate } from '../models/Candidate.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
 import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
-import { Subscription } from '../models/Subscription.js';
 
 /**
  * @param {Object} params
@@ -22,8 +21,9 @@ import { Subscription } from '../models/Subscription.js';
  * @param {deps["sessionsImportValidationService"]} params.sessionsImportValidationService
  * @param {deps["temporarySessionsStorageForMassImportService"]} params.temporarySessionsStorageForMassImportService
  */
+
 const validateSessions = async function ({
-  sessions,
+  sessionsData,
   userId,
   certificationCenterId,
   certificationCenterRepository,
@@ -42,12 +42,13 @@ const validateSessions = async function ({
   const sessionsMassImportReport = new SessionMassImportReport();
   const translate = i18n.__;
 
-  const validatedSessions = await bluebird.mapSeries(sessions, async (sessionDTO) => {
+  const validatedSessions = await bluebird.mapSeries(sessionsData, async (sessionDTO) => {
     const { sessionId } = sessionDTO;
 
     const accessCode = sessionCodeService.getNewSessionCode();
     const session = new SessionEnrolment({
       ...sessionDTO,
+      certificationCandidates: [],
       id: sessionId,
       certificationCenterId,
       certificationCenter,
@@ -56,6 +57,7 @@ const validateSessions = async function ({
 
     const sessionsErrors = await sessionsImportValidationService.validateSession({
       session,
+      candidatesData: sessionDTO.candidates,
       line: sessionDTO.line,
       certificationCenterId,
       sessionRepository,
@@ -65,10 +67,10 @@ const validateSessions = async function ({
 
     sessionsMassImportReport.addErrorReports(sessionsErrors);
 
-    if (session.certificationCandidates.length) {
-      const { certificationCandidates } = session;
-      const validatedCertificationCandidates = await _createValidCertificationCandidates({
-        certificationCandidates,
+    if (sessionDTO.candidates.length) {
+      const { candidates: candidatesDTO } = sessionDTO;
+      const validatedCandidates = await _createValidCertificationCandidates({
+        candidatesDTO,
         sessionId,
         isSco,
         sessionsMassImportReport,
@@ -79,7 +81,7 @@ const validateSessions = async function ({
         sessionsImportValidationService,
       });
 
-      session.certificationCandidates = validatedCertificationCandidates;
+      session.certificationCandidates = validatedCandidates;
     }
 
     return session;
@@ -101,7 +103,7 @@ const validateSessions = async function ({
 export { validateSessions };
 
 async function _createValidCertificationCandidates({
-  certificationCandidates,
+  candidatesDTO,
   sessionId,
   isSco,
   sessionsMassImportReport,
@@ -112,42 +114,45 @@ async function _createValidCertificationCandidates({
   sessionsImportValidationService,
 }) {
   const { uniqueCandidates, duplicateCandidateErrors } =
-    sessionsImportValidationService.getUniqueCandidates(certificationCandidates);
+    sessionsImportValidationService.getUniqueCandidates(candidatesDTO);
   if (duplicateCandidateErrors.length > 0) {
     sessionsMassImportReport.addErrorReports(duplicateCandidateErrors);
   }
 
-  return bluebird.mapSeries(uniqueCandidates, async (certificationCandidate) => {
-    const billingMode = CertificationCandidate.parseBillingMode({
-      billingMode: certificationCandidate.billingMode,
+  return bluebird.mapSeries(uniqueCandidates, async (candidateDTO) => {
+    const billingMode = Candidate.parseBillingMode({
+      billingMode: candidateDTO.billingMode,
       translate,
     });
 
     const certificationCandidateErrors = [];
 
-    const { certificationCandidateComplementaryErrors, complementaryCertification } =
-      await sessionsImportValidationService.getValidatedComplementaryCertificationForMassImport({
-        complementaryCertifications: certificationCandidate.complementaryCertifications,
-        line: certificationCandidate.line,
+    const { certificationCandidateComplementaryErrors, subscriptions } =
+      await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+        subscriptionLabels: candidateDTO.subscriptionLabels,
+        line: candidateDTO.line,
         complementaryCertificationRepository,
       });
 
     certificationCandidateErrors.push(...certificationCandidateComplementaryErrors);
 
-    const domainCertificationCandidate = new CertificationCandidate({
-      ...certificationCandidate,
+    const candidate = new Candidate({
+      ...candidateDTO,
       sessionId,
-      billingMode: billingMode || certificationCandidate.billingMode,
-      complementaryCertification,
-      subscriptions: [Subscription.buildCore({ certificationCandidateId: certificationCandidate.id })],
+      billingMode: billingMode || candidateDTO.billingMode,
+      subscriptions,
+      id: null,
+      userId: null,
+      organizationLearnerId: null,
+      createdAt: null,
     });
 
     const candidateBirthInformationValidation =
       await sessionsImportValidationService.getValidatedCandidateBirthInformation({
-        candidate: domainCertificationCandidate,
+        candidate,
         isSco,
         isSessionsMassImport: true,
-        line: certificationCandidate.line,
+        line: candidateDTO.line,
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
       });
@@ -157,16 +162,16 @@ async function _createValidCertificationCandidates({
     if (certificationCandidateErrors?.length > 0) {
       sessionsMassImportReport.addErrorReports(certificationCandidateErrors);
     } else {
-      domainCertificationCandidate.updateBirthInformation(candidateBirthInformationValidation.cpfBirthInformation);
+      candidate.updateBirthInformation(candidateBirthInformationValidation.cpfBirthInformation);
     }
 
     const candidateEmailsErrors = await sessionsImportValidationService.validateCandidateEmails({
-      candidate: domainCertificationCandidate,
-      line: certificationCandidate.line,
+      candidate,
+      line: candidateDTO.line,
     });
 
     sessionsMassImportReport.addErrorReports(candidateEmailsErrors);
 
-    return domainCertificationCandidate;
+    return candidate;
   });
 }

@@ -1,13 +1,13 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
-import { CertificationCandidate } from '../../../../../src/shared/domain/models/CertificationCandidate.js';
 import { CertificationCandidatesError } from '../../../../shared/domain/errors.js';
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { getTransformationStructsForPixCertifCandidatesImport } from '../../infrastructure/files/candidates-import/candidates-import-transformation-structures.js';
 import * as readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils.js';
+import { Candidate } from '../models/Candidate.js';
 import { Subscription } from '../models/Subscription.js';
 
 export { extractCertificationCandidatesFromCandidatesImportSheet };
@@ -40,9 +40,9 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
     _handleVersionError();
   }
   const tableHeaderTargetPropertyMap = candidateImportStructs.transformStruct;
-  let certificationCandidatesDataByLine = null;
+  let candidatesDataByLine = null;
   try {
-    certificationCandidatesDataByLine = await readOdsUtils.extractTableDataFromOdsFile({
+    candidatesDataByLine = await readOdsUtils.extractTableDataFromOdsFile({
       odsBuffer,
       tableHeaderTargetPropertyMap,
     });
@@ -50,138 +50,116 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
     _handleParsingError();
   }
 
-  certificationCandidatesDataByLine = _filterOutEmptyCandidateData(certificationCandidatesDataByLine);
+  candidatesDataByLine = _filterOutEmptyCandidateData(candidatesDataByLine);
 
   const _checkForDuplication = _handleDuplicateCandidate();
-  return await bluebird.mapSeries(
-    Object.entries(certificationCandidatesDataByLine),
-    async ([line, certificationCandidateData]) => {
-      let { sex, birthCountry, birthINSEECode, birthPostalCode, birthCity, billingMode } = certificationCandidateData;
-      const { email, resultRecipientEmail } = certificationCandidateData;
-      const { hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre, hasPixPlusProSante } =
-        certificationCandidateData;
+  return await bluebird.mapSeries(Object.entries(candidatesDataByLine), async ([line, candidateData]) => {
+    let { sex, birthCountry, birthINSEECode, birthPostalCode, birthCity, billingMode } = candidateData;
+    const { email, resultRecipientEmail } = candidateData;
+    const { hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre, hasPixPlusProSante } =
+      candidateData;
 
-      if (birthINSEECode && birthINSEECode !== '99' && birthINSEECode.length < 5)
-        certificationCandidateData.birthINSEECode = `0${birthINSEECode}`;
-      if (birthPostalCode && birthPostalCode.length < 5)
-        certificationCandidateData.birthPostalCode = `0${birthPostalCode}`;
+    if (birthINSEECode && birthINSEECode !== '99' && birthINSEECode.length < 5)
+      candidateData.birthINSEECode = `0${birthINSEECode}`;
+    if (birthPostalCode && birthPostalCode.length < 5) candidateData.birthPostalCode = `0${birthPostalCode}`;
 
-      if (certificationCandidateData.sex?.toUpperCase() === 'M') sex = 'M';
-      if (certificationCandidateData.sex?.toUpperCase() === 'F') sex = 'F';
+    if (candidateData.sex?.toUpperCase() === 'M') sex = 'M';
+    if (candidateData.sex?.toUpperCase() === 'F') sex = 'F';
 
-      const cpfBirthInformation = await certificationCpfService.getBirthInformation({
-        ...certificationCandidateData,
-        certificationCpfCityRepository,
-        certificationCpfCountryRepository,
+    const cpfBirthInformation = await certificationCpfService.getBirthInformation({
+      ...candidateData,
+      certificationCpfCityRepository,
+      certificationCpfCountryRepository,
+    });
+
+    const subscriptions = await _buildSubscriptions({
+      hasCleaNumerique,
+      hasPixPlusDroit,
+      hasPixPlusEdu1erDegre,
+      hasPixPlusEdu2ndDegre,
+      hasPixPlusProSante,
+      complementaryCertificationRepository,
+    });
+
+    if (_hasMoreThanOneComplementarySubscription(subscriptions)) {
+      line = parseInt(line) + 1;
+
+      throw new CertificationCandidatesError({
+        code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
+        message: 'A candidate cannot have more than one complementary certification',
+        meta: { line },
       });
+    }
 
-      if (
-        _hasMoreThanOneComplementarySubscription({
-          hasCleaNumerique,
-          hasPixPlusDroit,
-          hasPixPlusEdu1erDegre,
-          hasPixPlusEdu2ndDegre,
-          hasPixPlusProSante,
-        })
-      ) {
-        line = parseInt(line) + 1;
+    if (cpfBirthInformation.hasFailed()) {
+      _handleBirthInformationValidationError(cpfBirthInformation, line);
+    }
 
-        throw new CertificationCandidatesError({
-          code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
-          message: 'A candidate cannot have more than one complementary certification',
-          meta: { line },
-        });
-      }
+    birthCountry = cpfBirthInformation.birthCountry;
+    birthINSEECode = cpfBirthInformation.birthINSEECode;
+    birthPostalCode = cpfBirthInformation.birthPostalCode;
+    birthCity = cpfBirthInformation.birthCity;
 
-      if (cpfBirthInformation.hasFailed()) {
-        _handleBirthInformationValidationError(cpfBirthInformation, line);
-      }
+    if (billingMode) {
+      billingMode = Candidate.parseBillingMode({ billingMode, translate });
+    }
 
-      birthCountry = cpfBirthInformation.birthCountry;
-      birthINSEECode = cpfBirthInformation.birthINSEECode;
-      birthPostalCode = cpfBirthInformation.birthPostalCode;
-      birthCity = cpfBirthInformation.birthCity;
-
-      const complementaryCertification = await _buildComplementaryCertificationsForLine({
-        hasCleaNumerique,
-        hasPixPlusDroit,
-        hasPixPlusEdu1erDegre,
-        hasPixPlusEdu2ndDegre,
-        hasPixPlusProSante,
-        complementaryCertificationRepository,
-      });
-
-      if (billingMode) {
-        billingMode = CertificationCandidate.parseBillingMode({ billingMode, translate });
-      }
-
-      if (resultRecipientEmail) {
-        try {
-          await mailCheck.checkDomainIsValid(resultRecipientEmail);
-        } catch {
-          throw new CertificationCandidatesError({
-            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
-            meta: { line, value: resultRecipientEmail },
-          });
-        }
-      }
-
-      if (email) {
-        try {
-          await mailCheck.checkDomainIsValid(email);
-        } catch {
-          throw new CertificationCandidatesError({
-            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
-            meta: { line, value: email },
-          });
-        }
-      }
-
-      const certificationCandidate = new CertificationCandidate({
-        ...certificationCandidateData,
-        birthCountry,
-        birthINSEECode,
-        birthPostalCode,
-        birthCity,
-        sex,
-        sessionId,
-        complementaryCertification,
-        billingMode,
-        subscriptions: [
-          Subscription.buildCore({ certificationCandidateId: certificationCandidateData.certificationCandidateId }),
-        ],
-      });
-
+    if (resultRecipientEmail) {
       try {
-        certificationCandidate.validate(isSco);
-        _checkForDuplication(certificationCandidate);
-      } catch (err) {
+        await mailCheck.checkDomainIsValid(resultRecipientEmail);
+      } catch {
         throw new CertificationCandidatesError({
-          code: err.code,
-          meta: { line: parseInt(line) + 1, value: err.meta },
+          code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
+          meta: { line, value: resultRecipientEmail },
         });
       }
+    }
 
-      return certificationCandidate;
-    },
-  );
+    if (email) {
+      try {
+        await mailCheck.checkDomainIsValid(email);
+      } catch {
+        throw new CertificationCandidatesError({
+          code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
+          meta: { line, value: email },
+        });
+      }
+    }
+
+    const candidate = new Candidate({
+      ...candidateData,
+      birthCountry,
+      birthINSEECode,
+      birthPostalCode,
+      birthCity,
+      sex,
+      sessionId,
+      billingMode: billingMode ?? null,
+      prepaymentCode: candidateData.prepaymentCode ?? null,
+      subscriptions,
+      id: null,
+      birthProvinceCode: null,
+      createdAt: null,
+      organizationLearnerId: null,
+      userId: null,
+    });
+
+    try {
+      candidate.validate(isSco);
+      _checkForDuplication(candidate);
+    } catch (err) {
+      throw new CertificationCandidatesError({
+        code: err.code,
+        meta: { line: parseInt(line) + 1, value: err.meta },
+      });
+    }
+
+    return candidate;
+  });
 }
 
-function _hasMoreThanOneComplementarySubscription({
-  hasCleaNumerique,
-  hasPixPlusDroit,
-  hasPixPlusEdu1erDegre,
-  hasPixPlusEdu2ndDegre,
-  hasPixPlusProSante,
-}) {
-  const isTrueCount = [
-    hasCleaNumerique,
-    hasPixPlusDroit,
-    hasPixPlusEdu1erDegre,
-    hasPixPlusEdu2ndDegre,
-    hasPixPlusProSante,
-  ].filter((complementaryCertificationSubscription) => complementaryCertificationSubscription).length;
-  return isTrueCount > 1;
+function _hasMoreThanOneComplementarySubscription(subscriptions) {
+  return subscriptions.filter((subscription) => subscription.isComplementary()).length > 1;
 }
 
 function _filterOutEmptyCandidateData(certificationCandidatesData) {
@@ -234,7 +212,7 @@ function _handleDuplicateCandidate() {
   };
 }
 
-async function _buildComplementaryCertificationsForLine({
+async function _buildSubscriptions({
   hasCleaNumerique,
   hasPixPlusDroit,
   hasPixPlusEdu1erDegre,
@@ -242,33 +220,27 @@ async function _buildComplementaryCertificationsForLine({
   hasPixPlusProSante,
   complementaryCertificationRepository,
 }) {
+  const subscriptions = [Subscription.buildCore({ certificationCandidateId: null })];
   const complementaryCertificationsInDB = await complementaryCertificationRepository.findAll();
-  if (hasCleaNumerique) {
-    return complementaryCertificationsInDB.find(
-      (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.CLEA,
-    );
+  const complementaryCertificationsByKey = _.keyBy(complementaryCertificationsInDB, 'key');
+  const hasComplementaryMap = {
+    [ComplementaryCertificationKeys.CLEA]: Boolean(hasCleaNumerique),
+    [ComplementaryCertificationKeys.PIX_PLUS_DROIT]: Boolean(hasPixPlusDroit),
+    [ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE]: Boolean(hasPixPlusEdu1erDegre),
+    [ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE]: Boolean(hasPixPlusEdu2ndDegre),
+    [ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE]: Boolean(hasPixPlusProSante),
+  };
+
+  for (const [complementaryKey, hasComplementary] of Object.entries(hasComplementaryMap)) {
+    if (hasComplementary) {
+      subscriptions.push(
+        Subscription.buildComplementary({
+          certificationCandidateId: null,
+          complementaryCertificationId: complementaryCertificationsByKey[complementaryKey].id,
+        }),
+      );
+    }
   }
-  if (hasPixPlusDroit) {
-    return complementaryCertificationsInDB.find(
-      (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-    );
-  }
-  if (hasPixPlusEdu1erDegre) {
-    return complementaryCertificationsInDB.find(
-      (complementaryCertification) =>
-        complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
-    );
-  }
-  if (hasPixPlusEdu2ndDegre) {
-    return complementaryCertificationsInDB.find(
-      (complementaryCertification) =>
-        complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
-    );
-  }
-  if (hasPixPlusProSante) {
-    return complementaryCertificationsInDB.find(
-      (complementaryCertification) =>
-        complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
-    );
-  }
+
+  return subscriptions;
 }

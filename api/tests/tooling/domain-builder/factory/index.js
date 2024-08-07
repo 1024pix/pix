@@ -171,9 +171,14 @@ import { buildV3CertificationChallengeLiveAlertForAdministration } from './build
 import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-certification-course-details-for-administration.js';
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
+import { buildCandidate } from './certification/enrolment/build-candidate.js';
 import { buildEnrolledCandidate } from './certification/enrolment/build-enrolled-candidate.js';
 import { buildSessionEnrolment } from './certification/enrolment/build-session.js';
-import { buildComplementarySubscription, buildCoreSubscription } from './certification/enrolment/build-subscription.js';
+import {
+  buildComplementarySubscription,
+  buildCoreSubscription,
+  buildSubscription,
+} from './certification/enrolment/build-subscription.js';
 import { buildFlashAssessmentAlgorithm } from './certification/flash-certification/build-flash-assessment-algorithm.js';
 import { buildAssessmentResult as buildCertificationScoringAssessmentResult } from './certification/scoring/build-assessment-result.js';
 import { buildCertificationAssessmentHistory } from './certification/scoring/build-certification-assessment-history.js';
@@ -204,8 +209,10 @@ const certification = {
     buildHabilitation,
     buildCertificationSessionCandidate,
     buildEnrolledCandidate,
+    buildCandidate,
     buildCoreSubscription,
     buildComplementarySubscription,
+    buildSubscription,
   },
   sessionManagement: {
     buildCertificationSessionComplementaryCertification,

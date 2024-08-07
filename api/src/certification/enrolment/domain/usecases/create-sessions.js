@@ -6,14 +6,13 @@ import bluebird from 'bluebird';
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { CertificationCandidate } from '../../../../shared/domain/models/index.js';
 import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
+import { Candidate } from '../models/Candidate.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
 
 /**
  * @param {Object} params
- * @param {deps["certificationCandidateRepository"]} params.certificationCandidateRepository
- * @param {deps["certificationCenterRepository"]} params.certificationCenterRepository
+ * @param {deps["candidateRepository"]} params.candidateRepository
  * @param {deps["sessionRepository"]} params.sessionRepository
  * @param {deps["temporarySessionsStorageForMassImportService"]} params.temporarySessionsStorageForMassImportService
  */
@@ -21,7 +20,7 @@ const createSessions = async function ({
   userId,
   cachedValidatedSessionsKey,
   certificationCenterId,
-  certificationCandidateRepository,
+  candidateRepository,
   sessionRepository,
   certificationCenterRepository,
   temporarySessionsStorageForMassImportService,
@@ -40,10 +39,10 @@ const createSessions = async function ({
   await DomainTransaction.execute(async () => {
     return await bluebird.mapSeries(temporaryCachedSessions, async (sessionDTO) => {
       let { id: sessionId } = sessionDTO;
-      const { certificationCandidates } = sessionDTO;
+      const candidates = sessionDTO.certificationCandidates;
 
       if (sessionId) {
-        await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId });
+        await _deleteExistingCandidatesInSession({ candidateRepository, sessionId });
       } else {
         const { id } = await _saveNewSessionReturningId({
           sessionRepository,
@@ -53,11 +52,11 @@ const createSessions = async function ({
         sessionId = id;
       }
 
-      if (_hasCandidates(certificationCandidates)) {
-        await _saveCertificationCandidates({
-          certificationCandidates,
+      if (_hasCandidates(candidates)) {
+        await _saveCandidates({
+          candidates,
           sessionId,
-          certificationCandidateRepository,
+          candidateRepository,
         });
       }
     });
@@ -71,8 +70,8 @@ const createSessions = async function ({
 
 export { createSessions };
 
-function _hasCandidates(certificationCandidates) {
-  return certificationCandidates.length > 0;
+function _hasCandidates(candidates) {
+  return candidates.length > 0;
 }
 
 async function _saveNewSessionReturningId({ sessionRepository, sessionDTO, isV3Pilot }) {
@@ -83,16 +82,16 @@ async function _saveNewSessionReturningId({ sessionRepository, sessionDTO, isV3P
   return await sessionRepository.save({ session: sessionToSave });
 }
 
-async function _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId }) {
-  await certificationCandidateRepository.deleteBySessionId({ sessionId });
+async function _deleteExistingCandidatesInSession({ candidateRepository, sessionId }) {
+  await candidateRepository.deleteBySessionId({ sessionId });
 }
 
-async function _saveCertificationCandidates({ certificationCandidates, sessionId, certificationCandidateRepository }) {
-  await bluebird.mapSeries(certificationCandidates, async (certificationCandidateDTO) => {
-    const certificationCandidate = new CertificationCandidate({ ...certificationCandidateDTO });
-    await certificationCandidateRepository.saveInSession({
+async function _saveCandidates({ candidates, sessionId, candidateRepository }) {
+  await bluebird.mapSeries(candidates, async (candidateDTO) => {
+    const candidate = new Candidate({ ...candidateDTO });
+    await candidateRepository.saveInSession({
       sessionId,
-      certificationCandidate,
+      candidate,
     });
   });
 }

@@ -2,21 +2,22 @@ import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTr
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { createSessions } from '../../../../../../src/certification/enrolment/domain/usecases/create-sessions.js';
 import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { CertificationCenter } from '../../../../../../src/shared/domain/models/CertificationCenter.js';
+import { CertificationCenter } from '../../../../../../src/shared/domain/models/index.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | sessions-mass-import | create-sessions', function () {
   let certificationCenterRepository;
-  let certificationCandidateRepository;
+  let candidateRepository;
   let sessionRepository;
   let dependencies;
   let temporarySessionsStorageForMassImportService;
-  let certificationCandidateData;
+  let candidateData;
 
   beforeEach(function () {
     certificationCenterRepository = { get: sinon.stub() };
-    certificationCandidateRepository = { saveInSession: sinon.stub(), deleteBySessionId: sinon.stub() };
+    candidateRepository = { deleteBySessionId: sinon.stub(), saveInSession: sinon.stub() };
     sessionRepository = { save: sinon.stub() };
     temporarySessionsStorageForMassImportService = {
       getByKeyAndUserId: sinon.stub(),
@@ -25,14 +26,21 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
 
     dependencies = {
       certificationCenterRepository,
-      certificationCandidateRepository,
+      candidateRepository,
       sessionRepository,
       temporarySessionsStorageForMassImportService,
     };
 
-    certificationCandidateData = {
+    candidateData = {
       sessionId: undefined,
-      subscriptions: [domainBuilder.buildCoreSubscription()],
+      subscriptions: [
+        domainBuilder.buildCoreSubscription(),
+        domainBuilder.buildComplementaryCertification({
+          id: 1,
+          label: 'Pix+Droit',
+          key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
+        }),
+      ],
     };
   });
 
@@ -95,7 +103,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // then
           const expectedSession = new SessionEnrolment({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
           expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });
-          expect(certificationCandidateRepository.saveInSession).to.not.have.been.called;
+          expect(candidateRepository.saveInSession).to.not.have.been.called;
         });
       });
 
@@ -104,7 +112,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // given
           const certificationCenter = new CertificationCenter({ id: 567 });
           certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
-          const certificationCandidate = domainBuilder.buildCertificationCandidate(certificationCandidateData);
+          const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
           const sessionCreatorId = 1234;
           const temporaryCachedSessions = [
             {
@@ -119,7 +127,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
               description: 'desc',
               supervisorPassword: 'Y722G',
               accessCode: 'accessCode',
-              certificationCandidates: [certificationCandidate],
+              certificationCandidates: [candidate],
               createdBy: sessionCreatorId,
             },
           ];
@@ -139,9 +147,9 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // then
           const expectedSession = new SessionEnrolment({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
           expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });
-          expect(certificationCandidateRepository.saveInSession).to.have.been.calledOnceWith({
+          expect(candidateRepository.saveInSession).to.have.been.calledOnceWith({
             sessionId: 1234,
-            certificationCandidate,
+            candidate,
           });
         });
       });
@@ -245,11 +253,11 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         // given
         const certificationCenter = new CertificationCenter();
         certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
-        const certificationCandidate = domainBuilder.buildCertificationCandidate(certificationCandidateData);
+        const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
         const temporaryCachedSessions = [
           {
             id: 1234,
-            certificationCandidates: [{ ...certificationCandidate }],
+            certificationCandidates: [{ ...candidate }],
           },
         ];
         temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
@@ -266,12 +274,12 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         });
 
         // then
-        expect(certificationCandidateRepository.deleteBySessionId).to.have.been.calledOnceWith({
+        expect(candidateRepository.deleteBySessionId).to.have.been.calledOnceWith({
           sessionId: 1234,
         });
-        expect(certificationCandidateRepository.saveInSession).to.have.been.calledOnceWith({
+        expect(candidateRepository.saveInSession).to.have.been.calledOnceWith({
           sessionId: 1234,
-          certificationCandidate,
+          candidate,
         });
       });
     });
@@ -280,7 +288,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       // given
       const certificationCenter = new CertificationCenter();
       certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
-      const certificationCandidate = domainBuilder.buildCertificationCandidate(certificationCandidateData);
+      const certificationCandidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
       const temporaryCachedSessions = [
         {
           id: 1234,

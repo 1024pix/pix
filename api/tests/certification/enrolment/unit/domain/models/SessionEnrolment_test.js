@@ -126,4 +126,144 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       });
     });
   });
+
+  context('#isCandidateAlreadyEnrolled', function () {
+    it('should return true when all personal info matches (case / diacritics insensitive) with an already enrolled candidate', function () {
+      // given
+      const candidatePersonalInfo = {
+        firstName: 'Frédéric',
+        lastName: 'De bussy',
+        birthdate: '1990-01-04',
+      };
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const enrolledCandidates = [
+        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+          firstName: 'Un',
+          lastName: 'Related',
+          birthdate: '1995-04-04',
+        }),
+        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+          firstName: 'un prénom très proche de frederic',
+          lastName: `un nom tres proche de debussy`,
+          birthdate: '1990-01-04',
+        }),
+      ];
+      const normalizeStringFnc = sinon.stub();
+      normalizeStringFnc.withArgs(candidatePersonalInfo.lastName).returns(candidatePersonalInfo.lastName);
+      normalizeStringFnc.withArgs(candidatePersonalInfo.firstName).returns(candidatePersonalInfo.firstName);
+      normalizeStringFnc.withArgs(enrolledCandidates[0].lastName).returns(enrolledCandidates[0].lastName);
+      normalizeStringFnc.withArgs(enrolledCandidates[0].firstName).returns(enrolledCandidates[0].firstName);
+      normalizeStringFnc.withArgs(enrolledCandidates[1].lastName).returns(candidatePersonalInfo.lastName);
+      normalizeStringFnc.withArgs(enrolledCandidates[1].firstName).returns(candidatePersonalInfo.firstName);
+
+      // when
+      const isCandidateEnrolled = session.isCandidateAlreadyEnrolled({
+        enrolledCandidates,
+        candidatePersonalInfo,
+        normalizeStringFnc,
+      });
+
+      // then
+      expect(isCandidateEnrolled).to.be.true;
+    });
+
+    it('should return false when first name is not matching an already enrolled candidate', function () {
+      // given
+      const candidatePersonalInfo = {
+        firstName: 'Frédéric',
+        lastName: 'De bussy',
+        birthdate: '1990-01-04',
+      };
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const enrolledCandidates = [
+        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+          firstName: 'Un',
+          lastName: 'Related',
+          birthdate: '1995-04-04',
+        }),
+        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+          firstName: 'Richard',
+          lastName: candidatePersonalInfo.lastName,
+          birthdate: candidatePersonalInfo.birthdate,
+        }),
+      ];
+      const normalizeStringFnc = sinon.stub((str) => str);
+
+      // when
+      const isCandidateEnrolled = session.isCandidateAlreadyEnrolled({
+        enrolledCandidates,
+        candidatePersonalInfo,
+        normalizeStringFnc,
+      });
+
+      // then
+      expect(isCandidateEnrolled).to.be.false;
+    });
+
+    it('should return false when last name is not matching an already enrolled candidate', function () {
+      // given
+      const candidatePersonalInfo = {
+        firstName: 'Frédéric',
+        lastName: 'De bussy',
+        birthdate: '1990-01-04',
+      };
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const enrolledCandidates = [
+        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+          firstName: 'Un',
+          lastName: 'Related',
+          birthdate: '1995-04-04',
+        }),
+        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+          firstName: candidatePersonalInfo.firstName,
+          lastName: 'Chopin',
+          birthdate: candidatePersonalInfo.birthdate,
+        }),
+      ];
+      const normalizeStringFnc = sinon.stub((str) => str);
+
+      // when
+      const isCandidateEnrolled = session.isCandidateAlreadyEnrolled({
+        enrolledCandidates,
+        candidatePersonalInfo,
+        normalizeStringFnc,
+      });
+
+      // then
+      expect(isCandidateEnrolled).to.be.false;
+    });
+
+    it('should return false when birthdate is not matching an already enrolled candidate', function () {
+      // given
+      const candidatePersonalInfo = {
+        firstName: 'Frédéric',
+        lastName: 'De bussy',
+        birthdate: '1990-01-04',
+      };
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const enrolledCandidates = [
+        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+          firstName: 'Un',
+          lastName: 'Related',
+          birthdate: '1995-04-04',
+        }),
+        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+          firstName: candidatePersonalInfo.firstName,
+          lastName: candidatePersonalInfo.lastName,
+          birthdate: '1990-01-05',
+        }),
+      ];
+      const normalizeStringFnc = sinon.stub((str) => str);
+
+      // when
+      const isCandidateEnrolled = session.isCandidateAlreadyEnrolled({
+        enrolledCandidates,
+        candidatePersonalInfo,
+        normalizeStringFnc,
+      });
+
+      // then
+      expect(isCandidateEnrolled).to.be.false;
+    });
+  });
 });

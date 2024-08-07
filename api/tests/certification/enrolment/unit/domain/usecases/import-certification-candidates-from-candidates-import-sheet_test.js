@@ -1,12 +1,12 @@
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { importCertificationCandidatesFromCandidatesImportSheet } from '../../../../../../src/certification/enrolment/domain/usecases/import-certification-candidates-from-candidates-import-sheet.js';
-import { CertificationCandidateAlreadyLinkedToUserError } from '../../../../../../src/shared/domain/errors.js';
+import { CandidateAlreadyLinkedToUserError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
 describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet', function () {
-  let certificationCandidateRepository;
+  let candidateRepository;
   let certificationCandidatesOdsService;
   let certificationCpfService;
   let certificationCpfCityRepository;
@@ -16,9 +16,9 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   let sessionRepository;
 
   beforeEach(function () {
-    certificationCandidateRepository = {
-      doesLinkedCertificationCandidateInSessionExist: sinon.stub(),
+    candidateRepository = {
       deleteBySessionId: sinon.stub(),
+      doesLinkedCertificationCandidateInSessionExist: sinon.stub(),
       saveInSession: sinon.stub(),
     };
     sessionRepository = {
@@ -46,9 +46,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
         const sessionId = 'sessionId';
         const odsBuffer = 'buffer';
 
-        certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist
-          .withArgs({ sessionId })
-          .resolves(true);
+        candidateRepository.doesLinkedCertificationCandidateInSessionExist.withArgs({ sessionId }).resolves(true);
 
         // when
         const result = await catchErr(importCertificationCandidatesFromCandidatesImportSheet)({
@@ -56,7 +54,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           sessionId,
           odsBuffer,
           certificationCandidatesOdsService,
-          certificationCandidateRepository,
+          candidateRepository,
           certificationCpfService,
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
@@ -65,7 +63,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
         });
 
         // then
-        expect(result).to.be.an.instanceOf(CertificationCandidateAlreadyLinkedToUserError);
+        expect(result).to.be.an.instanceOf(CandidateAlreadyLinkedToUserError);
       });
     });
 
@@ -76,17 +74,18 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           const sessionId = 'sessionId';
           const odsBuffer = 'buffer';
           const complementaryCertification = domainBuilder.buildComplementaryCertification();
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            subscriptions: [domainBuilder.buildCoreSubscription()],
-            complementaryCertification,
+          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            subscriptions: [
+              domainBuilder.buildCoreSubscription(),
+              domainBuilder.buildComplementaryCertification({ ...complementaryCertification }),
+            ],
+            // complementaryCertification,
           });
-          const certificationCandidates = [certificationCandidate];
+          const candidates = [candidate];
 
           sessionRepository.isSco.resolves(false);
 
-          certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist
-            .withArgs({ sessionId })
-            .resolves(false);
+          candidateRepository.doesLinkedCertificationCandidateInSessionExist.withArgs({ sessionId }).resolves(false);
 
           certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
             .withArgs({
@@ -100,7 +99,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
               complementaryCertificationRepository,
               certificationCenterRepository,
             })
-            .resolves(certificationCandidates);
+            .resolves(candidates);
 
           // when
           await importCertificationCandidatesFromCandidatesImportSheet({
@@ -108,7 +107,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
             odsBuffer,
             i18n,
             certificationCandidatesOdsService,
-            certificationCandidateRepository,
+            candidateRepository,
             certificationCpfService,
             certificationCpfCountryRepository,
             certificationCpfCityRepository,
@@ -118,18 +117,14 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           });
 
           // then
-          expect(certificationCandidateRepository.deleteBySessionId).to.have.been.calledWithExactly({
+          expect(candidateRepository.deleteBySessionId).to.have.been.calledWithExactly({
             sessionId,
           });
-          expect(certificationCandidateRepository.saveInSession).to.have.been.calledWithExactly({
-            certificationCandidate,
+          expect(candidateRepository.saveInSession).to.have.been.calledWithExactly({
+            candidate,
             sessionId,
           });
-          expect(
-            certificationCandidateRepository.deleteBySessionId.calledBefore(
-              certificationCandidateRepository.saveInSession,
-            ),
-          ).to.be.true;
+          expect(candidateRepository.deleteBySessionId.calledBefore(candidateRepository.saveInSession)).to.be.true;
         });
       });
     });

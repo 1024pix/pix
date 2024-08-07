@@ -1,22 +1,20 @@
-import { Serializer } from 'jsonapi-serializer';
-
+import { normalize } from '../../../shared/infrastructure/utils/string-utils.js';
 import * as certificationCandidateSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
+import * as candidateSerializer from '../infrastructure/serializers/candidate-serializer.js';
 import * as enrolledCandidateSerializer from '../infrastructure/serializers/enrolled-candidate-serializer.js';
 
-const addCandidate = async function (request, h, dependencies = { certificationCandidateSerializer }) {
+const addCandidate = async function (request, h, dependencies = { candidateSerializer }) {
   const sessionId = request.params.id;
-  const certificationCandidate = await dependencies.certificationCandidateSerializer.deserialize(request.payload);
-  const subscription = _getSubscriptionParameter(request) ?? null;
-  const certificationCandidateId = await usecases.addCertificationCandidateToSession({
+  const candidate = await dependencies.candidateSerializer.deserialize(request.payload);
+  const candidateId = await usecases.addCandidateToSession({
     sessionId,
-    certificationCandidate,
-    subscription,
+    candidate,
+    normalizeStringFnc: normalize,
   });
 
-  return h
-    .response(new Serializer('certification-candidate', {}).serialize({ id: certificationCandidateId }))
-    .created();
+  const serializedId = candidateSerializer.serializeId(candidateId);
+  return h.response(serializedId).created();
 };
 
 const getEnrolledCandidates = async function (request, h, dependencies = { enrolledCandidateSerializer }) {
@@ -25,12 +23,12 @@ const getEnrolledCandidates = async function (request, h, dependencies = { enrol
   return dependencies.enrolledCandidateSerializer.serialize(enrolledCandidates);
 };
 
-const deleteCandidate = async function (request) {
-  const certificationCandidateId = request.params.certificationCandidateId;
+const deleteCandidate = async function (request, h) {
+  const candidateId = request.params.certificationCandidateId;
 
-  await usecases.deleteUnlinkedCertificationCandidate({ certificationCandidateId });
+  await usecases.deleteUnlinkedCertificationCandidate({ candidateId });
 
-  return null;
+  return h.response().code(204);
 };
 
 const validateCertificationInstructions = async function (
@@ -45,11 +43,6 @@ const validateCertificationInstructions = async function (
   });
 
   return dependencies.certificationCandidateSerializer.serialize(updatedCandidate);
-};
-
-const _getSubscriptionParameter = (request) => {
-  const { attributes } = request.payload.data;
-  return attributes['subscription'] ?? attributes['complementary-certification'];
 };
 
 const certificationCandidateController = {

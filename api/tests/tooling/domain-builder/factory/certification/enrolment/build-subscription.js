@@ -8,4 +8,8 @@ const buildComplementarySubscription = function ({ certificationCandidateId, com
   return Subscription.buildComplementary({ certificationCandidateId, complementaryCertificationId });
 };
 
-export { buildComplementarySubscription, buildCoreSubscription };
+const buildSubscription = function ({ certificationCandidateId, complementaryCertificationId = 1, type } = {}) {
+  return new Subscription({ certificationCandidateId, complementaryCertificationId, type });
+};
+
+export { buildComplementarySubscription, buildCoreSubscription, buildSubscription };

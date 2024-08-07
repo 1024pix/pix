@@ -3,7 +3,7 @@
  */
 import _ from 'lodash';
 
-import { SubscriptionTypes } from '../../../shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 
 export class EnrolledCandidate {
   /**
@@ -58,6 +58,6 @@ export class EnrolledCandidate {
   }
 
   findComplementarySubscriptionInfo() {
-    return this.subscriptions.find((sub) => sub.type === SubscriptionTypes.COMPLEMENTARY);
+    return this.subscriptions.find((sub) => sub.type === SUBSCRIPTION_TYPES.COMPLEMENTARY);
   }
 }

@@ -1,5 +1,5 @@
 import { Subscription } from '../../../../../../src/certification/enrolment/domain/models/Subscription.js';
-import { SubscriptionTypes } from '../../../../../../src/certification/shared/domain/models/SubscriptionTypes.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Enrolment | Domain | Models | Subscription', function () {
@@ -16,8 +16,8 @@ describe('Unit | Certification | Enrolment | Domain | Models | Subscription', fu
       // given
       const expectedSubscription = new Subscription({
         certificationCandidateId: certificationCandidate.id,
-        complementaryCertificationId: undefined,
-        type: SubscriptionTypes.CORE,
+        complementaryCertificationId: null,
+        type: SUBSCRIPTION_TYPES.CORE,
       });
 
       // when
@@ -33,7 +33,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | Subscription', fu
       // given, when
       const error = catchErrSync((data) => new Subscription(data))({
         complementaryCertificationId: complementaryCertification.id,
-        type: SubscriptionTypes.CORE,
+        type: SUBSCRIPTION_TYPES.CORE,
       });
 
       // then
@@ -52,7 +52,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | Subscription', fu
       const expectedSubscription = new Subscription({
         certificationCandidateId: certificationCandidate.id,
         complementaryCertificationId: complementaryCertification.id,
-        type: SubscriptionTypes.COMPLEMENTARY,
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
       });
 
       // then
@@ -63,11 +63,47 @@ describe('Unit | Certification | Enrolment | Domain | Models | Subscription', fu
       // given /  when
       const error = catchErrSync((data) => new Subscription(data))({
         complementaryCertificationId: null,
-        type: SubscriptionTypes.COMPLEMENTARY,
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
       });
 
       // then
       expect(error).to.be.an.instanceOf(TypeError);
     });
+  });
+
+  describe('#isComplementary', function () {
+    it('should return true when subscription type is COMPLEMENTARY', function () {
+      // given
+      const subscription = domainBuilder.certification.enrolment.buildSubscription({
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+        complementaryCertificationId: 123,
+      });
+
+      // when
+      const isComplementary = subscription.isComplementary();
+
+      // then
+      expect(isComplementary).to.be.true;
+    });
+
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    Object.keys(SUBSCRIPTION_TYPES)
+      .filter((typeKey) => typeKey !== SUBSCRIPTION_TYPES.COMPLEMENTARY)
+      .forEach((typeKey) => {
+        it(`should return false when type is ${SUBSCRIPTION_TYPES[typeKey]}`, function () {
+          // given
+          const subscription = domainBuilder.certification.enrolment.buildSubscription({
+            type: SUBSCRIPTION_TYPES[typeKey],
+            complementaryCertificationId: null,
+          });
+
+          // when
+          const isComplementary = subscription.isComplementary();
+
+          // then
+          expect(isComplementary).to.be.false;
+        });
+      });
   });
 });

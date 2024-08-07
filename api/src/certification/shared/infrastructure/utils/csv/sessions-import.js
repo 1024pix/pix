@@ -44,7 +44,7 @@ const emptySession = {
   extraTimePercentage: '',
   billingMode: '',
   prepaymentCode: '',
-  certificationCandidates: [],
+  candidates: [],
 };
 
 const COMPLEMENTARY_CERTIFICATION_SUFFIX = "('oui' ou laisser vide)";

@@ -27,6 +27,7 @@ class SCOCertificationCandidate {
     sex,
     sessionId,
     organizationLearnerId,
+    subscriptions,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -38,6 +39,7 @@ class SCOCertificationCandidate {
     this.sex = sex;
     this.sessionId = sessionId;
     this.organizationLearnerId = organizationLearnerId;
+    this.subscriptions = subscriptions;
     this.validate();
   }
 
