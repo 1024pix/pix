@@ -1,6 +1,7 @@
 import { Subscription } from '../../../../../../src/certification/enrolment/domain/models/Subscription.js';
 import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
+import { buildSubscription } from '../../../../../tooling/domain-builder/factory/certification/enrolment/build-subscription.js';
 
 describe('Unit | Certification | Enrolment | Domain | Models | Subscription', function () {
   let certificationCandidate;
@@ -69,5 +70,39 @@ describe('Unit | Certification | Enrolment | Domain | Models | Subscription', fu
       // then
       expect(error).to.be.an.instanceOf(TypeError);
     });
+  });
+
+  describe('#isComplementary', function () {
+    it('should return true when subscription type is COMPLEMENTARY', () => {
+      // given
+      const subscription = domainBuilder.certification.enrolment.buildSubscription({
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+        complementaryCertificationId: 123,
+      });
+
+      // when
+      const isComplementary = subscription.isComplementary();
+
+      // then
+      expect(isComplementary).to.be.true;
+    });
+
+    Object.keys(SUBSCRIPTION_TYPES)
+      .filter((typeKey) => typeKey !== SUBSCRIPTION_TYPES.COMPLEMENTARY)
+      .forEach((typeKey) => {
+        it(`should return false when type is ${SUBSCRIPTION_TYPES[typeKey]}`, function () {
+          // given
+          const subscription = domainBuilder.certification.enrolment.buildSubscription({
+            type: SUBSCRIPTION_TYPES[typeKey],
+            complementaryCertificationId: null,
+          });
+
+          // when
+          const isComplementary = subscription.isComplementary();
+
+          // then
+          expect(isComplementary).to.be.false;
+        });
+      });
   });
 });

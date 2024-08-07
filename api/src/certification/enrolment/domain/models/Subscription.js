@@ -24,7 +24,11 @@ class Subscription {
    * @param {number} params.certificationCandidateId  - identifier of the certification candidate
    */
   static buildCore({ certificationCandidateId }) {
-    return new Subscription({ certificationCandidateId, type: SUBSCRIPTION_TYPES.CORE });
+    return new Subscription({
+      certificationCandidateId,
+      type: SUBSCRIPTION_TYPES.CORE,
+      complementaryCertificationId: null,
+    });
   }
 
   /**
@@ -38,6 +42,10 @@ class Subscription {
       type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
       complementaryCertificationId,
     });
+  }
+
+  isComplementary() {
+    return this.type === SUBSCRIPTION_TYPES.COMPLEMENTARY;
   }
 }
 
