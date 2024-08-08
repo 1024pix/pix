@@ -45,47 +45,33 @@ export async function get({ certificationCandidateId }) {
 
 /**
  * @function
- * @param {Object} certificationCandidate
+ * @param {Object} candidate
  *
- * @return {Candidate}
  * @throws {CertificationCandidateNotFoundError} Certification candidate not found
  */
-export async function update(certificationCandidate) {
-  const [updatedCertificationCandidate] = await knex('certification-candidates')
-    .where({
-      id: certificationCandidate.id,
-    })
-    .update({
-      id: certificationCandidate.id,
-      firstName: certificationCandidate.firstName,
-      lastName: certificationCandidate.lastName,
-      sex: certificationCandidate.sex,
-      birthPostalCode: certificationCandidate.birthPostalCode,
-      birthINSEECode: certificationCandidate.birthINSEECode,
-      birthCity: certificationCandidate.birthCity,
-      birthProvinceCode: certificationCandidate.birthProvinceCode,
-      birthCountry: certificationCandidate.birthCountry,
-      email: certificationCandidate.email,
-      resultRecipientEmail: certificationCandidate.resultRecipientEmail,
-      externalId: certificationCandidate.externalId,
-      birthdate: certificationCandidate.birthdate,
-      extraTimePercentage: certificationCandidate.extraTimePercentage,
-      createdAt: certificationCandidate.createdAt,
-      authorizedToStart: certificationCandidate.authorizedToStart,
-      sessionId: certificationCandidate.sessionId,
-      userId: certificationCandidate.userId,
-      organizationLearnerId: certificationCandidate.organizationLearnerId,
-      billingMode: certificationCandidate.billingMode,
-      prepaymentCode: certificationCandidate.prepaymentCode,
-      hasSeenCertificationInstructions: certificationCandidate.hasSeenCertificationInstructions,
-    })
-    .returning('*');
+export async function update(candidate) {
+  const candidateDataToSave = _adaptModelToDb(candidate);
+  await knex.transaction(async (trx) => {
+    const [updatedCertificationCandidate] = await trx('certification-candidates')
+      .where({
+        id: candidate.id,
+      })
+      .update(candidateDataToSave)
+      .returning('*');
 
-  if (!updatedCertificationCandidate) {
-    throw new CertificationCandidateNotFoundError();
-  }
+    if (!updatedCertificationCandidate) {
+      throw new CertificationCandidateNotFoundError();
+    }
 
-  return _toDomain(updatedCertificationCandidate);
+    await trx('certification-subscriptions').where({ certificationCandidateId: candidate.id }).del();
+    for (const subscription of candidate.subscriptions) {
+      await trx('certification-subscriptions').insert({
+        certificationCandidateId: candidate.id,
+        type: subscription.type,
+        complementaryCertificationId: subscription.complementaryCertificationId,
+      });
+    }
+  });
 }
 
 /**
@@ -202,10 +188,6 @@ export async function remove({ id }) {
   });
 
   return true;
-}
-
-function _toDomain(result) {
-  return result ? new Candidate(result) : null;
 }
 
 function _adaptModelToDb(candidate) {
