@@ -13,6 +13,7 @@ import {
 const Joi = BaseJoi.extend(JoiDate);
 const { isNil, endsWith } = lodash;
 
+// todo supprimer parseBillingMode et attribut subscriptions ?
 const certificationCandidateParticipationJoiSchema = Joi.object({
   id: Joi.any().allow(null).optional(),
   firstName: Joi.string().required(),

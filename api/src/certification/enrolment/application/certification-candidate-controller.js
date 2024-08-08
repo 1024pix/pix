@@ -18,6 +18,18 @@ const addCandidate = async function (request, h, dependencies = { candidateSeria
   return h.response(serializedId).created();
 };
 
+const editCandidate = async function (request, h, dependencies = { candidateSerializer }) {
+  const sessionId = request.params.sessionId;
+  const candidate = await dependencies.candidateSerializer.deserialize(request.payload);
+  await usecases.editCandidate({
+    sessionId,
+    candidate,
+    normalizeStringFnc: normalize,
+  });
+  const enrolledCandidate = await enrolledCandidateRepository.get(candidate.id);
+  return dependencies.enrolledCandidateSerializer.serialize(enrolledCandidate);
+};
+
 const getEnrolledCandidates = async function (request, h, dependencies = { enrolledCandidateSerializer }) {
   const sessionId = request.params.id;
   const enrolledCandidates = await usecases.getEnrolledCandidatesInSession({ sessionId });
@@ -49,6 +61,7 @@ const validateCertificationInstructions = async function (
 
 const certificationCandidateController = {
   addCandidate,
+  editCandidate,
   getEnrolledCandidates,
   deleteCandidate,
   validateCertificationInstructions,
