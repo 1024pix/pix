@@ -382,12 +382,13 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
   @certificationCandidates={{this.certificationCandidates}}
   @countries={{this.countries}}
 />`);
-      await click(screen.getByLabelText("Informations concernant l'inscription en certification."));
+      const tooltipLabel = screen.getByText(t('pages.sessions.detail.candidates.list.compatibility-tooltip'), {
+        options: { exact: false },
+      });
+      await click(tooltipLabel);
 
       // then
-      assert
-        .dom(screen.getByText("Le passage des certifications Pix et Pix+ s'effectue dans deux sessions distinctes."))
-        .exists();
+      assert.dom(tooltipLabel).isVisible();
     });
   });
 });

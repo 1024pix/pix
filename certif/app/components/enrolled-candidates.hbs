@@ -66,22 +66,19 @@
               </th>
             {{/if}}
             <th>
-              {{t "common.forms.certification-labels.selected-subscriptions"}}
-              {{#if this.showCompatibilityTooltip}}
-                <PixTooltip @position="right" @id="tooltip-compatibility-subscription">
-                  <:triggerElement>
-                    <PixIconButton
-                      @icon="info"
-                      aria-label="{{t 'pages.sessions.detail.candidates.list.compatibility-tooltip-arialabel'}}"
-                      aria-disabled="true"
-                      aria-describedby="tooltip-compatibility-subscription"
-                      @withBackground={{true}}
-                      @size="small"
-                    />
-                  </:triggerElement>
-                  <:tooltip>{{t "pages.sessions.detail.candidates.list.compatibility-tooltip"}}</:tooltip>
-                </PixTooltip>
-              {{/if}}
+              <span class="certification-candidates-table__selected-subscriptions">
+                {{t "common.forms.certification-labels.selected-subscriptions"}}
+                {{#if this.showCompatibilityTooltip}}
+                  <PixTooltip @id="tooltip-compatibility-subscription" @position="bottom" @isWide={{true}}>
+                    <:triggerElement>
+                      <FaIcon @icon="circle-info" tabindex="0" aria-describedby="tooltip-compatibility-subscription" />
+                    </:triggerElement>
+                    <:tooltip>
+                      {{t "pages.sessions.detail.candidates.list.compatibility-tooltip"}}
+                    </:tooltip>
+                  </PixTooltip>
+                {{/if}}
+              </span>
             </th>
           </tr>
         </thead>
