@@ -266,4 +266,40 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       expect(isCandidateEnrolled).to.be.false;
     });
   });
+
+  context('#canEditEnrolledCandidate', function () {
+    it('should return false when session cannot enrolled candidates anymore', function () {
+      // given
+      const session = domainBuilder.certification.enrolment.buildSession({ finalizedAt: new Date() });
+      const enrolledCandidates = [domainBuilder.certification.enrolment.buildEnrolledCandidate({ id: 123 })];
+
+      // when
+      const canEditEnrolledCandidate = session.canEditEnrolledCandidate(123, enrolledCandidates);
+
+      // then
+      expect(canEditEnrolledCandidate).to.be.false;
+    });
+    it('should return false when candidateId does not represent an enrolled candidate in the session', function () {
+      // given
+      const session = domainBuilder.certification.enrolment.buildSession({ finalizedAt: null });
+      const enrolledCandidates = [domainBuilder.certification.enrolment.buildEnrolledCandidate({ id: 123 })];
+
+      // when
+      const canEditEnrolledCandidate = session.canEditEnrolledCandidate(456, enrolledCandidates);
+
+      // then
+      expect(canEditEnrolledCandidate).to.be.false;
+    });
+    it('should return true when candidateId can be edited', function () {
+      // given
+      const session = domainBuilder.certification.enrolment.buildSession({ finalizedAt: null });
+      const enrolledCandidates = [domainBuilder.certification.enrolment.buildEnrolledCandidate({ id: 123 })];
+
+      // when
+      const canEditEnrolledCandidate = session.canEditEnrolledCandidate(123, enrolledCandidates);
+
+      // then
+      expect(canEditEnrolledCandidate).to.be.true;
+    });
+  });
 });

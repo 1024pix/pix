@@ -47,6 +47,11 @@ class SessionEnrolment {
     return SESSION_STATUSES.CREATED;
   }
 
+  canEditEnrolledCandidate(candidateId, enrolledCandidates) {
+    if (!this.canEnrolCandidate) return false;
+    return enrolledCandidates.some((candidate) => candidate.id === candidateId);
+  }
+
   static generateSupervisorPassword() {
     return _.times(NB_CHAR, _randomCharacter).join('');
   }
