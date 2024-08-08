@@ -52,10 +52,6 @@ export default class CertificationCandidatesController extends Controller {
     await this.reloadCertificationCandidate();
   }
 
-  get shouldDisplayComplementaryCertificationsHabilitations() {
-    return this.currentUser.currentAllowedCertificationCenterAccess.hasHabilitations;
-  }
-
   get shouldDisplayPaymentOptions() {
     return this._currentCertificationCenterIsNotSco();
   }

@@ -1,6 +1,9 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -21,6 +24,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     //given
     const candidate = _buildCertificationCandidate({
       birthdate: new Date('2019-04-28'),
+      subscriptions: [],
     });
 
     const certificationCandidate = store.createRecord('certification-candidate', candidate);
@@ -48,12 +52,21 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
 
   test('it displays candidate information', async function (assert) {
     // given
-    this.set('displayComplementaryCertification', true);
+    const complementaryCertificationId = 2;
+    const coreSubscription = store.createRecord('subscription', {
+      type: SUBSCRIPTION_TYPES.CORE,
+      complementaryCertificationId: null,
+    });
+    const complementarySubscription = store.createRecord('subscription', {
+      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+      complementaryCertificationId,
+    });
     const candidate = _buildCertificationCandidate({
       birthdate: new Date('2019-04-28'),
+      subscriptions: [coreSubscription, complementarySubscription],
     });
     const complementaryCertification = {
-      id: 2,
+      id: complementaryCertificationId,
       label: 'Pix+Droit',
     };
 
@@ -69,7 +82,6 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       hbs`<EnrolledCandidates
   @sessionId='1'
   @certificationCandidates={{this.certificationCandidates}}
-  @displayComplementaryCertification={{this.displayComplementaryCertification}}
   @countries={{this.countries}}
   @complementaryCertifications={{this.complementaryCertifications}}
 />`,
@@ -81,42 +93,61 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     assert.dom(screen.getByRole('cell', { name: certificationCandidate.firstName })).exists();
     assert.dom(screen.getByRole('cell', { name: certificationCandidate.resultRecipientEmail })).exists();
     assert.dom(screen.getByRole('cell', { name: '30 %' })).exists();
-    assert.dom(screen.getByRole('cell', { name: 'Pix+Droit' })).exists();
+    assert.dom(screen.getByRole('cell', { name: 'Certification Pix, Pix+Droit' })).exists();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCity })).doesNotExist();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthProvinceCode })).doesNotExist();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCountry })).doesNotExist();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.email })).doesNotExist();
   });
 
-  test('it displays a dash where there is no certification', async function (assert) {
+  test('it displays specific subscription text when candidate subscribed to dual certification core/clea', async function (assert) {
     // given
-    this.set('displayComplementaryCertification', true);
-    const candidate = _buildCertificationCandidate({
-      complementaryCertification: null,
+    const cleaCertificationId = 2;
+    const coreSubscription = store.createRecord('subscription', {
+      type: SUBSCRIPTION_TYPES.CORE,
+      complementaryCertificationId: null,
     });
+    const complementarySubscription = store.createRecord('subscription', {
+      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+      complementaryCertificationId: cleaCertificationId,
+    });
+    const candidate = _buildCertificationCandidate({
+      birthdate: new Date('2019-04-28'),
+      subscriptions: [coreSubscription, complementarySubscription],
+    });
+    const complementaryCertification = {
+      id: cleaCertificationId,
+      label: 'cléa num',
+      key: COMPLEMENTARY_KEYS.CLEA,
+    };
 
     const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
     const certificationCandidate = store.createRecord('certification-candidate', candidate);
 
     this.set('certificationCandidates', [certificationCandidate]);
+    this.set('complementaryCertifications', [complementaryCertification]);
     this.set('countries', [countries]);
 
     // when
-    const screen = await renderScreen(hbs`<EnrolledCandidates
+    const screen = await renderScreen(
+      hbs`<EnrolledCandidates
   @sessionId='1'
   @certificationCandidates={{this.certificationCandidates}}
-  @displayComplementaryCertification={{this.displayComplementaryCertification}}
   @countries={{this.countries}}
-/>`);
+  @complementaryCertifications={{this.complementaryCertifications}}
+/>`,
+    );
 
     // then
-    assert.dom(screen.getByRole('cell', { name: '-' })).exists();
+    assert.dom(screen.getByRole('cell', { name: 'Double Certification Pix-CléA Numérique' })).exists();
   });
 
   test('it should display details button', async function (assert) {
     // given
-    const candidate = _buildCertificationCandidate({});
-    const certificationCandidates = [candidate];
+    const candidate = _buildCertificationCandidate({
+      subscriptions: [],
+    });
+    const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
     const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
 
     this.set('certificationCandidates', certificationCandidates);
@@ -140,10 +171,16 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
   test('it display candidates with delete disabled button if linked', async function (assert) {
     // given
     const certificationCandidates = [
-      _buildCertificationCandidate({ firstName: 'Riri', lastName: 'Duck', isLinked: false }),
-      _buildCertificationCandidate({ firstName: 'Fifi', lastName: 'Duck', isLinked: true }),
-      _buildCertificationCandidate({ firstName: 'Loulou', lastName: 'Duck', isLinked: false }),
-    ];
+      _buildCertificationCandidate({ id: 1, firstName: 'Riri', lastName: 'Duck', isLinked: false, subscriptions: [] }),
+      _buildCertificationCandidate({ id: 2, firstName: 'Fifi', lastName: 'Duck', isLinked: true, subscriptions: [] }),
+      _buildCertificationCandidate({
+        id: 3,
+        firstName: 'Loulou',
+        lastName: 'Duck',
+        isLinked: false,
+        subscriptions: [],
+      }),
+    ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
     const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
 
     this.set('countries', [countries]);
@@ -175,6 +212,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       const candidate = _buildCertificationCandidate({
         billingMode: 'PREPAID',
         prepaymentCode: 'CODE01',
+        subscriptions: [],
       });
 
       const certificationCandidate = store.createRecord('certification-candidate', candidate);
@@ -256,11 +294,14 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
   ].forEach(({ shouldDisplayPrescriptionScoStudentRegistrationFeature, shouldColumnsBeEmpty, it }) =>
     test(it, async function (assert) {
       // given
-      const candidate = _buildCertificationCandidate({});
+      const candidate = _buildCertificationCandidate({
+        subscriptions: [],
+      });
       const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
+      const certificationCandidate = store.createRecord('certification-candidate', candidate);
 
       this.set('countries', [countries]);
-      this.set('certificationCandidates', [candidate]);
+      this.set('certificationCandidates', [certificationCandidate]);
       this.set(
         'shouldDisplayPrescriptionScoStudentRegistrationFeature',
         shouldDisplayPrescriptionScoStudentRegistrationFeature,
@@ -284,6 +325,72 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       }
     }),
   );
+
+  module('Core complementary compatibility tooltip', function () {
+    test('it should not display tooltip in the header of selected certification column when FT is disabled', async function (assert) {
+      //given
+      class FeatureTogglesStub extends Service {
+        featureToggles = store.createRecord('feature-toggle', {
+          isCoreComplementaryCompatibilityEnabled: false,
+        });
+      }
+
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+      const candidate = _buildCertificationCandidate({
+        subscriptions: [],
+      });
+
+      const certificationCandidate = store.createRecord('certification-candidate', candidate);
+      const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
+
+      this.set('certificationCandidates', [certificationCandidate]);
+      this.set('countries', [countries]);
+
+      // when
+      const screen = await renderScreen(hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @countries={{this.countries}}
+/>`);
+
+      // then
+      assert.dom(screen.queryByLabelText("Informations concernant l'inscription en certification.")).doesNotExist();
+    });
+
+    test('it should display tooltip in the header of selected certification column when FT is enabled', async function (assert) {
+      //given
+      class FeatureTogglesStub extends Service {
+        featureToggles = store.createRecord('feature-toggle', {
+          isCoreComplementaryCompatibilityEnabled: true,
+        });
+      }
+
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+      const candidate = _buildCertificationCandidate({
+        subscriptions: [],
+      });
+
+      const certificationCandidate = store.createRecord('certification-candidate', candidate);
+      const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
+
+      this.set('certificationCandidates', [certificationCandidate]);
+      this.set('countries', [countries]);
+
+      // when
+      const screen = await renderScreen(hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @countries={{this.countries}}
+/>`);
+      const tooltipLabel = screen.getByText(t('pages.sessions.detail.candidates.list.compatibility-tooltip'), {
+        options: { exact: false },
+      });
+      await click(tooltipLabel);
+
+      // then
+      assert.dom(tooltipLabel).isVisible();
+    });
+  });
 });
 
 function _buildCertificationCandidate({
@@ -305,6 +412,7 @@ function _buildCertificationCandidate({
   },
   billingMode = null,
   prepaymentCode = null,
+  subscriptions,
 }) {
   return {
     id,
@@ -322,5 +430,6 @@ function _buildCertificationCandidate({
     complementaryCertification,
     billingMode,
     prepaymentCode,
+    subscriptions,
   };
 }

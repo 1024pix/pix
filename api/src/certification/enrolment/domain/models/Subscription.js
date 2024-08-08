@@ -47,6 +47,10 @@ class Subscription {
   isComplementary() {
     return this.type === SUBSCRIPTION_TYPES.COMPLEMENTARY;
   }
+
+  get id() {
+    return `${this.certificationCandidateId}-${this.complementaryCertificationId ?? 'CORE'}`;
+  }
 }
 
 export { Subscription };

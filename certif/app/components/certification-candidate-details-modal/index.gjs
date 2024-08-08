@@ -9,6 +9,7 @@ import { formatPercentage } from 'pix-certif/helpers/format-percentage';
 
 import Row from './row';
 
+const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
 const FIELDS = [
   {
     label: 'labels.candidate.birth-name',
@@ -66,22 +67,6 @@ export default class CertificationCandidateDetailsModal extends Component {
   @service intl;
 
   @action
-  formatComplementaryCertificationLabel(id) {
-    const complementaryCertificationId = parseInt(id);
-
-    if (complementaryCertificationId < 0) {
-      return '-';
-    }
-    const complementaryCertificationList = this.args.complementaryCertifications ?? [];
-
-    const candidateComplementaryCertification = complementaryCertificationList.find(
-      (complementaryCertification) => complementaryCertification.id === complementaryCertificationId,
-    );
-
-    return candidateComplementaryCertification?.label || '-';
-  }
-
-  @action
   getRowLabel(label) {
     return this.intl.t(`common.${label}`);
   }
@@ -92,6 +77,27 @@ export default class CertificationCandidateDetailsModal extends Component {
 
     return transform(value) || value || '-';
   }
+
+  computeSubscriptionsText = (candidate) => {
+    const complementaryCertificationList = this.args.complementaryCertifications ?? [];
+    const subscriptionLabels = [];
+
+    if (candidate.hasDualCertificationSubscriptionCoreClea(complementaryCertificationList)) {
+      subscriptionLabels.push(this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.dual-core-clea`));
+    } else {
+      for (const subscription of candidate.subscriptions) {
+        if (subscription.isCore) subscriptionLabels.unshift(this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.core`));
+        else {
+          const candidateComplementaryCertification = complementaryCertificationList.find(
+            (complementaryCertification) => complementaryCertification.id === subscription.complementaryCertificationId,
+          );
+          subscriptionLabels.push(candidateComplementaryCertification?.label || '-');
+        }
+      }
+    }
+
+    return subscriptionLabels.join(', ');
+  };
 
   <template>
     <PixModal
@@ -115,12 +121,10 @@ export default class CertificationCandidateDetailsModal extends Component {
               @value={{this.getRowValue 'prepaymentCode'}}
             />
           {{/if}}
-          {{#if @displayComplementaryCertification}}
-            <Row
-              @label={{t 'common.forms.certification-labels.additional-certification'}}
-              @value={{this.formatComplementaryCertificationLabel @candidate.complementaryCertification.id}}
-            />
-          {{/if}}
+          <Row
+            @label={{t 'common.forms.certification-labels.selected-subscriptions'}}
+            @value={{this.computeSubscriptionsText @candidate}}
+          />
         </ul>
       </:content>
 

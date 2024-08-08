@@ -110,7 +110,8 @@
         "extratime": "Extra time",
         "extratime-percentage": "Extra time (%)",
         "prepayment-code": "Prepayment code",
-        "pricing": "Pricing of Pix’s share"
+        "pricing": "Pricing of Pix’s share",
+        "selected-subscriptions": "Selected certification"
       },
       "login": {
         "choose-language-aria-label": "Select a language",
@@ -590,7 +591,13 @@
                 "label": "Enrol candidates"
               }
             },
+            "compatibility-tooltip": "The Pix and Pix+ certifications can only be taken in two separate sessions.",
+            "compatibility-tooltip-arialabel": "Information regarding candidate enrolment",
             "empty": "Awaiting candidates",
+            "subscriptions": {
+              "core": "Pix Certification",
+              "dual-core-clea": "Dual Certification Pix-CléA Numérique"
+            },
             "with-details-description": "List of candidates enrolled in the session, ordered by birth name, with a link to see the candidate’s details and the possibility to delete a candidate in the last column.",
             "without-details-description": "List of candidates enrolled in the session, ordered by birth name, with the possibility to delete a candidate in the last column."
           },

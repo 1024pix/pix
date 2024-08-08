@@ -9,6 +9,7 @@ const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
 
 export default class EnrolledCandidates extends Component {
   @service store;
+  @service featureToggles;
   @service intl;
   @service notifications;
   @tracked candidatesInStaging = [];
@@ -32,22 +33,6 @@ export default class EnrolledCandidates extends Component {
       }
       this.notifications.error(errorText);
     }
-  }
-
-  @action
-  formatComplementaryCertificationLabel(id) {
-    const complementaryCertificationId = parseInt(id);
-
-    if (complementaryCertificationId < 0) {
-      return '-';
-    }
-    const complementaryCertificationList = this.args.complementaryCertifications ?? [];
-
-    const candidateComplementaryCertification = complementaryCertificationList.find(
-      (complementaryCertification) => complementaryCertification.id === complementaryCertificationId,
-    );
-
-    return candidateComplementaryCertification?.label || '-';
   }
 
   @action
@@ -221,4 +206,29 @@ export default class EnrolledCandidates extends Component {
       ) !== undefined
     );
   }
+
+  get showCompatibilityTooltip() {
+    return this.featureToggles.featureToggles?.isCoreComplementaryCompatibilityEnabled;
+  }
+
+  computeSubscriptionsText = (candidate) => {
+    const complementaryCertificationList = this.args.complementaryCertifications ?? [];
+    const subscriptionLabels = [];
+
+    if (candidate.hasDualCertificationSubscriptionCoreClea(complementaryCertificationList)) {
+      subscriptionLabels.push(this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.dual-core-clea`));
+    } else {
+      for (const subscription of candidate.subscriptions) {
+        if (subscription.isCore) subscriptionLabels.unshift(this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.core`));
+        else {
+          const candidateComplementaryCertification = complementaryCertificationList.find(
+            (complementaryCertification) => complementaryCertification.id === subscription.complementaryCertificationId,
+          );
+          subscriptionLabels.push(candidateComplementaryCertification?.label || '-');
+        }
+      }
+    }
+
+    return subscriptionLabels.join(', ');
+  };
 }

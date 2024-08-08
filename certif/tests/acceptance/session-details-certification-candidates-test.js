@@ -1,8 +1,9 @@
 import { visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn, find, settled, triggerEvent } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { setupIntl } from 'ember-intl/test-support/index';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import { SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 
 import { authenticateSession } from '../helpers/test-init';
@@ -36,6 +37,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
     let allowedCertificationCenterAccess;
     let certificationPointOfContact;
     let session;
+    const complementaryCertificationId = 123;
 
     hooks.beforeEach(async () => {
       allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
@@ -43,7 +45,12 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         isAccessBlockedLycee: false,
         isAccessBlockedAEFE: false,
         isAccessBlockedAgri: false,
-        habilitations: [],
+        habilitations: [
+          {
+            id: complementaryCertificationId,
+            label: 'Pix+Droit',
+          },
+        ],
       });
       certificationPointOfContact = server.create('certification-point-of-contact', {
         firstName: 'Lena',
@@ -106,6 +113,14 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         sessionWithCandidates = server.create('session-enrolment', {
           certificationCenterId: allowedCertificationCenterAccess.id,
         });
+        const coreSubscription = server.create('subscription', {
+          type: SUBSCRIPTION_TYPES.CORE,
+          complementaryCertificationId: null,
+        });
+        const complementarySubscription = server.create('subscription', {
+          type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+          complementaryCertificationId,
+        });
         server.create('certification-candidate', {
           firstName: 'Alin',
           lastName: 'Cendy',
@@ -114,6 +129,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           resultRecipientEmail: 'cendy@example.com',
           birthdate: '10-10-2000',
           externalId: 'EXTERNAL-ID',
+          subscriptions: [coreSubscription],
         });
         server.create('certification-candidate', {
           firstName: 'Alain',
@@ -121,6 +137,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           sessionId: sessionWithCandidates.id,
           isLinked: false,
           resultRecipientEmail: 'sassin@example.com',
+          subscriptions: [complementarySubscription],
         });
         server.create('session-management', {
           id: sessionWithCandidates.id,
@@ -151,6 +168,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           .dom(screen.getByRole('cell', { name: dayjs.self('10-10-2000', 'YYYY-MM-DD').format('DD/MM/YYYY') }))
           .exists();
         assert.dom(screen.getByRole('cell', { name: 'EXTERNAL-ID' })).exists();
+        assert.dom(screen.getByRole('cell', { name: 'Certification Pix' })).exists();
+        assert.strictEqual(screen.getAllByRole('cell', { name: 'Pix+Droit' }).length, 1);
       });
 
       module('when the details button is clicked', function () {
@@ -165,6 +184,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           assert.dom(screen.getByText('Commune de naissance')).exists();
           assert.dom(within(modal).getByText('France')).exists();
           assert.dom(within(modal).getByText('Homme')).exists();
+          assert.dom(within(modal).getByText('Pix+Droit')).exists();
         });
       });
 
@@ -574,56 +594,6 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               const table = screen.getByRole('table');
               const rows = await within(table).findAllByRole('row');
               assert.dom(within(rows[1]).getByRole('cell', { name: 'Prépayée 12345' })).exists();
-            });
-          });
-
-          module('when certificationPointOfContact has habilitations', function (hooks) {
-            const complementaryCertificationLabel = 'Lancer de hache';
-            let allowedCertificationCenterAccess;
-            let certificationPointOfContact;
-            let session;
-
-            hooks.beforeEach(async () => {
-              allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
-                isAccessBlockedCollege: false,
-                isAccessBlockedLycee: false,
-                isAccessBlockedAEFE: false,
-                isAccessBlockedAgri: false,
-                habilitations: [{ id: 0, label: complementaryCertificationLabel, key: 'COMP_1' }],
-              });
-              certificationPointOfContact = server.create('certification-point-of-contact', {
-                firstName: 'Lena',
-                lastName: 'Rine',
-                allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
-                pixCertifTermsOfServiceAccepted: true,
-              });
-              session = server.create('session-enrolment', {
-                certificationCenterId: allowedCertificationCenterAccess.id,
-              });
-              server.create('session-management', {
-                id: session.id,
-              });
-              server.createList('country', 2, { code: '99100' });
-              await authenticateSession(certificationPointOfContact.id);
-            });
-
-            test('it should add a new candidate with complementary certifications', async function (assert) {
-              // when
-              const screen = await visit(`/sessions/${session.id}/candidats`);
-              await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
-              await screen.findByRole('dialog');
-              await _fillFormWithCorrectData(screen);
-              await click(screen.getByRole('radio', { name: complementaryCertificationLabel }));
-              await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
-              await settled();
-
-              // then
-              const table = screen.getByRole('table', {
-                name: 'Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne.',
-              });
-
-              const rows = await within(table).findAllByRole('row');
-              assert.dom(within(rows[1]).getByRole('cell', { name: complementaryCertificationLabel })).exists();
             });
           });
         });

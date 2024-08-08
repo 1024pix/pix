@@ -5,7 +5,6 @@ import { tracked } from '@glimmer/tracking';
 
 export default class AuthenticatedTeamListController extends Controller {
   @service currentUser;
-  @service featureToggles;
   @service router;
   @service notifications;
   @service intl;

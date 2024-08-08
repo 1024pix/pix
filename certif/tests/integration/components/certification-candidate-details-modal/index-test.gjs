@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
-import EmberObject from '@ember/object';
 import { click } from '@ember/test-helpers';
 import CertificationCandidateDetailsModal from 'pix-certif/components/certification-candidate-details-modal';
+import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -13,6 +13,10 @@ module('Integration | Component | certification-candidate-details-modal', functi
   test('it shows candidate details with complementary certification', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
+    const pixEduSubscription = store.createRecord('subscription', {
+      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+      complementaryCertificationId: 1,
+    });
     const candidate = store.createRecord('certification-candidate', {
       firstName: 'Jean-Paul',
       lastName: 'Candidat',
@@ -26,9 +30,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
       birthInseeCode: 76255,
       birthPostalCode: 76260,
       sex: 'F',
-      complementaryCertification: {
-        id: 1,
-      },
+      subscriptions: [pixEduSubscription],
     });
 
     const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
@@ -44,7 +46,6 @@ module('Integration | Component | certification-candidate-details-modal', functi
           @closeModal={{closeModalStub}}
           @showModal={{true}}
           @candidate={{candidate}}
-          @displayComplementaryCertification={{true}}
           @complementaryCertifications={{currentAllowedCertificationCenterAccess.habilitations}}
         />
       </template>,
@@ -67,10 +68,63 @@ module('Integration | Component | certification-candidate-details-modal', functi
     assert.dom(screen.getByText('Pix+Edu')).exists();
   });
 
+  test('it shows specific label when candidate subscribed to dual certification core/clea', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const cleaSubscription = store.createRecord('subscription', {
+      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+      complementaryCertificationId: 1,
+    });
+    const coreSubscription = store.createRecord('subscription', {
+      type: SUBSCRIPTION_TYPES.CORE,
+      complementaryCertificationId: null,
+    });
+    const candidate = store.createRecord('certification-candidate', {
+      firstName: 'Jean-Paul',
+      lastName: 'Candidat',
+      birthCity: 'Eu',
+      birthCountry: 'France',
+      email: 'jeanpauldeu@pix.fr',
+      resultRecipientEmail: 'suric@animal.fr',
+      externalId: '12345',
+      birthdate: '2000-12-25',
+      extraTimePercentage: 0.1,
+      birthInseeCode: 76255,
+      birthPostalCode: 76260,
+      sex: 'F',
+      subscriptions: [cleaSubscription, coreSubscription],
+    });
+
+    const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+      habilitations: [{ id: 1, label: 'Cléanum', key: COMPLEMENTARY_KEYS.CLEA }],
+    });
+
+    const closeModalStub = sinon.stub();
+
+    // when
+    const screen = await render(
+      <template>
+        <CertificationCandidateDetailsModal
+          @closeModal={{closeModalStub}}
+          @showModal={{true}}
+          @candidate={{candidate}}
+          @complementaryCertifications={{currentAllowedCertificationCenterAccess.habilitations}}
+        />
+      </template>,
+    );
+
+    // then
+    assert.dom(screen.getByText('Double Certification Pix-CléA Numérique')).exists();
+  });
+
   module('when candidate has missing data', () => {
     test('it displays a dash', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
+      const coreSubscription = store.createRecord('subscription', {
+        type: SUBSCRIPTION_TYPES.CORE,
+        complementaryCertificationId: null,
+      });
       const candidate = store.createRecord('certification-candidate', {
         firstName: undefined,
         lastName: undefined,
@@ -81,7 +135,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
         resultRecipientEmail: undefined,
         externalId: undefined,
         extraTimePercentage: undefined,
-        complementaryCertification: null,
+        subscriptions: [coreSubscription],
       });
 
       const closeModalStub = sinon.stub();
@@ -93,13 +147,12 @@ module('Integration | Component | certification-candidate-details-modal', functi
             @closeModal={{closeModalStub}}
             @showModal={{true}}
             @candidate={{candidate}}
-            @displayComplementaryCertification={{true}}
           />
         </template>,
       );
 
       // then
-      assert.strictEqual(screen.getAllByText('-').length, 13);
+      assert.strictEqual(screen.getAllByText('-').length, 12);
     });
   });
 
@@ -107,6 +160,10 @@ module('Integration | Component | certification-candidate-details-modal', functi
     test('it shows candidate details with payement options', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
+      const coreSubscription = store.createRecord('subscription', {
+        type: SUBSCRIPTION_TYPES.CORE,
+        complementaryCertificationId: null,
+      });
       const candidate = store.createRecord('certification-candidate', {
         firstName: 'Jean-Paul',
         lastName: 'Candidat',
@@ -123,6 +180,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
         complementaryCertification: null,
         billingMode: 'PREPAID',
         prepaymentCode: 'prep123',
+        subscriptions: [coreSubscription],
       });
 
       const closeModalStub = sinon.stub();
@@ -133,7 +191,6 @@ module('Integration | Component | certification-candidate-details-modal', functi
           <CertificationCandidateDetailsModal
             @closeModal={{closeModalStub}}
             @candidate={{candidate}}
-            @displayComplementaryCertification={{false}}
             @shouldDisplayPaymentOptions={{true}}
           />
         </template>,
@@ -162,6 +219,10 @@ module('Integration | Component | certification-candidate-details-modal', functi
     test('it shows candidate details without payement options', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
+      const coreSubscription = store.createRecord('subscription', {
+        type: SUBSCRIPTION_TYPES.CORE,
+        complementaryCertificationId: null,
+      });
       const candidate = store.createRecord('certification-candidate', {
         firstName: 'Jean-Paul',
         lastName: 'Candidat',
@@ -178,6 +239,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
         complementaryCertification: null,
         billingMode: 'PREPAID',
         prepaymentCode: 'prep123',
+        subscriptions: [coreSubscription],
       });
 
       const closeModalStub = sinon.stub();
@@ -188,7 +250,6 @@ module('Integration | Component | certification-candidate-details-modal', functi
           <CertificationCandidateDetailsModal
             @closeModal={{closeModalStub}}
             @candidate={{candidate}}
-            @displayComplementaryCertification={{false}}
             @shouldDisplayPaymentOptions={{false}}
           />
         </template>,
@@ -216,7 +277,8 @@ module('Integration | Component | certification-candidate-details-modal', functi
   module('when top close button is clicked', () => {
     test('it closes candidate details modal', async function (assert) {
       // given
-      const candidate = EmberObject.create({});
+      const store = this.owner.lookup('service:store');
+      const candidate = store.createRecord('certification-candidate', { subscriptions: [] });
       const closeModalStub = sinon.stub();
 
       // when
@@ -241,7 +303,8 @@ module('Integration | Component | certification-candidate-details-modal', functi
   module('when bottom close button is clicked', () => {
     test('it also closes candidate details modal', async function (assert) {
       // given
-      const candidate = EmberObject.create({});
+      const store = this.owner.lookup('service:store');
+      const candidate = store.createRecord('certification-candidate', { subscriptions: [] });
       const closeModalStub = sinon.stub();
 
       // when

@@ -5,6 +5,7 @@ import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { Response } from 'miragejs';
+import { COMPLEMENTARY_KEYS } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -105,7 +106,10 @@ module('Acceptance | authenticated | team', function (hooks) {
                 'ADMIN',
               );
               server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false });
-              server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+              server.create('allowed-certification-center-access', {
+                id: 1,
+                habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+              });
               await authenticateSession(certificationPointOfContact.id);
 
               // when
@@ -146,7 +150,10 @@ module('Acceptance | authenticated | team', function (hooks) {
                   'ADMIN',
                 );
                 server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false });
-                server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+                server.create('allowed-certification-center-access', {
+                  id: 1,
+                  habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+                });
                 await authenticateSession(certificationPointOfContact.id);
 
                 // when
@@ -177,7 +184,10 @@ module('Acceptance | authenticated | team', function (hooks) {
                     'ADMIN',
                   );
                   server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false, role: 'MEMBER' });
-                  server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+                  server.create('allowed-certification-center-access', {
+                    id: 1,
+                    habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+                  });
                   await authenticateSession(certificationPointOfContact.id);
 
                   // when
@@ -215,7 +225,10 @@ module('Acceptance | authenticated | team', function (hooks) {
                 'ADMIN',
                 true,
               );
-              server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+              server.create('allowed-certification-center-access', {
+                id: 1,
+                habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+              });
               await authenticateSession(certificationPointOfContact.id);
 
               // when
@@ -234,7 +247,10 @@ module('Acceptance | authenticated | team', function (hooks) {
                 'ADMIN',
                 true,
               );
-              server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+              server.create('allowed-certification-center-access', {
+                id: 1,
+                habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+              });
               await authenticateSession(certificationPointOfContact.id);
 
               // when
@@ -266,7 +282,10 @@ module('Acceptance | authenticated | team', function (hooks) {
               );
               server.create('member', { firstName: 'Jamal', lastName: 'Opié', isReferer: true });
               server.create('member', { firstName: 'Jean', lastName: 'Ticipe', isReferer: false });
-              server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+              server.create('allowed-certification-center-access', {
+                id: 1,
+                habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+              });
               await authenticateSession(certificationPointOfContact.id);
 
               // when
@@ -472,7 +491,10 @@ module('Acceptance | authenticated | team', function (hooks) {
                 'MEMBER',
               );
               server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false });
-              server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+              server.create('allowed-certification-center-access', {
+                id: 1,
+                habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+              });
               await authenticateSession(certificationPointOfContact.id);
 
               // when
@@ -501,7 +523,10 @@ module('Acceptance | authenticated | team', function (hooks) {
               );
               server.create('member', { firstName: 'Jamal', lastName: 'Opié', isReferer: true });
               server.create('member', { firstName: 'Jean', lastName: 'Ticipe', isReferer: false });
-              server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+              server.create('allowed-certification-center-access', {
+                id: 1,
+                habilitations: [{ key: COMPLEMENTARY_KEYS.CLEA }],
+              });
               await authenticateSession(certificationPointOfContact.id);
 
               // when

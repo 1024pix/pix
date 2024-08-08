@@ -6,7 +6,6 @@ export const CREATED = 'created';
 
 export default class Session extends Model {
   @service session;
-  @service featureToggles;
   @service intl;
 
   @attr('string') address;

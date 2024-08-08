@@ -1,5 +1,5 @@
 import { service } from '@ember/service';
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class CertificationCandidate extends Model {
   @service intl;
@@ -22,6 +22,8 @@ export default class CertificationCandidate extends Model {
   @attr('string') prepaymentCode;
   @attr complementaryCertification;
 
+  @hasMany('subscription', { async: false, inverse: null }) subscriptions;
+
   get genderLabel() {
     const candidateGender = this.sex;
 
@@ -41,5 +43,11 @@ export default class CertificationCandidate extends Model {
     }
 
     return '-';
+  }
+
+  hasDualCertificationSubscriptionCoreClea(centerHabilitations) {
+    const hasCoreSubscription = this.subscriptions.some((sub) => sub.isCore);
+    const hasCleaSubscription = this.subscriptions.some((sub) => sub.isClea(centerHabilitations));
+    return hasCoreSubscription && hasCleaSubscription;
   }
 }

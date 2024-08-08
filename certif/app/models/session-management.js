@@ -9,7 +9,6 @@ export const PROCESSED = 'processed';
 
 export default class Session extends Model {
   @service session;
-  @service featureToggles;
   @service intl;
 
   @attr('string') status;

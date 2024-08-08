@@ -38,34 +38,6 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
     });
   });
 
-  module('#get shouldDisplayComplementaryCertificationsHabilitations', function () {
-    test('should return false if center has no complementary certification habilitation', function (assert) {
-      // given
-      _stubCurrentCenter(this, store, { habilitations: [] });
-      const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
-
-      // when
-      const shouldDisplayComplementaryCertificationsHabilitations =
-        controller.shouldDisplayComplementaryCertificationsHabilitations;
-
-      // then
-      assert.false(shouldDisplayComplementaryCertificationsHabilitations);
-    });
-
-    test('should return true and center has complementary certifications', function (assert) {
-      // given
-      _stubCurrentCenter(this, store, { habilitations: ['Pix+Edu'] });
-      const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
-
-      // when
-      const shouldDisplayComplementaryCertificationsHabilitations =
-        controller.shouldDisplayComplementaryCertificationsHabilitations;
-
-      // then
-      assert.true(shouldDisplayComplementaryCertificationsHabilitations);
-    });
-  });
-
   module('#get shouldDisplayPaymentOptions', function () {
     test('should return false if center is sco', function (assert) {
       // given

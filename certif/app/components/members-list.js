@@ -5,7 +5,6 @@ import { tracked } from '@glimmer/tracking';
 
 export default class MembersList extends Component {
   @service currentUser;
-  @service featureToggles;
   @service intl;
   @service notifications;
   @service session;

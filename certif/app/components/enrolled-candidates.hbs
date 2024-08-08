@@ -65,9 +65,21 @@
                 {{t "common.forms.certification-labels.pricing"}}
               </th>
             {{/if}}
-            {{#if @displayComplementaryCertification}}
-              <th>{{t "common.forms.certification-labels.additional-certification"}}</th>
-            {{/if}}
+            <th>
+              <span class="certification-candidates-table__selected-subscriptions">
+                {{t "common.forms.certification-labels.selected-subscriptions"}}
+                {{#if this.showCompatibilityTooltip}}
+                  <PixTooltip @id="tooltip-compatibility-subscription" @position="bottom" @isWide={{true}}>
+                    <:triggerElement>
+                      <FaIcon @icon="circle-info" tabindex="0" aria-describedby="tooltip-compatibility-subscription" />
+                    </:triggerElement>
+                    <:tooltip>
+                      {{t "pages.sessions.detail.candidates.list.compatibility-tooltip"}}
+                    </:tooltip>
+                  </PixTooltip>
+                {{/if}}
+              </span>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -93,11 +105,9 @@
                 </td>
               {{/if}}
 
-              {{#if @displayComplementaryCertification}}
-                <td>
-                  {{this.formatComplementaryCertificationLabel candidate.complementaryCertification.id}}
-                </td>
-              {{/if}}
+              <td>
+                {{this.computeSubscriptionsText candidate}}
+              </td>
               <td>
                 <div class="certification-candidates-actions">
                   {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
@@ -162,7 +172,6 @@
     @showModal={{this.shouldDisplayCertificationCandidateModal}}
     @closeModal={{this.closeCertificationCandidateDetailsModal}}
     @candidate={{this.certificationCandidateInDetailsModal}}
-    @displayComplementaryCertification={{@displayComplementaryCertification}}
     @complementaryCertifications={{@complementaryCertifications}}
     @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
   />

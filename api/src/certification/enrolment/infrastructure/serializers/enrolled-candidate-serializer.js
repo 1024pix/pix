@@ -30,10 +30,16 @@ const serialize = function (enrolledCandidates) {
       'birthINSEECode',
       'birthPostalCode',
       'complementaryCertification',
+      'subscriptions',
       'billingMode',
       'prepaymentCode',
       'hasSeenCertificationInstructions',
     ],
+    subscriptions: {
+      include: true,
+      ref: 'id',
+      attributes: ['complementaryCertificationId', 'type'],
+    },
   }).serialize(enrolledCandidates);
 };
 

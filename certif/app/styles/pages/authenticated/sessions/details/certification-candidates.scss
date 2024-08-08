@@ -158,6 +158,14 @@
   box-sizing: content-box;
 }
 
+.certification-candidates-table__selected-subscriptions {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  width: 100px;
+  box-sizing: content-box;
+}
+
 .certification-candidates-actions {
   position: relative;
   display: flex;
