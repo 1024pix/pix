@@ -145,6 +145,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
                 'organization-learner-id': organizationLearner.id,
                 sex: 'M',
                 'complementary-certification': null,
+                'has-seen-certification-instructions': false,
               },
               relationships: {
                 subscriptions: {

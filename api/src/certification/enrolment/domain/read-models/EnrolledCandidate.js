@@ -32,6 +32,7 @@ export class EnrolledCandidate {
     subscriptions,
     billingMode,
     prepaymentCode,
+    hasSeenCertificationInstructions,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -54,6 +55,7 @@ export class EnrolledCandidate {
     this.organizationLearnerId = organizationLearnerId;
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;
+    this.hasSeenCertificationInstructions = hasSeenCertificationInstructions;
     this.subscriptions = subscriptions;
   }
 
