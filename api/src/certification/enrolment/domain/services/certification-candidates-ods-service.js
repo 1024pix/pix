@@ -1,6 +1,7 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
+import { config } from '../../../../shared/config.js';
 import { CertificationCandidatesError } from '../../../../shared/domain/errors.js';
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
@@ -72,23 +73,36 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       certificationCpfCountryRepository,
     });
 
-    const subscriptions = await _buildSubscriptions({
+    const complementaryCertificationsInDB = await complementaryCertificationRepository.findAll();
+    const subscriptions = _buildSubscriptions({
       hasCleaNumerique,
       hasPixPlusDroit,
       hasPixPlusEdu1erDegre,
       hasPixPlusEdu2ndDegre,
       hasPixPlusProSante,
-      complementaryCertificationRepository,
+      complementaryCertificationsInDB,
     });
 
-    if (_hasMoreThanOneComplementarySubscription(subscriptions)) {
-      line = parseInt(line) + 1;
+    if (!config.featureToggles.isCoreComplementaryCompatibilityEnabled) {
+      if (_hasMoreThanOneComplementarySubscription(subscriptions)) {
+        line = parseInt(line) + 1;
 
-      throw new CertificationCandidatesError({
-        code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
-        message: 'A candidate cannot have more than one complementary certification',
-        meta: { line },
-      });
+        throw new CertificationCandidatesError({
+          code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
+          message: 'A candidate cannot have more than one complementary certification',
+          meta: { line },
+        });
+      }
+    } else {
+      if (!_areSubscriptionsValid(subscriptions, complementaryCertificationsInDB)) {
+        line = parseInt(line) + 1;
+
+        throw new CertificationCandidatesError({
+          code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_WRONG_SUBSCRIPTIONS_COMPATIBILITY.code,
+          message: 'A candidate cannot have more than one subscription to a certification',
+          meta: { line },
+        });
+      }
     }
 
     if (cpfBirthInformation.hasFailed()) {
@@ -162,6 +176,21 @@ function _hasMoreThanOneComplementarySubscription(subscriptions) {
   return subscriptions.filter((subscription) => subscription.isComplementary()).length > 1;
 }
 
+function _areSubscriptionsValid(subscriptions, complementaryCertificationsInDB) {
+  if (subscriptions.length === 1) return true;
+  if (subscriptions.length === 2) {
+    const cleaComplementaryCertification = complementaryCertificationsInDB.find(
+      (cc) => cc.key === ComplementaryCertificationKeys.CLEA,
+    );
+    const hasCore = subscriptions.some((subscription) => subscription.isCore);
+    const hasClea = subscriptions.some(
+      (subscription) => subscription.complementaryCertificationId === cleaComplementaryCertification.id,
+    );
+    return hasCore && hasClea;
+  }
+  return false;
+}
+
 function _filterOutEmptyCandidateData(certificationCandidatesData) {
   return _(certificationCandidatesData)
     .mapValues(_nullifyObjectWithOnlyNilValues)
@@ -212,34 +241,65 @@ function _handleDuplicateCandidate() {
   };
 }
 
-async function _buildSubscriptions({
+function _buildComplementaryCertification(complementaryCertificationId) {
+  return Subscription.buildComplementary({
+    certificationCandidateId: null,
+    complementaryCertificationId,
+  });
+}
+
+function _buildSubscriptions({
   hasCleaNumerique,
   hasPixPlusDroit,
   hasPixPlusEdu1erDegre,
   hasPixPlusEdu2ndDegre,
   hasPixPlusProSante,
-  complementaryCertificationRepository,
+  complementaryCertificationsInDB,
 }) {
-  const subscriptions = [Subscription.buildCore({ certificationCandidateId: null })];
-  const complementaryCertificationsInDB = await complementaryCertificationRepository.findAll();
+  const subscriptions = [];
   const complementaryCertificationsByKey = _.keyBy(complementaryCertificationsInDB, 'key');
-  const hasComplementaryMap = {
-    [ComplementaryCertificationKeys.CLEA]: Boolean(hasCleaNumerique),
-    [ComplementaryCertificationKeys.PIX_PLUS_DROIT]: Boolean(hasPixPlusDroit),
-    [ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE]: Boolean(hasPixPlusEdu1erDegre),
-    [ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE]: Boolean(hasPixPlusEdu2ndDegre),
-    [ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE]: Boolean(hasPixPlusProSante),
-  };
-
-  for (const [complementaryKey, hasComplementary] of Object.entries(hasComplementaryMap)) {
-    if (hasComplementary) {
-      subscriptions.push(
-        Subscription.buildComplementary({
-          certificationCandidateId: null,
-          complementaryCertificationId: complementaryCertificationsByKey[complementaryKey].id,
-        }),
-      );
+  const isCompatibilityEnabled = config.featureToggles.isCoreComplementaryCompatibilityEnabled;
+  if (!isCompatibilityEnabled) {
+    subscriptions.push(Subscription.buildCore({ certificationCandidateId: null }));
+  }
+  if (hasCleaNumerique) {
+    if (isCompatibilityEnabled) {
+      subscriptions.push(Subscription.buildCore({ certificationCandidateId: null }));
     }
+    subscriptions.push(
+      _buildComplementaryCertification(complementaryCertificationsByKey[ComplementaryCertificationKeys.CLEA].id),
+    );
+  }
+  if (hasPixPlusDroit) {
+    subscriptions.push(
+      _buildComplementaryCertification(
+        complementaryCertificationsByKey[ComplementaryCertificationKeys.PIX_PLUS_DROIT].id,
+      ),
+    );
+  }
+  if (hasPixPlusEdu1erDegre) {
+    subscriptions.push(
+      _buildComplementaryCertification(
+        complementaryCertificationsByKey[ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE].id,
+      ),
+    );
+  }
+  if (hasPixPlusEdu2ndDegre) {
+    subscriptions.push(
+      _buildComplementaryCertification(
+        complementaryCertificationsByKey[ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE].id,
+      ),
+    );
+  }
+  if (hasPixPlusProSante) {
+    subscriptions.push(
+      _buildComplementaryCertification(
+        complementaryCertificationsByKey[ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE].id,
+      ),
+    );
+  }
+  if (subscriptions.length === 0) {
+    subscriptions.push(Subscription.buildCore({ certificationCandidateId: null }));
   }
 
   return subscriptions;

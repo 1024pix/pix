@@ -112,6 +112,11 @@ const CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION',
     getMessage: () => '',
   },
+  CANDIDATE_WRONG_SUBSCRIPTIONS_COMPATIBILITY: {
+    code: 'CANDIDATE_WRONG_SUBSCRIPTIONS_COMPATIBILITY',
+    getMessage: () =>
+      "Le candidat ne peut être inscrit qu'à une seule certification à la fois, ou bien à la Certification Pix ou bien à une certification complémentaire",
+  },
   CANDIDATE_NO_SUBSCRIPTION: {
     code: 'CANDIDATE_NO_SUBSCRIPTION',
     getMessage: () => 'Le candidat doit être inscrit à au moins une certification',

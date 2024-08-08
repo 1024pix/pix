@@ -106,4 +106,40 @@ describe('Unit | Certification | Enrolment | Domain | Models | Subscription', fu
         });
       });
   });
+
+  describe('#isCore', function () {
+    it('should return true when subscription type is CORE', function () {
+      // given
+      const subscription = domainBuilder.certification.enrolment.buildSubscription({
+        type: SUBSCRIPTION_TYPES.CORE,
+        complementaryCertificationId: null,
+      });
+
+      // when
+      const isCore = subscription.isCore();
+
+      // then
+      expect(isCore).to.be.true;
+    });
+
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    Object.keys(SUBSCRIPTION_TYPES)
+      .filter((typeKey) => typeKey !== SUBSCRIPTION_TYPES.CORE)
+      .forEach((typeKey) => {
+        it(`should return false when type is ${SUBSCRIPTION_TYPES[typeKey]}`, function () {
+          // given
+          const subscription = domainBuilder.certification.enrolment.buildSubscription({
+            type: SUBSCRIPTION_TYPES[typeKey],
+            complementaryCertificationId: 123,
+          });
+
+          // when
+          const isCore = subscription.isCore();
+
+          // then
+          expect(isCore).to.be.false;
+        });
+      });
+  });
 });
