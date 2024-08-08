@@ -11,17 +11,19 @@ class CompetenceResult {
     const validatedSkillsCount = knowledgeElements.filter(({ isValidated }) => isValidated).length;
 
     this.id = competence.id;
-    this.name = competence.name;
-    this.index = competence.index;
+
+    this.areaColor = area.color;
     this.areaName = area.name;
     this.areaTitle = area.title;
-    this.areaColor = area.color;
-    this.totalSkillsCount = totalSkillsCount;
-    this.testedSkillsCount = knowledgeElements.length;
-    this.validatedSkillsCount = validatedSkillsCount;
-    this.masteryPercentage = masteryPercentage || Math.round((validatedSkillsCount / totalSkillsCount) * 100);
+    this.description = competence.description;
     this.flashPixScore = flashPixScore;
+    this.index = competence.index;
+    this.masteryPercentage = masteryPercentage || Math.round((validatedSkillsCount / totalSkillsCount) * 100);
+    this.name = competence.name;
     this.reachedStage = reachedStage;
+    this.testedSkillsCount = knowledgeElements.length;
+    this.totalSkillsCount = totalSkillsCount;
+    this.validatedSkillsCount = validatedSkillsCount;
   }
 }
 

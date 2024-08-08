@@ -149,6 +149,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
           {
             id: 1,
             name_i18n: { fr: 'Agir collectivement' },
+            description_i18n: { fr: 'Sauver le monde' },
             index: '1.2',
             tubes: [{ id: 'recTube1', skills: [{ id: 'recSkill1' }] }],
           },
@@ -162,6 +163,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
           {
             id: 2,
             name_i18n: { fr: 'Nécessité de la pensée radicale' },
+            description_i18n: { fr: 'Sauver le monde' },
             index: '2.1',
             tubes: [
               {
@@ -173,6 +175,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
           {
             id: 3,
             name_i18n: { fr: 'Changer efficacement le monde' },
+            description_i18n: { fr: 'Sauver le monde' },
             index: '2.2',
             tubes: [
               {
@@ -191,6 +194,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
           {
             id: 4,
             name_i18n: { fr: 'Oser la paresse' },
+            description_i18n: { fr: 'Sauver le monde' },
             index: '4.3',
             tubes: [{ id: 'recTube0', skills: [{ id: 'notIncludedSkillId' }] }],
           },
@@ -308,6 +312,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
             attributes: {
               name: 'Agir collectivement',
               index: '1.2',
+              description: 'Sauver le monde',
               'mastery-percentage': 0,
               'total-skills-count': 1,
               'tested-skills-count': 0,
@@ -324,6 +329,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
             attributes: {
               name: 'Nécessité de la pensée radicale',
               index: '2.1',
+              description: 'Sauver le monde',
               'mastery-percentage': 67,
               'total-skills-count': 3,
               'tested-skills-count': 2,
@@ -340,6 +346,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
             attributes: {
               name: 'Changer efficacement le monde',
               index: '2.2',
+              description: 'Sauver le monde',
               'mastery-percentage': 25,
               'total-skills-count': 4,
               'tested-skills-count': 3,
