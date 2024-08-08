@@ -47,7 +47,15 @@ const qrocmElementSchema = Joi.object({
   type: Joi.string().valid('qrocm').required(),
   instruction: htmlSchema.required(),
   proposals: Joi.array()
-    .items(Joi.alternatives().try(blockTextSchema, blockInputSchema, blockSelectSchema))
+    .items(
+      Joi.alternatives().conditional('.type', {
+        switch: [
+          { is: 'text', then: blockTextSchema },
+          { is: 'input', then: blockInputSchema },
+          { is: 'select', then: blockSelectSchema },
+        ],
+      }),
+    )
     .required(),
   feedbacks: Joi.object({
     valid: htmlSchema,
