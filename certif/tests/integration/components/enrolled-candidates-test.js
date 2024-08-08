@@ -1,4 +1,6 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
@@ -316,6 +318,71 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       }
     }),
   );
+
+  module('Core complementary compatibility tooltip', function () {
+    test('it should not display tooltip in the header of selected certification column when FT is disabled', async function (assert) {
+      //given
+      class FeatureTogglesStub extends Service {
+        featureToggles = store.createRecord('feature-toggle', {
+          isCoreComplementaryCompatibilityEnabled: false,
+        });
+      }
+
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+      const candidate = _buildCertificationCandidate({
+        subscriptions: [],
+      });
+
+      const certificationCandidate = store.createRecord('certification-candidate', candidate);
+      const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
+
+      this.set('certificationCandidates', [certificationCandidate]);
+      this.set('countries', [countries]);
+
+      // when
+      const screen = await renderScreen(hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @countries={{this.countries}}
+/>`);
+
+      // then
+      assert.dom(screen.queryByLabelText("Informations concernant l'inscription en certification.")).doesNotExist();
+    });
+
+    test('it should display tooltip in the header of selected certification column when FT is enabled', async function (assert) {
+      //given
+      class FeatureTogglesStub extends Service {
+        featureToggles = store.createRecord('feature-toggle', {
+          isCoreComplementaryCompatibilityEnabled: true,
+        });
+      }
+
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+      const candidate = _buildCertificationCandidate({
+        subscriptions: [],
+      });
+
+      const certificationCandidate = store.createRecord('certification-candidate', candidate);
+      const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
+
+      this.set('certificationCandidates', [certificationCandidate]);
+      this.set('countries', [countries]);
+
+      // when
+      const screen = await renderScreen(hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @countries={{this.countries}}
+/>`);
+      await click(screen.getByLabelText("Informations concernant l'inscription en certification."));
+
+      // then
+      assert
+        .dom(screen.getByText("Le passage des certifications Pix et Pix+ s'effectue dans deux sessions distinctes."))
+        .exists();
+    });
+  });
 });
 
 function _buildCertificationCandidate({
