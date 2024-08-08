@@ -64,7 +64,8 @@ export default Factory.extend({
   },
 
   afterCreate(candidate, server) {
-    if (candidate.subscriptions.models.length === 0) {
+    const hasSubscriptions = candidate.subscriptions?.models?.length ?? false;
+    if (!hasSubscriptions) {
       const coreSubscription = server.create('subscription', {
         type: 'CORE',
         complementaryCertificationId: null,

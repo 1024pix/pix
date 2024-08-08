@@ -36,22 +36,6 @@ export default class EnrolledCandidates extends Component {
   }
 
   @action
-  formatComplementaryCertificationLabel(id) {
-    const complementaryCertificationId = parseInt(id);
-
-    if (complementaryCertificationId < 0) {
-      return '-';
-    }
-    const complementaryCertificationList = this.args.complementaryCertifications ?? [];
-
-    const candidateComplementaryCertification = complementaryCertificationList.find(
-      (complementaryCertification) => complementaryCertification.id === complementaryCertificationId,
-    );
-
-    return candidateComplementaryCertification?.label || '-';
-  }
-
-  @action
   addCertificationCandidateInStaging() {
     let addedAttributes = {};
     if (this.args.shouldDisplayPaymentOptions) {

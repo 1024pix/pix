@@ -55,7 +55,6 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       type: 'COMPLEMENTARY',
       complementaryCertificationId,
     });
-    this.set('displayComplementaryCertification', true);
     const candidate = _buildCertificationCandidate({
       birthdate: new Date('2019-04-28'),
       subscriptions: [coreSubscription, complementarySubscription],
@@ -77,7 +76,6 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       hbs`<EnrolledCandidates
   @sessionId='1'
   @certificationCandidates={{this.certificationCandidates}}
-  @displayComplementaryCertification={{this.displayComplementaryCertification}}
   @countries={{this.countries}}
   @complementaryCertifications={{this.complementaryCertifications}}
 />`,
@@ -89,38 +87,11 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     assert.dom(screen.getByRole('cell', { name: certificationCandidate.firstName })).exists();
     assert.dom(screen.getByRole('cell', { name: certificationCandidate.resultRecipientEmail })).exists();
     assert.dom(screen.getByRole('cell', { name: '30 %' })).exists();
-    assert.dom(screen.getByRole('cell', { name: 'Pix+Droit' })).exists();
     assert.dom(screen.getByRole('cell', { name: 'Certification Pix, Pix+Droit' })).exists();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCity })).doesNotExist();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthProvinceCode })).doesNotExist();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCountry })).doesNotExist();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.email })).doesNotExist();
-  });
-
-  test('it displays a dash where there is no certification', async function (assert) {
-    // given
-    this.set('displayComplementaryCertification', true);
-    const candidate = _buildCertificationCandidate({
-      complementaryCertification: null,
-      subscriptions: [],
-    });
-
-    const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-    const certificationCandidate = store.createRecord('certification-candidate', candidate);
-
-    this.set('certificationCandidates', [certificationCandidate]);
-    this.set('countries', [countries]);
-
-    // when
-    const screen = await renderScreen(hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @displayComplementaryCertification={{this.displayComplementaryCertification}}
-  @countries={{this.countries}}
-/>`);
-
-    // then
-    assert.dom(screen.getByRole('cell', { name: '-' })).exists();
   });
 
   test('it should display details button', async function (assert) {
