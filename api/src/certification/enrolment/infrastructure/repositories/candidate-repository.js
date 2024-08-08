@@ -2,6 +2,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CertificationCandidateNotFoundError } from '../../domain/errors.js';
 import { Candidate } from '../../domain/models/Candidate.js';
+import { Subscription } from '../../domain/models/Subscription.js';
 
 /**
  * @function
@@ -11,13 +12,35 @@ import { Candidate } from '../../domain/models/Candidate.js';
  * @return {Candidate}
  */
 export async function get({ certificationCandidateId }) {
-  const certificationCandidate = await knex('certification-candidates')
-    .where({
-      id: certificationCandidateId,
+  const candidateData = await knex
+    .select('certification-candidates.*')
+    .select({
+      subscriptions: knex.raw(
+        `json_agg(
+          json_build_object(
+            'type', "certification-subscriptions"."type",
+            'complementaryCertificationId', "certification-subscriptions"."complementaryCertificationId",
+            'certificationCandidateId', "certification-candidates"."id"
+          ) ORDER BY type
+      )`,
+      ),
     })
+    .from('certification-candidates')
+    .where({ 'certification-candidates.id': certificationCandidateId })
+    .join(
+      'certification-subscriptions',
+      'certification-subscriptions.certificationCandidateId',
+      'certification-candidates.id',
+    )
+    .groupBy('certification-candidates.id')
     .first();
+  if (!candidateData) return null;
 
-  return _toDomain(certificationCandidate);
+  const subscriptions = candidateData.subscriptions.map((subscription) => new Subscription(subscription));
+  return new Candidate({
+    ...candidateData,
+    subscriptions,
+  });
 }
 
 /**

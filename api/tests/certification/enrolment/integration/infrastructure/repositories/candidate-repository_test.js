@@ -6,25 +6,43 @@ import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../..
 
 describe('Integration | Certification | Session | Repository | Candidate', function () {
   describe('#get', function () {
-    describe('when the candidate exists', function () {
+    context('when the candidate exists', function () {
       it('should return the candidate', async function () {
-        // when
+        // given
+        databaseBuilder.factory.buildComplementaryCertification({
+          id: 1,
+          key: 'comp1',
+        });
         const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate();
-
+        databaseBuilder.factory.buildCoreSubscription({
+          certificationCandidateId: certificationCandidate.id,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationSubscription({
+          certificationCandidateId: certificationCandidate.id,
+          complementaryCertificationId: 1,
+        });
         await databaseBuilder.commit();
 
+        // when
         const result = await candidateRepository.get({ certificationCandidateId: certificationCandidate.id });
 
         // then
         expect(result).to.deepEqualInstance(
           new Candidate({
             ...certificationCandidate,
+            subscriptions: [
+              domainBuilder.buildComplementarySubscription({
+                certificationCandidateId: certificationCandidate.id,
+                complementaryCertificationId: 1,
+              }),
+              domainBuilder.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id }),
+            ],
           }),
         );
       });
     });
 
-    describe('when the candidate does not exist', function () {
+    context('when the candidate does not exist', function () {
       it('return null', async function () {
         // given
         const wrongCertificationCandidateId = 4568;
