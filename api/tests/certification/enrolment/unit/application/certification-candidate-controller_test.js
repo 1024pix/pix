@@ -52,6 +52,8 @@ describe('Unit | Controller | certification-candidate-controller', function () {
   describe('#validateCertificationInstructions', function () {
     it('should return the updated certification candidate', async function () {
       // given
+      // exemple de pourquoi je n'aime pas ce genre de test, faux positif
+      // TODO fix le test
       const certificationCandidatesJsonApi = 'candidatesJSONAPI';
       const certificationCandidate = 'candidate';
       const certificationCandidateId = 2;
