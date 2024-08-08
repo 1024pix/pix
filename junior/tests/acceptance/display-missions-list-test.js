@@ -1,4 +1,6 @@
 import { visit, within } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
 import { setupApplicationTest, t } from '../helpers';
@@ -61,5 +63,40 @@ module('Acceptance | Display missions list', function (hooks) {
         ),
       )
       .exists();
+  });
+  test('redirect to the challenge when user has already started the mission', async function (assert) {
+    this.server.create('mission', { id: '1', name: 'started_mission' });
+    this.server.create('mission', { id: '2', name: 'to_start_mission' });
+    this.server.create('challenge', { id: '1' });
+    const learner = this.server.create('organization-learner', {
+      name: 'learner',
+      startedMissionIds: ['1'],
+    });
+    identifyLearner(this.owner, { id: learner.id });
+
+    // when
+    const screen = await visit('/');
+    await click(screen.getByText('started_mission'));
+
+    // then
+    assert.strictEqual(currentURL(), '/assessments/1/challenges');
+  });
+
+  test('redirect to mission detail page when the user starts the mission', async function (assert) {
+    this.server.create('mission', { id: '1', name: 'started_mission' });
+    this.server.create('mission', { id: '2', name: 'to_start_mission' });
+
+    const learner = this.server.create('organization-learner', {
+      name: 'learner',
+      startedMissionIds: ['1'],
+    });
+    identifyLearner(this.owner, { id: learner.id });
+
+    // when
+    const screen = await visit('/');
+    await click(screen.getByText('to_start_mission'));
+
+    // then
+    assert.strictEqual(currentURL(), '/missions/2');
   });
 });
