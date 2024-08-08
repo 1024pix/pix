@@ -42,6 +42,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             id: 'C1',
             name: 'Competence1',
             index: '1.1',
+            description: 'Une description',
           }),
           area: domainBuilder.buildArea({
             title: 'DomaineNom',
@@ -99,17 +100,18 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
       const expectedSerializedCampaignParticipationResult = {
         data: {
           attributes: {
+            'can-improve': false,
+            'can-reset': true,
+            'can-retry': true,
+
             'is-completed': true,
+            'is-disabled': false,
             'is-shared': true,
             'mastery-rate': 0.5,
+            'participant-external-id': 'greg@lafleche.fr',
             'tested-skills-count': 2,
             'total-skills-count': 2,
             'validated-skills-count': 1,
-            'can-retry': true,
-            'can-reset': true,
-            'can-improve': false,
-            'is-disabled': false,
-            'participant-external-id': 'greg@lafleche.fr',
           },
           id: '1',
           relationships: {
@@ -161,6 +163,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
               'area-title': 'DomaineNom',
               index: '1.1',
               name: 'Competence1',
+              description: 'Une description',
               'mastery-percentage': 50,
               'reached-stage': 2,
               'tested-skills-count': 2,
@@ -204,6 +207,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
                 id: 'rec1',
                 index: '1.1',
                 name: 'competence 1',
+                description: 'Une description',
                 skillIds: ['recSkill1'],
               }),
               area: domainBuilder.buildArea({
@@ -218,6 +222,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
                 id: 'rec2',
                 index: '2.1',
                 name: 'competence 2',
+                description: 'Une description',
                 skillIds: ['recSkill2', 'recSkill3'],
               }),
               area: domainBuilder.buildArea({
@@ -255,6 +260,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             name: 'competence 1',
             index: '1.1',
             'area-color': 'area1Color',
+            description: 'Une description',
             'area-title': 'DomaineNom1',
             'mastery-percentage': 0,
             'total-skills-count': 1,
@@ -271,6 +277,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             name: 'competence 2',
             index: '2.1',
             'area-color': 'area2Color',
+            description: 'Une description',
             'area-title': 'DomaineNom2',
             'mastery-percentage': 0,
             'total-skills-count': 2,

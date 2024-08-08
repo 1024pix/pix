@@ -46,6 +46,7 @@ const serialize = function (results) {
         'index',
         'areaColor',
         'areaTitle',
+        'description',
         'masteryPercentage',
         'totalSkillsCount',
         'testedSkillsCount',

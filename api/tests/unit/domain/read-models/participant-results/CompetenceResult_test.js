@@ -8,6 +8,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | CompetenceResult', f
       id: 'rec1',
       name: 'C1',
       index: '1.1',
+      description: 'Une description',
     });
 
     const area = domainBuilder.buildArea({
@@ -40,6 +41,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | CompetenceResult', f
       id: 'rec1',
       name: 'C1',
       index: '1.1',
+      description: 'Une description',
       areaName: 'DomaineNom1',
       areaTitle: 'DomaineTitre1',
       areaColor: 'Couleur1',
