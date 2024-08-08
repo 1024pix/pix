@@ -6,6 +6,7 @@ import * as OidcIdentityProviders from '../../../../../src/identity-access-manag
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import {
   AlreadyExistingEntityError,
   AlreadyRegisteredEmailError,
@@ -1149,6 +1150,12 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
             userId: userInDB.id,
             organizationId: secondOrganizationInDB.id,
           });
+          const importFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT);
+          databaseBuilder.factory.buildOrganizationFeature({
+            featureId: importFeature.id,
+            organizationId: secondOrganizationInDB.id,
+          });
+
           databaseBuilder.factory.buildOrganizationLearner({
             id: 3,
             userId: randomUser.id,
@@ -1173,7 +1180,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
             {
               ...secondOrganizationLearnerInDB,
               organizationName: secondOrganizationInDB.name,
-              canBeDissociated: secondOrganizationInDB.isManagingStudents,
+              canBeDissociated: true,
             },
           ].map((organizationLearner) => pick(organizationLearner, expectedUserDetailsForAdminAttributes));
           expect(organizationLearners).to.deep.equal(expectedOrganizationLearners);
