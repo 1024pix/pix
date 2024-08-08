@@ -40,8 +40,13 @@ class FlashAssessmentAlgorithm {
     initialCapacity = config.v3Certification.defaultCandidateCapacity,
     answersForComputingCapacity,
   }) {
-    if (assessmentAnswers.length >= this._configuration.maximumAssessmentLength) {
-      throw new AssessmentEndedError();
+    const maximumAssessmentLength = this._configuration.maximumAssessmentLength;
+    if (assessmentAnswers?.length > maximumAssessmentLength) {
+      throw new AssessmentEndedError('User answered more questions than allowed');
+    }
+
+    if (this.#hasAnsweredToAllChallenges({ assessmentAnswers, maximumAssessmentLength })) {
+      return [];
     }
 
     const { capacity } = this.getCapacityAndErrorRate({
@@ -50,13 +55,13 @@ class FlashAssessmentAlgorithm {
       initialCapacity,
     });
 
-    const challengesAfterRulesApplication = this._applyChallengeSelectionRules(assessmentAnswers, challenges);
+    const challengesAfterRulesApplication = this.#applyChallengeSelectionRules(assessmentAnswers, challenges);
 
     if (challengesAfterRulesApplication?.length === 0) {
-      throw new AssessmentEndedError();
+      throw new AssessmentEndedError('No eligible challenges in referential');
     }
 
-    const minimalSuccessRate = this._computeMinimalSuccessRate(assessmentAnswers.length);
+    const minimalSuccessRate = this.#computeMinimalSuccessRate(assessmentAnswers.length);
 
     return this.flashAlgorithmImplementation.getPossibleNextChallenges({
       availableChallenges: challengesAfterRulesApplication,
@@ -68,15 +73,23 @@ class FlashAssessmentAlgorithm {
     });
   }
 
-  _applyChallengeSelectionRules(assessmentAnswers, challenges) {
+  #hasAnsweredToAllChallenges({ assessmentAnswers, maximumAssessmentLength }) {
+    if (assessmentAnswers && assessmentAnswers.length === maximumAssessmentLength) {
+      return true;
+    }
+
+    return false;
+  }
+
+  #applyChallengeSelectionRules(assessmentAnswers, challenges) {
     return this.ruleEngine.execute({
       assessmentAnswers,
       allChallenges: challenges,
     });
   }
 
-  _computeMinimalSuccessRate(questionIndex) {
-    const filterConfiguration = this._findApplicableSuccessRateConfiguration(questionIndex);
+  #computeMinimalSuccessRate(questionIndex) {
+    const filterConfiguration = this.#findApplicableSuccessRateConfiguration(questionIndex);
 
     if (!filterConfiguration) {
       return 0;
@@ -85,7 +98,7 @@ class FlashAssessmentAlgorithm {
     return filterConfiguration.getMinimalSuccessRate(questionIndex);
   }
 
-  _findApplicableSuccessRateConfiguration(questionIndex) {
+  #findApplicableSuccessRateConfiguration(questionIndex) {
     return this._configuration.minimumEstimatedSuccessRateRanges.find((successRateRange) =>
       successRateRange.isApplicable(questionIndex),
     );

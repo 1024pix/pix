@@ -38,6 +38,10 @@ const getNextChallengeForCampaignAssessment = async function ({
       challenges,
     });
 
+    if (_hasAnsweredToAllChallenges({ possibleChallenges })) {
+      throw new AssessmentEndedError();
+    }
+
     return pickChallengeService.chooseNextChallenge(assessment.id)({ possibleChallenges });
   } else {
     const inputValues = await algorithmDataFetcherService.fetchForCampaigns(...arguments);
@@ -53,6 +57,10 @@ const getNextChallengeForCampaignAssessment = async function ({
       locale,
     });
   }
+};
+
+const _hasAnsweredToAllChallenges = ({ possibleChallenges }) => {
+  return possibleChallenges.length === 0;
 };
 
 const _createDefaultAlgorithmConfiguration = () => {

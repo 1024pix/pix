@@ -2,7 +2,7 @@ import * as flashAlgorithmService from '../../../../../../src/certification/flas
 import { scoringDegradationService } from '../../../../../../src/certification/scoring/domain/services/scoring-degradation-service.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | services | scoringDegradationService', function () {
+describe('Integration | Domain | services | scoringDegradationService', function () {
   it('should degrade the initial capacity', function () {
     // given
     const initialCapacity = 2;

@@ -72,7 +72,6 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
  * @typedef {certificationChallengeRepository} CertificationChallengeRepository
  * @typedef {challengeRepository} ChallengeRepository
- * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {juryCertificationRepository} JuryCertificationRepository
  * @typedef {jurySessionRepository} JurySessionRepository

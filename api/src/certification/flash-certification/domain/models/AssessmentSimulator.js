@@ -12,19 +12,14 @@ export class AssessmentSimulator {
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      try {
-        const simulatorStepResult = this.getStrategy(stepIndex).run({ challengesAnswers, stepIndex });
+      const simulatorStepResult = this.getStrategy(stepIndex).run({ challengesAnswers, stepIndex });
 
-        if (!simulatorStepResult) {
-          break;
-        }
-        stepIndex = simulatorStepResult.nextStepIndex;
-        challengesAnswers.push(...simulatorStepResult.challengeAnswers);
-        result.push(...simulatorStepResult.results);
-      } catch (error) {
-        logger.error(error);
+      if (!simulatorStepResult) {
         break;
       }
+      stepIndex = simulatorStepResult.nextStepIndex;
+      challengesAnswers.push(...simulatorStepResult.challengeAnswers);
+      result.push(...simulatorStepResult.results);
     }
 
     logger.trace({ result }, 'AssessmentSimulator result');

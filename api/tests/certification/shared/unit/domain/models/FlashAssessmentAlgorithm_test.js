@@ -29,8 +29,38 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
   });
 
   describe('#getPossibleNextChallenges', function () {
-    context('when enough challenges have been answered', function () {
+    context('when user has answered more questions than allowed', function () {
       it('should throw an AssessmentEndedError', function () {
+        // given
+        const assessmentAnswers = [domainBuilder.buildAnswer({ id: 1 }), domainBuilder.buildAnswer({ id: 2 })];
+        const skill1 = domainBuilder.buildSkill({ id: 1 });
+        const skill2 = domainBuilder.buildSkill({ id: 2 });
+        const challenges = [
+          domainBuilder.buildChallenge({ id: assessmentAnswers[0].challengeId, skill: skill1 }),
+          domainBuilder.buildChallenge({ competenceId: 'comp2', skill: skill2 }),
+        ];
+        const capacity = 0;
+        const algorithm = new FlashAssessmentAlgorithm({
+          flashAlgorithmImplementation,
+          configuration: _getAlgorithmConfig({
+            maximumAssessmentLength: 1,
+          }),
+        });
+
+        // when / then
+        expect(() =>
+          algorithm.getPossibleNextChallenges({
+            assessmentAnswers,
+            challenges,
+            capacity,
+          }),
+        ).to.throw(AssessmentEndedError);
+      });
+    });
+
+    context('when user has answered to the maximun number of questions', function () {
+      it('should throw an AssessmentEndedError', function () {
+        // then
         const assessmentAnswers = [domainBuilder.buildAnswer({ id: 1 }), domainBuilder.buildAnswer({ id: 2 })];
         const skill1 = domainBuilder.buildSkill({ id: 1 });
         const skill2 = domainBuilder.buildSkill({ id: 2 });
@@ -46,13 +76,14 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           }),
         });
 
-        expect(() =>
-          algorithm.getPossibleNextChallenges({
-            assessmentAnswers,
-            challenges,
-            capacity,
-          }),
-        ).to.throw(AssessmentEndedError);
+        // when
+        const nextChallenges = algorithm.getPossibleNextChallenges({
+          assessmentAnswers,
+          challenges,
+          capacity,
+        });
+
+        expect(nextChallenges).to.have.lengthOf(0);
       });
     });
 
