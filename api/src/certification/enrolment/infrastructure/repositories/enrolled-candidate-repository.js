@@ -2,7 +2,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { Subscription } from '../../domain/models/Subscription.js';
 import { EnrolledCandidate } from '../../domain/read-models/EnrolledCandidate.js';
 
-const findBySessionId = async function ({ sessionId }) {
+export async function findBySessionId({ sessionId }) {
   const candidatesData = await knex
     .select('certification-candidates.*')
     .select({
@@ -33,7 +33,39 @@ const findBySessionId = async function ({ sessionId }) {
     });
   });
   return enrolledCandidates.sort(_sortAlphabeticallyByLastNameThenFirstName);
-};
+}
+
+export async function get(id) {
+  const candidateData = await knex
+    .select('certification-candidates.*')
+    .select({
+      subscriptions: knex.raw(
+        `json_agg(
+          json_build_object(
+            'type', "certification-subscriptions"."type",
+            'complementaryCertificationId', "certification-subscriptions"."complementaryCertificationId",
+            'certificationCandidateId', "certification-candidates"."id"
+          )
+      )`,
+      ),
+    })
+    .from('certification-candidates')
+    .where({ 'certification-candidates.id': id })
+    .join(
+      'certification-subscriptions',
+      'certification-subscriptions.certificationCandidateId',
+      'certification-candidates.id',
+    )
+    .groupBy('certification-candidates.id')
+    .first();
+  if (!candidateData) return null;
+
+  const subscriptions = candidateData.subscriptions.map((subscription) => new Subscription(subscription));
+  return new EnrolledCandidate({
+    ...candidateData,
+    subscriptions,
+  });
+}
 
 function _sortAlphabeticallyByLastNameThenFirstName(
   { firstName: firstName1, lastName: lastName1 },
@@ -43,4 +75,3 @@ function _sortAlphabeticallyByLastNameThenFirstName(
   if (compareRes === 0) compareRes = firstName1.localeCompare(firstName2);
   return compareRes;
 }
-export { findBySessionId };
