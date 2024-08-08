@@ -595,7 +595,8 @@
             "compatibility-tooltip-arialabel": "Information regarding candidate enrolment",
             "empty": "Awaiting candidates",
             "subscriptions": {
-              "core": "Pix Certification"
+              "core": "Pix Certification",
+              "dual-core-clea": "Dual Certification Pix-CléA Numérique"
             },
             "with-details-description": "List of candidates enrolled in the session, ordered by birth name, with a link to see the candidate’s details and the possibility to delete a candidate in the last column.",
             "without-details-description": "List of candidates enrolled in the session, ordered by birth name, with the possibility to delete a candidate in the last column."

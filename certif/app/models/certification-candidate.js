@@ -44,4 +44,10 @@ export default class CertificationCandidate extends Model {
 
     return '-';
   }
+
+  hasDualCertificationSubscriptionCoreClea(centerHabilitations) {
+    const hasCoreSubscription = this.subscriptions.some((sub) => sub.isCore);
+    const hasCleaSubscription = this.subscriptions.some((sub) => sub.isClea(centerHabilitations));
+    return hasCoreSubscription && hasCleaSubscription;
+  }
 }

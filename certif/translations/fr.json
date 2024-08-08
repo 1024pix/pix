@@ -595,7 +595,8 @@
             "compatibility-tooltip-arialabel": "Informations concernant l'inscription en certification.",
             "empty": "En attente de candidats",
             "subscriptions": {
-              "core": "Certification Pix"
+              "core": "Certification Pix",
+              "dual-core-clea": "Double Certification Pix-CléA Numérique"
             },
             "with-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne.",
             "without-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec la possibilité de supprimer un candidat dans la dernière colonne."

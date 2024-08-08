@@ -94,12 +94,51 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.email })).doesNotExist();
   });
 
+  test('it displays specific subscription text when candidate subscribed to dual certification core/clea', async function (assert) {
+    // given
+    const cleaCertificationId = 2;
+    const coreSubscription = store.createRecord('subscription', { type: 'CORE', complementaryCertificationId: null });
+    const complementarySubscription = store.createRecord('subscription', {
+      type: 'COMPLEMENTARY',
+      complementaryCertificationId: cleaCertificationId,
+    });
+    const candidate = _buildCertificationCandidate({
+      birthdate: new Date('2019-04-28'),
+      subscriptions: [coreSubscription, complementarySubscription],
+    });
+    const complementaryCertification = {
+      id: cleaCertificationId,
+      label: 'cléa num',
+      key: 'CLEA',
+    };
+
+    const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
+    const certificationCandidate = store.createRecord('certification-candidate', candidate);
+
+    this.set('certificationCandidates', [certificationCandidate]);
+    this.set('complementaryCertifications', [complementaryCertification]);
+    this.set('countries', [countries]);
+
+    // when
+    const screen = await renderScreen(
+      hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @countries={{this.countries}}
+  @complementaryCertifications={{this.complementaryCertifications}}
+/>`,
+    );
+
+    // then
+    assert.dom(screen.getByRole('cell', { name: 'Double Certification Pix-CléA Numérique' })).exists();
+  });
+
   test('it should display details button', async function (assert) {
     // given
     const candidate = _buildCertificationCandidate({
       subscriptions: [],
     });
-    const certificationCandidates = [candidate];
+    const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
     const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
 
     this.set('certificationCandidates', certificationCandidates);
@@ -123,10 +162,16 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
   test('it display candidates with delete disabled button if linked', async function (assert) {
     // given
     const certificationCandidates = [
-      _buildCertificationCandidate({ firstName: 'Riri', lastName: 'Duck', isLinked: false, subscriptions: [] }),
-      _buildCertificationCandidate({ firstName: 'Fifi', lastName: 'Duck', isLinked: true, subscriptions: [] }),
-      _buildCertificationCandidate({ firstName: 'Loulou', lastName: 'Duck', isLinked: false, subscriptions: [] }),
-    ];
+      _buildCertificationCandidate({ id: 1, firstName: 'Riri', lastName: 'Duck', isLinked: false, subscriptions: [] }),
+      _buildCertificationCandidate({ id: 2, firstName: 'Fifi', lastName: 'Duck', isLinked: true, subscriptions: [] }),
+      _buildCertificationCandidate({
+        id: 3,
+        firstName: 'Loulou',
+        lastName: 'Duck',
+        isLinked: false,
+        subscriptions: [],
+      }),
+    ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
     const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
 
     this.set('countries', [countries]);
@@ -244,9 +289,10 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
         subscriptions: [],
       });
       const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
+      const certificationCandidate = store.createRecord('certification-candidate', candidate);
 
       this.set('countries', [countries]);
-      this.set('certificationCandidates', [candidate]);
+      this.set('certificationCandidates', [certificationCandidate]);
       this.set(
         'shouldDisplayPrescriptionScoStudentRegistrationFeature',
         shouldDisplayPrescriptionScoStudentRegistrationFeature,

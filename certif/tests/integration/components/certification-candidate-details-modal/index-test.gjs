@@ -67,6 +67,55 @@ module('Integration | Component | certification-candidate-details-modal', functi
     assert.dom(screen.getByText('Pix+Edu')).exists();
   });
 
+  test('it shows specific label when candidate subscribed to dual certification core/clea', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const cleaSubscription = store.createRecord('subscription', {
+      type: 'COMPLEMENTARY',
+      complementaryCertificationId: 1,
+    });
+    const coreSubscription = store.createRecord('subscription', {
+      type: 'CORE',
+      complementaryCertificationId: null,
+    });
+    const candidate = store.createRecord('certification-candidate', {
+      firstName: 'Jean-Paul',
+      lastName: 'Candidat',
+      birthCity: 'Eu',
+      birthCountry: 'France',
+      email: 'jeanpauldeu@pix.fr',
+      resultRecipientEmail: 'suric@animal.fr',
+      externalId: '12345',
+      birthdate: '2000-12-25',
+      extraTimePercentage: 0.1,
+      birthInseeCode: 76255,
+      birthPostalCode: 76260,
+      sex: 'F',
+      subscriptions: [cleaSubscription, coreSubscription],
+    });
+
+    const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+      habilitations: [{ id: 1, label: 'Cléanum', key: 'CLEA' }],
+    });
+
+    const closeModalStub = sinon.stub();
+
+    // when
+    const screen = await render(
+      <template>
+        <CertificationCandidateDetailsModal
+          @closeModal={{closeModalStub}}
+          @showModal={{true}}
+          @candidate={{candidate}}
+          @complementaryCertifications={{currentAllowedCertificationCenterAccess.habilitations}}
+        />
+      </template>,
+    );
+
+    // then
+    assert.dom(screen.getByText('Double Certification Pix-CléA Numérique')).exists();
+  });
+
   module('when candidate has missing data', () => {
     test('it displays a dash', async function (assert) {
       // given

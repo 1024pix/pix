@@ -7,4 +7,11 @@ export default class SubscriptionModel extends Model {
   get isCore() {
     return this.type === 'CORE';
   }
+
+  isClea(centerHabilitations) {
+    const matchingHabilitation = centerHabilitations.find(
+      (habilitation) => habilitation.id === this.complementaryCertificationId,
+    );
+    return matchingHabilitation?.key === 'CLEA' ?? false;
+  }
 }

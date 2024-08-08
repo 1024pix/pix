@@ -215,13 +215,17 @@ export default class EnrolledCandidates extends Component {
     const complementaryCertificationList = this.args.complementaryCertifications ?? [];
     const subscriptionLabels = [];
 
-    for (const subscription of candidate.subscriptions) {
-      if (subscription.isCore) subscriptionLabels.unshift(this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.core`));
-      else {
-        const candidateComplementaryCertification = complementaryCertificationList.find(
-          (complementaryCertification) => complementaryCertification.id === subscription.complementaryCertificationId,
-        );
-        subscriptionLabels.push(candidateComplementaryCertification?.label || '-');
+    if (candidate.hasDualCertificationSubscriptionCoreClea(complementaryCertificationList)) {
+      subscriptionLabels.push(this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.dual-core-clea`));
+    } else {
+      for (const subscription of candidate.subscriptions) {
+        if (subscription.isCore) subscriptionLabels.unshift(this.intl.t(`${TRANSLATE_PREFIX}.list.subscriptions.core`));
+        else {
+          const candidateComplementaryCertification = complementaryCertificationList.find(
+            (complementaryCertification) => complementaryCertification.id === subscription.complementaryCertificationId,
+          );
+          subscriptionLabels.push(candidateComplementaryCertification?.label || '-');
+        }
       }
     }
 
