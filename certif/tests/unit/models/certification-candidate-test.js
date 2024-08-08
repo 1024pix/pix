@@ -134,9 +134,11 @@ module('Unit | Model | certification-candidate', function (hooks) {
     test('it should return false when candidate has subscribed to core but not clea', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
+      const cleaId = 123;
+      const notCleaId = 124;
       const habilitations = [
         {
-          id: 123,
+          id: cleaId,
           label: 'Certif cléa',
           key: 'CLEA',
         },
@@ -147,7 +149,7 @@ module('Unit | Model | certification-candidate', function (hooks) {
       });
       const otherSubscription = store.createRecord('subscription', {
         type: 'COMPLEMENTARY',
-        complementaryCertificationId: 124,
+        complementaryCertificationId: notCleaId,
       });
       const candidate = store.createRecord('certification-candidate', {
         subscriptions: [coreSubscription, otherSubscription],

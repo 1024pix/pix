@@ -79,7 +79,7 @@
                       @size="small"
                     />
                   </:triggerElement>
-                  <:tooltip>{{t "pages.sessions.detail.candidates.list.actions.delete.tooltip"}}</:tooltip>
+                  <:tooltip>{{t "pages.sessions.detail.candidates.list.compatibility-tooltip"}}</:tooltip>
                 </PixTooltip>
               {{/if}}
             </th>
@@ -109,7 +109,7 @@
               {{/if}}
 
               <td>
-                {{this.getSubscriptionsStr candidate}}
+                {{this.computeSubscriptionsText candidate}}
               </td>
               <td>
                 <div class="certification-candidates-actions">

@@ -78,7 +78,7 @@ export default class CertificationCandidateDetailsModal extends Component {
     return transform(value) || value || '-';
   }
 
-  getSubscriptionsStr = (candidate) => {
+  computeSubscriptionsText = (candidate) => {
     const complementaryCertificationList = this.args.complementaryCertifications ?? [];
     const subscriptionLabels = [];
 
@@ -123,7 +123,7 @@ export default class CertificationCandidateDetailsModal extends Component {
           {{/if}}
           <Row
             @label={{t 'common.forms.certification-labels.selected-subscriptions'}}
-            @value={{this.getSubscriptionsStr @candidate}}
+            @value={{this.computeSubscriptionsText @candidate}}
           />
         </ul>
       </:content>

@@ -211,7 +211,7 @@ export default class EnrolledCandidates extends Component {
     return this.featureToggles.featureToggles?.isCoreComplementaryCompatibilityEnabled;
   }
 
-  getSubscriptionsStr = (candidate) => {
+  computeSubscriptionsText = (candidate) => {
     const complementaryCertificationList = this.args.complementaryCertifications ?? [];
     const subscriptionLabels = [];
 
