@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v4.196.0 (08/08/2024)
+
+
+### :rocket: Amélioration
+- [#9824](https://github.com/1024pix/pix/pull/9824) [FEATURE] add competence description to assessment result (PIX-13804).
+- [#9780](https://github.com/1024pix/pix/pull/9780) [FEATURE] Ajouter le contenu de l'onglet Récompenses (PIX-12984).
+- [#9817](https://github.com/1024pix/pix/pull/9817) [FEATURE] Passe directement à la dernière épreuves à jouer d'une mission déjà démarré depuis la page de liste des mission (PIX-13625).
+- [#9804](https://github.com/1024pix/pix/pull/9804) [FEATURE] Afficher la carte d'une mission avec un statut 'En cours' (Pix-13624).
+
+### :bug: Correction
+- [#9823](https://github.com/1024pix/pix/pull/9823) [BUGFIX] corrige le format d'import sco fwb (PIX-13807).
+
 ## v4.195.0 (07/08/2024)
 
 
