@@ -1,4 +1,5 @@
 import { setupTest } from 'ember-qunit';
+import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 
 import setupIntlForModels from '../../helpers/setup-intl';
@@ -15,11 +16,11 @@ module('Unit | Model | subscription', function (hooks) {
         {
           id: 123,
           label: 'Certif cléa',
-          key: 'CLEA',
+          key: COMPLEMENTARY_KEYS.CLEA,
         },
       ];
       const cleaSubscription = store.createRecord('subscription', {
-        type: 'COMPLEMENTARY',
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
         complementaryCertificationId: 123,
       });
 
@@ -39,11 +40,11 @@ module('Unit | Model | subscription', function (hooks) {
         {
           id: cleaId,
           label: 'Certif cléa',
-          key: 'CLEA',
+          key: COMPLEMENTARY_KEYS.CLEA,
         },
       ];
       const otherSubscription = store.createRecord('subscription', {
-        type: 'COMPLEMENTARY',
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
         complementaryCertificationId: notCleaId,
       });
 
@@ -61,11 +62,11 @@ module('Unit | Model | subscription', function (hooks) {
         {
           id: 123,
           label: 'Certif cléa',
-          key: 'CLEA',
+          key: COMPLEMENTARY_KEYS.CLEA,
         },
       ];
       const coreSubscription = store.createRecord('subscription', {
-        type: 'CORE',
+        type: SUBSCRIPTION_TYPES.CORE,
         complementaryCertificationId: null,
       });
 
@@ -82,7 +83,7 @@ module('Unit | Model | subscription', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const coreSubscription = store.createRecord('subscription', {
-        type: 'CORE',
+        type: SUBSCRIPTION_TYPES.CORE,
         complementaryCertificationId: null,
       });
 
@@ -97,7 +98,7 @@ module('Unit | Model | subscription', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const otherSubscription = store.createRecord('subscription', {
-        type: 'COMPLEMENTARY',
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
         complementaryCertificationId: 123,
       });
 

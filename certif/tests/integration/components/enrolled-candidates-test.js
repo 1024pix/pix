@@ -3,6 +3,7 @@ import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -52,9 +53,12 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
   test('it displays candidate information', async function (assert) {
     // given
     const complementaryCertificationId = 2;
-    const coreSubscription = store.createRecord('subscription', { type: 'CORE', complementaryCertificationId: null });
+    const coreSubscription = store.createRecord('subscription', {
+      type: SUBSCRIPTION_TYPES.CORE,
+      complementaryCertificationId: null,
+    });
     const complementarySubscription = store.createRecord('subscription', {
-      type: 'COMPLEMENTARY',
+      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
       complementaryCertificationId,
     });
     const candidate = _buildCertificationCandidate({
@@ -99,9 +103,12 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
   test('it displays specific subscription text when candidate subscribed to dual certification core/clea', async function (assert) {
     // given
     const cleaCertificationId = 2;
-    const coreSubscription = store.createRecord('subscription', { type: 'CORE', complementaryCertificationId: null });
+    const coreSubscription = store.createRecord('subscription', {
+      type: SUBSCRIPTION_TYPES.CORE,
+      complementaryCertificationId: null,
+    });
     const complementarySubscription = store.createRecord('subscription', {
-      type: 'COMPLEMENTARY',
+      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
       complementaryCertificationId: cleaCertificationId,
     });
     const candidate = _buildCertificationCandidate({
@@ -111,7 +118,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     const complementaryCertification = {
       id: cleaCertificationId,
       label: 'cléa num',
-      key: 'CLEA',
+      key: COMPLEMENTARY_KEYS.CLEA,
     };
 
     const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });

@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import CertificationCandidateDetailsModal from 'pix-certif/components/certification-candidate-details-modal';
+import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -13,7 +14,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
     // given
     const store = this.owner.lookup('service:store');
     const pixEduSubscription = store.createRecord('subscription', {
-      type: 'COMPLEMENTARY',
+      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
       complementaryCertificationId: 1,
     });
     const candidate = store.createRecord('certification-candidate', {
@@ -71,11 +72,11 @@ module('Integration | Component | certification-candidate-details-modal', functi
     // given
     const store = this.owner.lookup('service:store');
     const cleaSubscription = store.createRecord('subscription', {
-      type: 'COMPLEMENTARY',
+      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
       complementaryCertificationId: 1,
     });
     const coreSubscription = store.createRecord('subscription', {
-      type: 'CORE',
+      type: SUBSCRIPTION_TYPES.CORE,
       complementaryCertificationId: null,
     });
     const candidate = store.createRecord('certification-candidate', {
@@ -95,7 +96,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
     });
 
     const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-      habilitations: [{ id: 1, label: 'Cléanum', key: 'CLEA' }],
+      habilitations: [{ id: 1, label: 'Cléanum', key: COMPLEMENTARY_KEYS.CLEA }],
     });
 
     const closeModalStub = sinon.stub();
@@ -121,7 +122,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
       // given
       const store = this.owner.lookup('service:store');
       const coreSubscription = store.createRecord('subscription', {
-        type: 'CORE',
+        type: SUBSCRIPTION_TYPES.CORE,
         complementaryCertificationId: null,
       });
       const candidate = store.createRecord('certification-candidate', {
@@ -160,7 +161,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
       // given
       const store = this.owner.lookup('service:store');
       const coreSubscription = store.createRecord('subscription', {
-        type: 'CORE',
+        type: SUBSCRIPTION_TYPES.CORE,
         complementaryCertificationId: null,
       });
       const candidate = store.createRecord('certification-candidate', {
@@ -219,7 +220,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
       // given
       const store = this.owner.lookup('service:store');
       const coreSubscription = store.createRecord('subscription', {
-        type: 'CORE',
+        type: SUBSCRIPTION_TYPES.CORE,
         complementaryCertificationId: null,
       });
       const candidate = store.createRecord('certification-candidate', {

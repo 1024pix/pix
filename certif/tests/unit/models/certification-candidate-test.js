@@ -1,5 +1,6 @@
 import { setupTest } from 'ember-qunit';
 import pick from 'lodash/pick';
+import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 
 import setupIntlForModels from '../../helpers/setup-intl';
@@ -109,15 +110,15 @@ module('Unit | Model | certification-candidate', function (hooks) {
         {
           id: 123,
           label: 'Certif cléa',
-          key: 'CLEA',
+          key: COMPLEMENTARY_KEYS.CLEA,
         },
       ];
       const coreSubscription = store.createRecord('subscription', {
-        type: 'CORE',
+        type: SUBSCRIPTION_TYPES.CORE,
         complementaryCertificationId: null,
       });
       const cleaSubscription = store.createRecord('subscription', {
-        type: 'COMPLEMENTARY',
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
         complementaryCertificationId: 123,
       });
       const candidate = store.createRecord('certification-candidate', {
@@ -140,15 +141,15 @@ module('Unit | Model | certification-candidate', function (hooks) {
         {
           id: cleaId,
           label: 'Certif cléa',
-          key: 'CLEA',
+          key: COMPLEMENTARY_KEYS.CLEA,
         },
       ];
       const coreSubscription = store.createRecord('subscription', {
-        type: 'CORE',
+        type: SUBSCRIPTION_TYPES.CORE,
         complementaryCertificationId: null,
       });
       const otherSubscription = store.createRecord('subscription', {
-        type: 'COMPLEMENTARY',
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
         complementaryCertificationId: notCleaId,
       });
       const candidate = store.createRecord('certification-candidate', {
@@ -169,11 +170,11 @@ module('Unit | Model | certification-candidate', function (hooks) {
         {
           id: 123,
           label: 'Certif cléa',
-          key: 'CLEA',
+          key: COMPLEMENTARY_KEYS.CLEA,
         },
       ];
       const cleaSubscription = store.createRecord('subscription', {
-        type: 'COMPLEMENTARY',
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
         complementaryCertificationId: 123,
       });
       const candidate = store.createRecord('certification-candidate', {

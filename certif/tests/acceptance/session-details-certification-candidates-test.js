@@ -3,6 +3,7 @@ import { click, currentURL, fillIn, find, settled, triggerEvent } from '@ember/t
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import { SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 
 import { authenticateSession } from '../helpers/test-init';
@@ -113,11 +114,11 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           certificationCenterId: allowedCertificationCenterAccess.id,
         });
         const coreSubscription = server.create('subscription', {
-          type: 'CORE',
+          type: SUBSCRIPTION_TYPES.CORE,
           complementaryCertificationId: null,
         });
         const complementarySubscription = server.create('subscription', {
-          type: 'COMPLEMENTARY',
+          type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
           complementaryCertificationId,
         });
         server.create('certification-candidate', {
