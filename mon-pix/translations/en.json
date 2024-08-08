@@ -42,6 +42,8 @@
       "confirm": "Confirm",
       "lets-go": "Let's go!",
       "quit": "Exit",
+      "show-less": "Show less",
+      "show-more": "Show more",
       "sign-out": "Sign out",
       "stay": "Stay",
       "validate": "Validate"
@@ -1632,7 +1634,10 @@
       "already-shared": "Thank you, your results have been submitted!",
       "badge-card": {
         "acquired": "Awarded",
+        "acquired-full": "Badge awarded",
+        "certifiable": "Certifying",
         "not-acquired": "Not awarded",
+        "not-acquired-full": "Badge not awarded",
         "progress-bar-label": "Badge result percentage"
       },
       "badges-title": "Your thematic results",

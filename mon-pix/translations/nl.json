@@ -42,6 +42,8 @@
       "confirm": "Bevestig",
       "lets-go": "Laten we gaan!",
       "quit": "Verlaat",
+      "show-less": "Laat minder zien",
+      "show-more": "Laat meer zien",
       "sign-out": "Log uit.",
       "stay": "Blijf",
       "validate": "Valideer"
@@ -1622,7 +1624,10 @@
       "already-shared": "Bedankt, je resultaten zijn verzonden!",
       "badge-card": {
         "acquired": "Verkregen",
+        "acquired-full": "Thematisch resultaat verkregen",
+        "certifiable": "Certificaathouder",
         "not-acquired": "Niet verkregen",
+        "not-acquired-full": "Thematisch resultaat is niet verkregen",
         "progress-bar-label": "Percentage succesvolle resultaten"
       },
       "badges-title": "Je thematische resultaten",

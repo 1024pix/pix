@@ -1,0 +1,89 @@
+.evaluation-results-tab__badges-title {
+  @extend %pix-title-xs;
+
+  display: flex;
+  gap: var(--pix-spacing-2x);
+  align-items: center;
+  margin-top: var(--pix-spacing-8x);
+
+  &--acquired svg {
+    color: var(--pix-success-700);
+  }
+
+  &--not-acquired svg {
+    color: var(--pix-neutral-800);
+  }
+}
+
+.evaluation-results-tab__badge {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  margin-top: var(--pix-spacing-4x);
+  overflow: hidden;
+  background-color: var(--pix-neutral-0);
+  border: 1px solid var(--pix-neutral-100);
+  border-radius: 1rem;
+}
+
+.evaluation-results-tab-badge__image-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-3x);
+  align-items: center;
+  justify-content: center;
+  padding: var(--pix-spacing-2x) var(--pix-spacing-6x);
+  text-align: center;
+  background-color: var(--pix-success-50);
+}
+
+.evaluation-results-tab-badge__image {
+  width: 5rem;
+  height: 5rem;
+  object-fit: contain;
+  object-position: center;
+}
+
+.evaluation-results-tab__badge--not-acquired {
+  .evaluation-results-tab-badge__image-container {
+    background-color: var(--pix-neutral-20);
+  }
+
+  .evaluation-results-tab-badge__image {
+    filter: grayscale(100%);
+  }
+}
+
+.evaluation-results-tab-badge__content {
+  padding: var(--pix-spacing-4x);
+  overflow: hidden;
+}
+
+.evaluation-results-tab-badge__title {
+  @extend %pix-title-xs;
+}
+
+.evaluation-results-tab-badge__certifiable {
+  margin: var(--pix-spacing-2x) 0;
+}
+
+.evaluation-results-tab-badge__description {
+  @extend %pix-body-s;
+
+  margin-top: var(--pix-spacing-2x);
+  color: var(--pix-neutral-500);
+
+  &--shrinked {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.evaluation-results-tab-badge__description--one-liner + .evaluation-results-tab-badge__show-more {
+  display: none;
+}
+
+.evaluation-results-tab-badge__progress-gauge {
+  max-width: 19rem;
+  margin-top: var(--pix-spacing-4x);
+}
