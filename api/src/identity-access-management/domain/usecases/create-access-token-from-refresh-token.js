@@ -1,5 +1,5 @@
-const createAccessTokenFromRefreshToken = async function ({ refreshToken, refreshTokenService }) {
-  return refreshTokenService.createAccessTokenFromRefreshToken({ refreshToken });
+const createAccessTokenFromRefreshToken = async function ({ refreshToken, audience, refreshTokenService }) {
+  return refreshTokenService.createAccessTokenFromRefreshToken({ refreshToken, audience });
 };
 
 export { createAccessTokenFromRefreshToken };

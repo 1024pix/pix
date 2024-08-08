@@ -26,9 +26,14 @@ const createToken = async function (request, h, dependencies = { tokenService })
   let accessToken, refreshToken;
   let expirationDelaySeconds;
 
+  const audience = null; // TODO: Get audience from request (query param or header)
+
   if (request.payload.grant_type === 'refresh_token') {
     refreshToken = request.payload.refresh_token;
-    const accessTokenAndExpirationDelaySeconds = await usecases.createAccessTokenFromRefreshToken({ refreshToken });
+    const accessTokenAndExpirationDelaySeconds = await usecases.createAccessTokenFromRefreshToken({
+      refreshToken,
+      audience,
+    });
     accessToken = accessTokenAndExpirationDelaySeconds.accessToken;
     expirationDelaySeconds = accessTokenAndExpirationDelaySeconds.expirationDelaySeconds;
   } else if (request.payload.grant_type === 'password') {
@@ -41,6 +46,7 @@ const createToken = async function (request, h, dependencies = { tokenService })
       password,
       scope,
       source,
+      audience,
       localeFromCookie,
     });
     accessToken = tokensAndExpirationDelaySeconds.accessToken;

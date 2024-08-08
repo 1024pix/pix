@@ -1,10 +1,10 @@
 import lodash from 'lodash';
 
-const { get } = lodash;
-
 import { PIX_ADMIN, PIX_ORGA } from '../../../authorization/domain/constants.js';
 import { ForbiddenAccess, LocaleFormatError, LocaleNotSupportedError } from '../../../shared/domain/errors.js';
 import { MissingOrInvalidCredentialsError, UserShouldChangePasswordError } from '../errors.js';
+
+const { get } = lodash;
 
 async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   if (scope === PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {
@@ -23,6 +23,7 @@ const authenticateUser = async function ({
   password,
   scope,
   source,
+  audience,
   username,
   localeFromCookie,
   refreshTokenService,
@@ -50,9 +51,14 @@ const authenticateUser = async function ({
     }
 
     await _checkUserAccessScope(scope, foundUser, adminMemberRepository);
-    const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({ userId: foundUser.id, source });
+    const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({
+      userId: foundUser.id,
+      source,
+      audience,
+    });
     const { accessToken, expirationDelaySeconds } = await refreshTokenService.createAccessTokenFromRefreshToken({
       refreshToken,
+      audience,
     });
 
     foundUser.setLocaleIfNotAlreadySet(localeFromCookie);

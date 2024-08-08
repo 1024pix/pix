@@ -30,17 +30,17 @@ async function findByUserId(userId) {
  * @typedef {function} createRefreshTokenFromUserId
  * @param {Object} params
  * @param {string} params.userId
- * @param {string} params.source
+ * @param {string} params.audience
  * @param {function} params.uuidGenerator
  * @return {Promise<string>}
  */
-async function createRefreshTokenFromUserId({ userId, source, uuidGenerator = randomUUID }) {
+async function createRefreshTokenFromUserId({ userId, audience, source, uuidGenerator = randomUUID }) {
   const expirationDelaySeconds = config.authentication.refreshTokenLifespanMs / 1000;
-  const refreshToken = `${_prefixForUser(userId)}${uuidGenerator()}`;
+  const refreshToken = [userId, audience, uuidGenerator()].filter(Boolean).join(':');
 
   await refreshTokenTemporaryStorage.save({
     key: refreshToken,
-    value: { type: 'refresh_token', userId, source },
+    value: { type: 'refresh_token', userId, audience, source },
     expirationDelaySeconds,
   });
   await userRefreshTokensTemporaryStorage.lpush({ key: userId, value: refreshToken });
@@ -58,8 +58,11 @@ async function createRefreshTokenFromUserId({ userId, source, uuidGenerator = ra
  * @param {string} params.refreshToken
  * @return {Promise<{expirationDelaySeconds: number, accessToken: string}>}
  */
-async function createAccessTokenFromRefreshToken({ refreshToken }) {
-  const { userId, source } = (await findByRefreshToken(refreshToken)) || {};
+async function createAccessTokenFromRefreshToken({ refreshToken, audience: targetAudience }) {
+  const { userId, source, audience } = (await findByRefreshToken(refreshToken)) || {};
+  if (audience && audience !== targetAudience) {
+    throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
+  }
   if (!userId) throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
   return tokenService.createAccessTokenFromUser(userId, source);
 }
@@ -106,7 +109,3 @@ export const refreshTokenService = {
   revokeRefreshToken,
   revokeRefreshTokensForUserId,
 };
-
-function _prefixForUser(userId) {
-  return `${userId}:`;
-}
