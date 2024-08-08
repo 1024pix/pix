@@ -24,6 +24,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
   let domainTransactionStub;
   let eventBusStub;
   let eventStub;
+  let logErrorWithCorrelationIdsStub;
 
   beforeEach(function () {
     domainTransactionStub = Symbol('domainTransaction');
@@ -36,6 +37,8 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
       publish: sinon.stub(),
     };
     eventBusStub.publish.withArgs(eventStub, domainTransactionStub).resolves();
+
+    logErrorWithCorrelationIdsStub = sinon.stub();
 
     organizationImportRepositoryStub = {
       get: sinon.stub(),
@@ -121,6 +124,23 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
         filename: organizationImportStub.filename,
       });
       expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
+    });
+
+    it('should call log method if file deletion on s3 fails', async function () {
+      const deletionError = new Error('deletion error');
+      eventBusStub.publish.reset();
+      eventBusStub.publish.rejects();
+      importStorageStub.deleteFile.rejects(deletionError);
+
+      await catchErr(validateSiecleXmlFile)({
+        organizationImportId,
+        organizationImportRepository: organizationImportRepositoryStub,
+        organizationRepository: organizationRepositoryStub,
+        importStorage: importStorageStub,
+        eventBus: eventBusStub,
+        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+      });
+      expect(logErrorWithCorrelationIdsStub).to.have.been.calledWith(deletionError);
     });
 
     context('when there is validation errors', function () {

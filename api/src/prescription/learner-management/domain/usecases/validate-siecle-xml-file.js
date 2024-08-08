@@ -20,6 +20,7 @@ const validateSiecleXmlFile = async function ({
   organizationImportRepository,
   importStorage,
   eventBus,
+  logErrorWithCorrelationIds,
 }) {
   await DomainTransaction.execute(async (domainTransaction) => {
     const organizationImport = await organizationImportRepository.get(organizationImportId);
@@ -53,7 +54,11 @@ const validateSiecleXmlFile = async function ({
       } else {
         errors.push(error);
       }
-      await importStorage.deleteFile({ filename: organizationImport.filename });
+      try {
+        await importStorage.deleteFile({ filename: organizationImport.filename });
+      } catch (e) {
+        logErrorWithCorrelationIds(e);
+      }
       throw error;
     } finally {
       organizationImport.validate({ errors });
