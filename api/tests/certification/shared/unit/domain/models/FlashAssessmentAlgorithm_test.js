@@ -2,8 +2,7 @@ import { FlashAssessmentAlgorithm } from '../../../../../../src/certification/fl
 import { FlashAssessmentSuccessRateHandler } from '../../../../../../src/certification/flash-certification/domain/models/FlashAssessmentSuccessRateHandler.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { config } from '../../../../../../src/shared/config.js';
-import { AssessmentEndedError } from '../../../../../../src/shared/domain/errors.js';
-import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { catchErrSync, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const baseFlashAssessmentAlgorithmConfig = {
   warmUpLength: 0,
@@ -30,7 +29,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
 
   describe('#getPossibleNextChallenges', function () {
     context('when user has answered more questions than allowed', function () {
-      it('should throw an AssessmentEndedError', function () {
+      it('should throw a RangeError', function () {
         // given
         const assessmentAnswers = [domainBuilder.buildAnswer({ id: 1 }), domainBuilder.buildAnswer({ id: 2 })];
         const skill1 = domainBuilder.buildSkill({ id: 1 });
@@ -47,14 +46,22 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           }),
         });
 
-        // when / then
-        expect(() =>
+        // when
+        const error = catchErrSync(({ assessmentAnswers, challenges, capacity }) =>
           algorithm.getPossibleNextChallenges({
             assessmentAnswers,
             challenges,
             capacity,
           }),
-        ).to.throw(AssessmentEndedError);
+        )({
+          assessmentAnswers,
+          challenges,
+          capacity,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(RangeError);
+        expect(error.message).to.equal('User answered more questions than allowed');
       });
     });
 

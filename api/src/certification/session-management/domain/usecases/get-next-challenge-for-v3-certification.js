@@ -9,7 +9,7 @@
  * @typedef {import('./index.js').FlashAlgorithmService} FlashAlgorithmService
  */
 
-import {AssessmentEndedError} from '../../../../shared/domain/errors.js';
+import { AssessmentEndedError } from '../../../../shared/domain/errors.js';
 import { CertificationChallenge, FlashAssessmentAlgorithm } from '../../../../shared/domain/models/index.js';
 
 /**

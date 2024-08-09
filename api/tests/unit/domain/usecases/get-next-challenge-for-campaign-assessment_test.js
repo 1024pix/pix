@@ -196,8 +196,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           };
 
           const configuration = domainBuilder.buildFlashAlgorithmConfiguration({
-            limitToOneQuestionPerTube: false,
-            enablePassageByAllCompetences: false,
+            maximumAssessmentLength: 1,
           });
           flashAlgorithmConfigurationRepository.getMostRecent.resolves(configuration);
 
@@ -214,32 +213,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               challenges,
             });
 
-          flashAlgorithmService.getCapacityAndErrorRate
-            .withArgs({
-              challenges,
-              allAnswers,
-              capacity: config.v3Certification.defaultCandidateCapacity,
-              variationPercent: undefined,
-              variationPercentUntil: undefined,
-              doubleMeasuresUntil: undefined,
-            })
-            .returns({
-              capacity: 0,
-              errorRate: 0.5,
-            });
-
-          flashAlgorithmService.getPossibleNextChallenges
-            .withArgs({
-              availableChallenges: [],
-              capacity: 0,
-              options: sinon.match.object,
-            })
-            .returns({
-              hasAssessmentEnded: true,
-            });
-
           // when
-          const getNextChallengePromise = getNextChallengeForCampaignAssessment({
+          const error = await catchErr(getNextChallengeForCampaignAssessment)({
             challengeRepository,
             answerRepository,
             flashAlgorithmConfigurationRepository,
@@ -252,7 +227,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           });
 
           // then
-          return expect(getNextChallengePromise).to.be.rejectedWith(AssessmentEndedError);
+          expect(error).to.be.instanceOf(AssessmentEndedError);
+          expect(error.message).to.equal('Evaluation terminée.');
         });
       });
 

@@ -1,5 +1,4 @@
 import { config } from '../../../../shared/config.js';
-import { AssessmentEndedError } from '../../../../shared/domain/errors.js';
 import { FlashAssessmentAlgorithmChallengesBetweenCompetencesRule } from './FlashAssessmentAlgorithmChallengesBetweenCompetencesRule.js';
 import { FlashAssessmentAlgorithmForcedCompetencesRule } from './FlashAssessmentAlgorithmForcedCompetencesRule.js';
 import { FlashAssessmentAlgorithmNonAnsweredSkillsRule } from './FlashAssessmentAlgorithmNonAnsweredSkillsRule.js';
@@ -42,7 +41,7 @@ class FlashAssessmentAlgorithm {
   }) {
     const maximumAssessmentLength = this._configuration.maximumAssessmentLength;
     if (assessmentAnswers?.length > maximumAssessmentLength) {
-      throw new AssessmentEndedError('User answered more questions than allowed');
+      throw new RangeError('User answered more questions than allowed');
     }
 
     if (this.#hasAnsweredToAllChallenges({ assessmentAnswers, maximumAssessmentLength })) {
@@ -58,7 +57,7 @@ class FlashAssessmentAlgorithm {
     const challengesAfterRulesApplication = this.#applyChallengeSelectionRules(assessmentAnswers, challenges);
 
     if (challengesAfterRulesApplication?.length === 0) {
-      throw new AssessmentEndedError('No eligible challenges in referential');
+      throw new RangeError('No eligible challenges in referential');
     }
 
     const minimalSuccessRate = this.#computeMinimalSuccessRate(assessmentAnswers.length);

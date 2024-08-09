@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import { simulateFlashDeterministicAssessmentScenario } from '../../../../src/certification/flash-certification/domain/usecases/simulate-flash-deterministic-assessment-scenario.js';
 import { config } from '../../../../src/shared/config.js';
-import { AssessmentEndedError } from '../../../../src/shared/domain/errors.js';
 import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
@@ -283,7 +282,8 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       });
 
       // then
-      expect(error).to.be.instanceof(AssessmentEndedError);
+      expect(error).to.be.instanceof(RangeError);
+      expect(error.message).to.equal('No eligible challenges in referential');
     });
   });
 });
