@@ -75,6 +75,10 @@ class SessionEnrolment {
       );
     });
   }
+
+  hasLinkedCandidate({ candidates }) {
+    return candidates.some((candidate) => candidate.isLinkedToAUser());
+  }
 }
 
 export { SessionEnrolment };

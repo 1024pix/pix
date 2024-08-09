@@ -266,4 +266,48 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       expect(isCandidateEnrolled).to.be.false;
     });
   });
+
+  context('#hasLinkedCandidate', function () {
+    it('should return true when at least one candidate is linked', function () {
+      // given
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: 123,
+        }),
+      ];
+
+      // when
+      const hasLinkedCandidate = session.hasLinkedCandidate({
+        candidates,
+      });
+
+      // then
+      expect(hasLinkedCandidate).to.be.true;
+    });
+
+    it('should return false when no candidate is linked', function () {
+      // given
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+        }),
+      ];
+
+      // when
+      const hasLinkedCandidate = session.hasLinkedCandidate({
+        candidates,
+      });
+
+      // then
+      expect(hasLinkedCandidate).to.be.false;
+    });
+  });
 });

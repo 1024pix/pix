@@ -18,11 +18,12 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   beforeEach(function () {
     candidateRepository = {
       deleteBySessionId: sinon.stub(),
-      doesLinkedCertificationCandidateInSessionExist: sinon.stub(),
+      findBySessionId: sinon.stub(),
       saveInSession: sinon.stub(),
     };
     sessionRepository = {
       isSco: sinon.stub(),
+      get: sinon.stub(),
     };
     certificationCandidatesOdsService = {
       extractCertificationCandidatesFromCandidatesImportSheet: sinon.stub(),
@@ -46,7 +47,12 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
         const sessionId = 'sessionId';
         const odsBuffer = 'buffer';
 
-        candidateRepository.doesLinkedCertificationCandidateInSessionExist.withArgs({ sessionId }).resolves(true);
+        candidateRepository.findBySessionId
+          .withArgs({ sessionId })
+          .resolves([domainBuilder.certification.enrolment.buildCandidate({ userId: 123 })]);
+        sessionRepository.get
+          .withArgs({ id: sessionId })
+          .resolves(domainBuilder.certification.enrolment.buildSession());
 
         // when
         const result = await catchErr(importCertificationCandidatesFromCandidatesImportSheet)({
@@ -60,6 +66,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           certificationCpfCityRepository,
           complementaryCertificationRepository,
           certificationCenterRepository,
+          sessionRepository,
         });
 
         // then
@@ -68,10 +75,20 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
     });
 
     context('when session contains zero linked certification candidates', function () {
+      const sessionId = 'sessionId';
+
+      beforeEach(function () {
+        candidateRepository.findBySessionId
+          .withArgs({ sessionId })
+          .resolves([domainBuilder.certification.enrolment.buildCandidate({ userId: null })]);
+        sessionRepository.get
+          .withArgs({ id: sessionId })
+          .resolves(domainBuilder.certification.enrolment.buildSession());
+      });
+
       context('when cpf birth information validation has succeed', function () {
         it('should add the certification candidates', async function () {
           // given
-          const sessionId = 'sessionId';
           const odsBuffer = 'buffer';
           const complementaryCertification = domainBuilder.buildComplementaryCertification();
           const candidate = domainBuilder.certification.enrolment.buildCandidate({
@@ -84,8 +101,6 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           const candidates = [candidate];
 
           sessionRepository.isSco.resolves(false);
-
-          candidateRepository.doesLinkedCertificationCandidateInSessionExist.withArgs({ sessionId }).resolves(false);
 
           certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
             .withArgs({

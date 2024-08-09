@@ -12,35 +12,27 @@ import { Subscription } from '../../domain/models/Subscription.js';
  * @return {Candidate}
  */
 export async function get({ certificationCandidateId }) {
-  const candidateData = await knex
-    .select('certification-candidates.*')
-    .select({
-      subscriptions: knex.raw(
-        `json_agg(
-          json_build_object(
-            'type', "certification-subscriptions"."type",
-            'complementaryCertificationId', "certification-subscriptions"."complementaryCertificationId",
-            'certificationCandidateId', "certification-candidates"."id"
-          ) ORDER BY type
-      )`,
-      ),
-    })
-    .from('certification-candidates')
+  const candidateData = await buildBaseReadQuery(knex)
     .where({ 'certification-candidates.id': certificationCandidateId })
-    .join(
-      'certification-subscriptions',
-      'certification-subscriptions.certificationCandidateId',
-      'certification-candidates.id',
-    )
-    .groupBy('certification-candidates.id')
     .first();
-  if (!candidateData) return null;
 
-  const subscriptions = candidateData.subscriptions.map((subscription) => new Subscription(subscription));
-  return new Candidate({
-    ...candidateData,
-    subscriptions,
-  });
+  if (!candidateData) return null;
+  return toDomain(candidateData);
+}
+
+/**
+ * @function
+ * @param {Object} params
+ * @param {number} params.sessionId
+ *
+ * @return [Candidate]
+ */
+export async function findBySessionId({ sessionId }) {
+  const candidatesData = await buildBaseReadQuery(knex)
+    .where({ 'certification-candidates.sessionId': sessionId })
+    .orderBy('certification-candidates.id');
+
+  return candidatesData.map(toDomain);
 }
 
 /**
@@ -50,7 +42,7 @@ export async function get({ certificationCandidateId }) {
  * @throws {CertificationCandidateNotFoundError} Certification candidate not found
  */
 export async function update(candidate) {
-  const candidateDataToSave = _adaptModelToDb(candidate);
+  const candidateDataToSave = adaptModelToDb(candidate);
   await knex.transaction(async (trx) => {
     const [updatedCertificationCandidate] = await trx('certification-candidates')
       .where({
@@ -76,29 +68,12 @@ export async function update(candidate) {
 
 /**
  * @function
- * @param sessionId
- * @returns {boolean} True if any candidate is linked to an existing user
- */
-export async function doesLinkedCertificationCandidateInSessionExist({ sessionId }) {
-  const anyLinkedCandidateInSession = await knex
-    .select('id')
-    .from('certification-candidates')
-    .where({
-      sessionId,
-    })
-    .whereNotNull('userId');
-
-  return anyLinkedCandidateInSession.length > 0;
-}
-
-/**
- * @function
  * @param {Object} candidate
  *
  * @return {number}
  */
 export async function insert(candidate) {
-  const candidateDataToSave = _adaptModelToDb(candidate);
+  const candidateDataToSave = adaptModelToDb(candidate);
   const knexTransaction = DomainTransaction.getConnection();
 
   const [{ id: candidateId }] = await knexTransaction('certification-candidates')
@@ -137,7 +112,7 @@ export async function deleteBySessionId({ sessionId }) {
  * @returns {number} return saved candidate id
  */
 export async function saveInSession({ candidate, sessionId }) {
-  const candidateDataToSave = _adaptModelToDb(candidate);
+  const candidateDataToSave = adaptModelToDb(candidate);
   const knexTransaction = DomainTransaction.getConnection();
 
   const [{ id: certificationCandidateId }] = await knexTransaction('certification-candidates')
@@ -169,7 +144,30 @@ export async function remove({ id }) {
   return true;
 }
 
-function _adaptModelToDb(candidate) {
+function buildBaseReadQuery(knexConnection) {
+  return knexConnection('certification-candidates')
+    .select('certification-candidates.*')
+    .select({
+      subscriptions: knex.raw(
+        `json_agg(
+          json_build_object(
+            'type', "certification-subscriptions"."type",
+            'complementaryCertificationId', "certification-subscriptions"."complementaryCertificationId",
+            'certificationCandidateId', "certification-candidates"."id"
+          ) ORDER BY type
+      )`,
+      ),
+    })
+    .from('certification-candidates')
+    .join(
+      'certification-subscriptions',
+      'certification-subscriptions.certificationCandidateId',
+      'certification-candidates.id',
+    )
+    .groupBy('certification-candidates.id');
+}
+
+function adaptModelToDb(candidate) {
   return {
     firstName: candidate.firstName,
     lastName: candidate.lastName,
@@ -192,4 +190,12 @@ function _adaptModelToDb(candidate) {
     prepaymentCode: candidate.prepaymentCode,
     hasSeenCertificationInstructions: candidate.hasSeenCertificationInstructions,
   };
+}
+
+function toDomain(candidateData) {
+  const subscriptions = candidateData.subscriptions.map((subscription) => new Subscription(subscription));
+  return new Candidate({
+    ...candidateData,
+    subscriptions,
+  });
 }
