@@ -308,6 +308,64 @@ describe('Unit | Infrastructure | Datasources | Conversion | joi-to-json-schema'
 
     describe('Joi.alternatives.conditional', function () {
       it('should convert conditional deep ref switch is/then to JSON Schema', function () {
+        const joiSchema = Joi.alternatives().conditional('.sport', {
+          switch: [
+            {
+              is: 'handball',
+              then: Joi.object({
+                sport: Joi.string().valid('handball').required(),
+                value: Joi.string().required(),
+              }),
+            },
+            {
+              is: 'volleyball',
+              then: Joi.object({
+                sport: Joi.string().valid('volleyball').required(),
+                value: Joi.number().required(),
+              }),
+            },
+          ],
+        });
+
+        const jsonSchema = convertJoiToJsonSchema(joiSchema);
+
+        expect(joiSchema.validate({ sport: 'handball', value: 'hello' }).error).to.be.undefined;
+        expect(joiSchema.validate({ sport: 'volleyball', value: 132 }).error).to.be.undefined;
+        expect(jsonSchema).to.deep.equal({
+          oneOf: [
+            {
+              additionalProperties: false,
+              properties: {
+                sport: {
+                  enum: ['handball'],
+                  type: 'string',
+                },
+                value: {
+                  type: 'string',
+                },
+              },
+              required: ['sport', 'value'],
+              type: 'object',
+            },
+            {
+              additionalProperties: false,
+              properties: {
+                sport: {
+                  enum: ['volleyball'],
+                  type: 'string',
+                },
+                value: {
+                  type: 'number',
+                },
+              },
+              required: ['sport', 'value'],
+              type: 'object',
+            },
+          ],
+        });
+      });
+
+      it('should convert conditional deep ref switch is/then to JSON Schema and add title if a .type property exists', function () {
         const joiSchema = Joi.alternatives().conditional('.type', {
           switch: [
             {
