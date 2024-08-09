@@ -70,6 +70,7 @@ export const oidcProviderRoutes = [
               identity_provider: Joi.string().required(),
               code: Joi.string().required(),
               state: Joi.string().required(),
+              iss: Joi.string().optional(),
               audience: Joi.string().valid('app', 'admin').optional(),
             },
           },

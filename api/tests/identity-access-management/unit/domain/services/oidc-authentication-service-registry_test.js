@@ -1,5 +1,6 @@
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { OidcProvider } from '../../../../../src/identity-access-management/domain/models/OidcProvider.js';
+import { AgentConnectOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/agent-connect-oidc-authentication-service.js';
 import { CnfptOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/cnfpt-oidc-authentication-service.js';
 import { FwbOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/fwb-oidc-authentication-service.js';
 import { GoogleOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/google-oidc-authentication-service.js';
@@ -240,6 +241,7 @@ describe('Unit | Identity Access Management | Domain | Services | oidc-authentic
             new OidcProvider({ identityProvider: 'GOOGLE' }),
             new OidcProvider({ identityProvider: 'POLE_EMPLOI' }),
             new OidcProvider({ identityProvider: 'CNFPT' }),
+            new OidcProvider({ identityProvider: 'AGENTCONNECT' }),
           ]);
 
         // when
@@ -247,7 +249,7 @@ describe('Unit | Identity Access Management | Domain | Services | oidc-authentic
         const services = oidcAuthenticationServiceRegistry.getAllOidcProviderServices();
 
         // then
-        expect(services.length).to.be.equal(5);
+        expect(services.length).to.be.equal(6);
 
         const genericService = services.find((service) => service.identityProvider === 'GENERIC');
         expect(genericService).not.to.be.empty;
@@ -268,6 +270,10 @@ describe('Unit | Identity Access Management | Domain | Services | oidc-authentic
         const cnfptService = services.find((service) => service.identityProvider === 'CNFPT');
         expect(cnfptService).not.to.be.empty;
         expect(cnfptService).to.be.instanceOf(CnfptOidcAuthenticationService);
+
+        const agentConnectService = services.find((service) => service.identityProvider === 'AGENTCONNECT');
+        expect(agentConnectService).not.to.be.empty;
+        expect(agentConnectService).to.be.instanceOf(AgentConnectOidcAuthenticationService);
       });
     });
   });
