@@ -1,3 +1,4 @@
+import { knex } from '../../../db/knex-database-connection.js';
 import { EmptyAnswerError } from '../../../src/evaluation/domain/errors.js';
 import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 import {
@@ -8,6 +9,7 @@ import {
 } from '../../../src/shared/domain/errors.js';
 import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
 import { KnowledgeElement } from '../../../src/shared/domain/models/KnowledgeElement.js';
+import { JobPgBoss } from '../../../src/shared/infrastructure/jobs/JobPgBoss.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 const evaluateAnswer = function ({ challenge, answer, assessment, examiner: injectedExaminer }) {
@@ -234,6 +236,18 @@ const correctAnswerThenUpdateAssessment = async function ({
       assessmentId: assessment.id,
     });
   }
+
+  const job = new JobPgBoss(
+    {
+      name: 'answer',
+    },
+    knex,
+  );
+
+  await job.schedule({
+    userId,
+  });
+
   return answerSaved;
 };
 

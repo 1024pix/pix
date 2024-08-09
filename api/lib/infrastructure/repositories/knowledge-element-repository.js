@@ -140,6 +140,19 @@ const findSnapshotForUsers = async function (userIdsAndDates) {
   return _findSnapshotsForUsers(userIdsAndDates);
 };
 
+const findAllUniqValidatedByUserId = async function (userId) {
+  const validatedKnowledgeElements = await knex(tableName)
+    .where({
+      userId,
+      status: KnowledgeElement.StatusType.VALIDATED,
+    })
+    .orderBy('createdAt', 'desc');
+
+  return validatedKnowledgeElements.map(
+    (invalidatedKnowledgeElement) => new KnowledgeElement(invalidatedKnowledgeElement),
+  );
+};
+
 const findInvalidatedAndDirectByUserId = async function (userId) {
   const invalidatedKnowledgeElements = await knex(tableName)
     .where({
@@ -162,6 +175,7 @@ export {
   batchSave,
   countValidatedByCompetencesForOneUserWithinCampaign,
   countValidatedByCompetencesForUsersWithinCampaign,
+  findAllUniqValidatedByUserId,
   findInvalidatedAndDirectByUserId,
   findSnapshotForUsers,
   findSnapshotGroupedByCompetencesForUsers,

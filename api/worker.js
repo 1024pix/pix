@@ -6,6 +6,7 @@ import _ from 'lodash';
 import PgBoss from 'pg-boss';
 
 import { eventDispatcher } from './lib/domain/events/index.js';
+import * as knowledgeElementRepository from './lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as organizationLearnerRepository from './lib/infrastructure/repositories/organization-learner-repository.js';
 import * as pgBossRepository from './lib/infrastructure/repositories/pgboss-repository.js';
 import { CertificationRescoringByScriptJobHandler } from './src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptHandler.js';
@@ -75,9 +76,30 @@ function createMonitoredJobQueue(pgBoss) {
   return monitoredJobQueue;
 }
 
+class QuestJobHandler {
+  constructor({ knowledgeElementRepository }) {
+    this.knowledgeElementRepository = knowledgeElementRepository;
+  }
+
+  async handle(event) {
+    const { userId } = event;
+    await this.knowledgeElementRepository.findAllUniqValidatedByUserId(userId);
+  }
+
+  get name() {
+    return 'answer';
+  }
+}
+
+export { SendSharedParticipationResultsToPoleEmploiHandler };
+
 export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQueue, scheduleCpfJobs }) {
   const pgBoss = await dependencies.startPgBoss();
   const monitoredJobQueue = dependencies.createMonitoredJobQueue(pgBoss);
+
+  monitoredJobQueue.performJob('answer', QuestJobHandler, {
+    knowledgeElementRepository,
+  });
 
   monitoredJobQueue.performJob(LcmsRefreshCacheJob.name, LcmsRefreshCacheJobHandler, {
     learningContentDatasource,
