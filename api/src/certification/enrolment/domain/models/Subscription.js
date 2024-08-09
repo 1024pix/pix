@@ -48,6 +48,10 @@ class Subscription {
     return this.type === SUBSCRIPTION_TYPES.COMPLEMENTARY;
   }
 
+  isCore() {
+    return this.type === SUBSCRIPTION_TYPES.CORE;
+  }
+
   get id() {
     return `${this.certificationCandidateId}-${this.complementaryCertificationId ?? 'CORE'}`;
   }
