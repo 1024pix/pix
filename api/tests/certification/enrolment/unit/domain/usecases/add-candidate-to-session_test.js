@@ -1,5 +1,6 @@
 import { addCandidateToSession } from '../../../../../../src/certification/enrolment/domain/usecases/add-candidate-to-session.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
+import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import {
@@ -16,11 +17,14 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
   let certificationCpfService;
   let certificationCpfCountryRepository;
   let certificationCpfCityRepository;
+  let complementaryCertificationRepository;
   let mailCheck;
   let normalizeStringFnc;
   let candidateToEnroll;
   let dependencies;
   const sessionId = 1;
+  const isCompatibilityEnabled = false;
+  const cleaCertificationId = 123;
 
   beforeEach(function () {
     sessionRepository = {
@@ -35,6 +39,18 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     };
     certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
+    complementaryCertificationRepository = {
+      findAll: sinon.stub().resolves([
+        domainBuilder.buildComplementaryCertification({
+          id: cleaCertificationId,
+          key: ComplementaryCertificationKeys.CLEA,
+        }),
+        domainBuilder.buildComplementaryCertification({
+          id: cleaCertificationId + 5000,
+          key: 'someOtherComplementaryCertification',
+        }),
+      ]),
+    };
     mailCheck = { checkDomainIsValid: sinon.stub() };
     normalizeStringFnc = (str) => str;
     dependencies = {
@@ -43,8 +59,10 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       certificationCpfService,
       certificationCpfCountryRepository,
       certificationCpfCityRepository,
+      complementaryCertificationRepository,
       mailCheck,
       normalizeStringFnc,
+      isCompatibilityEnabled,
     };
   });
 
