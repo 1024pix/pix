@@ -926,6 +926,7 @@
           "good-answer": "Given answer is correct",
           "skipped-answer": "Question skipped",
           "the-answer-was": "The good answer is",
+          "timedout": "Out of time",
           "wrong-answer": "Given answer is not correct"
         },
         "aband": {

@@ -170,6 +170,38 @@ module('Integration | Component | QROC solution panel', function (hooks) {
           assert.dom('.correction-qroc-box-answer--aband').exists();
         });
       });
+
+      module('When the answer is timed out', function (hooks) {
+        hooks.beforeEach(async function () {
+          // given
+          const assessment = EmberObject.create({ id: 'assessment_id' });
+          const challenge = EmberObject.create({ id: 'challenge_id', format: data.format });
+          const answer = EmberObject.create({
+            id: 'answer_id',
+            value: '',
+            result: 'aband',
+            timeout: -1,
+            assessment,
+            challenge,
+          });
+          const solution = '4';
+          this.set('answer', answer);
+          this.set('solution', solution);
+          this.set('isResultWithoutAnswer', true);
+
+          // when
+          await render(hbs`<SolutionPanel::QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}} />`);
+        });
+
+        test('should display "Temps écoulé" in italic', function (assert) {
+          // then
+          const answerBlock = find(data.input);
+
+          assert.ok(answerBlock);
+          assert.strictEqual(answerBlock.value, 'Temps dépassé');
+          assert.dom('.correction-qroc-box-answer--timeout').exists();
+        });
+      });
     });
   });
 
@@ -231,7 +263,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
     });
   });
 
-  module('when user has answerd correctly', function () {
+  module('when user has answered correctly', function () {
     module('when solutionToDisplay is indicated', function () {
       test('should not show the solution text', async function (assert) {
         //Given
