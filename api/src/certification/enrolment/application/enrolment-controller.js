@@ -1,3 +1,4 @@
+import { config } from '../../../shared/config.js';
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import { fillCandidatesImportSheet } from '../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
@@ -46,8 +47,13 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function (r
   const sessionId = request.params.id;
   const odsBuffer = request.payload;
   const i18n = request.i18n;
-
-  await usecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer, i18n });
+  const isCompatibilityEnabled = Boolean(config.featureToggles.isCoreComplementaryCompatibilityEnabled);
+  await usecases.importCertificationCandidatesFromCandidatesImportSheet({
+    sessionId,
+    odsBuffer,
+    i18n,
+    isCompatibilityEnabled,
+  });
 
   return null;
 };

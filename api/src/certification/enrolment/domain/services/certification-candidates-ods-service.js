@@ -1,7 +1,6 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
-import { config } from '../../../../shared/config.js';
 import { CertificationCandidatesError } from '../../../../shared/domain/errors.js';
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
@@ -24,6 +23,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
   complementaryCertificationRepository,
   centerRepository,
   mailCheck = mailCheckImplementation,
+  isCompatibilityEnabled,
 }) {
   const translate = i18n.__;
   const center = await centerRepository.getById({ id: session.certificationCenterId });
@@ -81,29 +81,8 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       hasPixPlusEdu2ndDegre,
       hasPixPlusProSante,
       complementaryCertificationsInDB,
+      isCompatibilityEnabled,
     });
-
-    if (!config.featureToggles.isCoreComplementaryCompatibilityEnabled) {
-      if (_hasMoreThanOneComplementarySubscription(subscriptions)) {
-        line = parseInt(line) + 1;
-
-        throw new CertificationCandidatesError({
-          code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
-          message: 'A candidate cannot have more than one complementary certification',
-          meta: { line },
-        });
-      }
-    } else {
-      if (!_areSubscriptionsValid(subscriptions, complementaryCertificationsInDB)) {
-        line = parseInt(line) + 1;
-
-        throw new CertificationCandidatesError({
-          code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_WRONG_SUBSCRIPTIONS_COMPATIBILITY.code,
-          message: 'A candidate cannot have more than one subscription to a certification',
-          meta: { line },
-        });
-      }
-    }
 
     if (cpfBirthInformation.hasFailed()) {
       _handleBirthInformationValidationError(cpfBirthInformation, line);
@@ -158,37 +137,35 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       userId: null,
     });
 
+    const cleaCertification = complementaryCertificationsInDB.find(
+      (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.CLEA,
+    );
     try {
-      candidate.validate(isSco);
+      candidate.validate({ isSco, isCompatibilityEnabled, cleaCertificationId: cleaCertification.id });
       _checkForDuplication(candidate);
-    } catch (err) {
+    } catch (error) {
+      if (error?.code?.includes('subscriptions')) {
+        if (isCompatibilityEnabled)
+          throw new CertificationCandidatesError({
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_WRONG_SUBSCRIPTIONS_COMPATIBILITY.code,
+            message: 'A candidate cannot have more than one subscription to a certification',
+            meta: { line },
+          });
+        else
+          throw new CertificationCandidatesError({
+            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
+            message: 'A candidate cannot have more than one complementary certification',
+            meta: { line },
+          });
+      }
       throw new CertificationCandidatesError({
-        code: err.code,
-        meta: { line: parseInt(line) + 1, value: err.meta },
+        code: error.code,
+        meta: { line: parseInt(line) + 1, value: error.meta },
       });
     }
 
     return candidate;
   });
-}
-
-function _hasMoreThanOneComplementarySubscription(subscriptions) {
-  return subscriptions.filter((subscription) => subscription.isComplementary()).length > 1;
-}
-
-function _areSubscriptionsValid(subscriptions, complementaryCertificationsInDB) {
-  if (subscriptions.length === 1) return true;
-  if (subscriptions.length === 2) {
-    const cleaComplementaryCertification = complementaryCertificationsInDB.find(
-      (cc) => cc.key === ComplementaryCertificationKeys.CLEA,
-    );
-    const hasCore = subscriptions.some((subscription) => subscription.isCore);
-    const hasClea = subscriptions.some(
-      (subscription) => subscription.complementaryCertificationId === cleaComplementaryCertification.id,
-    );
-    return hasCore && hasClea;
-  }
-  return false;
 }
 
 function _filterOutEmptyCandidateData(certificationCandidatesData) {
@@ -255,10 +232,10 @@ function _buildSubscriptions({
   hasPixPlusEdu2ndDegre,
   hasPixPlusProSante,
   complementaryCertificationsInDB,
+  isCompatibilityEnabled,
 }) {
   const subscriptions = [];
   const complementaryCertificationsByKey = _.keyBy(complementaryCertificationsInDB, 'key');
-  const isCompatibilityEnabled = config.featureToggles.isCoreComplementaryCompatibilityEnabled;
   if (!isCompatibilityEnabled) {
     subscriptions.push(Subscription.buildCore({ certificationCandidateId: null }));
   }

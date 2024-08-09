@@ -15,6 +15,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
   sessionRepository,
   certificationCandidatesOdsService,
   certificationCpfService,
+  isCompatibilityEnabled,
 }) {
   const candidatesInSession = await candidateRepository.findBySessionId({ sessionId });
   const session = await sessionRepository.get({ id: sessionId });
@@ -33,6 +34,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
     certificationCpfCityRepository,
     complementaryCertificationRepository,
     centerRepository,
+    isCompatibilityEnabled,
   });
 
   await DomainTransaction.execute(async () => {

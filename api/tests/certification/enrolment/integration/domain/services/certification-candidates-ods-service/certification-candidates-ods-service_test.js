@@ -28,8 +28,14 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
   let sessionId, session;
   let mailCheck;
   let candidateList;
+  let isCompatibilityEnabled = false;
+  let cleaComplementaryCertification;
 
   beforeEach(async function () {
+    cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+      label: 'CléA Numérique',
+      key: ComplementaryCertificationKeys.CLEA,
+    });
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
@@ -90,6 +96,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       complementaryCertificationRepository,
       isSco: true,
       mailCheck,
+      isCompatibilityEnabled,
     });
 
     // then
@@ -118,6 +125,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       complementaryCertificationRepository,
       isSco: true,
       mailCheck,
+      isCompatibilityEnabled,
     });
 
     // then
@@ -145,6 +153,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       complementaryCertificationRepository,
       isSco: true,
       mailCheck,
+      isCompatibilityEnabled,
     });
 
     // then
@@ -176,6 +185,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         complementaryCertificationRepository,
         isSco: true,
         mailCheck,
+        isCompatibilityEnabled,
       });
 
       // then
@@ -207,6 +217,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         centerRepository,
         complementaryCertificationRepository,
         mailCheck,
+        isCompatibilityEnabled,
       });
 
     // then
@@ -219,10 +230,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     context('when a candidate is imported with more than one complementary certification', function () {
       it('should throw an error', async function () {
         // given
-        const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-          label: 'CléA Numérique',
-          key: ComplementaryCertificationKeys.CLEA,
-        });
         const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Droit',
           key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
@@ -262,6 +269,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           complementaryCertificationRepository,
           isSco: false,
           mailCheck,
+          isCompatibilityEnabled,
         });
 
         // then
@@ -277,24 +285,14 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
     });
 
-    context('when FT is disabled', function () {
-      let originalFTValue;
+    context('when isCompatibilityEnabled is false', function () {
       beforeEach(async function () {
-        originalFTValue = config.featureToggles.isCoreComplementaryCompatibilityEnabled;
-        config.featureToggles.isCoreComplementaryCompatibilityEnabled = false;
-      });
-
-      afterEach(function () {
-        config.featureToggles.isCoreComplementaryCompatibilityEnabled = originalFTValue;
+        isCompatibilityEnabled = false;
       });
 
       it('should return extracted and validated certification candidates with complementary certification', async function () {
         // given
         mailCheck.checkDomainIsValid.resolves();
-        const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-          label: 'CléA Numérique',
-          key: ComplementaryCertificationKeys.CLEA,
-        });
         const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Droit',
           key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
@@ -368,6 +366,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             complementaryCertificationRepository,
             isSco: false,
             mailCheck,
+            isCompatibilityEnabled,
           });
 
         // then
@@ -375,24 +374,14 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
     });
 
-    context('when FT is enabled', function () {
-      let originalFTValue;
+    context('when isCompatibilityEnabled is true', function () {
       beforeEach(async function () {
-        originalFTValue = config.featureToggles.isCoreComplementaryCompatibilityEnabled;
-        config.featureToggles.isCoreComplementaryCompatibilityEnabled = true;
-      });
-
-      afterEach(function () {
-        config.featureToggles.isCoreComplementaryCompatibilityEnabled = originalFTValue;
+        isCompatibilityEnabled = true;
       });
 
       it('should return extracted and validated certification candidates with appropriate certification subscription', async function () {
         // given
         mailCheck.checkDomainIsValid.resolves();
-        const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-          label: 'CléA Numérique',
-          key: ComplementaryCertificationKeys.CLEA,
-        });
         const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Droit',
           key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
@@ -467,6 +456,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             complementaryCertificationRepository,
             isSco: false,
             mailCheck,
+            isCompatibilityEnabled,
           });
 
         // then
@@ -476,10 +466,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       it('should throw an error', async function () {
         // given
         mailCheck.checkDomainIsValid.resolves();
-        const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-          label: 'CléA Numérique',
-          key: ComplementaryCertificationKeys.CLEA,
-        });
         const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Droit',
           key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
@@ -543,6 +529,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           complementaryCertificationRepository,
           isSco: false,
           mailCheck,
+          isCompatibilityEnabled,
         });
 
         // then
@@ -582,6 +569,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         centerRepository,
         complementaryCertificationRepository,
         mailCheck,
+        isCompatibilityEnabled,
       });
 
     // then
@@ -608,6 +596,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         centerRepository,
         complementaryCertificationRepository,
         mailCheck,
+        isCompatibilityEnabled,
       });
 
     // then

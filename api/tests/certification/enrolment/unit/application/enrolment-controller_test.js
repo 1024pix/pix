@@ -77,6 +77,7 @@ describe('Certification | Enrolment | Unit | Controller | enrolment-controller',
         sessionId,
         odsBuffer,
         i18n: request.i18n,
+        isCompatibilityEnabled: sinon.match.any,
       });
     });
   });
