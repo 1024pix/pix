@@ -81,6 +81,10 @@ function convertString(joiStringDescribedSchema) {
     }
   }
 
+  return handleNonStandardStringProperties(joiStringDescribedSchema, jsonSchema);
+}
+
+function handleNonStandardStringProperties(joiStringDescribedSchema, jsonSchema) {
   if (joiStringDescribedSchema.externals?.length > 0) {
     if (joiStringDescribedSchema.externals[0].method.name === 'htmlValidation') {
       jsonSchema.format = 'jodit';
