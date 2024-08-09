@@ -1,3 +1,4 @@
+import { config } from '../../../shared/config.js';
 import { normalize } from '../../../shared/infrastructure/utils/string-utils.js';
 import * as certificationCandidateSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
@@ -8,10 +9,12 @@ import * as enrolledCandidateSerializer from '../infrastructure/serializers/enro
 const addCandidate = async function (request, h, dependencies = { candidateSerializer }) {
   const sessionId = request.params.id;
   const candidate = await dependencies.candidateSerializer.deserialize(request.payload);
+  const isCompatibilityEnabled = Boolean(config.featureToggles.isCoreComplementaryCompatibilityEnabled);
   const candidateId = await usecases.addCandidateToSession({
     sessionId,
     candidate,
     normalizeStringFnc: normalize,
+    isCompatibilityEnabled,
   });
 
   const serializedId = candidateSerializer.serializeId(candidateId);

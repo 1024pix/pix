@@ -26,6 +26,7 @@ describe('Unit | Controller | certification-candidate-controller', function () {
           sessionId,
           candidate,
           normalizeStringFnc: normalize,
+          isCompatibilityEnabled: sinon.match.any,
         })
         .resolves(addedCandidateId);
       const candidateSerializer = {

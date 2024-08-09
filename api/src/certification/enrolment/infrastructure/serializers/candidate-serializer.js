@@ -9,15 +9,30 @@ export async function deserialize(json) {
   const deserializedCandidate = await deserializer.deserialize(json);
   deserializedCandidate.birthINSEECode = deserializedCandidate.birthInseeCode;
   const { attributes } = json.data;
-  // TODO MVP - fixme when front will send exclusively subscriptions
-  const subscriptions = [Subscription.buildCore({ certificationCandidateId: null })];
-  if (attributes['complementary-certification'] && attributes['complementary-certification'].id) {
+
+  const subscriptions = [];
+  if (attributes?.['subscriptions']?.length > 0) {
     subscriptions.push(
-      Subscription.buildComplementary({
-        certificationCandidateId: null,
-        complementaryCertificationId: parseInt(attributes['complementary-certification'].id),
-      }),
+      ...attributes['subscriptions'].map(
+        ({ type, complementaryCertificationId }) =>
+          new Subscription({
+            certificationCandidateId: null,
+            type,
+            complementaryCertificationId,
+          }),
+      ),
     );
+    // TODO MVP - remove else if when front stop uses complementary-certification attribute
+  } else {
+    subscriptions.push(Subscription.buildCore({ certificationCandidateId: null }));
+    if (attributes['complementary-certification'] && attributes['complementary-certification'].id) {
+      subscriptions.push(
+        Subscription.buildComplementary({
+          certificationCandidateId: null,
+          complementaryCertificationId: parseInt(attributes['complementary-certification'].id),
+        }),
+      );
+    }
   }
 
   return new Candidate({
