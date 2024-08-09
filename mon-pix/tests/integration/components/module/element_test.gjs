@@ -63,6 +63,27 @@ module('Integration | Component | Module | Element', function (hooks) {
     assert.dom(screen.getByRole('button', { name: 'Afficher la transcription' })).exists();
   });
 
+  test('should display an element with an download element', async function (assert) {
+    // given
+    const element = {
+      id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
+      type: 'download',
+      files: [
+        {
+          url: 'https://example.org/image.jpg',
+          format: '.jpg',
+        },
+      ],
+    };
+
+    // when
+    const screen = await render(<template><ModulixElement @element={{element}} /></template>);
+
+    // then
+    const downloadElement = screen.getByText('ELEMENT TÉLÉCHARGEMENT EN COURS DE DEVELOPPEMENT');
+    assert.dom(downloadElement).exists();
+  });
+
   test('should display an element with an embed element', async function (assert) {
     // given
     const element = {

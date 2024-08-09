@@ -8,7 +8,7 @@ export default class ModuleGrain extends Component {
 
   grain = this.args.grain;
 
-  static AVAILABLE_ELEMENT_TYPES = ['text', 'image', 'video', 'embed', 'qcu', 'qcm', 'qrocm'];
+  static AVAILABLE_ELEMENT_TYPES = ['text', 'image', 'video', 'download', 'embed', 'qcu', 'qcm', 'qrocm'];
   static AVAILABLE_GRAIN_TYPES = ['lesson', 'activity'];
 
   @tracked isStepperFinished = this.hasStepper === false;
