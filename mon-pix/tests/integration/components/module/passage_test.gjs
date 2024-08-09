@@ -462,6 +462,44 @@ module('Integration | Component | Module | Passage', function (hooks) {
       });
       assert.ok(true);
     });
+
+    module('when image is in a stepper', function () {
+      test('should push metrics event', async function (assert) {
+        // given
+        const metrics = this.owner.lookup('service:metrics');
+        metrics.add = sinon.stub();
+
+        // given
+        const store = this.owner.lookup('service:store');
+        const imageElement = {
+          id: '8d7687c8-4a02-4d7e-bf6c-693a6d481c78',
+          type: 'image',
+          url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg',
+          alt: "Dessin détaillé dans l'alternative textuelle",
+          alternativeText: "Dessin d'un ordinateur dans un univers spatial.",
+        };
+        const step = { elements: [imageElement] };
+        const grain = store.createRecord('grain', {
+          id: '123',
+          components: [{ type: 'stepper', steps: [step] }],
+        });
+        const module = store.createRecord('module', { id: 'module-id', title: 'Module title', grains: [grain] });
+        const passage = store.createRecord('passage');
+
+        // when
+        await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+        await clickByName("Afficher l'alternative textuelle");
+
+        // then
+        sinon.assert.calledWithExactly(metrics.add, {
+          event: 'custom-event',
+          'pix-event-category': 'Modulix',
+          'pix-event-action': `Passage du module : ${module.id}`,
+          'pix-event-name': `Click sur le bouton alternative textuelle : ${imageElement.id}`,
+        });
+        assert.ok(true);
+      });
+    });
   });
 
   module('when user opens an video transcription modal', function () {

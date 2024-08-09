@@ -85,6 +85,7 @@ export default class ModulixStepper extends Component {
             @retryElement={{@retryElement}}
             @getLastCorrectionForElement={{@getLastCorrectionForElement}}
             @hasJustAppeared={{this.hasStepJustAppeared index}}
+            @openImageAlternativeText={{@openImageAlternativeText}}
           />
         {{/each}}
         {{#if this.shouldDisplayNextButton}}

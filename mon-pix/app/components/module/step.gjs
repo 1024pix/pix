@@ -43,6 +43,7 @@ export default class ModulixStep extends Component {
               @submitAnswer={{@submitAnswer}}
               @retryElement={{@retryElement}}
               @getLastCorrectionForElement={{@getLastCorrectionForElement}}
+              @openImageAlternativeText={{@openImageAlternativeText}}
             />
           </div>
         {{/each}}
