@@ -148,7 +148,7 @@ export default class ModulePassage extends Component {
   }
 
   @action
-  async openTranscription(videoElementId) {
+  async openVideoTranscription(videoElementId) {
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',
