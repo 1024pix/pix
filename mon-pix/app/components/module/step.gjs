@@ -44,6 +44,8 @@ export default class ModulixStep extends Component {
               @retryElement={{@retryElement}}
               @getLastCorrectionForElement={{@getLastCorrectionForElement}}
               @openImageAlternativeText={{@openImageAlternativeText}}
+              @openTranscription={{@openTranscription}}
+              @clickOnPlayButton={{@clickOnPlayButton}}
             />
           </div>
         {{/each}}

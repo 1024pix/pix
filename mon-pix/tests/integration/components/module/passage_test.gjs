@@ -535,6 +535,45 @@ module('Integration | Component | Module | Passage', function (hooks) {
       });
       assert.ok(true);
     });
+
+    module('when video is in a stepper', function () {
+      test('should push metrics event', async function (assert) {
+        // given
+        const metrics = this.owner.lookup('service:metrics');
+        metrics.add = sinon.stub();
+
+        // given
+        const store = this.owner.lookup('service:store');
+        const videoElement = {
+          id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
+          type: 'video',
+          title: 'Vidéo de présentation de Pix',
+          url: 'https://videos.pix.fr/modulix/didacticiel/presentation.mp4',
+          subtitles: '',
+          transcription: '<p>transcription</p>',
+        };
+        const step = { elements: [videoElement] };
+        const grain = store.createRecord('grain', {
+          id: '123',
+          components: [{ type: 'stepper', steps: [step] }],
+        });
+        const module = store.createRecord('module', { id: 'module-id', title: 'Module title', grains: [grain] });
+        const passage = store.createRecord('passage');
+
+        // when
+        await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+        await clickByName('Afficher la transcription');
+
+        // then
+        sinon.assert.calledWithExactly(metrics.add, {
+          event: 'custom-event',
+          'pix-event-category': 'Modulix',
+          'pix-event-action': `Passage du module : ${module.id}`,
+          'pix-event-name': `Click sur le bouton transcription : ${videoElement.id}`,
+        });
+        assert.ok(true);
+      });
+    });
   });
 
   module('when user click on next step button', function () {
@@ -741,6 +780,47 @@ module('Integration | Component | Module | Passage', function (hooks) {
         'pix-event-name': `Clic sur le bouton Play : ${videoElement.id}`,
       });
       assert.ok(true);
+    });
+
+    module('when video is in a stepper', function () {
+      test('should push metrics event', async function (assert) {
+        // given
+        const metrics = this.owner.lookup('service:metrics');
+        metrics.add = sinon.stub();
+
+        // given
+        const store = this.owner.lookup('service:store');
+        const videoElement = {
+          id: 'a9f2269-99ba-4631-b6fd-6802c88d5c26',
+          type: 'video',
+          title: 'Vidéo de présentation de Pix',
+          url: 'https://videos.pix.fr/modulix/didacticiel/presentation.mp4',
+          subtitles: '',
+          transcription: '<p>transcription</p>',
+        };
+        const grain = store.createRecord('grain', {
+          title: 'Grain title',
+          components: [{ type: 'element', element: videoElement }],
+        });
+        const module = store.createRecord('module', { id: 'module-id', title: 'Module title', grains: [grain] });
+        const passage = store.createRecord('passage');
+        await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+        const video = find(`#${videoElement.id}`);
+
+        //  when
+        const event = new Event('play');
+        video.dispatchEvent(event);
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        // then
+        sinon.assert.calledWithExactly(metrics.add, {
+          event: 'custom-event',
+          'pix-event-category': 'Modulix',
+          'pix-event-action': `Passage du module : ${module.id}`,
+          'pix-event-name': `Clic sur le bouton Play : ${videoElement.id}`,
+        });
+        assert.ok(true);
+      });
     });
   });
 
