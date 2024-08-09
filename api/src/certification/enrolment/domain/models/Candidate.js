@@ -67,11 +67,13 @@ export class Candidate {
     this.hasSeenCertificationInstructions = true;
   }
 
-  validate(isSco = false) {
+  validate({ isSco = false, cleaCertificationId = null, isCompatibilityEnabled = false } = {}) {
     const { error } = validate(this, {
       allowUnknown: true,
       context: {
         isSco,
+        cleaCertificationId,
+        isCompatibilityEnabled,
         isSessionsMassImport: false,
       },
     });

@@ -13,6 +13,44 @@ const tempSubscriptionSchema = Joi.object({
   }),
 });
 
+const alternativeCoreOnly = Joi.array()
+  .length(1)
+  .items({
+    certificationCandidateId: Joi.number().allow(null),
+    type: SUBSCRIPTION_TYPES.CORE,
+    complementaryCertificationId: null,
+  })
+  .required();
+const alternativeComplementaryOnly = Joi.array()
+  .length(1)
+  .items({
+    certificationCandidateId: Joi.number().allow(null),
+    type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+    complementaryCertificationId: Joi.number().invalid(Joi.ref('$cleaCertificationId')),
+  })
+  .required();
+const alternativeClea = Joi.array()
+  .length(2)
+  .items(
+    Joi.object({
+      certificationCandidateId: Joi.number().allow(null),
+      type: Joi.string()
+        .required()
+        .valid(...Object.values(SUBSCRIPTION_TYPES)),
+      complementaryCertificationId: Joi.when('type', {
+        is: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+        then: Joi.ref('$cleaCertificationId'),
+        otherwise: null,
+      }),
+    }),
+  )
+  .unique('type')
+  .required();
+const schemaForCompatibilitySubscriptions = Joi.alternatives()
+  .match('one')
+  .try(alternativeCoreOnly, alternativeComplementaryOnly, alternativeClea);
+const oldSubscriptionsSchema = Joi.array().min(1).items(tempSubscriptionSchema).unique('type').required();
+
 const schema = Joi.object({
   firstName: Joi.string().trim().required().empty(['', null]).messages({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code,
@@ -52,7 +90,11 @@ const schema = Joi.object({
       'number.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SESSION_ID_NOT_A_NUMBER.code,
     }),
   }),
-  subscriptions: Joi.array().min(1).items(tempSubscriptionSchema).unique('type').required(),
+  subscriptions: Joi.alternatives().conditional(Joi.ref('$isCompatibilityEnabled'), {
+    is: true,
+    then: schemaForCompatibilitySubscriptions,
+    otherwise: oldSubscriptionsSchema,
+  }),
   billingMode: Joi.when('$isSco', {
     is: false,
     then: Joi.string()

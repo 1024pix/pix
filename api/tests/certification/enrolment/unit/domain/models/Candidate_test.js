@@ -337,88 +337,6 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
     });
 
-    it('should throw an error when the subscriptions format is not valid', async function () {
-      // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        ...candidateData,
-        subscriptions: {},
-      });
-      const certificationCandidatesError = new CertificationCandidatesError({
-        code: '"subscriptions" must be an array',
-        meta: {},
-      });
-
-      // when
-      const error = await catchErr(candidate.validate, candidate)();
-
-      // then
-      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
-    });
-
-    it('should throw an error when there are no subscription', async function () {
-      // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        ...candidateData,
-        subscriptions: [],
-      });
-      const certificationCandidatesError = new CertificationCandidatesError({
-        code: '"subscriptions" must contain at least 1 items',
-        meta: [],
-      });
-
-      // when
-      const error = await catchErr(candidate.validate, candidate)();
-
-      // then
-      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
-    });
-
-    it('should throw an error when there subscription has not a valid type', async function () {
-      // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        ...candidateData,
-        subscriptions: [
-          {
-            type: 'Coucou Maman',
-            complementaryCertificationId: null,
-          },
-        ],
-      });
-      const certificationCandidatesError = new CertificationCandidatesError({
-        code: '"subscriptions[0].type" must be one of [CORE, COMPLEMENTARY]',
-        meta: 'Coucou Maman',
-      });
-
-      // when
-      const error = await catchErr(candidate.validate, candidate)();
-
-      // then
-      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
-    });
-
-    it('should throw an error when subscription complementaryCertificationId is not defined when type is COMPLEMENTARY', async function () {
-      // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        ...candidateData,
-        subscriptions: [
-          {
-            type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-            complementaryCertificationId: null,
-          },
-        ],
-      });
-      const certificationCandidatesError = new CertificationCandidatesError({
-        code: '"subscriptions[0].complementaryCertificationId" must be a number',
-        meta: null,
-      });
-
-      // when
-      const error = await catchErr(candidate.validate, candidate)();
-
-      // then
-      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
-    });
-
     it('should return a report when email is not a valid format', async function () {
       // given
       const candidate = domainBuilder.certification.enrolment.buildCandidate({
@@ -455,6 +373,263 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
     });
 
+    context('compatibility core/complementary disabled, should use old schema', function () {
+      const cleaCertificationId = null;
+      const isCompatibilityEnabled = false;
+      it('should throw an error when the subscriptions format is not valid', async function () {
+        // given
+        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateData,
+          subscriptions: {},
+        });
+        const certificationCandidatesError = new CertificationCandidatesError({
+          code: '"subscriptions" must be an array',
+          meta: {},
+        });
+
+        // when
+        const error = await catchErr(candidate.validate, candidate)({ cleaCertificationId, isCompatibilityEnabled });
+
+        // then
+        expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
+      });
+
+      it('should throw an error when there are no subscription', async function () {
+        // given
+        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateData,
+          subscriptions: [],
+        });
+        const certificationCandidatesError = new CertificationCandidatesError({
+          code: '"subscriptions" must contain at least 1 items',
+          meta: [],
+        });
+
+        // when
+        const error = await catchErr(candidate.validate, candidate)({ cleaCertificationId, isCompatibilityEnabled });
+
+        // then
+        expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
+      });
+
+      it('should throw an error when there subscription has not a valid type', async function () {
+        // given
+        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateData,
+          subscriptions: [
+            {
+              type: 'Coucou Maman',
+              complementaryCertificationId: null,
+            },
+          ],
+        });
+        const certificationCandidatesError = new CertificationCandidatesError({
+          code: '"subscriptions[0].type" must be one of [CORE, COMPLEMENTARY]',
+          meta: 'Coucou Maman',
+        });
+
+        // when
+        const error = await catchErr(candidate.validate, candidate)({ cleaCertificationId, isCompatibilityEnabled });
+
+        // then
+        expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
+      });
+
+      it('should throw an error when subscription complementaryCertificationId is not defined when type is COMPLEMENTARY', async function () {
+        // given
+        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+          ...candidateData,
+          subscriptions: [
+            {
+              type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+              complementaryCertificationId: null,
+            },
+          ],
+        });
+        const certificationCandidatesError = new CertificationCandidatesError({
+          code: '"subscriptions[0].complementaryCertificationId" must be a number',
+          meta: null,
+        });
+
+        // when
+        const error = await catchErr(candidate.validate, candidate)({ cleaCertificationId, isCompatibilityEnabled });
+
+        // then
+        expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
+      });
+    });
+
+    context('compatibility core/complementary enable, should use new schema', function () {
+      const cleaCertificationId = 123;
+      const isCompatibilityEnabled = true;
+      context('success cases', function () {
+        it('should validate when there is only one core subscription', function () {
+          // given
+          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            ...candidateData,
+            subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
+          });
+
+          // when, then
+          candidate.validate({ isCompatibilityEnabled, cleaCertificationId });
+        });
+
+        it('should validate when there is only one complementary that is not clea', function () {
+          // given
+          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            ...candidateData,
+            subscriptions: [
+              domainBuilder.buildComplementarySubscription({
+                certificationCandidateId: null,
+                complementaryCertificationId: cleaCertificationId + 20,
+              }),
+            ],
+          });
+
+          // when, then
+          candidate.validate({ isCompatibilityEnabled, cleaCertificationId });
+        });
+
+        it('should validate when there are one core and one clea', function () {
+          // given
+          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            ...candidateData,
+            subscriptions: [
+              domainBuilder.buildComplementarySubscription({
+                certificationCandidateId: null,
+                complementaryCertificationId: cleaCertificationId,
+              }),
+              domainBuilder.buildCoreSubscription({
+                certificationCandidateId: null,
+              }),
+            ],
+          });
+
+          // when, then
+          candidate.validate({ isCompatibilityEnabled, cleaCertificationId });
+        });
+      });
+
+      context('ko cases', function () {
+        it('should not validate when there are no subscription at all', async function () {
+          // given
+          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            ...candidateData,
+            subscriptions: [],
+          });
+          const certificationCandidatesError = new CertificationCandidatesError({
+            code: '"subscriptions" does not match any of the allowed types',
+          });
+
+          // when
+          const error = await catchErr(candidate.validate, candidate)({ cleaCertificationId, isCompatibilityEnabled });
+
+          // then
+          expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack', 'meta']);
+        });
+        it('should not validate when there are two complementary', async function () {
+          // given
+          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            ...candidateData,
+            subscriptions: [
+              domainBuilder.buildComplementarySubscription({
+                certificationCandidateId: null,
+                complementaryCertificationId: cleaCertificationId + 20,
+              }),
+              domainBuilder.buildComplementarySubscription({
+                certificationCandidateId: null,
+                complementaryCertificationId: cleaCertificationId + 40,
+              }),
+            ],
+          });
+          const certificationCandidatesError = new CertificationCandidatesError({
+            code: '"subscriptions" does not match any of the allowed types',
+          });
+
+          // when
+          const error = await catchErr(candidate.validate, candidate)({ cleaCertificationId, isCompatibilityEnabled });
+
+          // then
+          expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack', 'meta']);
+        });
+
+        it('should not validate when there are two complementary, one of which is clea', async function () {
+          // given
+          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            ...candidateData,
+            subscriptions: [
+              domainBuilder.buildComplementarySubscription({
+                certificationCandidateId: null,
+                complementaryCertificationId: cleaCertificationId + 20,
+              }),
+              domainBuilder.buildComplementarySubscription({
+                certificationCandidateId: null,
+                complementaryCertificationId: cleaCertificationId,
+              }),
+            ],
+          });
+          const certificationCandidatesError = new CertificationCandidatesError({
+            code: '"subscriptions" does not match any of the allowed types',
+          });
+
+          // when
+          const error = await catchErr(candidate.validate, candidate)({ cleaCertificationId, isCompatibilityEnabled });
+
+          // then
+          expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack', 'meta']);
+        });
+
+        it('should not validate when there are two core', async function () {
+          // given
+          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            ...candidateData,
+            subscriptions: [
+              domainBuilder.buildCoreSubscription({
+                certificationCandidateId: null,
+              }),
+              domainBuilder.buildCoreSubscription({
+                certificationCandidateId: null,
+              }),
+            ],
+          });
+          const certificationCandidatesError = new CertificationCandidatesError({
+            code: '"subscriptions" does not match any of the allowed types',
+          });
+
+          // when
+          const error = await catchErr(candidate.validate, candidate)({ cleaCertificationId, isCompatibilityEnabled });
+
+          // then
+          expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack', 'meta']);
+        });
+
+        it('should not validate when there are one core and one not clea', async function () {
+          // given
+          const candidate = domainBuilder.certification.enrolment.buildCandidate({
+            ...candidateData,
+            subscriptions: [
+              domainBuilder.buildCoreSubscription({
+                certificationCandidateId: null,
+              }),
+              domainBuilder.buildComplementarySubscription({
+                certificationCandidateId: null,
+                complementaryCertificationId: cleaCertificationId + 20,
+              }),
+            ],
+          });
+          const certificationCandidatesError = new CertificationCandidatesError({
+            code: '"subscriptions" does not match any of the allowed types',
+          });
+
+          // when
+          const error = await catchErr(candidate.validate, candidate)({ cleaCertificationId, isCompatibilityEnabled });
+
+          // then
+          expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack', 'meta']);
+        });
+      });
+    });
+
     context('when the certification center is SCO', function () {
       context('when the billing mode is null', function () {
         it('should not throw an error', async function () {
@@ -466,7 +641,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
           const isSco = true;
           // when
           const call = () => {
-            candidate.validate(isSco);
+            candidate.validate({ isSco });
           };
 
           // then
