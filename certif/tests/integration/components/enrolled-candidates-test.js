@@ -18,17 +18,29 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
 
   hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
+    const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+      id: '123',
+      name: 'Center',
+      type: 'PRO',
+      habilitations: [
+        { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1' },
+        { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2' },
+      ],
+      isComplementaryAlonePilot: false,
+      isV3Pilot: false,
+    });
+
     class CurrentUserStub extends Service {
-      currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        habilitations: [
-          { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1' },
-          { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2' },
-        ],
-        isComplementaryAlonePilot: false,
-        isV3Pilot: false,
+      currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+    }
+    class FeatureTogglesStub extends Service {
+      featureToggles = store.createRecord('feature-toggle', {
+        isNeedToAdjustCertificationAccessibilityEnabled: false,
       });
     }
+
     this.owner.register('service:current-user', CurrentUserStub);
+    this.owner.register('service:feature-toggles', FeatureTogglesStub);
   });
 
   test('it should have an accessible table description', async function (assert) {
@@ -74,6 +86,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     });
     const candidate = _buildCertificationCandidate({
       birthdate: new Date('2019-04-28'),
+      accessibilityAdjustmentNeeded: true,
       subscriptions: [coreSubscription, complementarySubscription],
     });
     const complementaryCertification = {
@@ -99,6 +112,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     );
 
     // then
+    assert.dom(screen.queryByRole('columnheader', { name: 'Accessibilité' })).doesNotExist();
     assert.dom(screen.getByRole('cell', { name: certificationCandidate.externalId })).exists();
     assert.dom(screen.getByRole('cell', { name: certificationCandidate.lastName })).exists();
     assert.dom(screen.getByRole('cell', { name: certificationCandidate.firstName })).exists();
@@ -109,6 +123,129 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthProvinceCode })).doesNotExist();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCountry })).doesNotExist();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidate.email })).doesNotExist();
+  });
+
+  module('when center is v3 pilot', function (hooks) {
+    hooks.beforeEach(async function () {
+      store = this.owner.lookup('service:store');
+      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+        id: '456',
+        name: 'Center',
+        type: 'PRO',
+        isV3Pilot: true,
+      });
+
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+    });
+
+    module('when feature toggle isNeedToAdjustCertificationAccessibilityEnabled is true', function (hooks) {
+      hooks.beforeEach(async function () {
+        class FeatureTogglesStub extends Service {
+          featureToggles = store.createRecord('feature-toggle', {
+            isNeedToAdjustCertificationAccessibilityEnabled: true,
+          });
+        }
+
+        this.owner.register('service:feature-toggles', FeatureTogglesStub);
+      });
+
+      module('when candidate needs accessibility adjusted certification', function () {
+        test('should display candidate needs accessibility adjusted certification', async function (assert) {
+          // given
+          const candidate = _buildCertificationCandidate({
+            birthdate: new Date('2019-04-28'),
+            accessibilityAdjustmentNeeded: true,
+          });
+
+          const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
+          const certificationCandidate = store.createRecord('certification-candidate', candidate);
+
+          this.set('certificationCandidates', [certificationCandidate]);
+          this.set('countries', [countries]);
+
+          // when
+          const screen = await renderScreen(
+            hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @displayComplementaryCertification={{this.displayComplementaryCertification}}
+  @countries={{this.countries}}
+  @complementaryCertifications={{this.complementaryCertifications}}
+/>`,
+          );
+
+          // then
+          assert.dom(screen.getByRole('columnheader', { name: 'Accessibilité' })).exists();
+          assert.dom(screen.getByRole('cell', { name: 'Oui' })).exists();
+        });
+      });
+
+      module('when candidate doesnt need accessibility adjusted certification', function () {
+        test('should display candidate doesnt need accessibility adjusted certification', async function (assert) {
+          // given
+          const candidate = _buildCertificationCandidate({
+            birthdate: new Date('2019-04-28'),
+            accessibilityAdjustmentNeeded: false,
+          });
+
+          const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
+          const certificationCandidate = store.createRecord('certification-candidate', candidate);
+
+          this.set('certificationCandidates', [certificationCandidate]);
+          this.set('countries', [countries]);
+
+          // when
+          const screen = await renderScreen(
+            hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @displayComplementaryCertification={{this.displayComplementaryCertification}}
+  @countries={{this.countries}}
+  @complementaryCertifications={{this.complementaryCertifications}}
+/>`,
+          );
+
+          // then
+          assert.dom(screen.getByRole('columnheader', { name: 'Accessibilité' })).exists();
+          assert.dom(screen.getByRole('cell', { name: '-' })).exists();
+        });
+      });
+    });
+
+    module('when feature toggle isNeedToAdjustCertificationAccessibilityEnabled is false', function () {
+      test('should not display accessibility adjusted certification needed information', async function (assert) {
+        // given
+        const candidate = _buildCertificationCandidate({
+          birthdate: new Date('2019-04-28'),
+          accessibilityAdjustmentNeeded: true,
+        });
+
+        const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
+        const certificationCandidate = store.createRecord('certification-candidate', candidate);
+
+        this.set('certificationCandidates', [certificationCandidate]);
+        this.set('countries', [countries]);
+
+        // when
+        const screen = await renderScreen(
+          hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @displayComplementaryCertification={{this.displayComplementaryCertification}}
+  @countries={{this.countries}}
+  @complementaryCertifications={{this.complementaryCertifications}}
+/>`,
+        );
+
+        // then
+        assert.dom(screen.queryByRole('columnheader', { name: 'Accessibilité' })).doesNotExist();
+        assert.dom(screen.queryByRole('cell', { name: 'Oui' })).doesNotExist();
+      });
+    });
   });
 
   test('it displays specific subscription text when candidate subscribed to dual certification core/clea', async function (assert) {
@@ -418,7 +555,7 @@ function _buildCertificationCandidate({
   billingMode = null,
   prepaymentCode = null,
   accessibilityAdjustmentNeeded = false,
-  subscriptions,
+  subscriptions = [],
 }) {
   return {
     id,

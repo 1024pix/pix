@@ -60,9 +60,11 @@
             <th class="certification-candidates-table__column-time">
               {{t "common.forms.certification-labels.extratime"}}
             </th>
-            <th class="certification-candidates-table__column-accessibility">
-              {{t "common.forms.certification-labels.accessibility"}}
-            </th>
+            {{#if this.shouldDisplayAccessibilityAdjustmentNeededFeature}}
+              <th class="certification-candidates-table__column-accessibility">
+                {{t "common.forms.certification-labels.accessibility"}}
+              </th>
+            {{/if}}
             {{#if @shouldDisplayPaymentOptions}}
               <th class="certification-candidates-table__payment-options">
                 {{t "common.forms.certification-labels.pricing"}}
@@ -102,7 +104,9 @@
                 <td>{{candidate.externalId}}</td>
               {{/unless}}
               <td>{{format-percentage candidate.extraTimePercentage}}</td>
-              <td>{{candidate.accessibilityAdjustmentNeededLabel}}</td>
+              {{#if this.shouldDisplayAccessibilityAdjustmentNeededFeature}}
+                <td>{{candidate.accessibilityAdjustmentNeededLabel}}</td>
+              {{/if}}
               {{#if @shouldDisplayPaymentOptions}}
                 <td>{{candidate.billingModeLabel}}
                   {{candidate.prepaymentCode}}
