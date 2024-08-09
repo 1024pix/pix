@@ -1,5 +1,5 @@
-import * as checkUserIsCandidateUseCase from '../../../../../../src/certification/enrolment/application/usecases/checkUserIsCandidate.js';
-import { expect, sinon } from '../../../../../test-helper.js';
+import * as checkUserIsCandidateUseCase from '../../../../../../src/certification/enrolment/application/usecases/check-user-is-candidate.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Application | Validator | checkUserIsCandidateUseCase', function () {
   context('When user is the candidate', function () {
@@ -8,12 +8,14 @@ describe('Unit | Application | Validator | checkUserIsCandidateUseCase', functio
       const userId = 'userId';
       const certificationCandidateId = 'certificationCandidateId';
       const candidateRepositoryStub = {
-        isUserCertificationCandidate: sinon.stub(),
+        get: sinon.stub(),
       };
 
-      candidateRepositoryStub.isUserCertificationCandidate
-        .withArgs({ userId, certificationCandidateId })
-        .resolves(true);
+      candidateRepositoryStub.get.withArgs({ certificationCandidateId }).resolves(
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId,
+        }),
+      );
 
       // when
       const response = await checkUserIsCandidateUseCase.execute({
@@ -33,12 +35,14 @@ describe('Unit | Application | Validator | checkUserIsCandidateUseCase', functio
       const userId = 'userId';
       const certificationCandidateId = 'certificationCandidateId';
       const candidateRepositoryStub = {
-        isUserCertificationCandidate: sinon.stub(),
+        get: sinon.stub(),
       };
 
-      candidateRepositoryStub.isUserCertificationCandidate
-        .withArgs({ userId, certificationCandidateId })
-        .returns(false);
+      candidateRepositoryStub.get.withArgs({ certificationCandidateId }).resolves(
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+        }),
+      );
 
       // when
       const response = await checkUserIsCandidateUseCase.execute({

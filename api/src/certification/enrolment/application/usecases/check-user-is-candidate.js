@@ -1,10 +1,8 @@
 import * as candidateRepository from '../../infrastructure/repositories/candidate-repository.js';
 
 const execute = async ({ userId, certificationCandidateId, dependencies = { candidateRepository } }) => {
-  return dependencies.candidateRepository.isUserCertificationCandidate({
-    certificationCandidateId,
-    userId,
-  });
+  const candidate = await dependencies.candidateRepository.get({ certificationCandidateId });
+  return candidate?.isLinkedTo(userId);
 };
 
 export { execute };

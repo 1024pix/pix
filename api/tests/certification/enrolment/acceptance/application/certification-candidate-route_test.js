@@ -88,6 +88,9 @@ describe('Acceptance | Controller | Session | certification-candidate-route', fu
         userId: candidateUserId,
         hasSeenCertificationInstructions: false,
       }).id;
+      databaseBuilder.factory.buildCoreSubscription({
+        certificationCandidateId: candidateId,
+      });
 
       await databaseBuilder.commit();
 

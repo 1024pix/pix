@@ -76,27 +76,6 @@ export async function update(candidate) {
 
 /**
  * @function
- * @param {Object} params
- * @param {number} params.certificationCandidateId
- * @param {number} params.userId
- *
- * @return {Boolean} Returns true if candidate is found or false otherwise
- */
-export async function isUserCertificationCandidate({ certificationCandidateId, userId }) {
-  const certificationCandidate = await knex
-    .select(1)
-    .from('certification-candidates')
-    .where({
-      id: certificationCandidateId,
-      userId,
-    })
-    .first();
-
-  return Boolean(certificationCandidate);
-}
-
-/**
- * @function
  * @param sessionId
  * @returns {boolean} True if any candidate is linked to an existing user
  */

@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 import lodash from 'lodash';
 
 import { PIX_ADMIN } from '../../authorization/domain/constants.js';
-import * as checkUserIsCandidateUseCase from '../../certification/enrolment/application/usecases/checkUserIsCandidate.js';
+import * as checkUserIsCandidateUseCase from '../../certification/enrolment/application/usecases/check-user-is-candidate.js';
 import * as certificationIssueReportRepository from '../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as isSchoolSessionActive from '../../school/application/usecases/is-school-session-active.js';
 import { ForbiddenAccess, NotFoundError } from '../domain/errors.js';
