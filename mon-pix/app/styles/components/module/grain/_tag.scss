@@ -6,15 +6,17 @@
   align-items: center;
   justify-content: center;
   padding: var(--pix-spacing-2x) var(--pix-spacing-4x) var(--pix-spacing-2x) var(--pix-spacing-4x);
+  font-weight: var(--pix-font-medium);
+  letter-spacing: 0.04rem;
   text-transform: uppercase;
   border-radius: var(--modulix-radius) var(--modulix-radius) 0 0;
 
   &--activity {
-    background: var(--pix-neutral-20);
+    background: var(--modulix-activity-card-background);
   }
 
   &--lesson {
-    background: var(--pix-info-50);
+    background: var(--modulix-lesson-card-background);
   }
 
   &_icon {
