@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { logErrorWithCorrelationIds } from '../../../../../lib/infrastructure/monitoring-tools.js';
+import { logErrorWithCorrelationIds } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { config } from '../../../../shared/config.js';
 import { FileValidationError } from '../../../../shared/domain/errors.js';
 import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';

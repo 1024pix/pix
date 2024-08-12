@@ -2,7 +2,6 @@ import jsonwebtoken from 'jsonwebtoken';
 import ms from 'ms';
 import { Issuer } from 'openid-client';
 
-import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { OidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service.js';
 import { config as settings } from '../../../../../src/shared/config.js';
 import { OIDC_ERRORS } from '../../../../../src/shared/domain/constants.js';
@@ -13,6 +12,7 @@ import {
   AuthenticationSessionContent,
   UserToCreate,
 } from '../../../../../src/shared/domain/models/index.js';
+import { monitoringTools } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { catchErr, catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
 const uuidV4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;

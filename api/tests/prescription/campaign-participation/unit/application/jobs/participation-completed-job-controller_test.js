@@ -1,10 +1,10 @@
 import { PoleEmploiPayload } from '../../../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import * as httpErrorsHelper from '../../../../../../lib/infrastructure/http/errors-helper.js';
 import { httpAgent } from '../../../../../../lib/infrastructure/http/http-agent.js';
-import { monitoringTools } from '../../../../../../lib/infrastructure/monitoring-tools.js';
 import { ParticipationCompletedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/participation-completed-job-controller.js';
 import { ParticipationCompletedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationCompletedJob.js';
-import { PoleEmploiSending } from '../../../../../../src/shared/domain/models/index.js';
+import { PoleEmploiSending } from '../../../../../../src/shared/domain/models/PoleEmploiSending.js';
+import * as monitoringTools from '../../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobController', function () {

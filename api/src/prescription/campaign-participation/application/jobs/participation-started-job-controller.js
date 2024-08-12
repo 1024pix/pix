@@ -2,7 +2,6 @@ import * as poleEmploiNotifier from '../../../../../lib/infrastructure/externals
 import { PoleEmploiPayload } from '../../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import * as httpErrorsHelper from '../../../../../lib/infrastructure/http/errors-helper.js';
 import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
-import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as poleEmploiSendingRepository from '../../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../../../../lib/infrastructure/repositories/target-profile-repository.js';
@@ -10,6 +9,7 @@ import * as authenticationMethodRepository from '../../../../identity-access-man
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { JobController } from '../../../../shared/application/jobs/job-controller.js';
 import { PoleEmploiSending } from '../../../../shared/domain/models/index.js';
+import { monitoringTools } from '../../../../shared/infrastructure/monitoring-tools.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { ParticipationStartedJob } from '../../domain/models/ParticipationStartedJob.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';

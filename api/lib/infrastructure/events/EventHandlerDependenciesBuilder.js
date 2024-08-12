@@ -1,4 +1,4 @@
-import { monitoringTools } from '../monitoring-tools.js';
+import { monitoringTools } from '../../../src/shared/infrastructure/monitoring-tools.js';
 
 function build(classToInstanciate) {
   const dependencies = _buildDependencies();

@@ -1,6 +1,5 @@
 import * as httpErrorsHelper from '../../../../../../lib/infrastructure/http/errors-helper.js';
 import { httpAgent } from '../../../../../../lib/infrastructure/http/http-agent.js';
-import { monitoringTools } from '../../../../../../lib/infrastructure/monitoring-tools.js';
 import * as campaignParticipationRepository from '../../../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignRepository from '../../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as poleEmploiSendingRepository from '../../../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
@@ -8,6 +7,7 @@ import * as targetProfileRepository from '../../../../../../lib/infrastructure/r
 import * as userRepository from '../../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { ParticipationStartedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/participation-started-job-controller.js';
 import { ParticipationStartedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationStartedJob.js';
+import { monitoringTools } from '../../../../../../src/shared/infrastructure/monitoring-tools.js';
 import * as assessmentRepository from '../../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import {

@@ -2,8 +2,8 @@ import { sendSharedParticipationResultsToPoleEmploi } from '../../../../lib/doma
 import { PoleEmploiPayload } from '../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import * as httpErrorsHelper from '../../../../lib/infrastructure/http/errors-helper.js';
 import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
-import * as monitoringTools from '../../../../lib/infrastructure/monitoring-tools.js';
 import { PoleEmploiSending } from '../../../../src/shared/domain/models/PoleEmploiSending.js';
+import * as monitoringTools from '../../../../src/shared/infrastructure/monitoring-tools.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-emploi', function () {

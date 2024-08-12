@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const { performance } = perf_hooks;
 
-import { monitoringTools } from '../monitoring-tools.js';
+import { monitoringTools } from '../../../src/shared/infrastructure/monitoring-tools.js';
 
 class HttpResponse {
   constructor({ code, data, isSuccessful }) {

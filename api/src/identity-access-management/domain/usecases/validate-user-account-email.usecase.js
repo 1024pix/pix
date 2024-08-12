@@ -1,5 +1,5 @@
-import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { config } from '../../../shared/config.js';
+import { monitoringTools } from '../../../shared/infrastructure/monitoring-tools.js';
 
 /**
  * @param {{

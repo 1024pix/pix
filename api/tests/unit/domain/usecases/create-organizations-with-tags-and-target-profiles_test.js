@@ -3,12 +3,12 @@
 import { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } from '../../../../db/pgsql-errors.js';
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { ObjectValidationError, OrganizationTagNotFound } from '../../../../src/shared/domain/errors.js';
 import { InvalidInputDataError } from '../../../../src/shared/domain/errors.js';
 import { OrganizationForAdmin } from '../../../../src/shared/domain/models/index.js';
 import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { OrganizationTag } from '../../../../src/shared/domain/models/OrganizationTag.js';
+import { monitoringTools } from '../../../../src/shared/infrastructure/monitoring-tools.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', function () {
