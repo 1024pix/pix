@@ -1,5 +1,5 @@
 import Hapi from '@hapi/hapi';
-import Qs from 'qs';
+import { parse } from 'neoqs';
 
 import { setupErrorHandling } from '../../../config/server-setup-error-handling.js';
 import { authentication } from '../../../lib/infrastructure/authentication.js';
@@ -13,7 +13,7 @@ const routesConfig = {
     },
   },
   query: {
-    parser: (query) => Qs.parse(query),
+    parser: (query) => parse(query),
   },
 };
 
