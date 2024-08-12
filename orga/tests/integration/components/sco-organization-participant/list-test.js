@@ -42,17 +42,18 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     // when
     const screen = await render(
-      hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
-/>`,
+      hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+                  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
+          />`,
     );
 
     // then
@@ -109,17 +110,18 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     // when
     const screen = await render(
-      hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
-/>`,
+      hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+                  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
+          />`,
     );
 
     // then
@@ -153,17 +155,18 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     // when
     const screen = await render(
-      hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
-/>`,
+      hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+                  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
+          />`,
     );
     // then
     assert.ok(screen.getByRole('link', { name: 'Michel', href: /\/eleves\/22/g }));
@@ -190,17 +193,18 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     // when
     const screen = await render(
-      hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
-/>`,
+      hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+                  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
+          />`,
     );
 
     // then
@@ -223,17 +227,18 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     // when
     const screen = await render(
-      hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
-/>`,
+      hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+                  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
+          />`,
     );
 
     // then
@@ -254,17 +259,18 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     // when
     const screen = await render(
-      hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
-/>`,
+      hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+                  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
+          />`,
     );
 
     // then
@@ -285,16 +291,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         this.set('certificability', []);
         this.set('search', null);
 
-        const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-/>`);
+        const screen = await render(hbs`
+            <ScoOrganizationParticipant::List
+                    @students={{this.students}}
+                    @onFilter={{this.noop}}
+                    @searchFilter={{this.search}}
+                    @divisionsFilter={{this.divisions}}
+                    @connectionTypeFilter={{this.connectionTypes}}
+                    @certificabilityFilter={{this.certificability}}
+                    @onClickLearner={{this.noop}}
+                    @onResetFilter={{this.noop}}
+            />`);
 
         // when
         await click(screen.getByLabelText('Rechercher par méthode de connexion'));
@@ -341,16 +348,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('search', null);
 
       await render(
-        hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.triggerFiltering}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-/>`,
+        hbs`
+            <ScoOrganizationParticipant::List
+                    @students={{this.students}}
+                    @onFilter={{this.triggerFiltering}}
+                    @searchFilter={{this.search}}
+                    @divisionsFilter={{this.divisions}}
+                    @connectionTypeFilter={{this.connectionTypes}}
+                    @certificabilityFilter={{this.certificability}}
+                    @onClickLearner={{this.noop}}
+                    @onResetFilter={{this.noop}}
+            />`,
       );
 
       // when
@@ -371,16 +379,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('certificability', []);
       this.set('search', null);
 
-      const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.triggerFiltering}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-/>`);
+      const screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.triggerFiltering}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+          />`);
 
       // when
       const select = await screen.getByPlaceholderText('Rechercher par classe');
@@ -405,16 +414,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('certificability', []);
       this.set('search', null);
 
-      const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.triggerFiltering}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-/>`);
+      const screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.triggerFiltering}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+          />`);
 
       // when
       await click(screen.getByLabelText('Rechercher par méthode de connexion'));
@@ -435,16 +445,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('certificability', []);
       this.set('search', null);
 
-      const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.triggerFiltering}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-/>`);
+      const screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.triggerFiltering}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+          />`);
 
       // when
       const select = await screen.getByLabelText('Rechercher par certificabilité');
@@ -478,16 +489,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('certificability', []);
       this.set('search', null);
 
-      await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.triggerFiltering}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.resetFiltered}}
-/>`);
+      await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.triggerFiltering}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.resetFiltered}}
+          />`);
 
       // when
       await clickByName('Effacer les filtres');
@@ -513,18 +525,19 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         this.set('certificability', []);
         this.set('search', null);
 
-        const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @participationCountOrder={{this.participationCountOrder}}
-  @sortByParticipationCount={{this.sortByParticipationCount}}
-/>`);
+        const screen = await render(hbs`
+            <ScoOrganizationParticipant::List
+                    @students={{this.students}}
+                    @onFilter={{this.noop}}
+                    @searchFilter={{this.search}}
+                    @divisionsFilter={{this.divisions}}
+                    @connectionTypeFilter={{this.connectionTypes}}
+                    @certificabilityFilter={{this.certificability}}
+                    @onClickLearner={{this.noop}}
+                    @onResetFilter={{this.noop}}
+                    @participationCountOrder={{this.participationCountOrder}}
+                    @sortByParticipationCount={{this.sortByParticipationCount}}
+            />`);
 
         // when
         await click(
@@ -550,18 +563,19 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         this.set('certificability', []);
         this.set('search', null);
 
-        const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @participationCountOrder={{this.participationCountOrder}}
-  @sortByParticipationCount={{this.sortByParticipationCount}}
-/>`);
+        const screen = await render(hbs`
+            <ScoOrganizationParticipant::List
+                    @students={{this.students}}
+                    @onFilter={{this.noop}}
+                    @searchFilter={{this.search}}
+                    @divisionsFilter={{this.divisions}}
+                    @connectionTypeFilter={{this.connectionTypes}}
+                    @certificabilityFilter={{this.certificability}}
+                    @onClickLearner={{this.noop}}
+                    @onResetFilter={{this.noop}}
+                    @participationCountOrder={{this.participationCountOrder}}
+                    @sortByParticipationCount={{this.sortByParticipationCount}}
+            />`);
 
         // when
         await click(
@@ -587,18 +601,19 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         this.set('certificability', []);
         this.set('search', null);
 
-        const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @participationCountOrder={{this.participationCountOrder}}
-  @sortByParticipationCount={{this.sortByParticipationCount}}
-/>`);
+        const screen = await render(hbs`
+            <ScoOrganizationParticipant::List
+                    @students={{this.students}}
+                    @onFilter={{this.noop}}
+                    @searchFilter={{this.search}}
+                    @divisionsFilter={{this.divisions}}
+                    @connectionTypeFilter={{this.connectionTypes}}
+                    @certificabilityFilter={{this.certificability}}
+                    @onClickLearner={{this.noop}}
+                    @onResetFilter={{this.noop}}
+                    @participationCountOrder={{this.participationCountOrder}}
+                    @sortByParticipationCount={{this.sortByParticipationCount}}
+            />`);
 
         // when
         await click(
@@ -627,18 +642,19 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         this.set('certificability', []);
         this.set('search', null);
 
-        const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @lastnameSort={{this.lastnameSort}}
-  @sortByLastname={{this.sortByLastname}}
-/>`);
+        const screen = await render(hbs`
+            <ScoOrganizationParticipant::List
+                    @students={{this.students}}
+                    @onFilter={{this.noop}}
+                    @searchFilter={{this.search}}
+                    @divisionsFilter={{this.divisions}}
+                    @connectionTypeFilter={{this.connectionTypes}}
+                    @certificabilityFilter={{this.certificability}}
+                    @onClickLearner={{this.noop}}
+                    @onResetFilter={{this.noop}}
+                    @lastnameSort={{this.lastnameSort}}
+                    @sortByLastname={{this.sortByLastname}}
+            />`);
 
         // when
         await click(
@@ -662,18 +678,19 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         this.set('certificability', []);
         this.set('search', null);
 
-        const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @lastnameSort={{this.lastnameSort}}
-  @sortByLastname={{this.sortByLastname}}
-/>`);
+        const screen = await render(hbs`
+            <ScoOrganizationParticipant::List
+                    @students={{this.students}}
+                    @onFilter={{this.noop}}
+                    @searchFilter={{this.search}}
+                    @divisionsFilter={{this.divisions}}
+                    @connectionTypeFilter={{this.connectionTypes}}
+                    @certificabilityFilter={{this.certificability}}
+                    @onClickLearner={{this.noop}}
+                    @onResetFilter={{this.noop}}
+                    @lastnameSort={{this.lastnameSort}}
+                    @sortByLastname={{this.sortByLastname}}
+            />`);
 
         // when
         await click(
@@ -697,18 +714,19 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         this.set('certificability', []);
         this.set('search', null);
 
-        const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @lastnameSort={{this.lastnameSort}}
-  @sortByLastname={{this.sortByLastname}}
-/>`);
+        const screen = await render(hbs`
+            <ScoOrganizationParticipant::List
+                    @students={{this.students}}
+                    @onFilter={{this.noop}}
+                    @searchFilter={{this.search}}
+                    @divisionsFilter={{this.divisions}}
+                    @connectionTypeFilter={{this.connectionTypes}}
+                    @certificabilityFilter={{this.certificability}}
+                    @onClickLearner={{this.noop}}
+                    @onResetFilter={{this.noop}}
+                    @lastnameSort={{this.lastnameSort}}
+                    @sortByLastname={{this.sortByLastname}}
+            />`);
 
         // when
         await click(
@@ -735,18 +753,19 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         this.set('certificability', []);
         this.set('search', null);
 
-        const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @divisionSort={{this.divisionSort}}
-  @sortByDivision={{this.sortByDivision}}
-/>`);
+        const screen = await render(hbs`
+            <ScoOrganizationParticipant::List
+                    @students={{this.students}}
+                    @onFilter={{this.noop}}
+                    @searchFilter={{this.search}}
+                    @divisionsFilter={{this.divisions}}
+                    @connectionTypeFilter={{this.connectionTypes}}
+                    @certificabilityFilter={{this.certificability}}
+                    @onClickLearner={{this.noop}}
+                    @onResetFilter={{this.noop}}
+                    @divisionSort={{this.divisionSort}}
+                    @sortByDivision={{this.sortByDivision}}
+            />`);
 
         // when
         await click(
@@ -770,18 +789,19 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         this.set('certificability', []);
         this.set('search', null);
 
-        const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @divisionSort={{this.divisionSort}}
-  @sortByDivision={{this.sortByDivision}}
-/>`);
+        const screen = await render(hbs`
+            <ScoOrganizationParticipant::List
+                    @students={{this.students}}
+                    @onFilter={{this.noop}}
+                    @searchFilter={{this.search}}
+                    @divisionsFilter={{this.divisions}}
+                    @connectionTypeFilter={{this.connectionTypes}}
+                    @certificabilityFilter={{this.certificability}}
+                    @onClickLearner={{this.noop}}
+                    @onResetFilter={{this.noop}}
+                    @divisionSort={{this.divisionSort}}
+                    @sortByDivision={{this.sortByDivision}}
+            />`);
 
         // when
         await click(
@@ -805,18 +825,19 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         this.set('certificability', []);
         this.set('search', null);
 
-        const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-  @divisionSort={{this.divisionSort}}
-  @sortByDivision={{this.sortByDivision}}
-/>`);
+        const screen = await render(hbs`
+            <ScoOrganizationParticipant::List
+                    @students={{this.students}}
+                    @onFilter={{this.noop}}
+                    @searchFilter={{this.search}}
+                    @divisionsFilter={{this.divisions}}
+                    @connectionTypeFilter={{this.connectionTypes}}
+                    @certificabilityFilter={{this.certificability}}
+                    @onClickLearner={{this.noop}}
+                    @onResetFilter={{this.noop}}
+                    @divisionSort={{this.divisionSort}}
+                    @sortByDivision={{this.sortByDivision}}
+            />`);
 
         // when
         await click(
@@ -846,16 +867,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('certificability', []);
       this.set('search', null);
 
-      screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-/>`);
+      screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+          />`);
     });
 
     test('it should display dash for authentication method', async function (assert) {
@@ -892,16 +914,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('certificability', []);
       this.set('search', null);
 
-      const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-/>`);
+      const screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+          />`);
 
       // when
       await clickByName(t('pages.sco-organization-participants.actions.show-actions'));
@@ -929,16 +952,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('certificability', []);
       this.set('search', null);
 
-      screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-/>`);
+      screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+          />`);
     });
 
     test('it should display "Identifiant" as authentication method', async function (assert) {
@@ -974,16 +998,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('search', null);
 
       // when
-      screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-/>`);
+      screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+          />`);
     });
 
     test('it should display "Adresse email" as authentication method', function (assert) {
@@ -1026,16 +1051,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('certificability', []);
       this.set('search', null);
 
-      const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-/>`);
+      const screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+          />`);
 
       // then
       assert.ok(
@@ -1048,16 +1074,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     test('it should display the action menu', async function (assert) {
       // when
-      const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-/>`);
+      const screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+          />`);
 
       // then
       assert.ok(screen.getByRole('button', { name: t('pages.sco-organization-participants.actions.show-actions') }));
@@ -1072,16 +1099,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       ]);
 
       // when
-      const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-/>`);
+      const screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+          />`);
 
       await click(screen.getByLabelText(t('components.certificability-tooltip.aria-label')));
 
@@ -1102,16 +1130,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('search', null);
 
       // when
-      const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-/>`);
+      const screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+          />`);
 
       // then
       assert.ok(screen.getByText(t('pages.sco-organization-participants.table.empty')));
@@ -1130,16 +1159,17 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('search', null);
 
       // when
-      const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-  @onClickLearner={{this.noop}}
-  @onResetFilter={{this.noop}}
-/>`);
+      const screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+                  @onClickLearner={{this.noop}}
+                  @onResetFilter={{this.noop}}
+          />`);
 
       // then
       assert.ok(screen.getByText(t('pages.sco-organization-participants.no-participants-action')));
@@ -1154,6 +1184,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       store = this.owner.lookup('service:store');
 
       const division = store.createRecord('division', { id: '3BF', name: '3BF' });
+
       class CurrentUserStub extends Service {
         prescriber = {};
         organization = store.createRecord('organization', {
@@ -1163,6 +1194,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           isManagingStudents: true,
         });
       }
+
       this.owner.register('service:current-user', CurrentUserStub);
 
       const students = [{ id: '1', firstName: 'Spider', lastName: 'Man' }];
@@ -1173,21 +1205,22 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('certificability', []);
 
       // when
-      const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @lastnameSort={{this.noop}}
-  @sortByLastname={{this.noop}}
-  @participationCountOrder={{this.noop}}
-  @sortByParticipationCount={{this.noop}}
-  @divisionSort={{this.noop}}
-  @sortByDivision={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-/>`);
+      const screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @lastnameSort={{this.noop}}
+                  @sortByLastname={{this.noop}}
+                  @participationCountOrder={{this.noop}}
+                  @sortByParticipationCount={{this.noop}}
+                  @divisionSort={{this.noop}}
+                  @sortByDivision={{this.noop}}
+                  @onClickLearner={{this.noop}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+          />`);
 
       const mainCheckbox = screen.getByRole('checkbox', {
         name: t('pages.sco-organization-participants.table.column.mainCheckbox'),
@@ -1239,21 +1272,22 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('students', students);
 
       // when
-      const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @lastnameSort={{this.noop}}
-  @sortByLastname={{this.noop}}
-  @participationCountOrder={{this.noop}}
-  @sortByParticipationCount={{this.noop}}
-  @divisionSort={{this.noop}}
-  @sortByDivision={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-/>`);
+      const screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @lastnameSort={{this.noop}}
+                  @sortByLastname={{this.noop}}
+                  @participationCountOrder={{this.noop}}
+                  @sortByParticipationCount={{this.noop}}
+                  @divisionSort={{this.noop}}
+                  @sortByDivision={{this.noop}}
+                  @onClickLearner={{this.noop}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+          />`);
 
       const firstStudent = screen.getAllByRole('checkbox')[1];
       await click(firstStudent);
@@ -1277,21 +1311,22 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('students', students);
 
       // when
-      const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @lastnameSort={{this.noop}}
-  @sortByLastname={{this.noop}}
-  @participationCountOrder={{this.noop}}
-  @sortByParticipationCount={{this.noop}}
-  @divisionSort={{this.noop}}
-  @sortByDivision={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-/>`);
+      const screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @lastnameSort={{this.noop}}
+                  @sortByLastname={{this.noop}}
+                  @participationCountOrder={{this.noop}}
+                  @sortByParticipationCount={{this.noop}}
+                  @divisionSort={{this.noop}}
+                  @sortByDivision={{this.noop}}
+                  @onClickLearner={{this.noop}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+          />`);
 
       const firstStudentToResetPassword = screen.getAllByRole('checkbox')[2];
       const secondStudentToResetPassword = screen.getAllByRole('checkbox')[3];
@@ -1330,21 +1365,22 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           this.set('students', students);
 
           // when
-          const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @lastnameSort={{this.noop}}
-  @sortByLastname={{this.noop}}
-  @participationCountOrder={{this.noop}}
-  @sortByParticipationCount={{this.noop}}
-  @divisionSort={{this.noop}}
-  @sortByDivision={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-/>`);
+          const screen = await render(hbs`
+              <ScoOrganizationParticipant::List
+                      @students={{this.students}}
+                      @lastnameSort={{this.noop}}
+                      @sortByLastname={{this.noop}}
+                      @participationCountOrder={{this.noop}}
+                      @sortByParticipationCount={{this.noop}}
+                      @divisionSort={{this.noop}}
+                      @sortByDivision={{this.noop}}
+                      @onClickLearner={{this.noop}}
+                      @onFilter={{this.noop}}
+                      @searchFilter={{this.search}}
+                      @divisionsFilter={{this.divisions}}
+                      @connectionTypeFilter={{this.connectionTypes}}
+                      @certificabilityFilter={{this.certificability}}
+              />`);
           const student = await screen.getAllByRole('checkbox')[1];
           await click(student);
           const resetPasswordButton = await screen.findByRole('button', {
@@ -1379,21 +1415,22 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           this.set('students', students);
 
           // when
-          const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @lastnameSort={{this.noop}}
-  @sortByLastname={{this.noop}}
-  @participationCountOrder={{this.noop}}
-  @sortByParticipationCount={{this.noop}}
-  @divisionSort={{this.noop}}
-  @sortByDivision={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-/>`);
+          const screen = await render(hbs`
+              <ScoOrganizationParticipant::List
+                      @students={{this.students}}
+                      @lastnameSort={{this.noop}}
+                      @sortByLastname={{this.noop}}
+                      @participationCountOrder={{this.noop}}
+                      @sortByParticipationCount={{this.noop}}
+                      @divisionSort={{this.noop}}
+                      @sortByDivision={{this.noop}}
+                      @onClickLearner={{this.noop}}
+                      @onFilter={{this.noop}}
+                      @searchFilter={{this.search}}
+                      @divisionsFilter={{this.divisions}}
+                      @connectionTypeFilter={{this.connectionTypes}}
+                      @certificabilityFilter={{this.certificability}}
+              />`);
           const firstStudent = await screen.getAllByRole('checkbox')[1];
           const secondStudent = await screen.getAllByRole('checkbox')[2];
           await click(firstStudent);
@@ -1429,21 +1466,22 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           this.set('students', students);
 
           // when
-          const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @lastnameSort={{this.noop}}
-  @sortByLastname={{this.noop}}
-  @participationCountOrder={{this.noop}}
-  @sortByParticipationCount={{this.noop}}
-  @divisionSort={{this.noop}}
-  @sortByDivision={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-/>`);
+          const screen = await render(hbs`
+              <ScoOrganizationParticipant::List
+                      @students={{this.students}}
+                      @lastnameSort={{this.noop}}
+                      @sortByLastname={{this.noop}}
+                      @participationCountOrder={{this.noop}}
+                      @sortByParticipationCount={{this.noop}}
+                      @divisionSort={{this.noop}}
+                      @sortByDivision={{this.noop}}
+                      @onClickLearner={{this.noop}}
+                      @onFilter={{this.noop}}
+                      @searchFilter={{this.search}}
+                      @divisionsFilter={{this.divisions}}
+                      @connectionTypeFilter={{this.connectionTypes}}
+                      @certificabilityFilter={{this.certificability}}
+              />`);
 
           const firstStudent = await screen.getAllByRole('checkbox')[1];
           const secondStudent = await screen.getAllByRole('checkbox')[2];
@@ -1481,21 +1519,22 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           this.set('students', students);
 
           // when
-          const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @lastnameSort={{this.noop}}
-  @sortByLastname={{this.noop}}
-  @participationCountOrder={{this.noop}}
-  @sortByParticipationCount={{this.noop}}
-  @divisionSort={{this.noop}}
-  @sortByDivision={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-/>`);
+          const screen = await render(hbs`
+              <ScoOrganizationParticipant::List
+                      @students={{this.students}}
+                      @lastnameSort={{this.noop}}
+                      @sortByLastname={{this.noop}}
+                      @participationCountOrder={{this.noop}}
+                      @sortByParticipationCount={{this.noop}}
+                      @divisionSort={{this.noop}}
+                      @sortByDivision={{this.noop}}
+                      @onClickLearner={{this.noop}}
+                      @onFilter={{this.noop}}
+                      @searchFilter={{this.search}}
+                      @divisionsFilter={{this.divisions}}
+                      @connectionTypeFilter={{this.connectionTypes}}
+                      @certificabilityFilter={{this.certificability}}
+              />`);
 
           const firstStudent = await screen.getAllByRole('checkbox')[1];
           const secondStudent = await screen.getAllByRole('checkbox')[2];
@@ -1539,21 +1578,22 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               this.set('students', students);
 
               // when
-              const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @lastnameSort={{this.noop}}
-  @sortByLastname={{this.noop}}
-  @participationCountOrder={{this.noop}}
-  @sortByParticipationCount={{this.noop}}
-  @divisionSort={{this.noop}}
-  @sortByDivision={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-/>`);
+              const screen = await render(hbs`
+                  <ScoOrganizationParticipant::List
+                          @students={{this.students}}
+                          @lastnameSort={{this.noop}}
+                          @sortByLastname={{this.noop}}
+                          @participationCountOrder={{this.noop}}
+                          @sortByParticipationCount={{this.noop}}
+                          @divisionSort={{this.noop}}
+                          @sortByDivision={{this.noop}}
+                          @onClickLearner={{this.noop}}
+                          @onFilter={{this.noop}}
+                          @searchFilter={{this.search}}
+                          @divisionsFilter={{this.divisions}}
+                          @connectionTypeFilter={{this.connectionTypes}}
+                          @certificabilityFilter={{this.certificability}}
+                  />`);
 
               const firstStudent = await screen.getAllByRole('checkbox')[1];
               const secondStudent = await screen.getAllByRole('checkbox')[2];
@@ -1600,21 +1640,22 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               this.set('students', students);
 
               // when
-              const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @lastnameSort={{this.noop}}
-  @sortByLastname={{this.noop}}
-  @participationCountOrder={{this.noop}}
-  @sortByParticipationCount={{this.noop}}
-  @divisionSort={{this.noop}}
-  @sortByDivision={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-/>`);
+              const screen = await render(hbs`
+                  <ScoOrganizationParticipant::List
+                          @students={{this.students}}
+                          @lastnameSort={{this.noop}}
+                          @sortByLastname={{this.noop}}
+                          @participationCountOrder={{this.noop}}
+                          @sortByParticipationCount={{this.noop}}
+                          @divisionSort={{this.noop}}
+                          @sortByDivision={{this.noop}}
+                          @onClickLearner={{this.noop}}
+                          @onFilter={{this.noop}}
+                          @searchFilter={{this.search}}
+                          @divisionsFilter={{this.divisions}}
+                          @connectionTypeFilter={{this.connectionTypes}}
+                          @certificabilityFilter={{this.certificability}}
+                  />`);
 
               const firstStudent = await screen.getAllByRole('checkbox')[1];
               const secondStudent = await screen.getAllByRole('checkbox')[2];
@@ -1665,21 +1706,22 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               this.set('students', students);
 
               // when
-              const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @lastnameSort={{this.noop}}
-  @sortByLastname={{this.noop}}
-  @participationCountOrder={{this.noop}}
-  @sortByParticipationCount={{this.noop}}
-  @divisionSort={{this.noop}}
-  @sortByDivision={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-/>`);
+              const screen = await render(hbs`
+                  <ScoOrganizationParticipant::List
+                          @students={{this.students}}
+                          @lastnameSort={{this.noop}}
+                          @sortByLastname={{this.noop}}
+                          @participationCountOrder={{this.noop}}
+                          @sortByParticipationCount={{this.noop}}
+                          @divisionSort={{this.noop}}
+                          @sortByDivision={{this.noop}}
+                          @onClickLearner={{this.noop}}
+                          @onFilter={{this.noop}}
+                          @searchFilter={{this.search}}
+                          @divisionsFilter={{this.divisions}}
+                          @connectionTypeFilter={{this.connectionTypes}}
+                          @certificabilityFilter={{this.certificability}}
+                  />`);
 
               const firstStudent = await screen.getAllByRole('checkbox')[1];
               const secondStudent = await screen.getAllByRole('checkbox')[2];
@@ -1724,21 +1766,22 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               this.set('students', students);
 
               // when
-              const screen = await render(hbs`<ScoOrganizationParticipant::List
-  @students={{this.students}}
-  @lastnameSort={{this.noop}}
-  @sortByLastname={{this.noop}}
-  @participationCountOrder={{this.noop}}
-  @sortByParticipationCount={{this.noop}}
-  @divisionSort={{this.noop}}
-  @sortByDivision={{this.noop}}
-  @onClickLearner={{this.noop}}
-  @onFilter={{this.noop}}
-  @searchFilter={{this.search}}
-  @divisionsFilter={{this.divisions}}
-  @connectionTypeFilter={{this.connectionTypes}}
-  @certificabilityFilter={{this.certificability}}
-/>`);
+              const screen = await render(hbs`
+                  <ScoOrganizationParticipant::List
+                          @students={{this.students}}
+                          @lastnameSort={{this.noop}}
+                          @sortByLastname={{this.noop}}
+                          @participationCountOrder={{this.noop}}
+                          @sortByParticipationCount={{this.noop}}
+                          @divisionSort={{this.noop}}
+                          @sortByDivision={{this.noop}}
+                          @onClickLearner={{this.noop}}
+                          @onFilter={{this.noop}}
+                          @searchFilter={{this.search}}
+                          @divisionsFilter={{this.divisions}}
+                          @connectionTypeFilter={{this.connectionTypes}}
+                          @certificabilityFilter={{this.certificability}}
+                  />`);
 
               const firstStudent = await screen.getAllByRole('checkbox')[1];
               const secondStudent = await screen.getAllByRole('checkbox')[2];
@@ -1763,6 +1806,65 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
           });
         });
       });
+    });
+
+    test('opens the generate usernames modal', async function (assert) {
+      // given
+      const studentEligible = {
+        id: '1',
+        firstName: 'Simone',
+        lastName: 'Biles',
+        authenticationMethods: ['mediacentre'],
+      };
+      const studentNotEligible = {
+        id: '3',
+        firstName: 'Alice',
+        lastName: 'Damato',
+        authenticationMethods: ['identifiant'],
+      };
+      const students = [studentEligible, studentNotEligible];
+
+      this.set('students', students);
+
+      // when
+      const screen = await render(hbs`
+          <ScoOrganizationParticipant::List
+                  @students={{this.students}}
+                  @lastnameSort={{this.noop}}
+                  @sortByLastname={{this.noop}}
+                  @participationCountOrder={{this.noop}}
+                  @sortByParticipationCount={{this.noop}}
+                  @divisionSort={{this.noop}}
+                  @sortByDivision={{this.noop}}
+                  @onClickLearner={{this.noop}}
+                  @onFilter={{this.noop}}
+                  @searchFilter={{this.search}}
+                  @divisionsFilter={{this.divisions}}
+                  @connectionTypeFilter={{this.connectionTypes}}
+                  @certificabilityFilter={{this.certificability}}
+          />`);
+
+      const selectAllStudentsCheckbox = screen.getAllByRole('checkbox')[0];
+      await click(selectAllStudentsCheckbox);
+
+      const generateUsernameButton = await screen.findByRole('button', {
+        name: t('pages.sco-organization-participants.action-bar.generate-username-button'),
+      });
+      await click(generateUsernameButton);
+
+      await screen.findByRole('dialog');
+
+      const modalTitle = await screen.findByRole('heading', {
+        level: 1,
+        name: striptags(t('pages.sco-organization-participants.generate-username-modal.title')),
+      });
+      const confirmationButton = await screen.findByRole('button', {
+        name: t('common.actions.confirm'),
+      });
+
+      // then
+      assert.ok(modalTitle);
+      assert.ok(confirmationButton);
     });
   });
 });

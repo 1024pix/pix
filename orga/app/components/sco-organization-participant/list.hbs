@@ -45,6 +45,7 @@
               <ScoOrganizationParticipant::ActionBar
                 @count={{selectedStudents.length}}
                 @openResetPasswordModal={{fn this.openResetPasswordModal selectedStudents}}
+                @openGenerateUsernameModal={{fn this.openGenerateUsernameModal selectedStudents}}
               />
               <ScoOrganizationParticipant::ResetPasswordModal
                 @showModal={{this.showResetPasswordModal}}
@@ -52,6 +53,12 @@
                 @totalAffectedStudents={{this.affectedStudents.length}}
                 @onTriggerAction={{fn this.resetPasswordForStudents this.affectedStudents reset}}
                 @onCloseModal={{this.closeResetPasswordModal}}
+              />
+              <ScoOrganizationParticipant::GenerateUsernameModal
+                @showModal={{this.showGenerateUsernameModal}}
+                @totalSelectedStudents={{selectedStudents.length}}
+                @totalAffectedStudents={{this.affectedStudents.length}}
+                @onCloseModal={{this.closeGenerateUsernameModal}}
               />
             </InElement>
           {{/if}}

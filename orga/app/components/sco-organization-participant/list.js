@@ -20,6 +20,7 @@ export default class ScoList extends Component {
   @tracked student = null;
   @tracked isShowingAuthenticationMethodModal = false;
   @tracked showResetPasswordModal = false;
+  @tracked showGenerateUsernameModal = false;
   @tracked divisions;
 
   @tracked affectedStudents = [];
@@ -93,6 +94,23 @@ export default class ScoList extends Component {
   @action
   closeResetPasswordModal() {
     this.showResetPasswordModal = false;
+  }
+
+  @action
+  openGenerateUsernameModal(students, event) {
+    event.stopPropagation();
+    this.affectedStudents = students.filter(
+      (student) =>
+        !student.authenticationMethods.some(
+          (authenticationMethod) => authenticationMethod === 'identifiant' || authenticationMethod === 'empty',
+        ),
+    );
+    this.showGenerateUsernameModal = true;
+  }
+
+  @action
+  closeGenerateUsernameModal() {
+    this.showGenerateUsernameModal = false;
   }
 
   @action

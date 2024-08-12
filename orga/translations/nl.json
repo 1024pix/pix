@@ -852,33 +852,33 @@
       },
       "list": {
         "aria-label": "Opdracht",
-          "banner": {
-            "copypaste-container": {
-              "abstract": "Begin je missies met je leerlingen door een sessie te activeren met de bovenstaande knop en deze te gebruiken ",
-              "button": {
-                "success": "Gekopieerd !",
-                "tooltip": "Kopieercode"
-              }
-            },
-            "step1": {
-              "admin": {
-                "head": "Stap 1:",
-                "link": "Importeer de leerlingendatabase",
-                "tail": "<b>vanuit Onde</b> (exporteerbaar bestand in het menu Lijsten & documenten > Extracties > Schoolleerlingen of hun begeleiders)."
-              },
-              "non-admin": "Stap 1: <b>Vraag de Pix Orga beheerder </b>&nbsp in jouw ruimte om de studenten te importeren."
-            },
-            "step2": {
-              "title": "Stap 2: Om leerlingen toegang te geven tot de Pix Junior ruimte van jouw school, kun je :",
-              "option1": "de link&nbsp<a href=\"{pixJuniorUrl}\">junior.pix.fr</a>&nbspgebruiken. Elke keer dat je verbinding maakt, wordt de code van je school gevraagd.",
-              "option2": {
-                "body": "of gebruik de directe link &nbsp<a href=\"{pixJuniorUrl}\" target=_blank >junior.pix.fr/schools/{code}</a>",
-                "hint": "Je kunt deze bladwijzer op je computer opslaan."
-              }
-            },
-            "step3": "Stap 3: <b> Activeer de Pix Junior sessie </b> met de bovenstaande knop. <b>Doe dit voor elke sessie met je leerlingen</b>.",
-            "welcome": "Om Pix Junior te gebruiken :"
+        "banner": {
+          "copypaste-container": {
+            "abstract": "Begin je missies met je leerlingen door een sessie te activeren met de bovenstaande knop en deze te gebruiken ",
+            "button": {
+              "success": "Gekopieerd !",
+              "tooltip": "Kopieercode"
+            }
           },
+          "step1": {
+            "admin": {
+              "head": "Stap 1:",
+              "link": "Importeer de leerlingendatabase",
+              "tail": "<b>vanuit Onde</b> (exporteerbaar bestand in het menu Lijsten & documenten > Extracties > Schoolleerlingen of hun begeleiders)."
+            },
+            "non-admin": "Stap 1: <b>Vraag de Pix Orga beheerder </b>&nbsp in jouw ruimte om de studenten te importeren."
+          },
+          "step2": {
+            "title": "Stap 2: Om leerlingen toegang te geven tot de Pix Junior ruimte van jouw school, kun je :",
+            "option1": "de link&nbsp<a href=\"{pixJuniorUrl}\">junior.pix.fr</a>&nbspgebruiken. Elke keer dat je verbinding maakt, wordt de code van je school gevraagd.",
+            "option2": {
+              "body": "of gebruik de directe link &nbsp<a href=\"{pixJuniorUrl}\" target=_blank >junior.pix.fr/schools/{code}</a>",
+              "hint": "Je kunt deze bladwijzer op je computer opslaan."
+            }
+          },
+          "step3": "Stap 3: <b> Activeer de Pix Junior sessie </b> met de bovenstaande knop. <b>Doe dit voor elke sessie met je leerlingen</b>.",
+          "welcome": "Om Pix Junior te gebruiken :"
+        },
         "caption": "Lijst van opdrachten",
         "empty-state": "Er zijn geen opdrachten",
         "headers": {
@@ -1135,7 +1135,8 @@
     "sco-organization-participants": {
       "action-bar": {
         "information": "{count, plural, =1 {{count} geselecteerde student} other {{count} geselecteerde studenten}}",
-        "reset-password-button": "Reset de wachtwoorden van geselecteerde studenten"
+        "reset-password-button": "Reset de wachtwoorden van geselecteerde studenten",
+        "generate-username-button": "Générer les identifiants pour les élèves séléctionnés"
       },
       "actions": {
         "manage-account": "Account beheren",
@@ -1213,7 +1214,8 @@
         "title": "Het Pix-account van de student beheren"
       },
       "messages": {
-        "password-reset-success": "De wachtwoorden van de geselecteerde studenten zijn gereset."
+        "password-reset-success": "De wachtwoorden van de geselecteerde studenten zijn gereset.",
+        "generate-username-success": "La génération des identifiants des élèves sélectionnés a été effectuée."
       },
       "no-participants": "Tot nu toe geen studenten!",
       "no-participants-action": "De beheerder moet de studentendatabase importeren door op de knop importeren te klikken.",
@@ -1224,6 +1226,12 @@
         "content-message-3": "Communiceer deze nieuwe eenmalige wachtwoorden aan de studenten. Wanneer ze inloggen met dit wachtwoord, zal Pix hen vragen een nieuw wachtwoord in te voeren.",
         "title": "<strong>Wachtwoorden</strong> van studenten opnieuw instellen met <strong>gebruikersnaam</strong>.",
         "warning-message": "Alleen inlogwachtwoorden kunnen opnieuw worden ingesteld. Toegang via e-mailadres en Mediacentrum worden niet beïnvloed."
+      },
+      "generate-username-modal": {
+        "title": "Génération des <strong>identifiants</strong> des élèves avec <strong>un compte Pix</strong>",
+        "content-message-1": "Sur {totalSelectedStudents, plural, =1 {<strong>{totalSelectedStudents} élève</strong> sélectionné} other {<strong>{totalSelectedStudents} élèves</strong> sélectionnés}}, {totalAffectedStudents, plural, =0 {<strong>aucun identifiant</strong> ne sera généré} =1 {<strong>{totalAffectedStudents} identifiant</strong> sera généré} other {<strong>{totalAffectedStudents} identifiants</strong> seront générés}}.",
+        "content-message-2": "Un fichier CSV contenant les identifiants ainsi que les mots de passe à usage unique sera généré.",
+        "warning-message": "Seuls les élèves ayant déjà un compte PIX auront un identifiant généré. Si l'élève n’a pas de compte PIX ou si l'élève a déjà un identifiant, alors aucun nouvel identifiant ne sera généré."
       },
       "table": {
         "column": {

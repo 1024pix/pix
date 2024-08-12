@@ -1177,7 +1177,8 @@
       "title": "{count, plural, =0 {Élèves} =1 {Élève ({count})} other {Élèves ({count})}}",
       "action-bar": {
         "information": "{count, plural, =1 {{count} élève sélectionné} other {{count} élèves sélectionnés}}",
-        "reset-password-button": "Réinitialiser les mots de passe des élèves sélectionnés"
+        "reset-password-button": "Réinitialiser les mots de passe des élèves sélectionnés",
+        "generate-username-button": "Générer les identifiants pour les élèves séléctionnés"
       },
       "actions": {
         "manage-account": "Gérer le compte",
@@ -1251,7 +1252,8 @@
         }
       },
       "messages": {
-        "password-reset-success": "La réinitialisation des mots de passe des élèves sélectionnés a été effectuée."
+        "password-reset-success": "La réinitialisation des mots de passe des élèves sélectionnés a été effectuée.",
+        "generate-username-success": "La génération des identifiants des élèves sélectionnés a été effectuée."
       },
       "no-participants": "Aucun élève pour l’instant !",
       "no-participants-action": "L’administrateur doit importer la base élèves en cliquant sur le bouton importer.",
@@ -1262,6 +1264,12 @@
         "content-message-2": "Un fichier CSV contenant les identifiants ainsi que les mots de passe à usage unique sera généré.",
         "content-message-3": "Communiquez ces nouveaux mots de passe à usage unique aux élèves. Lorsqu'ils se connecteront avec ce mot de passe, Pix leur demandera d'en saisir un nouveau.",
         "warning-message": "Seuls les mots de passe des accès par identifiant peuvent être réinitialisés. Les accès par adresse email et Mediacentre ne sont pas impactés."
+      },
+      "generate-username-modal": {
+        "title": "Génération des <strong>identifiants</strong> des élèves avec <strong>un compte Pix</strong>",
+        "content-message-1": "Sur {totalSelectedStudents, plural, =1 {<strong>{totalSelectedStudents} élève</strong> sélectionné} other {<strong>{totalSelectedStudents} élèves</strong> sélectionnés}}, {totalAffectedStudents, plural, =0 {<strong>aucun identifiant</strong> ne sera généré} =1 {<strong>{totalAffectedStudents} identifiant</strong> sera généré} other {<strong>{totalAffectedStudents} identifiants</strong> seront générés}}.",
+        "content-message-2": "Un fichier CSV contenant les identifiants ainsi que les mots de passe à usage unique sera généré.",
+        "warning-message": "Seuls les élèves ayant déjà un compte PIX auront un identifiant généré. Si l'élève n’a pas de compte PIX ou si l'élève a déjà un identifiant, alors aucun nouvel identifiant ne sera généré."
       },
       "table": {
         "column": {
