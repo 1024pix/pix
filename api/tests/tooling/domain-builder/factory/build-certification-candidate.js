@@ -25,6 +25,7 @@ const buildCertificationCandidate = function ({
   billingMode = null,
   prepaymentCode = null,
   subscriptions = [domainBuilder.buildCoreSubscription({ certificationCandidateId: 123 })],
+  accessibilityAdjustmentNeeded = false,
 } = {}) {
   return new CertificationCandidate({
     id,
@@ -50,6 +51,7 @@ const buildCertificationCandidate = function ({
     billingMode,
     prepaymentCode,
     subscriptions,
+    accessibilityAdjustmentNeeded,
   });
 };
 

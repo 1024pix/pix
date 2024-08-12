@@ -112,6 +112,7 @@ async function _createScoCertificationCenter({ databaseBuilder }) {
     updatedAt: new Date(),
     members: [{ id: SCO_CERTIFICATION_MANAGING_STUDENTS_CERTIFICATION_CENTER_USER_ID }],
     complementaryCertificationIds: [],
+    isV3Pilot: true,
   });
 }
 
@@ -306,6 +307,7 @@ async function _createScoSession({ databaseBuilder }) {
     room: '42',
     time: '12:00',
     createdAt: new Date(),
+    version: 3,
     configSession: {
       learnersToRegisterCount: 8,
     },
@@ -427,7 +429,7 @@ async function _createSuccessCertifiableUser({ databaseBuilder }) {
 async function _createV3Session({
   databaseBuilder,
   configSession = {
-    candidatesToRegisterCount: 1,
+    candidatesToRegisterCount: 2,
     hasComplementaryCertificationsToRegister: false,
   },
 }) {

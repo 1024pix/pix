@@ -48,6 +48,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       complementaryCertification: null,
       subscriptions: [coreSubscription],
       hasSeenCertificationInstructions: false,
+      accessibilityAdjustmentNeeded: false,
     };
   });
 

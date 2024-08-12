@@ -38,6 +38,7 @@ export {
  * @param {Date} createdAt
  * @param {string} supervisorPassword
  * @param {learnersToRegisterCount: number, maxLevel: number } configSession
+ * @param {number} version
 
  * @returns {Promise<{sessionId: number}>} sessionId
  */
@@ -57,6 +58,7 @@ async function createDraftScoSession({
   createdAt,
   configSession,
   supervisorPassword,
+  version,
 }) {
   _buildSession({
     databaseBuilder,
@@ -82,6 +84,7 @@ async function createDraftScoSession({
     juryCommentAuthorId: null,
     juryCommentedAt: null,
     supervisorPassword,
+    version,
   });
 
   await _registerOrganizationLearnersToSession({
@@ -90,6 +93,7 @@ async function createDraftScoSession({
     organizationId,
     hasJoinSession: false,
     configSession,
+    version,
   });
 
   await databaseBuilder.commit();
@@ -168,6 +172,7 @@ async function createDraftSession({
     hasJoinSession: false,
     configSession,
     certificationCenterId,
+    version,
   });
 
   await databaseBuilder.commit();
@@ -519,6 +524,7 @@ async function createPublishedSession({
     hasJoinSession: true,
     configSession,
     certificationCenterId,
+    version,
   });
 
   const { coreProfileData, complementaryCertificationsProfileData } = await _makeCandidatesCertifiable({
@@ -547,6 +553,7 @@ async function _registerOrganizationLearnersToSession({
   organizationId,
   hasJoinSession,
   configSession,
+  version,
 }) {
   const certificationCandidates = [];
   if (_hasLearnersToRegister(configSession)) {
@@ -560,6 +567,7 @@ async function _registerOrganizationLearnersToSession({
       sessionId,
       extraTimePercentages,
       hasJoinSession,
+      version,
     );
   }
   return certificationCandidates;
@@ -572,6 +580,7 @@ function _addCertificationCandidatesToScoSession(
   sessionId,
   extraTimePercentages,
   hasJoinSession,
+  version,
 ) {
   organizationLearners.forEach((organizationLearner, index) => {
     const candidate = databaseBuilder.factory.buildCertificationCandidate({
@@ -593,6 +602,7 @@ function _addCertificationCandidatesToScoSession(
       authorizedToStart: false,
       billingMode: null,
       prepaymentCode: null,
+      accessibilityAdjustmentNeeded: version === 3 && index === 0,
     });
     databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
     certificationCandidates.push(candidate);
@@ -616,6 +626,7 @@ async function _registerCandidatesToSession({
   hasJoinSession,
   configSession,
   certificationCenterId,
+  version,
 }) {
   const certificationCandidates = [];
   if (_hasCertificationCandidatesToRegister(configSession)) {
@@ -678,6 +689,7 @@ async function _registerCandidatesToSession({
         authorizedToStart: false,
         billingMode: randomBillingMode,
         prepaymentCode: randomPrepaymentCode,
+        accessibilityAdjustmentNeeded: version === 3 && i === 0,
       });
 
       databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
