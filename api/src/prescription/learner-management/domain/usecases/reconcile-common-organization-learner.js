@@ -60,8 +60,8 @@ const reconcileCommonOrganizationLearner = async function ({
 
   const learnerToReconcile = matchingLearners.find((matchingLearner) => matchingLearner.id === learnerId);
 
-  learnerToReconcile.reconcileUser(userId);
-  organizationLearnerRepository.update(learnerToReconcile);
+  await learnerToReconcile.reconcileUser(userId);
+  await organizationLearnerRepository.update(learnerToReconcile);
 };
 
 export { reconcileCommonOrganizationLearner };
