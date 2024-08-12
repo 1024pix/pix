@@ -88,6 +88,7 @@ export default class ModulixStepper extends Component {
             @openImageAlternativeText={{@openImageAlternativeText}}
             @openVideoTranscription={{@openVideoTranscription}}
             @clickOnPlayButton={{@clickOnPlayButton}}
+            @onFileDownload={{@onFileDownload}}
           />
         {{/each}}
         {{#if this.shouldDisplayNextButton}}

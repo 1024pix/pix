@@ -166,4 +166,14 @@ export default class ModulePassage extends Component {
       'pix-event-name': `Clic sur le bouton Play : ${elementId}`,
     });
   }
+
+  @action
+  async onFileDownload({ elementId, downloadedFormat }) {
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Modulix',
+      'pix-event-action': `Passage du module : ${this.args.module.id}`,
+      'pix-event-name': `Click sur le bouton Télécharger au format ${downloadedFormat} de ${elementId}`,
+    });
+  }
 }

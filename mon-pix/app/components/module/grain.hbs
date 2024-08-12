@@ -23,6 +23,7 @@
               @retryElement={{@retryElement}}
               @clickOnPlayButton={{@clickOnPlayButton}}
               @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
+              @onFileDownload={{@onFileDownload}}
             />
           </div>
         {{else if (eq component.type "stepper")}}
@@ -38,6 +39,7 @@
               @openImageAlternativeText={{@openImageAlternativeText}}
               @openVideoTranscription={{@openVideoTranscription}}
               @clickOnPlayButton={{@clickOnPlayButton}}
+              @onFileDownload={{@onFileDownload}}
             />
           </div>
         {{/if}}

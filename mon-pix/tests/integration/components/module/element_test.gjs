@@ -80,8 +80,10 @@ module('Integration | Component | Module | Element', function (hooks) {
     const screen = await render(<template><ModulixElement @element={{element}} /></template>);
 
     // then
-    const downloadElement = screen.getByText('ELEMENT TÉLÉCHARGEMENT EN COURS DE DEVELOPPEMENT');
-    assert.dom(downloadElement).exists();
+    const downloadElement = screen.getByRole('link', {
+      name: this.intl.t('pages.modulix.download.label', { format: '.jpg' }),
+    });
+    assert.dom(downloadElement).hasText(this.intl.t('pages.modulix.download.button'));
   });
 
   test('should display an element with an embed element', async function (assert) {

@@ -92,7 +92,8 @@
             "id": "901ccbaa-f4e6-4322-b863-8e8eab08a33a",
             "type": "download",
             "files": [
-              { "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/intro.jpg", "format": ".jpg" }
+              { "url": "https://dl.pix.fr/1641899675462/Pix_velos.xlsx", "format": ".xlsx" },
+              { "url": "https://dl.pix.fr/1641899675463/Pix_velos.ods", "format": ".ods" }
             ]
           }
         },

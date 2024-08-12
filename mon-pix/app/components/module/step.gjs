@@ -46,6 +46,7 @@ export default class ModulixStep extends Component {
               @openImageAlternativeText={{@openImageAlternativeText}}
               @openVideoTranscription={{@openVideoTranscription}}
               @clickOnPlayButton={{@clickOnPlayButton}}
+              @onFileDownload={{@onFileDownload}}
             />
           </div>
         {{/each}}

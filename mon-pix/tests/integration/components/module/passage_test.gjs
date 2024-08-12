@@ -824,6 +824,91 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
+  module('when a download element file is downloaded', function () {
+    test('should push an event', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+
+      const downloadedFormat = '.pdf';
+      const downloadElement = {
+        id: 'id',
+        type: 'download',
+        files: [{ format: downloadedFormat, url: 'https://example.org/modulix/placeholder-doc.pdf' }],
+      };
+      const grain = store.createRecord('grain', {
+        id: '123',
+        components: [{ type: 'element', element: downloadElement }],
+      });
+
+      const module = store.createRecord('module', { id: '1', title: 'Module title', grains: [grain] });
+      const passage = store.createRecord('passage');
+
+      const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+      //  when
+      const downloadLink = await screen.getByRole('link', {
+        name: this.intl.t('pages.modulix.download.label', { format: downloadedFormat }),
+      });
+      downloadLink.addEventListener('click', (event) => {
+        event.preventDefault();
+      });
+      downloadLink.click();
+
+      // then
+      sinon.assert.calledWithExactly(metrics.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${module.id}`,
+        'pix-event-name': `Click sur le bouton Télécharger au format ${downloadedFormat} de ${downloadElement.id}`,
+      });
+      assert.ok(true);
+    });
+
+    module('when download is in a stepper', function () {
+      test('should push metrics event', async function (assert) {
+        // given
+        const metrics = this.owner.lookup('service:metrics');
+        metrics.add = sinon.stub();
+
+        // given
+        const store = this.owner.lookup('service:store');
+        const downloadedFormat = '.pdf';
+        const downloadElement = {
+          id: 'id',
+          type: 'download',
+          files: [{ format: downloadedFormat, url: 'https://example.org/modulix/placeholder-doc.pdf' }],
+        };
+        const grain = store.createRecord('grain', {
+          title: 'Grain title',
+          components: [{ type: 'element', element: downloadElement }],
+        });
+        const module = store.createRecord('module', { id: 'module-id', title: 'Module title', grains: [grain] });
+        const passage = store.createRecord('passage');
+        const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+        //  when
+        const link = await screen.getByRole('link', {
+          name: this.intl.t('pages.modulix.download.label', { format: downloadedFormat }),
+        });
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+        });
+        link.click();
+
+        // then
+        sinon.assert.calledWithExactly(metrics.add, {
+          event: 'custom-event',
+          'pix-event-category': 'Modulix',
+          'pix-event-action': `Passage du module : ${module.id}`,
+          'pix-event-name': `Click sur le bouton Télécharger au format ${downloadedFormat} de ${downloadElement.id}`,
+        });
+        assert.ok(true);
+      });
+    });
+  });
+
   module('When click on terminate button', function () {
     test('should push an event', async function (assert) {
       // given

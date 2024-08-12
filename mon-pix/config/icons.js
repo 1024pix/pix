@@ -9,6 +9,7 @@ module.exports = () => ({
     'arrow-left',
     'arrows-rotate',
     'arrow-up',
+    'arrow-up-right-from-square',
     'bars',
     'bookmark',
     'circle-stop',

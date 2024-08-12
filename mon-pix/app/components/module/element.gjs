@@ -28,7 +28,7 @@ export default class ModulixElement extends Component {
         @clickOnPlayButton={{@clickOnPlayButton}}
       />
     {{else if (eq @element.type "download")}}
-      <DownloadElement @download={{@element}} />
+      <DownloadElement @download={{@element}} @onFileDownload={{@onFileDownload}} />
     {{else if (eq @element.type "embed")}}
       <EmbedElement @embed={{@element}} @submitAnswer={{@submitAnswer}} />
     {{else if (eq @element.type "qcu")}}

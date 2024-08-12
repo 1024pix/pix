@@ -1,0 +1,52 @@
+.element-download {
+  &__intro {
+    margin-bottom: var(--pix-spacing-2x);
+    font-weight: var(--pix-font-medium);
+  }
+
+  &__description {
+    @extend %pix-body-s;
+
+    color: var(--pix-neutral-500);
+  }
+
+  &__links-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--pix-spacing-2x);
+    margin: var(--pix-spacing-3x) 0;
+  }
+
+  &__link {
+    padding: var(--pix-spacing-6x) var(--pix-spacing-4x);
+    text-align: center;
+    background: var(--pix-neutral-0);
+    border: 1px solid var(--pix-neutral-100);
+    border-radius: 16px;
+  }
+
+  &__documentation-link {
+    @extend %pix-body-m;
+
+    color: var(--pix-info-700);
+  }
+}
+
+.element-download-intro {
+  &__info-icon {
+    color: var(--pix-neutral-500);
+  }
+}
+
+.element-download-link {
+  &__format {
+    @extend %pix-body-m;
+
+    margin-bottom: var(--pix-spacing-2x);
+    font-weight: var(--pix-font-medium);
+  }
+
+  &__button {
+    display: inline-block;
+  }
+}
