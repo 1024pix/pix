@@ -20,7 +20,8 @@
   }
 
   &.correction-qroc-box-answer--wrong,
-  &.correction-qroc-box-answer--aband {
+  &.correction-qroc-box-answer--aband,
+  &.correction-qroc-box-answer--timeout {
     vertical-align: -2.5em;
   }
 }

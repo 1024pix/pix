@@ -10,6 +10,7 @@ module('Unit | Component | solution-panel/qroc-solution-panel', function (hooks)
   const rightAnswer = { result: 'ok' };
   const wrongAnswer = { result: 'ko' };
   const skippedAnswer = { result: 'aband' };
+  const timedOutAnswer = { result: 'ko', timeout: -1 };
 
   module('#isNotCorrectlyAnswered', function () {
     test('should return false when result is ok', function (assert) {
@@ -32,6 +33,20 @@ module('Unit | Component | solution-panel/qroc-solution-panel', function (hooks)
   });
 
   module('#answerToDisplay', function () {
+    test('should return "Temps dépassé" if the answer is timed out', function (assert) {
+      // given
+      const answer = {
+        value: '',
+        timeout: -1,
+      };
+      const component = createGlimmerComponent('solution-panel/qroc-solution-panel', { answer });
+      // when
+      const answerToDisplay = component.answerToDisplay;
+
+      // then
+      assert.strictEqual(answerToDisplay, 'Temps dépassé');
+    });
+
     test('should return PAS DE REPONSE if the answer is #ABAND#', function (assert) {
       // given
       const answer = {
@@ -131,6 +146,15 @@ module('Unit | Component | solution-panel/qroc-solution-panel', function (hooks)
       const inputAriaLabel = component.inputAriaLabel;
       // then
       assert.strictEqual(inputAriaLabel, 'Question passée');
+    });
+
+    test('should return specific aria label if answer is timed out', function (assert) {
+      // given
+      const component = createGlimmerComponent('solution-panel/qroc-solution-panel', { answer: timedOutAnswer });
+      // when
+      const inputAriaLabel = component.inputAriaLabel;
+      // then
+      assert.strictEqual(inputAriaLabel, 'Vous avez dépassé le temps imparti');
     });
   });
 });

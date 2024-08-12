@@ -914,6 +914,7 @@
     "comparison-window": {
       "results": {
         "a11y": {
+          "timedout": "Tiempo superado",
           "good-answer": "La respuesta dada es válida",
           "skipped-answer": "Pregunta saltada",
           "the-answer-was": "La respuesta correcta es",

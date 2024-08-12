@@ -926,6 +926,7 @@
           "good-answer": "La réponse donnée est valide",
           "skipped-answer": "Question passée",
           "the-answer-was": "La bonne réponse est",
+          "timedout": "Vous avez dépassé le temps imparti",
           "wrong-answer": "La réponse donnée est fausse"
         },
         "aband": {

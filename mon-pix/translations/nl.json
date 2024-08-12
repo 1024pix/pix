@@ -914,6 +914,7 @@
     "comparison-window": {
       "results": {
         "a11y": {
+          "timedout": "Time-out",
           "good-answer": "Het gegeven antwoord is geldig",
           "skipped-answer": "Vraag uit het verleden",
           "the-answer-was": "Het juiste antwoord is",
