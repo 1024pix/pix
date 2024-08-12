@@ -1,6 +1,7 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { BookshelfUser } from '../../../../src/shared/infrastructure/orm-models/User.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
+import { OrganizationLearnerForAdmin } from '../../../prescription/learner-management/domain/read-models/OrganizationLearnerForAdmin.js';
 import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import {
@@ -13,7 +14,6 @@ import { CertificationCenter } from '../../../shared/domain/models/Certification
 import { CertificationCenterMembership } from '../../../shared/domain/models/CertificationCenterMembership.js';
 import { Membership } from '../../../shared/domain/models/Membership.js';
 import { UserDetailsForAdmin } from '../../../shared/domain/models/UserDetailsForAdmin.js';
-import { OrganizationLearnerForAdmin } from '../../../shared/domain/read-models/OrganizationLearnerForAdmin.js';
 import { fetchPage, isUniqConstraintViolated } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';

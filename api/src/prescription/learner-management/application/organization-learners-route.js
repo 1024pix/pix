@@ -105,6 +105,36 @@ const register = async (server) => {
       },
     },
   ]);
+
+  server.route([
+    {
+      method: 'DELETE',
+      path: '/api/admin/organization-learners/{id}/association',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: organizationLearnersController.dissociate,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationLearnerId,
+          }),
+        },
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle dissocie un utilisateur d’un prescrit',
+        ],
+        tags: ['api', 'admin', 'organization-learners'],
+      },
+    },
+  ]);
 };
 
 const name = 'organization-learners-management-api';

@@ -6,6 +6,7 @@ import * as OidcIdentityProviders from '../../../../../src/identity-access-manag
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
+import { OrganizationLearnerForAdmin } from '../../../../../src/prescription/learner-management/domain/read-models/OrganizationLearnerForAdmin.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import {
   AlreadyExistingEntityError,
@@ -17,7 +18,6 @@ import { CertificationCenter } from '../../../../../src/shared/domain/models/Cer
 import { CertificationCenterMembership } from '../../../../../src/shared/domain/models/CertificationCenterMembership.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { UserDetailsForAdmin } from '../../../../../src/shared/domain/models/UserDetailsForAdmin.js';
-import { OrganizationLearnerForAdmin } from '../../../../../src/shared/domain/read-models/OrganizationLearnerForAdmin.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 const expectedUserDetailsForAdminAttributes = [

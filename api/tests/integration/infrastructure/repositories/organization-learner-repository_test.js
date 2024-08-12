@@ -12,7 +12,6 @@ import {
   UserNotFoundError,
 } from '../../../../src/shared/domain/errors.js';
 import { OrganizationLearner } from '../../../../src/shared/domain/models/OrganizationLearner.js';
-import { OrganizationLearnerForAdmin } from '../../../../src/shared/domain/read-models/OrganizationLearnerForAdmin.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | organization-learner-repository', function () {
@@ -671,76 +670,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       clock.restore();
     });
 
-    describe('#dissociateUserFromOrganizationLearner', function () {
-      it('should delete association between user and organizationLearner', async function () {
-        // given
-        const userToNotDissociate = databaseBuilder.factory.buildUser();
-        const organizationLearnerToNotDissociate = databaseBuilder.factory.buildOrganizationLearner({
-          userId: userToNotDissociate.id,
-        });
-        const userToDissociate = databaseBuilder.factory.buildUser();
-        const organizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
-          userId: userToDissociate.id,
-        });
-        await databaseBuilder.commit();
-
-        // when
-        await organizationLearnerRepository.dissociateUserFromOrganizationLearner(organizationLearnerToDissociate.id);
-
-        // then
-        const organizationLearnerDissociate = await knex('organization-learners')
-          .where({ id: organizationLearnerToDissociate.id })
-          .first();
-        const organizationLearnerNotDissociate = await knex('organization-learners')
-          .where({ id: organizationLearnerToNotDissociate.id })
-          .first();
-
-        expect(organizationLearnerDissociate.userId).to.equal(null);
-        expect(organizationLearnerNotDissociate.userId).to.equal(userToNotDissociate.id);
-      });
-
-      it('should set updatedAt to today', async function () {
-        // given
-        const userToDissociate = databaseBuilder.factory.buildUser();
-        const organizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
-          userId: userToDissociate.id,
-          isCertifiable: true,
-          certifiableAt: new Date(),
-        });
-        await databaseBuilder.commit();
-
-        // when
-        await organizationLearnerRepository.dissociateUserFromOrganizationLearner(organizationLearnerToDissociate.id);
-
-        // then
-        const organizationLearnerPatched = await knex('organization-learners')
-          .where({ id: organizationLearnerToDissociate.id })
-          .first();
-        expect(organizationLearnerPatched.updatedAt).to.deep.equal(new Date('2023-10-12'));
-      });
-
-      it('should reset isCertifiable and certifiableAt to null', async function () {
-        // given
-        const userToDissociate = databaseBuilder.factory.buildUser();
-        const organizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
-          userId: userToDissociate.id,
-          isCertifiable: true,
-          certifiableAt: new Date(),
-        });
-        await databaseBuilder.commit();
-
-        // when
-        await organizationLearnerRepository.dissociateUserFromOrganizationLearner(organizationLearnerToDissociate.id);
-
-        // then
-        const organizationLearnerPatched = await knex('organization-learners')
-          .where({ id: organizationLearnerToDissociate.id })
-          .first();
-        expect(organizationLearnerPatched.isCertifiable).to.equal(null);
-        expect(organizationLearnerPatched.certifiableAt).to.equal(null);
-      });
-    });
-
     describe('#dissociateAllStudentsByUserId', function () {
       it('should delete association between user and organization learner in a managing student organization', async function () {
         // given
@@ -1024,38 +953,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // when
       const result = await catchErr(organizationLearnerRepository.get)(nonExistentStudentId);
-
-      // then
-      expect(result).to.be.instanceOf(NotFoundError);
-    });
-  });
-
-  describe('#getOrganizationLearnerForAdmin', function () {
-    let organizationLearnerId;
-
-    beforeEach(function () {
-      organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
-      return databaseBuilder.commit();
-    });
-
-    it('should return an instance of OrganizationLearnerForAdmin', async function () {
-      // when
-      const organizationLearner =
-        await organizationLearnerRepository.getOrganizationLearnerForAdmin(organizationLearnerId);
-
-      // then
-      expect(organizationLearner).to.be.an.instanceOf(OrganizationLearnerForAdmin);
-      expect(organizationLearner.id).to.equal(organizationLearnerId);
-    });
-
-    it('should return a NotFoundError if no organizationLearner is found', async function () {
-      // given
-      const nonExistentOrganizationLearnerId = 678;
-
-      // when
-      const result = await catchErr(organizationLearnerRepository.getOrganizationLearnerForAdmin)(
-        nonExistentOrganizationLearnerId,
-      );
 
       // then
       expect(result).to.be.instanceOf(NotFoundError);
