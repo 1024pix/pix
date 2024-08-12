@@ -1,4 +1,9 @@
+$grain-card-border-radius: var(--pix-spacing-4x);
+
 .grain {
+  --modulix-lesson-card-background: rgb(240 247 254);
+  --modulix-activity-card-background: rgb(249 249 250);
+
   width: 100%;
 
   &--active {
@@ -18,7 +23,7 @@
   }
 
   &__card {
-    border-radius: var(--pix-spacing-4x) 0 var(--pix-spacing-4x) var(--pix-spacing-4x);
+    border-radius: $grain-card-border-radius 0 $grain-card-border-radius $grain-card-border-radius;
   }
 }
 
@@ -30,6 +35,7 @@
   &__footer {
     padding: var(--pix-spacing-6x);
     border-top: 1px solid var(--pix-neutral-100);
+    border-radius: 0 0 $grain-card-border-radius $grain-card-border-radius;
   }
 
   &__tag {
@@ -38,18 +44,26 @@
   }
 
   &--lesson {
-    background: var(--pix-info-50);
+    background: var(--modulix-lesson-card-background);
 
     &__tag {
       background-color: inherit;
     }
+
+    .grain-card__footer {
+      background: var(--pix-info-50);
+    }
   }
 
   &--activity {
-    background: var(--pix-neutral-20);
+    background: var(--modulix-activity-card-background);
 
     &__tag {
       background-color: inherit;
+    }
+
+    .grain-card__footer {
+      background: var(--pix-neutral-20);
     }
   }
 }
