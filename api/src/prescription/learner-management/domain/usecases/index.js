@@ -1,7 +1,9 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { eventBus } from '../../../../../lib/domain/events/index.js';
 import * as userReconciliationService from '../../../../../lib/domain/services/user-reconciliation-service.js';
+import { logErrorWithCorrelationIds } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
@@ -26,6 +28,8 @@ const dependencies = {
   organizationImportRepository,
   supOrganizationLearnerRepository,
   organizationFeatureApi,
+  eventBus,
+  logErrorWithCorrelationIds,
   userReconciliationService,
 };
 

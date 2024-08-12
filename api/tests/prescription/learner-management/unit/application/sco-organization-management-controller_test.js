@@ -89,7 +89,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         payload,
       });
-      expect(eventBus.publish).to.have.been.calledWithExactly(uploadedFileEvent, domainTransaction);
     });
 
     it('should call the usecase to import organizationLearners csv', async function () {

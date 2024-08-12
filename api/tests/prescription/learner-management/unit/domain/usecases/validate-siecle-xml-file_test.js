@@ -6,6 +6,7 @@ import { FileValidated } from '../../../../../../src/prescription/learner-manage
 import { validateSiecleXmlFile } from '../../../../../../src/prescription/learner-management/domain/usecases/validate-siecle-xml-file.js';
 import { SiecleParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/xml/siecle-parser.js';
 import { SiecleFileStreamer } from '../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';
+import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | import-organization-learners-from-siecle-xml', function () {
@@ -20,8 +21,25 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
   let readableSymbol;
   let dataStub;
   let externalIdSymbol;
+  let domainTransactionStub;
+  let eventBusStub;
+  let eventStub;
+  let logErrorWithCorrelationIdsStub;
 
   beforeEach(function () {
+    domainTransactionStub = Symbol('domainTransaction');
+    sinon.stub(DomainTransaction, 'execute').callsFake((fn) => fn(domainTransactionStub));
+
+    eventStub = Symbol('event');
+    sinon.stub(FileValidated, 'create').returns(eventStub);
+
+    eventBusStub = {
+      publish: sinon.stub(),
+    };
+    eventBusStub.publish.withArgs(eventStub, domainTransactionStub).resolves();
+
+    logErrorWithCorrelationIdsStub = sinon.stub();
+
     organizationImportRepositoryStub = {
       get: sinon.stub(),
       save: sinon.stub(),
@@ -57,22 +75,21 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
   });
 
   it('should validate the xml file', async function () {
-    const event = await validateSiecleXmlFile({
+    await validateSiecleXmlFile({
       organizationImportId,
       organizationImportRepository: organizationImportRepositoryStub,
       organizationRepository: organizationRepositoryStub,
       importStorage: importStorageStub,
+      eventBus: eventBusStub,
     });
     expect(parserStub.parseUAJ).to.have.been.calledWithExactly(externalIdSymbol);
     expect(parserStub.parse).to.have.been.calledWithExactly();
     expect(organizationImportStub.validate).to.have.been.calledWith({ errors: [] });
     expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
-    expect(event).to.be.instanceof(FileValidated);
-    expect(event.organizationImportId).to.equal(organizationImportStub.id);
   });
 
   context('error cases', function () {
-    it('should save error when there is error', async function () {
+    it('should save error when there is an error reading file from S3', async function () {
       const s3Error = new Error('s3 error');
       importStorageStub.readFile.rejects(s3Error);
       const error = await catchErr(validateSiecleXmlFile)({
@@ -80,6 +97,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
         organizationImportRepository: organizationImportRepositoryStub,
         organizationRepository: organizationRepositoryStub,
         importStorage: importStorageStub,
+        eventBus: eventBusStub,
       });
       expect(error).to.eq(s3Error);
       expect(organizationImportStub.validate).to.have.been.calledWith({ errors: [s3Error] });
@@ -87,6 +105,42 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
         filename: organizationImportStub.filename,
       });
       expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
+    });
+
+    it('should save error when there is an error publishing event', async function () {
+      const publishError = new Error('publish error');
+      eventBusStub.publish.reset();
+      eventBusStub.publish.rejects(publishError);
+
+      await catchErr(validateSiecleXmlFile)({
+        organizationImportId,
+        organizationImportRepository: organizationImportRepositoryStub,
+        organizationRepository: organizationRepositoryStub,
+        importStorage: importStorageStub,
+        eventBus: eventBusStub,
+      });
+      expect(organizationImportStub.validate).to.have.been.calledWith({ errors: [publishError] });
+      expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({
+        filename: organizationImportStub.filename,
+      });
+      expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
+    });
+
+    it('should call log method if file deletion on s3 fails', async function () {
+      const deletionError = new Error('deletion error');
+      eventBusStub.publish.reset();
+      eventBusStub.publish.rejects();
+      importStorageStub.deleteFile.rejects(deletionError);
+
+      await catchErr(validateSiecleXmlFile)({
+        organizationImportId,
+        organizationImportRepository: organizationImportRepositoryStub,
+        organizationRepository: organizationRepositoryStub,
+        importStorage: importStorageStub,
+        eventBus: eventBusStub,
+        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+      });
+      expect(logErrorWithCorrelationIdsStub).to.have.been.calledWith(deletionError);
     });
 
     context('when there is validation errors', function () {
@@ -98,6 +152,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
           organizationImportRepository: organizationImportRepositoryStub,
           organizationRepository: organizationRepositoryStub,
           importStorage: importStorageStub,
+          eventBus: eventBusStub,
         });
         expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({
           filename: organizationImportStub.filename,
@@ -114,6 +169,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
           organizationImportRepository: organizationImportRepositoryStub,
           organizationRepository: organizationRepositoryStub,
           importStorage: importStorageStub,
+          eventBus: eventBusStub,
         });
         expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({
           filename: organizationImportStub.filename,

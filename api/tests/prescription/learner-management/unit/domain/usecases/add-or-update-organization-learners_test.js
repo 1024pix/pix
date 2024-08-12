@@ -14,6 +14,7 @@ describe('Unit | UseCase | add-or-update-organization-learners', function () {
   let parserStub;
   let streamerSymbol;
   let organizationImportStub;
+  let logErrorWithCorrelationIdsStub;
 
   beforeEach(function () {
     organizationId = Symbol('organizationId');
@@ -54,6 +55,8 @@ describe('Unit | UseCase | add-or-update-organization-learners', function () {
       addOrUpdateOrganizationOfOrganizationLearners: sinon.stub(),
       disableAllOrganizationLearnersInOrganization: sinon.stub().resolves(),
     };
+
+    logErrorWithCorrelationIdsStub = sinon.stub();
   });
 
   it('should save learners', async function () {
@@ -106,5 +109,22 @@ describe('Unit | UseCase | add-or-update-organization-learners', function () {
     expect(organizationLearnerRepositoryStub.disableAllOrganizationLearnersInOrganization).to.have.been.not.called;
     expect(organizationImportStub.process).to.have.been.called;
     expect(organizationImportRepositoryStub.save).to.have.been.called;
+  });
+
+  it('should call log method if file deletion on s3 fails', async function () {
+    const deletionError = new Error('deletion error');
+    importStorageStub.readFile.rejects();
+    importStorageStub.deleteFile.rejects(deletionError);
+
+    await catchErr(addOrUpdateOrganizationLearners)({
+      organizationImportId,
+      importStorage: importStorageStub,
+      organizationImportRepository: organizationImportRepositoryStub,
+      organizationLearnerRepository: organizationLearnerRepositoryStub,
+      chunkSize: 2,
+      logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+    });
+
+    expect(logErrorWithCorrelationIdsStub).to.have.been.calledWith(deletionError);
   });
 });
