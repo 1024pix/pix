@@ -64,4 +64,44 @@ module('Unit | Adapters | sco-organization-participant', function (hooks) {
       assert.ok(true);
     });
   });
+  module('#generateOrganizationLearnersUsername', function () {
+    test('generate organization learners usernames and saves a CSV file', async function (assert) {
+      // given
+      const fetch = sinon.stub().resolves();
+      const fileSaver = { save: sinon.stub().resolves() };
+      const organizationId = 1;
+      const organizationLearnerIds = [23, 789];
+      const token = 'best token ever';
+      adapter.host = 'pix.local';
+      adapter.namespace = 'api';
+
+      // when
+      await adapter.generateOrganizationLearnersUsername({
+        fetch,
+        fileSaver,
+        organizationId,
+        organizationLearnerIds,
+        token,
+      });
+
+      // then
+      const expectedUrl = `${adapter.host}/${adapter.namespace}/sco-organization-learners/generate-usernames`;
+      const expectedOptions = {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+          {
+            data: {
+              attributes: { 'organization-id': organizationId, 'organization-learner-ids': organizationLearnerIds },
+            },
+          },
+          null,
+          2,
+        ),
+      };
+      sinon.assert.calledWith(fetch, expectedUrl, expectedOptions);
+      sinon.assert.calledOnce(fileSaver.save);
+      assert.ok(true);
+    });
+  });
 });

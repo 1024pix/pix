@@ -27,4 +27,24 @@ export default class ScoOrganizationParticipantAdapter extends ApplicationAdapte
 
     return fileSaver.save({ fetcher: () => request });
   }
+
+  async generateOrganizationLearnersUsername({ fetch, fileSaver, organizationId, organizationLearnerIds, token }) {
+    const url = `${this.host}/${this.namespace}/sco-organization-learners/generate-usernames`;
+    const payload = JSON.stringify(
+      {
+        data: {
+          attributes: { 'organization-id': organizationId, 'organization-learner-ids': organizationLearnerIds },
+        },
+      },
+      null,
+      2,
+    );
+    const request = fetch(url, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: payload,
+    });
+
+    return fileSaver.save({ fetcher: () => request });
+  }
 }
