@@ -58,6 +58,7 @@
                 @showModal={{this.showGenerateUsernameModal}}
                 @totalSelectedStudents={{selectedStudents.length}}
                 @totalAffectedStudents={{this.affectedStudents.length}}
+                @onTriggerAction={{fn this.generateUsernameForStudents this.affectedStudents reset}}
                 @onCloseModal={{this.closeGenerateUsernameModal}}
               />
             </InElement>

@@ -155,6 +155,57 @@ export default class ScoList extends Component {
     }
   }
 
+  @action
+  async generateUsernameForStudents(affectedStudents, resetSelectedStudents) {
+    const affectedStudentsIds = affectedStudents.map((affectedStudents) => affectedStudents.id);
+    try {
+      await this.store.adapterFor('sco-organization-participant').generateOrganizationLearnersUsername({
+        fetch,
+        fileSaver: this.fileSaver,
+        organizationId: this.currentUser.organization.id,
+        organizationLearnerIds: affectedStudentsIds,
+        token: this.session?.data?.authenticated?.access_token,
+      });
+      this.closeGenerateUsernameModal();
+
+      resetSelectedStudents();
+
+      this.notifications.sendSuccess(
+        this.intl.t('pages.sco-organization-participants.messages.generate-username-success'),
+      );
+
+      await this.args.refreshValues();
+    } catch (fetchErrors) {
+      const error = Array.isArray(fetchErrors) && fetchErrors.length > 0 && fetchErrors[0];
+      let errorMessage;
+      switch (error?.code) {
+        case 'USER_DOES_NOT_BELONG_TO_ORGANIZATION':
+          errorMessage = this.intl.t(
+            'api-error-messages.student-password-reset.user-does-not-belong-to-organization-error',
+          );
+          break;
+        case 'ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION':
+          errorMessage = this.intl.t(
+            'api-error-messages.student-password-reset.organization-learner-does-not-belong-to-organization-error',
+          );
+          break;
+        case 'ORGANIZATION_LEARNER_DOES_NOT_HAVE_A_PIX_ACCOUNT':
+          errorMessage = this.intl.t(
+            'api-error-messages.student-username-generation.organization-learner-does-not-have-pix-account',
+          );
+          break;
+        case 'ORGANIZATION_LEARNER_DOES_ALREADY_HAVE_A_USERNAME':
+          errorMessage = this.intl.t(
+            'api-error-messages.student-username-generation.organization-learner-does-already-have-a-username',
+          );
+          break;
+        default:
+          errorMessage = this.intl.t(this._getI18nKeyByStatus(error.status));
+      }
+      this.notifications.sendError(errorMessage);
+    }
+  }
+
   _getI18nKeyByStatus(status) {
     switch (status) {
       case 400:

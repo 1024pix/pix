@@ -417,6 +417,15 @@ function routes() {
     return new Response(200, headers, csvContent);
   });
 
+  this.post('/sco-organization-learners/generate-usernames', () => {
+    const headers = {
+      'Content-Type': 'text/csv;charset=utf-8',
+      'Content-Disposition': 'attachment; filename=content.csv',
+    };
+    const csvContent = 'Identifiant;Mot de passe;Classe\nnewUsername;;1A\n';
+    return new Response(200, headers, csvContent);
+  });
+
   this.post('/sco-organization-learners/username-password-generation', (schema) => {
     return schema.dependentUsers.create({
       username: 'user.gar3112',

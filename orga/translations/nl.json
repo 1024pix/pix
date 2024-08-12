@@ -41,6 +41,10 @@
       "organization-learner-without-username-error": "Sommige van de geselecteerde studenten hebben geen gebruikersnaam meer. Vernieuw de pagina.",
       "user-does-not-belong-to-organization-error": "Je hebt niet langer de rechten voor deze organisatie."
     },
+    "student-username-generation": {
+      "organization-learner-does-not-have-pix-account": "Certains des élèves sélectionnés n'ont plus de compte Pix. Veuillez rafraichir la page.",
+      "organization-learner-does-already-have-a-username": "Certains des élèves sélectionnés ont déjà un identifiant. Veuillez rafraichir la page."
+    },
     "student-xml-import": {
       "birth-city-code-required-for-french-student": "Een student met INE {nationalStudentId} heeft geen geboorteplaatscodeveld. Het is verplicht voor alle studenten die in Frankrijk geboren zijn.",
       "birthdate-required": "Bij de student met de ID {nationalStudentId} is het veld geboortedatum niet ingevuld. Dit is verplicht voor elke leerling.",

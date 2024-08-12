@@ -41,6 +41,10 @@
       "organization-learner-without-username-error": "Some of the selected students no longer have a username. Please refresh this page.",
       "user-does-not-belong-to-organization-error": "You no longer have the rights for this organisation."
     },
+    "student-username-generation": {
+      "organization-learner-does-not-have-pix-account": "Certains des élèves sélectionnés n'ont plus de compte Pix. Veuillez rafraichir la page.",
+      "organization-learner-does-already-have-a-username": "Certains des élèves sélectionnés ont déjà un identifiant. Veuillez rafraichir la page."
+    },
     "student-xml-import": {
       "birth-city-code-required-for-french-student": "Student with {nationalStudentId} INE has no birth city code filled out. This field is mandatory for each student born in France.",
       "birthdate-required": "Student with {nationalStudentId} INE has no date of birth filled out. This field is mandatory for each student.",

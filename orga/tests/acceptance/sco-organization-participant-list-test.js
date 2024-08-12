@@ -1,4 +1,4 @@
-import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
@@ -396,6 +396,126 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
               );
               assert.ok(successNotification);
             });
+          });
+        });
+      });
+
+      module('when multiple students are selected', function (hooks) {
+        hooks.beforeEach(async function () {
+          organizationId = user.memberships.models.firstObject.organizationId;
+        });
+        module('when selected students have an PIX account and no username', function () {
+          test('generate usernames for all selected students and displays a success notification', async function (assert) {
+            // given
+            server.create('sco-organization-participant', {
+              organizationId,
+              firstName: 'Simone',
+              lastName: 'Biles',
+              isAuthenticatedFromGar: true,
+            });
+            server.create('sco-organization-participant', {
+              organizationId,
+              firstName: 'Jordan',
+              lastName: 'Chiles',
+              email: 'jordan.chiles2024@example.net',
+            });
+
+            const screen = await visit('/eleves');
+            await clickByName(t('pages.sco-organization-participants.table.column.mainCheckbox'));
+            await clickByName(t('pages.sco-organization-participants.action-bar.generate-username-button'));
+            let generateUsernamesModal = await screen.findByRole('dialog');
+
+            // when & then 1
+            assert.ok(within(generateUsernamesModal).getByText('2 élèves'));
+            assert.ok(within(generateUsernamesModal).getByText('2 identifiants'));
+
+            // when & then 2
+            await clickByName(t('common.actions.confirm'));
+            generateUsernamesModal = await screen.queryByRole('dialog');
+            assert.dom(generateUsernamesModal).isNotVisible();
+
+            const successNotification = await screen.getByText(
+              t('pages.sco-organization-participants.messages.generate-username-success'),
+            );
+            assert.ok(successNotification);
+          });
+        });
+        module('when selected students already have an username', function () {
+          test('generate button is disabled and warning message is displayed', async function (assert) {
+            // given
+            server.create('sco-organization-participant', {
+              organizationId,
+              firstName: 'Simone',
+              lastName: 'Biles',
+              username: 'simone2024',
+            });
+            server.create('sco-organization-participant', {
+              organizationId,
+              firstName: 'Jordan',
+              lastName: 'Chiles',
+              username: 'jordan.chiles2024',
+            });
+
+            const screen = await visit('/eleves');
+            await clickByName(t('pages.sco-organization-participants.table.column.mainCheckbox'));
+
+            // when
+            await clickByName(t('pages.sco-organization-participants.action-bar.generate-username-button'));
+            const generateUsernamesModal = await screen.findByRole('dialog');
+            const generateButton = await screen.getByRole('button', { name: t('common.actions.confirm') });
+
+            // then
+            assert.ok(within(generateUsernamesModal).getByText('2 élèves'));
+            assert.ok(within(generateUsernamesModal).getByText('aucun identifiant'));
+            assert.dom(generateButton).isDisabled();
+          });
+        });
+        module('when some selected students already have an username or no Pix account', function () {
+          test('generate usernames for other students and displays a success notification', async function (assert) {
+            // given
+            server.create('sco-organization-participant', {
+              organizationId,
+              firstName: 'Simone',
+              lastName: 'Biles',
+              username: 'simoneLaBest',
+            });
+            server.create('sco-organization-participant', {
+              organizationId,
+              firstName: 'Jordan',
+              lastName: 'Chiles',
+              email: 'jordan.chiles2024@example.net',
+            });
+            server.create('sco-organization-participant', {
+              organizationId,
+              firstName: 'Rebeca',
+              lastName: 'Andrade',
+              email: 'rebeca.andrade@example.net',
+              isAuthenticatedFromGar: true,
+            });
+            server.create('sco-organization-participant', {
+              organizationId,
+              firstName: 'Alice',
+              lastName: 'Damato',
+            });
+
+            const screen = await visit('/eleves');
+            await clickByName(t('pages.sco-organization-participants.table.column.mainCheckbox'));
+            await clickByName(t('pages.sco-organization-participants.action-bar.generate-username-button'));
+            let generateUsernamesModal = await screen.findByRole('dialog');
+
+            // when & then 1
+            assert.ok(within(generateUsernamesModal).getByText('4 élèves'));
+            assert.ok(within(generateUsernamesModal).getByText('2 identifiants'));
+
+            // when & then 2
+            await clickByName(t('common.actions.confirm'));
+            generateUsernamesModal = await screen.queryByRole('dialog');
+            assert.dom(generateUsernamesModal).isNotVisible();
+
+            const successNotification = await screen.getByText(
+              t('pages.sco-organization-participants.messages.generate-username-success'),
+            );
+            assert.ok(successNotification);
           });
         });
       });

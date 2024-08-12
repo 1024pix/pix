@@ -1866,5 +1866,319 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       assert.ok(modalTitle);
       assert.ok(confirmationButton);
     });
+
+    module('when the generate usernames modal is open', function () {
+      module('#errorNotifications', function () {
+        let notificationsStub;
+        module('when the user doesn’t belong to the organisation', function () {
+          test('displays an error notification', async function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            sinon.stub(store, 'adapterFor').returns({
+              generateOrganizationLearnersUsername: sinon
+                .stub()
+                .rejects([{ code: 'USER_DOES_NOT_BELONG_TO_ORGANIZATION' }]),
+            });
+            notificationsStub = this.owner.lookup('service:notifications');
+            sinon.stub(notificationsStub, 'sendError');
+
+            const students = [
+              { id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+              { id: '2', firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['email'] },
+            ];
+
+            this.set('students', students);
+
+            // when
+            const screen = await render(hbs`
+                <ScoOrganizationParticipant::List
+                        @students={{this.students}}
+                        @lastnameSort={{this.noop}}
+                        @sortByLastname={{this.noop}}
+                        @participationCountOrder={{this.noop}}
+                        @sortByParticipationCount={{this.noop}}
+                        @divisionSort={{this.noop}}
+                        @sortByDivision={{this.noop}}
+                        @onClickLearner={{this.noop}}
+                        @onFilter={{this.noop}}
+                        @searchFilter={{this.search}}
+                        @divisionsFilter={{this.divisions}}
+                        @connectionTypeFilter={{this.connectionTypes}}
+                        @certificabilityFilter={{this.certificability}}
+                />`);
+
+            const firstStudent = await screen.getAllByRole('checkbox')[1];
+            const secondStudent = await screen.getAllByRole('checkbox')[2];
+            await click(firstStudent);
+            await click(secondStudent);
+
+            const generateUsernamesButton = await screen.findByRole('button', {
+              name: t('pages.sco-organization-participants.action-bar.generate-username-button'),
+            });
+            await click(generateUsernamesButton);
+            await screen.findByRole('dialog');
+
+            const confirmationButton = await screen.findByRole('button', {
+              name: t('common.actions.confirm'),
+            });
+            await click(confirmationButton);
+
+            // then
+            sinon.assert.calledWith(
+              notificationsStub.sendError,
+              t('api-error-messages.student-password-reset.user-does-not-belong-to-organization-error'),
+            );
+            assert.ok(true);
+          });
+        });
+
+        module('when a student doesn’t belong to the organisation', function () {
+          test('displays an error notification', async function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            sinon.stub(store, 'adapterFor').returns({
+              generateOrganizationLearnersUsername: sinon
+                .stub()
+                .rejects([{ code: 'ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION' }]),
+            });
+            notificationsStub = this.owner.lookup('service:notifications');
+            sinon.stub(notificationsStub, 'sendError');
+
+            const students = [
+              { id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+              { id: '2', firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['email'] },
+            ];
+
+            this.set('students', students);
+
+            // when
+            const screen = await render(hbs`
+                <ScoOrganizationParticipant::List
+                        @students={{this.students}}
+                        @lastnameSort={{this.noop}}
+                        @sortByLastname={{this.noop}}
+                        @participationCountOrder={{this.noop}}
+                        @sortByParticipationCount={{this.noop}}
+                        @divisionSort={{this.noop}}
+                        @sortByDivision={{this.noop}}
+                        @onClickLearner={{this.noop}}
+                        @onFilter={{this.noop}}
+                        @searchFilter={{this.search}}
+                        @divisionsFilter={{this.divisions}}
+                        @connectionTypeFilter={{this.connectionTypes}}
+                        @certificabilityFilter={{this.certificability}}
+                />`);
+
+            const firstStudent = await screen.getAllByRole('checkbox')[1];
+            const secondStudent = await screen.getAllByRole('checkbox')[2];
+            await click(firstStudent);
+            await click(secondStudent);
+
+            const generateUsernamesButton = await screen.findByRole('button', {
+              name: t('pages.sco-organization-participants.action-bar.generate-username-button'),
+            });
+            await click(generateUsernamesButton);
+            await screen.findByRole('dialog');
+
+            const confirmationButton = await screen.findByRole('button', {
+              name: t('common.actions.confirm'),
+            });
+            await click(confirmationButton);
+
+            // then
+            sinon.assert.calledWith(
+              notificationsStub.sendError,
+              t('api-error-messages.student-password-reset.organization-learner-does-not-belong-to-organization-error'),
+            );
+            assert.ok(true);
+          });
+        });
+
+        module("when a student doesn't have a pix account", function () {
+          test('displays an error notification', async function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            sinon.stub(store, 'adapterFor').returns({
+              generateOrganizationLearnersUsername: sinon.stub().rejects([
+                {
+                  code: 'ORGANIZATION_LEARNER_DOES_NOT_HAVE_A_PIX_ACCOUNT',
+                },
+              ]),
+            });
+            notificationsStub = this.owner.lookup('service:notifications');
+            sinon.stub(notificationsStub, 'sendError');
+
+            const students = [
+              { id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['empty'] },
+              { id: '2', firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['email'] },
+            ];
+
+            this.set('students', students);
+
+            // when
+            const screen = await render(hbs`
+                <ScoOrganizationParticipant::List
+                        @students={{this.students}}
+                        @lastnameSort={{this.noop}}
+                        @sortByLastname={{this.noop}}
+                        @participationCountOrder={{this.noop}}
+                        @sortByParticipationCount={{this.noop}}
+                        @divisionSort={{this.noop}}
+                        @sortByDivision={{this.noop}}
+                        @onClickLearner={{this.noop}}
+                        @onFilter={{this.noop}}
+                        @searchFilter={{this.search}}
+                        @divisionsFilter={{this.divisions}}
+                        @connectionTypeFilter={{this.connectionTypes}}
+                        @certificabilityFilter={{this.certificability}}
+                />`);
+
+            const firstStudent = await screen.getAllByRole('checkbox')[1];
+            const secondStudent = await screen.getAllByRole('checkbox')[2];
+            await click(firstStudent);
+            await click(secondStudent);
+
+            const generateUsernamesButton = await screen.findByRole('button', {
+              name: t('pages.sco-organization-participants.action-bar.generate-username-button'),
+            });
+            await click(generateUsernamesButton);
+            await screen.findByRole('dialog');
+
+            const confirmationButton = await screen.findByRole('button', {
+              name: t('common.actions.confirm'),
+            });
+            await click(confirmationButton);
+
+            // then
+            sinon.assert.calledWith(
+              notificationsStub.sendError,
+              t('api-error-messages.student-username-generation.organization-learner-does-not-have-pix-account'),
+            );
+            assert.ok(true);
+          });
+        });
+
+        module('when a student already have a username', function () {
+          test('displays an error notification', async function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            sinon.stub(store, 'adapterFor').returns({
+              generateOrganizationLearnersUsername: sinon.stub().rejects([
+                {
+                  code: 'ORGANIZATION_LEARNER_DOES_ALREADY_HAVE_A_USERNAME',
+                },
+              ]),
+            });
+            notificationsStub = this.owner.lookup('service:notifications');
+            sinon.stub(notificationsStub, 'sendError');
+
+            const students = [
+              { id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+              { id: '2', firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['identifiant'] },
+            ];
+
+            this.set('students', students);
+
+            // when
+            const screen = await render(hbs`
+                <ScoOrganizationParticipant::List
+                        @students={{this.students}}
+                        @lastnameSort={{this.noop}}
+                        @sortByLastname={{this.noop}}
+                        @participationCountOrder={{this.noop}}
+                        @sortByParticipationCount={{this.noop}}
+                        @divisionSort={{this.noop}}
+                        @sortByDivision={{this.noop}}
+                        @onClickLearner={{this.noop}}
+                        @onFilter={{this.noop}}
+                        @searchFilter={{this.search}}
+                        @divisionsFilter={{this.divisions}}
+                        @connectionTypeFilter={{this.connectionTypes}}
+                        @certificabilityFilter={{this.certificability}}
+                />`);
+
+            const firstStudent = await screen.getAllByRole('checkbox')[1];
+            const secondStudent = await screen.getAllByRole('checkbox')[2];
+            await click(firstStudent);
+            await click(secondStudent);
+
+            const generateUsernamesButton = await screen.findByRole('button', {
+              name: t('pages.sco-organization-participants.action-bar.generate-username-button'),
+            });
+            await click(generateUsernamesButton);
+            await screen.findByRole('dialog');
+
+            const confirmationButton = await screen.findByRole('button', {
+              name: t('common.actions.confirm'),
+            });
+            await click(confirmationButton);
+
+            // then
+            sinon.assert.calledWith(
+              notificationsStub.sendError,
+              t('api-error-messages.student-username-generation.organization-learner-does-already-have-a-username'),
+            );
+            assert.ok(true);
+          });
+        });
+
+        module('when an unrelated error occurs', function () {
+          test('displays an error notification', async function (assert) {
+            // given
+            const store = this.owner.lookup('service:store');
+            sinon.stub(store, 'adapterFor').returns({
+              generateOrganizationLearnersUsername: sinon.stub().rejects([{ status: 500 }]),
+            });
+            notificationsStub = this.owner.lookup('service:notifications');
+            sinon.stub(notificationsStub, 'sendError');
+
+            const students = [
+              { id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
+              { id: '2', firstName: 'Miles', lastName: 'Morales', authenticationMethods: ['email'] },
+            ];
+
+            this.set('students', students);
+
+            // when
+            const screen = await render(hbs`
+                <ScoOrganizationParticipant::List
+                        @students={{this.students}}
+                        @lastnameSort={{this.noop}}
+                        @sortByLastname={{this.noop}}
+                        @participationCountOrder={{this.noop}}
+                        @sortByParticipationCount={{this.noop}}
+                        @divisionSort={{this.noop}}
+                        @sortByDivision={{this.noop}}
+                        @onClickLearner={{this.noop}}
+                        @onFilter={{this.noop}}
+                        @searchFilter={{this.search}}
+                        @divisionsFilter={{this.divisions}}
+                        @connectionTypeFilter={{this.connectionTypes}}
+                        @certificabilityFilter={{this.certificability}}
+                />`);
+
+            const firstStudent = await screen.getAllByRole('checkbox')[1];
+            const secondStudent = await screen.getAllByRole('checkbox')[2];
+            await click(firstStudent);
+            await click(secondStudent);
+
+            const generateUsernamesButton = await screen.findByRole('button', {
+              name: t('pages.sco-organization-participants.action-bar.generate-username-button'),
+            });
+            await click(generateUsernamesButton);
+            await screen.findByRole('dialog');
+
+            const confirmationButton = await screen.findByRole('button', {
+              name: t('common.actions.confirm'),
+            });
+            await click(confirmationButton);
+
+            // then
+            sinon.assert.called(notificationsStub.sendError);
+            assert.ok(true);
+          });
+        });
+      });
+    });
   });
 });
