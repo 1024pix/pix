@@ -19,6 +19,10 @@ class JobPgBoss {
       on_complete: true,
     });
   }
+
+  async performAsync(data) {
+    return this.schedule(data);
+  }
 }
 
 export { JobPgBoss };

@@ -1,17 +1,21 @@
-import { UserAnonymized } from '../../../../../lib/domain/events/UserAnonymized.js';
 import { anonymizeUser } from '../../../../../lib/domain/usecases/anonymize-user.js';
 import * as certificationCenterMembershipRepository from '../../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
+import { userAnonymizedEventLoggingJobRepository } from '../../../../../lib/infrastructure/repositories/jobs/user-anonymized-event-logging-job-repository.js';
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
+import { UserAnonymizedAuditLog } from '../../../../../src/identity-access-management/domain/models/UserAnonymizedAuditLog.js';
 import { refreshTokenService } from '../../../../../src/identity-access-management/domain/services/refresh-token-service.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { resetPasswordDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
+import { config } from '../../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { ObjectValidationError, UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { adminMemberRepository } from '../../../../../src/shared/infrastructure/repositories/admin-member.repository.js';
 import * as userLoginRepository from '../../../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
+import { jobs } from '../../../../tooling/jobs/expect-job.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | anonymize-user', function () {
   let clock;
@@ -25,8 +29,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
     clock.restore();
   });
 
-  it(`returns a UserAnonymized event,
-    deletes all user’s authentication methods,
+  it(`deletes all user’s authentication methods,
     revokes all user’s refresh tokens,
     removes all user’s password reset demands,
     disables all user’s organization memberships,
@@ -63,14 +66,8 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
 
     await refreshTokenService.createRefreshTokenFromUserId({ userId, source: 'pix' });
 
-    const expectedUserAnonymizedEvent = new UserAnonymized({
-      userId,
-      updatedByUserId: anonymizedByUserId,
-      role: 'SUPER_ADMIN',
-    });
-
     // when
-    const result = await DomainTransaction.execute(async (domainTransaction) =>
+    await DomainTransaction.execute(async (domainTransaction) =>
       anonymizeUser({
         userId,
         updatedByUserId: anonymizedByUserId,
@@ -84,11 +81,20 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
         resetPasswordDemandRepository,
         domainTransaction,
         adminMemberRepository,
+        userAnonymizedEventLoggingJobRepository,
       }),
     );
 
     // then
-    expect(result).to.be.deep.equal(expectedUserAnonymizedEvent);
+    const userAnonymizedJobs = await jobs(UserAnonymizedAuditLog.name);
+    expect(userAnonymizedJobs).to.have.length(1);
+    expect(userAnonymizedJobs[0]).to.have.deep.property('data', {
+      client: 'PIX_ADMIN',
+      role: PIX_ADMIN.ROLES.SUPER_ADMIN,
+      occurredAt: now.toISOString(),
+      updatedByUserId: anonymizedByUserId,
+      userId,
+    });
 
     const authenticationMethods = await knex('authentication-methods').where({ userId });
     expect(authenticationMethods).to.have.length(0);
@@ -229,6 +235,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
             resetPasswordDemandRepository,
             domainTransaction,
             adminMemberRepository,
+            userAnonymizedEventLoggingJobRepository,
           }),
         );
 
@@ -267,6 +274,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
             resetPasswordDemandRepository,
             domainTransaction,
             adminMemberRepository,
+            userAnonymizedEventLoggingJobRepository,
           }),
         );
 
@@ -276,6 +284,67 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
         expect(anonymizedUser.hasBeenAnonymised).to.be.true;
         expect(anonymizedUser.hasBeenAnonymisedBy).to.equal(newAdmin.id);
       });
+    });
+  });
+
+  context('when audit logger is disabled', function () {
+    it('does not trigger audit log', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser.withMembership({
+        createdAt: new Date('2012-12-12T12:12:12Z'),
+        updatedAt: new Date('2023-03-23T23:23:23Z'),
+      });
+
+      const admin = databaseBuilder.factory.buildUser.withRole();
+
+      const userId = user.id;
+      const anonymizedByUserId = admin.id;
+
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId });
+
+      const managingStudentsOrga = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
+      databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId: managingStudentsOrga.id });
+
+      databaseBuilder.factory.buildUserLogin({
+        userId,
+        createdAt: new Date('2012-12-12T12:25:34Z'),
+        updatedAt: new Date('2023-03-23T09:44:30Z'),
+        lastLoggedAt: new Date('2023-02-18T18:18:02Z'),
+        temporaryBlockedUntil: new Date('2023-03-23T08:16:16Z'),
+        blockedAt: new Date('2023-03-23T09:44:30Z'),
+      });
+
+      await databaseBuilder.commit();
+
+      await refreshTokenService.createRefreshTokenFromUserId({ userId, source: 'pix' });
+
+      sinon.stub(config.auditLogger, 'isEnabled').value(false);
+
+      // when
+      await DomainTransaction.execute(async (domainTransaction) =>
+        anonymizeUser({
+          userId,
+          updatedByUserId: anonymizedByUserId,
+          userRepository,
+          userLoginRepository,
+          authenticationMethodRepository,
+          refreshTokenService,
+          membershipRepository,
+          certificationCenterMembershipRepository,
+          organizationLearnerRepository,
+          resetPasswordDemandRepository,
+          domainTransaction,
+          adminMemberRepository,
+          userAnonymizedEventLoggingJobRepository,
+        }),
+      );
+
+      // then
+      const anonymizedUser = await knex('users').where({ id: user.id }).first();
+      expect(anonymizedUser.hasBeenAnonymised).to.be.true;
+
+      const userAnonymizedJobs = await jobs(UserAnonymizedAuditLog.name);
+      expect(userAnonymizedJobs).to.have.length(0);
     });
   });
 });

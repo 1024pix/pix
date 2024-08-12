@@ -1,15 +1,12 @@
 import Joi from 'joi';
 
-import { PIX_ADMIN } from '../../../src/authorization/domain/constants.js';
-import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
-import { Event } from './Event.js';
+import { PIX_ADMIN } from '../../../authorization/domain/constants.js';
+import { validateEntity } from '../../../shared/domain/validators/entity-validator.js';
 
 const { ROLES } = PIX_ADMIN;
 
-export class UserAnonymized extends Event {
+export class UserAnonymizedAuditLog {
   constructor({ userId, updatedByUserId, client = 'PIX_ADMIN', role }) {
-    super();
-
     this.userId = userId;
     this.updatedByUserId = updatedByUserId;
     this.client = client;

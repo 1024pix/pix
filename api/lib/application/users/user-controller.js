@@ -5,7 +5,6 @@ import * as scorecardSerializer from '../../../src/evaluation/infrastructure/ser
 import * as campaignParticipationSerializer from '../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 import * as userSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
-import { eventBus } from '../../domain/events/index.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as campaignParticipationOverviewSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
@@ -222,12 +221,11 @@ const anonymizeUser = async function (request, h, dependencies = { userAnonymize
   const adminMemberId = request.auth.credentials.userId;
 
   await DomainTransaction.execute(async (domainTransaction) => {
-    const event = await usecases.anonymizeUser({
+    await usecases.anonymizeUser({
       userId: userToAnonymizeId,
       updatedByUserId: adminMemberId,
       domainTransaction,
     });
-    await eventBus.publish(event, domainTransaction);
   });
 
   const anonymizedUser = await usecases.getUserDetailsForAdmin({ userId: userToAnonymizeId });

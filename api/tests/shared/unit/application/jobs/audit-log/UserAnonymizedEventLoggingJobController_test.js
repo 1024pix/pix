@@ -1,9 +1,9 @@
-import { UserAnonymized } from '../../../../../../lib/domain/events/UserAnonymized.js';
 import { auditLoggerRepository } from '../../../../../../lib/infrastructure/repositories/audit-logger-repository.js';
-import { UserAnonymizedEventLoggingJobHandler } from '../../../../../../src/shared/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJobHandler.js';
+import { UserAnonymizedAuditLog } from '../../../../../../src/identity-access-management/domain/models/UserAnonymizedAuditLog.js';
+import { UserAnonymizedEventLoggingJobController } from '../../../../../../src/shared/application/jobs/audit-log/user-anonymized-event-logging-job-controller.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Infrastructure | Jobs | audit-log | User anonymized event logging', function () {
+describe('Unit | Jobs | audit-log | User anonymized event logging', function () {
   let clock;
 
   beforeEach(function () {
@@ -20,21 +20,21 @@ describe('Unit | Infrastructure | Jobs | audit-log | User anonymized event loggi
       // given
       sinon.stub(auditLoggerRepository, 'logEvent').resolves();
 
-      const event = new UserAnonymized({
+      const payload = new UserAnonymizedAuditLog({
         userId: 1,
         updatedByUserId: 2,
         role: 'SUPER_ADMIN',
       });
 
-      const userAnonymizedEventLoggingJobHandler = new UserAnonymizedEventLoggingJobHandler();
+      const userAnonymizedEventLoggingJobHandler = new UserAnonymizedEventLoggingJobController();
 
       // when
-      await userAnonymizedEventLoggingJobHandler.handle(event);
+      await userAnonymizedEventLoggingJobHandler.handle(payload);
 
       // then
       const expectedEvent = {
-        userId: event.updatedByUserId.toString(),
-        targetUserId: event.userId.toString(),
+        userId: payload.updatedByUserId.toString(),
+        targetUserId: payload.userId.toString(),
         role: 'SUPER_ADMIN',
         occurredAt: new Date(),
         action: 'ANONYMIZATION',
