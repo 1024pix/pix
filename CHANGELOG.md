@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v4.197.0 (12/08/2024)
+
+
+### :rocket: Amélioration
+- [#9834](https://github.com/1024pix/pix/pull/9834) [FEATURE] Revue de design Modulix (PIX-13842).
+- [#9819](https://github.com/1024pix/pix/pull/9819) [FEATURE] Supporte des petits différences dans le nom / prénom lors de la réconciliation (PIX-13626).
+- [#9831](https://github.com/1024pix/pix/pull/9831) [FEATURE] Add style and content for timed out answer correction (PIX-13830).
+- [#9825](https://github.com/1024pix/pix/pull/9825) [FEATURE] Permettre l'inscription "compatibilité coeur / complémentaire" via l'ODS (PIX-13616).
+- [#9828](https://github.com/1024pix/pix/pull/9828) [FEATURE] Remonter les éléments Downloads dans un module (PIX-13768).
+- [#9806](https://github.com/1024pix/pix/pull/9806) [FEATURE] Mise en place du SSO pour Agent Connect (PIX-13741).
+- [#9807](https://github.com/1024pix/pix/pull/9807) [FEATURE] Ajoute un script pour convertir le schema Joi des Modulix en JSON Schema (PIX-13620) (PIX-13781).
+- [#9818](https://github.com/1024pix/pix/pull/9818) [FEATURE] Modifier l'affichage des inscriptions en certification pour gérer la compatibilité coeur/complémentaire (PIX-11899).
+
+### :building_construction: Tech
+- [#9758](https://github.com/1024pix/pix/pull/9758) [TECH] :recycle: Suppression du fichier `http-errors.js` présent dans `lib/application`.
+
+### :bug: Correction
+- [#9816](https://github.com/1024pix/pix/pull/9816) [BUGFIX] Sauvegarder le statut de l'import en erreur si la publication de l'evenement ne fonctionne pas (PIX-13796).
+
 ## v4.196.0 (08/08/2024)
 
 
