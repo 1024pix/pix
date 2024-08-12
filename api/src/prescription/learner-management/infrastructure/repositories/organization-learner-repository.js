@@ -113,16 +113,8 @@ const findAllCommonOrganizationLearnerByReconciliationInfos = async function ({
     .select('firstName', 'lastName', 'id', 'attributes', 'userId')
     .where({ organizationId, isDisabled: false });
 
-  if (reconciliationInformations.attributes) {
-    query.whereJsonSupersetOf('attributes', reconciliationInformations.attributes);
-  }
-
-  if (reconciliationInformations.firstName) {
-    query.where('firstName', reconciliationInformations.firstName);
-  }
-
-  if (reconciliationInformations.lastName) {
-    query.where('lastName', reconciliationInformations.lastName);
+  if (reconciliationInformations) {
+    query.whereJsonSupersetOf('attributes', reconciliationInformations);
   }
 
   const result = await query;
