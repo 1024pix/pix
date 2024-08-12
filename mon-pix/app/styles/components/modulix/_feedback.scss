@@ -11,12 +11,14 @@
   }
 
   &::before {
+    $correctness-indicator-bar: 6px;
+
     position: absolute;
     left: 0;
-    width: 6px;
+    width: $correctness-indicator-bar;
     height: 100%;
     background-color: var(--modulix-feedback-state-color);
-    border-radius: var(--modulix-radius-full);
+    border-radius: $correctness-indicator-bar;
     content: '';
   }
 
