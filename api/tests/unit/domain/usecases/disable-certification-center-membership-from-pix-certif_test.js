@@ -1,5 +1,5 @@
-import { ForbiddenError } from '../../../../lib/application/http-errors.js';
 import { disableCertificationCenterMembershipFromPixCertif } from '../../../../lib/domain/usecases/disable-certification-center-membership-from-pix-certif.js';
+import { ForbiddenError } from '../../../../src/shared/application/http-errors.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 

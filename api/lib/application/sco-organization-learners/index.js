@@ -4,10 +4,14 @@ const Joi = BaseJoi.extend(JoiDate);
 
 import XRegExp from 'xregexp';
 
+import {
+  BadRequestError,
+  sendJsonApiError,
+  UnprocessableEntityError,
+} from '../../../src/shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { config } from '../../../src/shared/config.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
-import { BadRequestError, sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
 import { scoOrganizationLearnerController } from './sco-organization-learner-controller.js';
 
 const { passwordValidationPattern } = config.account;

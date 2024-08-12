@@ -1,6 +1,6 @@
-import { UnprocessableEntityError } from '../../../../lib/application/http-errors.js';
 import { poleEmploiController } from '../../../../lib/application/pole-emploi/pole-emploi-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { UnprocessableEntityError } from '../../../../src/shared/application/http-errors.js';
 import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | pole-emploi-controller', function () {

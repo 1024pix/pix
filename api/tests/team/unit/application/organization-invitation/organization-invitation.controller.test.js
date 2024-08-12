@@ -1,4 +1,4 @@
-import { MissingQueryParamError } from '../../../../../lib/application/http-errors.js';
+import { MissingQueryParamError } from '../../../../../src/shared/application/http-errors.js';
 import { Membership } from '../../../../../src/shared/domain/models/index.js';
 import { organizationInvitationController } from '../../../../../src/team/application/organization-invitations/organization-invitation.controller.js';
 import { OrganizationInvitation } from '../../../../../src/team/domain/models/OrganizationInvitation.js';

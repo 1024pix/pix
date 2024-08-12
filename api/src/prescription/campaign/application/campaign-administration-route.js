@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { PayloadTooLargeError, sendJsonApiError } from '../../../../lib/application/http-errors.js';
+import { PayloadTooLargeError, sendJsonApiError } from '../../../shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { campaignAdministrationController } from './campaign-adminstration-controller.js';

@@ -11,7 +11,6 @@ const i18n = getI18n();
 
 import * as url from 'node:url';
 
-import { UnprocessableEntityError } from '../../../../../../lib/application/http-errors.js';
 import { getTransformationStructsForPixCertifCandidatesImport } from '../../../../../../src/certification/enrolment/infrastructure/files/candidates-import/candidates-import-transformation-structures.js';
 import {
   extractTableDataFromOdsFile,
@@ -19,6 +18,7 @@ import {
   getSheetDataRowsFromOdsBuffer,
   validateOdsHeaders,
 } from '../../../../../../src/certification/enrolment/infrastructure/utils/ods/read-ods-utils.js';
+import { UnprocessableEntityError } from '../../../../../../src/shared/application/http-errors.js';
 import { catchErr, expect } from '../../../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

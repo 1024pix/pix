@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import XLSX from 'xlsx';
 
-import { UnprocessableEntityError } from '../../../../../../lib/application/http-errors.js';
+import { UnprocessableEntityError } from '../../../../../shared/application/http-errors.js';
 import { loadOdsZip } from './common-ods-utils.js';
 
 const CONTENT_XML_IN_ODS = 'content.xml';

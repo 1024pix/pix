@@ -2,7 +2,7 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
-import { sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
+import { sendJsonApiError, UnprocessableEntityError } from '../../../src/shared/application/http-errors.js';
 import { supOrganizationLearnerController } from './sup-organization-learner-controller.js';
 
 const register = async function (server) {

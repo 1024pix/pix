@@ -1,10 +1,10 @@
 import Joi from 'joi';
 
+import { BadRequestError, sendJsonApiError } from '../../../src/shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { SUPPORTED_LOCALES } from '../../../src/shared/domain/constants.js';
 import { AVAILABLE_LANGUAGES } from '../../../src/shared/domain/services/language-service.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
-import { BadRequestError, sendJsonApiError } from '../http-errors.js';
 import { userController } from './user-controller.js';
 
 const register = async function (server) {

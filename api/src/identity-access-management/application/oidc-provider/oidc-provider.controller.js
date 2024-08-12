@@ -1,4 +1,4 @@
-import { BadRequestError, UnauthorizedError } from '../../../../lib/application/http-errors.js';
+import { BadRequestError, UnauthorizedError } from '../../../shared/application/http-errors.js';
 import { requestResponseUtils } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as oidcProviderSerializer from '../../infrastructure/serializers/jsonapi/oidc-identity-providers.serializer.js';
