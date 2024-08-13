@@ -16,7 +16,7 @@ module.exports = [
   prettier,
   { plugins: { 'chai-expect': fixupPluginRules(chai) } },
   n,
-  { plugins: { import: fixupPluginRules(_import) } },
+  { plugins: { import: _import } },
   { plugins: { knex: fixupPluginRules(knex) } },
   { plugins: { unicorn } },
   {
