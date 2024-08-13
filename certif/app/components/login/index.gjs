@@ -5,7 +5,10 @@ import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 import ENV from 'pix-certif/config/environment';
 
-export default class LoginForm extends Component {
+import LoginForm from './form';
+import LoginHeader from './header';
+
+export default class Login extends Component {
   @service url;
   @service intl;
   @service session;
@@ -87,4 +90,25 @@ export default class LoginForm extends Component {
         return ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY;
     }
   }
+
+  <template>
+    <div class='login'>
+      <LoginHeader
+        @hasInvitationAlreadyBeenAccepted={{@hasInvitationAlreadyBeenAccepted}}
+        @isInvitationCancelled={{@isInvitationCancelled}}
+      />
+
+      <main class='login__main'>
+
+        <LoginForm
+          @onSubmit={{this.authenticate}}
+          @setEmail={{this.setEmail}}
+          @setPassword={{this.setPassword}}
+          @isErrorMessagePresent={{this.isErrorMessagePresent}}
+          @errorMessage={{this.errorMessage}}
+          @forgottenPasswordUrl={{this.forgottenPasswordUrl}}
+        />
+      </main>
+    </div>
+  </template>
 }

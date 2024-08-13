@@ -1,8 +1,8 @@
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import Login from 'pix-certif/components/login';
 import ENV from 'pix-certif/config/environment';
 import { module, test } from 'qunit';
 import { reject, resolve } from 'rsvp';
@@ -11,7 +11,7 @@ import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
-module('Integration | Component | login-form', function (hooks) {
+module('Integration | Component | login', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let sessionStub;
@@ -26,7 +26,7 @@ module('Integration | Component | login-form', function (hooks) {
 
   test('it should display login form', async function (assert) {
     // when
-    const screen = await renderScreen(hbs`<LoginForm />`);
+    const screen = await render(<template><Login /></template>);
 
     // then
     assert.dom(screen.getByRole('img', { name: 'Pix Certif' })).exists();
@@ -46,7 +46,7 @@ module('Integration | Component | login-form', function (hooks) {
       return resolve();
     });
     const sessionServiceObserver = this.owner.lookup('service:session');
-    const screen = await renderScreen(hbs`<LoginForm />`);
+    const screen = await render(<template><Login /></template>);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
 
@@ -76,7 +76,7 @@ module('Integration | Component | login-form', function (hooks) {
     };
 
     sessionStub.authenticate.callsFake(() => reject(invalidCredentialsErrorMessage));
-    const screen = await renderScreen(hbs`<LoginForm />`);
+    const screen = await render(<template><Login /></template>);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'Mauvais mot de passe');
 
@@ -85,6 +85,30 @@ module('Integration | Component | login-form', function (hooks) {
 
     // then
     assert.dom(screen.getByText(t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
+  });
+
+  test('should authenticate user with trimmed email', async function (assert) {
+    // given
+    sessionStub.authenticate.callsFake(function (authenticator, email, password, scope) {
+      this.authenticator = authenticator;
+      this.email = email;
+      this.password = password;
+      this.scope = scope;
+      return resolve();
+    });
+    const sessionServiceObserver = this.owner.lookup('service:session');
+    const screen = await render(<template><Login /></template>);
+    await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), '  email@example.net  ');
+    await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
+
+    //  when
+    await click(screen.getByRole('button', { name: 'Je me connecte' }));
+
+    // then
+    assert.strictEqual(sessionServiceObserver.authenticator, 'authenticator:oauth2');
+    assert.strictEqual(sessionServiceObserver.email, 'email@example.net');
+    assert.strictEqual(sessionServiceObserver.password, 'JeMeLoggue1024');
+    assert.strictEqual(sessionServiceObserver.scope, 'pix-certif');
   });
 
   test('it displays a should change password message', async function (assert) {
@@ -98,7 +122,7 @@ module('Integration | Component | login-form', function (hooks) {
     service.currentDomain = { getExtension: sinon.stub().returns('fr') };
 
     sessionStub.authenticate.callsFake(() => reject(errorResponse));
-    const screen = await renderScreen(hbs`<LoginForm />`);
+    const screen = await render(<template><Login /></template>);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'Mauvais mot de passe');
 
@@ -139,7 +163,7 @@ module('Integration | Component | login-form', function (hooks) {
     };
 
     sessionStub.authenticate.callsFake(() => reject(notLinkedToOrganizationErrorMessage));
-    const screen = await renderScreen(hbs`<LoginForm />`);
+    const screen = await render(<template><Login /></template>);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
 
@@ -166,7 +190,7 @@ module('Integration | Component | login-form', function (hooks) {
     };
 
     sessionStub.authenticate.callsFake(() => reject(gatewayTimeoutErrorMessage));
-    const screen = await renderScreen(hbs`<LoginForm />`);
+    const screen = await render(<template><Login /></template>);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
 
@@ -185,7 +209,7 @@ module('Integration | Component | login-form', function (hooks) {
     };
 
     sessionStub.authenticate.callsFake(() => reject(msgErrorNotLinkedCertification));
-    const screen = await renderScreen(hbs`<LoginForm />`);
+    const screen = await render(<template><Login /></template>);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn(screen.getByLabelText('Mot de passe'), 'JeMeLoggue1024');
 
@@ -199,7 +223,7 @@ module('Integration | Component | login-form', function (hooks) {
   module('when an invitation is cancelled', function () {
     test('it should display an error message', async function (assert) {
       // given & when
-      const screen = await renderScreen(hbs`<LoginForm @isInvitationCancelled='true' />`);
+      const screen = await render(<template><Login @isInvitationCancelled='true' /></template>);
 
       // then
       assert
@@ -217,7 +241,7 @@ module('Integration | Component | login-form', function (hooks) {
   module('when an invitation has already been accepted', function () {
     test('it should display an error message', async function (assert) {
       // given & when
-      const screen = await renderScreen(hbs`<LoginForm @hasInvitationAlreadyBeenAccepted='true' />`);
+      const screen = await render(<template><Login @hasInvitationAlreadyBeenAccepted='true' /></template>);
 
       // then
       assert

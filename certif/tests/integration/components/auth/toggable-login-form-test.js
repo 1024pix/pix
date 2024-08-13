@@ -34,6 +34,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
       // then
       assert.dom(screen.getByRole('textbox', { name: emailInputLabel })).exists();
       assert.dom(screen.getByLabelText(passwordInputLabel)).exists();
+      assert.dom(screen.getByText(loginLabel)).exists();
     });
 
     test('[a11y] it should display a message that all inputs are required', async function (assert) {
