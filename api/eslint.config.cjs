@@ -5,7 +5,7 @@ const eslintConfig = require('@1024pix/eslint-plugin/config');
 const prettier = require('eslint-plugin-prettier/recommended');
 const chai = require('eslint-plugin-chai-expect');
 const n = require('eslint-plugin-n').configs['flat/recommended'];
-const _import = require('eslint-plugin-import');
+const _import = require('eslint-plugin-import-x');
 const knex = require('eslint-plugin-knex');
 const unicorn = require('eslint-plugin-unicorn');
 
