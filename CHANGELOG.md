@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v4.198.0 (13/08/2024)
+
+
+### :rocket: Amélioration
+- [#9815](https://github.com/1024pix/pix/pull/9815) [FEATURE] Ajout de la colonne relative au besoin d'une certification aménagée dans la table certification-candidates (PIX-13293).
+
+### :building_construction: Tech
+- [#9837](https://github.com/1024pix/pix/pull/9837) [TECH] Remplacer un plugin eslint par une alternative plus légère.
+
 ## v4.197.0 (12/08/2024)
 
 
