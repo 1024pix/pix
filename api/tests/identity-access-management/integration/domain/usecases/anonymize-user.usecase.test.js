@@ -4,7 +4,7 @@ import { userAnonymizedEventLoggingJobRepository } from '../../../../../lib/infr
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
-import { UserAnonymizedAuditLog } from '../../../../../src/identity-access-management/domain/models/UserAnonymizedAuditLog.js';
+import { UserAnonymizedEventLoggingJob } from '../../../../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
 import { refreshTokenService } from '../../../../../src/identity-access-management/domain/services/refresh-token-service.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { resetPasswordDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
@@ -86,7 +86,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
     );
 
     // then
-    const userAnonymizedJobs = await jobs(UserAnonymizedAuditLog.name);
+    const userAnonymizedJobs = await jobs(UserAnonymizedEventLoggingJob.name);
     expect(userAnonymizedJobs).to.have.length(1);
     expect(userAnonymizedJobs[0]).to.have.deep.property('data', {
       client: 'PIX_ADMIN',
@@ -343,7 +343,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
       const anonymizedUser = await knex('users').where({ id: user.id }).first();
       expect(anonymizedUser.hasBeenAnonymised).to.be.true;
 
-      const userAnonymizedJobs = await jobs(UserAnonymizedAuditLog.name);
+      const userAnonymizedJobs = await jobs(UserAnonymizedEventLoggingJob.name);
       expect(userAnonymizedJobs).to.have.length(0);
     });
   });

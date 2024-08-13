@@ -1,5 +1,5 @@
 import { auditLoggerRepository } from '../../../../../../lib/infrastructure/repositories/audit-logger-repository.js';
-import { UserAnonymizedAuditLog } from '../../../../../../src/identity-access-management/domain/models/UserAnonymizedAuditLog.js';
+import { UserAnonymizedEventLoggingJob } from '../../../../../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
 import { UserAnonymizedEventLoggingJobController } from '../../../../../../src/shared/application/jobs/audit-log/user-anonymized-event-logging-job-controller.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
@@ -20,7 +20,7 @@ describe('Unit | Jobs | audit-log | User anonymized event logging', function () 
       // given
       sinon.stub(auditLoggerRepository, 'logEvent').resolves();
 
-      const payload = new UserAnonymizedAuditLog({
+      const payload = new UserAnonymizedEventLoggingJob({
         userId: 1,
         updatedByUserId: 2,
         role: 'SUPER_ADMIN',

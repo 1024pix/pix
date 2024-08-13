@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { UserAnonymizedAuditLog } from '../../../src/identity-access-management/domain/models/UserAnonymizedAuditLog.js';
+import { UserAnonymizedEventLoggingJob } from '../../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
 import { config } from '../../../src/shared/config.js';
 import { UserNotFoundError } from '../../../src/shared/domain/errors.js';
 import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
@@ -49,7 +49,7 @@ const anonymizeUser = async function ({
 
   if (anonymizedBy && config.auditLogger.isEnabled) {
     await userAnonymizedEventLoggingJobRepository.performAsync(
-      new UserAnonymizedAuditLog({
+      new UserAnonymizedEventLoggingJob({
         userId,
         updatedByUserId: anonymizedBy.userId,
         role: anonymizedBy.role,

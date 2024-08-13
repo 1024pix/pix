@@ -1,8 +1,8 @@
-import { UserAnonymizedAuditLog } from '../../../../../src/identity-access-management/domain/models/UserAnonymizedAuditLog.js';
+import { UserAnonymizedEventLoggingJob } from '../../../../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
 import { ObjectValidationError } from '../../../../../src/shared/domain/errors.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Identity Access Management | Domain | Model | UserAnonymizedAuditLog', function () {
+describe('Unit | Identity Access Management | Domain | Model | UserAnonymizedEventLoggingJob', function () {
   let clock;
 
   beforeEach(function () {
@@ -18,7 +18,7 @@ describe('Unit | Identity Access Management | Domain | Model | UserAnonymizedAud
     context('when instantiated with valid parameters', function () {
       it('instantiates a new event', function () {
         // when
-        const userAnonymised = new UserAnonymizedAuditLog({
+        const userAnonymised = new UserAnonymizedEventLoggingJob({
           userId: 1,
           updatedByUserId: 2,
           role: 'SUPER_ADMIN',
@@ -40,7 +40,7 @@ describe('Unit | Identity Access Management | Domain | Model | UserAnonymizedAud
       it('throws an ObjectValidation error', function () {
         expect(
           () =>
-            new UserAnonymizedAuditLog({
+            new UserAnonymizedEventLoggingJob({
               userId: 1,
               updatedByUserId: 2,
               client: 'NOOB',
@@ -55,7 +55,7 @@ describe('Unit | Identity Access Management | Domain | Model | UserAnonymizedAud
         // then
         expect(
           () =>
-            new UserAnonymizedAuditLog({
+            new UserAnonymizedEventLoggingJob({
               userId: 1,
               updatedByUserId: 2,
               role: 'METIER',

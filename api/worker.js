@@ -10,7 +10,7 @@ import * as organizationLearnerRepository from './lib/infrastructure/repositorie
 import * as pgBossRepository from './lib/infrastructure/repositories/pgboss-repository.js';
 import { CertificationRescoringByScriptJobHandler } from './src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptHandler.js';
 import { CertificationRescoringByScriptJob } from './src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptJob.js';
-import { UserAnonymizedAuditLog } from './src/identity-access-management/domain/models/UserAnonymizedAuditLog.js';
+import { UserAnonymizedEventLoggingJob } from './src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
 import { GarAnonymizedBatchEventsLoggingJob } from './src/identity-access-management/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJob.js';
 import { GarAnonymizedBatchEventsLoggingJobHandler } from './src/identity-access-management/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJobHandler.js';
 import { ImportOrganizationLearnersJob } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
@@ -99,7 +99,7 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
     SendSharedParticipationResultsToPoleEmploiHandler,
   );
 
-  monitoredJobQueue.performJob(UserAnonymizedAuditLog.name, UserAnonymizedEventLoggingJobController);
+  monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobController);
 
   monitoredJobQueue.performJob(GarAnonymizedBatchEventsLoggingJob.name, GarAnonymizedBatchEventsLoggingJobHandler);
   monitoredJobQueue.performJob(CertificationRescoringByScriptJob.name, CertificationRescoringByScriptJobHandler, {

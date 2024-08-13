@@ -5,7 +5,8 @@ import { validateEntity } from '../../../shared/domain/validators/entity-validat
 
 const { ROLES } = PIX_ADMIN;
 
-export class UserAnonymizedAuditLog {
+// Todo rename on UserAnonymizedEventLoggingJob in order to erase Event logging context
+export class UserAnonymizedEventLoggingJob {
   constructor({ userId, updatedByUserId, client = 'PIX_ADMIN', role }) {
     this.userId = userId;
     this.updatedByUserId = updatedByUserId;
