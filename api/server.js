@@ -1,6 +1,6 @@
 import Oppsy from '@1024pix/oppsy';
 import Hapi from '@hapi/hapi';
-import Qs from 'qs';
+import { parse } from 'neoqs';
 
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
 import { knex } from './db/knex-database-connection.js';
@@ -95,7 +95,7 @@ const createBareServer = function () {
     },
     port,
     query: {
-      parser: (query) => Qs.parse(query),
+      parser: (query) => parse(query),
     },
     router: {
       isCaseSensitive: false,
