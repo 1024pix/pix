@@ -13,6 +13,10 @@ import { CertificationRescoringByScriptJob } from './src/certification/session-m
 import { UserAnonymizedEventLoggingJob } from './src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
 import { GarAnonymizedBatchEventsLoggingJob } from './src/identity-access-management/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJob.js';
 import { GarAnonymizedBatchEventsLoggingJobHandler } from './src/identity-access-management/infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJobHandler.js';
+import { ParticipationResultCalculationJobController } from './src/prescription/campaign-participation/application/jobs/participation-result-calculation-job-controller.js';
+import { SendSharedParticipationResultsToPoleEmploiJobController } from './src/prescription/campaign-participation/application/jobs/send-share-participation-results-to-pole-emploi-job-controller.js';
+import { ParticipationResultCalculationJob } from './src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
+import { SendSharedParticipationResultsToPoleEmploiJob } from './src/prescription/campaign-participation/domain/models/SendSharedParticipationResultsToPoleEmploiJob.js';
 import { ImportOrganizationLearnersJob } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
 import { ImportOrganizationLearnersJobHandler } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJobHandler.js';
 import { ValidateOrganizationImportFileJob } from './src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJob.js';
@@ -20,10 +24,6 @@ import { ValidateOrganizationImportFileJobHandler } from './src/prescription/lea
 import { UserAnonymizedEventLoggingJobController } from './src/shared/application/jobs/audit-log/user-anonymized-event-logging-job-controller.js';
 import { config } from './src/shared/config.js';
 import * as learningContentDatasource from './src/shared/infrastructure/datasources/learning-content/datasource.js';
-import { ParticipationResultCalculationJob } from './src/shared/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob.js';
-import { ParticipationResultCalculationJobHandler } from './src/shared/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler.js';
-import { SendSharedParticipationResultsToPoleEmploiHandler } from './src/shared/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler.js';
-import { SendSharedParticipationResultsToPoleEmploiJob } from './src/shared/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
 import { scheduleCpfJobs } from './src/shared/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { JobQueue } from './src/shared/infrastructure/jobs/JobQueue.js';
 import { LcmsRefreshCacheJob } from './src/shared/infrastructure/jobs/lcms/LcmsRefreshCacheJob.js';
@@ -93,13 +93,14 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
     },
   );
   monitoredJobQueue.performJob(ComputeCertificabilityJob.name, ComputeCertificabilityJobHandler);
-  monitoredJobQueue.performJob(ParticipationResultCalculationJob.name, ParticipationResultCalculationJobHandler);
-  monitoredJobQueue.performJob(
-    SendSharedParticipationResultsToPoleEmploiJob.name,
-    SendSharedParticipationResultsToPoleEmploiHandler,
-  );
 
   monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobController);
+
+  monitoredJobQueue.performJob(ParticipationResultCalculationJob.name, ParticipationResultCalculationJobController);
+  monitoredJobQueue.performJob(
+    SendSharedParticipationResultsToPoleEmploiJob.name,
+    SendSharedParticipationResultsToPoleEmploiJobController,
+  );
 
   monitoredJobQueue.performJob(GarAnonymizedBatchEventsLoggingJob.name, GarAnonymizedBatchEventsLoggingJobHandler);
   monitoredJobQueue.performJob(CertificationRescoringByScriptJob.name, CertificationRescoringByScriptJobHandler, {

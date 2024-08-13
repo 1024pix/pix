@@ -16,8 +16,8 @@ class JobPgBoss {
    */
   constructor(config, queryBuilder) {
     this.name = config.name;
-    this.retryLimit = config.retryLimit || 0;
-    this.retryDelay = config.retryDelay || 30;
+    this.retryLimit = config.retryLimit ?? 0;
+    this.retryDelay = config.retryDelay ?? 30;
     this.retryBackoff = config.retryBackoff || false;
     this.expireIn = config.expireIn || '00:15:00';
     this.queryBuilder = queryBuilder;
