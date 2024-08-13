@@ -85,10 +85,20 @@ describe('Unit | Controller | cache-controller', function () {
         sinon.stub(usecases, 'refreshLearningContentCache').resolves();
 
         // when
-        const response = await cacheController.refreshCacheEntries({}, hFake);
+        const response = await cacheController.refreshCacheEntries(
+          {
+            auth: {
+              credentials: {
+                userId: 123,
+              },
+            },
+          },
+          hFake,
+        );
 
         // then
         expect(usecases.refreshLearningContentCache).to.have.been.calledOnce;
+        expect(usecases.refreshLearningContentCache).to.have.been.calledWithExactly({ userId: 123 });
         expect(response.statusCode).to.equal(202);
       });
     });

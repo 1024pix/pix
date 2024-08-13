@@ -22,12 +22,11 @@ import { ImportOrganizationLearnersJobHandler } from './src/prescription/learner
 import { ValidateOrganizationImportFileJob } from './src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJob.js';
 import { ValidateOrganizationImportFileJobHandler } from './src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJobHandler.js';
 import { UserAnonymizedEventLoggingJobController } from './src/shared/application/jobs/audit-log/user-anonymized-event-logging-job-controller.js';
+import { LcmsRefreshCacheJobController } from './src/shared/application/jobs/lcms-refresh-cache-job-controller.js';
 import { config } from './src/shared/config.js';
-import * as learningContentDatasource from './src/shared/infrastructure/datasources/learning-content/datasource.js';
+import { LcmsRefreshCacheJob } from './src/shared/domain/models/LcmsRefreshCacheJob.js';
 import { scheduleCpfJobs } from './src/shared/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { JobQueue } from './src/shared/infrastructure/jobs/JobQueue.js';
-import { LcmsRefreshCacheJob } from './src/shared/infrastructure/jobs/lcms/LcmsRefreshCacheJob.js';
-import { LcmsRefreshCacheJobHandler } from './src/shared/infrastructure/jobs/lcms/LcmsRefreshCacheJobHandler.js';
 import { MonitoredJobQueue } from './src/shared/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
 import { ComputeCertificabilityJob } from './src/shared/infrastructure/jobs/organization-learner/ComputeCertificabilityJob.js';
 import { ComputeCertificabilityJobHandler } from './src/shared/infrastructure/jobs/organization-learner/ComputeCertificabilityJobHandler.js';
@@ -79,10 +78,6 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
   const pgBoss = await dependencies.startPgBoss();
   const monitoredJobQueue = dependencies.createMonitoredJobQueue(pgBoss);
 
-  monitoredJobQueue.performJob(LcmsRefreshCacheJob.name, LcmsRefreshCacheJobHandler, {
-    learningContentDatasource,
-    logger,
-  });
   monitoredJobQueue.performJob(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,
     ScheduleComputeOrganizationLearnersCertificabilityJobHandler,
@@ -101,6 +96,9 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
     SendSharedParticipationResultsToPoleEmploiJob.name,
     SendSharedParticipationResultsToPoleEmploiJobController,
   );
+
+  monitoredJobQueue.performJob(LcmsRefreshCacheJob.name, LcmsRefreshCacheJobController);
+  monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobController);
 
   monitoredJobQueue.performJob(GarAnonymizedBatchEventsLoggingJob.name, GarAnonymizedBatchEventsLoggingJobHandler);
   monitoredJobQueue.performJob(CertificationRescoringByScriptJob.name, CertificationRescoringByScriptJobHandler, {

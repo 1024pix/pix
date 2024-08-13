@@ -3,8 +3,10 @@ import _ from 'lodash';
 import { sharedUsecases as usecases } from '../../../src/shared/domain/usecases/index.js';
 import * as LearningContentDatasources from '../../../src/shared/infrastructure/datasources/learning-content/index.js';
 
-const refreshCacheEntries = async function (_, h) {
-  await usecases.refreshLearningContentCache();
+const refreshCacheEntries = async function (request, h) {
+  const { userId } = request.auth.credentials;
+
+  await usecases.refreshLearningContentCache({ userId });
   return h.response({}).code(202);
 };
 
