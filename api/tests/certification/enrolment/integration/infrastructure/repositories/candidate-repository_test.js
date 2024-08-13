@@ -151,7 +151,6 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
         billingMode: null,
         prepaymentCode: null,
         hasSeenCertificationInstructions: false,
-        accessibilityAdjustmentNeeded: false,
         subscriptions: [
           {
             type: SUBSCRIPTION_TYPES.CORE,
