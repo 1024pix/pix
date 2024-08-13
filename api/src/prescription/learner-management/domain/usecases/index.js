@@ -11,6 +11,7 @@ import * as organizationRepository from '../../../../shared/infrastructure/repos
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
+import { repositories } from '../../infrastructure/repositories/index.js';
 import * as organizationImportRepository from '../../infrastructure/repositories/organization-import-repository.js';
 import * as organizationLearnerImportFormatRepository from '../../infrastructure/repositories/organization-learner-import-format-repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
@@ -31,6 +32,7 @@ const dependencies = {
   eventBus,
   logErrorWithCorrelationIds,
   userReconciliationService,
+  organizationFeatureRepository: repositories.organizationFeatureRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

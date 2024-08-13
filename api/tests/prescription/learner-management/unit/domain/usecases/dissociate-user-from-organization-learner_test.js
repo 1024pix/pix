@@ -6,7 +6,7 @@ describe('Unit | UseCase | dissociate-user-from-organization-learner', function 
   const organizationId = 1;
   const organizationLearnerId = 2;
 
-  let organizationLearnerRepositoryStub;
+  let organizationLearnerRepositoryStub, organizationFeatureRepositoryStub;
 
   beforeEach(function () {
     domainBuilder.buildOrganizationLearner({
@@ -14,6 +14,9 @@ describe('Unit | UseCase | dissociate-user-from-organization-learner', function 
       id: organizationLearnerId,
     });
 
+    organizationFeatureRepositoryStub = {
+      hasLearnersImportFeature: sinon.stub(),
+    };
     organizationLearnerRepositoryStub = {
       dissociateUserFromOrganizationLearner: sinon.stub(),
       getOrganizationLearnerForAdmin: sinon.stub(),
@@ -22,12 +25,15 @@ describe('Unit | UseCase | dissociate-user-from-organization-learner', function 
 
   it('should dissociate user from the organization learner', async function () {
     // given
-    organizationLearnerRepositoryStub.getOrganizationLearnerForAdmin.resolves({ canBeDissociated: true });
+    organizationLearnerRepositoryStub.getOrganizationLearnerForAdmin
+      .withArgs(organizationLearnerId)
+      .resolves({ organizationId, canBeDissociated: true });
 
     // when
     await usecases.dissociateUserFromOrganizationLearner({
       organizationLearnerId,
       organizationLearnerRepository: organizationLearnerRepositoryStub,
+      organizationFeatureRepository: organizationFeatureRepositoryStub,
     });
 
     // then
@@ -36,14 +42,38 @@ describe('Unit | UseCase | dissociate-user-from-organization-learner', function 
     );
   });
 
-  it('should throw an error when organization learner cannot be dissociated', async function () {
+  it('should dissociate user from the organization learner when organization has import feature', async function () {
     // given
-    organizationLearnerRepositoryStub.getOrganizationLearnerForAdmin.resolves({ canBeDissociated: false });
+    organizationLearnerRepositoryStub.getOrganizationLearnerForAdmin
+      .withArgs(organizationLearnerId)
+      .resolves({ organizationId, canBeDissociated: false });
+    organizationFeatureRepositoryStub.hasLearnersImportFeature.withArgs({ organizationId }).resolves(true);
+
+    // when
+    await usecases.dissociateUserFromOrganizationLearner({
+      organizationLearnerId,
+      organizationLearnerRepository: organizationLearnerRepositoryStub,
+      organizationFeatureRepository: organizationFeatureRepositoryStub,
+    });
+
+    // then
+    expect(organizationLearnerRepositoryStub.dissociateUserFromOrganizationLearner).to.be.have.been.calledWithExactly(
+      organizationLearnerId,
+    );
+  });
+
+  it('should throw an error when organization learner cannot be dissociated and organization does not have import feature', async function () {
+    // given
+    organizationLearnerRepositoryStub.getOrganizationLearnerForAdmin
+      .withArgs(organizationLearnerId)
+      .resolves({ organizationId, canBeDissociated: false });
+    organizationFeatureRepositoryStub.hasLearnersImportFeature.withArgs({ organizationId }).resolves(false);
 
     // when
     const error = await catchErr(usecases.dissociateUserFromOrganizationLearner)({
       organizationLearnerId,
       organizationLearnerRepository: organizationLearnerRepositoryStub,
+      organizationFeatureRepository: organizationFeatureRepositoryStub,
     });
 
     // then
