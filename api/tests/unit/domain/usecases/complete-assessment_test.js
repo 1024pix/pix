@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
+import { CertificationCompletedJob } from '../../../../lib/domain/events/CertificationCompleted.js';
 import { completeAssessment } from '../../../../lib/domain/usecases/complete-assessment.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 import { AlreadyRatedAssessmentError } from '../../../../src/shared/domain/errors.js';
@@ -10,6 +10,7 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js'
 describe('Unit | UseCase | complete-assessment', function () {
   let assessmentRepository;
   let campaignParticipationBCRepository;
+  let certificationCompletedJobRepository;
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
 
@@ -22,6 +23,10 @@ describe('Unit | UseCase | complete-assessment', function () {
     campaignParticipationBCRepository = {
       get: _.noop,
       update: _.noop,
+    };
+
+    certificationCompletedJobRepository = {
+      performAsync: _.noop,
     };
 
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
@@ -71,6 +76,7 @@ describe('Unit | UseCase | complete-assessment', function () {
         beforeEach(function () {
           sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
           sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
+          sinon.stub(certificationCompletedJobRepository, 'performAsync').resolves();
         });
 
         it('should complete the assessment', async function () {
@@ -79,25 +85,11 @@ describe('Unit | UseCase | complete-assessment', function () {
             assessmentId: assessment.id,
             assessmentRepository,
             campaignParticipationBCRepository,
+            certificationCompletedJobRepository,
           });
 
           // then
           expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessment.id)).to.be.true;
-        });
-
-        it('should return a AssessmentCompleted event', async function () {
-          // when
-          const result = await completeAssessment({
-            assessmentId: assessment.id,
-            assessmentRepository,
-            campaignParticipationBCRepository,
-          });
-
-          // then
-          expect(result.event).to.be.an.instanceof(AssessmentCompleted);
-          expect(result.event.userId).to.equal(assessment.userId);
-          expect(result.event.assessmentId).to.equal(assessment.id);
-          expect(result.assessment).to.equal(assessment);
         });
       });
     });
@@ -110,15 +102,19 @@ describe('Unit | UseCase | complete-assessment', function () {
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
         sinon.stub(campaignParticipationBCRepository, 'get').resolves({ id: 1 });
         sinon.stub(campaignParticipationBCRepository, 'update').resolves();
+        sinon.stub(certificationCompletedJobRepository, 'performAsync').resolves();
         // when
-        const result = await completeAssessment({
+        await completeAssessment({
           assessmentId: assessment.id,
           assessmentRepository,
           campaignParticipationBCRepository,
+          certificationCompletedJobRepository,
         });
 
         // then
-        expect(result.event.campaignParticipationId).to.equal(assessment.campaignParticipationId);
+        // TODO : update with Campaign performAync
+        // expect(result.event.campaignParticipationId).to.equal(assessment.campaignParticipationId);
+        expect(certificationCompletedJobRepository.performAsync).to.not.have.been.called;
       });
 
       it('should call update campaign participation status', async function () {
@@ -152,16 +148,27 @@ describe('Unit | UseCase | complete-assessment', function () {
         sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
         sinon.stub(campaignParticipationBCRepository, 'update').resolves();
+        sinon
+          .stub(certificationCompletedJobRepository, 'performAsync')
+          .withArgs(
+            new CertificationCompletedJob({
+              assessmentId: assessment.id,
+              userId: assessment.userId,
+              certificationCourseId: assessment.certificationCourseId,
+            }),
+          )
+          .resolves();
         // when
-        const result = await completeAssessment({
+        await completeAssessment({
           assessmentId: assessment.id,
           assessmentRepository,
           campaignParticipationBCRepository,
+          certificationCompletedJobRepository,
         });
 
         // then
         expect(campaignParticipationBCRepository.update).to.not.have.been.called;
-        expect(result.event.isCertificationType).to.equal(true);
+        expect(certificationCompletedJobRepository.performAsync).to.have.been.called;
       });
     });
   });

@@ -1,11 +1,12 @@
 import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 import { AlreadyRatedAssessmentError } from '../../../src/shared/domain/errors.js';
-import { AssessmentCompleted } from '../events/AssessmentCompleted.js';
+import { CertificationCompletedJob } from '../events/CertificationCompleted.js';
 
 const completeAssessment = async function ({
   assessmentId,
   campaignParticipationBCRepository,
   assessmentRepository,
+  certificationCompletedJobRepository,
   locale,
 }) {
   const assessment = await assessmentRepository.get(assessmentId);
@@ -22,13 +23,16 @@ const completeAssessment = async function ({
     await campaignParticipationBCRepository.update({ id: assessment.campaignParticipationId, status: TO_SHARE });
   }
 
-  const assessmentCompleted = new AssessmentCompleted({
-    assessmentId: assessment.id,
-    userId: assessment.userId,
-    campaignParticipationId: assessment.campaignParticipationId,
-    certificationCourseId: assessment.certificationCourseId,
-    locale,
-  });
+  if (assessment.certificationCourseId) {
+    await certificationCompletedJobRepository.performAsync(
+      new CertificationCompletedJob({
+        assessmentId: assessment.id,
+        userId: assessment.userId,
+        certificationCourseId: assessment.certificationCourseId,
+        locale,
+      }),
+    );
+  }
 
   return assessment;
 };

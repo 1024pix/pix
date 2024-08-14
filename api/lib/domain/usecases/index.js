@@ -132,6 +132,7 @@ import * as dataProtectionOfficerRepository from '../../infrastructure/repositor
 import * as flashAssessmentResultRepository from '../../infrastructure/repositories/flash-assessment-result-repository.js';
 import * as frameworkRepository from '../../infrastructure/repositories/framework-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
+import { certificationCompletedJobRepository } from '../../infrastructure/repositories/jobs/certification-completed-job-repository.js';
 import { userAnonymizedEventLoggingJobRepository } from '../../infrastructure/repositories/jobs/user-anonymized-event-logging-job-repository.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
@@ -183,6 +184,7 @@ function requirePoleEmploiNotifier() {
  * @typedef {sessionRepository} SessionRepository
  * @typedef {centerRepository} CenterRepository
  * @typedef {certificationCenterForAdminRepository} CertificationCenterForAdminRepository
+ * @typedef {certificationCompletedJobRepository} CertificationCompletedJobRepository
  * @typedef {complementaryCertificationHabilitationRepository} ComplementaryCertificationHabilitationRepository
  * @typedef {dataProtectionOfficerRepository} DataProtectionOfficerRepository
  * @typedef {userAnonymizedEventLoggingJobRepository} UserAnonymizedEventLoggingJobRepository
@@ -190,6 +192,7 @@ function requirePoleEmploiNotifier() {
 
 const dependencies = {
   accountRecoveryDemandRepository,
+  certificationCompletedJobRepository,
   activityAnswerRepository,
   adminMemberRepository,
   algorithmDataFetcherService,
