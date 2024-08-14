@@ -11,7 +11,7 @@ const getCertificationCandidateSubscription = async function ({
     id: certificationCandidateId,
   });
 
-  const sessionVersion = await sessionRepository.getVersion({ id: certificationCandidate.sessionId });
+  const session = await sessionRepository.get({ id: certificationCandidate.sessionId });
 
   if (!certificationCandidate.complementaryCertification) {
     return new CertificationCandidateSubscription({
@@ -19,7 +19,7 @@ const getCertificationCandidateSubscription = async function ({
       sessionId: certificationCandidate.sessionId,
       eligibleSubscription: null,
       nonEligibleSubscription: null,
-      sessionVersion,
+      sessionVersion: session.version,
     });
   }
 
@@ -51,7 +51,7 @@ const getCertificationCandidateSubscription = async function ({
     sessionId: certificationCandidate.sessionId,
     eligibleSubscription,
     nonEligibleSubscription,
-    sessionVersion,
+    sessionVersion: session.version,
   });
 };
 

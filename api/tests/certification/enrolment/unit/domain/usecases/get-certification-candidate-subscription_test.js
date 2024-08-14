@@ -31,7 +31,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-certificatio
     };
 
     sessionRepository = {
-      getVersion: sinon.stub(),
+      get: sinon.stub(),
     };
   });
 
@@ -63,7 +63,11 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-certificatio
           .withArgs({ id: certificationCandidateId })
           .resolves(candidateWithComplementaryCertification);
 
-        sessionRepository.getVersion.withArgs({ id: sessionId }).resolves(2);
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(
+          domainBuilder.certification.enrolment.buildSession({
+            version: 2,
+          }),
+        );
 
         certificationCenterRepository.getBySessionId.withArgs({ sessionId }).resolves(certificationCenter);
 
@@ -124,7 +128,11 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-certificatio
           .withArgs({ id: certificationCandidateId })
           .resolves(candidateWithoutComplementaryCertification);
 
-        sessionRepository.getVersion.withArgs({ id: sessionId }).resolves(2);
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(
+          domainBuilder.certification.enrolment.buildSession({
+            version: 2,
+          }),
+        );
 
         certificationCenterRepository.getBySessionId.withArgs({ sessionId }).resolves(certificationCenter);
 

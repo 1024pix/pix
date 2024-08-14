@@ -36,14 +36,6 @@ export async function get({ id }) {
   return new SessionEnrolment({ ...foundSession, certificationCandidates: [] });
 }
 
-export async function getVersion({ id }) {
-  const result = await knex.select('version').from('sessions').where({ id }).first();
-  if (!result) {
-    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
-  }
-  return result.version;
-}
-
 export async function isSessionExistingByCertificationCenterId({ address, room, date, time, certificationCenterId }) {
   const sessions = await knex('sessions').where({ address, room, date, time }).andWhere({ certificationCenterId });
   return sessions.length > 0;
