@@ -66,6 +66,7 @@
         "CANDIDATE_SESSION_ID_REQUIRED": "The field \"Session No.\" is required",
         "CANDIDATE_SEX_NOT_VALID": "The field \"Gender\" accepts the values \"M\" for a man or \"F\" for a woman",
         "CANDIDATE_SEX_REQUIRED": "The field \"Gender\" is required",
+        "CANDIDATE_WRONG_SUBSCRIPTIONS_COMPATIBILITY": "You cannot register a candidate for more than one complementary certification",
         "DUPLICATE_CANDIDATE": "Please delete duplicate candidate(s) before re-uploading"
       },
       "gateway-timeout-error": "The service is being slow. Please try again later.",
@@ -758,6 +759,7 @@
               "CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID": "Donnée du champ \"E-mail du destinataire des résultats (formateur, enseignant…)\" invalide",
               "CANDIDATE_SEX_NOT_VALID": "Donnée du champ \"Sexe\" invalide (format accepté \"M\"/\"F\")",
               "CANDIDATE_SEX_REQUIRED": "Champ obligatoire \"Sexe\" manquant",
+              "CANDIDATE_WRONG_SUBSCRIPTIONS_COMPATIBILITY": "You cannot register a candidate for more than one complementary certification",
               "INFORMATION_NOT_ALLOWED_WITH_SESSION_ID": "Numéro de session fourni, veuillez supprimer les informations de session associées",
               "SESSION_ADDRESS_REQUIRED": "Champ obligatoire \"Nom du site\" manquant",
               "SESSION_DATE_NOT_VALID": "Donnée du champ \"Date de session\" invalide (format accepté JJ/MM/AAAA)",

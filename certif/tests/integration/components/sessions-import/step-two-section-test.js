@@ -133,6 +133,10 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
         error: 'CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID',
         expectedMessage: 'Donnée du champ "E-mail du destinataire des résultats (formateur, enseignant…)" invalide',
       },
+      {
+        error: 'CANDIDATE_WRONG_SUBSCRIPTIONS_COMPATIBILITY',
+        expectedMessage: "Vous ne pouvez pas inscrire un candidat à plus d'une certification complémentaire",
+      },
       { error: 'SESSION_ADDRESS_REQUIRED', expectedMessage: 'Champ obligatoire "Nom du site" manquant' },
       { error: 'SESSION_ROOM_REQUIRED', expectedMessage: 'Champ obligatoire "Nom de la salle" manquant' },
       { error: 'SESSION_DATE_REQUIRED', expectedMessage: 'Champ obligatoire "Date de session" manquant' },
