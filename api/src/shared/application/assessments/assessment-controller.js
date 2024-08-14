@@ -93,17 +93,13 @@ const getNextChallenge = async function (
 const completeAssessment = async function (request) {
   const assessmentId = request.params.id;
   const locale = extractLocaleFromRequest(request);
-  let event;
 
   await DomainTransaction.execute(async () => {
-    const result = await usecases.completeAssessment({ assessmentId, locale });
-    await usecases.handleBadgeAcquisition({ assessment: result.assessment });
-    await usecases.handleStageAcquisition({ assessment: result.assessment });
-    await devcompUsecases.handleTrainingRecommendation({ assessment: result.assessment, locale });
-    event = result.event;
+    const assessment = await usecases.completeAssessment({ assessmentId, locale });
+    await usecases.handleBadgeAcquisition({ assessment });
+    await usecases.handleStageAcquisition({ assessment });
+    await devcompUsecases.handleTrainingRecommendation({ assessment, locale });
   });
-
-  await events.eventDispatcher.dispatch(event);
 
   return null;
 };

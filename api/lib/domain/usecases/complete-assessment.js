@@ -30,10 +30,7 @@ const completeAssessment = async function ({
     locale,
   });
 
-  return {
-    event: assessmentCompleted,
-    assessment,
-  };
+  return assessment;
 };
 
 export { completeAssessment };

@@ -76,10 +76,7 @@ describe('Unit | Controller | assessment-controller', function () {
       sinon.stub(usecases, 'handleBadgeAcquisition');
       sinon.stub(devcompUsecases, 'handleTrainingRecommendation');
       sinon.stub(usecases, 'handleStageAcquisition');
-      usecases.completeAssessment.resolves({
-        event: assessmentCompletedEvent,
-        assessment,
-      });
+      usecases.completeAssessment.resolves(assessment);
       usecases.handleBadgeAcquisition.resolves();
       sinon.stub(events.eventDispatcher, 'dispatch');
     });
@@ -112,14 +109,6 @@ describe('Unit | Controller | assessment-controller', function () {
         assessment,
         locale,
       });
-    });
-
-    it('should dispatch the assessment completed event', async function () {
-      // when
-      await assessmentController.completeAssessment({ params: { id: assessmentId } });
-
-      // then
-      expect(events.eventDispatcher.dispatch).to.have.been.calledWithExactly(assessmentCompletedEvent);
     });
   });
 
