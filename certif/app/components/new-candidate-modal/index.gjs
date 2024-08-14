@@ -14,6 +14,8 @@ import { tracked } from '@glimmer/tracking';
 import inputmask from 'ember-inputmask5/modifiers/inputmask';
 import { t } from 'ember-intl';
 
+import { SUBSCRIPTION_TYPES, COMPLEMENTARY_KEYS } from 'pix-certif/models/subscription';
+
 import ComplementaryList from './complementary-list';
 import ComplementaryWithReferential from './complementary-with-referential';
 
@@ -32,7 +34,6 @@ export default class NewCandidateModal extends Component {
   @tracked selectedComplementaryCertification;
   @tracked selectedBillingMode;
 
-  // GETTERS
   get complementaryCertificationsHabilitations() {
     return this.currentUser.currentAllowedCertificationCenterAccess?.habilitations;
   }
@@ -165,16 +166,15 @@ export default class NewCandidateModal extends Component {
 
   updateComplementaryCertification = (complementaryCertification) => {
     if (complementaryCertification?.key) {
-      // The complementary certification parameter is passed by reference to the certification candidate
-      // Creating a copy of this complementary certification prevents the original object to be mutated in the CertificationCandidateSerializer file
-      // when the API call is being done and therefore prevents the hasComplementaryReferential property to be removed from the object
-      // TODO Send only the id of the complementary certification
-      const copiedComplementaryCertification = { ...complementaryCertification };
-      this.selectedComplementaryCertification = copiedComplementaryCertification;
-      this.args.candidateData.complementaryCertification = copiedComplementaryCertification;
+      this.args.candidateData.subscriptions = [{
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+        complementaryCertificationId: complementaryCertification.id,
+        complementaryCertificationKey: complementaryCertification.key,
+      }];
+      this.selectedComplementaryCertification = { ...complementaryCertification };
     } else {
       this.selectedComplementaryCertification = undefined;
-      this.args.candidateData.complementaryCertification = undefined;
+      this.args.candidateData.subscriptions = [];
     }
   };
 

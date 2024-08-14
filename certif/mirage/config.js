@@ -1,5 +1,6 @@
 import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
 import { createServer, Response } from 'miragejs';
+import { SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 
 import { findPaginatedSessionSummaries } from './handlers/find-paginated-session-summaries';
 import { findPaginatedStudents } from './handlers/find-paginated-students';
@@ -105,9 +106,15 @@ function routes() {
   this.post('/sessions/:id/certification-candidates', function (schema, request) {
     const sessionId = request.params.id;
     const requestBody = JSON.parse(request.requestBody);
+    const jsonSubscriptions = requestBody.data.attributes.subscriptions;
+    const subscriptions = jsonSubscriptions.map((jsonSub) => schema.subscriptions.create(jsonSub));
+    subscriptions.push(
+      schema.subscriptions.create({ type: SUBSCRIPTION_TYPES.CORE, complementaryCertificationId: null }),
+    );
     return schema.certificationCandidates.create({
       ...requestBody.data.attributes,
       sessionId,
+      subscriptions,
     });
   });
 

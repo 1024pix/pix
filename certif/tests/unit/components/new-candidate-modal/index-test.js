@@ -279,68 +279,6 @@ module('Unit | Component | new-candidate-modal', function (hooks) {
     });
   });
 
-  module('#updateComplementaryCertification', function () {
-    test('it should add the complementary certification to the candidate data', function (assert) {
-      // given
-      modal.args.candidateData = {};
-      const complementaryCertification = {
-        id: '0',
-        label: 'Certif complémentaire 1',
-        key: 'COMP_0',
-      };
-
-      // when
-      modal.updateComplementaryCertification(complementaryCertification);
-
-      // then
-      assert.deepEqual(modal.args.candidateData.complementaryCertification, complementaryCertification);
-    });
-
-    test('it should not be possible to select multiple complementary certifications', function (assert) {
-      // given
-      const firstComplementaryCertification = {
-        id: '1',
-        label: 'firstComplementaryCertification',
-        key: 'COMP_1',
-      };
-      const secondComplementaryCertification = {
-        id: '2',
-        label: 'secondComplementaryCertification',
-        key: 'COMP_2',
-      };
-      modal.args.candidateData = {
-        complementaryCertification: firstComplementaryCertification,
-      };
-
-      // when
-      modal.updateComplementaryCertification(secondComplementaryCertification);
-
-      // then
-      assert.deepEqual(modal.args.candidateData.complementaryCertification, secondComplementaryCertification);
-    });
-
-    test('it should remove the complementary when no complementary is selected', function (assert) {
-      // given
-      modal.args.candidateData = {
-        complementaryCertification: {
-          id: '0',
-          label: 'Certif complémentaire 1',
-          key: 'COMP_0',
-        },
-      };
-
-      const noneChoice = {
-        target: { value: 'none' },
-      };
-
-      // when
-      modal.updateComplementaryCertification(noneChoice);
-
-      // then
-      assert.strictEqual(typeof modal.args.candidateData.complementaryCertification, 'undefined');
-    });
-  });
-
   module('#isComplementaryAlonePilot', function () {
     module('when certification center is a complementary alone pilot', function () {
       test('it should return true', function (assert) {

@@ -57,6 +57,7 @@ export default class EnrolledCandidates extends Component {
       birthInseeCode: '',
       sex: '',
       extraTimePercentage: '',
+      subscriptions: [],
       ...addedAttributes,
     });
   }
@@ -98,7 +99,8 @@ export default class EnrolledCandidates extends Component {
   @action
   async saveCertificationCandidate(certificationCandidateData) {
     this.notifications.clearAll();
-    const certificationCandidate = this._createCertificationCandidateRecord(certificationCandidateData);
+    const { certificationCandidate, subscriptions } =
+      this._createCertificationCandidateRecord(certificationCandidateData);
 
     if (this._hasDuplicate(certificationCandidate)) {
       this._handleDuplicateError(certificationCandidate);
@@ -107,7 +109,7 @@ export default class EnrolledCandidates extends Component {
 
     try {
       await certificationCandidate.save({
-        adapterOptions: { registerToSession: true, sessionId: this.args.sessionId },
+        adapterOptions: { registerToSession: true, sessionId: this.args.sessionId, subscriptions },
       });
       this.args.reloadCertificationCandidate();
       this.notifications.success(this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-add`));
@@ -145,7 +147,12 @@ export default class EnrolledCandidates extends Component {
   }
 
   _createCertificationCandidateRecord(certificationCandidateData) {
-    return this.store.createRecord('certification-candidate', certificationCandidateData);
+    const subscriptions = certificationCandidateData.subscriptions;
+    delete certificationCandidateData.subscriptions;
+    return {
+      subscriptions,
+      certificationCandidate: this.store.createRecord('certification-candidate', certificationCandidateData),
+    };
   }
 
   _getErrorText({ status, errorResponse }) {

@@ -34,4 +34,22 @@ export default class CertificationCandidateAdapter extends ApplicationAdapter {
 
     return url;
   }
+
+  createRecord(store, type, snapshot) {
+    const { adapterOptions } = snapshot;
+
+    if (adapterOptions?.subscriptions) {
+      const { subscriptions } = adapterOptions;
+      const payload = this.serialize(snapshot);
+      payload.data.attributes.subscriptions = subscriptions.map(({ type, complementaryCertificationId }) => ({
+        type,
+        complementaryCertificationId,
+      }));
+      const url = this.urlForCreateRecord('certification-candidate', { adapterOptions: snapshot.adapterOptions });
+
+      return this.ajax(url, 'POST', { data: payload });
+    }
+
+    return super.createRecord(...arguments);
+  }
 }
