@@ -18,9 +18,9 @@ import { SendSharedParticipationResultsToPoleEmploiJobController } from './src/p
 import { ParticipationResultCalculationJob } from './src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
 import { SendSharedParticipationResultsToPoleEmploiJob } from './src/prescription/campaign-participation/domain/models/SendSharedParticipationResultsToPoleEmploiJob.js';
 import { ComputeCertificabilityJobController } from './src/prescription/learner-management/application/jobs/compute-certificability-job-controller.js';
+import { ImportOrganizationLearnersJobController } from './src/prescription/learner-management/application/jobs/import-organization-learners-job-controller.js';
 import { ComputeCertificabilityJob } from './src/prescription/learner-management/domain/models/ComputeCertificabilityJob.js';
-import { ImportOrganizationLearnersJob } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
-import { ImportOrganizationLearnersJobHandler } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJobHandler.js';
+import { ImportOrganizationLearnersJob } from './src/prescription/learner-management/domain/models/ImportOrganizationLearnersJob.js';
 import { ValidateOrganizationImportFileJob } from './src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJob.js';
 import { ValidateOrganizationImportFileJobHandler } from './src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJobHandler.js';
 import { UserAnonymizedEventLoggingJobController } from './src/shared/application/jobs/audit-log/user-anonymized-event-logging-job-controller.js';
@@ -78,6 +78,30 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
   const pgBoss = await dependencies.startPgBoss();
   const monitoredJobQueue = dependencies.createMonitoredJobQueue(pgBoss);
 
+  monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobController);
+
+  monitoredJobQueue.performJob(LcmsRefreshCacheJob.name, LcmsRefreshCacheJobController);
+
+  monitoredJobQueue.performJob(ComputeCertificabilityJob.name, ComputeCertificabilityJobController);
+  monitoredJobQueue.performJob(ParticipationResultCalculationJob.name, ParticipationResultCalculationJobController);
+  monitoredJobQueue.performJob(
+    SendSharedParticipationResultsToPoleEmploiJob.name,
+    SendSharedParticipationResultsToPoleEmploiJobController,
+  );
+  if (config.pgBoss.importFileJobEnabled) {
+    monitoredJobQueue.performJob(ImportOrganizationLearnersJob.name, ImportOrganizationLearnersJobController);
+  }
+
+  // TODO - use new format below
+  monitoredJobQueue.performJob(CertificationRescoringByScriptJob.name, CertificationRescoringByScriptJobHandler, {
+    eventDispatcher,
+  });
+  monitoredJobQueue.performJob(GarAnonymizedBatchEventsLoggingJob.name, GarAnonymizedBatchEventsLoggingJobHandler);
+
+  if (config.pgBoss.validationFileJobEnabled) {
+    monitoredJobQueue.performJob(ValidateOrganizationImportFileJob.name, ValidateOrganizationImportFileJobHandler);
+  }
+
   monitoredJobQueue.performJob(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,
     ScheduleComputeOrganizationLearnersCertificabilityJobHandler,
@@ -87,31 +111,6 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
       config,
     },
   );
-  monitoredJobQueue.performJob(ComputeCertificabilityJob.name, ComputeCertificabilityJobController);
-
-  monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobController);
-
-  monitoredJobQueue.performJob(ParticipationResultCalculationJob.name, ParticipationResultCalculationJobController);
-  monitoredJobQueue.performJob(
-    SendSharedParticipationResultsToPoleEmploiJob.name,
-    SendSharedParticipationResultsToPoleEmploiJobController,
-  );
-
-  monitoredJobQueue.performJob(LcmsRefreshCacheJob.name, LcmsRefreshCacheJobController);
-  monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobController);
-
-  monitoredJobQueue.performJob(GarAnonymizedBatchEventsLoggingJob.name, GarAnonymizedBatchEventsLoggingJobHandler);
-  monitoredJobQueue.performJob(CertificationRescoringByScriptJob.name, CertificationRescoringByScriptJobHandler, {
-    eventDispatcher,
-  });
-
-  if (config.pgBoss.validationFileJobEnabled) {
-    monitoredJobQueue.performJob(ValidateOrganizationImportFileJob.name, ValidateOrganizationImportFileJobHandler);
-  }
-
-  if (config.pgBoss.importFileJobEnabled) {
-    monitoredJobQueue.performJob(ImportOrganizationLearnersJob.name, ImportOrganizationLearnersJobHandler);
-  }
 
   await pgBoss.schedule(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,
@@ -119,6 +118,8 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
     null,
     { tz: 'Europe/Paris' },
   );
+
+  // Certification
   await dependencies.scheduleCpfJobs(pgBoss);
 }
 

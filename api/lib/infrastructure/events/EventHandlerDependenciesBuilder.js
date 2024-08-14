@@ -1,4 +1,3 @@
-import { ImportOrganizationLearnersJob } from '../../../src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
 import { ValidateOrganizationImportFileJob } from '../../../src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJob.js';
 import { monitoringTools } from '../monitoring-tools.js';
 
@@ -12,7 +11,6 @@ function build(classToInstanciate, domainTransaction) {
 function _buildDependencies(domainTransaction) {
   return {
     monitoringTools,
-    importOrganizationLearnersJob: new ImportOrganizationLearnersJob(domainTransaction.knexTransaction),
     validateOrganizationImportFileJob: new ValidateOrganizationImportFileJob(domainTransaction.knexTransaction),
   };
 }

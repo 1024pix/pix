@@ -7,7 +7,7 @@ const { isEmpty } = lodash;
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { SiecleParser } from '../../infrastructure/serializers/xml/siecle-parser.js';
 import { SiecleFileStreamer } from '../../infrastructure/utils/xml/siecle-file-streamer.js';
-import { FileValidated } from '../events/FileValidated.js';
+import { ImportOrganizationLearnersJob } from '../models/ImportOrganizationLearnersJob.js';
 
 const ERRORS = {
   EMPTY: 'EMPTY',
@@ -19,10 +19,10 @@ const validateSiecleXmlFile = async function ({
   organizationRepository,
   organizationImportRepository,
   importStorage,
-  eventBus,
   logErrorWithCorrelationIds,
+  importOrganizationLearnersJobRepository,
 }) {
-  await DomainTransaction.execute(async (domainTransaction) => {
+  await DomainTransaction.execute(async () => {
     const organizationImport = await organizationImportRepository.get(organizationImportId);
 
     const organization = await organizationRepository.get(organizationImport.organizationId);
@@ -46,8 +46,9 @@ const validateSiecleXmlFile = async function ({
         throw new SiecleXmlImportError(ERRORS.EMPTY);
       }
 
-      const validatedFileEvent = FileValidated.create({ organizationImportId: organizationImport.id });
-      await eventBus.publish(validatedFileEvent, domainTransaction);
+      await importOrganizationLearnersJobRepository.performAsync(
+        new ImportOrganizationLearnersJob({ organizationImportId: organizationImport.id }),
+      );
     } catch (error) {
       if (error instanceof AggregateImportError) {
         errors.push(...error.meta);

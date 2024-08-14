@@ -1,7 +1,7 @@
 import { CertificationRescoringByScriptJobHandler } from '../../src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptHandler.js';
 import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptJob.js';
-import { ImportOrganizationLearnersJob } from '../../src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
-import { ImportOrganizationLearnersJobHandler } from '../../src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJobHandler.js';
+import { ImportOrganizationLearnersJobController } from '../../src/prescription/learner-management/application/jobs/import-organization-learners-job-controller.js';
+import { ImportOrganizationLearnersJob } from '../../src/prescription/learner-management/domain/models/ImportOrganizationLearnersJob.js';
 import { ValidateOrganizationImportFileJob } from '../../src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJob.js';
 import { ValidateOrganizationImportFileJobHandler } from '../../src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJobHandler.js';
 import { config } from '../../src/shared/config.js';
@@ -38,7 +38,7 @@ describe('#runjobs', function () {
         .getCalls()
         .find(({ args }) => args[0] === ImportOrganizationLearnersJob.name);
 
-      expect(calls.args[1]).to.equal(ImportOrganizationLearnersJobHandler);
+      expect(calls.args[1]).to.equal(ImportOrganizationLearnersJobController);
     });
 
     it('should register ValidateOrganizationImportFileJob', async function () {
