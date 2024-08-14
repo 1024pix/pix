@@ -1,3 +1,6 @@
+/**
+ * @deprecated replaced by CertificationCompletedJob and CampaignCompletedJob events
+ */
 class AssessmentCompleted {
   constructor({ assessmentId, userId, campaignParticipationId, certificationCourseId, locale } = {}) {
     this.assessmentId = assessmentId;

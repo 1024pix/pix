@@ -1,12 +1,15 @@
+import { CertificationCompletedJob } from '../../../../lib/domain/events/CertificationCompleted.js';
 import { completeAssessment } from '../../../../lib/domain/usecases/complete-assessment.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { certificationCompletedJobRepository } from '../../../../lib/infrastructure/repositories/jobs/certification-completed-job-repository.js';
 import * as campaignParticipationBCRepository from '../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import { databaseBuilder, expect, knex } from '../../../test-helper.js';
+import { jobs } from '../../../tooling/jobs/expect-job.js';
 
 const { TO_SHARE, STARTED } = CampaignParticipationStatuses;
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 
 describe('Integration | Usecase | Complete Assessment', function () {
   let userId, assessmentId, campaignParticipationId;
@@ -40,6 +43,7 @@ describe('Integration | Usecase | Complete Assessment', function () {
             assessmentId,
             campaignParticipationBCRepository,
             assessmentRepository,
+            certificationCompletedJobRepository,
           });
 
           // then
@@ -56,6 +60,51 @@ describe('Integration | Usecase | Complete Assessment', function () {
             .first();
           expect(realAssessment).to.deep.equal({ id: campaignParticipationId, status: STARTED });
         });
+      });
+    });
+    context('when assessment is linked to a certification course', function () {
+      let sessionId;
+      beforeEach(async function () {
+        databaseBuilder.factory.buildSession({}).id;
+        userId = databaseBuilder.factory.buildUser().id;
+
+        databaseBuilder.factory.buildCertificationCandidate({
+          sessionId,
+          userId,
+        }).id;
+
+        const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+          sessionId,
+          userId,
+        }).id;
+
+        assessmentId = databaseBuilder.factory.buildAssessment({
+          userId,
+          certificationCourseId: certificationCourse.id,
+          state: Assessment.states.STARTED,
+          type: 'CERTIFICATION',
+        }).id;
+
+        return databaseBuilder.commit();
+      });
+
+      it('completes assessment and creates a CertificationCompletedJob', async function () {
+        // when
+        await completeAssessment({
+          assessmentId,
+          campaignParticipationBCRepository,
+          assessmentRepository,
+          certificationCompletedJobRepository,
+        });
+
+        // then
+        const assessmentInDb = await knex('assessments')
+          .where('id', assessmentId)
+          .first('state', 'updatedAt', 'createdAt');
+        expect(assessmentInDb.state).to.equal(Assessment.states.COMPLETED);
+
+        const results = await jobs(CertificationCompletedJob.name);
+        expect(results).to.have.lengthOf(1);
       });
     });
   });

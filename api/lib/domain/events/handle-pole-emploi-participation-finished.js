@@ -6,6 +6,7 @@ import * as monitoringTools from '../../infrastructure/monitoring-tools.js';
 import { AssessmentCompleted } from './AssessmentCompleted.js';
 import { checkEventTypes } from './check-event-types.js';
 
+// TODO : replace with CampaignJob new event
 const eventTypes = [AssessmentCompleted];
 
 async function handlePoleEmploiParticipationFinished({
