@@ -85,6 +85,7 @@ describe('Acceptance | Controller | session-controller', function () {
           'birth-insee-code': certificationCandidateA.birthINSEECode,
           'birth-postal-code': certificationCandidateA.birthPostalCode,
           'complementary-certification': null,
+          'has-seen-certification-instructions': false,
         };
         expectedCertificationCandidateBAttributes = {
           'first-name': certificationCandidateB.firstName,
@@ -105,6 +106,7 @@ describe('Acceptance | Controller | session-controller', function () {
           'birth-insee-code': certificationCandidateB.birthINSEECode,
           'birth-postal-code': certificationCandidateB.birthPostalCode,
           'complementary-certification': null,
+          'has-seen-certification-instructions': false,
         };
         userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });

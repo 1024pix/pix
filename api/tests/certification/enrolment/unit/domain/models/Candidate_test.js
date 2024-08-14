@@ -927,6 +927,50 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     });
   });
 
+  context('isLinkedTo', function () {
+    it('should return true when candidate is linked to given userId', function () {
+      // given
+      const userId = 123;
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        userId,
+      });
+
+      // when
+      const isLinkedTo = candidate.isLinkedTo(userId);
+
+      // then
+      expect(isLinkedTo).to.be.true;
+    });
+
+    it('should return false when candidate is not linked to given userId', function () {
+      // given
+      const userId = 123;
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        userId: 456,
+      });
+
+      // when
+      const isLinkedTo = candidate.isLinkedTo(userId);
+
+      // then
+      expect(isLinkedTo).to.be.false;
+    });
+
+    it('should return false when candidate is not linked to anyone', function () {
+      // given
+      const userId = 123;
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        userId: null,
+      });
+
+      // when
+      const isLinkedTo = candidate.isLinkedTo(userId);
+
+      // then
+      expect(isLinkedTo).to.be.false;
+    });
+  });
+
   describe('convertExtraTimePercentageToDecimal', function () {
     it('should convert extraTimePercentageToDecimal integer to decimal', function () {
       // given

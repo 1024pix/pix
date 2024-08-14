@@ -1,7 +1,7 @@
 import { certificationCandidateController } from '../../../../../src/certification/enrolment/application/certification-candidate-controller.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { normalize } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
-import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | certification-candidate-controller', function () {
   describe('#addCandidate', function () {
@@ -46,37 +46,6 @@ describe('Unit | Controller | certification-candidate-controller', function () {
         },
       });
       expect(response.statusCode).to.equal(201);
-    });
-  });
-
-  describe('#validateCertificationInstructions', function () {
-    it('should return the updated certification candidate', async function () {
-      // given
-      const certificationCandidatesJsonApi = 'candidatesJSONAPI';
-      const certificationCandidate = 'candidate';
-      const certificationCandidateId = 2;
-      const request = {
-        params: { certificationCandidateId },
-      };
-      sinon.stub(usecases, 'candidateHasSeenCertificationInstructions');
-      const certificationCandidateSerializer = {
-        serialize: sinon.stub(),
-      };
-      certificationCandidateSerializer.serialize.returns(certificationCandidatesJsonApi);
-      const updatedCertificationCandidate = domainBuilder.certification.enrolment.buildCertificationSessionCandidate();
-      usecases.candidateHasSeenCertificationInstructions
-        .withArgs({
-          certificationCandidate,
-        })
-        .resolves(updatedCertificationCandidate);
-
-      // when
-      const response = await certificationCandidateController.validateCertificationInstructions(request, hFake, {
-        certificationCandidateSerializer,
-      });
-
-      // then
-      expect(response).to.deep.equal(certificationCandidatesJsonApi);
     });
   });
 

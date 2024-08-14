@@ -8,15 +8,15 @@ import { CertificationCandidateNotFoundError } from '../errors.js';
  * @param {CandidateRepository} params.candidateRepository
  */
 const candidateHasSeenCertificationInstructions = async function ({ certificationCandidateId, candidateRepository }) {
-  const certificationCandidate = await candidateRepository.get({ certificationCandidateId });
+  const candidate = await candidateRepository.get({ certificationCandidateId });
 
-  if (!certificationCandidate) {
+  if (!candidate) {
     throw new CertificationCandidateNotFoundError();
   }
 
-  certificationCandidate.validateCertificationInstructions();
+  candidate.validateCertificationInstructions();
 
-  return candidateRepository.update(certificationCandidate);
+  await candidateRepository.update(candidate);
 };
 
 export { candidateHasSeenCertificationInstructions };

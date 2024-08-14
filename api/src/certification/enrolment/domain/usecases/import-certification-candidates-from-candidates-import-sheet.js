@@ -16,11 +16,10 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
   certificationCandidatesOdsService,
   certificationCpfService,
 }) {
-  const linkedCandidateInSessionExists = await candidateRepository.doesLinkedCertificationCandidateInSessionExist({
-    sessionId,
-  });
+  const candidatesInSession = await candidateRepository.findBySessionId({ sessionId });
+  const session = await sessionRepository.get({ id: sessionId });
 
-  if (linkedCandidateInSessionExists) {
+  if (session.hasLinkedCandidate({ candidates: candidatesInSession })) {
     throw new CandidateAlreadyLinkedToUserError('At least one candidate is already linked to a user');
   }
 

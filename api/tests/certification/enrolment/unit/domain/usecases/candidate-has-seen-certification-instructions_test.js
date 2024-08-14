@@ -1,5 +1,4 @@
 import { CertificationCandidateNotFoundError } from '../../../../../../src/certification/enrolment/domain/errors.js';
-import { Candidate } from '../../../../../../src/certification/enrolment/domain/models/Candidate.js';
 import { candidateHasSeenCertificationInstructions } from '../../../../../../src/certification/enrolment/domain/usecases/candidate-has-seen-certification-instructions.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -14,24 +13,29 @@ describe('Unit | UseCase | candidate-has-seen-certification-instructions', funct
   });
 
   context('when the candidate is found', function () {
-    it('should return updated candidate', async function () {
+    it('should proceed to update candidate', async function () {
       // given
-      const candidate = domainBuilder.certification.enrolment.buildCertificationSessionCandidate({
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
         id: 187,
+        createdAt: new Date('2020-01-01T00:00:00Z'),
         hasSeenCertificationInstructions: false,
       });
-      const expectedUpdatedCandidate = new Candidate({ id: 187, hasSeenCertificationInstructions: true });
       candidateRepository.get.withArgs({ certificationCandidateId: 187 }).resolves(candidate);
-      candidateRepository.update.withArgs(candidate).resolves(expectedUpdatedCandidate);
+      candidateRepository.update.resolves();
 
       // when
-      const updatedCandidate = await candidateHasSeenCertificationInstructions({
+      await candidateHasSeenCertificationInstructions({
         certificationCandidateId: 187,
         candidateRepository,
       });
 
       // then
-      expect(updatedCandidate).to.deep.equal(expectedUpdatedCandidate);
+      const expectedCandidateUpdated = domainBuilder.certification.enrolment.buildCandidate({
+        id: 187,
+        createdAt: new Date('2020-01-01T00:00:00Z'),
+        hasSeenCertificationInstructions: true,
+      });
+      expect(candidateRepository.update).to.have.been.calledOnceWithExactly(expectedCandidateUpdated);
     });
 
     context('when no candidate is found', function () {

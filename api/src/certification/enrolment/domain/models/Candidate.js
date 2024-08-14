@@ -59,6 +59,10 @@ export class Candidate {
     return !_.isNil(this.userId);
   }
 
+  isLinkedTo(userId) {
+    return this.userId === userId;
+  }
+
   validateCertificationInstructions() {
     this.hasSeenCertificationInstructions = true;
   }

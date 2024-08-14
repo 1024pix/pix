@@ -6,25 +6,43 @@ import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../..
 
 describe('Integration | Certification | Session | Repository | Candidate', function () {
   describe('#get', function () {
-    describe('when the candidate exists', function () {
+    context('when the candidate exists', function () {
       it('should return the candidate', async function () {
-        // when
+        // given
+        databaseBuilder.factory.buildComplementaryCertification({
+          id: 1,
+          key: 'comp1',
+        });
         const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate();
-
+        databaseBuilder.factory.buildCoreSubscription({
+          certificationCandidateId: certificationCandidate.id,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationSubscription({
+          certificationCandidateId: certificationCandidate.id,
+          complementaryCertificationId: 1,
+        });
         await databaseBuilder.commit();
 
+        // when
         const result = await candidateRepository.get({ certificationCandidateId: certificationCandidate.id });
 
         // then
         expect(result).to.deepEqualInstance(
           new Candidate({
             ...certificationCandidate,
+            subscriptions: [
+              domainBuilder.buildComplementarySubscription({
+                certificationCandidateId: certificationCandidate.id,
+                complementaryCertificationId: 1,
+              }),
+              domainBuilder.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id }),
+            ],
           }),
         );
       });
     });
 
-    describe('when the candidate does not exist', function () {
+    context('when the candidate does not exist', function () {
       it('return null', async function () {
         // given
         const wrongCertificationCandidateId = 4568;
@@ -38,33 +56,170 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
     });
   });
 
+  describe('#findBySessionId', function () {
+    context('when there are candidates', function () {
+      it('should return the candidate', async function () {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession().id;
+        databaseBuilder.factory.buildComplementaryCertification({
+          id: 1,
+          key: 'comp1',
+        });
+        const certificationCandidate1 = databaseBuilder.factory.buildCertificationCandidate({
+          sessionId,
+        });
+        const certificationCandidate2 = databaseBuilder.factory.buildCertificationCandidate({
+          firstName: 'FiFouLaPraline',
+          sessionId,
+        });
+        databaseBuilder.factory.buildCertificationCandidate();
+        databaseBuilder.factory.buildCoreSubscription({
+          certificationCandidateId: certificationCandidate1.id,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationSubscription({
+          certificationCandidateId: certificationCandidate1.id,
+          complementaryCertificationId: 1,
+        });
+        databaseBuilder.factory.buildCoreSubscription({
+          certificationCandidateId: certificationCandidate2.id,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const result = await candidateRepository.findBySessionId({ sessionId });
+
+        // then
+        expect(result).to.deepEqualArray([
+          domainBuilder.certification.enrolment.buildCandidate({
+            ...certificationCandidate1,
+            subscriptions: [
+              domainBuilder.buildComplementarySubscription({
+                certificationCandidateId: certificationCandidate1.id,
+                complementaryCertificationId: 1,
+              }),
+              domainBuilder.buildCoreSubscription({ certificationCandidateId: certificationCandidate1.id }),
+            ],
+          }),
+          domainBuilder.certification.enrolment.buildCandidate({
+            ...certificationCandidate2,
+            subscriptions: [
+              domainBuilder.buildCoreSubscription({ certificationCandidateId: certificationCandidate2.id }),
+            ],
+          }),
+        ]);
+      });
+    });
+
+    context('when there are no candidate', function () {
+      it('returns empty array', async function () {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession().id;
+        const otherSessionId = databaseBuilder.factory.buildSession().id;
+        const candidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidateId });
+        await databaseBuilder.commit();
+
+        //when
+        const result = await candidateRepository.findBySessionId({ sessionId: otherSessionId });
+
+        // then
+        expect(result).to.be.empty;
+      });
+    });
+  });
+
   describe('#update', function () {
-    describe('when the candidate exists', function () {
+    context('when the candidate exists', function () {
       it('should update the candidate', async function () {
         // when
         const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
           firstName: 'toto',
         });
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
+        await databaseBuilder.commit();
+        const certificationCandidateToUpdate = domainBuilder.certification.enrolment.buildCandidate({
+          ...certificationCandidate,
+          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id })],
+        });
+        certificationCandidateToUpdate.firstName = 'tutu';
+
+        // when
+        await candidateRepository.update(certificationCandidateToUpdate);
+        const candidate = await candidateRepository.get({
+          certificationCandidateId: certificationCandidate.id,
+        });
+
+        // then
+        expect(candidate).to.be.instanceOf(Candidate);
+        expect(candidate.firstName).to.equal('tutu');
+      });
+
+      it('should update its subscriptions', async function () {
+        // when
+        databaseBuilder.factory.buildComplementaryCertification({
+          id: 555,
+          key: 'comp1',
+        });
+        databaseBuilder.factory.buildComplementaryCertification({
+          id: 666,
+          key: 'comp2',
+        });
+        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+          firstName: 'toto',
+        });
+        databaseBuilder.factory.buildComplementaryCertificationSubscription({
+          certificationCandidateId: certificationCandidate.id,
+          complementaryCertificationId: 555,
+        });
+        databaseBuilder.factory.buildCoreSubscription({
+          certificationCandidateId: certificationCandidate.id,
+        });
 
         await databaseBuilder.commit();
 
-        const certificationCandidateToUpdate = domainBuilder.certification.enrolment.buildCertificationSessionCandidate(
-          {
-            ...certificationCandidate,
-          },
-        );
+        const certificationCandidateToUpdate = domainBuilder.certification.enrolment.buildCandidate({
+          ...certificationCandidate,
+          subscriptions: [
+            domainBuilder.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id }),
+            domainBuilder.buildComplementarySubscription({
+              certificationCandidateId: certificationCandidate.id,
+              complementaryCertificationId: 666,
+            }),
+          ],
+        });
 
-        certificationCandidateToUpdate.firstName = 'tutu';
-
-        const updatedCertificationCandidate = await candidateRepository.update(certificationCandidateToUpdate);
+        // when
+        const subscriptionsBefore = (
+          await candidateRepository.get({
+            certificationCandidateId: certificationCandidateToUpdate.id,
+          })
+        ).subscriptions;
+        await candidateRepository.update(certificationCandidateToUpdate);
+        const subscriptionsAfter = (
+          await candidateRepository.get({
+            certificationCandidateId: certificationCandidateToUpdate.id,
+          })
+        ).subscriptions;
 
         // then
-        expect(updatedCertificationCandidate).to.be.instanceOf(Candidate);
-        expect(updatedCertificationCandidate.firstName).to.equal('tutu');
+        expect(subscriptionsBefore).to.deepEqualArray([
+          domainBuilder.buildComplementarySubscription({
+            certificationCandidateId: certificationCandidate.id,
+            complementaryCertificationId: 555,
+          }),
+          domainBuilder.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id }),
+        ]);
+        expect(subscriptionsAfter).to.deepEqualArray([
+          domainBuilder.buildComplementarySubscription({
+            certificationCandidateId: certificationCandidate.id,
+            complementaryCertificationId: 666,
+          }),
+          domainBuilder.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id }),
+        ]);
       });
     });
 
-    describe('when the candidate does not exist', function () {
+    context('when the candidate does not exist', function () {
       it('should throw', async function () {
         // when
         const certificationCandidateToUpdate = domainBuilder.certification.enrolment.buildCertificationSessionCandidate(
@@ -77,48 +232,6 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
 
         // then
         expect(error).to.be.instanceOf(CertificationCandidateNotFoundError);
-      });
-    });
-  });
-
-  describe('#isUserCertificationCandidate', function () {
-    describe('when the candidate exists and is reconciled to a given user', function () {
-      it('should return true', async function () {
-        // when
-        const userId = databaseBuilder.factory.buildUser().id;
-        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
-          userId,
-        });
-
-        await databaseBuilder.commit();
-
-        const isUserCertificationCandidate = await candidateRepository.isUserCertificationCandidate({
-          userId,
-          certificationCandidateId: certificationCandidate.id,
-        });
-
-        // then
-        expect(isUserCertificationCandidate).to.be.true;
-      });
-    });
-
-    describe('when the candidate is not reconciled to the given user', function () {
-      it('should return false', async function () {
-        // when
-        const userId = databaseBuilder.factory.buildUser().id;
-        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
-          userId: null,
-        });
-
-        await databaseBuilder.commit();
-
-        const isUserCertificationCandidate = await candidateRepository.isUserCertificationCandidate({
-          userId,
-          certificationCandidateId: certificationCandidate.id,
-        });
-
-        // then
-        expect(isUserCertificationCandidate).to.be.false;
       });
     });
   });

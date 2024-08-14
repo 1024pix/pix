@@ -136,13 +136,13 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
         birthdate: '1990-01-04',
       };
       const session = domainBuilder.certification.enrolment.buildSession();
-      const enrolledCandidates = [
-        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
           firstName: 'Un',
           lastName: 'Related',
           birthdate: '1995-04-04',
         }),
-        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+        domainBuilder.certification.enrolment.buildCandidate({
           firstName: 'un prénom très proche de frederic',
           lastName: `un nom tres proche de debussy`,
           birthdate: '1990-01-04',
@@ -151,14 +151,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       const normalizeStringFnc = sinon.stub();
       normalizeStringFnc.withArgs(candidatePersonalInfo.lastName).returns(candidatePersonalInfo.lastName);
       normalizeStringFnc.withArgs(candidatePersonalInfo.firstName).returns(candidatePersonalInfo.firstName);
-      normalizeStringFnc.withArgs(enrolledCandidates[0].lastName).returns(enrolledCandidates[0].lastName);
-      normalizeStringFnc.withArgs(enrolledCandidates[0].firstName).returns(enrolledCandidates[0].firstName);
-      normalizeStringFnc.withArgs(enrolledCandidates[1].lastName).returns(candidatePersonalInfo.lastName);
-      normalizeStringFnc.withArgs(enrolledCandidates[1].firstName).returns(candidatePersonalInfo.firstName);
+      normalizeStringFnc.withArgs(candidates[0].lastName).returns(candidates[0].lastName);
+      normalizeStringFnc.withArgs(candidates[0].firstName).returns(candidates[0].firstName);
+      normalizeStringFnc.withArgs(candidates[1].lastName).returns(candidatePersonalInfo.lastName);
+      normalizeStringFnc.withArgs(candidates[1].firstName).returns(candidatePersonalInfo.firstName);
 
       // when
       const isCandidateEnrolled = session.isCandidateAlreadyEnrolled({
-        enrolledCandidates,
+        candidates,
         candidatePersonalInfo,
         normalizeStringFnc,
       });
@@ -175,13 +175,13 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
         birthdate: '1990-01-04',
       };
       const session = domainBuilder.certification.enrolment.buildSession();
-      const enrolledCandidates = [
-        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
           firstName: 'Un',
           lastName: 'Related',
           birthdate: '1995-04-04',
         }),
-        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+        domainBuilder.certification.enrolment.buildCandidate({
           firstName: 'Richard',
           lastName: candidatePersonalInfo.lastName,
           birthdate: candidatePersonalInfo.birthdate,
@@ -191,7 +191,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
 
       // when
       const isCandidateEnrolled = session.isCandidateAlreadyEnrolled({
-        enrolledCandidates,
+        candidates,
         candidatePersonalInfo,
         normalizeStringFnc,
       });
@@ -208,13 +208,13 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
         birthdate: '1990-01-04',
       };
       const session = domainBuilder.certification.enrolment.buildSession();
-      const enrolledCandidates = [
-        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
           firstName: 'Un',
           lastName: 'Related',
           birthdate: '1995-04-04',
         }),
-        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+        domainBuilder.certification.enrolment.buildCandidate({
           firstName: candidatePersonalInfo.firstName,
           lastName: 'Chopin',
           birthdate: candidatePersonalInfo.birthdate,
@@ -224,7 +224,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
 
       // when
       const isCandidateEnrolled = session.isCandidateAlreadyEnrolled({
-        enrolledCandidates,
+        candidates,
         candidatePersonalInfo,
         normalizeStringFnc,
       });
@@ -241,13 +241,13 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
         birthdate: '1990-01-04',
       };
       const session = domainBuilder.certification.enrolment.buildSession();
-      const enrolledCandidates = [
-        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
           firstName: 'Un',
           lastName: 'Related',
           birthdate: '1995-04-04',
         }),
-        domainBuilder.certification.enrolment.buildEnrolledCandidate({
+        domainBuilder.certification.enrolment.buildCandidate({
           firstName: candidatePersonalInfo.firstName,
           lastName: candidatePersonalInfo.lastName,
           birthdate: '1990-01-05',
@@ -257,13 +257,57 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
 
       // when
       const isCandidateEnrolled = session.isCandidateAlreadyEnrolled({
-        enrolledCandidates,
+        candidates,
         candidatePersonalInfo,
         normalizeStringFnc,
       });
 
       // then
       expect(isCandidateEnrolled).to.be.false;
+    });
+  });
+
+  context('#hasLinkedCandidate', function () {
+    it('should return true when at least one candidate is linked', function () {
+      // given
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: 123,
+        }),
+      ];
+
+      // when
+      const hasLinkedCandidate = session.hasLinkedCandidate({
+        candidates,
+      });
+
+      // then
+      expect(hasLinkedCandidate).to.be.true;
+    });
+
+    it('should return false when no candidate is linked', function () {
+      // given
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+        }),
+      ];
+
+      // when
+      const hasLinkedCandidate = session.hasLinkedCandidate({
+        candidates,
+      });
+
+      // then
+      expect(hasLinkedCandidate).to.be.false;
     });
   });
 });

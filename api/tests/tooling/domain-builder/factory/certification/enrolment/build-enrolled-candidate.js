@@ -22,6 +22,7 @@ const buildEnrolledCandidate = function ({
   billingMode = null,
   prepaymentCode = null,
   subscriptions = [],
+  hasSeenCertificationInstructions = false,
 } = {}) {
   return new EnrolledCandidate({
     id,
@@ -45,6 +46,7 @@ const buildEnrolledCandidate = function ({
     prepaymentCode,
     userId,
     subscriptions,
+    hasSeenCertificationInstructions,
   });
 };
 

@@ -2,6 +2,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CertificationCandidateNotFoundError } from '../../domain/errors.js';
 import { Candidate } from '../../domain/models/Candidate.js';
+import { Subscription } from '../../domain/models/Subscription.js';
 
 /**
  * @function
@@ -11,96 +12,58 @@ import { Candidate } from '../../domain/models/Candidate.js';
  * @return {Candidate}
  */
 export async function get({ certificationCandidateId }) {
-  const certificationCandidate = await knex('certification-candidates')
-    .where({
-      id: certificationCandidateId,
-    })
+  const candidateData = await buildBaseReadQuery(knex)
+    .where({ 'certification-candidates.id': certificationCandidateId })
     .first();
 
-  return _toDomain(certificationCandidate);
-}
-
-/**
- * @function
- * @param {Object} certificationCandidate
- *
- * @return {Candidate}
- * @throws {CertificationCandidateNotFoundError} Certification candidate not found
- */
-export async function update(certificationCandidate) {
-  const [updatedCertificationCandidate] = await knex('certification-candidates')
-    .where({
-      id: certificationCandidate.id,
-    })
-    .update({
-      id: certificationCandidate.id,
-      firstName: certificationCandidate.firstName,
-      lastName: certificationCandidate.lastName,
-      sex: certificationCandidate.sex,
-      birthPostalCode: certificationCandidate.birthPostalCode,
-      birthINSEECode: certificationCandidate.birthINSEECode,
-      birthCity: certificationCandidate.birthCity,
-      birthProvinceCode: certificationCandidate.birthProvinceCode,
-      birthCountry: certificationCandidate.birthCountry,
-      email: certificationCandidate.email,
-      resultRecipientEmail: certificationCandidate.resultRecipientEmail,
-      externalId: certificationCandidate.externalId,
-      birthdate: certificationCandidate.birthdate,
-      extraTimePercentage: certificationCandidate.extraTimePercentage,
-      createdAt: certificationCandidate.createdAt,
-      authorizedToStart: certificationCandidate.authorizedToStart,
-      sessionId: certificationCandidate.sessionId,
-      userId: certificationCandidate.userId,
-      organizationLearnerId: certificationCandidate.organizationLearnerId,
-      billingMode: certificationCandidate.billingMode,
-      prepaymentCode: certificationCandidate.prepaymentCode,
-      hasSeenCertificationInstructions: certificationCandidate.hasSeenCertificationInstructions,
-    })
-    .returning('*');
-
-  if (!updatedCertificationCandidate) {
-    throw new CertificationCandidateNotFoundError();
-  }
-
-  return _toDomain(updatedCertificationCandidate);
+  if (!candidateData) return null;
+  return toDomain(candidateData);
 }
 
 /**
  * @function
  * @param {Object} params
- * @param {number} params.certificationCandidateId
- * @param {number} params.userId
+ * @param {number} params.sessionId
  *
- * @return {Boolean} Returns true if candidate is found or false otherwise
+ * @return [Candidate]
  */
-export async function isUserCertificationCandidate({ certificationCandidateId, userId }) {
-  const certificationCandidate = await knex
-    .select(1)
-    .from('certification-candidates')
-    .where({
-      id: certificationCandidateId,
-      userId,
-    })
-    .first();
+export async function findBySessionId({ sessionId }) {
+  const candidatesData = await buildBaseReadQuery(knex)
+    .where({ 'certification-candidates.sessionId': sessionId })
+    .orderBy('certification-candidates.id');
 
-  return Boolean(certificationCandidate);
+  return candidatesData.map(toDomain);
 }
 
 /**
  * @function
- * @param sessionId
- * @returns {boolean} True if any candidate is linked to an existing user
+ * @param {Object} candidate
+ *
+ * @throws {CertificationCandidateNotFoundError} Certification candidate not found
  */
-export async function doesLinkedCertificationCandidateInSessionExist({ sessionId }) {
-  const anyLinkedCandidateInSession = await knex
-    .select('id')
-    .from('certification-candidates')
-    .where({
-      sessionId,
-    })
-    .whereNotNull('userId');
+export async function update(candidate) {
+  const candidateDataToSave = adaptModelToDb(candidate);
+  await knex.transaction(async (trx) => {
+    const [updatedCertificationCandidate] = await trx('certification-candidates')
+      .where({
+        id: candidate.id,
+      })
+      .update(candidateDataToSave)
+      .returning('*');
 
-  return anyLinkedCandidateInSession.length > 0;
+    if (!updatedCertificationCandidate) {
+      throw new CertificationCandidateNotFoundError();
+    }
+
+    await trx('certification-subscriptions').where({ certificationCandidateId: candidate.id }).del();
+    for (const subscription of candidate.subscriptions) {
+      await trx('certification-subscriptions').insert({
+        certificationCandidateId: candidate.id,
+        type: subscription.type,
+        complementaryCertificationId: subscription.complementaryCertificationId,
+      });
+    }
+  });
 }
 
 /**
@@ -110,7 +73,7 @@ export async function doesLinkedCertificationCandidateInSessionExist({ sessionId
  * @return {number}
  */
 export async function insert(candidate) {
-  const candidateDataToSave = _adaptModelToDb(candidate);
+  const candidateDataToSave = adaptModelToDb(candidate);
   const knexTransaction = DomainTransaction.getConnection();
 
   const [{ id: candidateId }] = await knexTransaction('certification-candidates')
@@ -149,7 +112,7 @@ export async function deleteBySessionId({ sessionId }) {
  * @returns {number} return saved candidate id
  */
 export async function saveInSession({ candidate, sessionId }) {
-  const candidateDataToSave = _adaptModelToDb(candidate);
+  const candidateDataToSave = adaptModelToDb(candidate);
   const knexTransaction = DomainTransaction.getConnection();
 
   const [{ id: certificationCandidateId }] = await knexTransaction('certification-candidates')
@@ -181,11 +144,30 @@ export async function remove({ id }) {
   return true;
 }
 
-function _toDomain(result) {
-  return result ? new Candidate(result) : null;
+function buildBaseReadQuery(knexConnection) {
+  return knexConnection('certification-candidates')
+    .select('certification-candidates.*')
+    .select({
+      subscriptions: knex.raw(
+        `json_agg(
+          json_build_object(
+            'type', "certification-subscriptions"."type",
+            'complementaryCertificationId', "certification-subscriptions"."complementaryCertificationId",
+            'certificationCandidateId', "certification-candidates"."id"
+          ) ORDER BY type
+      )`,
+      ),
+    })
+    .from('certification-candidates')
+    .join(
+      'certification-subscriptions',
+      'certification-subscriptions.certificationCandidateId',
+      'certification-candidates.id',
+    )
+    .groupBy('certification-candidates.id');
 }
 
-function _adaptModelToDb(candidate) {
+function adaptModelToDb(candidate) {
   return {
     firstName: candidate.firstName,
     lastName: candidate.lastName,
@@ -208,4 +190,12 @@ function _adaptModelToDb(candidate) {
     prepaymentCode: candidate.prepaymentCode,
     hasSeenCertificationInstructions: candidate.hasSeenCertificationInstructions,
   };
+}
+
+function toDomain(candidateData) {
+  const subscriptions = candidateData.subscriptions.map((subscription) => new Subscription(subscription));
+  return new Candidate({
+    ...candidateData,
+    subscriptions,
+  });
 }

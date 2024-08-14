@@ -71,7 +71,7 @@ describe('Acceptance | Controller | Session | certification-candidate-route', fu
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.payload).to.equal(
-        '{"data":[{"type":"certification-candidates","id":"1001","attributes":{"first-name":"first-name","last-name":"last-name","birthdate":"2000-01-04","birth-province-code":null,"birth-city":"PARIS 1","birth-country":"France","email":"somemail@example.net","result-recipient-email":"somerecipientmail@example.net","external-id":"externalId","extra-time-percentage":0.3,"is-linked":true,"organization-learner-id":null,"sex":"M","birth-insee-code":"75101","birth-postal-code":null,"complementary-certification":{"id":10000006},"billing-mode":"PREPAID","prepayment-code":null},"relationships":{"subscriptions":{"data":[{"type":"subscriptions","id":"1001-CORE"},{"type":"subscriptions","id":"1001-10000006"}]}}}],"included":[{"type":"subscriptions","id":"1001-CORE","attributes":{"complementary-certification-id":null,"type":"CORE"}},{"type":"subscriptions","id":"1001-10000006","attributes":{"complementary-certification-id":10000006,"type":"COMPLEMENTARY"}}]}',
+        '{"data":[{"type":"certification-candidates","id":"1001","attributes":{"first-name":"first-name","last-name":"last-name","birthdate":"2000-01-04","birth-province-code":null,"birth-city":"PARIS 1","birth-country":"France","email":"somemail@example.net","result-recipient-email":"somerecipientmail@example.net","external-id":"externalId","extra-time-percentage":0.3,"is-linked":true,"organization-learner-id":null,"sex":"M","birth-insee-code":"75101","birth-postal-code":null,"complementary-certification":{"id":10000006},"billing-mode":"PREPAID","prepayment-code":null,"has-seen-certification-instructions":false},"relationships":{"subscriptions":{"data":[{"type":"subscriptions","id":"1001-CORE"},{"type":"subscriptions","id":"1001-10000006"}]}}}],"included":[{"type":"subscriptions","id":"1001-CORE","attributes":{"complementary-certification-id":null,"type":"CORE"}},{"type":"subscriptions","id":"1001-10000006","attributes":{"complementary-certification-id":10000006,"type":"COMPLEMENTARY"}}]}',
       );
     });
   });
@@ -88,6 +88,9 @@ describe('Acceptance | Controller | Session | certification-candidate-route', fu
         userId: candidateUserId,
         hasSeenCertificationInstructions: false,
       }).id;
+      databaseBuilder.factory.buildCoreSubscription({
+        certificationCandidateId: candidateId,
+      });
 
       await databaseBuilder.commit();
 

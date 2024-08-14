@@ -57,7 +57,7 @@ class SessionEnrolment {
   }
 
   isCandidateAlreadyEnrolled({
-    enrolledCandidates,
+    candidates,
     candidatePersonalInfo: { firstName, lastName, birthdate },
     normalizeStringFnc,
   }) {
@@ -65,7 +65,7 @@ class SessionEnrolment {
       lastName: normalizeStringFnc(lastName),
       firstName: normalizeStringFnc(firstName),
     };
-    return _.some(enrolledCandidates, (enrolledCandidate) => {
+    return _.some(candidates, (enrolledCandidate) => {
       const enrolledCandidatesNormalizedNames = {
         lastName: normalizeStringFnc(enrolledCandidate.lastName),
         firstName: normalizeStringFnc(enrolledCandidate.firstName),
@@ -74,6 +74,10 @@ class SessionEnrolment {
         _.isEqual(normalizedInputNames, enrolledCandidatesNormalizedNames) && birthdate === enrolledCandidate.birthdate
       );
     });
+  }
+
+  hasLinkedCandidate({ candidates }) {
+    return candidates.some((candidate) => candidate.isLinkedToAUser());
   }
 }
 

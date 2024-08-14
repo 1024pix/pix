@@ -1,7 +1,6 @@
 /**
  * @typedef {import ('./index.js').SessionRepository} SessionRepository
  * @typedef {import ('./index.js').CandidateRepository} CandidateRepository
- * @typedef {import ('./index.js').EnrolledCandidateRepository} EnrolledCandidateRepository
  * @typedef {import ('./index.js').CertificationCpfService} CertificationCpfService
  * @typedef {import ('./index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {import ('./index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
@@ -19,7 +18,6 @@ import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constant
  * @param {Object} params
  * @param {SessionRepository} params.sessionRepository
  * @param {CandidateRepository} params.candidateRepository
- * @param {EnrolledCandidateRepository} params.enrolledCandidateRepository
  * @param {CertificationCpfService} params.certificationCpfService
  * @param {CertificationCpfCountryRepository} params.certificationCpfCountryRepository
  * @param {CertificationCpfCityRepository} params.certificationCpfCityRepository
@@ -29,7 +27,6 @@ export async function addCandidateToSession({
   candidate,
   sessionRepository,
   candidateRepository,
-  enrolledCandidateRepository,
   certificationCpfService,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
@@ -53,9 +50,9 @@ export async function addCandidateToSession({
       meta: { value: error.meta },
     });
   }
-  const enrolledCandidates = await enrolledCandidateRepository.findBySessionId({ sessionId });
+  const candidatesInSession = await candidateRepository.findBySessionId({ sessionId });
   const isAlreadyEnrolled = session.isCandidateAlreadyEnrolled({
-    enrolledCandidates,
+    candidates: candidatesInSession,
     candidatePersonalInfo: {
       firstName: candidate.firstName,
       lastName: candidate.lastName,

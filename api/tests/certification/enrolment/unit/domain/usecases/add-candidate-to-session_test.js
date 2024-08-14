@@ -1,5 +1,4 @@
 import { addCandidateToSession } from '../../../../../../src/certification/enrolment/domain/usecases/add-candidate-to-session.js';
-import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import {
@@ -13,7 +12,6 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-help
 describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session', function () {
   let sessionRepository;
   let candidateRepository;
-  let enrolledCandidateRepository;
   let certificationCpfService;
   let certificationCpfCountryRepository;
   let certificationCpfCityRepository;
@@ -30,8 +28,6 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     };
     candidateRepository = {
       insert: sinon.stub(),
-    };
-    enrolledCandidateRepository = {
       findBySessionId: sinon.stub(),
     };
     certificationCpfService = {
@@ -44,7 +40,6 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     dependencies = {
       sessionRepository,
       candidateRepository,
-      enrolledCandidateRepository,
       certificationCpfService,
       certificationCpfCountryRepository,
       certificationCpfCityRepository,
@@ -119,12 +114,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     context('when candidate is valid', function () {
       let subscription;
       beforeEach(function () {
-        subscription = {
-          type: SUBSCRIPTION_TYPES.CORE,
-          complementaryCertificationId: null,
-          complementaryCertificationLabel: null,
-          complementaryCertificationKey: null,
-        };
+        subscription = domainBuilder.buildCoreSubscription({ certificationCandidateId: null });
         candidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
           subscriptions: [subscription],
           billingMode: CertificationCandidate.BILLING_MODES.FREE,
@@ -144,9 +134,9 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
             ...candidateToEnroll,
             ...personalInfo,
           });
-          enrolledCandidateRepository.findBySessionId
+          candidateRepository.findBySessionId
             .withArgs({ sessionId })
-            .resolves([domainBuilder.certification.enrolment.buildEnrolledCandidate({ ...personalInfo })]);
+            .resolves([domainBuilder.certification.enrolment.buildCandidate({ ...personalInfo })]);
 
           // when
           const error = await catchErr(addCandidateToSession)({
@@ -163,11 +153,9 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
 
       context('when no candidate is enrolled with the same personal info', function () {
         beforeEach(function () {
-          enrolledCandidateRepository.findBySessionId
+          candidateRepository.findBySessionId
             .withArgs({ sessionId })
-            .resolves([
-              domainBuilder.certification.enrolment.buildEnrolledCandidate({ firstName: 'Tout autre chose' }),
-            ]);
+            .resolves([domainBuilder.certification.enrolment.buildCandidate({ firstName: 'Tout autre chose' })]);
         });
 
         context('when birth information validation fails', function () {
