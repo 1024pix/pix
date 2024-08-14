@@ -131,6 +131,7 @@ import * as dataProtectionOfficerRepository from '../../infrastructure/repositor
 import * as flashAssessmentResultRepository from '../../infrastructure/repositories/flash-assessment-result-repository.js';
 import * as frameworkRepository from '../../infrastructure/repositories/framework-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
+import { userAnonymizedEventLoggingJobRepository } from '../../infrastructure/repositories/jobs/user-anonymized-event-logging-job-repository.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as learningContentRepository from '../../infrastructure/repositories/learning-content-repository.js';
@@ -183,6 +184,7 @@ function requirePoleEmploiNotifier() {
  * @typedef {certificationCenterForAdminRepository} CertificationCenterForAdminRepository
  * @typedef {complementaryCertificationHabilitationRepository} ComplementaryCertificationHabilitationRepository
  * @typedef {dataProtectionOfficerRepository} DataProtectionOfficerRepository
+ * @typedef {userAnonymizedEventLoggingJobRepository} UserAnonymizedEventLoggingJobRepository
  */
 
 const dependencies = {
@@ -322,6 +324,7 @@ const dependencies = {
   tubeRepository,
   tutorialEvaluationRepository: repositories.tutorialEvaluationRepository,
   tutorialRepository: repositories.tutorialRepository,
+  userAnonymizedEventLoggingJobRepository,
   userEmailRepository,
   userLoginRepository,
   userOrganizationsForAdminRepository,

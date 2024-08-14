@@ -1,6 +1,5 @@
 import { ImportOrganizationLearnersJob } from '../../../src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
 import { ValidateOrganizationImportFileJob } from '../../../src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJob.js';
-import { UserAnonymizedEventLoggingJob } from '../../../src/shared/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJob.js';
 import { ParticipationResultCalculationJob } from '../../../src/shared/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob.js';
 import { SendSharedParticipationResultsToPoleEmploiJob } from '../../../src/shared/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
 import { monitoringTools } from '../monitoring-tools.js';
@@ -15,7 +14,6 @@ function build(classToInstanciate, domainTransaction) {
 function _buildDependencies(domainTransaction) {
   return {
     monitoringTools,
-    userAnonymizedEventLoggingJob: new UserAnonymizedEventLoggingJob(domainTransaction.knexTransaction),
     participationResultCalculationJob: new ParticipationResultCalculationJob(domainTransaction.knexTransaction),
     sendSharedParticipationResultsToPoleEmploiJob: new SendSharedParticipationResultsToPoleEmploiJob(
       domainTransaction.knexTransaction,

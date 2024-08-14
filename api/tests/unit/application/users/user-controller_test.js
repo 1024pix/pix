@@ -1,6 +1,4 @@
 import { userController } from '../../../../lib/application/users/user-controller.js';
-import { eventBus } from '../../../../lib/domain/events/index.js';
-import { UserAnonymized } from '../../../../lib/domain/events/UserAnonymized.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usecases/index.js';
@@ -664,13 +662,11 @@ describe('Unit | Controller | user-controller', function () {
       const domainTransaction = {
         knexTransaction: Symbol('transaction'),
       };
-      const event = new UserAnonymized({ userId, updatedByUserId, role: 'SUPER_ADMIN' });
-      sinon.stub(usecases, 'anonymizeUser').resolves(event);
+      sinon.stub(usecases, 'anonymizeUser');
       sinon.stub(usecases, 'getUserDetailsForAdmin').resolves(userDetailsForAdmin);
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
         return callback(domainTransaction);
       });
-      sinon.stub(eventBus, 'publish').resolves();
       const userAnonymizedDetailsForAdminSerializer = { serialize: sinon.stub() };
       userAnonymizedDetailsForAdminSerializer.serialize.returns(anonymizedUserSerialized);
 
@@ -685,11 +681,9 @@ describe('Unit | Controller | user-controller', function () {
       );
 
       // then
-      const expectedEvent = new UserAnonymized({ userId, updatedByUserId, role: 'SUPER_ADMIN' });
       expect(DomainTransaction.execute).to.have.been.called;
       expect(usecases.anonymizeUser).to.have.been.calledWithExactly({ userId, updatedByUserId, domainTransaction });
       expect(usecases.getUserDetailsForAdmin).to.have.been.calledWithExactly({ userId });
-      expect(eventBus.publish).to.have.been.calledWithExactly(expectedEvent, domainTransaction);
       expect(userAnonymizedDetailsForAdminSerializer.serialize).to.have.been.calledWithExactly(userDetailsForAdmin);
       expect(response.statusCode).to.equal(200);
       expect(response.source).to.deep.equal(anonymizedUserSerialized);
