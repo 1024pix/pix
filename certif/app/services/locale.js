@@ -16,6 +16,10 @@ export default class LocaleService extends Service {
   @service intl;
   @service dayjs;
 
+  getAvailableLanguages() {
+    return languages;
+  }
+
   handleUnsupportedLanguage(language) {
     if (!language) return;
     return this.isLanguageSupported(language) ? language : DEFAULT_LOCALE;
