@@ -66,6 +66,7 @@
         "CANDIDATE_SESSION_ID_REQUIRED": "Le champ \"Numéro de session\" est obligatoire",
         "CANDIDATE_SEX_NOT_VALID": "Le champ \"Sexe\" accepte les valeurs \"M\" pour un homme ou \"F\" pour une femme",
         "CANDIDATE_SEX_REQUIRED": "Le champ \"Sexe\" est obligatoire",
+        "CANDIDATE_WRONG_SUBSCRIPTIONS_COMPATIBILITY": "Vous ne pouvez pas inscrire un candidat à plus d'une certification complémentaire",
         "DUPLICATE_CANDIDATE": "Veuillez supprimer le(s) doublon(s) de candidats avant de réimporter."
       },
       "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement.",
@@ -758,6 +759,7 @@
               "CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID": "Donnée du champ \"E-mail du destinataire des résultats (formateur, enseignant…)\" invalide",
               "CANDIDATE_SEX_NOT_VALID": "Donnée du champ \"Sexe\" invalide (format accepté \"M\"/\"F\")",
               "CANDIDATE_SEX_REQUIRED": "Champ obligatoire \"Sexe\" manquant",
+              "CANDIDATE_WRONG_SUBSCRIPTIONS_COMPATIBILITY": "Vous ne pouvez pas inscrire un candidat à plus d'une certification complémentaire",
               "INFORMATION_NOT_ALLOWED_WITH_SESSION_ID": "Numéro de session fourni, veuillez supprimer les informations de session associées",
               "SESSION_ADDRESS_REQUIRED": "Champ obligatoire \"Nom du site\" manquant",
               "SESSION_DATE_NOT_VALID": "Donnée du champ \"Date de session\" invalide (format accepté JJ/MM/AAAA)",
