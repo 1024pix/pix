@@ -6,6 +6,7 @@ class JobPgBoss {
     this.retryBackoff = config.retryBackoff || false;
     this.expireIn = config.expireIn || '00:15:00';
     this.queryBuilder = queryBuilder;
+    this.priority = config.priority || 0;
   }
 
   async schedule(data) {
@@ -17,6 +18,7 @@ class JobPgBoss {
       expirein: this.expireIn,
       data,
       on_complete: true,
+      priority: this.priority,
     });
   }
 
