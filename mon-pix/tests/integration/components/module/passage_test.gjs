@@ -777,7 +777,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
         event: 'custom-event',
         'pix-event-category': 'Modulix',
         'pix-event-action': `Passage du module : ${module.id}`,
-        'pix-event-name': `Clic sur le bouton Play : ${videoElement.id}`,
+        'pix-event-name': `Click sur le bouton Play : ${videoElement.id}`,
       });
       assert.ok(true);
     });
@@ -817,7 +817,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
           event: 'custom-event',
           'pix-event-category': 'Modulix',
           'pix-event-action': `Passage du module : ${module.id}`,
-          'pix-event-name': `Clic sur le bouton Play : ${videoElement.id}`,
+          'pix-event-name': `Click sur le bouton Play : ${videoElement.id}`,
         });
         assert.ok(true);
       });
@@ -947,7 +947,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
         event: 'custom-event',
         'pix-event-category': 'Modulix',
         'pix-event-action': `Passage du module : ${module.id}`,
-        'pix-event-name': `Clic sur le bouton Terminer du grain : ${grain.id}`,
+        'pix-event-name': `Click sur le bouton Terminer du grain : ${grain.id}`,
       });
       assert.ok(true);
     });

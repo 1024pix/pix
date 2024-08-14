@@ -18,7 +18,7 @@ export default class ModulixDetails extends Component {
       event: 'custom-event',
       'pix-event-category': 'Modulix',
       'pix-event-action': `Détails du module : ${this.args.module.id}`,
-      'pix-event-name': `Clic sur le bouton Commencer`,
+      'pix-event-name': `Click sur le bouton Commencer`,
     });
     this.router.transitionTo('module.passage');
   }
