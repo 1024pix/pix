@@ -5,7 +5,7 @@ import { deserializer as badgeCreationDeserializer } from '../../../src/evaluati
 import * as badgeSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/badge-serializer.js';
 import * as targetProfileSerializer from '../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { DomainTransaction, withTransaction } from '../../infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as targetProfileForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
@@ -72,25 +72,6 @@ const createBadge = async function (request, h) {
   return h.response(badgeSerializer.serialize(createdBadge)).created();
 };
 
-const copyTargetProfile = withTransaction(async (request) => {
-  const targetProfileIdToCopy = request.params.targetProfileId;
-  const copiedTargetProfileId = await usecases.copyTargetProfile({
-    targetProfileId: targetProfileIdToCopy,
-  });
-  await Promise.all([
-    await usecases.copyTargetProfileBadges({
-      originTargetProfileId: targetProfileIdToCopy,
-      destinationTargetProfileId: copiedTargetProfileId,
-    }),
-    await usecases.copyTargetProfileStages({
-      originTargetProfileId: targetProfileIdToCopy,
-      destinationTargetProfileId: copiedTargetProfileId,
-    }),
-  ]);
-
-  return copiedTargetProfileId;
-});
-
 const targetProfileController = {
   findPaginatedFilteredTargetProfileSummariesForAdmin,
   getTargetProfileForAdmin,
@@ -98,7 +79,6 @@ const targetProfileController = {
   createTargetProfile,
   findPaginatedTrainings,
   createBadge,
-  copyTargetProfile,
 };
 
 export { targetProfileController };

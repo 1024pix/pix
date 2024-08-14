@@ -1,9 +1,9 @@
+import { TargetProfileForCreation } from '../../../src/prescription/target-profile/domain/models/TargetProfileForCreation.js';
 import { TargetProfileCannotBeCreated } from '../../../src/shared/domain/errors.js';
-import { TargetProfileForCreation } from '../../../src/shared/domain/models/TargetProfileForCreation.js';
 
 const createTargetProfile = async function ({
   targetProfileCreationCommand,
-  targetProfileRepository,
+  targetProfileAdministrationRepository,
   organizationRepository,
 }) {
   const targetProfileForCreation = TargetProfileForCreation.fromCreationCommand(targetProfileCreationCommand);
@@ -15,7 +15,7 @@ const createTargetProfile = async function ({
     );
   }
 
-  return targetProfileRepository.create({
+  return targetProfileAdministrationRepository.create({
     targetProfileForCreation,
   });
 };

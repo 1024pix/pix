@@ -40,6 +40,7 @@ import { CampaignToStartParticipation } from '../../../prescription/campaign-par
 import { OrganizationPlacesLot } from '../../../prescription/organization-place/domain/models/OrganizationPlacesLot.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../prescription/shared/domain/constants.js';
 import { OrganizationsToAttachToTargetProfile } from '../../../prescription/target-profile/domain/models/OrganizationsToAttachToTargetProfile.js';
+import { TargetProfileForCreation } from '../../../prescription/target-profile/domain/models/TargetProfileForCreation.js';
 import { ActivityAnswer } from '../../../school/domain/models/ActivityAnswer.js';
 import { OrganizationInvitation } from '../../../team/domain/models/OrganizationInvitation.js';
 import { CampaignParticipant } from './../../../prescription/campaign-participation/domain/models/CampaignParticipant.js';
@@ -108,7 +109,6 @@ import { Solution } from './Solution.js';
 import { Student } from './Student.js';
 import { TargetProfile } from './TargetProfile.js';
 import { TargetProfileForAdmin } from './TargetProfileForAdmin.js';
-import { TargetProfileForCreation } from './TargetProfileForCreation.js';
 import { TargetProfileSummaryForAdmin } from './TargetProfileSummaryForAdmin.js';
 import { Thematic } from './Thematic.js';
 import { Tube } from './Tube.js';

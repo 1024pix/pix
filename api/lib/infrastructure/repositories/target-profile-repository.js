@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { knex } from '../../../db/knex-database-connection.js';
 import { Badge } from '../../../src/evaluation/domain/models/Badge.js';
 import { NotFoundError } from '../../../src/shared/domain/errors.js';
@@ -8,29 +6,6 @@ import { TargetProfile } from '../../../src/shared/domain/models/index.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
-const create = async function ({ targetProfileForCreation }) {
-  const knexConn = DomainTransaction.getConnection();
-  const targetProfileRawData = _.pick(targetProfileForCreation, [
-    'name',
-    'category',
-    'description',
-    'comment',
-    'isPublic',
-    'imageUrl',
-    'ownerOrganizationId',
-    'areKnowledgeElementsResettable',
-  ]);
-  const [{ id: targetProfileId }] = await knexConn(TARGET_PROFILE_TABLE).insert(targetProfileRawData).returning('id');
-
-  const tubesData = targetProfileForCreation.tubes.map((tube) => ({
-    targetProfileId,
-    tubeId: tube.id,
-    level: tube.level,
-  }));
-  await knexConn.batchInsert('target-profile_tubes', tubesData);
-
-  return targetProfileId;
-};
 
 const get = async function (id) {
   const knexConn = DomainTransaction.getConnection();
@@ -42,11 +17,6 @@ const get = async function (id) {
   }
 
   return new TargetProfile({ ...targetProfile, badges: badges.map((badge) => new Badge(badge)) });
-};
-
-const getTubesByTargetProfileId = async (targetProfileId) => {
-  const knexConn = DomainTransaction.getConnection();
-  return knexConn('target-profile_tubes').select('tubeId', 'level').where('targetProfileId', targetProfileId);
 };
 
 const findByIds = async function (targetProfileIds) {
@@ -90,4 +60,4 @@ const hasTubesWithLevels = async function ({ targetProfileId, tubesWithLevels })
   }
 };
 
-export { create, findByIds, findOrganizationIds, get, getTubesByTargetProfileId, hasTubesWithLevels };
+export { findByIds, findOrganizationIds, get, hasTubesWithLevels };

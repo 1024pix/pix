@@ -1,116 +1,11 @@
 import _ from 'lodash';
 
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { TargetProfile } from '../../../../src/shared/domain/models/index.js';
-import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | Target-profile', function () {
-  describe('#create', function () {
-    it('should return the id and create the target profile in database', async function () {
-      // given
-      databaseBuilder.factory.buildOrganization({ id: 1 });
-      await databaseBuilder.commit();
-      const targetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
-        name: 'myFirstTargetProfile',
-        category: TargetProfile.categories.SUBJECT,
-        description: 'la description',
-        comment: 'le commentaire',
-        isPublic: true,
-        imageUrl: 'mon-image/stylée',
-        ownerOrganizationId: 1,
-        areKnowledgeElementsResettable: true,
-      });
-
-      // when
-      const targetProfileId = await DomainTransaction.execute(async () => {
-        return targetProfileRepository.create({
-          targetProfileForCreation,
-        });
-      });
-
-      // then
-      const targetProfileInDB = await knex('target-profiles')
-        .select([
-          'name',
-          'category',
-          'description',
-          'comment',
-          'isPublic',
-          'imageUrl',
-          'ownerOrganizationId',
-          'areKnowledgeElementsResettable',
-        ])
-        .where({ id: targetProfileId })
-        .first();
-      expect(targetProfileInDB).to.deep.equal({
-        name: 'myFirstTargetProfile',
-        category: TargetProfile.categories.SUBJECT,
-        description: 'la description',
-        comment: 'le commentaire',
-        isPublic: true,
-        imageUrl: 'mon-image/stylée',
-        ownerOrganizationId: 1,
-        areKnowledgeElementsResettable: true,
-      });
-    });
-
-    it('should create the target profile tubes in database', async function () {
-      // given
-      const targetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
-        ownerOrganizationId: null,
-        tubes: [
-          { id: 'recTube2', level: 5 },
-          { id: 'recTube1', level: 8 },
-        ],
-      });
-
-      // when
-      const targetProfileId = await DomainTransaction.execute(async () => {
-        return targetProfileRepository.create({
-          targetProfileForCreation,
-        });
-      });
-
-      // then
-      const targetProfileTubesInDB = await knex('target-profile_tubes')
-        .select(['targetProfileId', 'tubeId', 'level'])
-        .where({ targetProfileId })
-        .orderBy('tubeId', 'ASC');
-
-      expect(targetProfileTubesInDB).to.deep.equal([
-        { targetProfileId, tubeId: 'recTube1', level: 8 },
-        { targetProfileId, tubeId: 'recTube2', level: 5 },
-      ]);
-    });
-
-    it('should be transactional through DomainTransaction and do nothing if an error occurs', async function () {
-      // given
-      const targetProfileForCreation = domainBuilder.buildTargetProfileForCreation({
-        ownerOrganizationId: null,
-        tubes: [{ id: 'recTube2', level: 5 }],
-      });
-
-      // when
-      try {
-        await DomainTransaction.execute(async () => {
-          await targetProfileRepository.create({
-            targetProfileForCreation,
-          });
-          throw new Error();
-        });
-        // eslint-disable-next-line no-empty
-      } catch (error) {}
-
-      // then
-      const targetProfilesInDB = await knex('target-profiles').select('id');
-      const targetProfileTubesInDB = await knex('target-profile_tubes').select('id');
-      expect(targetProfilesInDB).to.deepEqualArray([]);
-      expect(targetProfileTubesInDB).to.deepEqualArray([]);
-    });
-  });
-
   describe('#get', function () {
     let targetProfile;
     let organizationId;
@@ -257,29 +152,6 @@ describe('Integration | Repository | Target-profile', function () {
 
         expect(error).to.be.instanceOf(NotFoundError);
       });
-    });
-  });
-
-  describe('#getTubesByTargetProfileId', function () {
-    it('should return tubes linked to targetProfiles', async function () {
-      // given
-      const targetProfile1 = databaseBuilder.factory.buildTargetProfile({ id: 1 });
-      const targetProfile2 = databaseBuilder.factory.buildTargetProfile({ id: 2 });
-      // profile 1
-      const targetProfileTube1 = databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfile1.id });
-      const targetProfileTube2 = databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfile1.id });
-      // profile 2
-      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfile2.id });
-      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfile2.id });
-      await databaseBuilder.commit();
-
-      // when
-      const tubes = await targetProfileRepository.getTubesByTargetProfileId(targetProfile1.id);
-
-      // Then
-      expect(tubes.length).to.equal(2);
-      expect(tubes[0].tubeId).to.equal(targetProfileTube1.tubeId);
-      expect(tubes[1].tubeId).to.equal(targetProfileTube2.tubeId);
     });
   });
 });

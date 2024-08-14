@@ -1,16 +1,20 @@
-import { copyTargetProfile } from '../../../../lib/domain/usecases/copy-target-profile.js';
-import { expect, sinon } from '../../../test-helper.js';
-import { buildTargetProfile } from '../../../tooling/domain-builder/factory/index.js';
+import { copyTargetProfile } from '../../../../../../src/prescription/target-profile/domain/usecases/copy-target-profile.js';
+import { expect, sinon } from '../../../../../test-helper.js';
+import { buildTargetProfile } from '../../../../../tooling/domain-builder/factory/index.js';
 
 describe('Unit | UseCase | copy-target-profile', function () {
   let targetProfileRepositoryStub;
+  let targetProfileAdministrationRepositoryStub;
   let badgeRepositoryStub;
   let badgeCriteriaRepositoryStub;
 
   beforeEach(function () {
     targetProfileRepositoryStub = {
-      create: sinon.stub(),
       get: sinon.stub(),
+    };
+
+    targetProfileAdministrationRepositoryStub = {
+      create: sinon.stub(),
       getTubesByTargetProfileId: sinon.stub(),
     };
 
@@ -37,14 +41,17 @@ describe('Unit | UseCase | copy-target-profile', function () {
       { tubeId: 123, level: 1 },
       { tubeId: 456, level: 2 },
     ];
-    targetProfileRepositoryStub.getTubesByTargetProfileId.withArgs(targetProfileId).resolves(targetProfileTubes);
+    targetProfileAdministrationRepositoryStub.getTubesByTargetProfileId
+      .withArgs(targetProfileId)
+      .resolves(targetProfileTubes);
 
-    targetProfileRepositoryStub.create.resolves(copiedTargetProfileIdSymbol);
+    targetProfileAdministrationRepositoryStub.create.resolves(copiedTargetProfileIdSymbol);
 
     // when
     const copiedTargetProfileId = await copyTargetProfile({
       targetProfileId: targetProfileId,
       targetProfileRepository: targetProfileRepositoryStub,
+      targetProfileAdministrationRepository: targetProfileAdministrationRepositoryStub,
       badgeRepository: badgeRepositoryStub,
       badgeCriteriaRepository: badgeCriteriaRepositoryStub,
     });

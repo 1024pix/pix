@@ -801,4 +801,58 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
       });
     });
   });
+
+  describe('POST /api/admin/target-profiles/{targetProfileId}/copy', function () {
+    describe('When user has role SUPER_ADMIN or METIER or SUPPORT', function () {
+      it('Should return a response with 200 status code', async function () {
+        // given
+        const method = 'POST';
+        const url = '/api/admin/target-profiles/123/copy';
+
+        securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
+
+        sinon.stub(targetProfileController, 'copyTargetProfile').callsFake((request, h) => h.response('ok').code(200));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url);
+
+        // then
+        sinon.assert.calledOnce(targetProfileController.copyTargetProfile);
+        expect(statusCode).to.equal(200);
+      });
+    });
+
+    context('when user has role CERTIF', function () {
+      it('should return a response with an HTTP status code 403', async function () {
+        // given
+        const method = 'POST';
+        const url = '/api/admin/target-profiles/123/copy';
+        securityPreHandlers.hasAtLeastOneAccessOf
+          .withArgs([
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover(),
+          );
+        sinon.stub(targetProfileController, 'copyTargetProfile').returns('ko');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url);
+
+        // then
+        expect(targetProfileController.copyTargetProfile).not.to.have.been.called;
+        expect(statusCode).to.equal(403);
+      });
+    });
+  });
 });
