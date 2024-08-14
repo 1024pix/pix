@@ -17,11 +17,11 @@
           <div class="grain-card-content__element">
             <Module::Element
               @element={{component.element}}
-              @openImageAlternativeText={{@openImageAlternativeText}}
-              @openVideoTranscription={{@openVideoTranscription}}
-              @submitAnswer={{@submitAnswer}}
-              @retryElement={{@retryElement}}
-              @clickOnPlayButton={{@clickOnPlayButton}}
+              @onImageAlternativeTextOpen={{@onImageAlternativeTextOpen}}
+              @onVideoTranscriptionOpen={{@onVideoTranscriptionOpen}}
+              @onElementAnswer={{@onElementAnswer}}
+              @onElementRetry={{@onElementRetry}}
+              @onVideoPlay={{@onVideoPlay}}
               @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
               @onFileDownload={{@onFileDownload}}
             />
@@ -30,15 +30,15 @@
           <div class="grain-card-content__stepper">
             <Module::Stepper
               @steps={{component.steps}}
-              @submitAnswer={{@submitAnswer}}
-              @retryElement={{@retryElement}}
+              @onElementAnswer={{@onElementAnswer}}
+              @onElementRetry={{@onElementRetry}}
               @passage={{@passage}}
               @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
               @stepperIsFinished={{this.stepperIsFinished}}
-              @continueToNextStep={{@continueToNextStep}}
-              @openImageAlternativeText={{@openImageAlternativeText}}
-              @openVideoTranscription={{@openVideoTranscription}}
-              @clickOnPlayButton={{@clickOnPlayButton}}
+              @onStepperNextStep={{@onStepperNextStep}}
+              @onImageAlternativeTextOpen={{@onImageAlternativeTextOpen}}
+              @onVideoTranscriptionOpen={{@onVideoTranscriptionOpen}}
+              @onVideoPlay={{@onVideoPlay}}
               @onFileDownload={{@onFileDownload}}
             />
           </div>
@@ -48,7 +48,7 @@
 
     {{#if this.shouldDisplaySkipButton}}
       <footer class="grain-card__footer">
-        <PixButton @variant="tertiary" @triggerAction={{@skipAction}}>
+        <PixButton @variant="tertiary" @triggerAction={{@onGrainSkip}}>
           {{t "pages.modulix.buttons.grain.skip"}}
         </PixButton>
       </footer>
@@ -56,7 +56,7 @@
 
     {{#if this.shouldDisplayContinueButton}}
       <footer class="grain-card__footer">
-        <PixButton @variant="primary" @triggerAction={{@continueAction}}>
+        <PixButton @variant="primary" @triggerAction={{@onGrainContinue}}>
           {{t "pages.modulix.buttons.grain.continue"}}
         </PixButton>
       </footer>
@@ -64,7 +64,7 @@
 
     {{#if @shouldDisplayTerminateButton}}
       <footer class="grain-card__footer">
-        <PixButton @variant="primary" @triggerAction={{this.terminateAction}}>
+        <PixButton @variant="primary" @triggerAction={{this.onModuleTerminate}}>
           {{t "pages.modulix.buttons.grain.terminate"}}
         </PixButton>
       </footer>

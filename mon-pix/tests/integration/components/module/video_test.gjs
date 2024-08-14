@@ -76,18 +76,20 @@ module('Integration | Component | Module | Video', function (hooks) {
       subtitles: 'subtitles',
       transcription: 'transcription',
     };
-    const openTranscriptionStub = sinon.stub();
+    const onVideoTranscriptionOpenStub = sinon.stub();
 
     //  when
     const screen = await render(
-      <template><ModulixVideoElement @video={{videoElement}} @openTranscription={{openTranscriptionStub}} /></template>,
+      <template>
+        <ModulixVideoElement @video={{videoElement}} @onTranscriptionOpen={{onVideoTranscriptionOpenStub}} />
+      </template>,
     );
 
     // then
     await click(screen.getByRole('button', { name: 'Afficher la transcription' }));
     assert.ok(await screen.findByRole('dialog'));
     assert.ok(screen.getByText('transcription'));
-    assert.ok(openTranscriptionStub.calledOnce);
+    assert.ok(onVideoTranscriptionOpenStub.calledOnce);
   });
 
   test('should not be able to open the modal if there is no transcription', async function (assert) {
@@ -131,7 +133,7 @@ module('Integration | Component | Module | Video', function (hooks) {
   });
 
   module('when the video is played', function () {
-    test('should call clickOnPlayButton prop with right argument', async function (assert) {
+    test('should call onPlay prop with right argument', async function (assert) {
       // given
       const videoElement = {
         id: 'id',
@@ -141,12 +143,8 @@ module('Integration | Component | Module | Video', function (hooks) {
         transcription: '',
         poster: 'https://example.org/modulix/video-poster.jpg',
       };
-      const clickOnPlayButtonStub = sinon.stub();
-      await render(
-        <template>
-          <ModulixVideoElement @video={{videoElement}} @clickOnPlayButton={{clickOnPlayButtonStub}} />
-        </template>,
-      );
+      const onVideoPlayStub = sinon.stub();
+      await render(<template><ModulixVideoElement @video={{videoElement}} @onPlay={{onVideoPlayStub}} /></template>);
       const video = find(`#${videoElement.id}`);
 
       //  when
@@ -155,13 +153,13 @@ module('Integration | Component | Module | Video', function (hooks) {
       await new Promise((resolve) => setTimeout(resolve, 0));
 
       // then
-      sinon.assert.calledWithExactly(clickOnPlayButtonStub, {
+      sinon.assert.calledWithExactly(onVideoPlayStub, {
         elementId: videoElement.id,
       });
       assert.ok(true);
     });
 
-    test('should call clickOnPlayButton prop only once', async function (assert) {
+    test('should call onPlay prop only once', async function (assert) {
       // given
       const videoElement = {
         id: 'id',
@@ -171,12 +169,8 @@ module('Integration | Component | Module | Video', function (hooks) {
         transcription: '',
         poster: 'https://example.org/modulix/video-poster.jpg',
       };
-      const clickOnPlayButtonStub = sinon.stub();
-      await render(
-        <template>
-          <ModulixVideoElement @video={{videoElement}} @clickOnPlayButton={{clickOnPlayButtonStub}} />
-        </template>,
-      );
+      const onVideoPlayStub = sinon.stub();
+      await render(<template><ModulixVideoElement @video={{videoElement}} @onPlay={{onVideoPlayStub}} /></template>);
       const video = find(`#${videoElement.id}`);
 
       //  when
@@ -187,7 +181,7 @@ module('Integration | Component | Module | Video', function (hooks) {
       await new Promise((resolve) => setTimeout(resolve, 0));
 
       // then
-      sinon.assert.calledOnce(clickOnPlayButtonStub);
+      sinon.assert.calledOnce(onVideoPlayStub);
       assert.ok(true);
     });
   });

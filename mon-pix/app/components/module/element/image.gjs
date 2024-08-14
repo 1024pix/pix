@@ -16,7 +16,7 @@ export default class ModulixImageElement extends Component {
   @action
   showModal() {
     this.modalIsOpen = true;
-    this.args.openAlternativeText(this.args.image.id);
+    this.args.onAlternativeTextOpen(this.args.image.id);
   }
 
   @action

@@ -14,20 +14,20 @@
     {{#each this.grainsToDisplay as |grain index|}}
       <Module::Grain
         @grain={{grain}}
-        @retryElement={{this.trackRetry}}
+        @onElementRetry={{this.onElementRetry}}
         @passage={{@passage}}
         @transition={{this.grainTransition grain.id}}
-        @openImageAlternativeText={{this.openImageAlternativeText}}
-        @openVideoTranscription={{this.openVideoTranscription}}
-        @submitAnswer={{this.submitAnswer}}
-        @continueToNextStep={{this.continueToNextStep}}
+        @onImageAlternativeTextOpen={{this.onImageAlternativeTextOpen}}
+        @onVideoTranscriptionOpen={{this.onVideoTranscriptionOpen}}
+        @onElementAnswer={{this.onElementAnswer}}
+        @onStepperNextStep={{this.onStepperNextStep}}
         @canMoveToNextGrain={{this.grainCanMoveToNextGrain index}}
-        @continueAction={{this.continueToNextGrain}}
-        @skipAction={{this.skipToNextGrain}}
+        @onGrainContinue={{this.onGrainContinue}}
+        @onGrainSkip={{this.onGrainSkip}}
         @shouldDisplayTerminateButton={{this.grainShouldDisplayTerminateButton index}}
-        @terminateAction={{this.terminateModule}}
+        @onModuleTerminate={{this.onModuleTerminate}}
         @hasJustAppeared={{this.hasGrainJustAppeared index}}
-        @clickOnPlayButton={{this.clickOnPlayButton}}
+        @onVideoPlay={{this.onVideoPlay}}
         @onFileDownload={{this.onFileDownload}}
       />
     {{/each}}

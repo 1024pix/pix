@@ -72,7 +72,7 @@ module('Integration | Component | Module | Element | Download', function (hooks)
   });
 
   module('when download button is clicked', function () {
-    test('should call onFileDownload prop with right argument', async function (assert) {
+    test('should call onDownload prop with right argument', async function (assert) {
       // given
       const downloadedFormat = '.pdf';
       const downloadElement = {
@@ -80,11 +80,9 @@ module('Integration | Component | Module | Element | Download', function (hooks)
         type: 'download',
         files: [{ format: downloadedFormat, url: 'https://example.org/modulix/placeholder-doc.pdf' }],
       };
-      const onFileDownloadStub = sinon.stub();
+      const onDownloadStub = sinon.stub();
       const screen = await render(
-        <template>
-          <ModuleElementDownload @download={{downloadElement}} @onFileDownload={{onFileDownloadStub}} />
-        </template>,
+        <template><ModuleElementDownload @download={{downloadElement}} @onDownload={{onDownloadStub}} /></template>,
       );
 
       //  when
@@ -97,7 +95,7 @@ module('Integration | Component | Module | Element | Download', function (hooks)
       downloadLink.click();
 
       // then
-      sinon.assert.calledWithExactly(onFileDownloadStub, {
+      sinon.assert.calledWithExactly(onDownloadStub, {
         elementId: downloadElement.id,
         downloadedFormat,
       });

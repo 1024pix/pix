@@ -78,7 +78,10 @@ module('Unit | Component | Module | Video', function (hooks) {
       const metrics = this.owner.lookup('service:metrics');
       metrics.add = () => {};
 
-      const component = createGlimmerComponent('module/element/video', { video, openTranscription: sinon.stub() });
+      const component = createGlimmerComponent('module/element/video', {
+        video,
+        onTranscriptionOpen: sinon.stub(),
+      });
       assert.false(component.modalIsOpen);
 
       // when
@@ -95,7 +98,10 @@ module('Unit | Component | Module | Video', function (hooks) {
         // given
         const video = { id: 'video-id' };
 
-        const component = createGlimmerComponent('module/element/video', { video, openTranscription: sinon.stub() });
+        const component = createGlimmerComponent('module/element/video', {
+          video,
+          onTranscriptionOpen: sinon.stub(),
+        });
         assert.false(component.modalIsOpen);
 
         component.showModal();

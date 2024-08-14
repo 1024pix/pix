@@ -247,8 +247,8 @@ module('Integration | Component | Module | Passage', function (hooks) {
       await clickByName(continueButtonName);
 
       // then
-      const grainsAfterContinueAction = screen.getAllByRole('article');
-      assert.strictEqual(grainsAfterContinueAction.length, 2);
+      const grainsAfteronGrainContinue = screen.getAllByRole('article');
+      assert.strictEqual(grainsAfteronGrainContinue.length, 2);
     });
 
     test('should give focus on the last grain when appearing', async function (assert) {
@@ -274,18 +274,18 @@ module('Integration | Component | Module | Passage', function (hooks) {
       await clickByName(continueButtonName);
 
       // then
-      const grainsAfterOneContinueActions = screen.getAllByRole('article');
-      assert.strictEqual(grainsAfterOneContinueActions.length, 2);
-      const secondGrain = grainsAfterOneContinueActions.at(-1);
+      const grainsAfterOneonGrainContinues = screen.getAllByRole('article');
+      assert.strictEqual(grainsAfterOneonGrainContinues.length, 2);
+      const secondGrain = grainsAfterOneonGrainContinues.at(-1);
       assert.strictEqual(document.activeElement, secondGrain);
 
       // when
       await clickByName(continueButtonName);
 
       // then
-      const grainsAfterTwoContinueActions = screen.getAllByRole('article');
-      assert.strictEqual(grainsAfterTwoContinueActions.length, 3);
-      const thirdGrain = grainsAfterTwoContinueActions.at(-1);
+      const grainsAfterTwoonGrainContinues = screen.getAllByRole('article');
+      assert.strictEqual(grainsAfterTwoonGrainContinues.length, 3);
+      const thirdGrain = grainsAfterTwoonGrainContinues.at(-1);
       assert.strictEqual(document.activeElement, thirdGrain);
     });
 
@@ -591,7 +591,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
 
       const module = store.createRecord('module', { id: '1', title: 'Module title', grains: [grain] });
       const passage = store.createRecord('passage');
-      const continueToNextStepButtonName = this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel');
+      const onStepperNextStepButtonName = this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel');
 
       await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
 
@@ -599,7 +599,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
       metrics.add = sinon.stub();
 
       // when
-      await clickByName(continueToNextStepButtonName);
+      await clickByName(onStepperNextStepButtonName);
 
       // then
       sinon.assert.calledWithExactly(metrics.add, {

@@ -99,7 +99,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
 
     module('when a message is received', function () {
       module('when message is not from pix', function () {
-        test('should not call the submitAnswer method', async function (assert) {
+        test('should not call the onAnswer method', async function (assert) {
           // given
           const embed = {
             id: 'id',
@@ -108,8 +108,8 @@ module('Integration | Component | Module | Embed', function (hooks) {
             url: 'https://example.org',
             height: 800,
           };
-          const submitAnswerStub = sinon.stub();
-          await render(<template><ModulixEmbed @embed={{embed}} @submitAnswer={{submitAnswerStub}} /></template>);
+          const onElementAnswerStub = sinon.stub();
+          await render(<template><ModulixEmbed @embed={{embed}} @onAnswer={{onElementAnswerStub}} /></template>);
           await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
 
           // when
@@ -120,13 +120,13 @@ module('Integration | Component | Module | Embed', function (hooks) {
           window.dispatchEvent(event);
 
           // then
-          sinon.assert.notCalled(submitAnswerStub);
+          sinon.assert.notCalled(onElementAnswerStub);
           assert.ok(true);
         });
       });
 
       module('when message is not an answer', function () {
-        test('should not call the submitAnswer method', async function (assert) {
+        test('should not call the onAnswer method', async function (assert) {
           // given
           const embed = {
             id: 'id',
@@ -135,8 +135,8 @@ module('Integration | Component | Module | Embed', function (hooks) {
             url: 'https://example.org',
             height: 800,
           };
-          const submitAnswerStub = sinon.stub();
-          await render(<template><ModulixEmbed @embed={{embed}} @submitAnswer={{submitAnswerStub}} /></template>);
+          const onElementAnswerStub = sinon.stub();
+          await render(<template><ModulixEmbed @embed={{embed}} @onAnswer={{onElementAnswerStub}} /></template>);
           await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
 
           // when
@@ -147,13 +147,13 @@ module('Integration | Component | Module | Embed', function (hooks) {
           window.dispatchEvent(event);
 
           // then
-          sinon.assert.notCalled(submitAnswerStub);
+          sinon.assert.notCalled(onElementAnswerStub);
           assert.ok(true);
         });
       });
 
       module('when message origin is not allowed', function () {
-        test('should not call the submitAnswer method', async function (assert) {
+        test('should not call the onAnswer method', async function (assert) {
           // given
           const embed = {
             id: 'id',
@@ -162,8 +162,8 @@ module('Integration | Component | Module | Embed', function (hooks) {
             url: 'https://example.org',
             height: 800,
           };
-          const submitAnswerStub = sinon.stub();
-          await render(<template><ModulixEmbed @embed={{embed}} @submitAnswer={{submitAnswerStub}} /></template>);
+          const onElementAnswerStub = sinon.stub();
+          await render(<template><ModulixEmbed @embed={{embed}} @onAnswer={{onElementAnswerStub}} /></template>);
           await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
 
           // when
@@ -174,13 +174,13 @@ module('Integration | Component | Module | Embed', function (hooks) {
           window.dispatchEvent(event);
 
           // then
-          sinon.assert.notCalled(submitAnswerStub);
+          sinon.assert.notCalled(onElementAnswerStub);
           assert.ok(true);
         });
       });
 
       module('otherwise when everything is ok', function () {
-        test('should call the submitAnswer method', async function (assert) {
+        test('should call the onAnswer method', async function (assert) {
           // given
           const embed = {
             id: 'id',
@@ -189,8 +189,8 @@ module('Integration | Component | Module | Embed', function (hooks) {
             url: 'https://example.org',
             height: 800,
           };
-          const submitAnswerStub = sinon.stub();
-          await render(<template><ModulixEmbed @embed={{embed}} @submitAnswer={{submitAnswerStub}} /></template>);
+          const onElementAnswerStub = sinon.stub();
+          await render(<template><ModulixEmbed @embed={{embed}} @onAnswer={{onElementAnswerStub}} /></template>);
           await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
 
           // when
@@ -201,7 +201,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
           window.dispatchEvent(event);
 
           // then
-          sinon.assert.called(submitAnswerStub);
+          sinon.assert.called(onElementAnswerStub);
           assert.ok(true);
         });
       });

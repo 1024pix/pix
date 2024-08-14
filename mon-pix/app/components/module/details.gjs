@@ -13,7 +13,7 @@ export default class ModulixDetails extends Component {
   @service metrics;
 
   @action
-  startModule() {
+  onModuleStart() {
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',
@@ -37,7 +37,7 @@ export default class ModulixDetails extends Component {
           <p class="module-details-content-layout__description">{{@module.details.description}}</p>
 
           <div class="module-details-content-layout__link">
-            <PixButtonLink @href="#" {{on "click" this.startModule}} @model={{@module.id}} @size="large">{{t
+            <PixButtonLink @href="#" {{on "click" this.onModuleStart}} @model={{@module.id}} @size="large">{{t
                 "pages.modulix.details.startModule"
               }}</PixButtonLink>
           </div>

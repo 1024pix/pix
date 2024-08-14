@@ -33,7 +33,7 @@ module('Unit | Component | Module | Image', function (hooks) {
       // given
       const image = { id: 'image-id' };
 
-      const component = createGlimmerComponent('module/element/image', { image, openAlternativeText: sinon.stub() });
+      const component = createGlimmerComponent('module/element/image', { image, onAlternativeTextOpen: sinon.stub() });
       assert.false(component.modalIsOpen);
 
       // when
@@ -50,7 +50,10 @@ module('Unit | Component | Module | Image', function (hooks) {
         // given
         const image = { id: 'image-id' };
 
-        const component = createGlimmerComponent('module/element/image', { image, openAlternativeText: sinon.stub() });
+        const component = createGlimmerComponent('module/element/image', {
+          image,
+          onAlternativeTextOpen: sinon.stub(),
+        });
         assert.false(component.modalIsOpen);
 
         component.showModal();

@@ -61,9 +61,9 @@ module('Integration | Component | Module | QCM', function (hooks) {
     };
     this.set('el', qcmElement);
     const userResponse = [answeredProposal[0].id, answeredProposal[1].id];
-    const givenSubmitAnswerSpy = sinon.spy();
-    this.set('submitAnswer', givenSubmitAnswerSpy);
-    const screen = await render(hbs`<Module::Element::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
+    const givenonElementAnswerSpy = sinon.spy();
+    this.set('onAnswer', givenonElementAnswerSpy);
+    const screen = await render(hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
     const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
     // when
@@ -72,7 +72,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
     await click(verifyButton);
 
     // then
-    sinon.assert.calledWith(givenSubmitAnswerSpy, { userResponse, element: qcmElement });
+    sinon.assert.calledWith(givenonElementAnswerSpy, { userResponse, element: qcmElement });
     assert.ok(true);
   });
 
@@ -88,10 +88,10 @@ module('Integration | Component | Module | QCM', function (hooks) {
       ],
       type: 'qcm',
     };
-    const submitAnswerSpy = sinon.spy();
+    const onElementAnswerSpy = sinon.spy();
     this.set('el', qcmElement);
-    this.set('submitAnswer', submitAnswerSpy);
-    const screen = await render(hbs`<Module::Element::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
+    this.set('onAnswer', onElementAnswerSpy);
+    const screen = await render(hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
 
     // when
     await click(screen.getByLabelText('checkbox1'));
@@ -99,7 +99,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
     // then
     assert.dom(screen.getByRole('alert')).exists();
-    sinon.assert.notCalled(submitAnswerSpy);
+    sinon.assert.notCalled(onElementAnswerSpy);
   });
 
   test('should hide the error message when QCM is validated with response', async function (assert) {
@@ -114,10 +114,10 @@ module('Integration | Component | Module | QCM', function (hooks) {
       ],
       type: 'qcm',
     };
-    const givenSubmitAnswerStub = function () {};
-    this.set('submitAnswer', givenSubmitAnswerStub);
+    const givenonElementAnswerStub = function () {};
+    this.set('onAnswer', givenonElementAnswerStub);
     this.set('el', qcmElement);
-    const screen = await render(hbs`<Module::Element::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
+    const screen = await render(hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -139,15 +139,11 @@ module('Integration | Component | Module | QCM', function (hooks) {
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -169,15 +165,11 @@ module('Integration | Component | Module | QCM', function (hooks) {
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -200,15 +192,11 @@ module('Integration | Component | Module | QCM', function (hooks) {
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -225,15 +213,11 @@ module('Integration | Component | Module | QCM', function (hooks) {
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -252,15 +236,11 @@ module('Integration | Component | Module | QCM', function (hooks) {
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then

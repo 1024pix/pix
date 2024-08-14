@@ -98,7 +98,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
       });
 
       module('When we verify an answerable element', function () {
-        test('should call the submitAnswer action', async function (assert) {
+        test('should call the onElementAnswer action', async function (assert) {
           // given
           const steps = [
             {
@@ -127,7 +127,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
             },
           ];
           function getLastCorrectionForElementStub() {}
-          const submitAnswerStub = sinon.stub();
+          const onElementAnswerStub = sinon.stub();
           const store = this.owner.lookup('service:store');
           const passage = store.createRecord('passage');
           passage.getLastCorrectionForElement = getLastCorrectionForElementStub;
@@ -138,7 +138,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
               <ModulixStepper
                 @passage={{passage}}
                 @steps={{steps}}
-                @submitAnswer={{submitAnswerStub}}
+                @onElementAnswer={{onElementAnswerStub}}
                 @getLastCorrectionForElement={{getLastCorrectionForElementStub}}
               />
             </template>,
@@ -147,13 +147,13 @@ module('Integration | Component | Module | Stepper', function (hooks) {
           // then
           await clickByName('radio1');
           await clickByName(this.intl.t('pages.modulix.buttons.activity.verify'));
-          sinon.assert.calledOnce(submitAnswerStub);
+          sinon.assert.calledOnce(onElementAnswerStub);
           assert.ok(true);
         });
       });
 
       module('When we retry an answerable element', function () {
-        test('should call the retryElement action', async function (assert) {
+        test('should call the onElementRetry action', async function (assert) {
           // given
           const steps = [
             {
@@ -181,7 +181,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
               ],
             },
           ];
-          const retryElementStub = sinon.stub();
+          const onElementRetryStub = sinon.stub();
           const store = this.owner.lookup('service:store');
           const passage = store.createRecord('passage');
           const correctionResponse = store.createRecord('correction-response', {
@@ -207,7 +207,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
               <ModulixStepper
                 @passage={{passage}}
                 @steps={{steps}}
-                @retryElement={{retryElementStub}}
+                @onElementRetry={{onElementRetryStub}}
                 @getLastCorrectionForElement={{getLastCorrectionForElementStub}}
               />
             </template>,
@@ -216,7 +216,7 @@ module('Integration | Component | Module | Stepper', function (hooks) {
           // then
           await clickByName('radio1');
           await clickByName(this.intl.t('pages.modulix.buttons.activity.retry'));
-          sinon.assert.calledOnce(retryElementStub);
+          sinon.assert.calledOnce(onElementRetryStub);
           assert.ok(true);
         });
       });
@@ -470,14 +470,14 @@ module('Integration | Component | Module | Stepper', function (hooks) {
         ];
 
         function stepperIsFinished() {}
-        function continueToNextStepStub() {}
+        function onStepperNextStepStub() {}
 
         const screen = await render(
           <template>
             <ModulixStepper
               @steps={{steps}}
               @stepperIsFinished={{stepperIsFinished}}
-              @continueToNextStep={{continueToNextStepStub}}
+              @onStepperNextStep={{onStepperNextStepStub}}
             />
           </template>,
         );
@@ -513,14 +513,14 @@ module('Integration | Component | Module | Stepper', function (hooks) {
         ];
 
         function stepperIsFinished() {}
-        function continueToNextStepStub() {}
+        function onStepperNextStepStub() {}
 
         const screen = await render(
           <template>
             <ModulixStepper
               @steps={{steps}}
               @stepperIsFinished={{stepperIsFinished}}
-              @continueToNextStep={{continueToNextStepStub}}
+              @onStepperNextStep={{onStepperNextStepStub}}
             />
           </template>,
         );

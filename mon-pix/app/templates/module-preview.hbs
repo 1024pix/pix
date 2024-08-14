@@ -10,20 +10,20 @@
       {{#each this.formattedModule.grains as |grain|}}
         <Module::Grain
           @grain={{grain}}
-          @retryElement={{this.noop}}
+          @onElementRetry={{this.noop}}
           @passage={{this.passage}}
           @transition={{this.grainTransition grain.id}}
-          @openImageAlternativeText={{this.noop}}
-          @openVideoTranscription={{this.noop}}
-          @submitAnswer={{this.noop}}
-          @continueToNextStep={{this.noop}}
+          @onImageAlternativeTextOpen={{this.noop}}
+          @onVideoTranscriptionOpen={{this.noop}}
+          @onElementAnswer={{this.noop}}
+          @onStepperNextStep={{this.noop}}
           @canMoveToNextGrain={{false}}
-          @continueAction={{this.noop}}
-          @skipAction={{this.noop}}
+          @onGrainContinue={{this.noop}}
+          @onGrainSkip={{this.noop}}
           @shouldDisplayTerminateButton={{false}}
-          @terminateAction={{this.noop}}
+          @onModuleTerminate={{this.noop}}
           @hasJustAppeared={{false}}
-          @clickOnPlayButton={{this.noop}}
+          @onVideoPlay={{this.noop}}
           @onFileDownload={{this.noop}}
         />
       {{/each}}

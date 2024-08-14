@@ -9,8 +9,8 @@ import ModuleElement from './module-element';
 
 export default class ModulixDownload extends ModuleElement {
   @action
-  onFileDownload(downloadedFormat) {
-    this.args.onFileDownload({ elementId: this.args.download.id, downloadedFormat });
+  onDownload(downloadedFormat) {
+    this.args.onDownload({ elementId: this.args.download.id, downloadedFormat });
   }
 
   <template>
@@ -31,7 +31,7 @@ export default class ModulixDownload extends ModuleElement {
               @href="{{file.url}}"
               aria-label="{{t 'pages.modulix.download.label' format=file.format}}"
               download
-              {{on "click" (fn this.onFileDownload file.format)}}
+              {{on "click" (fn this.onDownload file.format)}}
             >
               {{t "pages.modulix.download.button"}}
             </PixButtonLink>

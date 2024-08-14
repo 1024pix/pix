@@ -43,7 +43,7 @@ export default class ModulixStepper extends Component {
       this.args.stepperIsFinished();
     }
 
-    this.args.continueToNextStep(currentStepPosition);
+    this.args.onStepperNextStep(currentStepPosition);
   }
 
   get currentStepIndex() {
@@ -81,13 +81,13 @@ export default class ModulixStepper extends Component {
             @step={{step}}
             @currentStep={{inc index}}
             @totalSteps={{this.displayableSteps.length}}
-            @submitAnswer={{@submitAnswer}}
-            @retryElement={{@retryElement}}
+            @onElementAnswer={{@onElementAnswer}}
+            @onElementRetry={{@onElementRetry}}
             @getLastCorrectionForElement={{@getLastCorrectionForElement}}
             @hasJustAppeared={{this.hasStepJustAppeared index}}
-            @openImageAlternativeText={{@openImageAlternativeText}}
-            @openVideoTranscription={{@openVideoTranscription}}
-            @clickOnPlayButton={{@clickOnPlayButton}}
+            @onImageAlternativeTextOpen={{@onImageAlternativeTextOpen}}
+            @onVideoTranscriptionOpen={{@onVideoTranscriptionOpen}}
+            @onVideoPlay={{@onVideoPlay}}
             @onFileDownload={{@onFileDownload}}
           />
         {{/each}}
