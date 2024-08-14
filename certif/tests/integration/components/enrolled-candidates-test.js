@@ -406,10 +406,6 @@ function _buildCertificationCandidate({
   externalId = 'an external id',
   extraTimePercentage = 0.3,
   isLinked = false,
-  complementaryCertification = {
-    id: '2',
-    label: 'Pix+Droit',
-  },
   billingMode = null,
   prepaymentCode = null,
   subscriptions,
@@ -427,7 +423,6 @@ function _buildCertificationCandidate({
     externalId,
     extraTimePercentage,
     isLinked,
-    complementaryCertification,
     billingMode,
     prepaymentCode,
     subscriptions,
