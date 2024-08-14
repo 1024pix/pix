@@ -96,7 +96,8 @@
     },
     "forms": {
       "certification-labels": {
-        "additional-certification": "Certification complémentaire",
+        "additional-certification": "Choix de la certification",
+        "additional-certification-old": "Certification complémentaire",
         "candidate-status": {
           "authorized-to-resume": "Autorisé à reprendre",
           "finished": "Terminé",
@@ -105,11 +106,13 @@
           "start": "Début"
         },
         "complementary-alone": "Quelles épreuves le candidat passera-t-il ?",
+        "dual-certification-clea": "Double Certification Pix-CléA Numérique",
         "email-convocation": "E-mail de convocation",
         "email-results": "E-mail du destinataire des résultats (formateur, enseignant...)",
         "external-id": "Identifiant externe",
         "extratime": "Temps majoré",
         "extratime-percentage": "Temps majoré (%)",
+        "pix-certification": "Certification Pix",
         "prepayment-code": "Code de prépaiement",
         "pricing": "Tarification part Pix",
         "selected-subscriptions": "Certification sélectionnée"

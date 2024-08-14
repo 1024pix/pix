@@ -13,11 +13,9 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import inputmask from 'ember-inputmask5/modifiers/inputmask';
 import { t } from 'ember-intl';
-
-import { SUBSCRIPTION_TYPES, COMPLEMENTARY_KEYS } from 'pix-certif/models/subscription';
+import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 
 import ComplementaryList from './complementary-list';
-import ComplementaryWithReferential from './complementary-with-referential';
 
 const FRANCE_INSEE_CODE = '99100';
 const INSEE_CODE_OPTION = 'insee';
@@ -25,13 +23,12 @@ const POSTAL_CODE_OPTION = 'postal';
 
 export default class NewCandidateModal extends Component {
   @service currentUser;
+  @service featureToggles;
   @service intl;
 
   @tracked selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
   @tracked selectedCountryInseeCode = FRANCE_INSEE_CODE;
-
   @tracked isLoading = false;
-  @tracked selectedComplementaryCertification;
   @tracked selectedBillingMode;
 
   get complementaryCertificationsHabilitations() {
@@ -113,15 +110,9 @@ export default class NewCandidateModal extends Component {
     ];
   }
 
-  get couldHaveComplementaryCertificationOnly() {
-    return this._hasComplementaryReferential() && this.isComplementaryAlonePilot;
-  }
-
-  // ACTIONS
   closeModal = () => {
     this.args.closeModal();
     document.getElementById('new-candidate-form').reset();
-    this.selectedComplementaryCertification = undefined;
     this.selectedBillingMode = undefined;
   };
 
@@ -165,18 +156,44 @@ export default class NewCandidateModal extends Component {
   };
 
   updateComplementaryCertification = (complementaryCertification) => {
+    if (!this.featureToggles.featureToggles?.isCoreComplementaryCompatibilityEnabled) {
+      return this._updateComplementaryCertification_old(complementaryCertification);
+    }
     if (complementaryCertification?.key) {
-      this.args.candidateData.subscriptions = [{
-        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-        complementaryCertificationId: complementaryCertification.id,
-        complementaryCertificationKey: complementaryCertification.key,
-      }];
-      this.selectedComplementaryCertification = { ...complementaryCertification };
+      this.args.candidateData.subscriptions = [
+        {
+          type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+          complementaryCertificationId: complementaryCertification.id,
+        },
+      ];
+      if (complementaryCertification?.key === COMPLEMENTARY_KEYS.CLEA) {
+        this.args.candidateData.subscriptions.push({
+          complementaryCertificationId: null,
+          type: SUBSCRIPTION_TYPES.CORE,
+        });
+      }
     } else {
-      this.selectedComplementaryCertification = undefined;
-      this.args.candidateData.subscriptions = [];
+      this.args.candidateData.subscriptions = [
+        {
+          type: SUBSCRIPTION_TYPES.CORE,
+          complementaryCertificationId: null,
+        },
+      ];
     }
   };
+
+  _updateComplementaryCertification_old(complementaryCertification) {
+    if (complementaryCertification?.key) {
+      this.args.candidateData.subscriptions = [
+        {
+          type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+          complementaryCertificationId: complementaryCertification.id,
+        },
+      ];
+    } else {
+      this.args.candidateData.subscriptions = [];
+    }
+  }
 
   onFormSubmit = async (event) => {
     event.preventDefault();
@@ -190,10 +207,10 @@ export default class NewCandidateModal extends Component {
       }
     } finally {
       this.isLoading = false;
+      this.args.candidateData.subscriptions = [];
     }
   };
 
-  // PRIVATE METHODS
   _isFranceSelected() {
     return this.selectedCountryInseeCode === FRANCE_INSEE_CODE;
   }
@@ -207,11 +224,6 @@ export default class NewCandidateModal extends Component {
     document.getElementById('new-candidate-form').reset();
     this.selectedCountryInseeCode = FRANCE_INSEE_CODE;
     this.selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
-    this.selectedComplementaryCertification = undefined;
-  }
-
-  _hasComplementaryReferential() {
-    return !!this.selectedComplementaryCertification?.hasComplementaryReferential;
   }
 
   <template>
@@ -485,9 +497,6 @@ export default class NewCandidateModal extends Component {
               @complementaryCertificationsHabilitations={{this.complementaryCertificationsHabilitations}}
               @updateComplementaryCertification={{this.updateComplementaryCertification}}
             />
-            {{#if this.couldHaveComplementaryCertificationOnly}}
-              <ComplementaryWithReferential />
-            {{/if}}
           {{/if}}
         </form>
       </:content>
