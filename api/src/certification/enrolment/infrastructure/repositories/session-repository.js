@@ -33,7 +33,7 @@ export async function get({ id }) {
   if (!foundSession) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
   }
-  return new SessionEnrolment({ ...foundSession });
+  return new SessionEnrolment({ ...foundSession, certificationCandidates: [] });
 }
 
 export async function getVersion({ id }) {
@@ -54,7 +54,7 @@ export async function isSessionExistingBySessionAndCertificationCenterIds({ sess
   return Boolean(session);
 }
 
-export async function updateSessionInfo({ session }) {
+export async function update(session) {
   const sessionDataToUpdate = _.pick(session, [
     'address',
     'room',
@@ -65,8 +65,7 @@ export async function updateSessionInfo({ session }) {
     'description',
   ]);
 
-  const [updatedSession] = await knex('sessions').where({ id: session.id }).update(sessionDataToUpdate).returning('*');
-  return new SessionEnrolment(updatedSession);
+  await knex('sessions').where({ id: session.id }).update(sessionDataToUpdate).returning('*');
 }
 
 export async function isSco({ id }) {

@@ -55,14 +55,13 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
   });
 
   describe('#get', function () {
-    let session;
-    let expectedSessionValues;
+    let sessionDB;
     let sessionCreator;
 
     beforeEach(async function () {
       // given
       sessionCreator = databaseBuilder.factory.buildUser({});
-      session = databaseBuilder.factory.buildSession({
+      sessionDB = databaseBuilder.factory.buildSession({
         certificationCenter: 'Tour Gamma',
         address: 'rue de Bercy',
         room: 'Salle A',
@@ -73,28 +72,20 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
         accessCode: 'NJR10',
         createdBy: sessionCreator.id,
       });
-      expectedSessionValues = {
-        id: session.id,
-        certificationCenter: session.certificationCenter,
-        address: session.address,
-        room: session.room,
-        examiner: session.examiner,
-        date: session.date,
-        time: session.time,
-        description: session.description,
-        accessCode: session.accessCode,
-        createdBy: sessionCreator.id,
-      };
       await databaseBuilder.commit();
     });
 
     it('should return session informations in a session Object', async function () {
       // when
-      const actualSession = await sessionRepository.get({ id: session.id });
+      const actualSession = await sessionRepository.get({ id: sessionDB.id });
 
       // then
-      expect(actualSession).to.be.instanceOf(SessionEnrolment);
-      expect(actualSession, 'date').to.deep.includes(expectedSessionValues);
+      expect(actualSession).to.deepEqualInstance(
+        domainBuilder.certification.enrolment.buildSession({
+          ...sessionDB,
+          certificationCandidates: [],
+        }),
+      );
     });
 
     it('should return a Not found error when no session was found', async function () {
@@ -134,7 +125,7 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
     });
   });
 
-  describe('#updateSessionInfo', function () {
+  describe('#update', function () {
     let session;
 
     beforeEach(function () {
@@ -151,29 +142,13 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
       return databaseBuilder.commit();
     });
 
-    it('should return a Session domain object', async function () {
-      // when
-      const sessionSaved = await sessionRepository.updateSessionInfo({ session });
-
-      // then
-      expect(sessionSaved).to.be.an.instanceof(SessionEnrolment);
-    });
-
     it('should update model in database', async function () {
-      // given
-
       // when
-      const sessionSaved = await sessionRepository.updateSessionInfo({ session });
+      await sessionRepository.update(session);
 
       // then
-      expect(sessionSaved.id).to.equal(session.id);
-      expect(sessionSaved.room).to.equal(session.room);
-      expect(sessionSaved.examiner).to.equal(session.examiner);
-      expect(sessionSaved.address).to.equal(session.address);
-      expect(sessionSaved.accessCode).to.equal(session.accessCode);
-      expect(sessionSaved.date).to.equal(session.date);
-      expect(sessionSaved.time).to.equal(session.time);
-      expect(sessionSaved.description).to.equal(session.description);
+      const actualSession = await sessionRepository.get({ id: session.id });
+      expect(actualSession).to.deepEqualInstance(session);
     });
   });
 
