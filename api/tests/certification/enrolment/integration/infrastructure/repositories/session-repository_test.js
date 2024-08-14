@@ -1,5 +1,6 @@
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import * as sessionRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
@@ -61,7 +62,11 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
     beforeEach(async function () {
       // given
       sessionCreator = databaseBuilder.factory.buildUser({});
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+        type: CERTIFICATION_CENTER_TYPES.PRO,
+      }).id;
       sessionDB = databaseBuilder.factory.buildSession({
+        certificationCenterId,
         certificationCenter: 'Tour Gamma',
         address: 'rue de Bercy',
         room: 'Salle A',
@@ -83,6 +88,7 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
       expect(actualSession).to.deepEqualInstance(
         domainBuilder.certification.enrolment.buildSession({
           ...sessionDB,
+          certificationCenterType: CERTIFICATION_CENTER_TYPES.PRO,
           certificationCandidates: [],
         }),
       );
@@ -101,8 +107,16 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
     let session;
 
     beforeEach(function () {
-      const savedSession = databaseBuilder.factory.buildSession();
-      session = domainBuilder.certification.enrolment.buildSession(savedSession);
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+        type: CERTIFICATION_CENTER_TYPES.SUP,
+      }).id;
+      const savedSession = databaseBuilder.factory.buildSession({
+        certificationCenterId,
+      });
+      session = domainBuilder.certification.enrolment.buildSession({
+        ...savedSession,
+        certificationCenterType: CERTIFICATION_CENTER_TYPES.SUP,
+      });
       session.room = 'New room';
       session.examiner = 'New examiner';
       session.address = 'New address';
@@ -121,64 +135,6 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
       // then
       const actualSession = await sessionRepository.get({ id: session.id });
       expect(actualSession).to.deepEqualInstance(session);
-    });
-  });
-
-  describe('#isSco', function () {
-    context('when the certification center is not SCO', function () {
-      it('should return false', async function () {
-        // given
-        const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
-          name: 'PRO_CERTIFICATION_CENTER',
-          type: 'PRO',
-          externalId: 'EXTERNAL_ID',
-        });
-
-        const session = databaseBuilder.factory.buildSession({
-          certificationCenter: certificationCenter.name,
-          certificationCenterId: certificationCenter.id,
-          finalizedAt: null,
-          publishedAt: null,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const result = await sessionRepository.isSco({
-          id: session.id,
-        });
-
-        // then
-        expect(result).to.be.false;
-      });
-    });
-
-    context('when the certification center is SCO', function () {
-      it('should return true', async function () {
-        // given
-        const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
-          name: 'SCO',
-          externalId: 'EXTERNAL_ID',
-          type: 'SCO',
-        });
-
-        const session = databaseBuilder.factory.buildSession({
-          certificationCenter: certificationCenter.name,
-          certificationCenterId: certificationCenter.id,
-          finalizedAt: null,
-          publishedAt: null,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const result = await sessionRepository.isSco({
-          id: session.id,
-        });
-
-        // then
-        expect(result).to.be.true;
-      });
     });
   });
 

@@ -1,10 +1,12 @@
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 
 const buildSession = function ({
   id = 123,
   accessCode = 'BCDF234',
   address = '4 avenue du général perlimpimpim',
   certificationCenter = 'Centre de certif pix',
+  certificationCenterType = CERTIFICATION_CENTER_TYPES.SCO,
   certificationCenterId,
   date = '2021-01-01',
   description = 'Bonne année',
@@ -28,6 +30,7 @@ const buildSession = function ({
     accessCode,
     address,
     certificationCenter,
+    certificationCenterType,
     certificationCenterId,
     date,
     description,

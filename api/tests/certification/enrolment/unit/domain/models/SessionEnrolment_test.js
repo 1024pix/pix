@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const SESSION_PROPS = [
@@ -8,6 +9,7 @@ const SESSION_PROPS = [
   'accessCode',
   'address',
   'certificationCenter',
+  'certificationCenterType',
   'date',
   'description',
   'examiner',
@@ -30,6 +32,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       accessCode: '',
       address: '',
       certificationCenter: '',
+      certificationCenterType: '',
       date: '',
       description: '',
       examiner: '',
@@ -50,6 +53,40 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
 
   it('should create a session with all the requires properties', function () {
     expect(_.keys(session)).to.have.deep.members(SESSION_PROPS);
+  });
+
+  context('#get isSco', function () {
+    it('should return true when session is SCO', function () {
+      // given
+      const session = domainBuilder.certification.enrolment.buildSession({
+        certificationCenterType: CERTIFICATION_CENTER_TYPES.SCO,
+      });
+
+      // when
+      const isSco = session.isSco;
+
+      // then
+      expect(isSco).to.be.true;
+    });
+
+    it('should return true when session is not SCO', function () {
+      // given
+      let notScoSessions = Object.values(CERTIFICATION_CENTER_TYPES).map((type) => {
+        if (type !== CERTIFICATION_CENTER_TYPES.SCO)
+          return domainBuilder.certification.enrolment.buildSession({
+            certificationCenterType: type,
+          });
+        return null;
+      });
+      notScoSessions = _.compact(notScoSessions);
+
+      // when
+      for (const notScoSession of notScoSessions) {
+        const isSco = notScoSession.isSco;
+        expect(isSco, `Session of type ${notScoSession.certificationCenterType} should return isSco as false`).to.be
+          .false;
+      }
+    });
   });
 
   context('#canEnrolCandidate', function () {

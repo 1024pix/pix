@@ -23,12 +23,10 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
     throw new CandidateAlreadyLinkedToUserError('At least one candidate is already linked to a user');
   }
 
-  const isSco = await sessionRepository.isSco({ id: sessionId });
-
   const candidates = await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
     i18n,
     sessionId,
-    isSco,
+    isSco: session.isSco,
     odsBuffer,
     certificationCpfService,
     certificationCpfCountryRepository,

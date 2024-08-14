@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { config } from '../../../../shared/config.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
 import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
 import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
 
@@ -14,6 +15,7 @@ class SessionEnrolment {
     accessCode,
     address,
     certificationCenter,
+    certificationCenterType,
     date,
     description,
     examiner,
@@ -30,6 +32,7 @@ class SessionEnrolment {
     this.accessCode = accessCode;
     this.address = address;
     this.certificationCenter = certificationCenter;
+    this.certificationCenterType = certificationCenterType;
     this.date = date;
     this.description = description;
     this.examiner = examiner;
@@ -45,6 +48,10 @@ class SessionEnrolment {
 
   get status() {
     return SESSION_STATUSES.CREATED;
+  }
+
+  get isSco() {
+    return this.certificationCenterType === CERTIFICATION_CENTER_TYPES.SCO;
   }
 
   static generateSupervisorPassword() {

@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { CertificationCenter } from '../../../../shared/domain/models/index.js';
 import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
 
 export async function save({ session }) {
@@ -29,7 +28,13 @@ export async function save({ session }) {
 }
 
 export async function get({ id }) {
-  const foundSession = await knex.select('*').from('sessions').where({ id }).first();
+  const foundSession = await knex
+    .select('sessions.*')
+    .select({ certificationCenterType: 'certification-centers.type' })
+    .from('sessions')
+    .join('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
+    .where('sessions.id', id)
+    .first();
   if (!foundSession) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
   }
@@ -58,17 +63,6 @@ export async function update(session) {
   ]);
 
   await knex('sessions').where({ id: session.id }).update(sessionDataToUpdate).returning('*');
-}
-
-export async function isSco({ id }) {
-  const result = await knex
-    .select('certification-centers.type')
-    .from('sessions')
-    .where('sessions.id', '=', id)
-    .innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
-    .first();
-
-  return result.type === CertificationCenter.types.SCO;
 }
 
 export async function remove({ id }) {

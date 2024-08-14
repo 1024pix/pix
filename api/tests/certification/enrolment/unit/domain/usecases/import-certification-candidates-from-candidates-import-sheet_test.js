@@ -1,5 +1,6 @@
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { importCertificationCandidatesFromCandidatesImportSheet } from '../../../../../../src/certification/enrolment/domain/usecases/import-certification-candidates-from-candidates-import-sheet.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import { CandidateAlreadyLinkedToUserError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
@@ -22,7 +23,6 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
       saveInSession: sinon.stub(),
     };
     sessionRepository = {
-      isSco: sinon.stub(),
       get: sinon.stub(),
     };
     certificationCandidatesOdsService = {
@@ -81,9 +81,11 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
         candidateRepository.findBySessionId
           .withArgs({ sessionId })
           .resolves([domainBuilder.certification.enrolment.buildCandidate({ userId: null })]);
-        sessionRepository.get
-          .withArgs({ id: sessionId })
-          .resolves(domainBuilder.certification.enrolment.buildSession());
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(
+          domainBuilder.certification.enrolment.buildSession({
+            certificationCenterType: CERTIFICATION_CENTER_TYPES.PRO,
+          }),
+        );
       });
 
       context('when cpf birth information validation has succeed', function () {
@@ -96,11 +98,8 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
               domainBuilder.buildCoreSubscription(),
               domainBuilder.buildComplementaryCertification({ ...complementaryCertification }),
             ],
-            // complementaryCertification,
           });
           const candidates = [candidate];
-
-          sessionRepository.isSco.resolves(false);
 
           certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
             .withArgs({
