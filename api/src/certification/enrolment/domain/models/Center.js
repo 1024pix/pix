@@ -40,4 +40,8 @@ export class Center {
   get isComplementaryAlonePilot() {
     return this.features.includes(CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key);
   }
+
+  isHabilitated(key) {
+    return this.habilitations.some((habilitation) => habilitation.key === key);
+  }
 }

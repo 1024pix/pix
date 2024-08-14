@@ -124,4 +124,38 @@ describe('Unit | Certification | Enrolment | Domain | Models | Center', function
       }
     });
   });
+
+  context('#isHabilitated', function () {
+    it('should return false when the center does not have the habilitation for complementary certification', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        habilitations: [
+          domainBuilder.certification.enrolment.buildHabilitation({
+            complementaryCertificationId: 123,
+            key: 'SOME_KEY',
+            label: 'some label',
+          }),
+        ],
+      });
+
+      // then
+      expect(center.isHabilitated('SOME_OTHER_KEY')).to.be.false;
+    });
+
+    it('should return true when the center has the habilitation for complementary certification', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        habilitations: [
+          domainBuilder.certification.enrolment.buildHabilitation({
+            complementaryCertificationId: 123,
+            key: 'SOME_KEY',
+            label: 'some label',
+          }),
+        ],
+      });
+
+      // then
+      expect(center.isHabilitated('SOME_KEY')).to.be.true;
+    });
+  });
 });
