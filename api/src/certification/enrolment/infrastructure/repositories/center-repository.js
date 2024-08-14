@@ -17,7 +17,7 @@ export async function getById({ id }) {
         'complementaryCertificationId', "complementary-certification-habilitations"."complementaryCertificationId",
         'key', "complementary-certifications"."key",
         'label', "complementary-certifications"."label"
-        ))`,
+        ) order by "complementary-certification-habilitations"."complementaryCertificationId")`,
       ),
       features: knexConn.raw('array_remove(array_agg(DISTINCT "certificationCenterFeatures"."key"), NULL)'),
       createdAt: 'certification-centers.createdAt',

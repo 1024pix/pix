@@ -12,6 +12,7 @@ import { usecases } from '../../../../../../../src/certification/enrolment/domai
 import { fillCandidatesImportSheet } from '../../../../../../../src/certification/enrolment/infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
 import * as readOdsUtils from '../../../../../../../src/certification/enrolment/infrastructure/utils/ods/read-ods-utils.js';
 import { ComplementaryCertificationKeys } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../../src/shared/domain/constants.js';
 import { databaseBuilder, expect } from '../../../../../../test-helper.js';
 import { getI18n } from '../../../../../../tooling/i18n/i18n.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -41,6 +42,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       const certificationCenterName = 'Centre de certification';
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
         name: certificationCenterName,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
       }).id;
 
       userId = databaseBuilder.factory.buildUser().id;
@@ -158,6 +160,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       const certificationCenterName = 'Centre de certification';
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
         name: certificationCenterName,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
       }).id;
 
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
@@ -269,7 +272,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       const certificationCenterName = 'Centre de certification';
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
         name: certificationCenterName,
-        type: 'SCO',
+        type: CERTIFICATION_CENTER_TYPES.SCO,
       }).id;
 
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
@@ -421,7 +424,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       const certificationCenterName = 'Centre de certification';
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
         name: certificationCenterName,
-        type: 'SUP',
+        type: CERTIFICATION_CENTER_TYPES.SUP,
       }).id;
 
       const userId = databaseBuilder.factory.buildUser().id;
@@ -502,7 +505,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         const certificationCenterName = 'Centre de certification';
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
           name: certificationCenterName,
-          type: 'SUP',
+          type: CERTIFICATION_CENTER_TYPES.SUP,
         }).id;
 
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({

@@ -120,7 +120,7 @@ class CandidateData {
   /**
    * @param {Object} params
    * @param {EnrolledCandidate} params.enrolledCandidate
-   * @param {Array<ComplementaryCertification>} params.certificationCenterHabilitations
+   * @param {Array<Habilitation>} params.certificationCenterHabilitations
    * @param {number} params.number
    * @param {i18n} params.i18n
    */
@@ -142,7 +142,8 @@ class CandidateData {
 
     const complementaryCertification =
       certificationCenterHabilitations.find(
-        ({ id }) => id === candidateComplementarySubscription.complementaryCertificationId,
+        ({ complementaryCertificationId }) =>
+          complementaryCertificationId === candidateComplementarySubscription.complementaryCertificationId,
       ) || null;
 
     return new CandidateData({
