@@ -325,7 +325,7 @@ function _verifiyFileIntegrity({
     _validateComplementaryCertificationHeaders(complementaryCertificationHeaders, certificationCenterHabilitations);
   }
 
-  _verifyHeaders({ expectedHeadersKeys, headers, firstCsvLine, hasBillingMode, certificationCenterHabilitations });
+  _verifyHeaders({ expectedHeadersKeys, headers, firstCsvLine, hasBillingMode });
 }
 
 function _verifyHeaders({ expectedHeadersKeys, firstCsvLine, headers, hasBillingMode }) {

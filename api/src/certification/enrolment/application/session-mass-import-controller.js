@@ -22,12 +22,12 @@ const validateSessions = async function (request, h, dependencies = { csvHelpers
   const authenticatedUserId = request.auth.credentials.userId;
   const parsedCsvData = await dependencies.csvHelpers.parseCsvWithHeader(request.payload.path);
 
-  const certificationCenter = await usecases.getCertificationCenter({ id: certificationCenterId });
+  const center = await usecases.getCenter({ id: certificationCenterId });
 
   const sessionsData = dependencies.csvSerializer.deserializeForSessionsImport({
     parsedCsvData,
-    hasBillingMode: certificationCenter.hasBillingMode,
-    certificationCenterHabilitations: certificationCenter.habilitations,
+    hasBillingMode: center.hasBillingMode,
+    certificationCenterHabilitations: center.habilitations,
   });
 
   const sessionMassImportReport = await usecases.validateSessions({
