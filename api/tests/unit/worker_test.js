@@ -1,9 +1,9 @@
 import { CertificationRescoringByScriptJobHandler } from '../../src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptHandler.js';
 import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptJob.js';
 import { ImportOrganizationLearnersJobController } from '../../src/prescription/learner-management/application/jobs/import-organization-learners-job-controller.js';
+import { ValidateOrganizationLearnersImportFileJobController } from '../../src/prescription/learner-management/application/jobs/validate-organization-learners-import-file-job-controller.js';
 import { ImportOrganizationLearnersJob } from '../../src/prescription/learner-management/domain/models/ImportOrganizationLearnersJob.js';
-import { ValidateOrganizationImportFileJob } from '../../src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJob.js';
-import { ValidateOrganizationImportFileJobHandler } from '../../src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJobHandler.js';
+import { ValidateOrganizationImportFileJob } from '../../src/prescription/learner-management/domain/models/ValidateOrganizationImportFileJob.js';
 import { config } from '../../src/shared/config.js';
 import { runJobs } from '../../worker.js';
 import { expect, sinon } from '../test-helper.js';
@@ -57,7 +57,7 @@ describe('#runjobs', function () {
         .getCalls()
         .find(({ args }) => args[0] === ValidateOrganizationImportFileJob.name);
 
-      expect(calls.args[1]).to.equal(ValidateOrganizationImportFileJobHandler);
+      expect(calls.args[1]).to.equal(ValidateOrganizationLearnersImportFileJobController);
     });
 
     it('should not register validation job if PGBOSS_VALIDATION_FILE_JOB_ENABLED is false', async function () {

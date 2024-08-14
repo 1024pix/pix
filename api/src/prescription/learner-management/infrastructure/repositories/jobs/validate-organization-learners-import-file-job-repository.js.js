@@ -1,12 +1,12 @@
 import { DomainTransaction } from '../../../../../shared/domain/DomainTransaction.js';
 import { JobPgBoss } from '../../../../../shared/infrastructure/jobs/JobPgBoss.js';
-import { ImportOrganizationLearnersJob } from '../../../domain/models/ImportOrganizationLearnersJob.js';
+import { ValidateOrganizationImportFileJob } from '../../../domain/models/ValidateOrganizationImportFileJob.js';
 
-class ImportOrganizationLearnersJobRepository extends JobPgBoss {
+class ValidateOrganizationImportFileJobRepository extends JobPgBoss {
   constructor() {
     super(
       {
-        name: ImportOrganizationLearnersJob.name,
+        name: ValidateOrganizationImportFileJob.name,
         expireIn: '00:30:00',
         retryLimit: 0,
         retryDelay: 0,
@@ -17,4 +17,4 @@ class ImportOrganizationLearnersJobRepository extends JobPgBoss {
   }
 }
 
-export const importOrganizationLearnersJobRepository = new ImportOrganizationLearnersJobRepository();
+export const validateOrganizationImportFileJobRepository = new ValidateOrganizationImportFileJobRepository();

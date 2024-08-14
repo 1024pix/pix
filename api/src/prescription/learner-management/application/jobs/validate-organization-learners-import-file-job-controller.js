@@ -1,6 +1,6 @@
 import { usecases } from '../../domain/usecases/index.js';
 
-class ValidateOrganizationImportFileJobHandler {
+class ValidateOrganizationLearnersImportFileJobController {
   async handle(event) {
     const { organizationImportId } = event;
 
@@ -8,4 +8,4 @@ class ValidateOrganizationImportFileJobHandler {
   }
 }
 
-export { ValidateOrganizationImportFileJobHandler };
+export { ValidateOrganizationLearnersImportFileJobController };

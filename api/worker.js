@@ -19,10 +19,10 @@ import { ParticipationResultCalculationJob } from './src/prescription/campaign-p
 import { SendSharedParticipationResultsToPoleEmploiJob } from './src/prescription/campaign-participation/domain/models/SendSharedParticipationResultsToPoleEmploiJob.js';
 import { ComputeCertificabilityJobController } from './src/prescription/learner-management/application/jobs/compute-certificability-job-controller.js';
 import { ImportOrganizationLearnersJobController } from './src/prescription/learner-management/application/jobs/import-organization-learners-job-controller.js';
+import { ValidateOrganizationLearnersImportFileJobController } from './src/prescription/learner-management/application/jobs/validate-organization-learners-import-file-job-controller.js';
 import { ComputeCertificabilityJob } from './src/prescription/learner-management/domain/models/ComputeCertificabilityJob.js';
 import { ImportOrganizationLearnersJob } from './src/prescription/learner-management/domain/models/ImportOrganizationLearnersJob.js';
-import { ValidateOrganizationImportFileJob } from './src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJob.js';
-import { ValidateOrganizationImportFileJobHandler } from './src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJobHandler.js';
+import { ValidateOrganizationImportFileJob } from './src/prescription/learner-management/domain/models/ValidateOrganizationImportFileJob.js';
 import { UserAnonymizedEventLoggingJobController } from './src/shared/application/jobs/audit-log/user-anonymized-event-logging-job-controller.js';
 import { LcmsRefreshCacheJobController } from './src/shared/application/jobs/lcms-refresh-cache-job-controller.js';
 import { config } from './src/shared/config.js';
@@ -91,16 +91,18 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
   if (config.pgBoss.importFileJobEnabled) {
     monitoredJobQueue.performJob(ImportOrganizationLearnersJob.name, ImportOrganizationLearnersJobController);
   }
+  if (config.pgBoss.validationFileJobEnabled) {
+    monitoredJobQueue.performJob(
+      ValidateOrganizationImportFileJob.name,
+      ValidateOrganizationLearnersImportFileJobController,
+    );
+  }
 
   // TODO - use new format below
   monitoredJobQueue.performJob(CertificationRescoringByScriptJob.name, CertificationRescoringByScriptJobHandler, {
     eventDispatcher,
   });
   monitoredJobQueue.performJob(GarAnonymizedBatchEventsLoggingJob.name, GarAnonymizedBatchEventsLoggingJobHandler);
-
-  if (config.pgBoss.validationFileJobEnabled) {
-    monitoredJobQueue.performJob(ValidateOrganizationImportFileJob.name, ValidateOrganizationImportFileJobHandler);
-  }
 
   monitoredJobQueue.performJob(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,

@@ -1,17 +1,15 @@
-import { ValidateOrganizationImportFileJob } from '../../../src/prescription/learner-management/infrastructure/jobs/ValidateOrganizationImportFileJob.js';
 import { monitoringTools } from '../monitoring-tools.js';
 
-function build(classToInstanciate, domainTransaction) {
-  const dependencies = _buildDependencies(domainTransaction);
+function build(classToInstanciate) {
+  const dependencies = _buildDependencies();
 
   const instance = new classToInstanciate(dependencies);
   return new EventErrorHandler(instance, monitoringTools);
 }
 
-function _buildDependencies(domainTransaction) {
+function _buildDependencies() {
   return {
     monitoringTools,
-    validateOrganizationImportFileJob: new ValidateOrganizationImportFileJob(domainTransaction.knexTransaction),
   };
 }
 
