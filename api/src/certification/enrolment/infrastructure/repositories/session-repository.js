@@ -6,7 +6,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationCenter } from '../../../../shared/domain/models/index.js';
 import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
 
-const save = async function ({ session }) {
+export async function save({ session }) {
   const knexConn = DomainTransaction.getConnection();
   const [savedSession] = await knexConn('sessions')
     .insert({
@@ -26,35 +26,35 @@ const save = async function ({ session }) {
     .returning('*');
 
   return new SessionEnrolment(savedSession);
-};
+}
 
-const get = async function ({ id }) {
+export async function get({ id }) {
   const foundSession = await knex.select('*').from('sessions').where({ id }).first();
   if (!foundSession) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
   }
   return new SessionEnrolment({ ...foundSession });
-};
+}
 
-const getVersion = async function ({ id }) {
+export async function getVersion({ id }) {
   const result = await knex.select('version').from('sessions').where({ id }).first();
   if (!result) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
   }
   return result.version;
-};
+}
 
-const isSessionExistingByCertificationCenterId = async function ({ address, room, date, time, certificationCenterId }) {
+export async function isSessionExistingByCertificationCenterId({ address, room, date, time, certificationCenterId }) {
   const sessions = await knex('sessions').where({ address, room, date, time }).andWhere({ certificationCenterId });
   return sessions.length > 0;
-};
+}
 
-const isSessionExistingBySessionAndCertificationCenterIds = async function ({ sessionId, certificationCenterId }) {
+export async function isSessionExistingBySessionAndCertificationCenterIds({ sessionId, certificationCenterId }) {
   const [session] = await knex('sessions').where({ id: sessionId, certificationCenterId });
   return Boolean(session);
-};
+}
 
-const updateSessionInfo = async function ({ session }) {
+export async function updateSessionInfo({ session }) {
   const sessionDataToUpdate = _.pick(session, [
     'address',
     'room',
@@ -67,9 +67,9 @@ const updateSessionInfo = async function ({ session }) {
 
   const [updatedSession] = await knex('sessions').where({ id: session.id }).update(sessionDataToUpdate).returning('*');
   return new SessionEnrolment(updatedSession);
-};
+}
 
-const isSco = async function ({ id }) {
+export async function isSco({ id }) {
   const result = await knex
     .select('certification-centers.type')
     .from('sessions')
@@ -78,9 +78,9 @@ const isSco = async function ({ id }) {
     .first();
 
   return result.type === CertificationCenter.types.SCO;
-};
+}
 
-const remove = async function ({ id }) {
+export async function remove({ id }) {
   await knex.transaction(async (trx) => {
     const certificationCandidateIdsInSession = await knex('certification-candidates')
       .where({ sessionId: id })
@@ -100,17 +100,4 @@ const remove = async function ({ id }) {
     const nbSessionsDeleted = await trx('sessions').where('id', id).del();
     if (nbSessionsDeleted === 0) throw new NotFoundError();
   });
-
-  return;
-};
-
-export {
-  get,
-  getVersion,
-  isSco,
-  isSessionExistingByCertificationCenterId,
-  isSessionExistingBySessionAndCertificationCenterIds,
-  remove,
-  save,
-  updateSessionInfo,
-};
+}
