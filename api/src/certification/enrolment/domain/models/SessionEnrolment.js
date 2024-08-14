@@ -79,6 +79,16 @@ class SessionEnrolment {
   hasLinkedCandidate({ candidates }) {
     return candidates.some((candidate) => candidate.isLinkedToAUser());
   }
+
+  updateInfo(sessionData) {
+    this.address = sessionData.address;
+    this.room = sessionData.room;
+    this.accessCode = sessionData.accessCode;
+    this.examiner = sessionData.examiner;
+    this.date = sessionData.date;
+    this.time = sessionData.time;
+    this.description = sessionData.description;
+  }
 }
 
 export { SessionEnrolment };

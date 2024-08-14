@@ -310,4 +310,54 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       expect(hasLinkedCandidate).to.be.false;
     });
   });
+
+  context('#updateInfo', function () {
+    it('should update the allowed info on session', function () {
+      // given
+      const originalInfo = {
+        id: 123,
+        accessCode: 'ORIGINAL_ACCESS_CODE',
+        address: 'ORIGINAL_ADDRESS',
+        certificationCenter: 'ORIGINAL_CERTIF_CENTER',
+        certificationCenterId: 456,
+        date: '2021-01-01',
+        description: 'ORIGINAL_DESCRIPTION',
+        examiner: 'ORIGINAL_EXAMINER',
+        room: 'ORIGINAL_ROOM',
+        time: '12:00',
+        examinerGlobalComment: 'ORIGINAL_EXAM_COMMENT',
+        hasIncident: false,
+        hasJoiningIssue: false,
+        finalizedAt: new Date('2021-01-01'),
+        resultsSentToPrescriberAt: new Date('2021-01-01'),
+        publishedAt: new Date('2021-01-01'),
+        assignedCertificationOfficerId: 789,
+        supervisorPassword: 'ORIGINAL_PASSWORD',
+        certificationCandidates: [],
+        version: 2,
+        createdBy: new Date('2021-01-01'),
+      };
+      const session = domainBuilder.certification.enrolment.buildSession(originalInfo);
+      const newInfo = {
+        address: 'NEW_ADDRESS',
+        room: 'NEW_ROOM',
+        accessCode: 'NEW_ACCESSCODE',
+        examiner: 'NEW_EXAMINER',
+        date: '2023-12-25',
+        time: '23:00',
+        description: 'NEW_DESCRIPTION',
+      };
+
+      // when
+      session.updateInfo(newInfo);
+
+      // then
+      expect(session).to.deepEqualInstance(
+        domainBuilder.certification.enrolment.buildSession({
+          ...originalInfo,
+          ...newInfo,
+        }),
+      );
+    });
+  });
 });
