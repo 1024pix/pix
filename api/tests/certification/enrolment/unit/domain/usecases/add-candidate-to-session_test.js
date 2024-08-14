@@ -23,7 +23,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
   let candidateToEnroll;
   let dependencies;
   const sessionId = 1;
-  const isCompatibilityEnabled = false;
+  const isCompatibilityEnabled = true;
   const cleaCertificationId = 123;
 
   beforeEach(function () {
@@ -279,7 +279,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
               mailCheck.checkDomainIsValid.resolves();
             });
 
-            it('should insert the candidate and returns the ID', async function () {
+            it('should insert the candidate and return the ID', async function () {
               // given
               const correctedCandidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
                 ...candidateToEnroll,
@@ -301,6 +301,35 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
               // then
               expect(candidateRepository.insert).to.have.been.calledWithExactly(correctedCandidateToEnroll);
               expect(id).to.equal(159);
+            });
+
+            context('isCompatibilityEnabled at false', function () {
+              it('should insert the candidate with a default core subscription and return the id', async function () {
+                // given
+                candidateToEnroll.subscriptions = [];
+                const correctedCandidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
+                  ...candidateToEnroll,
+                  sessionId,
+                  birthCountry: 'COUNTRY',
+                  birthINSEECode: 'INSEE_CODE',
+                  birthPostalCode: null,
+                  birthCity: 'CITY',
+                  subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
+                });
+                candidateRepository.insert.resolves(159);
+
+                // when
+                const id = await addCandidateToSession({
+                  sessionId,
+                  candidate: candidateToEnroll,
+                  ...dependencies,
+                  isCompatibilityEnabled: false,
+                });
+
+                // then
+                expect(candidateRepository.insert).to.have.been.calledWithExactly(correctedCandidateToEnroll);
+                expect(id).to.equal(159);
+              });
             });
           });
         });

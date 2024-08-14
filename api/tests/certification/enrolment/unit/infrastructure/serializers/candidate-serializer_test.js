@@ -55,7 +55,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       };
     });
 
-    it('should deserialize correctly candidate (core subscription by default) through ', async function () {
+    it('should deserialize correctly candidate with subscriptions', async function () {
       // given
       const candidateJsonApiData = {
         data: {
@@ -80,10 +80,19 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
             'session-id': candidateData.sessionId,
             'organization-learner-id': candidateData.organizationLearnerId,
             'authorized-to-start': candidateData.authorizedToStart,
-            'complementary-certification': null,
             'billing-mode': candidateData.billingMode,
             'prepayment-code': candidateData.prepaymentCode,
             'has-seen-certification-instructions': candidateData.hasSeenCertificationInstructions,
+            subscriptions: [
+              {
+                complementaryCertificationId: 777,
+                type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+              },
+              {
+                complementaryCertificationId: null,
+                type: SUBSCRIPTION_TYPES.CORE,
+              },
+            ],
           },
         },
       };
@@ -95,176 +104,16 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       expect(deserializedCandidate).to.deepEqualInstance(
         domainBuilder.certification.enrolment.buildCandidate({
           ...candidateData,
-          subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
+          complementaryCertificationId: 777,
+          subscriptions: [
+            domainBuilder.buildComplementarySubscription({
+              certificationCandidateId: null,
+              complementaryCertificationId: 777,
+            }),
+            domainBuilder.buildCoreSubscription({ certificationCandidateId: null }),
+          ],
         }),
       );
-    });
-
-    context('attribute "complementary-certification"', function () {
-      it('should deserialize correctly candidate with id not null (core subscription by default)', async function () {
-        // given
-        candidateData.id = 123;
-        const candidateJsonApiData = {
-          data: {
-            type: 'certification-candidates',
-            id: candidateData.id.toString(),
-            attributes: {
-              'first-name': candidateData.firstName,
-              'last-name': candidateData.lastName,
-              'created-at': candidateData.createdAt,
-              sex: candidateData.sex,
-              'birth-city': candidateData.birthCity,
-              'birth-province-code': candidateData.birthProvinceCode,
-              'birth-country': candidateData.birthCountry,
-              'birth-insee-code': candidateData.birthINSEECode,
-              'birth-postal-code': candidateData.birthPostalCode,
-              email: candidateData.email,
-              'result-recipient-email': candidateData.resultRecipientEmail,
-              birthdate: candidateData.birthdate,
-              'extra-time-percentage': candidateData.extraTimePercentage,
-              'external-id': candidateData.externalId,
-              'user-id': candidateData.userId,
-              'session-id': candidateData.sessionId,
-              'organization-learner-id': candidateData.organizationLearnerId,
-              'authorized-to-start': candidateData.authorizedToStart,
-              'complementary-certification': null,
-              'billing-mode': candidateData.billingMode,
-              'prepayment-code': candidateData.prepaymentCode,
-              'has-seen-certification-instructions': candidateData.hasSeenCertificationInstructions,
-            },
-          },
-        };
-
-        // when
-        const deserializedCandidate = await serializer.deserialize(candidateJsonApiData);
-
-        // then
-        expect(deserializedCandidate).to.deepEqualInstance(
-          domainBuilder.certification.enrolment.buildCandidate({
-            ...candidateData,
-            subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
-          }),
-        );
-      });
-
-      it('should deserialize correctly candidate with complementary subscription (core subscription by default)', async function () {
-        // given
-        const candidateJsonApiData = {
-          data: {
-            type: 'certification-candidates',
-            id: null,
-            attributes: {
-              'first-name': candidateData.firstName,
-              'last-name': candidateData.lastName,
-              'created-at': candidateData.createdAt,
-              sex: candidateData.sex,
-              'birth-city': candidateData.birthCity,
-              'birth-province-code': candidateData.birthProvinceCode,
-              'birth-country': candidateData.birthCountry,
-              'birth-insee-code': candidateData.birthINSEECode,
-              'birth-postal-code': candidateData.birthPostalCode,
-              email: candidateData.email,
-              'result-recipient-email': candidateData.resultRecipientEmail,
-              birthdate: candidateData.birthdate,
-              'extra-time-percentage': candidateData.extraTimePercentage,
-              'external-id': candidateData.externalId,
-              'user-id': candidateData.userId,
-              'session-id': candidateData.sessionId,
-              'organization-learner-id': candidateData.organizationLearnerId,
-              'authorized-to-start': candidateData.authorizedToStart,
-              'billing-mode': candidateData.billingMode,
-              'prepayment-code': candidateData.prepaymentCode,
-              'has-seen-certification-instructions': candidateData.hasSeenCertificationInstructions,
-              'complementary-certification': {
-                id: 777,
-                key: 'compKey',
-                label: 'compLabel',
-              },
-            },
-          },
-        };
-
-        // when
-        const deserializedCandidate = await serializer.deserialize(candidateJsonApiData);
-
-        // then
-        expect(deserializedCandidate).to.deepEqualInstance(
-          domainBuilder.certification.enrolment.buildCandidate({
-            ...candidateData,
-            complementaryCertificationId: 777,
-            subscriptions: [
-              domainBuilder.buildCoreSubscription({ certificationCandidateId: null }),
-              domainBuilder.buildComplementarySubscription({
-                certificationCandidateId: null,
-                complementaryCertificationId: 777,
-              }),
-            ],
-          }),
-        );
-      });
-    });
-
-    context('attribute "subscriptions"', function () {
-      it('should deserialize correctly candidate with subscriptions', async function () {
-        // given
-        const candidateJsonApiData = {
-          data: {
-            type: 'certification-candidates',
-            id: null,
-            attributes: {
-              'first-name': candidateData.firstName,
-              'last-name': candidateData.lastName,
-              'created-at': candidateData.createdAt,
-              sex: candidateData.sex,
-              'birth-city': candidateData.birthCity,
-              'birth-province-code': candidateData.birthProvinceCode,
-              'birth-country': candidateData.birthCountry,
-              'birth-insee-code': candidateData.birthINSEECode,
-              'birth-postal-code': candidateData.birthPostalCode,
-              email: candidateData.email,
-              'result-recipient-email': candidateData.resultRecipientEmail,
-              birthdate: candidateData.birthdate,
-              'extra-time-percentage': candidateData.extraTimePercentage,
-              'external-id': candidateData.externalId,
-              'user-id': candidateData.userId,
-              'session-id': candidateData.sessionId,
-              'organization-learner-id': candidateData.organizationLearnerId,
-              'authorized-to-start': candidateData.authorizedToStart,
-              'billing-mode': candidateData.billingMode,
-              'prepayment-code': candidateData.prepaymentCode,
-              'has-seen-certification-instructions': candidateData.hasSeenCertificationInstructions,
-              subscriptions: [
-                {
-                  complementaryCertificationId: 777,
-                  type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-                },
-                {
-                  complementaryCertificationId: null,
-                  type: SUBSCRIPTION_TYPES.CORE,
-                },
-              ],
-            },
-          },
-        };
-
-        // when
-        const deserializedCandidate = await serializer.deserialize(candidateJsonApiData);
-
-        // then
-        expect(deserializedCandidate).to.deepEqualInstance(
-          domainBuilder.certification.enrolment.buildCandidate({
-            ...candidateData,
-            complementaryCertificationId: 777,
-            subscriptions: [
-              domainBuilder.buildComplementarySubscription({
-                certificationCandidateId: null,
-                complementaryCertificationId: 777,
-              }),
-              domainBuilder.buildCoreSubscription({ certificationCandidateId: null }),
-            ],
-          }),
-        );
-      });
     });
   });
 });

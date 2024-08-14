@@ -10,30 +10,14 @@ export async function deserialize(json) {
   deserializedCandidate.birthINSEECode = deserializedCandidate.birthInseeCode;
   const { attributes } = json.data;
 
-  const subscriptions = [];
-  if (attributes?.['subscriptions']?.length > 0) {
-    subscriptions.push(
-      ...attributes['subscriptions'].map(
-        ({ type, complementaryCertificationId }) =>
-          new Subscription({
-            certificationCandidateId: null,
-            type,
-            complementaryCertificationId,
-          }),
-      ),
-    );
-    // TODO MVP - remove else if when front stop uses complementary-certification attribute
-  } else {
-    subscriptions.push(Subscription.buildCore({ certificationCandidateId: null }));
-    if (attributes['complementary-certification'] && attributes['complementary-certification'].id) {
-      subscriptions.push(
-        Subscription.buildComplementary({
-          certificationCandidateId: null,
-          complementaryCertificationId: parseInt(attributes['complementary-certification'].id),
-        }),
-      );
-    }
-  }
+  const subscriptions = attributes['subscriptions'].map(
+    ({ type, complementaryCertificationId }) =>
+      new Subscription({
+        certificationCandidateId: null,
+        type,
+        complementaryCertificationId,
+      }),
+  );
 
   return new Candidate({
     ...deserializedCandidate,

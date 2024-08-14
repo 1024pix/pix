@@ -1,31 +1,36 @@
 import { certificationCandidateController } from '../../../../../src/certification/enrolment/application/certification-candidate-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/enrolment/application/certification-candidate-route.js';
 import { authorization } from '../../../../../src/certification/shared/application/pre-handlers/authorization.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Sessions | Routes', function () {
   describe('POST /api/sessions/{id}/certification-candidates', function () {
-    const correctAttributes = {
-      'first-name': 'prenom',
-      'last-name': 'nom',
-      birthdate: '2000-01-01',
-      'birth-city': null,
-      'birth-province-code': null,
-      'birth-country': 'FRANCE',
-      'birth-postal-code': null,
-      'birth-insee-code': '75115',
-      email: 'guybrush.threepwood@example.net',
-      'result-recipient-email': 'theotherone@example.net',
-      'external-id': '44AA3355',
-      'extra-time-percentage': 0.15,
-      'organization-learner-id': null,
-      sex: 'F',
-      'billing-mode': 'FREE',
-      'prepayment-code': null,
-      'complementary-certification': { id: 5 },
-    };
+    let correctAttributes;
+
+    beforeEach(function () {
+      correctAttributes = {
+        'first-name': 'prenom',
+        'last-name': 'nom',
+        birthdate: '2000-01-01',
+        'birth-city': null,
+        'birth-province-code': null,
+        'birth-country': 'FRANCE',
+        'birth-postal-code': null,
+        'birth-insee-code': '75115',
+        email: 'guybrush.threepwood@example.net',
+        'result-recipient-email': 'theotherone@example.net',
+        'external-id': '44AA3355',
+        'extra-time-percentage': 0.15,
+        'organization-learner-id': null,
+        sex: 'F',
+        'billing-mode': 'FREE',
+        'prepayment-code': null,
+        subscriptions: [{ complementaryCertificationId: 5, type: SUBSCRIPTION_TYPES.COMPLEMENTARY }],
+      };
+    });
 
     describe('when the payload is correct', function () {
       it('should return 404 if the user is not authorized on the session', async function () {
@@ -74,7 +79,7 @@ describe('Unit | Application | Sessions | Routes', function () {
           // when
           const response = await httpTestServer.request('POST', '/api/sessions/1/certification-candidates', {
             data: {
-              attributes: { ...correctAttributes, 'complementary-certification': [] },
+              attributes: { ...correctAttributes, sex: [] },
               type: 'certification-candidates',
             },
           });
@@ -82,7 +87,7 @@ describe('Unit | Application | Sessions | Routes', function () {
           // then
           expect(response.statusCode).to.equal(400);
           const { errors } = JSON.parse(response.payload);
-          expect(errors[0].detail).to.equals('"data.attributes.complementary-certification" must be of type object');
+          expect(errors[0].detail).to.equals('"data.attributes.sex" must be a string');
         });
       });
 

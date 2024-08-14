@@ -105,11 +105,12 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
               'birth-postal-code': null,
               'billing-mode': 'FREE',
               sex: candidate.sex,
-              'complementary-certification': {
-                id: complementaryCertificationId,
-                label: 'Certif complémentaire 1',
-                key: 'CERTIF',
-              },
+              subscriptions: [
+                {
+                  type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+                  complementaryCertificationId,
+                },
+              ],
             },
           },
         };

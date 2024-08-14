@@ -23,13 +23,6 @@ const register = async function (server) {
             data: {
               type: Joi.string().valid('certification-candidates').required(),
               attributes: {
-                'complementary-certification': Joi.object()
-                  .keys({
-                    id: Joi.number().required(),
-                    key: Joi.string(),
-                    label: Joi.string(),
-                  })
-                  .optional(),
                 'first-name': Joi.string().empty(['', null]).required(),
                 'last-name': Joi.string().empty(['', null]).required(),
                 'birth-city': Joi.string().empty(['', null]),
@@ -56,7 +49,7 @@ const register = async function (server) {
                       complementaryCertificationId: Joi.number().allow(null),
                     }),
                   )
-                  .min(0)
+                  .min(1)
                   .max(2),
               },
               relationships: Joi.any(),
