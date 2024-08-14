@@ -1,8 +1,8 @@
 import cronParser from 'cron-parser';
 import dayjs from 'dayjs';
 
+import { ComputeCertificabilityJob } from '../../../../prescription/learner-management/domain/models/ComputeCertificabilityJob.js';
 import { DomainTransaction } from '../../../domain/DomainTransaction.js';
-import { ComputeCertificabilityJob } from './ComputeCertificabilityJob.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 
 class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
