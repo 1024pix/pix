@@ -16,15 +16,15 @@
     "transitionTexts": [
       {
         "grainId": "0a4d5c4f-a0ad-41f3-9a62-6355bc7e76e4",
-        "content": "<p> Généralement, le tri d'un tableau se fait à partir d’une colonne. Pour des cas plus complexes, il existe des moyens de trier un tableau selon plusieurs colonnes.</p><p><span aria-hidden=\"true\">👉</span> Prenons un exemple&nbsp;:  Sarah organise le dîner annuel de son association <span aria-hidden=\"true\">🍽️</span>. Elle a commencé à lister les invités dans un tableau.</p>"
+        "content": "<p> Généralement, le tri d'un tableau se fait à partir d’une seule colonne. Pour des cas plus complexes, il existe des moyens de trier un tableau selon plusieurs colonnes.</p><p><span aria-hidden=\"true\">👉</span> Prenons un exemple&nbsp;:  Sarah organise des olympiades pour l'anniversaire de ses enfants. <span aria-hidden=\"true\">🥇🥈🥉</span> Elle a commencé à lister les résultats aux épreuves dans un tableau.</p>"
       },
       {
         "grainId": "cfc00305-ff66-4537-8afe-7fb5b45d5450",
-        "content": "<p>Vous l’avez compris, les raccourcis de tri Croissant <span aria-hidden=\"true\">⬆️</span> ou Décroissant <span aria-hidden=\"true\">⬇️</span> sont insuffisants pour un tri sur plusieurs colonnes. </p><p> <span aria-hidden=\"true\">📺</span> Maintenant que vous avez identifié le besoin de Sarah, découvrez en vidéo comment utiliser la fenêtre de tri. </p>"
+        "content": "<p>Vous l’avez compris, les raccourcis de tri croissant <span aria-hidden=\"true\">⬆️</span> ou décroissant <span aria-hidden=\"true\">⬇️</span> sont insuffisants pour un tri sur plusieurs colonnes. </p><p> <span aria-hidden=\"true\">📺</span> Maintenant que vous avez identifié le besoin de Sarah, découvrez en vidéo comment utiliser la fenêtre de tri. </p>"
       },
       {
         "grainId": "83714a27-312b-48a1-9d6c-8e930734ef5a",
-        "content": "<p>Maintenant, à vous de jouer&#8239;!<span aria-hidden=\"true\">🕹️</span> Aidez Sarah à trier la liste d’invités.</p>"
+        "content": "<p>Maintenant, aidez Sarah à obtenir les résultats de ses olympiades. <span aria-hidden=\"true\">🥇🥈🥉</span> <p>À vos marques, prêts, partez !</p>"
       },
       {
         "grainId": "3c89d821-9e99-412e-947f-b91f3169b217",
@@ -50,7 +50,7 @@
             "element": {
               "id": "701f996c-aa90-4035-9c6d-fe0b9072c4a1",
               "type": "text",
-              "content": "Voici un aperçu du tableau des invités de Sarah."
+              "content": "Voici un aperçu du tableau de Sarah. Observez ce tableau puis répondez à la question ci-dessous."
             }
           },
           {
@@ -58,9 +58,9 @@
             "element": {
               "id": "799469c1-1e7a-40e5-ac86-78873d902baa",
               "type": "image",
-              "url": "https://i.imgur.com/glLQTge.png",
+              "url": "https://i.imgur.com/8jxMuVu.png",
               "alt": "",
-              "alternativeText": "<p>Extrait d'une fenêtre de tableur avec un tableau à 5 colonnes&nbsp;:</p> <ul><li>Colonne A&nbsp;: Prénom</li><li>Colonne B&nbsp;: Nom de famille</li><li>Colonne C&nbsp;: Numéro de table</li><li>Colonne D&nbsp;: Heure d'arrivée</li><li>Colonne E&nbsp;: Allergies.</li></ul><p>Trois propositions sont indiquées sur l'interface.</p><ul><li>Proposition 1) Le bouton de tri personnalisé.</li><li>Proposition 2) Les boutons de tri croissant et décroissant.</li><li>Proposition 3) La colonne F vide.</li></ul>"
+              "alternativeText": "<p>Extrait d'une fenêtre de tableur avec un tableau à 5 colonnes&nbsp;:</p> <ul><li>Colonne A&nbsp;: Prénom</li><li>Colonne B&nbsp;: Nom de famille</li><li>Colonne C&nbsp;: Score au chamboule-tout</li><li>Colonne D&nbsp;: Temps de course en sac</li><li>Colonne E&nbsp;: Couleur de foulard</li></ul><p>Trois propositions sont indiquées sur l'interface&nbsp;:</p><ul><li>Proposition 1) Le bouton de tri personnalisé.</li><li>Proposition 2) Les boutons de tri croissant et décroissant.</li><li>Proposition 3) La colonne F vide.</li></ul>"
             }
           },
           {
@@ -68,23 +68,23 @@
             "element": {
               "id": "3965b92f-04a9-4ce7-bd40-19a0214084bd",
               "type": "qcu",
-              "instruction": "Quel type de manipulation Sarah doit-elle réaliser pour obtenir l’ordre de service des invités, par numéro de table en partant de la dernière, puis par heure d’arrivée&#8239;?",
+              "instruction": "Sarah veut obtenir le classement des enfants, d'abord par ordre de plus grand score au chamboule-tout, puis par plus petit temps de course en sac. Pour y arriver, quelle manipulation Sarah doit-elle réaliser&#8239;?",
               "proposals": [
                 {
                   "id": "1",
-                  "content": "1) Utiliser la fenêtre de tri pour ajouter un tri décroissant à « Numéro de table », puis un tri croissant à « Heure d’arrivée »."
+                  "content": "1) Utiliser la fenêtre de tri personnalisé pour créer un tri à deux critères."
                 },
                 {
                   "id": "2",
-                  "content": "2) Cliquer sur l’icône «Tri décroissant» pour la colonne « Numéro de table »  puis sur « Tri croissant »  pour la colonne « Heure d’arrivée »."
+                  "content": "2) Cliquer sur l’icône « Tri décroissant » pour la colonne C  puis sur « Tri croissant » pour la colonne D."
                 },
                 {
                   "id": "3",
-                  "content": "3) Créer une formule de tri automatique dans la colonne F pour « Numéro de table »  en ajoutant « Heure d’arrivée »."
+                  "content": "3) Créer une formule de tri automatique dans la colonne F."
                 }
               ],
               "feedbacks": {
-                "valid": "<span class=\"feedback__state\">Correct.</span><p>Pour ajouter le tri des heures d’arrivée au tri des numéros de table, il faut créer un tri à deux critères. Cette action est accessible via la fenêtre de tri.</p>",
+                "valid": "<span class=\"feedback__state\">Correct.</span><p>Pour ajouter le tri des temps de course à ceux des scores au chamboule-tout, il faut créer un tri à deux critères. Cette action est accessible via la fenêtre de tri.</p>",
                 "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Cette méthode ne permet pas de cumuler les deux critères de tri.</p> "
               },
               "solution": "1"
@@ -102,7 +102,7 @@
             "element": {
               "id": "701f996c-aa90-4035-9c6d-fe0b9072c4a1",
               "type": "text",
-              "content": "<p> À la suite de cette vidéo, vous devrez appliquer un tri sur plusieurs colonnes dans un tableau.</p>"
+              "content": "<p>Dans cette vidéo, vous allez voir comment appliquer un tri avancé dans un tableau. Le logiciel utilisé ici est LibreOffice.</p><p> Ensuite, vous devrez appliquer un tri sur plusieurs colonnes dans un tableau.</p>"
             }
           },
        {
@@ -126,7 +126,7 @@
             "element": {
               "id": "cabf35be-5916-4e49-acc9-f3e66b27d673",
               "type": "text",
-              "content": "<p>Sarah a reçu les réponses de ses invités concernant leur souhait de Menu. Elle a organisé les réponses dans un tableau de données.<br>Désormais, l’ordre de service des invités est défini d'abord par le numéro de table, puis par le menu choisi.</p> <br><p> Téléchargez le document ci-dessous et triez la liste par orde décroissant de numéro de table puis par ordre croissant de menu.</p><br><a href=\"https://docs.google.com/spreadsheets/d/1Z899RbEi8d-uJDKOsHkFN_xL7_kP8-vPQILaPrjq7cs/edit?usp=sharing\" target=\"_blank\">Téléchargement</a>"
+              "content": "<p>Les enfants ont jugé les résultats de la course en sacs trop sérrés. Pour départager les enfants autrement, Sarah a créé la «&nbsp;Question Bonus&nbsp;». Elle a ajouté les réponses des enfants dans le tableau de données.<br>Désormais, l’ordre de de tri est donc défini d'abord par le score au chamboule-tout, puis par la réponse à la «&nbsp;Question Bonus&nbsp;» par ordre alphabétique.</p> <br><p> Téléchargez le document ci-dessous et triez la liste d'enfants par orde décroissant de score au chamboule-tout, puis par ordre croissant de réponse à la question bonus.</p><br><a href=\"https://docs.google.com/spreadsheets/d/1Z899RbEi8d-uJDKOsHkFN_xL7_kP8-vPQILaPrjq7cs/edit?usp=sharing\" target=\"_blank\">Téléchargement</a>"
             }
           },
           {
@@ -154,8 +154,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<span class=\"feedback__state\">Correct.</span><p>Le tri avancé a bien permis de classer la liste d’invités par ordre croissant d'heure d’arrivée, puis par ordre décroissant de numéro de table.</p> ",
-                "invalid": "<span class=\"feedback__state\">Incorrect.</span> <p>Vérifiez l’ordre de vos critères de tri. En premier le numéro de table par ordre décroissant, puis le menu par ordre croissant. Regardez à nouveau la vidéo pour vous aider.</p>"
+                "valid": "<span class=\"feedback__state\">Correct.</span><p>Le tri avancé a bien permis de classer la liste d’enfants par ordre décroissant de score au chamboule-tout, puis par ordre croissant de réponse à la question bonus.</p> ",
+                "invalid": "<span class=\"feedback__state\">Incorrect.</span> <p>Vérifiez l’ordre de vos critères de tri. En premier le score au chamboule-tout par ordre décroissant, puis la réponse à l aquestion bonus par ordre croissant. Si nécessaire, regardez à nouveau la vidéo pour vous aider.</p>"
               }
             }
           }
