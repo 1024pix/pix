@@ -5,6 +5,7 @@ import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/d
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../../src/certification/shared/domain/constants/sessions-errors.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import { CertificationCandidate } from '../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
@@ -14,6 +15,7 @@ const cachedValidatedSessionsKey = 'uuid';
 const accessCode = 'accessCode';
 const certificationCenterId = '123';
 const certificationCenterName = 'certificationCenterName';
+let certificationCenterType;
 const cpfBirthInformation = {
   birthCountry: 'France',
   birthCity: '',
@@ -23,8 +25,8 @@ const cpfBirthInformation = {
 
 describe('Unit | UseCase | sessions-mass-import | validate-sessions', function () {
   let i18n;
-  let certificationCenter;
-  let certificationCenterRepository;
+  let center;
+  let centerRepository;
   let certificationCourseRepository;
   let complementaryCertificationRepository;
   let sessionCodeService;
@@ -36,13 +38,15 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
   let candidateData2;
 
   beforeEach(function () {
+    certificationCenterType = CERTIFICATION_CENTER_TYPES.PRO;
     i18n = getI18n();
-    certificationCenter = domainBuilder.buildCertificationCenter({
+    center = domainBuilder.certification.enrolment.buildCenter({
       id: certificationCenterId,
       name: certificationCenterName,
+      type: certificationCenterType,
     });
-    certificationCenterRepository = { get: sinon.stub() };
-    certificationCenterRepository.get.withArgs({ id: certificationCenterId }).resolves(certificationCenter);
+    centerRepository = { getById: sinon.stub() };
+    centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(center);
     certificationCourseRepository = sinon.stub();
     complementaryCertificationRepository = { getByLabel: sinon.stub() };
     sessionCodeService = { getNewSessionCode: sinon.stub().returns(accessCode) };
@@ -166,6 +170,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           ...firstSession,
           certificationCenterId,
           certificationCenter: certificationCenterName,
+          certificationCenterType: certificationCenterType,
           accessCode,
           certificationCandidates: [candidate1],
         }),
@@ -173,6 +178,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           ...secondSession,
           certificationCenterId,
           certificationCenter: certificationCenterName,
+          certificationCenterType: certificationCenterType,
           accessCode,
           certificationCandidates: [candidate2],
         }),
@@ -183,7 +189,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         sessionsData: [session1, session2],
         userId,
         certificationCenterId,
-        certificationCenterRepository,
+        centerRepository,
         sessionCodeService,
         i18n,
         sessionsImportValidationService,
@@ -284,7 +290,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           sessionsData: [session1, session2],
           userId,
           certificationCenterId,
-          certificationCenterRepository,
+          centerRepository,
           certificationCourseRepository,
           sessionCodeService,
           i18n,
@@ -299,6 +305,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
             id: 1,
             certificationCenterId,
             certificationCenter: certificationCenterName,
+            certificationCenterType: certificationCenterType,
             accessCode,
             certificationCandidates: [candidate1],
           }),
@@ -307,6 +314,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
             id: 2,
             certificationCenterId,
             certificationCenter: certificationCenterName,
+            certificationCenterType: certificationCenterType,
             accessCode,
             certificationCandidates: [candidate2, candidate3],
           }),
@@ -366,7 +374,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       await validateSessions({
         sessionsData,
         certificationCenterId,
-        certificationCenterRepository,
+        centerRepository,
         sessionCodeService,
         i18n,
         sessionsImportValidationService,
@@ -399,7 +407,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         const sessionsMassImportReport = await validateSessions({
           sessionsData,
           certificationCenterId,
-          certificationCenterRepository,
+          centerRepository,
           sessionCodeService,
           i18n,
           sessionsImportValidationService,
@@ -466,12 +474,12 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           ],
         });
 
-        certificationCenterRepository.get.withArgs({ id: certificationCenterId }).resolves(certificationCenter);
+        centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(center);
 
         // when
         const sessionsMassImportReport = await validateSessions({
           sessionsData,
-          certificationCenterRepository,
+          centerRepository,
           certificationCenterId,
           sessionCodeService,
           i18n,
@@ -537,12 +545,12 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           duplicateCandidateErrors: [],
         });
 
-        certificationCenterRepository.get.withArgs({ id: certificationCenterId }).resolves(certificationCenter);
+        centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(center);
 
         // when
         const sessionsMassImportReport = await validateSessions({
           sessionsData,
-          certificationCenterRepository,
+          centerRepository,
           certificationCenterId,
           sessionCodeService,
           i18n,

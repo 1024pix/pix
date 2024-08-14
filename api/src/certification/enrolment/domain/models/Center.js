@@ -2,6 +2,7 @@
  * @typedef {import ('./Habilitation.js').Habilitation} Habilitation
  */
 
+import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
 import { CERTIFICATION_FEATURES } from '../../../shared/domain/constants.js';
 import { validate } from '../validators/center-validator.js';
 import { CenterTypes } from './CenterTypes.js';
@@ -26,6 +27,10 @@ export class Center {
     this.isV3Pilot = !!isV3Pilot;
 
     validate(this);
+  }
+
+  get isSco() {
+    return this.type === CERTIFICATION_CENTER_TYPES.SCO;
   }
 
   get hasBillingMode() {

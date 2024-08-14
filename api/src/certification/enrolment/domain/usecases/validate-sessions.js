@@ -26,7 +26,7 @@ const validateSessions = async function ({
   sessionsData,
   userId,
   certificationCenterId,
-  certificationCenterRepository,
+  centerRepository,
   sessionRepository,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
@@ -38,7 +38,7 @@ const validateSessions = async function ({
   sessionsImportValidationService,
   temporarySessionsStorageForMassImportService,
 }) {
-  const { name: certificationCenter, isSco } = await certificationCenterRepository.get({ id: certificationCenterId });
+  const center = await centerRepository.getById({ id: certificationCenterId });
   const sessionsMassImportReport = new SessionMassImportReport();
   const translate = i18n.__;
 
@@ -51,7 +51,8 @@ const validateSessions = async function ({
       certificationCandidates: [],
       id: sessionId,
       certificationCenterId,
-      certificationCenter,
+      certificationCenter: center.name,
+      certificationCenterType: center.type,
       accessCode,
     });
 
@@ -72,7 +73,7 @@ const validateSessions = async function ({
       const validatedCandidates = await _createValidCertificationCandidates({
         candidatesDTO,
         sessionId,
-        isSco,
+        isSco: session.isSco,
         sessionsMassImportReport,
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
