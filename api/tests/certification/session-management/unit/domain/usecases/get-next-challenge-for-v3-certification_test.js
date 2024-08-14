@@ -379,6 +379,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
           getCapacityAndErrorRate: sinon.stub(),
         };
 
+        flashAlgorithmConfiguration = domainBuilder.buildFlashAlgorithmConfiguration({ maximumAssessmentLength: 1 });
         flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
           .withArgs(v3CertificationCourse.getStartDate())
           .resolves(flashAlgorithmConfiguration);
@@ -399,30 +400,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([answeredChallenge]);
 
-        flashAlgorithmService.getCapacityAndErrorRate
-          .withArgs({
-            allAnswers: [answer],
-            challenges: [answeredChallenge],
-            capacity: config.v3Certification.defaultCandidateCapacity,
-            variationPercent: undefined,
-            variationPercentUntil: undefined,
-            doubleMeasuresUntil: undefined,
-          })
-          .returns({
-            capacity: 2,
-          });
-
-        flashAlgorithmService.getPossibleNextChallenges
-          .withArgs({
-            availableChallenges: [],
-            capacity: 2,
-            options: sinon.match.any,
-          })
-          .returns({
-            hasAssessmentEnded: true,
-            possibleChallenges: [],
-          });
-
         // when
         const error = await catchErr(getNextChallengeForV3Certification)({
           answerRepository,
@@ -439,6 +416,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
 
         // then
         expect(error).to.be.instanceOf(AssessmentEndedError);
+        expect(error.message).to.equal('Evaluation terminée.');
       });
     });
 

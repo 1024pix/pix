@@ -9,6 +9,7 @@
  * @typedef {import('./index.js').FlashAlgorithmService} FlashAlgorithmService
  */
 
+import { AssessmentEndedError } from '../../../../shared/domain/errors.js';
 import { CertificationChallenge, FlashAssessmentAlgorithm } from '../../../../shared/domain/models/index.js';
 
 /**
@@ -81,6 +82,10 @@ const getNextChallengeForV3Certification = async function ({
     challenges: challengesWithoutSkillsWithAValidatedLiveAlert,
   });
 
+  if (_hasAnsweredToAllChallenges({ possibleChallenges })) {
+    throw new AssessmentEndedError();
+  }
+
   const challenge = pickChallengeService.chooseNextChallenge()({ possibleChallenges });
 
   const certificationChallenge = new CertificationChallenge({
@@ -98,6 +103,10 @@ const getNextChallengeForV3Certification = async function ({
   await certificationChallengeRepository.save({ certificationChallenge });
 
   return challenge;
+};
+
+const _hasAnsweredToAllChallenges = ({ possibleChallenges }) => {
+  return possibleChallenges.length === 0;
 };
 
 const _excludeChallengesWithASkillWithAValidatedLiveAlert = ({ validatedLiveAlertChallengeIds, challenges }) => {

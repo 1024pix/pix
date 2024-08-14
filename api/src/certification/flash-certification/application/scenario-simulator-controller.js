@@ -2,9 +2,7 @@ import { Readable } from 'node:stream';
 
 import _ from 'lodash';
 
-import { parseCsv } from '../../../../scripts/helpers/csvHelpers.js';
 import { pickChallengeService } from '../../../evaluation/domain/services/pick-challenge-service.js';
-import { HttpErrors } from '../../../shared/application/http-errors.js';
 import { random } from '../../../shared/infrastructure/utils/random.js';
 import { extractLocaleFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { pickAnswerStatusService } from '../../shared/domain/services/pick-answer-status-service.js';
@@ -97,40 +95,6 @@ async function simulateFlashAssessmentScenario(
   return h.response(generatedResponse).type('text/event-stream; charset=utf-8');
 }
 
-async function importScenarios(
-  request,
-  h,
-  dependencies = { parseCsv, pickChallengeService, scenarioSimulatorBatchSerializer, extractLocaleFromRequest },
-) {
-  const parsedCsvData = await dependencies.parseCsv(request.payload.path);
-
-  if (!_isValidAnswerStatusArray(parsedCsvData)) {
-    return new HttpErrors.BadRequestError("Each CSV cell must be one of 'ok', 'ko' or 'aband'");
-  }
-
-  const locale = dependencies.extractLocaleFromRequest(request);
-
-  const results = (
-    await Promise.all(
-      parsedCsvData.map(async (answerStatusArray, index) => {
-        const pickAnswerStatus = pickAnswerStatusService.pickAnswerStatusFromArray(answerStatusArray);
-        const pickChallenge = dependencies.pickChallengeService.chooseNextChallenge(index);
-
-        return usecases.simulateFlashDeterministicAssessmentScenario({
-          pickAnswerStatus,
-          pickChallenge,
-          locale,
-        });
-      }),
-    )
-  ).map((simulationReport, index) => ({
-    index,
-    simulationReport,
-  }));
-
-  return dependencies.scenarioSimulatorBatchSerializer.serialize(results);
-}
-
 function _getPickAnswerStatusMethod(pickAnswerStatusService, payload) {
   const { type, probabilities, length, capacity, answerStatusArray } = payload;
 
@@ -144,10 +108,6 @@ function _getPickAnswerStatusMethod(pickAnswerStatusService, payload) {
     case 'capacity':
       return pickAnswerStatusService.pickAnswerStatusForCapacity(capacity);
   }
-}
-
-function _isValidAnswerStatusArray(answerStatusArray) {
-  return answerStatusArray.every((row) => row.every((cell) => ['ok', 'ko', 'aband'].includes(cell)));
 }
 
 function _generateAnswerStatusArray(random, probabilities, length) {
@@ -164,4 +124,4 @@ function _minimumEstimatedSuccessRateRangesToDomain(successRateRanges) {
   });
 }
 
-export const scenarioSimulatorController = { simulateFlashAssessmentScenario, importScenarios };
+export const scenarioSimulatorController = { simulateFlashAssessmentScenario };

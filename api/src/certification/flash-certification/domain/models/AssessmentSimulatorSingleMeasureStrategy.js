@@ -18,14 +18,16 @@ export class AssessmentSimulatorSingleMeasureStrategy {
 
     const nextChallenge = this.pickChallenge({ possibleChallenges });
 
+    if (!nextChallenge) {
+      return null;
+    }
+
     const answerStatus = this.pickAnswerStatus({
       answerIndex: stepIndex,
       nextChallenge,
     });
 
-    const noMoreAnswerRemaining = !answerStatus;
-
-    if (noMoreAnswerRemaining) {
+    if (!answerStatus) {
       return null;
     }
 

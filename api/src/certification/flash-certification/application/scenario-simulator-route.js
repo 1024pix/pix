@@ -82,29 +82,6 @@ const register = async (server) => {
         ],
       },
     },
-    {
-      method: 'POST',
-      path: '/api/scenario-simulator/csv-import',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: scenarioSimulatorController.importScenarios,
-        payload: {
-          maxBytes: 20715200,
-          output: 'file',
-          parse: 'gunzip',
-        },
-        tags: ['api'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Elle permet de générer la liste de challenges passés avec le nouvel algorithme ainsi que le niveau estimé, pour une liste de réponses données via un import de fichier CSV',
-        ],
-      },
-    },
   ]);
 };
 

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { simulateFlashDeterministicAssessmentScenario } from '../../../../src/certification/flash-certification/domain/usecases/simulate-flash-deterministic-assessment-scenario.js';
 import { config } from '../../../../src/shared/config.js';
 import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const locale = 'fr-fr';
 
@@ -20,6 +20,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
+          stopAtChallenge: 3,
           challengeRepository,
           locale,
           pickChallenge,
@@ -60,6 +61,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
+          stopAtChallenge: 3,
           challengeRepository,
           locale,
           pickChallenge,
@@ -127,6 +129,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
+          stopAtChallenge: 3,
           challengeRepository,
           locale,
           pickChallenge,
@@ -167,6 +170,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
+          stopAtChallenge: 3,
           challengeRepository,
           locale,
           pickChallenge,
@@ -198,6 +202,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
+          stopAtChallenge: 3,
           challengeRepository,
           locale,
           pickChallenge,
@@ -266,7 +271,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       pickAnswerStatus.withArgs(sinon.match({ nextChallenge: challenge })).returns(AnswerStatus.OK);
 
       // when
-      const result = await simulateFlashDeterministicAssessmentScenario({
+      const error = await catchErr(simulateFlashDeterministicAssessmentScenario)({
         challengeRepository,
         locale,
         pickChallenge,
@@ -277,15 +282,8 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       });
 
       // then
-      sinon.assert.match(result, [
-        {
-          answerStatus: AnswerStatus.OK,
-          challenge,
-          errorRate: sinon.match.number,
-          capacity: sinon.match.number,
-          reward: sinon.match.number,
-        },
-      ]);
+      expect(error).to.be.instanceof(RangeError);
+      expect(error.message).to.equal('No eligible challenges in referential');
     });
   });
 });
