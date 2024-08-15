@@ -4,11 +4,10 @@ import { createSessions } from '../../../../../../src/certification/enrolment/do
 import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { CertificationCenter } from '../../../../../../src/shared/domain/models/index.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | sessions-mass-import | create-sessions', function () {
-  let certificationCenterRepository;
+  let centerRepository;
   let candidateRepository;
   let sessionRepository;
   let dependencies;
@@ -16,7 +15,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
   let candidateData;
 
   beforeEach(function () {
-    certificationCenterRepository = { get: sinon.stub() };
+    centerRepository = { getById: sinon.stub() };
     candidateRepository = { deleteBySessionId: sinon.stub(), saveInSession: sinon.stub() };
     sessionRepository = { save: sinon.stub() };
     temporarySessionsStorageForMassImportService = {
@@ -25,7 +24,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
     };
 
     dependencies = {
-      certificationCenterRepository,
+      centerRepository,
       candidateRepository,
       sessionRepository,
       temporarySessionsStorageForMassImportService,
@@ -68,8 +67,8 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       context('when session has no candidate', function () {
         it('should should only save the session', async function () {
           // given
-          const certificationCenter = new CertificationCenter();
-          certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
+          const center = domainBuilder.certification.enrolment.buildCenter();
+          centerRepository.getById.withArgs({ id: center.id }).resolves(center);
           const temporaryCachedSessions = [
             {
               id: undefined,
@@ -96,7 +95,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           await createSessions({
             cachedValidatedSessionsKey,
             userId: sessionCreatorId,
-            certificationCenterId: certificationCenter.id,
+            certificationCenterId: center.id,
             ...dependencies,
           });
 
@@ -110,15 +109,15 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       context('when session has at least one candidate', function () {
         it('should save the session and the candidates', async function () {
           // given
-          const certificationCenter = new CertificationCenter({ id: 567 });
-          certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
+          const center = domainBuilder.certification.enrolment.buildCenter({ id: 567 });
+          centerRepository.getById.withArgs({ id: center.id }).resolves(center);
           const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
           const sessionCreatorId = 1234;
           const temporaryCachedSessions = [
             {
               id: undefined,
               certificationCenter: 'Centre de Certifix',
-              certificationCenterId: certificationCenter.id,
+              certificationCenterId: center.id,
               address: 'Site 1',
               room: 'Salle 1',
               date: '2023-03-12',
@@ -140,7 +139,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           await createSessions({
             cachedValidatedSessionsKey,
             userId: sessionCreatorId,
-            certificationCenterId: certificationCenter.id,
+            certificationCenterId: center.id,
             ...dependencies,
           });
 
@@ -157,14 +156,17 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       context('when certification center is V3 Pilot', function () {
         it('should save the session with the V3 version', async function () {
           // given
-          const certificationCenter = new CertificationCenter({ id: 567, isV3Pilot: true });
-          certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
+          const center = domainBuilder.certification.enrolment.buildCenter({
+            id: 567,
+            isV3Pilot: true,
+          });
+          centerRepository.getById.withArgs({ id: center.id }).resolves(center);
           const sessionCreatorId = 1234;
           const temporaryCachedSessions = [
             {
               id: undefined,
               certificationCenter: 'Centre de Certifix',
-              certificationCenterId: certificationCenter.id,
+              certificationCenterId: center.id,
               address: 'Site 1',
               room: 'Salle 1',
               date: '2023-03-12',
@@ -186,7 +188,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           await createSessions({
             cachedValidatedSessionsKey,
             userId: sessionCreatorId,
-            certificationCenterId: certificationCenter.id,
+            certificationCenterId: center.id,
             ...dependencies,
           });
 
@@ -204,13 +206,13 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         it('should save the session with the V2 version', async function () {
           // given
           const sessionCreatorId = 1234;
-          const certificationCenter = new CertificationCenter({ id: 567, isV3Pilot: false });
-          certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
+          const center = domainBuilder.certification.enrolment.buildCenter({ id: 567, isV3Pilot: false });
+          centerRepository.getById.withArgs({ id: center.id }).resolves(center);
           const temporaryCachedSessions = [
             {
               id: undefined,
               certificationCenter: 'Centre de Certifix',
-              certificationCenterId: certificationCenter.id,
+              certificationCenterId: center.id,
               address: 'Site 1',
               room: 'Salle 1',
               date: '2023-03-12',
@@ -233,7 +235,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           await createSessions({
             cachedValidatedSessionsKey,
             userId: sessionCreatorId,
-            certificationCenterId: certificationCenter.id,
+            certificationCenterId: center.id,
             ...dependencies,
           });
 
@@ -251,8 +253,8 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
     context('when at least one of the sessions already exists', function () {
       it('should delete previous candidates and save the new candidates', async function () {
         // given
-        const certificationCenter = new CertificationCenter();
-        certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
+        const center = domainBuilder.certification.enrolment.buildCenter();
+        centerRepository.getById.withArgs({ id: center.id }).resolves(center);
         const candidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
         const temporaryCachedSessions = [
           {
@@ -269,7 +271,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         await createSessions({
           cachedValidatedSessionsKey,
           userId: sessionCreatorId,
-          certificationCenterId: certificationCenter.id,
+          certificationCenterId: center.id,
           ...dependencies,
         });
 
@@ -286,8 +288,8 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
 
     it('should delete cached sessions', async function () {
       // given
-      const certificationCenter = new CertificationCenter();
-      certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
+      const center = domainBuilder.certification.enrolment.buildCenter();
+      centerRepository.getById.withArgs({ id: center.id }).resolves(center);
       const certificationCandidate = domainBuilder.certification.enrolment.buildCandidate(candidateData);
       const temporaryCachedSessions = [
         {
@@ -304,7 +306,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       await createSessions({
         cachedValidatedSessionsKey,
         userId: sessionCreatorId,
-        certificationCenterId: certificationCenter.id,
+        certificationCenterId: center.id,
         ...dependencies,
       });
 
