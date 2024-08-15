@@ -1,5 +1,5 @@
 /**
- * @typedef {import ("./index.js").CertificationCenterRepository} CertificationCenterRepository
+ * @typedef {import ("./index.js").CenterRepository} CenterRepository
  * @typedef {import ("./index.js").SessionRepository} SessionRepository
  * @typedef {import ("./index.js").SessionValidator} SessionValidator
  * @typedef {import ("./index.js").SessionCodeService} SessionCodeService
@@ -10,7 +10,7 @@ import { SessionEnrolment } from '../models/SessionEnrolment.js';
 
 /**
  * @param {Object} params
- * @param {CertificationCenterRepository} params.certificationCenterRepository
+ * @param {CenterRepository} params.centerRepository
  * @param {SessionRepository} params.sessionRepository
  * @param {SessionValidator} params.sessionValidator
  * @param {SessionCodeService} params.sessionCodeService
@@ -18,7 +18,7 @@ import { SessionEnrolment } from '../models/SessionEnrolment.js';
 const createSession = async function ({
   userId,
   session,
-  certificationCenterRepository,
+  centerRepository,
   sessionRepository,
   sessionValidator,
   sessionCodeService,
@@ -28,7 +28,7 @@ const createSession = async function ({
   const certificationCenterId = session.certificationCenterId;
 
   const accessCode = sessionCodeService.getNewSessionCode();
-  const { isV3Pilot, name: certificationCenterName } = await certificationCenterRepository.get({
+  const { isV3Pilot, name: certificationCenterName } = await centerRepository.getById({
     id: certificationCenterId,
   });
   const version = isV3Pilot ? CERTIFICATION_VERSIONS.V3 : CERTIFICATION_VERSIONS.V2;

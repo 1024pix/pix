@@ -3,16 +3,16 @@ import { createSession } from '../../../../../../src/certification/enrolment/dom
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | create-session', function () {
-  let certificationCenterRepository;
+  let centerRepository;
   let sessionRepository;
   let userWithMemberships;
   const userId = 'userId';
-  const certificationCenterId = 'certificationCenterId';
+  const certificationCenterId = 123;
   const certificationCenterName = 'certificationCenterName';
   const sessionToSave = { certificationCenterId };
 
   beforeEach(function () {
-    certificationCenterRepository = { get: sinon.stub() };
+    centerRepository = { getById: sinon.stub() };
     sessionRepository = { save: sinon.stub() };
     userWithMemberships = { hasAccessToCertificationCenter: sinon.stub() };
   });
@@ -27,7 +27,7 @@ describe('Unit | UseCase | create-session', function () {
         const promise = createSession({
           userId,
           session: sessionToSave,
-          certificationCenterRepository,
+          centerRepository,
           sessionRepository,
           sessionValidator: sessionValidatorStub,
         });
@@ -48,7 +48,7 @@ describe('Unit | UseCase | create-session', function () {
         sessionValidatorStub = { validate: sinon.stub().returns() };
         sessionCodeServiceStub = { getNewSessionCode: sinon.stub().returns(accessCode) };
         userWithMemberships.hasAccessToCertificationCenter = sinon.stub();
-        certificationCenterRepository.get = sinon.stub();
+        centerRepository.getById = sinon.stub();
         sessionRepository.save = sinon.stub();
         userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
         sessionRepository.save.resolves();
@@ -56,18 +56,18 @@ describe('Unit | UseCase | create-session', function () {
 
       it('should save the session with appropriate arguments', async function () {
         // given
-        const certificationCenter = domainBuilder.buildCertificationCenter({
+        const center = domainBuilder.certification.enrolment.buildCenter({
           id: certificationCenterId,
           name: certificationCenterName,
         });
 
-        certificationCenterRepository.get.withArgs({ id: certificationCenterId }).resolves(certificationCenter);
+        centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(center);
 
         // when
         await createSession({
           userId,
           session: sessionToSave,
-          certificationCenterRepository,
+          centerRepository,
           sessionRepository,
           sessionValidator: sessionValidatorStub,
           sessionCodeService: sessionCodeServiceStub,
@@ -90,21 +90,19 @@ describe('Unit | UseCase | create-session', function () {
       context('when session is created by a V3 pilot certification center', function () {
         it('should save the session with appropriate arguments', async function () {
           // given
-          const v3PilotCertificationCenter = domainBuilder.buildCertificationCenter({
+          const v3PilotCenter = domainBuilder.certification.enrolment.buildCenter({
             id: certificationCenterId,
             name: certificationCenterName,
             isV3Pilot: true,
           });
 
-          certificationCenterRepository.get
-            .withArgs({ id: certificationCenterId })
-            .resolves(v3PilotCertificationCenter);
+          centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(v3PilotCenter);
 
           // when
           await createSession({
             userId,
             session: sessionToSave,
-            certificationCenterRepository,
+            centerRepository,
             sessionRepository,
             sessionValidator: sessionValidatorStub,
             sessionCodeService: sessionCodeServiceStub,
