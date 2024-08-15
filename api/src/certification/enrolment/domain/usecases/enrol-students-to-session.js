@@ -2,7 +2,6 @@
  * @typedef {import('./index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {import('./index.js').OrganizationLearnerRepository} OrganizationLearnerRepository
  * @typedef {import('./index.js').OrganizationRepository} OrganizationRepository
- * @typedef {import('./index.js').CertificationCenterMembershipRepository} CertificationCenterMembershipRepository
  * @typedef {import('./index.js').CountryRepository} CountryRepository
  * @typedef {import('./index.js').SessionRepository} SessionRepository
  * @typedef {import('../models/SCOCertificationCandidate.js').SCOCertificationCandidate} SCOCertificationCandidate
@@ -20,27 +19,19 @@ const INSEE_PREFIX_CODE = '99';
  * @param {ScoCertificationCandidateRepository} params.scoCertificationCandidateRepository
  * @param {OrganizationLearnerRepository} params.organizationLearnerRepository
  * @param {OrganizationRepository} params.organizationRepository
- * @param {CertificationCenterMembershipRepository} params.certificationCenterMembershipRepository
  * @param {CountryRepository} params.countryRepository
  * @param {SessionRepository} params.sessionRepository
  */
 const enrolStudentsToSession = async function ({
   sessionId,
-  referentId,
   studentIds,
   scoCertificationCandidateRepository,
   organizationLearnerRepository,
   organizationRepository,
-  certificationCenterMembershipRepository,
   countryRepository,
   sessionRepository,
 } = {}) {
   const session = await sessionRepository.get({ id: sessionId });
-  const referentCertificationCenterMemberships = await certificationCenterMembershipRepository.findByUserId(referentId);
-
-  if (!_doesSessionBelongToSameCertificationCenterAsReferent(referentCertificationCenterMemberships, session)) {
-    throw new ForbiddenAccess('Impossible de modifier une session ne faisant pas partie de votre établissement');
-  }
 
   const students = await organizationLearnerRepository.findByIds({ ids: studentIds });
 
@@ -84,12 +75,6 @@ const enrolStudentsToSession = async function ({
 };
 
 export { enrolStudentsToSession };
-
-function _doesSessionBelongToSameCertificationCenterAsReferent(referentCertificationCenterMemberships, session) {
-  return referentCertificationCenterMemberships.some(
-    (membership) => membership.certificationCenter.id === session.certificationCenterId,
-  );
-}
 
 async function _doAllStudentsBelongToSameCertificationCenterAsSession({ students, session, organizationRepository }) {
   const certificationCenterId = session.certificationCenterId;

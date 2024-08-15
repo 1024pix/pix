@@ -6,7 +6,6 @@ describe('Certification | Enrolment | Unit | Controller | enrolment-controller',
   describe('#enrolStudentsToSession', function () {
     let request, studentIds, studentList, serializedCertificationCandidate;
     const sessionId = 1;
-    const userId = 2;
     const student1 = { id: 1 };
     const student2 = { id: 2 };
     let dependencies;
@@ -19,29 +18,21 @@ describe('Certification | Enrolment | Unit | Controller | enrolment-controller',
       // given
       request = {
         params: { id: sessionId },
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
         deserializedPayload: {
           'organization-learner-ids': [student1.id, student2.id],
         },
       };
-      const requestResponseUtils = { extractUserIdFromRequest: sinon.stub() };
       sinon.stub(usecases, 'enrolStudentsToSession');
       sinon.stub(usecases, 'getEnrolledCandidatesInSession');
       const enrolledCandidateSerializer = { serialize: sinon.stub() };
       dependencies = {
-        requestResponseUtils,
         enrolledCandidateSerializer,
       };
     });
 
     context('when the user has access to session and there organizationLearnerIds are corrects', function () {
       beforeEach(function () {
-        dependencies.requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
-        usecases.enrolStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
+        usecases.enrolStudentsToSession.withArgs({ sessionId, studentIds }).resolves();
         usecases.getEnrolledCandidatesInSession.withArgs({ sessionId }).resolves(studentList);
         dependencies.enrolledCandidateSerializer.serialize
           .withArgs(studentList)
