@@ -15,21 +15,21 @@ export { extractCertificationCandidatesFromCandidatesImportSheet };
 
 async function extractCertificationCandidatesFromCandidatesImportSheet({
   i18n,
-  sessionId,
+  session,
   isSco,
   odsBuffer,
   certificationCpfService,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
-  certificationCenterRepository,
+  centerRepository,
   mailCheck = mailCheckImplementation,
 }) {
   const translate = i18n.__;
-  const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
+  const center = await centerRepository.getById({ id: session.certificationCenterId });
   const candidateImportStructs = getTransformationStructsForPixCertifCandidatesImport({
     i18n,
-    complementaryCertifications: certificationCenter.habilitations,
+    habilitations: center.habilitations,
     isSco,
   });
   try {
@@ -147,7 +147,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       birthPostalCode,
       birthCity,
       sex,
-      sessionId,
+      sessionId: session.id,
       billingMode: billingMode ?? null,
       prepaymentCode: candidateData.prepaymentCode ?? null,
       subscriptions,

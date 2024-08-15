@@ -13,7 +13,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   let certificationCpfCityRepository;
   let certificationCpfCountryRepository;
   let complementaryCertificationRepository;
-  let certificationCenterRepository;
+  let centerRepository;
   let sessionRepository;
 
   beforeEach(function () {
@@ -34,7 +34,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
     certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
     complementaryCertificationRepository = Symbol('complementaryCertificationRepository');
-    certificationCenterRepository = Symbol('certificationCenterRepository');
+    centerRepository = Symbol('centerRepository');
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
       return lambda();
     });
@@ -45,14 +45,13 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
       it('should throw a BadRequestError', async function () {
         // given
         const sessionId = 'sessionId';
+        const session = domainBuilder.certification.enrolment.buildSession({ sessionId });
         const odsBuffer = 'buffer';
 
         candidateRepository.findBySessionId
           .withArgs({ sessionId })
           .resolves([domainBuilder.certification.enrolment.buildCandidate({ userId: 123 })]);
-        sessionRepository.get
-          .withArgs({ id: sessionId })
-          .resolves(domainBuilder.certification.enrolment.buildSession());
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
 
         // when
         const result = await catchErr(importCertificationCandidatesFromCandidatesImportSheet)({
@@ -65,7 +64,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
           complementaryCertificationRepository,
-          certificationCenterRepository,
+          centerRepository,
           sessionRepository,
         });
 
@@ -76,16 +75,17 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
 
     context('when session contains zero linked certification candidates', function () {
       const sessionId = 'sessionId';
+      let session;
 
       beforeEach(function () {
+        session = domainBuilder.certification.enrolment.buildSession({
+          id: sessionId,
+          certificationCenterType: CERTIFICATION_CENTER_TYPES.PRO,
+        });
         candidateRepository.findBySessionId
           .withArgs({ sessionId })
           .resolves([domainBuilder.certification.enrolment.buildCandidate({ userId: null })]);
-        sessionRepository.get.withArgs({ id: sessionId }).resolves(
-          domainBuilder.certification.enrolment.buildSession({
-            certificationCenterType: CERTIFICATION_CENTER_TYPES.PRO,
-          }),
-        );
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
       });
 
       context('when cpf birth information validation has succeed', function () {
@@ -104,14 +104,14 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
             .withArgs({
               i18n,
-              sessionId,
+              session,
               isSco: false,
               odsBuffer,
               certificationCpfService,
               certificationCpfCountryRepository,
               certificationCpfCityRepository,
               complementaryCertificationRepository,
-              certificationCenterRepository,
+              centerRepository,
             })
             .resolves(candidates);
 
@@ -126,7 +126,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
             certificationCpfCountryRepository,
             certificationCpfCityRepository,
             complementaryCertificationRepository,
-            certificationCenterRepository,
+            centerRepository,
             sessionRepository,
           });
 

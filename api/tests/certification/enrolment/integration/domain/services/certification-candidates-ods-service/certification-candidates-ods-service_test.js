@@ -3,13 +3,13 @@ import * as url from 'node:url';
 
 import * as complementaryCertificationRepository from '../../../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
 import * as certificationCandidatesOdsService from '../../../../../../../src/certification/enrolment/domain/services/certification-candidates-ods-service.js';
+import * as centerRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as certificationCpfCityRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
 import { BILLING_MODES } from '../../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import * as certificationCpfService from '../../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
-import * as certificationCenterRepository from '../../../../../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import { config } from '../../../../../../../src/shared/config.js';
 import { CertificationCandidatesError } from '../../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
@@ -25,7 +25,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function () {
   let userId;
-  let sessionId;
+  let sessionId, session;
   let mailCheck;
   let candidateList;
 
@@ -33,7 +33,9 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-    sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+    const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
+    sessionId = sessionData.id;
+    session = domainBuilder.certification.enrolment.buildSession(sessionData);
 
     databaseBuilder.factory.buildCertificationCpfCountry({
       code: '99100',
@@ -79,12 +81,12 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet,
     )({
       i18n,
-      sessionId,
+      session,
       odsBuffer,
       certificationCpfService,
       certificationCpfCountryRepository,
       certificationCpfCityRepository,
-      certificationCenterRepository,
+      centerRepository,
       complementaryCertificationRepository,
       isSco: true,
       mailCheck,
@@ -107,12 +109,12 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet,
     )({
       i18n,
-      sessionId,
+      session,
       odsBuffer,
       certificationCpfService,
       certificationCpfCountryRepository,
       certificationCpfCityRepository,
-      certificationCenterRepository,
+      centerRepository,
       complementaryCertificationRepository,
       isSco: true,
       mailCheck,
@@ -134,12 +136,12 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet,
     )({
       i18n,
-      sessionId,
+      session,
       odsBuffer,
       certificationCpfService,
       certificationCpfCountryRepository,
       certificationCpfCityRepository,
-      certificationCenterRepository,
+      centerRepository,
       complementaryCertificationRepository,
       isSco: true,
       mailCheck,
@@ -165,12 +167,12 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet,
       )({
         i18n,
-        sessionId,
+        session,
         odsBuffer,
         certificationCpfService,
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
-        certificationCenterRepository,
+        centerRepository,
         complementaryCertificationRepository,
         isSco: true,
         mailCheck,
@@ -196,13 +198,13 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const actualCandidates =
       await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
         i18n,
-        sessionId,
+        session,
         isSco,
         odsBuffer,
         certificationCpfService,
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
-        certificationCenterRepository,
+        centerRepository,
         complementaryCertificationRepository,
         mailCheck,
       });
@@ -238,7 +240,8 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-        const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+        const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
+        const session = domainBuilder.certification.enrolment.buildSession(sessionData);
 
         await databaseBuilder.commit();
 
@@ -250,12 +253,12 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet,
         )({
           i18n,
-          sessionId,
+          session,
           odsBuffer,
           certificationCpfService,
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
-          certificationCenterRepository,
+          centerRepository,
           complementaryCertificationRepository,
           isSco: false,
           mailCheck,
@@ -333,14 +336,15 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-        const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+        const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
+        const session = domainBuilder.certification.enrolment.buildSession(sessionData);
 
         await databaseBuilder.commit();
 
         const odsFilePath = `${__dirname}/attendance_sheet_extract_with_complementary_certifications_ok_test.ods`;
         const odsBuffer = await readFile(odsFilePath);
         candidateList = _buildCandidateList({
-          sessionId,
+          sessionId: sessionData.id,
           complementaryCertifications: [
             pixPlusEdu1erDegreComplementaryCertification,
             pixPlusDroitComplementaryCertification,
@@ -355,12 +359,12 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         const actualCandidates =
           await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
             i18n,
-            sessionId,
+            session,
             odsBuffer,
             certificationCpfService,
             certificationCpfCountryRepository,
             certificationCpfCityRepository,
-            certificationCenterRepository,
+            centerRepository,
             complementaryCertificationRepository,
             isSco: false,
             mailCheck,
@@ -430,14 +434,15 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-        const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+        const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
+        const session = domainBuilder.certification.enrolment.buildSession(sessionData);
 
         await databaseBuilder.commit();
 
         const odsFilePath = `${__dirname}/attendance_sheet_extract_with_complementary_certifications_compatibility_ok_test.ods`;
         const odsBuffer = await readFile(odsFilePath);
         candidateList = _buildCandidateList({
-          sessionId,
+          sessionId: sessionData.id,
           complementaryCertifications: [
             pixPlusEdu1erDegreComplementaryCertification,
             pixPlusDroitComplementaryCertification,
@@ -453,12 +458,12 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         const actualCandidates =
           await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
             i18n,
-            sessionId,
+            session,
             odsBuffer,
             certificationCpfService,
             certificationCpfCountryRepository,
             certificationCpfCityRepository,
-            certificationCenterRepository,
+            centerRepository,
             complementaryCertificationRepository,
             isSco: false,
             mailCheck,
@@ -516,7 +521,8 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-        const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+        const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
+        const session = domainBuilder.certification.enrolment.buildSession(sessionData);
 
         await databaseBuilder.commit();
 
@@ -528,12 +534,12 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet,
         )({
           i18n,
-          sessionId,
+          session,
           odsBuffer,
           certificationCpfService,
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
-          certificationCenterRepository,
+          centerRepository,
           complementaryCertificationRepository,
           isSco: false,
           mailCheck,
@@ -567,13 +573,13 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const actualCandidates =
       await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
         i18n,
-        sessionId,
+        session,
         isSco,
         odsBuffer,
         certificationCpfService,
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
-        certificationCenterRepository,
+        centerRepository,
         complementaryCertificationRepository,
         mailCheck,
       });
@@ -593,13 +599,13 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     const actualCandidates =
       await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
         i18n,
-        sessionId,
+        session,
         isSco,
         odsBuffer,
         certificationCpfService,
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
-        certificationCenterRepository,
+        centerRepository,
         complementaryCertificationRepository,
         mailCheck,
       });

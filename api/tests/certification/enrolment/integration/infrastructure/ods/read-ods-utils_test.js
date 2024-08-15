@@ -253,7 +253,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | read-ods-utils',
       // given
       const expectedHeaders = getTransformationStructsForPixCertifCandidatesImport({
         i18n,
-        complementaryCertifications: [],
+        habilitations: [],
         isSco: true,
       }).headers;
 

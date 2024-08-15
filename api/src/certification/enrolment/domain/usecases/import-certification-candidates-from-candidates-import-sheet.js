@@ -11,7 +11,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
-  certificationCenterRepository,
+  centerRepository,
   sessionRepository,
   certificationCandidatesOdsService,
   certificationCpfService,
@@ -25,14 +25,14 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
 
   const candidates = await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
     i18n,
-    sessionId,
+    session,
     isSco: session.isSco,
     odsBuffer,
     certificationCpfService,
     certificationCpfCountryRepository,
     certificationCpfCityRepository,
     complementaryCertificationRepository,
-    certificationCenterRepository,
+    centerRepository,
   });
 
   await DomainTransaction.execute(async () => {
