@@ -16,6 +16,10 @@ export default class ModuleQcu extends ModuleElement {
 
   @action
   radioClicked(proposalId) {
+    if (this.disableInput) {
+      return;
+    }
+
     this.selectedAnswerId = proposalId;
   }
 
@@ -33,6 +37,19 @@ export default class ModuleQcu extends ModuleElement {
 
   get disableInput() {
     return super.disableInput ? true : null;
+  }
+
+  @action
+  getProposalState(proposalId) {
+    if (!this.correction) {
+      return null;
+    }
+
+    if (this.selectedAnswerId !== proposalId) {
+      return 'neutral';
+    }
+
+    return this.correction?.isOk ? 'success' : 'error';
   }
 
   <template>
@@ -56,6 +73,7 @@ export default class ModuleQcu extends ModuleElement {
               name={{this.element.id}}
               @value={{proposal.id}}
               @isDisabled={{this.disableInput}}
+              @state={{this.getProposalState proposal.id}}
               @variant="tile"
               {{on "click" (fn this.radioClicked proposal.id)}}
             >
