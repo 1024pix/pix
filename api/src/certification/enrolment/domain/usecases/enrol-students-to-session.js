@@ -1,7 +1,7 @@
 /**
  * @typedef {import('./index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {import('./index.js').OrganizationLearnerRepository} OrganizationLearnerRepository
- * @typedef {import('./index.js').OrganizationRepository} OrganizationRepository
+ * @typedef {import('./index.js').CenterRepository} CenterRepository
  * @typedef {import('./index.js').CountryRepository} CountryRepository
  * @typedef {import('./index.js').SessionRepository} SessionRepository
  * @typedef {import('../models/SCOCertificationCandidate.js').SCOCertificationCandidate} SCOCertificationCandidate
@@ -18,7 +18,7 @@ const INSEE_PREFIX_CODE = '99';
  * @param {Object} params
  * @param {ScoCertificationCandidateRepository} params.scoCertificationCandidateRepository
  * @param {OrganizationLearnerRepository} params.organizationLearnerRepository
- * @param {OrganizationRepository} params.organizationRepository
+ * @param {CenterRepository} params.centerRepository
  * @param {CountryRepository} params.countryRepository
  * @param {SessionRepository} params.sessionRepository
  */
@@ -27,16 +27,17 @@ const enrolStudentsToSession = async function ({
   studentIds,
   scoCertificationCandidateRepository,
   organizationLearnerRepository,
-  organizationRepository,
+  centerRepository,
   countryRepository,
   sessionRepository,
 } = {}) {
   const session = await sessionRepository.get({ id: sessionId });
+  const center = await centerRepository.getById({ id: session.certificationCenterId });
 
   const students = await organizationLearnerRepository.findByIds({ ids: studentIds });
 
   const doAllStudentsBelongToSameCertificationCenterAsSession =
-    await _doAllStudentsBelongToSameCertificationCenterAsSession({ students, session, organizationRepository });
+    await _doAllStudentsBelongToSameCertificationCenterAsSession({ students, center });
   if (!doAllStudentsBelongToSameCertificationCenterAsSession) {
     throw new ForbiddenAccess("Impossible d'inscrire un élève ne faisant pas partie de votre établissement");
   }
@@ -76,9 +77,6 @@ const enrolStudentsToSession = async function ({
 
 export { enrolStudentsToSession };
 
-async function _doAllStudentsBelongToSameCertificationCenterAsSession({ students, session, organizationRepository }) {
-  const certificationCenterId = session.certificationCenterId;
-  const organizationId = await organizationRepository.getIdByCertificationCenterId(certificationCenterId);
-
-  return _.every(students, (student) => organizationId === student.organizationId);
+async function _doAllStudentsBelongToSameCertificationCenterAsSession({ students, center }) {
+  return _.every(students, (student) => center.matchingOrganizationId === student.organizationId);
 }

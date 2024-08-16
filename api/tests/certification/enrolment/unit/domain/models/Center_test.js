@@ -118,6 +118,38 @@ describe('Unit | Certification | Enrolment | Domain | Models | Center', function
     });
   });
 
+  context('#get matchingOrganizationId', function () {
+    it('should return the id when center has a matching organization', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        type: CERTIFICATION_CENTER_TYPES.SCO,
+        matchingOrganization: domainBuilder.certification.enrolment.buildMatchingOrganization({
+          id: 123,
+        }),
+      });
+
+      // when
+      const matchingOrganizationId = center.matchingOrganizationId;
+
+      // then
+      expect(matchingOrganizationId).to.equal(123);
+    });
+
+    it('should return null otherwise', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        type: CERTIFICATION_CENTER_TYPES.SCO,
+        matchingOrganization: null,
+      });
+
+      // when
+      const matchingOrganizationId = center.matchingOrganizationId;
+
+      // then
+      expect(matchingOrganizationId).to.be.null;
+    });
+  });
+
   context('#get isCoreComplementaryCompatibilityEnabled', function () {
     it('should return true when center is both isV3Pilot and isComplementaryAlonePilot', function () {
       // given

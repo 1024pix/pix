@@ -46,6 +46,10 @@ export class Center {
   isHabilitated(key) {
     return this.habilitations.some((habilitation) => habilitation.key === key);
   }
+
+  get matchingOrganizationId() {
+    return this.matchingOrganization?.id ?? null;
+  }
 }
 
 export class MatchingOrganization {

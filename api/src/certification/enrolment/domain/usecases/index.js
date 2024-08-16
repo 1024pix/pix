@@ -2,7 +2,6 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js';
@@ -30,7 +29,6 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../infrastructure/repositories/index.js').CountryRepository} CountryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {import('../../infrastructure/repositories/index.js').OrganizationLearnerRepository} OrganizationLearnerRepository
- * @typedef {import('../../infrastructure/repositories/index.js').OrganizationRepository} OrganizationRepository
  * @typedef {import('../../../shared/domain/validators/session-validator.js')} SessionValidator
  * @typedef {import('../../../shared/domain/services/certification-cpf-service.js')} CertificationCpfService
  * @typedef {import('../../infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
@@ -56,7 +54,6 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {CountryRepository} CountryRepository
  * @typedef {OrganizationLearnerRepository} OrganizationLearnerRepository
- * @typedef {OrganizationRepository} OrganizationRepository
  * @typedef {ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {certificationCpfService} CertificationCpfService
  * @typedef {SessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
@@ -77,7 +74,6 @@ const dependencies = {
   attendanceSheetPdfUtils,
   certificationCpfService,
   temporaryCompanionStorageService,
-  organizationRepository,
   certificationCandidatesOdsService,
 };
 
