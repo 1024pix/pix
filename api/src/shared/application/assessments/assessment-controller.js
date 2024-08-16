@@ -1,6 +1,5 @@
 import { Serializer as JSONAPISerializer } from 'jsonapi-serializer';
 
-import * as events from '../../../../lib/domain/events/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as certificationVersionRepository from '../../../certification/results/infrastructure/repositories/certification-version-repository.js';
 import { usecases as certificationUsecases } from '../../../certification/session-management/domain/usecases/index.js';

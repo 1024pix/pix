@@ -1,4 +1,3 @@
-import { AssessmentCompleted } from '../../../../../lib/domain/events/AssessmentCompleted.js';
 import * as events from '../../../../../lib/domain/events/index.js';
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
@@ -61,11 +60,10 @@ describe('Unit | Controller | assessment-controller', function () {
   });
 
   describe('#completeAssessment', function () {
-    let assessmentId, assessment, assessmentCompletedEvent, locale;
+    let assessmentId, assessment, locale;
 
     beforeEach(function () {
       assessmentId = 2;
-      assessmentCompletedEvent = new AssessmentCompleted();
       assessment = Symbol('completed-assessment');
       locale = 'fr-fr';
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {

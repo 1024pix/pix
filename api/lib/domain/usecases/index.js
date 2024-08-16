@@ -67,6 +67,7 @@ import * as campaignAssessmentParticipationRepository from '../../../src/prescri
 import * as campaignAssessmentParticipationResultRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-assessment-participation-result-repository.js';
 import * as campaignParticipationBCRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignProfileRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-profile-repository.js';
+import { campaignParticipationCompletedJobRepository } from '../../../src/prescription/campaign-participation/infrastructure/repositories/jobs/campaign-participation-completed-job-repository.js';
 import * as supOrganizationLearnerRepository from '../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
 import * as organizationLearnerActivityRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-activity-repository.js';
 import * as registrationOrganizationLearnerRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/registration-organization-learner-repository.js';
@@ -209,6 +210,7 @@ const dependencies = {
   campaignAssessmentParticipationResultRepository,
   campaignManagementRepository,
   campaignParticipationBCRepository,
+  campaignParticipationCompletedJobRepository,
   campaignParticipationOverviewRepository,
   campaignParticipationRepository,
   campaignParticipationResultRepository,
