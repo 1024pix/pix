@@ -3,14 +3,12 @@ import { ParticipationResultCalculationJob } from '../../../domain/models/Partic
 
 class ParticipationResultCalculationJobRepository extends JobPgBoss {
   constructor() {
-    super(
-      {
-        name: ParticipationResultCalculationJob.name,
-        retryLimit: 10,
-        retryDelay: 30,
-        retryBackoff: true,
-      }
-    );
+    super({
+      name: ParticipationResultCalculationJob.name,
+      retryLimit: 10,
+      retryDelay: 30,
+      retryBackoff: true,
+    });
   }
 }
 

@@ -39,16 +39,18 @@ class JobPgBoss {
     };
   }
 
-  async schedule(jobs) {
+  async #send(jobs) {
     const knexConn = DomainTransaction.getConnection();
 
-    await knexConn('pgboss.job').insert(jobs);
+    return knexConn('pgboss.job').insert(jobs);
   }
 
-  async performAsync(data) {
-    const job = this.#buildPayload(data);
+  async performAsync(...datas) {
+    const jobs = datas.map((payload) => {
+      return this.#buildPayload(payload);
+    });
 
-    return this.schedule(job);
+    return this.#send(jobs);
   }
 
   #validate() {

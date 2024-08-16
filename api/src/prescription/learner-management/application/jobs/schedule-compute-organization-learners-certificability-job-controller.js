@@ -2,14 +2,17 @@ import cronParser from 'cron-parser';
 import dayjs from 'dayjs';
 
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
-import * as pgBossRepository from '../../../../../lib/infrastructure/repositories/pgboss-repository.js';
 import { ComputeCertificabilityJob } from '../../../../prescription/learner-management/domain/models/ComputeCertificabilityJob.js';
 import { config } from '../../../../shared/config.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { computeCertificabilityJobRepository } from '../../../learner-management/infrastructure/repositories/jobs/compute-certificability-job-repository.js';
 
 class ScheduleComputeOrganizationLearnersCertificabilityJobController {
-  async handle(event = {}, dependencies = { organizationLearnerRepository, pgBossRepository, config, logger }) {
+  async handle(
+    event = {},
+    dependencies = { organizationLearnerRepository, computeCertificabilityJobRepository, config, logger },
+  ) {
     const skipLoggedLastDayCheck = event?.skipLoggedLastDayCheck;
     const onlyNotComputed = event?.onlyNotComputed;
     const chunkSize = dependencies.config.features.scheduleComputeOrganizationLearnersCertificability.chunkSize;
@@ -57,15 +60,11 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobController {
             `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Ids count  : ${organizationLearnerIds.length}`,
           );
 
-          const jobsToInsert = organizationLearnerIds.map((organizationLearnerId) => ({
-            name: ComputeCertificabilityJob.name,
-            data: new ComputeCertificabilityJob({ organizationLearnerId }),
-            retrylimit: 0,
-            retrydelay: 30,
-            on_complete: true,
-          }));
+          const jobsToInsert = organizationLearnerIds.map(
+            (organizationLearnerId) => new ComputeCertificabilityJob({ organizationLearnerId }),
+          );
 
-          const jobsInserted = await dependencies.pgBossRepository.insert(jobsToInsert);
+          const jobsInserted = await dependencies.computeCertificabilityJobRepository.performAsync(...jobsToInsert);
           totalJobsInserted += jobsInserted.rowCount;
 
           dependencies.logger.info(
