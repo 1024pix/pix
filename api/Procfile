@@ -6,3 +6,4 @@ postdeploy: npm run postdeploy
 # for more information
 web: exec node index.js
 worker: exec node worker.js
+fastWorker: exec node fast-worker.js

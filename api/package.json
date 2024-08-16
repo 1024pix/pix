@@ -156,6 +156,8 @@
     "dev": "nodemon index.js",
     "start": "node index.js",
     "start:watch": "npm run dev",
+    "start:job:fast": "node fast-worker.js",
+    "start:job:fast:watch": "nodemon fast-worker.js",
     "start:job": "node worker.js",
     "start:job:watch": "nodemon worker.js",
     "test": "NODE_ENV=test npm run db:prepare && npm run test:api",
