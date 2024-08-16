@@ -4,7 +4,7 @@ import { JobPriority } from '../../../../../src/shared/infrastructure/jobs/JobPr
 import { catchErrSync, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
-  it('schedule a job and create in db with given config', async function () {
+  it('performAsync create in one job db with given config', async function () {
     // given
     const name = 'JobTest';
     const expectedParams = { jobParam: 1 };
@@ -17,7 +17,7 @@ describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
     const job = new Job({ name, retryLimit, retryDelay, retryBackoff, expireIn, priority }, knex);
 
     // when
-    await job.schedule(expectedParams);
+    await job.performAsync(expectedParams);
 
     await expect(name).to.have.been.performed.withJob({
       name,

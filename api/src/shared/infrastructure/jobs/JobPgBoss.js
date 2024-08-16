@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { EntityValidationError } from '../../domain/errors.js';
 import { JobPriority } from './JobPriority.js';
 
@@ -14,20 +15,19 @@ class JobPgBoss {
    * @param {Object} config
    * @param {valueOf<JobPriority>} config.priority
    */
-  constructor(config, queryBuilder) {
+  constructor(config) {
     this.name = config.name;
     this.retryLimit = config.retryLimit ?? 0;
     this.retryDelay = config.retryDelay ?? 30;
     this.retryBackoff = config.retryBackoff || false;
     this.expireIn = config.expireIn || '00:15:00';
-    this.queryBuilder = queryBuilder;
     this.priority = config.priority || JobPriority.DEFAULT;
 
     this.#validate();
   }
 
-  async schedule(data) {
-    await this.queryBuilder('pgboss.job').insert({
+  #buildPayload(data) {
+    return {
       name: this.name,
       retrylimit: this.retryLimit,
       retrydelay: this.retryDelay,
@@ -36,11 +36,19 @@ class JobPgBoss {
       data,
       on_complete: true,
       priority: this.priority,
-    });
+    };
+  }
+
+  async schedule(jobs) {
+    const knexConn = DomainTransaction.getConnection();
+
+    await knexConn('pgboss.job').insert(jobs);
   }
 
   async performAsync(data) {
-    return this.schedule(data);
+    const job = this.#buildPayload(data);
+
+    return this.schedule(job);
   }
 
   #validate() {
