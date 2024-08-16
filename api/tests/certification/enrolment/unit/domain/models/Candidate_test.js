@@ -76,6 +76,25 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     });
   });
 
+  context('link', function () {
+    it('should link candidate to user', function () {
+      // given
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        userId: null,
+      });
+
+      // when
+      candidate.link(123);
+
+      // then
+      expect(candidate).to.deepEqualInstance(
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: 123,
+        }),
+      );
+    });
+  });
+
   context('validate', function () {
     context('when all required fields are presents', function () {
       it('should not throw when object is valid', function () {
