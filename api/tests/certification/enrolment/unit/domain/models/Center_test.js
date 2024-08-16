@@ -158,4 +158,61 @@ describe('Unit | Certification | Enrolment | Domain | Models | Center', function
       expect(center.isHabilitated('SOME_KEY')).to.be.true;
     });
   });
+
+  context('#get isCoreComplementaryCompatibilityEnabled', function () {
+    it('should return true when center is both isV3Pilot and isComplementaryAlonePilot', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        isV3Pilot: true,
+        features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
+      });
+
+      // when
+      const isCoreComplementaryCompatibilityEnabled = center.isCoreComplementaryCompatibilityEnabled;
+
+      // then
+      expect(isCoreComplementaryCompatibilityEnabled).to.be.true;
+    });
+
+    it('should return false when center is isV3Pilot but not isComplementaryAlonePilot', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        isV3Pilot: true,
+        features: [],
+      });
+      // when
+      const isCoreComplementaryCompatibilityEnabled = center.isCoreComplementaryCompatibilityEnabled;
+
+      // then
+      expect(isCoreComplementaryCompatibilityEnabled).to.be.false;
+    });
+
+    it('should return false when center is not isV3Pilot but is isComplementaryAlonePilot', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        isV3Pilot: false,
+        features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
+      });
+
+      // when
+      const isCoreComplementaryCompatibilityEnabled = center.isCoreComplementaryCompatibilityEnabled;
+
+      // then
+      expect(isCoreComplementaryCompatibilityEnabled).to.be.false;
+    });
+
+    it('should return false when center is neither isV3Pilot nor isComplementaryAlonePilot', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        isV3Pilot: false,
+        features: [],
+      });
+
+      // when
+      const isCoreComplementaryCompatibilityEnabled = center.isCoreComplementaryCompatibilityEnabled;
+
+      // then
+      expect(isCoreComplementaryCompatibilityEnabled).to.be.false;
+    });
+  });
 });
