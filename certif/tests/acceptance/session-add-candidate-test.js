@@ -17,8 +17,8 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
       type: 'PRO',
       habilitations: [
-        { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
-        { id: 2, label: 'CléA Numérique', key: COMPLEMENTARY_KEYS.CLEA, hasComplementaryReferential: false },
+        { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2' },
+        { id: 2, label: 'CléA Numérique', key: COMPLEMENTARY_KEYS.CLEA },
       ],
       isV3Pilot: false,
       isComplementaryAlonePilot: false,

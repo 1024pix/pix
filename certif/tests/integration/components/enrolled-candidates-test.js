@@ -21,8 +21,8 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     class CurrentUserStub extends Service {
       currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         habilitations: [
-          { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
-          { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
+          { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1' },
+          { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2' },
         ],
         isComplementaryAlonePilot: false,
         isV3Pilot: false,
@@ -367,8 +367,8 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
           habilitations: [
-            { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
-            { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
+            { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1' },
+            { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2' },
           ],
           isComplementaryAlonePilot: true,
           isV3Pilot: true,

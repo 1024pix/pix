@@ -1,6 +1,5 @@
 import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
 import { createServer, Response } from 'miragejs';
-import { SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 
 import { findPaginatedSessionSummaries } from './handlers/find-paginated-session-summaries';
 import { findPaginatedStudents } from './handlers/find-paginated-students';
