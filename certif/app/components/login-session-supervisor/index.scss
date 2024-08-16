@@ -1,0 +1,42 @@
+#login-session-supervisor-page {
+  align-items: center;
+  background: $pix-primary-certif-gradient;
+  box-shadow: 0 2px 8px 0 rgb(0 0 0 / 10%);
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+
+  main {
+    section, footer {
+      align-items: center;
+      box-sizing: border-box;
+      color: var(--pix-neutral-500);
+      max-width: 463px;
+      width: 100%;
+    }
+
+    section {
+      background-color: var(--pix-neutral-0);
+      border-radius: 10px 10px 0 0;
+      padding: 32px 8px 16px;
+
+      @include device-is('tablet') {
+        margin: auto;
+        padding: 40px 60px 10px;
+      }
+
+      p:not(.error-message) {
+        font-size: 0.8rem;
+        margin: 8px 0 24px;
+
+        &.description {
+          margin: 0;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+#login-session-supervisor-page > main > section {
+  header {
+    text-align: center;
+
+    h1 {
+      font-weight: normal;
+      font-size: 0.8rem;
+      margin: 8px 0 0;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      color: var(--pix-neutral-800);
+      font-weight: normal;
+      margin: 0;
+
+      @extend %pix-title-s;
+    }
+  }
+}
