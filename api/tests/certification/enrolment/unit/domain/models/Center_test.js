@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { CenterTypes } from '../../../../../../src/certification/enrolment/domain/models/CenterTypes.js';
 import { CERTIFICATION_FEATURES } from '../../../../../../src/certification/shared/domain/constants.js';
+import { types } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
@@ -147,6 +148,90 @@ describe('Unit | Certification | Enrolment | Domain | Models | Center', function
 
       // then
       expect(matchingOrganizationId).to.be.null;
+    });
+  });
+
+  context('#get isMatchingOrganizationScoAndManagingStudents', function () {
+    it('should return true when center has a matching orga that is sco and managing students', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        type: CERTIFICATION_CENTER_TYPES.SCO,
+        matchingOrganization: domainBuilder.certification.enrolment.buildMatchingOrganization({
+          type: types.SCO,
+          isManagingStudents: true,
+        }),
+      });
+
+      // when
+      const isMatchingOrganizationScoAndManagingStudents = center.isMatchingOrganizationScoAndManagingStudents;
+
+      // then
+      expect(isMatchingOrganizationScoAndManagingStudents).to.be.true;
+    });
+
+    it('should return false when center has a matching orga that is sco but not managing students', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        type: CERTIFICATION_CENTER_TYPES.SCO,
+        matchingOrganization: domainBuilder.certification.enrolment.buildMatchingOrganization({
+          type: types.SCO,
+          isManagingStudents: false,
+        }),
+      });
+
+      // when
+      const isMatchingOrganizationScoAndManagingStudents = center.isMatchingOrganizationScoAndManagingStudents;
+
+      // then
+      expect(isMatchingOrganizationScoAndManagingStudents).to.be.false;
+    });
+
+    it('should return false when center has a matching orga that is not sco but managing students', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        type: CERTIFICATION_CENTER_TYPES.SCO,
+        matchingOrganization: domainBuilder.certification.enrolment.buildMatchingOrganization({
+          type: types.SUP,
+          isManagingStudents: true,
+        }),
+      });
+
+      // when
+      const isMatchingOrganizationScoAndManagingStudents = center.isMatchingOrganizationScoAndManagingStudents;
+
+      // then
+      expect(isMatchingOrganizationScoAndManagingStudents).to.be.false;
+    });
+
+    it('should return false when center has a matching orga that is not sco nor managing students', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        type: CERTIFICATION_CENTER_TYPES.SCO,
+        matchingOrganization: domainBuilder.certification.enrolment.buildMatchingOrganization({
+          type: types.SUP,
+          isManagingStudents: false,
+        }),
+      });
+
+      // when
+      const isMatchingOrganizationScoAndManagingStudents = center.isMatchingOrganizationScoAndManagingStudents;
+
+      // then
+      expect(isMatchingOrganizationScoAndManagingStudents).to.be.false;
+    });
+
+    it('should return false when center has no matching orga', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        type: CERTIFICATION_CENTER_TYPES.SCO,
+        matchingOrganization: null,
+      });
+
+      // when
+      const isMatchingOrganizationScoAndManagingStudents = center.isMatchingOrganizationScoAndManagingStudents;
+
+      // then
+      expect(isMatchingOrganizationScoAndManagingStudents).to.be.false;
     });
   });
 

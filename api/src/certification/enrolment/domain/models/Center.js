@@ -2,6 +2,7 @@
  * @typedef {import ('./Habilitation.js').Habilitation} Habilitation
  */
 
+import { types } from '../../../../organizational-entities/domain/models/Organization.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
 import { CERTIFICATION_FEATURES } from '../../../shared/domain/constants.js';
 import { CenterTypes } from './CenterTypes.js';
@@ -50,6 +51,10 @@ export class Center {
   get matchingOrganizationId() {
     return this.matchingOrganization?.id ?? null;
   }
+
+  get isMatchingOrganizationScoAndManagingStudents() {
+    return this.matchingOrganization?.isScoAndManagingStudents ?? false;
+  }
 }
 
 export class MatchingOrganization {
@@ -58,5 +63,9 @@ export class MatchingOrganization {
     this.externalId = externalId;
     this.type = type;
     this.isManagingStudents = isManagingStudents;
+  }
+
+  get isScoAndManagingStudents() {
+    return this.type === types.SCO && this.isManagingStudents;
   }
 }
