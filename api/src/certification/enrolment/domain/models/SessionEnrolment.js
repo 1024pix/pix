@@ -63,24 +63,9 @@ class SessionEnrolment {
     return sessionDate < new Date();
   }
 
-  isCandidateAlreadyEnrolled({
-    candidates,
-    candidatePersonalInfo: { firstName, lastName, birthdate },
-    normalizeStringFnc,
-  }) {
-    const normalizedInputNames = {
-      lastName: normalizeStringFnc(lastName),
-      firstName: normalizeStringFnc(firstName),
-    };
-    return _.some(candidates, (enrolledCandidate) => {
-      const enrolledCandidatesNormalizedNames = {
-        lastName: normalizeStringFnc(enrolledCandidate.lastName),
-        firstName: normalizeStringFnc(enrolledCandidate.firstName),
-      };
-      return (
-        _.isEqual(normalizedInputNames, enrolledCandidatesNormalizedNames) && birthdate === enrolledCandidate.birthdate
-      );
-    });
+  isCandidateAlreadyEnrolled({ candidates, candidatePersonalInfo, normalizeStringFnc }) {
+    const matchingCandidate = findMatchingCandidate({ candidates, candidatePersonalInfo, normalizeStringFnc });
+    return Boolean(matchingCandidate);
   }
 
   hasLinkedCandidate({ candidates }) {
@@ -96,6 +81,31 @@ class SessionEnrolment {
     this.time = sessionData.time;
     this.description = sessionData.description;
   }
+
+  findCandidateByPersonalInfo({ candidates, candidatePersonalInfo, normalizeStringFnc }) {
+    return findMatchingCandidate({ candidates, candidatePersonalInfo, normalizeStringFnc });
+  }
+}
+
+function findMatchingCandidate({
+  candidates,
+  candidatePersonalInfo: { firstName, lastName, birthdate },
+  normalizeStringFnc,
+}) {
+  const normalizedInputNames = {
+    lastName: normalizeStringFnc(lastName),
+    firstName: normalizeStringFnc(firstName),
+  };
+  const matchingCandidate = candidates.find((enrolledCandidate) => {
+    const enrolledCandidatesNormalizedNames = {
+      lastName: normalizeStringFnc(enrolledCandidate.lastName),
+      firstName: normalizeStringFnc(enrolledCandidate.firstName),
+    };
+    return (
+      _.isEqual(normalizedInputNames, enrolledCandidatesNormalizedNames) && birthdate === enrolledCandidate.birthdate
+    );
+  });
+  return matchingCandidate ?? null;
 }
 
 export { SessionEnrolment };
