@@ -1,7 +1,10 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { Organization } from '../../../../organizational-entities/domain/models/Organization.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CERTIFICATION_FEATURES } from '../../../shared/domain/constants.js';
-import { Center } from '../../domain/models/Center.js';
+import { Center, MatchingOrganization } from '../../domain/models/Center.js';
 import { Habilitation } from '../../domain/models/Habilitation.js';
 
 export async function getById({ id }) {
@@ -62,11 +65,19 @@ export async function getById({ id }) {
   if (!center) {
     throw new NotFoundError('Center not found');
   }
+  let matchingOrganization = null;
+  if (center.type === CERTIFICATION_CENTER_TYPES.SCO) {
+    const organizationDB = await knex('organizations')
+      .where({ type: Organization.types.SCO })
+      .whereRaw('LOWER("externalId") = ?', center.externalId?.toLowerCase() ?? '')
+      .first();
+    matchingOrganization = organizationDB ? new MatchingOrganization(organizationDB) : null;
+  }
 
-  return _toDomain(center);
+  return toDomain(center, matchingOrganization);
 }
 
-function _toDomain(row) {
+function toDomain(row, matchingOrganization) {
   return new Center({
     id: row.id,
     name: row.name,
@@ -75,6 +86,7 @@ function _toDomain(row) {
     type: row.type,
     habilitations: _toDomainHabilitation(row.habilitations),
     features: row.features,
+    matchingOrganization,
   });
 }
 

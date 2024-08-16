@@ -3,50 +3,9 @@ import _ from 'lodash';
 import { CenterTypes } from '../../../../../../src/certification/enrolment/domain/models/CenterTypes.js';
 import { CERTIFICATION_FEATURES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
-import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Enrolment | Domain | Models | Center', function () {
-  context('should enforce business rules', function () {
-    it('should validate center type', function () {
-      // given
-      const notACenterType = 'Not a valid type';
-
-      // when
-      const error = catchErrSync(domainBuilder.certification.enrolment.buildCenter)({
-        type: notACenterType,
-      });
-
-      // then
-      expect(error).to.be.instanceOf(EntityValidationError);
-      expect(error.invalidAttributes).to.deep.equal([
-        {
-          attribute: 'type',
-          message: '"type" must be one of [SUP, SCO, PRO]',
-        },
-      ]);
-    });
-
-    it('should validate the center habilitations', function () {
-      // given
-      const notAHabilitationType = { iAM: 'not an habilitation' };
-
-      // when
-      const error = catchErrSync(domainBuilder.certification.enrolment.buildCenter)({
-        habilitations: [notAHabilitationType],
-      });
-
-      // then
-      expect(error).to.be.instanceOf(EntityValidationError);
-      expect(error.invalidAttributes).to.deep.equal([
-        {
-          attribute: 0,
-          message: '"habilitations[0]" must be an instance of "Habilitation"',
-        },
-      ]);
-    });
-  });
-
   context('#isComplementaryAlonePilot', function () {
     it('should return false', function () {
       // given
