@@ -180,6 +180,7 @@ import {
   buildCoreSubscription,
   buildSubscription,
 } from './certification/enrolment/build-subscription.js';
+import { buildUserEnrolment } from './certification/enrolment/build-user.js';
 import { buildFlashAssessmentAlgorithm } from './certification/flash-certification/build-flash-assessment-algorithm.js';
 import { buildAssessmentResult as buildCertificationScoringAssessmentResult } from './certification/scoring/build-assessment-result.js';
 import { buildCertificationAssessmentHistory } from './certification/scoring/build-certification-assessment-history.js';
@@ -214,6 +215,7 @@ const certification = {
     buildCoreSubscription,
     buildComplementarySubscription,
     buildSubscription,
+    buildUser: buildUserEnrolment,
   },
   sessionManagement: {
     buildCertificationSessionComplementaryCertification,
