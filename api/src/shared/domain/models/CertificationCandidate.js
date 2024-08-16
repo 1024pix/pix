@@ -1,51 +1,9 @@
-import JoiDate from '@joi/date';
-import BaseJoi from 'joi';
 import lodash from 'lodash';
 
 import { Subscription } from '../../../certification/enrolment/domain/models/Subscription.js';
 import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../certification/shared/domain/constants.js';
-import { subscriptionSchema } from '../../../certification/shared/domain/validators/subscription-validator.js';
-import {
-  CertificationCandidatePersonalInfoFieldMissingError,
-  CertificationCandidatePersonalInfoWrongFormat,
-} from '../errors.js';
 
-const Joi = BaseJoi.extend(JoiDate);
-const { isNil, endsWith } = lodash;
-
-const certificationCandidateParticipationJoiSchema = Joi.object({
-  id: Joi.any().allow(null).optional(),
-  firstName: Joi.string().required(),
-  lastName: Joi.string().required(),
-  sex: Joi.string().allow(null).optional(),
-  birthCity: Joi.any().allow(null).optional(),
-  birthProvinceCode: Joi.any().allow(null).optional(),
-  birthCountry: Joi.any().allow(null).optional(),
-  birthPostalCode: Joi.string().allow(null).optional(),
-  birthINSEECode: Joi.string().allow(null).optional(),
-  email: Joi.any().allow(null).optional(),
-  resultRecipientEmail: Joi.string().email().allow(null).optional(),
-  externalId: Joi.any().allow(null).optional(),
-  birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required(),
-  createdAt: Joi.any().allow(null).optional(),
-  authorizedToStart: Joi.boolean().optional(),
-  extraTimePercentage: Joi.any().allow(null).optional(),
-  sessionId: Joi.number().required(),
-  userId: Joi.any().allow(null).optional(),
-  organizationLearnerId: Joi.any().allow(null).optional(),
-  complementaryCertification: Joi.object({
-    id: Joi.number().required(),
-    label: Joi.string().required().empty(null),
-    key: Joi.string().required().empty(null),
-  }).allow(null),
-  billingMode: Joi.string()
-    .valid(...Object.values(BILLING_MODES))
-    .empty(null),
-  prepaymentCode: Joi.string().allow(null).optional(),
-  subscriptions: Joi.array().items(subscriptionSchema).unique('type').required(),
-  hasSeenCertificationInstructions: Joi.boolean().optional(),
-  accessibilityAdjustmentNeeded: Joi.boolean().optional(),
-});
+const { isNil } = lodash;
 
 class CertificationCandidate {
   #complementaryCertification = null;
@@ -157,23 +115,6 @@ class CertificationCandidate {
     }
   }
 
-  validateParticipation() {
-    const { error } = certificationCandidateParticipationJoiSchema.validate({
-      ...this,
-      complementaryCertification: this.complementaryCertification,
-    });
-    if (error) {
-      if (endsWith(error.details[0].type, 'required')) {
-        throw new CertificationCandidatePersonalInfoFieldMissingError();
-      }
-      throw new CertificationCandidatePersonalInfoWrongFormat();
-    }
-
-    if (this.isBillingModePrepaid() && !this.prepaymentCode) {
-      throw new CertificationCandidatePersonalInfoFieldMissingError();
-    }
-  }
-
   isAuthorizedToStart() {
     return this.authorizedToStart;
   }
@@ -188,10 +129,6 @@ class CertificationCandidate {
 
   isGranted(key) {
     return this.complementaryCertification?.key === key;
-  }
-
-  isBillingModePrepaid() {
-    return this.billingMode === CertificationCandidate.BILLING_MODES.PREPAID;
   }
 }
 
