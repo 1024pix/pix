@@ -1,7 +1,6 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { knex } from '../../../../db/knex-database-connection.js';
 import { eventBus } from '../../../../lib/domain/events/index.js';
 import { mailService } from '../../../../lib/domain/services/mail-service.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
@@ -22,10 +21,10 @@ import * as userLoginRepository from '../../../shared/infrastructure/repositorie
 import * as codeUtils from '../../../shared/infrastructure/utils/code-utils.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
-import { GarAnonymizedBatchEventsLoggingJob } from '../../infrastructure/jobs/audit-log/GarAnonymizedBatchEventsLoggingJob.js';
 import { accountRecoveryDemandRepository } from '../../infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../infrastructure/repositories/email-validation-demand.repository.js';
+import { garAnonymizedBatchEventsLoggingJobRepository } from '../../infrastructure/repositories/jobs/gar-anonymized-batch-events-logging-job-repository.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import { resetPasswordDemandRepository } from '../../infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../infrastructure/repositories/user.repository.js';
@@ -56,6 +55,7 @@ const repositories = {
   userRecommendedTrainingRepository,
   userRepository,
   userToCreateRepository,
+  garAnonymizedBatchEventsLoggingJobRepository,
 };
 const services = {
   authenticationSessionService,
@@ -76,10 +76,7 @@ const validators = {
   userValidator,
 };
 
-const jobs = {
-  garAnonymizedBatchEventsLoggingJob: new GarAnonymizedBatchEventsLoggingJob(knex),
-};
-const dependencies = Object.assign({ config, codeUtils }, eventBus, jobs, repositories, services, validators);
+const dependencies = Object.assign({ config, codeUtils }, eventBus, repositories, services, validators);
 
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './'), ignoredFileNames: ['index.js'] })),

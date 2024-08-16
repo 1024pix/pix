@@ -1,14 +1,19 @@
-import { auditLoggerRepository } from '../../../../../lib/infrastructure/repositories/audit-logger-repository.js';
-import { GarAnonymizedBatchEventsLoggingJob } from './GarAnonymizedBatchEventsLoggingJob.js';
+import { auditLoggerRepository } from '../../../../lib/infrastructure/repositories/audit-logger-repository.js';
+import { GarAnonymizedBatchEventsLoggingJob } from '../../domain/models/GarAnonymizedBatchEventsLoggingJob.js';
 
 const AUDIT_LOGGER_ANONYMIZATION_GAR_ACTION = 'ANONYMIZATION_GAR';
 
-export class GarAnonymizedBatchEventsLoggingJobHandler {
+export class GarAnonymizedBatchEventsLoggingJobController {
   get name() {
     return GarAnonymizedBatchEventsLoggingJob.name;
   }
 
-  async handle(event) {
+  async handle(
+    event,
+    dependencies = {
+      auditLoggerRepository,
+    },
+  ) {
     const { userIds: targetUserIds, updatedByUserId: userId, role, client, occurredAt } = event;
 
     const auditLoggerEvents = targetUserIds.map((targetUserId) => {
@@ -21,6 +26,6 @@ export class GarAnonymizedBatchEventsLoggingJobHandler {
         action: AUDIT_LOGGER_ANONYMIZATION_GAR_ACTION,
       };
     });
-    return auditLoggerRepository.logEvents(auditLoggerEvents);
+    return dependencies.auditLoggerRepository.logEvents(auditLoggerEvents);
   }
 }
