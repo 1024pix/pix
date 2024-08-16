@@ -348,6 +348,57 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
     });
   });
 
+  context('#hasLinkedCandidateTo', function () {
+    it('should return true when at least one candidate is linked to given user', function () {
+      // given
+      const userId = 123;
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: 123,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: 456,
+        }),
+      ];
+
+      // when
+      const hasLinkedCandidateTo = session.hasLinkedCandidateTo({
+        candidates,
+        userId,
+      });
+
+      // then
+      expect(hasLinkedCandidateTo).to.be.true;
+    });
+
+    it('should return false when no candidate is linked to user', function () {
+      // given
+      const userId = 123;
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: 456,
+        }),
+      ];
+
+      // when
+      const hasLinkedCandidateTo = session.hasLinkedCandidateTo({
+        candidates,
+        userId,
+      });
+
+      // then
+      expect(hasLinkedCandidateTo).to.be.false;
+    });
+  });
+
   context('#updateInfo', function () {
     it('should update the allowed info on session', function () {
       // given

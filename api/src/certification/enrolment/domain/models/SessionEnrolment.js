@@ -72,6 +72,10 @@ class SessionEnrolment {
     return candidates.some((candidate) => candidate.isLinkedToAUser());
   }
 
+  hasLinkedCandidateTo({ candidates, userId }) {
+    return candidates.some((candidate) => candidate.isLinkedTo(userId));
+  }
+
   updateInfo(sessionData) {
     this.address = sessionData.address;
     this.room = sessionData.room;
