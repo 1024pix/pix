@@ -604,11 +604,12 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
         addAssessmentToContext(this, { id: '267845' });
 
         // when
-        await renderChallengeStatement(this);
+        const screen = await renderChallengeStatement(this);
 
         // then
-        assert.dom('.challenge-statement__action-link').exists();
-        assert.strictEqual(find('.challenge-statement__action-link').href, 'http://challenge.file.url/');
+        const downloadLink = await screen.getByRole('link', { name: 'Télécharger' });
+        assert.dom(downloadLink).hasAttribute('href', 'http://challenge.file.url');
+        assert.dom(downloadLink).doesNotHaveAttribute('target');
       });
     });
 
@@ -723,6 +724,39 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
         await renderChallengeStatement(this);
         // then
         assert.dom('.challenge-statement__action-help').exists();
+      });
+
+      test("should display one link button with default attachment's url", async function (assert) {
+        // given
+        addChallengeToContext(this, challenge);
+        addAssessmentToContext(this, { id: '267845' });
+
+        // when
+        const screen = await renderChallengeStatement(this);
+
+        // then
+        const downloadLink = await screen.getByRole('link', { name: 'Télécharger' });
+        assert.dom(downloadLink).hasAttribute('href', 'http://file.1.docx');
+        assert.dom(downloadLink).doesNotHaveAttribute('target');
+      });
+
+      test("should update link button href with checked attachment's url", async function (assert) {
+        // given
+        addChallengeToContext(this, challenge);
+        addAssessmentToContext(this, { id: '267845' });
+
+        // when
+        const screen = await renderChallengeStatement(this);
+        const radio = await screen.getByRole('radio', { name: 'fichier .odt' });
+        radio.click();
+
+        // wait for DOM update
+        await new Promise((res) => setTimeout(res, 0));
+
+        // then
+        const downloadLink = await screen.getByRole('link', { name: 'Télécharger' });
+        assert.dom(downloadLink).hasAttribute('href', 'file.2.odt');
+        assert.dom(downloadLink).doesNotHaveAttribute('target');
       });
     });
   });
