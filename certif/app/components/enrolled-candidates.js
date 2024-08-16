@@ -4,6 +4,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 import toNumber from 'lodash/toNumber';
+import { SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 
 const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
 
@@ -149,6 +150,12 @@ export default class EnrolledCandidates extends Component {
   _createCertificationCandidateRecord(certificationCandidateData) {
     const subscriptions = certificationCandidateData.subscriptions;
     delete certificationCandidateData.subscriptions;
+    if (!this.currentUser.currentAllowedCertificationCenterAccess.isCoreComplementaryCompatibilityEnabled) {
+      subscriptions.push({
+        type: SUBSCRIPTION_TYPES.CORE,
+        complementaryCertificationId: null,
+      });
+    }
     return {
       subscriptions,
       certificationCandidate: this.store.createRecord('certification-candidate', certificationCandidateData),

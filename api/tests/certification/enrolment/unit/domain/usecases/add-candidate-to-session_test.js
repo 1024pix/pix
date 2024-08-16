@@ -314,14 +314,18 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
             });
 
             context('isCoreComplementaryCompatibilityEnabled is false for center', function () {
-              it('should insert the candidate with a default core subscription and return the id', async function () {
+              it('should insert the candidate and return the id', async function () {
                 // given
                 centerRepository.getById.resolves(
                   domainBuilder.certification.enrolment.buildCenter({
                     isV3Pilot: false,
                   }),
                 );
-                candidateToEnroll.subscriptions = [];
+                candidateToEnroll.subscriptions = [
+                  domainBuilder.buildCoreSubscription({
+                    certificationCandidateId: null,
+                  }),
+                ];
                 const correctedCandidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
                   ...candidateToEnroll,
                   sessionId,

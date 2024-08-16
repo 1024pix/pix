@@ -15,7 +15,6 @@ import {
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
-import { Subscription } from '../models/Subscription.js';
 
 /**
  * @param {Object} params
@@ -43,13 +42,6 @@ export async function addCandidateToSession({
   const session = await sessionRepository.get({ id: sessionId });
   const center = await centerRepository.getById({ id: session.certificationCenterId });
   const isCoreComplementaryCompatibilityEnabled = center.isCoreComplementaryCompatibilityEnabled;
-  if (!isCoreComplementaryCompatibilityEnabled) {
-    candidate.subscriptions.push(
-      Subscription.buildCore({
-        certificationCandidateId: null,
-      }),
-    );
-  }
 
   if (!session.canEnrolCandidate) {
     throw new CertificationCandidateOnFinalizedSessionError();

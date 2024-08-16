@@ -112,6 +112,10 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
                   type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
                   complementaryCertificationId,
                 },
+                {
+                  type: SUBSCRIPTION_TYPES.CORE,
+                  complementaryCertificationId: null,
+                },
               ],
             },
           },
@@ -139,7 +143,7 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
         expect(response.result.data.type).to.equal('certification-candidates');
       });
 
-      it('should save subscriptions (core default and complementary if any)', async function () {
+      it('should save subscriptions (core and complementary if any)', async function () {
         // when
         const response = await server.inject(options);
 

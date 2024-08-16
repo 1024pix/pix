@@ -108,12 +108,6 @@ function routes() {
     const requestBody = JSON.parse(request.requestBody);
     const jsonSubscriptions = requestBody.data.attributes.subscriptions;
     const subscriptions = jsonSubscriptions.map((jsonSub) => schema.subscriptions.create(jsonSub));
-    const certificationCenterAccess = schema.allowedCertificationCenterAccesses.first();
-    if (!(certificationCenterAccess.isV3Pilot && certificationCenterAccess.isComplementaryAlonePilot)) {
-      subscriptions.push(
-        schema.subscriptions.create({ type: SUBSCRIPTION_TYPES.CORE, complementaryCertificationId: null }),
-      );
-    }
     return schema.certificationCandidates.create({
       ...requestBody.data.attributes,
       sessionId,
