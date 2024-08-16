@@ -108,8 +108,8 @@ function routes() {
     const requestBody = JSON.parse(request.requestBody);
     const jsonSubscriptions = requestBody.data.attributes.subscriptions;
     const subscriptions = jsonSubscriptions.map((jsonSub) => schema.subscriptions.create(jsonSub));
-    const featureToggles = schema.featureToggles.findOrCreateBy({ id: 0 });
-    if (!featureToggles.isCoreComplementaryCompatibilityEnabled) {
+    const certificationCenterAccess = schema.allowedCertificationCenterAccesses.first();
+    if (!(certificationCenterAccess.isV3Pilot && certificationCenterAccess.isComplementaryAlonePilot)) {
       subscriptions.push(
         schema.subscriptions.create({ type: SUBSCRIPTION_TYPES.CORE, complementaryCertificationId: null }),
       );

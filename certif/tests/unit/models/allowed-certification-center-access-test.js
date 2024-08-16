@@ -195,4 +195,50 @@ module('Unit | Model | allowed-certification-center-access', function (hooks) {
       assert.false(model.hasHabilitations);
     });
   });
+
+  module('#get isCoreComplementaryCompatibilityEnabled', function () {
+    test('should return true when the certification center is isV3Pilot and complementary alone pilot', function (assert) {
+      // given
+      const model = store.createRecord('allowed-certification-center-access', {
+        isV3Pilot: true,
+        isComplementaryAlonePilot: true,
+      });
+
+      // then
+      assert.true(model.isCoreComplementaryCompatibilityEnabled);
+    });
+
+    test('should return false when the certification center is isV3Pilot but not complementary alone pilot', function (assert) {
+      // given
+      const model = store.createRecord('allowed-certification-center-access', {
+        isV3Pilot: true,
+        isComplementaryAlonePilot: false,
+      });
+
+      // then
+      assert.false(model.isCoreComplementaryCompatibilityEnabled);
+    });
+
+    test('should return false when the certification center is not isV3Pilot but is complementary alone pilot', function (assert) {
+      // given
+      const model = store.createRecord('allowed-certification-center-access', {
+        isV3Pilot: false,
+        isComplementaryAlonePilot: true,
+      });
+
+      // then
+      assert.false(model.isCoreComplementaryCompatibilityEnabled);
+    });
+
+    test('should return false when the certification center is neither isV3Pilot nor is complementary alone pilot', function (assert) {
+      // given
+      const model = store.createRecord('allowed-certification-center-access', {
+        isV3Pilot: false,
+        isComplementaryAlonePilot: false,
+      });
+
+      // then
+      assert.false(model.isCoreComplementaryCompatibilityEnabled);
+    });
+  });
 });

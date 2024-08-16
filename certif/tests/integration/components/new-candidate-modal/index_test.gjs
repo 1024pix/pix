@@ -20,6 +20,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
           { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
         ],
         isComplementaryAlonePilot: false,
+        isV3Pilot: false,
       });
     }
 
@@ -522,13 +523,6 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
   module('when center is allowed access to complementary certifications', () => {
     test('it display complementary certification options', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      class FeatureTogglesStub extends Service {
-        featureToggles = store.createRecord('feature-toggle', {
-          isCoreComplementaryCompatibilityEnabled: false,
-        });
-      }
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
       const updateCandidateFromEventStub = sinon.stub();
       const countries = [{ code: '99123', name: 'Borduristan' }];
 
@@ -552,12 +546,17 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
     test('it display complementary certification options (compatibility core/complementary ON)', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      class FeatureTogglesStub extends Service {
-        featureToggles = store.createRecord('feature-toggle', {
-          isCoreComplementaryCompatibilityEnabled: true,
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+          habilitations: [
+            { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
+            { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
+          ],
+          isComplementaryAlonePilot: true,
+          isV3Pilot: true,
         });
       }
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+      this.owner.register('service:current-user', CurrentUserStub);
       const updateCandidateFromEventStub = sinon.stub();
       const countries = [{ code: '99123', name: 'Borduristan' }];
 

@@ -6,18 +6,18 @@ import Component from '@glimmer/component';
 import { COMPLEMENTARY_KEYS } from 'pix-certif/models/subscription';
 
 export default class ComplementaryList extends Component {
+  @service currentUser;
   @service intl;
-  @service featureToggles;
 
   fieldsetLegend = () => {
-    if (this.featureToggles.featureToggles?.isCoreComplementaryCompatibilityEnabled) {
+    if (this.currentUser.currentAllowedCertificationCenterAccess.isCoreComplementaryCompatibilityEnabled) {
       return this.intl.t(`common.forms.certification-labels.additional-certification`);
     }
     return this.intl.t(`common.forms.certification-labels.additional-certification-old`);
   };
 
   firstInputLabel = () => {
-    if (this.featureToggles.featureToggles?.isCoreComplementaryCompatibilityEnabled) {
+    if (this.currentUser.currentAllowedCertificationCenterAccess.isCoreComplementaryCompatibilityEnabled) {
       return this.intl.t('common.forms.certification-labels.pix-certification');
     }
 
@@ -27,7 +27,7 @@ export default class ComplementaryList extends Component {
   complementaryLabel = (complementaryCertificationHabilitation) => {
     const { key, label } = complementaryCertificationHabilitation;
     if (
-      this.featureToggles.featureToggles?.isCoreComplementaryCompatibilityEnabled &&
+      this.currentUser.currentAllowedCertificationCenterAccess.isCoreComplementaryCompatibilityEnabled &&
       key === COMPLEMENTARY_KEYS.CLEA
     ) {
       return this.intl.t('common.forms.certification-labels.dual-certification-clea');

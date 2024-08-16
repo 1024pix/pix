@@ -9,8 +9,8 @@ const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
 
 export default class EnrolledCandidates extends Component {
   @service store;
-  @service featureToggles;
   @service intl;
+  @service currentUser;
   @service notifications;
   @tracked candidatesInStaging = [];
   @tracked newCandidate = {};
@@ -215,7 +215,7 @@ export default class EnrolledCandidates extends Component {
   }
 
   get showCompatibilityTooltip() {
-    return this.featureToggles.featureToggles?.isCoreComplementaryCompatibilityEnabled;
+    return this.currentUser.currentAllowedCertificationCenterAccess.isCoreComplementaryCompatibilityEnabled;
   }
 
   computeSubscriptionsText = (candidate) => {

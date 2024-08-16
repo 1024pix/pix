@@ -11,14 +11,17 @@ module('Acceptance | Session Add Candidate', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   const sessionId = 123;
+  let allowedCertificationCenterAccess;
 
   hooks.beforeEach(async function () {
-    const allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+    allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
       type: 'PRO',
       habilitations: [
         { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
         { id: 2, label: 'CléA Numérique', key: COMPLEMENTARY_KEYS.CLEA, hasComplementaryReferential: false },
       ],
+      isV3Pilot: false,
+      isComplementaryAlonePilot: false,
     });
     const certificationPointOfContact = server.create('certification-point-of-contact', {
       firstName: 'Eddy',
@@ -90,9 +93,9 @@ module('Acceptance | Session Add Candidate', function (hooks) {
 
   module('after compatibility', function (hooks) {
     hooks.beforeEach(function () {
-      server.create('feature-toggle', {
-        id: 0,
-        isCoreComplementaryCompatibilityEnabled: true,
+      allowedCertificationCenterAccess.update({
+        isV3Pilot: true,
+        isComplementaryAlonePilot: true,
       });
     });
 

@@ -23,7 +23,6 @@ const POSTAL_CODE_OPTION = 'postal';
 
 export default class NewCandidateModal extends Component {
   @service currentUser;
-  @service featureToggles;
   @service intl;
 
   @tracked selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
@@ -156,7 +155,7 @@ export default class NewCandidateModal extends Component {
   };
 
   updateComplementaryCertification = (complementaryCertification) => {
-    if (!this.featureToggles.featureToggles?.isCoreComplementaryCompatibilityEnabled) {
+    if (!this.currentUser.currentAllowedCertificationCenterAccess.isCoreComplementaryCompatibilityEnabled) {
       return this._updateComplementaryCertification_old(complementaryCertification);
     }
     if (complementaryCertification?.key) {
