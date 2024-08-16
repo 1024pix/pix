@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { AssessmentCompleted } from '../../../../../../lib/domain/events/AssessmentCompleted.js';
+import { CertificationCompletedJob } from '../../../../../../lib/domain/events/CertificationCompleted.js';
 import { CertificationCourseRejected } from '../../../../../../lib/domain/events/CertificationCourseRejected.js';
 import { CertificationJuryDone } from '../../../../../../lib/domain/events/CertificationJuryDone.js';
 import { ChallengeDeneutralized } from '../../../../../../lib/domain/events/ChallengeDeneutralized.js';
@@ -2009,7 +2009,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring Certificat
       let baseFlashAlgorithmConfig;
 
       beforeEach(function () {
-        event = new AssessmentCompleted({
+        event = new CertificationCompletedJob({
           assessmentId,
           userId,
           certificationCourseId: 123,
