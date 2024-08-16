@@ -4,14 +4,14 @@ const getCertificationCandidateSubscription = async function ({
   certificationCandidateId,
   certificationBadgesService,
   certificationCandidateRepository,
-  certificationCenterRepository,
+  centerRepository,
   sessionRepository,
 }) {
   const certificationCandidate = await certificationCandidateRepository.getWithComplementaryCertification({
     id: certificationCandidateId,
   });
 
-  const sessionVersion = await sessionRepository.getVersion({ id: certificationCandidate.sessionId });
+  const session = await sessionRepository.get({ id: certificationCandidate.sessionId });
 
   if (!certificationCandidate.complementaryCertification) {
     return new CertificationCandidateSubscription({
@@ -19,12 +19,12 @@ const getCertificationCandidateSubscription = async function ({
       sessionId: certificationCandidate.sessionId,
       eligibleSubscription: null,
       nonEligibleSubscription: null,
-      sessionVersion,
+      sessionVersion: session.version,
     });
   }
 
-  const certificationCenter = await certificationCenterRepository.getBySessionId({
-    sessionId: certificationCandidate.sessionId,
+  const center = await centerRepository.getById({
+    id: session.certificationCenterId,
   });
 
   let eligibleSubscription = null;
@@ -33,7 +33,7 @@ const getCertificationCandidateSubscription = async function ({
     userId: certificationCandidate.userId,
   });
 
-  if (certificationCenter.isHabilitated(certificationCandidate.complementaryCertification.key)) {
+  if (center.isHabilitated(certificationCandidate.complementaryCertification.key)) {
     const isSubscriptionEligible = certifiableBadgeAcquisitions.some(
       ({ complementaryCertificationKey }) =>
         complementaryCertificationKey === certificationCandidate.complementaryCertification.key,
@@ -51,7 +51,7 @@ const getCertificationCandidateSubscription = async function ({
     sessionId: certificationCandidate.sessionId,
     eligibleSubscription,
     nonEligibleSubscription,
-    sessionVersion,
+    sessionVersion: session.version,
   });
 };
 

@@ -4,7 +4,7 @@ import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 describe('Certification | Enrolment | Unit | Domain | UseCase | get-certification-candidate-subscription', function () {
   let certificationBadgesService;
   let certificationCandidateRepository;
-  let certificationCenterRepository;
+  let centerRepository;
   let certificationCandidateData;
   const certificationCandidateId = 123;
   const userId = 456;
@@ -19,8 +19,8 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-certificatio
       getWithComplementaryCertification: sinon.stub(),
     };
 
-    certificationCenterRepository = {
-      getBySessionId: sinon.stub(),
+    centerRepository = {
+      getById: sinon.stub(),
     };
 
     certificationCandidateData = {
@@ -31,7 +31,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-certificatio
     };
 
     sessionRepository = {
-      getVersion: sinon.stub(),
+      get: sinon.stub(),
     };
   });
 
@@ -55,7 +55,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-certificatio
           complementaryCertification,
         });
 
-        const certificationCenter = domainBuilder.buildCertificationCenter({
+        const center = domainBuilder.certification.enrolment.buildCenter({
           habilitations: [],
         });
 
@@ -63,9 +63,14 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-certificatio
           .withArgs({ id: certificationCandidateId })
           .resolves(candidateWithComplementaryCertification);
 
-        sessionRepository.getVersion.withArgs({ id: sessionId }).resolves(2);
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(
+          domainBuilder.certification.enrolment.buildSession({
+            certificationCenterId: 777,
+            version: 2,
+          }),
+        );
 
-        certificationCenterRepository.getBySessionId.withArgs({ sessionId }).resolves(certificationCenter);
+        centerRepository.getById.withArgs({ id: 777 }).resolves(center);
 
         certificationBadgesService.findStillValidBadgeAcquisitions
           .withArgs({ userId })
@@ -76,7 +81,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-certificatio
           certificationCandidateId,
           certificationBadgesService,
           certificationCandidateRepository,
-          certificationCenterRepository,
+          centerRepository,
           sessionRepository,
         });
 
@@ -104,8 +109,12 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-certificatio
 
         const complementaryCertification = domainBuilder.buildComplementaryCertification({ key: 'PIX+' });
 
-        const certificationCenter = domainBuilder.buildCertificationCenter({
-          habilitations: [complementaryCertification],
+        const center = domainBuilder.certification.enrolment.buildCenter({
+          habilitations: [
+            domainBuilder.certification.enrolment.buildHabilitation({
+              key: 'PIX+',
+            }),
+          ],
         });
 
         const certifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
@@ -124,9 +133,14 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-certificatio
           .withArgs({ id: certificationCandidateId })
           .resolves(candidateWithoutComplementaryCertification);
 
-        sessionRepository.getVersion.withArgs({ id: sessionId }).resolves(2);
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(
+          domainBuilder.certification.enrolment.buildSession({
+            certificationCenterId: 777,
+            version: 2,
+          }),
+        );
 
-        certificationCenterRepository.getBySessionId.withArgs({ sessionId }).resolves(certificationCenter);
+        centerRepository.getById.withArgs({ id: 777 }).resolves(center);
 
         certificationBadgesService.findStillValidBadgeAcquisitions
           .withArgs({ userId })
@@ -137,7 +151,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-certificatio
           certificationCandidateId,
           certificationBadgesService,
           certificationCandidateRepository,
-          certificationCenterRepository,
+          centerRepository,
           sessionRepository,
         });
 

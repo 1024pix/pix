@@ -14,6 +14,7 @@ import { SessionEnrolment } from '../models/SessionEnrolment.js';
  * @param {Object} params
  * @param {deps["candidateRepository"]} params.candidateRepository
  * @param {deps["sessionRepository"]} params.sessionRepository
+ * @param {deps["centerRepository"]} params.centerRepository
  * @param {deps["temporarySessionsStorageForMassImportService"]} params.temporarySessionsStorageForMassImportService
  */
 const createSessions = async function ({
@@ -22,7 +23,7 @@ const createSessions = async function ({
   certificationCenterId,
   candidateRepository,
   sessionRepository,
-  certificationCenterRepository,
+  centerRepository,
   temporarySessionsStorageForMassImportService,
 }) {
   const temporaryCachedSessions = await temporarySessionsStorageForMassImportService.getByKeyAndUserId({
@@ -34,7 +35,7 @@ const createSessions = async function ({
     throw new NotFoundError();
   }
 
-  const { isV3Pilot } = await certificationCenterRepository.get({ id: certificationCenterId });
+  const { isV3Pilot } = await centerRepository.getById({ id: certificationCenterId });
 
   await DomainTransaction.execute(async () => {
     return await bluebird.mapSeries(temporaryCachedSessions, async (sessionDTO) => {

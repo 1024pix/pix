@@ -1,6 +1,7 @@
 import lodash from 'lodash';
 
 import * as temporarySessionsStorageForMassImportService from '../../../../../src/certification/enrolment/domain/services/temporary-sessions-storage-for-mass-import-service.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
@@ -38,7 +39,7 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-          type: 'SUP',
+          type: CERTIFICATION_CENTER_TYPES.SUP,
           externalId: '1234AB',
         }).id;
         const { id: complementaryCertificationId } =
@@ -101,7 +102,7 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
             const userId = databaseBuilder.factory.buildUser().id;
             const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
               externalId: '1234AB',
-              type: 'SUP',
+              type: CERTIFICATION_CENTER_TYPES.SUP,
             }).id;
             databaseBuilder.factory.buildOrganization({ externalId: '1234AB', isManagingStudents: false, type: 'SUP' });
             databaseBuilder.factory.buildCertificationCpfCountry({

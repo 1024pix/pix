@@ -23,10 +23,10 @@ describe('Unit | Controller | mass-import-controller', function () {
       };
 
       sinon.stub(usecases, 'validateSessions');
-      sinon.stub(usecases, 'getCertificationCenter');
+      sinon.stub(usecases, 'getCenter');
 
       usecases.validateSessions.resolves({ cachedValidatedSessionsKey });
-      usecases.getCertificationCenter.resolves(domainBuilder.buildCertificationCenter());
+      usecases.getCenter.resolves(domainBuilder.buildCertificationCenter());
       // when
       await sessionMassImportController.validateSessions(request, hFake, {
         csvHelpers: csvHelpersStub,
@@ -62,7 +62,7 @@ describe('Unit | Controller | mass-import-controller', function () {
       };
 
       sinon.stub(usecases, 'validateSessions');
-      sinon.stub(usecases, 'getCertificationCenter');
+      sinon.stub(usecases, 'getCenter');
 
       usecases.validateSessions.resolves({
         cachedValidatedSessionsKey,
@@ -70,7 +70,7 @@ describe('Unit | Controller | mass-import-controller', function () {
         sessionsWithoutCandidatesCount,
         candidatesCount,
       });
-      usecases.getCertificationCenter.resolves(domainBuilder.buildCertificationCenter());
+      usecases.getCenter.resolves(domainBuilder.buildCertificationCenter());
 
       // when
       const result = await sessionMassImportController.validateSessions(request, hFake, {

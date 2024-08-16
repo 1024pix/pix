@@ -1,6 +1,7 @@
 import { addCandidateToSession } from '../../../../../../src/certification/enrolment/domain/usecases/add-candidate-to-session.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateOnFinalizedSessionError,
@@ -24,7 +25,6 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
   beforeEach(function () {
     sessionRepository = {
       get: sinon.stub(),
-      isSco: sinon.stub(),
     };
     candidateRepository = {
       insert: sinon.stub(),
@@ -79,9 +79,9 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       session = domainBuilder.certification.enrolment.buildSession({
         id: sessionId,
         finalizedAt: null,
+        certificationCenterType: CERTIFICATION_CENTER_TYPES.PRO,
       });
       sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
-      sessionRepository.isSco.withArgs({ id: sessionId }).resolves(false);
     });
 
     context('when candidate is not valid', function () {

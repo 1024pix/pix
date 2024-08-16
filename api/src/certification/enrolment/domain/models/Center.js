@@ -2,6 +2,7 @@
  * @typedef {import ('./Habilitation.js').Habilitation} Habilitation
  */
 
+import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
 import { CERTIFICATION_FEATURES } from '../../../shared/domain/constants.js';
 import { validate } from '../validators/center-validator.js';
 import { CenterTypes } from './CenterTypes.js';
@@ -28,11 +29,19 @@ export class Center {
     validate(this);
   }
 
+  get isSco() {
+    return this.type === CERTIFICATION_CENTER_TYPES.SCO;
+  }
+
   get hasBillingMode() {
     return this.type !== CenterTypes.SCO;
   }
 
   get isComplementaryAlonePilot() {
     return this.features.includes(CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key);
+  }
+
+  isHabilitated(key) {
+    return this.habilitations.some((habilitation) => habilitation.key === key);
   }
 }

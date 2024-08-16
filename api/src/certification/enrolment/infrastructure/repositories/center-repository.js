@@ -4,7 +4,7 @@ import { CERTIFICATION_FEATURES } from '../../../shared/domain/constants.js';
 import { Center } from '../../domain/models/Center.js';
 import { Habilitation } from '../../domain/models/Habilitation.js';
 
-const getById = async ({ id }) => {
+export async function getById({ id }) {
   const knexConn = DomainTransaction.getConnection();
   const center = await knexConn
     .select({
@@ -17,7 +17,7 @@ const getById = async ({ id }) => {
         'complementaryCertificationId', "complementary-certification-habilitations"."complementaryCertificationId",
         'key', "complementary-certifications"."key",
         'label', "complementary-certifications"."label"
-        ))`,
+        ) order by "complementary-certification-habilitations"."complementaryCertificationId")`,
       ),
       features: knexConn.raw('array_remove(array_agg(DISTINCT "certificationCenterFeatures"."key"), NULL)'),
       createdAt: 'certification-centers.createdAt',
@@ -64,9 +64,7 @@ const getById = async ({ id }) => {
   }
 
   return _toDomain(center);
-};
-
-export { getById };
+}
 
 function _toDomain(row) {
   return new Center({

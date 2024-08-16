@@ -2,7 +2,6 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as certificationCenterMembershipRepository from '../../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -11,8 +10,6 @@ import * as certificationBadgesService from '../../../shared/domain/services/cer
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 import * as temporaryCompanionStorageService from '../../../shared/domain/services/temporary-companion-storage-service.js';
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
-import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
-import * as sharedSessionRepository from '../../../shared/infrastructure/repositories/session-repository.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
 import * as sessionCodeService from '../services/session-code-service.js';
@@ -26,7 +23,6 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../../session-management/infrastructure/repositories/index.js').CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterRepository} CertificationCenterRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CandidateRepository} CandidateRepository
  * @typedef {import('../../infrastructure/repositories/index.js').EnrolledCandidateRepository} EnrolledCandidateRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
@@ -35,9 +31,6 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../infrastructure/repositories/index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {import('../../infrastructure/repositories/index.js').OrganizationLearnerRepository} OrganizationLearnerRepository
  * @typedef {import('../../infrastructure/repositories/index.js').OrganizationRepository} OrganizationRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterMembershipRepository} CertificationCenterMembershipRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterRepository} CertificationCenterRepository
- * @typedef {import('../../infrastructure/repositories/index.js').SharedSessionRepository} SharedSessionRepository
  * @typedef {import('../../../shared/domain/validators/session-validator.js')} SessionValidator
  * @typedef {import('../../../shared/domain/services/certification-cpf-service.js')} CertificationCpfService
  * @typedef {import('../../infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
@@ -55,20 +48,16 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {ComplementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {CenterRepository} CenterRepository
  * @typedef {SessionRepository} SessionRepository
- * @typedef {CertificationCenterRepository} CertificationCenterRepository
- * @typedef {SharedSessionRepository} SharedSessionRepository
  * @typedef {CertificationCandidateRepository} CertificationCandidateRepository
  * @typedef {CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
  * @typedef {CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {CertificationOfficerRepository} CertificationOfficerRepository
- * @typedef {CertificationCenterRepository} CertificationCenterRepository
  * @typedef {SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {CountryRepository} CountryRepository
  * @typedef {OrganizationLearnerRepository} OrganizationLearnerRepository
  * @typedef {OrganizationRepository} OrganizationRepository
  * @typedef {ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
- * @typedef {CertificationCenterMembershipRepository} CertificationCenterMembershipRepository
  * @typedef {certificationCpfService} CertificationCpfService
  * @typedef {SessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
  * @typedef {TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
@@ -88,10 +77,7 @@ const dependencies = {
   attendanceSheetPdfUtils,
   certificationCpfService,
   temporaryCompanionStorageService,
-  certificationCenterMembershipRepository,
   organizationRepository,
-  certificationCenterRepository,
-  sharedSessionRepository,
   certificationCandidatesOdsService,
 };
 

@@ -40,10 +40,8 @@ export async function addCandidateToSession({
     throw new CertificationCandidateOnFinalizedSessionError();
   }
 
-  const isSco = await sessionRepository.isSco({ id: sessionId });
-
   try {
-    candidate.validate(isSco);
+    candidate.validate(session.isSco);
   } catch (error) {
     throw new CertificationCandidatesError({
       code: error.code,

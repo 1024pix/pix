@@ -1,11 +1,12 @@
 import { getCandidateImportSheetData } from '../../../../../../src/certification/enrolment/domain/usecases/get-candidate-import-sheet-data.js';
 import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Certification | Enrolment | Unit | UseCase | get-candidate-import-sheet-data', function () {
   let sessionRepository;
   let enrolledCandidateRepository;
-  let certificationCenterRepository;
+  let centerRepository;
 
   beforeEach(function () {
     sessionRepository = {
@@ -14,8 +15,8 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate-import-shee
     enrolledCandidateRepository = {
       findBySessionId: sinon.stub(),
     };
-    certificationCenterRepository = {
-      getBySessionId: sinon.stub(),
+    centerRepository = {
+      getById: sinon.stub(),
     };
   });
 
@@ -23,7 +24,9 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate-import-shee
     // given
     const userId = 123;
     const sessionId = 456;
+    const certificationCenterId = 789;
     const session = domainBuilder.certification.enrolment.buildSession({
+      certificationCenterId,
       certificationCandidates: [],
     });
     sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
@@ -50,13 +53,13 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate-import-shee
       }),
     ];
     enrolledCandidateRepository.findBySessionId.withArgs({ sessionId }).resolves(enrolledCandidates);
-    const complementaryCertification1 = domainBuilder.buildComplementaryCertification({ name: 'Pix+Droit' });
-    const complementaryCertification2 = domainBuilder.buildComplementaryCertification({ name: 'Pix+Penché' });
-    const certificationCenter = domainBuilder.buildCertificationCenter({
-      habilitations: [complementaryCertification1, complementaryCertification2],
-      type: 'SCO',
+    const habilitation1 = domainBuilder.certification.enrolment.buildHabilitation({ label: 'Pix+Droit' });
+    const habilitation2 = domainBuilder.certification.enrolment.buildHabilitation({ label: 'Pix+Penché' });
+    const center = domainBuilder.certification.enrolment.buildCenter({
+      habilitations: [habilitation1, habilitation2],
+      type: CERTIFICATION_CENTER_TYPES.SCO,
     });
-    certificationCenterRepository.getBySessionId.withArgs({ sessionId }).resolves(certificationCenter);
+    centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(center);
 
     // when
     const result = await getCandidateImportSheetData({
@@ -64,14 +67,14 @@ describe('Certification | Enrolment | Unit | UseCase | get-candidate-import-shee
       sessionId,
       sessionRepository,
       enrolledCandidateRepository,
-      certificationCenterRepository,
+      centerRepository,
     });
 
     // then
     expect(result).to.deepEqualInstance({
       session,
       enrolledCandidates,
-      certificationCenterHabilitations: [complementaryCertification1, complementaryCertification2],
+      certificationCenterHabilitations: [habilitation1, habilitation2],
       isScoCertificationCenter: true,
     });
   });

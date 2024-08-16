@@ -1,5 +1,6 @@
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { importCertificationCandidatesFromCandidatesImportSheet } from '../../../../../../src/certification/enrolment/domain/usecases/import-certification-candidates-from-candidates-import-sheet.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import { CandidateAlreadyLinkedToUserError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
@@ -12,7 +13,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   let certificationCpfCityRepository;
   let certificationCpfCountryRepository;
   let complementaryCertificationRepository;
-  let certificationCenterRepository;
+  let centerRepository;
   let sessionRepository;
 
   beforeEach(function () {
@@ -22,7 +23,6 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
       saveInSession: sinon.stub(),
     };
     sessionRepository = {
-      isSco: sinon.stub(),
       get: sinon.stub(),
     };
     certificationCandidatesOdsService = {
@@ -34,7 +34,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
     certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
     complementaryCertificationRepository = Symbol('complementaryCertificationRepository');
-    certificationCenterRepository = Symbol('certificationCenterRepository');
+    centerRepository = Symbol('centerRepository');
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
       return lambda();
     });
@@ -45,14 +45,13 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
       it('should throw a BadRequestError', async function () {
         // given
         const sessionId = 'sessionId';
+        const session = domainBuilder.certification.enrolment.buildSession({ sessionId });
         const odsBuffer = 'buffer';
 
         candidateRepository.findBySessionId
           .withArgs({ sessionId })
           .resolves([domainBuilder.certification.enrolment.buildCandidate({ userId: 123 })]);
-        sessionRepository.get
-          .withArgs({ id: sessionId })
-          .resolves(domainBuilder.certification.enrolment.buildSession());
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
 
         // when
         const result = await catchErr(importCertificationCandidatesFromCandidatesImportSheet)({
@@ -65,7 +64,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
           complementaryCertificationRepository,
-          certificationCenterRepository,
+          centerRepository,
           sessionRepository,
         });
 
@@ -76,14 +75,17 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
 
     context('when session contains zero linked certification candidates', function () {
       const sessionId = 'sessionId';
+      let session;
 
       beforeEach(function () {
+        session = domainBuilder.certification.enrolment.buildSession({
+          id: sessionId,
+          certificationCenterType: CERTIFICATION_CENTER_TYPES.PRO,
+        });
         candidateRepository.findBySessionId
           .withArgs({ sessionId })
           .resolves([domainBuilder.certification.enrolment.buildCandidate({ userId: null })]);
-        sessionRepository.get
-          .withArgs({ id: sessionId })
-          .resolves(domainBuilder.certification.enrolment.buildSession());
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
       });
 
       context('when cpf birth information validation has succeed', function () {
@@ -96,23 +98,20 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
               domainBuilder.buildCoreSubscription(),
               domainBuilder.buildComplementaryCertification({ ...complementaryCertification }),
             ],
-            // complementaryCertification,
           });
           const candidates = [candidate];
-
-          sessionRepository.isSco.resolves(false);
 
           certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
             .withArgs({
               i18n,
-              sessionId,
+              session,
               isSco: false,
               odsBuffer,
               certificationCpfService,
               certificationCpfCountryRepository,
               certificationCpfCityRepository,
               complementaryCertificationRepository,
-              certificationCenterRepository,
+              centerRepository,
             })
             .resolves(candidates);
 
@@ -127,7 +126,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
             certificationCpfCountryRepository,
             certificationCpfCityRepository,
             complementaryCertificationRepository,
-            certificationCenterRepository,
+            centerRepository,
             sessionRepository,
           });
 

@@ -11,7 +11,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
-  certificationCenterRepository,
+  centerRepository,
   sessionRepository,
   certificationCandidatesOdsService,
   certificationCpfService,
@@ -23,18 +23,16 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
     throw new CandidateAlreadyLinkedToUserError('At least one candidate is already linked to a user');
   }
 
-  const isSco = await sessionRepository.isSco({ id: sessionId });
-
   const candidates = await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
     i18n,
-    sessionId,
-    isSco,
+    session,
+    isSco: session.isSco,
     odsBuffer,
     certificationCpfService,
     certificationCpfCountryRepository,
     certificationCpfCityRepository,
     complementaryCertificationRepository,
-    certificationCenterRepository,
+    centerRepository,
   });
 
   await DomainTransaction.execute(async () => {

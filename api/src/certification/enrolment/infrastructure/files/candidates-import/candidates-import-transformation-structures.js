@@ -77,11 +77,11 @@ const _getTransformationsStruct = (translate) => [
 ];
 
 // ALL
-function getTransformationStructsForPixCertifCandidatesImport({ i18n, complementaryCertifications, isSco }) {
+function getTransformationStructsForPixCertifCandidatesImport({ i18n, habilitations, isSco }) {
   const translate = i18n.__;
   const transformationStruct = _getTransformationsStruct(translate);
 
-  _includeComplementaryCertificationColumns({ complementaryCertifications, transformationStruct, translate });
+  _includeHabilitationColumns({ habilitations, transformationStruct, translate });
 
   if (!isSco) {
     _includeBillingColumns({ transformationStruct, translate });
@@ -93,7 +93,7 @@ function getTransformationStructsForPixCertifCandidatesImport({ i18n, complement
   };
 }
 
-function _includeComplementaryCertificationColumns({ complementaryCertifications, transformationStruct, translate }) {
+function _includeHabilitationColumns({ habilitations, transformationStruct, translate }) {
   [
     {
       key: ComplementaryCertificationKeys.CLEA,
@@ -104,12 +104,10 @@ function _includeComplementaryCertificationColumns({ complementaryCertifications
     { key: ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE, property: 'hasPixPlusEdu2ndDegre' },
     { key: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE, property: 'hasPixPlusProSante' },
   ].forEach(({ key, property }) => {
-    const complementaryCertification = complementaryCertifications.find(
-      (complementaryCertification) => complementaryCertification.key === key,
-    );
-    if (complementaryCertification) {
+    const habilitation = habilitations.find((habilitation) => habilitation.key === key);
+    if (habilitation) {
       transformationStruct.push({
-        header: `${complementaryCertification.label}${translate('candidate-list-template.yes-or-empty')}`,
+        header: `${habilitation.label}${translate('candidate-list-template.yes-or-empty')}`,
         property,
         transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
       });

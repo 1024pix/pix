@@ -12,9 +12,9 @@
 const updateSession = async function ({ session, sessionRepository, sessionValidator }) {
   sessionValidator.validate(session);
   const sessionToUpdate = await sessionRepository.get({ id: session.id });
-  Object.assign(sessionToUpdate, session);
-
-  return sessionRepository.updateSessionInfo({ session: sessionToUpdate });
+  sessionToUpdate.updateInfo(session);
+  await sessionRepository.update(sessionToUpdate);
+  return sessionRepository.get({ id: sessionToUpdate.id });
 };
 
 export { updateSession };

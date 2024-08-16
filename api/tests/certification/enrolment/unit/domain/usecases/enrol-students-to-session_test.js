@@ -8,11 +8,9 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
   context('when referent is allowed to Pix Certif', function () {
     it('enrols n students to a session', async function () {
       // given
-      const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
+      const session = domainBuilder.certification.enrolment.buildSession();
       const sessionId = session.id;
       const anotherSessionId = sessionId + 1;
-
-      const referentId = Symbol('a referent id');
 
       const studentIds = [1, 2, 3];
       const { organizationForReferent, organizationLearners } =
@@ -45,10 +43,6 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
-      const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
-      certificationCenterMembershipRepository.findByUserId
-        .withArgs(referentId)
-        .resolves(certificationCenterMemberships);
       const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
       organizationRepository.getIdByCertificationCenterId
         .withArgs(session.certificationCenterId)
@@ -58,9 +52,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       await enrolStudentsToSession({
         sessionId,
         studentIds,
-        referentId,
         scoCertificationCandidateRepository,
-        certificationCenterMembershipRepository,
         organizationLearnerRepository,
         sessionRepository,
         countryRepository,
@@ -76,10 +68,8 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
 
     it('enrols a student by trimming his first name and last name', async function () {
       // given
-      const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
+      const session = domainBuilder.certification.enrolment.buildSession();
       const sessionId = session.id;
-
-      const referentId = Symbol('a referent id');
 
       const organizationForReferent = domainBuilder.buildOrganization();
       const country = domainBuilder.buildCountry({
@@ -117,10 +107,6 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       organizationLearnerRepository.findByIds.withArgs({ ids: [1] }).resolves([organizationLearner]);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
-      const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
-      certificationCenterMembershipRepository.findByUserId
-        .withArgs(referentId)
-        .resolves(certificationCenterMemberships);
       const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
       organizationRepository.getIdByCertificationCenterId
         .withArgs(session.certificationCenterId)
@@ -130,9 +116,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       await enrolStudentsToSession({
         sessionId,
         studentIds: [1],
-        referentId,
         scoCertificationCandidateRepository,
-        certificationCenterMembershipRepository,
         organizationLearnerRepository,
         sessionRepository,
         countryRepository,
@@ -147,9 +131,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
 
     it('rejects enrolment if students do not belong to same organization as referent', async function () {
       // given
-      const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
-
-      const referentId = Symbol('an unauthorized referent id');
+      const session = domainBuilder.certification.enrolment.buildSession();
 
       const studentIds = [1, 2, 3];
       const { organizationForReferent, organizationLearners } =
@@ -159,10 +141,6 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs({ id: session.id }).resolves(session);
-      const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
-      certificationCenterMembershipRepository.findByUserId
-        .withArgs(referentId)
-        .resolves(certificationCenterMemberships);
       const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
       organizationRepository.getIdByCertificationCenterId
         .withArgs(session.certificationCenterId)
@@ -172,50 +150,19 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       const error = await catchErr(enrolStudentsToSession)({
         sessionId: session.id,
         studentIds,
-        referentId,
         organizationLearnerRepository,
         organizationRepository,
         sessionRepository,
-        certificationCenterMembershipRepository,
       });
 
       // then
       expect(error).to.be.instanceof(ForbiddenAccess);
     });
 
-    it('rejects enrolment if session does not belong to same certification center as referent', async function () {
-      // given
-      const { session, certificationCenterMemberships } = _buildNonMatchingSessionAndCertificationCenterMembership();
-      const referentId = Symbol('a referent id');
-      const studentIds = [1, 2, 3];
-
-      const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
-      certificationCenterMembershipRepository.findByUserId
-        .withArgs(referentId)
-        .resolves(certificationCenterMemberships);
-      const sessionRepository = { get: sinon.stub() };
-      sessionRepository.get.withArgs({ id: session.id }).resolves(session);
-
-      // when
-      const error = await catchErr(enrolStudentsToSession)({
-        sessionId: session.id,
-        studentIds,
-        referentId,
-        certificationCenterMembershipRepository,
-        organizationRepository: undefined,
-        organizationLearnerRepository: undefined,
-        sessionRepository,
-      });
-
-      // then
-      expect(error).to.be.an.instanceOf(ForbiddenAccess);
-    });
-
     it('rejects enrolment if a student birth country is not found', async function () {
       // given
-      const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
+      const session = domainBuilder.certification.enrolment.buildSession();
       const sessionId = session.id;
-      const referentId = Symbol('a referent id');
 
       const studentIds = [1, 2, 3];
       const { organizationForReferent, organizationLearners } =
@@ -233,10 +180,6 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       countryRepository.findAll.resolves([country]);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
-      const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
-      certificationCenterMembershipRepository.findByUserId
-        .withArgs(referentId)
-        .resolves(certificationCenterMemberships);
       const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
       organizationRepository.getIdByCertificationCenterId
         .withArgs(session.certificationCenterId)
@@ -246,9 +189,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       const error = await catchErr(enrolStudentsToSession)({
         sessionId,
         studentIds,
-        referentId,
         scoCertificationCandidateRepository,
-        certificationCenterMembershipRepository,
         organizationLearnerRepository,
         sessionRepository,
         countryRepository,
@@ -262,10 +203,9 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
 
     it('does nothing if no student ids is given as input', async function () {
       // given
-      const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
+      const session = domainBuilder.certification.enrolment.buildSession();
       const sessionId = session.id;
       const studentIds = [];
-      const referentId = Symbol('a referent id');
       const { organizationForReferent, organizationLearners } =
         _buildMatchingReferentOrganisationAndOrganizationLearners(studentIds);
       const country = domainBuilder.buildCountry({
@@ -280,10 +220,6 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
-      const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
-      certificationCenterMembershipRepository.findByUserId
-        .withArgs(referentId)
-        .resolves(certificationCenterMemberships);
       const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
       organizationRepository.getIdByCertificationCenterId
         .withArgs(session.certificationCenterId)
@@ -293,9 +229,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       await enrolStudentsToSession({
         sessionId,
         studentIds,
-        referentId,
         scoCertificationCandidateRepository,
-        certificationCenterMembershipRepository,
         organizationRepository,
         organizationLearnerRepository,
         countryRepository,
@@ -307,33 +241,6 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
     });
   });
 });
-
-function _buildMatchingSessionAndCertificationCenterMembership() {
-  const certificationCenter = domainBuilder.buildCertificationCenter();
-  const session = domainBuilder.certification.enrolment.buildSession({
-    certificationCenterId: certificationCenter.id,
-  });
-
-  const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({
-    certificationCenter,
-  });
-
-  return { session, certificationCenterMemberships: [certificationCenterMembership] };
-}
-
-function _buildNonMatchingSessionAndCertificationCenterMembership() {
-  const certificationCenterForSession = domainBuilder.buildCertificationCenter({ id: 1234 });
-  const session = domainBuilder.certification.enrolment.buildSession({
-    certificationCenterId: certificationCenterForSession.id,
-  });
-
-  const certificationCenterForReferent = domainBuilder.buildCertificationCenter({ id: 5678 });
-  const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({
-    certficicationCenter: certificationCenterForReferent,
-  });
-
-  return { session, certificationCenterMemberships: [certificationCenterMembership] };
-}
 
 function _buildMatchingReferentOrganisationAndOrganizationLearners(studentIds) {
   const organizationForReferent = domainBuilder.buildOrganization();

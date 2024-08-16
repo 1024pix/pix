@@ -8,11 +8,10 @@ const enrolStudentsToSession = async function (
   h,
   dependencies = { enrolledCandidateSerializer, requestResponseUtils },
 ) {
-  const referentId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   const sessionId = request.params.id;
   const studentIds = request.deserializedPayload.organizationLearnerIds;
 
-  await usecases.enrolStudentsToSession({ sessionId, referentId, studentIds });
+  await usecases.enrolStudentsToSession({ sessionId, studentIds });
   const enrolledCandidates = await usecases.getEnrolledCandidatesInSession({ sessionId });
   const enrolledCandidatesSerialized = dependencies.enrolledCandidateSerializer.serialize(enrolledCandidates);
   return h.response(enrolledCandidatesSerialized).created();

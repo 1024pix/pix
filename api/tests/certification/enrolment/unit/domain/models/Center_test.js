@@ -1,5 +1,8 @@
+import _ from 'lodash';
+
 import { CenterTypes } from '../../../../../../src/certification/enrolment/domain/models/CenterTypes.js';
 import { CERTIFICATION_FEATURES } from '../../../../../../src/certification/shared/domain/constants.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
 
@@ -83,6 +86,76 @@ describe('Unit | Certification | Enrolment | Domain | Models | Center', function
 
       // when / then
       expect(center.hasBillingMode).is.true;
+    });
+  });
+
+  context('#get isSco', function () {
+    it('should return true when certification center is SCO', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        type: CERTIFICATION_CENTER_TYPES.SCO,
+      });
+
+      // when
+      const isSco = center.isSco;
+
+      // then
+      expect(isSco).to.be.true;
+    });
+
+    it('should return true when center is not SCO', function () {
+      // given
+      let notScoCenters = Object.values(CERTIFICATION_CENTER_TYPES).map((type) => {
+        if (type !== CERTIFICATION_CENTER_TYPES.SCO)
+          return domainBuilder.certification.enrolment.buildCenter({
+            type: type,
+          });
+        return null;
+      });
+      notScoCenters = _.compact(notScoCenters);
+
+      // when
+      for (const notScoCenter of notScoCenters) {
+        const isSco = notScoCenter.isSco;
+        expect(
+          isSco,
+          `Certification center of type ${notScoCenter.certificationCenterType} should return isSco as false`,
+        ).to.be.false;
+      }
+    });
+  });
+
+  context('#isHabilitated', function () {
+    it('should return false when the center does not have the habilitation for complementary certification', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        habilitations: [
+          domainBuilder.certification.enrolment.buildHabilitation({
+            complementaryCertificationId: 123,
+            key: 'SOME_KEY',
+            label: 'some label',
+          }),
+        ],
+      });
+
+      // then
+      expect(center.isHabilitated('SOME_OTHER_KEY')).to.be.false;
+    });
+
+    it('should return true when the center has the habilitation for complementary certification', function () {
+      // given
+      const center = domainBuilder.certification.enrolment.buildCenter({
+        habilitations: [
+          domainBuilder.certification.enrolment.buildHabilitation({
+            complementaryCertificationId: 123,
+            key: 'SOME_KEY',
+            label: 'some label',
+          }),
+        ],
+      });
+
+      // then
+      expect(center.isHabilitated('SOME_KEY')).to.be.true;
     });
   });
 });
