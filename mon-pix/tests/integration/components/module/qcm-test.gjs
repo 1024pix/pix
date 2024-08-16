@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import ModulixQcm from 'mon-pix/components/module/element/qcm';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -21,8 +21,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
       ],
       type: 'qcm',
     };
-    this.set('el', qcmElement);
-    const screen = await render(hbs`<Module::Element::Qcm @element={{this.el}} />`);
+    const screen = await render(<template><ModulixQcm @element={{qcmElement}} /></template>);
 
     // then
     assert.ok(screen);
@@ -59,11 +58,9 @@ module('Integration | Component | Module | QCM', function (hooks) {
       ],
       type: 'qcm',
     };
-    this.set('el', qcmElement);
     const userResponse = [answeredProposal[0].id, answeredProposal[1].id];
-    const givenonElementAnswerSpy = sinon.spy();
-    this.set('onAnswer', givenonElementAnswerSpy);
-    const screen = await render(hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
+    const onAnswerSpy = sinon.spy();
+    const screen = await render(<template><ModulixQcm @element={{qcmElement}} @onAnswer={{onAnswerSpy}} /></template>);
     const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
     // when
@@ -72,7 +69,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
     await click(verifyButton);
 
     // then
-    sinon.assert.calledWith(givenonElementAnswerSpy, { userResponse, element: qcmElement });
+    sinon.assert.calledWith(onAnswerSpy, { userResponse, element: qcmElement });
     assert.ok(true);
   });
 
@@ -88,10 +85,8 @@ module('Integration | Component | Module | QCM', function (hooks) {
       ],
       type: 'qcm',
     };
-    const onElementAnswerSpy = sinon.spy();
-    this.set('el', qcmElement);
-    this.set('onAnswer', onElementAnswerSpy);
-    const screen = await render(hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
+    const onAnswerSpy = sinon.spy();
+    const screen = await render(<template><ModulixQcm @element={{qcmElement}} @onAnswer={{onAnswerSpy}} /></template>);
 
     // when
     await click(screen.getByLabelText('checkbox1'));
@@ -99,7 +94,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
     // then
     assert.dom(screen.getByRole('alert')).exists();
-    sinon.assert.notCalled(onElementAnswerSpy);
+    sinon.assert.notCalled(onAnswerSpy);
   });
 
   test('should hide the error message when QCM is validated with response', async function (assert) {
@@ -114,10 +109,8 @@ module('Integration | Component | Module | QCM', function (hooks) {
       ],
       type: 'qcm',
     };
-    const givenonElementAnswerStub = function () {};
-    this.set('onAnswer', givenonElementAnswerStub);
-    this.set('el', qcmElement);
-    const screen = await render(hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
+    const onAnswerSpy = sinon.spy();
+    const screen = await render(<template><ModulixQcm @element={{qcmElement}} @onAnswer={{onAnswerSpy}} /></template>);
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -138,12 +131,14 @@ module('Integration | Component | Module | QCM', function (hooks) {
       solution: ['1', '4'],
     });
 
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const { qcmElement } = prepareContextRecords.call(this, store, correctionResponse);
+    const onAnswerSpy = sinon.spy();
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModulixQcm @element={{qcmElement}} @onAnswer={{onAnswerSpy}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -164,12 +159,14 @@ module('Integration | Component | Module | QCM', function (hooks) {
       solution: ['1', '4'],
     });
 
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const { qcmElement } = prepareContextRecords.call(this, store, correctionResponse);
+    const onAnswerSpy = sinon.spy();
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModulixQcm @element={{qcmElement}} @onAnswer={{onAnswerSpy}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -191,12 +188,14 @@ module('Integration | Component | Module | QCM', function (hooks) {
       solution: 'solution',
     });
 
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const { qcmElement } = prepareContextRecords.call(this, store, correctionResponse);
+    const onAnswerSpy = sinon.spy();
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModulixQcm @element={{qcmElement}} @onAnswer={{onAnswerSpy}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -212,12 +211,14 @@ module('Integration | Component | Module | QCM', function (hooks) {
       solution: 'solution',
     });
 
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const { qcmElement } = prepareContextRecords.call(this, store, correctionResponse);
+    const onAnswerSpy = sinon.spy();
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModulixQcm @element={{qcmElement}} @onAnswer={{onAnswerSpy}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -235,12 +236,14 @@ module('Integration | Component | Module | QCM', function (hooks) {
       solution: 'solution',
     });
 
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const { qcmElement } = prepareContextRecords.call(this, store, correctionResponse);
+    const onAnswerSpy = sinon.spy();
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModulixQcm @element={{qcmElement}} @onAnswer={{onAnswerSpy}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -268,6 +271,5 @@ function prepareContextRecords(store, correctionResponse) {
     correction: correctionResponse,
     elementId: qcmElement.id,
   });
-  this.set('el', qcmElement);
-  this.set('correctionResponse', correctionResponse);
+  return { qcmElement };
 }
