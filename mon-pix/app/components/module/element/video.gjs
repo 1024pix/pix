@@ -26,7 +26,7 @@ export default class ModulixVideoElement extends Component {
   @action
   showModal() {
     this.modalIsOpen = true;
-    this.args.openTranscription(this.args.video.id);
+    this.args.onTranscriptionOpen(this.args.video.id);
   }
 
   @action
@@ -51,7 +51,7 @@ export default class ModulixVideoElement extends Component {
       return;
     }
     this.videoWasStarted = true;
-    this.args.clickOnPlayButton({ elementId: this.args.video.id });
+    this.args.onPlay({ elementId: this.args.video.id });
   }
 
   <template>

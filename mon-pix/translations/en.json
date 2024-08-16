@@ -1355,6 +1355,15 @@
         "objectives": "Objectives",
         "startModule": "Start module"
       },
+      "download": {
+        "button": "Download",
+        "description": "Choose the format according to the software you are using. If you're not sure, choose the first file, which is compatible with most software.",
+        "documentationLinkHref": "https://pix.org/en/help-how-to-open-modify-find-a-downloaded-file-in-a-pix-question",
+        "documentationLinkLabel": "How do I open, modify or retrieve this file?",
+        "format": "{format} format ",
+        "intro": "Choose the file format you would like to use.",
+        "label": "Download file in {format} format"
+      },
       "grain": {
         "tag": {
           "activity": "activity",

@@ -1355,6 +1355,15 @@
         "objectives": "Objectifs",
         "startModule": "Commencer le module"
       },
+      "download": {
+        "button": "Télécharger",
+        "description": "Choisissez le format selon le logiciel que vous utilisez. Si vous hésitez, choisissez le premier fichier, il est compatible avec la plupart des logiciels.",
+        "documentationLinkHref": "https://pix.org/fr/aide-ouvrir-modifier-retrouver-un-fichier-telecharge-depuis-une-question-pix",
+        "documentationLinkLabel": "Comment ouvrir, modifier ou retrouver ce fichier ?",
+        "format": "Format {format}",
+        "intro": "Choisissez le format de fichier que vous voulez utiliser.",
+        "label": "Télécharger le fichier au format {format}"
+      },
       "grain": {
         "tag": {
           "activity": "activité",

@@ -40,12 +40,13 @@ export default class ModulixStep extends Component {
           <div class="grain-card-content__element">
             <Element
               @element={{element}}
-              @submitAnswer={{@submitAnswer}}
-              @retryElement={{@retryElement}}
+              @onElementAnswer={{@onElementAnswer}}
+              @onElementRetry={{@onElementRetry}}
               @getLastCorrectionForElement={{@getLastCorrectionForElement}}
-              @openImageAlternativeText={{@openImageAlternativeText}}
-              @openVideoTranscription={{@openVideoTranscription}}
-              @clickOnPlayButton={{@clickOnPlayButton}}
+              @onImageAlternativeTextOpen={{@onImageAlternativeTextOpen}}
+              @onVideoTranscriptionOpen={{@onVideoTranscriptionOpen}}
+              @onVideoPlay={{@onVideoPlay}}
+              @onFileDownload={{@onFileDownload}}
             />
           </div>
         {{/each}}

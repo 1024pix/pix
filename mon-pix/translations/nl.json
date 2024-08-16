@@ -1346,6 +1346,15 @@
         "objectives": "Doelstellingen",
         "startModule": "De module starten"
       },
+      "download": {
+        "button": "Downloaden",
+        "description": "Kies het formaat volgens de software die je gebruikt. Als je het niet zeker weet, kies dan het eerste bestand, dat compatibel is met de meeste software.",
+        "documentationLinkHref": "https://pix.org/en/help-how-to-open-modify-find-a-downloaded-file-in-a-pix-question",
+        "documentationLinkLabel": "Hoe kan ik dit bestand openen, wijzigen of ophalen?",
+        "intro": "Kies het te gebruiken bestandsformaat.",
+        "label": "Downloaden bestand in {format} formaat",
+        "format": "{format} formaat"
+      },
       "grain": {
         "tag": {
           "activity": "activiteit",

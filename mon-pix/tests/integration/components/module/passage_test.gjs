@@ -247,8 +247,8 @@ module('Integration | Component | Module | Passage', function (hooks) {
       await clickByName(continueButtonName);
 
       // then
-      const grainsAfterContinueAction = screen.getAllByRole('article');
-      assert.strictEqual(grainsAfterContinueAction.length, 2);
+      const grainsAfteronGrainContinue = screen.getAllByRole('article');
+      assert.strictEqual(grainsAfteronGrainContinue.length, 2);
     });
 
     test('should give focus on the last grain when appearing', async function (assert) {
@@ -274,18 +274,18 @@ module('Integration | Component | Module | Passage', function (hooks) {
       await clickByName(continueButtonName);
 
       // then
-      const grainsAfterOneContinueActions = screen.getAllByRole('article');
-      assert.strictEqual(grainsAfterOneContinueActions.length, 2);
-      const secondGrain = grainsAfterOneContinueActions.at(-1);
+      const grainsAfterOneonGrainContinues = screen.getAllByRole('article');
+      assert.strictEqual(grainsAfterOneonGrainContinues.length, 2);
+      const secondGrain = grainsAfterOneonGrainContinues.at(-1);
       assert.strictEqual(document.activeElement, secondGrain);
 
       // when
       await clickByName(continueButtonName);
 
       // then
-      const grainsAfterTwoContinueActions = screen.getAllByRole('article');
-      assert.strictEqual(grainsAfterTwoContinueActions.length, 3);
-      const thirdGrain = grainsAfterTwoContinueActions.at(-1);
+      const grainsAfterTwoonGrainContinues = screen.getAllByRole('article');
+      assert.strictEqual(grainsAfterTwoonGrainContinues.length, 3);
+      const thirdGrain = grainsAfterTwoonGrainContinues.at(-1);
       assert.strictEqual(document.activeElement, thirdGrain);
     });
 
@@ -591,7 +591,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
 
       const module = store.createRecord('module', { id: '1', title: 'Module title', grains: [grain] });
       const passage = store.createRecord('passage');
-      const continueToNextStepButtonName = this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel');
+      const onStepperNextStepButtonName = this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel');
 
       await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
 
@@ -599,7 +599,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
       metrics.add = sinon.stub();
 
       // when
-      await clickByName(continueToNextStepButtonName);
+      await clickByName(onStepperNextStepButtonName);
 
       // then
       sinon.assert.calledWithExactly(metrics.add, {
@@ -777,7 +777,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
         event: 'custom-event',
         'pix-event-category': 'Modulix',
         'pix-event-action': `Passage du module : ${module.id}`,
-        'pix-event-name': `Clic sur le bouton Play : ${videoElement.id}`,
+        'pix-event-name': `Click sur le bouton Play : ${videoElement.id}`,
       });
       assert.ok(true);
     });
@@ -817,7 +817,92 @@ module('Integration | Component | Module | Passage', function (hooks) {
           event: 'custom-event',
           'pix-event-category': 'Modulix',
           'pix-event-action': `Passage du module : ${module.id}`,
-          'pix-event-name': `Clic sur le bouton Play : ${videoElement.id}`,
+          'pix-event-name': `Click sur le bouton Play : ${videoElement.id}`,
+        });
+        assert.ok(true);
+      });
+    });
+  });
+
+  module('when a download element file is downloaded', function () {
+    test('should push an event', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+
+      const downloadedFormat = '.pdf';
+      const downloadElement = {
+        id: 'id',
+        type: 'download',
+        files: [{ format: downloadedFormat, url: 'https://example.org/modulix/placeholder-doc.pdf' }],
+      };
+      const grain = store.createRecord('grain', {
+        id: '123',
+        components: [{ type: 'element', element: downloadElement }],
+      });
+
+      const module = store.createRecord('module', { id: '1', title: 'Module title', grains: [grain] });
+      const passage = store.createRecord('passage');
+
+      const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+      //  when
+      const downloadLink = await screen.getByRole('link', {
+        name: this.intl.t('pages.modulix.download.label', { format: downloadedFormat }),
+      });
+      downloadLink.addEventListener('click', (event) => {
+        event.preventDefault();
+      });
+      downloadLink.click();
+
+      // then
+      sinon.assert.calledWithExactly(metrics.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${module.id}`,
+        'pix-event-name': `Click sur le bouton Télécharger au format ${downloadedFormat} de ${downloadElement.id}`,
+      });
+      assert.ok(true);
+    });
+
+    module('when download is in a stepper', function () {
+      test('should push metrics event', async function (assert) {
+        // given
+        const metrics = this.owner.lookup('service:metrics');
+        metrics.add = sinon.stub();
+
+        // given
+        const store = this.owner.lookup('service:store');
+        const downloadedFormat = '.pdf';
+        const downloadElement = {
+          id: 'id',
+          type: 'download',
+          files: [{ format: downloadedFormat, url: 'https://example.org/modulix/placeholder-doc.pdf' }],
+        };
+        const grain = store.createRecord('grain', {
+          title: 'Grain title',
+          components: [{ type: 'element', element: downloadElement }],
+        });
+        const module = store.createRecord('module', { id: 'module-id', title: 'Module title', grains: [grain] });
+        const passage = store.createRecord('passage');
+        const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+        //  when
+        const link = await screen.getByRole('link', {
+          name: this.intl.t('pages.modulix.download.label', { format: downloadedFormat }),
+        });
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+        });
+        link.click();
+
+        // then
+        sinon.assert.calledWithExactly(metrics.add, {
+          event: 'custom-event',
+          'pix-event-category': 'Modulix',
+          'pix-event-action': `Passage du module : ${module.id}`,
+          'pix-event-name': `Click sur le bouton Télécharger au format ${downloadedFormat} de ${downloadElement.id}`,
         });
         assert.ok(true);
       });
@@ -862,7 +947,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
         event: 'custom-event',
         'pix-event-category': 'Modulix',
         'pix-event-action': `Passage du module : ${module.id}`,
-        'pix-event-name': `Clic sur le bouton Terminer du grain : ${grain.id}`,
+        'pix-event-name': `Click sur le bouton Terminer du grain : ${grain.id}`,
       });
       assert.ok(true);
     });

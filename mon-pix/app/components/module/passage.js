@@ -32,7 +32,7 @@ export default class ModulePassage extends Component {
   }
 
   @action
-  skipToNextGrain() {
+  onGrainSkip() {
     const currentGrain = this.displayableGrains[this.currentGrainIndex];
 
     this.addNextGrainToDisplay();
@@ -46,7 +46,7 @@ export default class ModulePassage extends Component {
   }
 
   @action
-  continueToNextGrain() {
+  onGrainContinue() {
     const currentGrain = this.displayableGrains[this.currentGrainIndex];
 
     this.addNextGrainToDisplay();
@@ -60,7 +60,7 @@ export default class ModulePassage extends Component {
   }
 
   @action
-  continueToNextStep(currentStepPosition) {
+  onStepperNextStep(currentStepPosition) {
     const currentGrain = this.displayableGrains[this.currentGrainIndex];
 
     this.metrics.add({
@@ -96,19 +96,19 @@ export default class ModulePassage extends Component {
   }
 
   @action
-  terminateModule({ grainId }) {
+  onModuleTerminate({ grainId }) {
     this.args.passage.terminate();
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',
       'pix-event-action': `Passage du module : ${this.args.module.id}`,
-      'pix-event-name': `Clic sur le bouton Terminer du grain : ${grainId}`,
+      'pix-event-name': `Click sur le bouton Terminer du grain : ${grainId}`,
     });
     return this.router.transitionTo('module.recap', this.args.module);
   }
 
   @action
-  async submitAnswer(answerData) {
+  async onElementAnswer(answerData) {
     await this.store
       .createRecord('element-answer', {
         userResponse: answerData.userResponse,
@@ -128,7 +128,7 @@ export default class ModulePassage extends Component {
   }
 
   @action
-  async trackRetry(answerData) {
+  async onElementRetry(answerData) {
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',
@@ -138,7 +138,7 @@ export default class ModulePassage extends Component {
   }
 
   @action
-  async openImageAlternativeText(imageElementId) {
+  async onImageAlternativeTextOpen(imageElementId) {
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',
@@ -148,7 +148,7 @@ export default class ModulePassage extends Component {
   }
 
   @action
-  async openVideoTranscription(videoElementId) {
+  async onVideoTranscriptionOpen(videoElementId) {
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',
@@ -158,12 +158,22 @@ export default class ModulePassage extends Component {
   }
 
   @action
-  async clickOnPlayButton({ elementId }) {
+  async onVideoPlay({ elementId }) {
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',
       'pix-event-action': `Passage du module : ${this.args.module.id}`,
-      'pix-event-name': `Clic sur le bouton Play : ${elementId}`,
+      'pix-event-name': `Click sur le bouton Play : ${elementId}`,
+    });
+  }
+
+  @action
+  async onFileDownload({ elementId, downloadedFormat }) {
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Modulix',
+      'pix-event-action': `Passage du module : ${this.args.module.id}`,
+      'pix-event-name': `Click sur le bouton Télécharger au format ${downloadedFormat} de ${elementId}`,
     });
   }
 }

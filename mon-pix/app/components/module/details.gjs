@@ -13,12 +13,12 @@ export default class ModulixDetails extends Component {
   @service metrics;
 
   @action
-  startModule() {
+  onModuleStart() {
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',
       'pix-event-action': `Détails du module : ${this.args.module.id}`,
-      'pix-event-name': `Clic sur le bouton Commencer`,
+      'pix-event-name': `Click sur le bouton Commencer`,
     });
     this.router.transitionTo('module.passage');
   }
@@ -37,7 +37,7 @@ export default class ModulixDetails extends Component {
           <p class="module-details-content-layout__description">{{@module.details.description}}</p>
 
           <div class="module-details-content-layout__link">
-            <PixButtonLink @href="#" {{on "click" this.startModule}} @model={{@module.id}} @size="large">{{t
+            <PixButtonLink @href="#" {{on "click" this.onModuleStart}} @model={{@module.id}} @size="large">{{t
                 "pages.modulix.details.startModule"
               }}</PixButtonLink>
           </div>

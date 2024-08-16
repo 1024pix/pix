@@ -20,36 +20,32 @@ export default class ModulixElement extends Component {
     {{#if (eq @element.type "text")}}
       <TextElement @text={{@element}} />
     {{else if (eq @element.type "image")}}
-      <ImageElement @image={{@element}} @openAlternativeText={{@openImageAlternativeText}} />
+      <ImageElement @image={{@element}} @onAlternativeTextOpen={{@onImageAlternativeTextOpen}} />
     {{else if (eq @element.type "video")}}
-      <VideoElement
-        @video={{@element}}
-        @openTranscription={{@openVideoTranscription}}
-        @clickOnPlayButton={{@clickOnPlayButton}}
-      />
+      <VideoElement @video={{@element}} @onTranscriptionOpen={{@onVideoTranscriptionOpen}} @onPlay={{@onVideoPlay}} />
     {{else if (eq @element.type "download")}}
-      <DownloadElement @download={{@element}} />
+      <DownloadElement @download={{@element}} @onDownload={{@onFileDownload}} />
     {{else if (eq @element.type "embed")}}
-      <EmbedElement @embed={{@element}} @submitAnswer={{@submitAnswer}} />
+      <EmbedElement @embed={{@element}} @onAnswer={{@onElementAnswer}} />
     {{else if (eq @element.type "qcu")}}
       <QcuElement
         @element={{@element}}
-        @submitAnswer={{@submitAnswer}}
-        @retryElement={{@retryElement}}
+        @onAnswer={{@onElementAnswer}}
+        @onRetry={{@onElementRetry}}
         @correction={{this.getLastCorrectionForElement @element}}
       />
     {{else if (eq @element.type "qcm")}}
       <QcmElement
         @element={{@element}}
-        @submitAnswer={{@submitAnswer}}
-        @retryElement={{@retryElement}}
+        @onAnswer={{@onElementAnswer}}
+        @onRetry={{@onElementRetry}}
         @correction={{this.getLastCorrectionForElement @element}}
       />
     {{else if (eq @element.type "qrocm")}}
       <QrocmElement
         @element={{@element}}
-        @submitAnswer={{@submitAnswer}}
-        @retryElement={{@retryElement}}
+        @onAnswer={{@onElementAnswer}}
+        @onRetry={{@onElementRetry}}
         @correction={{this.getLastCorrectionForElement @element}}
       />
     {{/if}}

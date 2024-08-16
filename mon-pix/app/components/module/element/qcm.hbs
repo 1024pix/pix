@@ -35,12 +35,7 @@
   {{/if}}
 
   {{#unless this.correction}}
-    <PixButton
-      @variant="success"
-      @type="submit"
-      class="element-qcm__verify-button"
-      @triggerAction={{this.submitAnswer}}
-    >
+    <PixButton @variant="success" @type="submit" class="element-qcm__verify-button" @triggerAction={{this.onAnswer}}>
       {{t "pages.modulix.buttons.activity.verify"}}
     </PixButton>
   {{/unless}}

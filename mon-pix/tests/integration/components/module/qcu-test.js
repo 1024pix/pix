@@ -21,10 +21,10 @@ module('Integration | Component | Module | QCU', function (hooks) {
       ],
       type: 'qcu',
     };
-    const givenSubmitAnswerStub = sinon.stub();
+    const givenonElementAnswerStub = sinon.stub();
     this.set('el', qcuElement);
-    this.set('submitAnswer', givenSubmitAnswerStub);
-    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
+    this.set('onAnswer', givenonElementAnswerStub);
+    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
 
     // then
     assert.ok(screen);
@@ -55,9 +55,9 @@ module('Integration | Component | Module | QCU', function (hooks) {
     };
     this.set('el', qcuElement);
     const userResponse = [answeredProposal.id];
-    const givenSubmitAnswerSpy = sinon.spy();
-    this.set('submitAnswer', givenSubmitAnswerSpy);
-    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
+    const givenonElementAnswerSpy = sinon.spy();
+    this.set('onAnswer', givenonElementAnswerSpy);
+    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
     const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
     // when
@@ -65,7 +65,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     await click(verifyButton);
 
     // then
-    sinon.assert.calledWith(givenSubmitAnswerSpy, { userResponse, element: qcuElement });
+    sinon.assert.calledWith(givenonElementAnswerSpy, { userResponse, element: qcuElement });
     assert.ok(true);
   });
 
@@ -80,17 +80,17 @@ module('Integration | Component | Module | QCU', function (hooks) {
       ],
       type: 'qcu',
     };
-    const submitAnswerSpy = sinon.spy();
+    const onElementAnswerSpy = sinon.spy();
     this.set('el', qcuElement);
-    this.set('submitAnswer', submitAnswerSpy);
-    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
+    this.set('onAnswer', onElementAnswerSpy);
+    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
 
     // then
     assert.dom(screen.getByRole('alert')).exists();
-    sinon.assert.notCalled(submitAnswerSpy);
+    sinon.assert.notCalled(onElementAnswerSpy);
   });
 
   test('should hide the error message when QCU is validated with response', async function (assert) {
@@ -104,10 +104,10 @@ module('Integration | Component | Module | QCU', function (hooks) {
       ],
       type: 'qcu',
     };
-    const givenSubmitAnswerStub = function () {};
-    this.set('submitAnswer', givenSubmitAnswerStub);
+    const givenonElementAnswerStub = function () {};
+    this.set('onAnswer', givenonElementAnswerStub);
     this.set('el', qcuElement);
-    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
+    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -129,15 +129,11 @@ module('Integration | Component | Module | QCU', function (hooks) {
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -158,15 +154,11 @@ module('Integration | Component | Module | QCU', function (hooks) {
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -187,15 +179,11 @@ module('Integration | Component | Module | QCU', function (hooks) {
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -212,15 +200,11 @@ module('Integration | Component | Module | QCU', function (hooks) {
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -239,15 +223,11 @@ module('Integration | Component | Module | QCU', function (hooks) {
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then

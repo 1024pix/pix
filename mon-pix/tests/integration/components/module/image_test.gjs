@@ -39,12 +39,12 @@ module('Integration | Component | Module | Image', function (hooks) {
       alt: 'alt text',
       alternativeText,
     };
-    const openAlternativeTextStub = sinon.stub();
+    const onImageAlternativeTextOpenStub = sinon.stub();
 
     //  when
     const screen = await render(
       <template>
-        <ModulixImageElement @image={{imageElement}} @openAlternativeText={{openAlternativeTextStub}} />
+        <ModulixImageElement @image={{imageElement}} @onAlternativeTextOpen={{onImageAlternativeTextOpenStub}} />
       </template>,
     );
 
@@ -52,7 +52,7 @@ module('Integration | Component | Module | Image', function (hooks) {
     await click(screen.getByRole('button', { name: "Afficher l'alternative textuelle" }));
     assert.ok(await screen.findByRole('dialog'));
     assert.ok(screen.getByText(alternativeText));
-    assert.ok(openAlternativeTextStub.calledOnce);
+    assert.ok(onImageAlternativeTextOpenStub.calledOnce);
   });
 
   test('should not be able to open the modal if there is no alternative instruction', async function (assert) {

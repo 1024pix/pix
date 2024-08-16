@@ -43,7 +43,7 @@ export default class ModulixEmbed extends ModuleElement {
     if (!isEmbedAllowedOrigin(event.origin)) return;
     const message = this._getMessageFromEventData(event);
     if (message && message.answer && message.from === 'pix') {
-      this.args.submitAnswer({
+      this.args.onAnswer({
         userResponse: [message.answer],
         element: this.args.embed,
       });

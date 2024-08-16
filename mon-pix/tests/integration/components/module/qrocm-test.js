@@ -235,12 +235,10 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    const givenSubmitAnswerStub = function () {};
-    this.set('submitAnswer', givenSubmitAnswerStub);
+    const givenonElementAnswerStub = function () {};
+    this.set('onAnswer', givenonElementAnswerStub);
     this.set('el', qrocm);
-    const screen = await render(
-      hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`,
-    );
+    const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -281,11 +279,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       };
       this.set('el', qrocm);
       const userResponse = 'user-response';
-      const givenSubmitAnswerSpy = sinon.spy();
-      this.set('submitAnswer', givenSubmitAnswerSpy);
-      const screen = await render(
-        hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`,
-      );
+      const givenonElementAnswerSpy = sinon.spy();
+      this.set('onAnswer', givenonElementAnswerSpy);
+      const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
       const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
       // when
@@ -293,7 +289,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       await click(verifyButton);
 
       // then
-      sinon.assert.calledWith(givenSubmitAnswerSpy, {
+      sinon.assert.calledWith(givenonElementAnswerSpy, {
         userResponse: [
           {
             input: 'symbole',
@@ -334,11 +330,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       };
       this.set('el', qrocm);
       const userResponse = { input: 'premiere-partie', answer: '2' };
-      const givenSubmitAnswerSpy = sinon.spy();
-      this.set('submitAnswer', givenSubmitAnswerSpy);
-      const screen = await render(
-        hbs`<Module::Element::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`,
-      );
+      const givenonElementAnswerSpy = sinon.spy();
+      this.set('onAnswer', givenonElementAnswerSpy);
+      const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
       const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
       // when
@@ -352,7 +346,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       await click(verifyButton);
 
       // then
-      sinon.assert.calledWith(givenSubmitAnswerSpy, { userResponse: [userResponse], element: qrocm });
+      sinon.assert.calledWith(givenonElementAnswerSpy, { userResponse: [userResponse], element: qrocm });
       assert.ok(true);
     });
   });
@@ -367,15 +361,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       solution: 'solution',
     });
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -393,15 +383,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       solution: 'solution',
     });
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -420,15 +406,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -472,15 +454,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     });
     this.set('el', qrocm);
     this.set('correctionResponse', correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -499,15 +477,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -526,15 +500,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
-    this.set('submitAnswer', () => {});
+    this.set('onAnswer', () => {});
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm
-  @element={{this.el}}
-  @submitAnswer={{this.submitAnswer}}
-  @correction={{this.correctionResponse}}
-/>`,
+      hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then

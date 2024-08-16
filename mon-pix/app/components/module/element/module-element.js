@@ -54,11 +54,11 @@ export default class ModuleElement extends Component {
     this.resetAnswers();
     form.reset();
 
-    this.args.retryElement({ element: this.element });
+    this.args.onRetry({ element: this.element });
   }
 
   @action
-  async submitAnswer(event) {
+  async onAnswer(event) {
     event.preventDefault();
     this.shouldDisplayRequiredMessage = !this.canValidateElement;
     if (this.shouldDisplayRequiredMessage === true) {
@@ -66,6 +66,6 @@ export default class ModuleElement extends Component {
     }
     this.isOnRetryMode = false;
     const answerData = { userResponse: this.userResponse, element: this.element };
-    await this.args.submitAnswer(answerData);
+    await this.args.onAnswer(answerData);
   }
 }
