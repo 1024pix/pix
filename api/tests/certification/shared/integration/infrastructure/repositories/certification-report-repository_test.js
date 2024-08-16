@@ -159,7 +159,7 @@ describe('Integration | Repository | CertificationReport', function () {
         const error = await catchErr(
           certificationReportRepository.finalizeAll,
           certificationReportRepository,
-        )({ certificationRepports: [certificationReport1, certificationReport2] });
+        )({ certificationReports: [certificationReport1, certificationReport2] });
 
         // then
         const actualCertificationReports = await certificationReportRepository.findBySessionId({ sessionId });

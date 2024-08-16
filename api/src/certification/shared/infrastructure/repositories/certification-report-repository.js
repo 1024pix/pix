@@ -1,99 +1,96 @@
-import bluebird from 'bluebird';
-import _ from 'lodash';
-
-import { Bookshelf } from '../../../../shared/infrastructure/bookshelf.js';
-import { BookshelfAssessment } from '../../../../shared/infrastructure/orm-models/Assessment.js';
-import { BookshelfCertificationCourse } from '../../../../shared/infrastructure/orm-models/CertificationCourse.js';
-import * as bookshelfToDomainConverter from '../../../../shared/infrastructure/utils/bookshelf-to-domain-converter.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { Assessment } from '../../../../school/domain/models/Assessment.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { Challenge } from '../../../../shared/domain/models/index.js';
 import { ComplementaryCertificationCourse } from '../../../session-management/domain/models/ComplementaryCertificationCourse.js';
 import { CertificationCourseUpdateError } from '../../domain/errors.js';
 import { CertificationCourse } from '../../domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
 import { CertificationReport } from '../../domain/models/CertificationReport.js';
 
-const findBySessionId = async function ({ sessionId }) {
-  const results = await BookshelfCertificationCourse.where({ sessionId })
-    .query((qb) => {
-      qb.orderByRaw('LOWER("lastName") asc');
-      qb.orderByRaw('LOWER("firstName") asc');
-    })
-    .fetchAll({
-      withRelated: ['certificationIssueReports', 'assessment'],
-    });
+const ASSESSMENTS_TABLE = 'assessments';
+const CERTIFICATION_COURSES_TABLE = 'certification-courses';
+const CERTIFICATION_CHALLENGES_TABLE = 'certification-challenges';
+const CERTIFICATION_ISSUE_REPORTS_TABLE = 'certification-issue-reports';
+const COMPLEMENTARY_CERTIFICATION_COURSES_TABLE = 'complementary-certification-courses';
 
-  const certificationCourses = results.map(bookshelfToDomain);
-  return _.map(certificationCourses, CertificationReport.fromCertificationCourse);
+export const findBySessionId = async ({ sessionId }) => {
+  const knexConnection = DomainTransaction.getConnection();
+  const certificationCourses = await knexConnection(CERTIFICATION_COURSES_TABLE)
+    .where({ sessionId })
+    .orderByRaw('LOWER("lastName") ASC, LOWER("firstName") ASC');
+
+  const certificationCoursesIds = certificationCourses.map(({ id }) => id);
+
+  if (!certificationCourses.length) {
+    return [];
+  }
+
+  const assessments = await knexConnection(ASSESSMENTS_TABLE).whereIn('certificationCourseId', certificationCoursesIds);
+  const certificationChallenges = await knexConnection(CERTIFICATION_CHALLENGES_TABLE).whereIn(
+    'courseId',
+    certificationCoursesIds,
+  );
+  const certificationIssueReports = await knexConnection(CERTIFICATION_ISSUE_REPORTS_TABLE).whereIn(
+    'certificationCourseId',
+    certificationCoursesIds,
+  );
+  const complementaryCertificationCourses = await knexConnection(COMPLEMENTARY_CERTIFICATION_COURSES_TABLE).whereIn(
+    'certificationCourseId',
+    certificationCoursesIds,
+  );
+
+  return toDomain(
+    assessments,
+    certificationCourses,
+    certificationChallenges,
+    certificationIssueReports,
+    complementaryCertificationCourses,
+  ).map(CertificationReport.fromCertificationCourse);
 };
 
-const finalizeAll = async function ({ certificationReports }) {
+export const finalizeAll = async ({ certificationReports }) => {
   try {
-    await Bookshelf.transaction((trx) => {
-      const finalizeReport = (certificationReport) => _finalize({ certificationReport, transaction: trx });
-      return bluebird.mapSeries(certificationReports, finalizeReport);
+    await knex.transaction(async (transaction) => {
+      await Promise.all(certificationReports.map((certificationReport) => finalize(certificationReport, transaction)));
     });
   } catch (err) {
     throw new CertificationCourseUpdateError('An error occurred while finalizing the session');
   }
 };
 
-export { finalizeAll, findBySessionId };
-
-async function _finalize({ certificationReport, transaction = undefined }) {
-  const saveOptions = { patch: true, method: 'update' };
-  if (transaction) {
-    saveOptions.transacting = transaction;
-  }
-
-  await new BookshelfCertificationCourse({ id: certificationReport.certificationCourseId }).save(
-    { hasSeenEndTestScreen: certificationReport.hasSeenEndTestScreen },
-    saveOptions,
-  );
-}
-
-function bookshelfToDomain(bookshelfCertificationCourse) {
-  if (!bookshelfCertificationCourse) {
-    return null;
-  }
-
-  const assessment = bookshelfToDomainConverter.buildDomainObject(
-    BookshelfAssessment,
-    bookshelfCertificationCourse.related('assessment'),
-  );
-  const dbCertificationCourse = bookshelfCertificationCourse.toJSON();
-  return new CertificationCourse({
-    assessment,
-    challenges: bookshelfCertificationCourse.related('challenges').toJSON(),
-    certificationIssueReports: bookshelfCertificationCourse
-      .related('certificationIssueReports')
-      .toJSON()
-      .map((json) => new CertificationIssueReport(json)),
-    complementaryCertificationCourses: bookshelfCertificationCourse
-      .related('complementaryCertificationCourses')
-      .toJSON()
-      .map((json) => new ComplementaryCertificationCourse(json)),
-    ..._.pick(dbCertificationCourse, [
-      'id',
-      'userId',
-      'createdAt',
-      'completedAt',
-      'firstName',
-      'lastName',
-      'birthplace',
-      'birthdate',
-      'sex',
-      'birthPostalCode',
-      'birthINSEECode',
-      'birthCountry',
-      'sessionId',
-      'externalId',
-      'isPublished',
-      'hasSeenEndTestScreen',
-      'isCancelled',
-      'isRejectedForFraud',
-      'maxReachableLevelOnCertificationDate',
-      'verificationCode',
-      'abortReason',
-      'version',
-    ]),
+const finalize = async (certificationReport, transaction) => {
+  return transaction(CERTIFICATION_COURSES_TABLE).where({ id: certificationReport.certificationCourseId }).update({
+    hasSeenEndTestScreen: certificationReport.hasSeenEndTestScreen,
+    updatedAt: new Date(),
   });
-}
+};
+
+const toDomain = (
+  assessments,
+  certificationCourses,
+  certificationChallenges,
+  certificationIssueReports,
+  complementaryCertificationCourses,
+) =>
+  certificationCourses.map(
+    (certificationCourse) =>
+      new CertificationCourse({
+        ...certificationCourse,
+        assessment: new Assessment(
+          assessments.find(({ certificationCourseId }) => certificationCourseId === certificationCourse.id),
+        ),
+        challenges: certificationChallenges
+          .filter(({ courseId }) => courseId === certificationCourse.id)
+          .map((challenge) => new Challenge(challenge)),
+        certificationIssueReports: certificationIssueReports
+          .filter(({ certificationCourseId }) => certificationCourseId === certificationCourse.id)
+          .map((certificationIssueReport) => new CertificationIssueReport(certificationIssueReport)),
+        complementaryCertificationCourses: complementaryCertificationCourses
+          .filter(({ certificationCourseId }) => certificationCourseId === certificationCourse.id)
+          .map(
+            (complementaryCertificationCourse) =>
+              new ComplementaryCertificationCourse(complementaryCertificationCourse),
+          ),
+      }),
+  );
