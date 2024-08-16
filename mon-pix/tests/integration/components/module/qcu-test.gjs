@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import ModulixQcu from 'mon-pix/components/module/element/qcu';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -21,10 +21,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
       ],
       type: 'qcu',
     };
-    const givenonElementAnswerStub = sinon.stub();
-    this.set('el', qcuElement);
-    this.set('onAnswer', givenonElementAnswerStub);
-    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
+    const onAnswerSpy = sinon.spy();
+    const screen = await render(<template><ModulixQcu @element={{qcuElement}} @onAnswer={{onAnswerSpy}} /></template>);
 
     // then
     assert.ok(screen);
@@ -53,11 +51,9 @@ module('Integration | Component | Module | QCU', function (hooks) {
       proposals: [answeredProposal, { id: '2', content: 'radio2' }],
       type: 'qcu',
     };
-    this.set('el', qcuElement);
     const userResponse = [answeredProposal.id];
-    const givenonElementAnswerSpy = sinon.spy();
-    this.set('onAnswer', givenonElementAnswerSpy);
-    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
+    const onAnswerSpy = sinon.spy();
+    const screen = await render(<template><ModulixQcu @element={{qcuElement}} @onAnswer={{onAnswerSpy}} /></template>);
     const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
     // when
@@ -65,7 +61,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     await click(verifyButton);
 
     // then
-    sinon.assert.calledWith(givenonElementAnswerSpy, { userResponse, element: qcuElement });
+    sinon.assert.calledWith(onAnswerSpy, { userResponse, element: qcuElement });
     assert.ok(true);
   });
 
@@ -80,17 +76,15 @@ module('Integration | Component | Module | QCU', function (hooks) {
       ],
       type: 'qcu',
     };
-    const onElementAnswerSpy = sinon.spy();
-    this.set('el', qcuElement);
-    this.set('onAnswer', onElementAnswerSpy);
-    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
+    const onAnswerSpy = sinon.spy();
+    const screen = await render(<template><ModulixQcu @element={{qcuElement}} @onAnswer={{onAnswerSpy}} /></template>);
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
 
     // then
     assert.dom(screen.getByRole('alert')).exists();
-    sinon.assert.notCalled(onElementAnswerSpy);
+    sinon.assert.notCalled(onAnswerSpy);
   });
 
   test('should hide the error message when QCU is validated with response', async function (assert) {
@@ -104,10 +98,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
       ],
       type: 'qcu',
     };
-    const givenonElementAnswerStub = function () {};
-    this.set('onAnswer', givenonElementAnswerStub);
-    this.set('el', qcuElement);
-    const screen = await render(hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
+    const onAnswerSpy = sinon.spy();
+    const screen = await render(<template><ModulixQcu @element={{qcuElement}} @onAnswer={{onAnswerSpy}} /></template>);
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -128,12 +120,14 @@ module('Integration | Component | Module | QCU', function (hooks) {
       solution: 'solution',
     });
 
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const onAnswerSpy = sinon.spy();
+    const { qcuElement } = prepareContextRecords.call(this, store, correctionResponse);
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModulixQcu @element={{qcuElement}} @onAnswer={{onAnswerSpy}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -153,12 +147,14 @@ module('Integration | Component | Module | QCU', function (hooks) {
       solution: 'solution',
     });
 
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const onAnswerSpy = sinon.spy();
+    const { qcuElement } = prepareContextRecords.call(this, store, correctionResponse);
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModulixQcu @element={{qcuElement}} @onAnswer={{onAnswerSpy}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -178,12 +174,14 @@ module('Integration | Component | Module | QCU', function (hooks) {
       solution: 'solution',
     });
 
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const onAnswerSpy = sinon.spy();
+    const { qcuElement } = prepareContextRecords.call(this, store, correctionResponse);
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModulixQcu @element={{qcuElement}} @onAnswer={{onAnswerSpy}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -199,12 +197,14 @@ module('Integration | Component | Module | QCU', function (hooks) {
       solution: 'solution',
     });
 
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const onAnswerSpy = sinon.spy();
+    const { qcuElement } = prepareContextRecords.call(this, store, correctionResponse);
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModulixQcu @element={{qcuElement}} @onAnswer={{onAnswerSpy}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -222,12 +222,14 @@ module('Integration | Component | Module | QCU', function (hooks) {
       solution: 'solution',
     });
 
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const onAnswerSpy = sinon.spy();
+    const { qcuElement } = prepareContextRecords.call(this, store, correctionResponse);
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qcu @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModulixQcu @element={{qcuElement}} @onAnswer={{onAnswerSpy}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -254,6 +256,5 @@ function prepareContextRecords(store, correctionResponse) {
     correction: correctionResponse,
     elementId: qcuElement.id,
   });
-  this.set('el', qcuElement);
-  this.set('correctionResponse', correctionResponse);
+  return { qcuElement };
 }
