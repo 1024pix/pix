@@ -38,6 +38,19 @@ export default class ModuleQcm extends ModuleElement {
     }
   }
 
+  @action
+  getProposalState(proposalId) {
+    if (!this.correction) {
+      return null;
+    }
+
+    if (!this.selectedAnswerIds.has(proposalId)) {
+      return 'neutral';
+    }
+
+    return this.correction.solution.includes(proposalId) ? 'success' : 'error';
+  }
+
   <template>
     <form class="element-qcm" aria-describedby="instruction-{{this.element.id}}">
       <fieldset>
@@ -58,6 +71,7 @@ export default class ModuleQcm extends ModuleElement {
             <PixCheckbox
               name={{this.element.id}}
               @isDisabled={{this.disableInput}}
+              @state={{this.getProposalState proposal.id}}
               @variant="tile"
               {{on "click" (fn this.checkboxSelected proposal.id)}}
             >
