@@ -31,16 +31,19 @@ export async function addCandidateToSession({
   candidate,
   sessionRepository,
   candidateRepository,
+  centerRepository,
   certificationCpfService,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
   mailCheck = mailCheckImplementation,
   normalizeStringFnc,
-  isCompatibilityEnabled,
 }) {
   candidate.sessionId = sessionId;
-  if (!isCompatibilityEnabled) {
+  const session = await sessionRepository.get({ id: sessionId });
+  const center = await centerRepository.getById({ id: session.certificationCenterId });
+  const isCoreComplementaryCompatibilityEnabled = center.isCoreComplementaryCompatibilityEnabled;
+  if (!isCoreComplementaryCompatibilityEnabled) {
     candidate.subscriptions.push(
       Subscription.buildCore({
         certificationCandidateId: null,
@@ -48,7 +51,6 @@ export async function addCandidateToSession({
     );
   }
 
-  const session = await sessionRepository.get({ id: sessionId });
   if (!session.canEnrolCandidate) {
     throw new CertificationCandidateOnFinalizedSessionError();
   }
@@ -58,7 +60,11 @@ export async function addCandidateToSession({
     (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.CLEA,
   );
   try {
-    candidate.validate({ isSco: session.isSco, isCompatibilityEnabled, cleaCertificationId: cleaCertification.id });
+    candidate.validate({
+      isSco: session.isSco,
+      isCoreComplementaryCompatibilityEnabled,
+      cleaCertificationId: cleaCertification.id,
+    });
   } catch (error) {
     throw new CertificationCandidatesError({
       code: error.code,

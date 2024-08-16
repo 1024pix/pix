@@ -15,7 +15,6 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   let complementaryCertificationRepository;
   let centerRepository;
   let sessionRepository;
-  const isCompatibilityEnabled = false;
 
   beforeEach(function () {
     candidateRepository = {
@@ -67,7 +66,6 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           complementaryCertificationRepository,
           centerRepository,
           sessionRepository,
-          isCompatibilityEnabled,
         });
 
         // then
@@ -114,7 +112,6 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
               certificationCpfCityRepository,
               complementaryCertificationRepository,
               centerRepository,
-              isCompatibilityEnabled,
             })
             .resolves(candidates);
 
@@ -131,7 +128,6 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
             complementaryCertificationRepository,
             centerRepository,
             sessionRepository,
-            isCompatibilityEnabled,
           });
 
           // then

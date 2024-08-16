@@ -6,11 +6,13 @@ import * as certificationCandidatesOdsService from '../../../../../../../src/cer
 import * as centerRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as certificationCpfCityRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../../../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
-import { BILLING_MODES } from '../../../../../../../src/certification/shared/domain/constants.js';
+import {
+  BILLING_MODES,
+  CERTIFICATION_FEATURES,
+} from '../../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import * as certificationCpfService from '../../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
-import { config } from '../../../../../../../src/shared/config.js';
 import { CertificationCandidatesError } from '../../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
 import { getI18n } from '../../../../../../tooling/i18n/i18n.js';
@@ -28,7 +30,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
   let sessionId, session;
   let mailCheck;
   let candidateList;
-  let isCompatibilityEnabled = false;
   let cleaComplementaryCertification;
 
   beforeEach(async function () {
@@ -36,7 +37,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       label: 'CléA Numérique',
       key: ComplementaryCertificationKeys.CLEA,
     });
-    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
+    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: false }).id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
     const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
@@ -96,7 +97,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       complementaryCertificationRepository,
       isSco: true,
       mailCheck,
-      isCompatibilityEnabled,
     });
 
     // then
@@ -125,7 +125,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       complementaryCertificationRepository,
       isSco: true,
       mailCheck,
-      isCompatibilityEnabled,
     });
 
     // then
@@ -153,7 +152,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       complementaryCertificationRepository,
       isSco: true,
       mailCheck,
-      isCompatibilityEnabled,
     });
 
     // then
@@ -185,7 +183,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         complementaryCertificationRepository,
         isSco: true,
         mailCheck,
-        isCompatibilityEnabled,
       });
 
       // then
@@ -217,7 +214,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         centerRepository,
         complementaryCertificationRepository,
         mailCheck,
-        isCompatibilityEnabled,
       });
 
     // then
@@ -269,7 +265,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           complementaryCertificationRepository,
           isSco: false,
           mailCheck,
-          isCompatibilityEnabled,
         });
 
         // then
@@ -285,10 +280,8 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
     });
 
-    context('when isCompatibilityEnabled is false', function () {
-      beforeEach(async function () {
-        isCompatibilityEnabled = false;
-      });
+    context('when isCoreComplementaryCompatibilityEnabled false for center', function () {
+      const isV3Pilot = false;
 
       it('should return extracted and validated certification candidates with complementary certification', async function () {
         // given
@@ -310,7 +303,9 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           key: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
         });
 
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          isV3Pilot,
+        }).id;
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId,
           complementaryCertificationId: cleaComplementaryCertification.id,
@@ -366,7 +361,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             complementaryCertificationRepository,
             isSco: false,
             mailCheck,
-            isCompatibilityEnabled,
           });
 
         // then
@@ -374,32 +368,42 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       });
     });
 
-    context('when isCompatibilityEnabled is true', function () {
-      beforeEach(async function () {
-        isCompatibilityEnabled = true;
-      });
+    context('when isCoreComplementaryCompatibilityEnabled true for center', function () {
+      const isV3Pilot = true;
+      let pixPlusEdu1erDegreComplementaryCertification,
+        pixPlusDroitComplementaryCertification,
+        pixPlusEdu2ndDegreComplementaryCertification,
+        PixPlusProSanteComplementaryCertification;
+      let sessionData, session;
 
-      it('should return extracted and validated certification candidates with appropriate certification subscription', async function () {
-        // given
+      beforeEach(function () {
         mailCheck.checkDomainIsValid.resolves();
-        const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Droit',
           key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
         });
-        const pixPlusEdu1erDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        pixPlusEdu1erDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Édu 1er degré',
           key: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
         });
-        const pixPlusEdu2ndDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        pixPlusEdu2ndDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Édu 2nd degré',
           key: ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
         });
-        const PixPlusProSanteComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        PixPlusProSanteComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Pro Santé',
           key: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
         });
-
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          isV3Pilot,
+        }).id;
+        const complementaryAlonePilotFeatureId = databaseBuilder.factory.buildFeature(
+          CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE,
+        ).id;
+        databaseBuilder.factory.buildCertificationCenterFeature({
+          certificationCenterId,
+          featureId: complementaryAlonePilotFeatureId,
+        });
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId,
           complementaryCertificationId: cleaComplementaryCertification.id,
@@ -423,11 +427,14 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-        const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
-        const session = domainBuilder.certification.enrolment.buildSession(sessionData);
+        sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
+        session = domainBuilder.certification.enrolment.buildSession(sessionData);
 
-        await databaseBuilder.commit();
+        return databaseBuilder.commit();
+      });
 
+      it('should return extracted and validated certification candidates with appropriate certification subscription', async function () {
+        // given
         const odsFilePath = `${__dirname}/attendance_sheet_extract_with_complementary_certifications_compatibility_ok_test.ods`;
         const odsBuffer = await readFile(odsFilePath);
         candidateList = _buildCandidateList({
@@ -456,7 +463,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             complementaryCertificationRepository,
             isSco: false,
             mailCheck,
-            isCompatibilityEnabled,
           });
 
         // then
@@ -465,53 +471,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
       it('should throw an error', async function () {
         // given
-        mailCheck.checkDomainIsValid.resolves();
-        const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-          label: 'Pix+ Droit',
-          key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-        });
-        const pixPlusEdu1erDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-          label: 'Pix+ Édu 1er degré',
-          key: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
-        });
-        const pixPlusEdu2ndDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-          label: 'Pix+ Édu 2nd degré',
-          key: ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
-        });
-        const PixPlusProSanteComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-          label: 'Pix+ Pro Santé',
-          key: ComplementaryCertificationKeys.PIX_PLUS_PRO_SANTE,
-        });
-
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
-        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
-          certificationCenterId,
-          complementaryCertificationId: cleaComplementaryCertification.id,
-        });
-        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
-          certificationCenterId,
-          complementaryCertificationId: pixPlusDroitComplementaryCertification.id,
-        });
-        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
-          certificationCenterId,
-          complementaryCertificationId: pixPlusEdu1erDegreComplementaryCertification.id,
-        });
-        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
-          certificationCenterId,
-          complementaryCertificationId: pixPlusEdu2ndDegreComplementaryCertification.id,
-        });
-        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
-          certificationCenterId,
-          complementaryCertificationId: PixPlusProSanteComplementaryCertification.id,
-        });
-
-        const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-        const sessionData = databaseBuilder.factory.buildSession({ certificationCenterId });
-        const session = domainBuilder.certification.enrolment.buildSession(sessionData);
-
-        await databaseBuilder.commit();
-
         const odsFilePath = `${__dirname}/attendance_sheet_extract_with_complementary_certifications_compatibility_ko_test.ods`;
         const odsBuffer = await readFile(odsFilePath);
 
@@ -529,7 +488,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           complementaryCertificationRepository,
           isSco: false,
           mailCheck,
-          isCompatibilityEnabled,
         });
 
         // then
@@ -569,7 +527,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         centerRepository,
         complementaryCertificationRepository,
         mailCheck,
-        isCompatibilityEnabled,
       });
 
     // then
@@ -596,7 +553,6 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         centerRepository,
         complementaryCertificationRepository,
         mailCheck,
-        isCompatibilityEnabled,
       });
 
     // then

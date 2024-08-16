@@ -203,7 +203,6 @@ const configuration = (function () {
       ),
       showNewResultPage: toBoolean(process.env.FT_SHOW_NEW_RESULT_PAGE),
       showExperimentalMissions: toBoolean(process.env.FT_SHOW_EXPERIMENTAL_MISSIONS),
-      isCoreComplementaryCompatibilityEnabled: toBoolean(process.env.FT_CORE_COMPLEMENTARY_COMPATIBILITY),
     },
     hapi: {
       options: {},
@@ -402,7 +401,6 @@ const configuration = (function () {
     config.featureToggles.isNeedToAdjustCertificationAccessibilityEnabled = false;
     config.featureToggles.showNewResultPage = false;
     config.featureToggles.showExperimentalMissions = false;
-    config.featureToggles.isCoreComplementaryCompatibilityEnabled = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'brevo';

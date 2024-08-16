@@ -1,6 +1,8 @@
-import { SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
+import {
+  CERTIFICATION_FEATURES,
+  SUBSCRIPTION_TYPES,
+} from '../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { config } from '../../../../../src/shared/config.js';
 import { CertificationCandidate } from '../../../../../src/shared/domain/models/index.js';
 import { clearResolveMx, setResolveMx } from '../../../../../src/shared/mail/infrastructure/services/mail-check.js';
 import {
@@ -164,11 +166,8 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
       let sessionId;
       let userId;
       let candidate;
-      let originalEnvCompatibility;
 
       beforeEach(function () {
-        originalEnvCompatibility = config.featureToggles.isCoreComplementaryCompatibilityEnabled;
-        config.featureToggles.isCoreComplementaryCompatibilityEnabled = true;
         candidate = domainBuilder.certification.enrolment.buildCandidate({
           birthCountry: 'FRANCE',
           birthINSEECode: '75115',
@@ -190,7 +189,15 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
             name: 'PRO_CERTIFICATION_CENTER',
             type: 'PRO',
             externalId: 'EXTERNAL_ID',
+            isV3Pilot: true,
           });
+        const complementaryAlonePilotFeatureId = databaseBuilder.factory.buildFeature(
+          CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE,
+        ).id;
+        databaseBuilder.factory.buildCertificationCenterFeature({
+          certificationCenterId,
+          featureId: complementaryAlonePilotFeatureId,
+        });
 
         sessionId = databaseBuilder.factory.buildSession({ certificationCenterId, certificationCenter }).id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
@@ -247,11 +254,7 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
         return databaseBuilder.commit();
       });
 
-      afterEach(function () {
-        config.featureToggles.isCoreComplementaryCompatibilityEnabled = originalEnvCompatibility;
-      });
-
-      it('should respond with a 201 created', async function () {
+      it('should respond with a 201 created and save subscriptions', async function () {
         // when
         const response = await server.inject(options);
 
@@ -260,13 +263,6 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.id).to.equal(candidateId.toString());
         expect(response.result.data.type).to.equal('certification-candidates');
-      });
-
-      it('should save subscriptions (core default and complementary if any)', async function () {
-        // when
-        const response = await server.inject(options);
-
-        // then
         const subscriptions = await knex('certification-subscriptions')
           .select(['type', 'complementaryCertificationId'])
           .where({ certificationCandidateId: parseInt(response.result.data.id) })

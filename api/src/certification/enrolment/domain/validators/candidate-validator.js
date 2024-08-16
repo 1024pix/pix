@@ -90,7 +90,7 @@ const schema = Joi.object({
       'number.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SESSION_ID_NOT_A_NUMBER.code,
     }),
   }),
-  subscriptions: Joi.alternatives().conditional(Joi.ref('$isCompatibilityEnabled'), {
+  subscriptions: Joi.alternatives().conditional(Joi.ref('$isCoreComplementaryCompatibilityEnabled'), {
     is: true,
     then: schemaForCompatibilitySubscriptions,
     otherwise: oldSubscriptionsSchema,

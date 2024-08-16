@@ -1,4 +1,5 @@
 import { addCandidateToSession } from '../../../../../../src/certification/enrolment/domain/usecases/add-candidate-to-session.js';
+import { CERTIFICATION_FEATURES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
@@ -13,6 +14,7 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-help
 
 describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session', function () {
   let sessionRepository;
+  let centerRepository;
   let candidateRepository;
   let certificationCpfService;
   let certificationCpfCountryRepository;
@@ -23,12 +25,14 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
   let candidateToEnroll;
   let dependencies;
   const sessionId = 1;
-  const isCompatibilityEnabled = true;
   const cleaCertificationId = 123;
 
   beforeEach(function () {
     sessionRepository = {
       get: sinon.stub(),
+    };
+    centerRepository = {
+      getById: sinon.stub(),
     };
     candidateRepository = {
       insert: sinon.stub(),
@@ -52,9 +56,16 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       ]),
     };
     mailCheck = { checkDomainIsValid: sinon.stub() };
+    centerRepository.getById.resolves(
+      domainBuilder.certification.enrolment.buildCenter({
+        isV3Pilot: true,
+        features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
+      }),
+    );
     normalizeStringFnc = (str) => str;
     dependencies = {
       sessionRepository,
+      centerRepository,
       candidateRepository,
       certificationCpfService,
       certificationCpfCountryRepository,
@@ -62,7 +73,6 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
       complementaryCertificationRepository,
       mailCheck,
       normalizeStringFnc,
-      isCompatibilityEnabled,
     };
   });
 
@@ -303,9 +313,14 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
               expect(id).to.equal(159);
             });
 
-            context('isCompatibilityEnabled at false', function () {
+            context('isCoreComplementaryCompatibilityEnabled is false for center', function () {
               it('should insert the candidate with a default core subscription and return the id', async function () {
                 // given
+                centerRepository.getById.resolves(
+                  domainBuilder.certification.enrolment.buildCenter({
+                    isV3Pilot: false,
+                  }),
+                );
                 candidateToEnroll.subscriptions = [];
                 const correctedCandidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
                   ...candidateToEnroll,
