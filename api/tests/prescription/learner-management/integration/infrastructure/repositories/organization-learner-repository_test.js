@@ -3,22 +3,53 @@ import _ from 'lodash';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import * as organizationLearnerRepository from '../../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearner.js';
+import { OrganizationLearnerForAdmin } from '../../../../../../src/prescription/learner-management/domain/read-models/OrganizationLearnerForAdmin.js';
 import {
   addOrUpdateOrganizationOfOrganizationLearners,
   disableAllOrganizationLearnersInOrganization,
   disableCommonOrganizationLearnersFromOrganizationId,
   findAllCommonLearnersFromOrganizationId,
   findAllCommonOrganizationLearnerByReconciliationInfos,
+  getOrganizationLearnerForAdmin,
   removeByIds,
   saveCommonOrganizationLearners,
   update,
 } from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-learner-repository.js';
 import { ApplicationTransaction } from '../../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
-import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../../src/shared/domain/errors.js';
+import { NotFoundError, OrganizationLearnersCouldNotBeSavedError } from '../../../../../../src/shared/domain/errors.js';
 import { OrganizationLearner } from '../../../../../../src/shared/domain/models/index.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Organization Learner Management | Organization Learner', function () {
+  describe('#getOrganizationLearnerForAdmin', function () {
+    let organizationLearnerId;
+
+    beforeEach(function () {
+      organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
+      return databaseBuilder.commit();
+    });
+
+    it('should return an instance of OrganizationLearnerForAdmin', async function () {
+      // when
+      const organizationLearner = await getOrganizationLearnerForAdmin(organizationLearnerId);
+
+      // then
+      expect(organizationLearner).to.be.an.instanceOf(OrganizationLearnerForAdmin);
+      expect(organizationLearner.id).to.equal(organizationLearnerId);
+    });
+
+    it('should return a NotFoundError if no organizationLearner is found', async function () {
+      // given
+      const nonExistentOrganizationLearnerId = 678;
+
+      // when
+      const result = await catchErr(getOrganizationLearnerForAdmin)(nonExistentOrganizationLearnerId);
+
+      // then
+      expect(result).to.be.instanceOf(NotFoundError);
+    });
+  });
+
   describe('#removeByIds', function () {
     let clock;
     const now = new Date('2023-02-02');

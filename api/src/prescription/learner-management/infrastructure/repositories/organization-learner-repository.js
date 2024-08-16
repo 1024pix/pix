@@ -2,10 +2,54 @@ import _ from 'lodash';
 
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { OrganizationLearnersCouldNotBeSavedError } from '../../../../shared/domain/errors.js';
+import { NotFoundError, OrganizationLearnersCouldNotBeSavedError } from '../../../../shared/domain/errors.js';
 import { OrganizationLearner } from '../../../../shared/domain/models/index.js';
 import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 import { CommonOrganizationLearner } from '../../domain/models/CommonOrganizationLearner.js';
+import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';
+
+const dissociateUserFromOrganizationLearner = async function (organizationLearnerId) {
+  const knexConn = DomainTransaction.getConnection();
+
+  await _queryBuilderDissociation(knexConn).where({ id: organizationLearnerId });
+};
+
+function _queryBuilderDissociation(knexConn) {
+  return knexConn('organization-learners').update({
+    userId: null,
+    certifiableAt: null,
+    isCertifiable: null,
+    updatedAt: new Date(),
+  });
+}
+
+const getOrganizationLearnerForAdmin = async function (organizationLearnerId) {
+  const knexConn = DomainTransaction.getConnection();
+
+  const organizationLearner = await knexConn('view-active-organization-learners')
+    .select(
+      'view-active-organization-learners.id as id',
+      'firstName',
+      'lastName',
+      'birthdate',
+      'division',
+      'group',
+      'organizationId',
+      'organizations.name as organizationName',
+      'view-active-organization-learners.createdAt as createdAt',
+      'view-active-organization-learners.updatedAt as updatedAt',
+      'isDisabled',
+      'organizations.isManagingStudents as organizationIsManagingStudents',
+    )
+    .innerJoin('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
+    .where({ 'view-active-organization-learners.id': organizationLearnerId })
+    .first();
+
+  if (!organizationLearner) {
+    throw new NotFoundError(`Organization Learner not found for ID ${organizationLearnerId}`);
+  }
+  return new OrganizationLearnerForAdmin(organizationLearner);
+};
 
 const removeByIds = function ({ organizationLearnerIds, userId }) {
   const knexConn = DomainTransaction.getConnection();
@@ -137,8 +181,10 @@ export {
   addOrUpdateOrganizationOfOrganizationLearners,
   disableAllOrganizationLearnersInOrganization,
   disableCommonOrganizationLearnersFromOrganizationId,
+  dissociateUserFromOrganizationLearner,
   findAllCommonLearnersFromOrganizationId,
   findAllCommonOrganizationLearnerByReconciliationInfos,
+  getOrganizationLearnerForAdmin,
   removeByIds,
   saveCommonOrganizationLearners,
   update,

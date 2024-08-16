@@ -1,6 +1,8 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { BookshelfUser } from '../../../../src/shared/infrastructure/orm-models/User.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
+import { OrganizationLearnerForAdmin } from '../../../prescription/learner-management/domain/read-models/OrganizationLearnerForAdmin.js';
+import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import {
   AlreadyExistingEntityError,
@@ -12,7 +14,6 @@ import { CertificationCenter } from '../../../shared/domain/models/Certification
 import { CertificationCenterMembership } from '../../../shared/domain/models/CertificationCenterMembership.js';
 import { Membership } from '../../../shared/domain/models/Membership.js';
 import { UserDetailsForAdmin } from '../../../shared/domain/models/UserDetailsForAdmin.js';
-import { OrganizationLearnerForAdmin } from '../../../shared/domain/read-models/OrganizationLearnerForAdmin.js';
 import { fetchPage, isUniqConstraintViolated } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
@@ -136,8 +137,16 @@ const getUserDetailsForAdmin = async function (userId) {
       'view-active-organization-learners.*',
       'organizations.name AS organizationName',
       'organizations.isManagingStudents AS organizationIsManagingStudents',
+      knex.raw('CASE WHEN features.key IS NULL THEN False ELSE True END AS "hasImportFeature"'),
     ])
     .join('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
+    .leftJoin('organization-features', 'organization-features.organizationId', 'organizations.id')
+    .leftJoin('features', function () {
+      this.on('features.id', 'organization-features.featureId').andOnVal(
+        'features.key',
+        ORGANIZATION_FEATURE.LEARNER_IMPORT.key,
+      );
+    })
     .where({ userId })
     .orderBy('id');
 
@@ -499,7 +508,8 @@ function _fromKnexDTOToUserDetailsForAdmin({
         createdAt: organizationLearnerDTO.createdAt,
         updatedAt: organizationLearnerDTO.updatedAt,
         isDisabled: organizationLearnerDTO.isDisabled,
-        organizationIsManagingStudents: organizationLearnerDTO.organizationIsManagingStudents,
+        organizationIsManagingStudents:
+          organizationLearnerDTO.organizationIsManagingStudents || organizationLearnerDTO.hasImportFeature,
       }),
   );
   const userLogin = new UserLogin({

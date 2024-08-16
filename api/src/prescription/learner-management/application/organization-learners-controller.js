@@ -45,10 +45,17 @@ const reconcileCommonOrganizationLearner = async function (request, h) {
   return h.response().code(204);
 };
 
+const dissociate = async function (request, h) {
+  const organizationLearnerId = request.params.id;
+  await usecases.dissociateUserFromOrganizationLearner({ organizationLearnerId });
+  return h.response().code(204);
+};
+
 const organizationLearnersController = {
   reconcileCommonOrganizationLearner,
   deleteOrganizationLearners,
   importOrganizationLearnerFromFeature,
+  dissociate,
 };
 
 export { organizationLearnersController };

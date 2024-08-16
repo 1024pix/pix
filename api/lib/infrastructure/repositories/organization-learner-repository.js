@@ -9,7 +9,6 @@ import {
 } from '../../../src/shared/domain/errors.js';
 import { OrganizationLearner } from '../../../src/shared/domain/models/OrganizationLearner.js';
 import { ParticipantRepartition } from '../../../src/shared/domain/models/ParticipantRepartition.js';
-import { OrganizationLearnerForAdmin } from '../../../src/shared/domain/read-models/OrganizationLearnerForAdmin.js';
 import { fetchPage } from '../../../src/shared/infrastructure/utils/knex-utils.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import * as studentRepository from './student-repository.js';
@@ -178,36 +177,6 @@ const reconcileUserByNationalStudentIdAndOrganizationId = async function ({
   } catch (error) {
     throw new UserCouldNotBeReconciledError();
   }
-};
-
-const getOrganizationLearnerForAdmin = async function (organizationLearnerId) {
-  const organizationLearner = await knex('view-active-organization-learners')
-    .select(
-      'view-active-organization-learners.id as id',
-      'firstName',
-      'lastName',
-      'birthdate',
-      'division',
-      'group',
-      'organizationId',
-      'organizations.name as organizationName',
-      'view-active-organization-learners.createdAt as createdAt',
-      'view-active-organization-learners.updatedAt as updatedAt',
-      'isDisabled',
-      'organizations.isManagingStudents as organizationIsManagingStudents',
-    )
-    .innerJoin('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
-    .where({ 'view-active-organization-learners.id': organizationLearnerId })
-    .first();
-
-  if (!organizationLearner) {
-    throw new NotFoundError(`Organization Learner not found for ID ${organizationLearnerId}`);
-  }
-  return new OrganizationLearnerForAdmin(organizationLearner);
-};
-
-const dissociateUserFromOrganizationLearner = async function (organizationLearnerId) {
-  await _queryBuilderDissociation(knex).where({ id: organizationLearnerId });
 };
 
 const dissociateAllStudentsByUserId = async function ({ userId }) {
@@ -401,7 +370,6 @@ export {
   _reconcileOrganizationLearners,
   countByOrganizationsWhichNeedToComputeCertificability,
   dissociateAllStudentsByUserId,
-  dissociateUserFromOrganizationLearner,
   findAllLearnerWithAtLeastOneParticipationByOrganizationId,
   findByIds,
   findByOrganizationId,
@@ -411,7 +379,6 @@ export {
   findByUserId,
   get,
   getLatestOrganizationLearner,
-  getOrganizationLearnerForAdmin,
   isActive,
   isOrganizationLearnerIdLinkedToUserAndSCOOrganization,
   reconcileUserByNationalStudentIdAndOrganizationId,
