@@ -1,23 +1,19 @@
 import cronParser from 'cron-parser';
 import dayjs from 'dayjs';
 
+import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import * as pgBossRepository from '../../../../../lib/infrastructure/repositories/pgboss-repository.js';
 import { ComputeCertificabilityJob } from '../../../../prescription/learner-management/domain/models/ComputeCertificabilityJob.js';
-import { DomainTransaction } from '../../../domain/DomainTransaction.js';
-import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './ScheduleComputeOrganizationLearnersCertificabilityJob.js';
+import { config } from '../../../../shared/config.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 
-class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
-  constructor({ organizationLearnerRepository, pgBossRepository, config, logger }) {
-    this.organizationLearnerRepository = organizationLearnerRepository;
-    this.pgBossRepository = pgBossRepository;
-    this.config = config;
-    this.logger = logger;
-  }
-
-  async handle(event = {}) {
+class ScheduleComputeOrganizationLearnersCertificabilityJobController {
+  async handle(event = {}, dependencies = { organizationLearnerRepository, pgBossRepository, config, logger }) {
     const skipLoggedLastDayCheck = event?.skipLoggedLastDayCheck;
     const onlyNotComputed = event?.onlyNotComputed;
-    const chunkSize = this.config.features.scheduleComputeOrganizationLearnersCertificability.chunkSize;
-    const cronConfig = this.config.features.scheduleComputeOrganizationLearnersCertificability.cron;
+    const chunkSize = dependencies.config.features.scheduleComputeOrganizationLearnersCertificability.chunkSize;
+    const cronConfig = dependencies.config.features.scheduleComputeOrganizationLearnersCertificability.cron;
 
     const isolationLevel = 'repeatable read';
 
@@ -28,15 +24,16 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
 
     return await DomainTransaction.execute(
       async () => {
-        const count = await this.organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
-          skipLoggedLastDayCheck,
-          fromUserActivityDate,
-          toUserActivityDate,
-          onlyNotComputed,
-        });
+        const count =
+          await dependencies.organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+            skipLoggedLastDayCheck,
+            fromUserActivityDate,
+            toUserActivityDate,
+            onlyNotComputed,
+          });
 
         const chunkCount = Math.ceil(count / chunkSize);
-        this.logger.info(
+        dependencies.logger.info(
           `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Total learners to compute : ${count}`,
         );
 
@@ -44,10 +41,10 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
 
         for (let index = 0; index < chunkCount; index++) {
           const offset = index * chunkSize;
-          this.logger.info(`ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Offset : ${offset}`);
+          dependencies.logger.info(`ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Offset : ${offset}`);
 
           const organizationLearnerIds =
-            await this.organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+            await dependencies.organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
               limit: chunkSize,
               offset,
               fromUserActivityDate,
@@ -56,37 +53,33 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
               onlyNotComputed,
             });
 
-          this.logger.info(
+          dependencies.logger.info(
             `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Ids count  : ${organizationLearnerIds.length}`,
           );
 
           const jobsToInsert = organizationLearnerIds.map((organizationLearnerId) => ({
             name: ComputeCertificabilityJob.name,
-            data: { organizationLearnerId },
+            data: new ComputeCertificabilityJob({ organizationLearnerId }),
             retrylimit: 0,
             retrydelay: 30,
             on_complete: true,
           }));
 
-          const jobsInserted = await this.pgBossRepository.insert(jobsToInsert);
+          const jobsInserted = await dependencies.pgBossRepository.insert(jobsToInsert);
           totalJobsInserted += jobsInserted.rowCount;
 
-          this.logger.info(
+          dependencies.logger.info(
             `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Jobs inserted count  : ${jobsInserted.rowCount}`,
           );
         }
 
-        this.logger.info(
+        dependencies.logger.info(
           `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Total jobs inserted count : ${totalJobsInserted}`,
         );
       },
       { isolationLevel },
     );
   }
-
-  get name() {
-    return ScheduleComputeOrganizationLearnersCertificabilityJob.name;
-  }
 }
 
-export { ScheduleComputeOrganizationLearnersCertificabilityJobHandler };
+export { ScheduleComputeOrganizationLearnersCertificabilityJobController };

@@ -2,12 +2,12 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 
-import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from '../../../../../../src/shared/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJobHandler.js';
+import { ScheduleComputeOrganizationLearnersCertificabilityJobController } from '../../../../../../src/prescription/learner-management/application/jobs/schedule-compute-organization-learners-certificability-job-controller.js';
 import { expect, knex, sinon } from '../../../../../test-helper.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCertificabilityJobHandler', function () {
+describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCertificabilityJobController', function () {
   context('#handle', function () {
     let pgBossRepository;
     let organizationLearnerRepository;
@@ -100,15 +100,15 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         })
         .resolves([3]);
       const scheduleComputeOrganizationLearnersCertificabilityJobHandler =
-        new ScheduleComputeOrganizationLearnersCertificabilityJobHandler({
-          pgBossRepository,
-          organizationLearnerRepository,
-          config,
-          logger,
-        });
+        new ScheduleComputeOrganizationLearnersCertificabilityJobController();
 
       // when
-      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle(null);
+      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle(null, {
+        logger,
+        organizationLearnerRepository,
+        pgBossRepository,
+        config,
+      });
 
       // then
       expect(pgBossRepository.insert.getCall(0).args[0]).to.be.deep.equal([
@@ -172,18 +172,21 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         })
         .resolves([3]);
       const scheduleComputeOrganizationLearnersCertificabilityJobHandler =
-        new ScheduleComputeOrganizationLearnersCertificabilityJobHandler({
-          pgBossRepository,
-          organizationLearnerRepository,
-          config,
-          logger,
-        });
+        new ScheduleComputeOrganizationLearnersCertificabilityJobController();
 
       // when
-      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle({
-        skipLoggedLastDayCheck,
-        onlyNotComputed,
-      });
+      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle(
+        {
+          skipLoggedLastDayCheck,
+          onlyNotComputed,
+        },
+        {
+          logger,
+          organizationLearnerRepository,
+          pgBossRepository,
+          config,
+        },
+      );
 
       // then
       expect(pgBossRepository.insert.getCall(0).args[0]).to.be.deep.equal([
@@ -246,15 +249,15 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
       }
 
       const scheduleComputeOrganizationLearnersCertificabilityJobHandler =
-        new ScheduleComputeOrganizationLearnersCertificabilityJobHandler({
-          pgBossRepository,
-          organizationLearnerRepository,
-          config,
-          logger,
-        });
+        new ScheduleComputeOrganizationLearnersCertificabilityJobController();
 
       // when
-      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle();
+      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle(null, {
+        logger,
+        organizationLearnerRepository,
+        pgBossRepository,
+        config,
+      });
 
       // then
       for (let index = 0; index < chunkCount; index++) {
