@@ -143,6 +143,7 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
 
       beforeEach(function () {
         matchingCandidate = domainBuilder.certification.enrolment.buildCandidate({
+          id: 789,
           firstName,
           lastName,
           birthdate,
@@ -150,6 +151,7 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
           organizationLearnerId: null,
         });
         anotherCandidate = domainBuilder.certification.enrolment.buildCandidate({
+          id: 951,
           firstName: 'Louis',
           lastName: 'Seize',
           birthdate: '1990-05-06',
@@ -189,7 +191,7 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
           });
 
           // then
-          expect(res).to.deep.equal({ linkDone: false });
+          expect(res).to.deep.equal({ linkDone: false, candidateId: matchingCandidate.id });
         });
       });
       context('when user is already linked to another matching candidate within the same session', function () {
@@ -270,7 +272,7 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
               });
 
               // then
-              expect(res).to.deep.equal({ linkDone: true });
+              expect(res).to.deep.equal({ linkDone: true, candidateId: matchingCandidate.id });
               expect(candidateRepository.update).to.have.been.calledWith(matchingCandidate);
             });
           });
@@ -294,7 +296,7 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
             });
 
             // then
-            expect(res).to.deep.equal({ linkDone: true });
+            expect(res).to.deep.equal({ linkDone: true, candidateId: matchingCandidate.id });
             expect(candidateRepository.update).to.have.been.calledWith(matchingCandidate);
           });
         });

@@ -23,7 +23,7 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
       databaseBuilder.factory.buildUser({ id: userId });
       options = {
         method: 'POST',
-        url: '/api/sessions/1/candidate-participation',
+        url: '/api/sessions/1/candidate-participations',
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
       return databaseBuilder.commit();
@@ -33,7 +33,7 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
       beforeEach(function () {
         options = {
           method: 'POST',
-          url: '/api/sessions/1/candidate-participation',
+          url: '/api/sessions/1/candidate-participations',
           headers: { authorization: 'invalid.access.token' },
         };
       });
@@ -51,7 +51,7 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
       beforeEach(function () {
         options = {
           method: 'POST',
-          url: '/api/sessions/2.1/candidate-participation',
+          url: '/api/sessions/2.1/candidate-participations',
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
       });
@@ -88,7 +88,7 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
         };
         options = {
           method: 'POST',
-          url: `/api/sessions/${sessionId}/candidate-participation`,
+          url: `/api/sessions/${sessionId}/candidate-participations`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
           payload,
         };

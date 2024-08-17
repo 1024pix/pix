@@ -4,7 +4,7 @@ import { authorization } from '../../../../../src/certification/shared/applicati
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Router | session-route', function () {
+describe('Certification | Enrolment | Unit | Router | session-route', function () {
   describe('POST /api/certification-centers/{certificationCenterId}/session', function () {
     it('should return CREATED (200) when everything does as expected', async function () {
       // given
@@ -89,6 +89,109 @@ describe('Unit | Router | session-route', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('POST /api/sessions/{id}/candidate-participation', function () {
+    const correctAttributes = {
+      'first-name': 'prenom',
+      'last-name': 'nom',
+      birthdate: '2000-01-01',
+    };
+
+    context('when the payload is correct', function () {
+      it('should return 200', async function () {
+        // given
+        sinon.stub(authorization, 'verifySessionAuthorization').returns(true);
+        sinon.stub(sessionController, 'createCandidateParticipation').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/sessions/1/candidate-participation', {
+          data: {
+            attributes: correctAttributes,
+            type: 'certification-candidates',
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    context('when the payload is incorrect', function () {
+      it('should return 400 when firstName is invalid', async function () {
+        // given
+        sinon.stub(authorization, 'verifySessionAuthorization').returns(true);
+        sinon.stub(sessionController, 'createCandidateParticipation').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/sessions/1/candidate-participation', {
+          data: {
+            attributes: {
+              ...correctAttributes,
+              'first-name': 123,
+            },
+            type: 'certification-candidates',
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        const { errors } = JSON.parse(response.payload);
+        expect(errors[0].detail).to.equals('"data.attributes.first-name" must be a string');
+      });
+
+      it('should return 400 when lastName is invalid', async function () {
+        // given
+        sinon.stub(authorization, 'verifySessionAuthorization').returns(true);
+        sinon.stub(sessionController, 'createCandidateParticipation').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/sessions/1/candidate-participation', {
+          data: {
+            attributes: {
+              ...correctAttributes,
+              'last-name': 123,
+            },
+            type: 'certification-candidates',
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        const { errors } = JSON.parse(response.payload);
+        expect(errors[0].detail).to.equals('"data.attributes.last-name" must be a string');
+      });
+
+      it('should return 400 when birthdate is invalid', async function () {
+        // given
+        sinon.stub(authorization, 'verifySessionAuthorization').returns(true);
+        sinon.stub(sessionController, 'createCandidateParticipation').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/sessions/1/candidate-participation', {
+          data: {
+            attributes: {
+              ...correctAttributes,
+              birthdate: 'salut',
+            },
+            type: 'certification-candidates',
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        const { errors } = JSON.parse(response.payload);
+        expect(errors[0].detail).to.equals('CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID');
+      });
     });
   });
 });

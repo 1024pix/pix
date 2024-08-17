@@ -6,7 +6,7 @@ import { securityPreHandlers } from '../../../../src/shared/application/security
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Sessions | Routes', function () {
-  describe('POST /api/sessions/{id}/candidate-participation', function () {
+  describe('POST /api/sessions/{id}/candidate-participations', function () {
     it('should exist', async function () {
       // given
       sinon.stub(sessionController, 'createCandidateParticipation').returns('ok');
@@ -14,7 +14,7 @@ describe('Unit | Application | Sessions | Routes', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('POST', '/api/sessions/3/candidate-participation');
+      const response = await httpTestServer.request('POST', '/api/sessions/3/candidate-participations');
 
       // then
       expect(response.statusCode).to.equal(200);

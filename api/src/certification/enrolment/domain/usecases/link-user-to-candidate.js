@@ -60,7 +60,7 @@ export async function linkUserToCandidate({
 
   if (enrolledCandidate.isLinkedToAUser()) {
     if (enrolledCandidate.isLinkedTo(userId)) {
-      return { linkDone: false };
+      return { linkDone: false, candidateId: enrolledCandidate.id };
     }
     throw new UnexpectedUserAccountError({});
   }
@@ -81,7 +81,7 @@ export async function linkUserToCandidate({
 
   enrolledCandidate.link(userId);
   await candidateRepository.update(enrolledCandidate);
-  return { linkDone: true };
+  return { linkDone: true, candidateId: enrolledCandidate.id };
 }
 
 async function validateUserLanguage({ languageService, userRepository, userId, session }) {

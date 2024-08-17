@@ -29,6 +29,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../infrastructure/repositories/index.js').CountryRepository} CountryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {import('../../infrastructure/repositories/index.js').OrganizationLearnerRepository} OrganizationLearnerRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').UserRepository} UserRepository
  * @typedef {import('../../../shared/domain/validators/session-validator.js')} SessionValidator
  * @typedef {import('../../../shared/domain/services/certification-cpf-service.js')} CertificationCpfService
  * @typedef {import('../../infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
@@ -54,6 +55,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {CountryRepository} CountryRepository
  * @typedef {OrganizationLearnerRepository} OrganizationLearnerRepository
+ * @typedef {UserRepository} UserRepository
  * @typedef {ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {certificationCpfService} CertificationCpfService
  * @typedef {SessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository

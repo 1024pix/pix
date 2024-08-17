@@ -14,6 +14,7 @@ import * as enrolledCandidateRepository from './enrolled-candidate-repository.js
 import * as scoCertificationCandidateRepository from './sco-certification-candidate-repository.js';
 import * as sessionForAttendanceSheetRepository from './session-for-attendance-sheet-repository.js';
 import * as sessionRepository from './session-repository.js';
+import * as userRepository from './user-repository.js';
 
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
@@ -32,6 +33,7 @@ import * as sessionRepository from './session-repository.js';
  * @typedef {enrolledCandidateRepository} EnrolledCandidateRepository
  * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {organizationLearnerRepository} OrganizationLearnerRepository
+ * @typedef {userRepository} UserRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   candidateRepository,
@@ -48,6 +50,7 @@ const repositoriesWithoutInjectedDependencies = {
   sessionManagementRepository,
   sessionRepository,
   organizationLearnerRepository,
+  userRepository,
 };
 
 /**

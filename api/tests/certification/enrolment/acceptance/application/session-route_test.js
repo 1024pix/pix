@@ -1,3 +1,7 @@
+import { CERTIFICATION_VERSIONS } from '../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { types } from '../../../../../src/organizational-entities/domain/models/Organization.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/domain/constants.js';
+import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/language-service.js';
 import {
   createServer,
   databaseBuilder,
@@ -215,6 +219,230 @@ describe('Acceptance | Controller | Session | session-route', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.id).to.equal(sessionId + '');
+    });
+  });
+
+  describe('POST /api/sessions/{id}/candidate-participation', function () {
+    let options;
+    const firstName = 'Marie';
+    const lastName = 'Antoinette';
+    const birthdate = '2004-12-25';
+
+    context('not SCO / isManagingStudents', function () {
+      let sessionId, userId;
+
+      beforeEach(function () {
+        userId = databaseBuilder.factory.buildUser({
+          lang: LANGUAGES_CODE.FRENCH,
+        }).id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          type: CERTIFICATION_CENTER_TYPES.SUP,
+        }).id;
+        sessionId = databaseBuilder.factory.buildSession({
+          finalizedAt: null,
+          version: CERTIFICATION_VERSIONS.V3,
+          certificationCenterId,
+        }).id;
+        options = {
+          method: 'POST',
+          url: `/api/sessions/${sessionId}/candidate-participation`,
+          payload: {
+            data: {
+              type: 'certification-candidates',
+              attributes: {
+                'first-name': firstName,
+                'last-name': lastName,
+                birthdate,
+              },
+            },
+          },
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+        return databaseBuilder.commit();
+      });
+
+      it('should return a 201 status and the linked candidate when linking has been done', async function () {
+        // given
+        const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+          firstName,
+          lastName,
+          birthdate,
+          sessionId,
+          userId: null,
+          organizationLearnerId: null,
+          hasSeenCertificationInstructions: false,
+        }).id;
+        databaseBuilder.factory.buildCoreSubscription({
+          certificationCandidateId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+        expect(response.result.data).to.deep.equal({
+          type: 'certification-candidates',
+          id: certificationCandidateId.toString(),
+          attributes: {
+            'first-name': 'Marie',
+            'last-name': 'Antoinette',
+            birthdate: '2004-12-25',
+            'session-id': sessionId,
+            'has-seen-certification-instructions': false,
+          },
+        });
+      });
+
+      it('should return a 200 status and the linked candidate when linking was already done', async function () {
+        // given
+        const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+          firstName,
+          lastName,
+          birthdate,
+          sessionId,
+          userId,
+          organizationLearnerId: null,
+          hasSeenCertificationInstructions: false,
+        }).id;
+        databaseBuilder.factory.buildCoreSubscription({
+          certificationCandidateId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal({
+          type: 'certification-candidates',
+          id: certificationCandidateId.toString(),
+          attributes: {
+            'first-name': 'Marie',
+            'last-name': 'Antoinette',
+            birthdate: '2004-12-25',
+            'session-id': sessionId,
+            'has-seen-certification-instructions': false,
+          },
+        });
+      });
+    });
+
+    context('SCO / isManagingStudents', function () {
+      let sessionId, userId, organizationLearnerId;
+
+      beforeEach(function () {
+        userId = databaseBuilder.factory.buildUser({
+          lang: LANGUAGES_CODE.FRENCH,
+        }).id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          type: CERTIFICATION_CENTER_TYPES.SCO,
+          externalId: 'ABC123',
+        }).id;
+        const organizationId = databaseBuilder.factory.buildOrganization({
+          externalId: 'ABC123',
+          type: types.SCO,
+          isManagingStudents: true,
+        }).id;
+        organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+          firstName,
+          lastName,
+          birthdate,
+          userId,
+          organizationId,
+        }).id;
+        sessionId = databaseBuilder.factory.buildSession({
+          finalizedAt: null,
+          version: CERTIFICATION_VERSIONS.V3,
+          certificationCenterId,
+        }).id;
+        options = {
+          method: 'POST',
+          url: `/api/sessions/${sessionId}/candidate-participation`,
+          payload: {
+            data: {
+              type: 'certification-candidates',
+              attributes: {
+                'first-name': firstName,
+                'last-name': lastName,
+                birthdate,
+              },
+            },
+          },
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+        return databaseBuilder.commit();
+      });
+
+      it('should return a 201 status and the linked candidate when linking has been done', async function () {
+        // given
+        const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+          firstName,
+          lastName,
+          birthdate,
+          sessionId,
+          userId: null,
+          organizationLearnerId,
+          hasSeenCertificationInstructions: false,
+        }).id;
+        databaseBuilder.factory.buildCoreSubscription({
+          certificationCandidateId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+        expect(response.result.data).to.deep.equal({
+          type: 'certification-candidates',
+          id: certificationCandidateId.toString(),
+          attributes: {
+            'first-name': 'Marie',
+            'last-name': 'Antoinette',
+            birthdate: '2004-12-25',
+            'session-id': sessionId,
+            'has-seen-certification-instructions': false,
+          },
+        });
+      });
+
+      it('should return a 200 status and the linked candidate when linking was already done', async function () {
+        // given
+        const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+          firstName,
+          lastName,
+          birthdate,
+          sessionId,
+          userId,
+          organizationLearnerId,
+          hasSeenCertificationInstructions: false,
+        }).id;
+        databaseBuilder.factory.buildCoreSubscription({
+          certificationCandidateId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal({
+          type: 'certification-candidates',
+          id: certificationCandidateId.toString(),
+          attributes: {
+            'first-name': 'Marie',
+            'last-name': 'Antoinette',
+            birthdate: '2004-12-25',
+            'session-id': sessionId,
+            'has-seen-certification-instructions': false,
+          },
+        });
+      });
     });
   });
 });
