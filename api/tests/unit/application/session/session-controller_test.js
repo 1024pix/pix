@@ -1,13 +1,10 @@
 import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
-import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
-import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { SessionPublicationBatchError } from '../../../../src/shared/application/http-errors.js';
 import { SessionPublicationBatchResult } from '../../../../src/shared/domain/models/index.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
-
 describe('Unit | Controller | sessionController', function () {
   let request;
   const userId = 274939274;
@@ -51,108 +48,6 @@ describe('Unit | Controller | sessionController', function () {
 
       // then
       expect(response).to.deep.equal(juryCertificationSummariesJSONAPI);
-    });
-  });
-
-  describe('#createCandidateParticipation', function () {
-    const sessionId = 1;
-    const userId = 2;
-    let firstName;
-    let lastName;
-    let birthdate;
-    let linkedCertificationCandidate;
-    let serializedCertificationCandidate;
-    let dependencies;
-
-    beforeEach(function () {
-      // given
-      firstName = 'firstName';
-      lastName = 'lastName';
-      birthdate = Symbol('birthdate');
-      linkedCertificationCandidate = Symbol('candidate');
-      serializedCertificationCandidate = Symbol('sCandidate');
-      const certificationCandidateSerializer = { serialize: sinon.stub() };
-      dependencies = {
-        certificationCandidateSerializer,
-      };
-      dependencies.certificationCandidateSerializer.serialize
-        .withArgs(linkedCertificationCandidate)
-        .returns(serializedCertificationCandidate);
-    });
-
-    it('trims the firstname and lastname', async function () {
-      // given
-      firstName = 'firstName     ';
-      lastName = 'lastName    ';
-      sinon
-        .stub(usecases, 'linkUserToSessionCertificationCandidate')
-        .withArgs({
-          userId,
-          sessionId,
-          firstName: 'firstName',
-          lastName: 'lastName',
-          birthdate,
-        })
-        .resolves(new UserAlreadyLinkedToCertificationCandidate());
-      sinon
-        .stub(usecases, 'getCertificationCandidate')
-        .withArgs({ userId, sessionId })
-        .resolves(linkedCertificationCandidate);
-      const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
-
-      // when
-      const response = await sessionController.createCandidateParticipation(request, hFake, dependencies);
-
-      // then
-      expect(response).to.equal(serializedCertificationCandidate);
-    });
-
-    context('when the participation already exists', function () {
-      beforeEach(function () {
-        sinon
-          .stub(usecases, 'linkUserToSessionCertificationCandidate')
-          .withArgs({ userId, sessionId, firstName, lastName, birthdate })
-          .resolves(new UserAlreadyLinkedToCertificationCandidate());
-        sinon
-          .stub(usecases, 'getCertificationCandidate')
-          .withArgs({ userId, sessionId })
-          .resolves(linkedCertificationCandidate);
-      });
-
-      it('should return a certification candidate', async function () {
-        // given
-        const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
-        // when
-        const response = await sessionController.createCandidateParticipation(request, hFake, dependencies);
-
-        // then
-        expect(response).to.equals(serializedCertificationCandidate);
-      });
-    });
-
-    context('when the participation is created', function () {
-      beforeEach(function () {
-        sinon
-          .stub(usecases, 'linkUserToSessionCertificationCandidate')
-          .withArgs({ userId, sessionId, firstName, lastName, birthdate })
-          .resolves(new UserLinkedToCertificationCandidate());
-        sinon
-          .stub(usecases, 'getCertificationCandidate')
-          .withArgs({ userId, sessionId })
-          .resolves(linkedCertificationCandidate);
-      });
-
-      it('should return a certification candidate', async function () {
-        // given
-        const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
-
-        // when
-        const response = await sessionController.createCandidateParticipation(request, hFake, dependencies);
-
-        // then
-        expect(response.statusCode).to.equal(201);
-        expect(response.source).to.equals(serializedCertificationCandidate);
-      });
     });
   });
 
@@ -394,24 +289,3 @@ describe('Unit | Controller | sessionController', function () {
     });
   });
 });
-
-function buildRequest(sessionId, userId, firstName, lastName, birthdate) {
-  return {
-    params: { id: sessionId },
-    auth: {
-      credentials: {
-        userId,
-      },
-    },
-    payload: {
-      data: {
-        attributes: {
-          'first-name': firstName,
-          'last-name': lastName,
-          birthdate: birthdate,
-        },
-        type: 'certification-candidates',
-      },
-    },
-  };
-}

@@ -119,14 +119,6 @@ class CertificationCandidate {
     return this.authorizedToStart;
   }
 
-  isLinkedToAUser() {
-    return !isNil(this.userId);
-  }
-
-  isLinkedToUserId(userId) {
-    return this.userId === userId;
-  }
-
   isGranted(key) {
     return this.complementaryCertification?.key === key;
   }

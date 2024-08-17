@@ -1,16 +1,10 @@
-import lodash from 'lodash';
-
 import * as sessionManagementSerializer from '../../../src/certification/session-management/infrastructure/serializers/session-serializer.js';
-import * as certificationCandidateSerializer from '../../../src/certification/shared/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import { SessionPublicationBatchError } from '../../../src/shared/application/http-errors.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
-import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
 import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
-
-const { trim } = lodash;
 
 const getJuryCertificationSummaries = async function (
   request,
@@ -37,26 +31,6 @@ const generateSessionResultsDownloadLink = async function (request, h, dependenc
   const sessionResultsLink = dependencies.sessionResultsLinkService.generateResultsLink({ sessionId, i18n });
 
   return h.response({ sessionResultsLink });
-};
-
-const createCandidateParticipation = async function (request, h, dependencies = { certificationCandidateSerializer }) {
-  const userId = request.auth.credentials.userId;
-  const sessionId = request.params.id;
-  const firstName = trim(request.payload.data.attributes['first-name']);
-  const lastName = trim(request.payload.data.attributes['last-name']);
-  const birthdate = request.payload.data.attributes['birthdate'];
-
-  const event = await usecases.linkUserToSessionCertificationCandidate({
-    userId,
-    sessionId,
-    firstName,
-    lastName,
-    birthdate,
-  });
-
-  const certificationCandidate = await usecases.getCertificationCandidate({ userId, sessionId });
-  const serialized = await dependencies.certificationCandidateSerializer.serialize(certificationCandidate);
-  return event instanceof UserLinkedToCertificationCandidate ? h.response(serialized).created() : serialized;
 };
 
 const publish = async function (request, h, dependencies = { sessionManagementSerializer }) {
@@ -101,7 +75,6 @@ const flagResultsAsSentToPrescriber = async function (request, h, dependencies =
 const sessionController = {
   getJuryCertificationSummaries,
   generateSessionResultsDownloadLink,
-  createCandidateParticipation,
   publish,
   publishInBatch,
   unpublish,

@@ -139,22 +139,8 @@ class CertificationCandidateByPersonalInfoTooManyMatchesError extends DomainErro
   }
 }
 
-class CertificationCandidateCreationOrUpdateError extends DomainError {
-  constructor(message = 'Echec lors la création ou de la mise à jour du candidat de certification.') {
-    super(message);
-  }
-}
-
 class CertificationCandidateDeletionError extends DomainError {
   constructor(message = 'Echec lors de la suppression du candidat de certification.') {
-    super(message);
-  }
-}
-
-class CertificationCandidateMultipleUserLinksWithinSessionError extends DomainError {
-  constructor(
-    message = "Il est interdit de lier un utilisateur à plusieurs candidats de certification au sein d'une même session.",
-  ) {
     super(message);
   }
 }
@@ -1141,9 +1127,7 @@ export {
   CertificationBadgeForbiddenDeletionError,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
-  CertificationCandidateCreationOrUpdateError,
   CertificationCandidateDeletionError,
-  CertificationCandidateMultipleUserLinksWithinSessionError,
   CertificationCandidateNotFoundError,
   CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatePersonalInfoFieldMissingError,

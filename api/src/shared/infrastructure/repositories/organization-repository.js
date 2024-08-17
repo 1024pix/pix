@@ -136,18 +136,6 @@ const getIdByCertificationCenterId = async function (certificationCenterId) {
   return organizationIds[0];
 };
 
-const getScoOrganizationByExternalId = async function (externalId) {
-  const organizationDB = await knex(ORGANIZATIONS_TABLE_NAME)
-    .where({ type: Organization.types.SCO })
-    .whereRaw('LOWER("externalId") = ?', externalId.toLowerCase())
-    .first();
-
-  if (!organizationDB) {
-    throw new NotFoundError(`Could not find organization for externalId ${externalId}.`);
-  }
-  return _toDomain(organizationDB);
-};
-
 const findByExternalIdsFetchingIdsOnly = async function (externalIds) {
   const organizationsDB = await knex(ORGANIZATIONS_TABLE_NAME)
     .whereInArray('externalId', externalIds)
@@ -218,6 +206,5 @@ export {
   get,
   getIdByCertificationCenterId,
   getOrganizationsWithPlaces,
-  getScoOrganizationByExternalId,
   update,
 };
