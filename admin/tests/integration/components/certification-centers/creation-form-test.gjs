@@ -1,6 +1,6 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import CreationForm from 'pix-admin/components/certification-centers/creation-form';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -10,17 +10,15 @@ module('Integration | Component | certification-centers/creation-form', function
 
   test('it renders the new certification center form component', async function (assert) {
     // given
-    this.onSubmit = () => {};
-    this.onCancel = () => {};
-    this.certificationCenter = {};
+    const onSubmit = () => {};
+    const onCancel = () => {};
+    const certificationCenter = {};
 
     // when
     const screen = await render(
-      hbs`<CertificationCenters::CreationForm
-  @certificationCenter={{this.certificationCenter}}
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`,
+      <template>
+        <CreationForm @certificationCenter={{certificationCenter}} @onSubmit={{onSubmit}} @onCancel={{onCancel}} />
+      </template>,
     );
 
     // then
@@ -42,17 +40,20 @@ module('Integration | Component | certification-centers/creation-form', function
     test('should add isV3Pilot to certification center on checked checkbox', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      this.certificationCenter = store.createRecord('certification-center');
-      this.habilitations = [];
-      this.stub = () => {};
+      const certificationCenter = store.createRecord('certification-center');
+      const habilitations = [];
+      const onSubmit = () => {};
+      const onCancel = () => {};
 
       const screen = await render(
-        hbs`<CertificationCenters::CreationForm
-  @certificationCenter={{this.certificationCenter}}
-  @habilitations={{this.habilitations}}
-  @onSubmit={{this.stub}}
-  @onCancel={{this.stub}}
-/>`,
+        <template>
+          <CreationForm
+            @habilitations={{habilitations}}
+            @certificationCenter={{certificationCenter}}
+            @onSubmit={{onSubmit}}
+            @onCancel={{onCancel}}
+          />
+        </template>,
       );
 
       // when
@@ -63,22 +64,27 @@ module('Integration | Component | certification-centers/creation-form', function
       );
 
       // then
-      assert.true(this.certificationCenter.isV3Pilot);
+      assert.true(certificationCenter.isV3Pilot);
     });
   });
 
   module('#selectCertificationCenterType', function () {
     test('should update attribute certificationCenter.type', async function (assert) {
       // given
-      this.onSubmit = () => {};
-      this.onCancel = () => {};
-      this.certificationCenter = {};
+      const certificationCenter = {};
+      const habilitations = [];
+      const onSubmit = () => {};
+      const onCancel = () => {};
+
       const screen = await render(
-        hbs`<CertificationCenters::CreationForm
-  @certificationCenter={{this.certificationCenter}}
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`,
+        <template>
+          <CreationForm
+            @habilitations={{habilitations}}
+            @certificationCenter={{certificationCenter}}
+            @onSubmit={{onSubmit}}
+            @onCancel={{onCancel}}
+          />
+        </template>,
       );
 
       // when
@@ -87,7 +93,7 @@ module('Integration | Component | certification-centers/creation-form', function
       await click(screen.getByRole('option', { name: 'Établissement scolaire' }));
 
       // then
-      assert.strictEqual(this.certificationCenter.type, 'SCO');
+      assert.strictEqual(certificationCenter.type, 'SCO');
     });
   });
 
@@ -97,25 +103,28 @@ module('Integration | Component | certification-centers/creation-form', function
       const store = this.owner.lookup('service:store');
       const habilitation1 = store.createRecord('complementary-certification', { key: 'E', label: 'Pix+Edu' });
       const habilitation2 = store.createRecord('complementary-certification', { key: 'S', label: 'Pix+Surf' });
-      this.certificationCenter = store.createRecord('certification-center');
-      this.habilitations = [habilitation1, habilitation2];
-      this.stub = () => {};
+      const certificationCenter = store.createRecord('certification-center');
+      const habilitations = [habilitation1, habilitation2];
+      const onSubmit = () => {};
+      const onCancel = () => {};
 
       const screen = await render(
-        hbs`<CertificationCenters::CreationForm
-  @certificationCenter={{this.certificationCenter}}
-  @habilitations={{this.habilitations}}
-  @onSubmit={{this.stub}}
-  @onCancel={{this.stub}}
-/>`,
+        <template>
+          <CreationForm
+            @habilitations={{habilitations}}
+            @certificationCenter={{certificationCenter}}
+            @onSubmit={{onSubmit}}
+            @onCancel={{onCancel}}
+          />
+        </template>,
       );
 
       // when
       await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));
 
       // then
-      const habilitations = await this.certificationCenter.habilitations;
-      assert.ok(habilitations.includes(habilitation2));
+      const expectedHabilitations = await certificationCenter.habilitations;
+      assert.ok(expectedHabilitations.includes(habilitation2));
     });
 
     test('should remove habilitation to certification center on unchecked checkbox', async function (assert) {
@@ -123,42 +132,44 @@ module('Integration | Component | certification-centers/creation-form', function
       const store = this.owner.lookup('service:store');
       const habilitation1 = store.createRecord('complementary-certification', { key: 'E', label: 'Pix+Edu' });
       const habilitation2 = store.createRecord('complementary-certification', { key: 'S', label: 'Pix+Surf' });
-      this.certificationCenter = store.createRecord('certification-center', {
+      const certificationCenter = store.createRecord('certification-center', {
         habilitations: [habilitation2],
       });
-      this.habilitations = [habilitation1, habilitation2];
-      this.stub = () => {};
+      const habilitations = [habilitation1, habilitation2];
+      const onSubmit = () => {};
+      const onCancel = () => {};
 
       const screen = await render(
-        hbs`<CertificationCenters::CreationForm
-  @certificationCenter={{this.certificationCenter}}
-  @habilitations={{this.habilitations}}
-  @onSubmit={{this.stub}}
-  @onCancel={{this.stub}}
-/>`,
+        <template>
+          <CreationForm
+            @habilitations={{habilitations}}
+            @certificationCenter={{certificationCenter}}
+            @onSubmit={{onSubmit}}
+            @onCancel={{onCancel}}
+          />
+        </template>,
       );
 
       // when
       await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));
 
       // then
-      const habilitations = await this.certificationCenter.habilitations;
-      assert.notOk(habilitations.includes(habilitation2));
+      const expectedHabilitations = await certificationCenter.habilitations;
+      assert.notOk(expectedHabilitations.includes(habilitation2));
     });
   });
 
   test('it should be possible to add data protection officer names and email', async function (assert) {
     // given
-    this.onSubmit = () => {};
-    this.onCancel = () => {};
+    const onSubmit = () => {};
+    const onCancel = () => {};
     const store = this.owner.lookup('service:store');
-    this.certificationCenter = store.createRecord('certification-center', { name: 'Super centre' });
+    const certificationCenter = store.createRecord('certification-center', { name: 'Super centre' });
+
     await render(
-      hbs`<CertificationCenters::CreationForm
-  @certificationCenter={{this.certificationCenter}}
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`,
+      <template>
+        <CreationForm @certificationCenter={{certificationCenter}} @onSubmit={{onSubmit}} @onCancel={{onCancel}} />
+      </template>,
     );
 
     // when
@@ -167,8 +178,8 @@ module('Integration | Component | certification-centers/creation-form', function
     await fillByLabel('Adresse e-mail du DPO', 'jacques.hadis@example.com');
 
     // then
-    assert.strictEqual(this.certificationCenter.dataProtectionOfficerFirstName, 'Jacques');
-    assert.strictEqual(this.certificationCenter.dataProtectionOfficerLastName, 'Hadis');
-    assert.strictEqual(this.certificationCenter.dataProtectionOfficerEmail, 'jacques.hadis@example.com');
+    assert.strictEqual(certificationCenter.dataProtectionOfficerFirstName, 'Jacques');
+    assert.strictEqual(certificationCenter.dataProtectionOfficerLastName, 'Hadis');
+    assert.strictEqual(certificationCenter.dataProtectionOfficerEmail, 'jacques.hadis@example.com');
   });
 });
