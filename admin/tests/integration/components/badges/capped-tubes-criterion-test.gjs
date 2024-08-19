@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import CappedTubesCriterion from 'pix-admin/components/badges/capped-tubes-criterion';
 import { module, test } from 'qunit';
 
 module('Integration | Component | Badges::CappedTubes', function (hooks) {
@@ -165,16 +165,16 @@ module('Integration | Component | Badges::CappedTubes', function (hooks) {
       threshold: 70,
       cappedTubes: cappedTubesDTO,
     });
-    this.set('criterion', criterion);
-    this.set('targetProfile', targetProfile);
 
     // when
     const screen = await render(
-      hbs`<Badges::CappedTubesCriterion @criterion={{this.criterion}} @targetProfile={{this.targetProfile}} />`,
+      <template><CappedTubesCriterion @criterion={{criterion}} @targetProfile={{targetProfile}} /></template>,
     );
+
     for (const button of screen.getAllByRole('button', { expanded: false })) {
       await click(button);
     }
+
     for (const button of screen.getAllByRole('button', { expanded: false })) {
       await click(button);
     }

@@ -9,8 +9,8 @@ import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { pick } from 'ember-composable-helpers/helpers/pick';
-import { toggle } from 'ember-composable-helpers/helpers/toggle';
+import pick from 'ember-composable-helpers/helpers/pick';
+import toggle from 'ember-composable-helpers/helpers/toggle';
 import set from 'ember-set-helper/helpers/set';
 import { not } from 'ember-truth-helpers';
 

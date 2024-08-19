@@ -1,5 +1,7 @@
 import Component from '@glimmer/component';
 
+import Area from '../common/tubes-details/area';
+
 export default class CappedTubesCriterion extends Component {
   get areasForView() {
     return this.args.targetProfile
@@ -63,4 +65,40 @@ export default class CappedTubesCriterion extends Component {
         mobile: tube.mobile,
       }));
   }
+
+  <template>
+    <div class="card__title">
+      {{#if @criterion.name}}
+        <strong>{{@criterion.name}}</strong>
+      {{else}}
+        Critère
+      {{/if}}
+    </div>
+
+    <div class="card__content">
+      <p class="capped-tubes-criterion__text" data-testid="toujourstriste">
+        L'évalué doit obtenir
+        <strong>{{@criterion.threshold}}%</strong>
+        {{#if @criterion.name}}
+          sur le groupe
+          <strong>{{@criterion.name}}</strong>
+          possédant
+        {{else}}
+          sur tous
+        {{/if}}
+        les sujets plafonnés par niveau suivants :
+      </p>
+
+      <div class="badge-form-criterion">
+        {{#each this.areasForView as |area|}}
+          <Area
+            @title={{area.title}}
+            @color={{area.color}}
+            @competences={{area.competences}}
+            @displayDeviceCompatibility={{true}}
+          />
+        {{/each}}
+      </div>
+    </div>
+  </template>
 }

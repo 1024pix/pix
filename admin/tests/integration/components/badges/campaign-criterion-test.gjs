@@ -9,8 +9,6 @@ import sinon from 'sinon';
 module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
   setupRenderingTest(hooks);
 
-  let criterion;
-
   test('should display a CampaignParticipation criterion', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
@@ -34,7 +32,7 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
       test('should display a disabled edit button', async function (assert) {
         // when
         const store = this.owner.lookup('service:store');
-        criterion = store.createRecord('badge-criterion', {
+        const criterion = store.createRecord('badge-criterion', {
           id: 123,
           threshold: 60,
         });
@@ -52,21 +50,18 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
       });
     });
 
-    module('when the target profile is not linked with a campaign', function (hooks) {
-      let modal, notificationErrorStub, notificationSuccessStub, screen, store;
-
-      hooks.beforeEach(async function () {
-        // given
-        store = this.owner.lookup('service:store');
-
-        criterion = store.createRecord('badge-criterion', {
+    module('when the target profile is not linked with a campaign', function () {
+      test('should display an edit modal with a filled input', async function (assert) {
+        const store = this.owner.lookup('service:store');
+        const criterion = store.createRecord('badge-criterion', {
           scope: 'CampaignParticipation',
           threshold: 60,
           save: sinon.stub(),
         });
 
-        notificationSuccessStub = sinon.stub();
-        notificationErrorStub = sinon.stub();
+        // given
+        const notificationSuccessStub = sinon.stub();
+        const notificationErrorStub = sinon.stub();
         class NotificationsStub extends Service {
           success = notificationSuccessStub;
           error = notificationErrorStub;
@@ -74,23 +69,66 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
         this.owner.register('service:notifications', NotificationsStub);
 
         // when
-        screen = await render(<template><CampaignCriterion @criterion={{criterion}} @isEditable={{true}} /></template>);
+        const screen = await render(
+          <template><CampaignCriterion @criterion={{criterion}} @isEditable={{true}} /></template>,
+        );
         await clickByName('Modifier le critère');
-        modal = within(await screen.findByRole('dialog'));
-      });
-
-      test('should display an edit modal with a filled input', async function (assert) {
+        const modal = within(await screen.findByRole('dialog'));
         // then
         assert.notOk(this.element.querySelector('.pix-modal__overlay--hidden'));
         assert.dom(modal.getByDisplayValue(60)).exists();
       });
 
       test('should close the edit modal on cancel action', async function (assert) {
+        const store = this.owner.lookup('service:store');
+        const criterion = store.createRecord('badge-criterion', {
+          scope: 'CampaignParticipation',
+          threshold: 60,
+          save: sinon.stub(),
+        });
+
+        // given
+        const notificationSuccessStub = sinon.stub();
+        const notificationErrorStub = sinon.stub();
+        class NotificationsStub extends Service {
+          success = notificationSuccessStub;
+          error = notificationErrorStub;
+        }
+        this.owner.register('service:notifications', NotificationsStub);
+
+        // when
+        const screen = await render(
+          <template><CampaignCriterion @criterion={{criterion}} @isEditable={{true}} /></template>,
+        );
+        await clickByName('Modifier le critère');
+        const modal = within(await screen.findByRole('dialog'));
         await click(modal.getByRole('button', { name: 'Annuler' }));
         assert.dom(this.element.querySelector('.pix-modal__overlay--hidden')).exists();
       });
 
       test('should call the save method and success notification service', async function (assert) {
+        const store = this.owner.lookup('service:store');
+        const criterion = store.createRecord('badge-criterion', {
+          scope: 'CampaignParticipation',
+          threshold: 60,
+          save: sinon.stub(),
+        });
+
+        // given
+        const notificationSuccessStub = sinon.stub();
+        const notificationErrorStub = sinon.stub();
+        class NotificationsStub extends Service {
+          success = notificationSuccessStub;
+          error = notificationErrorStub;
+        }
+        this.owner.register('service:notifications', NotificationsStub);
+
+        // when
+        const screen = await render(
+          <template><CampaignCriterion @criterion={{criterion}} @isEditable={{true}} /></template>,
+        );
+        await clickByName('Modifier le critère');
+        const modal = within(await screen.findByRole('dialog'));
         // given
         criterion.save.resolves();
 
@@ -107,6 +145,28 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
       });
 
       test('should display an error notification', async function (assert) {
+        const store = this.owner.lookup('service:store');
+        const criterion = store.createRecord('badge-criterion', {
+          scope: 'CampaignParticipation',
+          threshold: 60,
+          save: sinon.stub(),
+        });
+
+        // given
+        const notificationSuccessStub = sinon.stub();
+        const notificationErrorStub = sinon.stub();
+        class NotificationsStub extends Service {
+          success = notificationSuccessStub;
+          error = notificationErrorStub;
+        }
+        this.owner.register('service:notifications', NotificationsStub);
+
+        // when
+        const screen = await render(
+          <template><CampaignCriterion @criterion={{criterion}} @isEditable={{true}} /></template>,
+        );
+        await clickByName('Modifier le critère');
+        const modal = within(await screen.findByRole('dialog'));
         // given
         criterion.save.throws({
           errors: [
