@@ -1,13 +1,15 @@
 import { clickByName, fillByLabel, fireEvent, render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import CampaignCriterion from 'pix-admin/components/badges/campaign-criterion';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
   setupRenderingTest(hooks);
+
+  let criterion;
 
   test('should display a CampaignParticipation criterion', async function (assert) {
     // given
@@ -16,10 +18,9 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
       id: 123,
       threshold: 60,
     });
-    this.set('criterion', criterion);
 
     // when
-    const screen = await render(hbs`<Badges::CampaignCriterion @criterion={{this.criterion}} />`);
+    const screen = await render(<template><CampaignCriterion @criterion={{criterion}} /></template>);
 
     // then
     assert.deepEqual(
@@ -32,8 +33,14 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
     module('when the target profile is linked with a campaign', function () {
       test('should display a disabled edit button', async function (assert) {
         // when
+        const store = this.owner.lookup('service:store');
+        criterion = store.createRecord('badge-criterion', {
+          id: 123,
+          threshold: 60,
+        });
+
         const screen = await render(
-          hbs`<Badges::CampaignCriterion @criterion={{this.criterion}} @isEditable={{false}} />`,
+          <template><CampaignCriterion @criterion={{criterion}} @isEditable={{false}} /></template>,
         );
 
         fireEvent.mouseOver(screen.getByRole('button', { name: 'Modifier le critère' }));
@@ -52,12 +59,11 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
         // given
         store = this.owner.lookup('service:store');
 
-        const criterion = store.createRecord('badge-criterion', {
+        criterion = store.createRecord('badge-criterion', {
           scope: 'CampaignParticipation',
           threshold: 60,
           save: sinon.stub(),
         });
-        this.set('criterion', criterion);
 
         notificationSuccessStub = sinon.stub();
         notificationErrorStub = sinon.stub();
@@ -68,7 +74,7 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
         this.owner.register('service:notifications', NotificationsStub);
 
         // when
-        screen = await render(hbs`<Badges::CampaignCriterion @criterion={{this.criterion}} @isEditable={{true}} />`);
+        screen = await render(<template><CampaignCriterion @criterion={{criterion}} @isEditable={{true}} /></template>);
         await clickByName('Modifier le critère');
         modal = within(await screen.findByRole('dialog'));
       });
@@ -86,7 +92,7 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
 
       test('should call the save method and success notification service', async function (assert) {
         // given
-        this.criterion.save.resolves();
+        criterion.save.resolves();
 
         // when
         await fillByLabel(/Nouveau seuil d'obtention du critère :/, 33);
@@ -95,14 +101,14 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
         await click(modal.getByRole('button', { name: 'Enregistrer' }));
 
         //then
-        assert.ok(this.criterion.save.called);
+        assert.ok(criterion.save.called);
         sinon.assert.calledWith(notificationSuccessStub, "Seuil d'obtention du critère modifié avec succès.");
         assert.dom(this.element.querySelector('.pix-modal__overlay--hidden')).exists();
       });
 
       test('should display an error notification', async function (assert) {
         // given
-        this.criterion.save.throws({
+        criterion.save.throws({
           errors: [
             {
               detail: "Il est interdit de modifier un critère d'un résultat thématique déjà acquis par un utilisateur.",
