@@ -1493,7 +1493,8 @@
       "success": {
         "invitation": "Une invitation a bien été envoyée à l’adresse e-mail {email}.",
         "multiple-invitations": "Une invitation a bien été envoyée aux adresses e-mails listées."
-      }
+      },
+      "warning": "Les membres que vous ajoutez ci-dessous auront accès aux résultats des participants et à l’analyse des campagnes. Veuillez vous assurer que les personnes invitées sont des membres de votre organisation."
     },
     "team-new-item": {
       "input-label": "Adresse(s) e-mail",

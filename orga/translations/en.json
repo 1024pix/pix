@@ -1484,7 +1484,8 @@
       "success": {
         "invitation": "An invitation has been sent to the email address {email}.",
         "multiple-invitations": "An invitation has been sent to the listed email addresses."
-      }
+      },
+      "warning": "The members you add below will have access to participant results and campaign analysis. Please ensure that the people you invite are members of your organisation."
     },
     "team-new-item": {
       "input-label": "Email address(es)",
