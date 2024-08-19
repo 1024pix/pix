@@ -48,7 +48,6 @@ import * as poleEmploiSendingRepository from '../../infrastructure/repositories/
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import { handleAutoJury } from './handle-auto-jury.js';
 import { handleCertificationRescoring } from './handle-certification-rescoring.js';
-import { handleCertificationScoring } from './handle-certification-scoring.js';
 import { handleComplementaryCertificationsScoring } from './handle-complementary-certifications-scoring.js';
 import { handleSessionFinalized } from './handle-session-finalized.js';
 
@@ -104,7 +103,6 @@ const dependencies = {
 
 const handlersToBeInjected = {
   handleAutoJury,
-  handleCertificationScoring,
   handleCertificationRescoring,
   handleComplementaryCertificationsScoring,
   handleSessionFinalized,
