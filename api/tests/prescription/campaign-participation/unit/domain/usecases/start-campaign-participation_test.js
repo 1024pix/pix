@@ -1,5 +1,5 @@
-import { CampaignParticipationStarted } from '../../../../../../lib/domain/events/CampaignParticipationStarted.js';
 import { CampaignParticipant } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
+import { PoleEmploiParticipationStartedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/PoleEmploiParticipationStartedJob.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
@@ -9,11 +9,15 @@ describe('Unit | UseCase | start-campaign-participation', function () {
   let campaignRepository;
   let campaignParticipantRepository;
   let campaignParticipationRepository;
+  let poleEmploiParticipationStartedJobRepository;
 
   beforeEach(function () {
     campaignRepository = {
       findAllSkills: sinon.stub(),
       areKnowledgeElementsResettable: sinon.stub(),
+    };
+    poleEmploiParticipationStartedJobRepository = {
+      performAsync: sinon.stub(),
     };
     campaignParticipantRepository = {
       get: sinon.stub(),
@@ -24,7 +28,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     };
   });
 
-  it('should return CampaignParticipationStarted event', async function () {
+  it('should call job creation', async function () {
     // given
     const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation();
     const campaignParticipant = new CampaignParticipant({
@@ -37,7 +41,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       id: 12,
     });
 
-    const campaignParticipationStartedEvent = new CampaignParticipationStarted({
+    const campaignParticipationStartedEvent = new PoleEmploiParticipationStartedJob({
       campaignParticipationId: expectedCampaignParticipation.id,
     });
 
@@ -52,7 +56,8 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     campaignParticipationRepository.get.withArgs(12).resolves(expectedCampaignParticipation);
 
     // when
-    const { event, campaignParticipation } = await usecases.startCampaignParticipation({
+    const { campaignParticipation } = await usecases.startCampaignParticipation({
+      poleEmploiParticipationStartedJobRepository,
       campaignParticipation: campaignParticipationAttributes,
       userId,
       campaignRepository,
@@ -61,11 +66,13 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     });
 
     // then
+    expect(poleEmploiParticipationStartedJobRepository.performAsync).to.have.been.calledWithExactly(
+      campaignParticipationStartedEvent,
+    );
     expect(campaignParticipant.start).to.have.been.calledWithExactly({
       participantExternalId: 'YvoLoL',
       isReset: campaignParticipationAttributes.isReset,
     });
-    expect(event).to.deep.equal(campaignParticipationStartedEvent);
     expect(campaignParticipation).to.deep.equal(expectedCampaignParticipation);
     expect(campaignRepository.areKnowledgeElementsResettable).to.have.been.calledWithExactly({
       id: campaignParticipationAttributes.campaignId,
@@ -140,6 +147,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       it('should retrieve skillIds to reset', async function () {
         // when
         await usecases.startCampaignParticipation({
+          poleEmploiParticipationStartedJobRepository,
           campaignParticipation: campaignParticipationAttributes,
           userId,
           campaignRepository,
@@ -162,6 +170,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
         // when
         await usecases.startCampaignParticipation({
+          poleEmploiParticipationStartedJobRepository,
           campaignParticipation: campaignParticipationAttributes,
           userId,
           campaignRepository,
@@ -191,6 +200,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
         // when
         await usecases.startCampaignParticipation({
+          poleEmploiParticipationStartedJobRepository,
           campaignParticipation: campaignParticipationAttributes,
           userId,
           campaignRepository,
@@ -218,6 +228,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
         // when
         await usecases.startCampaignParticipation({
+          poleEmploiParticipationStartedJobRepository,
           campaignParticipation: campaignParticipationAttributes,
           userId,
           assessmentRepository,

@@ -1,6 +1,4 @@
 import { CampaignParticipationResultsShared } from '../../../../../lib/domain/events/CampaignParticipationResultsShared.js';
-import { CampaignParticipationStarted } from '../../../../../lib/domain/events/CampaignParticipationStarted.js';
-import * as events from '../../../../../lib/domain/events/index.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { learnerParticipationController } from '../../../../../src/prescription/campaign-participation/application/learner-participation-controller.js';
 import { usecases } from '../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
@@ -131,7 +129,6 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
         monitoringTools: monitoringToolsStub,
       };
 
-      sinon.stub(events.eventDispatcher, 'dispatch');
       request = {
         headers: { authorization: 'token' },
         auth: { credentials: { userId } },
@@ -156,13 +153,12 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
 
     it('should call the usecases to start the campaign participation', async function () {
       // given
-      usecases.startCampaignParticipation.resolves(new CampaignParticipationStarted());
+      usecases.startCampaignParticipation.resolves({});
       const deserializedCampaignParticipation = Symbol('campaignParticipation');
       dependencies.campaignParticipationSerializer.deserialize.resolves(deserializedCampaignParticipation);
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
         return callback();
       });
-      events.eventDispatcher.dispatch.resolves();
 
       // when
       await learnerParticipationController.save(request, hFake, dependencies);
@@ -178,33 +174,15 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
       expect(campaignParticipation).to.equal(deserializedCampaignParticipation);
     });
 
-    it('should dispatch CampaignParticipationStartedEvent', async function () {
-      // given
-      const campaignParticipationStartedEvent = new CampaignParticipationStarted();
-      usecases.startCampaignParticipation.resolves({ event: campaignParticipationStartedEvent });
-      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-        return callback();
-      });
-      events.eventDispatcher.dispatch.resolves();
-
-      // when
-      await learnerParticipationController.save(request, hFake, dependencies);
-
-      // then
-      expect(events.eventDispatcher.dispatch).to.have.been.calledWithExactly(campaignParticipationStartedEvent);
-    });
-
     it('should return the serialized campaign participation when it has been successfully created', async function () {
       // given
       const campaignParticipation = domainBuilder.buildCampaignParticipation();
       usecases.startCampaignParticipation.resolves({
-        event: new CampaignParticipationStarted({ campaignParticipationId: campaignParticipation.id }),
         campaignParticipation,
       });
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
         return callback();
       });
-      events.eventDispatcher.dispatch.resolves();
 
       const serializedCampaignParticipation = { id: 88, assessmentId: 12 };
       dependencies.campaignParticipationSerializer.serialize.returns(serializedCampaignParticipation);
@@ -213,36 +191,6 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
       const response = await learnerParticipationController.save(request, hFake, dependencies);
 
       // then
-      expect(dependencies.campaignParticipationSerializer.serialize).to.have.been.calledWithExactly(
-        campaignParticipation,
-      );
-      expect(response.statusCode).to.equal(201);
-      expect(response.source).to.deep.equal(serializedCampaignParticipation);
-    });
-
-    it('should log an error, return the serialized campaign participation when it has been successfully created even if the handler throw an error', async function () {
-      // given
-      const campaignParticipation = domainBuilder.buildCampaignParticipation();
-      usecases.startCampaignParticipation.resolves({
-        event: new CampaignParticipationStarted({ campaignParticipationId: campaignParticipation.id }),
-        campaignParticipation,
-      });
-      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-        return callback();
-      });
-      const errorInHandler = new Error('handlePoleEmploiParticipationStarted failed with an error');
-      events.eventDispatcher.dispatch.rejects(errorInHandler);
-
-      const serializedCampaignParticipation = { id: 88, assessmentId: 12 };
-      dependencies.campaignParticipationSerializer.serialize.returns(serializedCampaignParticipation);
-
-      // when
-      const response = await learnerParticipationController.save(request, hFake, dependencies);
-
-      // then
-      expect(dependencies.monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
-        message: errorInHandler,
-      });
       expect(dependencies.campaignParticipationSerializer.serialize).to.have.been.calledWithExactly(
         campaignParticipation,
       );
