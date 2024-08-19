@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import TubesViewer from 'pix-admin/components/smart-random-simulator/tubes-viewer';
 import { module, test } from 'qunit';
 
 module('Integration | Component | SmartRandomSimulator::TubesViewer', function (hooks) {
@@ -309,25 +309,20 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
   ];
 
   hooks.beforeEach(async function () {
-    this.tubes = tubes;
-    this.currentSkillId = currentSkillId;
-    this.knowledgeElements = knowledgeElements;
-    this.displayedStepIndex = displayedStepIndex;
-    this.smartRandomLog = smartRandomLog;
-    this.totalNumberOfSkills = totalNumberOfSkills;
-    this.selectDisplayedStepIndex = selectDisplayedStepIndex;
-    this.numberOfSkillsStillAvailable = numberOfSkillsStillAvailable;
-
-    screen = await render(hbs`<SmartRandomSimulator::TubesViewer
-  @tubes={{this.tubes}}
-  @currentSkillId={{this.currentSkillId}}
-  @knowledgeElements={{this.knowledgeElements}}
-  @smartRandomLog={{this.smartRandomLog}}
-  @displayedStepIndex={{this.displayedStepIndex}}
-  @totalNumberOfSkills={{this.totalNumberOfSkills}}
-  @selectDisplayedStepIndex={{this.selectDisplayedStepIndex}}
-  @numberOfSkillsStillAvailable={{this.numberOfSkillsStillAvailable}}
-/>`);
+    screen = await render(
+      <template>
+        <TubesViewer
+          @tubes={{tubes}}
+          @currentSkillId={{currentSkillId}}
+          @knowledgeElements={{knowledgeElements}}
+          @smartRandomLog={{smartRandomLog}}
+          @displayedStepIndex={{displayedStepIndex}}
+          @totalNumberOfSkills={{totalNumberOfSkills}}
+          @selectDisplayedStepIndex={{selectDisplayedStepIndex}}
+          @numberOfSkillsStillAvailable={{numberOfSkillsStillAvailable}}
+        />
+      </template>,
+    );
   });
 
   test('should display skills rewards', async function (assert) {

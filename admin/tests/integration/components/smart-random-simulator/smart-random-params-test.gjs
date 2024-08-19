@@ -1,35 +1,35 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import SmartRandomParams from 'pix-admin/components/smart-random-simulator/smart-random-params';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Integration | Component | SmartRandomSimulator::TubesViewer', function (hooks) {
   setupRenderingTest(hooks);
-  let loadCampaignParams;
   let component;
+  const loadCampaignParams = sinon.stub();
 
   hooks.beforeEach(async function () {
-    loadCampaignParams = sinon.stub();
-    this.set('knowledgeElements', []);
-    this.set('answers', []);
-    this.set('skills', []);
-    this.set('challenges', []);
-    this.set('locale', 'fr-fr');
-    this.set('assessmentId', 1);
-    this.set('loadCampaignParams', loadCampaignParams);
-    this.set('updateParametersValue', () => {});
+    const knowledgeElements = [];
+    const answers = [];
+    const skills = [];
+    const challenges = [];
+    const locale = 'fr-fr';
+    const assessmentId = 1;
+    const updateParametersValue = () => {};
 
-    component = hbs`<SmartRandomSimulator::SmartRandomParams
-  @knowledgeElements={{this.knowledgeElements}}
-  @answers={{this.answers}}
-  @skills={{this.skills}}
-  @challenges={{this.challenges}}
-  @locale={{this.locale}}
-  @assessmentId={{this.assessmentId}}
-  @loadCampaignParams={{this.loadCampaignParams}}
-  @updateParametersValue={{this.updateParametersValue}}
-/>`;
+    component = <template>
+      <SmartRandomParams
+        @knowledgeElements={{knowledgeElements}}
+        @answers={{answers}}
+        @skills={{skills}}
+        @challenges={{challenges}}
+        @locale={{locale}}
+        @assessmentId={{assessmentId}}
+        @loadCampaignParams={{loadCampaignParams}}
+        @updateParametersValue={{updateParametersValue}}
+      />
+    </template>;
   });
 
   module('when url does not contain campaign id search query', function () {
