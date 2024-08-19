@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import CampaignsImport from 'pix-admin/components/administration/campaigns-import';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -35,7 +35,7 @@ module('Integration | Component |  administration/campaigns-import', function (h
       saveAdapterStub.withArgs(file).resolves();
 
       // when
-      const screen = await render(hbs`<Administration::CampaignsImport />`);
+      const screen = await render(<template><CampaignsImport /></template>);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.campaigns-import.upload-button'),
       );
@@ -71,7 +71,7 @@ module('Integration | Component |  administration/campaigns-import', function (h
       this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      const screen = await render(hbs`<Administration::CampaignsImport />`);
+      const screen = await render(<template><CampaignsImport /></template>);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.campaigns-import.upload-button'),
       );

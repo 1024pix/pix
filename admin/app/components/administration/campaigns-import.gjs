@@ -1,6 +1,8 @@
+import PixButtonUpload from '@1024pix/pix-ui/components/pix-button-upload';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 
 export default class CampaignsImport extends Component {
   @service intl;
@@ -35,4 +37,20 @@ export default class CampaignsImport extends Component {
       this.isLoading = false;
     }
   }
+  <template>
+    <section class="page-section">
+      <header class="page-section__header">
+        <h2 class="page-section__title">{{t "components.administration.campaigns-import.title"}}</h2>
+      </header>
+      <p class="description">{{t "components.administration.campaigns-import.description"}}</p>
+      <PixButtonUpload
+        @id="campaigns-file-upload"
+        @onChange={{this.importCampaigns}}
+        @variant="secondary"
+        accept=".csv"
+      >
+        {{t "components.administration.campaigns-import.upload-button"}}
+      </PixButtonUpload>
+    </section>
+  </template>
 }
