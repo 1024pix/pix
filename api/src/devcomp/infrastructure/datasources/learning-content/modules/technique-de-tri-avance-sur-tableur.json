@@ -36,7 +36,7 @@
       },
       {
         "grainId": "cb2f6b63-eedb-4ecf-8e6c-35da4590d67b",
-        "content": "<p>Dans la majorité des cas, vous n’aurez pas de consignes claires pour trier vos données. Il faudra définir le tri nécessaire à partir du besoin. <span aria-hidden=\"true\">🔍</span> </p><p><span aria-hidden=\"true\">👉</span> Pour vous entraîner, prenons un nouvel exemple.</p> "
+        "content": "<p>Dans la majorité des cas, vous n’aurez pas de consignes claires pour trier vos données. Il faudra définir le tri nécessaire à partir du besoin. <span aria-hidden=\"true\">🔍</span> </p><p><span aria-hidden=\"true\">👉</span> Prenons la suite des olympiades de Sarah. Les enfants ont constitué des équipes et ont participé à trois nouvelles épreuves&nbsp;: un memory, un labyrinthe et une chasse au trésor.</p> "
       }
     ],
     "grains": [
@@ -129,6 +129,17 @@
               "content": "<p>Les enfants ont jugé les résultats de la course en sacs trop sérrés. Pour départager les enfants autrement, Sarah a créé la «&nbsp;Question Bonus&nbsp;».<span aria-hidden=\"true\">✨</span> </p><p><span aria-hidden=\"true\">📋</span> Elle a ajouté les réponses des enfants dans le tableau de données.<br> Désormais, l’ordre de de tri est donc défini d'abord par le score au chamboule-tout, puis par la réponse à la «&nbsp;Question Bonus&nbsp;» par ordre alphabétique.</p> <br><p> <span aria-hidden=\"true\">👉</span>Téléchargez le document ci-dessous et triez la liste d'enfants par orde décroissant de score au chamboule-tout, puis par ordre croissant de réponse à la question bonus.</p><br><a href=\"https://docs.google.com/spreadsheets/d/1Z899RbEi8d-uJDKOsHkFN_xL7_kP8-vPQILaPrjq7cs/edit?usp=sharing\" target=\"_blank\">Téléchargement</a>"
             }
           },
+            {
+      "type": "element",
+      "element": {
+        "id": "2080300e-ddbe-4641-b4a8-360426d48adb",
+        "type": "download",
+        "files": [
+          { "url": "https://dl.pix.fr/1641899675462/Pix_velos.xlsx", "format": ".xlsx" },
+          { "url": "https://drive.google.com/file/d/1pjYKoGY_NNYuKifYWv67JRIG_03D9IC5/view?usp=drive_link", "format": ".ods" }
+                ]
+            }
+           },
           {
             "type": "element",
             "element": {
@@ -196,7 +207,7 @@
                 {
                   "id": "4630b61d-5581-483b-8bad-19ab5f54195a",
                   "type": "image",
-                  "url": "https://i.imgur.com/055U0V3.png",
+                  "url": "https://i.imgur.com/Fzf0kE7.png",
                   "alt": "Astuce 2&nbsp;: La case qui permet de connaître les intitulés des en-têtes",
                   "alternativeText": "Image de la fenêtre de tri ouverte. La case «&nbsp;La plage contient des intitulés de colonne&nbsp;» est cochée. "
                 }
@@ -212,7 +223,7 @@
                 {
                   "id": "36ef789d-2835-4016-9d8d-ed344c12d153",
                   "type": "image",
-                  "url": "https://i.imgur.com/dl2nbj8.png",
+                  "url": "https://i.imgur.com/mkaJMb3.png",
                   "alt": "Astuce 3&nbsp;: utiliser les options de la fenêtre de tri",
                   "alternativeText": "Image de la fenêtre de tri ouverte dans l'onglet «&nbsp;Options&nbsp;». La case «&nbsp;Sensible à la casse&nbsp;» est cochée, ainsi que la case «&nbsp;Ordre de tri personnalisé&nbsp;». "
                 }
@@ -232,7 +243,7 @@
             "element": {
               "id": "949063e9-c3fe-4762-8a45-de450eabf6dc",
               "type": "text",
-              "content": "<p>Le fichier à télécharger contient XXXXX DONNEES.</p> <p>Téléchargez ce fichier et triez ces données comme dans le tableau ci-dessous (attention, on ne voit que le début…).</p>"
+              "content": "<p>Le fichier à télécharger contient les résultats des enfants aux nouvelles épreuves. <span aria-hidden=\"true\">📋</span></p> <br><p><span aria-hidden=\"true\">👉</span> Téléchargez ce fichier et triez les données pour reproduire le classsement de Sarah ci-dessous (attention, on ne voit que le début…).</p><br><a href=\"https://docs.google.com/spreadsheets/d/1Z899RbEi8d-uJDKOsHkFN_xL7_kP8-vPQILaPrjq7cs/edit?usp=sharing\" target=\"_blank\">Téléchargement</a>"
             }
           },
           {
@@ -240,11 +251,22 @@
             "element": {
               "id": "72e7ee57-6787-420e-b1c7-cfdebed70359",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/placeholder-details.svg",
+              "url": "https://i.imgur.com/R9mEcAh.png",
               "alt": "",
               "alternativeText": "Extrait de tableau"
             }
           },
+                {
+      "type": "element",
+      "element": {
+        "id": "ee9ec966-e72c-4b4b-9825-74ad1a43a2b8",
+        "type": "download",
+        "files": [
+          { "url": "https://docs.google.com/spreadsheets/d/1mmpN1EAR3gGWFR-DjIMtdXCIvRrKJcas/edit?usp=drive_link&ouid=103818254246676420240&rtpof=true&sd=true", "format": ".xlsx" },
+          { "url": "https://drive.google.com/file/d/1fDj_YB9Lt9pw6g7lhPHacX3C8CG7wF1w/view?usp=drive_links", "format": ".ods" }
+                ]
+            }
+           },
           {
             "type": "element",
             "element": {
@@ -270,7 +292,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<span class=\"feedback__state\">Correct.</span><p>Le tri avancé a bien permis de xxxxxxxxxxxxxxxxx</p>",
+                "valid": "<span class=\"feedback__state\">Correct.</span><p>Le tri avancé a bien permis de classer les enfants par équipe, puis par découverte du trésor, puis par plsu grand score au memory puis par temps le plus court au labyrinthe.</p>",
                 "invalid": "<span class=\"feedback__state\">Incorrect.</span> <p>Regardez bien dans l’image. Trouvez d’abord dans quel ordre les colonnes sont triées. Quelle colonne affiche le plus d'éléments similaires les uns à la suite des autres&nbsp;? C’est celle qui représente le premier critère. Ensuite, quel tri est appliqué à cette colonne&nbsp;? Croissant ou décroissant&nbsp;? Continuez avec les autres colonnes.</p>"
               }
             }
@@ -280,7 +302,7 @@
             "element": {
               "id": "e33e2f75-d98f-42cc-aa82-3e9a0b0f59cb",
               "type": "text",
-              "content": "<details><summary>Indice 1</summary><p>Avez-vous pensé à harmoniser vos données&nbsp;? S'il reste des lignes ou colonnes vides, cela peut influencer le résultat de votre tri.</p></details><details><summary>Indice 2</summary><p>Pour trouver le tri à partir d'une image observez bien les colonnes pour trouver l'ordre des critères de tri.</p></details>"
+              "content": "<details><summary>Indice 1</summary><p>Avez-vous pensé à harmoniser vos données&nbsp;? Pensez à supprimer les lignes ou colonnes vides au milieu du tableau pour éviter qu'elles n'influencent le résultat de votre tri.</p></details><details><summary>Indice 2</summary><p>Pour trouver le tri à partir d'une image observez bien les colonnes pour trouver l'ordre des critères de tri. L'ordre des critères de tri ne suit pas forcément l'ordre d'apparition des colonnes dans le tableau.</p></details>"
             }
           }
         ]
