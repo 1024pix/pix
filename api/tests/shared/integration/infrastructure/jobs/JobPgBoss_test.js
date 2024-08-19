@@ -2,7 +2,6 @@ import { EntityValidationError } from '../../../../../src/shared/domain/errors.j
 import { JobPgBoss as Job } from '../../../../../src/shared/infrastructure/jobs/JobPgBoss.js';
 import { JobPriority } from '../../../../../src/shared/infrastructure/jobs/JobPriority.js';
 import { catchErrSync, expect, knex } from '../../../../test-helper.js';
-import { jobs } from '../../../../tooling/jobs/expect-job.js';
 
 describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
   it('schedule a job and create in db with given config', async function () {
@@ -20,12 +19,8 @@ describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
     // when
     await job.schedule(expectedParams);
 
-    const result = await jobs(name)
-      .select(knex.raw(`priority, retrylimit, retrydelay, retrybackoff, data, expirein::varchar`))
-      .first();
-
-    // then
-    expect(result).to.deep.contains({
+    await expect(name).to.have.been.performed.withJob({
+      name,
       data: expectedParams,
       expirein: expireIn,
       priority,
