@@ -3,16 +3,8 @@ import { ScheduleValidateOrganizationImportFileJob } from '../../../src/prescrip
 import { EventBus } from './EventBus.js';
 import * as dependenciesBuilder from './EventHandlerDependenciesBuilder.js';
 import { LogEvent } from './subscribers/LogEvent.js';
-import { ScheduleParticipationResultCalculationJob } from './subscribers/ScheduleParticipationResultCalculationJob.js';
-import { ScheduleSendSharedParticipationResultsToPoleEmploiJob } from './subscribers/ScheduleSendSharedParticipationResultsToPoleEmploiJob.js';
 
-const subscribers = [
-  LogEvent,
-  ScheduleParticipationResultCalculationJob,
-  ScheduleSendSharedParticipationResultsToPoleEmploiJob,
-  ScheduleImportOrganizationLearnersJob,
-  ScheduleValidateOrganizationImportFileJob,
-];
+const subscribers = [LogEvent, ScheduleImportOrganizationLearnersJob, ScheduleValidateOrganizationImportFileJob];
 
 function build() {
   const eventBus = new EventBus(dependenciesBuilder);

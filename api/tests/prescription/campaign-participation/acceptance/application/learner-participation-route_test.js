@@ -1,4 +1,6 @@
 import { createServer } from '../../../../../server.js';
+import { ParticipationResultCalculationJob } from '../../../../../src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
+import { SendSharedParticipationResultsToPoleEmploiJob } from '../../../../../src/prescription/campaign-participation/domain/models/SendSharedParticipationResultsToPoleEmploiJob.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
@@ -11,6 +13,7 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
+import { jobs } from '../../../../tooling/jobs/expect-job.js';
 import { buildLearningContent } from '../../../../tooling/learning-content-builder/build-learning-content.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
@@ -87,6 +90,14 @@ describe('Acceptance | API | Campaign Participations', function () {
       // then
       expect(response.statusCode).to.equal(204);
       expect(result.status).to.equal(SHARED);
+
+      const participationResultCalculationJobs = await jobs(ParticipationResultCalculationJob.name);
+      expect(participationResultCalculationJobs).lengthOf(1);
+
+      const sendSharedParticipationResultsToPoleEmploiJobs = await jobs(
+        SendSharedParticipationResultsToPoleEmploiJob.name,
+      );
+      expect(sendSharedParticipationResultsToPoleEmploiJobs).lengthOf(1);
     });
   });
 

@@ -3,6 +3,8 @@ import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransact
 import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { ApplicationTransaction } from '../../shared/infrastructure/ApplicationTransaction.js';
 import { usecases } from '../domain/usecases/index.js';
+import { participationResultCalculationJobRepository } from '../infrastructure/repositories/jobs/participation-result-calculation-job-repository.js';
+import { sendSharedParticipationResultsToPoleEmploiJobRepository } from '../infrastructure/repositories/jobs/send-share-participation-results-to-pole-emploi-job-repository.js';
 import * as campaignParticipationSerializer from '../infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 
 const save = async function (request, h, dependencies = { campaignParticipationSerializer, monitoringTools }) {
@@ -20,18 +22,28 @@ const save = async function (request, h, dependencies = { campaignParticipationS
   return h.response(dependencies.campaignParticipationSerializer.serialize(campaignParticipationCreated)).created();
 };
 
-const shareCampaignResult = async function (request) {
+const shareCampaignResult = async function (
+  request,
+  _,
+  dependencies = {
+    participationResultCalculationJobRepository,
+    sendSharedParticipationResultsToPoleEmploiJobRepository,
+  },
+) {
   const userId = request.auth.credentials.userId;
   const campaignParticipationId = request.params.campaignParticipationId;
 
   await ApplicationTransaction.execute(async () => {
-    const event = await usecases.shareCampaignResult({
+    await usecases.shareCampaignResult({
       userId,
       campaignParticipationId,
     });
-    const domainTransaction = ApplicationTransaction.getTransactionAsDomainTransaction();
-    await events.eventBus.publish(event, domainTransaction);
-    return event;
+
+    await dependencies.participationResultCalculationJobRepository.performAsync({ campaignParticipationId });
+
+    await dependencies.sendSharedParticipationResultsToPoleEmploiJobRepository.performAsync({
+      campaignParticipationId,
+    });
   });
 
   return null;

@@ -28,23 +28,17 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
     beforeEach(function () {
       sinon.stub(usecases, 'shareCampaignResult');
 
-      sinon.stub(events.eventBus, 'publish');
-      const requestResponseUtilsStub = {
-        extractUserIdFromRequest: sinon.stub(),
-      };
-      requestResponseUtilsStub.extractUserIdFromRequest.returns(userId);
+      const participationResultCalculationJobRepository = { performAsync: sinon.stub() };
+      const sendSharedParticipationResultsToPoleEmploiJobRepository = { performAsync: sinon.stub() };
 
-      const monitoringToolsStub = {
-        logErrorWithCorrelationIds: sinon.stub(),
-      };
       sinon.stub(ApplicationTransaction, 'execute').callsFake((callback) => {
         return callback();
       });
       sinon.stub(ApplicationTransaction, 'getTransactionAsDomainTransaction');
 
       dependencies = {
-        requestResponseUtils: requestResponseUtilsStub,
-        monitoringTools: monitoringToolsStub,
+        participationResultCalculationJobRepository,
+        sendSharedParticipationResultsToPoleEmploiJobRepository,
       };
     });
 
@@ -62,7 +56,7 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
       expect(updateCampaignParticiaption).to.have.property('userId');
     });
 
-    it('should dispatch the campaign participation results shared event', async function () {
+    it('should trigger participation result calculation', async function () {
       // given
       const campaignParticipationResultsSharedEvent = new CampaignParticipationResultsShared();
       usecases.shareCampaignResult.resolves(campaignParticipationResultsSharedEvent);
@@ -73,10 +67,27 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
       await learnerParticipationController.shareCampaignResult(request, hFake, dependencies);
 
       // then
-      expect(events.eventBus.publish).to.have.been.calledWithExactly(
-        campaignParticipationResultsSharedEvent,
-        domainTransaction,
-      );
+      expect(dependencies.participationResultCalculationJobRepository.performAsync).to.have.been.calledWithExactly({
+        campaignParticipationId: '5',
+      });
+    });
+
+    it('should send participation results to Pole Emploi', async function () {
+      // given
+      const campaignParticipationResultsSharedEvent = new CampaignParticipationResultsShared();
+      usecases.shareCampaignResult.resolves(campaignParticipationResultsSharedEvent);
+      const domainTransaction = Symbol('domainTransaction');
+      ApplicationTransaction.getTransactionAsDomainTransaction.returns(domainTransaction);
+
+      // when
+      await learnerParticipationController.shareCampaignResult(request, hFake, dependencies);
+
+      // then
+      expect(
+        dependencies.sendSharedParticipationResultsToPoleEmploiJobRepository.performAsync,
+      ).to.have.been.calledWithExactly({
+        campaignParticipationId: '5',
+      });
     });
 
     context('when the request comes from a different user', function () {
