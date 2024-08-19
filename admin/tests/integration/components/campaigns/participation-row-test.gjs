@@ -2,16 +2,12 @@ import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { setupRenderingTest } from 'ember-qunit';
-import { module, test } from 'qunit';
 import ParticipationRow from 'pix-admin/components/campaigns/participation-row';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Integration | Component | Campaigns | participation-row', function (hooks) {
   setupRenderingTest(hooks);
-
-  let participation;
-  let idPixLabel = null;
-  let updateParticipantExternalId;
 
   module('Display information', function (hooks) {
     hooks.beforeEach(async function () {
@@ -24,7 +20,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
     test('it should display names and createdAt', async function (assert) {
       // given
-      participation = EmberObject.create({
+      const participation = EmberObject.create({
         firstName: 'Jean',
         lastName: 'Claude',
         userFullName: 'Jean-Claude Gangan',
@@ -42,7 +38,8 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
     test('it should not display participantExternalId if idPixLabel is null', async function (assert) {
       // given
-      participation = EmberObject.create({
+      const idPixLabel = null;
+      const participation = EmberObject.create({
         participationExternalId: '123',
       });
 
@@ -57,10 +54,10 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
     test('it should display participantExternalId and a modification button if idPixLabel is set', async function (assert) {
       // given
+      const idPixLabel = 'identifiant';
       const participation = EmberObject.create({
         participantExternalId: '123',
       });
-      idPixLabel = 'identifiant';
 
       // when
       const screen = await render(
@@ -74,7 +71,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
     test('it should display shared date if participation is shared', async function (assert) {
       // given
-      participation = EmberObject.create({
+      const participation = EmberObject.create({
         sharedAt: new Date('2020-01-01'),
       });
 
@@ -87,7 +84,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
     test('it should display deletedByFullName and deletedAt if participation is deleted', async function (assert) {
       // given
-      participation = EmberObject.create({
+      const participation = EmberObject.create({
         deletedAt: new Date('2022-01-01'),
         deletedByFullName: 'le coupable',
       });
@@ -102,28 +99,32 @@ module('Integration | Component | Campaigns | participation-row', function (hook
   });
 
   module("when editing participant's external id", function (hooks) {
+    const idPixLabel = 'identifiant';
+
     hooks.beforeEach(async function () {
       // given
       class AccessControlStub extends Service {
         hasAccessToOrganizationActionsScope = true;
       }
       this.owner.register('service:access-control', AccessControlStub);
-      participation = EmberObject.create({
-        participantExternalId: '123',
-      });
-      participation = participation;
-      idPixLabel = 'identifiant';
-      updateParticipantExternalId = sinon.spy();
     });
 
     test('it should display save and cancel button', async function (assert) {
+      // given
+      const updateParticipantExternalId = sinon.spy();
+      const participation = EmberObject.create({
+        participantExternalId: '123',
+      });
+
       // when
       const screen = await render(
-        <template><ParticipationRow
-  @participation={{participation}}
-  @idPixLabel={{idPixLabel}}
-  @updateParticipantExternalId={{updateParticipantExternalId}}
-/></template>,
+        <template>
+          <ParticipationRow
+            @participation={{participation}}
+            @idPixLabel={{idPixLabel}}
+            @updateParticipantExternalId={{updateParticipantExternalId}}
+          />
+        </template>,
       );
       await clickByName('Modifier');
 
@@ -134,12 +135,18 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
     test('it should update participantExternalId on save', async function (assert) {
       // given
+      const updateParticipantExternalId = sinon.spy();
+      const participation = EmberObject.create({
+        participantExternalId: '123',
+      });
       const screen = await render(
-        <template><ParticipationRow
-  @participation={{participation}}
-  @idPixLabel={{idPixLabel}}
-  @updateParticipantExternalId={{updateParticipantExternalId}}
-/></template>,
+        <template>
+          <ParticipationRow
+            @participation={{participation}}
+            @idPixLabel={{idPixLabel}}
+            @updateParticipantExternalId={{updateParticipantExternalId}}
+          />
+        </template>,
       );
       await clickByName('Modifier');
 
@@ -153,14 +160,20 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       assert.ok(updateParticipantExternalId.called);
     });
 
-    test('it should update participantExternalId with null if participantExternalId only  has blank space', async function (assert) {
+    test('it should update participantExternalId with null if participantExternalId only has blank space', async function (assert) {
       // given
+      const updateParticipantExternalId = sinon.spy();
+      const participation = EmberObject.create({
+        participantExternalId: '123',
+      });
       const screen = await render(
-        <template><ParticipationRow
-  @participation={{participation}}
-  @idPixLabel={{idPixLabel}}
-  @updateParticipantExternalId={{updateParticipantExternalId}}
-/></template>,
+        <template>
+          <ParticipationRow
+            @participation={{participation}}
+            @idPixLabel={{idPixLabel}}
+            @updateParticipantExternalId={{updateParticipantExternalId}}
+          />
+        </template>,
       );
       await clickByName('Modifier');
 
@@ -176,12 +189,18 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
     test('it should update participantExternalId with null if participantExternalId is empty', async function (assert) {
       // given
+      const updateParticipantExternalId = sinon.spy();
+      const participation = EmberObject.create({
+        participantExternalId: '123',
+      });
       const screen = await render(
-        <template><ParticipationRow
-  @participation={{participation}}
-  @idPixLabel={{idPixLabel}}
-  @updateParticipantExternalId={{updateParticipantExternalId}}
-/></template>,
+        <template>
+          <ParticipationRow
+            @participation={{participation}}
+            @idPixLabel={{idPixLabel}}
+            @updateParticipantExternalId={{updateParticipantExternalId}}
+          />
+        </template>,
       );
       await clickByName('Modifier');
 
@@ -197,12 +216,18 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
     test('it should not update participantExternalId on cancel', async function (assert) {
       // given
+      const updateParticipantExternalId = sinon.spy();
+      const participation = EmberObject.create({
+        participantExternalId: '123',
+      });
       const screen = await render(
-        <template><ParticipationRow
-  @participation={{participation}}
-  @idPixLabel={{idPixLabel}}
-  @updateParticipantExternalId={{updateParticipantExternalId}}
-/></template>,
+        <template>
+          <ParticipationRow
+            @participation={{participation}}
+            @idPixLabel={{idPixLabel}}
+            @updateParticipantExternalId={{updateParticipantExternalId}}
+          />
+        </template>,
       );
       await clickByName('Modifier');
 
@@ -224,10 +249,10 @@ module('Integration | Component | Campaigns | participation-row', function (hook
         hasAccessToOrganizationActionsScope = false;
       }
       this.owner.register('service:access-control', AccessControlStub);
-      participation = EmberObject.create({
+      const participation = EmberObject.create({
         participantExternalId: '123',
       });
-      idPixLabel = 'identifiant';
+      const idPixLabel = 'identifiant';
 
       //when
       const screen = await render(

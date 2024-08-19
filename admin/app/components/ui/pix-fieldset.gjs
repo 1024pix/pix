@@ -1,4 +1,4 @@
- // move this component to Pix UI Later
+// move this component to Pix UI Later
 import { t } from 'ember-intl';
 
 <template>

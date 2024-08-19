@@ -1,11 +1,11 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixInput from '@1024pix/pix-ui/components/pix-input';
 import { action } from '@ember/object';
+import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
+import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
-import { LinkTo } from '@ember/routing';
 import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
 
 export default class ParticipationRow extends Component {
@@ -49,6 +49,7 @@ export default class ParticipationRow extends Component {
   handleChange(e) {
     this.newParticipantExternalId = e.target.value;
   }
+
   <template>
     <td>{{@participation.firstName}} {{@participation.lastName}}</td>
     <td>
@@ -127,5 +128,5 @@ export default class ParticipationRow extends Component {
         </td>
       {{/if}}
     {{/if}}
-</template>
+  </template>
 }

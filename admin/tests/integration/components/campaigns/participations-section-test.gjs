@@ -8,9 +8,6 @@ import { module, test } from 'qunit';
 module('Integration | Component | Campaigns | participations-section', function (hooks) {
   setupRenderingTest(hooks);
 
-  let participations;
-  let idPixLabel;
-
   hooks.beforeEach(async function () {
     // given
     class AccessControlStub extends Service {
@@ -29,7 +26,7 @@ module('Integration | Component | Campaigns | participations-section', function 
       firstName: 'Jean',
       lastName: 'Pierre',
     });
-    participations = [participation1, participation2];
+    const participations = [participation1, participation2];
     participations.meta = { rowCount: 2 };
 
     // when
@@ -45,7 +42,7 @@ module('Integration | Component | Campaigns | participations-section', function 
       participantExternalId: '123',
     });
     const participations = [participation];
-    idPixLabel = 'identifiant';
+    const idPixLabel = 'identifiant';
     participations.meta = { rowCount: 2 };
 
     // when
@@ -59,7 +56,7 @@ module('Integration | Component | Campaigns | participations-section', function 
 
   test('it should display an empty table when no participations', async function (assert) {
     // given
-    participations = [];
+    const participations = [];
     participations.meta = { rowCount: 2 };
 
     // when
