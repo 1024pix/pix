@@ -1,12 +1,12 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import SwapCampaignCodes from 'pix-admin/components/administration/swap-campaign-codes';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering.js';
 
-module('Integration | Component |  administration/swap-campaign-codes', function (hooks) {
+module('Integration | Component | administration/swap-campaign-codes', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let store, notificationService;
@@ -31,7 +31,7 @@ module('Integration | Component |  administration/swap-campaign-codes', function
     swapStub.withArgs({ firstCampaignId, secondCampaignId }).resolves();
 
     //when
-    const screen = await render(hbs`<Administration::SwapCampaignCodes />`);
+    const screen = await render(<template><SwapCampaignCodes /></template>);
 
     await fillIn(
       screen.getByLabelText(this.intl.t('components.administration.swap-campaign-codes.form.firstCampaignId')),
@@ -70,7 +70,7 @@ module('Integration | Component |  administration/swap-campaign-codes', function
     swapStub.withArgs({ firstCampaignId, secondCampaignId }).throws();
 
     //when
-    const screen = await render(hbs`<Administration::SwapCampaignCodes />`);
+    const screen = await render(<template><SwapCampaignCodes /></template>);
 
     await fillIn(
       screen.getByLabelText(this.intl.t('components.administration.swap-campaign-codes.form.firstCampaignId')),
@@ -105,7 +105,7 @@ module('Integration | Component |  administration/swap-campaign-codes', function
     swapStub.withArgs({ firstCampaignId, secondCampaignId }).throws({ errors: [{ code: 'ORGANIZATION_MISMATCH' }] });
 
     //when
-    const screen = await render(hbs`<Administration::SwapCampaignCodes />`);
+    const screen = await render(<template><SwapCampaignCodes /></template>);
 
     await fillIn(
       screen.getByLabelText(this.intl.t('components.administration.swap-campaign-codes.form.firstCampaignId')),
@@ -144,7 +144,7 @@ module('Integration | Component |  administration/swap-campaign-codes', function
     swapStub.withArgs({ firstCampaignId, secondCampaignId }).throws({ errors: [{ code: 'UNKNOWN_CAMPAIGN_ID' }] });
 
     //when
-    const screen = await render(hbs`<Administration::SwapCampaignCodes />`);
+    const screen = await render(<template><SwapCampaignCodes /></template>);
 
     await fillIn(
       screen.getByLabelText(this.intl.t('components.administration.swap-campaign-codes.form.firstCampaignId')),

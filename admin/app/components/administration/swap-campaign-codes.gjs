@@ -1,7 +1,12 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixInput from '@1024pix/pix-ui/components/pix-input';
+import { fn } from '@ember/helper';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 
 export default class SwapCampaignCodes extends Component {
   @service intl;
@@ -49,4 +54,28 @@ export default class SwapCampaignCodes extends Component {
   onChangeCampaign(key, event) {
     this[key] = event.target.value;
   }
+
+  <template>
+    <section class="page-section">
+      <header class="page-section__header">
+        <h2 class="page-section__title">{{t "components.administration.swap-campaign-codes.title"}}</h2>
+      </header>
+
+      <form {{on "submit" this.swapCodes}}>
+        <fieldset class="campaigns-swap-code">
+          <legend>{{t "components.administration.swap-campaign-codes.description"}}</legend>
+          <PixInput @id="firstCampaignId" {{on "change" (fn this.onChangeCampaign "firstCampaignId")}}>
+            <:label>{{t "components.administration.swap-campaign-codes.form.firstCampaignId"}}</:label>
+          </PixInput>
+
+          <PixInput @id="secondCampaignId" {{on "change" (fn this.onChangeCampaign "secondCampaignId")}}>
+            <:label>{{t "components.administration.swap-campaign-codes.form.secondCampaignId"}}</:label>
+          </PixInput>
+        </fieldset>
+        <PixButton @type="submit" @size="small" @isLoading={{this.isLoading}}>
+          {{t "components.administration.swap-campaign-codes.form.button"}}
+        </PixButton>
+      </form>
+    </section>
+  </template>
 }
