@@ -1,27 +1,54 @@
+import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import { JobPgBoss as Job } from '../../../../../src/shared/infrastructure/jobs/JobPgBoss.js';
-import { expect, knex } from '../../../../test-helper.js';
+import { JobPriority } from '../../../../../src/shared/infrastructure/jobs/JobPriority.js';
+import { catchErrSync, expect, knex } from '../../../../test-helper.js';
+import { jobs } from '../../../../tooling/jobs/expect-job.js';
 
 describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
   it('schedule a job and create in db with given config', async function () {
     // given
     const name = 'JobTest';
     const expectedParams = { jobParam: 1 };
-    const job = new Job({ name, retryLimit: 2, retryDelay: 10, retryBackoff: true, expireIn: '00:00:30' }, knex);
+    const retryLimit = 2;
+    const retryDelay = 10;
+    const retryBackoff = true;
+    const expireIn = '00:00:30';
+    const priority = JobPriority.HIGH;
+
+    const job = new Job({ name, retryLimit, retryDelay, retryBackoff, expireIn, priority }, knex);
 
     // when
     await job.schedule(expectedParams);
 
-    const result = await knex
-      .select(knex.raw(`retrylimit, retrydelay, retrybackoff, data, expirein::varchar`))
-      .from('pgboss.job')
-      .where('name', 'JobTest')
+    const result = await jobs(name)
+      .select(knex.raw(`priority, retrylimit, retrydelay, retrybackoff, data, expirein::varchar`))
       .first();
 
     // then
-    expect(result.retrylimit).to.equal(2);
-    expect(result.retrydelay).to.equal(10);
-    expect(result.retrybackoff).to.equal(true);
-    expect(result.expirein).to.equal('00:00:30');
-    expect(result.data).to.deep.equal(expectedParams);
+    expect(result).to.deep.contains({
+      data: expectedParams,
+      expirein: expireIn,
+      priority,
+      retrydelay: retryDelay,
+      retrylimit: retryLimit,
+      retrybackoff: retryBackoff,
+    });
+  });
+
+  it('reject unexpected priority value', async function () {
+    // given
+    const priority = 999;
+
+    // when
+    const error = catchErrSync(({ priority }, knex) => new Job({ priority }, knex))({ priority }, knex);
+
+    // then
+    expect(error).to.be.instanceOf(EntityValidationError);
+    expect(error.invalidAttributes).to.deep.equal([
+      {
+        attribute: 'priority',
+        message: '"priority" must be one of [0, 1]',
+      },
+    ]);
   });
 });
