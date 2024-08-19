@@ -1,7 +1,7 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import Details from 'pix-admin/components/autonomous-courses/details';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -19,18 +19,16 @@ module('Integration | Component | AutonomousCourses::Details', function (hooks) 
     createdAt: '2023-12-27T15:07:57.376Z',
   };
 
-  hooks.beforeEach(async function () {
-    // given
-    this.set('autonomousCourse', autonomousCourse);
-    this.update = sinon.stub().callsFake(() => {
-      return Promise.resolve();
-    });
-    this.reset = sinon.stub().callsFake(() => {
-      return Promise.resolve();
-    });
+  const update = sinon.stub().callsFake(() => {
+    return Promise.resolve();
+  });
+  const reset = sinon.stub().callsFake(() => {
+    return Promise.resolve();
+  });
 
+  hooks.beforeEach(async function () {
     screen = await render(
-      hbs`<AutonomousCourses::Details @autonomousCourse={{this.autonomousCourse}} @update={{this.update}} @reset={{this.reset}} />`,
+      <template><Details @autonomousCourse={{autonomousCourse}} @update={{update}} @reset={{reset}} /></template>,
     );
   });
 
@@ -70,7 +68,7 @@ module('Integration | Component | AutonomousCourses::Details', function (hooks) 
     await click(cancelButton);
 
     // then
-    assert.ok(this.reset.calledOnce);
+    assert.ok(reset.calledOnce);
   });
 
   test('it should call update argument function on update', async function (assert) {
@@ -84,6 +82,6 @@ module('Integration | Component | AutonomousCourses::Details', function (hooks) 
     await click(submitButton);
 
     // then
-    assert.ok(this.update.calledOnce);
+    assert.ok(update.calledOnce);
   });
 });

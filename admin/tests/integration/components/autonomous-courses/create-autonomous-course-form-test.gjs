@@ -1,7 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import CreateAutonomousCourseForm from 'pix-admin/components/autonomous-courses/create-autonomous-course-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -11,30 +11,22 @@ module('Integration | Component | AutonomousCourses::CreateAutonomousCourseForm'
   setupRenderingTest(hooks);
   setupIntl(hooks);
 
-  let autonomousCourse, targetProfiles, onSubmit, onCancel;
-
-  hooks.beforeEach(function () {
-    autonomousCourse = {};
-    targetProfiles = [];
-
-    onSubmit = sinon.stub();
-    onCancel = sinon.stub();
-
-    this.set('autonomousCourse', autonomousCourse);
-    this.set('targetProfiles', targetProfiles);
-    this.set('onSubmit', onSubmit);
-    this.set('onCancel', onCancel);
-  });
+  const autonomousCourse = {};
+  const targetProfiles = [];
+  const onSubmit = sinon.stub();
+  const onCancel = sinon.stub();
 
   test('it renders the autonomous-courses creation form component', async function (assert) {
     // when
     const screen = await render(
-      hbs`<AutonomousCourses::CreateAutonomousCourseForm
-  @autonomousCourse={{this.autonomousCourse}}
-  @targetProfiles={{this.targetProfiles}}
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`,
+      <template>
+        <CreateAutonomousCourseForm
+          @autonomousCourse={{autonomousCourse}}
+          @targetProfiles={{targetProfiles}}
+          @onSubmit={{onSubmit}}
+          @onCancel={{onCancel}}
+        />
+      </template>,
     );
 
     // then
@@ -62,12 +54,14 @@ module('Integration | Component | AutonomousCourses::CreateAutonomousCourseForm'
   test('it should call onSubmit when form is valid', async function (assert) {
     // when
     await render(
-      hbs`<AutonomousCourses::CreateAutonomousCourseForm
-        @autonomousCourse={{this.autonomousCourse}}
-        @targetProfiles={{this.targetProfiles}}
-        @onSubmit={{this.onSubmit}}
-        @onCancel={{this.onCancel}}
-      />`,
+      <template>
+        <CreateAutonomousCourseForm
+          @autonomousCourse={{autonomousCourse}}
+          @targetProfiles={{targetProfiles}}
+          @onSubmit={{onSubmit}}
+          @onCancel={{onCancel}}
+        />
+      </template>,
     );
 
     await triggerEvent('form', 'submit');
@@ -79,12 +73,14 @@ module('Integration | Component | AutonomousCourses::CreateAutonomousCourseForm'
   test('it should call onCancel when form is cancel', async function (assert) {
     // when
     await render(
-      hbs`<AutonomousCourses::CreateAutonomousCourseForm
-        @autonomousCourse={{this.autonomousCourse}}
-        @targetProfiles={{this.targetProfiles}}
-        @onSubmit={{this.onSubmit}}
-        @onCancel={{this.onCancel}}
-      />`,
+      <template>
+        <CreateAutonomousCourseForm
+          @autonomousCourse={{autonomousCourse}}
+          @targetProfiles={{targetProfiles}}
+          @onSubmit={{onSubmit}}
+          @onCancel={{onCancel}}
+        />
+      </template>,
     );
 
     await clickByName('Annuler');

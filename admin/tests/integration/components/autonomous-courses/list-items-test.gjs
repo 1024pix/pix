@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import ListItems from 'pix-admin/components/autonomous-courses/list-items';
 import { module, test } from 'qunit';
 
 module('Integration | Component | AutonomousCourses::ListItems', function (hooks) {
@@ -20,10 +20,9 @@ module('Integration | Component | AutonomousCourses::ListItems', function (hooks
         createdAt: new Date('2020-01-01'),
       },
     ];
-    this.set('autonomousCoursesList', autonomousCoursesList);
 
     // when
-    const screen = await render(hbs`<AutonomousCourses::ListItems @items={{this.autonomousCoursesList}} />`);
+    const screen = await render(<template><ListItems @items={{autonomousCoursesList}} /></template>);
 
     // then
     assert.dom(screen.getByText('Id')).exists();
@@ -52,10 +51,9 @@ module('Integration | Component | AutonomousCourses::ListItems', function (hooks
         archivedAt: new Date('2023-02-02'),
       },
     ];
-    this.set('autonomousCoursesList', autonomousCoursesList);
 
     // when
-    const screen = await render(hbs`<AutonomousCourses::ListItems @items={{this.autonomousCoursesList}} />`);
+    const screen = await render(<template><ListItems @items={{autonomousCoursesList}} /></template>);
 
     // then
     assert.dom(screen.getByText('Archivé')).exists();
