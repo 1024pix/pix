@@ -1,5 +1,5 @@
-import { CertificationRescoringByScriptJobHandler } from '../../src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptHandler.js';
-import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptJob.js';
+import { CertificationRescoringByScriptJobController } from '../../src/certification/session-management/application/jobs/certification-rescoring-by-script-job-controller.js';
+import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/domain/models/CertificationRescoringByScriptJob.js';
 import { UserAnonymizedEventLoggingJob } from '../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
 import { ParticipationResultCalculationJobController } from '../../src/prescription/campaign-participation/application/jobs/participation-result-calculation-job-controller.js';
 import { ParticipationResultCalculationJob } from '../../src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
@@ -15,26 +15,6 @@ import { config } from '../../src/shared/config.js';
 import { LcmsRefreshCacheJob } from '../../src/shared/domain/models/LcmsRefreshCacheJob.js';
 import { runJobs } from '../../worker.js';
 import { expect, sinon } from '../test-helper.js';
-import {
-  ComputeCertificabilityJob
-} from "../../src/prescription/learner-management/domain/models/ComputeCertificabilityJob.js";
-import {
-  ComputeCertificabilityJobController
-} from "../../src/prescription/learner-management/application/jobs/compute-certificability-job-controller.js";
-import {
-  ParticipationResultCalculationJob
-} from "../../src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js";
-import {
-  ParticipationResultCalculationJobController
-} from "../../src/prescription/campaign-participation/application/jobs/participation-result-calculation-job-controller.js";
-import {
-  UserAnonymizedEventLoggingJob
-} from "../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js";
-import {
-  UserAnonymizedEventLoggingJobController
-} from "../../src/shared/application/jobs/audit-log/user-anonymized-event-logging-job-controller.js";
-import { LcmsRefreshCacheJob } from "../../src/shared/domain/models/LcmsRefreshCacheJob.js";
-import { LcmsRefreshCacheJobController } from "../../src/shared/application/jobs/lcms-refresh-cache-job-controller.js";
 
 describe('#runjobs', function () {
   let startPgBossStub, createMonitoredJobQueueStub, scheduleCpfJobsStub, monitoredJobQueueStub;
@@ -100,7 +80,7 @@ describe('#runjobs', function () {
         .getCalls()
         .find(({ args }) => args[0] === CertificationRescoringByScriptJob.name);
 
-      expect(calls.args[1]).to.equal(CertificationRescoringByScriptJobHandler);
+      expect(calls.args[1]).to.equal(CertificationRescoringByScriptJobController);
     });
   });
 
@@ -216,9 +196,5 @@ describe('#runjobs', function () {
         expect(calls.args[1]).to.equal(ImportOrganizationLearnersJobController);
       });
     });
-  })
-
-
-
   });
 });
