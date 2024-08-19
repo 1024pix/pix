@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import OrganizationsImport from 'pix-admin/components/administration/organizations-import';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -13,6 +13,7 @@ module('Integration | Component |  administration/organizations-import', functio
   setupMirage(hooks);
 
   let store, adapter, notificationSuccessStub, clearAllStub, saveAdapterStub, notificationErrorStub;
+
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
     adapter = store.adapterFor('organizations-import');
@@ -35,7 +36,7 @@ module('Integration | Component |  administration/organizations-import', functio
       saveAdapterStub.withArgs(file).resolves();
 
       // when
-      const screen = await render(hbs`<Administration::OrganizationsImport />`);
+      const screen = await render(<template><OrganizationsImport /></template>);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.organizations-import.upload-button'),
       );
@@ -71,7 +72,7 @@ module('Integration | Component |  administration/organizations-import', functio
       this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      const screen = await render(hbs`<Administration::OrganizationsImport />`);
+      const screen = await render(<template><OrganizationsImport /></template>);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.organizations-import.upload-button'),
       );
