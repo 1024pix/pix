@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v4.199.0 (19/08/2024)
+
+
+### :rocket: Amélioration
+- [#9856](https://github.com/1024pix/pix/pull/9856) [FEATURE] Avoir les blocs réponses en vert ou rouge sur les QCM (PIX-13878) (PIX-13832).
+- [#9854](https://github.com/1024pix/pix/pull/9854) [FEATURE] Avoir les blocs réponses en vert ou rouge sur les QCU (PIX-13876).
+- [#9835](https://github.com/1024pix/pix/pull/9835) [FEATURE] Afficher les éléments "Download" dans Modulix (PIX-12501).
+- [#9827](https://github.com/1024pix/pix/pull/9827) [FEATURE] prend en compte la feature d'import pour la dissociation (PIX-13617).
+
+### :building_construction: Tech
+- [#9839](https://github.com/1024pix/pix/pull/9839) [TECH] Passage de la page de connexion en gjs sur certif (PIX-13855).
+- [#9846](https://github.com/1024pix/pix/pull/9846) [TECH] Amélioration autour du bounded-context "certification/enrolment".
+- [#9844](https://github.com/1024pix/pix/pull/9844) [TECH] Remove bookshelf from certification-report-repository.
+- [#9788](https://github.com/1024pix/pix/pull/9788) [TECH] Migrer la duplication des target profiles vers le sous-domaine target-profile (PIX-12951).
+- [#9830](https://github.com/1024pix/pix/pull/9830) [TECH] Refacto sur quelques repositories du contexte certification/enrolment (PIX-13856).
+- [#9833](https://github.com/1024pix/pix/pull/9833) [TECH] Simplifier l'utilisation / création d'un job Pgboss (PIX-13854).
+- [#9838](https://github.com/1024pix/pix/pull/9838) [TECH] Remplacer notre parser de query string par une alternative plus légère.
+
+### :bug: Correction
+- [#9853](https://github.com/1024pix/pix/pull/9853) [BUGFIX] Affichage d'un deuxième onglet lors du téléchargement d'un document depuis un iPad/iPhone (PIX-13737).
+- [#9849](https://github.com/1024pix/pix/pull/9849) [BUGFIX] Ajout d'une traduction pour le message d'erreur lors de l'inscription à plusieurs certifications complémentaires (PIX-13867).
+- [#9821](https://github.com/1024pix/pix/pull/9821) [BUGFIX] Les erreurs de runtime sur le downgrade de capacite ne remonte pas dans le monitoring (PIX-13660).
+
+### :arrow_up: Montée de version
+- [#9859](https://github.com/1024pix/pix/pull/9859) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.21 (mon-pix).
+- [#9845](https://github.com/1024pix/pix/pull/9845) [BUMP] Update dependency axios to v1.7.4 [SECURITY].
+
 ## v4.198.0 (13/08/2024)
 
 
