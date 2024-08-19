@@ -27,12 +27,12 @@
         "content": "<p>Maintenant, aidez Sarah à obtenir les résultats de ses olympiades. <span aria-hidden=\"true\">🥇🥈🥉</span> <p>À vos marques, prêts, partez !</p>"
       },
       {
-        "grainId": "3c89d821-9e99-412e-947f-b91f3169b217",
-        "content": "<p>Vous savez désormais créer un tri à deux colonnes sur un logiciel de tableur. </p><br><p><span aria-hidden=\"true\">🔤</span> Selon les logiciels, il existe des différences dans les noms ou dans la disposition des boutons.</p><p> Voici un récapitulatif des grandes étapes de tri et des précisions de vocabulaire.</p>"
+        "grainId": "83a7a4fc-cae1-4928-92ec-4b35dc2e68fc",
+        "content": "<p>Envie de devenir un as&#8239;? <span aria-hidden=\"true\">♣️</span> <br> Maîtrisez encore mieux l’outil tableur en suivant ces bonnes pratiques.<span aria-hidden=\"true\">🏆</span></p>"
       },
       {
-        "grainId": "83a7a4fc-cae1-4928-92ec-4b35dc2e68fc",
-        "content": "<p>Maîtrisez encore mieux l’outil tableur en suivant ces bonnes pratiques.<span aria-hidden=\"true\">🏆</span></p>"
+        "grainId": "3c89d821-9e99-412e-947f-b91f3169b217",
+        "content": "<p>Vous savez désormais créer un tri à deux colonnes sur un logiciel de tableur. </p><p><span aria-hidden=\"true\">📖</span> Selon les logiciels, il existe des différences dans les noms ou dans la disposition des boutons.</p>"
       },
       {
         "grainId": "cb2f6b63-eedb-4ecf-8e6c-35da4590d67b",
@@ -50,7 +50,7 @@
             "element": {
               "id": "701f996c-aa90-4035-9c6d-fe0b9072c4a1",
               "type": "text",
-              "content": "Voici un aperçu du tableau de Sarah. Observez ce tableau puis répondez à la question ci-dessous."
+              "content": "<p>Voici un aperçu du tableau de Sarah. </p><p>Elle souhaite classer les enfants, d'abord, par ordre du meilleur score au chamboule-tout puis par ordre de rapidité à la course en sac.<span aria-hidden=\"true\">🏆</span></p>"
             }
           },
           {
@@ -68,7 +68,7 @@
             "element": {
               "id": "3965b92f-04a9-4ce7-bd40-19a0214084bd",
               "type": "qcu",
-              "instruction": "Sarah veut obtenir le classement des enfants, d'abord par ordre de plus grand score au chamboule-tout, puis par plus petit temps de course en sac. Pour y arriver, quelle manipulation Sarah doit-elle réaliser&#8239;?",
+              "instruction": "Pour obtenir le classement des enfants, quelle manipulation Sarah doit-elle réaliser&#8239;?",
               "proposals": [
                 {
                   "id": "1",
@@ -76,7 +76,7 @@
                 },
                 {
                   "id": "2",
-                  "content": "2) Cliquer sur l’icône « Tri décroissant » pour la colonne C  puis sur « Tri croissant » pour la colonne D."
+                  "content": "2) Utiliser « Tri décroissant » pour la colonne C  puis « Tri croissant » en colonne D."
                 },
                 {
                   "id": "3",
@@ -126,7 +126,7 @@
             "element": {
               "id": "cabf35be-5916-4e49-acc9-f3e66b27d673",
               "type": "text",
-              "content": "<p>Les enfants ont jugé les résultats de la course en sacs trop sérrés. Pour départager les enfants autrement, Sarah a créé la «&nbsp;Question Bonus&nbsp;». Elle a ajouté les réponses des enfants dans le tableau de données.<br>Désormais, l’ordre de de tri est donc défini d'abord par le score au chamboule-tout, puis par la réponse à la «&nbsp;Question Bonus&nbsp;» par ordre alphabétique.</p> <br><p> Téléchargez le document ci-dessous et triez la liste d'enfants par orde décroissant de score au chamboule-tout, puis par ordre croissant de réponse à la question bonus.</p><br><a href=\"https://docs.google.com/spreadsheets/d/1Z899RbEi8d-uJDKOsHkFN_xL7_kP8-vPQILaPrjq7cs/edit?usp=sharing\" target=\"_blank\">Téléchargement</a>"
+              "content": "<p>Les enfants ont jugé les résultats de la course en sacs trop sérrés. Pour départager les enfants autrement, Sarah a créé la «&nbsp;Question Bonus&nbsp;».<span aria-hidden=\"true\">✨</span> </p><p><span aria-hidden=\"true\">📋</span> Elle a ajouté les réponses des enfants dans le tableau de données.<br> Désormais, l’ordre de de tri est donc défini d'abord par le score au chamboule-tout, puis par la réponse à la «&nbsp;Question Bonus&nbsp;» par ordre alphabétique.</p> <br><p> <span aria-hidden=\"true\">👉</span>Téléchargez le document ci-dessous et triez la liste d'enfants par orde décroissant de score au chamboule-tout, puis par ordre croissant de réponse à la question bonus.</p><br><a href=\"https://docs.google.com/spreadsheets/d/1Z899RbEi8d-uJDKOsHkFN_xL7_kP8-vPQILaPrjq7cs/edit?usp=sharing\" target=\"_blank\">Téléchargement</a>"
             }
           },
           {
@@ -175,14 +175,14 @@
                   {
                     "id": "4d323b5f-4abf-4d3b-bee7-89fa205e25f3",
                     "type": "text",
-                    "content": "<h3>Il n'est pas nécessaire de sélectionner les 350 lignes une par une. </h3><p>Cliquez sur n’importe quelle case remplie de votre tableau et ouvrez la fenêtre de tri. La majorité des logiciels détectent automatiquement l’ensemble de votre tableau à trier.</p><br><details><summary><span aria-hidden=\"true\">💡</span> L’astuce pratique</summary><p>Une colonne ou ligne vide peut bloquer la détection du tableau.<span aria-hidden=\"true\">❌</span> <br>Pensez à supprimer en amont les lignes et colonnes vides.<span aria-hidden=\"true\">✅</span></p></details>"
+                    "content": "<h3>Il n'est pas nécessaire de sélectionner les 350 lignes une par une. </h3><p>Cliquez sur n’importe quelle case remplie de votre tableau et ouvrez la fenêtre de tri. La majorité des logiciels détectent automatiquement l’ensemble de votre tableau à trier.</p><br><details><summary><span aria-hidden=\"true\">💡</span> L’astuce pratique</summary><p><span aria-hidden=\"true\">❌</span> Une colonne ou ligne vide peut bloquer la détection du tableau. <br> <span aria-hidden=\"true\">✅</span> Pensez à supprimer en amont les lignes et colonnes vides.</p></details>"
                   },
                   {
                   "id": "4f131f45-b530-40ba-84de-7f2131593219",
                   "type": "image",
                   "url": "https://i.imgur.com/3I8brnA.png",
                   "alt": "Astuce 1&nbsp;:S electionner les données d'un tableau en cliquant sur une case",
-                  "alternativeText": "Image d'un tableau à 5 colonnes avec une case de sélectionnée dans la colonne C"
+                  "alternativeText": "Image extraite d'un logiciel de tableur. Un tableau à 5 colonnes et 16 lignes, une case est sélectionnée au milieu du tableau."
                 }
                 ]
               },
@@ -191,14 +191,14 @@
                   {
                     "id": "76a09390-8f46-480b-b700-956a08799082",
                     "type": "text",
-                    "content": "<h3>Une case permet de reconnaître les en-têtes ou étiquettes de colonnes.</h3> <p>Dans la fenêtre de tri, la liste déroulante vous propose  le choix entre «&nbsp;Menu&nbsp;» et «&nbsp;Numéro de table&nbsp;». Si les en-têtes sont correctement remplis, la plupart des logiciels les détectent grâce à une case cochée.</p><p><span aria-hidden=\"true\">☑️</span>Cette case s’appelle «&nbsp;Mes données ont des en-têtes&nbsp;» ou «&nbsp;Ma plage contient des étiquettes de colonne&nbsp;» </p><br><details><summary><span aria-hidden=\"true\">💡</span> L’astuce pratique</summary><ul><li><span aria-hidden=\"true\">✅</span>Vous pouvez cocher la case manuellement si la liste déroulante vous propose uniquement des intitulés comme «&nbsp;Colonne A&nbsp;»  et «&nbsp;Colonne B&nbsp;». </li><li> <span aria-hidden=\"true\">❌</span>Sachez que si la case n’est pas cochée alors que vous avez des en-têtes, votre ligne d’en-tête va être triée avec les autres. Dans ce cas, «&nbsp;Prénom&nbsp;»  sera placé entre «&nbsp;Pauline&nbsp;»  et «&nbsp;Raphaël&nbsp;» .</li></ul></details>"
+                    "content": "<h3>Une case permet de reconnaître les en-têtes ou étiquettes de colonnes.</h3> <p>Dans la fenêtre de tri, la liste déroulante vous propose  le choix entre «&nbsp;Menu&nbsp;» et «&nbsp;Numéro de table&nbsp;». Si les en-têtes sont correctement remplis, la plupart des logiciels les détectent grâce à une case cochée.</p><p>Cette case s’appelle «&nbsp;<span aria-hidden=\"true\">☑️</span> Mes données ont des en-têtes&nbsp;» ou «&nbsp;<span aria-hidden=\"true\">☑️</span> La plage contient des étiquettes de colonne&nbsp;» </p><br><details><summary><span aria-hidden=\"true\">💡</span> L’astuce pratique</summary><p><span aria-hidden=\"true\">✅</span>Vous pouvez cocher la case manuellement si la liste déroulante vous propose uniquement des intitulés comme «&nbsp;Colonne A&nbsp;»  et «&nbsp;Colonne B&nbsp;». </p><p> <span aria-hidden=\"true\">❌</span>Sachez que si la case n’est pas cochée alors que vous avez des en-têtes, votre ligne d’en-tête va être triée avec les autres. Dans ce cas, «&nbsp;Prénom&nbsp;»  sera placé entre «&nbsp;Pauline&nbsp;»  et «&nbsp;Raphaël&nbsp;» .</p></details>"
                   },
                 {
                   "id": "4630b61d-5581-483b-8bad-19ab5f54195a",
                   "type": "image",
-                  "url": "https://i.imgur.com/Fzf0kE7.png",
+                  "url": "https://i.imgur.com/055U0V3.png",
                   "alt": "Astuce 2&nbsp;: La case qui permet de connaître les intitulés des en-têtes",
-                  "alternativeText": "Image de la fenêtre de tri ouverte. La case &nbsp;:«&nbsp;La plage contient des intitulés de colonne&nbsp;» est cochée. "
+                  "alternativeText": "Image de la fenêtre de tri ouverte. La case «&nbsp;La plage contient des intitulés de colonne&nbsp;» est cochée. "
                 }
                 ]
               },
@@ -207,12 +207,12 @@
                   {
                     "id": "66af2203-c5ca-422a-b00a-d546acf84754",
                     "type": "text",
-                    "content": "<h3>Dans l’onglet «&nbsp;Options&nbsp;»  de la fenêtre de tri, vous pouvez effectuer d’autres réglages </h3> <ul><li>Utiliser la sensibilité à la casse. C'est utile si vous voulez faire un tri en fonction des mots avec majuscules ou minuscules.<span aria-hidden=\"true\">🔠</span></li><li>Cocher ou décocher la case «&nbsp;ordre de tri personnalisé&nbsp;». Cette case vous permet de trier automatiquement les jours de la semaine et les mois. Si cette case est décochée, le tri sera alphabétique &nbsp;: jeudi sera donc avant lundi.<span aria-hidden=\"true\">📆</span></li></ul>"
+                    "content": "<h3>Dans l’onglet «&nbsp;Options&nbsp;»  de la fenêtre de tri, vous pouvez effectuer d’autres réglages.</h3> <ul><li>Utiliser la sensibilité à la casse. C'est utile si vous voulez faire un tri en fonction des mots avec majuscules ou minuscules.<span aria-hidden=\"true\">🔠</span></li><li>Cocher ou décocher la case «&nbsp;ordre de tri personnalisé&nbsp;». Cette case vous permet de trier automatiquement les jours de la semaine et les mois. Si cette case est décochée, le tri sera alphabétique&nbsp;: jeudi sera donc avant lundi.<span aria-hidden=\"true\">📆</span></li></ul>"
                   },
                 {
                   "id": "36ef789d-2835-4016-9d8d-ed344c12d153",
                   "type": "image",
-                  "url": "https://i.imgur.com/mkaJMb3.png",
+                  "url": "https://i.imgur.com/dl2nbj8.png",
                   "alt": "Astuce 3&nbsp;: utiliser les options de la fenêtre de tri",
                   "alternativeText": "Image de la fenêtre de tri ouverte dans l'onglet «&nbsp;Options&nbsp;». La case «&nbsp;Sensible à la casse&nbsp;» est cochée, ainsi que la case «&nbsp;Ordre de tri personnalisé&nbsp;». "
                 }
@@ -295,7 +295,7 @@
             "element": {
               "id": "c76ef813-7650-4da8-8eb7-490e53d8045b",
               "type": "text",
-              "content": " <h3><span aria-hidden=\"true\">🪟</span>La fenêtre de tri permet de créer un tri basé sur plusieurs colonnes.</h3><p>Il y a généralement deux manières d’accéder à la fenêtre de tri&nbsp;:</p><ul><li>en cliquant sur une icône dans le bandeau principal. Cette icône ressemble souvent à un petit tableau,</li><li>via l’onglet «&nbsp;Données&nbsp;»  ou «&nbsp;Organiser&nbsp;» .<br> </li></ul> <br> <details><summary> Vocabulaire <span aria-hidden=\"true\">🔤</span>&nbsp;:</summary><p>La fenêtre de tri peut s’appeler «&nbsp;Trier&nbsp;» ou «&nbsp;Tri personnalisé&nbsp;», et même parfois «&nbsp;Options avancées de tri&nbsp;».</p></details>"
+              "content": "<p>Voici un récapitulatif des grandes étapes de tri et des précisions de vocabulaire.</p><br> <h3><span aria-hidden=\"true\">🪟</span>La fenêtre de tri permet de créer un tri basé sur plusieurs colonnes.</h3><p>Il y a généralement deux manières d’accéder à la fenêtre de tri&nbsp;:</p><ul><li>en cliquant sur une icône dans le bandeau principal. Cette icône ressemble souvent à un petit tableau,</li><li>via l’onglet «&nbsp;Données&nbsp;»  ou «&nbsp;Organiser&nbsp;» .<br> </li></ul> <br> <details><summary><span aria-hidden=\"true\">🔤</span> Vocabulaire </summary><p>La fenêtre de tri peut s’appeler «&nbsp;Trier&nbsp;» ou «&nbsp;Tri personnalisé&nbsp;», et même parfois «&nbsp;Options avancées de tri&nbsp;».</p></details>"
             }
           },
           {
@@ -311,7 +311,7 @@
             "element": {
               "id": "0079417d-3054-4c03-8cfa-5f48f0d71282",
               "type": "text",
-              "content": " <h3><span aria-hidden=\"true\">🥇</span>L’ordre des critères de tri détermine le rendu du tri.</h3>  <p> L’ordre des critères de tri est déterminant. Le second critère s’applique en fonction du premier. Si vous inversez les critères, vous obtiendrez un rendu très différent.</p><br><details><summary>Vocabulaire <span aria-hidden=\"true\">🔤</span>&nbsp;:</summary><p>Un critère de tri comprend 2 facteurs&nbsp;: une colonne et un tri (croissant ou décroissant). Selon le logiciel, un critère de tri peut aussi s’appeler «&nbsp;Clé de tri&nbsp;» ou «&nbsp;Niveau de tri&nbsp;».</p></details>"
+              "content": " <h3><span aria-hidden=\"true\">🥇</span>L’ordre des critères de tri détermine le rendu du tri.</h3>  <p> L’ordre des critères de tri est déterminant. Le second critère s’applique en fonction du premier. Si vous inversez les critères, vous obtiendrez un rendu très différent.</p><br><details><summary><span aria-hidden=\"true\">🔤</span> Vocabulaire </summary><p>Un critère de tri comprend 2 facteurs&nbsp;: une colonne et un tri (croissant ou décroissant). Selon le logiciel, un critère de tri peut aussi s’appeler «&nbsp;Clé de tri&nbsp;» ou «&nbsp;Niveau de tri&nbsp;».</p></details>"
             }
           }
         ]
