@@ -40,7 +40,6 @@
 @import 'components/campaigns/participations-section';
 @import 'components/campaigns/update';
 @import 'components/card';
-@import 'components/certification-center-form';
 @import 'components/certification-center-invitations';
 @import 'components/certification-centers/information';
 @import 'components/certification-centers/invitations-action';
@@ -110,3 +109,6 @@
 @import 'components/users/user-profile';
 @import 'display/footer-modal';
 @import 'flatpickr';
+
+/* App/Components */
+@import 'certification-centers/certification-center-form';
