@@ -15,7 +15,6 @@ import { ObjectValidationError, UserNotFoundError } from '../../../../../src/sha
 import { adminMemberRepository } from '../../../../../src/shared/infrastructure/repositories/admin-member.repository.js';
 import * as userLoginRepository from '../../../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
-import { jobs } from '../../../../tooling/jobs/expect-job.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | anonymize-user', function () {
   let clock;
@@ -86,9 +85,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
     );
 
     // then
-    const userAnonymizedJobs = await jobs(UserAnonymizedEventLoggingJob.name);
-    expect(userAnonymizedJobs).to.have.length(1);
-    expect(userAnonymizedJobs[0]).to.have.deep.property('data', {
+    await expect(UserAnonymizedEventLoggingJob.name).to.have.been.performed.withJobPayload({
       client: 'PIX_ADMIN',
       role: PIX_ADMIN.ROLES.SUPER_ADMIN,
       occurredAt: now.toISOString(),
@@ -343,8 +340,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
       const anonymizedUser = await knex('users').where({ id: user.id }).first();
       expect(anonymizedUser.hasBeenAnonymised).to.be.true;
 
-      const userAnonymizedJobs = await jobs(UserAnonymizedEventLoggingJob.name);
-      expect(userAnonymizedJobs).to.have.length(0);
+      await expect(UserAnonymizedEventLoggingJob.name).to.have.been.performed.withJobsCount(0);
     });
   });
 });
