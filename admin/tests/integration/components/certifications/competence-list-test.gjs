@@ -1,5 +1,5 @@
 import { render, within } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import CompetenceList from 'pix-admin/components/certifications/competence-list';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -9,15 +9,15 @@ module('Integration | Component | certifications/competence-list', function (hoo
 
   test('it should display an entry per competence', async function (assert) {
     // given
-    this.set('competences', [
+    const competences = [
       { index: '1.1', score: '30', level: '3' },
       { index: '2.1', score: '20', level: '2' },
       { index: '5.2', score: '10', level: '1' },
-    ]);
+    ];
 
     // when
     const screen = await render(
-      hbs`<Certifications::CompetenceList @competences={{this.competences}} @shouldDisplayPixScore={{true}} />`,
+      <template><CompetenceList @competences={{competences}} @shouldDisplayPixScore={{true}} /></template>,
     );
 
     // then
@@ -43,11 +43,11 @@ module('Integration | Component | certifications/competence-list', function (hoo
 
   test('it should display competence index, score and level', async function (assert) {
     // given
-    this.set('competences', [{ index: '1.1', score: '30', level: '3' }]);
+    const competences = [{ index: '1.1', score: '30', level: '3' }];
 
     // when
     const screen = await render(
-      hbs`<Certifications::CompetenceList @competences={{this.competences}} @shouldDisplayPixScore={{true}} />`,
+      <template><CompetenceList @competences={{competences}} @shouldDisplayPixScore={{true}} /></template>,
     );
 
     // then
@@ -64,15 +64,15 @@ module('Integration | Component | certifications/competence-list', function (hoo
 
   test('it should display 16 entries in edition mode', async function (assert) {
     // given
-    this.set('competences', [
+    const competences = [
       { index: '1.1', score: '30', level: '3' },
       { index: '2.1', score: '30', level: '3' },
       { index: '5.2', score: '30', level: '3' },
-    ]);
+    ];
 
     // when
     const screen = await render(
-      hbs`<Certifications::CompetenceList @competences={{this.competences}} @edition='true' />`,
+      <template><CompetenceList @competences={{competences}} @edition="true" /></template>,
     );
 
     // then
@@ -82,7 +82,7 @@ module('Integration | Component | certifications/competence-list', function (hoo
   module('when certification is V2', function () {
     test('it should display competence levels and scores at the right places in edition mode', async function (assert) {
       // given
-      this.set('competences', [
+      const competences = [
         { index: '1.1', score: '30', level: '3' },
         { index: '2.1', score: '16', level: '2' },
         { index: '2.2', score: '42', level: '5' },
@@ -90,7 +90,7 @@ module('Integration | Component | certifications/competence-list', function (hoo
 
       // when
       const screen = await render(
-        hbs`<Certifications::CompetenceList @competences={{this.competences}} @edition='true' />`,
+        <template><CompetenceList @competences={{competences}} @edition="true" /></template>,
       );
 
       // then
@@ -108,11 +108,11 @@ module('Integration | Component | certifications/competence-list', function (hoo
   module('when certification is V3', function () {
     test('it should not display competence scores', async function (assert) {
       // given
-      this.set('competences', [{ index: '1.1', score: '0', level: '3' }]);
+      const competences = [{ index: '1.1', score: '0', level: '3' }];
 
       // when
       const screen = await render(
-        hbs`<Certifications::CompetenceList @competences={{this.competences}} @shouldDisplayPixScore={{false}} />`,
+        <template><CompetenceList @competences={{competences}} @shouldDisplayPixScore={{false}} /></template>,
       );
 
       // then
