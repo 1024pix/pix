@@ -1,7 +1,8 @@
+import NotificationContainer from '@1024pix/ember-cli-notifications/components/notification-container';
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import UpdateOrganizationsInBatch from 'pix-admin/components/administration/update-organizations-in-batch';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -32,7 +33,7 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       window.fetch.resolves(fetchResponse({ status: 204 }));
 
       // when
-      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch /><NotificationContainer />`);
+      const screen = await render(<template><UpdateOrganizationsInBatch /><NotificationContainer /></template>);
       const input = await screen.getByLabelText(
         this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
       );
@@ -60,7 +61,7 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       );
 
       // when
-      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch /><NotificationContainer />`);
+      const screen = await render(<template><UpdateOrganizationsInBatch /><NotificationContainer /></template>);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
       );
@@ -94,7 +95,7 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       );
 
       // when
-      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch /><NotificationContainer />`);
+      const screen = await render(<template><UpdateOrganizationsInBatch /><NotificationContainer /></template>);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
       );
@@ -128,7 +129,7 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       );
 
       // when
-      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch /><NotificationContainer />`);
+      const screen = await render(<template><UpdateOrganizationsInBatch /><NotificationContainer /></template>);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
       );
@@ -157,7 +158,7 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       );
 
       // when
-      const screen = await render(hbs`<Administration::UpdateOrganizationsInBatch /><NotificationContainer />`);
+      const screen = await render(<template><UpdateOrganizationsInBatch /><NotificationContainer /></template>);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
       );

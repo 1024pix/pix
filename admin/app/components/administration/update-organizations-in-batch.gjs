@@ -1,6 +1,8 @@
+import PixButtonUpload from '@1024pix/pix-ui/components/pix-button-upload';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 import ENV from 'pix-admin/config/environment';
 
 export default class UpdateOrganizationsInBatch extends Component {
@@ -75,4 +77,21 @@ export default class UpdateOrganizationsInBatch extends Component {
       this.isLoading = false;
     }
   }
+
+  <template>
+    <section class="page-section">
+      <header class="page-section__header">
+        <h2 class="page-section__title">{{t "components.administration.update-organizations-in-batch.title"}}</h2>
+      </header>
+      <p class="description">{{t "components.administration.update-organizations-in-batch.description"}}</p>
+      <PixButtonUpload
+        @id="update-organizations-in-batch-file-upload"
+        @onChange={{this.updateOrganizationsInBatch}}
+        @variant="secondary"
+        accept=".csv"
+      >
+        {{t "components.administration.update-organizations-in-batch.upload-button"}}
+      </PixButtonUpload>
+    </section>
+  </template>
 }
