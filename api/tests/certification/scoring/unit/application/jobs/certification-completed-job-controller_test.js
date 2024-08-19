@@ -6,6 +6,7 @@ import {
   ABORT_REASONS,
   CertificationCourse,
 } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { V3_REPRODUCIBILITY_RATE } from '../../../../../../src/shared/domain/constants.js';
 import { CertificationComputeError } from '../../../../../../src/shared/domain/errors.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
@@ -26,6 +27,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
 
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
+  let events;
 
   beforeEach(function () {
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
@@ -50,6 +52,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
     answerRepository = { findByAssessment: sinon.stub() };
     flashAlgorithmConfigurationRepository = { getMostRecentBeforeDate: sinon.stub() };
     certificationAssessmentHistoryRepository = { save: sinon.stub() };
+    events = { eventDispatcher: { dispatch: sinon.stub() } };
   });
 
   afterEach(function () {
@@ -95,6 +98,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
           expect(AssessmentResultFactory.buildAlgoErrorResult).to.not.have.been.called;
           expect(assessmentResultRepository.save).to.not.have.been.called;
           expect(certificationCourseRepository.update).to.not.have.been.called;
+          expect(events.eventDispatcher.dispatch).to.not.have.been.called;
         });
       });
 
@@ -143,6 +147,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               completedAt: now,
             }),
           });
+          expect(events.eventDispatcher.dispatch).to.not.have.been.called;
         });
       });
 
@@ -176,6 +181,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            events,
           };
 
           // when
@@ -188,49 +194,13 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               completedAt: now,
             }),
           });
-        });
-
-        it('should return a CertificationScoringCompleted', async function () {
-          // given
-          const assessmentResultId = 1234;
-          const certificationCourse = domainBuilder.buildCertificationCourse({
-            id: certificationCourseId,
-            completedAt: null,
-          });
-          const competenceMark1 = domainBuilder.buildCompetenceMark({ assessmentResultId, score: 5 });
-          const competenceMark2 = domainBuilder.buildCompetenceMark({ assessmentResultId, score: 4 });
-          const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
-            competenceMarks: [competenceMark1, competenceMark2],
-            percentageCorrectAnswers: 80,
-          });
-
-          certificationCourseRepository.update.resolves(certificationCourse);
-          scoringCertificationService.handleV2CertificationScoring.resolves({
-            certificationCourse,
-            certificationAssessmentScore,
-          });
-
-          const dependencies = {
-            assessmentResultRepository,
-            certificationAssessmentRepository,
-            certificationCourseRepository,
-            competenceMarkRepository,
-            scoringCertificationService,
-          };
-
-          // when
-          const certificationScoringCompleted = await certificationCompletedJobController.handle(
-            certificationCompletedJob,
-            dependencies,
+          expect(events.eventDispatcher.dispatch).to.have.been.calledOnceWithExactly(
+            new CertificationScoringCompleted({
+              userId,
+              certificationCourseId: certificationCourseId,
+              reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+            }),
           );
-
-          // then
-          expect(certificationScoringCompleted).to.be.instanceof(CertificationScoringCompleted);
-          expect(certificationScoringCompleted).to.deep.equal({
-            userId: certificationCompletedJob.userId,
-            certificationCourseId: certificationAssessment.certificationCourseId,
-            reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
-          });
         });
 
         context('when the certification stopped due to technical issue', function () {
@@ -262,6 +232,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               competenceMarkRepository,
               scoringCertificationService,
               certificationAssessmentRepository,
+              events,
             };
 
             // when
@@ -274,6 +245,13 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
                 isCancelled: true,
               }),
             });
+            expect(events.eventDispatcher.dispatch).to.have.been.calledOnceWithExactly(
+              new CertificationScoringCompleted({
+                userId,
+                certificationCourseId: certificationCourseId,
+                reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+              }),
+            );
           });
         });
       });
@@ -348,6 +326,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
               certificationAssessmentHistoryRepository,
+              events,
             };
 
             // when
@@ -361,6 +340,13 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
                 abortReason: ABORT_REASONS.CANDIDATE,
               }),
             });
+            expect(events.eventDispatcher.dispatch).to.have.been.calledOnceWithExactly(
+              new CertificationScoringCompleted({
+                userId,
+                certificationCourseId: certificationCourseId,
+                reproducibilityRate: V3_REPRODUCIBILITY_RATE,
+              }),
+            );
           });
         });
 
@@ -389,6 +375,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
               certificationAssessmentHistoryRepository,
+              events,
             };
 
             // when
@@ -403,6 +390,13 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
                 abortReason: ABORT_REASONS.TECHNICAL,
               }),
             });
+            expect(events.eventDispatcher.dispatch).to.have.been.calledOnceWithExactly(
+              new CertificationScoringCompleted({
+                userId,
+                certificationCourseId: certificationCourseId,
+                reproducibilityRate: V3_REPRODUCIBILITY_RATE,
+              }),
+            );
           });
         });
       });
@@ -432,6 +426,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
               certificationAssessmentHistoryRepository,
+              events,
             };
 
             // when
@@ -444,6 +439,13 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
                 completedAt: now,
               }),
             });
+            expect(events.eventDispatcher.dispatch).to.have.been.calledOnceWithExactly(
+              new CertificationScoringCompleted({
+                userId,
+                certificationCourseId: certificationCourseId,
+                reproducibilityRate: V3_REPRODUCIBILITY_RATE,
+              }),
+            );
           });
         });
 
@@ -474,6 +476,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
                 flashAlgorithmConfigurationRepository,
                 flashAlgorithmService,
                 certificationAssessmentHistoryRepository,
+                events,
               };
 
               // when
@@ -487,6 +490,13 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
                   abortReason,
                 }),
               });
+              expect(events.eventDispatcher.dispatch).to.have.been.calledOnceWithExactly(
+                new CertificationScoringCompleted({
+                  userId,
+                  certificationCourseId: certificationCourseId,
+                  reproducibilityRate: V3_REPRODUCIBILITY_RATE,
+                }),
+              );
             });
           });
 
@@ -516,6 +526,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
                 flashAlgorithmConfigurationRepository,
                 flashAlgorithmService,
                 certificationAssessmentHistoryRepository,
+                events,
               };
 
               // when
@@ -529,45 +540,16 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
                   abortReason,
                 }),
               });
+              expect(events.eventDispatcher.dispatch).to.have.been.calledOnceWithExactly(
+                new CertificationScoringCompleted({
+                  userId,
+                  certificationCourseId: certificationCourseId,
+                  reproducibilityRate: V3_REPRODUCIBILITY_RATE,
+                }),
+              );
             });
           });
         });
-      });
-
-      it('should return a CertificationScoringCompleted', async function () {
-        // given
-        const certificationCourse = domainBuilder.buildCertificationCourse({
-          id: certificationCourseId,
-          createdAt: certificationCourseStartDate,
-        });
-        scoringCertificationService.handleV3CertificationScoring.resolves(certificationCourse);
-        certificationCourseRepository.update.withArgs().resolves();
-
-        const dependencies = {
-          scoringCertificationService,
-          certificationAssessmentRepository,
-          certificationChallengeForScoringRepository,
-          answerRepository,
-          assessmentResultRepository,
-          competenceMarkRepository,
-          scoringConfigurationRepository,
-          certificationCourseRepository,
-          flashAlgorithmConfigurationRepository,
-          flashAlgorithmService,
-          certificationAssessmentHistoryRepository,
-        };
-
-        // when
-        const generatedEvent = await certificationCompletedJobController.handle(
-          certificationCompletedJob,
-          dependencies,
-        );
-
-        // then
-        expect(generatedEvent).to.be.instanceOf(CertificationScoringCompleted);
-        expect(generatedEvent.userId).to.equal(userId);
-        expect(generatedEvent.certificationCourseId).to.equal(certificationCourseId);
-        expect(generatedEvent.reproducibilityRate).to.equal(100);
       });
     });
   });

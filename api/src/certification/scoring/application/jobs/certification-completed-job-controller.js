@@ -1,4 +1,5 @@
 import { CertificationScoringCompleted } from '../../../../../lib/domain/events/CertificationScoringCompleted.js';
+import * as events from '../../../../../lib/domain/events/index.js';
 import { V3_REPRODUCIBILITY_RATE } from '../../../../shared/domain/constants.js';
 import { CertificationComputeError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/index.js';
@@ -35,6 +36,7 @@ export class CertificationCompletedJobController {
       scoringCertificationService,
       scoringConfigurationRepository,
       scoringDegradationService,
+      events,
     },
   ) {
     const { assessmentId, locale } = certificationCompletedJob;
@@ -53,12 +55,14 @@ export class CertificationCompletedJobController {
       flashAlgorithmService,
       scoringDegradationService,
       challengeRepository,
+      events,
     } = dependencies;
 
     const certificationAssessment = await certificationAssessmentRepository.get(assessmentId);
+    let certificationScoringCompletedEvent;
 
     if (CertificationVersion.isV3(certificationAssessment.version)) {
-      return _handleV3CertificationScoring({
+      certificationScoringCompletedEvent = await _handleV3CertificationScoring({
         certificationAssessment,
         locale,
         answerRepository,
@@ -75,13 +79,17 @@ export class CertificationCompletedJobController {
         challengeRepository,
       });
     } else {
-      return await _handleV2CertificationScoring({
+      certificationScoringCompletedEvent = await _handleV2CertificationScoring({
         certificationAssessment,
         assessmentResultRepository,
         certificationCourseRepository,
         competenceMarkRepository,
         scoringCertificationService,
       });
+    }
+
+    if (certificationScoringCompletedEvent) {
+      await events.eventDispatcher.dispatch(certificationScoringCompletedEvent);
     }
   }
 }
