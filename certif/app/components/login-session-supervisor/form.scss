@@ -1,0 +1,17 @@
+#login-session-supervisor-page > main > section {
+  p.error-message {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  form {
+    margin: 0 36px;
+
+    .pix-input,
+    .pix-input-password,
+    .pix-button {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+  }
+}

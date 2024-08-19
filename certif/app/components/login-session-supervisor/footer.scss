@@ -1,0 +1,38 @@
+#login-session-supervisor-page > main > footer {
+  border-radius: 0 0 10px 10px;
+  background: var(--pix-neutral-20);
+  display: flex;
+  flex-direction: column;
+  height: 80px;
+  justify-content: center;
+  letter-spacing: 0.15px;
+  line-height: 22px;
+
+  @include device-is('tablet') {
+    margin: auto;
+    padding: 40px 60px 40px;
+  }
+
+  @extend %pix-body-s;
+
+  svg {
+    margin-right: 8px;
+  }
+
+  > .logout {
+    margin-top: 4px;
+    color: var(--pix-neutral-500);
+
+    &:hover {
+      color: var(--pix-primary-500);
+    }
+
+    &:focus,
+    &:focus-visible {
+      padding: 0 2px;
+      border-radius: var(--pix-spacing-1x);
+      outline: none;
+      box-shadow: inset 0 0 0 1.6px var(--pix-primary-500);
+    }
+  }
+}

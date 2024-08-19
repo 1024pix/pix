@@ -11,7 +11,7 @@ const sourceMapConfig = {
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
     sassOptions: {
-      includePaths: ['node_modules/@1024pix/pix-ui/addon/styles', 'node_modules/flatpickr/dist'],
+      includePaths: ['node_modules/@1024pix/pix-ui/addon/styles', 'node_modules/flatpickr/dist', 'app/components'],
     },
     babel: {
       plugins: [require.resolve('ember-auto-import/babel-plugin')],

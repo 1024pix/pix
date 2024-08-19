@@ -36,8 +36,6 @@ $navbar-height: 60px;
 @import 'components/issue-report-modal';
 @import 'components/layout/footer';
 @import 'components/login-form';
-@import 'components/login-session-supervisor/index';
-@import 'components/login-session-supervisor/form';
 @import 'components/login-or-register';
 @import 'components/finalize';
 @import 'components/new-candidate-modal';
@@ -59,6 +57,12 @@ $navbar-height: 60px;
 @import 'components/dropdown';
 @import 'components/user-logged-menu';
 @import 'flatpickr';
+
+/* App/Components */
+@import 'login-session-supervisor';
+@import 'login-session-supervisor/form';
+@import 'login-session-supervisor/footer';
+@import 'login-session-supervisor/header';
 
 body,
 html {

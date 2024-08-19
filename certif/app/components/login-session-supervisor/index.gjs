@@ -2,10 +2,12 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import get from 'lodash/get';
 
 import LoginSessionSupervisorFooter from './footer';
 import LoginSessionSupervisorForm from './form';
+import LoginSessionSupervisorHeader from './header';
 
 export default class LoginSessionSupervisor extends Component {
   @service intl;
@@ -53,17 +55,24 @@ export default class LoginSessionSupervisor extends Component {
   }
 
   <template>
-    <div class='login-session-supervisor-page'>
-      <div class='login-session-supervisor-page-content'>
-        <LoginSessionSupervisorForm
-          @superviseSession={{this.superviseSession}}
-          @setSessionId={{this.setSessionId}}
-          @setSupervisorPassword={{this.setSupervisorPassword}}
-          @errorMessage={{this.errorMessage}}
-        />
+    <div id='login-session-supervisor-page'>
+      <main>
+        <section>
+          <LoginSessionSupervisorHeader @errorMessage={{this.errorMessage}} />
+
+          <LoginSessionSupervisorForm
+            @superviseSession={{this.superviseSession}}
+            @setSessionId={{this.setSessionId}}
+            @setSupervisorPassword={{this.setSupervisorPassword}}
+          />
+
+          <p class='description'>
+            {{t 'pages.session-supervising.login.form.description'}}
+          </p>
+        </section>
 
         <LoginSessionSupervisorFooter @currentUserEmail={{@currentUserEmail}} />
-      </div>
+      </main>
     </div>
   </template>
 }
