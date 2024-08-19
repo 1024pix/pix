@@ -1,6 +1,6 @@
 import { render, within } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import InfoField from 'pix-admin/components/certifications/info-field';
 import { module, test } from 'qunit';
 
 module('Integration | Component | certifications/info-field', function (hooks) {
@@ -9,7 +9,7 @@ module('Integration | Component | certifications/info-field', function (hooks) {
   module('[Consultation mode]', function () {
     test('it should be in "consultation (read only) mode" by default when @edition (optional) argument is not provided', async function (assert) {
       // given & when
-      const screen = await render(hbs`<Certifications::InfoField @label='Field label:' @value='field_value' />`);
+      const screen = await render(<template><InfoField @label="Field label:" @value="field_value" /></template>);
 
       // then
       assert.dom(screen.queryByRole('textbox', { name: 'Field label:' })).doesNotExist();
@@ -17,7 +17,7 @@ module('Integration | Component | certifications/info-field', function (hooks) {
 
     test('it should render label and field value', async function (assert) {
       // given & when
-      const screen = await render(hbs`<Certifications::InfoField @label='Session:' @value='commencé' />`);
+      const screen = await render(<template><InfoField @label="Session:" @value="commencé" /></template>);
 
       // then
       assert.dom(_getInfoNodeFromLabel(screen, 'Session:').getByText('commencé')).exists();
@@ -26,7 +26,7 @@ module('Integration | Component | certifications/info-field', function (hooks) {
     test('it should render field value with suffix when @suffix (optional) argument is provided', async function (assert) {
       // given & when
       const screen = await render(
-        hbs`<Certifications::InfoField @label='Session:' @value='commencé' @suffix='unit(s)' />`,
+        <template><InfoField @label="Session:" @value="commencé" @suffix="unit(s)" /></template>,
       );
 
       // then
@@ -36,7 +36,7 @@ module('Integration | Component | certifications/info-field', function (hooks) {
     test('it should display value as link when @linkRoute (optional) argument is provided', async function (assert) {
       // given & when
       const screen = await render(
-        hbs`<Certifications::InfoField @label='Session:' @value='1234' @linkRoute='authenticated.sessions.session' />`,
+        <template><InfoField @label="Session:" @value="1234" @linkRoute="authenticated.sessions.session" /></template>,
       );
 
       // then
@@ -49,7 +49,9 @@ module('Integration | Component | certifications/info-field', function (hooks) {
     test('it should be in "edition (writable) mode" when @edition (optional) argument is set to "true"', async function (assert) {
       // given & when
       const screen = await render(
-        hbs`<Certifications::InfoField @label='Publiée :' @value='oui' @edition='true' @fieldId='certification-publication' />`,
+        <template>
+          <InfoField @label="Publiée :" @value="oui" @edition="true" @fieldId="certification-publication" />
+        </template>,
       );
 
       // then
@@ -59,7 +61,7 @@ module('Integration | Component | certifications/info-field', function (hooks) {
     test('it should display field value with suffix when @suffix (optional) argument is provided', async function (assert) {
       // given & when
       const screen = await render(
-        hbs`<Certifications::InfoField @label='Field label:' @value='field_value' @suffix='unit(s)' @edition='true' />`,
+        <template><InfoField @label="Field label:" @value="field_value" @suffix="unit(s)" @edition="true" /></template>,
       );
 
       // then
