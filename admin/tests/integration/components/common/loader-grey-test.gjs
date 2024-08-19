@@ -1,6 +1,6 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
+import LoaderGrey from 'pix-admin/components/common/loader-grey';
 import { module, test } from 'qunit';
 
 module('Integration | Component |  common/loader-grey', function (hooks) {
@@ -10,7 +10,7 @@ module('Integration | Component |  common/loader-grey', function (hooks) {
     // given
 
     //  when
-    const screen = await renderScreen(hbs`<Common::LoaderGrey />`);
+    const screen = await renderScreen(<template><LoaderGrey /></template>);
 
     // then
     assert.dom(screen.getByRole('progressbar', { name: 'chargement' })).exists();
