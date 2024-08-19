@@ -1,11 +1,12 @@
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 
 class Details {
-  constructor({ image, description, duration, level, objectives }) {
+  constructor({ image, description, duration, level, tabletSupport, objectives }) {
     assertNotNullOrUndefined(image, 'The image is required for module details');
     assertNotNullOrUndefined(description, 'The description is required for module details');
     assertNotNullOrUndefined(duration, 'The duration is required for module details');
     assertNotNullOrUndefined(level, 'The level is required for module details');
+    assertNotNullOrUndefined(tabletSupport, 'The tabletSupport is required for module details');
     assertNotNullOrUndefined(objectives, 'The objectives are required for module details');
     this.#assertObjectivesIsAnArray(objectives);
     this.#assertObjectivesHasMinimumLength(objectives);
@@ -14,6 +15,7 @@ class Details {
     this.description = description;
     this.duration = duration;
     this.level = level;
+    this.tabletSupport = tabletSupport;
     this.objectives = objectives;
   }
 

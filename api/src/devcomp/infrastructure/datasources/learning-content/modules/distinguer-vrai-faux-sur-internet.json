@@ -7,6 +7,7 @@
     "description": "Sur internet, de nombreuses informations circulent. Certaines sont vraies, d'autres sont fausses. Dans ce module, vous allez découvrir une méthode pour analyser l'information et aiguiser votre esprit critique !",
     "duration": 15,
     "level": "Intermédiaire",
+    "tabletSupport": "comfortable",
     "objectives": [
       "Connaître une méthode de vérification d'informations",
       "Repérer une fausse information sur internet",
