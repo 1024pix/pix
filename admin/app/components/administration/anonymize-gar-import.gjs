@@ -1,7 +1,9 @@
+import PixButtonUpload from '@1024pix/pix-ui/components/pix-button-upload';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import ENV from 'pix-admin/config/environment';
 
 export default class AnonymizeGarImport extends Component {
@@ -64,4 +66,28 @@ export default class AnonymizeGarImport extends Component {
       this.isLoading = false;
     }
   }
+
+  <template>
+    <section class="page-section">
+      <header class="page-section__header">
+        <h2 class="page-section__title">{{t "components.administration.anonymize-gar-import.title"}}</h2>
+      </header>
+
+      <p class="description">{{t "components.administration.anonymize-gar-import.description"}}</p>
+
+      <PixButtonUpload
+        @id="anonymize-gar-upload"
+        @onChange={{this.anonymizeGar}}
+        @variant="secondary"
+        disabled={{this.isLoading}}
+        accept=".csv"
+      >
+        {{#if this.isLoading}}
+          {{t "common.forms.loading"}}
+        {{else}}
+          {{t "components.administration.anonymize-gar-import.upload-button"}}
+        {{/if}}
+      </PixButtonUpload>
+    </section>
+  </template>
 }

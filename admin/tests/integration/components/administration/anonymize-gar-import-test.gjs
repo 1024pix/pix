@@ -1,7 +1,8 @@
+import NotificationContainerComponent from '@1024pix/ember-cli-notifications/components/notification-container';
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import AnonymizeGarImport from 'pix-admin/components/administration/anonymize-gar-import';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -45,7 +46,7 @@ module('Integration | Component |  administration/anonymize-gar-import', functio
       );
 
       // when
-      const screen = await render(hbs`<Administration::AnonymizeGarImport /><NotificationContainer />`);
+      const screen = await render(<template><AnonymizeGarImport /><NotificationContainerComponent /></template>);
       const input = await screen.getByLabelText(
         this.intl.t('components.administration.anonymize-gar-import.upload-button'),
       );
@@ -81,7 +82,7 @@ module('Integration | Component |  administration/anonymize-gar-import', functio
       );
 
       // when
-      const screen = await render(hbs`<Administration::AnonymizeGarImport /><NotificationContainer />`);
+      const screen = await render(<template><AnonymizeGarImport /><NotificationContainerComponent /></template>);
       const input = await screen.getByLabelText(
         this.intl.t('components.administration.anonymize-gar-import.upload-button'),
       );
@@ -113,7 +114,7 @@ module('Integration | Component |  administration/anonymize-gar-import', functio
         );
 
         // when
-        const screen = await render(hbs`<Administration::AnonymizeGarImport /><NotificationContainer />`);
+        const screen = await render(<template><AnonymizeGarImport /><NotificationContainerComponent /></template>);
         const input = await screen.findByLabelText(
           this.intl.t('components.administration.anonymize-gar-import.upload-button'),
         );
@@ -136,7 +137,7 @@ module('Integration | Component |  administration/anonymize-gar-import', functio
         window.fetch.resolves(fetchMock({ status: 500 }));
 
         // when
-        const screen = await render(hbs`<Administration::AnonymizeGarImport /><NotificationContainer />`);
+        const screen = await render(<template><AnonymizeGarImport /><NotificationContainerComponent /></template>);
         const input = await screen.findByLabelText(
           this.intl.t('components.administration.anonymize-gar-import.upload-button'),
         );
