@@ -582,6 +582,10 @@
           "list": {
             "title": "Liste des candidats",
             "actions": {
+              "edit": {
+                "extra-information": "Editer le candidat",
+                "tooltip": "Ce candidat a déjà rejoint la session. Vous ne pouvez pas l'éditer."
+              },
               "delete": {
                 "extra-information": "Supprimer le candidat",
                 "tooltip": "Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer."

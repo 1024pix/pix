@@ -17,6 +17,7 @@ export default class EnrolledCandidates extends Component {
   @tracked candidatesInStaging = [];
   @tracked newCandidate = {};
   @tracked shouldDisplayCertificationCandidateModal = false;
+  @tracked shouldDisplayEditCertificationCandidateModal = false;
   @tracked certificationCandidateInDetailsModal = null;
   @tracked showNewCandidateModal = false;
 
@@ -135,6 +136,12 @@ export default class EnrolledCandidates extends Component {
   @action
   openCertificationCandidateDetailsModal(candidate) {
     this.shouldDisplayCertificationCandidateModal = true;
+    this.certificationCandidateInDetailsModal = candidate;
+  }
+
+  @action
+  openEditCertificationCandidateDetailsModal(candidate) {
+    this.shouldDisplayEditCertificationCandidateModal = true;
     this.certificationCandidateInDetailsModal = candidate;
   }
 
