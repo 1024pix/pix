@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import CertifiedProfile from 'pix-admin/components/certifications/certified-profile';
 import { module, test } from 'qunit';
 
 module('Integration | Component | certifications/certified-profile', function (hooks) {
@@ -13,10 +13,9 @@ module('Integration | Component | certifications/certified-profile', function (h
     const certifiedProfile = store.createRecord('certified-profile', {
       certifiedAreas,
     });
-    this.set('certifiedProfile', certifiedProfile);
 
     // when
-    const screen = await render(hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`);
+    const screen = await render(<template><CertifiedProfile @certifiedProfile={{certifiedProfile}} /></template>);
 
     // then
     assert.dom(screen.getByText('Profil certifié vide.')).exists();
@@ -38,12 +37,9 @@ module('Integration | Component | certifications/certified-profile', function (h
         certifiedAreas: [certifiedArea],
         certifiedCompetences: [certifiedCompetence],
       });
-      this.set('certifiedProfile', certifiedProfile);
 
       // when
-      const screen = await render(
-        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`,
-      );
+      const screen = await render(<template><CertifiedProfile @certifiedProfile={{certifiedProfile}} /></template>);
 
       // then
       assert.dom(screen.getByText('Niveau 1')).exists();
@@ -71,12 +67,9 @@ module('Integration | Component | certifications/certified-profile', function (h
         certifiedAreas: [certifiedArea],
         certifiedCompetences: [certifiedCompetence],
       });
-      this.set('certifiedProfile', certifiedProfile);
 
       // when
-      const screen = await render(
-        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`,
-      );
+      const screen = await render(<template><CertifiedProfile @certifiedProfile={{certifiedProfile}} /></template>);
 
       // then
       assert.dom(screen.getByText('area1')).exists();
@@ -120,12 +113,9 @@ module('Integration | Component | certifications/certified-profile', function (h
         certifiedTubes: [certifiedTube],
         certifiedSkills: [certifiedSkillInCertificationTest, certifiedSkillNotInCertificationTest],
       });
-      this.set('certifiedProfile', certifiedProfile);
 
       // when
-      const screen = await render(
-        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`,
-      );
+      const screen = await render(<template><CertifiedProfile @certifiedProfile={{certifiedProfile}} /></template>);
 
       // then
       assert.dom(screen.getByText('tube1')).exists();
@@ -134,6 +124,7 @@ module('Integration | Component | certifications/certified-profile', function (h
       assert.strictEqual(iconSkill1, 'check-double');
       assert.strictEqual(iconSkill2, 'check');
     });
+
     test('it should display non Pix competences first', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -164,12 +155,8 @@ module('Integration | Component | certifications/certified-profile', function (h
         certifiedCompetences: [certifiedPixCompetenceCompetence, certifiedNonPixCompetence],
       });
 
-      this.set('certifiedProfile', certifiedProfile);
-
       // when
-      const screen = await render(
-        hbs`<Certifications::CertifiedProfile @certifiedProfile={{this.certifiedProfile}} />`,
-      );
+      const screen = await render(<template><CertifiedProfile @certifiedProfile={{certifiedProfile}} /></template>);
 
       // then
       const [firstCompetenceTitle, secondCompetenceTitle] = screen.getAllByRole('heading');
