@@ -1,13 +1,17 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import ParticipationRow from 'pix-admin/components/campaigns/participation-row';
 import sinon from 'sinon';
 
 module('Integration | Component | Campaigns | participation-row', function (hooks) {
   setupRenderingTest(hooks);
+
+  let participation;
+  let idPixLabel = null;
+  let updateParticipantExternalId;
 
   module('Display information', function (hooks) {
     hooks.beforeEach(async function () {
@@ -20,16 +24,15 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
     test('it should display names and createdAt', async function (assert) {
       // given
-      const participation = EmberObject.create({
+      participation = EmberObject.create({
         firstName: 'Jean',
         lastName: 'Claude',
         userFullName: 'Jean-Claude Gangan',
         createdAt: new Date('2020-01-01'),
       });
-      this.set('participation', participation);
 
       // when
-      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{this.participation}} />`);
+      const screen = await render(<template><ParticipationRow @participation={{participation}} /></template>);
 
       // then
       assert.dom(screen.getByText('Jean Claude')).exists();
@@ -39,16 +42,13 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
     test('it should not display participantExternalId if idPixLabel is null', async function (assert) {
       // given
-      const participation = EmberObject.create({
+      participation = EmberObject.create({
         participationExternalId: '123',
       });
 
-      this.set('participation', participation);
-      this.set('idPixLabel', null);
-
       // when
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} />`,
+        <template><ParticipationRow @participation={{participation}} @idPixLabel={{idPixLabel}} /></template>,
       );
 
       // then
@@ -60,12 +60,11 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       const participation = EmberObject.create({
         participantExternalId: '123',
       });
-      this.set('participation', participation);
-      this.set('idPixLabel', 'identifiant');
+      idPixLabel = 'identifiant';
 
       // when
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} />`,
+        <template><ParticipationRow @participation={{participation}} @idPixLabel={{idPixLabel}} /></template>,
       );
 
       // then
@@ -75,13 +74,12 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
     test('it should display shared date if participation is shared', async function (assert) {
       // given
-      const participation = EmberObject.create({
+      participation = EmberObject.create({
         sharedAt: new Date('2020-01-01'),
       });
-      this.set('participation', participation);
 
       // when
-      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{this.participation}} />`);
+      const screen = await render(<template><ParticipationRow @participation={{participation}} /></template>);
 
       // then
       assert.dom(screen.getByText('01/01/2020')).exists();
@@ -89,14 +87,13 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
     test('it should display deletedByFullName and deletedAt if participation is deleted', async function (assert) {
       // given
-      const participation = EmberObject.create({
+      participation = EmberObject.create({
         deletedAt: new Date('2022-01-01'),
         deletedByFullName: 'le coupable',
       });
-      this.set('participation', participation);
 
       // when
-      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{this.participation}} />`);
+      const screen = await render(<template><ParticipationRow @participation={{participation}} /></template>);
 
       // then
       assert.dom(screen.getByText('01/01/2022 par')).exists();
@@ -111,22 +108,22 @@ module('Integration | Component | Campaigns | participation-row', function (hook
         hasAccessToOrganizationActionsScope = true;
       }
       this.owner.register('service:access-control', AccessControlStub);
-      const participation = EmberObject.create({
+      participation = EmberObject.create({
         participantExternalId: '123',
       });
-      this.participation = participation;
-      this.idPixLabel = 'identifiant';
-      this.updateParticipantExternalId = sinon.spy();
+      participation = participation;
+      idPixLabel = 'identifiant';
+      updateParticipantExternalId = sinon.spy();
     });
 
     test('it should display save and cancel button', async function (assert) {
       // when
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow
-  @participation={{this.participation}}
-  @idPixLabel={{this.idPixLabel}}
-  @updateParticipantExternalId={{this.updateParticipantExternalId}}
-/>`,
+        <template><ParticipationRow
+  @participation={{participation}}
+  @idPixLabel={{idPixLabel}}
+  @updateParticipantExternalId={{updateParticipantExternalId}}
+/></template>,
       );
       await clickByName('Modifier');
 
@@ -138,11 +135,11 @@ module('Integration | Component | Campaigns | participation-row', function (hook
     test('it should update participantExternalId on save', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow
-  @participation={{this.participation}}
-  @idPixLabel={{this.idPixLabel}}
-  @updateParticipantExternalId={{this.updateParticipantExternalId}}
-/>`,
+        <template><ParticipationRow
+  @participation={{participation}}
+  @idPixLabel={{idPixLabel}}
+  @updateParticipantExternalId={{updateParticipantExternalId}}
+/></template>,
       );
       await clickByName('Modifier');
 
@@ -152,18 +149,18 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       // then
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
-      assert.strictEqual(this.participation.participantExternalId, '4567890');
-      assert.ok(this.updateParticipantExternalId.called);
+      assert.strictEqual(participation.participantExternalId, '4567890');
+      assert.ok(updateParticipantExternalId.called);
     });
 
     test('it should update participantExternalId with null if participantExternalId only  has blank space', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow
-  @participation={{this.participation}}
-  @idPixLabel={{this.idPixLabel}}
-  @updateParticipantExternalId={{this.updateParticipantExternalId}}
-/>`,
+        <template><ParticipationRow
+  @participation={{participation}}
+  @idPixLabel={{idPixLabel}}
+  @updateParticipantExternalId={{updateParticipantExternalId}}
+/></template>,
       );
       await clickByName('Modifier');
 
@@ -173,18 +170,18 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       // then
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
-      assert.strictEqual(this.participation.participantExternalId, null);
-      assert.ok(this.updateParticipantExternalId.called);
+      assert.strictEqual(participation.participantExternalId, null);
+      assert.ok(updateParticipantExternalId.called);
     });
 
     test('it should update participantExternalId with null if participantExternalId is empty', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow
-  @participation={{this.participation}}
-  @idPixLabel={{this.idPixLabel}}
-  @updateParticipantExternalId={{this.updateParticipantExternalId}}
-/>`,
+        <template><ParticipationRow
+  @participation={{participation}}
+  @idPixLabel={{idPixLabel}}
+  @updateParticipantExternalId={{updateParticipantExternalId}}
+/></template>,
       );
       await clickByName('Modifier');
 
@@ -194,18 +191,18 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       // then
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
-      assert.strictEqual(this.participation.participantExternalId, null);
-      assert.ok(this.updateParticipantExternalId.called);
+      assert.strictEqual(participation.participantExternalId, null);
+      assert.ok(updateParticipantExternalId.called);
     });
 
     test('it should not update participantExternalId on cancel', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow
-  @participation={{this.participation}}
-  @idPixLabel={{this.idPixLabel}}
-  @updateParticipantExternalId={{this.updateParticipantExternalId}}
-/>`,
+        <template><ParticipationRow
+  @participation={{participation}}
+  @idPixLabel={{idPixLabel}}
+  @updateParticipantExternalId={{updateParticipantExternalId}}
+/></template>,
       );
       await clickByName('Modifier');
 
@@ -215,8 +212,8 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       // then
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
-      assert.strictEqual(this.participation.participantExternalId, '123');
-      assert.notOk(this.updateParticipantExternalId.called);
+      assert.strictEqual(participation.participantExternalId, '123');
+      assert.notOk(updateParticipantExternalId.called);
     });
   });
 
@@ -227,15 +224,14 @@ module('Integration | Component | Campaigns | participation-row', function (hook
         hasAccessToOrganizationActionsScope = false;
       }
       this.owner.register('service:access-control', AccessControlStub);
-      const participation = EmberObject.create({
+      participation = EmberObject.create({
         participantExternalId: '123',
       });
-      this.set('participation', participation);
-      this.set('idPixLabel', 'identifiant');
+      idPixLabel = 'identifiant';
 
       //when
       const screen = await render(
-        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} />`,
+        <template><ParticipationRow @participation={{participation}} @idPixLabel={{idPixLabel}} /></template>,
       );
 
       // expect
