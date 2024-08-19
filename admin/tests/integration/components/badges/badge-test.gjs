@@ -1,9 +1,9 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import Badge from 'pix-admin/components/badges/badge';
 import { module, test } from 'qunit';
 
-module('Integration | Component | Badges::Badge', function (hooks) {
+module('Integration | Component | badges/badge', function (hooks) {
   setupRenderingTest(hooks);
 
   test('should render all details about the badge', async function (assert) {
@@ -20,10 +20,9 @@ module('Integration | Component | Badges::Badge', function (hooks) {
       isAlwaysVisible: true,
       criteria: [],
     });
-    this.set('badge', badge);
 
     // when
-    const screen = await render(hbs`<Badges::Badge @badge={{this.badge}} />`);
+    const screen = await render(<template><Badge @badge={{badge}} /></template>);
 
     // then
     assert.dom(screen.getByText(`ID : ${badge.id}`)).exists();
@@ -65,11 +64,8 @@ module('Integration | Component | Badges::Badge', function (hooks) {
       isAlwaysVisible: true,
       criteria: [criterionCampaignParticipation, criterionCappedTubes],
     });
-    this.set('badge', badge);
-    this.set('targetProfile', targetProfile);
-
     // when
-    const screen = await render(hbs`<Badges::Badge @badge={{this.badge}} @targetProfile={{this.targetProfile}} />`);
+    const screen = await render(<template><Badge @badge={{badge}} @targetProfile={{targetProfile}} /></template>);
 
     // then
     assert.deepEqual(
@@ -100,11 +96,9 @@ module('Integration | Component | Badges::Badge', function (hooks) {
       isAlwaysVisible: true,
       criteria: [],
     });
-    this.set('badge', badge);
-    this.set('targetProfile', targetProfile);
 
     // when
-    const screen = await render(hbs`<Badges::Badge @badge={{this.badge}} @targetProfile={{this.targetProfile}} />`);
+    const screen = await render(<template><Badge @badge={{badge}} @targetProfile={{targetProfile}} /></template>);
 
     // then
     assert.dom(screen.queryByText("Critère d'obtention basé sur l'ensemble du profil cible&nbsp;:")).doesNotExist();
