@@ -217,6 +217,7 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
           description: 'Découvrez avec ce didacticiel comment fonctionne Modulix !',
           duration: 5,
           level: 'Débutant',
+          tabletSupport: 'comfortable',
           objectives: ['Naviguer dans Modulix', 'Découvrir les leçons et les activités'],
         },
         grains: [
@@ -255,6 +256,7 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
         description: '<strong>Découvrez avec ce didacticiel</strong> comment fonctionne Modulix !',
         duration: 5,
         level: 'Débutant',
+        tabletSupport: 'comfortable',
         objectives: ['Naviguer dans Modulix', 'Découvrir les leçons et les activités'],
       };
 
@@ -275,6 +277,28 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
         description: 'Découvrez avec ce didacticiel comment fonctionne Modulix !',
         duration: 5,
         level: 'Débutant',
+        tabletSupport: 'comfortable',
+        objectives: ['<span>Naviguer dans Modulix<span>', 'Découvrir les leçons et les activités'],
+      };
+
+      try {
+        await moduleDetailsSchema.validateAsync(invalidModuleDetails, { abortEarly: false });
+        throw new Error('Joi validation should have thrown');
+      } catch (joiError) {
+        expect(joiError.message).to.deep.equal(
+          '"objectives[0]" failed custom validation because HTML is not allowed in this field',
+        );
+      }
+    });
+
+    it('should throw  custom error for details.objectives fields', async function () {
+      // given
+      const invalidModuleDetails = {
+        image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+        description: 'Découvrez avec ce didacticiel comment fonctionne Modulix !',
+        duration: 5,
+        level: 'Débutant',
+        tabletSupport: 'comfortable',
         objectives: ['<span>Naviguer dans Modulix<span>', 'Découvrir les leçons et les activités'],
       };
 

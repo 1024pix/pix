@@ -7,6 +7,7 @@
     "description": "Pour savoir ce qu'on peut brancher ou non à un ordinateur, il faut bien connaître les principaux ports de connexion !",
     "duration": 10,
     "level": "Débutant",
+    "tabletSupport": "comfortable",
     "objectives": [
       "Reconnaître les ports de connexion essentiels d’un ordinateur",
       "Connaître la fonction de chaque port de connexion"

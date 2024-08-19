@@ -14,6 +14,7 @@ describe('Acceptance | Script | Get Modules as CSV', function () {
           description: 'Découvrez avec ce didacticiel comment fonctionne Modulix !',
           duration: 5,
           level: 'Débutant',
+          tabletSupport: 'comfortable',
           objectives: ['Naviguer dans Modulix', 'Découvrir les leçons et les activités'],
         },
         transitionTexts: [

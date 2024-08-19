@@ -31,6 +31,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           transitionTexts: [
@@ -80,6 +81,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
               description: 'Description',
               duration: 5,
               level: 'Débutant',
+              tabletSupport: 'comfortable',
               objectives: ['Objective 1'],
             },
             grains: [
@@ -127,6 +129,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
               description: 'Description',
               duration: 5,
               level: 'Débutant',
+              tabletSupport: 'comfortable',
               objectives: ['Objective 1'],
             },
             grains: [
@@ -174,6 +177,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
               description: 'Description',
               duration: 5,
               level: 'Débutant',
+              tabletSupport: 'comfortable',
               objectives: ['Objective 1'],
             },
             grains: [
@@ -228,6 +232,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
           description: 'Description',
           duration: 5,
           level: 'Débutant',
+          tabletSupport: 'comfortable',
           objectives: ['Objective 1'],
         },
         grains: [
@@ -274,6 +279,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
           description: 'Description',
           duration: 5,
           level: 'Débutant',
+          tabletSupport: 'comfortable',
           objectives: ['Objective 1'],
         },
         transitionTexts: [
@@ -330,6 +336,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -371,6 +378,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -410,6 +418,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -463,6 +472,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -502,6 +512,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -544,6 +555,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -600,6 +612,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -666,6 +679,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -750,6 +764,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -799,6 +814,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -846,6 +862,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -897,6 +914,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -944,6 +962,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -995,6 +1014,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -1058,6 +1078,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -1133,6 +1154,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -1219,6 +1241,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -1272,6 +1295,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -1327,6 +1351,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
             description: 'Description',
             duration: 5,
             level: 'Débutant',
+            tabletSupport: 'comfortable',
             objectives: ['Objective 1'],
           },
           grains: [
@@ -1374,6 +1399,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
           description: 'Description',
           duration: 5,
           level: 'Débutant',
+          tabletSupport: 'comfortable',
           objectives: ['Objective 1'],
         },
         grains: [
@@ -1424,6 +1450,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
           description: 'Description',
           duration: 5,
           level: 'Débutant',
+          tabletSupport: 'comfortable',
           objectives: ['Objective 1'],
         },
         grains: [

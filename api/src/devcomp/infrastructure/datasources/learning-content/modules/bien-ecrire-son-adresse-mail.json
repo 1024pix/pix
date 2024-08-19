@@ -7,6 +7,7 @@
     "description": "Bien écrire son adresse mail est important. Dans ce module, vous allez apprendre à écrire correctement une adresse e-mail pour mieux communiquer et éviter les erreurs courantes.",
     "duration": 12,
     "level": "Débutant",
+    "tabletSupport": "comfortable",
     "objectives": [
       "Connaître les différentes parties d’une adresse mail et les identifier sur des exemples",
       "Comprendre les fonctions de chaque partie d’une adresse mail",

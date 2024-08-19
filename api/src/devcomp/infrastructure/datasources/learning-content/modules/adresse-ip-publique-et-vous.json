@@ -7,6 +7,7 @@
     "description": "Découvrez dans ce module ce qu'est une adresse IP publique et les informations et les traces numériques qu'elle porte.",
     "duration": 10,
     "level": "Intermédiaire",
+    "tabletSupport": "comfortable",
     "objectives": [
       "Connaître les traces numériques portées par l'adresse IP publique",
       "Localiser une adresse IP publique",

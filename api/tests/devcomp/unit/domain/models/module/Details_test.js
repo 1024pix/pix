@@ -9,16 +9,18 @@ describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
       const description = 'Description';
       const duration = 12;
       const level = 'Débutant';
+      const tabletSupport = 'comfortable';
       const objectives = ['MissionInformation #1'];
 
       // when
-      const details = new Details({ image, description, duration, level, objectives });
+      const details = new Details({ image, description, duration, level, tabletSupport, objectives });
 
       // then
       expect(details.image).to.equal(image);
       expect(details.description).to.equal(description);
       expect(details.duration).to.equal(duration);
       expect(details.level).to.equal(level);
+      expect(details.tabletSupport).to.equal(tabletSupport);
       expect(details.objectives).to.equal(objectives);
     });
 
@@ -52,6 +54,21 @@ describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
       });
     });
 
+    describe('if the details do not have a tabletSupport', function () {
+      it('should throw an error', function () {
+        expect(
+          () =>
+            new Details({
+              image: 'https://image.com',
+              description: 'description',
+              duration: 12,
+              level: 'level',
+              objectives: ['objective1'],
+            }),
+        ).to.throw('The tabletSupport is required for module details');
+      });
+    });
+
     describe('if the details do not have objectives', function () {
       it('should throw an error', function () {
         expect(
@@ -61,6 +78,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
               description: 'description',
               duration: 12,
               level: 'level',
+              tabletSupport: 'comfortable',
             }),
         ).to.throw('The objectives are required for module details');
       });
@@ -75,6 +93,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
               description: 'description',
               duration: 12,
               level: 'level',
+              tabletSupport: 'comfortable',
               objectives: ' not-a-list',
             }),
         ).to.throw('The module details should contain a list of objectives');
@@ -90,6 +109,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
               description: 'description',
               duration: 12,
               level: 'level',
+              tabletSupport: 'comfortable',
               objectives: [],
             }),
         ).to.throw('The module details should contain at least one objective');
