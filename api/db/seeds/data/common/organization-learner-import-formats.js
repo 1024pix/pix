@@ -47,6 +47,13 @@ export const organizationLearnerImportFormat = async function ({ databaseBuilder
         { key: 4, fieldId: 'reconcileField3', name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, position: 3 },
         { key: 1, fieldId: 'reconcileField1', name: IMPORT_KEY_FIELD.COMMON_LASTNAME, position: 1 },
       ],
+      filterableColumns: [
+        {
+          key: 3,
+          position: 1,
+          name: IMPORT_KEY_FIELD.COMMON_DIVISION,
+        },
+      ],
       displayableColumns: [
         {
           key: 4,
