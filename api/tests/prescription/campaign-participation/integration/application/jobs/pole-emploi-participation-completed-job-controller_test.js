@@ -1,12 +1,12 @@
-import { AssessmentCompleted as AsessmentCompletedEvent } from '../../../../lib/domain/events/AssessmentCompleted.js';
-import { handlePoleEmploiParticipationFinished } from '../../../../lib/domain/events/handle-pole-emploi-participation-finished.js';
-import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
-import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
-import * as poleEmploiSendingRepository from '../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
-import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
-import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
-import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
-import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
+import * as campaignParticipationRepository from '../../../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
+import * as campaignRepository from '../../../../../../lib/infrastructure/repositories/campaign-repository.js';
+import * as poleEmploiSendingRepository from '../../../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
+import * as targetProfileRepository from '../../../../../../lib/infrastructure/repositories/target-profile-repository.js';
+import * as userRepository from '../../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
+import { PoleEmploiParticipationCompletedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/pole-emploi-participation-completed-job-controller.js';
+import { PoleEmploiParticipationCompletedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/PoleEmploiParticipationCompletedJob.js';
+import * as assessmentRepository from '../../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
+import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import {
   databaseBuilder,
   expect,
@@ -14,12 +14,12 @@ import {
   learningContentBuilder,
   mockLearningContent,
   sinon,
-} from '../../../test-helper.js';
+} from '../../../../../test-helper.js';
 
-describe('Integration | Event | Handle Pole emploi participation finished', function () {
-  let campaignParticipationId, userId, event, poleEmploiNotifier, responseCode;
+describe('Integration | Prescription | Application | Jobs | PoleEmploiParticipationCompletedJobController', function () {
+  let campaignParticipationId, userId, campaignParticipationCompletedJob, poleEmploiNotifier, responseCode;
 
-  describe('#handlePoleEmploiParticipationFinished', function () {
+  describe('#handle', function () {
     beforeEach(async function () {
       responseCode = Symbol('responseCode');
       poleEmploiNotifier = { notify: sinon.stub().resolves({ isSuccessful: true, code: responseCode }) };
@@ -34,8 +34,7 @@ describe('Integration | Event | Handle Pole emploi participation finished', func
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId, organizationId }).id;
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId }).id;
       databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
-      event = new AsessmentCompletedEvent();
-      event.campaignParticipationId = campaignParticipationId;
+      campaignParticipationCompletedJob = new PoleEmploiParticipationCompletedJob({ campaignParticipationId });
 
       const learningContentObjects = learningContentBuilder.fromAreas([]);
       mockLearningContent(learningContentObjects);
@@ -45,8 +44,9 @@ describe('Integration | Event | Handle Pole emploi participation finished', func
 
     it('should notify pole emploi and save success of this notification', async function () {
       // when
-      await handlePoleEmploiParticipationFinished({
-        event,
+      const campaignParticipationCompletedJobController = new PoleEmploiParticipationCompletedJobController();
+
+      await campaignParticipationCompletedJobController.handle(campaignParticipationCompletedJob, {
         assessmentRepository,
         campaignRepository,
         campaignParticipationRepository,

@@ -1,11 +1,14 @@
+import { PoleEmploiParticipationCompletedJob } from '../../../src/prescription/campaign-participation/domain/models/PoleEmploiParticipationCompletedJob.js';
 import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 import { AlreadyRatedAssessmentError } from '../../../src/shared/domain/errors.js';
-import { AssessmentCompleted } from '../events/AssessmentCompleted.js';
+import { CertificationCompletedJob } from '../events/CertificationCompleted.js';
 
 const completeAssessment = async function ({
   assessmentId,
   campaignParticipationBCRepository,
   assessmentRepository,
+  certificationCompletedJobRepository,
+  poleEmploiParticipationCompletedJobRepository,
   locale,
 }) {
   const assessment = await assessmentRepository.get(assessmentId);
@@ -20,20 +23,24 @@ const completeAssessment = async function ({
     const { TO_SHARE } = CampaignParticipationStatuses;
 
     await campaignParticipationBCRepository.update({ id: assessment.campaignParticipationId, status: TO_SHARE });
+
+    await poleEmploiParticipationCompletedJobRepository.performAsync(
+      new PoleEmploiParticipationCompletedJob({ campaignParticipationId: assessment.campaignParticipationId }),
+    );
   }
 
-  const assessmentCompleted = new AssessmentCompleted({
-    assessmentId: assessment.id,
-    userId: assessment.userId,
-    campaignParticipationId: assessment.campaignParticipationId,
-    certificationCourseId: assessment.certificationCourseId,
-    locale,
-  });
+  if (assessment.certificationCourseId) {
+    await certificationCompletedJobRepository.performAsync(
+      new CertificationCompletedJob({
+        assessmentId: assessment.id,
+        userId: assessment.userId,
+        certificationCourseId: assessment.certificationCourseId,
+        locale,
+      }),
+    );
+  }
 
-  return {
-    event: assessmentCompleted,
-    assessment,
-  };
+  return assessment;
 };
 
 export { completeAssessment };

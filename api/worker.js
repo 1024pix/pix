@@ -5,15 +5,19 @@ import * as url from 'node:url';
 import _ from 'lodash';
 import PgBoss from 'pg-boss';
 
+import { CertificationCompletedJob } from './lib/domain/events/CertificationCompleted.js';
+import { CertificationCompletedJobController } from './src/certification/scoring/application/jobs/certification-completed-job-controller.js';
 import { CertificationRescoringByScriptJobController } from './src/certification/session-management/application/jobs/certification-rescoring-by-script-job-controller.js';
 import { CertificationRescoringByScriptJob } from './src/certification/session-management/domain/models/CertificationRescoringByScriptJob.js';
 import { GarAnonymizedBatchEventsLoggingJobController } from './src/identity-access-management/application/jobs/gar-anonymized-batch-events-logging-job.controller.js';
 import { GarAnonymizedBatchEventsLoggingJob } from './src/identity-access-management/domain/models/GarAnonymizedBatchEventsLoggingJob.js';
 import { UserAnonymizedEventLoggingJob } from './src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
 import { ParticipationResultCalculationJobController } from './src/prescription/campaign-participation/application/jobs/participation-result-calculation-job-controller.js';
+import { PoleEmploiParticipationCompletedJobController } from './src/prescription/campaign-participation/application/jobs/pole-emploi-participation-completed-job-controller.js';
 import { PoleEmploiParticipationStartedJobController } from './src/prescription/campaign-participation/application/jobs/pole-emploi-participation-started-job-controller.js';
 import { SendSharedParticipationResultsToPoleEmploiJobController } from './src/prescription/campaign-participation/application/jobs/send-share-participation-results-to-pole-emploi-job-controller.js';
 import { ParticipationResultCalculationJob } from './src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
+import { PoleEmploiParticipationCompletedJob } from './src/prescription/campaign-participation/domain/models/PoleEmploiParticipationCompletedJob.js';
 import { PoleEmploiParticipationStartedJob } from './src/prescription/campaign-participation/domain/models/PoleEmploiParticipationStartedJob.js';
 import { SendSharedParticipationResultsToPoleEmploiJob } from './src/prescription/campaign-participation/domain/models/SendSharedParticipationResultsToPoleEmploiJob.js';
 import { ComputeCertificabilityJobController } from './src/prescription/learner-management/application/jobs/compute-certificability-job-controller.js';
@@ -91,6 +95,8 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
     ScheduleComputeOrganizationLearnersCertificabilityJobController,
   );
   monitoredJobQueue.performJob(ParticipationResultCalculationJob.name, ParticipationResultCalculationJobController);
+
+  monitoredJobQueue.performJob(PoleEmploiParticipationCompletedJob.name, PoleEmploiParticipationCompletedJobController);
   monitoredJobQueue.performJob(
     SendSharedParticipationResultsToPoleEmploiJob.name,
     SendSharedParticipationResultsToPoleEmploiJobController,
@@ -110,6 +116,7 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
 
   //Certification
   monitoredJobQueue.performJob(CertificationRescoringByScriptJob.name, CertificationRescoringByScriptJobController);
+  monitoredJobQueue.performJob(CertificationCompletedJob.name, CertificationCompletedJobController);
 
   // TODO - use abstraction for CRON
 

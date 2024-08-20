@@ -1,18 +1,18 @@
-import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
-import { CertificationScoringCompleted } from '../../../../lib/domain/events/CertificationScoringCompleted.js';
-import { _forTestOnly } from '../../../../lib/domain/events/index.js';
-import { AssessmentResultFactory } from '../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
+import { CertificationCompletedJob } from '../../../../../../lib/domain/events/CertificationCompleted.js';
+import { CertificationScoringCompleted } from '../../../../../../lib/domain/events/CertificationScoringCompleted.js';
+import { CertificationCompletedJobController } from '../../../../../../src/certification/scoring/application/jobs/certification-completed-job-controller.js';
+import { AssessmentResultFactory } from '../../../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
 import {
   ABORT_REASONS,
   CertificationCourse,
-} from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { CertificationComputeError } from '../../../../src/shared/domain/errors.js';
-import { AssessmentResult } from '../../../../src/shared/domain/models/AssessmentResult.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+} from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { V3_REPRODUCIBILITY_RATE } from '../../../../../../src/shared/domain/constants.js';
+import { CertificationComputeError } from '../../../../../../src/shared/domain/errors.js';
+import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-const { handleCertificationScoring } = _forTestOnly.handlers;
-
-describe('Unit | Domain | Events | handle-certification-scoring', function () {
+describe('Unit | Certification | Application | jobs | CertificationCompletedJobController', function () {
+  let certificationCompletedJobController;
   let scoringCertificationService;
   let certificationAssessmentRepository;
   let assessmentResultRepository;
@@ -27,9 +27,12 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
+  let events;
 
   beforeEach(function () {
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+
+    certificationCompletedJobController = new CertificationCompletedJobController();
 
     scoringCertificationService = {
       isLackOfAnswersForTechnicalReason: sinon.stub(),
@@ -49,6 +52,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
     answerRepository = { findByAssessment: sinon.stub() };
     flashAlgorithmConfigurationRepository = { getMostRecentBeforeDate: sinon.stub() };
     certificationAssessmentHistoryRepository = { save: sinon.stub() };
+    events = { eventDispatcher: { dispatch: sinon.stub() } };
   });
 
   afterEach(function () {
@@ -60,23 +64,12 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
     const certificationCourseId = 1234;
     const userId = 4567;
 
-    it('fails when event is not of correct type', async function () {
-      // given
-      const event = 'not an event of the correct type';
-
-      // when
-      const error = await catchErr(handleCertificationScoring)({ event });
-
-      // then
-      expect(error).not.to.be.null;
-    });
-
     context('when certification is V2', function () {
-      let event;
+      let certificationCompletedJob;
       let certificationAssessment;
 
       beforeEach(function () {
-        event = new AssessmentCompleted({
+        certificationCompletedJob = new CertificationCompletedJob({
           assessmentId,
           userId,
           certificationCourseId: 123,
@@ -96,17 +89,16 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           scoringCertificationService.handleV2CertificationScoring.rejects(otherError);
           sinon.stub(AssessmentResultFactory, 'buildAlgoErrorResult');
 
+          const dependencies = { certificationAssessmentRepository, scoringCertificationService };
+
           // when
-          await catchErr(handleCertificationScoring)({
-            event,
-            certificationAssessmentRepository,
-            scoringCertificationService,
-          });
+          await catchErr(certificationCompletedJobController.handle)(certificationCompletedJob, dependencies);
 
           // then
           expect(AssessmentResultFactory.buildAlgoErrorResult).to.not.have.been.called;
           expect(assessmentResultRepository.save).to.not.have.been.called;
           expect(certificationCourseRepository.update).to.not.have.been.called;
+          expect(events.eventDispatcher.dispatch).to.not.have.been.called;
         });
       });
 
@@ -128,15 +120,16 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             .resolves(certificationCourse);
           certificationCourseRepository.update.resolves(certificationCourse);
 
-          // when
-          await handleCertificationScoring({
-            event,
+          const dependencies = {
             assessmentResultRepository,
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
             certificationAssessmentRepository,
-          });
+          };
+
+          // when
+          await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
 
           // then
           expect(AssessmentResultFactory.buildAlgoErrorResult).to.have.been.calledWithExactly({
@@ -154,6 +147,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               completedAt: now,
             }),
           });
+          expect(events.eventDispatcher.dispatch).to.not.have.been.called;
         });
       });
 
@@ -181,15 +175,17 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           });
           scoringCertificationService.isLackOfAnswersForTechnicalReason.resolves(false);
 
-          // when
-          await handleCertificationScoring({
-            event,
+          const dependencies = {
             assessmentResultRepository,
             certificationAssessmentRepository,
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
-          });
+            events,
+          };
+
+          // when
+          await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
 
           // then
           expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
@@ -198,45 +194,13 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               completedAt: now,
             }),
           });
-        });
-
-        it('should return a CertificationScoringCompleted', async function () {
-          // given
-          const assessmentResultId = 1234;
-          const certificationCourse = domainBuilder.buildCertificationCourse({
-            id: certificationCourseId,
-            completedAt: null,
-          });
-          const competenceMark1 = domainBuilder.buildCompetenceMark({ assessmentResultId, score: 5 });
-          const competenceMark2 = domainBuilder.buildCompetenceMark({ assessmentResultId, score: 4 });
-          const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
-            competenceMarks: [competenceMark1, competenceMark2],
-            percentageCorrectAnswers: 80,
-          });
-
-          certificationCourseRepository.update.resolves(certificationCourse);
-          scoringCertificationService.handleV2CertificationScoring.resolves({
-            certificationCourse,
-            certificationAssessmentScore,
-          });
-
-          // when
-          const certificationScoringCompleted = await handleCertificationScoring({
-            event,
-            assessmentResultRepository,
-            certificationAssessmentRepository,
-            certificationCourseRepository,
-            competenceMarkRepository,
-            scoringCertificationService,
-          });
-
-          // then
-          expect(certificationScoringCompleted).to.be.instanceof(CertificationScoringCompleted);
-          expect(certificationScoringCompleted).to.deep.equal({
-            userId: event.userId,
-            certificationCourseId: certificationAssessment.certificationCourseId,
-            reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
-          });
+          expect(events.eventDispatcher.dispatch).to.have.been.calledOnceWithExactly(
+            new CertificationScoringCompleted({
+              userId,
+              certificationCourseId: certificationCourseId,
+              reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+            }),
+          );
         });
 
         context('when the certification stopped due to technical issue', function () {
@@ -262,15 +226,17 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               .withArgs({ certificationAssessmentScore, certificationCourse })
               .resolves(true);
 
-            // when
-            await handleCertificationScoring({
-              event,
+            const dependencies = {
               assessmentResultRepository,
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
               certificationAssessmentRepository,
-            });
+              events,
+            };
+
+            // when
+            await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
 
             // then
             expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
@@ -279,20 +245,27 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 isCancelled: true,
               }),
             });
+            expect(events.eventDispatcher.dispatch).to.have.been.calledOnceWithExactly(
+              new CertificationScoringCompleted({
+                userId,
+                certificationCourseId: certificationCourseId,
+                reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+              }),
+            );
           });
         });
       });
     });
 
     context('when certification is V3', function () {
-      let event;
+      let certificationCompletedJob;
       let certificationAssessment;
       let certificationCourse;
       const assessmentResultId = 99;
       const certificationCourseStartDate = new Date('2022-02-01');
 
       beforeEach(function () {
-        event = new AssessmentCompleted({
+        certificationCompletedJob = new CertificationCompletedJob({
           assessmentId,
           userId,
           certificationCourseId: 123,
@@ -341,9 +314,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
             scoringCertificationService.handleV3CertificationScoring.resolves(abortedCertificationCourse);
 
-            // when
-            await handleCertificationScoring({
-              event,
+            const dependencies = {
               certificationChallengeForScoringRepository,
               answerRepository,
               assessmentResultRepository,
@@ -355,7 +326,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
               certificationAssessmentHistoryRepository,
-            });
+              events,
+            };
+
+            // when
+            await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
 
             // then
             expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
@@ -365,6 +340,13 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 abortReason: ABORT_REASONS.CANDIDATE,
               }),
             });
+            expect(events.eventDispatcher.dispatch).to.have.been.calledOnceWithExactly(
+              new CertificationScoringCompleted({
+                userId,
+                certificationCourseId: certificationCourseId,
+                reproducibilityRate: V3_REPRODUCIBILITY_RATE,
+              }),
+            );
           });
         });
 
@@ -381,9 +363,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
             scoringCertificationService.handleV3CertificationScoring.resolves(abortedCertificationCourse);
 
-            // when
-            await handleCertificationScoring({
-              event,
+            const dependencies = {
               certificationChallengeForScoringRepository,
               answerRepository,
               assessmentResultRepository,
@@ -395,7 +375,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
               certificationAssessmentHistoryRepository,
-            });
+              events,
+            };
+
+            // when
+            await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
 
             // then
             expect(certificationCourseRepository.update).to.have.been.calledOnceWithExactly({
@@ -406,6 +390,13 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 abortReason: ABORT_REASONS.TECHNICAL,
               }),
             });
+            expect(events.eventDispatcher.dispatch).to.have.been.calledOnceWithExactly(
+              new CertificationScoringCompleted({
+                userId,
+                certificationCourseId: certificationCourseId,
+                reproducibilityRate: V3_REPRODUCIBILITY_RATE,
+              }),
+            );
           });
         });
       });
@@ -423,9 +414,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
             scoringCertificationService.handleV3CertificationScoring.resolves(certificationCourse);
 
-            // when
-            await handleCertificationScoring({
-              event,
+            const dependencies = {
               certificationChallengeForScoringRepository,
               answerRepository,
               assessmentResultRepository,
@@ -437,7 +426,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
               certificationAssessmentHistoryRepository,
-            });
+              events,
+            };
+
+            // when
+            await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
 
             // then
             expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
@@ -446,6 +439,13 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 completedAt: now,
               }),
             });
+            expect(events.eventDispatcher.dispatch).to.have.been.calledOnceWithExactly(
+              new CertificationScoringCompleted({
+                userId,
+                certificationCourseId: certificationCourseId,
+                reproducibilityRate: V3_REPRODUCIBILITY_RATE,
+              }),
+            );
           });
         });
 
@@ -464,9 +464,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
               scoringCertificationService.handleV3CertificationScoring.resolves(certificationCourse);
 
-              // when
-              await handleCertificationScoring({
-                event,
+              const dependencies = {
                 certificationChallengeForScoringRepository,
                 answerRepository,
                 assessmentResultRepository,
@@ -478,7 +476,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 flashAlgorithmConfigurationRepository,
                 flashAlgorithmService,
                 certificationAssessmentHistoryRepository,
-              });
+                events,
+              };
+
+              // when
+              await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
 
               // then
               expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
@@ -488,6 +490,13 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                   abortReason,
                 }),
               });
+              expect(events.eventDispatcher.dispatch).to.have.been.calledOnceWithExactly(
+                new CertificationScoringCompleted({
+                  userId,
+                  certificationCourseId: certificationCourseId,
+                  reproducibilityRate: V3_REPRODUCIBILITY_RATE,
+                }),
+              );
             });
           });
 
@@ -505,9 +514,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
               scoringCertificationService.handleV3CertificationScoring.resolves(certificationCourse);
 
-              // when
-              await handleCertificationScoring({
-                event,
+              const dependencies = {
                 certificationChallengeForScoringRepository,
                 answerRepository,
                 assessmentResultRepository,
@@ -519,7 +526,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 flashAlgorithmConfigurationRepository,
                 flashAlgorithmService,
                 certificationAssessmentHistoryRepository,
-              });
+                events,
+              };
+
+              // when
+              await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
 
               // then
               expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
@@ -529,61 +540,17 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                   abortReason,
                 }),
               });
+              expect(events.eventDispatcher.dispatch).to.have.been.calledOnceWithExactly(
+                new CertificationScoringCompleted({
+                  userId,
+                  certificationCourseId: certificationCourseId,
+                  reproducibilityRate: V3_REPRODUCIBILITY_RATE,
+                }),
+              );
             });
           });
         });
       });
-
-      it('should return a CertificationScoringCompleted', async function () {
-        // given
-        const certificationCourse = domainBuilder.buildCertificationCourse({
-          id: certificationCourseId,
-          createdAt: certificationCourseStartDate,
-        });
-        scoringCertificationService.handleV3CertificationScoring.resolves(certificationCourse);
-        certificationCourseRepository.update.withArgs().resolves();
-
-        // when
-        const generatedEvent = await handleCertificationScoring({
-          event,
-          scoringCertificationService,
-          certificationAssessmentRepository,
-          certificationChallengeForScoringRepository,
-          answerRepository,
-          assessmentResultRepository,
-          competenceMarkRepository,
-          scoringConfigurationRepository,
-          certificationCourseRepository,
-          flashAlgorithmConfigurationRepository,
-          flashAlgorithmService,
-          certificationAssessmentHistoryRepository,
-        });
-
-        // then
-        expect(generatedEvent).to.be.instanceOf(CertificationScoringCompleted);
-        expect(generatedEvent.userId).to.equal(userId);
-        expect(generatedEvent.certificationCourseId).to.equal(certificationCourseId);
-        expect(generatedEvent.reproducibilityRate).to.equal(100);
-      });
-    });
-  });
-
-  context('when completed assessment is not of type CERTIFICATION', function () {
-    it('should not do anything', async function () {
-      // given
-      const event = new AssessmentCompleted(
-        Symbol('an assessment Id'),
-        Symbol('userId'),
-        Symbol('targetProfileId'),
-        Symbol('campaignParticipationId'),
-        false,
-      );
-
-      // when
-      const certificationScoringCompleted = await handleCertificationScoring({ event });
-
-      // then
-      expect(certificationScoringCompleted).to.be.null;
     });
   });
 });
