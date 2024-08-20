@@ -9,12 +9,12 @@ const { ROLES } = PIX_ADMIN;
 
 describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-authentication-methods', function () {
   let clock;
-  let garAnonymizedBatchEventsLoggingJob;
+  let garAnonymizedBatchEventsLoggingJobRepository;
 
   beforeEach(function () {
     const now = new Date('2023-08-17');
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    garAnonymizedBatchEventsLoggingJob = { schedule: sinon.stub().resolves() };
+    garAnonymizedBatchEventsLoggingJobRepository = { performAsync: sinon.stub().resolves() };
     sinon.stub(config.auditLogger, 'isEnabled').value(true);
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
   });
@@ -45,13 +45,13 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
       userIdsBatchSize: 1,
       adminMemberId,
       authenticationMethodRepository,
-      garAnonymizedBatchEventsLoggingJob,
+      garAnonymizedBatchEventsLoggingJobRepository,
     });
 
     // then
     expect(result.garAnonymizedUserCount).to.be.equal(2);
     expect(result.total).to.be.equal(3);
-    expect(garAnonymizedBatchEventsLoggingJob.schedule).to.have.been.calledThrice;
+    expect(garAnonymizedBatchEventsLoggingJobRepository.performAsync).to.have.been.calledThrice;
   });
 
   it('triggers a garAnonymizedBatchEventsLogging job', async function () {
@@ -69,7 +69,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
       userIds,
       adminMemberId,
       authenticationMethodRepository,
-      garAnonymizedBatchEventsLoggingJob,
+      garAnonymizedBatchEventsLoggingJobRepository,
     });
 
     // then
@@ -79,7 +79,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
       occuredAt: Date.now(),
       role: ROLES.SUPER_ADMIN,
     });
-    expect(garAnonymizedBatchEventsLoggingJob.schedule).to.have.been.calledWith(payload);
+    expect(garAnonymizedBatchEventsLoggingJobRepository.performAsync).to.have.been.calledWith(payload);
   });
 
   it('does not trigger a garAnonymizedBatchEventsLogging job when audit logger config is disabled', async function () {
@@ -99,10 +99,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
       userIds,
       adminMemberId,
       authenticationMethodRepository,
-      garAnonymizedBatchEventsLoggingJob,
+      garAnonymizedBatchEventsLoggingJobRepository,
     });
 
     // then
-    expect(garAnonymizedBatchEventsLoggingJob.schedule).to.have.not.been.called;
+    expect(garAnonymizedBatchEventsLoggingJobRepository.performAsync).to.have.not.been.called;
   });
 });

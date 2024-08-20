@@ -4,8 +4,8 @@ import { logErrorWithCorrelationIds } from '../../../../../lib/infrastructure/mo
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { detectEncoding } from '../../infrastructure/utils/xml/detect-encoding.js';
 import * as zip from '../../infrastructure/utils/xml/zip.js';
-import { FileUploaded } from '../events/FileUploaded.js';
 import { OrganizationImport } from '../models/OrganizationImport.js';
+import { ValidateOrganizationImportFileJob } from '../models/ValidateOrganizationImportFileJob.js';
 
 const uploadSiecleFile = async function ({
   userId,
@@ -13,14 +13,14 @@ const uploadSiecleFile = async function ({
   payload,
   importStorage,
   organizationImportRepository,
+  validateOrganizationImportFileJobRepository,
   siecleService = {
     unzip: zip.unzip,
     detectEncoding,
   },
-  eventBus,
   dependencies = { logErrorWithCorrelationIds },
 }) {
-  await DomainTransaction.execute(async (domainTransaction) => {
+  await DomainTransaction.execute(async () => {
     let organizationImport = OrganizationImport.create({ organizationId, createdBy: userId });
 
     await organizationImportRepository.save(organizationImport);
@@ -28,7 +28,7 @@ const uploadSiecleFile = async function ({
 
     const path = payload.path;
 
-    let filename, encoding, event;
+    let filename, encoding;
     const errors = [];
     try {
       const { file: filePath, directory } = await siecleService.unzip(path);
@@ -41,8 +41,9 @@ const uploadSiecleFile = async function ({
           dependencies.logErrorWithCorrelationIds(rmError);
         }
       }
-      event = FileUploaded.create({ organizationImportId: organizationImport.id });
-      await eventBus.publish(event, domainTransaction);
+      await validateOrganizationImportFileJobRepository.performAsync(
+        new ValidateOrganizationImportFileJob({ organizationImportId: organizationImport.id }),
+      );
     } catch (error) {
       errors.push(error);
       throw error;

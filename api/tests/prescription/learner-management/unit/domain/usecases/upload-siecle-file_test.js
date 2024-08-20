@@ -1,6 +1,5 @@
 import fs from 'node:fs/promises';
 
-import { FileUploaded } from '../../../../../../src/prescription/learner-management/domain/events/FileUploaded.js';
 import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 import { uploadSiecleFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-siecle-file.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
@@ -19,16 +18,13 @@ describe('Unit | UseCase | upload-siecle-file', function () {
   let s3filename;
   let filename;
   let filepath;
-  let eventBusStub;
+  let validateOrganizationImportFileJobRepositoryStub;
   let domainTransactionStub;
-  let eventStub;
 
   beforeEach(function () {
     sinon.stub(fs, 'readFile');
     domainTransactionStub = Symbol('domainTransaction');
     sinon.stub(DomainTransaction, 'execute').callsFake((fn) => fn(domainTransactionStub));
-    eventStub = Symbol('event');
-    sinon.stub(FileUploaded, 'create').returns(eventStub);
 
     filename = Symbol('filename');
     encoding = Symbol('encoding');
@@ -37,11 +33,13 @@ describe('Unit | UseCase | upload-siecle-file', function () {
 
     payload = { path: filename };
 
-    eventBusStub = {
-      publish: sinon.stub(),
+    validateOrganizationImportFileJobRepositoryStub = {
+      performAsync: sinon.stub(),
     };
 
-    eventBusStub.publish.withArgs(eventStub, domainTransactionStub).resolves();
+    validateOrganizationImportFileJobRepositoryStub.performAsync
+      .withArgs({ organizationImportId: Symbol('OrganizationImportId') })
+      .resolves();
 
     importStorageStub = {
       sendFile: sinon.stub(),
@@ -56,7 +54,7 @@ describe('Unit | UseCase | upload-siecle-file', function () {
 
     organizationImportStub = { upload: sinon.stub() };
 
-    organizationImportSavedStub = { upload: sinon.stub() };
+    organizationImportSavedStub = { id: Symbol('OrganizationImportId'), upload: sinon.stub() };
 
     sinon
       .stub(OrganizationImport, 'create')
@@ -94,7 +92,7 @@ describe('Unit | UseCase | upload-siecle-file', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           siecleService: siecleServiceStub,
           importStorage: importStorageStub,
-          eventBus: eventBusStub,
+          validateOrganizationImportFileJobRepository: validateOrganizationImportFileJobRepositoryStub,
         });
 
         expect(rmStub).to.have.been.calledWithExactly('tmp', { recursive: true });
@@ -114,7 +112,7 @@ describe('Unit | UseCase | upload-siecle-file', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           siecleService: siecleServiceStub,
           importStorage: importStorageStub,
-          eventBus: eventBusStub,
+          validateOrganizationImportFileJobRepository: validateOrganizationImportFileJobRepositoryStub,
           dependencies: { logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub },
         });
 
@@ -140,7 +138,7 @@ describe('Unit | UseCase | upload-siecle-file', function () {
         organizationImportRepository: organizationImportRepositoryStub,
         siecleService: siecleServiceStub,
         importStorage: importStorageStub,
-        eventBus: eventBusStub,
+        validateOrganizationImportFileJobRepository: validateOrganizationImportFileJobRepositoryStub,
       });
 
       // then
@@ -169,7 +167,7 @@ describe('Unit | UseCase | upload-siecle-file', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           siecleService: siecleServiceStub,
           importStorage: importStorageStub,
-          eventBus: eventBusStub,
+          validateOrganizationImportFileJobRepository: validateOrganizationImportFileJobRepositoryStub,
         });
 
         //then
@@ -194,7 +192,7 @@ describe('Unit | UseCase | upload-siecle-file', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           siecleService: siecleServiceStub,
           importStorage: importStorageStub,
-          eventBus: eventBusStub,
+          validateOrganizationImportFileJobRepository: validateOrganizationImportFileJobRepositoryStub,
         });
 
         //then
@@ -219,7 +217,7 @@ describe('Unit | UseCase | upload-siecle-file', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           siecleService: siecleServiceStub,
           importStorage: importStorageStub,
-          eventBus: eventBusStub,
+          validateOrganizationImportFileJobRepository: validateOrganizationImportFileJobRepositoryStub,
         });
 
         //then
@@ -231,11 +229,10 @@ describe('Unit | UseCase | upload-siecle-file', function () {
         expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportSavedStub);
       });
 
-      it('should save organization import with error when event publish fails', async function () {
+      it('should save organization import with error when job fails', async function () {
         //given
-        const expectedError = new Error('publishFails');
-        eventBusStub.publish.reset();
-        eventBusStub.publish.rejects(expectedError);
+        const expectedError = new Error('jobFails');
+        validateOrganizationImportFileJobRepositoryStub.performAsync.rejects(expectedError);
 
         // when
         await catchErr(uploadSiecleFile)({
@@ -245,7 +242,7 @@ describe('Unit | UseCase | upload-siecle-file', function () {
           organizationImportRepository: organizationImportRepositoryStub,
           siecleService: siecleServiceStub,
           importStorage: importStorageStub,
-          eventBus: eventBusStub,
+          validateOrganizationImportFileJobRepository: validateOrganizationImportFileJobRepositoryStub,
         });
 
         //then

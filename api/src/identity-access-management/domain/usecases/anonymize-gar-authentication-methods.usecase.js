@@ -10,7 +10,7 @@ const USER_IDS_BATCH_SIZE = 1000;
  * @param {Object} params
  * @param {Array<string>} params.userIds
  * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
- * @param {GarAnonymizedBatchEventsLoggingJob} params.garAnonymizedBatchEventsLoggingJob
+ * @param {garAnonymizedBatchEventsLoggingJobRepository} params.garAnonymizedBatchEventsLoggingJobRepository
  * @return {Promise<{garAnonymizedUserCount: number, total: number}>}
  */
 export const anonymizeGarAuthenticationMethods = async function ({
@@ -18,7 +18,7 @@ export const anonymizeGarAuthenticationMethods = async function ({
   userIdsBatchSize = USER_IDS_BATCH_SIZE,
   adminMemberId,
   authenticationMethodRepository,
-  garAnonymizedBatchEventsLoggingJob,
+  garAnonymizedBatchEventsLoggingJobRepository,
 }) {
   const userIdBatches = _.chunk(userIds, userIdsBatchSize);
 
@@ -33,7 +33,8 @@ export const anonymizeGarAuthenticationMethods = async function ({
         userIds: garAnonymizedUserIds,
         updatedByUserId: adminMemberId,
       });
-      await garAnonymizedBatchEventsLoggingJob.schedule(payload);
+
+      await garAnonymizedBatchEventsLoggingJobRepository.performAsync(payload);
     }
   }
 

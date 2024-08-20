@@ -2,8 +2,9 @@ import 'dotenv/config';
 
 import * as url from 'node:url';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
-import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/infrastructure/jobs/CertificationRescoringByScriptJob.js';
+import { disconnect } from '../../db/knex-database-connection.js';
+import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/domain/models/CertificationRescoringByScriptJob.js';
+import { certificationRescoringByScriptJobRepository } from '../../src/certification/session-management/infrastructure/repositories/jobs/certification-rescoring-by-script-job-repository.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
@@ -24,10 +25,11 @@ async function main(certificationCourseIds) {
 }
 
 const _scheduleRescoringJobs = async (certificationCourseIds) => {
-  const publisher = new CertificationRescoringByScriptJob(knex);
   const promisefiedJobs = certificationCourseIds.map(async (certificationCourseId) => {
     try {
-      await publisher.schedule(certificationCourseId);
+      await certificationRescoringByScriptJobRepository.performAsync(
+        new CertificationRescoringByScriptJob({ certificationCourseId }),
+      );
     } catch (error) {
       throw new Error(`Error for certificationCourseId: [${certificationCourseId}]`, { cause: error });
     }
