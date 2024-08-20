@@ -1,7 +1,11 @@
+import { CertificationCompletedJob } from '../../lib/domain/events/CertificationCompleted.js';
+import { CertificationCompletedJobController } from '../../src/certification/scoring/application/jobs/certification-completed-job-controller.js';
 import { CertificationRescoringByScriptJobController } from '../../src/certification/session-management/application/jobs/certification-rescoring-by-script-job-controller.js';
 import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/domain/models/CertificationRescoringByScriptJob.js';
 import { UserAnonymizedEventLoggingJob } from '../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
+import { CampaignParticipationCompletedJobController } from '../../src/prescription/campaign-participation/application/jobs/campaign-participation-completed-job-controller.js';
 import { ParticipationResultCalculationJobController } from '../../src/prescription/campaign-participation/application/jobs/participation-result-calculation-job-controller.js';
+import { CampaignParticipationCompletedJob } from '../../src/prescription/campaign-participation/domain/models/CampaignParticipationCompletedJob.js';
 import { ParticipationResultCalculationJob } from '../../src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
 import { ComputeCertificabilityJobController } from '../../src/prescription/learner-management/application/jobs/compute-certificability-job-controller.js';
 import { ImportOrganizationLearnersJobController } from '../../src/prescription/learner-management/application/jobs/import-organization-learners-job-controller.js';
@@ -66,6 +70,23 @@ describe('#runjobs', function () {
   });
 
   describe('Certification', function () {
+    it('should register CertificationCompletedJob', async function () {
+      //given
+      // when
+      await runJobs({
+        startPgBoss: startPgBossStub,
+        createMonitoredJobQueue: createMonitoredJobQueueStub,
+        scheduleCpfJobs: scheduleCpfJobsStub,
+      });
+
+      // then
+      const calls = monitoredJobQueueStub.performJob
+        .getCalls()
+        .find(({ args }) => args[0] === CertificationCompletedJob.name);
+
+      expect(calls.args[1]).to.equal(CertificationCompletedJobController);
+    });
+
     it('should register CertificationRescoringByScriptJob', async function () {
       //given
       // when
@@ -85,6 +106,24 @@ describe('#runjobs', function () {
   });
 
   describe('Prescription', function () {
+    it('should register CampaignParticipationCompletedJob', async function () {
+      //given
+
+      // when
+      await runJobs({
+        startPgBoss: startPgBossStub,
+        createMonitoredJobQueue: createMonitoredJobQueueStub,
+        scheduleCpfJobs: scheduleCpfJobsStub,
+      });
+
+      // then
+      const calls = monitoredJobQueueStub.performJob
+        .getCalls()
+        .find(({ args }) => args[0] === CampaignParticipationCompletedJob.name);
+
+      expect(calls.args[1]).to.equal(CampaignParticipationCompletedJobController);
+    });
+
     it('should register ComputeCertificabilityJob', async function () {
       // when
       await runJobs({
