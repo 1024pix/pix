@@ -1,6 +1,6 @@
 import { clickByText, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import Copy from 'pix-admin/components/target-profiles/modal/copy';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -9,28 +9,17 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Target Profiles | Modal | Copy', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  let copyTargetProfile;
-  let closeCopyModal;
-  let showCopyModal;
-
-  hooks.beforeEach(async function () {
-    copyTargetProfile = sinon.stub().resolves(true);
-    closeCopyModal = sinon.stub().resolves(true);
-    showCopyModal = true;
-  });
+  const copyTargetProfile = sinon.stub().resolves(true);
+  const closeCopyModal = sinon.stub().resolves(true);
+  const showCopyModal = true;
 
   test('it should render the copy modal', async function (assert) {
-    // given
-    this.set('copyTargetProfile', copyTargetProfile);
-    this.set('closeCopyModal', closeCopyModal);
-    this.set('showCopyModal', showCopyModal);
-
     // when
-    const screen = await render(hbs`<TargetProfiles::Modal::Copy
-  @isOpen={{this.showCopyModal}}
-  @onClose={{this.closeCopyModal}}
-  @onSubmit={{this.copyTargetProfile}}
-/>`);
+    const screen = await render(
+      <template>
+        <Copy @isOpen={{showCopyModal}} @onClose={{closeCopyModal}} @onSubmit={{copyTargetProfile}} />
+      </template>,
+    );
 
     // then
     assert.dom(screen.getByText('Dupliquer le profil cible ?')).exists();
@@ -45,15 +34,11 @@ module('Integration | Component | Target Profiles | Modal | Copy', function (hoo
   });
 
   test('it should call the copy method on click on submit', async function (assert) {
-    // given
-    this.set('copyTargetProfile', copyTargetProfile);
-    this.set('closeCopyModal', closeCopyModal);
-    this.set('showCopyModal', showCopyModal);
-    await render(hbs`<TargetProfiles::Modal::Copy
-  @isOpen={{this.showCopyModal}}
-  @onClose={{this.closeCopyModal}}
-  @onSubmit={{this.copyTargetProfile}}
-/>`);
+    await render(
+      <template>
+        <Copy @isOpen={{showCopyModal}} @onClose={{closeCopyModal}} @onSubmit={{copyTargetProfile}} />
+      </template>,
+    );
 
     // when
     await clickByText('Valider');
@@ -65,14 +50,13 @@ module('Integration | Component | Target Profiles | Modal | Copy', function (hoo
 
   test('it should call the close method on click on cancel', async function (assert) {
     // given
-    this.set('copyTargetProfile', copyTargetProfile);
-    this.set('closeCopyModal', closeCopyModal);
-    this.set('showCopyModal', showCopyModal);
-    await render(hbs`<TargetProfiles::Modal::Copy
-  @isOpen={{this.showCopyModal}}
-  @onClose={{this.closeCopyModal}}
-  @onSubmit={{this.copyTargetProfile}}
-/>`);
+    const closeCopyModal = sinon.stub().resolves(true);
+
+    await render(
+      <template>
+        <Copy @isOpen={{showCopyModal}} @onClose={{closeCopyModal}} @onSubmit={{copyTargetProfile}} />
+      </template>,
+    );
 
     // when
     await clickByText('Annuler');
@@ -84,14 +68,13 @@ module('Integration | Component | Target Profiles | Modal | Copy', function (hoo
 
   test('it should call the close method on click on close', async function (assert) {
     // given
-    this.set('copyTargetProfile', copyTargetProfile);
-    this.set('closeCopyModal', closeCopyModal);
-    this.set('showCopyModal', showCopyModal);
-    const screen = await render(hbs`<TargetProfiles::Modal::Copy
-  @isOpen={{this.showCopyModal}}
-  @onClose={{this.closeCopyModal}}
-  @onSubmit={{this.copyTargetProfile}}
-/>`);
+    const closeCopyModal = sinon.stub().resolves(true);
+
+    const screen = await render(
+      <template>
+        <Copy @isOpen={{showCopyModal}} @onClose={{closeCopyModal}} @onSubmit={{copyTargetProfile}} />
+      </template>,
+    );
 
     // when
     await click(screen.getByRole('button', { name: 'Fermer' }));

@@ -1,49 +1,47 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import BadgeForm from 'pix-admin/components/target-profiles/badge-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
+module('Integration | Component | BadgeForm', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
-    this.set('targetProfile', {
-      areas: [
-        {
-          id: 'areaId',
-          name: 'area1',
-          code: 1,
-          sortedCompetences: [
-            {
-              id: 'competenceId',
-              index: '1.1',
-              name: 'competence1',
-              sortedThematics: [
-                {
-                  id: 'thematicId',
-                  name: 'thematic',
-                  tubes: [
-                    {
-                      id: 'tubeId1',
-                      name: 'tube1',
-                      practicalTitle: 'practicalTitle',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-  });
+  const targetProfile = {
+    areas: [
+      {
+        id: 'areaId',
+        name: 'area1',
+        code: 1,
+        sortedCompetences: [
+          {
+            id: 'competenceId',
+            index: '1.1',
+            name: 'competence1',
+            sortedThematics: [
+              {
+                id: 'thematicId',
+                name: 'thematic',
+                tubes: [
+                  {
+                    id: 'tubeId1',
+                    name: 'tube1',
+                    practicalTitle: 'practicalTitle',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
 
   test('it should display the heading in form', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::BadgeForm />`);
+    const screen = await render(<template><BadgeForm /></template>);
 
     // then
     assert.dom(screen.getByRole('heading', { name: "Création d'un résultat thématique" })).exists();
@@ -51,7 +49,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
 
   test('it should display new creation form', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
+    const screen = await render(<template><BadgeForm @targetProfile={{targetProfile}} /></template>);
 
     // then
     assert.dom(screen.getByRole('checkbox', { name: "sur l'ensemble du profil cible" })).exists();
@@ -67,7 +65,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
     this.owner.register('service:notifications', NotificationsStub);
 
     // when
-    const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
+    const screen = await render(<template><BadgeForm @targetProfile={{targetProfile}} /></template>);
 
     await fillIn(screen.getByLabelText(/Nom du résultat thématique/), 'dummy');
     await fillIn(screen.getByLabelText(/Nom de l'image/), 'dummy');
@@ -87,7 +85,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
   module('on campaign-participation criterion selection', function () {
     test('it should display campaign-participation criterion form on click', async function (assert) {
       // when
-      const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
+      const screen = await render(<template><BadgeForm @targetProfile={{targetProfile}} /></template>);
       await click(screen.getByRole('checkbox', { name: "sur l'ensemble du profil cible" }));
 
       // then
@@ -99,7 +97,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
   module('on capped tubes criterion selection', function () {
     test('it should display capped tubes criterion form on click', async function (assert) {
       // when
-      const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
+      const screen = await render(<template><BadgeForm @targetProfile={{targetProfile}} /></template>);
       await click(screen.getByRole('checkbox', { name: 'sur une sélection de sujets du profil cible' }));
 
       // then
@@ -114,7 +112,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
 
     test('it should add a new criteria on click', async function (assert) {
       // when
-      const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
+      const screen = await render(<template><BadgeForm @targetProfile={{targetProfile}} /></template>);
       await click(screen.getByRole('checkbox', { name: 'sur une sélection de sujets du profil cible' }));
       await click(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujets' }));
 
@@ -128,7 +126,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
 
     test('it should delete criteria on click', async function (assert) {
       // when
-      const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
+      const screen = await render(<template><BadgeForm @targetProfile={{targetProfile}} /></template>);
       await click(screen.getByRole('checkbox', { name: 'sur une sélection de sujets du profil cible' }));
       await click(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujets' }));
       await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
@@ -143,7 +141,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
 
     test('it should remove all caped tubes criteria when checkox is unchecked ', async function (assert) {
       // when
-      const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
+      const screen = await render(<template><BadgeForm @targetProfile={{targetProfile}} /></template>);
       await click(screen.getByRole('checkbox', { name: 'sur une sélection de sujets du profil cible' }));
       await click(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujets' }));
       await click(screen.getByRole('checkbox', { name: 'sur une sélection de sujets du profil cible' }));
@@ -165,7 +163,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
+      const screen = await render(<template><BadgeForm @targetProfile={{targetProfile}} /></template>);
 
       await fillIn(screen.getByLabelText(/Nom du résultat thématique/), 'dummy');
       await fillIn(screen.getByLabelText(/Nom de l'image/), 'dummy');

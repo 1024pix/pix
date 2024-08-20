@@ -1,10 +1,10 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import TargetProfile from 'pix-admin/components/target-profiles/target-profile';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | TargetProfiles::TargetProfile', function (hooks) {
+module('Integration | Component | TargetProfile', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   const targetProfileSampleData = {
@@ -26,10 +26,10 @@ module('Integration | Component | TargetProfiles::TargetProfile', function (hook
     module('when no campaign is linked', function () {
       test('it should display a no-link information', async function (assert) {
         // given
-        this.set('model', { ...targetProfileSampleData });
+        const model = { ...targetProfileSampleData };
 
         // when
-        const screen = await render(hbs`<TargetProfiles::TargetProfile @model={{this.model}} />`);
+        const screen = await render(<template><TargetProfile @model={{model}} /></template>);
 
         // then
         assert.dom(_findByListItemText(screen, 'Est associé à une campagne : Oui')).doesNotExist();
@@ -41,10 +41,10 @@ module('Integration | Component | TargetProfiles::TargetProfile', function (hook
     module('when a campaign is linked', function () {
       test('it should display a link information', async function (assert) {
         // given
-        this.set('model', { ...targetProfileSampleData, hasLinkedCampaign: true });
+        const model = { ...targetProfileSampleData, hasLinkedCampaign: true };
 
         // when
-        const screen = await render(hbs`<TargetProfiles::TargetProfile @model={{this.model}} />`);
+        const screen = await render(<template><TargetProfile @model={{model}} /></template>);
 
         // then
         assert.dom(_findByListItemText(screen, 'Est associé à une campagne : Oui')).exists();
@@ -56,15 +56,15 @@ module('Integration | Component | TargetProfiles::TargetProfile', function (hook
     module('when an autonomous course is linked', function () {
       test('it should display specific informations', async function (assert) {
         // given
-        this.set('model', {
+        const model = {
           ...targetProfileSampleData,
           hasLinkedCampaign: true,
           hasLinkedAutonomousCourse: true,
           isSimplifiedAccess: true,
-        });
+        };
 
         // when
-        const screen = await render(hbs`<TargetProfiles::TargetProfile @model={{this.model}} />`);
+        const screen = await render(<template><TargetProfile @model={{model}} /></template>);
 
         // then
         assert.dom(_findByListItemText(screen, 'Est associé à une campagne : Oui')).exists();
