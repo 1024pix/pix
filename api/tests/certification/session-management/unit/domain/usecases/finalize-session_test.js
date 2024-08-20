@@ -1,10 +1,10 @@
-import { SessionFinalized } from '../../../../../../lib/domain/events/SessionFinalized.js';
 import {
   SessionAlreadyFinalizedError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithMissingAbortReasonError,
   SessionWithoutStartedCertificationError,
 } from '../../../../../../src/certification/session-management/domain/errors.js';
+import { SessionFinalized } from '../../../../../../src/certification/session-management/domain/read-models/SessionFinalized.js';
 import { finalizeSession } from '../../../../../../src/certification/session-management/domain/usecases/finalize-session.js';
 import { InvalidCertificationReportForFinalization } from '../../../../../../src/certification/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';

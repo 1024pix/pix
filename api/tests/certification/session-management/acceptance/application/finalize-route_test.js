@@ -84,33 +84,6 @@ describe('Certification | Session Management | Acceptance | Application | Route 
 
         it('should neutralize auto-neutralizable challenges', async function () {
           // given
-          const learningContent = [
-            {
-              id: 'recArea0',
-              code: '66',
-              competences: [
-                {
-                  id: 'recCompetence0',
-                  index: '1',
-                  tubes: [
-                    {
-                      id: 'recTube0_0',
-                      skills: [
-                        {
-                          id: 'recSkill0_0',
-                          nom: '@recSkill0_0',
-                          challenges: [{ id: 'recChallenge0_0_0' }, { id: 'recChallenge0_0_1' }],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ];
-          const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
-          mockLearningContent(learningContentObjects);
-
           const userId = databaseBuilder.factory.buildUser().id;
           const session = databaseBuilder.factory.buildSession();
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id }).id;
@@ -712,7 +685,33 @@ const _createSession = async ({ version = 2 } = {}) => {
     sessionId: session.id,
     certificationCourseId,
   });
-  databaseBuilder.factory.buildAssessment({ certificationCourseId });
+  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
+
+  databaseBuilder.factory.buildCertificationIssueReport({
+    certificationCourseId,
+    category: CertificationIssueReportCategory.IN_CHALLENGE,
+    description: '',
+    subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
+    questionNumber: 1,
+  });
+
+  databaseBuilder.factory.buildAssessmentResult({ assessmentId });
+
+  const certificationChallenge = databaseBuilder.factory.buildCertificationChallenge({
+    courseId: certificationCourseId,
+    isNeutralized: false,
+    challengeId: 'recChallenge0_0_0',
+    competenceId: 'recCompetence0',
+    associatedSkillName: '@recSkill0_0',
+    associatedSkillId: 'recSkill0_0',
+  });
+  databaseBuilder.factory.buildAnswer({
+    assessmentId,
+    challengeId: certificationChallenge.challengeId,
+    result: AnswerStatus.KO.status,
+  });
+  await databaseBuilder.commit();
+
   const options = {
     method: 'PUT',
     payload: {
@@ -750,7 +749,32 @@ const _createSession = async ({ version = 2 } = {}) => {
     url: `/api/sessions/${session.id}/finalization`,
   };
 
-  await databaseBuilder.commit();
+  const learningContent = [
+    {
+      id: 'recArea0',
+      code: '66',
+      competences: [
+        {
+          id: 'recCompetence0',
+          index: '1',
+          tubes: [
+            {
+              id: 'recTube0_0',
+              skills: [
+                {
+                  id: 'recSkill0_0',
+                  nom: '@recSkill0_0',
+                  challenges: [{ id: 'recChallenge0_0_0' }, { id: 'recChallenge0_0_1' }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ];
+  const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
+  mockLearningContent(learningContentObjects);
 
   return {
     session,
