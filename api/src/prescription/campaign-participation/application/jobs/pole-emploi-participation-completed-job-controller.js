@@ -13,7 +13,7 @@ import * as userRepository from '../../../../identity-access-management/infrastr
 import { PoleEmploiSending } from '../../../../shared/domain/models/index.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 
-export class CampaignParticipationCompletedJobController {
+export class PoleEmploiParticipationCompletedJobController {
   async handle(
     campaignParticipationCompletedJob,
     dependencies = {

@@ -19,7 +19,7 @@ describe('Integration | Repository | Jobs | CertificationCompletedJobRepository'
       await certificationCompletedJobRepository.performAsync(data);
 
       // then
-      await expect(CertificationCompletedJob.name).to.have.been.performed.withJobPayload({
+      await expect(CertificationCompletedJob.name).to.have.been.performed.withJob({
         retrylimit: 10,
         retrydelay: 30,
         retrybackoff: true,

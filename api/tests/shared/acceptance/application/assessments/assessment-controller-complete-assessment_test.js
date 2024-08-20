@@ -651,12 +651,10 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
             expect(response.statusCode).to.equal(204);
 
             await expect(CertificationCompletedJob.name).to.have.been.performed.withJobPayload({
-              data: {
-                assessmentId: certificationAssessment.id,
-                userId: certifiableUserId,
-                certificationCourseId,
-                locale: LOCALE.FRENCH_FRANCE,
-              },
+              assessmentId: certificationAssessment.id,
+              userId: certifiableUserId,
+              certificationCourseId,
+              locale: LOCALE.FRENCH_FRANCE,
             });
           });
         });

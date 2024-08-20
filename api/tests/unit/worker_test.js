@@ -3,10 +3,10 @@ import { CertificationCompletedJobController } from '../../src/certification/sco
 import { CertificationRescoringByScriptJobController } from '../../src/certification/session-management/application/jobs/certification-rescoring-by-script-job-controller.js';
 import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/domain/models/CertificationRescoringByScriptJob.js';
 import { UserAnonymizedEventLoggingJob } from '../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
-import { CampaignParticipationCompletedJobController } from '../../src/prescription/campaign-participation/application/jobs/campaign-participation-completed-job-controller.js';
 import { ParticipationResultCalculationJobController } from '../../src/prescription/campaign-participation/application/jobs/participation-result-calculation-job-controller.js';
-import { CampaignParticipationCompletedJob } from '../../src/prescription/campaign-participation/domain/models/CampaignParticipationCompletedJob.js';
+import { PoleEmploiParticipationCompletedJobController } from '../../src/prescription/campaign-participation/application/jobs/pole-emploi-participation-completed-job-controller.js';
 import { ParticipationResultCalculationJob } from '../../src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
+import { PoleEmploiParticipationCompletedJob } from '../../src/prescription/campaign-participation/domain/models/PoleEmploiParticipationCompletedJob.js';
 import { ComputeCertificabilityJobController } from '../../src/prescription/learner-management/application/jobs/compute-certificability-job-controller.js';
 import { ImportOrganizationLearnersJobController } from '../../src/prescription/learner-management/application/jobs/import-organization-learners-job-controller.js';
 import { ValidateOrganizationLearnersImportFileJobController } from '../../src/prescription/learner-management/application/jobs/validate-organization-learners-import-file-job-controller.js';
@@ -119,9 +119,9 @@ describe('#runjobs', function () {
       // then
       const calls = monitoredJobQueueStub.performJob
         .getCalls()
-        .find(({ args }) => args[0] === CampaignParticipationCompletedJob.name);
+        .find(({ args }) => args[0] === PoleEmploiParticipationCompletedJob.name);
 
-      expect(calls.args[1]).to.equal(CampaignParticipationCompletedJobController);
+      expect(calls.args[1]).to.equal(PoleEmploiParticipationCompletedJobController);
     });
 
     it('should register ComputeCertificabilityJob', async function () {

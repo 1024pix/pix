@@ -3,8 +3,8 @@ import * as campaignRepository from '../../../../../../lib/infrastructure/reposi
 import * as poleEmploiSendingRepository from '../../../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as userRepository from '../../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
-import { CampaignParticipationCompletedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/campaign-participation-completed-job-controller.js';
-import { CampaignParticipationCompletedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipationCompletedJob.js';
+import { PoleEmploiParticipationCompletedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/pole-emploi-participation-completed-job-controller.js';
+import { PoleEmploiParticipationCompletedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/PoleEmploiParticipationCompletedJob.js';
 import * as assessmentRepository from '../../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import {
@@ -16,7 +16,7 @@ import {
   sinon,
 } from '../../../../../test-helper.js';
 
-describe('Integration | Prescription | Application | Jobs | CampaignParticipationCompletedJobController', function () {
+describe('Integration | Prescription | Application | Jobs | PoleEmploiParticipationCompletedJobController', function () {
   let campaignParticipationId, userId, campaignParticipationCompletedJob, poleEmploiNotifier, responseCode;
 
   describe('#handle', function () {
@@ -34,7 +34,7 @@ describe('Integration | Prescription | Application | Jobs | CampaignParticipatio
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId, organizationId }).id;
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId }).id;
       databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
-      campaignParticipationCompletedJob = new CampaignParticipationCompletedJob({ campaignParticipationId });
+      campaignParticipationCompletedJob = new PoleEmploiParticipationCompletedJob({ campaignParticipationId });
 
       const learningContentObjects = learningContentBuilder.fromAreas([]);
       mockLearningContent(learningContentObjects);
@@ -44,7 +44,7 @@ describe('Integration | Prescription | Application | Jobs | CampaignParticipatio
 
     it('should notify pole emploi and save success of this notification', async function () {
       // when
-      const campaignParticipationCompletedJobController = new CampaignParticipationCompletedJobController();
+      const campaignParticipationCompletedJobController = new PoleEmploiParticipationCompletedJobController();
 
       await campaignParticipationCompletedJobController.handle(campaignParticipationCompletedJob, {
         assessmentRepository,

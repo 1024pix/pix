@@ -12,13 +12,13 @@ import { CertificationRescoringByScriptJob } from './src/certification/session-m
 import { GarAnonymizedBatchEventsLoggingJobController } from './src/identity-access-management/application/jobs/gar-anonymized-batch-events-logging-job.controller.js';
 import { GarAnonymizedBatchEventsLoggingJob } from './src/identity-access-management/domain/models/GarAnonymizedBatchEventsLoggingJob.js';
 import { UserAnonymizedEventLoggingJob } from './src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
-import { CampaignParticipationCompletedJobController } from './src/prescription/campaign-participation/application/jobs/campaign-participation-completed-job-controller.js';
 import { ParticipationResultCalculationJobController } from './src/prescription/campaign-participation/application/jobs/participation-result-calculation-job-controller.js';
 import { PoleEmploiParticipationStartedJobController } from './src/prescription/campaign-participation/application/jobs/pole-emploi-participation-started-job-controller.js';
+import { PoleEmploiParticipationCompletedJobController } from './src/prescription/campaign-participation/application/jobs/pole-emploi-participation-completed-job-controller.js';
 import { SendSharedParticipationResultsToPoleEmploiJobController } from './src/prescription/campaign-participation/application/jobs/send-share-participation-results-to-pole-emploi-job-controller.js';
-import { CampaignParticipationCompletedJob } from './src/prescription/campaign-participation/domain/models/CampaignParticipationCompletedJob.js';
 import { ParticipationResultCalculationJob } from './src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
 import { PoleEmploiParticipationStartedJob } from './src/prescription/campaign-participation/domain/models/PoleEmploiParticipationStartedJob.js';
+import { PoleEmploiParticipationCompletedJob } from './src/prescription/campaign-participation/domain/models/PoleEmploiParticipationCompletedJob.js';
 import { SendSharedParticipationResultsToPoleEmploiJob } from './src/prescription/campaign-participation/domain/models/SendSharedParticipationResultsToPoleEmploiJob.js';
 import { ComputeCertificabilityJobController } from './src/prescription/learner-management/application/jobs/compute-certificability-job-controller.js';
 import { ImportOrganizationLearnersJobController } from './src/prescription/learner-management/application/jobs/import-organization-learners-job-controller.js';
@@ -96,7 +96,7 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
   );
   monitoredJobQueue.performJob(ParticipationResultCalculationJob.name, ParticipationResultCalculationJobController);
 
-  monitoredJobQueue.performJob(CampaignParticipationCompletedJob.name, CampaignParticipationCompletedJobController);
+  monitoredJobQueue.performJob(PoleEmploiParticipationCompletedJob.name, PoleEmploiParticipationCompletedJobController);
   monitoredJobQueue.performJob(
     SendSharedParticipationResultsToPoleEmploiJob.name,
     SendSharedParticipationResultsToPoleEmploiJobController,

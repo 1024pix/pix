@@ -2,9 +2,9 @@ import { CertificationCompletedJob } from '../../../../lib/domain/events/Certifi
 import { completeAssessment } from '../../../../lib/domain/usecases/complete-assessment.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { certificationCompletedJobRepository } from '../../../../lib/infrastructure/repositories/jobs/certification-completed-job-repository.js';
-import { CampaignParticipationCompletedJob } from '../../../../src/prescription/campaign-participation/domain/models/CampaignParticipationCompletedJob.js';
+import { PoleEmploiParticipationCompletedJob } from '../../../../src/prescription/campaign-participation/domain/models/PoleEmploiParticipationCompletedJob.js';
 import * as campaignParticipationBCRepository from '../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
-import { campaignParticipationCompletedJobRepository } from '../../../../src/prescription/campaign-participation/infrastructure/repositories/jobs/campaign-participation-completed-job-repository.js';
+import { poleEmploiParticipationCompletedJobRepository } from '../../../../src/prescription/campaign-participation/infrastructure/repositories/jobs/pole-emploi-participation-completed-job-repository.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
@@ -45,7 +45,7 @@ describe('Integration | Usecase | Complete Assessment', function () {
             campaignParticipationBCRepository,
             assessmentRepository,
             certificationCompletedJobRepository,
-            campaignParticipationCompletedJobRepository,
+            poleEmploiParticipationCompletedJobRepository,
           });
 
           // then
@@ -63,7 +63,7 @@ describe('Integration | Usecase | Complete Assessment', function () {
           expect(realAssessment).to.deep.equal({ id: campaignParticipationId, status: STARTED });
         });
 
-        await expect(CampaignParticipationCompletedJob.name).to.have.been.performed.withJobsCount(1);
+        await expect(PoleEmploiParticipationCompletedJob.name).to.have.been.performed.withJobsCount(1);
       });
     });
 
@@ -100,7 +100,7 @@ describe('Integration | Usecase | Complete Assessment', function () {
           campaignParticipationBCRepository,
           assessmentRepository,
           certificationCompletedJobRepository,
-          campaignParticipationCompletedJobRepository,
+          poleEmploiParticipationCompletedJobRepository,
         });
 
         // then

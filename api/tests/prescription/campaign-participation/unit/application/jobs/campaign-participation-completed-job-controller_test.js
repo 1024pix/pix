@@ -2,12 +2,12 @@ import { PoleEmploiPayload } from '../../../../../../lib/infrastructure/external
 import * as httpErrorsHelper from '../../../../../../lib/infrastructure/http/errors-helper.js';
 import { httpAgent } from '../../../../../../lib/infrastructure/http/http-agent.js';
 import { monitoringTools } from '../../../../../../lib/infrastructure/monitoring-tools.js';
-import { CampaignParticipationCompletedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/campaign-participation-completed-job-controller.js';
-import { CampaignParticipationCompletedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipationCompletedJob.js';
+import { PoleEmploiParticipationCompletedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/pole-emploi-participation-completed-job-controller.js';
+import { PoleEmploiParticipationCompletedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/PoleEmploiParticipationCompletedJob.js';
 import { PoleEmploiSending } from '../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Prescription | Application | Jobs | CampaignParticipationCompletedJobController', function () {
+describe('Unit | Prescription | Application | Jobs | PoleEmploiParticipationCompletedJobController', function () {
   context('#handle', function () {
     let campaignParticipationCompletedJob, dependencies, expectedResults;
     let campaignId, userId, organizationId, assessmentId;
@@ -40,7 +40,7 @@ describe('Unit | Prescription | Application | Jobs | CampaignParticipationComple
         findOneByUserIdAndIdentityProvider: sinon.stub(),
         updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub(),
       };
-      campaignParticipationCompletedJobController = new CampaignParticipationCompletedJobController();
+      campaignParticipationCompletedJobController = new PoleEmploiParticipationCompletedJobController();
 
       dependencies = {
         assessmentRepository,
@@ -103,7 +103,7 @@ describe('Unit | Prescription | Application | Jobs | CampaignParticipationComple
           assessments: [domainBuilder.buildAssessment({ id: assessmentId })],
           createdAt: new Date('2020-01-02'),
         });
-        campaignParticipationCompletedJob = new CampaignParticipationCompletedJob({
+        campaignParticipationCompletedJob = new PoleEmploiParticipationCompletedJob({
           campaignParticipationId: campaignParticipation.id,
         });
 
@@ -165,7 +165,7 @@ describe('Unit | Prescription | Application | Jobs | CampaignParticipationComple
           campaign,
           createdAt: new Date('2020-01-02'),
         });
-        campaignParticipationCompletedJob = new CampaignParticipationCompletedJob({
+        campaignParticipationCompletedJob = new PoleEmploiParticipationCompletedJob({
           campaignParticipationId: campaignParticipation.id,
         });
 
@@ -196,7 +196,7 @@ describe('Unit | Prescription | Application | Jobs | CampaignParticipationComple
           campaign,
           createdAt: new Date('2020-01-02'),
         });
-        campaignParticipationCompletedJob = new CampaignParticipationCompletedJob({
+        campaignParticipationCompletedJob = new PoleEmploiParticipationCompletedJob({
           campaignParticipationId: campaignParticipation.id,
         });
 
