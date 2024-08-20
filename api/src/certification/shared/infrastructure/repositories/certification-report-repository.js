@@ -1,4 +1,3 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { Assessment } from '../../../../school/domain/models/Assessment.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { Challenge } from '../../../../shared/domain/models/index.js';
@@ -51,16 +50,15 @@ export const findBySessionId = async ({ sessionId }) => {
 
 export const finalizeAll = async ({ certificationReports }) => {
   try {
-    await knex.transaction(async (transaction) => {
-      await Promise.all(certificationReports.map((certificationReport) => finalize(certificationReport, transaction)));
-    });
+    await Promise.all(certificationReports.map((certificationReport) => finalize(certificationReport)));
   } catch (err) {
     throw new CertificationCourseUpdateError('An error occurred while finalizing the session');
   }
 };
 
-const finalize = async (certificationReport, transaction) => {
-  return transaction(CERTIFICATION_COURSES_TABLE).where({ id: certificationReport.certificationCourseId }).update({
+const finalize = async (certificationReport) => {
+  const knexConnection = DomainTransaction.getConnection();
+  return knexConnection(CERTIFICATION_COURSES_TABLE).where({ id: certificationReport.certificationCourseId }).update({
     hasSeenEndTestScreen: certificationReport.hasSeenEndTestScreen,
     updatedAt: new Date(),
   });

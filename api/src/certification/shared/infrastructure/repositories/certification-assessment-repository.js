@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { Answer } from '../../../../evaluation/domain/models/Answer.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
@@ -40,7 +39,9 @@ async function _getCertificationAnswersByDate(certificationAssessmentId, knexCon
 }
 
 const get = async function (id) {
-  const certificationAssessmentRows = await knex('assessments')
+  const knexConn = DomainTransaction.getConnection();
+
+  const certificationAssessmentRows = await knexConn('assessments')
     .join('certification-courses', 'certification-courses.id', 'assessments.certificationCourseId')
     .select({
       id: 'assessments.id',
@@ -59,9 +60,9 @@ const get = async function (id) {
   }
   const certificationChallenges = await _getCertificationChallenges(
     certificationAssessmentRows[0].certificationCourseId,
-    knex,
+    knexConn,
   );
-  const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRows[0].id, knex);
+  const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRows[0].id, knexConn);
 
   return new CertificationAssessment({
     ...certificationAssessmentRows[0],
@@ -106,7 +107,9 @@ const getByCertificationCourseId = async function ({ certificationCourseId }) {
 };
 
 const getByCertificationCandidateId = async function ({ certificationCandidateId }) {
-  const certificationAssessmentRow = await knex('assessments')
+  const knexConn = DomainTransaction.getConnection();
+
+  const certificationAssessmentRow = await knexConn('assessments')
     .select({
       id: 'assessments.id',
       userId: 'assessments.userId',
@@ -134,9 +137,9 @@ const getByCertificationCandidateId = async function ({ certificationCandidateId
   }
   const certificationChallenges = await _getCertificationChallenges(
     certificationAssessmentRow.certificationCourseId,
-    knex,
+    knexConn,
   );
-  const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRow.id, knex);
+  const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRow.id, knexConn);
 
   return new CertificationAssessment({
     ...certificationAssessmentRow,
@@ -146,22 +149,24 @@ const getByCertificationCandidateId = async function ({ certificationCandidateId
 };
 
 const save = async function (certificationAssessment) {
+  const knexConn = DomainTransaction.getConnection();
+
   for (const challenge of certificationAssessment.certificationChallenges) {
-    await knex('certification-challenges')
+    await knexConn('certification-challenges')
       .where({ id: challenge.id })
       .update(_.pick(challenge, ['isNeutralized', 'hasBeenSkippedAutomatically']));
   }
   for (const answer of certificationAssessment.certificationAnswersByDate) {
-    await knex('answers')
+    await knexConn('answers')
       .where({ id: answer.id })
       .update({ result: answerStatusDatabaseAdapter.toSQLString(answer.result) });
   }
 
-  await knex('assessments')
+  await knexConn('assessments')
     .where({ certificationCourseId: certificationAssessment.certificationCourseId })
     .update({ state: certificationAssessment.state });
 
-  await knex('certification-courses')
+  await knexConn('certification-courses')
     .where({ id: certificationAssessment.certificationCourseId })
     .update({ endedAt: certificationAssessment.endedAt });
 };
