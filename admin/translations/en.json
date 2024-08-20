@@ -295,12 +295,18 @@
         }
       },
       "navigation": {
+        "access": {
+          "label": "Access"
+        },
         "aria-label": "Administration section navigation",
         "certification": {
           "label": "Certification"
         },
         "common": {
           "label": "Common"
+        },
+        "deployment": {
+          "label": "Deployment"
         }
       }
     },

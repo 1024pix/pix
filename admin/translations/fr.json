@@ -305,12 +305,18 @@
         }
       },
       "navigation": {
+        "access": {
+          "label": "Accès"
+        },
         "aria-label": "Navigation de la section administration",
         "certification": {
           "label": "Certification"
         },
         "common": {
           "label": "Commun"
+        },
+        "deployment": {
+          "label": "Déploiement"
         }
       }
     },

@@ -18,6 +18,14 @@
         {{t "pages.administration.navigation.certification.label"}}
       </LinkTo>
 
+      <LinkTo @route="authenticated.administration.deployment" class="navbar-item">
+        {{t "pages.administration.navigation.deployment.label"}}
+      </LinkTo>
+
+      <LinkTo @route="authenticated.administration.access" class="navbar-item">
+        {{t "pages.administration.navigation.access.label"}}
+      </LinkTo>
+
     </nav>
 
     {{outlet}}
