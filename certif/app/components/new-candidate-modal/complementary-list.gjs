@@ -1,6 +1,7 @@
 import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
+import { t } from 'ember-intl';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { COMPLEMENTARY_KEYS } from 'pix-certif/models/subscription';
@@ -40,13 +41,19 @@ export default class ComplementaryList extends Component {
     <div class='new-candidate-modal-form__field'>
       <fieldset id='complementary-certifications'>
         <legend class='label'>
+          <abbr title={{t 'common.forms.required'}} class='mandatory-mark' aria-hidden='true'>*</abbr>
           {{this.fieldsetLegend}}
         </legend>
-        <PixRadioButton name='subscriptions' {{on 'change' (fn @updateComplementaryCertification null)}}>
+        <PixRadioButton
+          required
+          name='subscriptions'
+          {{on 'change' (fn @updateComplementaryCertification null)}}
+        >
           <:label>{{this.firstInputLabel}}</:label>
         </PixRadioButton>
         {{#each @complementaryCertificationsHabilitations as |complementaryCertificationHabilitation|}}
           <PixRadioButton
+            required
             name='subscriptions'
             {{on 'change' (fn @updateComplementaryCertification complementaryCertificationHabilitation)}}
           >
