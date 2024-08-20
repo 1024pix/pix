@@ -1,7 +1,7 @@
 import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import dayjs from 'dayjs';
-import hbs from 'htmlbars-inline-precompile';
+import MembershipItem from 'pix-admin/components/certification-centers/membership-item';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -35,15 +35,16 @@ module('Integration | Component |  certification-centers/membership-item', funct
       createdAt: new Date('2023-09-13T10:47:07Z'),
     });
 
-    this.set('certificationCenterMembership', certificationCenterMembership);
-    this.set('disableCertificationCenterMembership', sinon.stub());
+    const disableCertificationCenterMembership = sinon.stub();
 
     //  when
     const screen = await renderScreen(
-      hbs`<CertificationCenters::MembershipItem
-  @certificationCenterMembership={{this.certificationCenterMembership}}
-  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
-/>`,
+      <template>
+        <MembershipItem
+          @certificationCenterMembership={{certificationCenterMembership}}
+          @disableCertificationCenterMembership={{disableCertificationCenterMembership}}
+        />
+      </template>,
     );
 
     // then
@@ -77,15 +78,16 @@ module('Integration | Component |  certification-centers/membership-item', funct
         createdAt: new Date('2023-09-13T10:47:07Z'),
       });
 
-      this.set('certificationCenterMembership', certificationCenterMembership);
-      this.set('disableCertificationCenterMembership', sinon.stub());
+      const disableCertificationCenterMembership = sinon.stub();
 
       // when
       const screen = await renderScreen(
-        hbs`<CertificationCenters::MembershipItem
-  @certificationCenterMembership={{this.certificationCenterMembership}}
-  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
-/>`,
+        <template>
+          <MembershipItem
+            @certificationCenterMembership={{certificationCenterMembership}}
+            @disableCertificationCenterMembership={{disableCertificationCenterMembership}}
+          />
+        </template>,
       );
       await clickByName('Modifier le rôle');
 
@@ -114,17 +116,17 @@ module('Integration | Component |  certification-centers/membership-item', funct
         });
         const onCertificationCenterMembershipRoleChange = sinon.stub();
 
-        this.set('certificationCenterMembership', certificationCenterMembership);
-        this.set('disableCertificationCenterMembership', sinon.stub());
-        this.set('onCertificationCenterMembershipRoleChange', onCertificationCenterMembershipRoleChange);
+        const disableCertificationCenterMembership = sinon.stub();
 
         // when
         const screen = await renderScreen(
-          hbs`<CertificationCenters::MembershipItem
-  @certificationCenterMembership={{this.certificationCenterMembership}}
-  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
-  @onCertificationCenterMembershipRoleChange={{this.onCertificationCenterMembershipRoleChange}}
-/>`,
+          <template>
+            <MembershipItem
+              @certificationCenterMembership={{certificationCenterMembership}}
+              @disableCertificationCenterMembership={{disableCertificationCenterMembership}}
+              @onCertificationCenterMembershipRoleChange={{onCertificationCenterMembershipRoleChange}}
+            />
+          </template>,
         );
         await clickByName('Modifier le rôle');
         await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
@@ -158,15 +160,16 @@ module('Integration | Component |  certification-centers/membership-item', funct
           createdAt: new Date('2023-09-13T10:47:07Z'),
         });
 
-        this.set('certificationCenterMembership', certificationCenterMembership);
-        this.set('disableCertificationCenterMembership', sinon.stub());
+        const disableCertificationCenterMembership = sinon.stub();
 
         // when
         const screen = await renderScreen(
-          hbs`<CertificationCenters::MembershipItem
-  @certificationCenterMembership={{this.certificationCenterMembership}}
-  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
-/>`,
+          <template>
+            <MembershipItem
+              @certificationCenterMembership={{certificationCenterMembership}}
+              @disableCertificationCenterMembership={{disableCertificationCenterMembership}}
+            />
+          </template>,
         );
         await clickByName('Modifier le rôle');
         await clickByName('Annuler');
