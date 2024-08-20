@@ -9,7 +9,8 @@ describe('Certification | Session Management | Unit | Application | Controller |
       // given
       const sessionId = 1;
       const aCertificationReport = Symbol('a certficication report');
-      const updatedSession = Symbol('updatedSession');
+      const sessionFinalized = Symbol('sessionFinalized');
+      const autoJuryEvents = Symbol('autoJuryEvents');
       const examinerGlobalComment = 'It was a fine session my dear';
       const hasIncident = true;
       const hasJoiningIssue = true;
@@ -35,7 +36,8 @@ describe('Certification | Session Management | Unit | Application | Controller |
       };
       const certificationReportSerializer = { deserialize: sinon.stub() };
       certificationReportSerializer.deserialize.resolves(aCertificationReport);
-      sinon.stub(usecases, 'finalizeSession').resolves(updatedSession);
+      sinon.stub(usecases, 'finalizeSession').resolves(sessionFinalized);
+      sinon.stub(usecases, 'processAutoJury').resolves(autoJuryEvents);
 
       // when
       await finalizeController.finalize(request, hFake, { certificationReportSerializer, events });
@@ -47,6 +49,9 @@ describe('Certification | Session Management | Unit | Application | Controller |
         hasIncident,
         hasJoiningIssue,
         certificationReports: [aCertificationReport],
+      });
+      expect(usecases.processAutoJury).to.have.been.calledWithExactly({
+        sessionFinalized,
       });
     });
   });
