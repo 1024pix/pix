@@ -1,3 +1,4 @@
+import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 
 export default class HabilitationTag extends Component {
@@ -12,4 +13,11 @@ export default class HabilitationTag extends Component {
 
     return `circle-${active ? 'check' : 'xmark'}`;
   }
+
+  <template>
+    <li aria-label={{@arialabel}}>
+      <FaIcon class={{this.className}} @icon={{this.icon}} />
+      {{@label}}
+    </li>
+  </template>
 }
