@@ -2,8 +2,9 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import LoaderGrey from 'pix-admin/components/common/loader-grey';
-import List from 'pix-admin/components/complementary-certifications/attach-badges/badges/list';
+
+import LoaderGrey from '../../../common/loader-grey';
+import List from './list';
 
 export default class Badges extends Component {
   @tracked isLoading;
