@@ -1,0 +1,5 @@
+<template>
+  <p class="loader">
+    <img src="/images/loader-grey.svg" class="loader__image" alt="chargement" role="progressbar" />
+  </p>
+</template>
