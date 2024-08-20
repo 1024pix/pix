@@ -71,9 +71,7 @@ module('Integration | Component | certifications/competence-list', function (hoo
     ];
 
     // when
-    const screen = await render(
-      <template><CompetenceList @competences={{competences}} @edition="true" /></template>,
-    );
+    const screen = await render(<template><CompetenceList @competences={{competences}} @edition="true" /></template>);
 
     // then
     assert.strictEqual(screen.getAllByLabelText('Informations de la compétence', { exact: false }).length, 16);
@@ -89,9 +87,7 @@ module('Integration | Component | certifications/competence-list', function (hoo
       ];
 
       // when
-      const screen = await render(
-        <template><CompetenceList @competences={{competences}} @edition="true" /></template>,
-      );
+      const screen = await render(<template><CompetenceList @competences={{competences}} @edition="true" /></template>);
 
       // then
       assert.dom(screen.getByRole('textbox', { name: '1.1' })).hasValue('30');
