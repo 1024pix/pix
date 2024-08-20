@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import MembershipsSection from 'pix-admin/components/certification-centers/memberships-section';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -39,15 +39,16 @@ module('Integration | Component | certification-centers/memberships-section', fu
       createdAt: new Date('2018-02-15T05:06:07Z'),
     });
     const certificationCenterMemberships = [certificationCenterMembership1, certificationCenterMembership2];
-    this.set('certificationCenterMemberships', certificationCenterMemberships);
-    this.set('disableCertificationCenterMembership', sinon.stub());
+    const disableCertificationCenterMembership = sinon.stub();
 
     // when
     const screen = await render(
-      hbs`<CertificationCenters::MembershipsSection
-  @certificationCenterMemberships={{this.certificationCenterMemberships}}
-  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
-/>`,
+      <template>
+        <MembershipsSection
+          @certificationCenterMemberships={{certificationCenterMemberships}}
+          @disableCertificationCenterMembership={{disableCertificationCenterMembership}}
+        />
+      </template>,
     );
 
     // then
@@ -57,13 +58,13 @@ module('Integration | Component | certification-centers/memberships-section', fu
 
   test('it should display a message when there is no membership', async function (assert) {
     // given
-    this.set('disableCertificationCenterMembership', sinon.stub());
+    const disableCertificationCenterMembership = sinon.stub();
 
     // when
     const screen = await render(
-      hbs`<CertificationCenters::MembershipsSection
-  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
-/>`,
+      <template>
+        <MembershipsSection @disableCertificationCenterMembership={{disableCertificationCenterMembership}} />
+      </template>,
     );
 
     // then
