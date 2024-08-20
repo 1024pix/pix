@@ -2,6 +2,8 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 
+import ConfirmPopup from '../../confirm-popup';
+
 export default class DeleteModal extends Component {
   @service notifications;
 
@@ -24,4 +26,15 @@ export default class DeleteModal extends Component {
 
     this.args.toggle();
   }
+
+  <template>
+    <ConfirmPopup
+      @message={{this.message}}
+      @title="Supprimer un lot de place"
+      @submitTitle="Confirmer"
+      @confirm={{this.deleteOrganizationPlaceLot}}
+      @cancel={{@toggle}}
+      @show={{@show}}
+    />
+  </template>
 }

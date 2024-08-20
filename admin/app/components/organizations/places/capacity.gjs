@@ -17,4 +17,17 @@ export default class Capacity extends Component {
         count,
       }));
   }
+
+  <template>
+    <table class="places__capacity">
+      <tbody>
+        {{#each this.placesCapacityCategories as |placesCapacityCategory|}}
+          <tr>
+            <td>{{placesCapacityCategory.count}}</td>
+            <td><strong>{{placesCapacityCategory.label}}</strong></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </template>
 }
