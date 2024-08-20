@@ -9,6 +9,9 @@ class Mission {
     thematicId,
     learningObjectives,
     validatedObjectives,
+    introductionMediaUrl,
+    introductionMediaType,
+    introductionMediaAlt,
     areaCode,
     startedBy,
     content,
@@ -21,6 +24,9 @@ class Mission {
     this.areaCode = areaCode;
     this.learningObjectives = learningObjectives;
     this.validatedObjectives = validatedObjectives;
+    this.introductionMediaUrl = introductionMediaUrl;
+    this.introductionMediaType = introductionMediaType;
+    this.introductionMediaAlt = introductionMediaAlt;
     this.startedBy = startedBy;
     this.content = new MissionContent(content);
   }
@@ -71,4 +77,5 @@ class MissionStep {
     this.validationChallenges = validationChallenges;
   }
 }
+
 export { Mission };

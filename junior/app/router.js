@@ -28,6 +28,9 @@ Router.map(function () {
     this.route('missions', { path: '/' }, function () {
       this.route('list', { path: '/' });
       this.route('mission', { path: 'missions/:mission_id' }, function () {
+        // le nom de la route utilisée est mission.js et non index
+        this.route('index', { path: '/' });
+        this.route('introduction');
         this.route('resume');
       });
     });

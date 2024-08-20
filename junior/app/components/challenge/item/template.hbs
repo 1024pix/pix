@@ -3,7 +3,7 @@
     <div class="challenge-item__media {{unless this.isMediaWithForm 'challenge-item__media--single-display'}}">
       {{#if @challenge.illustrationUrl}}
         <div class="challenge-item__image">
-          <Challenge::ChallengeIllustration @src={{@challenge.illustrationUrl}} @alt={{@challenge.illustrationAlt}} />
+          <Challenge::ChallengeMedia @src={{@challenge.illustrationUrl}} @alt={{@challenge.illustrationAlt}} />
         </div>
       {{/if}}
       {{#if @challenge.hasValidEmbedDocument}}

@@ -1,0 +1,23 @@
+{{page-title (t "pages.missions.introduction-page.title")}}
+
+<div class="mission-introduction">
+  <RobotDialog>
+    <Bubble @message={{t "pages.missions.introduction-page.welcome"}} />
+  </RobotDialog>
+  <div class="mission-introduction__container">
+    <div class="mission-introduction__media">
+      <Challenge::ChallengeMedia
+        @src={{@model.introductionMediaUrl}}
+        @alt={{@challenge.introductionMediaAlt}}
+        @type={{@model.introductionMediaType}}
+      />
+    </div>
+    <div class="mission-introduction__actions">
+      <PixButtonLink @route="identified.missions.mission.resume" size="large" class="details-action">
+        <p>{{t "pages.missions.introduction-page.start-mission"}}</p>
+        <FaIcon @icon="arrow-right" class="button__icon-after" />
+
+      </PixButtonLink>
+    </div>
+  </div>
+</div>

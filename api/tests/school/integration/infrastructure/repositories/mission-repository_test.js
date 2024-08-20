@@ -15,6 +15,9 @@ describe('Integration | Repository | mission-repository', function () {
           thematicId: 'thematicId',
           learningObjectives: 'learningObjectivesi18n',
           validatedObjectives: 'validatedObjectivesi18n',
+          introductionMediaUrl: 'http://monimage.pix.fr',
+          introductionMediaType: 'image',
+          introductionMediaAlt: "Alt à l'image",
         });
 
         mockLearningContent({
@@ -26,6 +29,9 @@ describe('Integration | Repository | mission-repository', function () {
               thematicId: 'thematicId',
               learningObjectives_i18n: { fr: 'learningObjectivesi18n' },
               validatedObjectives_i18n: { fr: 'validatedObjectivesi18n' },
+              introductionMediaUrl: 'http://monimage.pix.fr',
+              introductionMediaType: 'image',
+              introductionMediaAlt: "Alt à l'image",
             },
           ],
         });

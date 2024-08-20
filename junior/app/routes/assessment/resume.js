@@ -5,7 +5,7 @@ export default class ResumeRoute extends Route {
   @service router;
   @service store;
 
-  redirect(assessment, transition) {
+  async redirect(assessment, transition) {
     if (transition.from.name === 'challenge-preview') {
       return this.router.replaceWith('/');
     }

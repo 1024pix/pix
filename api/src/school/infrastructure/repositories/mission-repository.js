@@ -18,6 +18,9 @@ function _toDomain(data, locale) {
     thematicId: data.thematicId,
     learningObjectives: translatedLearningObjectives,
     validatedObjectives: translatedValidatedObjectives,
+    introductionMediaUrl: data.introductionMediaUrl,
+    introductionMediaType: data.introductionMediaType,
+    introductionMediaAlt: data.introductionMediaAlt,
     content: data.content,
   });
 }

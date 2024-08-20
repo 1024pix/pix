@@ -1,0 +1,30 @@
+.mission-introduction {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+
+  &__media {
+    display: flex;
+    justify-content: center;
+    width: auto;
+    min-height: 400px;
+    margin: var(--pix-spacing-6x) 140px;
+    padding: var(--pix-spacing-4x);
+    background-color: var(--pix-neutral-0);
+    border-radius: 24px;
+    box-shadow: 0 0 1px 0 var(--pix-primary-500), 8px 8px 32px -8px rgb(63 125 216 / 35%);
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--pix-spacing-4x);
+    margin-right: 140px;
+
+
+    button:only-child {
+      margin-left: auto;
+    }
+  }
+}
+
