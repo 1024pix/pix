@@ -1,6 +1,6 @@
 import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import MembershipItemRole from 'pix-admin/components/certification-centers/membership-item-role';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -12,12 +12,12 @@ module('Integration | Component |  certification-centers/membership-item-role', 
   module('when the component is not in edition mode', function () {
     test('displays the translated value for given role', async function (assert) {
       // given
-      this.set('isEditionMode', false);
-      this.set('roleLabelKey', 'components.memberships-section.roles.member');
+      const isEditionMode = false;
+      const roleLabelKey = 'components.memberships-section.roles.member';
 
       //  when
       const screen = await renderScreen(
-        hbs`<CertificationCenters::MembershipItemRole @isEditionMode={{this.isEditionMode}} @roleLabelKey={{this.roleLabelKey}} />`,
+        <template><MembershipItemRole @isEditionMode={{isEditionMode}} @roleLabelKey={{roleLabelKey}} /></template>,
       );
 
       // then
@@ -28,17 +28,15 @@ module('Integration | Component |  certification-centers/membership-item-role', 
   module('when the component is in edition mode', function () {
     test('displays role selection input', async function (assert) {
       // given
-      this.set('isEditionMode', true);
-      this.set('role', 'MEMBER');
-      this.set('onRoleSelected', sinon.stub());
+      const isEditionMode = true;
+      const role = 'MEMBER';
+      const onRoleSelected = sinon.stub();
 
       //  when
       const screen = await renderScreen(
-        hbs`<CertificationCenters::MembershipItemRole
-  @isEditionMode={{this.isEditionMode}}
-  @role={{this.role}}
-  @onRoleSelected={{this.onRoleSelected}}
-/>`,
+        <template>
+          <MembershipItemRole @isEditionMode={{isEditionMode}} @role={{role}} @onRoleSelected={{onRoleSelected}} />
+        </template>,
       );
 
       // then
@@ -48,17 +46,15 @@ module('Integration | Component |  certification-centers/membership-item-role', 
     module('when user click on role selection input', function () {
       test('displays a list of roles', async function (assert) {
         // given
-        this.set('isEditionMode', true);
-        this.set('role', 'MEMBER');
-        this.set('onRoleSelected', sinon.stub());
+        const isEditionMode = true;
+        const role = 'MEMBER';
+        const onRoleSelected = sinon.stub();
 
         //  when
         const screen = await renderScreen(
-          hbs`<CertificationCenters::MembershipItemRole
-  @isEditionMode={{this.isEditionMode}}
-  @role={{this.role}}
-  @onRoleSelected={{this.onRoleSelected}}
-/>`,
+          <template>
+            <MembershipItemRole @isEditionMode={{isEditionMode}} @role={{role}} @onRoleSelected={{onRoleSelected}} />
+          </template>,
         );
         await clickByName('Sélectionner un rôle');
         await screen.findByRole('listbox');
@@ -72,17 +68,14 @@ module('Integration | Component |  certification-centers/membership-item-role', 
         test('emits an event with the new role', async function (assert) {
           // given
           const onRoleSelected = sinon.stub();
-          this.set('isEditionMode', true);
-          this.set('role', 'MEMBER');
-          this.set('onRoleSelected', onRoleSelected);
+          const isEditionMode = true;
+          const role = 'MEMBER';
 
           //  when
           const screen = await renderScreen(
-            hbs`<CertificationCenters::MembershipItemRole
-  @isEditionMode={{this.isEditionMode}}
-  @role={{this.role}}
-  @onRoleSelected={{this.onRoleSelected}}
-/>`,
+            <template>
+              <MembershipItemRole @isEditionMode={{isEditionMode}} @role={{role}} @onRoleSelected={{onRoleSelected}} />
+            </template>,
           );
           await clickByName('Sélectionner un rôle');
           await screen.findByRole('listbox');
