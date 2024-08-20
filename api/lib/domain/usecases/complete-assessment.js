@@ -1,4 +1,4 @@
-import { PoleEmploiParticipationCompletedJob } from '../../../src/prescription/campaign-participation/domain/models/PoleEmploiParticipationCompletedJob.js';
+import { ParticipationCompletedJob } from '../../../src/prescription/campaign-participation/domain/models/ParticipationCompletedJob.js';
 import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 import { AlreadyRatedAssessmentError } from '../../../src/shared/domain/errors.js';
 import { CertificationCompletedJob } from '../events/CertificationCompleted.js';
@@ -8,7 +8,7 @@ const completeAssessment = async function ({
   campaignParticipationBCRepository,
   assessmentRepository,
   certificationCompletedJobRepository,
-  poleEmploiParticipationCompletedJobRepository,
+  participationCompletedJobRepository,
   locale,
 }) {
   const assessment = await assessmentRepository.get(assessmentId);
@@ -24,8 +24,8 @@ const completeAssessment = async function ({
 
     await campaignParticipationBCRepository.update({ id: assessment.campaignParticipationId, status: TO_SHARE });
 
-    await poleEmploiParticipationCompletedJobRepository.performAsync(
-      new PoleEmploiParticipationCompletedJob({ campaignParticipationId: assessment.campaignParticipationId }),
+    await participationCompletedJobRepository.performAsync(
+      new ParticipationCompletedJob({ campaignParticipationId: assessment.campaignParticipationId }),
     );
   }
 

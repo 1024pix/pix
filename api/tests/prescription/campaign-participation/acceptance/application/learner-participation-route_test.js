@@ -1,6 +1,6 @@
 import { createServer } from '../../../../../server.js';
 import { ParticipationResultCalculationJob } from '../../../../../src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
-import { SendSharedParticipationResultsToPoleEmploiJob } from '../../../../../src/prescription/campaign-participation/domain/models/SendSharedParticipationResultsToPoleEmploiJob.js';
+import { ParticipationSharedJob } from '../../../../../src/prescription/campaign-participation/domain/models/ParticipationSharedJob.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
@@ -91,7 +91,7 @@ describe('Acceptance | API | Campaign Participations', function () {
       expect(result.status).to.equal(SHARED);
 
       await expect(ParticipationResultCalculationJob.name).to.have.been.performed.withJobsCount(1);
-      await expect(SendSharedParticipationResultsToPoleEmploiJob.name).to.have.been.performed.withJobsCount(1);
+      await expect(ParticipationSharedJob.name).to.have.been.performed.withJobsCount(1);
     });
   });
 

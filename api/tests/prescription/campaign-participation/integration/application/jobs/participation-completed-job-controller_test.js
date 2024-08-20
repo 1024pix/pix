@@ -1,13 +1,10 @@
-import * as httpErrorsHelper from '../../../../../../lib/infrastructure/http/errors-helper.js';
-import { httpAgent } from '../../../../../../lib/infrastructure/http/http-agent.js';
-import { monitoringTools } from '../../../../../../lib/infrastructure/monitoring-tools.js';
 import * as campaignParticipationRepository from '../../../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignRepository from '../../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as poleEmploiSendingRepository from '../../../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as userRepository from '../../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
-import { PoleEmploiParticipationStartedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/pole-emploi-participation-started-job-controller.js';
-import { PoleEmploiParticipationStartedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/PoleEmploiParticipationStartedJob.js';
+import { ParticipationCompletedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/participation-completed-job-controller.js';
+import { ParticipationCompletedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationCompletedJob.js';
 import * as assessmentRepository from '../../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import {
@@ -19,8 +16,8 @@ import {
   sinon,
 } from '../../../../../test-helper.js';
 
-describe('Integration | Application | pole-emploi-participation-started-job-controller', function () {
-  let campaignParticipationId, userId, poleEmploiNotifier, responseCode, data;
+describe('Integration | Prescription | Application | Jobs | ParticipationCompletedJobController', function () {
+  let campaignParticipationId, userId, campaignParticipationCompletedJob, poleEmploiNotifier, responseCode;
 
   describe('#handle', function () {
     beforeEach(async function () {
@@ -37,8 +34,7 @@ describe('Integration | Application | pole-emploi-participation-started-job-cont
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId, organizationId }).id;
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId }).id;
       databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
-
-      data = new PoleEmploiParticipationStartedJob({ campaignParticipationId });
+      campaignParticipationCompletedJob = new ParticipationCompletedJob({ campaignParticipationId });
 
       const learningContentObjects = learningContentBuilder.fromAreas([]);
       mockLearningContent(learningContentObjects);
@@ -48,8 +44,9 @@ describe('Integration | Application | pole-emploi-participation-started-job-cont
 
     it('should notify pole emploi and save success of this notification', async function () {
       // when
-      const handler = new PoleEmploiParticipationStartedJobController();
-      await handler.handle(data, {
+      const campaignParticipationCompletedJobController = new ParticipationCompletedJobController();
+
+      await campaignParticipationCompletedJobController.handle(campaignParticipationCompletedJob, {
         assessmentRepository,
         campaignRepository,
         campaignParticipationRepository,
@@ -58,16 +55,13 @@ describe('Integration | Application | pole-emploi-participation-started-job-cont
         targetProfileRepository,
         userRepository,
         poleEmploiNotifier,
-        httpErrorsHelper,
-        monitoringTools,
-        httpAgent,
       });
 
       // then
       const poleEmploiSendings = await knex('pole-emploi-sendings').where({ campaignParticipationId });
       expect(poleEmploiSendings.length).to.equal(1);
       expect(poleEmploiSendings[0].responseCode).to.equal(responseCode.toString());
-      expect(poleEmploiSendings[0].type).to.equal('CAMPAIGN_PARTICIPATION_START');
+      expect(poleEmploiSendings[0].type).to.equal('CAMPAIGN_PARTICIPATION_COMPLETION');
     });
   });
 });

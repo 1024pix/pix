@@ -1,4 +1,3 @@
-import { CampaignParticipationResultsShared } from '../../../../../lib/domain/events/CampaignParticipationResultsShared.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { learnerParticipationController } from '../../../../../src/prescription/campaign-participation/application/learner-participation-controller.js';
 import { usecases } from '../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
@@ -7,37 +6,29 @@ import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js'
 
 describe('Unit | Application | Controller | Learner-Participation', function () {
   describe('#shareCampaignResult', function () {
-    let dependencies;
-    const userId = 1;
-    const request = {
-      params: {
-        campaignParticipationId: '5',
-      },
-      headers: {
-        authorization: 'token',
-      },
-      auth: {
-        credentials: {
-          userId,
-        },
-      },
-    };
+    let dependencies, userId, campaignParticipationId, request;
 
     beforeEach(function () {
+      userId = Symbol('userId');
+      campaignParticipationId = Symbol('campaignParticipationId');
+      request = {
+        params: {
+          campaignParticipationId,
+        },
+        headers: {
+          authorization: 'token',
+        },
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+      };
       sinon.stub(usecases, 'shareCampaignResult');
-
-      const participationResultCalculationJobRepository = { performAsync: sinon.stub() };
-      const sendSharedParticipationResultsToPoleEmploiJobRepository = { performAsync: sinon.stub() };
-
       sinon.stub(ApplicationTransaction, 'execute').callsFake((callback) => {
         return callback();
       });
       sinon.stub(ApplicationTransaction, 'getTransactionAsDomainTransaction');
-
-      dependencies = {
-        participationResultCalculationJobRepository,
-        sendSharedParticipationResultsToPoleEmploiJobRepository,
-      };
     });
 
     it('should call the use case to share campaign result', async function () {
@@ -48,44 +39,7 @@ describe('Unit | Application | Controller | Learner-Participation', function () 
       await learnerParticipationController.shareCampaignResult(request, hFake, dependencies);
 
       // then
-      expect(usecases.shareCampaignResult).to.have.been.calledOnce;
-      const updateCampaignParticiaption = usecases.shareCampaignResult.firstCall.args[0];
-      expect(updateCampaignParticiaption).to.have.property('campaignParticipationId');
-      expect(updateCampaignParticiaption).to.have.property('userId');
-    });
-
-    it('should trigger participation result calculation', async function () {
-      // given
-      const campaignParticipationResultsSharedEvent = new CampaignParticipationResultsShared();
-      usecases.shareCampaignResult.resolves(campaignParticipationResultsSharedEvent);
-      const domainTransaction = Symbol('domainTransaction');
-      ApplicationTransaction.getTransactionAsDomainTransaction.returns(domainTransaction);
-
-      // when
-      await learnerParticipationController.shareCampaignResult(request, hFake, dependencies);
-
-      // then
-      expect(dependencies.participationResultCalculationJobRepository.performAsync).to.have.been.calledWithExactly({
-        campaignParticipationId: '5',
-      });
-    });
-
-    it('should send participation results to Pole Emploi', async function () {
-      // given
-      const campaignParticipationResultsSharedEvent = new CampaignParticipationResultsShared();
-      usecases.shareCampaignResult.resolves(campaignParticipationResultsSharedEvent);
-      const domainTransaction = Symbol('domainTransaction');
-      ApplicationTransaction.getTransactionAsDomainTransaction.returns(domainTransaction);
-
-      // when
-      await learnerParticipationController.shareCampaignResult(request, hFake, dependencies);
-
-      // then
-      expect(
-        dependencies.sendSharedParticipationResultsToPoleEmploiJobRepository.performAsync,
-      ).to.have.been.calledWithExactly({
-        campaignParticipationId: '5',
-      });
+      expect(usecases.shareCampaignResult).to.have.been.calledOnceWithExactly({ userId, campaignParticipationId });
     });
 
     context('when the request comes from a different user', function () {

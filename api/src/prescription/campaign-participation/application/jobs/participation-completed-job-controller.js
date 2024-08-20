@@ -3,26 +3,28 @@ import { PoleEmploiPayload } from '../../../../../lib/infrastructure/externals/p
 import * as httpErrorsHelper from '../../../../../lib/infrastructure/http/errors-helper.js';
 import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
 import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
+import * as campaignParticipationRepository from '../../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as poleEmploiSendingRepository from '../../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../../../../lib/infrastructure/repositories/target-profile-repository.js';
+import { assessmentRepository } from '../../../../certification/session-management/infrastructure/repositories/index.js';
 import * as authenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { JobController } from '../../../../shared/application/jobs/job-controller.js';
 import { PoleEmploiSending } from '../../../../shared/domain/models/index.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
-import { PoleEmploiParticipationStartedJob } from '../../domain/models/PoleEmploiParticipationStartedJob.js';
-import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
+import { ParticipationCompletedJob } from '../../domain/models/ParticipationCompletedJob.js';
 
-export class PoleEmploiParticipationStartedJobController extends JobController {
+export class ParticipationCompletedJobController extends JobController {
   constructor() {
-    super(PoleEmploiParticipationStartedJob.name);
+    super(ParticipationCompletedJob.name);
   }
 
   async handle(
-    data,
+    campaignParticipationCompletedJob,
     dependencies = {
       authenticationMethodRepository,
+      assessmentRepository,
       campaignRepository,
       campaignParticipationRepository,
       organizationRepository,
@@ -30,12 +32,11 @@ export class PoleEmploiParticipationStartedJobController extends JobController {
       targetProfileRepository,
       userRepository,
       poleEmploiNotifier,
-      httpAgent,
-      httpErrorsHelper,
-      monitoringTools,
     },
   ) {
-    const { campaignParticipationId } = data;
+    const { campaignParticipationId } = campaignParticipationCompletedJob;
+
+    if (!campaignParticipationId) return;
 
     const participation = await dependencies.campaignParticipationRepository.get(campaignParticipationId);
     const campaign = await dependencies.campaignRepository.get(participation.campaignId);
@@ -44,29 +45,30 @@ export class PoleEmploiParticipationStartedJobController extends JobController {
     if (campaign.isAssessment() && organization.isPoleEmploi) {
       const user = await dependencies.userRepository.get(participation.userId);
       const targetProfile = await dependencies.targetProfileRepository.get(campaign.targetProfileId);
+      const assessment = await dependencies.assessmentRepository.get(participation.lastAssessment.id);
 
-      const payload = PoleEmploiPayload.buildForParticipationStarted({
+      const payload = PoleEmploiPayload.buildForParticipationFinished({
         user,
         campaign,
         targetProfile,
         participation,
+        assessment,
       });
-
       const response = await dependencies.poleEmploiNotifier.notify(user.id, payload, {
         authenticationMethodRepository: dependencies.authenticationMethodRepository,
-        httpAgent: dependencies.httpAgent,
-        httpErrorsHelper: dependencies.httpErrorsHelper,
-        monitoringTools: dependencies.monitoringTools,
+        httpAgent,
+        httpErrorsHelper,
+        monitoringTools,
       });
 
-      const poleEmploiSending = PoleEmploiSending.buildForParticipationStarted({
+      const poleEmploiSending = PoleEmploiSending.buildForParticipationFinished({
         campaignParticipationId,
         payload: payload.toString(),
         isSuccessful: response.isSuccessful,
         responseCode: response.code,
       });
 
-      await dependencies.poleEmploiSendingRepository.create({ poleEmploiSending });
+      return dependencies.poleEmploiSendingRepository.create({ poleEmploiSending });
     }
   }
 }

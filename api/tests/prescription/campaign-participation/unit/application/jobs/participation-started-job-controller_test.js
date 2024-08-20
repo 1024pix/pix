@@ -1,10 +1,10 @@
 import { PoleEmploiPayload } from '../../../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
-import { PoleEmploiParticipationStartedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/pole-emploi-participation-started-job-controller.js';
-import { PoleEmploiParticipationStartedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/PoleEmploiParticipationStartedJob.js';
+import { ParticipationStartedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/participation-started-job-controller.js';
+import { ParticipationStartedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationStartedJob.js';
 import { PoleEmploiSending } from '../../../../../../src/shared/domain/models/PoleEmploiSending.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Application | Controller | Jobs | pole-emploi-participation-started-controller', function () {
+describe('Unit | Application | Controller | Jobs | participation-started-controller', function () {
   let data, dependencies, expectedResults;
   let httpAgent,
     httpErrorsHelper,
@@ -83,7 +83,7 @@ describe('Unit | Application | Controller | Jobs | pole-emploi-participation-sta
     // given
     const data = 'not an data of the correct type';
     // when / then
-    const handler = new PoleEmploiParticipationStartedJobController();
+    const handler = new ParticipationStartedJobController();
 
     const error = await catchErr(handler.handle)(data, { ...dependencies });
 
@@ -91,7 +91,7 @@ describe('Unit | Application | Controller | Jobs | pole-emploi-participation-sta
     expect(error).not.to.be.null;
   });
 
-  context('#PoleEmploiParticipationStarted', function () {
+  context('#ParticipationStarted', function () {
     let campaignParticipationId, campaignId, userId, organizationId;
 
     beforeEach(function () {
@@ -128,7 +128,7 @@ describe('Unit | Application | Controller | Jobs | pole-emploi-participation-sta
           .resolves(domainBuilder.buildUser({ id: userId, firstName: 'Jean', lastName: 'Bonneau' }));
         targetProfileRepository.get.withArgs('targetProfileId1').resolves({ name: 'Diagnostic initial' });
 
-        data = new PoleEmploiParticipationStartedJob({ campaignParticipationId });
+        data = new ParticipationStartedJob({ campaignParticipationId });
       });
 
       it('should notify pole emploi and create pole emploi sending accordingly', async function () {
@@ -154,7 +154,7 @@ describe('Unit | Application | Controller | Jobs | pole-emploi-participation-sta
           .returns(poleEmploiSending);
 
         // when
-        const handler = new PoleEmploiParticipationStartedJobController();
+        const handler = new ParticipationStartedJobController();
 
         await handler.handle(data, {
           ...dependencies,
@@ -182,12 +182,12 @@ describe('Unit | Application | Controller | Jobs | pole-emploi-participation-sta
         campaignRepository.get.withArgs(campaignId).resolves(campaign);
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: false });
 
-        data = new PoleEmploiParticipationStartedJob({ campaignParticipationId });
+        data = new ParticipationStartedJob({ campaignParticipationId });
       });
 
       it('should not notify to Pole Emploi', async function () {
         // when
-        const handler = new PoleEmploiParticipationStartedJobController();
+        const handler = new ParticipationStartedJobController();
 
         await handler.handle(data, {
           ...dependencies,
@@ -216,12 +216,12 @@ describe('Unit | Application | Controller | Jobs | pole-emploi-participation-sta
         campaignRepository.get.withArgs(campaignId).resolves(campaign);
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
 
-        data = new PoleEmploiParticipationStartedJob({ campaignParticipationId });
+        data = new ParticipationStartedJob({ campaignParticipationId });
       });
 
       it('should not notify to Pole Emploi', async function () {
         // when
-        const handler = new PoleEmploiParticipationStartedJobController();
+        const handler = new ParticipationStartedJobController();
 
         await handler.handle(data, {
           ...dependencies,

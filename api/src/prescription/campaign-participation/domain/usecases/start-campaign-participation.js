@@ -1,5 +1,5 @@
 import { KnowledgeElement } from '../../../../shared/domain/models/KnowledgeElement.js';
-import { PoleEmploiParticipationStartedJob } from '../models/PoleEmploiParticipationStartedJob.js';
+import { ParticipationStartedJob } from '../models/ParticipationStartedJob.js';
 
 const startCampaignParticipation = async function ({
   campaignParticipation,
@@ -10,7 +10,7 @@ const startCampaignParticipation = async function ({
   campaignParticipantRepository,
   campaignParticipationRepository,
   competenceEvaluationRepository,
-  poleEmploiParticipationStartedJobRepository,
+  participationStartedJobRepository,
 }) {
   const campaignParticipant = await campaignParticipantRepository.get({
     userId,
@@ -41,9 +41,7 @@ const startCampaignParticipation = async function ({
     });
   }
 
-  await poleEmploiParticipationStartedJobRepository.performAsync(
-    new PoleEmploiParticipationStartedJob({ campaignParticipationId }),
-  );
+  await participationStartedJobRepository.performAsync(new ParticipationStartedJob({ campaignParticipationId }));
   return {
     campaignParticipation: createdCampaignParticipation,
   };
