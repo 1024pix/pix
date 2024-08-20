@@ -1,7 +1,7 @@
 import { render, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import InvitationsAction from 'pix-admin/components/certification-centers/invitations-action';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -14,15 +14,16 @@ module('Integration | Component | certification-center-invitations-action', func
   test('it should create certification-center invitation with default language', async function (assert) {
     // given
     const createInvitationStub = sinon.stub();
-    this.set('createInvitation', createInvitationStub);
-    this.set('noop', () => {});
+    const onChangeUserEmailToInvite = () => {};
 
     // when
     const screen = await render(
-      hbs`<CertificationCenters::InvitationsAction
-  @createInvitation={{this.createInvitation}}
-  @onChangeUserEmailToInvite={{this.noop}}
-/>`,
+      <template>
+        <InvitationsAction
+          @createInvitation={{createInvitationStub}}
+          @onChangeUserEmailToInvite={{onChangeUserEmailToInvite}}
+        />
+      </template>,
     );
     await click(screen.getByRole('button', { name: 'Inviter un membre' }));
 
@@ -33,15 +34,16 @@ module('Integration | Component | certification-center-invitations-action', func
   test('it creates a certification-center invitation with choosen language and choosen role', async function (assert) {
     // given
     const createInvitationStub = sinon.stub();
-    this.set('createInvitation', createInvitationStub);
-    this.set('noop', () => {});
+    const onChangeUserEmailToInvite = () => {};
 
     // when
     const screen = await render(
-      hbs`<CertificationCenters::InvitationsAction
-  @createInvitation={{this.createInvitation}}
-  @onChangeUserEmailToInvite={{this.noop}}
-/>`,
+      <template>
+        <InvitationsAction
+          @createInvitation={{createInvitationStub}}
+          @onChangeUserEmailToInvite={{onChangeUserEmailToInvite}}
+        />
+      </template>,
     );
 
     await click(screen.getByRole('button', { name: 'Choisir la langue de l’email d’invitation' }));

@@ -40,11 +40,7 @@
 @import 'components/campaigns/participations-section';
 @import 'components/campaigns/update';
 @import 'components/card';
-@import 'components/certification-center-form';
 @import 'components/certification-center-invitations';
-@import 'components/certification-centers/information';
-@import 'components/certification-centers/invitations-action';
-@import 'components/certification-centers/membership-item';
 @import 'components/certification-details-answer';
 @import 'components/certification-details-competence';
 @import 'components/certification-info-field';
@@ -65,7 +61,6 @@
 @import 'components/complementary-certifications/search-bar';
 @import 'components/complementary-certifications/selected-target-profile';
 @import 'components/confirm-popup';
-@import 'components/member-item';
 @import 'components/menu-bar';
 @import 'components/organization-information-section';
 @import 'components/organization-invitations';
@@ -104,9 +99,15 @@
 @import 'components/trainings/training-triggers-tab';
 @import 'components/ui';
 @import 'components/users/authentication-method';
-@import 'components/users/membership-item';
 @import 'components/users/organization-learners-table';
 @import 'components/users/user-overview';
 @import 'components/users/user-profile';
 @import 'display/footer-modal';
 @import 'flatpickr';
+
+/* App/Components */
+@import 'certification-centers/certification-center-form';
+@import 'certification-centers/information';
+@import 'certification-centers/member-item';
+@import 'certification-centers/membership-item';
+@import 'certification-centers/invitations-action';

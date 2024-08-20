@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import ArrayProxy from '@ember/array/proxy';
-import { hbs } from 'ember-cli-htmlbars';
+import InformationView from 'pix-admin/components/certification-centers/information-view';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -21,7 +21,6 @@ module('Integration | Component | certification-centers/information-view', funct
     // given
     const store = this.owner.lookup('service:store');
     const availableHabilitations = _createEmberDataHabilitations(store);
-    this.availableHabilitations = availableHabilitations;
 
     const certificationCenter = store.createRecord('certification-center', {
       name: 'Centre SCO',
@@ -32,14 +31,15 @@ module('Integration | Component | certification-centers/information-view', funct
       dataProtectionOfficerEmail: 'lucky@example.net',
       habilitations: [availableHabilitations.firstObject],
     });
-    this.certificationCenter = certificationCenter;
 
     // when
     const screen = await render(
-      hbs`<CertificationCenters::InformationView
-  @availableHabilitations={{this.availableHabilitations}}
-  @certificationCenter={{this.certificationCenter}}
-/>`,
+      <template>
+        <InformationView
+          @availableHabilitations={{availableHabilitations}}
+          @certificationCenter={{certificationCenter}}
+        />
+      </template>,
     );
 
     // then
@@ -57,16 +57,14 @@ module('Integration | Component | certification-centers/information-view', funct
   test('it should show button to direct user to metabase dashboard', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    this.certificationCenter = store.createRecord('certification-center', {
+    const certificationCenter = store.createRecord('certification-center', {
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
     });
 
     // when
-    const screen = await render(
-      hbs`<CertificationCenters::InformationView @certificationCenter={{this.certificationCenter}} />`,
-    );
+    const screen = await render(<template><InformationView @certificationCenter={{certificationCenter}} /></template>);
 
     // then
     assert.dom(screen.getByText('Tableau de bord')).exists();
@@ -81,11 +79,10 @@ module('Integration | Component | certification-centers/information-view', funct
         type: 'SCO',
         isV3Pilot: true,
       });
-      this.certificationCenter = certificationCenter;
 
       // when
       const screen = await render(
-        hbs`<CertificationCenters::InformationView @certificationCenter={{this.certificationCenter}} />`,
+        <template><InformationView @certificationCenter={{certificationCenter}} /></template>,
       );
 
       // then
@@ -108,11 +105,10 @@ module('Integration | Component | certification-centers/information-view', funct
         type: 'SCO',
         isV3Pilot: false,
       });
-      this.certificationCenter = certificationCenter;
 
       // when
       const screen = await render(
-        hbs`<CertificationCenters::InformationView @certificationCenter={{this.certificationCenter}} />`,
+        <template><InformationView @certificationCenter={{certificationCenter}} /></template>,
       );
 
       // then
@@ -135,11 +131,10 @@ module('Integration | Component | certification-centers/information-view', funct
         type: 'SCO',
         isComplementaryAlonePilot: true,
       });
-      this.certificationCenter = certificationCenter;
 
       // when
       const screen = await render(
-        hbs`<CertificationCenters::InformationView @certificationCenter={{this.certificationCenter}} />`,
+        <template><InformationView @certificationCenter={{certificationCenter}} /></template>,
       );
 
       // then
@@ -164,11 +159,10 @@ module('Integration | Component | certification-centers/information-view', funct
         type: 'SCO',
         isComplementaryAlonePilot: false,
       });
-      this.certificationCenter = certificationCenter;
 
       // when
       const screen = await render(
-        hbs`<CertificationCenters::InformationView @certificationCenter={{this.certificationCenter}} />`,
+        <template><InformationView @certificationCenter={{certificationCenter}} /></template>,
       );
 
       // then
