@@ -9,7 +9,7 @@ dayjs.extend(timezone);
 
 describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCertificabilityJobController', function () {
   context('#handle', function () {
-    let pgBossRepository;
+    let computeCertificabilityJobRepository;
     let organizationLearnerRepository;
     let logger;
     let clock;
@@ -46,11 +46,11 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         .millisecond(0)
         .toDate();
 
-      pgBossRepository = {
-        insert: sinon.stub(),
+      computeCertificabilityJobRepository = {
+        performAsync: sinon.stub(),
       };
 
-      pgBossRepository.insert.resolves([]);
+      computeCertificabilityJobRepository.performAsync.resolves([]);
 
       organizationLearnerRepository = {
         findByOrganizationsWhichNeedToComputeCertificability: sinon.stub(),
@@ -106,36 +106,22 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
       await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle(null, {
         logger,
         organizationLearnerRepository,
-        pgBossRepository,
+        computeCertificabilityJobRepository,
         config,
       });
 
       // then
-      expect(pgBossRepository.insert.getCall(0).args[0]).to.be.deep.equal([
+      expect(computeCertificabilityJobRepository.performAsync.getCall(0).args[0]).to.be.deep.equal(
         {
-          name: 'ComputeCertificabilityJob',
-          data: { organizationLearnerId: 1 },
-          retrylimit: 0,
-          retrydelay: 30,
-          on_complete: true,
+          organizationLearnerId: 1,
         },
         {
-          name: 'ComputeCertificabilityJob',
-          data: { organizationLearnerId: 2 },
-          retrylimit: 0,
-          retrydelay: 30,
-          on_complete: true,
+          organizationLearnerId: 2,
         },
-      ]);
-      expect(pgBossRepository.insert.getCall(1).args[0]).to.be.deep.equal([
-        {
-          name: 'ComputeCertificabilityJob',
-          data: { organizationLearnerId: 3 },
-          retrylimit: 0,
-          retrydelay: 30,
-          on_complete: true,
-        },
-      ]);
+      );
+      expect(computeCertificabilityJobRepository.performAsync.getCall(1).args[0]).to.be.deep.equal({
+        organizationLearnerId: 3,
+      });
     });
 
     it('should take options from event', async function () {
@@ -183,37 +169,19 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         {
           logger,
           organizationLearnerRepository,
-          pgBossRepository,
+          computeCertificabilityJobRepository,
           config,
         },
       );
 
       // then
-      expect(pgBossRepository.insert.getCall(0).args[0]).to.be.deep.equal([
-        {
-          name: 'ComputeCertificabilityJob',
-          data: { organizationLearnerId: 1 },
-          retrylimit: 0,
-          retrydelay: 30,
-          on_complete: true,
-        },
-        {
-          name: 'ComputeCertificabilityJob',
-          data: { organizationLearnerId: 2 },
-          retrylimit: 0,
-          retrydelay: 30,
-          on_complete: true,
-        },
-      ]);
-      expect(pgBossRepository.insert.getCall(1).args[0]).to.be.deep.equal([
-        {
-          name: 'ComputeCertificabilityJob',
-          data: { organizationLearnerId: 3 },
-          retrylimit: 0,
-          retrydelay: 30,
-          on_complete: true,
-        },
-      ]);
+      expect(computeCertificabilityJobRepository.performAsync.getCall(0).args[0]).to.be.deep.equal(
+        { organizationLearnerId: 1 },
+        { organizationLearnerId: 2 },
+      );
+      expect(computeCertificabilityJobRepository.performAsync.getCall(1).args[0]).to.be.deep.equal({
+        organizationLearnerId: 3,
+      });
     });
 
     it('should test pagination with a lot of results', async function () {
@@ -255,35 +223,23 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
       await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle(null, {
         logger,
         organizationLearnerRepository,
-        pgBossRepository,
+        computeCertificabilityJobRepository,
         config,
       });
 
       // then
       for (let index = 0; index < chunkCount; index++) {
-        expect(pgBossRepository.insert.getCall(index).args[0]).to.be.deep.equal([
+        expect(computeCertificabilityJobRepository.performAsync.getCall(index).args[0]).to.be.deep.equal(
           {
-            name: 'ComputeCertificabilityJob',
-            data: { organizationLearnerId: index * limit + 1 },
-            retrylimit: 0,
-            retrydelay: 30,
-            on_complete: true,
+            organizationLearnerId: index * limit + 1,
           },
           {
-            name: 'ComputeCertificabilityJob',
-            data: { organizationLearnerId: index * limit + 2 },
-            retrylimit: 0,
-            retrydelay: 30,
-            on_complete: true,
+            organizationLearnerId: index * limit + 2,
           },
           {
-            name: 'ComputeCertificabilityJob',
-            data: { organizationLearnerId: index * limit + 3 },
-            retrylimit: 0,
-            retrydelay: 30,
-            on_complete: true,
+            organizationLearnerId: index * limit + 3,
           },
-        ]);
+        );
       }
     });
   });

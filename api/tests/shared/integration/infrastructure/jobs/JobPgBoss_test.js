@@ -4,7 +4,7 @@ import { JobPriority } from '../../../../../src/shared/infrastructure/jobs/JobPr
 import { catchErrSync, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
-  it('schedule a job and create in db with given config', async function () {
+  it('create one job db with given config', async function () {
     // given
     const name = 'JobTest';
     const expectedParams = { jobParam: 1 };
@@ -17,7 +17,7 @@ describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
     const job = new Job({ name, retryLimit, retryDelay, retryBackoff, expireIn, priority }, knex);
 
     // when
-    await job.schedule(expectedParams);
+    await job.performAsync(expectedParams);
 
     await expect(name).to.have.been.performed.withJob({
       name,
@@ -28,6 +28,44 @@ describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
       retrylimit: retryLimit,
       retrybackoff: retryBackoff,
     });
+  });
+
+  it('create jobs db with given config', async function () {
+    // given
+    const name = 'JobTest';
+    const expectedParams = [{ jobParam: 1 }, { jobParam: 2 }];
+    const retryLimit = 2;
+    const retryDelay = 10;
+    const retryBackoff = true;
+    const expireIn = '00:00:30';
+    const priority = JobPriority.HIGH;
+
+    const job = new Job({ name, retryLimit, retryDelay, retryBackoff, expireIn, priority }, knex);
+
+    // when
+    await job.performAsync(...expectedParams);
+
+    // then
+    await expect(name).to.have.been.performed.withJobPayloads(expectedParams);
+  });
+
+  it('return inserted count jobs', async function () {
+    // given
+    const name = 'JobTest';
+    const expectedParams = [{ jobParam: 1 }, { jobParam: 2 }];
+    const retryLimit = 2;
+    const retryDelay = 10;
+    const retryBackoff = true;
+    const expireIn = '00:00:30';
+    const priority = JobPriority.HIGH;
+
+    const job = new Job({ name, retryLimit, retryDelay, retryBackoff, expireIn, priority });
+
+    // when
+    const jobsInserted = await job.performAsync(...expectedParams);
+
+    // then
+    expect(jobsInserted.rowCount).to.equal(2);
   });
 
   it('reject unexpected priority value', async function () {
