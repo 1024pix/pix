@@ -1,7 +1,7 @@
 import { render } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import InfoPublished from 'pix-admin/components/certifications/info-published';
 
 module('Integration | Component | certifications/info-published', function (hooks) {
   setupRenderingTest(hooks);
@@ -11,7 +11,7 @@ module('Integration | Component | certifications/info-published', function (hook
     this.set('certification', { isPublished: true });
 
     // when
-    await render(hbs`<Certifications::InfoPublished @record={{this.certification}} />`);
+    await render(<template><InfoPublished @record={{this.certification}} /></template>);
 
     // then
     assert.dom('svg').exists();
