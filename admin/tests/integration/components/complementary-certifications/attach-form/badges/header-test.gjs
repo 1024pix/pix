@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import Header from 'pix-admin/components/complementary-certifications/attach-badges/badges/header';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
@@ -11,9 +11,13 @@ module('Integration | Component | ComplementaryCertifications::AttachBadges::Bad
 
   test('it should display the header label with no tooltip by default', async function (assert) {
     // given & when
-    const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::Header>
-  LABEL
-</ComplementaryCertifications::AttachBadges::Badges::Header>`);
+    const screen = await render(
+      <template>
+        <Header>
+          LABEL
+        </Header>
+      </template>,
+    );
 
     // then
     assert.dom(screen.getByText('LABEL')).exists();
@@ -23,10 +27,14 @@ module('Integration | Component | ComplementaryCertifications::AttachBadges::Bad
 
   test('it should display the tooltip if provided', async function (assert) {
     // given & when
-    const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::Header>
-  <:default>Label</:default>
-  <:tooltip>A compléter</:tooltip>
-</ComplementaryCertifications::AttachBadges::Badges::Header>`);
+    const screen = await render(
+      <template>
+        <Header>
+          <:default>Label</:default>
+          <:tooltip>A compléter</:tooltip>
+        </Header>
+      </template>,
+    );
 
     // then
     assert.dom(screen.getByRole('tooltip')).exists();
@@ -35,9 +43,13 @@ module('Integration | Component | ComplementaryCertifications::AttachBadges::Bad
   module('if header is required', function () {
     test('it should display the mandatory mark', async function (assert) {
       // given & when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::Header>
-  LABEL
-</ComplementaryCertifications::AttachBadges::Badges::Header>`);
+      const screen = await render(
+        <template>
+          <Header>
+            LABEL
+          </Header>
+        </template>,
+      );
 
       // then
       assert.dom(screen.getByText('LABEL')).exists();
