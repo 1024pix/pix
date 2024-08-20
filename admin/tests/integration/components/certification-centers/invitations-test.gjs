@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import Invitations from 'pix-admin/components/certification-centers/invitations';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -10,11 +10,11 @@ module('Integration | Component | Certification Centers | Invitations', function
   module('when there is no certification center invitations', function () {
     test('should show "Aucune invitation en attente"', async function (assert) {
       // given
-      this.certificationCenterInvitations = [];
+      const certificationCenterInvitations = [];
 
       // when
       const screen = await render(
-        hbs`<CertificationCenters::Invitations @certificationCenterInvitations={{this.certificationCenterInvitations}} />`,
+        <template><Invitations @certificationCenterInvitations={{certificationCenterInvitations}} /></template>,
       );
 
       // then
@@ -38,15 +38,17 @@ module('Integration | Component | Certification Centers | Invitations', function
         email: 'alain.finis@example.net',
         updatedAt: invitationUpdatedAt2,
       });
-      this.certificationCenterInvitations = [certificationCenterInvitation1, certificationCenterInvitation2];
-      this.cancelCertificationCenterInvitation = sinon.stub();
+      const certificationCenterInvitations = [certificationCenterInvitation1, certificationCenterInvitation2];
+      const cancelCertificationCenterInvitation = sinon.stub();
 
       // when
       const screen = await render(
-        hbs`<CertificationCenters::Invitations
-  @certificationCenterInvitations={{this.certificationCenterInvitations}}
-  @onCancelCertificationCenterInvitation={{this.cancelCertificationCenterInvitation}}
-/>`,
+        <template>
+          <Invitations
+            @certificationCenterInvitations={{certificationCenterInvitations}}
+            @onCancelCertificationCenterInvitation={{cancelCertificationCenterInvitation}}
+          />
+        </template>,
       );
 
       // then
