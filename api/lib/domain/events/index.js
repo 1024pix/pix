@@ -51,7 +51,6 @@ import { handleCertificationRescoring } from './handle-certification-rescoring.j
 import { handleCertificationScoring } from './handle-certification-scoring.js';
 import { handleComplementaryCertificationsScoring } from './handle-complementary-certifications-scoring.js';
 import { handlePoleEmploiParticipationFinished } from './handle-pole-emploi-participation-finished.js';
-import { handlePoleEmploiParticipationStarted } from './handle-pole-emploi-participation-started.js';
 import { handleSessionFinalized } from './handle-session-finalized.js';
 
 const { performance } = perf_hooks;
@@ -110,7 +109,6 @@ const handlersToBeInjected = {
   handleCertificationRescoring,
   handleComplementaryCertificationsScoring,
   handlePoleEmploiParticipationFinished,
-  handlePoleEmploiParticipationStarted,
   handleSessionFinalized,
 };
 

@@ -1,16 +1,15 @@
-import { CampaignParticipationStarted } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
-import { _forTestOnly } from '../../../../lib/domain/events/index.js';
-import { PoleEmploiPayload } from '../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
-import { PoleEmploiSending } from '../../../../src/shared/domain/models/PoleEmploiSending.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
-const { handlePoleEmploiParticipationStarted } = _forTestOnly.handlers;
-import * as httpErrorsHelper from '../../../../lib/infrastructure/http/errors-helper.js';
-import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
-import * as monitoringTools from '../../../../lib/infrastructure/monitoring-tools.js';
+import { PoleEmploiPayload } from '../../../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
+import { PoleEmploiParticipationStartedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/pole-emploi-participation-started-job-controller.js';
+import { PoleEmploiParticipationStartedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/PoleEmploiParticipationStartedJob.js';
+import { PoleEmploiSending } from '../../../../../../src/shared/domain/models/PoleEmploiSending.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | Events | handle-pole-emploi-participation-started', function () {
-  let event, dependencies, expectedResults;
-  let campaignRepository,
+describe('Unit | Application | Controller | Jobs | pole-emploi-participation-started-controller', function () {
+  let data, dependencies, expectedResults;
+  let httpAgent,
+    httpErrorsHelper,
+    monitoringTools,
+    campaignRepository,
     campaignParticipationRepository,
     organizationRepository,
     targetProfileRepository,
@@ -32,6 +31,10 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
     poleEmploiNotifier = { notify: sinon.stub() };
     poleEmploiSendingRepository = { create: sinon.stub() };
 
+    httpAgent = Symbol('httpAgent');
+    monitoringTools = Symbol('monitoringTools');
+    httpErrorsHelper = Symbol('httpErrorsHelper');
+
     dependencies = {
       authenticationMethodRepository,
       campaignRepository,
@@ -41,6 +44,9 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
       targetProfileRepository,
       userRepository,
       poleEmploiNotifier,
+      httpAgent,
+      monitoringTools,
+      httpErrorsHelper,
     };
 
     expectedResults = new PoleEmploiPayload({
@@ -73,17 +79,19 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
     });
   });
 
-  it('fails when event is not of correct type', async function () {
+  it('fails when data is not of correct type', async function () {
     // given
-    const event = 'not an event of the correct type';
+    const data = 'not an data of the correct type';
     // when / then
-    const error = await catchErr(handlePoleEmploiParticipationStarted)({ event, ...dependencies });
+    const handler = new PoleEmploiParticipationStartedJobController();
+
+    const error = await catchErr(handler.handle)(data, { ...dependencies });
 
     // then
     expect(error).not.to.be.null;
   });
 
-  context('#handlePoleEmploiParticipationStarted', function () {
+  context('#PoleEmploiParticipationStarted', function () {
     let campaignParticipationId, campaignId, userId, organizationId;
 
     beforeEach(function () {
@@ -120,7 +128,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
           .resolves(domainBuilder.buildUser({ id: userId, firstName: 'Jean', lastName: 'Bonneau' }));
         targetProfileRepository.get.withArgs('targetProfileId1').resolves({ name: 'Diagnostic initial' });
 
-        event = new CampaignParticipationStarted({ campaignParticipationId });
+        data = new PoleEmploiParticipationStartedJob({ campaignParticipationId });
       });
 
       it('should notify pole emploi and create pole emploi sending accordingly', async function () {
@@ -146,11 +154,11 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
           .returns(poleEmploiSending);
 
         // when
-        await handlePoleEmploiParticipationStarted({
-          event,
+        const handler = new PoleEmploiParticipationStartedJobController();
+
+        await handler.handle(data, {
           ...dependencies,
         });
-
         // then
         expect(poleEmploiSendingRepository.create).to.have.been.calledWithExactly({ poleEmploiSending });
       });
@@ -174,13 +182,14 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
         campaignRepository.get.withArgs(campaignId).resolves(campaign);
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: false });
 
-        event = new CampaignParticipationStarted({ campaignParticipationId });
+        data = new PoleEmploiParticipationStartedJob({ campaignParticipationId });
       });
 
       it('should not notify to Pole Emploi', async function () {
         // when
-        await handlePoleEmploiParticipationStarted({
-          event,
+        const handler = new PoleEmploiParticipationStartedJobController();
+
+        await handler.handle(data, {
           ...dependencies,
         });
 
@@ -207,13 +216,14 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
         campaignRepository.get.withArgs(campaignId).resolves(campaign);
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
 
-        event = new CampaignParticipationStarted({ campaignParticipationId });
+        data = new PoleEmploiParticipationStartedJob({ campaignParticipationId });
       });
 
       it('should not notify to Pole Emploi', async function () {
         // when
-        await handlePoleEmploiParticipationStarted({
-          event,
+        const handler = new PoleEmploiParticipationStartedJobController();
+
+        await handler.handle(data, {
           ...dependencies,
         });
 

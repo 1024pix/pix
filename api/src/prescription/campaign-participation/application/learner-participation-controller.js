@@ -1,4 +1,3 @@
-import * as events from '../../../../lib/domain/events/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { ApplicationTransaction } from '../../shared/infrastructure/ApplicationTransaction.js';
@@ -11,13 +10,9 @@ const save = async function (request, h, dependencies = { campaignParticipationS
   const userId = request.auth.credentials.userId;
   const campaignParticipation = await dependencies.campaignParticipationSerializer.deserialize(request.payload);
 
-  const { event, campaignParticipation: campaignParticipationCreated } = await DomainTransaction.execute(() => {
+  const { campaignParticipation: campaignParticipationCreated } = await DomainTransaction.execute(() => {
     return usecases.startCampaignParticipation({ campaignParticipation, userId });
   });
-
-  events.eventDispatcher
-    .dispatch(event)
-    .catch((error) => dependencies.monitoringTools.logErrorWithCorrelationIds({ message: error }));
 
   return h.response(dependencies.campaignParticipationSerializer.serialize(campaignParticipationCreated)).created();
 };
