@@ -687,7 +687,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', fu
       it('should throw MembershipUpdateError', async function () {
         // given
         const organizationRole = Membership.roles.ADMIN;
-        const messageNotRowUpdated = 'No Rows Updated';
+        const messageNotRowUpdated = 'Erreur lors de la mise à jour du membership à une organisation.';
         const notExistingMembershipId = 9898977;
         const membership = { organizationRole, updatedByUserId };
 
