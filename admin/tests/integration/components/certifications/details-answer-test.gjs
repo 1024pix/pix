@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
-import { module, test } from 'qunit';
 import DetailsAnswer from 'pix-admin/components/certifications/details-answer';
+import { module, test } from 'qunit';
 
 module('Integration | Component | certifications/details-answer', function (hooks) {
   setupRenderingTest(hooks);
@@ -17,7 +17,7 @@ module('Integration | Component | certifications/details-answer', function (hook
 
   test('init answer displayed status with its result when challenge is not neutralized', async function (assert) {
     // given
-    const answer = answerData
+    const answer = answerData;
 
     // when
     const screen = await render(<template><DetailsAnswer @answer={{answer}} /></template>);
@@ -28,7 +28,7 @@ module('Integration | Component | certifications/details-answer', function (hook
 
   test('init answer displayed status with neutralized label when challenge is neutralized', async function (assert) {
     // given
-    const answer = { ...answerData, isNeutralized: true }
+    const answer = { ...answerData, isNeutralized: true };
 
     // when
     const screen = await render(<template><DetailsAnswer @answer={{answer}} /></template>);
@@ -39,7 +39,7 @@ module('Integration | Component | certifications/details-answer', function (hook
 
   test('info are correctly displayed', async function (assert) {
     // given
-    const answer = answerData
+    const answer = answerData;
 
     // when
     const screen = await render(<template><DetailsAnswer @answer={{answer}} /></template>);
@@ -59,7 +59,7 @@ module('Integration | Component | certifications/details-answer', function (hook
         ...answerData,
         hasBeenSkippedAutomatically: true,
       };
-      const answer = skippedAnswerData
+      const answer = skippedAnswerData;
 
       // when
       const screen = await render(<template><DetailsAnswer @answer={{answer}} /></template>);
@@ -75,7 +75,7 @@ module('Integration | Component | certifications/details-answer', function (hook
 
   test('it should render links to challenge preview and info', async function (assert) {
     // given
-    const answer = answerData
+    const answer = answerData;
 
     // when
     const screen = await render(<template><DetailsAnswer @answer={{answer}} /></template>);
@@ -93,12 +93,12 @@ module('Integration | Component | certifications/details-answer', function (hook
     test('it should display "Non répondue" label', async function (assert) {
       // given
       const answer = {
-          skill: '@skill6',
-          challengeId: 'rec1234',
-          order: 5,
-          isNeutralized: false,
-          value: 'coucou',
-        }
+        skill: '@skill6',
+        challengeId: 'rec1234',
+        order: 5,
+        isNeutralized: false,
+        value: 'coucou',
+      };
 
       // when
       const screen = await render(<template><DetailsAnswer @answer={{answer}} /></template>);

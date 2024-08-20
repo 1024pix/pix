@@ -86,7 +86,7 @@ module('Integration | Component | certifications/competence-list', function (hoo
         { index: '1.1', score: '30', level: '3' },
         { index: '2.1', score: '16', level: '2' },
         { index: '2.2', score: '42', level: '5' },
-      ]);
+      ];
 
       // when
       const screen = await render(

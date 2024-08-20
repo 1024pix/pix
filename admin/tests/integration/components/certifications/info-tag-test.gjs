@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import InfoTag from 'pix-admin/components/certifications/info-tag';
 import { module, test } from 'qunit';
 
 module('Integration | Component | certifications/info-tag', function (hooks) {
@@ -12,7 +12,7 @@ module('Integration | Component | certifications/info-tag', function (hooks) {
       this.set('certification', { isPublished: true });
 
       // when
-      const screen = await render(hbs`<Certifications::InfoTag @record={{this.certification}} />`);
+      const screen = await render(<template><InfoTag @record={{this.certification}} /></template>);
 
       // then
       assert.dom(screen.getByText('Publiée')).exists();
@@ -25,7 +25,7 @@ module('Integration | Component | certifications/info-tag', function (hooks) {
       this.set('certification', { isPublished: false });
 
       // when
-      const screen = await render(hbs`<Certifications::InfoTag @record={{this.certification}} />`);
+      const screen = await render(<template><InfoTag @record={{this.certification}} /></template>);
 
       // then
       assert.dom(screen.queryByText('Publiée')).doesNotExist();
@@ -38,7 +38,7 @@ module('Integration | Component | certifications/info-tag', function (hooks) {
       this.set('certification', { isCancelled: true });
 
       // when
-      const screen = await render(hbs`<Certifications::InfoTag @record={{this.certification}} />`);
+      const screen = await render(<template><InfoTag @record={{this.certification}} /></template>);
 
       // then
       assert.dom(screen.getByText('Annulée')).exists();
@@ -51,7 +51,7 @@ module('Integration | Component | certifications/info-tag', function (hooks) {
       this.set('certification', { isCancelled: false });
 
       // when
-      const screen = await render(hbs`<Certifications::InfoTag @record={{this.certification}} />`);
+      const screen = await render(<template><InfoTag @record={{this.certification}} /></template>);
 
       // then
       assert.dom(screen.queryByText('Annulée')).doesNotExist();
