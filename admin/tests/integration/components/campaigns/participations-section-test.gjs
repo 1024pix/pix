@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import ParticipationsSection from 'pix-admin/components/campaigns/participations-section';
 import { module, test } from 'qunit';
 
 module('Integration | Component | Campaigns | participations-section', function (hooks) {
@@ -27,11 +27,10 @@ module('Integration | Component | Campaigns | participations-section', function 
       lastName: 'Pierre',
     });
     const participations = [participation1, participation2];
-    this.set('participations', participations);
     participations.meta = { rowCount: 2 };
 
     // when
-    const screen = await render(hbs`<Campaigns::ParticipationsSection @participations={{this.participations}} />`);
+    const screen = await render(<template><ParticipationsSection @participations={{participations}} /></template>);
 
     // then
     assert.strictEqual(screen.getAllByLabelText('participation').length, 2);
@@ -43,13 +42,12 @@ module('Integration | Component | Campaigns | participations-section', function 
       participantExternalId: '123',
     });
     const participations = [participation];
-    this.set('participations', participations);
-    this.set('idPixLabel', 'identifiant');
+    const idPixLabel = 'identifiant';
     participations.meta = { rowCount: 2 };
 
     // when
     const screen = await render(
-      hbs`<Campaigns::ParticipationsSection @participations={{this.participations}} @idPixLabel={{this.idPixLabel}} />`,
+      <template><ParticipationsSection @participations={{participations}} @idPixLabel={{idPixLabel}} /></template>,
     );
 
     // then
@@ -59,11 +57,10 @@ module('Integration | Component | Campaigns | participations-section', function 
   test('it should display an empty table when no participations', async function (assert) {
     // given
     const participations = [];
-    this.set('participations', participations);
     participations.meta = { rowCount: 2 };
 
     // when
-    const screen = await render(hbs`<Campaigns::ParticipationsSection @participations={{this.participations}} />`);
+    const screen = await render(<template><ParticipationsSection @participations={{participations}} /></template>);
 
     // then
     assert.dom(screen.getByText('Aucune participation')).exists();
