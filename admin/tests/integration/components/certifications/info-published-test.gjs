@@ -8,10 +8,10 @@ module('Integration | Component | certifications/info-published', function (hook
 
   test('it renders', async function (assert) {
     // given
-    this.set('certification', { isPublished: true });
+    const certification = { isPublished: true };
 
     // when
-    await render(<template><InfoPublished @record={{this.certification}} /></template>);
+    await render(<template><InfoPublished @record={{certification}} /></template>);
 
     // then
     assert.dom('svg').exists();

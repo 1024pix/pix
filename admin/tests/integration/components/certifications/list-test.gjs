@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import List from 'pix-admin/components/certifications/list';
 import { module, test } from 'qunit';
 
 module('Integration | Component | certifications/list', function (hooks) {
@@ -14,17 +14,17 @@ module('Integration | Component | certifications/list', function (hooks) {
 
   test('should display number of certification issue reports with required action', async function (assert) {
     // given
-    this.certifications = [
+    const certifications = [
       store.createRecord('jury-certification-summary', {
         id: 1,
         numberOfCertificationIssueReportsWithRequiredAction: 2,
       }),
     ];
 
-    this.pagination = {};
+    const pagination = {};
 
     // when
-    await render(hbs`<Certifications::List @certifications={{this.certifications}} @pagination={{this.pagination}} />`);
+    await render(<template><List @certifications={{certifications}} @pagination={{pagination}} /></template>);
 
     const numberOfCertificationIssueReportsWithRequiredAction =
       this.element.querySelector('tbody > tr td:nth-child(5)');
@@ -36,12 +36,12 @@ module('Integration | Component | certifications/list', function (hooks) {
     const juryCertificationSummaryProcessed = store.createRecord('jury-certification-summary', {
       complementaryCertificationTakenLabel: 'Pix+ Droit Maître',
     });
-    this.certifications = [juryCertificationSummaryProcessed];
-    this.pagination = {};
+    const certifications = [juryCertificationSummaryProcessed];
+    const pagination = {};
 
     // when
     const screen = await render(
-      hbs`<Certifications::List @certifications={{this.certifications}} @pagination={{this.pagination}} />`,
+      <template><List @certifications={{certifications}} @pagination={{pagination}} /></template>,
     );
 
     // then
@@ -54,16 +54,18 @@ module('Integration | Component | certifications/list', function (hooks) {
       const juryCertificationSummaryProcessed = store.createRecord('jury-certification-summary', {
         hasSeenEndTestScreen: true,
       });
-      this.certifications = [juryCertificationSummaryProcessed];
-      this.pagination = {};
+      const certifications = [juryCertificationSummaryProcessed];
+      const pagination = {};
 
       // when
       const screen = await render(
-        hbs`<Certifications::List
-  @certifications={{this.certifications}}
-  @displayHasSeenEndTestScreenColumn={{true}}
-  @pagination={{this.pagination}}
-/>`,
+        <template>
+          <List
+            @certifications={{certifications}}
+            @displayHasSeenEndTestScreenColumn={{true}}
+            @pagination={{pagination}}
+          />
+        </template>,
       );
 
       // then
@@ -77,16 +79,18 @@ module('Integration | Component | certifications/list', function (hooks) {
       const juryCertificationSummaryProcessed = store.createRecord('jury-certification-summary', {
         hasSeenEndTestScreen: true,
       });
-      this.certifications = [juryCertificationSummaryProcessed];
-      this.pagination = {};
+      const certifications = [juryCertificationSummaryProcessed];
+      const pagination = {};
 
       // when
       const screen = await render(
-        hbs`<Certifications::List
-  @certifications={{this.certifications}}
-  @displayHasSeenEndTestScreenColumn={{false}}
-  @pagination={{this.pagination}}
-/>`,
+        <template>
+          <List
+            @certifications={{certifications}}
+            @displayHasSeenEndTestScreenColumn={{false}}
+            @pagination={{pagination}}
+          />
+        </template>,
       );
 
       // then

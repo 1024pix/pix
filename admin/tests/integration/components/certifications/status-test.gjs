@@ -1,6 +1,6 @@
 import { render } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import Status from 'pix-admin/components/certifications/status';
 import { ERROR, STARTED } from 'pix-admin/models/certification';
 import { module, test } from 'qunit';
 
@@ -21,10 +21,9 @@ module('Integration | Component | certifications/status', function (hooks) {
           ...juryCertificationSummary,
           isFlaggedAborted: false,
         });
-        this.set('record', record);
 
         // when
-        await render(hbs`<Certifications::Status @record={{this.record}} />`);
+        await render(<template><Status @record={{record}} /></template>);
 
         // then
         assert.dom('span.certification-list-page__cell--important').exists();
@@ -35,10 +34,8 @@ module('Integration | Component | certifications/status', function (hooks) {
       // given
       const record = store.createRecord('jury-certification-summary', { isFlaggedAborted: true });
 
-      this.set('record', record);
-
       // when
-      await render(hbs`<Certifications::Status @record={{this.record}} />`);
+      await render(<template><Status @record={{record}} /></template>);
 
       // then
       assert.dom('span.certification-list-page__cell--important').exists();
@@ -55,10 +52,8 @@ module('Integration | Component | certifications/status', function (hooks) {
           isFlaggedAborted: false,
         });
 
-        this.set('record', record);
-
         // when
-        await render(hbs`<Certifications::Status @record={{this.record}} />`);
+        await render(<template><Status @record={{record}} /></template>);
 
         // then
         assert.dom('span.certification-list-page__cell--important').doesNotExist();

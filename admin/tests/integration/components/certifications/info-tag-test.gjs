@@ -9,10 +9,10 @@ module('Integration | Component | certifications/info-tag', function (hooks) {
   module('when certification is published', function () {
     test('it renders published tag', async function (assert) {
       // given
-      this.set('certification', { isPublished: true });
+      const certification = { isPublished: true };
 
       // when
-      const screen = await render(<template><InfoTag @record={{this.certification}} /></template>);
+      const screen = await render(<template><InfoTag @record={{certification}} /></template>);
 
       // then
       assert.dom(screen.getByText('Publiée')).exists();
@@ -22,10 +22,10 @@ module('Integration | Component | certifications/info-tag', function (hooks) {
   module('when certification is not published', function () {
     test('it does not render published tag', async function (assert) {
       // given
-      this.set('certification', { isPublished: false });
+      const certification = { isPublished: false };
 
       // when
-      const screen = await render(<template><InfoTag @record={{this.certification}} /></template>);
+      const screen = await render(<template><InfoTag @record={{certification}} /></template>);
 
       // then
       assert.dom(screen.queryByText('Publiée')).doesNotExist();
@@ -35,10 +35,10 @@ module('Integration | Component | certifications/info-tag', function (hooks) {
   module('when certification is cancelled', function () {
     test('it renders cancelled tag', async function (assert) {
       // given
-      this.set('certification', { isCancelled: true });
+      const certification = { isCancelled: true };
 
       // when
-      const screen = await render(<template><InfoTag @record={{this.certification}} /></template>);
+      const screen = await render(<template><InfoTag @record={{certification}} /></template>);
 
       // then
       assert.dom(screen.getByText('Annulée')).exists();
@@ -48,10 +48,10 @@ module('Integration | Component | certifications/info-tag', function (hooks) {
   module('when certification is not cancelled', function () {
     test('it does not render cancelled tag', async function (assert) {
       // given
-      this.set('certification', { isCancelled: false });
+      const certification = { isCancelled: false };
 
       // when
-      const screen = await render(<template><InfoTag @record={{this.certification}} /></template>);
+      const screen = await render(<template><InfoTag @record={{certification}} /></template>);
 
       // then
       assert.dom(screen.queryByText('Annulée')).doesNotExist();

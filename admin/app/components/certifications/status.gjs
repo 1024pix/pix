@@ -8,4 +8,10 @@ export default class CertificationStatusComponent extends Component {
     const blokingStatuses = [STARTED, ERROR, ENDED_BY_SUPERVISOR];
     return includes(blokingStatuses, this.args.record.status) || this.args.record.isFlaggedAborted;
   }
+
+  <template>
+    <span class="{{if this.isStatusBlocking 'certification-list-page__cell--important'}}">
+      {{@record.statusLabel}}
+    </span>
+  </template>
 }
