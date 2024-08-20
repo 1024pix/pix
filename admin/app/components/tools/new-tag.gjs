@@ -1,3 +1,6 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixInput from '@1024pix/pix-ui/components/pix-input';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -33,4 +36,19 @@ export default class NewTag extends Component {
   onChangeTagName(event) {
     this.tagName = event.target.value;
   }
+
+  <template>
+    <section class="page-section">
+      <header class="page-section__header">
+        <h2 class="page-section__title">Créer un nouveau tag</h2>
+      </header>
+      <form {{on "submit" this.createNewTag}} class="tools__create-tag-form">
+        <PixInput @id="tagNameInput" {{on "change" this.onChangeTagName}}>
+          <:label>Nom du tag</:label>
+        </PixInput>
+
+        <PixButton @type="submit" @size="small">Créer le tag</PixButton>
+      </form>
+    </section>
+  </template>
 }
