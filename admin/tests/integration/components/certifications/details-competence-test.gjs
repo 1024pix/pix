@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import DetailsCompetence from 'pix-admin/components/certifications/details-competence';
 import { module, test } from 'qunit';
 
 module('Integration | Component | certifications/details-competence', function (hooks) {
@@ -29,12 +29,10 @@ module('Integration | Component | certifications/details-competence', function (
 
   test('it renders', async function (assert) {
     // given
-    this.set('competenceData', competence('ok', 'ko'));
+    const competenceData = competence('ok', 'ko');
 
     // when
-    const screen = await render(
-      hbs`<Certifications::DetailsCompetence @competence={{this.competenceData}} rate={{60}} />`,
-    );
+    const screen = await render(<template><DetailsCompetence @competence={{competenceData}} rate={{60}} /></template>);
 
     // then
     assert.dom(screen.getByText('1.1 Une compétence')).exists();
