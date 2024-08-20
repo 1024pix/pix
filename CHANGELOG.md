@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v4.200.0 (20/08/2024)
+
+
+### :rocket: Amélioration
+- [#9829](https://github.com/1024pix/pix/pull/9829) [FEATURE] Permettre l'inscription individuelle d'un candidat en respectant les nouvelles règles d'inscription en certification (compatibilité coeur/complémentaire) (PIX-11903).
+- [#9868](https://github.com/1024pix/pix/pull/9868) [FEATURE] Ajouter le champ `tabletSupport` dans les métadonnées d'un modue (PIX-13908).
+
+### :building_construction: Tech
+- [#9863](https://github.com/1024pix/pix/pull/9863) [TECH] Supprimer l'événement AssessmentCompleted (PIX-13926).
+- [#9875](https://github.com/1024pix/pix/pull/9875) [TECH] Migrer les composants du dossier admin/campaigns en gjs (PIX-13889).
+- [#9871](https://github.com/1024pix/pix/pull/9871) [TECH] Déplacer l'évènement démarrage d'une campagne Pole Emploi dans pgboss (PIX-13916).
+- [#9877](https://github.com/1024pix/pix/pull/9877) [TECH] migrate admin target profiles folder to gjs.
+- [#9858](https://github.com/1024pix/pix/pull/9858) [TECH] N'avoir qu'un seul repository pgboss (PIX-13881).
+- [#9843](https://github.com/1024pix/pix/pull/9843) [TECH] Migrer les jobs PgBoss vers la nouvelle nomenclature (PIX-13869).
+- [#9861](https://github.com/1024pix/pix/pull/9861) [TECH] PixAdmin - Composant Admin sous gjs (PIX-13882).
+- [#9873](https://github.com/1024pix/pix/pull/9873) [TECH] Passer des components admin en GJS.
+- [#9857](https://github.com/1024pix/pix/pull/9857) [TECH]  Ajout du tooling pour les tests des Jobs (PIX-13879).
+- [#9840](https://github.com/1024pix/pix/pull/9840) [TECH] Utiliser directement les Jobs lors du partage des résultats de participation (PIX-13866).
+- [#9855](https://github.com/1024pix/pix/pull/9855) [TECH] Mettre les fichiers css au même endroit que les fichiers de composants (PIX-13307).
+- [#9848](https://github.com/1024pix/pix/pull/9848) [TECH] Pouvoir définir la priorité dans les jobs PgBoss .
+
 ## v4.199.0 (19/08/2024)
 
 
