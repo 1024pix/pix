@@ -1,14 +1,13 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixInput from '@1024pix/pix-ui/components/pix-input';
+import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 import isEmailValid from '../../utils/email-validator';
-import { on } from '@ember/modifier';
-
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
 
 export default class AddMember extends Component {
   @service notifications;
