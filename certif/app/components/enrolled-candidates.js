@@ -4,13 +4,14 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 import toNumber from 'lodash/toNumber';
+import { SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 
 const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
 
 export default class EnrolledCandidates extends Component {
   @service store;
-  @service featureToggles;
   @service intl;
+  @service currentUser;
   @service notifications;
   @tracked candidatesInStaging = [];
   @tracked newCandidate = {};
@@ -57,6 +58,7 @@ export default class EnrolledCandidates extends Component {
       birthInseeCode: '',
       sex: '',
       extraTimePercentage: '',
+      subscriptions: [],
       ...addedAttributes,
     });
   }
@@ -98,7 +100,8 @@ export default class EnrolledCandidates extends Component {
   @action
   async saveCertificationCandidate(certificationCandidateData) {
     this.notifications.clearAll();
-    const certificationCandidate = this._createCertificationCandidateRecord(certificationCandidateData);
+    const { certificationCandidate, subscriptions } =
+      this._createCertificationCandidateRecord(certificationCandidateData);
 
     if (this._hasDuplicate(certificationCandidate)) {
       this._handleDuplicateError(certificationCandidate);
@@ -107,7 +110,7 @@ export default class EnrolledCandidates extends Component {
 
     try {
       await certificationCandidate.save({
-        adapterOptions: { registerToSession: true, sessionId: this.args.sessionId },
+        adapterOptions: { registerToSession: true, sessionId: this.args.sessionId, subscriptions },
       });
       this.args.reloadCertificationCandidate();
       this.notifications.success(this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-add`));
@@ -145,7 +148,18 @@ export default class EnrolledCandidates extends Component {
   }
 
   _createCertificationCandidateRecord(certificationCandidateData) {
-    return this.store.createRecord('certification-candidate', certificationCandidateData);
+    const subscriptions = certificationCandidateData.subscriptions;
+    delete certificationCandidateData.subscriptions;
+    if (!this.currentUser.currentAllowedCertificationCenterAccess.isCoreComplementaryCompatibilityEnabled) {
+      subscriptions.push({
+        type: SUBSCRIPTION_TYPES.CORE,
+        complementaryCertificationId: null,
+      });
+    }
+    return {
+      subscriptions,
+      certificationCandidate: this.store.createRecord('certification-candidate', certificationCandidateData),
+    };
   }
 
   _getErrorText({ status, errorResponse }) {
@@ -208,7 +222,7 @@ export default class EnrolledCandidates extends Component {
   }
 
   get showCompatibilityTooltip() {
-    return this.featureToggles.featureToggles?.isCoreComplementaryCompatibilityEnabled;
+    return this.currentUser.currentAllowedCertificationCenterAccess.isCoreComplementaryCompatibilityEnabled;
   }
 
   computeSubscriptionsText = (candidate) => {

@@ -16,10 +16,11 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
     class CurrentUserStub extends Service {
       currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         habilitations: [
-          { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
-          { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
+          { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1' },
+          { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2' },
         ],
         isComplementaryAlonePilot: false,
+        isV3Pilot: false,
       });
     }
 
@@ -45,6 +46,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
       birthInseeCode: '',
       sex: '',
       extraTimePercentage: '',
+      subscriptions: [],
     };
 
     // when
@@ -143,6 +145,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
+        subscriptions: [],
       };
 
       // when
@@ -179,6 +182,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         'email.destinataire@example.net',
       );
       await fillIn(screen.getByLabelText('E-mail de convocation'), 'email.convocation@example.net');
+      await click(screen.getByRole('radio', { name: 'Aucune' }));
 
       await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
@@ -196,6 +200,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '75100',
         sex: 'M',
         extraTimePercentage: '20',
+        subscriptions: [],
       });
       assert.ok(true);
     });
@@ -223,6 +228,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
+        subscriptions: [],
       };
 
       // when
@@ -271,6 +277,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
       birthInseeCode: '',
       sex: '',
       extraTimePercentage: '',
+      subscriptions: [],
     };
 
     // when
@@ -311,6 +318,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
+        subscriptions: [],
       };
 
       // when
@@ -355,6 +363,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
+        subscriptions: [],
       };
 
       // when
@@ -399,6 +408,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
+        subscriptions: [],
       };
 
       // when
@@ -542,176 +552,39 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
       assert.dom(screen.getByRole('radio', { name: 'Certif complémentaire 2' })).exists();
     });
 
-    module('when certification center is a complementary alone pilot', function () {
-      module('when the selected complementary certification has a referential', function () {
-        test('it display complementary alone options', async function (assert) {
-          // given
-          const store = this.owner.lookup('service:store');
-          class CurrentUserStub extends Service {
-            currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-              habilitations: [
-                { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
-                { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
-              ],
-              isComplementaryAlonePilot: true,
-            });
-          }
-
-          this.owner.register('service:current-user', CurrentUserStub);
-
-          const updateCandidateFromEventStub = sinon.stub();
-          const countries = [{ code: '99123', name: 'Borduristan' }];
-          const candidateData = {
-            firstName: '',
-            lastName: '',
-            birthdate: '',
-            birthCity: '',
-            birthCountry: '',
-            email: '',
-            externalId: '',
-            resultRecipientEmail: '',
-            birthPostalCode: '',
-            birthInseeCode: '',
-            sex: '',
-            extraTimePercentage: '',
-          };
-
-          // when
-          const screen = await render(
-            <template>
-              <NewCandidateModal
-                @showModal={{true}}
-                @countries={{countries}}
-                @updateCandidateData={{updateCandidateFromEventStub}}
-                @candidateData={{candidateData}}
-              />
-            </template>,
-          );
-
-          const complementaryWithReferential = screen.getByRole('radio', { name: 'Certif complémentaire 2' });
-
-          await click(complementaryWithReferential);
-
-          // then
-          assert.dom(screen.getByRole('group', { name: 'Quelles épreuves le candidat passera-t-il ?' })).exists();
-          assert.dom(screen.getByRole('radio', { name: 'Seulement la certification Pix+' })).exists();
-          assert.dom(screen.getByRole('radio', { name: 'La certification Pix et Pix+' })).exists();
+    test('it display complementary certification options (compatibility core/complementary ON)', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+          habilitations: [
+            { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1' },
+            { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2' },
+          ],
+          isComplementaryAlonePilot: true,
+          isV3Pilot: true,
         });
-      });
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const updateCandidateFromEventStub = sinon.stub();
+      const countries = [{ code: '99123', name: 'Borduristan' }];
 
-      module('when the selected complementary certification has no complementary referential', function () {
-        test('it does not display complementary alone options', async function (assert) {
-          // given
-          const store = this.owner.lookup('service:store');
-          class CurrentUserStub extends Service {
-            currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-              habilitations: [
-                { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
-                { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
-              ],
-              isComplementaryAlonePilot: true,
-            });
-          }
+      // when
+      const screen = await render(
+        <template>
+          <NewCandidateModal
+            @showModal={{true}}
+            @countries={{countries}}
+            @updateCandidateData={{updateCandidateFromEventStub}}
+          />
+        </template>,
+      );
 
-          this.owner.register('service:current-user', CurrentUserStub);
-
-          const updateCandidateFromEventStub = sinon.stub();
-          const countries = [{ code: '99123', name: 'Borduristan' }];
-          const candidateData = {
-            firstName: '',
-            lastName: '',
-            birthdate: '',
-            birthCity: '',
-            birthCountry: '',
-            email: '',
-            externalId: '',
-            resultRecipientEmail: '',
-            birthPostalCode: '',
-            birthInseeCode: '',
-            sex: '',
-            extraTimePercentage: '',
-          };
-
-          // when
-          const screen = await render(
-            <template>
-              <NewCandidateModal
-                @showModal={{true}}
-                @countries={{countries}}
-                @updateCandidateData={{updateCandidateFromEventStub}}
-                @candidateData={{candidateData}}
-              />
-            </template>,
-          );
-
-          const complementaryWithoutReferential = screen.getByRole('radio', { name: 'Certif complémentaire 1' });
-          await click(complementaryWithoutReferential);
-
-          // then
-          assert
-            .dom(screen.queryByRole('group', { name: 'Quelles épreuves le candidat passera-t-il ?' }))
-            .doesNotExist();
-          assert.dom(screen.queryByRole('radio', { name: 'Seulement la certification Pix+' })).doesNotExist();
-          assert.dom(screen.queryByRole('radio', { name: 'La certification Pix et Pix+' })).doesNotExist();
-        });
-      });
-
-      module('when the selected option is not a certification (e.g. : "None")', function () {
-        test('it does not display complementary alone options', async function (assert) {
-          // given
-          const store = this.owner.lookup('service:store');
-          class CurrentUserStub extends Service {
-            currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-              habilitations: [
-                { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1', hasComplementaryReferential: false },
-                { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2', hasComplementaryReferential: true },
-              ],
-              isComplementaryAlonePilot: true,
-            });
-          }
-
-          this.owner.register('service:current-user', CurrentUserStub);
-
-          const updateCandidateFromEventStub = sinon.stub();
-          const countries = [{ code: '99123', name: 'Borduristan' }];
-          const candidateData = {
-            firstName: '',
-            lastName: '',
-            birthdate: '',
-            birthCity: '',
-            birthCountry: '',
-            email: '',
-            externalId: '',
-            resultRecipientEmail: '',
-            birthPostalCode: '',
-            birthInseeCode: '',
-            sex: '',
-            extraTimePercentage: '',
-          };
-
-          // when
-          const screen = await render(
-            <template>
-              <NewCandidateModal
-                @showModal={{true}}
-                @countries={{countries}}
-                @updateCandidateData={{updateCandidateFromEventStub}}
-                @candidateData={{candidateData}}
-              />
-            </template>,
-          );
-
-          const noComplementaryCertificationOption = screen.getByRole('radio', { name: 'Aucune' });
-          await click(noComplementaryCertificationOption);
-
-          // then
-          assert
-            .dom(screen.queryByRole('group', { name: 'Quelles épreuves le candidat passera-t-il ?' }))
-            .doesNotExist();
-          assert.dom(screen.queryByRole('radio', { name: 'Seulement la certification Pix+' })).doesNotExist();
-          assert.dom(screen.queryByRole('radio', { name: 'La certification Pix et Pix+' })).doesNotExist();
-        });
-      });
+      // then
+      assert.dom(screen.getByRole('group', { name: 'Choix de la certification' })).exists();
+      assert.dom(screen.getByRole('radio', { name: 'Certification Pix' })).exists();
+      assert.dom(screen.getByRole('radio', { name: 'Certif complémentaire 1' })).exists();
+      assert.dom(screen.getByRole('radio', { name: 'Certif complémentaire 2' })).exists();
     });
 
     module('when certification center is not a complementary alone pilot', function () {

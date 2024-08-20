@@ -7,8 +7,8 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
   describe('#serialize()', function () {
     it('should convert a CertificationPointOfContact model into JSON API data', function () {
       // given
-      const habilitation1 = { id: 1, label: 'Certif comp 1', key: 'CERTIF_COMP_1', hasComplementaryReferential: true };
-      const habilitation2 = { id: 2, label: 'Certif comp 2', key: 'CERTIF_COMP_2', hasComplementaryReferential: true };
+      const habilitation1 = { id: 1, label: 'Certif comp 1', key: 'CERTIF_COMP_1' };
+      const habilitation2 = { id: 2, label: 'Certif comp 2', key: 'CERTIF_COMP_2' };
       sinon.stub(settings.features, 'pixCertifScoBlockedAccessDateCollege').value('2022-06-01');
       sinon.stub(settings.features, 'pixCertifScoBlockedAccessDateLycee').value('2022-08-01');
 

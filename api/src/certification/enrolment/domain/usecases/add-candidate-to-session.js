@@ -4,6 +4,7 @@
  * @typedef {import ('./index.js').CertificationCpfService} CertificationCpfService
  * @typedef {import ('./index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {import ('./index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
+ * @typedef {import ('./index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
  */
 
 import {
@@ -13,6 +14,7 @@ import {
 } from '../../../../shared/domain/errors.js';
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
+import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 
 /**
  * @param {Object} params
@@ -21,27 +23,40 @@ import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constant
  * @param {CertificationCpfService} params.certificationCpfService
  * @param {CertificationCpfCountryRepository} params.certificationCpfCountryRepository
  * @param {CertificationCpfCityRepository} params.certificationCpfCityRepository
+ * @param {ComplementaryCertificationRepository} params.complementaryCertificationRepository
  */
 export async function addCandidateToSession({
   sessionId,
   candidate,
   sessionRepository,
   candidateRepository,
+  centerRepository,
   certificationCpfService,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
+  complementaryCertificationRepository,
   mailCheck = mailCheckImplementation,
   normalizeStringFnc,
 }) {
   candidate.sessionId = sessionId;
-
   const session = await sessionRepository.get({ id: sessionId });
+  const center = await centerRepository.getById({ id: session.certificationCenterId });
+  const isCoreComplementaryCompatibilityEnabled = center.isCoreComplementaryCompatibilityEnabled;
+
   if (!session.canEnrolCandidate) {
     throw new CertificationCandidateOnFinalizedSessionError();
   }
 
+  const allComplementaryCertifications = await complementaryCertificationRepository.findAll();
+  const cleaCertification = allComplementaryCertifications.find(
+    (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.CLEA,
+  );
   try {
-    candidate.validate(session.isSco);
+    candidate.validate({
+      isSco: session.isSco,
+      isCoreComplementaryCompatibilityEnabled,
+      cleaCertificationId: cleaCertification.id,
+    });
   } catch (error) {
     throw new CertificationCandidatesError({
       code: error.code,

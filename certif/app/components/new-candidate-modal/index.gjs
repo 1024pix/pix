@@ -13,9 +13,9 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import inputmask from 'ember-inputmask5/modifiers/inputmask';
 import { t } from 'ember-intl';
+import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 
 import ComplementaryList from './complementary-list';
-import ComplementaryWithReferential from './complementary-with-referential';
 
 const FRANCE_INSEE_CODE = '99100';
 const INSEE_CODE_OPTION = 'insee';
@@ -27,12 +27,9 @@ export default class NewCandidateModal extends Component {
 
   @tracked selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
   @tracked selectedCountryInseeCode = FRANCE_INSEE_CODE;
-
   @tracked isLoading = false;
-  @tracked selectedComplementaryCertification;
   @tracked selectedBillingMode;
 
-  // GETTERS
   get complementaryCertificationsHabilitations() {
     return this.currentUser.currentAllowedCertificationCenterAccess?.habilitations;
   }
@@ -112,15 +109,9 @@ export default class NewCandidateModal extends Component {
     ];
   }
 
-  get couldHaveComplementaryCertificationOnly() {
-    return this._hasComplementaryReferential() && this.isComplementaryAlonePilot;
-  }
-
-  // ACTIONS
   closeModal = () => {
     this.args.closeModal();
     document.getElementById('new-candidate-form').reset();
-    this.selectedComplementaryCertification = undefined;
     this.selectedBillingMode = undefined;
   };
 
@@ -164,23 +155,49 @@ export default class NewCandidateModal extends Component {
   };
 
   updateComplementaryCertification = (complementaryCertification) => {
+    if (!this.currentUser.currentAllowedCertificationCenterAccess.isCoreComplementaryCompatibilityEnabled) {
+      return this._updateComplementaryCertification_old(complementaryCertification);
+    }
     if (complementaryCertification?.key) {
-      // The complementary certification parameter is passed by reference to the certification candidate
-      // Creating a copy of this complementary certification prevents the original object to be mutated in the CertificationCandidateSerializer file
-      // when the API call is being done and therefore prevents the hasComplementaryReferential property to be removed from the object
-      // TODO Send only the id of the complementary certification
-      const copiedComplementaryCertification = { ...complementaryCertification };
-      this.selectedComplementaryCertification = copiedComplementaryCertification;
-      this.args.candidateData.complementaryCertification = copiedComplementaryCertification;
+      this.args.candidateData.subscriptions = [
+        {
+          type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+          complementaryCertificationId: complementaryCertification.id,
+        },
+      ];
+      if (complementaryCertification?.key === COMPLEMENTARY_KEYS.CLEA) {
+        this.args.candidateData.subscriptions.push({
+          complementaryCertificationId: null,
+          type: SUBSCRIPTION_TYPES.CORE,
+        });
+      }
     } else {
-      this.selectedComplementaryCertification = undefined;
-      this.args.candidateData.complementaryCertification = undefined;
+      this.args.candidateData.subscriptions = [
+        {
+          type: SUBSCRIPTION_TYPES.CORE,
+          complementaryCertificationId: null,
+        },
+      ];
     }
   };
+
+  _updateComplementaryCertification_old(complementaryCertification) {
+    if (complementaryCertification?.key) {
+      this.args.candidateData.subscriptions = [
+        {
+          type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+          complementaryCertificationId: complementaryCertification.id,
+        },
+      ];
+    } else {
+      this.args.candidateData.subscriptions = [];
+    }
+  }
 
   onFormSubmit = async (event) => {
     event.preventDefault();
     this.isLoading = true;
+    const subscriptionsBeforeSaving = structuredClone(this.args.candidateData.subscriptions);
 
     try {
       const result = await this.args.saveCandidate(this.args.candidateData);
@@ -190,10 +207,10 @@ export default class NewCandidateModal extends Component {
       }
     } finally {
       this.isLoading = false;
+      this.args.candidateData.subscriptions = subscriptionsBeforeSaving;
     }
   };
 
-  // PRIVATE METHODS
   _isFranceSelected() {
     return this.selectedCountryInseeCode === FRANCE_INSEE_CODE;
   }
@@ -207,11 +224,6 @@ export default class NewCandidateModal extends Component {
     document.getElementById('new-candidate-form').reset();
     this.selectedCountryInseeCode = FRANCE_INSEE_CODE;
     this.selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
-    this.selectedComplementaryCertification = undefined;
-  }
-
-  _hasComplementaryReferential() {
-    return !!this.selectedComplementaryCertification?.hasComplementaryReferential;
   }
 
   <template>
@@ -485,9 +497,6 @@ export default class NewCandidateModal extends Component {
               @complementaryCertificationsHabilitations={{this.complementaryCertificationsHabilitations}}
               @updateComplementaryCertification={{this.updateComplementaryCertification}}
             />
-            {{#if this.couldHaveComplementaryCertificationOnly}}
-              <ComplementaryWithReferential />
-            {{/if}}
           {{/if}}
         </form>
       </:content>

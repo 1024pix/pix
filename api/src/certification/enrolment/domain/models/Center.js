@@ -41,6 +41,10 @@ export class Center {
     return this.features.includes(CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key);
   }
 
+  get isCoreComplementaryCompatibilityEnabled() {
+    return this.isV3Pilot && this.isComplementaryAlonePilot;
+  }
+
   isHabilitated(key) {
     return this.habilitations.some((habilitation) => habilitation.key === key);
   }

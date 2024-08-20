@@ -4,6 +4,7 @@ import BaseJoi from 'joi';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { authorization } from '../../shared/application/pre-handlers/authorization.js';
+import { SUBSCRIPTION_TYPES } from '../../shared/domain/constants.js';
 import { certificationCandidateController } from './certification-candidate-controller.js';
 
 const Joi = BaseJoi.extend(JoiDate);
@@ -22,13 +23,6 @@ const register = async function (server) {
             data: {
               type: Joi.string().valid('certification-candidates').required(),
               attributes: {
-                'complementary-certification': Joi.object()
-                  .keys({
-                    id: Joi.number().required(),
-                    key: Joi.string(),
-                    label: Joi.string(),
-                  })
-                  .optional(),
                 'first-name': Joi.string().empty(['', null]).required(),
                 'last-name': Joi.string().empty(['', null]).required(),
                 'birth-city': Joi.string().empty(['', null]),
@@ -48,7 +42,17 @@ const register = async function (server) {
                   'date.format': 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',
                 }),
                 'organization-learner-id': Joi.number().empty(null).forbidden(),
+                subscriptions: Joi.array()
+                  .items(
+                    Joi.object({
+                      type: Joi.string().valid(...Object.values(SUBSCRIPTION_TYPES)),
+                      complementaryCertificationId: Joi.number().allow(null),
+                    }),
+                  )
+                  .min(1)
+                  .max(2),
               },
+              relationships: Joi.any(),
             },
           }),
         },
@@ -63,7 +67,6 @@ const register = async function (server) {
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
           'Elle ajoute un candidat de certification à la session.',
-          'Cette route est dépréciée',
         ],
       },
     },

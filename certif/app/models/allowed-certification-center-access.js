@@ -47,4 +47,8 @@ export default class AllowedCertificationCenterAccess extends Model {
   get hasHabilitations() {
     return this.habilitations.length > 0;
   }
+
+  get isCoreComplementaryCompatibilityEnabled() {
+    return this.isV3Pilot && this.isComplementaryAlonePilot;
+  }
 }

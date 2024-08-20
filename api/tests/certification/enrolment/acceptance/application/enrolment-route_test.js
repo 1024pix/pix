@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import * as url from 'node:url';
 
+import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { clearResolveMx, setResolveMx } from '../../../../../src/shared/mail/infrastructure/services/mail-check.js';
 import {
   createServer,
@@ -219,6 +220,9 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
 
       // given
       user = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildComplementaryCertification({
+        key: ComplementaryCertificationKeys.CLEA,
+      });
       databaseBuilder.factory.buildCertificationCenter({ id: 22 });
       databaseBuilder.factory.buildCertificationCenterMembership({ userId: user.id, certificationCenterId: 22 });
 

@@ -18,6 +18,17 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
 
   hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
+    class CurrentUserStub extends Service {
+      currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+        habilitations: [
+          { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1' },
+          { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2' },
+        ],
+        isComplementaryAlonePilot: false,
+        isV3Pilot: false,
+      });
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
   });
 
   test('it should have an accessible table description', async function (assert) {
@@ -327,15 +338,8 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
   );
 
   module('Core complementary compatibility tooltip', function () {
-    test('it should not display tooltip in the header of selected certification column when FT is disabled', async function (assert) {
+    test('it should not display tooltip in the header of selected certification column when certif center has not compatibility enabled ', async function (assert) {
       //given
-      class FeatureTogglesStub extends Service {
-        featureToggles = store.createRecord('feature-toggle', {
-          isCoreComplementaryCompatibilityEnabled: false,
-        });
-      }
-
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
       const candidate = _buildCertificationCandidate({
         subscriptions: [],
       });
@@ -357,15 +361,20 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       assert.dom(screen.queryByLabelText("Informations concernant l'inscription en certification.")).doesNotExist();
     });
 
-    test('it should display tooltip in the header of selected certification column when FT is enabled', async function (assert) {
+    test('it should display tooltip in the header of selected certification column when certif center has compatibility enabled', async function (assert) {
       //given
-      class FeatureTogglesStub extends Service {
-        featureToggles = store.createRecord('feature-toggle', {
-          isCoreComplementaryCompatibilityEnabled: true,
+      const store = this.owner.lookup('service:store');
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+          habilitations: [
+            { id: '0', label: 'Certif complémentaire 1', key: 'COMP_1' },
+            { id: '1', label: 'Certif complémentaire 2', key: 'COMP_2' },
+          ],
+          isComplementaryAlonePilot: true,
+          isV3Pilot: true,
         });
       }
-
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+      this.owner.register('service:current-user', CurrentUserStub);
       const candidate = _buildCertificationCandidate({
         subscriptions: [],
       });
@@ -406,10 +415,6 @@ function _buildCertificationCandidate({
   externalId = 'an external id',
   extraTimePercentage = 0.3,
   isLinked = false,
-  complementaryCertification = {
-    id: '2',
-    label: 'Pix+Droit',
-  },
   billingMode = null,
   prepaymentCode = null,
   subscriptions,
@@ -427,7 +432,6 @@ function _buildCertificationCandidate({
     externalId,
     extraTimePercentage,
     isLinked,
-    complementaryCertification,
     billingMode,
     prepaymentCode,
     subscriptions,

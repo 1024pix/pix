@@ -1,5 +1,7 @@
 import { addCandidateToSession } from '../../../../../../src/certification/enrolment/domain/usecases/add-candidate-to-session.js';
+import { CERTIFICATION_FEATURES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
+import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import {
@@ -12,19 +14,25 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-help
 
 describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session', function () {
   let sessionRepository;
+  let centerRepository;
   let candidateRepository;
   let certificationCpfService;
   let certificationCpfCountryRepository;
   let certificationCpfCityRepository;
+  let complementaryCertificationRepository;
   let mailCheck;
   let normalizeStringFnc;
   let candidateToEnroll;
   let dependencies;
   const sessionId = 1;
+  const cleaCertificationId = 123;
 
   beforeEach(function () {
     sessionRepository = {
       get: sinon.stub(),
+    };
+    centerRepository = {
+      getById: sinon.stub(),
     };
     candidateRepository = {
       insert: sinon.stub(),
@@ -35,14 +43,34 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
     };
     certificationCpfCountryRepository = Symbol('certificationCpfCountryRepository');
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
+    complementaryCertificationRepository = {
+      findAll: sinon.stub().resolves([
+        domainBuilder.buildComplementaryCertification({
+          id: cleaCertificationId,
+          key: ComplementaryCertificationKeys.CLEA,
+        }),
+        domainBuilder.buildComplementaryCertification({
+          id: cleaCertificationId + 5000,
+          key: 'someOtherComplementaryCertification',
+        }),
+      ]),
+    };
     mailCheck = { checkDomainIsValid: sinon.stub() };
+    centerRepository.getById.resolves(
+      domainBuilder.certification.enrolment.buildCenter({
+        isV3Pilot: true,
+        features: [CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key],
+      }),
+    );
     normalizeStringFnc = (str) => str;
     dependencies = {
       sessionRepository,
+      centerRepository,
       candidateRepository,
       certificationCpfService,
       certificationCpfCountryRepository,
       certificationCpfCityRepository,
+      complementaryCertificationRepository,
       mailCheck,
       normalizeStringFnc,
     };
@@ -261,7 +289,7 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
               mailCheck.checkDomainIsValid.resolves();
             });
 
-            it('should insert the candidate and returns the ID', async function () {
+            it('should insert the candidate and return the ID', async function () {
               // given
               const correctedCandidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
                 ...candidateToEnroll,
@@ -283,6 +311,44 @@ describe('Certification | Enrolment | Unit | UseCase | add-candidate-to-session'
               // then
               expect(candidateRepository.insert).to.have.been.calledWithExactly(correctedCandidateToEnroll);
               expect(id).to.equal(159);
+            });
+
+            context('isCoreComplementaryCompatibilityEnabled is false for center', function () {
+              it('should insert the candidate and return the id', async function () {
+                // given
+                centerRepository.getById.resolves(
+                  domainBuilder.certification.enrolment.buildCenter({
+                    isV3Pilot: false,
+                  }),
+                );
+                candidateToEnroll.subscriptions = [
+                  domainBuilder.buildCoreSubscription({
+                    certificationCandidateId: null,
+                  }),
+                ];
+                const correctedCandidateToEnroll = domainBuilder.certification.enrolment.buildCandidate({
+                  ...candidateToEnroll,
+                  sessionId,
+                  birthCountry: 'COUNTRY',
+                  birthINSEECode: 'INSEE_CODE',
+                  birthPostalCode: null,
+                  birthCity: 'CITY',
+                  subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
+                });
+                candidateRepository.insert.resolves(159);
+
+                // when
+                const id = await addCandidateToSession({
+                  sessionId,
+                  candidate: candidateToEnroll,
+                  ...dependencies,
+                  isCompatibilityEnabled: false,
+                });
+
+                // then
+                expect(candidateRepository.insert).to.have.been.calledWithExactly(correctedCandidateToEnroll);
+                expect(id).to.equal(159);
+              });
             });
           });
         });

@@ -9,16 +9,15 @@ export async function deserialize(json) {
   const deserializedCandidate = await deserializer.deserialize(json);
   deserializedCandidate.birthINSEECode = deserializedCandidate.birthInseeCode;
   const { attributes } = json.data;
-  // TODO MVP - fixme when front will send exclusively subscriptions
-  const subscriptions = [Subscription.buildCore({ certificationCandidateId: null })];
-  if (attributes['complementary-certification'] && attributes['complementary-certification'].id) {
-    subscriptions.push(
-      Subscription.buildComplementary({
+
+  const subscriptions = attributes['subscriptions'].map(
+    ({ type, complementaryCertificationId }) =>
+      new Subscription({
         certificationCandidateId: null,
-        complementaryCertificationId: parseInt(attributes['complementary-certification'].id),
+        type,
+        complementaryCertificationId,
       }),
-    );
-  }
+  );
 
   return new Candidate({
     ...deserializedCandidate,

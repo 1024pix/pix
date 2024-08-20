@@ -46,8 +46,11 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function (r
   const sessionId = request.params.id;
   const odsBuffer = request.payload;
   const i18n = request.i18n;
-
-  await usecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer, i18n });
+  await usecases.importCertificationCandidatesFromCandidatesImportSheet({
+    sessionId,
+    odsBuffer,
+    i18n,
+  });
 
   return null;
 };

@@ -20,7 +20,6 @@ export default class CertificationCandidate extends Model {
   @attr('string') sex;
   @attr('string') billingMode;
   @attr('string') prepaymentCode;
-  @attr complementaryCertification;
 
   @hasMany('subscription', { async: false, inverse: null }) subscriptions;
 
