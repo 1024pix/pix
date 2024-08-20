@@ -1,7 +1,8 @@
+import NotificationContainer from '@1024pix/ember-cli-notifications/components/notification-container';
 import { render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import OrganizationTagsImport from 'pix-admin/components/administration/organization-tags-import';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -17,7 +18,7 @@ module('Integration | Component | administration/organization-tags-import', func
       const file = new Blob(['foo'], { type: `valid-file` });
 
       // when
-      const screen = await render(hbs`<Administration::OrganizationTagsImport /><NotificationContainer />`);
+      const screen = await render(<template><OrganizationTagsImport /><NotificationContainer /></template>);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.organization-tags-import.upload-button'),
       );
@@ -48,7 +49,7 @@ module('Integration | Component | administration/organization-tags-import', func
       const file = new Blob(['foo'], { type: `invalid-file` });
 
       // when
-      const screen = await render(hbs`<Administration::OrganizationTagsImport /><NotificationContainer />`);
+      const screen = await render(<template><OrganizationTagsImport /><NotificationContainer /></template>);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.organization-tags-import.upload-button'),
       );

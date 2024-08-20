@@ -1,7 +1,11 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixInput from '@1024pix/pix-ui/components/pix-input';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 
 export default class UpdateCampaignCode extends Component {
   @service intl;
@@ -57,4 +61,27 @@ export default class UpdateCampaignCode extends Component {
   onChangeCampaignCode(event) {
     this.campaignCode = event.target.value;
   }
+
+  <template>
+    <section class="page-section">
+      <header class="page-section__header">
+        <h2 class="page-section__title">{{t "components.administration.update-campaign-code.title"}}</h2>
+      </header>
+
+      <form {{on "submit" this.updateCode}}>
+        <fieldset class="campaign-update-code">
+          <legend>{{t "components.administration.update-campaign-code.description"}}</legend>
+          <PixInput @id="firstCampaignId" {{on "change" this.onChangeCampaignId}}>
+            <:label>{{t "components.administration.update-campaign-code.form.campaignId"}}</:label>
+          </PixInput>
+          <PixInput @id="secondCampaignId" {{on "change" this.onChangeCampaignCode}}>
+            <:label>{{t "components.administration.update-campaign-code.form.campaignCode"}}</:label>
+          </PixInput>
+        </fieldset>
+        <PixButton @type="submit" @size="small" @isLoading={{this.isLoading}}>
+          {{t "components.administration.update-campaign-code.form.button"}}
+        </PixButton>
+      </form>
+    </section>
+  </template>
 }

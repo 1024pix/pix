@@ -1,7 +1,8 @@
+import NotificationContainer from '@1024pix/ember-cli-notifications/components/notification-container';
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import AddOrganizationFeaturesInBatch from 'pix-admin/components/administration/add-organization-features-in-batch';
 import ENV from 'pix-admin/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -47,7 +48,7 @@ module('Integration | Component |  administration/add-organization-features-in-b
 
     test('it displays a success notification', async function (assert) {
       // when
-      const screen = await render(hbs`<Administration::AddOrganizationFeaturesInBatch /><NotificationContainer />`);
+      const screen = await render(<template><AddOrganizationFeaturesInBatch /><NotificationContainer /></template>);
       const input = await screen.getByLabelText(
         this.intl.t('components.administration.add-organization-features-in-batch.upload-button'),
       );
@@ -85,7 +86,7 @@ module('Integration | Component |  administration/add-organization-features-in-b
         );
 
       // when
-      const screen = await render(hbs`<Administration::AddOrganizationFeaturesInBatch /><NotificationContainer />`);
+      const screen = await render(<template><AddOrganizationFeaturesInBatch /><NotificationContainer /></template>);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.add-organization-features-in-batch.upload-button'),
       );
@@ -109,7 +110,7 @@ module('Integration | Component |  administration/add-organization-features-in-b
         })
         .rejects();
       // when
-      const screen = await render(hbs`<Administration::AddOrganizationFeaturesInBatch /><NotificationContainer />`);
+      const screen = await render(<template><AddOrganizationFeaturesInBatch /><NotificationContainer /></template>);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.add-organization-features-in-batch.upload-button'),
       );

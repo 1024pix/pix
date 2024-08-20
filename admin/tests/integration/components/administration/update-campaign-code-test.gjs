@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import UpdateCampaignCode from 'pix-admin/components/administration/update-campaign-code';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -31,7 +31,7 @@ module('Integration | Component | administration/update-campaign-code', function
     updateAdapterStub.withArgs({ campaignId, campaignCode }).resolves();
 
     //when
-    const screen = await render(hbs`<Administration::UpdateCampaignCode />`);
+    const screen = await render(<template><UpdateCampaignCode /></template>);
 
     await fillIn(
       screen.getByLabelText(this.intl.t('components.administration.update-campaign-code.form.campaignId')),

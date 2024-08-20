@@ -1,22 +1,22 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import CampaignsImport from 'pix-admin/components/administration/campaigns-import';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component |  administration/organizations-import', function (hooks) {
+module('Integration | Component |  administration/campaigns-import', function (hooks) {
   setupIntlRenderingTest(hooks);
   setupMirage(hooks);
 
   let store, adapter, notificationSuccessStub, clearAllStub, saveAdapterStub, notificationErrorStub;
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
-    adapter = store.adapterFor('organizations-import');
-    saveAdapterStub = sinon.stub(adapter, 'addOrganizationsCsv');
+    adapter = store.adapterFor('campaigns-import');
+    saveAdapterStub = sinon.stub(adapter, 'addCampaignsCsv');
     notificationSuccessStub = sinon.stub();
     notificationErrorStub = sinon.stub().returns();
 
@@ -24,7 +24,7 @@ module('Integration | Component |  administration/organizations-import', functio
   });
 
   module('when import succeeds', function () {
-    test.skip('it displays a success notification', async function (assert) {
+    test('it displays a success notification', async function (assert) {
       // given
       const file = new Blob(['foo'], { type: `valid-file` });
       class NotificationsStub extends Service {
@@ -35,9 +35,9 @@ module('Integration | Component |  administration/organizations-import', functio
       saveAdapterStub.withArgs(file).resolves();
 
       // when
-      const screen = await render(hbs`<Administration::OrganizationsImport />`);
+      const screen = await render(<template><CampaignsImport /></template>);
       const input = await screen.findByLabelText(
-        this.intl.t('components.administration.organizations-import.upload-button'),
+        this.intl.t('components.administration.campaigns-import.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
@@ -45,7 +45,7 @@ module('Integration | Component |  administration/organizations-import', functio
       assert.ok(true);
       sinon.assert.calledWith(
         notificationSuccessStub,
-        this.intl.t('components.administration.organizations-import.notifications.success'),
+        this.intl.t('components.administration.campaigns-import.notifications.success'),
       );
     });
   });
@@ -54,26 +54,26 @@ module('Integration | Component |  administration/organizations-import', functio
     test('it displays an error notification', async function (assert) {
       // given
       this.server.post(
-        '/admin/organizations/import-csv',
+        '/admin/campaigns/import-csv',
         () =>
           new Response(
-            412,
+            422,
             {},
-            { errors: [{ status: '412', title: "Un soucis avec l'import", code: '412', detail: 'Erreur d’import' }] },
+            { errors: [{ status: '422', title: "Un soucis avec l'import", code: '422', detail: 'Erreur d’import' }] },
           ),
-        412,
+        422,
       );
       const file = new Blob(['foo'], { type: `valid-file` });
       class NotificationsStub extends Service {
         error = notificationErrorStub;
-        clearAll = sinon.stub();
+        clearAll = clearAllStub;
       }
       this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      const screen = await render(hbs`<Administration::OrganizationsImport />`);
+      const screen = await render(<template><CampaignsImport /></template>);
       const input = await screen.findByLabelText(
-        this.intl.t('components.administration.organizations-import.upload-button'),
+        this.intl.t('components.administration.campaigns-import.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 

@@ -1,7 +1,8 @@
+import NotificationContainer from '@1024pix/ember-cli-notifications/components/notification-container';
 import { render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import OidcProvidersImport from 'pix-admin/components/administration/oidc-providers-import';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -17,7 +18,7 @@ module('Integration | Component | administration/oidc-providers-import', functio
       const file = new Blob(['foo'], { type: `valid-file` });
 
       // when
-      const screen = await render(hbs`<Administration::OidcProvidersImport /><NotificationContainer />`);
+      const screen = await render(<template><OidcProvidersImport /><NotificationContainer /></template>);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.oidc-providers-import.upload-button'),
       );
@@ -46,7 +47,7 @@ module('Integration | Component | administration/oidc-providers-import', functio
       const file = new Blob(['foo'], { type: `invalid-file` });
 
       // when
-      const screen = await render(hbs`<Administration::OidcProvidersImport /><NotificationContainer />`);
+      const screen = await render(<template><OidcProvidersImport /><NotificationContainer /></template>);
       const input = await screen.findByLabelText(
         this.intl.t('components.administration.oidc-providers-import.upload-button'),
       );
