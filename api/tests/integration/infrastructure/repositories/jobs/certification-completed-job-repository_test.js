@@ -3,7 +3,6 @@ import { certificationCompletedJobRepository } from '../../../../../lib/infrastr
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 import { JobPriority } from '../../../../../src/shared/infrastructure/jobs/JobPriority.js';
 import { expect } from '../../../../test-helper.js';
-import { jobs } from '../../../../tooling/jobs/expect-job.js';
 
 describe('Integration | Repository | Jobs | CertificationCompletedJobRepository', function () {
   describe('#performAsync', function () {
@@ -20,9 +19,7 @@ describe('Integration | Repository | Jobs | CertificationCompletedJobRepository'
       await certificationCompletedJobRepository.performAsync(data);
 
       // then
-      const results = await jobs(CertificationCompletedJob.name);
-      expect(results).to.have.lengthOf(1);
-      expect(results[0]).to.deep.contains({
+      await expect(CertificationCompletedJob.name).to.have.been.performed.withJobPayload({
         retrylimit: 10,
         retrydelay: 30,
         retrybackoff: true,

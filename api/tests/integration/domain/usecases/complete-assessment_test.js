@@ -9,7 +9,6 @@ import { CampaignParticipationStatuses } from '../../../../src/prescription/shar
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import { databaseBuilder, expect, knex } from '../../../test-helper.js';
-import { jobs } from '../../../tooling/jobs/expect-job.js';
 
 const { TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -64,8 +63,7 @@ describe('Integration | Usecase | Complete Assessment', function () {
           expect(realAssessment).to.deep.equal({ id: campaignParticipationId, status: STARTED });
         });
 
-        const results = await jobs(CampaignParticipationCompletedJob.name);
-        expect(results).to.have.lengthOf(1);
+        await expect(CampaignParticipationCompletedJob.name).to.have.been.performed.withJobsCount(1);
       });
     });
 
@@ -111,8 +109,7 @@ describe('Integration | Usecase | Complete Assessment', function () {
           .first('state', 'updatedAt', 'createdAt');
         expect(assessmentInDb.state).to.equal(Assessment.states.COMPLETED);
 
-        const results = await jobs(CertificationCompletedJob.name);
-        expect(results).to.have.lengthOf(1);
+        await expect(CertificationCompletedJob.name).to.have.been.performed.withJobsCount(1);
       });
     });
   });

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { CertificationCompletedJob } from '../../../../../lib/domain/events/CertificationCompleted.js';
 import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 import { Assessment, TrainingTrigger } from '../../../../../src/shared/domain/models/index.js';
@@ -12,7 +13,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
-import { jobs } from '../../../../tooling/jobs/expect-job.js';
 
 describe('Acceptance | Controller | assessment-controller-complete-assessment', function () {
   let options;
@@ -650,8 +650,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
             // then
             expect(response.statusCode).to.equal(204);
 
-            const job = await jobs('CertificationCompletedJob').first();
-            expect(job).to.deep.contains({
+            await expect(CertificationCompletedJob.name).to.have.been.performed.withJobPayload({
               data: {
                 assessmentId: certificationAssessment.id,
                 userId: certifiableUserId,
