@@ -32,7 +32,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleDetails', function (
 
       // then
       assert
-        .dom(screen.getByRole('link', { name: this.intl.t('pages.modulix.details.startModule') }))
+        .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }))
         .exists({ count: 1 });
     });
 
@@ -57,7 +57,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleDetails', function (
 
       // when
       const screen = await visit('/modules/bien-ecrire-son-adresse-mail/details');
-      await click(screen.getByRole('link', { name: this.intl.t('pages.modulix.details.startModule') }));
+      await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
 
       // then
       assert.strictEqual(currentURL(), '/modules/bien-ecrire-son-adresse-mail/passage');

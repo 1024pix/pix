@@ -113,3 +113,14 @@
     }
   }
 }
+
+.module-details-content-layout-small-screen-modal {
+  &__footer {
+    display: flex;
+    flex-direction: row;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+    justify-content: right;
+    margin-bottom: var(--pix-spacing-4x);
+  }
+}
