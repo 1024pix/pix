@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import Card from '../card';
 
 const options = [
   { value: 'ok', label: 'Succès' },
@@ -47,4 +48,36 @@ export default class CertificationDetailsAnswer extends Component {
     }
     return this.args.answer.result ?? 'noResponse';
   }
+
+  <template>
+    <Card class="certification-details-answer">
+      <div class="certification-details-card">
+        <div class="certification-details-answer-order">
+          {{@answer.order}}
+        </div>
+        <div class="certification-details-answer-skill">
+          {{@answer.skill}}
+        </div>
+        <div class="certification-details-answer-challenge">
+          <div>
+            {{@answer.challengeId}}
+          </div>
+          <div class="certification-details-answer-challenge-links">
+            <a href={{this.linkToChallengePreviewInPixApp}} target="_blank" rel="noreferrer noopener">
+              Preview
+            </a>|
+            <a href={{this.linkToChallengeInfoInPixEditor}} target="_blank" rel="noreferrer noopener">
+              Info
+            </a>
+          </div>
+        </div>
+        <div class="certification-details-answer-value">
+          {{@answer.value}}
+        </div>
+      </div>
+      <div class="card-footer">
+        <p>{{this.resultLabel}}</p>
+      </div>
+    </Card>
+  </template>
 }
