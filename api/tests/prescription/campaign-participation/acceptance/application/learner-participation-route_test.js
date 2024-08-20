@@ -13,7 +13,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
-import { jobs } from '../../../../tooling/jobs/expect-job.js';
 import { buildLearningContent } from '../../../../tooling/learning-content-builder/build-learning-content.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
@@ -91,13 +90,8 @@ describe('Acceptance | API | Campaign Participations', function () {
       expect(response.statusCode).to.equal(204);
       expect(result.status).to.equal(SHARED);
 
-      const participationResultCalculationJobs = await jobs(ParticipationResultCalculationJob.name);
-      expect(participationResultCalculationJobs).lengthOf(1);
-
-      const sendSharedParticipationResultsToPoleEmploiJobs = await jobs(
-        SendSharedParticipationResultsToPoleEmploiJob.name,
-      );
-      expect(sendSharedParticipationResultsToPoleEmploiJobs).lengthOf(1);
+      await expect(ParticipationResultCalculationJob.name).to.have.been.performed.withJobsCount(1);
+      await expect(SendSharedParticipationResultsToPoleEmploiJob.name).to.have.been.performed.withJobsCount(1);
     });
   });
 

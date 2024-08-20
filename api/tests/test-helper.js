@@ -25,6 +25,7 @@ import * as tokenService from '../src/shared/domain/services/token-service.js';
 import { LearningContentCache } from '../src/shared/infrastructure/caches/learning-content-cache.js';
 import * as customChaiHelpers from './tooling/chai-custom-helpers/index.js';
 import * as domainBuilder from './tooling/domain-builder/factory/index.js';
+import { jobChai } from './tooling/jobs/expect-job.js';
 import { buildLearningContent as learningContentBuilder } from './tooling/learning-content-builder/index.js';
 import { increaseCurrentTestTimeout } from './tooling/mocha-tools.js';
 import { createServerWithTestOidcProvider } from './tooling/server/hapi-server-with-test-oidc-provider.js';
@@ -41,6 +42,8 @@ chaiUse(chaiSorted);
 chaiUse(sinonChai);
 
 _.each(customChaiHelpers, chaiUse);
+
+chaiUse(jobChai(knex));
 
 const { apimRegisterApplicationsCredentials, jwtConfig } = config;
 
