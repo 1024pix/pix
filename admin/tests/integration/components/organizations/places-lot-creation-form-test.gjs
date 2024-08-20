@@ -1,7 +1,7 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import PlacesLotCreationForm from 'pix-admin/components/organizations/places-lot-creation-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -10,7 +10,7 @@ module('Integration | Component | organizations/places-lot-creation-form', funct
 
   test('Should send add organization places set request to API', async function (assert) {
     // given
-    this.create = sinon.stub();
+    const create = sinon.stub();
 
     const placesLot = {
       count: '10',
@@ -20,7 +20,7 @@ module('Integration | Component | organizations/places-lot-creation-form', funct
       reference: '123ABC',
     };
 
-    const screen = await render(hbs`<Organizations::PlacesLotCreationForm @create={{this.create}} />`);
+    const screen = await render(<template><PlacesLotCreationForm @create={{create}} /></template>);
 
     // when
     await fillByLabel('Nombre :', '10');

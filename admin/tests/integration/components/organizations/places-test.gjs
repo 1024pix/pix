@@ -1,18 +1,14 @@
 import { clickByText, render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import Places from 'pix-admin/components/organizations/places';
 import { module, test } from 'qunit';
 
 module('Integration | Component | Organizations | Places', function (hooks) {
   setupRenderingTest(hooks);
+  const places = [];
 
-  let store;
-  let currentUser;
-
-  hooks.beforeEach(async function () {
-    store = this.owner.lookup('service:store');
-    currentUser = this.owner.lookup('service:currentUser');
-  });
+  const store = this.owner.lookup('service:store');
+  const currentUser = this.owner.lookup('service:currentUser');
 
   module('When user is superAdmin', function (hooks) {
     hooks.beforeEach(async function () {
@@ -20,11 +16,8 @@ module('Integration | Component | Organizations | Places', function (hooks) {
     });
 
     test('it should display button to add places', async function (assert) {
-      //Given
-      this.set('places', []);
-
       // when
-      const screen = await render(hbs`<Organizations::Places @places={{this.places}} />`);
+      const screen = await render(<template><Places @places={{places}} /></template>);
 
       // then
       assert.dom(screen.getByText('Ajouter des places')).exists();
@@ -32,11 +25,8 @@ module('Integration | Component | Organizations | Places', function (hooks) {
 
     module('Display places', function () {
       test('it should display title and no results text', async function (assert) {
-        //Given
-        this.set('places', []);
-
         // when
-        const screen = await render(hbs`<Organizations::Places @places={{this.places}} />`);
+        const screen = await render(<template><Places @places={{places}} /></template>);
 
         // then
         assert.dom(screen.getByText('Historique des lots')).exists();
@@ -57,10 +47,8 @@ module('Integration | Component | Organizations | Places', function (hooks) {
           creatorFullName: 'Hironobu Sakaguchi',
         });
 
-        this.set('places', [places]);
-
         // when
-        const screen = await render(hbs`<Organizations::Places @places={{this.places}} />`);
+        const screen = await render(<template><Places @places={{places}} /></template>);
 
         // then
         assert.dom(screen.queryByText('Aucun résultat')).doesNotExist();
@@ -79,10 +67,9 @@ module('Integration | Component | Organizations | Places', function (hooks) {
           createdAt: '1996-01-12',
           creatorFullName: 'Hironobu Sakaguchi',
         });
-        this.set('places', [places]);
 
         // when
-        const screen = await render(hbs`<Organizations::Places @places={{this.places}} />`);
+        const screen = await render(<template><Places @places={{places}} /></template>);
         await clickByText('Supprimer');
 
         // then
@@ -98,10 +85,9 @@ module('Integration | Component | Organizations | Places', function (hooks) {
 
     test('it should not display button to add places', async function (assert) {
       // given
-      this.set('places', []);
 
       // when
-      const screen = await render(hbs`<Organizations::Places @places={{this.places}} />`);
+      const screen = await render(<template><Places @places={{places}} /></template>);
 
       // then
       assert.dom(screen.queryByText('Ajouter des places')).doesNotExist();
@@ -120,10 +106,8 @@ module('Integration | Component | Organizations | Places', function (hooks) {
         creatorFullName: 'Hironobu Sakaguchi',
       });
 
-      this.set('places', [places]);
-
       // when
-      const screen = await render(hbs`<Organizations::Places @places={{this.places}} />`);
+      const screen = await render(<template><Places @places={{places}} /></template>);
 
       // then
       assert.dom(screen.queryByText('Supprimer')).doesNotExist();

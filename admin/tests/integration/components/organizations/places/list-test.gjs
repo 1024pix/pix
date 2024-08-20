@@ -1,22 +1,16 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import List from 'pix-admin/components/organizations/places/list';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Integration | Component | Organizations | Places | List', function (hooks) {
   setupRenderingTest(hooks);
 
-  let store;
-  let currentUser;
-  let onDelete;
-
-  hooks.beforeEach(async function () {
-    store = this.owner.lookup('service:store');
-    currentUser = this.owner.lookup('service:currentUser');
-    onDelete = sinon.stub();
-  });
+  const store = this.owner.lookup('service:store');
+  const currentUser = this.owner.lookup('service:currentUser');
+  const onDelete = sinon.stub();
 
   module('When user is superAdmin', function (hooks) {
     hooks.beforeEach(async function () {
@@ -26,24 +20,21 @@ module('Integration | Component | Organizations | Places | List', function (hook
     module('Display places', function () {
       test('it should display places', async function (assert) {
         // given
-        const places = store.createRecord('organization-place', {
-          count: 7777,
-          reference: 'FFVII',
-          category: 'FULL_RATE',
-          status: 'ACTIVE',
-          activationDate: '1997-01-31',
-          expirationDate: '2100-12-31',
-          createdAt: '1996-01-12',
-          creatorFullName: 'Hironobu Sakaguchi',
-        });
-
-        this.set('places', [places]);
-        this.set('onDelete', onDelete);
+        const places = [
+          store.createRecord('organization-place', {
+            count: 7777,
+            reference: 'FFVII',
+            category: 'FULL_RATE',
+            status: 'ACTIVE',
+            activationDate: '1997-01-31',
+            expirationDate: '2100-12-31',
+            createdAt: '1996-01-12',
+            creatorFullName: 'Hironobu Sakaguchi',
+          }),
+        ];
 
         // when
-        const screen = await render(
-          hbs`<Organizations::Places::List @places={{this.places}} @onDelete={{this.onDelete}} />`,
-        );
+        const screen = await render(<template><List @places={{places}} @onDelete={{onDelete}} /></template>);
 
         // then
         assert.dom(screen.queryByText('Aucun résultat')).doesNotExist();
@@ -67,24 +58,21 @@ module('Integration | Component | Organizations | Places | List', function (hook
 
       test('it should call onDelete', async function (assert) {
         // given
-        const places = store.createRecord('organization-place', {
-          count: 7777,
-          reference: 'FFVII',
-          category: 'FULL_RATE',
-          status: 'ACTIVE',
-          activationDate: '1997-01-31',
-          expirationDate: '2100-12-31',
-          createdAt: '1996-01-12',
-          creatorFullName: 'Hironobu Sakaguchi',
-        });
-
-        this.set('places', [places]);
-        this.set('onDelete', onDelete);
+        const places = [
+          store.createRecord('organization-place', {
+            count: 7777,
+            reference: 'FFVII',
+            category: 'FULL_RATE',
+            status: 'ACTIVE',
+            activationDate: '1997-01-31',
+            expirationDate: '2100-12-31',
+            createdAt: '1996-01-12',
+            creatorFullName: 'Hironobu Sakaguchi',
+          }),
+        ];
 
         // when
-        const screen = await render(
-          hbs`<Organizations::Places::List @places={{this.places}} @onDelete={{this.onDelete}} />`,
-        );
+        const screen = await render(<template><List @places={{places}} @onDelete={{onDelete}} /></template>);
         await click(screen.getByText('Supprimer'));
 
         // then

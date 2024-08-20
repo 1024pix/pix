@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { hbs } from 'ember-cli-htmlbars';
+import InformationSectionView from 'pix-admin/components/organizations/information-section-view';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -24,7 +24,7 @@ module('Integration | Component | organizations/information-section-view', funct
       }
       this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
-      this.set('organization', {
+      const organization = {
         type: 'SUP',
         isManagingStudents: false,
         name: 'SUPer Orga',
@@ -37,10 +37,10 @@ module('Integration | Component | organizations/information-section-view', funct
         identityProviderForCampaigns: 'IDP',
         dataProtectionOfficerFullName: 'Justin Ptipeu',
         dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
-      });
+      };
 
       // when
-      const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+      const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'SUPer Orga' })).exists();
@@ -63,7 +63,7 @@ module('Integration | Component | organizations/information-section-view', funct
         }
         this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
-        this.set('organization', {
+        const organization = {
           type: 'SUP',
           isManagingStudents: false,
           name: 'SUPer Orga',
@@ -76,10 +76,10 @@ module('Integration | Component | organizations/information-section-view', funct
           identityProviderForCampaigns: 'IDP',
           dataProtectionOfficerFullName: 'Justin Ptipeu',
           dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
-        });
+        };
 
         // when
-        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+        const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
         // then
         assert.dom(screen.getByText('Nom du DPO : Justin Ptipeu')).exists();
@@ -93,7 +93,7 @@ module('Integration | Component | organizations/information-section-view', funct
         }
         this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
-        this.set('organization', {
+        const organization = {
           type: 'SUP',
           isManagingStudents: false,
           name: 'SUPer Orga',
@@ -106,10 +106,10 @@ module('Integration | Component | organizations/information-section-view', funct
           identityProviderForCampaigns: 'IDP',
           dataProtectionOfficerFullName: 'Ptipeu',
           dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
-        });
+        };
 
         // when
-        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+        const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
         // then
         assert.dom(screen.getByText('Nom du DPO : Ptipeu')).exists();
@@ -123,7 +123,7 @@ module('Integration | Component | organizations/information-section-view', funct
         }
         this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
-        this.set('organization', {
+        const organization = {
           type: 'SUP',
           isManagingStudents: false,
           name: 'SUPer Orga',
@@ -136,10 +136,10 @@ module('Integration | Component | organizations/information-section-view', funct
           identityProviderForCampaigns: 'IDP',
           dataProtectionOfficerFullName: '',
           dataProtectionOfficerEmail: '',
-        });
+        };
 
         // when
-        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+        const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
         // then
         assert.dom(screen.getByText('Nom du DPO :')).exists();
@@ -149,10 +149,10 @@ module('Integration | Component | organizations/information-section-view', funct
 
     test('it renders edit and archive button', async function (assert) {
       // given
-      this.organization = EmberObject.create({ type: 'SUP', isManagingStudents: false, name: 'SUPer Orga' });
+      const organization = EmberObject.create({ type: 'SUP', isManagingStudents: false, name: 'SUPer Orga' });
 
       // when
-      const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+      const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
@@ -162,10 +162,9 @@ module('Integration | Component | organizations/information-section-view', funct
     test('it should display empty documentation link message', async function (assert) {
       // given
       const organization = EmberObject.create({});
-      this.set('organization', organization);
 
       // when
-      const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+      const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
       // then
       assert.dom(screen.getByText('Lien vers la documentation : Non spécifié')).exists();
@@ -180,10 +179,9 @@ module('Integration | Component | organizations/information-section-view', funct
           { id: 3, name: 'AGRICULTURE' },
         ],
       });
-      this.set('organization', organization);
 
       // when
-      const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+      const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
       // then
       assert.dom(screen.getByText('CFA')).exists();
@@ -199,10 +197,9 @@ module('Integration | Component | organizations/information-section-view', funct
           archivedAt: null,
           tags: [],
         });
-        this.set('organization', organization);
 
         // when
-        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+        const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
         // then
         assert.dom(screen.getByText("Cette organisation n'a pas de tags.")).exists();
@@ -215,10 +212,9 @@ module('Integration | Component | organizations/information-section-view', funct
         const store = this.owner.lookup('service:store');
         const archivedAt = new Date('2022-02-22');
         const organization = store.createRecord('organization', { archivistFullName: 'Rob Lochon', archivedAt });
-        this.set('organization', organization);
 
         // when
-        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+        const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
         // then
         assert.dom(screen.getByText('Archivée le 22/02/2022 par Rob Lochon.')).exists();
@@ -235,10 +231,9 @@ module('Integration | Component | organizations/information-section-view', funct
           isManagingStudents: true,
           children: [child],
         });
-        this.set('organization', organization);
 
         // when
-        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+        const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
         // then
         assert.dom(screen.getByText('Organisation mère')).exists();
@@ -256,10 +251,9 @@ module('Integration | Component | organizations/information-section-view', funct
           parentOrganizationId: parentOrganization.id,
           parentOrganizationName: 'Shibusen',
         });
-        this.set('organization', organization);
 
         // when
-        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+        const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
         // then
         assert.dom(screen.getByText('Organisation fille')).exists();
@@ -276,27 +270,24 @@ module('Integration | Component | organizations/information-section-view', funct
           name: 'notParent',
           isManagingStudents: true,
         });
-        this.set('organization', organization);
 
         // when
-        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+        const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
         // then
         assert.dom(screen.queryByText('Organisation mère')).doesNotExist();
       });
     });
 
-    module('When organization is SCO or SUP', function (hooks) {
-      hooks.beforeEach(function () {
-        this.organization = EmberObject.create({ type: 'SCO', isOrganizationSCO: true, isManagingStudents: true });
-      });
+    module('When organization is SCO or SUP', function () {
+      const organization = EmberObject.create({ type: 'SCO', isOrganizationSCO: true, isManagingStudents: true });
 
       test('it should display "Oui" if it is managing students', async function (assert) {
         // given
         this.organization.isManagingStudents = true;
 
         // when
-        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+        const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
         assert.dom(screen.getByText(`Gestion d’élèves/étudiants : Oui`)).exists();
       });
@@ -306,24 +297,22 @@ module('Integration | Component | organizations/information-section-view', funct
         this.organization.isManagingStudents = false;
 
         // when
-        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+        const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
         // then
         assert.dom(screen.getByText(`Gestion d’élèves/étudiants : Non`)).exists();
       });
     });
 
-    module('When organization is not SCO', function (hooks) {
-      hooks.beforeEach(function () {
-        this.organization = EmberObject.create({ type: 'PRO', isOrganizationSCO: false, isOrganizationSUP: false });
-      });
+    module('When organization is not SCO', function () {
+      const organization = EmberObject.create({ type: 'PRO', isOrganizationSCO: false, isOrganizationSUP: false });
 
       test('it should not display if it is managing students', async function (assert) {
         // given
         this.organization.isManagingStudents = false;
 
         // when
-        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+        const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
         // then
         assert.dom(screen.queryByRole('checkbox', { name: 'Gestion d’élèves/étudiants' })).doesNotExist();
@@ -337,12 +326,9 @@ module('Integration | Component | organizations/information-section-view', funct
           const organization = EmberObject.create({
             isComputeCertificabilityEnabled: true,
           });
-          this.set('organization', organization);
 
           // when
-          const screen = await render(
-            hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`,
-          );
+          const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
           // then
           assert.ok(screen.getByText('Certificabilité automatique activée'));
         });
@@ -353,12 +339,9 @@ module('Integration | Component | organizations/information-section-view', funct
           const organization = EmberObject.create({
             isComputeCertificabilityEnabled: false,
           });
-          this.set('organization', organization);
 
           // when
-          const screen = await render(
-            hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`,
-          );
+          const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
           // then
           assert.notOk(screen.queryByText('Certificabilité automatique activée'));
         });
@@ -370,14 +353,14 @@ module('Integration | Component | organizations/information-section-view', funct
     test('it should not allow to edit or archive an organization', async function (assert) {
       // given
       const organization = EmberObject.create({ name: 'Boba Fett' });
-      this.set('organization', organization);
+
       class AccessControlStub extends Service {
         hasAccessToOrganizationActionsScope = false;
       }
       this.owner.register('service:access-control', AccessControlStub);
 
       // when
-      const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+      const screen = await render(<template><InformationSectionView @organization={{organization}} /></template>);
 
       // then
       assert.dom(screen.queryByRole('button', { name: 'Modifier' })).doesNotExist();

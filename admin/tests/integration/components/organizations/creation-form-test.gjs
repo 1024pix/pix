@@ -1,27 +1,23 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import CreationForm from 'pix-admin/components/organizations/creation-form';
 import { module, test } from 'qunit';
 
 module('Integration | Component | organizations/creation-form', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
-    this.onSubmit = () => {};
-    this.onCancel = () => {};
-    const store = this.owner.lookup('service:store');
-    this.organization = store.createRecord('organization', { type: '' });
-  });
+  const onSubmit = () => {};
+  const onCancel = () => {};
+  const store = this.owner.lookup('service:store');
+  const organization = store.createRecord('organization', { type: '' });
 
   test('it renders', async function (assert) {
     // when
     const screen = await render(
-      hbs`<Organizations::CreationForm
-  @organization={{this.organization}}
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`,
+      <template>
+        <CreationForm @organization={{organization}} @onSubmit={{onSubmit}} @onCancel={{onCancel}} />
+      </template>,
     );
 
     // then
@@ -36,11 +32,9 @@ module('Integration | Component | organizations/creation-form', function (hooks)
     test('should update attribute organization.type', async function (assert) {
       // given
       const screen = await render(
-        hbs`<Organizations::CreationForm
-  @organization={{this.organization}}
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`,
+        <template>
+          <CreationForm @organization={{organization}} @onSubmit={{onSubmit}} @onCancel={{onCancel}} />
+        </template>,
       );
 
       // when
@@ -56,11 +50,9 @@ module('Integration | Component | organizations/creation-form', function (hooks)
   test('Adds data protection officer information', async function (assert) {
     // given
     await render(
-      hbs`<Organizations::CreationForm
-  @organization={{this.organization}}
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`,
+      <template>
+        <CreationForm @organization={{organization}} @onSubmit={{onSubmit}} @onCancel={{onCancel}} />
+      </template>,
     );
 
     // when
@@ -77,11 +69,9 @@ module('Integration | Component | organizations/creation-form', function (hooks)
   test('Credits can be added', async function (assert) {
     // given
     await render(
-      hbs`<Organizations::CreationForm
-  @organization={{this.organization}}
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`,
+      <template>
+        <CreationForm @organization={{organization}} @onSubmit={{onSubmit}} @onCancel={{onCancel}} />
+      </template>,
     );
 
     // when

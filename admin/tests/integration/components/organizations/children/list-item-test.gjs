@@ -1,6 +1,6 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import ListItem from 'pix-admin/components/organizations/children/list-item';
 import { module, test } from 'qunit';
 
 module('Integration | Component | organizations/children/list-item', function (hooks) {
@@ -14,10 +14,9 @@ module('Integration | Component | organizations/children/list-item', function (h
       name: 'Collège The Night Watch',
       externalId: 'UA123456',
     });
-    this.set('organization', organization);
 
     // when
-    const screen = await renderScreen(hbs`<Organizations::Children::ListItem @organization={{this.organization}} />`);
+    const screen = await renderScreen(<template><ListItem @organization={{organization}} /></template>);
 
     // then
     assert.dom(screen.getByRole('row', { name: 'Collège The Night Watch' })).exists();

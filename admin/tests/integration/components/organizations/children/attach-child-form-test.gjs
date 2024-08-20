@@ -1,5 +1,5 @@
 import { clickByName, fillByLabel, render as renderScreen } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import AttachChildForm from 'pix-admin/components/organizations/children/attach-child-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -10,7 +10,7 @@ module('Integration | Component |  organizations/children/attach-child-form', fu
 
   test('display attach child form', async function (assert) {
     //  when
-    const screen = await renderScreen(hbs`<Organizations::Children::AttachChildForm />`);
+    const screen = await renderScreen(<template><AttachChildForm /></template>);
 
     // then
     assert.dom(screen.getByRole('form', { name: `Formulaire d'ajout d'une organisation fille` })).exists();
@@ -24,10 +24,8 @@ module('Integration | Component |  organizations/children/attach-child-form', fu
     test('emits an event with "childOrganization" component attribute value and clears the input', async function (assert) {
       // given
       const onFormSubmitted = sinon.stub();
-      this.set('onFormSubmitted', onFormSubmitted);
-      const screen = await renderScreen(
-        hbs`<Organizations::Children::AttachChildForm @onFormSubmitted={{this.onFormSubmitted}} />`,
-      );
+
+      const screen = await renderScreen(<template><AttachChildForm @onFormSubmitted={{onFormSubmitted}} /></template>);
       await fillByLabel(`Ajouter une organisation fille ID de l'organisation à ajouter`, '12345');
 
       // when

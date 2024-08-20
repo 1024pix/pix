@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import CampaignsSection from 'pix-admin/components/organizations/campaigns-section';
 import { module, test } from 'qunit';
 
 module('Integration | Component | organizations/campaigns-section', function (hooks) {
@@ -9,10 +9,10 @@ module('Integration | Component | organizations/campaigns-section', function (ho
   module('when there is no campaigns', function () {
     test('it should display aucune campagne', async function (assert) {
       // given
-      this.set('campaigns', []);
+      const campaigns = [];
 
       // when
-      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{this.campaigns}} />`);
+      const screen = await render(<template><CampaignsSection @campaigns={{campaigns}} /></template>);
 
       // then
       assert.dom(screen.getByText('Aucune campagne')).exists();
@@ -36,10 +36,9 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       };
       const campaigns = [campaign];
       campaigns.meta = { rowCount: 1 };
-      this.set('campaigns', campaigns);
 
       // when
-      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{this.campaigns}} />`);
+      const screen = await render(<template><CampaignsSection @campaigns={{campaigns}} /></template>);
 
       // then
       assert.dom(screen.getByText('Code')).exists();
@@ -80,10 +79,9 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       };
       const campaigns = [campaign1, campaign2];
       campaigns.meta = { rowCount: 2 };
-      this.set('campaigns', campaigns);
 
       // when
-      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{this.campaigns}} />`);
+      const screen = await render(<template><CampaignsSection @campaigns={{campaigns}} /></template>);
 
       // then
       assert.strictEqual(screen.getAllByLabelText('campagne').length, 2);
@@ -121,10 +119,9 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       };
       const campaigns = [campaign1, campaign2];
       campaigns.meta = { rowCount: 2 };
-      this.set('campaigns', campaigns);
 
       // when
-      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{this.campaigns}} />`);
+      const screen = await render(<template><CampaignsSection @campaigns={{campaigns}} /></template>);
 
       // then
       assert.dom(screen.getByRole('link', { name: '123' })).exists();
@@ -163,10 +160,9 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       };
       const campaigns = [campaign];
       campaigns.meta = { rowCount: 1 };
-      this.set('campaigns', campaigns);
 
       // when
-      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{this.campaigns}} />`);
+      const screen = await render(<template><CampaignsSection @campaigns={{campaigns}} /></template>);
 
       // then
       assert.dom(screen.getByText('-')).exists();
@@ -187,10 +183,9 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       };
       const campaigns = [campaign];
       campaigns.meta = { rowCount: 1 };
-      this.set('campaigns', campaigns);
 
       // when
-      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{this.campaigns}} />`);
+      const screen = await render(<template><CampaignsSection @campaigns={{campaigns}} /></template>);
 
       // then
       assert.dom(screen.getByText('-')).exists();
