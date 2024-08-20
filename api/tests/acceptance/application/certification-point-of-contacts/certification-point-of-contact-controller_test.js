@@ -22,9 +22,7 @@ describe('Acceptance | Route | CertificationPointOfContact', function () {
         userId,
         certificationCenterId,
       }).id;
-      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        hasComplementaryReferential: true,
-      });
+      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
         complementaryCertificationId: complementaryCertification.id,
@@ -86,7 +84,6 @@ describe('Acceptance | Route | CertificationPointOfContact', function () {
                 id: complementaryCertification.id,
                 label: complementaryCertification.label,
                 key: complementaryCertification.key,
-                hasComplementaryReferential: true,
               },
             ],
             'is-access-blocked-aefe': false,

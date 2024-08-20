@@ -197,6 +197,7 @@ export default class NewCandidateModal extends Component {
   onFormSubmit = async (event) => {
     event.preventDefault();
     this.isLoading = true;
+    const subscriptionsBeforeSaving = structuredClone(this.args.candidateData.subscriptions);
 
     try {
       const result = await this.args.saveCandidate(this.args.candidateData);
@@ -206,7 +207,7 @@ export default class NewCandidateModal extends Component {
       }
     } finally {
       this.isLoading = false;
-      this.args.candidateData.subscriptions = [];
+      this.args.candidateData.subscriptions = subscriptionsBeforeSaving;
     }
   };
 

@@ -46,6 +46,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
       birthInseeCode: '',
       sex: '',
       extraTimePercentage: '',
+      subscriptions: [],
     };
 
     // when
@@ -144,6 +145,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
+        subscriptions: [],
       };
 
       // when
@@ -180,6 +182,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         'email.destinataire@example.net',
       );
       await fillIn(screen.getByLabelText('E-mail de convocation'), 'email.convocation@example.net');
+      await click(screen.getByRole('radio', { name: 'Aucune' }));
 
       await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
@@ -197,6 +200,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '75100',
         sex: 'M',
         extraTimePercentage: '20',
+        subscriptions: [],
       });
       assert.ok(true);
     });
@@ -224,6 +228,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
+        subscriptions: [],
       };
 
       // when
@@ -272,6 +277,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
       birthInseeCode: '',
       sex: '',
       extraTimePercentage: '',
+      subscriptions: [],
     };
 
     // when
@@ -312,6 +318,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
+        subscriptions: [],
       };
 
       // when
@@ -356,6 +363,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
+        subscriptions: [],
       };
 
       // when
@@ -400,6 +408,7 @@ module('Integration | Component | new-candidate-modal', function (hooks) {
         birthInseeCode: '',
         sex: '',
         extraTimePercentage: '',
+        subscriptions: [],
       };
 
       // when
