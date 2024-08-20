@@ -11,7 +11,7 @@ import { resetPasswordDemandRepository } from '../../../../../src/identity-acces
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { config } from '../../../../../src/shared/config.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
-import { ObjectValidationError, UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { adminMemberRepository } from '../../../../../src/shared/infrastructure/repositories/admin-member.repository.js';
 import * as userLoginRepository from '../../../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
@@ -142,14 +142,50 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
     expect(anonymizedUser.lastDataProtectionPolicySeenAt).to.be.null;
   });
 
+  context('when preventAuditLogging is true', function () {
+    it('does not trigger audit log', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser({ firstName: 'Bob' });
+      const admin = databaseBuilder.factory.buildUser.withRole();
+      await databaseBuilder.commit();
+
+      // when
+      await DomainTransaction.execute(async (domainTransaction) =>
+        anonymizeUser({
+          userId: user.id,
+          updatedByUserId: admin.id,
+          preventAuditLogging: true,
+          userRepository,
+          userLoginRepository,
+          authenticationMethodRepository,
+          refreshTokenService,
+          membershipRepository,
+          certificationCenterMembershipRepository,
+          organizationLearnerRepository,
+          resetPasswordDemandRepository,
+          domainTransaction,
+          adminMemberRepository,
+          userAnonymizedEventLoggingJobRepository,
+        }),
+      );
+
+      // then
+      const anonymizedUser = await knex('users').where({ id: user.id }).first();
+      expect(anonymizedUser.hasBeenAnonymised).to.be.true;
+      expect(anonymizedUser.hasBeenAnonymisedBy).to.equal(admin.id);
+
+      await expect(UserAnonymizedEventLoggingJob.name).to.have.been.performed.withJobsCount(0);
+    });
+  });
+
   context('when no admin user is given', function () {
-    it('throws an error and does not anonymize the user', async function () {
+    it('anonymizes the user but does not log in audit logger', async function () {
       // given
       const user = databaseBuilder.factory.buildUser({ firstName: 'Bob' });
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(DomainTransaction.execute)(async (domainTransaction) =>
+      await DomainTransaction.execute(async (domainTransaction) =>
         anonymizeUser({
           userId: user.id,
           userRepository,
@@ -162,14 +198,15 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
           resetPasswordDemandRepository,
           domainTransaction,
           adminMemberRepository,
+          userAnonymizedEventLoggingJobRepository,
         }),
       );
 
       // then
-      expect(error).to.be.instanceOf(ObjectValidationError);
-
       const anonymizedUser = await knex('users').where({ id: user.id }).first();
-      expect(anonymizedUser.hasBeenAnonymised).to.be.false;
+      expect(anonymizedUser.hasBeenAnonymised).to.be.true;
+
+      await expect(UserAnonymizedEventLoggingJob.name).to.have.been.performed.withJobsCount(0);
     });
   });
 

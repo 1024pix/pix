@@ -29,4 +29,25 @@ describe('Acceptance | Identity Access Management | Scripts | backfill-anonymize
     expect(notAnonymizedUser.firstName).to.be.equal('Jack');
     expect(notAnonymizedUser.hasBeenAnonymised).to.be.false;
   });
+
+  context('when the anonymized user has been anonymized without hasBeenAnonymisedBy set', function () {
+    it('backfills the anonymized user', async function () {
+      // given
+      const legacyAnonymizedUser = databaseBuilder.factory.buildUser({
+        firstName: 'Jane',
+        hasBeenAnonymised: true,
+        hasBeenAnonymisedBy: null,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await backfillAnonymizedUsers();
+
+      // then
+      const anonymizedUser = await knex('users').where({ id: legacyAnonymizedUser.id }).first();
+      expect(anonymizedUser.firstName).to.be.equal('(anonymised)');
+      expect(anonymizedUser.hasBeenAnonymised).to.be.true;
+      expect(anonymizedUser.hasBeenAnonymisedBy).to.be.null;
+    });
+  });
 });
