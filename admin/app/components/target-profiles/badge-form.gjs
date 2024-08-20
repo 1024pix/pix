@@ -1,0 +1,188 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
+import PixInput from '@1024pix/pix-ui/components/pix-input';
+import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
+import { fn } from '@ember/helper';
+import { on } from '@ember/modifier';
+import { action } from '@ember/object';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
+
+import Card from '../card';
+import Criteria from './badge-form/criteria';
+
+export default class BadgeForm extends Component {
+  @service notifications;
+  @service store;
+  @service router;
+
+  BASE_URL = 'https://images.pix.fr/badges/';
+
+  badge = {
+    key: '',
+    altMessage: '',
+    message: '',
+    title: '',
+    isCertifiable: false,
+    isAlwaysVisible: false,
+    campaignThreshold: null,
+    cappedTubesCriteria: [],
+  };
+
+  imageName = '';
+
+  @action
+  updateFormValue(key, event) {
+    if (key === 'imageName') {
+      this.imageName = event.target.value;
+    } else {
+      this.badge[key] = event.target.value;
+    }
+  }
+
+  @action
+  updateFormCheckBoxValue(key) {
+    this.badge[key] = !this.badge[key];
+  }
+
+  @action
+  async submitBadgeCreation(event) {
+    event.preventDefault();
+
+    const hasCampaignCriteria = this.badge.campaignThreshold;
+    const hasCappedTubesCriteria = this.badge.cappedTubesCriteria.length;
+
+    if (!hasCampaignCriteria && !hasCappedTubesCriteria) {
+      return this.notifications.error("Vous devez sélectionner au moins un critère d'obtention de résultat thématique");
+    }
+
+    const hasSelectedCappedTubes = this.badge.cappedTubesCriteria[0]?.cappedTubes?.length;
+
+    if (hasCappedTubesCriteria && !hasSelectedCappedTubes) {
+      return this.notifications.error('Vous devez sélectionner au moins un sujet du profil cible');
+    }
+
+    await this._createBadge();
+  }
+
+  async _createBadge() {
+    try {
+      const badgeWithFormattedImageUrl = {
+        ...this.badge,
+        imageUrl: this.BASE_URL + this.imageName,
+      };
+
+      const badge = this.store.createRecord('badge', badgeWithFormattedImageUrl);
+
+      await badge.save({
+        adapterOptions: { targetProfileId: this.args.targetProfile.id },
+      });
+      await this.args.targetProfile.reload();
+
+      this.notifications.success('Le résultat thématique a été créé.');
+      this.router.transitionTo('authenticated.target-profiles.target-profile.insights');
+      return badge;
+    } catch (error) {
+      console.error(error);
+      this.notifications.error(`${error.errors[0].detail}`);
+    }
+  }
+
+  <template>
+    <form class="admin-form admin-form--badge-form" {{on "submit" this.submitBadgeCreation}}>
+      <h2 class="badge-form__title">Création d'un résultat thématique</h2>
+      <section class="admin-form__content admin-form__content--with-counters">
+        <Card class="create-target-profile__card" @title="Remplir des informations sur le résultat thématique">
+          <div class="badge-form__text-field">
+            <PixInput
+              @id="title"
+              @value={{this.badge.title}}
+              @requiredLabel="Champ obligatoire"
+              {{on "change" (fn this.updateFormValue "title")}}
+            >
+              <:label>Nom du résultat thématique :</:label>
+            </PixInput>
+          </div>
+          <div class="badge-form__text-field">
+            <p class="badge-form__information">
+              <a
+                class="badge-form__information--link"
+                href="https://1024pix.github.io/pix-images-list/badges.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Voir la liste des résultats thématiques
+              </a>
+            </p>
+            <PixInput
+              @id="image-name"
+              @value={{this.imageName}}
+              @requiredLabel="Champ obligatoire"
+              placeholder="exemple: clea_num.svg"
+              {{on "change" (fn this.updateFormValue "imageName")}}
+            >
+              <:label>Nom de l'image (svg) :</:label>
+            </PixInput>
+          </div>
+          <div class="badge-form__text-field">
+            <PixInput
+              @id="alt-message"
+              @value={{this.badge.altMessage}}
+              @requiredLabel="Champ obligatoire"
+              {{on "change" (fn this.updateFormValue "altMessage")}}
+            >
+              <:label>Texte alternatif pour l'image :</:label>
+            </PixInput>
+          </div>
+          <div class="badge-form__text-field">
+            <PixTextarea
+              @id="message"
+              @value={{this.badge.message}}
+              rows="4"
+              {{on "change" (fn this.updateFormValue "message")}}
+            >
+              <:label>Message :</:label>
+            </PixTextarea>
+          </div>
+          <div class="badge-form__text-field">
+            <PixInput
+              @id="badge-key"
+              maxlength="255"
+              @value={{this.badge.key}}
+              @requiredLabel="Champ obligatoire"
+              {{on "change" (fn this.updateFormValue "key")}}
+            >
+              <:label>Clé (texte unique , vérifier qu'il n'existe pas) :</:label>
+            </PixInput>
+          </div>
+          <div class="badge-form__check-field">
+            <PixCheckbox
+              @checked={{this.badge.isCertifiable}}
+              {{on "change" (fn this.updateFormCheckBoxValue "isCertifiable")}}
+            >
+              <:label>Certifiable</:label>
+            </PixCheckbox>
+          </div>
+          <div class="badge-form__check-field">
+            <PixCheckbox
+              @checked={{this.badge.isAlwaysVisible}}
+              {{on "change" (fn this.updateFormCheckBoxValue "isAlwaysVisible")}}
+            >
+              <:label>Lacunes</:label>
+            </PixCheckbox>
+          </div>
+        </Card>
+        <Criteria @badge={{this.badge}} @areas={{@targetProfile.areas}} />
+      </section>
+      <section class="admin-form__actions">
+        <PixButtonLink @variant="secondary" @route="authenticated.target-profiles.target-profile.insights">
+          Annuler
+        </PixButtonLink>
+        <PixButton @variant="success" @type="submit">
+          Enregistrer le RT
+        </PixButton>
+      </section>
+    </form>
+  </template>
+}

@@ -1,8 +1,16 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
+import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { fn } from '@ember/helper';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import difference from 'lodash/difference';
+
+import NewStage from './stages/new-stage';
+import Stage from './stages/stage';
 
 const LEVEL_COLUMN_NAME = 'Niveau';
 const THRESHOLD_COLUMN_NAME = 'Seuil';
@@ -172,4 +180,114 @@ export default class Stages extends Component {
   onStageLevelChange(stage, level) {
     stage.level = parseInt(level);
   }
+
+  <template>
+    {{! template-lint-disable require-input-label }}
+    <div class="content-text content-text--small">
+      <form class="form" {{on "submit" this.createStages}}>
+        {{#if this.stages}}
+          <div class="table-admin">
+            <table class="stages-table">
+              <thead>
+                <tr>
+                  <th class="stages-table__type">{{this.columnNameByStageType}}</th>
+                  <th class="stages-table__title">Titre</th>
+                  <th>Message</th>
+                  <th class="stages-table__prescriber-title">Titre prescripteur</th>
+                  <th class="stages-table__prescriber-description">Description prescripteur</th>
+                  <th class="stages-table__actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each @stageCollection.sortedStages as |stage index|}}
+                  {{#if stage.isBeingCreated}}
+                    <NewStage
+                      @index={{index}}
+                      @stage={{stage}}
+                      @imageUrl={{@imageUrl}}
+                      @availableLevels={{this.availableLevels}}
+                      @unavailableThresholds={{this.unavailableThresholds}}
+                      @setLevel={{fn this.onStageLevelChange stage}}
+                      @remove={{fn this.removeStage stage}}
+                    />
+                  {{else}}
+                    <Stage
+                      @imageUrl={{@imageUrl}}
+                      @targetProfileId={{@targetProfileId}}
+                      @stage={{stage}}
+                      @deleteStage={{this.deleteStage}}
+                      @collectionHasNonZeroStages={{this.collectionHasNonZeroStages}}
+                      @hasLinkedCampaign={{@hasLinkedCampaign}}
+                    />
+                  {{/if}}
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        {{else}}
+          <div class="table__empty">Aucun palier associé</div>
+        {{/if}}
+        {{#if this.canAddNewStage}}
+          {{#if this.mustChooseStageType}}
+            <PixRadioButton
+              name="stageType"
+              @value="threshold"
+              checked={{this.isStageTypeThresholdChecked}}
+              {{on "change" this.onStageTypeChange}}
+            >
+              <:label>Palier par seuil</:label>
+            </PixRadioButton>
+            <PixRadioButton
+              name="stageType"
+              @value="level"
+              checked={{this.isStageTypeLevelChecked}}
+              {{on "change" this.onStageTypeChange}}
+            >
+              <:label>Palier par niveau</:label>
+            </PixRadioButton>
+          {{/if}}
+          <div class="add-stage-actions">
+            <PixButton
+              class="stages-new-stage"
+              @variant="secondary"
+              @triggerAction={{this.addStage}}
+              @isDisabled={{this.isAddStageDisabled}}
+              @iconBefore="plus"
+            >
+              Nouveau palier
+            </PixButton>
+            {{#if @stageCollection.hasStages}}
+              <PixTooltip @id="tooltip-stage" @isWide="true">
+                <:triggerElement>
+                  <PixButton
+                    class="stages-new-stage"
+                    @variant="secondary"
+                    @triggerAction={{this.addFirstSkillStage}}
+                    @isDisabled={{this.isAddFirstSkillStageDisabled}}
+                    @iconBefore="plus"
+                  >
+                    Nouveau palier "1er acquis"
+                  </PixButton>
+                </:triggerElement>
+                <:tooltip>
+                  Le palier 1er acquis est obtenu dès un acquis réussi par le participant. Il se verra alors attribuer
+                  une étoile à la fin de son parcours.
+                </:tooltip>
+              </PixTooltip>
+            {{/if}}
+          </div>
+        {{/if}}
+        {{#if this.hasNewStage}}
+          <div class="stages-actions form-actions">
+            <PixButton @variant="secondary" @triggerAction={{this.cancelStagesCreation}}>
+              Annuler
+            </PixButton>
+            <PixButton type="submit" @variant="success" @triggerAction={{this.createStages}}>
+              Enregistrer
+            </PixButton>
+          </div>
+        {{/if}}
+      </form>
+    </div>
+  </template>
 }
