@@ -2,6 +2,8 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import LoaderGrey from 'pix-admin/components/common/loader-grey';
+import List from 'pix-admin/components/complementary-certifications/attach-badges/badges/list';
 
 export default class Badges extends Component {
   @tracked isLoading;
@@ -72,4 +74,16 @@ export default class Badges extends Component {
     this.isLoading = undefined;
     this.badges = undefined;
   }
+
+  <template>
+    {{#if this.isLoading}}
+      <LoaderGrey />
+    {{/if}}
+    <List
+      @options={{this.badges}}
+      @onBadgeUpdated={{this.onBadgeUpdated}}
+      @error={{this.getTargetProfileBadgesErrorMessage}}
+      @hasExternalJury={{@hasExternalJury}}
+    />
+  </template>
 }

@@ -1,5 +1,5 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
-import hbs from 'htmlbars-inline-precompile';
+import Badges from 'pix-admin/components/complementary-certifications/attach-badges/badges/index';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -17,14 +17,12 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
         name: 'ALEX TARGET',
         id: 1,
       });
-      this.set('attachableTargetProfile', attachableTargetProfile);
-      this.set('noop', () => {});
+      const noop = () => {};
 
       // when
-      const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::Badges
-  @targetProfile={{this.attachableTargetProfile}}
-  @onError={{this.noop}}
-/>`);
+      const screen = await renderScreen(
+        <template><Badges @targetProfile={{attachableTargetProfile}} @onError={{noop}} /></template>,
+      );
 
       // then
       assert.dom(screen.getByRole('progressbar', { name: 'chargement' })).exists();
@@ -47,14 +45,12 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
           name: 'ALEX TARGET',
           id: 1,
         });
-        this.set('attachableTargetProfile', attachableTargetProfile);
-        this.set('noop', () => {});
+        const noop = () => {};
 
         // when
-        const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::Badges
-  @targetProfile={{this.attachableTargetProfile}}
-  @onError={{this.noop}}
-/>`);
+        const screen = await renderScreen(
+          <template><Badges @targetProfile={{attachableTargetProfile}} @onError={{noop}} /></template>,
+        );
 
         // then
         assert
@@ -87,14 +83,12 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
           name: 'ALEX TARGET',
           id: 1,
         });
-        this.set('attachableTargetProfile', attachableTargetProfile);
-        this.set('noop', () => {});
+        const noop = () => {};
 
         // when
-        const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::Badges
-  @targetProfile={{this.attachableTargetProfile}}
-  @onError={{this.noop}}
-/>`);
+        const screen = await renderScreen(
+          <template><Badges @targetProfile={{attachableTargetProfile}} @onError={{noop}} /></template>,
+        );
 
         // then
         assert.dom(await screen.queryByRole('alert')).doesNotExist();
