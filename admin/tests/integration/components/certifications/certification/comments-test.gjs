@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import Comments from 'pix-admin/components/certifications/certification/comments';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -10,7 +10,7 @@ module('Integration | Component | Certifications | certification | Comments ', f
   test('should display certification comments', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    this.certification = store.createRecord('certification', {
+    const certification = store.createRecord('certification', {
       firstName: 'Fabrice',
       lastName: 'Gadjo',
       birthdate: '2000-12-15',
@@ -24,7 +24,7 @@ module('Integration | Component | Certifications | certification | Comments ', f
     });
 
     // when
-    const screen = await render(hbs`<Certifications::Certification::Comments @certification={{this.certification}} />`);
+    const screen = await render(<template><Comments @certification={{certification}} /></template>);
 
     // then
     assert.dom(screen.getByText('Pour le candidat :')).exists();

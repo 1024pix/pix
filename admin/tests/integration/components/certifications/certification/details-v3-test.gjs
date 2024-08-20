@@ -1,6 +1,6 @@
 import { fireEvent, render, within } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import DetailsV3 from 'pix-admin/components/certifications/certification/details-v3';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -120,10 +120,10 @@ module('Integration | Component | Certifications | certification > details v3', 
 
       test('should display the title, the creation date and the pix score', async function (assert) {
         // given
-        this.model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
+        const model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
 
         // when
-        const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+        const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
         const creationDate = await screen.getByLabelText('Créée le :').innerText;
 
@@ -140,10 +140,10 @@ module('Integration | Component | Certifications | certification > details v3', 
       module('when the certification is valid', function () {
         test('should display the validated assessment result status with the right color', async function (assert) {
           // given
-          this.model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
+          const model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
 
           // when
-          const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+          const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
           // then
           const assessmentResultStatusElement = screen.getByText(
@@ -156,10 +156,10 @@ module('Integration | Component | Certifications | certification > details v3', 
 
         test('should display the date of completion', async function (assert) {
           // given
-          this.model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
+          const model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
 
           // when
-          const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+          const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
           // then
           const endedAtLabel = this.intl.t(
@@ -171,10 +171,10 @@ module('Integration | Component | Certifications | certification > details v3', 
 
         test('should NOT display the ended by info or the abort reason', async function (assert) {
           // given
-          this.model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
+          const model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
 
           // when
-          const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+          const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
           // then
           const endedAtLabel = this.intl.t(
@@ -208,10 +208,10 @@ module('Integration | Component | Certifications | certification > details v3', 
 
         test('should display the rejected assessment result status with the right color', async function (assert) {
           // given
-          this.model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
+          const model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
 
           // when
-          const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+          const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
           // then
           const assessmentResultStatusElement = screen.getByText(
@@ -224,10 +224,10 @@ module('Integration | Component | Certifications | certification > details v3', 
 
         test('should display the date of completion', async function (assert) {
           // given
-          this.model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
+          const model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
 
           // when
-          const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+          const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
           // then
           const endedAtLabel = this.intl.t(
@@ -239,10 +239,10 @@ module('Integration | Component | Certifications | certification > details v3', 
 
         test('should display the ended by info or the abort reason', async function (assert) {
           // given
-          this.model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
+          const model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
 
           // when
-          const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+          const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
           // then
           const endedAtLabel = this.intl.t(
@@ -273,7 +273,7 @@ module('Integration | Component | Certifications | certification > details v3', 
               }),
             ];
 
-            this.model = await store.createRecord('v3-certification-course-details-for-administration', {
+            const model = await store.createRecord('v3-certification-course-details-for-administration', {
               assessmentState: 'endedDueToFinalization',
               completedAt: null,
               // eslint-disable-next-line no-restricted-syntax
@@ -284,7 +284,7 @@ module('Integration | Component | Certifications | certification > details v3', 
             });
 
             // when
-            const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+            const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
             // then
             assert.dom(screen.getByText('Terminée le :')).exists();
@@ -299,7 +299,7 @@ module('Integration | Component | Certifications | certification > details v3', 
               }),
             ];
 
-            this.model = await store.createRecord('v3-certification-course-details-for-administration', {
+            const model = await store.createRecord('v3-certification-course-details-for-administration', {
               assessmentState: 'endedDueToFinalization',
               completedAt: null,
               // eslint-disable-next-line no-restricted-syntax
@@ -310,7 +310,7 @@ module('Integration | Component | Certifications | certification > details v3', 
             });
 
             // when
-            const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+            const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
             // then
             const tooltipTrigger = screen.getByText('13/01/2023 08:05:00');
@@ -333,7 +333,7 @@ module('Integration | Component | Certifications | certification > details v3', 
               }),
             ];
 
-            this.model = await store.createRecord('v3-certification-course-details-for-administration', {
+            const model = await store.createRecord('v3-certification-course-details-for-administration', {
               assessmentState: 'endedBySupervisor',
               completedAt: null,
               // eslint-disable-next-line no-restricted-syntax
@@ -344,7 +344,7 @@ module('Integration | Component | Certifications | certification > details v3', 
             });
 
             // when
-            const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+            const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
             // then
             assert.dom(screen.getByText('Terminée le :')).exists();
@@ -359,7 +359,7 @@ module('Integration | Component | Certifications | certification > details v3', 
               }),
             ];
 
-            this.model = await store.createRecord('v3-certification-course-details-for-administration', {
+            const model = await store.createRecord('v3-certification-course-details-for-administration', {
               assessmentState: 'endedBySupervisor',
               completedAt: null,
               // eslint-disable-next-line no-restricted-syntax
@@ -370,7 +370,7 @@ module('Integration | Component | Certifications | certification > details v3', 
             });
 
             // when
-            const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+            const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
             fireEvent.mouseOver(screen.getByText('13/01/2023 08:05:00'));
 
             // then
@@ -391,10 +391,10 @@ module('Integration | Component | Certifications | certification > details v3', 
           ['ok', 'ok', 'ok', 'ok', 'ko', 'ko', 'ko', 'aband', 'aband', null],
           store,
         );
-        this.model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
+        const model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
 
         // when
-        const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+        const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
         const expected = [
           {
             term: 'Nombre de question répondues\n/ Nombre total de questions',
@@ -440,10 +440,10 @@ module('Integration | Component | Certifications | certification > details v3', 
             validatedLiveAlert: null,
           }),
         ];
-        this.model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
+        const model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
 
         // when
-        const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+        const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
         // then
         assert
@@ -458,10 +458,10 @@ module('Integration | Component | Certifications | certification > details v3', 
       test('displays the table with every questions asked during certification', async function (assert) {
         // given
         const certificationChallengesForAdministration = createDetailedAnswers(answers, store);
-        this.model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
+        const model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
 
         // when
-        const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+        const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
         // then
         assert.dom(screen.getByRole('heading', { name: 'Liste des questions' })).exists();
@@ -492,12 +492,12 @@ module('Integration | Component | Certifications | certification > details v3', 
           test('displays the modal with the candidate answer on icon click', async function (assert) {
             // given
             const store = this.owner.lookup('service:store');
-            this.model = store.createRecord('v3-certification-course-details-for-administration', {
+            const model = store.createRecord('v3-certification-course-details-for-administration', {
               certificationChallengesForAdministration: createChallengesForAdministration(['ok', 'ko'], store),
             });
 
             // when
-            const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+            const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
             const modalButtons = screen.getAllByRole('button', { name: 'Afficher la réponse du candidat' });
             await click(modalButtons[0]);
@@ -513,7 +513,7 @@ module('Integration | Component | Certifications | certification > details v3', 
           test('does not display the answer icon', async function (assert) {
             // given
             const store = this.owner.lookup('service:store');
-            this.model = store.createRecord('v3-certification-course-details-for-administration', {
+            const model = store.createRecord('v3-certification-course-details-for-administration', {
               certificationChallengesForAdministration: [
                 store.createRecord('certification-challenges-for-administration', {
                   id: 1,
@@ -524,7 +524,7 @@ module('Integration | Component | Certifications | certification > details v3', 
             });
 
             // when
-            const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+            const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
             // then
             assert.dom(screen.queryByRole('button', { name: 'Afficher la réponse du candidat' })).doesNotExist();
@@ -535,10 +535,10 @@ module('Integration | Component | Certifications | certification > details v3', 
       test('should not display the issue report button', async function (assert) {
         // given
         const certificationChallengesForAdministration = createChallengesForAdministration(['ok'], store);
-        this.model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
+        const model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
 
         // when
-        const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+        const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
         // then
         assert.dom(screen.queryByRole('button', { name: 'Afficher le signalement de la question' })).doesNotExist();
@@ -548,10 +548,10 @@ module('Integration | Component | Certifications | certification > details v3', 
         test('should not display the response button', async function (assert) {
           // given
           const certificationChallengesForAdministration = createChallengesForAdministration([null], store);
-          this.model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
+          const model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
 
           // when
-          const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+          const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
           // then
           assert.dom(screen.queryByRole('button', { name: 'Afficher la réponse du candidat' })).doesNotExist();
@@ -560,10 +560,10 @@ module('Integration | Component | Certifications | certification > details v3', 
         test('displays the modal with the issue report subcategory', async function (assert) {
           // given
           const certificationChallengesForAdministration = createChallengesForAdministration(['ok', null], store);
-          this.model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
+          const model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
 
           // when
-          const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+          const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
           const modalButton = screen.getByRole('button', { name: 'Afficher le signalement de la question' });
           await click(modalButton);
@@ -592,10 +592,10 @@ module('Integration | Component | Certifications | certification > details v3', 
               answerStatus: null,
             }),
           ];
-          this.model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
+          const model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
 
           // when
-          const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+          const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
           // then
           const detailTable = screen.getByRole('table');
