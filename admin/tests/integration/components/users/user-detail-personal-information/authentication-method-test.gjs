@@ -1,12 +1,12 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { hbs } from 'ember-cli-htmlbars';
+import AuthenticationMethod from 'pix-admin/components/users/user-detail-personal-information/authentication-method';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | users | user-detail-personal-information/authentication-method', function (hooks) {
+module('Integration | Component | users | user-detail-personal-information | authentication-method', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('When the admin member has access to users actions scope', function () {
@@ -18,13 +18,11 @@ module('Integration | Component | users | user-detail-personal-information/authe
       module('when user has confirmed his email address', function () {
         test('should display email confirmed date', async function (assert) {
           // given
-          this.set('user', { emailConfirmedAt: new Date('2020-10-30'), authenticationMethods: [] });
+          const user = { emailConfirmedAt: new Date('2020-10-30'), authenticationMethods: [] };
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(
-            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-          );
+          const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
           // then
           assert
@@ -44,13 +42,11 @@ module('Integration | Component | users | user-detail-personal-information/authe
       module('when user has not confirmed their email address', function () {
         test('it should display "Adresse e-mail non confirmée"', async function (assert) {
           // given
-          this.set('user', { emailConfirmedAt: null, authenticationMethods: [] });
+          const user = { emailConfirmedAt: null, authenticationMethods: [] };
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(
-            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-          );
+          const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
           // then
           assert
@@ -66,13 +62,11 @@ module('Integration | Component | users | user-detail-personal-information/authe
       module('when last logged date exists', function () {
         test('should display date of latest connection', async function (assert) {
           // given
-          this.set('user', { lastLoggedAt: new Date('2022-07-01'), authenticationMethods: [] });
+          const user = { lastLoggedAt: new Date('2022-07-01'), authenticationMethods: [] };
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(
-            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-          );
+          const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
           // then
           assert
@@ -91,13 +85,11 @@ module('Integration | Component | users | user-detail-personal-information/authe
       module('when last logged date does not exist', function () {
         test('it should only display label', async function (assert) {
           // given
-          this.set('user', { lastLoggedAt: null, authenticationMethods: [] });
+          const user = { lastLoggedAt: null, authenticationMethods: [] };
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(
-            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-          );
+          const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
           // then
           assert
@@ -113,20 +105,18 @@ module('Integration | Component | users | user-detail-personal-information/authe
       module('when user has a PIX authentication method', function () {
         test('it displays user has to change password', async function (assert) {
           // given
-          this.set('user', {
+          const user = {
             authenticationMethods: [
               {
                 identityProvider: 'PIX',
                 authenticationComplement: { shouldChangePassword: true },
               },
             ],
-          });
+          };
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(
-            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-          );
+          const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
           // then
           const expectedLabel = this.intl.t(
@@ -144,20 +134,19 @@ module('Integration | Component | users | user-detail-personal-information/authe
         });
         test('it displays user has not to change password', async function (assert) {
           // given
-          this.set('user', {
+          const user = {
             authenticationMethods: [
               {
                 identityProvider: 'PIX',
                 authenticationComplement: { shouldChangePassword: false },
               },
             ],
-          });
+          };
+
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(
-            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-          );
+          const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
           // then
           const expectedLabel = this.intl.t(
@@ -179,13 +168,11 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('when user has email authentication method', function () {
           test('should display information', async function (assert) {
             // given
-            this.set('user', { email: 'pix.aile@example.net', authenticationMethods: [{ identityProvider: 'PIX' }] });
+            const user = { email: 'pix.aile@example.net', authenticationMethods: [{ identityProvider: 'PIX' }] };
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(
-              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-            );
+            const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
             // then
             assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion avec adresse e-mail")).exists();
@@ -195,13 +182,11 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('when user does not have email authentication method', function () {
           test('should display information', async function (assert) {
             // given
-            this.set('user', { authenticationMethods: [] });
+            const user = { authenticationMethods: [] };
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(
-              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-            );
+            const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
             // then
             assert
@@ -215,13 +200,11 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('when user has username authentication method', function () {
           test('should display information', async function (assert) {
             // given
-            this.set('user', { username: 'PixAile', authenticationMethods: [{ identityProvider: 'PIX' }] });
+            const user = { username: 'PixAile', authenticationMethods: [{ identityProvider: 'PIX' }] };
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(
-              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-            );
+            const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
             // then
             assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion avec identifiant")).exists();
@@ -231,13 +214,11 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('when user does not have username authentication method', function () {
           test('should display information', async function (assert) {
             // given
-            this.set('user', { authenticationMethods: [] });
+            const user = { authenticationMethods: [] };
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(
-              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-            );
+            const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
             // then
             assert
@@ -251,13 +232,11 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('when user has gar authentication method', function () {
           test('should display information and reassign authentication method button', async function (assert) {
             // given
-            this.set('user', { authenticationMethods: [{ identityProvider: 'GAR' }] });
+            const user = { authenticationMethods: [{ identityProvider: 'GAR' }] };
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(
-              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-            );
+            const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
             // then
             assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Médiacentre")).exists();
@@ -268,13 +247,11 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('when user does not have gar authentication method', function () {
           test('should display information', async function (assert) {
             // given
-            this.set('user', { username: 'PixAile', authenticationMethods: [{ identityProvider: 'PIX' }] });
+            const user = { username: 'PixAile', authenticationMethods: [{ identityProvider: 'PIX' }] };
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(
-              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-            );
+            const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
             // then
             assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Médiacentre")).exists();
@@ -297,14 +274,12 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('when user does not have "Sunlight Navigations" authentication method', function () {
           test('should display information', async function (assert) {
             // given
-            this.set('user', { authenticationMethods: [] });
+            const user = { authenticationMethods: [] };
             this.owner.register('service:access-control', AccessControlStub);
             this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
             // when
-            const screen = await render(
-              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-            );
+            const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
             // then
             assert
@@ -317,19 +292,23 @@ module('Integration | Component | users | user-detail-personal-information/authe
           test('should display information, delete and reassign buttons', async function (assert) {
             // given
             const toggleDisplayRemoveAuthenticationMethodModalStub = sinon.stub();
-            this.set('user', {
+            const user = {
               username: 'PixAile',
               authenticationMethods: [{ identityProvider: 'PIX' }, { identityProvider: 'SUNLIGHT_NAVIGATIONS' }],
-            });
-            this.set('toggleDisplayRemoveAuthenticationMethodModal', toggleDisplayRemoveAuthenticationMethodModalStub);
+            };
+
             this.owner.register('service:access-control', AccessControlStub);
             this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
             // when
-            const screen = await render(hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod
-  @user={{this.user}}
-  @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
-/>`);
+            const screen = await render(
+              <template>
+                <AuthenticationMethod
+                  @user={{user}}
+                  @toggleDisplayRemoveAuthenticationMethodModal={{toggleDisplayRemoveAuthenticationMethodModalStub}}
+                />
+              </template>,
+            );
             // then
             assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Sunlight Navigations")).exists();
             assert.dom(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' })).exists();
@@ -338,19 +317,23 @@ module('Integration | Component | users | user-detail-personal-information/authe
           test('should not display delete and reassign buttons', async function (assert) {
             // given
             const toggleDisplayRemoveAuthenticationMethodModalStub = sinon.stub();
-            this.set('user', {
+            const user = {
               username: 'PixAile',
               authenticationMethods: [{ identityProvider: 'PIX' }],
-            });
-            this.set('toggleDisplayRemoveAuthenticationMethodModal', toggleDisplayRemoveAuthenticationMethodModalStub);
+            };
+
             this.owner.register('service:access-control', AccessControlStub);
             this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
             // when
-            const screen = await render(hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod
-  @user={{this.user}}
-  @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
-/>`);
+            const screen = await render(
+              <template>
+                <AuthenticationMethod
+                  @user={{user}}
+                  @toggleDisplayRemoveAuthenticationMethodModal={{toggleDisplayRemoveAuthenticationMethodModalStub}}
+                />
+              </template>,
+            );
             // then
             assert.dom(screen.queryByRole('button', { name: 'Déplacer cette méthode de connexion' })).doesNotExist();
             assert.dom(screen.queryByRole('button', { name: 'Supprimer' })).doesNotExist();
@@ -366,13 +349,11 @@ module('Integration | Component | users | user-detail-personal-information/authe
       module('When user has only one authentication method', function () {
         test('it should not display a remove authentication method link', async function (assert) {
           // given
-          this.set('user', { username: 'PixAile', authenticationMethods: [{ identityProvider: 'PIX' }] });
+          const user = { username: 'PixAile', authenticationMethods: [{ identityProvider: 'PIX' }] };
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(
-            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-          );
+          const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
           // then
           assert.dom(screen.queryByRole('button', { name: 'Supprimer' })).doesNotExist();
@@ -392,16 +373,14 @@ module('Integration | Component | users | user-detail-personal-information/authe
           this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
 
           // given
-          this.set('user', {
+          const user = {
             username: 'PixAile',
             authenticationMethods: [{ identityProvider: 'SUNLIGHT_NAVIGATIONS' }],
-          });
+          };
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(
-            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-          );
+          const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
           // then
           assert.ok(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' }));
@@ -411,15 +390,13 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('When user does not have pix authentication method', function () {
           test('it should display add authentication method button', async function (assert) {
             // given
-            this.set('user', {
+            const user = {
               authenticationMethods: [],
-            });
+            };
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(
-              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-            );
+            const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
             // then
             assert.dom(screen.getByRole('button', { name: 'Ajouter une adresse e-mail' })).exists();
@@ -429,13 +406,11 @@ module('Integration | Component | users | user-detail-personal-information/authe
         module('When user has a pix authentication method', function () {
           test('it should not display add authentication method button', async function (assert) {
             // given
-            this.set('user', { username: 'PixAile', authenticationMethods: [{ identityProvider: 'PIX' }] });
+            const user = { username: 'PixAile', authenticationMethods: [{ identityProvider: 'PIX' }] };
             this.owner.register('service:access-control', AccessControlStub);
 
             // when
-            const screen = await render(
-              hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-            );
+            const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
             // then
             assert.dom(screen.queryByRole('button', { name: 'Ajouter une adresse e-mail' })).doesNotExist();
@@ -451,16 +426,14 @@ module('Integration | Component | users | user-detail-personal-information/authe
       class AccessControlStub extends Service {
         hasAccessToUsersActionsScope = false;
       }
-      this.set('user', {
+      const user = {
         username: 'PixAile',
         authenticationMethods: [{ identityProvider: 'PIX' }, { identityProvider: 'GAR' }],
-      });
+      };
       this.owner.register('service:access-control', AccessControlStub);
 
       // when
-      const screen = await render(
-        hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`,
-      );
+      const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
       // then
       assert.dom(screen.queryByRole('button', { name: 'Supprimer' })).doesNotExist();
