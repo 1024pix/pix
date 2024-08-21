@@ -1,11 +1,12 @@
 import { auditLoggerRepository } from '../../../../lib/infrastructure/repositories/audit-logger-repository.js';
+import { JobController } from '../../../shared/application/jobs/job-controller.js';
 import { GarAnonymizedBatchEventsLoggingJob } from '../../domain/models/GarAnonymizedBatchEventsLoggingJob.js';
 
 const AUDIT_LOGGER_ANONYMIZATION_GAR_ACTION = 'ANONYMIZATION_GAR';
 
-export class GarAnonymizedBatchEventsLoggingJobController {
-  get name() {
-    return GarAnonymizedBatchEventsLoggingJob.name;
+export class GarAnonymizedBatchEventsLoggingJobController extends JobController {
+  constructor() {
+    super(GarAnonymizedBatchEventsLoggingJob.name);
   }
 
   async handle(

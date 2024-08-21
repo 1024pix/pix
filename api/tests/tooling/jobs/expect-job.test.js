@@ -1,12 +1,12 @@
-import { JobPgBoss } from '../../../src/shared/infrastructure/jobs/JobPgBoss.js';
+import { JobRepository } from '../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 import { catchErr, expect, knex } from '../../test-helper.js';
 
 describe('Integration | Tooling | Expect Job', function () {
   describe('#withJobsCount', function () {
     it('succeeds when count of executed jobs is correct', async function () {
       // given
-      const job = new JobPgBoss({ name: 'JobTest' }, knex);
-      const job2 = new JobPgBoss({ name: 'JobTest2' }, knex);
+      const job = new JobRepository({ name: 'JobTest' }, knex);
+      const job2 = new JobRepository({ name: 'JobTest2' }, knex);
 
       // when
       await job.performAsync({ foo: 'bar' });
@@ -21,7 +21,7 @@ describe('Integration | Tooling | Expect Job', function () {
 
     it('fails when count of executed jobs is not correct', async function () {
       // given
-      const job = new JobPgBoss({ name: 'JobTest' }, knex);
+      const job = new JobRepository({ name: 'JobTest' }, knex);
 
       // when
       await job.performAsync({ foo: 'bar' });
@@ -39,7 +39,7 @@ describe('Integration | Tooling | Expect Job', function () {
   describe('#withJob', function () {
     it('succeeds when the full job data is the same', async function () {
       // given
-      const job = new JobPgBoss({ name: 'JobTest' }, knex);
+      const job = new JobRepository({ name: 'JobTest' }, knex);
 
       // when
       await job.performAsync({ foo: 'bar' });
@@ -57,7 +57,7 @@ describe('Integration | Tooling | Expect Job', function () {
 
     it('fails when the full job data is not the same', async function () {
       // given
-      const job = new JobPgBoss({ name: 'JobTest' }, knex);
+      const job = new JobRepository({ name: 'JobTest' }, knex);
 
       // when
       await job.performAsync({ foo: 'bar' });
@@ -71,7 +71,7 @@ describe('Integration | Tooling | Expect Job', function () {
 
     it('fails when multiple jobs are triggered instead of 1', async function () {
       // given
-      const job = new JobPgBoss({ name: 'JobTest' }, knex);
+      const job = new JobRepository({ name: 'JobTest' }, knex);
 
       // when
       await job.performAsync({ foo: 'bar' });
@@ -90,7 +90,7 @@ describe('Integration | Tooling | Expect Job', function () {
   describe('#withJobPayloads', function () {
     it('succeeds when the jobs payloads are correct', async function () {
       // given
-      const job = new JobPgBoss({ name: 'JobTest' }, knex);
+      const job = new JobRepository({ name: 'JobTest' }, knex);
 
       // when
       await job.performAsync({ foo: 'bar' });
@@ -102,7 +102,7 @@ describe('Integration | Tooling | Expect Job', function () {
 
     it('fails when not all job payloads are correct', async function () {
       // given
-      const job = new JobPgBoss({ name: 'JobTest' }, knex);
+      const job = new JobRepository({ name: 'JobTest' }, knex);
 
       // when
       await job.performAsync({ foo: 'bar' });
@@ -118,7 +118,7 @@ describe('Integration | Tooling | Expect Job', function () {
 
     it('fails when not all jobs are executed', async function () {
       // given
-      const job = new JobPgBoss({ name: 'JobTest' }, knex);
+      const job = new JobRepository({ name: 'JobTest' }, knex);
 
       // when
       await job.performAsync({ foo: 'bar' });
@@ -137,8 +137,8 @@ describe('Integration | Tooling | Expect Job', function () {
   describe('#withJobPayload', function () {
     it('succeeds when the job payload is correct', async function () {
       // given
-      const job = new JobPgBoss({ name: 'JobTest' }, knex);
-      const job2 = new JobPgBoss({ name: 'JobTest2' }, knex);
+      const job = new JobRepository({ name: 'JobTest' }, knex);
+      const job2 = new JobRepository({ name: 'JobTest2' }, knex);
 
       // when
       await job.performAsync({ foo: 'bar' });
@@ -151,7 +151,7 @@ describe('Integration | Tooling | Expect Job', function () {
 
     it('fails when the job payload is not correct', async function () {
       // given
-      const job = new JobPgBoss({ name: 'JobTest' }, knex);
+      const job = new JobRepository({ name: 'JobTest' }, knex);
 
       // when
       await job.performAsync({ foo: 'bar' });
@@ -165,7 +165,7 @@ describe('Integration | Tooling | Expect Job', function () {
 
     it('fails when multiple jobs are triggered instead of 1', async function () {
       // given
-      const job = new JobPgBoss({ name: 'JobTest' }, knex);
+      const job = new JobRepository({ name: 'JobTest' }, knex);
 
       // when
       await job.performAsync({ foo: 'bar' });

@@ -1,7 +1,7 @@
 import { UserAnonymizedEventLoggingJob } from '../../../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
-import { JobPgBoss } from '../../../../src/shared/infrastructure/jobs/JobPgBoss.js';
+import { JobRepository } from '../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 
-class UserAnonymizedEventLoggingJobRepository extends JobPgBoss {
+class UserAnonymizedEventLoggingJobRepository extends JobRepository {
   constructor() {
     super({
       name: UserAnonymizedEventLoggingJob.name,

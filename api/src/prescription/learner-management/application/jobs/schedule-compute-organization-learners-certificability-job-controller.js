@@ -3,12 +3,18 @@ import dayjs from 'dayjs';
 
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { ComputeCertificabilityJob } from '../../../../prescription/learner-management/domain/models/ComputeCertificabilityJob.js';
+import { JobController } from '../../../../shared/application/jobs/job-controller.js';
 import { config } from '../../../../shared/config.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { computeCertificabilityJobRepository } from '../../../learner-management/infrastructure/repositories/jobs/compute-certificability-job-repository.js';
+import { ScheduleComputeOrganizationLearnersCertificabilityJob } from '../../domain/models/ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 
-class ScheduleComputeOrganizationLearnersCertificabilityJobController {
+class ScheduleComputeOrganizationLearnersCertificabilityJobController extends JobController {
+  constructor() {
+    super(ScheduleComputeOrganizationLearnersCertificabilityJob.name);
+  }
+
   async handle(
     event = {},
     dependencies = { organizationLearnerRepository, computeCertificabilityJobRepository, config, logger },

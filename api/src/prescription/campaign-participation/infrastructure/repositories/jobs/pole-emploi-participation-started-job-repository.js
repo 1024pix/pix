@@ -1,8 +1,8 @@
-import { JobPgBoss } from '../../../../../../src/shared/infrastructure/jobs/JobPgBoss.js';
+import { JobRepository } from '../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 import { DomainTransaction } from '../../../../../shared/domain/DomainTransaction.js';
 import { PoleEmploiParticipationStartedJob } from '../../../domain/models/PoleEmploiParticipationStartedJob.js';
 
-class PoleEmploiParticipationStartedJobRepository extends JobPgBoss {
+class PoleEmploiParticipationStartedJobRepository extends JobRepository {
   constructor() {
     super(
       {

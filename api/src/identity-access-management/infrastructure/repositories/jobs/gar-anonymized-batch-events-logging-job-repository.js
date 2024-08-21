@@ -1,7 +1,7 @@
-import { JobPgBoss } from '../../../../shared/infrastructure/jobs/JobPgBoss.js';
+import { JobRepository } from '../../../../shared/infrastructure/repositories/jobs/job-repository.js';
 import { GarAnonymizedBatchEventsLoggingJob } from '../../../domain/models/GarAnonymizedBatchEventsLoggingJob.js';
 
-class GarAnonymizedBatchEventsLoggingJobRepository extends JobPgBoss {
+class GarAnonymizedBatchEventsLoggingJobRepository extends JobRepository {
   constructor() {
     super({
       name: GarAnonymizedBatchEventsLoggingJob.name,
