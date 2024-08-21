@@ -3,6 +3,7 @@ import { usecases } from '../../../../../../src/prescription/learner-management/
 import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Prescription | Application | Jobs | validateOrganizationLearnersImportFileJobController', function () {
+
   describe('#handle', function () {
     it('should call usecase', async function () {
       sinon.stub(usecases, 'validateSiecleXmlFile');
