@@ -526,225 +526,462 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
       });
 
       describe('when there is different session information on consecutive lines', function () {
-        it('should return a full session object per line', function () {
-          // given
-          const parsedCsvData = [
-            _lineWithSessionAndCandidate({ sessionNumber: 1, candidateNumber: 1 }),
-            _lineWithSessionAndCandidate({ sessionNumber: 2, candidateNumber: 1 }),
-            _lineWithSessionAndCandidate({ sessionNumber: 1, candidateNumber: 2 }),
-          ];
+        context('isCoreComplementaryCompatibilityEnabled OFF', function () {
+          it('should return a full session object per line', function () {
+            // given
+            const parsedCsvData = [
+              _lineWithSessionAndCandidate({ sessionNumber: 1, candidateNumber: 1 }),
+              _lineWithSessionAndCandidate({ sessionNumber: 2, candidateNumber: 1 }),
+              _lineWithSessionAndCandidate({ sessionNumber: 1, candidateNumber: 2 }),
+            ];
 
-          const expectedResult = [
-            {
-              sessionId: undefined,
-              address: 'Site 1',
-              room: 'Salle 1',
-              date: '2023-05-12',
-              time: '01:00',
-              examiner: 'Paul',
-              description: '',
-              candidates: [
-                {
-                  lastName: 'Candidat 1',
-                  firstName: 'Candidat 1',
-                  birthdate: '1981-03-01',
-                  sex: 'M',
-                  birthINSEECode: '75015',
-                  birthPostalCode: '',
-                  birthCity: '',
-                  birthCountry: 'France',
-                  resultRecipientEmail: 'robindahood@email.fr',
-                  email: '',
-                  externalId: '',
-                  extraTimePercentage: null,
-                  billingMode: 'Prépayée',
-                  prepaymentCode: '43',
-                  subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
-                  line: 2,
-                },
-                {
-                  lastName: 'Candidat 2',
-                  firstName: 'Candidat 2',
-                  birthdate: '1981-03-01',
-                  sex: 'M',
-                  birthINSEECode: '75015',
-                  birthPostalCode: '',
-                  birthCity: '',
-                  birthCountry: 'France',
-                  resultRecipientEmail: 'robindahood@email.fr',
-                  email: '',
-                  externalId: '',
-                  extraTimePercentage: null,
-                  billingMode: 'Prépayée',
-                  prepaymentCode: '43',
-                  subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
-                  line: 4,
-                },
-              ],
-              line: 2,
-            },
-            {
-              sessionId: undefined,
-              address: 'Site 2',
-              room: 'Salle 2',
-              date: '2023-05-12',
-              time: '01:00',
-              examiner: 'Paul',
-              description: '',
-              candidates: [
-                {
-                  lastName: 'Candidat 1',
-                  firstName: 'Candidat 1',
-                  birthdate: '1981-03-01',
-                  sex: 'M',
-                  birthINSEECode: '75015',
-                  birthPostalCode: '',
-                  birthCity: '',
-                  birthCountry: 'France',
-                  resultRecipientEmail: 'robindahood@email.fr',
-                  email: '',
-                  externalId: '',
-                  extraTimePercentage: null,
-                  billingMode: 'Prépayée',
-                  prepaymentCode: '43',
-                  subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
-                  line: 3,
-                },
-              ],
-              line: 3,
-            },
-          ];
+            const expectedResult = [
+              {
+                sessionId: undefined,
+                address: 'Site 1',
+                room: 'Salle 1',
+                date: '2023-05-12',
+                time: '01:00',
+                examiner: 'Paul',
+                description: '',
+                candidates: [
+                  {
+                    lastName: 'Candidat 1',
+                    firstName: 'Candidat 1',
+                    birthdate: '1981-03-01',
+                    sex: 'M',
+                    birthINSEECode: '75015',
+                    birthPostalCode: '',
+                    birthCity: '',
+                    birthCountry: 'France',
+                    resultRecipientEmail: 'robindahood@email.fr',
+                    email: '',
+                    externalId: '',
+                    extraTimePercentage: null,
+                    billingMode: 'Prépayée',
+                    prepaymentCode: '43',
+                    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
+                    line: 2,
+                  },
+                  {
+                    lastName: 'Candidat 2',
+                    firstName: 'Candidat 2',
+                    birthdate: '1981-03-01',
+                    sex: 'M',
+                    birthINSEECode: '75015',
+                    birthPostalCode: '',
+                    birthCity: '',
+                    birthCountry: 'France',
+                    resultRecipientEmail: 'robindahood@email.fr',
+                    email: '',
+                    externalId: '',
+                    extraTimePercentage: null,
+                    billingMode: 'Prépayée',
+                    prepaymentCode: '43',
+                    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
+                    line: 4,
+                  },
+                ],
+                line: 2,
+              },
+              {
+                sessionId: undefined,
+                address: 'Site 2',
+                room: 'Salle 2',
+                date: '2023-05-12',
+                time: '01:00',
+                examiner: 'Paul',
+                description: '',
+                candidates: [
+                  {
+                    lastName: 'Candidat 1',
+                    firstName: 'Candidat 1',
+                    birthdate: '1981-03-01',
+                    sex: 'M',
+                    birthINSEECode: '75015',
+                    birthPostalCode: '',
+                    birthCity: '',
+                    birthCountry: 'France',
+                    resultRecipientEmail: 'robindahood@email.fr',
+                    email: '',
+                    externalId: '',
+                    extraTimePercentage: null,
+                    billingMode: 'Prépayée',
+                    prepaymentCode: '43',
+                    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
+                    line: 3,
+                  },
+                ],
+                line: 3,
+              },
+            ];
 
-          // when
-          const result = csvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
+            // when
+            const result = csvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
-          // then
-          expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+            // then
+            expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+          });
+        });
+        context('isCoreComplementaryCompatibilityEnabled ON', function () {
+          it('should return a full session object per line', function () {
+            // given
+            const isCoreComplementaryCompatibilityEnabled = true;
+            const parsedCsvData = [
+              _lineWithSessionAndCandidate({ sessionNumber: 1, candidateNumber: 1 }),
+              _lineWithSessionAndCandidate({ sessionNumber: 2, candidateNumber: 1 }),
+              _lineWithSessionAndCandidate({ sessionNumber: 1, candidateNumber: 2 }),
+            ];
+
+            const expectedResult = [
+              {
+                sessionId: undefined,
+                address: 'Site 1',
+                room: 'Salle 1',
+                date: '2023-05-12',
+                time: '01:00',
+                examiner: 'Paul',
+                description: '',
+                candidates: [
+                  {
+                    lastName: 'Candidat 1',
+                    firstName: 'Candidat 1',
+                    birthdate: '1981-03-01',
+                    sex: 'M',
+                    birthINSEECode: '75015',
+                    birthPostalCode: '',
+                    birthCity: '',
+                    birthCountry: 'France',
+                    resultRecipientEmail: 'robindahood@email.fr',
+                    email: '',
+                    externalId: '',
+                    extraTimePercentage: null,
+                    billingMode: 'Prépayée',
+                    prepaymentCode: '43',
+                    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
+                    line: 2,
+                  },
+                  {
+                    lastName: 'Candidat 2',
+                    firstName: 'Candidat 2',
+                    birthdate: '1981-03-01',
+                    sex: 'M',
+                    birthINSEECode: '75015',
+                    birthPostalCode: '',
+                    birthCity: '',
+                    birthCountry: 'France',
+                    resultRecipientEmail: 'robindahood@email.fr',
+                    email: '',
+                    externalId: '',
+                    extraTimePercentage: null,
+                    billingMode: 'Prépayée',
+                    prepaymentCode: '43',
+                    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
+                    line: 4,
+                  },
+                ],
+                line: 2,
+              },
+              {
+                sessionId: undefined,
+                address: 'Site 2',
+                room: 'Salle 2',
+                date: '2023-05-12',
+                time: '01:00',
+                examiner: 'Paul',
+                description: '',
+                candidates: [
+                  {
+                    lastName: 'Candidat 1',
+                    firstName: 'Candidat 1',
+                    birthdate: '1981-03-01',
+                    sex: 'M',
+                    birthINSEECode: '75015',
+                    birthPostalCode: '',
+                    birthCity: '',
+                    birthCountry: 'France',
+                    resultRecipientEmail: 'robindahood@email.fr',
+                    email: '',
+                    externalId: '',
+                    extraTimePercentage: null,
+                    billingMode: 'Prépayée',
+                    prepaymentCode: '43',
+                    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
+                    line: 3,
+                  },
+                ],
+                line: 3,
+              },
+            ];
+
+            // when
+            const result = csvSerializer.deserializeForSessionsImport({
+              parsedCsvData,
+              hasBillingMode: true,
+              isCoreComplementaryCompatibilityEnabled,
+            });
+
+            // then
+            expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+          });
         });
       });
     });
 
     describe('when there is a sessionId', function () {
       context('when there is certification candidate information', function () {
-        it('should return data', function () {
-          // given
-          const parsedCsvData = [
-            _lineWithSessionIdAndCandidate({
-              sessionId: 1,
-              candidateNumber: 1,
-            }),
-            _lineWithSessionIdAndCandidate({
-              sessionId: 1,
-              candidateNumber: 2,
-            }),
-          ];
+        context('isCoreComplementaryCompatibilityEnabled OFF', function () {
+          it('should return data', function () {
+            // given
+            const parsedCsvData = [
+              _lineWithSessionIdAndCandidate({
+                sessionId: 1,
+                candidateNumber: 1,
+              }),
+              _lineWithSessionIdAndCandidate({
+                sessionId: 1,
+                candidateNumber: 2,
+              }),
+            ];
 
-          const expectedResult = [
-            {
-              sessionId: 1,
-              examiner: '',
-              line: 2,
-              candidates: [
-                {
-                  lastName: 'Candidat 1',
-                  firstName: 'Candidat 1',
-                  birthdate: '1981-03-01',
-                  birthINSEECode: '75015',
-                  birthPostalCode: '',
-                  billingMode: 'Prépayée',
-                  birthCity: '',
-                  birthCountry: 'France',
-                  email: '',
-                  externalId: '',
-                  extraTimePercentage: null,
-                  prepaymentCode: '43',
-                  resultRecipientEmail: 'robindahood@email.fr',
-                  sex: 'M',
-                  subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
-                  line: 2,
-                },
-                {
-                  lastName: 'Candidat 2',
-                  firstName: 'Candidat 2',
-                  birthdate: '1981-03-01',
-                  birthINSEECode: '75015',
-                  birthPostalCode: '',
-                  billingMode: 'Prépayée',
-                  birthCity: '',
-                  birthCountry: 'France',
-                  email: '',
-                  externalId: '',
-                  extraTimePercentage: null,
-                  prepaymentCode: '43',
-                  resultRecipientEmail: 'robindahood@email.fr',
-                  sex: 'M',
-                  subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
-                  line: 3,
-                },
-              ],
-            },
-          ];
+            const expectedResult = [
+              {
+                sessionId: 1,
+                examiner: '',
+                line: 2,
+                candidates: [
+                  {
+                    lastName: 'Candidat 1',
+                    firstName: 'Candidat 1',
+                    birthdate: '1981-03-01',
+                    birthINSEECode: '75015',
+                    birthPostalCode: '',
+                    billingMode: 'Prépayée',
+                    birthCity: '',
+                    birthCountry: 'France',
+                    email: '',
+                    externalId: '',
+                    extraTimePercentage: null,
+                    prepaymentCode: '43',
+                    resultRecipientEmail: 'robindahood@email.fr',
+                    sex: 'M',
+                    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
+                    line: 2,
+                  },
+                  {
+                    lastName: 'Candidat 2',
+                    firstName: 'Candidat 2',
+                    birthdate: '1981-03-01',
+                    birthINSEECode: '75015',
+                    birthPostalCode: '',
+                    billingMode: 'Prépayée',
+                    birthCity: '',
+                    birthCountry: 'France',
+                    email: '',
+                    externalId: '',
+                    extraTimePercentage: null,
+                    prepaymentCode: '43',
+                    resultRecipientEmail: 'robindahood@email.fr',
+                    sex: 'M',
+                    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
+                    line: 3,
+                  },
+                ],
+              },
+            ];
 
-          // when
-          const result = csvSerializer
-            .deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true })
-            .map((session) => _.omit(session, 'uniqueKey'));
+            // when
+            const result = csvSerializer
+              .deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true })
+              .map((session) => _.omit(session, 'uniqueKey'));
 
-          // then
-          expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+            // then
+            expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+          });
+        });
+        context('isCoreComplementaryCompatibilityEnabled ON', function () {
+          it('should return data', function () {
+            // given
+            const isCoreComplementaryCompatibilityEnabled = true;
+            const parsedCsvData = [
+              _lineWithSessionIdAndCandidate({
+                sessionId: 1,
+                candidateNumber: 1,
+              }),
+              _lineWithSessionIdAndCandidate({
+                sessionId: 1,
+                candidateNumber: 2,
+              }),
+            ];
+
+            const expectedResult = [
+              {
+                sessionId: 1,
+                examiner: '',
+                line: 2,
+                candidates: [
+                  {
+                    lastName: 'Candidat 1',
+                    firstName: 'Candidat 1',
+                    birthdate: '1981-03-01',
+                    birthINSEECode: '75015',
+                    birthPostalCode: '',
+                    billingMode: 'Prépayée',
+                    birthCity: '',
+                    birthCountry: 'France',
+                    email: '',
+                    externalId: '',
+                    extraTimePercentage: null,
+                    prepaymentCode: '43',
+                    resultRecipientEmail: 'robindahood@email.fr',
+                    sex: 'M',
+                    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
+                    line: 2,
+                  },
+                  {
+                    lastName: 'Candidat 2',
+                    firstName: 'Candidat 2',
+                    birthdate: '1981-03-01',
+                    birthINSEECode: '75015',
+                    birthPostalCode: '',
+                    billingMode: 'Prépayée',
+                    birthCity: '',
+                    birthCountry: 'France',
+                    email: '',
+                    externalId: '',
+                    extraTimePercentage: null,
+                    prepaymentCode: '43',
+                    resultRecipientEmail: 'robindahood@email.fr',
+                    sex: 'M',
+                    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
+                    line: 3,
+                  },
+                ],
+              },
+            ];
+
+            // when
+            const result = csvSerializer
+              .deserializeForSessionsImport({
+                parsedCsvData,
+                hasBillingMode: true,
+                isCoreComplementaryCompatibilityEnabled,
+              })
+              .map((session) => _.omit(session, 'uniqueKey'));
+
+            // then
+            expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+          });
         });
       });
     });
 
     describe('when there is no session information', function () {
       context('when there is a previous session line in csv', function () {
-        it('should return a full session object with previous session information and current candidate information if any', function () {
-          // given
-          const parsedCsvData = [
-            _lineWithSessionAndNoCandidate({ sessionNumber: 1 }),
-            _lineWithCandidateAndNoSession(),
-          ];
+        context('isCoreComplementaryCompatibilityEnabled OFF', function () {
+          it('should return a full session object with previous session information and current candidate information if any', function () {
+            // given
+            const parsedCsvData = [
+              _lineWithSessionAndNoCandidate({ sessionNumber: 1 }),
+              _lineWithCandidateAndNoSession(),
+            ];
 
-          const expectedResult = [
-            {
-              sessionId: undefined,
-              address: 'Site 1',
-              room: 'Salle 1',
-              date: '2023-05-12',
-              time: '01:00',
-              examiner: 'Paul',
-              description: '',
-              line: 2,
-              candidates: [
-                {
-                  lastName: 'Pennyworth',
-                  firstName: 'Alfred',
-                  birthdate: '1951-03-02',
-                  sex: 'M',
-                  birthINSEECode: '75015',
-                  birthPostalCode: '',
-                  birthCity: '',
-                  birthCountry: 'France',
-                  resultRecipientEmail: 'alfredOfficial@email.fr',
-                  email: '',
-                  externalId: '',
-                  extraTimePercentage: null,
-                  billingMode: 'Prépayée',
-                  prepaymentCode: '43',
-                  subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
-                  line: 3,
-                },
-              ],
-            },
-          ];
+            const expectedResult = [
+              {
+                sessionId: undefined,
+                address: 'Site 1',
+                room: 'Salle 1',
+                date: '2023-05-12',
+                time: '01:00',
+                examiner: 'Paul',
+                description: '',
+                line: 2,
+                candidates: [
+                  {
+                    lastName: 'Pennyworth',
+                    firstName: 'Alfred',
+                    birthdate: '1951-03-02',
+                    sex: 'M',
+                    birthINSEECode: '75015',
+                    birthPostalCode: '',
+                    birthCity: '',
+                    birthCountry: 'France',
+                    resultRecipientEmail: 'alfredOfficial@email.fr',
+                    email: '',
+                    externalId: '',
+                    extraTimePercentage: null,
+                    billingMode: 'Prépayée',
+                    prepaymentCode: '43',
+                    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
+                    line: 3,
+                  },
+                ],
+              },
+            ];
 
-          // when
-          const result = csvSerializer
-            .deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true })
-            .map((session) => _.omit(session, 'uniqueKey'));
+            // when
+            const result = csvSerializer
+              .deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true })
+              .map((session) => _.omit(session, 'uniqueKey'));
 
-          // then
-          expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+            // then
+            expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+          });
+        });
+        context('isCoreComplementaryCompatibilityEnabled ON', function () {
+          it('should return a full session object with previous session information and current candidate information if any', function () {
+            // given
+            const isCoreComplementaryCompatibilityEnabled = true;
+            const parsedCsvData = [
+              _lineWithSessionAndNoCandidate({ sessionNumber: 1 }),
+              _lineWithCandidateAndNoSession(),
+            ];
+
+            const expectedResult = [
+              {
+                sessionId: undefined,
+                address: 'Site 1',
+                room: 'Salle 1',
+                date: '2023-05-12',
+                time: '01:00',
+                examiner: 'Paul',
+                description: '',
+                line: 2,
+                candidates: [
+                  {
+                    lastName: 'Pennyworth',
+                    firstName: 'Alfred',
+                    birthdate: '1951-03-02',
+                    sex: 'M',
+                    birthINSEECode: '75015',
+                    birthPostalCode: '',
+                    birthCity: '',
+                    birthCountry: 'France',
+                    resultRecipientEmail: 'alfredOfficial@email.fr',
+                    email: '',
+                    externalId: '',
+                    extraTimePercentage: null,
+                    billingMode: 'Prépayée',
+                    prepaymentCode: '43',
+                    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE],
+                    line: 3,
+                  },
+                ],
+              },
+            ];
+
+            // when
+            const result = csvSerializer
+              .deserializeForSessionsImport({
+                parsedCsvData,
+                hasBillingMode: true,
+                isCoreComplementaryCompatibilityEnabled,
+              })
+              .map((session) => _.omit(session, 'uniqueKey'));
+
+            // then
+            expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+          });
         });
       });
     });
@@ -803,56 +1040,117 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         });
       });
 
-      it('should return a session object with candidate information per csv line', function () {
-        // given
-        const parsedCsvData = [
-          lineWithSessionAndCandidateWithComplementaryCertificationSubscription({
-            sessionNumber: 1,
-            candidateNumber: 1,
-            shouldSubscribeToComplementaryCertification: 'oui',
-          }),
-        ];
+      context('isCoreComplementaryCompatibilityEnabled OFF', function () {
+        it('should return a session object with candidate information per csv line', function () {
+          // given
+          const parsedCsvData = [
+            lineWithSessionAndCandidateWithComplementaryCertificationSubscription({
+              sessionNumber: 1,
+              candidateNumber: 1,
+              shouldSubscribeToComplementaryCertification: 'oui',
+            }),
+          ];
 
-        const expectedResult = [
-          {
-            sessionId: undefined,
-            address: 'Site 1',
-            room: 'Salle 1',
-            date: '2023-05-12',
-            time: '01:00',
-            examiner: 'Paul',
-            description: '',
-            line: 2,
-            candidates: [
-              {
-                lastName: 'Candidat 1',
-                firstName: 'Candidat 1',
-                birthdate: '1981-03-01',
-                birthINSEECode: '75015',
-                birthPostalCode: '',
-                billingMode: 'Prépayée',
-                birthCity: '',
-                birthCountry: 'France',
-                email: '',
-                externalId: '',
-                extraTimePercentage: null,
-                prepaymentCode: '43',
-                resultRecipientEmail: 'robindahood@email.fr',
-                sex: 'M',
-                subscriptionLabels: [SUBSCRIPTION_TYPES.CORE, 'Pix certif complementaire'],
-                line: 2,
-              },
-            ],
-          },
-        ];
+          const expectedResult = [
+            {
+              sessionId: undefined,
+              address: 'Site 1',
+              room: 'Salle 1',
+              date: '2023-05-12',
+              time: '01:00',
+              examiner: 'Paul',
+              description: '',
+              line: 2,
+              candidates: [
+                {
+                  lastName: 'Candidat 1',
+                  firstName: 'Candidat 1',
+                  birthdate: '1981-03-01',
+                  birthINSEECode: '75015',
+                  birthPostalCode: '',
+                  billingMode: 'Prépayée',
+                  birthCity: '',
+                  birthCountry: 'France',
+                  email: '',
+                  externalId: '',
+                  extraTimePercentage: null,
+                  prepaymentCode: '43',
+                  resultRecipientEmail: 'robindahood@email.fr',
+                  sex: 'M',
+                  subscriptionLabels: [SUBSCRIPTION_TYPES.CORE, 'Pix certif complementaire'],
+                  line: 2,
+                },
+              ],
+            },
+          ];
 
-        // when
-        const result = csvSerializer
-          .deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true })
-          .map((session) => _.omit(session, 'uniqueKey'));
+          // when
+          const result = csvSerializer
+            .deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true })
+            .map((session) => _.omit(session, 'uniqueKey'));
 
-        // then
-        expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+          // then
+          expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+        });
+      });
+
+      context('isCoreComplementaryCompatibilityEnabled ON', function () {
+        it('should return a session object with candidate information per csv line', function () {
+          // given
+          const isCoreComplementaryCompatibilityEnabled = true;
+          const parsedCsvData = [
+            lineWithSessionAndCandidateWithComplementaryCertificationSubscription({
+              sessionNumber: 1,
+              candidateNumber: 1,
+              shouldSubscribeToComplementaryCertification: 'oui',
+            }),
+          ];
+
+          const expectedResult = [
+            {
+              sessionId: undefined,
+              address: 'Site 1',
+              room: 'Salle 1',
+              date: '2023-05-12',
+              time: '01:00',
+              examiner: 'Paul',
+              description: '',
+              line: 2,
+              candidates: [
+                {
+                  lastName: 'Candidat 1',
+                  firstName: 'Candidat 1',
+                  birthdate: '1981-03-01',
+                  birthINSEECode: '75015',
+                  birthPostalCode: '',
+                  billingMode: 'Prépayée',
+                  birthCity: '',
+                  birthCountry: 'France',
+                  email: '',
+                  externalId: '',
+                  extraTimePercentage: null,
+                  prepaymentCode: '43',
+                  resultRecipientEmail: 'robindahood@email.fr',
+                  sex: 'M',
+                  subscriptionLabels: ['Pix certif complementaire'],
+                  line: 2,
+                },
+              ],
+            },
+          ];
+
+          // when
+          const result = csvSerializer
+            .deserializeForSessionsImport({
+              parsedCsvData,
+              hasBillingMode: true,
+              isCoreComplementaryCompatibilityEnabled,
+            })
+            .map((session) => _.omit(session, 'uniqueKey'));
+
+          // then
+          expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+        });
       });
 
       describe('when some mandatory candidate fields are missing', function () {
