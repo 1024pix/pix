@@ -7,15 +7,15 @@ import { registerJobs } from '../../worker.js';
 import { expect, sinon } from '../test-helper.js';
 
 describe('#registerJobs', function () {
-  let startPgBossStub, createMonitoredJobQueueStub, scheduleCpfJobsStub, monitoredJobQueueStub;
+  let startPgBossStub, createJobQueueStub, scheduleCpfJobsStub, jobQueueStub;
 
   beforeEach(function () {
     const pgBossStub = { schedule: sinon.stub() };
-    monitoredJobQueueStub = { registerJob: sinon.stub() };
+    jobQueueStub = { registerJob: sinon.stub() };
     startPgBossStub = sinon.stub();
     startPgBossStub.resolves(pgBossStub);
-    createMonitoredJobQueueStub = sinon.stub();
-    createMonitoredJobQueueStub.withArgs(pgBossStub).returns(monitoredJobQueueStub);
+    createJobQueueStub = sinon.stub();
+    createJobQueueStub.withArgs(pgBossStub).returns(jobQueueStub);
     scheduleCpfJobsStub = sinon.stub();
   });
 
@@ -23,12 +23,12 @@ describe('#registerJobs', function () {
     // when
     await registerJobs({
       startPgBoss: startPgBossStub,
-      createMonitoredJobQueue: createMonitoredJobQueueStub,
+      createJobQueue: createJobQueueStub,
       scheduleCpfJobs: scheduleCpfJobsStub,
     });
 
     // then
-    expect(monitoredJobQueueStub.registerJob).to.have.been.calledWithExactly(
+    expect(jobQueueStub.registerJob).to.have.been.calledWithExactly(
       UserAnonymizedEventLoggingJob.name,
       UserAnonymizedEventLoggingJobController,
     );
@@ -41,12 +41,12 @@ describe('#registerJobs', function () {
     // when
     await registerJobs({
       startPgBoss: startPgBossStub,
-      createMonitoredJobQueue: createMonitoredJobQueueStub,
+      createJobQueue: createJobQueueStub,
       scheduleCpfJobs: scheduleCpfJobsStub,
     });
 
     // then
-    expect(monitoredJobQueueStub.registerJob).to.have.been.calledWithExactly(
+    expect(jobQueueStub.registerJob).to.have.been.calledWithExactly(
       ValidateOrganizationImportFileJob.name,
       ValidateOrganizationLearnersImportFileJobController,
     );
@@ -59,12 +59,12 @@ describe('#registerJobs', function () {
     // when
     await registerJobs({
       startPgBoss: startPgBossStub,
-      createMonitoredJobQueue: createMonitoredJobQueueStub,
+      createJobQueue: createJobQueueStub,
       scheduleCpfJobs: scheduleCpfJobsStub,
     });
 
     // then
-    expect(monitoredJobQueueStub.registerJob).to.not.have.been.calledWithExactly(
+    expect(jobQueueStub.registerJob).to.not.have.been.calledWithExactly(
       ValidateOrganizationImportFileJob.name,
       ValidateOrganizationLearnersImportFileJobController,
     );

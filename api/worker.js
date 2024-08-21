@@ -11,7 +11,6 @@ import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './src/pre
 import { config } from './src/shared/config.js';
 import { scheduleCpfJobs } from './src/shared/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { JobQueue } from './src/shared/infrastructure/jobs/JobQueue.js';
-import { MonitoredJobQueue } from './src/shared/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
 import { importNamedExportFromFile } from './src/shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
 
@@ -43,11 +42,10 @@ async function startPgBoss() {
   return pgBoss;
 }
 
-function createMonitoredJobQueue(pgBoss) {
+function createJobQueue(pgBoss) {
   const jobQueue = new JobQueue(pgBoss);
-  const monitoredJobQueue = new MonitoredJobQueue(jobQueue);
   process.on('SIGINT', async () => {
-    await monitoredJobQueue.stop();
+    await jobQueue.stop();
 
     // Make sure pgBoss stopped before quitting
     pgBoss.on('stopped', () => {
@@ -55,12 +53,12 @@ function createMonitoredJobQueue(pgBoss) {
       process.exit(0);
     });
   });
-  return monitoredJobQueue;
+  return jobQueue;
 }
 
-export async function registerJobs(dependencies = { startPgBoss, createMonitoredJobQueue, scheduleCpfJobs }) {
+export async function registerJobs(dependencies = { startPgBoss, createJobQueue, scheduleCpfJobs }) {
   const pgBoss = await dependencies.startPgBoss();
-  const monitoredJobQueue = dependencies.createMonitoredJobQueue(pgBoss);
+  const jobQueue = dependencies.createJobQueue(pgBoss);
 
   const globPattern = `${workerDirPath}/src/**/application/**/*job-controller.js`;
 
@@ -79,15 +77,14 @@ export async function registerJobs(dependencies = { startPgBoss, createMonitored
 
     if (job.isJobEnabled()) {
       logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
-      monitoredJobQueue.registerJob(job.jobName, ModuleClass);
+      jobQueue.registerJob(job.jobName, ModuleClass);
     } else {
       logger.warn(`Job "${job.jobName}" is disabled.`);
     }
   }
 
   // TODO - use abstraction for CRON
-
-  //schudeler
+  // Scheduler
   await pgBoss.schedule(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,
     config.features.scheduleComputeOrganizationLearnersCertificability.cron,
