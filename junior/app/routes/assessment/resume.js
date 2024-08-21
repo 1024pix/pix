@@ -7,7 +7,7 @@ export default class ResumeRoute extends Route {
 
   async redirect(assessment, transition) {
     if (transition.from.name === 'challenge-preview') {
-      return this.router.replaceWith('/');
+      return this.router.replaceWith('organization-code');
     }
     if (transition.to.queryParams.assessmentHasNoMoreQuestions === 'true') {
       return this._routeToResults(assessment);
