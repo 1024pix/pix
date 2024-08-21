@@ -20,6 +20,7 @@ export default class CertificationCandidate extends Model {
   @attr('string') sex;
   @attr('string') billingMode;
   @attr('string') prepaymentCode;
+  @attr('boolean') accessibilityAdjustmentNeeded;
 
   @hasMany('subscription', { async: false, inverse: null }) subscriptions;
 
@@ -39,6 +40,14 @@ export default class CertificationCandidate extends Model {
     const candidateBillingMode = this.billingMode;
     if (candidateBillingMode) {
       return this.intl.t(`common.labels.billing-mode.${candidateBillingMode.toLowerCase()}`);
+    }
+
+    return '-';
+  }
+
+  get accessibilityAdjustmentNeededLabel() {
+    if (this.accessibilityAdjustmentNeeded) {
+      return this.intl.t('common.labels.candidate.accessibility-adjusted-certification-needed');
     }
 
     return '-';

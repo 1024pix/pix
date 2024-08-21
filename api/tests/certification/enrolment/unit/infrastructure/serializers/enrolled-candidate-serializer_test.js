@@ -28,6 +28,7 @@ describe('Certification | Enrolment | Unit | Serializer | enrolled-candidate-ser
         prepaymentCode: 'somePrepaymentCode1',
         subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: 123 })],
         hasSeenCertificationInstructions: true,
+        accessibilityAdjustmentNeeded: true,
       });
       const expectedJsonApiData = {
         data: {
@@ -53,6 +54,7 @@ describe('Certification | Enrolment | Unit | Serializer | enrolled-candidate-ser
             sex: enrolledCandidate.sex,
             'complementary-certification': null,
             'has-seen-certification-instructions': true,
+            'accessibility-adjustment-needed': true,
           },
           relationships: {
             subscriptions: {
@@ -115,6 +117,7 @@ describe('Certification | Enrolment | Unit | Serializer | enrolled-candidate-ser
             complementaryCertificationId: 456,
           }),
         ],
+        accessibilityAdjustmentNeeded: true,
       });
       const expectedJsonApiData = {
         data: {
@@ -142,6 +145,7 @@ describe('Certification | Enrolment | Unit | Serializer | enrolled-candidate-ser
             'complementary-certification': {
               id: enrolledCandidate.subscriptions[1].complementaryCertificationId,
             },
+            'accessibility-adjustment-needed': true,
           },
           relationships: {
             subscriptions: {

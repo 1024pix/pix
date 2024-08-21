@@ -25,6 +25,7 @@ module('Unit | Model | certification-candidate', function (hooks) {
       birthInseeCode: 76255,
       birthPostalCode: 76260,
       sex: 1,
+      accessibilityAdjustmentNeeded: true,
     };
     // when
     const model = store.createRecord('certification-candidate', data);
@@ -186,6 +187,38 @@ module('Unit | Model | certification-candidate', function (hooks) {
 
       // then
       assert.false(hasDual);
+    });
+  });
+
+  module('#get accessibilityAdjustmentNeededLabel', function (hooks) {
+    let store;
+
+    hooks.beforeEach(function () {
+      store = this.owner.lookup('service:store');
+    });
+
+    module('when adjusted certification is needed', function () {
+      test('should display "Yes"', function (assert) {
+        // when
+        const { accessibilityAdjustmentNeededLabel } = store.createRecord('certification-candidate', {
+          accessibilityAdjustmentNeeded: true,
+        });
+
+        // then
+        assert.strictEqual(accessibilityAdjustmentNeededLabel, 'Oui');
+      });
+    });
+
+    module('when adjusted certification is not needed', function () {
+      test('should not display anything', function (assert) {
+        // when
+        const { accessibilityAdjustmentNeededLabel } = store.createRecord('certification-candidate', {
+          accessibilityAdjustmentNeeded: false,
+        });
+
+        // then
+        assert.strictEqual(accessibilityAdjustmentNeededLabel, '-');
+      });
     });
   });
 

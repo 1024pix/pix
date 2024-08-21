@@ -64,6 +64,10 @@ export default Factory.extend({
     return '35400';
   },
 
+  accessibilityAdjustmentNeeded() {
+    return true;
+  },
+
   afterCreate(candidate, server) {
     const hasSubscriptions = candidate.subscriptions?.models?.length ?? false;
     if (!hasSubscriptions) {

@@ -13,11 +13,19 @@ export default class EnrolledCandidates extends Component {
   @service intl;
   @service currentUser;
   @service notifications;
+  @service featureToggles;
   @tracked candidatesInStaging = [];
   @tracked newCandidate = {};
   @tracked shouldDisplayCertificationCandidateModal = false;
   @tracked certificationCandidateInDetailsModal = null;
   @tracked showNewCandidateModal = false;
+
+  get shouldDisplayAccessibilityAdjustmentNeededFeature() {
+    return (
+      this.currentUser.currentAllowedCertificationCenterAccess.isV3Pilot &&
+      this.featureToggles.featureToggles?.isNeedToAdjustCertificationAccessibilityEnabled
+    );
+  }
 
   @action
   async deleteCertificationCandidate(certificationCandidate) {

@@ -89,7 +89,7 @@ async function _createScoCertificationCenter({ databaseBuilder }) {
     id: SCO_CERTIFICATION_MANAGING_STUDENTS_CERTIFICATION_CENTER_USER_ID,
     firstName: 'Centre de certif SCO managing student',
     lastName: 'Certification',
-    email: 'certif-sco@example.net',
+    email: 'certif-sco-v3@example.net',
     cgu: true,
     lang: 'fr',
     lastTermsOfServiceValidatedAt: new Date(),

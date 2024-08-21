@@ -96,6 +96,7 @@
     },
     "forms": {
       "certification-labels": {
+        "accessibility": "Accessibilité",
         "additional-certification": "Choix de la certification",
         "additional-certification-old": "Certification complémentaire",
         "candidate-status": {
@@ -147,6 +148,7 @@
         "prepaid": "Prépayée"
       },
       "candidate": {
+        "accessibility-adjusted-certification-needed": "Oui",
         "birth-city": "Commune de naissance",
         "birth-city-insee-code": "Code INSEE de naissance",
         "birth-city-postcode": "Code postal de naissance",

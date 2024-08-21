@@ -70,4 +70,34 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       expect(response.statusCode).to.equal(204);
     });
   });
+
+  describe('#getEnrolledCandidates', function () {
+    it('should return enrolled candidates', async function () {
+      // given
+      const sessionId = 1;
+      const enrolledCandidates = ['enrolledCandidates'];
+      const enrolledCandidatesJsonAPI = ['enrolledCandidatesJsonAPI'];
+      const request = {
+        params: { id: sessionId },
+      };
+      sinon.stub(usecases, 'getEnrolledCandidatesInSession');
+      usecases.getEnrolledCandidatesInSession
+        .withArgs({
+          sessionId,
+        })
+        .resolves(enrolledCandidates);
+      const enrolledCandidateSerializer = {
+        serialize: sinon.stub(),
+      };
+      enrolledCandidateSerializer.serialize.resolves(enrolledCandidatesJsonAPI);
+
+      // when
+      const response = await certificationCandidateController.getEnrolledCandidates(request, hFake, {
+        enrolledCandidateSerializer,
+      });
+
+      // then
+      expect(response).to.deep.equal(enrolledCandidatesJsonAPI);
+    });
+  });
 });
