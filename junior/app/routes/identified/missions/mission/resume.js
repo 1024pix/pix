@@ -1,14 +1,15 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
-export default class MissionRoute extends Route {
+export default class MissionResumeRoute extends Route {
   @service router;
   @service store;
   @service currentLearner;
 
-  model(params, transition) {
+  model() {
+    const mission = this.modelFor('identified.missions.mission');
     return this.store.queryRecord('assessment', {
-      missionId: transition.to.parent.params.mission_id,
+      missionId: mission.id,
       learnerId: this.currentLearner.learner.id,
     });
   }

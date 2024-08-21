@@ -5,4 +5,7 @@ export default class Mission extends Model {
   @attr('string') areaCode;
   @attr('string') learningObjectives;
   @attr('string') validatedObjectives;
+  @attr('string') introductionMediaUrl;
+  @attr('string') introductionMediaType;
+  @attr('string') introductionMediaAlt;
 }

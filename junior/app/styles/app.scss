@@ -13,7 +13,7 @@
 // Components
 @import 'components/challenge/challenge-actions';
 @import 'components/challenge/challenge-embed-simulator';
-@import 'components/challenge/challenge-illustration';
+@import 'components/challenge/challenge-media';
 @import 'components/challenge/challenge-item';
 @import 'components/challenge/challenge-item-proposals';
 @import 'components/mission-card/card';
@@ -23,6 +23,7 @@
 @import 'components/robot-dialog';
 
 // Pages
+@import 'pages/identified/missions/introduction';
 @import 'pages/identified/missions/list';
 @import 'pages/identified/missions/mission';
 @import 'pages/loading';
@@ -55,7 +56,7 @@ b {
   @include device-is('large-screen') {
     margin: 32px auto;
   }
-  
+
   main {
     display: flex;
     flex-direction: column;

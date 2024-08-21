@@ -21,13 +21,13 @@
       </ul>
 
       <PixButtonLink
-        @route="identified.missions.mission.resume"
+        @route={{this.routeUrl}}
         size="large"
         class="details-action"
         {{on "click" this.activeLoadingButton}}
       >
         <p>{{t "pages.missions.start-page.start-mission"}}</p>
-        <FaIcon @icon="arrow-right" class="details-action__icon" />
+        <FaIcon @icon="arrow-right" class="button__icon-after" />
       </PixButtonLink>
 
       <PixButton class="details-action details-action__loader" @isLoading="true" />

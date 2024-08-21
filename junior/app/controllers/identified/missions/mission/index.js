@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 
-export default class Mission extends Controller {
+export default class MissionDetailsController extends Controller {
   @service router;
 
   @action
@@ -15,5 +15,11 @@ export default class Mission extends Controller {
 
   get learningObjectives() {
     return this.model.learningObjectives.split('\n');
+  }
+
+  get routeUrl() {
+    return this.model.introductionMediaUrl
+      ? 'identified.missions.mission.introduction'
+      : 'identified.missions.mission.resume';
   }
 }
