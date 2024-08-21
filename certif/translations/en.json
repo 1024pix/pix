@@ -579,6 +579,14 @@
               "close-extra-information": "Close candidate's detail window modal"
             }
           },
+          "edit-modal": {
+            "title": "Edit candidate's details",
+            "accessibility-adjustment": {
+              "title": "Digital accessibility adjustment",
+              "details": "The adjustment involves removing questions that are not accessible",
+              "label": "Candidate needs an adjustment"
+            }
+          },
           "list": {
             "title": "Candidates' list",
             "actions": {

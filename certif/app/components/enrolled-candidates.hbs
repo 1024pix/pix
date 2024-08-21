@@ -226,3 +226,10 @@
   @updateCandidateDataFromValue={{this.updateCertificationCandidateInStagingFieldFromValue}}
   @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
 />
+
+<EditCandidateModal
+  @showModal={{this.shouldDisplayEditCertificationCandidateModal}}
+  @closeModal={{this.closeEditCandidateModal}}
+  @candidate={{this.certificationCandidateInEditModal}}
+  @updateCandidateDataFromValue={{this.updateEditCandidateInStagingFieldFromValue}}
+/>

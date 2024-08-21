@@ -19,6 +19,7 @@ export default class EnrolledCandidates extends Component {
   @tracked shouldDisplayCertificationCandidateModal = false;
   @tracked shouldDisplayEditCertificationCandidateModal = false;
   @tracked certificationCandidateInDetailsModal = null;
+  @tracked certificationCandidateInEditModal = null;
   @tracked showNewCandidateModal = false;
 
   get shouldDisplayAccessibilityAdjustmentNeededFeature() {
@@ -102,6 +103,11 @@ export default class EnrolledCandidates extends Component {
   }
 
   @action
+  updateEditCandidateInStagingFieldFromValue(candidateInStaging, field, event) {
+    candidateInStaging.set(field, event.target.checked);
+  }
+
+  @action
   updateCertificationCandidateInStagingBirthdate(candidateInStaging, value) {
     candidateInStaging.set('birthdate', value);
   }
@@ -142,7 +148,7 @@ export default class EnrolledCandidates extends Component {
   @action
   openEditCertificationCandidateDetailsModal(candidate) {
     this.shouldDisplayEditCertificationCandidateModal = true;
-    this.certificationCandidateInDetailsModal = candidate;
+    this.certificationCandidateInEditModal = candidate;
   }
 
   @action
@@ -160,6 +166,11 @@ export default class EnrolledCandidates extends Component {
   @action
   closeNewCandidateModal() {
     this.showNewCandidateModal = false;
+  }
+
+  @action
+  closeEditCandidateModal() {
+    this.shouldDisplayEditCertificationCandidateModal = false;
   }
 
   _createCertificationCandidateRecord(certificationCandidateData) {
