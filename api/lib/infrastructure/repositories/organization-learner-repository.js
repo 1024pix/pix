@@ -90,16 +90,6 @@ const findByUserId = async function ({ userId }) {
   return rawOrganizationLearners.map((rawOrganizationLearner) => new OrganizationLearner(rawOrganizationLearner));
 };
 
-const isOrganizationLearnerIdLinkedToUserAndSCOOrganization = async function ({ userId, organizationLearnerId }) {
-  const exist = await knex('view-active-organization-learners')
-    .select('view-active-organization-learners.id')
-    .join('organizations', 'view-active-organization-learners.organizationId', 'organizations.id')
-    .where({ userId, type: 'SCO', 'view-active-organization-learners.id': organizationLearnerId })
-    .first();
-
-  return Boolean(exist);
-};
-
 const _reconcileOrganizationLearners = async function (studentsToImport, allOrganizationLearnersInSameOrganization) {
   const nationalStudentIdsFromFile = studentsToImport
     .map((organizationLearnerData) => organizationLearnerData.nationalStudentId)
@@ -381,7 +371,6 @@ export {
   get,
   getLatestOrganizationLearner,
   isActive,
-  isOrganizationLearnerIdLinkedToUserAndSCOOrganization,
   reconcileUserByNationalStudentIdAndOrganizationId,
   reconcileUserToOrganizationLearner,
   updateCertificability,

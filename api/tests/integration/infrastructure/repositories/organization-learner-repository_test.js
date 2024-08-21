@@ -11,7 +11,7 @@ import {
   UserCouldNotBeReconciledError,
   UserNotFoundError,
 } from '../../../../src/shared/domain/errors.js';
-import { OrganizationLearner } from '../../../../src/shared/domain/models/OrganizationLearner.js';
+import { OrganizationLearner } from '../../../../src/shared/domain/models/index.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | organization-learner-repository', function () {
@@ -515,48 +515,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         thirdOrganizationLearner.id,
         fourthOrganizationLearner.id,
       ]);
-    });
-  });
-
-  describe('#isOrganizationLearnerIdLinkedToUserAndSCOOrganization', function () {
-    it('should return true when an organizationLearnermatches an id and matches also a given user id and a SCO organization', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser().id;
-      const otherUserId = databaseBuilder.factory.buildUser().id;
-      const firstScoOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
-      const secondScoOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
-      const supOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP' }).id;
-      const matchingOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
-        userId,
-        organizationId: firstScoOrganizationId,
-      }).id;
-      databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId: secondScoOrganizationId });
-      databaseBuilder.factory.buildOrganizationLearner({
-        userId: otherUserId,
-        organizationId: secondScoOrganizationId,
-      });
-      databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId: supOrganizationId });
-      await databaseBuilder.commit();
-
-      // when
-      const isLinked = await organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization({
-        userId,
-        organizationLearnerId: matchingOrganizationLearnerId,
-      });
-
-      // then
-      expect(isLinked).to.be.true;
-    });
-
-    it('should return false when no organizationLearner matches an id and matches also a given user id and a SCO organization', async function () {
-      // when
-      const isLinked = await organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization({
-        userId: 42,
-        organizationLearnerId: 42,
-      });
-
-      // then
-      expect(isLinked).to.be.false;
     });
   });
 

@@ -63,28 +63,17 @@ class SessionEnrolment {
     return sessionDate < new Date();
   }
 
-  isCandidateAlreadyEnrolled({
-    candidates,
-    candidatePersonalInfo: { firstName, lastName, birthdate },
-    normalizeStringFnc,
-  }) {
-    const normalizedInputNames = {
-      lastName: normalizeStringFnc(lastName),
-      firstName: normalizeStringFnc(firstName),
-    };
-    return _.some(candidates, (enrolledCandidate) => {
-      const enrolledCandidatesNormalizedNames = {
-        lastName: normalizeStringFnc(enrolledCandidate.lastName),
-        firstName: normalizeStringFnc(enrolledCandidate.firstName),
-      };
-      return (
-        _.isEqual(normalizedInputNames, enrolledCandidatesNormalizedNames) && birthdate === enrolledCandidate.birthdate
-      );
-    });
+  isCandidateAlreadyEnrolled({ candidates, candidatePersonalInfo, normalizeStringFnc }) {
+    const matchingCandidates = findMatchingCandidates({ candidates, candidatePersonalInfo, normalizeStringFnc });
+    return matchingCandidates.length > 0;
   }
 
   hasLinkedCandidate({ candidates }) {
     return candidates.some((candidate) => candidate.isLinkedToAUser());
+  }
+
+  hasLinkedCandidateTo({ candidates, userId }) {
+    return candidates.some((candidate) => candidate.isLinkedTo(userId));
   }
 
   updateInfo(sessionData) {
@@ -96,6 +85,30 @@ class SessionEnrolment {
     this.time = sessionData.time;
     this.description = sessionData.description;
   }
+
+  findCandidatesByPersonalInfo({ candidates, candidatePersonalInfo, normalizeStringFnc }) {
+    return findMatchingCandidates({ candidates, candidatePersonalInfo, normalizeStringFnc });
+  }
+}
+
+function findMatchingCandidates({
+  candidates,
+  candidatePersonalInfo: { firstName, lastName, birthdate },
+  normalizeStringFnc,
+}) {
+  const normalizedInputNames = {
+    lastName: normalizeStringFnc(lastName),
+    firstName: normalizeStringFnc(firstName),
+  };
+  return candidates.filter((enrolledCandidate) => {
+    const enrolledCandidatesNormalizedNames = {
+      lastName: normalizeStringFnc(enrolledCandidate.lastName),
+      firstName: normalizeStringFnc(enrolledCandidate.firstName),
+    };
+    return (
+      _.isEqual(normalizedInputNames, enrolledCandidatesNormalizedNames) && birthdate === enrolledCandidate.birthdate
+    );
+  });
 }
 
 export { SessionEnrolment };

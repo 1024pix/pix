@@ -1,4 +1,6 @@
-import Joi from 'joi';
+import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
+const Joi = BaseJoi.extend(JoiDate);
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
@@ -96,6 +98,37 @@ const register = async function (server) {
             "- Supprime la session et les candidats si la session n'a pas démarrée",
         ],
         tags: ['api', 'session'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/sessions/{id}/candidate-participation',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.sessionId,
+          }),
+          options: {
+            allowUnknown: true,
+          },
+          payload: Joi.object({
+            data: {
+              type: Joi.string().valid('certification-candidates').required(),
+              attributes: Joi.object({
+                'first-name': Joi.string().empty(['', null]).required(),
+                'last-name': Joi.string().empty(['', null]).required(),
+                birthdate: Joi.date().format('YYYY-MM-DD').raw().required(),
+              }),
+            },
+          }),
+        },
+        handler: sessionController.createCandidateParticipation,
+        tags: ['api', 'sessions', 'certification-candidates'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle associe un candidat de certification\n' +
+            "à un utilisateur à l'aide des informations d'identité de celui-ci (nom, prénom et date de naissance).",
+        ],
       },
     },
   ]);

@@ -348,6 +348,57 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
     });
   });
 
+  context('#hasLinkedCandidateTo', function () {
+    it('should return true when at least one candidate is linked to given user', function () {
+      // given
+      const userId = 123;
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: 123,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: 456,
+        }),
+      ];
+
+      // when
+      const hasLinkedCandidateTo = session.hasLinkedCandidateTo({
+        candidates,
+        userId,
+      });
+
+      // then
+      expect(hasLinkedCandidateTo).to.be.true;
+    });
+
+    it('should return false when no candidate is linked to user', function () {
+      // given
+      const userId = 123;
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: 456,
+        }),
+      ];
+
+      // when
+      const hasLinkedCandidateTo = session.hasLinkedCandidateTo({
+        candidates,
+        userId,
+      });
+
+      // then
+      expect(hasLinkedCandidateTo).to.be.false;
+    });
+  });
+
   context('#updateInfo', function () {
     it('should update the allowed info on session', function () {
       // given
@@ -395,6 +446,183 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
           ...newInfo,
         }),
       );
+    });
+  });
+
+  context('#findCandidatesByPersonalInfo', function () {
+    it('should return the candidate on which all personal info matches (case / diacritics insensitive)', function () {
+      // given
+      const candidatePersonalInfo = {
+        firstName: 'Frédéric',
+        lastName: 'De bussy',
+        birthdate: '1990-01-04',
+      };
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          id: 123,
+          firstName: 'Un',
+          lastName: 'Related',
+          birthdate: '1995-04-04',
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          id: 456,
+          firstName: 'un prénom très proche de frederic',
+          lastName: `un nom tres proche de debussy`,
+          birthdate: '1990-01-04',
+        }),
+      ];
+      const normalizeStringFnc = sinon.stub();
+      normalizeStringFnc.withArgs(candidatePersonalInfo.lastName).returns(candidatePersonalInfo.lastName);
+      normalizeStringFnc.withArgs(candidatePersonalInfo.firstName).returns(candidatePersonalInfo.firstName);
+      normalizeStringFnc.withArgs(candidates[0].lastName).returns(candidates[0].lastName);
+      normalizeStringFnc.withArgs(candidates[0].firstName).returns(candidates[0].firstName);
+      normalizeStringFnc.withArgs(candidates[1].lastName).returns(candidatePersonalInfo.lastName);
+      normalizeStringFnc.withArgs(candidates[1].firstName).returns(candidatePersonalInfo.firstName);
+
+      // when
+      const matchingCandidates = session.findCandidatesByPersonalInfo({
+        candidates,
+        candidatePersonalInfo,
+        normalizeStringFnc,
+      });
+
+      // then
+      expect(matchingCandidates.map(({ id }) => id)).to.deep.equal([456]);
+    });
+
+    it('should return null when first name is not matching an already enrolled candidate', function () {
+      // given
+      const candidatePersonalInfo = {
+        firstName: 'Frédéric',
+        lastName: 'De bussy',
+        birthdate: '1990-01-04',
+      };
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          firstName: 'Un',
+          lastName: 'Related',
+          birthdate: '1995-04-04',
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          firstName: 'Richard',
+          lastName: candidatePersonalInfo.lastName,
+          birthdate: candidatePersonalInfo.birthdate,
+        }),
+      ];
+      const normalizeStringFnc = sinon.stub((str) => str);
+
+      // when
+      const matchingCandidates = session.findCandidatesByPersonalInfo({
+        candidates,
+        candidatePersonalInfo,
+        normalizeStringFnc,
+      });
+
+      // then
+      expect(matchingCandidates).to.deep.equal([]);
+    });
+
+    it('should return false when last name is not matching an already enrolled candidate', function () {
+      // given
+      const candidatePersonalInfo = {
+        firstName: 'Frédéric',
+        lastName: 'De bussy',
+        birthdate: '1990-01-04',
+      };
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          firstName: 'Un',
+          lastName: 'Related',
+          birthdate: '1995-04-04',
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          firstName: candidatePersonalInfo.firstName,
+          lastName: 'Chopin',
+          birthdate: candidatePersonalInfo.birthdate,
+        }),
+      ];
+      const normalizeStringFnc = sinon.stub((str) => str);
+
+      // when
+      const matchingCandidates = session.findCandidatesByPersonalInfo({
+        candidates,
+        candidatePersonalInfo,
+        normalizeStringFnc,
+      });
+
+      // then
+      expect(matchingCandidates).to.deep.equal([]);
+    });
+
+    it('should return false when birthdate is not matching an already enrolled candidate', function () {
+      // given
+      const candidatePersonalInfo = {
+        firstName: 'Frédéric',
+        lastName: 'De bussy',
+        birthdate: '1990-01-04',
+      };
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          firstName: 'Un',
+          lastName: 'Related',
+          birthdate: '1995-04-04',
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          firstName: candidatePersonalInfo.firstName,
+          lastName: candidatePersonalInfo.lastName,
+          birthdate: '1990-01-05',
+        }),
+      ];
+      const normalizeStringFnc = sinon.stub((str) => str);
+
+      // when
+      const matchingCandidates = session.findCandidatesByPersonalInfo({
+        candidates,
+        candidatePersonalInfo,
+        normalizeStringFnc,
+      });
+
+      // then
+      expect(matchingCandidates).to.deep.equal([]);
+    });
+
+    it('should return all candidates matching personal info', function () {
+      // given
+      const candidatePersonalInfo = {
+        firstName: 'Frédéric',
+        lastName: 'De bussy',
+        birthdate: '1990-01-04',
+      };
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          id: 123,
+          firstName: candidatePersonalInfo.firstName,
+          lastName: candidatePersonalInfo.lastName,
+          birthdate: candidatePersonalInfo.birthdate,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          id: 456,
+          firstName: candidatePersonalInfo.firstName,
+          lastName: candidatePersonalInfo.lastName,
+          birthdate: candidatePersonalInfo.birthdate,
+        }),
+      ];
+      const normalizeStringFnc = sinon.stub((str) => str);
+
+      // when
+      const matchingCandidates = session.findCandidatesByPersonalInfo({
+        candidates,
+        candidatePersonalInfo,
+        normalizeStringFnc,
+      });
+
+      // then
+      expect(matchingCandidates.map(({ id }) => id)).to.deep.equal([123, 456]);
     });
   });
 });

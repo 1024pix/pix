@@ -1,5 +1,6 @@
 import * as centerRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
 import { CERTIFICATION_FEATURES } from '../../../../../../src/certification/shared/domain/constants.js';
+import { types } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { CertificationCenter } from '../../../../../../src/shared/domain/models/index.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
@@ -80,6 +81,61 @@ describe('Integration | Certification |  Center | Repository | center-repository
           isV3Pilot: false,
         });
         expect(result).to.deepEqualInstance(expectedCenter);
+      });
+    });
+
+    context('when the certification center has a matching organization (SCO)', function () {
+      it('should return the certification center with matching organization', async function () {
+        // given
+        const centerId = 1;
+        const matchingOrganizationId = 2;
+        databaseBuilder.factory.buildCertificationCenter({
+          id: centerId,
+          name: 'centerName',
+          isV3Pilot: false,
+          type: CertificationCenter.types.SCO,
+          externalId: 'EXTERNALABC',
+        });
+        databaseBuilder.factory.buildOrganization({
+          id: matchingOrganizationId,
+          type: types.SCO,
+          externalId: 'EXTERNALABC',
+          isManagingStudents: true,
+        });
+        databaseBuilder.factory.buildOrganization({
+          type: types.SCO,
+          externalId: 'EXTERNALDEF',
+          isManagingStudents: true,
+        });
+        databaseBuilder.factory.buildOrganization({
+          type: types.PRO,
+          externalId: 'EXTERNALABC',
+          isManagingStudents: true,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const center = await centerRepository.getById({
+          id: centerId,
+        });
+
+        // then
+        const expectedCenter = domainBuilder.certification.enrolment.buildCenter({
+          id: centerId,
+          name: 'centerName',
+          externalId: 'EXTERNALABC',
+          isV3Pilot: false,
+          type: CertificationCenter.types.SCO,
+          habilitations: [],
+          features: [],
+          matchingOrganization: domainBuilder.certification.enrolment.buildMatchingOrganization({
+            id: matchingOrganizationId,
+            externalId: 'EXTERNALABC',
+            type: types.SCO,
+            isManagingStudents: true,
+          }),
+        });
+        expect(center).to.deepEqualInstance(expectedCenter);
       });
     });
 

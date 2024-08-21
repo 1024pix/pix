@@ -3,8 +3,7 @@ import _ from 'lodash';
 import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import * as certificationCourseRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { BookshelfCertificationCourse } from '../../../../../../src/shared/infrastructure/orm-models/CertificationCourse.js';
-import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Certification Course', function () {
   describe('#save', function () {
@@ -373,14 +372,14 @@ describe('Integration | Repository | Certification Course', function () {
 
     it('should not add row in table "certification-courses"', async function () {
       // given
-      const countCertificationCoursesBeforeUpdate = await BookshelfCertificationCourse.count();
+      const countCertificationCoursesBeforeUpdate = await knex('certification-courses').count();
 
       // when
       await certificationCourseRepository.update({ certificationCourse });
 
       // then
-      const countCertificationCoursesAfterUpdate = await BookshelfCertificationCourse.count();
-      expect(countCertificationCoursesAfterUpdate).to.equal(countCertificationCoursesBeforeUpdate);
+      const countCertificationCoursesAfterUpdate = await knex('certification-courses').count();
+      expect(countCertificationCoursesAfterUpdate).to.deep.equal(countCertificationCoursesBeforeUpdate);
     });
 
     it('should update whitelisted values in database', async function () {

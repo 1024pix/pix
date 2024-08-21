@@ -2,9 +2,9 @@
  * @typedef {import ('./Habilitation.js').Habilitation} Habilitation
  */
 
+import { types } from '../../../../organizational-entities/domain/models/Organization.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
 import { CERTIFICATION_FEATURES } from '../../../shared/domain/constants.js';
-import { validate } from '../validators/center-validator.js';
 import { CenterTypes } from './CenterTypes.js';
 
 export class Center {
@@ -17,7 +17,7 @@ export class Center {
    * @param externalId
    * @param isV3Pilot
    */
-  constructor({ id, name, externalId, isV3Pilot, type, habilitations, features } = {}) {
+  constructor({ id, name, externalId, isV3Pilot, type, habilitations, features, matchingOrganization }) {
     this.id = id;
     this.name = name;
     this.type = type;
@@ -25,8 +25,7 @@ export class Center {
     this.habilitations = habilitations ?? [];
     this.features = features ?? [];
     this.isV3Pilot = !!isV3Pilot;
-
-    validate(this);
+    this.matchingOrganization = matchingOrganization;
   }
 
   get isSco() {
@@ -47,5 +46,26 @@ export class Center {
 
   isHabilitated(key) {
     return this.habilitations.some((habilitation) => habilitation.key === key);
+  }
+
+  get matchingOrganizationId() {
+    return this.matchingOrganization?.id ?? null;
+  }
+
+  get isMatchingOrganizationScoAndManagingStudents() {
+    return this.matchingOrganization?.isScoAndManagingStudents ?? false;
+  }
+}
+
+export class MatchingOrganization {
+  constructor({ id, externalId, type, isManagingStudents }) {
+    this.id = id;
+    this.externalId = externalId;
+    this.type = type;
+    this.isManagingStudents = isManagingStudents;
+  }
+
+  get isScoAndManagingStudents() {
+    return this.type === types.SCO && this.isManagingStudents;
   }
 }

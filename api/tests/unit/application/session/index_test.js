@@ -6,21 +6,6 @@ import { securityPreHandlers } from '../../../../src/shared/application/security
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Sessions | Routes', function () {
-  describe('POST /api/sessions/{id}/candidate-participation', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(sessionController, 'createCandidateParticipation').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('POST', '/api/sessions/3/candidate-participation');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('For admin', function () {
     describe('GET /api/admin/sessions/{id}/jury-certification-summaries', function () {
       it('should exist', async function () {

@@ -43,10 +43,14 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
-      const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
-      organizationRepository.getIdByCertificationCenterId
-        .withArgs(session.certificationCenterId)
-        .resolves(organizationForReferent.id);
+      const centerRepository = { getById: sinon.stub() };
+      centerRepository.getById.withArgs({ id: session.certificationCenterId }).resolves(
+        domainBuilder.certification.enrolment.buildCenter({
+          matchingOrganization: domainBuilder.certification.enrolment.buildMatchingOrganization({
+            id: organizationForReferent.id,
+          }),
+        }),
+      );
 
       // when
       await enrolStudentsToSession({
@@ -56,7 +60,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
         organizationLearnerRepository,
         sessionRepository,
         countryRepository,
-        organizationRepository,
+        centerRepository,
       });
 
       // then
@@ -107,10 +111,14 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       organizationLearnerRepository.findByIds.withArgs({ ids: [1] }).resolves([organizationLearner]);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
-      const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
-      organizationRepository.getIdByCertificationCenterId
-        .withArgs(session.certificationCenterId)
-        .resolves(organizationForReferent.id);
+      const centerRepository = { getById: sinon.stub() };
+      centerRepository.getById.withArgs({ id: session.certificationCenterId }).resolves(
+        domainBuilder.certification.enrolment.buildCenter({
+          matchingOrganization: domainBuilder.certification.enrolment.buildMatchingOrganization({
+            id: organizationForReferent.id,
+          }),
+        }),
+      );
 
       // when
       await enrolStudentsToSession({
@@ -120,7 +128,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
         organizationLearnerRepository,
         sessionRepository,
         countryRepository,
-        organizationRepository,
+        centerRepository,
       });
 
       // then
@@ -141,17 +149,21 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs({ id: session.id }).resolves(session);
-      const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
-      organizationRepository.getIdByCertificationCenterId
-        .withArgs(session.certificationCenterId)
-        .resolves(organizationForReferent.id);
+      const centerRepository = { getById: sinon.stub() };
+      centerRepository.getById.withArgs({ id: session.certificationCenterId }).resolves(
+        domainBuilder.certification.enrolment.buildCenter({
+          matchingOrganization: domainBuilder.certification.enrolment.buildMatchingOrganization({
+            id: organizationForReferent.id,
+          }),
+        }),
+      );
 
       // when
       const error = await catchErr(enrolStudentsToSession)({
         sessionId: session.id,
         studentIds,
         organizationLearnerRepository,
-        organizationRepository,
+        centerRepository,
         sessionRepository,
       });
 
@@ -180,10 +192,14 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       countryRepository.findAll.resolves([country]);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
-      const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
-      organizationRepository.getIdByCertificationCenterId
-        .withArgs(session.certificationCenterId)
-        .resolves(organizationForReferent.id);
+      const centerRepository = { getById: sinon.stub() };
+      centerRepository.getById.withArgs({ id: session.certificationCenterId }).resolves(
+        domainBuilder.certification.enrolment.buildCenter({
+          matchingOrganization: domainBuilder.certification.enrolment.buildMatchingOrganization({
+            id: organizationForReferent.id,
+          }),
+        }),
+      );
 
       // when
       const error = await catchErr(enrolStudentsToSession)({
@@ -193,7 +209,7 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
         organizationLearnerRepository,
         sessionRepository,
         countryRepository,
-        organizationRepository,
+        centerRepository,
       });
 
       // then
@@ -220,17 +236,21 @@ describe('Certification | Enrolment | Unit | UseCase | enrol-students-to-session
       organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
-      const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
-      organizationRepository.getIdByCertificationCenterId
-        .withArgs(session.certificationCenterId)
-        .resolves(organizationForReferent.id);
+      const centerRepository = { getById: sinon.stub() };
+      centerRepository.getById.withArgs({ id: session.certificationCenterId }).resolves(
+        domainBuilder.certification.enrolment.buildCenter({
+          matchingOrganization: domainBuilder.certification.enrolment.buildMatchingOrganization({
+            id: organizationForReferent.id,
+          }),
+        }),
+      );
 
       // when
       await enrolStudentsToSession({
         sessionId,
         studentIds,
         scoCertificationCandidateRepository,
-        organizationRepository,
+        centerRepository,
         organizationLearnerRepository,
         countryRepository,
         sessionRepository,

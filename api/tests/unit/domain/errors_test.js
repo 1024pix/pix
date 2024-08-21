@@ -28,16 +28,8 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.CertificationCandidateByPersonalInfoTooManyMatchesError).to.exist;
   });
 
-  it('should export a CertificationCandidateCreationOrUpdateError', function () {
-    expect(errors.CertificationCandidateCreationOrUpdateError).to.exist;
-  });
-
   it('should export a CertificationCandidateDeletionError', function () {
     expect(errors.CertificationCandidateDeletionError).to.exist;
-  });
-
-  it('should export a CertificationCandidateMultipleUserLinksWithinSessionError', function () {
-    expect(errors.CertificationCandidateMultipleUserLinksWithinSessionError).to.exist;
   });
 
   it('should export a CertificationCandidatePersonalInfoFieldMissingError', function () {

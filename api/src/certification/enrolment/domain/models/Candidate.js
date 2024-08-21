@@ -63,6 +63,10 @@ export class Candidate {
     return this.userId === userId;
   }
 
+  link(userId) {
+    this.userId = userId;
+  }
+
   validateCertificationInstructions() {
     this.hasSeenCertificationInstructions = true;
   }
