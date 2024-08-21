@@ -14,8 +14,9 @@ import { JobQueue } from './src/shared/infrastructure/jobs/JobQueue.js';
 import { importNamedExportFromFile } from './src/shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
 
-const workerPath = fileURLToPath(import.meta.url);
-const workerDirPath = dirname(workerPath);
+const isTestEnv = process.env.NODE_ENV === 'test';
+const isJobInWebProcess = process.env.START_JOB_IN_WEB_PROCESS === 'true';
+const workerDirPath = dirname(fileURLToPath(import.meta.url));
 
 async function startPgBoss() {
   logger.info('Starting pg-boss');
@@ -42,10 +43,10 @@ async function startPgBoss() {
   return pgBoss;
 }
 
-function createJobQueue(pgBoss) {
-  const jobQueue = new JobQueue(pgBoss);
+function createJobQueues(pgBoss) {
+  const jobQueues = new JobQueue(pgBoss);
   process.on('SIGINT', async () => {
-    await jobQueue.stop();
+    await jobQueues.stop();
 
     // Make sure pgBoss stopped before quitting
     pgBoss.on('stopped', () => {
@@ -53,35 +54,46 @@ function createJobQueue(pgBoss) {
       process.exit(0);
     });
   });
-  return jobQueue;
+  return jobQueues;
 }
 
-export async function registerJobs(dependencies = { startPgBoss, createJobQueue, scheduleCpfJobs }) {
+export async function registerJobs(
+  jobGroup = 'default',
+  dependencies = { startPgBoss, createJobQueues, scheduleCpfJobs },
+) {
   const pgBoss = await dependencies.startPgBoss();
-  const jobQueue = dependencies.createJobQueue(pgBoss);
+
+  logger.info(`Job group "${jobGroup}"`);
+  const jobQueues = dependencies.createJobQueues(pgBoss);
 
   const globPattern = `${workerDirPath}/src/**/application/**/*job-controller.js`;
 
   logger.info(`Search for job handlers in ${globPattern}`);
   const jobFiles = await glob(globPattern, { ignore: '**/job-controller.js' });
-
   logger.info(`${jobFiles.length} job handlers files found.`);
+
   let jobModules = {};
   for (const jobFile of jobFiles) {
     const fileModules = await importNamedExportFromFile(jobFile);
     jobModules = { ...jobModules, ...fileModules };
   }
 
+  let jobRegisteredCount = 0;
   for (const [moduleName, ModuleClass] of Object.entries(jobModules)) {
     const job = new ModuleClass();
 
+    if (!isJobInWebProcess && job.jobGroup !== jobGroup) continue;
+
     if (job.isJobEnabled()) {
       logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
-      jobQueue.registerJob(job.jobName, ModuleClass);
+      jobQueues.register(job.jobName, ModuleClass);
+      jobRegisteredCount++;
     } else {
       logger.warn(`Job "${job.jobName}" is disabled.`);
     }
   }
+
+  logger.info(`${jobRegisteredCount} jobs registered for group "${jobGroup}".`);
 
   // TODO - use abstraction for CRON
   // Scheduler
@@ -96,18 +108,7 @@ export async function registerJobs(dependencies = { startPgBoss, createJobQueue,
   await dependencies.scheduleCpfJobs(pgBoss);
 }
 
-const startInWebProcess = process.env.START_JOB_IN_WEB_PROCESS;
-const isTestEnv = process.env.NODE_ENV === 'test';
-const isEntryPointFromOtherFile = process.argv[1] !== workerPath;
-
 if (!isTestEnv) {
-  if (!startInWebProcess || (startInWebProcess && isEntryPointFromOtherFile)) {
-    await registerJobs();
-  } else {
-    logger.error(
-      'Worker process is started in the web process. Please unset the START_JOB_IN_WEB_PROCESS environment variable to start a dedicated worker process.',
-    );
-    // eslint-disable-next-line n/no-process-exit
-    process.exit(1);
-  }
+  const jobGroup = process.argv[2];
+  await registerJobs(jobGroup);
 }
