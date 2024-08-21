@@ -1,14 +1,14 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import Category from 'pix-admin/components/target-profiles/category';
 import { module, test } from 'qunit';
 
-module('Integration | Component | TargetProfiles::Category', function (hooks) {
+module('Integration | Component | Category', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it should display the tag for type COMPETENCES', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::Category @category='COMPETENCES' />`);
+    const screen = await render(<template><Category @category="COMPETENCES" /></template>);
 
     // then
     assert.dom(screen.getByText('Les 16 compétences')).exists();
@@ -16,7 +16,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
 
   test('it should display the tag for type SUBJECT', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::Category @category='SUBJECT' />`);
+    const screen = await render(<template><Category @category="SUBJECT" /></template>);
 
     // then
     assert.dom(screen.getByText('Thématiques')).exists();
@@ -24,7 +24,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
 
   test('it should display the tag for type DISCIPLINE', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::Category @category='DISCIPLINE' />`);
+    const screen = await render(<template><Category @category="DISCIPLINE" /></template>);
 
     // then
     assert.dom(screen.getByText('Disciplinaires')).exists();
@@ -32,7 +32,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
 
   test('it should display the tag for type CUSTOM', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::Category @category='CUSTOM' />`);
+    const screen = await render(<template><Category @category="CUSTOM" /></template>);
 
     // then
     assert.dom(screen.getByText('Parcours sur-mesure')).exists();
@@ -40,7 +40,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
 
   test('it should display the tag for type PREDEFINED', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::Category @category='PREDEFINED' />`);
+    const screen = await render(<template><Category @category="PREDEFINED" /></template>);
 
     // then
     assert.dom(screen.getByText('Parcours prédéfinis')).exists();
@@ -48,7 +48,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
 
   test('it should display the tag for type OTHER', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::Category @category='OTHER' />`);
+    const screen = await render(<template><Category @category="OTHER" /></template>);
 
     // then
     assert.dom(screen.getByText('Autres')).exists();
@@ -56,7 +56,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
 
   test('it should display the tag for type TARGETED', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::Category @category='TARGETED' />`);
+    const screen = await render(<template><Category @category="TARGETED" /></template>);
 
     // then
     assert.dom(screen.getByText('Parcours ciblés')).exists();
@@ -64,7 +64,7 @@ module('Integration | Component | TargetProfiles::Category', function (hooks) {
 
   test('it should display the tag for type BACK_TO_SCHOOL', async function (assert) {
     // when
-    const screen = await render(hbs`<TargetProfiles::Category @category='BACK_TO_SCHOOL' />`);
+    const screen = await render(<template><Category @category="BACK_TO_SCHOOL" /></template>);
 
     // then
     assert.dom(screen.getByText('Parcours de rentrée / 6e')).exists();

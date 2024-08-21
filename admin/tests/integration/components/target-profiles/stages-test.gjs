@@ -1,10 +1,10 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import Stages from 'pix-admin/components/target-profiles/stages';
 import { module, test } from 'qunit';
 
-module('Integration | Component | TargetProfiles::Stages', function (hooks) {
+module('Integration | Component | Stages', function (hooks) {
   setupRenderingTest(hooks);
   let store;
 
@@ -20,16 +20,14 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
     const stageCollection = store.createRecord('stage-collection', {
       stages: [stage],
     });
-    this.set('stageCollection', stageCollection);
-    this.set('maxLevel', 2);
+
+    const maxLevel = 2;
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::Stages
-  @targetProfileId={{123}}
-  @stageCollection={{this.stageCollection}}
-  @maxLevel={{this.maxLevel}}
-/>`,
+      <template>
+        <Stages @targetProfileId={{123}} @stageCollection={{stageCollection}} @maxLevel={{maxLevel}} />
+      </template>,
     );
 
     // then
@@ -42,16 +40,14 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       const stageCollection = store.createRecord('stage-collection', {
         stages: [],
       });
-      this.set('stageCollection', stageCollection);
-      this.set('maxLevel', 2);
+
+      const maxLevel = 2;
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages
-  @targetProfileId={{123}}
-  @stageCollection={{this.stageCollection}}
-  @maxLevel={{this.maxLevel}}
-/>`,
+        <template>
+          <Stages @targetProfileId={{123}} @stageCollection={{stageCollection}} @maxLevel={{maxLevel}} />
+        </template>,
       );
 
       // then
@@ -65,16 +61,14 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
         const stageCollection = store.createRecord('stage-collection', {
           stages: [],
         });
-        this.set('stageCollection', stageCollection);
-        this.set('maxLevel', 2);
+
+        const maxLevel = 2;
 
         // when
         const screen = await render(
-          hbs`<TargetProfiles::Stages
-  @targetProfileId={{123}}
-  @stageCollection={{this.stageCollection}}
-  @maxLevel={{this.maxLevel}}
-/>`,
+          <template>
+            <Stages @targetProfileId={{123}} @stageCollection={{stageCollection}} @maxLevel={{maxLevel}} />
+          </template>,
         );
 
         // then
@@ -95,16 +89,14 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       const stageCollection = store.createRecord('stage-collection', {
         stages: [stage],
       });
-      this.set('stageCollection', stageCollection);
-      this.set('maxLevel', 2);
+
+      const maxLevel = 2;
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages
-  @targetProfileId={{123}}
-  @stageCollection={{this.stageCollection}}
-  @maxLevel={{this.maxLevel}}
-/>`,
+        <template>
+          <Stages @targetProfileId={{123}} @stageCollection={{stageCollection}} @maxLevel={{maxLevel}} />
+        </template>,
       );
 
       // then
@@ -120,16 +112,14 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       const stageCollection = store.createRecord('stage-collection', {
         stages: [stage],
       });
-      this.set('stageCollection', stageCollection);
-      this.set('maxLevel', 2);
+
+      const maxLevel = 2;
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages
-  @targetProfileId={{123}}
-  @stageCollection={{this.stageCollection}}
-  @maxLevel={{this.maxLevel}}
-/>`,
+        <template>
+          <Stages @targetProfileId={{123}} @stageCollection={{stageCollection}} @maxLevel={{maxLevel}} />
+        </template>,
       );
 
       // then
@@ -145,16 +135,14 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       const stageCollection = store.createRecord('stage-collection', {
         stages: [stage],
       });
-      this.set('stageCollection', stageCollection);
-      this.set('maxLevel', 2);
+
+      const maxLevel = 2;
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages
-  @targetProfileId={{123}}
-  @stageCollection={{this.stageCollection}}
-  @maxLevel={{this.maxLevel}}
-/>`,
+        <template>
+          <Stages @targetProfileId={{123}} @stageCollection={{stageCollection}} @maxLevel={{maxLevel}} />
+        </template>,
       );
       await click(screen.getByRole('button', { name: /Supprimer/ }));
       await screen.findByRole('dialog');
@@ -172,16 +160,14 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       const stageCollection = store.createRecord('stage-collection', {
         stages: [stage],
       });
-      this.set('stageCollection', stageCollection);
-      this.set('maxLevel', 2);
+
+      const maxLevel = 2;
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages
-  @targetProfileId={{123}}
-  @stageCollection={{this.stageCollection}}
-  @maxLevel={{this.maxLevel}}
-/>`,
+        <template>
+          <Stages @targetProfileId={{123}} @stageCollection={{stageCollection}} @maxLevel={{maxLevel}} />
+        </template>,
       );
 
       // then
@@ -205,16 +191,14 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       const stageCollection = store.createRecord('stage-collection', {
         stages: [stage, firstSkillStage],
       });
-      this.set('stageCollection', stageCollection);
-      this.set('maxLevel', 2);
+
+      const maxLevel = 2;
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages
-  @targetProfileId={{123}}
-  @stageCollection={{this.stageCollection}}
-  @maxLevel={{this.maxLevel}}
-/>`,
+        <template>
+          <Stages @targetProfileId={{123}} @stageCollection={{stageCollection}} @maxLevel={{maxLevel}} />
+        </template>,
       );
 
       // then
@@ -236,16 +220,13 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       const stageCollection = store.createRecord('stage-collection', {
         stages: [stage],
       });
-      this.set('stageCollection', stageCollection);
-      this.set('maxLevel', 2);
+      const maxLevel = 2;
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages
-  @targetProfileId={{123}}
-  @stageCollection={{this.stageCollection}}
-  @maxLevel={{this.maxLevel}}
-/>`,
+        <template>
+          <Stages @targetProfileId={{123}} @stageCollection={{stageCollection}} @maxLevel={{maxLevel}} />
+        </template>,
       );
 
       // then
@@ -281,16 +262,13 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       const stageCollection = store.createRecord('stage-collection', {
         stages: [stage],
       });
-      this.set('stageCollection', stageCollection);
-      this.set('maxLevel', 2);
+      const maxLevel = 2;
 
       // when
       const screen = await render(
-        hbs`<TargetProfiles::Stages
-  @targetProfileId={{123}}
-  @stageCollection={{this.stageCollection}}
-  @maxLevel={{this.maxLevel}}
-/>`,
+        <template>
+          <Stages @targetProfileId={{123}} @stageCollection={{stageCollection}} @maxLevel={{maxLevel}} />
+        </template>,
       );
 
       // then
@@ -320,18 +298,19 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
         const stageCollection = store.createRecord('stage-collection', {
           stages: [],
         });
-        this.set('stageCollection', stageCollection);
-        this.set('maxLevel', 2);
-        this.set('hasLinkedCampaign', true);
+        const maxLevel = 2;
+        const hasLinkedCampaign = true;
 
         // when
         const screen = await render(
-          hbs`<TargetProfiles::Stages
-  @targetProfileId={{123}}
-  @stageCollection={{this.stageCollection}}
-  @maxLevel={{this.maxLevel}}
-  @hasLinkedCampaign={{true}}
-/>`,
+          <template>
+            <Stages
+              @targetProfileId={{123}}
+              @stageCollection={{stageCollection}}
+              @maxLevel={{maxLevel}}
+              @hasLinkedCampaign={{hasLinkedCampaign}}
+            />
+          </template>,
         );
 
         // then
@@ -354,17 +333,19 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
         const stageCollection = store.createRecord('stage-collection', {
           stages: [stage],
         });
-        this.set('stageCollection', stageCollection);
-        this.set('maxLevel', 2);
-        this.set('hasLinkedCampaign', true);
+
+        const maxLevel = 2;
+        const hasLinkedCampaign = true;
         // when
         screen = await render(
-          hbs`<TargetProfiles::Stages
-  @targetProfileId={{123}}
-  @stageCollection={{this.stageCollection}}
-  @maxLevel={{this.maxLevel}}
-  @hasLinkedCampaign={{true}}
-/>`,
+          <template>
+            <Stages
+              @targetProfileId={{123}}
+              @stageCollection={{stageCollection}}
+              @maxLevel={{maxLevel}}
+              @hasLinkedCampaign={{hasLinkedCampaign}}
+            />
+          </template>,
         );
       });
       test('it should not be possible to create new stages', async function (assert) {

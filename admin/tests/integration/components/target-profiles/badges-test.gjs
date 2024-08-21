@@ -1,8 +1,8 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import Badges from 'pix-admin/components/target-profiles/badges';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -11,18 +11,19 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
 
   test('it should display the items', async function (assert) {
     // given
-    const badge = EmberObject.create({
-      id: 1,
-      key: 'My key',
-      title: 'My title',
-      message: 'My message',
-      imageUrl: 'data:,',
-      altMessage: 'My alt message',
-    });
-    this.set('badges', [badge]);
+    const badges = [
+      EmberObject.create({
+        id: 1,
+        key: 'My key',
+        title: 'My title',
+        message: 'My message',
+        imageUrl: 'data:,',
+        altMessage: 'My alt message',
+      }),
+    ];
 
     // when
-    const screen = await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
+    const screen = await render(<template><Badges @badges={{badges}} /></template>);
 
     // then
     assert.dom('table').exists();
@@ -48,10 +49,10 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
 
   test('it should display a message when empty', async function (assert) {
     // given
-    this.set('badges', []);
+    const badges = [];
 
     // when
-    const screen = await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
+    const screen = await render(<template><Badges @badges={{badges}} /></template>);
 
     // then
     assert.dom('table').doesNotExist();
@@ -62,7 +63,6 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
     let badge;
 
     hooks.beforeEach(async function () {
-      // given
       const store = this.owner.lookup('service:store');
       badge = store.push({
         data: {
@@ -78,15 +78,15 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
         },
       });
       badge.destroyRecord = sinon.stub();
-      this.set('badges', [badge]);
     });
 
     test('should open confirm modal', async function (assert) {
+      //given
+      const badges = [badge];
+
       // when
-      const screen = await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
-
+      const screen = await render(<template><Badges @badges={{badges}} /></template>);
       await clickByName('Supprimer');
-
       await screen.findByRole('dialog');
 
       // then
@@ -100,36 +100,16 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
         .exists();
     });
 
-    // TODO : Add aria-hidden true on PixModal PixUI
-    test.skip('should close confirm modal on click on cancel', async function (assert) {
-      // when
-      const screen = await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
-
-      await clickByName('Supprimer');
-
-      await screen.findByRole('dialog');
-
-      await clickByName('Annuler');
-
-      // then
-      assert.dom(screen.queryByRole('heading', { name: "Suppression d'un résultat thématique" })).doesNotExist();
-      assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
-      assert
-        .dom(
-          screen.queryByText(
-            "Êtes-vous sûr de vouloir supprimer ce résultat thématique ? (Uniquement si le RT n'a pas encore été assigné)",
-          ),
-        )
-        .doesNotExist();
-    });
-
     test('should delete the badge on confirmation click', async function (assert) {
+      //given
+      const badges = [badge];
+
+      console.log(badges);
+
       // when
-      const screen = await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
+      const screen = await render(<template><Badges @badges={{badges}} /></template>);
       await clickByName('Supprimer');
-
       await screen.findByRole('dialog');
-
       await clickByName('Confirmer');
 
       // then

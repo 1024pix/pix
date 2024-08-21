@@ -1,14 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import ListSummaryItems from 'pix-admin/components/target-profiles/list-summary-items';
 import { module, test } from 'qunit';
-
 module('Integration | Component | TargetProfiles::ListSummaryItems', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
-    this.triggerFiltering = () => {};
-  });
+  const triggerFiltering = () => {};
 
   test('it should display target profile summary', async function (assert) {
     // given
@@ -19,20 +16,17 @@ module('Integration | Component | TargetProfiles::ListSummaryItems', function (h
       isDisabled: true,
       createdAt: new Date('2021-01-01'),
     };
+
     const summaries = [summary];
     summaries.meta = { page: 1, pageSize: 1 };
-    this.summaries = summaries;
-    this.id = undefined;
-    this.name = undefined;
+    const id = undefined;
+    const name = undefined;
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::ListSummaryItems
-  @id={{this.id}}
-  @summaries={{this.summaries}}
-  @name={{this.name}}
-  @triggerFiltering={{this.triggerFiltering}}
-/>`,
+      <template>
+        <ListSummaryItems @id={{id}} @summaries={{summaries}} @name={{name}} @triggerFiltering={{triggerFiltering}} />
+      </template>,
     );
 
     // then

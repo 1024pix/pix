@@ -1,18 +1,19 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import Organizations from 'pix-admin/components/target-profiles/organizations';
 import { module, test } from 'qunit';
 
-module('Integration | Component | TargetProfiles::Organizations', function (hooks) {
+module('Integration | Component | Organizations', function (hooks) {
   setupRenderingTest(hooks);
+
+  const triggerFiltering = () => {};
+  const goToOrganizationPage = () => {};
+  const detachOrganizations = () => {};
 
   hooks.beforeEach(function () {
     const currentUser = this.owner.lookup('service:currentUser');
     currentUser.adminMember = { isSuperAdmin: true };
-    this.triggerFiltering = () => {};
-    this.goToOrganizationPage = () => {};
-    this.detachOrganizations = () => {};
   });
 
   test('it should display the organizations', async function (assert) {
@@ -21,16 +22,17 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
     const organization2 = EmberObject.create({ id: 456, name: 'Orga2', externalId: 'O2' });
     const organizations = [organization1, organization2];
     organizations.meta = { page: 1, pageSize: 1 };
-    this.organizations = organizations;
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::Organizations
-  @organizations={{this.organizations}}
-  @goToOrganizationPage={{this.goToOrganizationPage}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @detachOrganizations={{this.detachOrganizations}}
-/>`,
+      <template>
+        <Organizations
+          @organizations={{organizations}}
+          @goToOrganizationPage={{goToOrganizationPage}}
+          @triggerFiltering={{triggerFiltering}}
+          @detachOrganizations={{detachOrganizations}}
+        />
+      </template>,
     );
 
     // then
@@ -43,16 +45,17 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
     const organization1 = EmberObject.create({ id: 123, name: 'Orga1', externalId: 'O1' });
     const organizations = [organization1];
     organizations.meta = { page: 1, pageSize: 1 };
-    this.organizations = organizations;
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::Organizations
-  @organizations={{this.organizations}}
-  @goToOrganizationPage={{this.goToOrganizationPage}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @detachOrganizations={{this.detachOrganizations}}
-/>`,
+      <template>
+        <Organizations
+          @organizations={{organizations}}
+          @goToOrganizationPage={{goToOrganizationPage}}
+          @triggerFiltering={{triggerFiltering}}
+          @detachOrganizations={{detachOrganizations}}
+        />
+      </template>,
     );
 
     // then
@@ -69,12 +72,14 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::Organizations
-  @organizations={{this.organizations}}
-  @goToOrganizationPage={{this.goToOrganizationPage}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @detachOrganizations={{this.detachOrganizations}}
-/>`,
+      <template>
+        <Organizations
+          @organizations={{organizations}}
+          @goToOrganizationPage={{goToOrganizationPage}}
+          @triggerFiltering={{triggerFiltering}}
+          @detachOrganizations={{detachOrganizations}}
+        />
+      </template>,
     );
 
     assert.dom(screen.getByText('Aucun résultat')).exists();
@@ -82,16 +87,18 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
 
   test('it should display a field to attach organizations', async function (assert) {
     // given
-    this.organizations = [];
+    const organizations = [];
 
     // when
     await render(
-      hbs`<TargetProfiles::Organizations
-  @organizations={{this.organizations}}
-  @goToOrganizationPage={{this.goToOrganizationPage}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @detachOrganizations={{this.detachOrganizations}}
-/>`,
+      <template>
+        <Organizations
+          @organizations={{organizations}}
+          @goToOrganizationPage={{goToOrganizationPage}}
+          @triggerFiltering={{triggerFiltering}}
+          @detachOrganizations={{detachOrganizations}}
+        />
+      </template>,
     );
     await fillByLabel('Rattacher une ou plusieurs organisation(s)', '1, 2');
     await clickByName('Valider le rattachement');
@@ -101,16 +108,18 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
 
   test('it should display a field to attach organizations from an existing target profile', async function (assert) {
     // given
-    this.organizations = [];
+    const organizations = [];
 
     // when
     await render(
-      hbs`<TargetProfiles::Organizations
-  @organizations={{this.organizations}}
-  @goToOrganizationPage={{this.goToOrganizationPage}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @detachOrganizations={{this.detachOrganizations}}
-/>`,
+      <template>
+        <Organizations
+          @organizations={{organizations}}
+          @goToOrganizationPage={{goToOrganizationPage}}
+          @triggerFiltering={{triggerFiltering}}
+          @detachOrganizations={{detachOrganizations}}
+        />
+      </template>,
     );
     await fillByLabel("Rattacher les organisations d'un profil cible existant", 1);
     await clickByName('Valider le rattachement à partir de ce profil cible');
@@ -123,16 +132,17 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
     const organization1 = EmberObject.create({ id: 123, name: 'Orga1', externalId: 'O1' });
     const organizations = [organization1];
     organizations.meta = { page: 1, pageSize: 1 };
-    this.organizations = organizations;
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::Organizations
-  @organizations={{this.organizations}}
-  @goToOrganizationPage={{this.goToOrganizationPage}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @detachOrganizations={{this.detachOrganizations}}
-/>`,
+      <template>
+        <Organizations
+          @organizations={{organizations}}
+          @goToOrganizationPage={{goToOrganizationPage}}
+          @triggerFiltering={{triggerFiltering}}
+          @detachOrganizations={{detachOrganizations}}
+        />
+      </template>,
     );
 
     const detachButton = await screen.queryByRole('button', { name: 'Détacher' });
@@ -147,16 +157,17 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
     const organization1 = EmberObject.create({ id: 123, name: 'Orga1', externalId: 'O1' });
     const organizations = [organization1];
     organizations.meta = { page: 1, pageSize: 1 };
-    this.organizations = organizations;
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::Organizations
-  @organizations={{this.organizations}}
-  @goToOrganizationPage={{this.goToOrganizationPage}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @detachOrganizations={{this.detachOrganizations}}
-/>`,
+      <template>
+        <Organizations
+          @organizations={{organizations}}
+          @goToOrganizationPage={{goToOrganizationPage}}
+          @triggerFiltering={{triggerFiltering}}
+          @detachOrganizations={{detachOrganizations}}
+        />
+      </template>,
     );
 
     const detachButton = await screen.queryByRole('button', { name: 'Détacher' });
@@ -171,16 +182,17 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
     const organization1 = EmberObject.create({ id: 123, name: 'Orga1', externalId: 'O1' });
     const organizations = [organization1];
     organizations.meta = { page: 1, pageSize: 1 };
-    this.organizations = organizations;
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::Organizations
-  @organizations={{this.organizations}}
-  @goToOrganizationPage={{this.goToOrganizationPage}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @detachOrganizations={{this.detachOrganizations}}
-/>`,
+      <template>
+        <Organizations
+          @organizations={{organizations}}
+          @goToOrganizationPage={{goToOrganizationPage}}
+          @triggerFiltering={{triggerFiltering}}
+          @detachOrganizations={{detachOrganizations}}
+        />
+      </template>,
     );
 
     const detachButton = await screen.queryByRole('button', { name: 'Détacher' });
@@ -191,16 +203,17 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
     // given
     const organizations = [];
     organizations.meta = { page: 1, pageSize: 1 };
-    this.organizations = [];
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::Organizations
-  @organizations={{this.organizations}}
-  @goToOrganizationPage={{this.goToOrganizationPage}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @detachOrganizations={{this.detachOrganizations}}
-/>`,
+      <template>
+        <Organizations
+          @organizations={{organizations}}
+          @goToOrganizationPage={{goToOrganizationPage}}
+          @triggerFiltering={{triggerFiltering}}
+          @detachOrganizations={{detachOrganizations}}
+        />
+      </template>,
     );
 
     // then

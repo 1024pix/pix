@@ -1,5 +1,5 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import EditTargetProfileForm from 'pix-admin/components/target-profiles/edit-target-profile-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -8,43 +8,42 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | TargetProfiles::EditTargetProfileForm', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  let targetProfile;
-  let onSubmit;
-  let onCancel;
+  let store;
+  let framework;
 
   hooks.beforeEach(function () {
-    targetProfile = {
-      areKnowledgeElementsResettable: false,
-      category: 'OTHER',
-      comment: '',
-      imageUrl: '',
-      isPublic: false,
-      name: 'A name',
-      ownerOrganizationId: 1000,
-    };
-
-    onSubmit = sinon.stub();
-    onCancel = sinon.stub();
-
-    const store = this.owner.lookup('service:store');
-    const frameworks = [store.createRecord('framework', { id: 'framework1', name: 'Pix', areas: [] })];
-
-    this.set('targetProfile', targetProfile);
-    this.set('onSubmit', onSubmit);
-    this.set('onCancel', onCancel);
-    this.set('frameworks', frameworks);
+    store = this.owner.lookup('service:store');
+    framework = store.createRecord('framework', { id: 'framework1', name: 'Pix', areas: [] });
   });
+
+  const targetProfile = {
+    areKnowledgeElementsResettable: false,
+    category: 'OTHER',
+    comment: '',
+    imageUrl: '',
+    isPublic: false,
+    name: 'A name',
+    ownerOrganizationId: 1000,
+  };
+  const onSubmit = sinon.stub();
+  const onCancel = sinon.stub();
 
   module('on default edit mode', function () {
     test('it should display the items', async function (assert) {
-      // when
-      const screen = await render(hbs`<TargetProfiles::EditTargetProfileForm
-  @targetProfile={{this.targetProfile}}
-  @frameworks={{this.frameworks}}
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`);
+      //given
+      const frameworks = [framework];
 
+      // when
+      const screen = await render(
+        <template>
+          <EditTargetProfileForm
+            @targetProfile={{targetProfile}}
+            @frameworks={{frameworks}}
+            @onSubmit={{onSubmit}}
+            @onCancel={{onCancel}}
+          />
+        </template>,
+      );
       // then
       assert.dom(screen.getByText(/Information sur le profil cible/)).exists();
       assert.dom(screen.getByLabelText(/Nom/)).exists();
@@ -66,14 +65,20 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
     });
 
     test('it should call onSubmit when form is valid', async function (assert) {
+      //given
+      const frameworks = [framework];
+
       // when
-      await render(hbs`<TargetProfiles::EditTargetProfileForm
-        @targetProfile={{this.targetProfile}}
-        @frameworks={{this.frameworks}}
-        @refreshAreas={{this.refreshAreas}}
-        @onSubmit={{this.onSubmit}}
-        @onCancel={{this.onCancel}}
-      />`);
+      await render(
+        <template>
+          <EditTargetProfileForm
+            @targetProfile={{targetProfile}}
+            @frameworks={{frameworks}}
+            @onSubmit={{onSubmit}}
+            @onCancel={{onCancel}}
+          />
+        </template>,
+      );
 
       await clickByName('Créer le profil cible');
 
@@ -82,14 +87,20 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
     });
 
     test('it should call onCancel when form is cancelled', async function (assert) {
+      //given
+      const frameworks = [framework];
+
       // when
-      await render(hbs`<TargetProfiles::EditTargetProfileForm
-        @targetProfile={{this.targetProfile}}
-        @frameworks={{this.frameworks}}
-        @refreshAreas={{this.refreshAreas}}
-        @onSubmit={{this.onSubmit}}
-        @onCancel={{this.onCancel}}
-      />`);
+      await render(
+        <template>
+          <EditTargetProfileForm
+            @targetProfile={{targetProfile}}
+            @frameworks={{frameworks}}
+            @onSubmit={{onSubmit}}
+            @onCancel={{onCancel}}
+          />
+        </template>,
+      );
 
       await clickByName('Annuler');
 
@@ -100,15 +111,21 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
 
   module('on edition mode', function () {
     test('it should not display all form fields', async function (assert) {
+      //given
+      const frameworks = [framework];
+
       // when
-      const screen = await render(hbs`<TargetProfiles::EditTargetProfileForm
-        @targetProfile={{this.targetProfile}}
-        @frameworks={{this.frameworks}}
-        @refreshAreas={{this.refreshAreas}}
-        @onSubmit={{this.onSubmit}}
-        @onCancel={{this.onCancel}}
-        @updateMode={{true}}
-      />`);
+      const screen = await render(
+        <template>
+          <EditTargetProfileForm
+            @targetProfile={{targetProfile}}
+            @frameworks={{frameworks}}
+            @onSubmit={{onSubmit}}
+            @onCancel={{onCancel}}
+            @updateMode={{true}}
+          />
+        </template>,
+      );
 
       // then
       assert.notOk(screen.queryByLabelText(/Identifiant de l'organisation de référence/));
@@ -122,19 +139,23 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
   module('when target profile is linked with campaign', function () {
     test('it should display edit form', async function (assert) {
       // given
-      this.set('targetProfile', {
+      const frameworks = [framework];
+      const targetProfileWitLinkedCampaign = {
         ...targetProfile,
         hasLinkedCampaign: true,
-      });
+      };
 
       // when
-      const screen = await render(hbs`<TargetProfiles::EditTargetProfileForm
-        @targetProfile={{this.targetProfile}}
-        @frameworks={{this.frameworks}}
-        @refreshAreas={{this.refreshAreas}}
-        @onSubmit={{this.onSubmit}}
-        @onCancel={{this.onCancel}}
-      />`);
+      const screen = await render(
+        <template>
+          <EditTargetProfileForm
+            @targetProfile={{targetProfileWitLinkedCampaign}}
+            @frameworks={{frameworks}}
+            @onSubmit={{onSubmit}}
+            @onCancel={{onCancel}}
+          />
+        </template>,
+      );
 
       // then
       assert
