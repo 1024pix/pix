@@ -1,4 +1,4 @@
-import { GarAnonymizedBatchEventsLoggingJobController } from '../../../../../src/identity-access-management/application/jobs/gar-anonymized-batch-events-logging-job.controller.js';
+import { GarAnonymizedBatchEventsLoggingJobController } from '../../../../../src/identity-access-management/application/jobs/gar-anonymized-batch-events-logging.job-controller.js';
 import { GarAnonymizedBatchEventsLoggingJob } from '../../../../../src/identity-access-management/domain/models/GarAnonymizedBatchEventsLoggingJob.js';
 import { expect, sinon } from '../../../../test-helper.js';
 describe('Unit | Prescription | Application | Jobs | garAnonymizedBatchEventsLoggingJobController', function () {
