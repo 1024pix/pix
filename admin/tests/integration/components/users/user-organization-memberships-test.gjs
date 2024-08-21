@@ -1,8 +1,8 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import UserOrganizationMemberships from 'pix-admin/components/users/user-organization-memberships';
 import { module, test } from 'qunit';
 
 module('Integration | Component | users | organization-memberships', function (hooks) {
@@ -17,11 +17,10 @@ module('Integration | Component | users | organization-memberships', function (h
       this.owner.register('service:accessControl', SessionStub);
 
       const organizationMemberships = [];
-      this.set('organizationMemberships', organizationMemberships);
 
       // when
       const screen = await render(
-        hbs`<Users::UserOrganizationMemberships @organizationMemberships={{this.organizationMemberships}} />`,
+        <template><UserOrganizationMemberships @organizationMemberships={{organizationMemberships}} /></template>,
       );
 
       // then
@@ -60,11 +59,10 @@ module('Integration | Component | users | organization-memberships', function (h
       });
 
       const organizationMemberships = [organizationMembership1, organizationMembership2];
-      this.set('organizationMemberships', organizationMemberships);
 
       // when
       const screen = await render(
-        hbs`<Users::UserOrganizationMemberships @organizationMemberships={{this.organizationMemberships}} />`,
+        <template><UserOrganizationMemberships @organizationMemberships={{organizationMemberships}} /></template>,
       );
 
       // then

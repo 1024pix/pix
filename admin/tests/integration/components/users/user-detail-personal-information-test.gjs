@@ -2,7 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import UserDetailPersonalInformation from 'pix-admin/components/users/user-detail-personal-information';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -34,10 +34,9 @@ module('Integration | Component | users | user-detail-personal-information', fun
         organizationLearners: [organizationLearner],
         authenticationMethods: [{ identityProvider: 'PIX' }],
       });
-      this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);
 
-      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
+      const screen = await render(<template><UserDetailPersonalInformation @user={{user}} /></template>);
 
       // when
       await click(screen.getByRole('button', { name: 'Dissocier' }));
@@ -66,10 +65,10 @@ module('Integration | Component | users | user-detail-personal-information', fun
         organizationLearners: [organizationLearner],
         authenticationMethods: [{ identityProvider: 'PIX' }],
       });
-      this.set('user', user);
+
       this.owner.register('service:access-control', AccessControlStub);
 
-      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
+      const screen = await render(<template><UserDetailPersonalInformation @user={{user}} /></template>);
       await click(screen.getByRole('button', { name: 'Dissocier' }));
 
       await screen.findByRole('dialog');
@@ -101,10 +100,10 @@ module('Integration | Component | users | user-detail-personal-information', fun
         organizationLearners: [organizationLearner],
         authenticationMethods: [{ identityProvider: 'PIX' }],
       });
-      this.set('user', user);
+
       this.owner.register('service:access-control', AccessControlStub);
 
-      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
+      const screen = await render(<template><UserDetailPersonalInformation @user={{user}} /></template>);
       await click(screen.getByRole('button', { name: 'Dissocier' }));
 
       await screen.findByRole('dialog');
@@ -128,9 +127,8 @@ module('Integration | Component | users | user-detail-personal-information', fun
         authenticationMethods: [{ identityProvider: 'PIX' }, { identityProvider: 'POLE_EMPLOI' }],
       });
 
-      this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);
-      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
+      const screen = await render(<template><UserDetailPersonalInformation @user={{user}} /></template>);
 
       // when
       await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
@@ -155,9 +153,8 @@ module('Integration | Component | users | user-detail-personal-information', fun
         authenticationMethods: [{ identityProvider: 'PIX' }, { identityProvider: 'POLE_EMPLOI' }],
       });
 
-      this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);
-      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
+      const screen = await render(<template><UserDetailPersonalInformation @user={{user}} /></template>);
       await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
 
       await screen.findByRole('dialog');
@@ -181,16 +178,17 @@ module('Integration | Component | users | user-detail-personal-information', fun
           username: 'john.harry.1010',
           authenticationMethods: [{ identityProvider: 'PIX' }, { identityProvider: 'POLE_EMPLOI' }],
         });
-        this.set('user', user);
+
         this.owner.register('service:access-control', AccessControlStub);
         const removeAuthenticationMethodStub = sinon.stub();
-        this.set('removeAuthenticationMethod', removeAuthenticationMethodStub);
 
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation
-  @user={{this.user}}
-  @removeAuthenticationMethod={{this.removeAuthenticationMethod}}
-/>`,
+          <template>
+            <UserDetailPersonalInformation
+              @user={{user}}
+              @removeAuthenticationMethod={{removeAuthenticationMethodStub}}
+            />
+          </template>,
         );
         await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
 
@@ -226,10 +224,9 @@ module('Integration | Component | users | user-detail-personal-information', fun
         authenticationMethods: [{ identityProvider: 'PIX' }],
       });
 
-      this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);
       this.owner.register('service:oidc-identity-providers', OidcIdentityProvidersStub);
-      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
+      const screen = await render(<template><UserDetailPersonalInformation @user={{user}} /></template>);
 
       // when & then
       assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion avec adresse e-mail")).exists();

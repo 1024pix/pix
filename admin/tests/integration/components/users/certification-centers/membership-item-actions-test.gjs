@@ -1,22 +1,17 @@
 import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
-import hbs from 'htmlbars-inline-precompile';
+import MembershipItemActions from 'pix-admin/components/users/certification-centers/membership-item-actions';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component |  users/certification-centers/membership-item-actions', function (hooks) {
+module('Integration | Component | users | certification-centers | membership-item-actions', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('When edition mode is deactivated', function () {
     test('it displays 2 buttons to edit the user role and deactivate the membership', async function (assert) {
-      // given
-      this.set('isEditionMode', false);
-
       //  when
-      const screen = await renderScreen(
-        hbs`<Users::CertificationCenters::MembershipItemActions @isEditionMode={{this.isEditionMode}} />`,
-      );
+      const screen = await renderScreen(<template><MembershipItemActions @isEditionMode={{false}} /></template>);
 
       // then
       assert
@@ -29,17 +24,18 @@ module('Integration | Component |  users/certification-centers/membership-item-a
       test('emits an event without any data', async function (assert) {
         // given
         const onEditRoleButtonClicked = sinon.stub();
-        this.set('isEditionMode', false);
-        this.set('onEditRoleButtonClicked', onEditRoleButtonClicked);
-        this.set('onDeactivateMembershipButtonClicked', sinon.stub());
+        const isEditionMode = false;
+        const onDeactivateMembershipButtonClicked = sinon.stub();
 
         //  when
         await renderScreen(
-          hbs`<Users::CertificationCenters::MembershipItemActions
-  @isEditionMode={{this.isEditionMode}}
-  @onEditRoleButtonClicked={{this.onEditRoleButtonClicked}}
-  @onDeactivateMembershipButtonClicked={{this.onDeactivateMembershipButtonClicked}}
-/>`,
+          <template>
+            <MembershipItemActions
+              @isEditionMode={{isEditionMode}}
+              @onEditRoleButtonClicked={{onEditRoleButtonClicked}}
+              @onDeactivateMembershipButtonClicked={{onDeactivateMembershipButtonClicked}}
+            />
+          </template>,
         );
         await clickByName('Modifier le rôle du membre de ce centre de certification');
 
@@ -53,17 +49,18 @@ module('Integration | Component |  users/certification-centers/membership-item-a
       test('it emits an event without any data', async function (assert) {
         // given
         const onDeactivateMembershipButtonClicked = sinon.stub();
-        this.set('isEditionMode', false);
-        this.set('onEditRoleButtonClicked', sinon.stub());
-        this.set('onDeactivateMembershipButtonClicked', onDeactivateMembershipButtonClicked);
+        const isEditionMode = false;
+        const onEditRoleButtonClicked = sinon.stub();
 
         //  when
         await renderScreen(
-          hbs`<Users::CertificationCenters::MembershipItemActions
-  @isEditionMode={{this.isEditionMode}}
-  @onEditRoleButtonClicked={{this.onEditRoleButtonClicked}}
-  @onDeactivateMembershipButtonClicked={{this.onDeactivateMembershipButtonClicked}}
-/>`,
+          <template>
+            <MembershipItemActions
+              @isEditionMode={{isEditionMode}}
+              @onEditRoleButtonClicked={{onEditRoleButtonClicked}}
+              @onDeactivateMembershipButtonClicked={{onDeactivateMembershipButtonClicked}}
+            />
+          </template>,
         );
         await clickByName('Désactiver le membre de centre de certification');
 
@@ -77,11 +74,11 @@ module('Integration | Component |  users/certification-centers/membership-item-a
   module('when edition mode is activated', function () {
     test('it displays 2 buttons, to save and cancel action', async function (assert) {
       // given
-      this.set('isEditionMode', true);
+      const isEditionMode = true;
 
       //  when
       const screen = await renderScreen(
-        hbs`<Users::CertificationCenters::MembershipItemActions @isEditionMode={{this.isEditionMode}} />`,
+        <template><MembershipItemActions @isEditionMode={{isEditionMode}} /></template>,
       );
 
       // then
@@ -99,17 +96,18 @@ module('Integration | Component |  users/certification-centers/membership-item-a
       test('emits an event without any data', async function (assert) {
         // given
         const onSaveRoleButtonClicked = sinon.stub();
-        this.set('isEditionMode', true);
-        this.set('onSaveRoleButtonClicked', onSaveRoleButtonClicked);
-        this.set('onCancelButtonClicked', sinon.stub());
+        const isEditionMode = true;
+        const onCancelButtonClicked = sinon.stub();
 
         //  when
         await renderScreen(
-          hbs`<Users::CertificationCenters::MembershipItemActions
-  @isEditionMode={{this.isEditionMode}}
-  @onSaveRoleButtonClicked={{this.onSaveRoleButtonClicked}}
-  @onCancelButtonClicked={{this.onCancelButtonClicked}}
-/>`,
+          <template>
+            <MembershipItemActions
+              @isEditionMode={{isEditionMode}}
+              @onSaveRoleButtonClicked={{onSaveRoleButtonClicked}}
+              @onCancelButtonClicked={{onCancelButtonClicked}}
+            />
+          </template>,
         );
         await clickByName('Enregistrer la modification du rôle');
 
@@ -123,17 +121,18 @@ module('Integration | Component |  users/certification-centers/membership-item-a
       test('emits an event without any data', async function (assert) {
         // given
         const onCancelButtonClicked = sinon.stub();
-        this.set('isEditionMode', true);
-        this.set('onSaveRoleButtonClicked', sinon.stub());
-        this.set('onCancelButtonClicked', onCancelButtonClicked);
+        const isEditionMode = true;
+        const onSaveRoleButtonClicked = sinon.stub();
 
         //  when
         await renderScreen(
-          hbs`<Users::CertificationCenters::MembershipItemActions
-  @isEditionMode={{this.isEditionMode}}
-  @onSaveRoleButtonClicked={{this.onSaveRoleButtonClicked}}
-  @onCancelButtonClicked={{this.onCancelButtonClicked}}
-/>`,
+          <template>
+            <MembershipItemActions
+              @isEditionMode={{isEditionMode}}
+              @onSaveRoleButtonClicked={{onSaveRoleButtonClicked}}
+              @onCancelButtonClicked={{onCancelButtonClicked}}
+            />
+          </template>,
         );
         await clickByName('Annuler la modification de rôle');
 

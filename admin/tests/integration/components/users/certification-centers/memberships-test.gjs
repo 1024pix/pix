@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import Memberships from 'pix-admin/components/users/certification-centers/memberships';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -17,11 +17,11 @@ module('Integration | Component | users | certification-centers | memberships', 
   module('When user isn’t member of any certification center', function () {
     test('displays an empty table', async function (assert) {
       // given
-      this.set('certificationCenterMemberships', []);
+      const certificationCenterMemberships = [];
 
       // when
       const screen = await render(
-        hbs`<Users::CertificationCenters::Memberships @certificationCenterMemberships={{this.certificationCenterMemberships}} />`,
+        <template><Memberships @certificationCenterMemberships={{certificationCenterMemberships}} /></template>,
       );
 
       // then
@@ -44,17 +44,19 @@ module('Integration | Component | users | certification-centers | memberships', 
         role: 'MEMBER',
       });
 
-      this.set('certificationCenterMemberships', [certificationCenterMembership]);
-      this.set('onCertificationCenterMembershipRoleChange', sinon.stub());
-      this.set('disableCertificationCenterMembership', sinon.stub());
+      const certificationCenterMemberships = [certificationCenterMembership];
+      const onCertificationCenterMembershipRoleChange = sinon.stub();
+      const disableCertificationCenterMembership = sinon.stub();
 
       // when
       const screen = await render(
-        hbs`<Users::CertificationCenters::Memberships
-  @certificationCenterMemberships={{this.certificationCenterMemberships}}
-  @onCertificationCenterMembershipRoleChange={{this.updateCertificationCenterMembershipRole}}
-  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
-/>`,
+        <template>
+          <Memberships
+            @certificationCenterMemberships={{certificationCenterMemberships}}
+            @onCertificationCenterMembershipRoleChange={{onCertificationCenterMembershipRoleChange}}
+            @disableCertificationCenterMembership={{disableCertificationCenterMembership}}
+          />
+        </template>,
       );
 
       // then
