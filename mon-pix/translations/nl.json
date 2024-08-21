@@ -42,6 +42,8 @@
       "confirm": "Bevestig",
       "lets-go": "Laten we gaan!",
       "quit": "Verlaat",
+      "show-less": "Minder tonen",
+      "show-more": "Meer bekijken",
       "sign-out": "Log uit.",
       "stay": "Blijf",
       "validate": "Valideer"
@@ -114,8 +116,17 @@
     "invited": {
       "reconciliation": {
         "error-message": {
+          "date-field": "Gebruik het formaat dd/mm/jjjj bij het invoeren van het veld {fieldName}",
           "invalid-reconciliation-error": "Controleer je gegevens ({fields}) of neem contact op met een docent.",
           "mandatory-field": "Dit veld is verplicht"
+        },
+        "field": {
+          "birthdate": "Geboortedatum",
+          "firstname": "Voornaam",
+          "lastname": "Achternaam",
+          "sub-label": {
+            "date": "In (dd/mm/jjjj) formaat, bijvoorbeeld : {dateFormat}"
+          }
         },
         "title": "Sluit je aan bij de organisatie { organizationName }"
       }
@@ -915,6 +926,7 @@
           "good-answer": "Het gegeven antwoord is geldig",
           "skipped-answer": "Vraag uit het verleden",
           "the-answer-was": "Het juiste antwoord is",
+          "timedout": "U hebt de tijdslimiet overschreden",
           "wrong-answer": "Het gegeven antwoord is fout"
         },
         "aband": {
@@ -1343,6 +1355,15 @@
         "objectives": "Doelstellingen",
         "startModule": "De module starten"
       },
+      "download": {
+        "button": "Downloaden",
+        "description": "Kies het formaat volgens de software die je gebruikt. Als je het niet zeker weet, kies dan het eerste bestand, dat compatibel is met de meeste software.",
+        "documentationLinkHref": "https://pix.org/fr/aide-ouvrir-modifier-retrouver-un-fichier-telecharge-depuis-une-question-pix",
+        "documentationLinkLabel": "Hoe kan ik dit bestand openen, wijzigen of ophalen?",
+        "format": "Formaat {format}",
+        "intro": "Kies het bestandsformaat dat je wilt gebruiken.",
+        "label": "Download het bestand in {format}"
+      },
       "grain": {
         "tag": {
           "activity": "activiteit",
@@ -1622,7 +1643,10 @@
       "already-shared": "Bedankt, je resultaten zijn verzonden!",
       "badge-card": {
         "acquired": "Verkregen",
+        "acquired-full": "Thematisch resultaat",
+        "certifiable": "Certificeren",
         "not-acquired": "Niet verkregen",
+        "not-acquired-full": "Thematisch resultaat niet verkregen",
         "progress-bar-label": "Percentage succesvolle resultaten"
       },
       "badges-title": "Je thematische resultaten",
@@ -1680,6 +1704,24 @@
         "masteryPercentage": "{rate, number, ::percent} succes",
         "starsAcquired": "{acquired, plural, =0 {aucune étoile acquise} other {# étoile acquise}} op {total}",
         "title": "Vaardigheden"
+      },
+      "tabs": {
+        "aria-label": "3 tabbladen met je resultaten",
+        "results-details": {
+          "description": "Ontdek je vaardigheden in detail, gerangschikt naar specifieke gebieden, om een beter inzicht te krijgen in je sterke punten en gebieden die voor verbetering vatbaar zijn. Identificeer je sterke punten en de gebieden waarop je je inspanningen kunt richten om verdere vooruitgang te boeken.",
+          "tab-label": "Details van resultaten",
+          "title": "Details van resultaten"
+        },
+        "rewards": {
+          "description": "In dit gedeelte worden de ontvangen awards en de verwachtingen van de cursusorganisator benadrukt. Ontdek hoe je prestaties zijn beoordeeld en identificeer verbeterpunten voor de ontwikkeling van je vaardigheden.",
+          "tab-label": "Awards",
+          "title": "Beloningen en verwachtingen van de organisator"
+        },
+        "trainings": {
+          "description": "Ontvang gepersonaliseerde trainingsaanbevelingen om je vooruit te helpen en je nieuwsgierigheid te voeden zodat je je volledige potentieel kunt benutten.",
+          "tab-label": "Training",
+          "title": "Wil je meer weten?"
+        }
       },
       "title": "Resultaten",
       "trainings": {

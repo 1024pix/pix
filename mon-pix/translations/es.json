@@ -42,6 +42,8 @@
       "confirm": "Confirmar",
       "lets-go": "¡Empecemos!",
       "quit": "Salir",
+      "show-less": "Mostrar menos",
+      "show-more": "Ver más",
       "sign-out": "Desconectarse",
       "stay": "Quedarse",
       "validate": "Validar"
@@ -114,8 +116,17 @@
     "invited": {
       "reconciliation": {
         "error-message": {
+          "date-field": "Utilice el formato dd/mm/aaaa al introducir el campo {fieldName}",
           "invalid-reconciliation-error": "Comprueba tus datos ({fields}) o ponte en contacto con un profesor.",
           "mandatory-field": "Este campo es obligatorio"
+        },
+        "field": {
+          "birthdate": "Fecha de nacimiento",
+          "firstname": "Nombre",
+          "lastname": "Apellidos",
+          "sub-label": {
+            "date": "En formato (dd/mm/aaaa), por ejemplo : {dateFormat}"
+          }
         },
         "title": "Únete a la organización { organizationName }"
       }
@@ -915,6 +926,7 @@
           "good-answer": "La respuesta dada es válida",
           "skipped-answer": "Pregunta saltada",
           "the-answer-was": "La respuesta correcta es",
+          "timedout": "Has superado el límite de tiempo",
           "wrong-answer": "La respuesta dada es incorrecta"
         },
         "aband": {
@@ -1343,6 +1355,15 @@
         "objectives": "Objetivos",
         "startModule": "Iniciar el módulo"
       },
+      "download": {
+        "button": "Descargar",
+        "description": "Elija el formato en función del software que utilice. Si no estás seguro, elige el primer archivo, que es compatible con la mayoría de los programas.",
+        "documentationLinkHref": "https://pix.org/fr/aide-ouvrir-modifier-retrouver-un-fichier-telecharge-depuis-une-question-pix",
+        "documentationLinkLabel": "¿Cómo puedo abrir, modificar o recuperar este archivo?",
+        "format": "Formato {format}",
+        "intro": "Elija el formato de archivo que desea utilizar.",
+        "label": "Descargue el archivo en {format}"
+      },
       "grain": {
         "tag": {
           "activity": "Actividad",
@@ -1622,7 +1643,10 @@
       "already-shared": "¡Gracias, tus resultados se han enviado correctamente!",
       "badge-card": {
         "acquired": "Aprobado",
+        "acquired-full": "Resultado temático obtenido",
+        "certifiable": "Certificación",
         "not-acquired": "No has aprobado",
+        "not-acquired-full": "Resultado temático no obtenido",
         "progress-bar-label": "Porcentaje de éxito del resultado temático"
       },
       "badges-title": "Tus resultados temáticos",
@@ -1680,6 +1704,24 @@
         "masteryPercentage": "{rate, number, ::percent} de éxito",
         "starsAcquired": "{acquired, plural, =0 {ninguna estrella obtenida} =1 {# estrella obtenida} other {# estrellas obtenidas}} de {total}",
         "title": "Detalles de las competencias"
+      },
+      "tabs": {
+        "aria-label": "3 pestañas con los resultados",
+        "results-details": {
+          "description": "Descubra sus competencias en detalle, organizadas por áreas específicas, para comprender mejor sus puntos fuertes y sus áreas de mejora. Identifica tus puntos fuertes y las áreas en las que puedes centrar tus esfuerzos para seguir progresando.",
+          "tab-label": "Detalle de los resultados",
+          "title": "Detalle de los resultados"
+        },
+        "rewards": {
+          "description": "En esta sección se destacan los premios recibidos y las expectativas del organizador del curso. Descubra cómo se ha evaluado su rendimiento e identifique las áreas de mejora en el desarrollo de sus competencias.",
+          "tab-label": "Premios",
+          "title": "Recompensas y expectativas del organizador"
+        },
+        "trainings": {
+          "description": "Obtenga recomendaciones de entrenamiento personalizadas para seguir avanzando y alimentar su curiosidad para ayudarle a desarrollar todo su potencial.",
+          "tab-label": "Formación",
+          "title": "¿Quiere saber más?"
+        }
       },
       "title": "Resultado",
       "trainings": {
