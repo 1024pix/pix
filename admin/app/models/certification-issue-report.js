@@ -1,4 +1,3 @@
-import { memberAction } from '@1024pix/ember-api-actions';
 import Model, { attr, belongsTo } from '@ember-data/model';
 import isNull from 'lodash/isNull';
 
@@ -120,12 +119,4 @@ export default class CertificationIssueReportModel extends Model {
   get canBeModified() {
     return this.isResolved && this.isImpactful && !this.hasBeenAutomaticallyResolved;
   }
-
-  resolve = memberAction({
-    type: 'patch',
-    before(resolution) {
-      const payload = { data: { resolution } };
-      return payload;
-    },
-  });
 }
