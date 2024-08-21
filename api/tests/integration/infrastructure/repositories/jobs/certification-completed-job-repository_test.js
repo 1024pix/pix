@@ -1,7 +1,7 @@
 import { CertificationCompletedJob } from '../../../../../lib/domain/events/CertificationCompleted.js';
 import { certificationCompletedJobRepository } from '../../../../../lib/infrastructure/repositories/jobs/certification-completed-job-repository.js';
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
-import { JobPriority } from '../../../../../src/shared/infrastructure/jobs/JobPriority.js';
+import { JobPriority } from '../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Integration | Repository | Jobs | CertificationCompletedJobRepository', function () {

@@ -1,7 +1,7 @@
-import { JobPgBoss } from '../../../../../shared/infrastructure/jobs/JobPgBoss.js';
+import { JobRepository } from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
 import { ValidateOrganizationImportFileJob } from '../../../domain/models/ValidateOrganizationImportFileJob.js';
 
-class ValidateOrganizationImportFileJobRepository extends JobPgBoss {
+class ValidateOrganizationImportFileJobRepository extends JobRepository {
   constructor() {
     super({
       name: ValidateOrganizationImportFileJob.name,

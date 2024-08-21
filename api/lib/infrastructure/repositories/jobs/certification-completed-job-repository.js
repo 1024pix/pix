@@ -1,7 +1,6 @@
-import { JobPgBoss } from '../../../../src/shared/infrastructure/jobs/JobPgBoss.js';
-import { JobPriority } from '../../../../src/shared/infrastructure/jobs/JobPriority.js';
+import { JobPriority, JobRepository } from '../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 import { CertificationCompletedJob } from '../../../domain/events/CertificationCompleted.js';
-class CertificationCompletedJobRepository extends JobPgBoss {
+class CertificationCompletedJobRepository extends JobRepository {
   constructor() {
     super({
       name: CertificationCompletedJob.name,

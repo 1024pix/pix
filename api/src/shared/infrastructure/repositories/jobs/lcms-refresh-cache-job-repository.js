@@ -1,7 +1,7 @@
 import { LcmsRefreshCacheJob } from '../../../domain/models/LcmsRefreshCacheJob.js';
-import { JobPgBoss } from '../../jobs/JobPgBoss.js';
+import { JobRepository } from './job-repository.js';
 
-class LcmsRefreshCacheJobRepository extends JobPgBoss {
+class LcmsRefreshCacheJobRepository extends JobRepository {
   constructor() {
     super({
       name: LcmsRefreshCacheJob.name,

@@ -1,7 +1,7 @@
-import { JobPgBoss } from '../../../../../shared/infrastructure/jobs/JobPgBoss.js';
+import { JobRepository } from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
 import { ParticipationResultCalculationJob } from '../../../domain/models/ParticipationResultCalculationJob.js';
 
-class ParticipationResultCalculationJobRepository extends JobPgBoss {
+class ParticipationResultCalculationJobRepository extends JobRepository {
   constructor() {
     super({
       name: ParticipationResultCalculationJob.name,

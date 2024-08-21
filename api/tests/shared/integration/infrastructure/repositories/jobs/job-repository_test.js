@@ -1,9 +1,11 @@
-import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
-import { JobPgBoss as Job } from '../../../../../src/shared/infrastructure/jobs/JobPgBoss.js';
-import { JobPriority } from '../../../../../src/shared/infrastructure/jobs/JobPriority.js';
-import { catchErrSync, expect, knex } from '../../../../test-helper.js';
+import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import {
+  JobPriority,
+  JobRepository,
+} from '../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
+import { catchErrSync, expect, knex } from '../../../../../test-helper.js';
 
-describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
+describe('Integration | Infrastructure | Repositories | Jobs | job-repository', function () {
   it('create one job db with given config', async function () {
     // given
     const name = 'JobTest';
@@ -14,7 +16,7 @@ describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
     const expireIn = '00:00:30';
     const priority = JobPriority.HIGH;
 
-    const job = new Job({ name, retryLimit, retryDelay, retryBackoff, expireIn, priority }, knex);
+    const job = new JobRepository({ name, retryLimit, retryDelay, retryBackoff, expireIn, priority }, knex);
 
     // when
     await job.performAsync(expectedParams);
@@ -40,7 +42,7 @@ describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
     const expireIn = '00:00:30';
     const priority = JobPriority.HIGH;
 
-    const job = new Job({ name, retryLimit, retryDelay, retryBackoff, expireIn, priority }, knex);
+    const job = new JobRepository({ name, retryLimit, retryDelay, retryBackoff, expireIn, priority }, knex);
 
     // when
     await job.performAsync(...expectedParams);
@@ -59,7 +61,7 @@ describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
     const expireIn = '00:00:30';
     const priority = JobPriority.HIGH;
 
-    const job = new Job({ name, retryLimit, retryDelay, retryBackoff, expireIn, priority });
+    const job = new JobRepository({ name, retryLimit, retryDelay, retryBackoff, expireIn, priority });
 
     // when
     const jobsInserted = await job.performAsync(...expectedParams);
@@ -73,7 +75,7 @@ describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
     const priority = 999;
 
     // when
-    const error = catchErrSync(({ priority }, knex) => new Job({ priority }, knex))({ priority }, knex);
+    const error = catchErrSync(({ priority }, knex) => new JobRepository({ priority }, knex))({ priority }, knex);
 
     // then
     expect(error).to.be.instanceOf(EntityValidationError);
