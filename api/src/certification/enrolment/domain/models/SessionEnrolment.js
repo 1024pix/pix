@@ -64,8 +64,8 @@ class SessionEnrolment {
   }
 
   isCandidateAlreadyEnrolled({ candidates, candidatePersonalInfo, normalizeStringFnc }) {
-    const matchingCandidate = findMatchingCandidate({ candidates, candidatePersonalInfo, normalizeStringFnc });
-    return Boolean(matchingCandidate);
+    const matchingCandidates = findMatchingCandidates({ candidates, candidatePersonalInfo, normalizeStringFnc });
+    return matchingCandidates.length > 0;
   }
 
   hasLinkedCandidate({ candidates }) {
@@ -86,12 +86,12 @@ class SessionEnrolment {
     this.description = sessionData.description;
   }
 
-  findCandidateByPersonalInfo({ candidates, candidatePersonalInfo, normalizeStringFnc }) {
-    return findMatchingCandidate({ candidates, candidatePersonalInfo, normalizeStringFnc });
+  findCandidatesByPersonalInfo({ candidates, candidatePersonalInfo, normalizeStringFnc }) {
+    return findMatchingCandidates({ candidates, candidatePersonalInfo, normalizeStringFnc });
   }
 }
 
-function findMatchingCandidate({
+function findMatchingCandidates({
   candidates,
   candidatePersonalInfo: { firstName, lastName, birthdate },
   normalizeStringFnc,
@@ -100,7 +100,7 @@ function findMatchingCandidate({
     lastName: normalizeStringFnc(lastName),
     firstName: normalizeStringFnc(firstName),
   };
-  const matchingCandidate = candidates.find((enrolledCandidate) => {
+  return candidates.filter((enrolledCandidate) => {
     const enrolledCandidatesNormalizedNames = {
       lastName: normalizeStringFnc(enrolledCandidate.lastName),
       firstName: normalizeStringFnc(enrolledCandidate.firstName),
@@ -109,7 +109,6 @@ function findMatchingCandidate({
       _.isEqual(normalizedInputNames, enrolledCandidatesNormalizedNames) && birthdate === enrolledCandidate.birthdate
     );
   });
-  return matchingCandidate ?? null;
 }
 
 export { SessionEnrolment };

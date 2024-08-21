@@ -47,7 +47,7 @@ const createCandidateParticipation = async function (request, h) {
   const lastName = trim(request.payload.data.attributes['last-name']);
   const birthdate = request.payload.data.attributes['birthdate'];
 
-  const { linkDone, candidateId } = await usecases.linkUserToCandidate({
+  const { linkAlreadyDone, candidateId } = await usecases.linkUserToCandidate({
     userId,
     sessionId,
     firstName,
@@ -58,7 +58,7 @@ const createCandidateParticipation = async function (request, h) {
 
   const candidate = await enrolledCandidateRepository.get(candidateId);
   const serialized = await enrolledCandidateSerializer.serializeForParticipation(candidate);
-  return linkDone ? h.response(serialized).created() : serialized;
+  return linkAlreadyDone ? serialized : h.response(serialized).created();
 };
 
 const sessionController = {

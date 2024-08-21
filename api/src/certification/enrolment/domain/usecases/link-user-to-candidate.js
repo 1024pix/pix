@@ -8,8 +8,10 @@
 
 import {
   CertificationCandidateByPersonalInfoNotFoundError,
+  CertificationCandidateByPersonalInfoTooManyMatchesError,
   LanguageNotSupportedError,
   MatchingReconciledStudentNotFoundError,
+  NotFoundError,
   UnexpectedUserAccountError,
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../../shared/domain/errors.js';
@@ -60,7 +62,7 @@ export async function linkUserToCandidate({
 
   if (enrolledCandidate.isLinkedToAUser()) {
     if (enrolledCandidate.isLinkedTo(userId)) {
-      return { linkDone: false, candidateId: enrolledCandidate.id };
+      return { linkAlreadyDone: true, candidateId: enrolledCandidate.id };
     }
     throw new UnexpectedUserAccountError({});
   }
@@ -81,12 +83,15 @@ export async function linkUserToCandidate({
 
   enrolledCandidate.link(userId);
   await candidateRepository.update(enrolledCandidate);
-  return { linkDone: true, candidateId: enrolledCandidate.id };
+  return { linkAlreadyDone: false, candidateId: enrolledCandidate.id };
 }
 
 async function validateUserLanguage({ languageService, userRepository, userId, session }) {
   if (CertificationVersion.isV3(session.version)) {
     const user = await userRepository.get({ id: userId });
+    if (!user) {
+      throw new NotFoundError(`User with id ${userId} does not exist.`);
+    }
     const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(languageService, user.lang);
 
     if (!isUserLanguageValid) {
@@ -103,7 +108,7 @@ function findMatchingEnrolledCandidate({
   birthdate,
   normalizeStringFnc,
 }) {
-  const matchingEnrolledCandidate = session.findCandidateByPersonalInfo({
+  const matchingEnrolledCandidates = session.findCandidatesByPersonalInfo({
     candidates: candidatesInSession,
     candidatePersonalInfo: {
       firstName,
@@ -112,12 +117,17 @@ function findMatchingEnrolledCandidate({
     },
     normalizeStringFnc,
   });
-  if (!matchingEnrolledCandidate) {
+  if (matchingEnrolledCandidates.length === 0) {
     throw new CertificationCandidateByPersonalInfoNotFoundError(
       'No certification candidate matches with the provided personal info',
     );
   }
-  return matchingEnrolledCandidate;
+  if (matchingEnrolledCandidates.length > 1) {
+    throw new CertificationCandidateByPersonalInfoTooManyMatchesError(
+      'More than one candidate match with the provided personal info',
+    );
+  }
+  return matchingEnrolledCandidates[0];
 }
 
 async function checkCandidateMatchTheReconciledStudent({ userId, enrolledCandidate, organizationLearnerRepository }) {

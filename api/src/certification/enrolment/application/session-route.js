@@ -108,16 +108,17 @@ const register = async function (server) {
           params: Joi.object({
             id: identifiersType.sessionId,
           }),
+          options: {
+            allowUnknown: true,
+          },
           payload: Joi.object({
             data: {
               type: Joi.string().valid('certification-candidates').required(),
-              attributes: {
+              attributes: Joi.object({
                 'first-name': Joi.string().empty(['', null]).required(),
                 'last-name': Joi.string().empty(['', null]).required(),
-                birthdate: Joi.date().format('YYYY-MM-DD').raw().required().messages({
-                  'date.format': 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',
-                }),
-              },
+                birthdate: Joi.date().format('YYYY-MM-DD').raw().required(),
+              }),
             },
           }),
         },
@@ -125,7 +126,7 @@ const register = async function (server) {
         tags: ['api', 'sessions', 'certification-candidates'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle associe un candidat de certification à une session\n' +
+          'Elle associe un candidat de certification\n' +
             "à un utilisateur à l'aide des informations d'identité de celui-ci (nom, prénom et date de naissance).",
         ],
       },

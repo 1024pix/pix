@@ -97,6 +97,7 @@ describe('Certification | Enrolment | Unit | Router | session-route', function (
       'first-name': 'prenom',
       'last-name': 'nom',
       birthdate: '2000-01-01',
+      'irrelevant-attribute': 'coucou maman',
     };
 
     context('when the payload is correct', function () {
@@ -190,7 +191,7 @@ describe('Certification | Enrolment | Unit | Router | session-route', function (
         // then
         expect(response.statusCode).to.equal(400);
         const { errors } = JSON.parse(response.payload);
-        expect(errors[0].detail).to.equals('CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID');
+        expect(errors[0].detail).to.equals('"data.attributes.birthdate" must be in YYYY-MM-DD format');
       });
     });
   });

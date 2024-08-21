@@ -449,7 +449,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
     });
   });
 
-  context('#findCandidateByPersonalInfo', function () {
+  context('#findCandidatesByPersonalInfo', function () {
     it('should return the candidate on which all personal info matches (case / diacritics insensitive)', function () {
       // given
       const candidatePersonalInfo = {
@@ -481,14 +481,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       normalizeStringFnc.withArgs(candidates[1].firstName).returns(candidatePersonalInfo.firstName);
 
       // when
-      const matchingCandidate = session.findCandidateByPersonalInfo({
+      const matchingCandidates = session.findCandidatesByPersonalInfo({
         candidates,
         candidatePersonalInfo,
         normalizeStringFnc,
       });
 
       // then
-      expect(matchingCandidate.id).to.equal(456);
+      expect(matchingCandidates.map(({ id }) => id)).to.deep.equal([456]);
     });
 
     it('should return null when first name is not matching an already enrolled candidate', function () {
@@ -514,14 +514,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       const normalizeStringFnc = sinon.stub((str) => str);
 
       // when
-      const matchingCandidate = session.findCandidateByPersonalInfo({
+      const matchingCandidates = session.findCandidatesByPersonalInfo({
         candidates,
         candidatePersonalInfo,
         normalizeStringFnc,
       });
 
       // then
-      expect(matchingCandidate).to.be.null;
+      expect(matchingCandidates).to.deep.equal([]);
     });
 
     it('should return false when last name is not matching an already enrolled candidate', function () {
@@ -547,14 +547,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       const normalizeStringFnc = sinon.stub((str) => str);
 
       // when
-      const matchingCandidate = session.findCandidateByPersonalInfo({
+      const matchingCandidates = session.findCandidatesByPersonalInfo({
         candidates,
         candidatePersonalInfo,
         normalizeStringFnc,
       });
 
       // then
-      expect(matchingCandidate).to.be.null;
+      expect(matchingCandidates).to.deep.equal([]);
     });
 
     it('should return false when birthdate is not matching an already enrolled candidate', function () {
@@ -580,14 +580,49 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       const normalizeStringFnc = sinon.stub((str) => str);
 
       // when
-      const matchingCandidate = session.findCandidateByPersonalInfo({
+      const matchingCandidates = session.findCandidatesByPersonalInfo({
         candidates,
         candidatePersonalInfo,
         normalizeStringFnc,
       });
 
       // then
-      expect(matchingCandidate).to.be.null;
+      expect(matchingCandidates).to.deep.equal([]);
+    });
+
+    it('should return all candidates matching personal info', function () {
+      // given
+      const candidatePersonalInfo = {
+        firstName: 'Frédéric',
+        lastName: 'De bussy',
+        birthdate: '1990-01-04',
+      };
+      const session = domainBuilder.certification.enrolment.buildSession();
+      const candidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          id: 123,
+          firstName: candidatePersonalInfo.firstName,
+          lastName: candidatePersonalInfo.lastName,
+          birthdate: candidatePersonalInfo.birthdate,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          id: 456,
+          firstName: candidatePersonalInfo.firstName,
+          lastName: candidatePersonalInfo.lastName,
+          birthdate: candidatePersonalInfo.birthdate,
+        }),
+      ];
+      const normalizeStringFnc = sinon.stub((str) => str);
+
+      // when
+      const matchingCandidates = session.findCandidatesByPersonalInfo({
+        candidates,
+        candidatePersonalInfo,
+        normalizeStringFnc,
+      });
+
+      // then
+      expect(matchingCandidates.map(({ id }) => id)).to.deep.equal([123, 456]);
     });
   });
 });

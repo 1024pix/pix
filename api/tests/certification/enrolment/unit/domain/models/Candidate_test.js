@@ -79,8 +79,10 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
   context('link', function () {
     it('should link candidate to user', function () {
       // given
+      const createdAt = new Date();
       const candidate = domainBuilder.certification.enrolment.buildCandidate({
         userId: null,
+        createdAt,
       });
 
       // when
@@ -90,6 +92,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       expect(candidate).to.deepEqualInstance(
         domainBuilder.certification.enrolment.buildCandidate({
           userId: 123,
+          createdAt,
         }),
       );
     });
