@@ -3,6 +3,7 @@ import { CampaignParticipationStatuses, CampaignTypes } from '../../../src/presc
 import { constants } from '../../../src/shared/domain/constants.js';
 import { CampaignParticipationOverview } from '../../../src/shared/domain/read-models/CampaignParticipationOverview.js';
 import { fetchPage } from '../../../src/shared/infrastructure/utils/knex-utils.js';
+import { DomainTransaction } from '../DomainTransaction.js';
 
 const findByUserIdWithFilters = async function ({ userId, states, page }) {
   const queryBuilder = _findByUserId({ userId });
@@ -24,7 +25,9 @@ const findByUserIdWithFilters = async function ({ userId, states, page }) {
 export { findByUserIdWithFilters };
 
 function _findByUserId({ userId }) {
-  return knex
+  const knexConn = DomainTransaction.getConnection();
+
+  return knexConn
     .with('campaign-participation-overviews', (qb) => {
       qb.select({
         id: 'campaign-participations.id',

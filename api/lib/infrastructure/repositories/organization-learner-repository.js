@@ -80,7 +80,8 @@ const findByOrganizationIdAndUpdatedAtOrderByDivision = async function ({ organi
 };
 
 const findByUserId = async function ({ userId }) {
-  const rawOrganizationLearners = await knex
+  const knexConn = DomainTransaction.getConnection();
+  const rawOrganizationLearners = await knexConn
     .select('*')
     .from('view-active-organization-learners')
     .where({ userId })

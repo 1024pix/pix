@@ -103,7 +103,9 @@ const update = async function (organization) {
 };
 
 const get = async function (id) {
-  const organizationDB = await knex(ORGANIZATIONS_TABLE_NAME).where({ id }).first();
+  const knexConn = DomainTransaction.getConnection();
+
+  const organizationDB = await knexConn(ORGANIZATIONS_TABLE_NAME).where({ id }).first();
   if (!organizationDB) {
     throw new NotFoundError(`Not found organization for ID ${id}`);
   }

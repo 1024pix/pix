@@ -23,6 +23,7 @@ import { buildCampaignManagement } from './build-campaign-management.js';
 import { buildCampaignParticipation } from './build-campaign-participation.js';
 import { buildCampaignParticipationForUserManagement } from './build-campaign-participation-for-user-management.js';
 import { buildCampaignParticipationInfo } from './build-campaign-participation-info.js';
+import { buildCampaignParticipationOverview } from './build-campaign-participation-overview.js';
 import { buildCampaignParticipationResult } from './build-campaign-participation-result.js';
 import { buildCampaignReport } from './build-campaign-report.js';
 import { buildCampaignToJoin } from './build-campaign-to-join.js';
@@ -261,6 +262,7 @@ export {
   buildCampaignParticipation,
   buildCampaignParticipationForUserManagement,
   buildCampaignParticipationInfo,
+  buildCampaignParticipationOverview,
   buildCampaignParticipationResult,
   buildCampaignReport,
   buildCampaignToJoin,
