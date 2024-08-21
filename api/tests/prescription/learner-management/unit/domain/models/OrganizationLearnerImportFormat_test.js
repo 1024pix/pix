@@ -34,6 +34,18 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
           { key: 4, name: 'Date de naissance', required: true },
           { key: 5, name: 'unicity key', required: true },
         ],
+        filterableColumns: [
+          {
+            key: 4,
+            position: 2,
+            name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE,
+          },
+          {
+            key: 3,
+            position: 1,
+            name: IMPORT_KEY_FIELD.COMMON_DIVISION,
+          },
+        ],
         displayableColumns: [
           {
             key: 3,
@@ -73,6 +85,27 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
     });
   });
 
+  describe('#orderedFilterableColumns', function () {
+    it('should return filters in right order', function () {
+      const organizationLearnerImportFormat = new OrganizationLearnerImportFormat(
+        organizationLearnerImportFormatPayload,
+      );
+      expect(organizationLearnerImportFormat.orderedFilterableColumns).to.deep.equal([
+        { key: 3, name: IMPORT_KEY_FIELD.COMMON_DIVISION, position: 1 },
+        { key: 4, name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, position: 2 },
+      ]);
+    });
+
+    it('should return empty when filterableColumns is not defined', function () {
+      delete organizationLearnerImportFormatPayload.config.filterableColumns;
+
+      const organizationLearnerImportFormat = new OrganizationLearnerImportFormat(
+        organizationLearnerImportFormatPayload,
+      );
+      expect(organizationLearnerImportFormat.orderedFilterableColumns).lengthOf(0);
+    });
+  });
+
   describe('#orderedDisplayabledColumns', function () {
     it('should return columns in right order for displayed', function () {
       const organizationLearnerImportFormat = new OrganizationLearnerImportFormat(
@@ -91,6 +124,18 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
         organizationLearnerImportFormatPayload,
       );
       expect(organizationLearnerImportFormat.orderedDisplayabledColumns).lengthOf(0);
+    });
+  });
+
+  describe('#filtersToDisplay', function () {
+    it('should return filters in right order for displayed', function () {
+      const organizationLearnerImportFormat = new OrganizationLearnerImportFormat(
+        organizationLearnerImportFormatPayload,
+      );
+      expect(organizationLearnerImportFormat.filtersToDisplay).to.deep.equal([
+        IMPORT_KEY_FIELD.COMMON_DIVISION,
+        IMPORT_KEY_FIELD.COMMON_BIRTHDATE,
+      ]);
     });
   });
 
