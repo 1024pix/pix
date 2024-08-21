@@ -9,7 +9,7 @@ class MonitoredJobQueue {
     this.jobQueue = jobQueue;
   }
 
-  performJob(name, handlerClass, dependencies) {
+  registerJob(name, handlerClass, dependencies) {
     this.jobQueue.performJob(name, handlerClass, dependencies);
 
     const monitoringJobHandler = new MonitoringJobExecutionTimeHandler({ logger });

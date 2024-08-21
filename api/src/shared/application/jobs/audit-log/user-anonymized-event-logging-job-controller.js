@@ -7,6 +7,10 @@ export class UserAnonymizedEventLoggingJobController extends JobController {
     super(UserAnonymizedEventLoggingJob.name);
   }
 
+  isJobEnabled() {
+    return false;
+  }
+
   async handle(UserAnonymizedEventLoggingJob) {
     const { userId: targetUserId, updatedByUserId: userId, role, client, occurredAt } = UserAnonymizedEventLoggingJob;
 

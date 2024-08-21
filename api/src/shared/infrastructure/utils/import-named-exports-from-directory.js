@@ -33,3 +33,16 @@ export async function importNamedExportsFromDirectory({ path, ignoredFileNames =
   }
   return imports;
 }
+
+export async function importNamedExportFromFile(filepath) {
+  const fileURL = pathToFileURL(filepath);
+  const module = await import(fileURL);
+  const namedExports = Object.entries(module);
+
+  return namedExports
+    .filter(([exportName]) => exportName !== 'default')
+    .reduce((exports, [exportName, exportedValue]) => {
+      exports[exportName] = exportedValue;
+      return exports;
+    }, {});
+}
