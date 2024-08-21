@@ -3,6 +3,9 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
+import LoaderGrey from '../../../common/loader-grey';
+import List from './list';
+
 export default class Badges extends Component {
   @tracked isLoading;
   @tracked badges;
@@ -72,4 +75,16 @@ export default class Badges extends Component {
     this.isLoading = undefined;
     this.badges = undefined;
   }
+
+  <template>
+    {{#if this.isLoading}}
+      <LoaderGrey />
+    {{/if}}
+    <List
+      @options={{this.badges}}
+      @onBadgeUpdated={{this.onBadgeUpdated}}
+      @error={{this.getTargetProfileBadgesErrorMessage}}
+      @hasExternalJury={{@hasExternalJury}}
+    />
+  </template>
 }

@@ -1,7 +1,7 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { fillIn } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
+import TargetProfileSelector from 'pix-admin/components/complementary-certifications/attach-badges/target-profile-selector/index';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -12,7 +12,7 @@ module(
 
     test('it should display the search bar by default', async function (assert) {
       // when
-      const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector />`);
+      const screen = await renderScreen(<template><TargetProfileSelector /></template>);
 
       // then
       assert.dom(await screen.getByRole('textbox')).exists();
@@ -28,7 +28,7 @@ module(
             name: 'ALEX TARGET',
           },
         ]);
-        const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector />`);
+        const screen = await renderScreen(<template><TargetProfileSelector /></template>);
 
         // when
         const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
@@ -42,7 +42,7 @@ module(
         // given
         const store = this.owner.lookup('service:store');
         store.query = sinon.stub().returns(new Promise(() => {}));
-        const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector />`);
+        const screen = await renderScreen(<template><TargetProfileSelector /></template>);
 
         // when
         const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
@@ -56,10 +56,8 @@ module(
         // given
         const store = this.owner.lookup('service:store');
         store.query = sinon.stub().rejects();
-        this.set('noop', () => {});
-        const screen = await renderScreen(
-          hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector @onError={{this.noop}} />`,
-        );
+        const noop = () => {};
+        const screen = await renderScreen(<template><TargetProfileSelector @onError={{noop}} /></template>);
 
         // when
         const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
@@ -79,10 +77,8 @@ module(
           id: 1,
         });
         store.query = sinon.stub().resolves([attachableTargetProfile]);
-        this.set('noop', () => {});
-        const screen = await renderScreen(
-          hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector @onSelection={{this.noop}} />`,
-        );
+        const noop = () => {};
+        const screen = await renderScreen(<template><TargetProfileSelector @onSelection={{noop}} /></template>);
 
         // when
         const input = screen.getByRole('textbox', { name: 'ID du profil cible' });

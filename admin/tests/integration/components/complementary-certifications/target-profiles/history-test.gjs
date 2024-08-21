@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import dayjs from 'dayjs';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import History from 'pix-admin/components/complementary-certifications/target-profiles/history';
 import { module, test } from 'qunit';
 
 module('Integration | Component | complementary-certifications/target-profiles/history', function (hooks) {
@@ -21,11 +21,10 @@ module('Integration | Component | complementary-certifications/target-profiles/h
         },
       ],
     });
-    this.targetProfilesHistory = complementaryCertification.targetProfilesHistory;
 
     // when
     const screen = await render(
-      hbs`<ComplementaryCertifications::TargetProfiles::History @targetProfilesHistory={{this.targetProfilesHistory}} />`,
+      <template><History @targetProfilesHistory={{complementaryCertification.targetProfilesHistory}} /></template>,
     );
 
     // then

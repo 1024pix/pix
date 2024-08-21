@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import BadgesList from 'pix-admin/components/complementary-certifications/target-profiles/badges-list';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -24,12 +24,10 @@ module('Integration | Component | complementary-certifications/target-profiles/b
         },
       ],
     });
-    this.currentTargetProfile = complementaryCertification.currentTargetProfiles[0];
+    const currentTargetProfile = complementaryCertification.currentTargetProfiles[0];
 
     // when
-    const screen = await render(
-      hbs`<ComplementaryCertifications::TargetProfiles::BadgesList @currentTargetProfile={{this.currentTargetProfile}} />`,
-    );
+    const screen = await render(<template><BadgesList @currentTargetProfile={{currentTargetProfile}} /></template>);
 
     // then
     assert.dom(screen.getByRole('columnheader', { name: 'Image du badge certifié' })).exists();
@@ -54,12 +52,10 @@ module('Integration | Component | complementary-certifications/target-profiles/b
         },
       ],
     });
-    this.currentTargetProfile = complementaryCertification.currentTargetProfiles[0];
+    const currentTargetProfile = complementaryCertification.currentTargetProfiles[0];
 
     // when
-    const screen = await render(
-      hbs`<ComplementaryCertifications::TargetProfiles::BadgesList @currentTargetProfile={{this.currentTargetProfile}} />`,
-    );
+    const screen = await render(<template><BadgesList @currentTargetProfile={{currentTargetProfile}} /></template>);
 
     // then
     assert.dom(screen.getByRole('link', { name: '75' })).hasAttribute('href', '/target-profiles/85/badges/75');

@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import Information from 'pix-admin/components/complementary-certifications/target-profiles/information';
 import { module, test } from 'qunit';
 
 module('Integration | Component | complementary-certifications/target-profiles/information', function (hooks) {
@@ -11,18 +11,20 @@ module('Integration | Component | complementary-certifications/target-profiles/i
     const store = this.owner.lookup('service:store');
     const currentUser = this.owner.lookup('service:currentUser');
     currentUser.adminMember = { isSuperAdmin: true };
-    this.complementaryCertification = store.createRecord('complementary-certification', {
+    const complementaryCertification = store.createRecord('complementary-certification', {
       label: 'MARIANNE CERTIF',
       targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3 }],
     });
-    this.currentTargetProfile = this.complementaryCertification.currentTargetProfiles[0];
+    const currentTargetProfile = complementaryCertification.currentTargetProfiles[0];
 
     // when
     const screen = await render(
-      hbs`<ComplementaryCertifications::TargetProfiles::Information
-  @complementaryCertification={{this.complementaryCertification}}
-  @currentTargetProfile={{this.currentTargetProfile}}
-/>`,
+      <template>
+        <Information
+          @complementaryCertification={{complementaryCertification}}
+          @currentTargetProfile={{currentTargetProfile}}
+        />
+      </template>,
     );
 
     // then
@@ -37,21 +39,23 @@ module('Integration | Component | complementary-certifications/target-profiles/i
       const store = this.owner.lookup('service:store');
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.adminMember = { isSuperAdmin: true };
-      this.complementaryCertification = store.createRecord('complementary-certification', {
+      const complementaryCertification = store.createRecord('complementary-certification', {
         label: 'MARIANNE CERTIF',
         targetProfilesHistory: [
           { name: 'ALEX TARGET', id: 3 },
           { name: 'JUDE TARGET', id: 4 },
         ],
       });
-      this.currentTargetProfile = this.complementaryCertification.currentTargetProfiles[0];
+      const currentTargetProfile = complementaryCertification.currentTargetProfiles[0];
 
       // when
       const screen = await render(
-        hbs`<ComplementaryCertifications::TargetProfiles::Information
-  @complementaryCertification={{this.complementaryCertification}}
-  @currentTargetProfile={{this.currentTargetProfile}}
-/>`,
+        <template>
+          <Information
+            @complementaryCertification={{complementaryCertification}}
+            @currentTargetProfile={{currentTargetProfile}}
+          />
+        </template>,
       );
 
       // then
@@ -65,18 +69,20 @@ module('Integration | Component | complementary-certifications/target-profiles/i
       const store = this.owner.lookup('service:store');
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.adminMember = { isSuperAdmin: true };
-      this.complementaryCertification = store.createRecord('complementary-certification', {
+      const complementaryCertification = store.createRecord('complementary-certification', {
         label: 'MARIANNE CERTIF',
         targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3 }],
       });
-      this.currentTargetProfile = this.complementaryCertification.currentTargetProfiles[0];
+      const currentTargetProfile = complementaryCertification.currentTargetProfiles[0];
 
       // when
       const screen = await render(
-        hbs`<ComplementaryCertifications::TargetProfiles::Information
-  @complementaryCertification={{this.complementaryCertification}}
-  @currentTargetProfile={{this.currentTargetProfile}}
-/>`,
+        <template>
+          <Information
+            @complementaryCertification={{complementaryCertification}}
+            @currentTargetProfile={{currentTargetProfile}}
+          />
+        </template>,
       );
 
       // then
@@ -92,18 +98,20 @@ module('Integration | Component | complementary-certifications/target-profiles/i
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.adminMember = { isSuperAdmin: false };
       const store = this.owner.lookup('service:store');
-      this.complementaryCertification = store.createRecord('complementary-certification', {
+      const complementaryCertification = store.createRecord('complementary-certification', {
         label: 'MARIANNE CERTIF',
         targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3 }],
       });
-      this.currentTargetProfile = this.complementaryCertification.currentTargetProfiles[0];
+      const currentTargetProfile = complementaryCertification.currentTargetProfiles[0];
 
       // when
       const screen = await render(
-        hbs`<ComplementaryCertifications::TargetProfiles::Information
-  @complementaryCertification={{this.complementaryCertification}}
-  @currentTargetProfile={{this.currentTargetProfile}}
-/>`,
+        <template>
+          <Information
+            @complementaryCertification={{complementaryCertification}}
+            @currentTargetProfile={{currentTargetProfile}}
+          />
+        </template>,
       );
 
       // then
@@ -117,18 +125,20 @@ module('Integration | Component | complementary-certifications/target-profiles/i
       const store = this.owner.lookup('service:store');
       const currentUser = this.owner.lookup('service:currentUser');
       currentUser.adminMember = { isSuperAdmin: true };
-      this.complementaryCertification = store.createRecord('complementary-certification', {
+      const complementaryCertification = store.createRecord('complementary-certification', {
         label: 'MARIANNE CERTIF',
         targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3 }],
       });
-      this.currentTargetProfile = this.complementaryCertification.currentTargetProfiles[0];
+      const currentTargetProfile = complementaryCertification.currentTargetProfiles[0];
 
       // when
       const screen = await render(
-        hbs`<ComplementaryCertifications::TargetProfiles::Information
-  @complementaryCertification={{this.complementaryCertification}}
-  @currentTargetProfile={{this.currentTargetProfile}}
-/>`,
+        <template>
+          <Information
+            @complementaryCertification={{complementaryCertification}}
+            @currentTargetProfile={{currentTargetProfile}}
+          />
+        </template>,
       );
 
       // then

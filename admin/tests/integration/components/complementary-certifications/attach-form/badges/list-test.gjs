@@ -1,7 +1,7 @@
 import { getByText, getByTextWithHtml, queryByText, render } from '@1024pix/ember-testing-library';
 import { fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import List from 'pix-admin/components/complementary-certifications/attach-badges/badges/list';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -13,7 +13,7 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
 
   test('[a11y] it should display a message that some inputs are required', async function (assert) {
     // given & when
-    await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List />`);
+    await render(<template><List /></template>);
 
     // then
     assert.dom(getByTextWithHtml(this.intl.t('common.forms.mandatory-fields'))).exists();
@@ -22,7 +22,7 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
   module('Without badges', function () {
     test('it should display an empty table of target profile badges', async function (assert) {
       // given & when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List />`);
+      const screen = await render(<template><List /></template>);
 
       // then
       assert.dom(screen.getByRole('table', { name: 'Liste des résultats thématiques' })).exists();
@@ -34,9 +34,7 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
   module('when the complementary certification has an external jury', function () {
     test('it should display all columns', async function (assert) {
       // given & when
-      const screen = await render(
-        hbs`<ComplementaryCertifications::AttachBadges::Badges::List @hasExternalJury={{true}} />`,
-      );
+      const screen = await render(<template><List @hasExternalJury={{true}} /></template>);
 
       // then
       const [firstRow] = screen.getAllByRole('row');
@@ -55,15 +53,12 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
       test('it should display the list of badges with required inputs', async function (assert) {
         // given
         const badges = [{ id: 12, label: 'BoyNextDoor' }];
-        this.set('options', badges);
-        this.set('noop', () => {});
+        const noop = () => {};
 
         // when
-        const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
-  @options={{this.options}}
-  @onBadgeUpdated={{this.noop}}
-  @hasExternalJury={{true}}
-/>`);
+        const screen = await render(
+          <template><List @options={{badges}} @onBadgeUpdated={{noop}} @hasExternalJury={{true}} /></template>,
+        );
 
         // then
         assert.strictEqual(screen.getAllByRole('row').length, 2);
@@ -96,9 +91,7 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
   module('when the complementary certification has no external jury', function () {
     test('it should not display temporary-certificate-message and certificate-message columns', async function (assert) {
       // given & when
-      const screen = await render(
-        hbs`<ComplementaryCertifications::AttachBadges::Badges::List @hasExternalJury={{false}} />`,
-      );
+      const screen = await render(<template><List @hasExternalJury={{false}} /></template>);
 
       // then
       const [firstRow] = screen.getAllByRole('row');
@@ -110,15 +103,12 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
       test('it should not display temporary-certificate-message and certificate-message inputs', async function (assert) {
         // given
         const badges = [{ id: 12, label: 'BadgeLabel' }];
-        this.set('options', badges);
-        this.set('noop', () => {});
+        const noop = () => {};
 
         // when
-        const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
-  @options={{this.options}}
-  @onBadgeUpdated={{this.noop}}
-  @hasExternalJury={{false}}
-/>`);
+        const screen = await render(
+          <template><List @options={{badges}} @onBadgeUpdated={{noop}} @hasExternalJury={{false}} /></template>,
+        );
 
         // then
         assert.dom(screen.queryByText('textbox', { name: '12 BadgeLabel Message du certificat' })).doesNotExist();
@@ -133,15 +123,10 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
     test('it should call trigger action when a badge is updated', async function (assert) {
       // given
       const badges = [{ id: 12, label: 'BoyNextDoor One And Only' }];
-      this.set('options', badges);
       const onBadgeUpdated = sinon.stub();
-      this.set('onBadgeUpdated', onBadgeUpdated);
 
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
-  @options={{this.options}}
-  @onBadgeUpdated={{this.onBadgeUpdated}}
-/>`);
+      const screen = await render(<template><List @options={{badges}} @onBadgeUpdated={{onBadgeUpdated}} /></template>);
 
       const input = screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Image svg certificat Pix App' });
       await fillIn(input, 'image');
@@ -161,7 +146,7 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
     test('it should not display an error message', async function (assert) {
       // given
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List />`);
+      const screen = await render(<template><List /></template>);
 
       // then
       assert.dom(screen.queryByRole('alert')).doesNotExist();
@@ -172,11 +157,8 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
     test('it should display the error message', async function (assert) {
       // given
       const errorText = 'Erreur';
-      this.set('error', errorText);
       // when
-      const screen = await render(
-        hbs`<ComplementaryCertifications::AttachBadges::Badges::List @error={{this.error}} />`,
-      );
+      const screen = await render(<template><List @error={{errorText}} /></template>);
 
       // then
       const errorMessage = screen.getByRole('alert');

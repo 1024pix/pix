@@ -1,10 +1,19 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
+import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import Card from 'pix-admin/components/card';
+
+import LinkToCurrentTargetProfile from '../common/link-to-current-target-profile';
+import Badges from './badges/index';
+import TargetProfileSelector from './target-profile-selector';
 
 const DEFAULT_BADGE_LEVEL = '1';
-
-import Component from '@glimmer/component';
 
 export default class AttachBadges extends Component {
   @service notifications;
@@ -118,4 +127,75 @@ export default class AttachBadges extends Component {
       [fieldName]: fieldValue,
     });
   }
+
+  <template>
+    <div class="page-section attach-target-profile">
+      <h1 class="attach-target-profile__header">
+        Rattacher un nouveau profil cible à la certification
+        {{@complementaryCertification.label}}
+      </h1>
+      {{#if @currentTargetProfile}}
+        <LinkToCurrentTargetProfile @model={{@currentTargetProfile}} />
+      {{/if}}
+      <form class="form" {{on "submit" this.onSubmit}}>
+        <Card class="attach-target-profile__card" @title="1. Renseigner le nouveau profil cible à rattacher">
+          <TargetProfileSelector
+            @onError={{this.onError}}
+            @onSelection={{this.onSelection}}
+            @onChange={{this.onReset}}
+          />
+        </Card>
+
+        {{#if this.selectedTargetProfile}}
+          <Card
+            class="attach-target-profile__card attach-target-profile__card-badges"
+            @title="2. Complétez les informations des résultats thématiques"
+          >
+            <Badges
+              @targetProfile={{this.selectedTargetProfile}}
+              @onError={{this.onError}}
+              @onBadgeUpdated={{this.onBadgeUpdated}}
+              @hasExternalJury={{this.hasExternalJury}}
+            />
+          </Card>
+          {{#if @currentTargetProfile}}
+
+            <div class="badge-edit-form__field attach-target-profile__notification">
+              <PixCheckbox
+                class="badge-edit-form__control attach-target-profile__notification__checkbox"
+                @checked="false"
+                {{on "change" this.onNotificationUpdated}}
+              >
+                <:label>Notifier les organisations avec une campagne basée sur l’ancien PC</:label>
+              </PixCheckbox>
+
+              <PixTooltip @position="top-left" @isLight={{true}} @isWide={{true}}>
+                <:triggerElement>
+                  <FaIcon @icon="circle-question" tabindex="0" />
+                </:triggerElement>
+                <:tooltip>
+                  Un email sera envoyé à chaque membre de l'organisation
+                </:tooltip>
+              </PixTooltip>
+            </div>
+          {{/if}}
+        {{/if}}
+
+        <div class="attach-target-profile__actions">
+          <PixButton
+            @type="submit"
+            @size="large"
+            @isDisabled={{this.isSubmitDisabled}}
+            aria-disabled={{this.isSubmitDisabled}}
+            @isLoading={{this.isSubmitting}}
+          >
+            Rattacher le profil cible
+          </PixButton>
+          <PixButton @size="large" @variant="secondary" @triggerAction={{this.onCancel}}>
+            Annuler
+          </PixButton>
+        </div>
+      </form>
+    </div>
+  </template>
 }

@@ -2,6 +2,8 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import Searchbar from 'pix-admin/components/complementary-certifications/attach-badges/target-profile-selector/searchbar';
+import SelectedTargetProfile from 'pix-admin/components/complementary-certifications/attach-badges/target-profile-selector/selected-target-profile';
 
 export default class TargetProfileSelectorComponent extends Component {
   @service notifications;
@@ -56,4 +58,18 @@ export default class TargetProfileSelectorComponent extends Component {
       this.args.onSelection(selectedAttachableTargetProfile.value);
     }
   }
+
+  <template>
+    {{#if this.selectedTargetProfile}}
+      <SelectedTargetProfile @onChange={{this.onChange}} @attachableTargetProfile={{this.selectedTargetProfile}} />
+    {{else}}
+      <Searchbar
+        @onSelection={{this.onSelection}}
+        @onSearch={{this.onSearch}}
+        @options={{this.attachableTargetProfiles}}
+        @isLoading={{this.isAttachableTargetProfilesLoading}}
+        @isNoResult={{this.isNoResult}}
+      />
+    {{/if}}
+  </template>
 }

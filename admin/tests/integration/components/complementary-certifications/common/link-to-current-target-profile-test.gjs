@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
+import LinkToCurrentTargetProfile from 'pix-admin/components/complementary-certifications/common/link-to-current-target-profile';
 import { module, test } from 'qunit';
 
 module(
@@ -15,12 +15,9 @@ module(
         name: 'ALEX TARGET',
         id: 1,
       });
-      this.set('currentTargetProfile', currentTargetProfile);
 
       // when
-      const screen = await render(
-        hbs`<ComplementaryCertifications::Common::LinkToCurrentTargetProfile @model={{this.currentTargetProfile}} />`,
-      );
+      const screen = await render(<template><LinkToCurrentTargetProfile @model={{currentTargetProfile}} /></template>);
 
       // then
       assert.dom(screen.getByText('Profil cible actuel:')).exists();

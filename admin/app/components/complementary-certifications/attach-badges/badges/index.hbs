@@ -1,9 +1,0 @@
-{{#if this.isLoading}}
-  <Common::LoaderGrey />
-{{/if}}
-<ComplementaryCertifications::AttachBadges::Badges::List
-  @options={{this.badges}}
-  @onBadgeUpdated={{this.onBadgeUpdated}}
-  @error={{this.getTargetProfileBadgesErrorMessage}}
-  @hasExternalJury={{@hasExternalJury}}
-/>
