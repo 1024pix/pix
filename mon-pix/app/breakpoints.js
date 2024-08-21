@@ -1,5 +1,5 @@
 export default {
-  mobile: '(max-width: 767px)',
-  tablet: '(min-width: 768px)',
-  desktop: '(min-width: 980px)',
+  mobile: '(max-width: 768px)',
+  tablet: '(min-width: 769px)',
+  desktop: '(min-width: 992px)',
 };
