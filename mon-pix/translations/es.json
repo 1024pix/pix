@@ -42,8 +42,6 @@
       "confirm": "Confirmar",
       "lets-go": "¡Empecemos!",
       "quit": "Salir",
-      "show-less": "Mostrar menos",
-      "show-more": "Mostrar más",
       "sign-out": "Desconectarse",
       "stay": "Quedarse",
       "validate": "Validar"
@@ -516,12 +514,13 @@
         "5": {
           "checkbox-label": "Al marcar esta casilla, reconozco que he leído estas normas y me comprometo a cumplirlas.",
           "list": {
-            "miscellaneous": "'<strong>'Movilizar cualquier otro medio que proporcione directamente la respuesta'</strong>', sin haber realizado el trabajo requerido por la instrucción.",
+            "other": "'<strong>'Movilizar cualquier otro medio que proporcione directamente la respuesta'</strong>', sin haber realizado el trabajo requerido por la instrucción.",
             "no-artificial-intelligence": "'<strong>'Utilizar un sistema de inteligencia artificial'</strong>' o un chatbot",
             "no-cheat-sheet": "'<strong>'Use cheat sheets'</strong>' (físicas o electrónicas), recursos de spoilers o notas personales.",
             "no-communication": "'<strong>'Comunicarse con otra persona'</strong>', dentro o fuera de la sala, por medios físicos o electrónicos.",
             "no-connected-device": "'<strong>'Utilizar un teléfono móvil o cualquier dispositivo conectado'</strong>' (distinto del ordenador utilizado en la certificación)",
-            "no-forum": "'<strong>'Consulta un foro de autoayuda'</strong>' proporcionando directamente la respuesta a un test"
+            "no-forum": "'<strong>'Consulta un foro de autoayuda'</strong>' proporcionando directamente la respuesta a un test",
+            "other": "'<strong>'Movilizar cualquier otro medio que proporcione directamente la respuesta'</strong>', sin haber realizado el trabajo requerido por la instrucción."
           },
           "text": "En certificación, está prohibido :",
           "title": "Normas que deben respetarse"
@@ -869,7 +868,7 @@
           "aria-label": "Mostrar la indicación en la prueba.",
           "close": "Lo he entendido",
           "focused": {
-            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'¡Quédate en esta página para responder!'</strong><br/>' No utilices internet ni ninguna aplicación para responder. Se detectará cualquier actividad fuera de la zona.",
+            "content": "'<p class=\"tooltip-tag-information__title--focused\">'¡Quédate en esta página para responder!'</p>' No utilices internet ni ninguna aplicación para responder. Se detectará cualquier actividad fuera de la zona.",
             "title": "Modo enfoque"
           },
           "other": {
@@ -914,7 +913,6 @@
     "comparison-window": {
       "results": {
         "a11y": {
-          "timedout": "Tiempo superado",
           "good-answer": "La respuesta dada es válida",
           "skipped-answer": "Pregunta saltada",
           "the-answer-was": "La respuesta correcta es",
@@ -1316,12 +1314,12 @@
         },
         "embed": {
           "reset": {
-            "ariaLabel": "Reiniciar el simulador",
-            "name": "Reiniciar"
+            "ariaLabel": "Reiniciar simulación",
+            "name": "Restablecer"
           },
           "start": {
-            "ariaLabel": "Iniciar el simulador",
-            "name": "Comenzar"
+            "ariaLabel": "Empezar simulación",
+            "name": "Empezar"
           }
         },
         "grain": {
@@ -1345,15 +1343,6 @@
         "level": "Nivel",
         "objectives": "Objetivos",
         "startModule": "Iniciar el módulo"
-      },
-      "download": {
-        "button": "Descargar",
-        "description": "Elija el formato en función del software que utilice. Si no estás seguro, elige el primer archivo, que es compatible con la mayoría de los programas.",
-        "documentationLinkHref": "https://pix.org/en/help-how-to-open-modify-find-a-downloaded-file-in-a-pix-question",
-        "documentationLinkLabel": "¿Cómo puedo abrir, modificar o recuperar este archivo?",
-        "intro": "Elija el formato de archivo que desea utilizar.",
-        "label": "Descargar archivo en formato {format}",
-        "format": "formato {format}"
       },
       "grain": {
         "tag": {
@@ -1634,10 +1623,7 @@
       "already-shared": "¡Gracias, tus resultados se han enviado correctamente!",
       "badge-card": {
         "acquired": "Aprobado",
-        "acquired-full": "Resultado temático aprobado",
-        "certifiable": "Certificado",
         "not-acquired": "No has aprobado",
-        "not-acquired-full": "Resultado temático no has aprobado",
         "progress-bar-label": "Porcentaje de éxito del resultado temático"
       },
       "badges-title": "Tus resultados temáticos",
@@ -1695,24 +1681,6 @@
         "masteryPercentage": "{rate, number, ::percent} de éxito",
         "starsAcquired": "{acquired, plural, =0 {ninguna estrella obtenida} =1 {# estrella obtenida} other {# estrellas obtenidas}} de {total}",
         "title": "Detalles de las competencias"
-      },
-      "tabs": {
-        "aria-label": "3 pestañas que detallan tus resultados",
-        "rewards": {
-          "tab-label": "Recompensas",
-          "title": "Recompensas y expectativas del organizador.",
-          "description": "En esta sección se destacan las recompensas recibidas, así como las expectativas del organizador del curso. Descubra cómo se evaluó su desempeño e identifique áreas de mejora para el desarrollo de sus habilidades."
-        },
-        "results-details": {
-          "tab-label": "Detalles de los resultados",
-          "title": "Detalles de los resultados",
-          "description": "Explora tus habilidades en detalle, organizadas por áreas específicas, para entender mejor tus fortalezas y áreas de mejora. Identifica tus fortalezas y áreas en las que puedes enfocar tus esfuerzos para mejorar aún más."
-        },
-        "trainings": {
-          "tab-label": "Capacitación",
-          "title": "¿Querer aprender más?",
-          "description": "Obtén recomendaciones de entrenamiento personalizadas para seguir progresando y alimentar tu curiosidad para ayudarte a desarrollar todo tu potencial."
-        }
       },
       "title": "Resultado",
       "trainings": {
