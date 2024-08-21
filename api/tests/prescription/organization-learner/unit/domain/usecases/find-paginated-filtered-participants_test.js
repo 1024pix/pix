@@ -1,12 +1,14 @@
 import { findPaginatedFilteredParticipants } from '../../../../../../src/prescription/organization-learner/domain/usecases/find-paginated-filtered-participants.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCases | get-paginated-participants-for-an-organization', function () {
+describe('Unit | UseCases | find-paginated-participants', function () {
   let organizationId,
     page,
     sort,
     filters,
+    extraFilters,
     columnsToDisplay,
+    filtersToDisplay,
     extraColumns,
     organizationLearnerImportFormatRepository,
     organizationParticipantRepository,
@@ -17,7 +19,9 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
     page = Symbol('page');
     sort = Symbol('sort');
     filters = Symbol('filter');
+    extraFilters = Symbol('extraFilter');
     columnsToDisplay = Symbol('columnsToDisplay');
+    filtersToDisplay = Symbol('filtersToDisplay');
     extraColumns = Symbol('extraColumns');
 
     organizationLearnerImportFormatRepository = {
@@ -41,6 +45,7 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
     await findPaginatedFilteredParticipants({
       organizationId,
       filters,
+      extraFilters,
       page,
       sort,
       organizationParticipantRepository,
@@ -62,7 +67,9 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
       .withArgs(organizationId)
       .resolves({ hasLearnersImportFeature: true });
 
-    organizationLearnerImportFormatRepository.get.withArgs(organizationId).resolves({ columnsToDisplay, extraColumns });
+    organizationLearnerImportFormatRepository.get
+      .withArgs(organizationId)
+      .resolves({ columnsToDisplay, extraColumns, filtersToDisplay });
     organizationParticipantRepository.findPaginatedFilteredImportedParticipants.resolves({
       organizationParticipants: [],
       meta: {},
@@ -71,6 +78,7 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
     const result = await findPaginatedFilteredParticipants({
       organizationId,
       filters,
+      extraFilters,
       page,
       sort,
       organizationParticipantRepository,
@@ -85,7 +93,9 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
       page,
       sort,
       filters,
+      extraFilters,
     });
     expect(result.meta.headingCustomColumns).to.be.equals(columnsToDisplay);
+    expect(result.meta.customFilters).to.be.equals(filtersToDisplay);
   });
 });
