@@ -150,15 +150,14 @@ async function _createValidCertificationCandidates({
       createdAt: null,
     });
 
-    const candidateBirthInformationValidation =
-      await sessionsImportValidationService.getValidatedCandidateBirthInformation({
-        candidate,
-        isSco,
-        isSessionsMassImport: true,
-        line: candidateDTO.line,
-        certificationCpfCountryRepository,
-        certificationCpfCityRepository,
-      });
+    const candidateBirthInformationValidation = await sessionsImportValidationService.getValidatedCandidateInformation({
+      candidate,
+      isSco,
+      isSessionsMassImport: true,
+      line: candidateDTO.line,
+      certificationCpfCountryRepository,
+      certificationCpfCityRepository,
+    });
 
     certificationCandidateErrors.push(...candidateBirthInformationValidation.certificationCandidateErrors);
 

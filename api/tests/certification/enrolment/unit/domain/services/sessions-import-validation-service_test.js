@@ -800,7 +800,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     });
   });
 
-  describe('#getValidatedCandidateBirthInformation', function () {
+  describe('#getValidatedCandidateInformation', function () {
     context('when the parsed data is valid', function () {
       it('should return an empty certificationCandidateErrors', async function () {
         // given
@@ -818,12 +818,13 @@ describe('Unit | Service | sessions import validation Service', function () {
         };
 
         // when
-        const { certificationCandidateErrors } =
-          await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+        const { certificationCandidateErrors } = await sessionsImportValidationService.getValidatedCandidateInformation(
+          {
             candidate,
             isSco: false,
             dependencies: { certificationCpfService: certificationCpfServiceStub },
-          });
+          },
+        );
 
         // then
         expect(certificationCandidateErrors).to.be.empty;
@@ -843,13 +844,14 @@ describe('Unit | Service | sessions import validation Service', function () {
         };
 
         // when
-        const { certificationCandidateErrors } =
-          await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+        const { certificationCandidateErrors } = await sessionsImportValidationService.getValidatedCandidateInformation(
+          {
             candidate,
             isSco,
             line: 1,
             dependencies: { certificationCpfService: certificationCpfServiceStub },
-          });
+          },
+        );
 
         // then
         expect(certificationCandidateErrors).to.deep.equal([
@@ -862,7 +864,7 @@ describe('Unit | Service | sessions import validation Service', function () {
       });
     });
 
-    context("when candidate's extraTimePourcentage is below than 1", function () {
+    context("when candidate's extraTimePercentage is below than 1", function () {
       it('should return a report', async function () {
         // given
         const isSco = false;
@@ -875,13 +877,14 @@ describe('Unit | Service | sessions import validation Service', function () {
         };
 
         // when
-        const { certificationCandidateErrors } =
-          await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+        const { certificationCandidateErrors } = await sessionsImportValidationService.getValidatedCandidateInformation(
+          {
             candidate,
             isSco,
             line: 1,
             dependencies: { certificationCpfService: certificationCpfServiceStub },
-          });
+          },
+        );
 
         // then
         expect(certificationCandidateErrors).to.deep.equal([
@@ -910,7 +913,7 @@ describe('Unit | Service | sessions import validation Service', function () {
 
             // when
             const { certificationCandidateErrors } =
-              await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+              await sessionsImportValidationService.getValidatedCandidateInformation({
                 candidate,
                 isSco,
                 line: 1,
@@ -941,7 +944,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             };
             // when
             const { certificationCandidateErrors } =
-              await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+              await sessionsImportValidationService.getValidatedCandidateInformation({
                 candidate,
                 isSco,
                 line: 1,
@@ -980,7 +983,7 @@ describe('Unit | Service | sessions import validation Service', function () {
 
           // when
           const { certificationCandidateErrors } =
-            await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+            await sessionsImportValidationService.getValidatedCandidateInformation({
               candidate,
               isSco,
               dependencies: { certificationCpfService: certificationCpfServiceStub },
@@ -1018,7 +1021,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           };
 
           // when
-          const result = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+          const result = await sessionsImportValidationService.getValidatedCandidateInformation({
             candidate,
             isSco: false,
             certificationCpfCountryRepository,
@@ -1061,7 +1064,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             .resolves(cpfBirthInformationValidation),
         };
         // when
-        const result = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+        const result = await sessionsImportValidationService.getValidatedCandidateInformation({
           candidate,
           isSco: false,
           certificationCpfCountryRepository,
@@ -1075,6 +1078,50 @@ describe('Unit | Service | sessions import validation Service', function () {
           { code: 'CPF_INCORRECT', line: 1, isBlocking: true },
           { code: 'CPF_INCORRECT 2', line: 1, isBlocking: true },
         ]);
+      });
+    });
+
+    context('when errorCodes contains subscriptions', function () {
+      it('should ignore them', async function () {
+        // given
+        const candidate = _buildValidCandidateModel();
+        const candidateInformation = {
+          birthCountry: 'Pérou',
+          birthCity: 'Pétaouchnok',
+          birthPostalCode: '44329',
+          birthINSEECode: '67890',
+        };
+        candidate.subscriptions = ['je ne suis pas une subscription'];
+        const certificationCpfCountryRepository = Symbol();
+        const certificationCpfCityRepository = Symbol();
+        const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+        cpfBirthInformationValidation.success(candidateInformation);
+
+        const certificationCpfServiceStub = {
+          getBirthInformation: sinon
+            .stub()
+            .withArgs({
+              birthCountry: candidate.birthCountry,
+              birthCity: candidate.birthCity,
+              birthPostalCode: candidate.birthPostalCode,
+              birthINSEECode: candidate.birthINSEECode,
+              certificationCpfCountryRepository,
+              certificationCpfCityRepository,
+            })
+            .resolves(cpfBirthInformationValidation),
+        };
+        // when
+        const result = await sessionsImportValidationService.getValidatedCandidateInformation({
+          candidate,
+          isSco: false,
+          certificationCpfCountryRepository,
+          certificationCpfCityRepository,
+          line: 1,
+          dependencies: { certificationCpfService: certificationCpfServiceStub },
+        });
+
+        // then
+        expect(result.certificationCandidateErrors).to.deep.equal([]);
       });
     });
   });
@@ -1179,6 +1226,7 @@ function _buildValidCandidateData({ lineNumber = 0, candidateNumber = 2 } = { ca
     candidateNumber,
   };
 }
+
 function _buildValidCandidateModel({ lineNumber = 0, candidateNumber = 2 } = { candidateNumber: 0, lineNumber: 0 }) {
   return domainBuilder.certification.enrolment.buildCandidate({
     lastName: `Candidat ${candidateNumber}`,

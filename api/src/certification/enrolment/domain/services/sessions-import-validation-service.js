@@ -181,7 +181,7 @@ const getValidatedSubscriptionsForMassImport = async function ({
   return { certificationCandidateComplementaryErrors, subscriptions };
 };
 
-const getValidatedCandidateBirthInformation = async function ({
+const getValidatedCandidateInformation = async function ({
   candidate,
   isSco,
   line,
@@ -203,7 +203,10 @@ const getValidatedCandidateBirthInformation = async function ({
     }
   }
 
-  const errorCodes = candidate.validateForMassSessionImport(isSco);
+  let errorCodes = candidate.validateForMassSessionImport(isSco);
+
+  errorCodes = errorCodes?.filter((errorCode) => !errorCode.includes('subscriptions'));
+
   _addToErrorList({ errorList: certificationCandidateErrors, line, codes: errorCodes });
 
   const cpfBirthInformation = await dependencies.certificationCpfService.getBirthInformation({
@@ -261,7 +264,7 @@ const validateCandidateEmails = async function ({ candidate, line, dependencies 
 
 export {
   getUniqueCandidates,
-  getValidatedCandidateBirthInformation,
+  getValidatedCandidateInformation,
   getValidatedSubscriptionsForMassImport,
   validateCandidateEmails,
   validateSession,
