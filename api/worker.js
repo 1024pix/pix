@@ -8,6 +8,7 @@ import _ from 'lodash';
 import PgBoss from 'pg-boss';
 
 import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './src/prescription/learner-management/domain/models/ScheduleComputeOrganizationLearnersCertificabilityJob.js';
+import { JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { config } from './src/shared/config.js';
 import { scheduleCpfJobs } from './src/shared/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { JobQueue } from './src/shared/infrastructure/jobs/JobQueue.js';
@@ -57,13 +58,18 @@ function createJobQueues(pgBoss) {
   return jobQueues;
 }
 
-export async function registerJobs(
-  jobGroup = 'default',
-  dependencies = { startPgBoss, createJobQueues, scheduleCpfJobs },
-) {
+function checkJobGroup(jobGroup) {
+  if (!jobGroup) {
+    throw new Error(`Job group invalid, allowed Job groups are [${Object.values(JobGroup)}]`);
+  }
+  logger.info(`Job group "${jobGroup}"`);
+}
+
+export async function registerJobs({ jobGroup, dependencies = { startPgBoss, createJobQueues, scheduleCpfJobs } }) {
+  checkJobGroup(jobGroup);
+
   const pgBoss = await dependencies.startPgBoss();
 
-  logger.info(`Job group "${jobGroup}"`);
   const jobQueues = dependencies.createJobQueues(pgBoss);
 
   const globPattern = `${workerDirPath}/src/**/application/**/*job-controller.js`;
@@ -87,6 +93,7 @@ export async function registerJobs(
     if (job.isJobEnabled()) {
       logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
       jobQueues.register(job.jobName, ModuleClass);
+
       jobRegisteredCount++;
     } else {
       logger.warn(`Job "${job.jobName}" is disabled.`);
@@ -109,6 +116,6 @@ export async function registerJobs(
 }
 
 if (!isTestEnv) {
-  const jobGroup = process.argv[2];
-  await registerJobs(jobGroup);
+  const jobGroup = process.argv[2] ? JobGroup[process.argv[2]?.toUpperCase()] : JobGroup.DEFAULT;
+  await registerJobs({ jobGroup });
 }
