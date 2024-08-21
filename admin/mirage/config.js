@@ -100,7 +100,12 @@ function routes() {
     const adminMember = schema.adminMembers.findBy({ id });
     return adminMember.update({ role });
   });
-  this.put('/admin/admin-members/:id/deactivate', () => {});
+
+  this.put('/admin/admin-members/:id/deactivate', (schema, request) => {
+    const adminMemberId = request.params.id;
+    const adminMember = schema.adminMembers.find(adminMemberId);
+    adminMember.destroy();
+  });
 
   this.get('/admin/flash-assessment-configuration', (schema, _) => {
     return schema.create('flash-algorithm-configuration');

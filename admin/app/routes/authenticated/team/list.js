@@ -1,3 +1,4 @@
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
@@ -10,6 +11,7 @@ export default class ListRoute extends Route {
   }
 
   async model() {
+    this.store.unloadAll('admin-member');
     return this.store.findAll('admin-member');
   }
 
@@ -17,5 +19,10 @@ export default class ListRoute extends Route {
     if (isExiting) {
       controller.set('inviteErrorRaised', null);
     }
+  }
+
+  @action
+  refreshModel() {
+    this.refresh();
   }
 }

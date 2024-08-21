@@ -48,7 +48,8 @@ export default class List extends Component {
 
     adminMember.role = adminMember.updatedRole;
     try {
-      await adminMember.save();
+      await adminMember.save({ adapterOptions: { method: 'updateRole' } });
+
       this.notifications.success(
         `L'agent ${adminMember.firstName} ${adminMember.lastName} a désormais le rôle ${adminMember.updatedRole}`,
       );
@@ -65,7 +66,8 @@ export default class List extends Component {
   @action
   async deactivateAdminMember(adminMemberToDeactivate) {
     try {
-      await this.adminMemberToDeactivate.deactivate();
+      await this.adminMemberToDeactivate.save({ adapterOptions: { method: 'deactivate' } });
+      await this.args.refreshValues();
       this.toggleDisplayConfirm();
       this.notifications.success(
         `L'agent ${adminMemberToDeactivate.firstName} ${adminMemberToDeactivate.lastName} n'a plus accès à Pix Admin.`,

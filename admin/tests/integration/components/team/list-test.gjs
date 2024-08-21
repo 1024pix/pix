@@ -78,7 +78,7 @@ module('Integration | Component | team | list', function (hooks) {
       module('when the admin member confirm the disabling', function () {
         test('should disable membership ', async function (assert) {
           // given
-          const deactivateAdminMemberModelStub = sinon.stub();
+          const save = sinon.stub();
 
           const members = [
             {
@@ -87,7 +87,7 @@ module('Integration | Component | team | list', function (hooks) {
               email: 'marie.tim@example.net',
               role: 'SUPER_ADMIN',
               isSuperAdmin: true,
-              deactivate: deactivateAdminMemberModelStub,
+              save,
             },
           ];
 
@@ -100,17 +100,19 @@ module('Integration | Component | team | list', function (hooks) {
           await clickByName('Confirmer');
 
           // then
-          assert.ok(deactivateAdminMemberModelStub.called);
+          assert.ok(save.called);
         });
 
         test('should display a success notification and close the modal', async function (assert) {
           // given
-          const deactivateAdminMemberModelStub = sinon.stub();
-
+          const save = sinon.stub().resolves();
+          const refreshValues = sinon.stub().resolves();
           const notificationSuccessStub = sinon.stub();
+
           class NotificationsStub extends Service {
             success = notificationSuccessStub;
           }
+
           this.owner.register('service:notifications', NotificationsStub);
 
           const members = [
@@ -120,7 +122,7 @@ module('Integration | Component | team | list', function (hooks) {
               email: 'marie.tim@example.net',
               role: 'SUPER_ADMIN',
               isSuperAdmin: true,
-              deactivate: deactivateAdminMemberModelStub,
+              save,
             },
           ];
 
@@ -134,20 +136,18 @@ module('Integration | Component | team | list', function (hooks) {
           // then
           sinon.assert.calledWith(notificationSuccessStub, "L'agent Marie Tim n'a plus accès à Pix Admin.");
           assert.ok(true);
-          // TODO : Add aria-hidden to Pix Modal
-          //assert.dom(screen.queryByRole('button', { name: 'Confirmer' })).doesNotExist();
+          // assert.dom(screen.queryByRole('dialog')).isNotVisible();
         });
 
         test('should display an error message and close the modal when an error occurs while disabling', async function (assert) {
           // given
-          const deactivateAdminMemberModelStub = sinon
-            .stub()
-            .throws({ errors: [{ status: '422', title: 'Erreur inconnue' }] });
-
+          const save = sinon.stub().throws({ errors: [{ status: '422', title: 'Erreur inconnue' }] });
           const notificationErrorStub = sinon.stub();
+
           class NotificationsStub extends Service {
             error = notificationErrorStub;
           }
+
           this.owner.register('service:notifications', NotificationsStub);
 
           const members = [
@@ -157,7 +157,7 @@ module('Integration | Component | team | list', function (hooks) {
               email: 'marie.tim@example.net',
               role: 'SUPER_ADMIN',
               isSuperAdmin: true,
-              deactivate: deactivateAdminMemberModelStub,
+              save,
             },
           ];
 
