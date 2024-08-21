@@ -4,8 +4,13 @@
   &__form {
     margin-top: var(--pix-spacing-8x);
   }
+
+  &__warning-banner {
+    margin-bottom: var(--pix-spacing-8x);
+  }
 }
 
 .invite-form__email-field {
   min-height: 70px;
 }
+
