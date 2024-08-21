@@ -1,3 +1,7 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixInput from '@1024pix/pix-ui/components/pix-input';
+import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -76,4 +80,41 @@ export default class AddMember extends Component {
     this.validationStatus = 'success';
     return true;
   }
+
+  <template>
+    <form class="add-member-to-team-form" onsubmit={{this.inviteMember}}>
+      <h2 class="pix-text--large">Donner accès à un agent Pix</h2>
+
+      <section class="add-member-to-team-form__content">
+        <section class="add-member-to-team-form__input">
+          <PixInput
+            @id="email"
+            @requiredLabel="Champ obligatoire"
+            @errorMessage={{this.inviteErrorRaised}}
+            @validationStatus={{this.validationStatus}}
+            value={{this.email}}
+            {{on "change" this.emailChanged}}
+          >
+            <:label>Adresse e-mail professionnelle de l'agent Pix à rattacher</:label>
+          </PixInput>
+        </section>
+
+        <section class="add-member-to-team-form__select {{if this.inviteErrorRaised 'error-padding'}}">
+          <PixSelect @options={{@roles}} @value={{this.role}} @onChange={{this.roleChanged}} @screenReaderOnly={{true}}>
+            <:label>Choisir le rôle à assigner au nouveau membre</:label>
+          </PixSelect>
+        </section>
+
+        <PixButton
+          @size="small"
+          class={{if this.inviteErrorRaised "error-padding"}}
+          type="submit"
+          aria-label="Donner accès à un agent Pix"
+          @triggerAction={{this.inviteMember}}
+        >
+          Valider
+        </PixButton>
+      </section>
+    </form>
+  </template>
 }
