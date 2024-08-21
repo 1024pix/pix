@@ -10,10 +10,16 @@ import * as targetProfileRepository from '../../../../../lib/infrastructure/repo
 import { assessmentRepository } from '../../../../certification/session-management/infrastructure/repositories/index.js';
 import * as authenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import { JobController } from '../../../../shared/application/jobs/job-controller.js';
 import { PoleEmploiSending } from '../../../../shared/domain/models/index.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
+import { PoleEmploiParticipationCompletedJob } from '../../domain/models/PoleEmploiParticipationCompletedJob.js';
 
-export class PoleEmploiParticipationCompletedJobController {
+export class PoleEmploiParticipationCompletedJobController extends JobController {
+  constructor() {
+    super(PoleEmploiParticipationCompletedJob.name);
+  }
+
   async handle(
     campaignParticipationCompletedJob,
     dependencies = {

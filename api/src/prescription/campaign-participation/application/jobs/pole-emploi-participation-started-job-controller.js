@@ -8,11 +8,17 @@ import * as poleEmploiSendingRepository from '../../../../../lib/infrastructure/
 import * as targetProfileRepository from '../../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as authenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import { JobController } from '../../../../shared/application/jobs/job-controller.js';
 import { PoleEmploiSending } from '../../../../shared/domain/models/index.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
+import { PoleEmploiParticipationStartedJob } from '../../domain/models/PoleEmploiParticipationStartedJob.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 
-export class PoleEmploiParticipationStartedJobController {
+export class PoleEmploiParticipationStartedJobController extends JobController {
+  constructor() {
+    super(PoleEmploiParticipationStartedJob.name);
+  }
+
   async handle(
     data,
     dependencies = {
