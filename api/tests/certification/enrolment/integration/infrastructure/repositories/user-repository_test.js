@@ -14,7 +14,7 @@ describe('Integration | Repository | certification | enrolment | User', function
       await databaseBuilder.commit();
     });
 
-    it('should return user if found', async function () {
+    it('should return user if found (no organization learners)', async function () {
       // when
       const foundUser = await userRepository.get({ id: userId });
 
@@ -23,6 +23,36 @@ describe('Integration | Repository | certification | enrolment | User', function
         domainBuilder.certification.enrolment.buildUser({
           id: userId,
           lang,
+        }),
+      );
+    });
+
+    it('should return user if found (with organization learners)', async function () {
+      // given
+      const anotherUserId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildOrganizationLearner({
+        id: 111,
+        userId,
+      });
+      databaseBuilder.factory.buildOrganizationLearner({
+        id: 222,
+        userId: anotherUserId,
+      });
+      databaseBuilder.factory.buildOrganizationLearner({
+        id: 333,
+        userId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const foundUser = await userRepository.get({ id: userId });
+
+      // then
+      expect(foundUser).to.deepEqualInstance(
+        domainBuilder.certification.enrolment.buildUser({
+          id: userId,
+          lang,
+          organizationLearnerIds: [111, 333],
         }),
       );
     });

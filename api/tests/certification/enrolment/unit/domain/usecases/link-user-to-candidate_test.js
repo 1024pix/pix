@@ -16,7 +16,6 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-help
 describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', function () {
   let candidateRepository;
   let centerRepository;
-  let organizationLearnerRepository;
   let sessionRepository;
   let userRepository;
   let normalizeStringFnc;
@@ -34,9 +33,6 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
     centerRepository = {
       getById: sinon.stub(),
     };
-    organizationLearnerRepository = {
-      isOrganizationLearnerIdLinkedToUserAndSCOOrganization: sinon.stub(),
-    };
     sessionRepository = {
       get: sinon.stub(),
     };
@@ -49,7 +45,6 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
       userId,
       candidateRepository,
       centerRepository,
-      organizationLearnerRepository,
       sessionRepository,
       userRepository,
       normalizeStringFnc,
@@ -61,13 +56,6 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
 
   context('when userId does not exist', function () {
     beforeEach(function () {
-      sessionRepository.get.withArgs({ id: sessionId }).resolves(
-        domainBuilder.certification.enrolment.buildSession({
-          id: sessionId,
-          version: CERTIFICATION_VERSIONS.V3,
-          certificationCenterId,
-        }),
-      );
       userRepository.get.withArgs({ id: userId }).resolves(null);
     });
 
@@ -295,12 +283,13 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
             });
             context('when matching candidate is not related to a reconcilied learner', function () {
               beforeEach(function () {
-                organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization
-                  .withArgs({
-                    userId,
-                    organizationLearnerId: 789,
-                  })
-                  .resolves(false);
+                userRepository.get.withArgs({ id: userId }).resolves(
+                  domainBuilder.certification.enrolment.buildUser({
+                    id: userId,
+                    lang: LANGUAGES_CODE.FRENCH,
+                    organizationLearnerIds: [123],
+                  }),
+                );
               });
 
               it('should throw a MatchingReconciledStudentNotFoundError', async function () {
@@ -318,12 +307,13 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
             });
             context('when matching candidate is related to a reconcilied learner', function () {
               beforeEach(function () {
-                organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization
-                  .withArgs({
-                    userId,
-                    organizationLearnerId: 789,
-                  })
-                  .resolves(true);
+                userRepository.get.withArgs({ id: userId }).resolves(
+                  domainBuilder.certification.enrolment.buildUser({
+                    id: userId,
+                    lang: LANGUAGES_CODE.FRENCH,
+                    organizationLearnerIds: [789],
+                  }),
+                );
               });
 
               it('should link the candidate', async function () {

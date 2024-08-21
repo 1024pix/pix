@@ -1,7 +1,6 @@
 /**
  * @typedef {import ('./index.js').CandidateRepository} CandidateRepository
  * @typedef {import ('./index.js').CenterRepository} CenterRepository
- * @typedef {import ('./index.js').OrganizationLearnerRepository} OrganizationLearnerRepository
  * @typedef {import ('./index.js').SessionRepository} SessionRepository
  * @typedef {import ('./index.js').UserRepository} UserRepository
  */
@@ -23,7 +22,6 @@ import { CertificationVersion } from '../../../shared/domain/models/Certificatio
  * @param {Object} params
  * @param {CandidateRepository} params.candidateRepository
  * @param {CenterRepository} params.centerRepository
- * @param {OrganizationLearnerRepository} params.organizationLearnerRepository
  * @param {SessionRepository} params.sessionRepository
  * @param {UserRepository} params.userRepository
  */
@@ -35,18 +33,21 @@ export async function linkUserToCandidate({
   birthdate,
   candidateRepository,
   centerRepository,
-  organizationLearnerRepository,
   sessionRepository,
   userRepository,
   normalizeStringFnc,
 }) {
+  const user = await userRepository.get({ id: userId });
+  if (!user) {
+    throw new NotFoundError(`User with id ${userId} does not exist.`);
+  }
+
   const session = await sessionRepository.get({ id: sessionId });
   const center = await centerRepository.getById({ id: session.certificationCenterId });
 
   await validateUserLanguage({
     languageService,
-    userRepository,
-    userId,
+    user,
     session,
   });
 
@@ -74,11 +75,9 @@ export async function linkUserToCandidate({
   }
 
   if (center.isMatchingOrganizationScoAndManagingStudents) {
-    await checkCandidateMatchTheReconciledStudent({
-      userId,
-      enrolledCandidate,
-      organizationLearnerRepository,
-    });
+    if (!user.has({ organizationLearnerId: enrolledCandidate.organizationLearnerId })) {
+      throw new MatchingReconciledStudentNotFoundError();
+    }
   }
 
   enrolledCandidate.link(userId);
@@ -86,12 +85,8 @@ export async function linkUserToCandidate({
   return { linkAlreadyDone: false, candidateId: enrolledCandidate.id };
 }
 
-async function validateUserLanguage({ languageService, userRepository, userId, session }) {
+async function validateUserLanguage({ languageService, user, session }) {
   if (CertificationVersion.isV3(session.version)) {
-    const user = await userRepository.get({ id: userId });
-    if (!user) {
-      throw new NotFoundError(`User with id ${userId} does not exist.`);
-    }
     const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(languageService, user.lang);
 
     if (!isUserLanguageValid) {
@@ -128,16 +123,4 @@ function findMatchingEnrolledCandidate({
     );
   }
   return matchingEnrolledCandidates[0];
-}
-
-async function checkCandidateMatchTheReconciledStudent({ userId, enrolledCandidate, organizationLearnerRepository }) {
-  const isOrganizationLearnerIdLinkedToUserAndSCOOrganization =
-    await organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization({
-      userId,
-      organizationLearnerId: enrolledCandidate.organizationLearnerId,
-    });
-
-  if (!isOrganizationLearnerIdLinkedToUserAndSCOOrganization) {
-    throw new MatchingReconciledStudentNotFoundError();
-  }
 }
