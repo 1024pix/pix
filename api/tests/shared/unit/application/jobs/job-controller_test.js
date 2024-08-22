@@ -19,7 +19,7 @@ describe('Unit | Shared | Application | Jobs | JobController', function () {
     const jobGroup = 'is-invalid-group';
 
     // when
-    const error = catchErrSync((jobGroup) => new JobController('jobName', jobGroup))(jobGroup);
+    const error = catchErrSync((jobGroup) => new JobController('jobName', { jobGroup }))(jobGroup);
 
     // then
     expect(error).to.be.instanceOf(EntityValidationError);

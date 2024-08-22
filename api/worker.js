@@ -10,7 +10,6 @@ import PgBoss from 'pg-boss';
 import { ParticipationCompletedJobController } from './src/prescription/campaign-participation/application/jobs/participation-completed-job-controller.js';
 import { ParticipationSharedJobController } from './src/prescription/campaign-participation/application/jobs/participation-shared-job-controller.js';
 import { ParticipationStartedJobController } from './src/prescription/campaign-participation/application/jobs/participation-started-job-controller.js';
-import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './src/prescription/learner-management/domain/models/ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 import { JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { config } from './src/shared/config.js';
 import { JobQueue } from './src/shared/infrastructure/jobs/JobQueue.js';
@@ -87,6 +86,7 @@ export async function registerJobs({ jobGroup, dependencies = { startPgBoss, cre
   }
 
   let jobRegisteredCount = 0;
+  let cronJobCount = 0;
   for (const [moduleName, ModuleClass] of Object.entries(jobModules)) {
     const job = new ModuleClass();
 
@@ -96,7 +96,13 @@ export async function registerJobs({ jobGroup, dependencies = { startPgBoss, cre
       logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
       jobQueues.register(job.jobName, ModuleClass);
 
-      jobRegisteredCount++;
+      if (job.jobCron) {
+        await pgBoss.schedule(job.jobName, job.jobCron, {}, { tz: 'Europe/Paris' });
+        logger.info(`Cron for job "${job.jobName}" scheduled "${job.jobCron}"`);
+        cronJobCount++;
+      } else {
+        jobRegisteredCount++;
+      }
     } else {
       logger.warn(`Job "${job.jobName}" is disabled.`);
     }
@@ -108,16 +114,7 @@ export async function registerJobs({ jobGroup, dependencies = { startPgBoss, cre
   jobQueues.register('PoleEmploiParticipationStartedJob', ParticipationStartedJobController);
 
   logger.info(`${jobRegisteredCount} jobs registered for group "${jobGroup}".`);
-
-  // Scheduler - TODO - use abstraction for CRON
-  await pgBoss.schedule(
-    ScheduleComputeOrganizationLearnersCertificabilityJob.name,
-    config.features.scheduleComputeOrganizationLearnersCertificability.cron,
-    null,
-    { tz: 'Europe/Paris' },
-  );
-  await pgBoss.schedule('CpfExportPlannerJob', config.cpf.plannerJob.cron, null, { tz: 'Europe/Paris' });
-  await pgBoss.schedule('CpfExportSenderJob', config.cpf.sendEmailJob.cron, null, { tz: 'Europe/Paris' });
+  logger.info(`${cronJobCount} cron jobs scheduled for group "${jobGroup}".`);
 }
 
 if (!isTestEnv) {
