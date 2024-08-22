@@ -324,6 +324,39 @@
         }
       }
     },
+    "autonomous-course": {
+      "creation-form-fields": {
+        "create-autonomous-course": "Créer le parcours autonome",
+        "target-profile": {
+            "category-label": "Sélectionner une ou plusieurs catégories de profils cibles",
+            "label": "Quel profil cible voulez-vous associer à ce parcours autonome ?",
+            "placeholder": "Choisir un profil cible",
+            "search-label": "Recherchez un profil cible",
+            "sub-label": "Le profil cible doit être en accès simplifié et relié à l’organisation \"Organisation pour les parcours autonomes\""
+        },
+        "technical-informations": {
+          "label": "Nom interne",
+          "title": "Informations techniques"
+        },
+        "user-information": {
+          "public-name": {
+            "label": "Nom public <small>(50 caractères maximum)</small>",
+            "placeholder": "Exemple : Le super nom de mon parcours autonome",
+            "sub-label": "Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
+          },
+          "homepage": {
+            "label": "Texte de la page d'accueil",
+            "placeholder": "Exemple : description, objectifs..."
+          },
+          "category-label": "",
+          "label": "",
+          "placeholder": "",
+          "search-label": "",
+          "sub-label": "",
+          "title": "Informations pour les utilisateurs"
+        }
+      }
+    },
     "certification-centers": {
       "information-view": {
         "habilitations": {
