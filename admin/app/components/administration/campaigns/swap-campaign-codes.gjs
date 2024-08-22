@@ -8,6 +8,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
+import AdministrationBlockLayout from '../block-layout';
+
 export default class SwapCampaignCodes extends Component {
   @service intl;
   @service notifications;
@@ -56,11 +58,7 @@ export default class SwapCampaignCodes extends Component {
   }
 
   <template>
-    <section class="page-section">
-      <header class="page-section__header">
-        <h2 class="page-section__title">{{t "components.administration.swap-campaign-codes.title"}}</h2>
-      </header>
-
+    <AdministrationBlockLayout @title={{t "components.administration.swap-campaign-codes.title"}}>
       <form {{on "submit" this.swapCodes}}>
         <fieldset class="campaigns-swap-code">
           <legend>{{t "components.administration.swap-campaign-codes.description"}}</legend>
@@ -76,6 +74,6 @@ export default class SwapCampaignCodes extends Component {
           {{t "components.administration.swap-campaign-codes.form.button"}}
         </PixButton>
       </form>
-    </section>
+    </AdministrationBlockLayout>
   </template>
 }

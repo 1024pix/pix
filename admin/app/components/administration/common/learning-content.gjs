@@ -4,6 +4,8 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 
+import AdministrationBlockLayout from '../block-layout';
+
 export default class LearningContent extends Component {
   @service notifications;
   @service store;
@@ -30,10 +32,7 @@ export default class LearningContent extends Component {
     }
   }
   <template>
-    <section class="page-section">
-      <header class="page-section__header">
-        <h2 class="page-section__title">Référentiel</h2>
-      </header>
+    <AdministrationBlockLayout @title="Référentiel">
       <div>
         <p>Une version du référentiel de données pédagogique est créée quotidiennement (vers 4h00) et le référentiel
           utilisé par l'application est mis à jour (vers 6h00).</p>
@@ -60,6 +59,6 @@ export default class LearningContent extends Component {
           Créer une nouvelle version du référentiel et recharger le cache
         </PixButton>
       </div>
-    </section>
+    </AdministrationBlockLayout>
   </template>
 }

@@ -1,10 +1,10 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
+import AdministrationBlockLayout from '../../block-layout';
 import Form from './form';
 
 export default class FlashAlgorithmConfiguration extends Component {
@@ -44,12 +44,7 @@ export default class FlashAlgorithmConfiguration extends Component {
   }
 
   <template>
-    <PixBlock class="page-section">
-
-      <h2 class="page-section__title">
-        {{t "pages.administration.certification.flash-algorithm-configuration.title"}}
-      </h2>
-
+    <AdministrationBlockLayout @title={{t "pages.administration.certification.flash-algorithm-configuration.title"}}>
       <Form
         @form={{this.form}}
         @updateNumberValues={{this.updateNumberValues}}
@@ -57,6 +52,6 @@ export default class FlashAlgorithmConfiguration extends Component {
         @onCreateFlashAlgorithmConfiguration={{this.onCreateFlashAlgorithmConfiguration}}
       />
 
-    </PixBlock>
+    </AdministrationBlockLayout>
   </template>
 }

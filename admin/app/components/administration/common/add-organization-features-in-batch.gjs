@@ -5,6 +5,8 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import ENV from 'pix-admin/config/environment';
 
+import AdministrationBlockLayout from '../block-layout';
+
 export default class AddOrganizationFeaturesInBatch extends Component {
   @service intl;
   @service notifications;
@@ -45,11 +47,10 @@ export default class AddOrganizationFeaturesInBatch extends Component {
   }
 
   <template>
-    <section class="page-section">
-      <header class="page-section__header">
-        <h2 class="page-section__title">{{t "components.administration.add-organization-features-in-batch.title"}}</h2>
-      </header>
-      <p class="description">{{t "components.administration.add-organization-features-in-batch.description"}}</p>
+    <AdministrationBlockLayout
+      @title={{t "components.administration.add-organization-features-in-batch.title"}}
+      @description={{t "components.administration.add-organization-features-in-batch.description"}}
+    >
       <PixButtonUpload
         @id="organizations-batch-update-file-upload"
         @onChange={{this.addOrganizationFeaturesInBatch}}
@@ -58,6 +59,6 @@ export default class AddOrganizationFeaturesInBatch extends Component {
       >
         {{t "components.administration.add-organization-features-in-batch.upload-button"}}
       </PixButtonUpload>
-    </section>
+    </AdministrationBlockLayout>
   </template>
 }

@@ -1,43 +1,5 @@
-{{page-title "Administration"}}
-<div class="page">
-  <header class="page-header">
-    <h1 class="page-title">Administration</h1>
-    <div class="page-actions">
-    </div>
-  </header>
+<Administration>
 
-  <main class="page-body">
+  {{outlet}}
 
-    <nav aria-label={{t "pages.administration.navigation.aria-label"}} class="navbar">
-
-      <LinkTo @route="authenticated.administration.common" class="navbar-item">
-        {{t "pages.administration.navigation.common.label"}}
-      </LinkTo>
-
-      <LinkTo @route="authenticated.administration.campaigns" class="navbar-item">
-        {{t "pages.administration.navigation.campaigns.label"}}
-      </LinkTo>
-
-      <LinkTo @route="authenticated.administration.certification" class="navbar-item">
-        {{t "pages.administration.navigation.certification.label"}}
-      </LinkTo>
-
-      <LinkTo @route="authenticated.administration.organizations" class="navbar-item">
-        {{t "pages.administration.navigation.organizations.label"}}
-      </LinkTo>
-
-      <LinkTo @route="authenticated.administration.deployment" class="navbar-item">
-        {{t "pages.administration.navigation.deployment.label"}}
-      </LinkTo>
-
-      <LinkTo @route="authenticated.administration.access" class="navbar-item">
-        {{t "pages.administration.navigation.access.label"}}
-      </LinkTo>
-
-    </nav>
-
-    {{outlet}}
-
-  </main>
-
-</div>
+</Administration>

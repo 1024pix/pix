@@ -7,6 +7,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
+import AdministrationBlockLayout from '../block-layout';
+
 export default class UpdateCampaignCode extends Component {
   @service intl;
   @service notifications;
@@ -63,11 +65,7 @@ export default class UpdateCampaignCode extends Component {
   }
 
   <template>
-    <section class="page-section">
-      <header class="page-section__header">
-        <h2 class="page-section__title">{{t "components.administration.update-campaign-code.title"}}</h2>
-      </header>
-
+    <AdministrationBlockLayout @title={{t "components.administration.update-campaign-code.title"}}>
       <form {{on "submit" this.updateCode}}>
         <fieldset class="campaign-update-code">
           <legend>{{t "components.administration.update-campaign-code.description"}}</legend>
@@ -82,6 +80,6 @@ export default class UpdateCampaignCode extends Component {
           {{t "components.administration.update-campaign-code.form.button"}}
         </PixButton>
       </form>
-    </section>
+    </AdministrationBlockLayout>
   </template>
 }

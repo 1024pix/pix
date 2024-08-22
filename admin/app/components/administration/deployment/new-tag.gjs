@@ -6,6 +6,8 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import get from 'lodash/get';
 
+import AdministrationBlockLayout from '../block-layout';
+
 export default class NewTag extends Component {
   @service store;
   @service notifications;
@@ -38,10 +40,7 @@ export default class NewTag extends Component {
   }
 
   <template>
-    <section class="page-section">
-      <header class="page-section__header">
-        <h2 class="page-section__title">Créer un nouveau tag</h2>
-      </header>
+    <AdministrationBlockLayout @title="Créer un nouveau tag">
       <form {{on "submit" this.createNewTag}} class="tools__create-tag-form">
         <PixInput @id="tagNameInput" {{on "change" this.onChangeTagName}}>
           <:label>Nom du tag</:label>
@@ -49,6 +48,6 @@ export default class NewTag extends Component {
 
         <PixButton @type="submit" @size="small">Créer le tag</PixButton>
       </form>
-    </section>
+    </AdministrationBlockLayout>
   </template>
 }
