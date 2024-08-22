@@ -2,7 +2,7 @@ import { CertificationRescoringByScriptJob } from '../../../../../../../src/cert
 import { certificationRescoringByScriptJobRepository } from '../../../../../../../src/certification/session-management/infrastructure/repositories/jobs/certification-rescoring-by-script-job-repository.js';
 import { expect } from '../../../../../../test-helper.js';
 
-describe('Integration | Prescription | Application | Jobs | certificationRescoringByScriptJobRepository', function () {
+describe('Integration | Certification | Infrastructure | Repository | Jobs | certificationRescoringByScriptJobRepository', function () {
   describe('#performAsync', function () {
     it('publish a job', async function () {
       // when
@@ -15,7 +15,7 @@ describe('Integration | Prescription | Application | Jobs | certificationRescori
       // then
       await expect(CertificationRescoringByScriptJob.name).to.have.been.performed.withJob({
         retrylimit: 0,
-        retrydelay: 30,
+        retrydelay: 0,
         retrybackoff: false,
         data: {
           certificationCourseId: 777,
