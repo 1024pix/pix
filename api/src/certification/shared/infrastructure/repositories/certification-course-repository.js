@@ -4,7 +4,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import {
   logErrorWithCorrelationIds,
   logInfoWithCorrelationIds,
-} from '../../../../../lib/infrastructure/monitoring-tools.js';
+} from '../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { config } from '../../../../shared/config.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';

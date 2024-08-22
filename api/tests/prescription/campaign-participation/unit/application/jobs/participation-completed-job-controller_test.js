@@ -1,10 +1,8 @@
 import { PoleEmploiPayload } from '../../../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import * as httpErrorsHelper from '../../../../../../lib/infrastructure/http/errors-helper.js';
-import { httpAgent } from '../../../../../../lib/infrastructure/http/http-agent.js';
 import { ParticipationCompletedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/participation-completed-job-controller.js';
 import { ParticipationCompletedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationCompletedJob.js';
 import { PoleEmploiSending } from '../../../../../../src/shared/domain/models/PoleEmploiSending.js';
-import * as monitoringTools from '../../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobController', function () {
@@ -20,7 +18,9 @@ describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobCo
       userRepository,
       poleEmploiNotifier,
       poleEmploiSendingRepository,
-      authenticationMethodRepository;
+      authenticationMethodRepository,
+      httpAgent,
+      monitoringTools;
 
     beforeEach(function () {
       campaignId = Symbol('campaignId');
@@ -28,6 +28,8 @@ describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobCo
       organizationId = Symbol('organizationId');
       assessmentId = Symbol('assessmentId');
 
+      httpAgent = sinon.stub();
+      monitoringTools = sinon.stub();
       assessmentRepository = { get: sinon.stub() };
       campaignRepository = { get: sinon.stub() };
       campaignParticipationRepository = { get: sinon.stub() };
@@ -52,6 +54,8 @@ describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobCo
         poleEmploiNotifier,
         poleEmploiSendingRepository,
         authenticationMethodRepository,
+        httpAgent,
+        monitoringTools,
       };
 
       expectedResults = new PoleEmploiPayload({

@@ -36,6 +36,8 @@ export class ParticipationCompletedJobController extends JobController {
       targetProfileRepository,
       userRepository,
       poleEmploiNotifier,
+      httpAgent,
+      monitoringTools,
     },
   }) {
     const { campaignParticipationId } = data;
@@ -60,9 +62,9 @@ export class ParticipationCompletedJobController extends JobController {
       });
       const response = await dependencies.poleEmploiNotifier.notify(user.id, payload, {
         authenticationMethodRepository: dependencies.authenticationMethodRepository,
-        httpAgent,
+        httpAgent: dependencies.httpAgent,
         httpErrorsHelper,
-        monitoringTools,
+        monitoringTools: dependencies.monitoringTools,
       });
 
       const poleEmploiSending = PoleEmploiSending.buildForParticipationFinished({
