@@ -1,43 +1,21 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import CreateOrUpdateTrainingForm from 'pix-admin/components/trainings/create-or-update-training-form';
 import { localeCategories, typeCategories } from 'pix-admin/models/training';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', function (hooks) {
+module('Integration | Component | CreateOrUpdateTrainingForm', function (hooks) {
   setupRenderingTest(hooks);
 
-  let form;
-  let onSubmit;
-  let onCancel;
-
-  hooks.beforeEach(function () {
-    form = {
-      title: 'Un contenu formatif',
-      link: 'https://un-contenu-formatif',
-      type: 'webinaire',
-      locale: 'fr-fr',
-      editorName: 'Un éditeur de contenu formatif',
-      editorLogoUrl: 'un-logo.svg',
-      duration: '2d2h50m',
-    };
-    onSubmit = sinon.stub();
-
-    onCancel = sinon.stub();
-
-    this.set('onSubmit', onSubmit);
-    this.set('onCancel', onCancel);
-  });
+  const onSubmit = sinon.stub();
+  const onCancel = sinon.stub();
 
   test('it should display the items', async function (assert) {
-    // given
-    this.set('form', form);
-
     // when
     const screen = await render(
-      hbs`<Trainings::CreateOrUpdateTrainingForm @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`,
+      <template><CreateOrUpdateTrainingForm @onSubmit={{onSubmit}} @onCancel={{onCancel}} /></template>,
     );
 
     // then
@@ -62,13 +40,8 @@ module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', functi
   });
 
   test('it should call onSubmit when form is valid', async function (assert) {
-    // given
-    this.set('form', form);
-
     // when
-    await render(
-      hbs`<Trainings::CreateOrUpdateTrainingForm @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`,
-    );
+    await render(<template><CreateOrUpdateTrainingForm @onSubmit={{onSubmit}} @onCancel={{onCancel}} /></template>);
 
     await triggerEvent('form', 'submit');
 
@@ -77,13 +50,8 @@ module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', functi
   });
 
   test('it should call onCancel when form is cancel', async function (assert) {
-    // given
-    this.set('form', form);
-
     // when
-    await render(
-      hbs`<Trainings::CreateOrUpdateTrainingForm @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`,
-    );
+    await render(<template><CreateOrUpdateTrainingForm @onSubmit={{onSubmit}} @onCancel={{onCancel}} /></template>);
 
     await clickByName('Annuler');
 
@@ -106,11 +74,11 @@ module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', functi
         isDisabled: false,
       };
 
-      this.set('model', model);
-
       // when
       const screen = await render(
-        hbs`<Trainings::CreateOrUpdateTrainingForm @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} @model={{this.model}} />`,
+        <template>
+          <CreateOrUpdateTrainingForm @onSubmit={{onSubmit}} @onCancel={{onCancel}} @model={{model}} />
+        </template>,
       );
 
       // then
