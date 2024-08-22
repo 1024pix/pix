@@ -1,5 +1,5 @@
 import { ValidateOrganizationImportFileJob } from '../../../../../../../src/prescription/learner-management/domain/models/ValidateOrganizationImportFileJob.js';
-import { validateOrganizationImportFileJobRepository } from '../../../../../../../src/prescription/learner-management/infrastructure/repositories/jobs/validate-organization-learners-import-file-job-repository.js.js';
+import { validateOrganizationImportFileJobRepository } from '../../../../../../../src/prescription/learner-management/infrastructure/repositories/jobs/validate-organization-learners-import-file-job-repository.js';
 import { JobExpireIn } from '../../../../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
 import { expect } from '../../../../../../test-helper.js';
 
