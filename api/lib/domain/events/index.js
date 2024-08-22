@@ -46,7 +46,6 @@ import * as knowledgeElementRepository from '../../infrastructure/repositories/k
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
-import { handleAutoJury } from './handle-auto-jury.js';
 import { handleCertificationRescoring } from './handle-certification-rescoring.js';
 import { handleComplementaryCertificationsScoring } from './handle-complementary-certifications-scoring.js';
 import { handleSessionFinalized } from './handle-session-finalized.js';
@@ -102,7 +101,6 @@ const dependencies = {
 };
 
 const handlersToBeInjected = {
-  handleAutoJury,
   handleCertificationRescoring,
   handleComplementaryCertificationsScoring,
   handleSessionFinalized,

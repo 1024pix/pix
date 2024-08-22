@@ -8,13 +8,13 @@
 
 import bluebird from 'bluebird';
 
-import { SessionFinalized } from '../../../../../lib/domain/events/SessionFinalized.js';
 import {
   SessionAlreadyFinalizedError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithMissingAbortReasonError,
   SessionWithoutStartedCertificationError,
 } from '../errors.js';
+import { SessionFinalized } from '../read-models/SessionFinalized.js';
 
 /**
  * @param {Object} params

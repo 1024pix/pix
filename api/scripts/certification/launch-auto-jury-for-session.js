@@ -3,9 +3,9 @@ import 'dotenv/config';
 import * as url from 'node:url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
-import { handleAutoJury } from '../../lib/domain/events/handle-auto-jury.js';
 import * as events from '../../lib/domain/events/index.js';
-import { SessionFinalized } from '../../lib/domain/events/SessionFinalized.js';
+import { SessionFinalized } from '../../src/certification/session-management/domain/read-models/SessionFinalized.js';
+import { usecases } from '../../src/certification/session-management/domain/usecases/index.js';
 import * as certificationAssessmentRepository from '../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCourseRepository from '../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
@@ -40,7 +40,8 @@ async function main() {
     sessionTime,
     hasExaminerGlobalComment: Boolean(examinerGlobalComment),
   });
-  const event = await handleAutoJury({
+
+  const autoJuryDoneEvents = await usecases.processAutoJury({
     event: sessionFinalizedEvent,
     certificationIssueReportRepository,
     certificationAssessmentRepository,
@@ -48,7 +49,7 @@ async function main() {
     challengeRepository,
     logger,
   });
-  await events.eventDispatcher.dispatch(event);
+  await events.eventDispatcher.dispatch(autoJuryDoneEvents);
 
   logger.info('Done !');
 }

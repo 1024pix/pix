@@ -1,4 +1,5 @@
 import * as events from '../../../../../lib/domain/events/index.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { finalizeController } from '../../../../../src/certification/session-management/application/finalize-controller.js';
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
@@ -9,7 +10,8 @@ describe('Certification | Session Management | Unit | Application | Controller |
       // given
       const sessionId = 1;
       const aCertificationReport = Symbol('a certficication report');
-      const updatedSession = Symbol('updatedSession');
+      const sessionFinalized = Symbol('sessionFinalized');
+      const autoJuryEvents = Symbol('autoJuryEvents');
       const examinerGlobalComment = 'It was a fine session my dear';
       const hasIncident = true;
       const hasJoiningIssue = true;
@@ -35,7 +37,12 @@ describe('Certification | Session Management | Unit | Application | Controller |
       };
       const certificationReportSerializer = { deserialize: sinon.stub() };
       certificationReportSerializer.deserialize.resolves(aCertificationReport);
-      sinon.stub(usecases, 'finalizeSession').resolves(updatedSession);
+      sinon.stub(usecases, 'finalizeSession').resolves(sessionFinalized);
+      sinon.stub(usecases, 'processAutoJury').resolves(autoJuryEvents);
+      sinon.stub(events.eventDispatcher, 'dispatch').resolves();
+      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+        return callback();
+      });
 
       // when
       await finalizeController.finalize(request, hFake, { certificationReportSerializer, events });
@@ -48,6 +55,10 @@ describe('Certification | Session Management | Unit | Application | Controller |
         hasJoiningIssue,
         certificationReports: [aCertificationReport],
       });
+      expect(usecases.processAutoJury).to.have.been.calledWithExactly({
+        sessionFinalized,
+      });
+      expect(events.eventDispatcher.dispatch).to.have.been.calledWithExactly(autoJuryEvents);
     });
   });
 });

@@ -132,7 +132,9 @@ async function _getV3ConfigurationForCertificationCreationDate(createdAt, knexCo
 }
 
 async function getSessionId({ id }) {
-  const row = await knex('certification-courses').select('sessionId').where({ id }).first();
+  const knexConn = DomainTransaction.getConnection();
+
+  const row = await knexConn('certification-courses').select('sessionId').where({ id }).first();
   if (!row) {
     throw new NotFoundError(`Certification course of id ${id} does not exist`);
   }
@@ -176,7 +178,7 @@ async function findOneCertificationCourseByUserIdAndSessionId({ userId, sessionI
 }
 
 async function update({ certificationCourse }) {
-  const knexConn = knex;
+  const knexConn = DomainTransaction.getConnection();
 
   const certificationCourseData = _pickUpdatableProperties(certificationCourse);
 
@@ -192,7 +194,9 @@ async function update({ certificationCourse }) {
 }
 
 async function isVerificationCodeAvailable({ verificationCode }) {
-  const exist = await knex('certification-courses')
+  const knexConn = DomainTransaction.getConnection();
+
+  const exist = await knexConn('certification-courses')
     .select('id')
     .whereRaw('UPPER(??)=?', ['verificationCode', verificationCode.toUpperCase()])
     .first();
@@ -201,7 +205,9 @@ async function isVerificationCodeAvailable({ verificationCode }) {
 }
 
 async function findCertificationCoursesBySessionId({ sessionId }) {
-  const certificationCoursesDTO = await knex('certification-courses').where({ sessionId });
+  const knexConn = DomainTransaction.getConnection();
+
+  const certificationCoursesDTO = await knexConn('certification-courses').where({ sessionId });
 
   return certificationCoursesDTO.map((certificationCourseDTO) => _toDomain({ certificationCourseDTO }));
 }

@@ -1,4 +1,5 @@
 import * as events from '../../../../lib/domain/events/index.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import * as certificationReportSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-report-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
 
@@ -13,14 +14,20 @@ const finalize = async function (request, h, dependencies = { certificationRepor
       .map((data) => dependencies.certificationReportSerializer.deserialize({ data })),
   );
 
-  const event = await usecases.finalizeSession({
-    sessionId,
-    examinerGlobalComment,
-    hasIncident,
-    hasJoiningIssue,
-    certificationReports,
+  let events = [];
+  await DomainTransaction.execute(async () => {
+    const sessionFinalized = await usecases.finalizeSession({
+      sessionId,
+      examinerGlobalComment,
+      hasIncident,
+      hasJoiningIssue,
+      certificationReports,
+    });
+
+    events = await usecases.processAutoJury({ sessionFinalized });
   });
-  await dependencies.events.eventDispatcher.dispatch(event);
+  await dependencies.events.eventDispatcher.dispatch(events);
+
   return h.response().code(200);
 };
 
