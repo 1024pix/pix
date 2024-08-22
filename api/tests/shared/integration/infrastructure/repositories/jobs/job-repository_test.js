@@ -76,7 +76,7 @@ describe('Integration | Infrastructure | Repositories | Jobs | job-repository', 
       expect(error.invalidAttributes).to.deep.equal([
         {
           attribute: 'expireIn',
-          message: `"expireIn" must be one of [${Object.values(JobExpireIn).join(', ')}]`,
+          message: `"expireIn" accept only JobExpireIn value such as ${Object.keys(JobExpireIn).join(', ')}`,
         },
       ]);
     });
@@ -95,7 +95,7 @@ describe('Integration | Infrastructure | Repositories | Jobs | job-repository', 
       expect(error.invalidAttributes).to.deep.equal([
         {
           attribute: 'priority',
-          message: '"priority" must be one of [0, 1]',
+          message: `"priority" accept only JobPriority value such as ${Object.keys(JobPriority).join(', ')}`,
         },
       ]);
     });
@@ -114,7 +114,7 @@ describe('Integration | Infrastructure | Repositories | Jobs | job-repository', 
       expect(error.invalidAttributes).to.deep.equal([
         {
           attribute: 'retry',
-          message: `retry accept only JobRetry value such as ${Object.keys(JobRetry).join(', ')}`,
+          message: `"retry" accept only JobRetry value such as ${Object.keys(JobRetry).join(', ')}`,
         },
       ]);
     });

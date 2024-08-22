@@ -7,15 +7,21 @@ export class JobRepository {
   #schema = Joi.object({
     expireIn: Joi.string()
       .required()
-      .valid(...Object.values(JobExpireIn)),
+      .valid(...Object.values(JobExpireIn))
+      .messages({
+        'any.only': `"expireIn" accept only JobExpireIn value such as ${Object.keys(JobExpireIn).join(', ')}`,
+      }),
     priority: Joi.string()
       .required()
-      .valid(...Object.values(JobPriority)),
+      .valid(...Object.values(JobPriority))
+      .messages({
+        'any.only': `"priority" accept only JobPriority value such as ${Object.keys(JobPriority).join(', ')}`,
+      }),
     retry: Joi.object()
       .required()
       .valid(...Object.values(JobRetry))
       .messages({
-        'any.only': `retry accept only JobRetry value such as ${Object.keys(JobRetry).join(', ')}`,
+        'any.only': `"retry" accept only JobRetry value such as ${Object.keys(JobRetry).join(', ')}`,
       }),
   });
 
@@ -23,6 +29,7 @@ export class JobRepository {
    * @param {Object} config
    * @param {valueOf<JobPriority>} config.priority
    * @param {valueOf<JobRetry>} config.retry
+   * @param {valueOf<JobExpireIn>} config.expireIn
    */
   constructor(config) {
     this.name = config.name;

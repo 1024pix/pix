@@ -2,7 +2,7 @@ import { ParticipationCompletedJob } from '../../../../../../../src/prescription
 import { participationCompletedJobRepository } from '../../../../../../../src/prescription/campaign-participation/infrastructure/repositories/jobs/participation-completed-job-repository.js';
 import { expect } from '../../../../../../test-helper.js';
 
-describe('Integration | Prescription | Infrastructure | Repository | participationCompletedJobRepository', function () {
+describe('Integration | Prescription | Infrastructure | Repository | Jobs | participationCompletedJobRepository', function () {
   describe('#performAsync', function () {
     it('publish a job', async function () {
       // given
