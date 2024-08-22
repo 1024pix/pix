@@ -1,7 +1,8 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixStars from '@1024pix/pix-ui/components/pix-stars';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
+
+import ShowMoreText from '../../../../../../components/show-more-text';
 
 export default class EvaluationResultsDetailsTab extends Component {
   getIcon(competenceId) {
@@ -15,21 +16,9 @@ export default class EvaluationResultsDetailsTab extends Component {
       </td>
       <td class="evaluation-results-tab-competence__content-cell">
         <h4 class="evaluation-results-tab-competence__name">{{@competence.name}}</h4>
-        <p class="evaluation-results-tab-competence__description">
+        <ShowMoreText class="evaluation-results-tab-competence__description">
           {{@competence.description}}
-        </p>
-        <PixButton
-          class="evaluation-results-tab-badge__show-more"
-          @triggerAction={{this.toggleDescriptionShrink}}
-          @variant="tertiary"
-          @size="small"
-        >
-          {{#if this.isDescriptionShrinked}}
-            {{t "common.actions.show-more"}}
-          {{else}}
-            {{t "common.actions.show-less"}}
-          {{/if}}
-        </PixButton>
+        </ShowMoreText>
       </td>
       <td class="evaluation-results-tab-competence__results-cell">
         {{#if @total}}
