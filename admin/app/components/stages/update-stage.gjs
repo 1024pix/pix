@@ -7,6 +7,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import pick from 'ember-composable-helpers/helpers/pick';
+import { t } from 'ember-intl';
 import set from 'ember-set-helper/helpers/set';
 import isInteger from 'lodash/isInteger';
 
@@ -132,7 +133,7 @@ export default class UpdateStage extends Component {
               @id="threshold-or-level"
               @errorMessage="Le seuil est invalide"
               @validationStatus={{this.thresholdStatus}}
-              @requiredLabel="Champ obligatoire"
+              @requiredLabel={{t "common.forms.mandatory"}}
               type="number"
               readonly={{this.isThresholdOrLevelDisabled}}
               @value={{this.threshold}}
@@ -148,7 +149,7 @@ export default class UpdateStage extends Component {
             @id="title"
             @errorMessage="Le titre est vide"
             @validationStatus={{this.titleStatus}}
-            @requiredLabel="Champ obligatoire"
+            @requiredLabel={{t "common.forms.mandatory"}}
             @value={{this.title}}
             type="text"
             {{on "focusout" this.checkTitleValidity}}

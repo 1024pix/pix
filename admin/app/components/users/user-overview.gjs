@@ -191,9 +191,7 @@ export default class UserOverview extends Component {
         {{#if this.isEditionMode}}
           <form class="form" {{on "submit" this.updateUserDetails}}>
             <span class="form__instructions">
-              Les champs marqués de
-              <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-              sont obligatoires.
+              {{t "common.forms.mandatory-fields" htmlSafe=true}}
             </span>
             <div class="form-field">
               <PixInput

@@ -6,6 +6,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 
 import isEmailValid from '../../utils/email-validator';
 
@@ -89,7 +90,7 @@ export default class AddMember extends Component {
         <section class="add-member-to-team-form__input">
           <PixInput
             @id="email"
-            @requiredLabel="Champ obligatoire"
+            @requiredLabel={{t "common.forms.mandatory"}}
             @errorMessage={{this.inviteErrorRaised}}
             @validationStatus={{this.validationStatus}}
             value={{this.email}}

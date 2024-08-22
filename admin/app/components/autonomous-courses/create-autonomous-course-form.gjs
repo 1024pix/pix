@@ -66,9 +66,7 @@ export default class CreateAutonomousCourseForm extends Component {
   <template>
     <form class="admin-form" {{on "submit" this.onSubmit}}>
       <p class="admin-form__mandatory-text">
-        Les champs marqués de
-        <span class="mandatory-mark">*</span>
-        sont obligatoires.
+        {{t "common.forms.mandatory-fields" htmlSafe=true}}
       </p>
       <section class="admin-form__content admin-form__content--with-counters">
         <Card class="admin-form__card" @title="Informations techniques">
@@ -76,7 +74,7 @@ export default class CreateAutonomousCourseForm extends Component {
             class="form-field"
             @id="autonomousCourseName"
             required="true"
-            @requiredLabel="Champ obligatoire"
+            @requiredLabel={{t "common.forms.mandatory"}}
             {{on "change" (fn this.updateAutonomousCourseValue "internalTitle")}}
           >
             <:label>Nom interne :</:label>

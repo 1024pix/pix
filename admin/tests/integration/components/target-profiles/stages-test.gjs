@@ -1,11 +1,12 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, find } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import Stages from 'pix-admin/components/target-profiles/stages';
 import { module, test } from 'qunit';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | Stages', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
   let store;
 
   hooks.beforeEach(function () {

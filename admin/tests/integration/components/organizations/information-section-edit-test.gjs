@@ -1,12 +1,13 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { setupRenderingTest } from 'ember-qunit';
 import InformationSectionEdit from 'pix-admin/components/organizations/information-section-edit';
 import { module, test } from 'qunit';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | organizations/information-section-edit', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('organization validation', function (hooks) {
     hooks.beforeEach(function () {

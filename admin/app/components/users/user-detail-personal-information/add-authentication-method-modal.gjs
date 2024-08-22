@@ -2,6 +2,7 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import { on } from '@ember/modifier';
+import { t } from 'ember-intl';
 
 <template>
   <PixModal
@@ -17,7 +18,7 @@ import { on } from '@ember/modifier';
           @validationStatus={{if @showAlreadyExistingEmailError "error" "default"}}
           @errorMessage="Cette adresse e-mail est déjà utilisée"
           type="email"
-          @requiredLabel="Champ obligatoire"
+          @requiredLabel={{t "common.forms.mandatory"}}
         >
           <:label>Nouvelle adresse e-mail</:label>
         </PixInput>

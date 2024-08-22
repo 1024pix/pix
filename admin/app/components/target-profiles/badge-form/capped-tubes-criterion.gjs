@@ -5,6 +5,7 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 
 import Areas from '../../common/tubes-selection/areas';
 
@@ -99,7 +100,7 @@ export default class CappedTubesCriterion extends Component {
           type="number"
           min="1"
           max="100"
-          @requiredLabel="Champ obligatoire"
+          @requiredLabel={{t "common.forms.mandatory"}}
           {{on "change" @onThresholdChange}}
         >
           <:label>Taux de réussite requis :</:label>

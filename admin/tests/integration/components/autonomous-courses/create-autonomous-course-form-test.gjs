@@ -1,15 +1,13 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import CreateAutonomousCourseForm from 'pix-admin/components/autonomous-courses/create-autonomous-course-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntl from '../../../helpers/setup-intl';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | AutonomousCourses::CreateAutonomousCourseForm', function (hooks) {
-  setupRenderingTest(hooks);
-  setupIntl(hooks);
+  setupIntlRenderingTest(hooks);
 
   const autonomousCourse = {};
   const targetProfiles = [];
@@ -30,7 +28,6 @@ module('Integration | Component | AutonomousCourses::CreateAutonomousCourseForm'
     );
 
     // then
-    assert.dom(screen.getByText(/Les champs marqués de * sont obligatoires./)).exists();
     assert.dom(screen.getByText(/Informations techniques/)).exists();
     assert.dom(screen.getByText(/Nom interne/)).exists();
     assert.dom(screen.getByText(/Quel profil cible voulez-vous associer à ce parcours autonome ?/)).exists();

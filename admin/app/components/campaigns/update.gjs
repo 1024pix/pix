@@ -10,6 +10,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import { not } from 'ember-truth-helpers';
 import PixFieldset from 'pix-admin/components/ui/pix-fieldset';
 
@@ -145,16 +146,14 @@ export default class Update extends Component {
       <h1>{{@campaign.name}}</h1>
 
       <p class="admin-form__mandatory-text">
-        Les champs marqués de
-        <span class="mandatory-mark">*</span>
-        sont obligatoires.
+        {{t "common.forms.mandatory-fields" htmlSafe=true}}
       </p>
 
       <form class="admin-form" {{on "submit" this.update}}>
         <div class="admin-form__content">
           <PixInput
             @id="name"
-            @requiredLabel="Champ obligatoire"
+            @requiredLabel={{t "common.forms.mandatory"}}
             @errorMessage={{this.nameError.message}}
             @validationStatus={{this.nameError.state}}
             @value={{this.form.name}}

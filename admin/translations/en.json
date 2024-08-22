@@ -19,6 +19,7 @@
     },
     "forms": {
       "loading": "Loading...",
+      "mandatory": "Champ obligatoire",
       "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required"
     },
     "notifications": {
