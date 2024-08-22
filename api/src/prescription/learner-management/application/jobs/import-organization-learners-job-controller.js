@@ -8,7 +8,7 @@ class ImportOrganizationLearnersJobController extends JobController {
     super(ImportOrganizationLearnersJob.name);
   }
 
-  isJobEnabled() {
+  get isJobEnabled() {
     return config.pgBoss.importFileJobEnabled;
   }
 

@@ -1,17 +1,16 @@
-import { config } from '../../config.js';
 import { logger } from '../utils/logger.js';
 import { MonitoredJobHandler } from './monitoring/MonitoredJobHandler.js';
 import { MonitoringJobExecutionTimeHandler } from './monitoring/MonitoringJobExecutionTimeHandler.js';
-const { teamSize, teamConcurrency } = config.pgBoss;
 
 class JobQueue {
   constructor(pgBoss) {
     this.pgBoss = pgBoss;
   }
 
-  register(name, handlerClass, dependencies) {
+  register(name, handlerClass) {
+    const jobHandler = new handlerClass();
+    const { teamConcurrency, teamSize } = jobHandler;
     this.pgBoss.work(name, { teamSize, teamConcurrency }, async (job) => {
-      const jobHandler = new handlerClass({ ...dependencies, logger });
       const monitoredJobHandler = new MonitoredJobHandler(jobHandler, logger);
       return monitoredJobHandler.handle(job.data, name);
     });
