@@ -244,7 +244,7 @@
             "element": {
               "id": "949063e9-c3fe-4762-8a45-de450eabf6dc",
               "type": "text",
-              "content": "<p>Le fichier à télécharger contient les résultats des enfants aux nouvelles épreuves. <span aria-hidden=\"true\">📋</span></p> <b><br><p><span aria-hidden=\"true\">👉</span> Téléchargez ce fichier et triez les données pour reproduire le classsement de Sarah ci-dessous (attention, on ne voit que le début…).</b></p>"
+              "content": "<p>Le fichier à télécharger contient les résultats des enfants aux nouvelles épreuves. <span aria-hidden=\"true\">📋</span></p> <br><p><b><span aria-hidden=\"true\">👉</span> Téléchargez ce fichier et triez les données pour reproduire le classsement de Sarah ci-dessous (attention, on ne voit que le début…).</b></p>"
             }
           },
           {
