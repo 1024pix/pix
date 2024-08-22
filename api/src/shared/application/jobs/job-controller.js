@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { config } from '../../config.js';
 import { EntityValidationError } from '../../domain/errors.js';
 
 export const JobGroup = {
@@ -16,6 +17,14 @@ export class JobController {
 
   get isJobEnabled() {
     return true;
+  }
+
+  get teamSize() {
+    return config.pgBoss.teamSize;
+  }
+
+  get teamConcurrency() {
+    return config.pgBoss.teamConcurrency;
   }
 
   #schema = Joi.object({
