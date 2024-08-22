@@ -19,7 +19,6 @@ const validateSiecleXmlFile = async function ({
   organizationRepository,
   organizationImportRepository,
   importStorage,
-  logErrorWithCorrelationIds,
   importOrganizationLearnersJobRepository,
 }) {
   await DomainTransaction.execute(async () => {
@@ -55,12 +54,13 @@ const validateSiecleXmlFile = async function ({
       } else {
         errors.push(error);
       }
-      try {
-        await importStorage.deleteFile({ filename: organizationImport.filename });
-      } catch (e) {
-        logErrorWithCorrelationIds(e);
+
+      await importStorage.deleteFile({ filename: organizationImport.filename });
+
+      const isKnownError = error instanceof AggregateImportError || error instanceof SiecleXmlImportError;
+      if (!isKnownError) {
+        throw error;
       }
-      throw error;
     } finally {
       organizationImport.validate({ errors });
       await organizationImportRepository.save(organizationImport);
