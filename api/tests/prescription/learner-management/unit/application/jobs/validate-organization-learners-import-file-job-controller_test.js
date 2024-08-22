@@ -13,7 +13,7 @@ describe('Unit | Prescription | Application | Jobs | validateOrganizationLearner
       const handler = new ValidateOrganizationLearnersImportFileJobController();
 
       // then
-      expect(handler.isJobEnabled()).to.be.true;
+      expect(handler.isJobEnabled).to.be.true;
     });
 
     it('return false when job is disabled', function () {
@@ -24,7 +24,7 @@ describe('Unit | Prescription | Application | Jobs | validateOrganizationLearner
       const handler = new ValidateOrganizationLearnersImportFileJobController();
 
       //then
-      expect(handler.isJobEnabled()).to.be.false;
+      expect(handler.isJobEnabled).to.be.false;
     });
   });
 

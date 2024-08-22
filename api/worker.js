@@ -93,7 +93,7 @@ export async function registerJobs({ jobGroup, dependencies = { startPgBoss, cre
 
     if (!isJobInWebProcess && job.jobGroup !== jobGroup) continue;
 
-    if (job.isJobEnabled()) {
+    if (job.isJobEnabled) {
       logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
       jobQueues.register(job.jobName, ModuleClass);
 

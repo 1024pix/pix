@@ -8,7 +8,7 @@ class ValidateOrganizationLearnersImportFileJobController extends JobController 
     super(ValidateOrganizationImportFileJob.name);
   }
 
-  isJobEnabled() {
+  get isJobEnabled() {
     return config.pgBoss.validationFileJobEnabled;
   }
 

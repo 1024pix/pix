@@ -14,7 +14,7 @@ export class JobController {
     this.#validate();
   }
 
-  isJobEnabled() {
+  get isJobEnabled() {
     return true;
   }
 
