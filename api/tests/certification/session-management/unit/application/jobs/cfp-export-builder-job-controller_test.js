@@ -6,8 +6,8 @@ import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 import lodash from 'lodash';
 
-import { createAndUpload } from '../../../../../../../src/shared/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
-import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
+import { CpfExportBuilderJobController } from '../../../../../../src/certification/session-management/application/jobs/cpf-export-builder-job-controller.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const { PassThrough, Readable } = stream;
 
@@ -16,7 +16,7 @@ const { noop } = lodash;
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', function () {
+describe('Unit | Application | Certification | Sessions Management | jobs | cpf-export-builder-job-controller', function () {
   let cpfCertificationResultRepository;
   let cpfCertificationXmlExportService;
   let uploadCpfFiles;
@@ -60,13 +60,19 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
       cpfCertificationResultRepository.findByBatchId.withArgs(batchId).resolves(cpfCertificationResults);
 
       // when
-      await createAndUpload({
-        data: { batchId },
-        cpfCertificationResultRepository,
-        cpfCertificationXmlExportService,
-        uploadCpfFiles,
-        logger,
-      });
+      const jobController = new CpfExportBuilderJobController();
+      await jobController.handle(
+        { batchId },
+        {
+          dependencies: {
+            cpfCertificationResultRepository,
+            cpfCertificationXmlExportService,
+            uploadCpfFiles,
+            uuidService,
+            logger,
+          },
+        },
+      );
 
       // then
       expect(cpfCertificationXmlExportService.buildXmlExport).to.have.been.calledWithExactly({
@@ -96,13 +102,19 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
       cpfCertificationResultRepository.findByBatchId.withArgs(batchId).resolves([]);
 
       // when
-      await createAndUpload({
-        data: { batchId },
-        cpfCertificationResultRepository,
-        cpfCertificationXmlExportService,
-        uploadCpfFiles,
-        logger,
-      });
+      const jobController = new CpfExportBuilderJobController();
+      await jobController.handle(
+        { batchId },
+        {
+          dependencies: {
+            cpfCertificationResultRepository,
+            cpfCertificationXmlExportService,
+            uploadCpfFiles,
+            uuidService,
+            logger,
+          },
+        },
+      );
 
       // then
       expect(cpfCertificationXmlExportService.buildXmlExport).to.not.have.been.called;
