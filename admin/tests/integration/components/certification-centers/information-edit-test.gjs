@@ -1,7 +1,7 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import InformationEdit from 'pix-admin/components/certification-centers/information-edit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -10,28 +10,25 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | certification-centers/information-edit', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
-    const certificationCenter = EmberObject.create('certification-center', {
-      name: 'Centre SCO',
-      type: 'SCO',
-      externalId: 'AX129',
-      dataProtectionOfficerFirstName: 'Justin',
-      dataProtectionOfficerLastName: 'Ptipeu',
-      dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
-      habilitations: [],
-      isV3Pilot: true,
-    });
-
-    this.set('certificationCenter', certificationCenter);
-    this.toggleEditModeStub = sinon.stub();
-    this.onSubmit = sinon.stub();
+  const certificationCenter = EmberObject.create('certification-center', {
+    name: 'Centre SCO',
+    type: 'SCO',
+    externalId: 'AX129',
+    dataProtectionOfficerFirstName: 'Justin',
+    dataProtectionOfficerLastName: 'Ptipeu',
+    dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
+    habilitations: [],
+    isV3Pilot: true,
   });
+
+  const toggleEditModeStub = sinon.stub();
+  const onSubmit = sinon.stub();
 
   module('certification center edit form validation', function () {
     test('it should display a checkbox to edit the isV3Pilot certification center status ', async function (assert) {
       // when
       const screen = await render(
-        hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} />`,
+        <template><InformationEdit @certificationCenter={{certificationCenter}} /></template>,
       );
 
       // then
@@ -47,7 +44,7 @@ module('Integration | Component | certification-centers/information-edit', funct
     test("it should show an error message if certification center's name is empty", async function (assert) {
       // given
       const screen = await render(
-        hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} />`,
+        <template><InformationEdit @certificationCenter={{certificationCenter}} /></template>,
       );
 
       // when
@@ -60,7 +57,7 @@ module('Integration | Component | certification-centers/information-edit', funct
     test("it should show an error message if certification center's name is longer than 255 characters", async function (assert) {
       // given
       const screen = await render(
-        hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} />`,
+        <template><InformationEdit @certificationCenter={{certificationCenter}} /></template>,
       );
 
       // when
@@ -73,7 +70,7 @@ module('Integration | Component | certification-centers/information-edit', funct
     test("it should show an error message if certification center's type is empty", async function (assert) {
       // given
       const screen = await render(
-        hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} />`,
+        <template><InformationEdit @certificationCenter={{certificationCenter}} /></template>,
       );
 
       // when
@@ -88,7 +85,7 @@ module('Integration | Component | certification-centers/information-edit', funct
     test("it should show an error message if certification center's externalId is longer than 255 characters", async function (assert) {
       // given
       const screen = await render(
-        hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} />`,
+        <template><InformationEdit @certificationCenter={{certificationCenter}} /></template>,
       );
 
       // when
@@ -101,7 +98,7 @@ module('Integration | Component | certification-centers/information-edit', funct
     test("it should show an error message if certification center's data protection officer first name is longer than 255 characters", async function (assert) {
       // given
       const screen = await render(
-        hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} />`,
+        <template><InformationEdit @certificationCenter={{certificationCenter}} /></template>,
       );
 
       // when
@@ -114,7 +111,7 @@ module('Integration | Component | certification-centers/information-edit', funct
     test("it should show an error message if certification center's data protection officer last name is longer than 255 characters", async function (assert) {
       // given
       const screen = await render(
-        hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} />`,
+        <template><InformationEdit @certificationCenter={{certificationCenter}} /></template>,
       );
 
       // when
@@ -127,7 +124,7 @@ module('Integration | Component | certification-centers/information-edit', funct
     test("it should show an error message if certification center's data protection officer email is longer than 255 characters", async function (assert) {
       // given
       const screen = await render(
-        hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} />`,
+        <template><InformationEdit @certificationCenter={{certificationCenter}} /></template>,
       );
 
       // when
@@ -142,7 +139,7 @@ module('Integration | Component | certification-centers/information-edit', funct
     test("it should show an error message if certification center's dataProtectionOfficerEmail is not valid", async function (assert) {
       // given
       const screen = await render(
-        hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} />`,
+        <template><InformationEdit @certificationCenter={{certificationCenter}} /></template>,
       );
 
       // when
@@ -158,17 +155,16 @@ module('Integration | Component | certification-centers/information-edit', funct
       test('it should cancel the edition', async function (assert) {
         // given
         const screen = await render(
-          hbs`<CertificationCenters::InformationEdit
-  @certificationCenter={{this.certificationCenter}}
-  @toggleEditMode={{this.toggleEditModeStub}}
-/>`,
+          <template>
+            <InformationEdit @certificationCenter={{certificationCenter}} @toggleEditMode={{toggleEditModeStub}} />
+          </template>,
         );
 
         // when
         await click(screen.getByRole('button', { name: 'Annuler' }));
 
         // then
-        sinon.assert.calledOnce(this.toggleEditModeStub);
+        sinon.assert.calledOnce(toggleEditModeStub);
         assert.ok(true);
       });
     });
@@ -177,31 +173,34 @@ module('Integration | Component | certification-centers/information-edit', funct
       test('it should save the certification center data', async function (assert) {
         // given
         const screen = await render(
-          hbs`<CertificationCenters::InformationEdit
-  @certificationCenter={{this.certificationCenter}}
-  @toggleEditMode={{this.toggleEditModeStub}}
-  @onSubmit={{this.onSubmit}}
-/>`,
+          <template>
+            <InformationEdit
+              @certificationCenter={{certificationCenter}}
+              @toggleEditMode={{toggleEditModeStub}}
+              @onSubmit={{onSubmit}}
+            />
+          </template>,
         );
 
         // when
         await click(screen.getByRole('button', { name: 'Enregistrer' }));
 
         // then
-        sinon.assert.calledOnce(this.onSubmit);
+        sinon.assert.calledOnce(onSubmit);
         assert.ok(true);
       });
 
       test('it should update the certification center data', async function (assert) {
-        // given
-
         const screen = await render(
-          hbs`<CertificationCenters::InformationEdit
-  @certificationCenter={{this.certificationCenter}}
-  @toggleEditMode={{this.toggleEditModeStub}}
-  @onSubmit={{this.onSubmit}}
-/>`,
+          <template>
+            <InformationEdit
+              @certificationCenter={{certificationCenter}}
+              @toggleEditMode={{toggleEditModeStub}}
+              @onSubmit={{onSubmit}}
+            />
+          </template>,
         );
+
         // when
         await fillByLabel('Nom du centre', 'newName', { exact: false });
         await click(screen.getByRole('button', { name: 'Type' }));
@@ -220,14 +219,14 @@ module('Integration | Component | certification-centers/information-edit', funct
         await click(screen.getByRole('button', { name: 'Enregistrer' }));
 
         // then
-        assert.ok(this.onSubmit.called);
-        assert.strictEqual(this.certificationCenter.name, 'newName');
-        assert.strictEqual(this.certificationCenter.type, 'SUP');
-        assert.strictEqual(this.certificationCenter.externalId, 'newId');
-        assert.strictEqual(this.certificationCenter.dataProtectionOfficerFirstName, 'newFirstname');
-        assert.strictEqual(this.certificationCenter.dataProtectionOfficerLastName, 'newLastname');
-        assert.strictEqual(this.certificationCenter.dataProtectionOfficerEmail, 'newMail@example.net');
-        assert.false(this.certificationCenter.isV3Pilot);
+        assert.ok(onSubmit.called);
+        assert.strictEqual(certificationCenter.name, 'newName');
+        assert.strictEqual(certificationCenter.type, 'SUP');
+        assert.strictEqual(certificationCenter.externalId, 'newId');
+        assert.strictEqual(certificationCenter.dataProtectionOfficerFirstName, 'newFirstname');
+        assert.strictEqual(certificationCenter.dataProtectionOfficerLastName, 'newLastname');
+        assert.strictEqual(certificationCenter.dataProtectionOfficerEmail, 'newMail@example.net');
+        assert.false(certificationCenter.isV3Pilot);
       });
 
       test('it should add the habilitation to the certification center', async function (assert) {
@@ -240,7 +239,6 @@ module('Integration | Component | certification-centers/information-edit', funct
             label: 'Pix+Droit',
           }),
         ];
-        this.availableHabilitations = availableHabilitations;
 
         const certificationCenter = store.createRecord('certification-center', {
           name: 'Centre SCO',
@@ -251,15 +249,16 @@ module('Integration | Component | certification-centers/information-edit', funct
           dataProtectionOfficerEmail: 'lucky@example.net',
           habilitations: [],
         });
-        this.certificationCenter = certificationCenter;
 
         const screen = await render(
-          hbs`<CertificationCenters::InformationEdit
-  @certificationCenter={{this.certificationCenter}}
-  @availableHabilitations={{this.availableHabilitations}}
-  @toggleEditMode={{this.toggleEditModeStub}}
-  @onSubmit={{this.onSubmit}}
-/>`,
+          <template>
+            <InformationEdit
+              @certificationCenter={{certificationCenter}}
+              @availableHabilitations={{availableHabilitations}}
+              @toggleEditMode={{toggleEditModeStub}}
+              @onSubmit={{onSubmit}}
+            />
+          </template>,
         );
 
         // when
@@ -269,10 +268,10 @@ module('Integration | Component | certification-centers/information-edit', funct
         await click(screen.getByRole('button', { name: 'Enregistrer' }));
 
         // then
-        assert.ok(this.toggleEditModeStub.called);
-        assert.ok(this.onSubmit.called);
-        const habilitations = await this.certificationCenter.habilitations;
-        assert.ok(habilitations.includes(this.availableHabilitations[0]));
+        assert.ok(toggleEditModeStub.called);
+        assert.ok(onSubmit.called);
+        const habilitations = await certificationCenter.habilitations;
+        assert.ok(habilitations.includes(availableHabilitations[0]));
       });
 
       test('it should remove the habilitation to the certification center', async function (assert) {
@@ -285,7 +284,6 @@ module('Integration | Component | certification-centers/information-edit', funct
             label: 'Pix+Droit',
           }),
         ];
-        this.availableHabilitations = availableHabilitations;
 
         const certificationCenter = store.createRecord('certification-center', {
           name: 'Centre SCO',
@@ -294,17 +292,18 @@ module('Integration | Component | certification-centers/information-edit', funct
           dataProtectionOfficerFirstName: 'Lucky',
           dataProtectionOfficerLastName: 'Number',
           dataProtectionOfficerEmail: 'lucky@example.net',
-          habilitations: [this.availableHabilitations[0]],
+          habilitations: [availableHabilitations[0]],
         });
-        this.certificationCenter = certificationCenter;
 
         const screen = await render(
-          hbs`<CertificationCenters::InformationEdit
-  @certificationCenter={{this.certificationCenter}}
-  @availableHabilitations={{this.availableHabilitations}}
-  @toggleEditMode={{this.toggleEditModeStub}}
-  @onSubmit={{this.onSubmit}}
-/>`,
+          <template>
+            <InformationEdit
+              @certificationCenter={{certificationCenter}}
+              @availableHabilitations={{availableHabilitations}}
+              @toggleEditMode={{toggleEditModeStub}}
+              @onSubmit={{onSubmit}}
+            />
+          </template>,
         );
 
         // when
@@ -314,9 +313,9 @@ module('Integration | Component | certification-centers/information-edit', funct
         await click(screen.getByRole('button', { name: 'Enregistrer' }));
 
         // then
-        assert.ok(this.toggleEditModeStub.called);
-        assert.ok(this.onSubmit.called);
-        const habilitations = await this.certificationCenter.habilitations;
+        assert.ok(toggleEditModeStub.called);
+        assert.ok(onSubmit.called);
+        const habilitations = await certificationCenter.habilitations;
         assert.strictEqual(habilitations.length, 0);
       });
     });
