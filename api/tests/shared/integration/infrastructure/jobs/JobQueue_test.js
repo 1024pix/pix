@@ -27,7 +27,7 @@ describe('Integration | Infrastructure | Jobs | JobQueue', function () {
         }
       };
 
-      jobQueue.registerJob(name, handler);
+      jobQueue.register(name, handler);
     });
 
     return promise;
