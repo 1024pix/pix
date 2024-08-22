@@ -1,13 +1,11 @@
-import Joi from 'joi';
-
 import { UserAnonymizedEventLoggingJob } from '../../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
 import { config } from '../../../src/shared/config.js';
 import { UserNotFoundError } from '../../../src/shared/domain/errors.js';
-import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
 
 const anonymizeUser = async function ({
   userId,
   updatedByUserId,
+  preventAuditLogging = false,
   userRepository,
   authenticationMethodRepository,
   membershipRepository,
@@ -21,7 +19,7 @@ const anonymizeUser = async function ({
 }) {
   const user = await userRepository.get(userId);
 
-  const anonymizedBy = await _checkAdminUser({
+  const anonymizedBy = await _getAdminUser({
     adminUserId: updatedByUserId || user.hasBeenAnonymisedBy,
     adminMemberRepository,
   });
@@ -34,10 +32,10 @@ const anonymizeUser = async function ({
     await resetPasswordDemandRepository.removeAllByEmail(user.email);
   }
 
-  await membershipRepository.disableMembershipsByUserId({ userId, updatedByUserId: anonymizedBy.userId });
+  await membershipRepository.disableMembershipsByUserId({ userId, updatedByUserId: anonymizedBy?.userId });
 
   await certificationCenterMembershipRepository.disableMembershipsByUserId({
-    updatedByUserId: anonymizedBy.userId,
+    updatedByUserId: anonymizedBy?.userId,
     userId,
   });
 
@@ -45,9 +43,9 @@ const anonymizeUser = async function ({
 
   await _anonymizeUserLogin({ userId, userLoginRepository });
 
-  await _anonymizeUser({ user, anonymizedByUserId: anonymizedBy.userId, userRepository });
+  await _anonymizeUser({ user, anonymizedByUserId: anonymizedBy?.userId, userRepository });
 
-  if (anonymizedBy && config.auditLogger.isEnabled) {
+  if (anonymizedBy && !preventAuditLogging && config.auditLogger.isEnabled) {
     await userAnonymizedEventLoggingJobRepository.performAsync(
       new UserAnonymizedEventLoggingJob({
         userId,
@@ -59,8 +57,8 @@ const anonymizeUser = async function ({
   return null;
 };
 
-async function _checkAdminUser({ adminUserId, adminMemberRepository }) {
-  validateEntity(Joi.number().integer().required(), adminUserId);
+async function _getAdminUser({ adminUserId, adminMemberRepository }) {
+  if (!adminUserId) return undefined;
 
   const admin = await adminMemberRepository.get({ userId: adminUserId });
   if (!admin) {

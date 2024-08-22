@@ -32,7 +32,7 @@ export async function backfillAnonymizedUsers() {
   let current = 1;
   for (const anonymizedUserId of anonymizedUserIds) {
     logger.info(`Backfill anonymized user ${current++}/${anonymizedUserIds.length}: "${anonymizedUserId}"`);
-    await withTransaction(usecases.anonymizeUser)({ userId: anonymizedUserId });
+    await withTransaction(usecases.anonymizeUser)({ userId: anonymizedUserId, preventAuditLogging: true });
   }
 
   logger.info(`Anonymized users backfill finished.`);
