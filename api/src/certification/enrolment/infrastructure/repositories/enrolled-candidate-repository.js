@@ -8,7 +8,7 @@ export async function findBySessionId({ sessionId }) {
   return candidatesData.map(toDomain).sort(sortAlphabeticallyByLastNameThenFirstName);
 }
 
-export async function get(id) {
+export async function get({ id }) {
   const candidateData = await buildBaseReadQuery(knex).where({ 'certification-candidates.id': id }).first();
 
   if (!candidateData) return null;

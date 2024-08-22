@@ -24,6 +24,7 @@ const buildCandidate = function ({
   prepaymentCode = null,
   hasSeenCertificationInstructions = false,
   subscriptions = [],
+  accessibilityAdjustmentNeeded,
 } = {}) {
   return new Candidate({
     id,
@@ -49,6 +50,7 @@ const buildCandidate = function ({
     prepaymentCode,
     hasSeenCertificationInstructions,
     subscriptions,
+    accessibilityAdjustmentNeeded,
   });
 };
 
