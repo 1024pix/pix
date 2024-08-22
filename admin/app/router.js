@@ -145,6 +145,8 @@ Router.map(function () {
       this.route('certification');
       this.route('deployment');
       this.route('access');
+      this.route('organizations');
+      this.route('campaigns');
     });
 
     this.route('tools');
