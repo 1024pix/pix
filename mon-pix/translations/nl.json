@@ -42,8 +42,8 @@
       "confirm": "Bevestig",
       "lets-go": "Laten we gaan!",
       "quit": "Verlaat",
-      "show-less": "Laat minder zien",
-      "show-more": "Laat meer zien",
+      "show-less": "Minder tonen",
+      "show-more": "Meer bekijken",
       "sign-out": "Log uit.",
       "stay": "Blijf",
       "validate": "Valideer"
@@ -116,8 +116,17 @@
     "invited": {
       "reconciliation": {
         "error-message": {
+          "date-field": "Gebruik het formaat dd/mm/jjjj bij het invoeren van het veld {fieldName}",
           "invalid-reconciliation-error": "Controleer je gegevens ({fields}) of neem contact op met een docent.",
           "mandatory-field": "Dit veld is verplicht"
+        },
+        "field": {
+          "birthdate": "Geboortedatum",
+          "firstname": "Voornaam",
+          "lastname": "Achternaam",
+          "sub-label": {
+            "date": "In (dd/mm/jjjj) formaat, bijvoorbeeld : {dateFormat}"
+          }
         },
         "title": "Sluit je aan bij de organisatie { organizationName }"
       }
@@ -869,7 +878,7 @@
           "aria-label": "Geef de indicatie op het bewijs weer.",
           "close": "Ik snap het.",
           "focused": {
-            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Blijf op deze pagina om te reageren!'</strong><br/>' Gebruik geen internet of een app om te reageren. Elke activiteit buiten de zone wordt gedetecteerd.",
+            "content": "'<p class=\"tooltip-tag-information__title--focused\">'Blijf op deze pagina om te reageren!'</p>' Gebruik geen internet of een app om te reageren. Elke activiteit buiten de zone wordt gedetecteerd.",
             "title": "Scherpstelmodus"
           },
           "other": {
@@ -914,10 +923,10 @@
     "comparison-window": {
       "results": {
         "a11y": {
-          "timedout": "Time-out",
           "good-answer": "Het gegeven antwoord is geldig",
           "skipped-answer": "Vraag uit het verleden",
           "the-answer-was": "Het juiste antwoord is",
+          "timedout": "U hebt de tijdslimiet overschreden",
           "wrong-answer": "Het gegeven antwoord is fout"
         },
         "aband": {
@@ -1316,12 +1325,12 @@
         },
         "embed": {
           "reset": {
-            "ariaLabel": "Reset de simulator",
-            "name": "Opnieuw instellen"
+            "ariaLabel": "De simulator resetten",
+            "name": "Reset"
           },
           "start": {
-            "ariaLabel": "Start de simulator",
-            "name": "Beginnen"
+            "ariaLabel": "De simulator starten",
+            "name": "Start"
           }
         },
         "grain": {
@@ -1349,11 +1358,11 @@
       "download": {
         "button": "Downloaden",
         "description": "Kies het formaat volgens de software die je gebruikt. Als je het niet zeker weet, kies dan het eerste bestand, dat compatibel is met de meeste software.",
-        "documentationLinkHref": "https://pix.org/en/help-how-to-open-modify-find-a-downloaded-file-in-a-pix-question",
+        "documentationLinkHref": "https://pix.org/fr/aide-ouvrir-modifier-retrouver-un-fichier-telecharge-depuis-une-question-pix",
         "documentationLinkLabel": "Hoe kan ik dit bestand openen, wijzigen of ophalen?",
-        "intro": "Kies het te gebruiken bestandsformaat.",
-        "label": "Downloaden bestand in {format} formaat",
-        "format": "{format} formaat"
+        "format": "Formaat {format}",
+        "intro": "Kies het bestandsformaat dat je wilt gebruiken.",
+        "label": "Download het bestand in {format}"
       },
       "grain": {
         "tag": {
@@ -1634,10 +1643,10 @@
       "already-shared": "Bedankt, je resultaten zijn verzonden!",
       "badge-card": {
         "acquired": "Verkregen",
-        "acquired-full": "Thematisch resultaat verkregen",
-        "certifiable": "Certificaathouder",
+        "acquired-full": "Thematisch resultaat",
+        "certifiable": "Certificeren",
         "not-acquired": "Niet verkregen",
-        "not-acquired-full": "Thematisch resultaat is niet verkregen",
+        "not-acquired-full": "Thematisch resultaat niet verkregen",
         "progress-bar-label": "Percentage succesvolle resultaten"
       },
       "badges-title": "Je thematische resultaten",
@@ -1697,21 +1706,21 @@
         "title": "Vaardigheden"
       },
       "tabs": {
-        "aria-label": "3 tabbladen met details over uw resultaten",
-        "rewards": {
-          "tab-label": "Onderscheidingen",
-          "title": "Beloningen en verwachtingen van de organisator",
-          "description": "In dit gedeelte worden de ontvangen beloningen en de verwachtingen van de cursusorganisator belicht. Ontdek hoe uw prestaties zijn beoordeeld en identificeer verbeterpunten voor de ontwikkeling van uw vaardigheden."
-        },
+        "aria-label": "3 tabbladen met je resultaten",
         "results-details": {
-          "tab-label": "Resultatendetails",
-          "title": "Resultatendetails",
-          "description": "Ontdek uw vaardigheden in detail, georganiseerd op specifieke gebieden, om uw sterke punten en verbeterpunten beter te begrijpen. Identificeer uw sterke punten en gebieden waarop u zich kunt richten op verdere verbetering."
+          "description": "Ontdek je vaardigheden in detail, gerangschikt naar specifieke gebieden, om een beter inzicht te krijgen in je sterke punten en gebieden die voor verbetering vatbaar zijn. Identificeer je sterke punten en de gebieden waarop je je inspanningen kunt richten om verdere vooruitgang te boeken.",
+          "tab-label": "Details van resultaten",
+          "title": "Details van resultaten"
+        },
+        "rewards": {
+          "description": "In dit gedeelte worden de ontvangen awards en de verwachtingen van de cursusorganisator benadrukt. Ontdek hoe je prestaties zijn beoordeeld en identificeer verbeterpunten voor de ontwikkeling van je vaardigheden.",
+          "tab-label": "Awards",
+          "title": "Beloningen en verwachtingen van de organisator"
         },
         "trainings": {
-          "tab-label": "Opleiding",
-          "title": "Wilt u meer weten?",
-          "description": "Ontvang gepersonaliseerde trainingsaanbevelingen om vooruitgang te blijven boeken en uw nieuwsgierigheid te voeden, zodat u uw volledige potentieel kunt realiseren."
+          "description": "Ontvang gepersonaliseerde trainingsaanbevelingen om je vooruit te helpen en je nieuwsgierigheid te voeden zodat je je volledige potentieel kunt benutten.",
+          "tab-label": "Training",
+          "title": "Wil je meer weten?"
         }
       },
       "title": "Resultaten",
