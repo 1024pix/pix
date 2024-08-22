@@ -101,18 +101,27 @@ export default class ModulixDetails extends Component {
                 </p>
               </:content>
               <:footer>
-                <ul class="module-details-content-layout-small-screen-modal__footer">
-                  <li>
-                    <PixButton @variant="secondary" @triggerAction={{this.onSmallScreenModalClose}}>
-                      {{t "pages.modulix.details.smallScreenModal.cancel"}}
-                    </PixButton>
-                  </li>
-                  <li>
-                    <PixButton @triggerAction={{this.onModuleStartUsingSmallScreen}}>
-                      {{t "pages.modulix.details.smallScreenModal.startModule"}}
-                    </PixButton>
-                  </li>
-                </ul>
+                <div class="module-details-content-layout-small-screen-modal__footer">
+                  <ul class="module-details-content-layout-small-screen-modal-footer__actions">
+                    <li class="module-details-content-layout-small-screen-modal-footer-actions__item">
+                      <PixButton
+                        class="module-details-content-layout-small-screen-modal-footer-actions-item__button"
+                        @variant="secondary"
+                        @triggerAction={{this.onSmallScreenModalClose}}
+                      >
+                        {{t "pages.modulix.details.smallScreenModal.cancel"}}
+                      </PixButton>
+                    </li>
+                    <li class="module-details-content-layout-small-screen-modal-footer-actions__item">
+                      <PixButton
+                        class="module-details-content-layout-small-screen-modal-footer-actions-item__button"
+                        @triggerAction={{this.onModuleStartUsingSmallScreen}}
+                      >
+                        {{t "pages.modulix.details.smallScreenModal.startModule"}}
+                      </PixButton>
+                    </li>
+                  </ul>
+                </div>
               </:footer>
             </PixModal>
           {{/if}}
