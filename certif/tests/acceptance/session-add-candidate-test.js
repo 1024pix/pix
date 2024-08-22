@@ -122,6 +122,29 @@ module('Acceptance | Session Add Candidate', function (hooks) {
       assert.dom(screen.getByRole('cell', { name: 'Certification Pix' })).exists();
     });
 
+    test('it should add a candidate without any complementary subscription when center has no habilitations', async function (assert) {
+      // given
+      allowedCertificationCenterAccess.update({ habilitations: [] });
+      const screen = await visit(`/sessions/${sessionId}/candidats`);
+
+      // when
+      await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+      await fillIn(screen.getByLabelText('* Nom de naissance'), 'Quatorze');
+      await fillIn(screen.getByLabelText('* Prénom'), 'Louis');
+      await click(screen.getByLabelText('Homme'));
+      await fillIn(screen.getByLabelText('* Date de naissance'), '01/01/2000');
+      await click(screen.getByLabelText('* Pays de naissance'));
+      await click(screen.getByText('Portugal'));
+      await fillIn(screen.getByLabelText('* Commune de naissance'), 'Paris');
+      await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
+
+      // then
+      assert.dom(screen.getByRole('cell', { name: 'Quatorze' })).exists();
+      assert.dom(screen.getByRole('cell', { name: 'Louis' })).exists();
+      assert.dom(screen.getByRole('cell', { name: '01/01/2000' })).exists();
+      assert.dom(screen.getByRole('cell', { name: 'Certification Pix' })).exists();
+    });
+
     test('it should add a candidate with a CleA dual subscription', async function (assert) {
       // given
       const screen = await visit(`/sessions/${sessionId}/candidats`);

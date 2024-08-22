@@ -172,12 +172,7 @@ export default class NewCandidateModal extends Component {
         });
       }
     } else {
-      this.args.candidateData.subscriptions = [
-        {
-          type: SUBSCRIPTION_TYPES.CORE,
-          complementaryCertificationId: null,
-        },
-      ];
+      this.args.candidateData.subscriptions = [];
     }
   };
 
