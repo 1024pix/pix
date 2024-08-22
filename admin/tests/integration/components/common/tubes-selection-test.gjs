@@ -1,7 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import TubesSelection from 'pix-admin/components/common/tubes-selection';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -68,18 +68,17 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
       reload: sinon.stub().resolves(areas),
     });
 
-    this.set('frameworks', frameworks);
-
     const onChangeFunction = sinon.stub();
-    this.set('onChangeFunction', onChangeFunction);
 
     screen = await render(
-      hbs`<Common::TubesSelection
-  @frameworks={{this.frameworks}}
-  @onChange={{this.onChangeFunction}}
-  @displayJsonImportButton={{true}}
-  @displayDeviceCompatibility={{true}}
-/>`,
+      <template>
+        <TubesSelection
+          @frameworks={{frameworks}}
+          @onChange={{onChangeFunction}}
+          @displayJsonImportButton={{true}}
+          @displayDeviceCompatibility={{true}}
+        />
+      </template>,
     );
   });
 
