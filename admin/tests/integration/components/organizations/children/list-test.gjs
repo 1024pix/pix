@@ -1,5 +1,5 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import List from 'pix-admin/components/organizations/children/list';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -20,10 +20,10 @@ module('Integration | Component | organizations/children/list', function (hooks)
       name: 'Lycée KingsLanding',
       externalId: 'UB64321',
     });
-    this.set('organizations', [organization1, organization2]);
+    const organizations = [organization1, organization2];
 
     //  when
-    const screen = await renderScreen(hbs`<Organizations::Children::List @organizations={{this.organizations}} />`);
+    const screen = await renderScreen(<template><List @organizations={{organizations}} /></template>);
 
     // then
     assert.dom(screen.getByRole('table', { name: 'Liste des organisations filles' })).exists();

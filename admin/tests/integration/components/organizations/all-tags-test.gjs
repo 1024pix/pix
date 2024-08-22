@@ -1,7 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import AllTags from 'pix-admin/components/organizations/all-tags';
 import ENV from 'pix-admin/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -18,10 +18,10 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
     const organizationTag1 = EmberObject.create({ name: 'MEDNUM' });
     const organization = EmberObject.create({ tags: [organizationTag1] });
 
-    this.set('model', { organization, allTags: [tag1, tag2] });
+    const model = { organization, allTags: [tag1, tag2] };
 
     // when
-    const screen = await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
+    const screen = await render(<template><AllTags @model={{model}} /></template>);
 
     // then
     assert.dom(screen.getByRole('button', { name: "Tag MEDNUM assigné à l'organisation" })).exists();
@@ -38,10 +38,10 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
     const tag4 = store.createRecord('tag', { name: 'POLE EMPLOI' });
     const organization = store.createRecord('organization');
 
-    this.set('model', { organization, allTags: [tag1, tag2, tag3, tag4] });
+    const model = { organization, allTags: [tag1, tag2, tag3, tag4] };
 
     // when
-    const screen = await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
+    const screen = await render(<template><AllTags @model={{model}} /></template>);
     await fillIn(screen.getByRole('textbox', { name: 'Filtrer les tags' }), 'e');
 
     // then
@@ -62,12 +62,12 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
         const saveStub = sinon.stub().resolves();
         const organization = store.createRecord('organization', { tags: [], save: saveStub });
 
-        this.set('model', { organization, allTags: [tag1, tag2] });
+        const model = { organization, allTags: [tag1, tag2] };
 
         store.query = sinon.stub().resolves([recentlyUsedTag]);
 
         // when
-        const screen = await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
+        const screen = await render(<template><AllTags @model={{model}} /></template>);
         await clickByName("Tag AGRICULTURE non assigné à l'organisation");
 
         // then
@@ -93,11 +93,11 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
         const saveStub = sinon.stub().resolves();
         const organization = store.createRecord('organization', { tags: [], save: saveStub });
 
-        this.set('model', { organization, allTags: [tag1, tag2] });
+        const model = { organization, allTags: [tag1, tag2] };
         store.query = sinon.stub().resolves([recentlyUsedTag]);
 
         // when
-        const screen = await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
+        const screen = await render(<template><AllTags @model={{model}} /></template>);
         await clickByName("Tag AGRICULTURE non assigné à l'organisation");
         await clickByName("Tag AGRICULTURE assigné à l'organisation");
 

@@ -2,40 +2,37 @@ import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import InformationSection from 'pix-admin/components/organizations/information-section';
 import { module, test } from 'qunit';
 
 module('Integration | Component | organizations/information-section', function (hooks) {
   setupRenderingTest(hooks);
 
   module('when editing organization', function (hooks) {
-    let organization;
-
     hooks.beforeEach(function () {
       class AccessControlStub extends Service {
         hasAccessToOrganizationActionsScope = true;
       }
       this.owner.register('service:access-control', AccessControlStub);
+    });
 
-      organization = EmberObject.create({
-        id: 1,
-        name: 'Organization SCO',
-        externalId: 'VELIT',
-        provinceCode: 'h50',
-        email: 'sco.generic.account@example.net',
-        isOrganizationSCO: true,
-        isManagingStudents: false,
-        credit: 0,
-        documentationUrl: 'https://pix.fr/',
-        showSkills: false,
-      });
-      this.set('organization', organization);
+    const organization = EmberObject.create({
+      id: 1,
+      name: 'Organization SCO',
+      externalId: 'VELIT',
+      provinceCode: 'h50',
+      email: 'sco.generic.account@example.net',
+      isOrganizationSCO: true,
+      isManagingStudents: false,
+      credit: 0,
+      documentationUrl: 'https://pix.fr/',
+      showSkills: false,
     });
 
     test('it should toggle edition mode on click to edit button', async function (assert) {
       // given
-      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(<template><InformationSection @organization={{organization}} /></template>);
 
       // when
       await clickByName('Modifier');
@@ -49,7 +46,7 @@ module('Integration | Component | organizations/information-section', function (
 
     test('it should toggle display mode on click to cancel button', async function (assert) {
       // given
-      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(<template><InformationSection @organization={{organization}} /></template>);
       await clickByName('Modifier');
 
       // when
@@ -63,7 +60,7 @@ module('Integration | Component | organizations/information-section', function (
 
     test('it should revert changes on click to cancel button', async function (assert) {
       // given
-      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(<template><InformationSection @organization={{organization}} /></template>);
 
       await clickByName('Modifier');
 
@@ -90,7 +87,7 @@ module('Integration | Component | organizations/information-section', function (
 
     test('it should submit the form if there is no error', async function (assert) {
       // given
-      this.set('onSubmit', () => {});
+      const onSubmit = () => {};
       const store = this.owner.lookup('service:store');
       const oidcIdentityProvider1 = store.createRecord('oidc-identity-provider', {
         code: 'OIDC-1',
@@ -110,7 +107,7 @@ module('Integration | Component | organizations/information-section', function (
       this.owner.register('service:oidcIdentityProviders', OidcIdentittyProvidersStub);
 
       const screen = await render(
-        hbs`<Organizations::InformationSection @organization={{this.organization}} @onSubmit={{this.onSubmit}} />`,
+        <template><InformationSection @organization={{organization}} @onSubmit={{onSubmit}} /></template>,
       );
       await clickByName('Modifier');
 

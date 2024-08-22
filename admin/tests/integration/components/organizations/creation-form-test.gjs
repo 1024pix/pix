@@ -1,27 +1,23 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import CreationForm from 'pix-admin/components/organizations/creation-form';
 import { module, test } from 'qunit';
 
 module('Integration | Component | organizations/creation-form', function (hooks) {
   setupRenderingTest(hooks);
-
-  hooks.beforeEach(function () {
-    this.onSubmit = () => {};
-    this.onCancel = () => {};
-    const store = this.owner.lookup('service:store');
-    this.organization = store.createRecord('organization', { type: '' });
-  });
+  const onSubmit = () => {};
+  const onCancel = () => {};
 
   test('it renders', async function (assert) {
+    const store = this.owner.lookup('service:store');
+    const organization = store.createRecord('organization', { type: '' });
+
     // when
     const screen = await render(
-      hbs`<Organizations::CreationForm
-  @organization={{this.organization}}
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`,
+      <template>
+        <CreationForm @organization={{organization}} @onSubmit={{onSubmit}} @onCancel={{onCancel}} />
+      </template>,
     );
 
     // then
@@ -34,13 +30,14 @@ module('Integration | Component | organizations/creation-form', function (hooks)
 
   module('#selectOrganizationType', function () {
     test('should update attribute organization.type', async function (assert) {
+      const store = this.owner.lookup('service:store');
+      const organization = store.createRecord('organization', { type: '' });
+
       // given
       const screen = await render(
-        hbs`<Organizations::CreationForm
-  @organization={{this.organization}}
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`,
+        <template>
+          <CreationForm @organization={{organization}} @onSubmit={{onSubmit}} @onCancel={{onCancel}} />
+        </template>,
       );
 
       // when
@@ -49,18 +46,19 @@ module('Integration | Component | organizations/creation-form', function (hooks)
       await click(screen.getByRole('option', { name: 'Établissement scolaire' }));
 
       // then
-      assert.strictEqual(this.organization.type, 'SCO');
+      assert.strictEqual(organization.type, 'SCO');
     });
   });
 
   test('Adds data protection officer information', async function (assert) {
+    const store = this.owner.lookup('service:store');
+    const organization = store.createRecord('organization', { type: '' });
+
     // given
     await render(
-      hbs`<Organizations::CreationForm
-  @organization={{this.organization}}
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`,
+      <template>
+        <CreationForm @organization={{organization}} @onSubmit={{onSubmit}} @onCancel={{onCancel}} />
+      </template>,
     );
 
     // when
@@ -69,25 +67,27 @@ module('Integration | Component | organizations/creation-form', function (hooks)
     await fillByLabel('Adresse e-mail du DPO', 'justin.ptipeu@example.net');
 
     // then
-    assert.strictEqual(this.organization.dataProtectionOfficerFirstName, 'Justin');
-    assert.strictEqual(this.organization.dataProtectionOfficerLastName, 'Ptipeu');
-    assert.strictEqual(this.organization.dataProtectionOfficerEmail, 'justin.ptipeu@example.net');
+    assert.strictEqual(organization.dataProtectionOfficerFirstName, 'Justin');
+    assert.strictEqual(organization.dataProtectionOfficerLastName, 'Ptipeu');
+    assert.strictEqual(organization.dataProtectionOfficerEmail, 'justin.ptipeu@example.net');
   });
 
   test('Credits can be added', async function (assert) {
     // given
+    const store = this.owner.lookup('service:store');
+    const organization = store.createRecord('organization', { type: '' });
+
+    //when
     await render(
-      hbs`<Organizations::CreationForm
-  @organization={{this.organization}}
-  @onSubmit={{this.onSubmit}}
-  @onCancel={{this.onCancel}}
-/>`,
+      <template>
+        <CreationForm @organization={{organization}} @onSubmit={{onSubmit}} @onCancel={{onCancel}} />
+      </template>,
     );
 
     // when
     await fillByLabel('Crédits', 120);
 
     // then
-    assert.strictEqual(this.organization.credit, 120);
+    assert.strictEqual(organization.credit, 120);
   });
 });

@@ -4,6 +4,7 @@ import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import TargetProfilesSection from 'pix-admin/components/organizations/target-profiles-section';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -29,10 +30,8 @@ module('Integration | Component | organizations/target-profiles-section', functi
         attachTargetProfiles: sinon.stub(),
       });
 
-      this.set('organization', organization);
-
       // when
-      const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
+      const screen = await render(<template><TargetProfilesSection @organization={{organization}} /></template>);
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Valider' })).isDisabled();
@@ -53,18 +52,15 @@ module('Integration | Component | organizations/target-profiles-section', functi
         targetProfiles: [],
         attachTargetProfiles: sinon.stub(),
       });
-      this.set('organization', organization);
 
       const targetProfileSummaries = [targetProfileSummary];
       targetProfileSummaries.reload = sinon.stub();
-      this.set('targetProfileSummaries', targetProfileSummaries);
 
       // when
       await render(
-        hbs`<Organizations::TargetProfilesSection
-  @organization={{this.organization}}
-  @targetProfileSummaries={{this.targetProfileSummaries}}
-/>`,
+        <template>
+          <TargetProfilesSection @organization={{organization}} @targetProfileSummaries={{targetProfileSummaries}} />
+        </template>,
       );
       await fillByLabel('ID du ou des profil(s) cible(s)', '1');
       await clickByName('Valider');
@@ -80,21 +76,17 @@ module('Integration | Component | organizations/target-profiles-section', functi
       });
 
       const targetProfileSummaries = [targetProfileSummary];
-      this.set('targetProfileSummaries', targetProfileSummaries);
 
       const organization = store.createRecord('organization', {
         id: 1,
         targetProfiles: [],
       });
 
-      this.set('organization', organization);
-
       // when
       const screen = await render(
-        hbs`<Organizations::TargetProfilesSection
-  @organization={{this.organization}}
-  @targetProfileSummaries={{this.targetProfileSummaries}}
-/>`,
+        <template>
+          <TargetProfilesSection @organization={{organization}} @targetProfileSummaries={{targetProfileSummaries}} />
+        </template>,
       );
 
       assert
@@ -121,15 +113,11 @@ module('Integration | Component | organizations/target-profiles-section', functi
         });
         const targetProfileSummaries = [publicTargetProfileSummary, privateTargetProfileSummary];
 
-        this.set('targetProfileSummaries', targetProfileSummaries);
-        this.set('organization', organization);
-
         // when
         const screen = await render(
-          hbs`<Organizations::TargetProfilesSection
-  @organization={{this.organization}}
-  @targetProfileSummaries={{this.targetProfileSummaries}}
-/>`,
+          <template>
+            <TargetProfilesSection @organization={{organization}} @targetProfileSummaries={{targetProfileSummaries}} />
+          </template>,
         );
 
         //then
@@ -151,14 +139,11 @@ module('Integration | Component | organizations/target-profiles-section', functi
         });
         const targetProfileSummaries = [targetProfileSummary];
 
-        this.set('targetProfileSummaries', targetProfileSummaries);
-        this.set('organization', organization);
         // when
         const screen = await render(
-          hbs`<Organizations::TargetProfilesSection
-  @organization={{this.organization}}
-  @targetProfileSummaries={{this.targetProfileSummaries}}
-/>`,
+          <template>
+            <TargetProfilesSection @organization={{organization}} @targetProfileSummaries={{targetProfileSummaries}} />
+          </template>,
         );
         const detachButton = screen.getByRole('button', { name: 'Détacher' });
         await click(detachButton);
@@ -187,15 +172,11 @@ module('Integration | Component | organizations/target-profiles-section', functi
         });
         const targetProfileSummaries = [targetProfileSummary];
 
-        this.set('targetProfileSummaries', targetProfileSummaries);
-        this.set('organization', organization);
-
         //when
         const screen = await render(
-          hbs`<Organizations::TargetProfilesSection
-  @organization={{this.organization}}
-  @targetProfileSummaries={{this.targetProfileSummaries}}
-/>`,
+          <template>
+            <TargetProfilesSection @organization={{organization}} @targetProfileSummaries={{targetProfileSummaries}} />
+          </template>,
         );
         const detachButton = screen.getByRole('button', { name: 'Détacher' });
         await click(detachButton);
@@ -226,14 +207,11 @@ module('Integration | Component | organizations/target-profiles-section', functi
         ];
         targetProfileSummaries.reload = sinon.stub();
 
-        this.set('targetProfileSummaries', targetProfileSummaries);
-        this.set('organization', organization);
         // when
         const screen = await render(
-          hbs`<Organizations::TargetProfilesSection
-  @organization={{this.organization}}
-  @targetProfileSummaries={{this.targetProfileSummaries}}
-/>`,
+          <template>
+            <TargetProfilesSection @organization={{organization}} @targetProfileSummaries={{targetProfileSummaries}} />
+          </template>,
         );
         const detachButton = screen.getByRole('button', { name: 'Détacher' });
         await click(detachButton);
@@ -253,14 +231,14 @@ module('Integration | Component | organizations/target-profiles-section', functi
         id: 1,
         targetProfiles: [],
       });
-      this.set('organization', organization);
+
       class AccessControlStub extends Service {
         hasAccessToOrganizationActionsScope = false;
       }
       this.owner.register('service:access-control', AccessControlStub);
 
       // when
-      const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
+      const screen = await render(<template><TargetProfilesSection @organization={{organization}} /></template>);
 
       // expect
       assert.dom(screen.queryByRole('button', { name: 'Valider' })).doesNotExist();

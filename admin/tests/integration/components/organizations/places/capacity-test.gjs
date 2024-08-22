@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import Capacity from 'pix-admin/components/organizations/places/capacity';
 import { module, test } from 'qunit';
 
 module('Integration | Component | Organizations | Places | Capacity', function (hooks) {
@@ -19,10 +19,8 @@ module('Integration | Component | Organizations | Places | Capacity', function (
         ],
       };
 
-      this.set('placesCapacity', placesCapacity);
-
       // when
-      const screen = await render(hbs`<Organizations::Places::Capacity @placesCapacity={{this.placesCapacity}} />`);
+      const screen = await render(<template><Capacity @placesCapacity={{placesCapacity}} /></template>);
 
       // then
       assert.dom(screen.queryByText('7777')).exists();
