@@ -121,21 +121,6 @@
   }
 }
 
-.module-details-content-layout-small-screen-modal-footer {
-  &__actions {
-    display: inline-flex;
-    flex-wrap: wrap;
-    gap: var(--pix-spacing-4x);
-  }
-}
-
-.module-details-content-layout-small-screen-modal-footer-actions {
-  &__item {
-    flex: 1;
-    min-width: fit-content;
-  }
-}
-
 .module-details-content-layout-small-screen-modal-footer-actions-item {
   &__button {
     width: 100%;

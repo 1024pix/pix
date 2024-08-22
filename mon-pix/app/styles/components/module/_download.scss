@@ -11,15 +11,10 @@
   }
 
   &__links-container {
-    display: inline-flex;
-    flex-wrap: wrap;
-    gap: var(--pix-spacing-2x);
     margin: var(--pix-spacing-3x) 0;
   }
 
   &__link {
-    flex: 1;
-    min-width: fit-content;
     padding: var(--pix-spacing-6x) var(--pix-spacing-4x);
     text-align: center;
     background: var(--pix-neutral-0);

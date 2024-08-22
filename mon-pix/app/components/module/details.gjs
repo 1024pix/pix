@@ -7,6 +7,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { pageTitle } from 'ember-page-title';
+import ResponsiveListWideWrap from 'mon-pix/components/common/responsive-ul-wide-wrap';
 import Objectives from 'mon-pix/components/module/objectives';
 
 export default class ModulixDetails extends Component {
@@ -102,8 +103,8 @@ export default class ModulixDetails extends Component {
               </:content>
               <:footer>
                 <div class="module-details-content-layout-small-screen-modal__footer">
-                  <ul class="module-details-content-layout-small-screen-modal-footer__actions">
-                    <li class="module-details-content-layout-small-screen-modal-footer-actions__item">
+                  <ResponsiveListWideWrap>
+                    <li>
                       <PixButton
                         class="module-details-content-layout-small-screen-modal-footer-actions-item__button"
                         @variant="secondary"
@@ -112,7 +113,7 @@ export default class ModulixDetails extends Component {
                         {{t "pages.modulix.details.smallScreenModal.cancel"}}
                       </PixButton>
                     </li>
-                    <li class="module-details-content-layout-small-screen-modal-footer-actions__item">
+                    <li>
                       <PixButton
                         class="module-details-content-layout-small-screen-modal-footer-actions-item__button"
                         @triggerAction={{this.onModuleStartUsingSmallScreen}}
@@ -120,7 +121,7 @@ export default class ModulixDetails extends Component {
                         {{t "pages.modulix.details.smallScreenModal.startModule"}}
                       </PixButton>
                     </li>
-                  </ul>
+                  </ResponsiveListWideWrap>
                 </div>
               </:footer>
             </PixModal>
