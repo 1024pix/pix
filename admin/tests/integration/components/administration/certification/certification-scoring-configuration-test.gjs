@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import CertificationScoringConfiguration from 'pix-admin/components/administration/certification/certification-scoring-configuration';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -10,7 +10,7 @@ module('Integration | Component |  administration/certification/certification-sc
   test('should display all details', async function (assert) {
     // given
     // when
-    const screen = await render(hbs`<Administration::Certification::CertificationScoringConfiguration />`);
+    const screen = await render(<template><CertificationScoringConfiguration /></template>);
 
     // then
     assert

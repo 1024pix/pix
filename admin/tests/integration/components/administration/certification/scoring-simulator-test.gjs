@@ -1,6 +1,6 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import ScoringSimulator from 'pix-admin/components/administration/certification/scoring-simulator';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -11,7 +11,7 @@ module('Integration | Component |  administration/certification/scoring-simulato
   test('it should display form', async function (assert) {
     // given
     // when
-    const screen = await render(hbs`<Administration::Certification::ScoringSimulator />`);
+    const screen = await render(<template><ScoringSimulator /></template>);
 
     // then
     assert.dom(screen.getByRole('spinbutton', { name: 'Score global en Pix' })).exists();
@@ -22,7 +22,7 @@ module('Integration | Component |  administration/certification/scoring-simulato
   module('when score is superior to 896', function () {
     test('should display an error message', async function (assert) {
       // given
-      const screen = await render(hbs`<Administration::Certification::ScoringSimulator />`);
+      const screen = await render(<template><ScoringSimulator /></template>);
 
       // when
       await fillIn(screen.getByRole('spinbutton', { name: 'Score global en Pix' }), 897);
@@ -36,7 +36,7 @@ module('Integration | Component |  administration/certification/scoring-simulato
   module('when score is inferior to 0', function () {
     test('should display an error message', async function (assert) {
       // given
-      const screen = await render(hbs`<Administration::Certification::ScoringSimulator />`);
+      const screen = await render(<template><ScoringSimulator /></template>);
 
       // when
       await fillIn(screen.getByRole('spinbutton', { name: 'Score global en Pix' }), -1);
@@ -50,7 +50,7 @@ module('Integration | Component |  administration/certification/scoring-simulato
   module('when both inputs are filled', function () {
     test('should display an error message', async function (assert) {
       // given
-      const screen = await render(hbs`<Administration::Certification::ScoringSimulator />`);
+      const screen = await render(<template><ScoringSimulator /></template>);
 
       // when
       await fillIn(screen.getByRole('spinbutton', { name: 'Score global en Pix' }), -1);
@@ -67,7 +67,7 @@ module('Integration | Component |  administration/certification/scoring-simulato
   module('when both inputs are empty', function () {
     test('should display an error message', async function (assert) {
       // given
-      const screen = await render(hbs`<Administration::Certification::ScoringSimulator />`);
+      const screen = await render(<template><ScoringSimulator /></template>);
 
       // when
       await clickByName('Générer un profil');

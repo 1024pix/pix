@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import CompetenceScoringConfiguration from 'pix-admin/components/administration/certification/competence-scoring-configuration';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -10,7 +10,7 @@ module('Integration | Component |  administration/certification/competence-scori
   test('should display all details', async function (assert) {
     // given
     // when
-    const screen = await render(hbs`<Administration::Certification::CompetenceScoringConfiguration />`);
+    const screen = await render(<template><CompetenceScoringConfiguration /></template>);
 
     // then
     assert.dom(screen.getByRole('heading', { name: 'Configuration des seuils par compétence', level: 2 })).exists();
