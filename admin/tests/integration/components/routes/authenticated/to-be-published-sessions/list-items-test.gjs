@@ -1,7 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import ListItems from 'pix-admin/components/to-be-published-sessions/list-items';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -36,12 +36,10 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
       sessionTime: '13:00:00',
       finalizedAt: new Date('2021-03-04T03:00:00Z'),
     };
-    this.toBePublishedSessions = [firstSession, secondSession, thirdSession];
+    const toBePublishedSessions = [firstSession, secondSession, thirdSession];
 
     // when
-    const screen = await render(
-      hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}} />`,
-    );
+    const screen = await render(<template><ListItems @toBePublishedSessions={{toBePublishedSessions}} /></template>);
 
     // then
     assert.dom('table tbody tr').exists({ count: 3 });
@@ -57,12 +55,10 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
     }
     this.owner.register('service:accessControl', SessionStub);
 
-    this.toBePublishedSessions = [];
+    const toBePublishedSessions = [];
 
     // when
-    const screen = await render(
-      hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}} />`,
-    );
+    const screen = await render(<template><ListItems @toBePublishedSessions={{toBePublishedSessions}} /></template>);
 
     // then
     assert.dom(screen.getByText('Aucun résultat')).exists();
@@ -83,12 +79,10 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
         sessionTime: '11:00:00',
         finalizedAt: new Date('2021-01-02T03:00:00Z'),
       };
-      this.toBePublishedSessions = [session];
+      const toBePublishedSessions = [session];
 
       // when
-      const screen = await render(
-        hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}} />`,
-      );
+      const screen = await render(<template><ListItems @toBePublishedSessions={{toBePublishedSessions}} /></template>);
 
       // then
       assert.dom(screen.queryByText('Publier')).doesNotExist();
@@ -96,7 +90,6 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
 
     test('it should show confirmation modal when one clicks on "Publier" button', async function (assert) {
       // given
-
       class SessionStub extends Service {
         hasAccessToCertificationActionsScope = true;
       }
@@ -109,10 +102,8 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
         sessionTime: '11:00:00',
         finalizedAt: new Date('2021-01-02T03:00:00Z'),
       };
-      this.toBePublishedSessions = [session];
-      const screen = await render(
-        hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}} />`,
-      );
+      const toBePublishedSessions = [session];
+      const screen = await render(<template><ListItems @toBePublishedSessions={{toBePublishedSessions}} /></template>);
 
       // when
       await clickByName('Publier la session numéro 1');
@@ -135,13 +126,12 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
         sessionTime: '11:00:00',
         finalizedAt: new Date('2021-01-02T03:00:00Z'),
       };
-      this.toBePublishedSessions = [session];
-      this.publishSession = sinon.stub();
+      const toBePublishedSessions = [session];
+      const publishSession = sinon.stub();
       const screen = await render(
-        hbs`<ToBePublishedSessions::ListItems
-  @toBePublishedSessions={{this.toBePublishedSessions}}
-  @publishSession={{this.publishSession}}
-/>`,
+        <template>
+          <ListItems @toBePublishedSessions={{toBePublishedSessions}} @publishSession={{publishSession}} />
+        </template>,
       );
       await clickByName('Publier la session numéro 1');
 
@@ -150,7 +140,7 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
       await clickByName('Confirmer');
 
       // then
-      sinon.assert.calledWith(this.publishSession, session);
+      sinon.assert.calledWith(publishSession, session);
       assert.ok(true);
     });
   });

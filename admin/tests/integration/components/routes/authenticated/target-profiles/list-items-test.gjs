@@ -1,25 +1,20 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import ListSummaryItems from 'pix-admin/components/target-profiles/list-summary-items';
 import { module, test } from 'qunit';
 
 module('Integration | Component | routes/authenticated/target-profiles | list-items', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(async function () {
-    const triggerFiltering = function () {};
-    const goToTargetProfilePage = function () {};
-    this.triggerFiltering = triggerFiltering;
-    this.goToTargetProfilePage = goToTargetProfilePage;
-  });
+  const triggerFiltering = function () {};
+  const goToTargetProfilePage = function () {};
 
   test('it should display header with name, id and status', async function (assert) {
     // when
     const screen = await render(
-      hbs`<TargetProfiles::ListSummaryItems
-  @triggerFiltering={{this.triggerFiltering}}
-  @goToTargetProfilePage={{this.goToTargetProfilePage}}
-/>`,
+      <template>
+        <ListSummaryItems @triggerFiltering={{triggerFiltering}} @goToTargetProfilePage={{goToTargetProfilePage}} />
+      </template>,
     );
 
     // then
@@ -31,10 +26,9 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
   test('it should display search inputs', async function (assert) {
     // when
     const screen = await render(
-      hbs`<TargetProfiles::ListSummaryItems
-  @triggerFiltering={{this.triggerFiltering}}
-  @goToTargetProfilePage={{this.goToTargetProfilePage}}
-/>`,
+      <template>
+        <ListSummaryItems @triggerFiltering={{triggerFiltering}} @goToTargetProfilePage={{goToTargetProfilePage}} />
+      </template>,
     );
 
     // then
@@ -52,11 +46,13 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::ListSummaryItems
-  @summaries={{this.summaries}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @goToTargetProfilePage={{this.goToTargetProfilePage}}
-/>`,
+      <template>
+        <ListSummaryItems
+          @summaries={{summaries}}
+          @triggerFiltering={{triggerFiltering}}
+          @goToTargetProfilePage={{goToTargetProfilePage}}
+        />
+      </template>,
     );
 
     // then
@@ -73,11 +69,13 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::ListSummaryItems
-  @summaries={{this.summaries}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @goToTargetProfilePage={{this.goToTargetProfilePage}}
-/>`,
+      <template>
+        <ListSummaryItems
+          @summaries={{summaries}}
+          @triggerFiltering={{triggerFiltering}}
+          @goToTargetProfilePage={{goToTargetProfilePage}}
+        />
+      </template>,
     );
 
     // then
@@ -95,11 +93,13 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::ListSummaryItems
-  @summaries={{this.summaries}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @goToTargetProfilePage={{this.goToTargetProfilePage}}
-/>`,
+      <template>
+        <ListSummaryItems
+          @summaries={{summaries}}
+          @triggerFiltering={{triggerFiltering}}
+          @goToTargetProfilePage={{goToTargetProfilePage}}
+        />
+      </template>,
     );
 
     // then
@@ -116,11 +116,13 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
 
     // when
     const screen = await render(
-      hbs`<TargetProfiles::ListSummaryItems
-  @summaries={{this.summaries}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @goToTargetProfilePage={{this.goToTargetProfilePage}}
-/>`,
+      <template>
+        <ListSummaryItems
+          @summaries={{summaries}}
+          @triggerFiltering={{triggerFiltering}}
+          @goToTargetProfilePage={{goToTargetProfilePage}}
+        />
+      </template>,
     );
 
     // then

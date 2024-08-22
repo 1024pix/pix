@@ -1,15 +1,10 @@
 import { render } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import ListItems from 'pix-admin/components/certification-centers/list-items';
 import { module, test } from 'qunit';
 
 module('Integration | Component | routes/authenticated/certification-centers | list-items', function (hooks) {
   setupRenderingTest(hooks);
-
-  hooks.beforeEach(async function () {
-    const triggerFiltering = function () {};
-    this.triggerFiltering = triggerFiltering;
-  });
 
   test('it should display certification-centers list', async function (assert) {
     // given
@@ -21,14 +16,13 @@ module('Integration | Component | routes/authenticated/certification-centers | l
     certificationCenters.meta = {
       rowCount: 3,
     };
-    this.certificationCenters = certificationCenters;
+    const triggerFiltering = function () {};
 
     // when
     await render(
-      hbs`<CertificationCenters::ListItems
-  @certificationCenters={{this.certificationCenters}}
-  @triggerFiltering={{this.triggerFiltering}}
-/>`,
+      <template>
+        <ListItems @certificationCenters={{certificationCenters}} @triggerFiltering={{triggerFiltering}} />
+      </template>,
     );
 
     // then

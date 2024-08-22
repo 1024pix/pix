@@ -1,6 +1,6 @@
 import { render } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import ListItems from 'pix-admin/components/organizations/list-items';
 import { module, test } from 'qunit';
 
 module('Integration | Component | routes/authenticated/organizations | list-items', function (hooks) {
@@ -9,13 +9,13 @@ module('Integration | Component | routes/authenticated/organizations | list-item
   hooks.beforeEach(async function () {
     const currentUser = this.owner.lookup('service:currentUser');
     currentUser.adminMember = { isSuperAdmin: true };
-    const triggerFiltering = function () {};
-    this.triggerFiltering = triggerFiltering;
   });
+
+  const triggerFiltering = function () {};
 
   test('it should display header with id, name, type and externalId', async function (assert) {
     // when
-    await render(hbs`<Organizations::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
+    await render(<template><ListItems @triggerFiltering={{triggerFiltering}} /></template>);
 
     // then
     assert.dom('table thead tr:first-child th:first-child').hasText('ID');
@@ -26,7 +26,7 @@ module('Integration | Component | routes/authenticated/organizations | list-item
 
   test('if should display search inputs', async function (assert) {
     // when
-    await render(hbs`<Organizations::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
+    await render(<template><ListItems @triggerFiltering={{triggerFiltering}} /></template>);
 
     // then
     assert.dom('table thead tr:nth-child(2) input#id').exists();
@@ -46,11 +46,10 @@ module('Integration | Component | routes/authenticated/organizations | list-item
     organizations.meta = {
       rowCount: 3,
     };
-    this.organizations = organizations;
 
     // when
     await render(
-      hbs`<Organizations::ListItems @organizations={{this.organizations}} @triggerFiltering={{this.triggerFiltering}} />`,
+      <template><ListItems @organizations={{organizations}} @triggerFiltering={{triggerFiltering}} /></template>,
     );
 
     // then

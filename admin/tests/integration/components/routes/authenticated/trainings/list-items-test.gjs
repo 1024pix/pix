@@ -1,18 +1,16 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import ListSummaryItems from 'pix-admin/components/trainings/list-summary-items';
 import { module, test } from 'qunit';
 
 module('Integration | Component | routes/authenticated/trainings | list-items', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
-    this.set('noop', () => {});
-  });
+  const noop = () => {};
 
   test('it should display header with id and title', async function (assert) {
     // when
-    const screen = await render(hbs`<Trainings::ListSummaryItems @triggerFiltering={{this.noop}} />`);
+    const screen = await render(<template><ListSummaryItems @triggerFiltering={{noop}} /></template>);
 
     // then
     assert.dom(screen.getByText('ID')).exists();
@@ -28,11 +26,10 @@ module('Integration | Component | routes/authenticated/trainings | list-items', 
     summaries.meta = {
       pagination: { rowCount: 2 },
     };
-    this.summaries = summaries;
 
     // when
     const screen = await render(
-      hbs`<Trainings::ListSummaryItems @summaries={{this.summaries}} @triggerFiltering={{this.noop}} />`,
+      <template><ListSummaryItems @summaries={{summaries}} @triggerFiltering={{noop}} /></template>,
     );
 
     // then
@@ -45,11 +42,10 @@ module('Integration | Component | routes/authenticated/trainings | list-items', 
     summaries.meta = {
       pagination: { rowCount: 2 },
     };
-    this.summaries = summaries;
 
     // when
     const screen = await render(
-      hbs`<Trainings::ListSummaryItems @summaries={{this.summaries}} @triggerFiltering={{this.noop}} />`,
+      <template><ListSummaryItems @summaries={{summaries}} @triggerFiltering={{noop}} /></template>,
     );
 
     // then

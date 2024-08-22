@@ -1,15 +1,14 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import ListItems from 'pix-admin/components/sessions/list-items';
 import { module, test } from 'qunit';
+import sinon, { stub } from 'sinon';
 
 module('Integration | Component | routes/authenticated/sessions | list-items', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
-    this.set('triggerFiltering', () => {});
-  });
+  const triggerFiltering = () => {};
 
   test('it should display sessions list', async function (assert) {
     // given
@@ -57,10 +56,9 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     });
 
     sessions.meta = { rowCount: 2 };
-    this.set('sessions', sessions);
 
     // when
-    await render(hbs`<Sessions::ListItems @sessions={{this.sessions}} @triggerFiltering={{this.triggerFiltering}} />`);
+    await render(<template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>);
 
     // then
     assert.dom('table tbody tr').exists({ count: sessions.length });
@@ -87,7 +85,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
   module('Input field for id filtering', function () {
     test('it should render a input field to filter on id', async function (assert) {
       // when
-      const screen = await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
+      const screen = await render(<template><ListItems @triggerFiltering={{triggerFiltering}} /></template>);
 
       // then
       assert.dom(screen.getByRole('textbox', { name: 'Filtrer les sessions avec un id' })).exists();
@@ -97,7 +95,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
   module('Input field for certificationCenterName filtering', function () {
     test('it should render a input field to filter on certificationCenterName', async function (assert) {
       // when
-      const screen = await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
+      const screen = await render(<template><ListItems @triggerFiltering={{triggerFiltering}} /></template>);
 
       // then
       assert
@@ -109,7 +107,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
   module('Dropdown menu for certification center type filtering', function () {
     test('it should render a dropdown menu to filter sessions on their certification center type', async function (assert) {
       // given
-      const screen = await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
+      const screen = await render(<template><ListItems @triggerFiltering={{triggerFiltering}} /></template>);
 
       // when
       await click(
@@ -126,16 +124,18 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       assert.dom(screen.getByRole('option', { name: 'Sup' })).exists();
     });
 
-    test('it should filter sessions on certification center type when it has changed', async function (assert) {
+    test('it should call updateCertificationCenterTypeFilter type when it has changed', async function (assert) {
       // given
-      this.set('certificationCenterType', 'SCO');
-      this.set('updateCertificationCenterTypeFilter', (newValue) => this.set('certificationCenterType', newValue));
+      const certificationCenterType = 'SCO';
+      const updateCertificationCenterTypeFilter = sinon.stub();
       const screen = await render(
-        hbs`<Sessions::ListItems
-  @certificationCenterType={{this.certificationCenterType}}
-  @onChangeCertificationCenterType={{this.updateCertificationCenterTypeFilter}}
-  @triggerFiltering={{this.triggerFiltering}}
-/>`,
+        <template>
+          <ListItems
+            @certificationCenterType={{certificationCenterType}}
+            @onChangeCertificationCenterType={{updateCertificationCenterTypeFilter}}
+            @triggerFiltering={{triggerFiltering}}
+          />
+        </template>,
       );
 
       // when
@@ -145,18 +145,17 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
         }),
       );
       await screen.findByRole('listbox');
-
       await click(screen.getByRole('option', { name: 'Pro' }));
 
       // then
-      assert.strictEqual(this.certificationCenterType, 'PRO');
+      assert.ok(updateCertificationCenterTypeFilter.calledWith('PRO'));
     });
   });
 
   module('Dropdown menu for status filtering', function () {
     test('it should render a dropdown menu to filter sessions on their status', async function (assert) {
       // given
-      const screen = await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
+      const screen = await render(<template><ListItems @triggerFiltering={{triggerFiltering}} /></template>);
 
       // when
       await click(
@@ -176,14 +175,16 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
 
     test('it should filter sessions on (session) "status" when it has changed', async function (assert) {
       // given
-      this.set('status', 'finalized');
-      this.set('updateSessionStatusFilter', (newValue) => this.set('status', newValue));
+      const status = 'finalized';
+      const updateSessionStatusFilter = sinon.stub();
       const screen = await render(
-        hbs`<Sessions::ListItems
-  @status={{this.status}}
-  @onChangeSessionStatus={{this.updateSessionStatusFilter}}
-  @triggerFiltering={{this.triggerFiltering}}
-/>`,
+        <template>
+          <ListItems
+            @status={{status}}
+            @onChangeSessionStatus={{updateSessionStatusFilter}}
+            @triggerFiltering={{triggerFiltering}}
+          />
+        </template>,
       );
 
       // when
@@ -196,14 +197,14 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       await click(screen.getByRole('option', { name: 'Créée' }));
 
       // then
-      assert.strictEqual(this.status, 'created');
+      assert.ok(updateSessionStatusFilter.calledWith('created'));
     });
   });
 
-  module('Dropdown menu for version filtering', function () {
+  module('Version filtering', function () {
     test('it should render a dropdown menu to filter sessions on their status', async function (assert) {
       // given
-      const screen = await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
+      const screen = await render(<template><ListItems @triggerFiltering={{triggerFiltering}} /></template>);
 
       // when
       await click(
@@ -219,16 +220,19 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       assert.dom(screen.getByRole('option', { name: 'Sessions V3' })).exists();
     });
 
-    test('it should filter sessions on (session) "version" when it has changed', async function (assert) {
+    test('it should call updateSessionVersionFilter on option change', async function (assert) {
       // given
-      this.set('version', 2);
-      this.set('updateSessionVersionFilter', (newValue) => this.set('version', newValue));
+      const version = 2;
+      const updateSessionVersionFilter = sinon.stub();
+
       const screen = await render(
-        hbs`<Sessions::ListItems
-  @version={{this.version}}
-  @onChangeSessionVersion={{this.updateSessionVersionFilter}}
-  @triggerFiltering={{this.triggerFiltering}}
-/>`,
+        <template>
+          <ListItems
+            @version={{version}}
+            @onChangeSessionVersion={{updateSessionVersionFilter}}
+            @triggerFiltering={{triggerFiltering}}
+          />
+        </template>,
       );
 
       // when
@@ -241,7 +245,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       await click(screen.getByRole('option', { name: 'Sessions V3' }));
 
       // then
-      assert.strictEqual(this.version, '3');
+      sinon.assert.calledWith(updateSessionVersionFilter, '3');
+      assert.ok(true);
     });
   });
 });

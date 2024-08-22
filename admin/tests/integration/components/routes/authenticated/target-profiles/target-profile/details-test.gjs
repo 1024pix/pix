@@ -1,6 +1,6 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import Details from 'pix-admin/components/target-profiles/details';
 import { module, test } from 'qunit';
 
 module('Integration | Component | routes/authenticated/target-profiles/target-profile | details', function (hooks) {
@@ -8,89 +8,82 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
 
   test('it should display specific text when profile has no content', async function (assert) {
     // given
-    this.areas = [];
+    const areas = [];
 
     // when
-    const screen = await render(hbs`<TargetProfiles::Details @areas={{this.areas}} />`);
+    const screen = await render(<template><Details @areas={{areas}} /></template>);
 
     // then
     assert.dom(screen.getByText('Profil cible vide.')).exists();
   });
 
-  module('when target profile has content', function (hooks) {
-    let areas;
-
-    hooks.beforeEach(async function () {
-      areas = [
-        {
-          title: `Titre Area 1`,
-          color: 'Couleur Area 1',
-          competences: [
-            {
-              title: `Titre Competence 1 Area 1`,
-              thematics: [
-                {
-                  name: 'Nom Thematic 1 Competence 1 Area 1',
-                  nbTubes: 1,
-                  tubes: [
-                    {
-                      id: 'id-du-tube',
-                      title: `Titre Tube 1 Nom Thematic 1 Competence 1 Area 1`,
-                      level: 5,
-                      mobile: true,
-                      tablet: false,
-                      skills: [
-                        {
-                          difficulty: 4,
-                        },
-                        {
-                          difficulty: 2,
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          title: `Titre Area 2`,
-          color: 'Couleur Area 2',
-          competences: [
-            {
-              title: `Titre Competence 2 Area 2`,
-              thematics: [
-                {
-                  name: 'Nom Thematic 2 Competence 2 Area 2',
-                  nbTubes: 1,
-                  tubes: [
-                    {
-                      title: `Titre Tube 2 Nom Thematic 2 Competence 2 Area 2`,
-                      level: 2,
-                      mobile: false,
-                      tablet: true,
-                      skills: [
-                        {
-                          difficulty: 1,
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ];
-    });
+  module('when target profile has content', function () {
+    const areas = [
+      {
+        title: `Titre Area 1`,
+        color: 'Couleur Area 1',
+        competences: [
+          {
+            title: `Titre Competence 1 Area 1`,
+            thematics: [
+              {
+                name: 'Nom Thematic 1 Competence 1 Area 1',
+                nbTubes: 1,
+                tubes: [
+                  {
+                    id: 'id-du-tube',
+                    title: `Titre Tube 1 Nom Thematic 1 Competence 1 Area 1`,
+                    level: 5,
+                    mobile: true,
+                    tablet: false,
+                    skills: [
+                      {
+                        difficulty: 4,
+                      },
+                      {
+                        difficulty: 2,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: `Titre Area 2`,
+        color: 'Couleur Area 2',
+        competences: [
+          {
+            title: `Titre Competence 2 Area 2`,
+            thematics: [
+              {
+                name: 'Nom Thematic 2 Competence 2 Area 2',
+                nbTubes: 1,
+                tubes: [
+                  {
+                    title: `Titre Tube 2 Nom Thematic 2 Competence 2 Area 2`,
+                    level: 2,
+                    mobile: false,
+                    tablet: true,
+                    skills: [
+                      {
+                        difficulty: 1,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ];
 
     test('it should display areas', async function (assert) {
-      // given
-      this.areas = areas;
-
       // when
-      const screen = await render(hbs`<TargetProfiles::Details @areas={{this.areas}} />`);
+      const screen = await render(<template><Details @areas={{areas}} /></template>);
 
       // then
       assert.dom(screen.queryByText('Titre Area 1')).exists();
@@ -98,9 +91,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     });
 
     test('it should display competences when clicking on area', async function (assert) {
-      // given
-      this.areas = areas;
-      const screen = await render(hbs`<TargetProfiles::Details @areas={{this.areas}} />`);
+      const screen = await render(<template><Details @areas={{areas}} /></template>);
 
       // when
       await clickByName('Titre Area 1');
@@ -111,9 +102,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     });
 
     test('it should display thematics when clicking on competence', async function (assert) {
-      // given
-      this.areas = areas;
-      const screen = await render(hbs`<TargetProfiles::Details @areas={{this.areas}} />`);
+      const screen = await render(<template><Details @areas={{areas}} /></template>);
 
       // when
       await clickByName('Titre Area 1');
@@ -125,9 +114,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     });
 
     test('it should display tube details when clicking on competence', async function (assert) {
-      // given
-      this.areas = areas;
-      const screen = await render(hbs`<TargetProfiles::Details @areas={{this.areas}} />`);
+      const screen = await render(<template><Details @areas={{areas}} /></template>);
 
       // when
       await clickByName('Titre Area 1');

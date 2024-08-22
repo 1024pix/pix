@@ -1,15 +1,12 @@
 import { render } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import ListItems from 'pix-admin/components/users/list-items';
 import { module, test } from 'qunit';
 
 module('Integration | Component | routes/authenticated/users | list-items', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(async function () {
-    const triggerFiltering = function () {};
-    this.triggerFiltering = triggerFiltering;
-  });
+  const triggerFiltering = () => {};
 
   test('it should display user list', async function (assert) {
     // given
@@ -22,10 +19,8 @@ module('Integration | Component | routes/authenticated/users | list-items', func
       rowCount: 3,
     };
 
-    this.users = users;
-
     // when
-    await render(hbs`<Users::ListItems @users={{this.users}} @triggerFiltering={{this.triggerFiltering}} />`);
+    await render(<template><ListItems @users={{users}} @triggerFiltering={{triggerFiltering}} /></template>);
 
     // then
     assert.dom('table tbody tr:first-child td:first-child').hasText('1');
