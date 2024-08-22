@@ -26,6 +26,7 @@ async function findPaginatedFilteredImportedParticipants({
   organizationId,
   page,
   extraColumns,
+  extraFilters,
   filters = {},
   sort = {},
 }) {
@@ -35,6 +36,7 @@ async function findPaginatedFilteredImportedParticipants({
     organizationId,
     filters,
     extraColumns,
+    extraFilters,
     sort,
     withImport: true,
   });
@@ -47,6 +49,7 @@ function _organizationLearnerParticipantsQuery({
   organizationId,
   filters,
   extraColumns = [],
+  extraFilters = {},
   sort,
   withImport = true,
 }) {
@@ -60,7 +63,11 @@ function _organizationLearnerParticipantsQuery({
     query.where('participationCount', '>', 0);
   }
 
-  query.orderBy(orderByClause).modify(_filterBySearch, filters).modify(_filterByCertificability, filters);
+  query
+    .orderBy(orderByClause)
+    .modify(_filterBySearch, filters)
+    .modify(_filterByCertificability, filters)
+    .modify(_filterByAttributes, extraFilters);
 
   return query;
 }
@@ -91,19 +98,13 @@ function _getOrderClause(sort) {
 }
 
 function _buildWithQuery({ organizationId, extraColumns, withImport }) {
-  const selectElement = _getSelectElement();
+  const selectElement = _getSelectElement(extraColumns);
 
   const withQuery = knex.select(selectElement).from('view-active-organization-learners');
 
   if (!withImport) {
     withQuery.join('users', function () {
       this.on('view-active-organization-learners.userId', 'users.id').andOnVal('users.isAnonymous', false);
-    });
-  } else {
-    extraColumns.forEach((extraColumn) => {
-      const columnName = `$."${extraColumn.key}"`;
-
-      withQuery.jsonExtract('view-active-organization-learners.attributes', columnName, extraColumn.name);
     });
   }
 
@@ -140,6 +141,16 @@ async function _countOrganizationParticipant({ organizationId, withImport = true
   return count ?? 0;
 }
 
+function _filterByAttributes(queryBuilder, filters = {}) {
+  const keys = Object.keys(filters);
+
+  if (!keys.length) return;
+
+  keys.forEach((key) => {
+    queryBuilder.whereRaw(`?? LIKE ?`, [key, '%' + filters[key] + '%']);
+  });
+}
+
 function _filterBySearch(queryBuilder, filters) {
   if (filters.fullName) {
     filterByFullName(queryBuilder, filters.fullName, 'firstName', 'lastName');
@@ -164,7 +175,14 @@ function _filterByCertificability(queryBuilder, filters) {
   }
 }
 
-function _getSelectElement() {
+function _getSelectElement(extraColumns) {
+  const extraSubQueries = extraColumns.map(({ key, name }) => {
+    return knex('organization-learners')
+      .select(knex.raw(`"organization-learners"."attributes" ->> ?`, key))
+      .whereRaw('"id" = "view-active-organization-learners"."id"')
+      .as(name);
+  });
+
   return [
     'view-active-organization-learners.id',
     'view-active-organization-learners.lastName',
@@ -240,6 +258,7 @@ function _getSelectElement() {
       .and.where('isImproved', false)
       .count('id')
       .as('participationCount'),
+    ...extraSubQueries,
   ];
 }
 
