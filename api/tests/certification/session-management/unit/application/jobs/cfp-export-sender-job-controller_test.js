@@ -1,16 +1,15 @@
-import { sendEmail } from '../../../../../../../src/shared/infrastructure/jobs/cpf-export/handlers/send-email.js';
-import { logger } from '../../../../../../../src/shared/infrastructure/utils/logger.js';
-import { expect, sinon } from '../../../../../../test-helper.js';
+import { CpfExportSenderJobController } from '../../../../../../src/certification/session-management/application/jobs/cpf-export-sender-job-controller.js';
+import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
+describe('Unit | Infrastructure | Certification | Sessions Management | jobs | cpf-export-sender-job-controller', function () {
   let getPreSignedUrls;
   let mailService;
 
   beforeEach(function () {
+    sinon.stub(logger, 'info');
     getPreSignedUrls = sinon.stub();
-    mailService = {
-      sendCpfEmail: sinon.stub(),
-    };
+    mailService = { sendCpfEmail: sinon.stub() };
   });
 
   describe('when generated files are found', function () {
@@ -21,8 +20,10 @@ describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
         'https://bucket.url.com/file2.xml',
         'https://bucket.url.com/file3.xml',
       ]);
+
       // when
-      await sendEmail({ getPreSignedUrls, mailService });
+      const jobController = new CpfExportSenderJobController();
+      await jobController.handle({}, { dependencies: { getPreSignedUrls, mailService } });
 
       // then
       expect(mailService.sendCpfEmail).to.have.been.calledWithExactly({
@@ -39,11 +40,11 @@ describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
   describe('when no generated file is found', function () {
     it('should not send an email', async function () {
       // given
-      sinon.stub(logger, 'info');
-
       getPreSignedUrls.resolves([]);
+
       // when
-      await sendEmail({ getPreSignedUrls, mailService });
+      const jobController = new CpfExportSenderJobController();
+      await jobController.handle({}, { dependencies: { getPreSignedUrls, mailService } });
 
       // then
       expect(mailService.sendCpfEmail).to.not.have.been.called;
