@@ -17,6 +17,14 @@ describe('Integration | Infrastructure | Jobs | JobQueue', function () {
 
     const promise = new Promise((resolve, reject) => {
       const handler = class {
+        get teamConcurrency() {
+          return 1;
+        }
+
+        get teamSize() {
+          return 2;
+        }
+
         handle(params) {
           try {
             expect(params).to.deep.equal(expectedParams);
