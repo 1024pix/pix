@@ -11,13 +11,15 @@
   }
 
   &__links-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    display: inline-flex;
+    flex-wrap: wrap;
     gap: var(--pix-spacing-2x);
     margin: var(--pix-spacing-3x) 0;
   }
 
   &__link {
+    flex: 1;
+    min-width: fit-content;
     padding: var(--pix-spacing-6x) var(--pix-spacing-4x);
     text-align: center;
     background: var(--pix-neutral-0);
@@ -28,6 +30,7 @@
   &__documentation-link {
     @extend %pix-body-m;
 
+    display: block;
     color: var(--pix-info-700);
   }
 }
