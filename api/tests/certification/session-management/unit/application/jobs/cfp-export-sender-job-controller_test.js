@@ -2,7 +2,7 @@ import { CpfExportSenderJobController } from '../../../../../../src/certificatio
 import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Infrastructure | Certification | Sessions Management | jobs | cpf-export-sender-job-controller', function () {
+describe('Unit | Application | Certification | Sessions Management | jobs | cpf-export-sender-job-controller', function () {
   let getPreSignedUrls;
   let mailService;
 
