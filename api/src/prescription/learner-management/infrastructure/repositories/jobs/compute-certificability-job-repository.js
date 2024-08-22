@@ -5,9 +5,6 @@ class ComputeCertificabilityJobRepository extends JobRepository {
   constructor() {
     super({
       name: ComputeCertificabilityJob.name,
-      retryLimit: 0,
-      retryDelay: 0,
-      retryBackoff: false,
     });
   }
 }

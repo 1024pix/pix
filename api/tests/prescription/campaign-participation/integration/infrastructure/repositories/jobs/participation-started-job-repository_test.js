@@ -2,7 +2,7 @@ import { ParticipationStartedJob } from '../../../../../../../src/prescription/c
 import { participationStartedJobRepository } from '../../../../../../../src/prescription/campaign-participation/infrastructure/repositories/jobs/participation-started-job-repository.js';
 import { expect } from '../../../../../../test-helper.js';
 
-describe('Integration | Prescription | Application | Jobs | certificationRescoringByScriptJobRepository', function () {
+describe('Integration | Prescription | Infrastructure | Repository | Jobs | participationStartedJobRepository', function () {
   describe('#performAsync', function () {
     it('publish a job', async function () {
       // when
@@ -14,9 +14,9 @@ describe('Integration | Prescription | Application | Jobs | certificationRescori
 
       // then
       await expect(ParticipationStartedJob.name).to.have.been.performed.withJob({
-        retrylimit: 0,
-        retrydelay: 0,
-        retrybackoff: false,
+        retrylimit: 10,
+        retrydelay: 30,
+        retrybackoff: true,
         data: {
           campaignParticipationId: 777,
         },

@@ -1,13 +1,11 @@
-import { JobRepository } from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
+import { JobRepository, JobRetry } from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
 import { ParticipationResultCalculationJob } from '../../../domain/models/ParticipationResultCalculationJob.js';
 
 class ParticipationResultCalculationJobRepository extends JobRepository {
   constructor() {
     super({
       name: ParticipationResultCalculationJob.name,
-      retryLimit: 10,
-      retryDelay: 30,
-      retryBackoff: true,
+      retry: JobRetry.STANDARD_RETRY,
     });
   }
 }

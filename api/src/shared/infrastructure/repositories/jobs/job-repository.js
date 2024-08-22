@@ -5,21 +5,38 @@ import { EntityValidationError } from '../../../domain/errors.js';
 
 export class JobRepository {
   #schema = Joi.object({
+    expireIn: Joi.string()
+      .required()
+      .valid(...Object.values(JobExpireIn))
+      .messages({
+        'any.only': `"expireIn" accept only JobExpireIn value such as ${Object.keys(JobExpireIn).join(', ')}`,
+      }),
     priority: Joi.string()
       .required()
-      .valid(...Object.values(JobPriority)),
+      .valid(...Object.values(JobPriority))
+      .messages({
+        'any.only': `"priority" accept only JobPriority value such as ${Object.keys(JobPriority).join(', ')}`,
+      }),
+    retry: Joi.object()
+      .required()
+      .valid(...Object.values(JobRetry))
+      .messages({
+        'any.only': `"retry" accept only JobRetry value such as ${Object.keys(JobRetry).join(', ')}`,
+      }),
   });
 
   /**
    * @param {Object} config
    * @param {valueOf<JobPriority>} config.priority
+   * @param {valueOf<JobRetry>} config.retry
+   * @param {valueOf<JobExpireIn>} config.expireIn
    */
   constructor(config) {
     this.name = config.name;
-    this.retryLimit = config.retryLimit ?? 0;
-    this.retryDelay = config.retryDelay ?? 30;
-    this.retryBackoff = config.retryBackoff || false;
-    this.expireIn = config.expireIn || '00:15:00';
+
+    this.retry = config.retry || JobRetry.NO_RETRY;
+
+    this.expireIn = config.expireIn || JobExpireIn.DEFAULT;
     this.priority = config.priority || JobPriority.DEFAULT;
 
     this.#validate();
@@ -28,9 +45,9 @@ export class JobRepository {
   #buildPayload(data) {
     return {
       name: this.name,
-      retrylimit: this.retryLimit,
-      retrydelay: this.retryDelay,
-      retrybackoff: this.retryBackoff,
+      retrylimit: this.retry.retryLimit,
+      retrydelay: this.retry.retryDelay,
+      retrybackoff: this.retry.retryBackoff,
       expirein: this.expireIn,
       data,
       on_complete: true,
@@ -62,11 +79,46 @@ export class JobRepository {
 
 /**
  * Job priority. Higher numbers have, um, higher priority
- * @see https://github.com/timgit/pg-boss/blob/master/docs/readme.md#insertjobs
+ * @see https://github.com/timgit/pg-boss/blob/9.0.3/docs/readme.md#insertjobs
  * @readonly
  * @enum {number}
  */
 export const JobPriority = Object.freeze({
   DEFAULT: 0,
   HIGH: 1,
+});
+
+/**
+ * Job retry. define few config to retry job when failed
+ * @see https://github.com/timgit/pg-boss/blob/9.0.3/docs/readme.md#insertjobs
+ * @readonly
+ * @enum {Object}
+ */
+export const JobRetry = Object.freeze({
+  NO_RETRY: {
+    retryLimit: 0,
+    retryDelay: 0,
+    retryBackoff: false,
+  },
+  STANDARD_RETRY: {
+    retryLimit: 10,
+    retryDelay: 30,
+    retryBackoff: true,
+  },
+  HIGH_RETRY: {
+    retryLimit: 10,
+    retryDelay: 30,
+    retryBackoff: false,
+  },
+});
+
+/**
+ * Job expireIn. define few config to set expireIn field
+ * @see https://github.com/timgit/pg-boss/blob/9.0.3/docs/readme.md#insertjobs
+ * @readonly
+ * @enum {string}
+ */
+export const JobExpireIn = Object.freeze({
+  DEFAULT: '00:15:00',
+  HIGH: '00:30:00',
 });

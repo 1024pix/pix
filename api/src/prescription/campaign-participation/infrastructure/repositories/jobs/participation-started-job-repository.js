@@ -1,18 +1,12 @@
-import { DomainTransaction } from '../../../../../shared/domain/DomainTransaction.js';
-import { JobRepository } from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
+import { JobRepository, JobRetry } from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
 import { ParticipationStartedJob } from '../../../domain/models/ParticipationStartedJob.js';
 
 class ParticipationStartedJobRepository extends JobRepository {
   constructor() {
-    super(
-      {
-        name: ParticipationStartedJob.name,
-        retryLimit: 0,
-        retryDelay: 0,
-        retryBackoff: false,
-      },
-      DomainTransaction.getConnection(),
-    );
+    super({
+      name: ParticipationStartedJob.name,
+      retry: JobRetry.STANDARD_RETRY,
+    });
   }
 }
 
