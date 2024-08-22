@@ -2,7 +2,7 @@ import { ParticipationSharedJob } from '../../../../../../../src/prescription/ca
 import { participationSharedJobRepository } from '../../../../../../../src/prescription/campaign-participation/infrastructure/repositories/jobs/participation-shared-job-repository.js';
 import { expect } from '../../../../../../test-helper.js';
 
-describe('Integration | Repository | Jobs| participationSharedJobRepository', function () {
+describe('Integration | Prescription | Infrastructure | Repository | participationSharedJobRepository', function () {
   describe('#performAsync', function () {
     it('publish a job', async function () {
       // when
@@ -12,9 +12,9 @@ describe('Integration | Repository | Jobs| participationSharedJobRepository', fu
 
       await expect(ParticipationSharedJob.name).to.have.been.performed.withJob({
         name: ParticipationSharedJob.name,
-        retrylimit: 0,
-        retrydelay: 0,
-        retrybackoff: false,
+        retrylimit: 10,
+        retrydelay: 30,
+        retrybackoff: true,
         data: { campaignParticipationId: 2 },
       });
     });

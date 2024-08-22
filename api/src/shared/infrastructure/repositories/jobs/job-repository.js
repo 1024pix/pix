@@ -8,17 +8,24 @@ export class JobRepository {
     priority: Joi.string()
       .required()
       .valid(...Object.values(JobPriority)),
+    retry: Joi.object()
+      .required()
+      .valid(...Object.values(JobRetry))
+      .messages({
+        'any.only': `retry accept only JobRetry value such as ${Object.keys(JobRetry).join(', ')}`,
+      }),
   });
 
   /**
    * @param {Object} config
    * @param {valueOf<JobPriority>} config.priority
+   * @param {valueOf<JobRetry>} config.retry
    */
   constructor(config) {
     this.name = config.name;
-    this.retryLimit = config.retryLimit ?? 0;
-    this.retryDelay = config.retryDelay ?? 30;
-    this.retryBackoff = config.retryBackoff || false;
+
+    this.retry = config.retry || JobRetry.NO_RETRY;
+
     this.expireIn = config.expireIn || '00:15:00';
     this.priority = config.priority || JobPriority.DEFAULT;
 
@@ -28,9 +35,9 @@ export class JobRepository {
   #buildPayload(data) {
     return {
       name: this.name,
-      retrylimit: this.retryLimit,
-      retrydelay: this.retryDelay,
-      retrybackoff: this.retryBackoff,
+      retrylimit: this.retry.retryLimit,
+      retrydelay: this.retry.retryDelay,
+      retrybackoff: this.retry.retryBackoff,
       expirein: this.expireIn,
       data,
       on_complete: true,
@@ -69,4 +76,28 @@ export class JobRepository {
 export const JobPriority = Object.freeze({
   DEFAULT: 0,
   HIGH: 1,
+});
+
+/**
+ * Job retry. define few config to retry job when failed
+ * @see https://github.com/timgit/pg-boss/blob/master/docs/readme.md#insertjobs
+ * @readonly
+ * @enum {Object}
+ */
+export const JobRetry = Object.freeze({
+  NO_RETRY: {
+    retryLimit: 0,
+    retryDelay: 0,
+    retryBackoff: false,
+  },
+  STANDARD_RETRY: {
+    retryLimit: 10,
+    retryDelay: 30,
+    retryBackoff: true,
+  },
+  HIGH_RETRY: {
+    retryLimit: 10,
+    retryDelay: 30,
+    retryBackoff: false,
+  },
 });
