@@ -309,6 +309,9 @@
           "label": "Accès"
         },
         "aria-label": "Navigation de la section administration",
+        "campaigns": {
+          "label": "Campagnes"
+        },
         "certification": {
           "label": "Certification"
         },
@@ -317,6 +320,9 @@
         },
         "deployment": {
           "label": "Déploiement"
+        },
+        "organizations": {
+          "label": "Organisations"
         }
       }
     },
