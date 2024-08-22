@@ -1,5 +1,6 @@
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import {
+  JobExpireIn,
   JobPriority,
   JobRepository,
   JobRetry,
@@ -49,19 +50,36 @@ describe('Integration | Infrastructure | Repositories | Jobs | job-repository', 
     // given
     const name = 'JobTest';
     const expectedParams = [{ jobParam: 1 }, { jobParam: 2 }];
-    const retryLimit = 2;
-    const retryDelay = 10;
-    const retryBackoff = true;
-    const expireIn = '00:00:30';
+    const retry = JobRetry.STANDARD_RETRY;
+    const expireIn = JobExpireIn.HIGH;
     const priority = JobPriority.HIGH;
 
-    const job = new JobRepository({ name, retryLimit, retryDelay, retryBackoff, expireIn, priority });
+    const job = new JobRepository({ name, retry, expireIn, priority });
 
     // when
     const jobsInserted = await job.performAsync(...expectedParams);
 
     // then
     expect(jobsInserted.rowCount).to.equal(2);
+  });
+
+  describe('JobExpireIn', function () {
+    it('reject unexpected expiredIn value', async function () {
+      // given
+      const expireIn = '00:00:00';
+
+      // when
+      const error = catchErrSync(({ expireIn }) => new JobRepository({ expireIn }))({ expireIn });
+
+      // then
+      expect(error).to.be.instanceOf(EntityValidationError);
+      expect(error.invalidAttributes).to.deep.equal([
+        {
+          attribute: 'expireIn',
+          message: `"expireIn" must be one of [${Object.values(JobExpireIn).join(', ')}]`,
+        },
+      ]);
+    });
   });
 
   describe('JobPriority', function () {
