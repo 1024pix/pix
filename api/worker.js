@@ -10,7 +10,6 @@ import PgBoss from 'pg-boss';
 import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './src/prescription/learner-management/domain/models/ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 import { JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { config } from './src/shared/config.js';
-import { scheduleCpfJobs } from './src/shared/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { JobQueue } from './src/shared/infrastructure/jobs/JobQueue.js';
 import { importNamedExportFromFile } from './src/shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
@@ -65,7 +64,7 @@ function checkJobGroup(jobGroup) {
   logger.info(`Job group "${jobGroup}"`);
 }
 
-export async function registerJobs({ jobGroup, dependencies = { startPgBoss, createJobQueues, scheduleCpfJobs } }) {
+export async function registerJobs({ jobGroup, dependencies = { startPgBoss, createJobQueues } }) {
   checkJobGroup(jobGroup);
 
   const pgBoss = await dependencies.startPgBoss();
@@ -107,17 +106,15 @@ export async function registerJobs({ jobGroup, dependencies = { startPgBoss, cre
 
   logger.info(`${jobRegisteredCount} jobs registered for group "${jobGroup}".`);
 
-  // TODO - use abstraction for CRON
-  // Scheduler
+  // Scheduler - TODO - use abstraction for CRON
   await pgBoss.schedule(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,
     config.features.scheduleComputeOrganizationLearnersCertificability.cron,
     null,
     { tz: 'Europe/Paris' },
   );
-
-  // Certification
-  await dependencies.scheduleCpfJobs(pgBoss);
+  await pgBoss.schedule('CpfExportPlannerJob', config.cpf.plannerJob.cron, null, { tz: 'Europe/Paris' });
+  await pgBoss.schedule('CpfExportSenderJob', config.cpf.sendEmailJob.cron, null, { tz: 'Europe/Paris' });
 }
 
 if (!isTestEnv) {
