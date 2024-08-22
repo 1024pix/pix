@@ -1,7 +1,14 @@
-import { CampaignParticipationResultsShared } from '../../../../../lib/domain/events/CampaignParticipationResultsShared.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
+import { ParticipationResultCalculationJob } from '../models/ParticipationResultCalculationJob.js';
+import { ParticipationSharedJob } from '../models/ParticipationSharedJob.js';
 
-const shareCampaignResult = async function ({ userId, campaignParticipationId, campaignParticipationRepository }) {
+const shareCampaignResult = async function ({
+  userId,
+  campaignParticipationId,
+  campaignParticipationRepository,
+  participationResultCalculationJobRepository,
+  participationSharedJobRepository,
+}) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
 
   _checkUserIsOwnerOfCampaignParticipation(campaignParticipation, userId);
@@ -9,9 +16,14 @@ const shareCampaignResult = async function ({ userId, campaignParticipationId, c
   campaignParticipation.share();
   await campaignParticipationRepository.updateWithSnapshot(campaignParticipation);
 
-  return new CampaignParticipationResultsShared({
-    campaignParticipationId: campaignParticipation.id,
-  });
+  await participationResultCalculationJobRepository.performAsync(
+    new ParticipationResultCalculationJob({ campaignParticipationId }),
+  );
+  await participationSharedJobRepository.performAsync(
+    new ParticipationSharedJob({
+      campaignParticipationId,
+    }),
+  );
 };
 
 export { shareCampaignResult };

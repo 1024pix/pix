@@ -1,5 +1,5 @@
 import { CampaignParticipant } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
-import { PoleEmploiParticipationStartedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/PoleEmploiParticipationStartedJob.js';
+import { ParticipationStartedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationStartedJob.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
@@ -9,14 +9,14 @@ describe('Unit | UseCase | start-campaign-participation', function () {
   let campaignRepository;
   let campaignParticipantRepository;
   let campaignParticipationRepository;
-  let poleEmploiParticipationStartedJobRepository;
+  let participationStartedJobRepository;
 
   beforeEach(function () {
     campaignRepository = {
       findAllSkills: sinon.stub(),
       areKnowledgeElementsResettable: sinon.stub(),
     };
-    poleEmploiParticipationStartedJobRepository = {
+    participationStartedJobRepository = {
       performAsync: sinon.stub(),
     };
     campaignParticipantRepository = {
@@ -41,7 +41,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       id: 12,
     });
 
-    const campaignParticipationStartedEvent = new PoleEmploiParticipationStartedJob({
+    const campaignParticipationStartedEvent = new ParticipationStartedJob({
       campaignParticipationId: expectedCampaignParticipation.id,
     });
 
@@ -57,7 +57,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
     // when
     const { campaignParticipation } = await usecases.startCampaignParticipation({
-      poleEmploiParticipationStartedJobRepository,
+      participationStartedJobRepository,
       campaignParticipation: campaignParticipationAttributes,
       userId,
       campaignRepository,
@@ -66,7 +66,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     });
 
     // then
-    expect(poleEmploiParticipationStartedJobRepository.performAsync).to.have.been.calledWithExactly(
+    expect(participationStartedJobRepository.performAsync).to.have.been.calledWithExactly(
       campaignParticipationStartedEvent,
     );
     expect(campaignParticipant.start).to.have.been.calledWithExactly({
@@ -147,7 +147,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       it('should retrieve skillIds to reset', async function () {
         // when
         await usecases.startCampaignParticipation({
-          poleEmploiParticipationStartedJobRepository,
+          participationStartedJobRepository,
           campaignParticipation: campaignParticipationAttributes,
           userId,
           campaignRepository,
@@ -170,7 +170,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
         // when
         await usecases.startCampaignParticipation({
-          poleEmploiParticipationStartedJobRepository,
+          participationStartedJobRepository,
           campaignParticipation: campaignParticipationAttributes,
           userId,
           campaignRepository,
@@ -200,7 +200,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
         // when
         await usecases.startCampaignParticipation({
-          poleEmploiParticipationStartedJobRepository,
+          participationStartedJobRepository,
           campaignParticipation: campaignParticipationAttributes,
           userId,
           campaignRepository,
@@ -228,7 +228,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
         // when
         await usecases.startCampaignParticipation({
-          poleEmploiParticipationStartedJobRepository,
+          participationStartedJobRepository,
           campaignParticipation: campaignParticipationAttributes,
           userId,
           assessmentRepository,

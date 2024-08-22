@@ -18,7 +18,9 @@ import * as campaignAssessmentParticipationResultRepository from '../../infrastr
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignProfileRepository from '../../infrastructure/repositories/campaign-profile-repository.js';
 import { repositories as campaignRepositories } from '../../infrastructure/repositories/index.js';
-import { poleEmploiParticipationStartedJobRepository } from '../../infrastructure/repositories/jobs/pole-emploi-participation-started-job-repository.js';
+import { participationResultCalculationJobRepository } from '../../infrastructure/repositories/jobs/participation-result-calculation-job-repository.js';
+import { participationSharedJobRepository } from '../../infrastructure/repositories/jobs/participation-shared-job-repository.js';
+import { participationStartedJobRepository } from '../../infrastructure/repositories/jobs/participation-started-job-repository.js';
 import * as participationsForCampaignManagementRepository from '../../infrastructure/repositories/participations-for-campaign-management-repository.js';
 import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
 
@@ -26,6 +28,7 @@ const dependencies = {
   campaignParticipationRepository,
   assessmentRepository,
   badgeAcquisitionRepository,
+  participationResultCalculationJobRepository,
   campaignAnalysisRepository,
   campaignAssessmentParticipationRepository,
   campaignAssessmentParticipationResultRepository,
@@ -39,7 +42,8 @@ const dependencies = {
   participationsForUserManagementRepository,
   stageCollectionRepository,
   tutorialRepository,
-  poleEmploiParticipationStartedJobRepository,
+  participationStartedJobRepository,
+  participationSharedJobRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

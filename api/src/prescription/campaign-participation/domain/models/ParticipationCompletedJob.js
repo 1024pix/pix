@@ -1,4 +1,4 @@
-export class PoleEmploiParticipationCompletedJob {
+export class ParticipationCompletedJob {
   constructor({ campaignParticipationId } = {}) {
     this.campaignParticipationId = campaignParticipationId;
   }
