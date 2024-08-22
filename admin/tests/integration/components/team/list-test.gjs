@@ -1,7 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import List from 'pix-admin/components/team/list';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -11,7 +11,7 @@ module('Integration | Component | team | list', function (hooks) {
   module('with members', function () {
     test('should display the list of members', async function (assert) {
       // given
-      this.set('members', [
+      const members = [
         {
           firstName: 'Marie',
           lastName: 'Tim',
@@ -19,10 +19,10 @@ module('Integration | Component | team | list', function (hooks) {
           role: 'SUPER_ADMIN',
           isSuperAdmin: true,
         },
-      ]);
+      ];
 
       // when
-      const screen = await render(hbs`<Team::List @members={{this.members}} />`);
+      const screen = await render(<template><List @members={{members}} /></template>);
 
       // then
       assert.dom(screen.getByRole('row', { name: 'Marie Tim' })).includesText('marie.tim@example.net');
@@ -31,7 +31,7 @@ module('Integration | Component | team | list', function (hooks) {
 
     test('should display action buttons for a member', async function (assert) {
       // given
-      this.set('members', [
+      const members = [
         {
           firstName: 'Marie',
           lastName: 'Tim',
@@ -39,10 +39,10 @@ module('Integration | Component | team | list', function (hooks) {
           role: 'SUPER_ADMIN',
           isSuperAdmin: true,
         },
-      ]);
+      ];
 
       // when
-      const screen = await render(hbs`<Team::List @members={{this.members}} />`);
+      const screen = await render(<template><List @members={{members}} /></template>);
 
       // then
       assert.dom(screen.getByRole('button', { name: "Modifier le rôle de l'agent Marie Tim" })).exists();
@@ -52,7 +52,7 @@ module('Integration | Component | team | list', function (hooks) {
     module('when deactivating admin member', function () {
       test('should display confirm disable membership modal', async function (assert) {
         // given
-        this.set('members', [
+        const members = [
           {
             firstName: 'Marie',
             lastName: 'Tim',
@@ -60,8 +60,8 @@ module('Integration | Component | team | list', function (hooks) {
             role: 'SUPER_ADMIN',
             isSuperAdmin: true,
           },
-        ]);
-        const screen = await render(hbs`<Team::List @members={{this.members}} />`);
+        ];
+        const screen = await render(<template><List @members={{members}} /></template>);
 
         // when
         await clickByName("Désactiver l'agent Marie Tim");
@@ -79,7 +79,7 @@ module('Integration | Component | team | list', function (hooks) {
           // given
           const deactivateAdminMemberModelStub = sinon.stub();
 
-          this.set('members', [
+          const members = [
             {
               firstName: 'Marie',
               lastName: 'Tim',
@@ -88,9 +88,9 @@ module('Integration | Component | team | list', function (hooks) {
               isSuperAdmin: true,
               deactivate: deactivateAdminMemberModelStub,
             },
-          ]);
+          ];
 
-          const screen = await render(hbs`<Team::List @members={{this.members}} />`);
+          const screen = await render(<template><List @members={{members}} /></template>);
           await clickByName("Désactiver l'agent Marie Tim");
 
           await screen.findByRole('dialog');
@@ -112,7 +112,7 @@ module('Integration | Component | team | list', function (hooks) {
           }
           this.owner.register('service:notifications', NotificationsStub);
 
-          this.set('members', [
+          const members = [
             {
               firstName: 'Marie',
               lastName: 'Tim',
@@ -121,9 +121,9 @@ module('Integration | Component | team | list', function (hooks) {
               isSuperAdmin: true,
               deactivate: deactivateAdminMemberModelStub,
             },
-          ]);
+          ];
 
-          const screen = await render(hbs`<Team::List @members={{this.members}} />`);
+          const screen = await render(<template><List @members={{members}} /></template>);
           await clickByName("Désactiver l'agent Marie Tim");
 
           await screen.findByRole('dialog');
@@ -149,7 +149,7 @@ module('Integration | Component | team | list', function (hooks) {
           }
           this.owner.register('service:notifications', NotificationsStub);
 
-          this.set('members', [
+          const members = [
             {
               firstName: 'Marie',
               lastName: 'Tim',
@@ -158,9 +158,9 @@ module('Integration | Component | team | list', function (hooks) {
               isSuperAdmin: true,
               deactivate: deactivateAdminMemberModelStub,
             },
-          ]);
+          ];
 
-          const screen = await render(hbs`<Team::List @members={{this.members}} />`);
+          const screen = await render(<template><List @members={{members}} /></template>);
           await clickByName("Désactiver l'agent Marie Tim");
 
           await screen.findByRole('dialog');
@@ -179,10 +179,10 @@ module('Integration | Component | team | list', function (hooks) {
 
   test('should display no results in table when there is no members', async function (assert) {
     // given
-    this.set('members', []);
+    const members = [];
 
     // when
-    const screen = await render(hbs`<Team::List @members={{this.members}} />`);
+    const screen = await render(<template><List @members={{members}} /></template>);
 
     // then
     assert.dom(screen.getByText('Aucun résultat')).exists();
