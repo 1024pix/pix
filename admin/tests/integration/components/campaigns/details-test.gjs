@@ -1,16 +1,16 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import Details from 'pix-admin/components/campaigns/details';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Integration | Component | Campaigns | details', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
-    this.toggleEditMode = sinon.stub();
+  const toggleEditMode = sinon.stub();
 
+  hooks.beforeEach(function () {
     class AccessControlStub extends Service {
       hasAccessToOrganizationActionsScope = true;
     }
@@ -20,7 +20,7 @@ module('Integration | Component | Campaigns | details', function (hooks) {
   module('when campaign type is ASSESSMENT', function () {
     test('should display campaign attributes', async function (assert) {
       // given
-      this.campaign = {
+      const campaign = {
         type: 'ASSESSMENT',
         code: 'MYCODE',
         creatorFirstName: 'Jon',
@@ -39,7 +39,7 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`,
+        <template><Details @campaign={{campaign}} @toggleEditMode={{toggleEditMode}} /></template>,
       );
 
       // expect
@@ -57,14 +57,14 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
     test('should display the number of shared results', async function (assert) {
       // given
-      this.campaign = {
+      const campaign = {
         sharedParticipationsCount: 5,
         isTypeAssessment: true,
       };
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`,
+        <template><Details @campaign={{campaign}} @toggleEditMode={{toggleEditMode}} /></template>,
       );
 
       // then
@@ -75,12 +75,12 @@ module('Integration | Component | Campaigns | details', function (hooks) {
   module('when campaign type is COLLECTION_PROFILE ', function () {
     test('should display profile collection tag', async function (assert) {
       // given
-      this.campaign = {
+      const campaign = {
         type: 'COLLECTION_PROFILE',
       };
       // when
       const screen = await render(
-        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`,
+        <template><Details @campaign={{campaign}} @toggleEditMode={{toggleEditMode}} /></template>,
       );
 
       // then
@@ -89,14 +89,14 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
     test('should display the number of shared profiles', async function (assert) {
       // given
-      this.campaign = {
+      const campaign = {
         sharedParticipationsCount: 5,
         isTypeAssessment: false,
       };
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`,
+        <template><Details @campaign={{campaign}} @toggleEditMode={{toggleEditMode}} /></template>,
       );
 
       // then
@@ -105,26 +105,26 @@ module('Integration | Component | Campaigns | details', function (hooks) {
   });
 
   test('should call toggleEditMode function when the edit button is clicked', async function (assert) {
-    this.campaign = {};
+    const campaign = {};
 
     //when
-    await render(hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`);
+    await render(<template><Details @campaign={{campaign}} @toggleEditMode={{toggleEditMode}} /></template>);
     await clickByName('Modifier');
 
     //then
-    assert.ok(this.toggleEditMode.called);
+    assert.ok(toggleEditMode.called);
   });
 
   test('should display total participants', async function (assert) {
     // given
-    this.campaign = {
+    const campaign = {
       totalParticipationsCount: 10,
       isTypeAssessment: false,
     };
 
     // when
     const screen = await render(
-      hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`,
+      <template><Details @campaign={{campaign}} @toggleEditMode={{toggleEditMode}} /></template>,
     );
 
     // then
@@ -134,13 +134,13 @@ module('Integration | Component | Campaigns | details', function (hooks) {
   module('when campaign is multiple sendings', function () {
     test("should display 'Oui' when 'multipleSendings' is true", async function (assert) {
       // given
-      this.campaign = {
+      const campaign = {
         multipleSendings: true,
       };
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`,
+        <template><Details @campaign={{campaign}} @toggleEditMode={{toggleEditMode}} /></template>,
       );
 
       // then
@@ -149,13 +149,13 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
     test("should display 'Non' when 'multipleSendings' is false", async function (assert) {
       // given
-      this.campaign = {
+      const campaign = {
         multipleSendings: false,
       };
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`,
+        <template><Details @campaign={{campaign}} @toggleEditMode={{toggleEditMode}} /></template>,
       );
 
       // then
@@ -170,10 +170,10 @@ module('Integration | Component | Campaigns | details', function (hooks) {
         hasAccessToOrganizationActionsScope = false;
       }
       this.owner.register('service:access-control', AccessControlStub);
-      this.campaign = {};
+      const campaign = {};
 
       //when
-      const screen = await render(hbs`<Campaigns::Details @campaign={{this.campaign}} />`);
+      const screen = await render(<template><Details @campaign={{campaign}} /></template>);
 
       // expect
       assert.dom(screen.queryByRole('button', { name: 'Modifier' })).doesNotExist();
