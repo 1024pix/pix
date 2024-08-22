@@ -1,5 +1,6 @@
 import { CertificationCandidateForbiddenDeletionError } from '../../../../../../src/certification/enrolment/domain/errors.js';
 import { deleteUnlinkedCertificationCandidate } from '../../../../../../src/certification/enrolment/domain/usecases/delete-unlinked-certification-candidate.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | delete-unlinked-certification-candidate', function () {
@@ -31,6 +32,22 @@ describe('Unit | UseCase | delete-unlinked-certification-candidate', function ()
 
       // then
       expect(res).to.deep.equal(true);
+    });
+  });
+
+  context('When the certification candidate does not exist', function () {
+    it('should throw an error', async function () {
+      // given
+      candidateRepository.get.withArgs({ certificationCandidateId: candidateId }).resolves(null);
+
+      // when
+      const error = await catchErr(deleteUnlinkedCertificationCandidate)({
+        candidateId,
+        candidateRepository,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
     });
   });
 
