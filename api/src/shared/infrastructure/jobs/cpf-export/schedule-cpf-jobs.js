@@ -3,7 +3,7 @@ import { logger } from '../../utils/logger.js';
 import { cpfExport } from './index.js';
 const { plannerJob, sendEmailJob } = config.cpf;
 
-const { planner, createAndUpload, sendEmail } = cpfExport;
+const { planner, createAndUpload } = cpfExport;
 
 const scheduleCpfJobs = async function (pgBoss) {
   await pgBoss.schedule('CpfExportPlannerJob', plannerJob.cron, null, { tz: 'Europe/Paris' });
@@ -17,9 +17,6 @@ const scheduleCpfJobs = async function (pgBoss) {
   });
 
   await pgBoss.schedule('CpfExportSenderJob', sendEmailJob.cron, null, { tz: 'Europe/Paris' });
-  await pgBoss.work('CpfExportSenderJob', async (job) => {
-    await _processJob(job, sendEmail, {});
-  });
 };
 
 export { scheduleCpfJobs };
