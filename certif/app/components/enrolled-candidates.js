@@ -158,7 +158,10 @@ export default class EnrolledCandidates extends Component {
   _createCertificationCandidateRecord(certificationCandidateData) {
     const subscriptions = certificationCandidateData.subscriptions;
     delete certificationCandidateData.subscriptions;
-    if (!this.currentUser.currentAllowedCertificationCenterAccess.isCoreComplementaryCompatibilityEnabled) {
+    if (
+      !this.currentUser.currentAllowedCertificationCenterAccess.isCoreComplementaryCompatibilityEnabled ||
+      subscriptions.length === 0
+    ) {
       subscriptions.push({
         type: SUBSCRIPTION_TYPES.CORE,
         complementaryCertificationId: null,
