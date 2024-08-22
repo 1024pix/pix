@@ -320,9 +320,6 @@
         },
         "deployment": {
           "label": "Déploiement"
-        },
-        "organizations": {
-          "label": "Organisations"
         }
       }
     },

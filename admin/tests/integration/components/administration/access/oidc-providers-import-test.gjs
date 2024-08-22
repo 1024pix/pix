@@ -2,7 +2,7 @@ import NotificationContainer from '@1024pix/ember-cli-notifications/components/n
 import { render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import OidcProvidersImport from 'pix-admin/components/administration/common/oidc-providers-import';
+import OidcProvidersImport from 'pix-admin/components/administration/access/oidc-providers-import';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';

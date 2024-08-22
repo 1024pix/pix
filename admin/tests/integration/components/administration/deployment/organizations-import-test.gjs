@@ -2,7 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import OrganizationsImport from 'pix-admin/components/administration/organizations/organizations-import';
+import OrganizationsImport from 'pix-admin/components/administration/deployment/organizations-import';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
