@@ -53,6 +53,7 @@ module('Acceptance | Module | Routes | retakeCompletedModule', function (hooks) 
     server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
       title: 'Bien écrire son adresse mail',
+      details: { tabletSupport: 'comfortable' },
       grains: [grain1, grain2],
     });
 
@@ -81,7 +82,7 @@ module('Acceptance | Module | Routes | retakeCompletedModule', function (hooks) 
     const backToDetailsButton = screen.getByRole('link', { name: 'Revenir aux détails du module' });
     await click(backToDetailsButton);
 
-    const startModuleButton = screen.getByRole('link', { name: 'Commencer le module' });
+    const startModuleButton = screen.getByRole('button', { name: 'Commencer le module' });
     await click(startModuleButton);
 
     // then

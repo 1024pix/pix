@@ -15,6 +15,7 @@ module('Acceptance | Module | Routes | recap', function (hooks) {
     // given
     server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
+      details: { tabletSupport: 'comfortable' },
     });
 
     // when

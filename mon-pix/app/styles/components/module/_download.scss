@@ -11,9 +11,6 @@
   }
 
   &__links-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: var(--pix-spacing-2x);
     margin: var(--pix-spacing-3x) 0;
   }
 
@@ -28,6 +25,7 @@
   &__documentation-link {
     @extend %pix-body-m;
 
+    display: block;
     color: var(--pix-info-700);
   }
 }

@@ -1,5 +1,6 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import { click, findAll } from '@ember/test-helpers';
+import { setBreakpoint } from 'ember-responsive/test-support';
 import ModulixDetails from 'mon-pix/components/module/details';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -35,36 +36,235 @@ module('Integration | Component | Module | Details', function (hooks) {
     assert.ok(findAll('.module-details-infos-explanation__title').length > 0);
   });
 
-  module('When start module is clicked', function () {
-    test('should push an event', async function (assert) {
-      // given
-      const router = this.owner.lookup('service:router');
-      router.transitionTo = sinon.stub();
-      const metrics = this.owner.lookup('service:metrics');
-      metrics.add = sinon.stub();
-      const store = this.owner.lookup('service:store');
+  module('When on desktop', function () {
+    module('When start module is clicked', function () {
+      test('should push a passage beginning event', async function (assert) {
+        // given
+        const { module, metrics } = prepareDetailsComponentContext.call(this, 'inconvenient');
+        const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
 
-      const details = {
-        image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
-        description: 'description',
-        duration: 12,
-        level: 'Débutant',
-        objectives: ['Objectif 1'],
-      };
-      const module = store.createRecord('module', { id: 'module-title', title: 'Module title', details });
-      const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
+        // when
+        await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
 
-      // when
-      await click(screen.getByRole('link', { name: this.intl.t('pages.modulix.details.startModule') }));
-
-      // then
-      sinon.assert.calledWithExactly(metrics.add, {
-        event: 'custom-event',
-        'pix-event-category': 'Modulix',
-        'pix-event-action': `Détails du module : ${module.id}`,
-        'pix-event-name': `Click sur le bouton Commencer`,
+        // then
+        sinon.assert.calledWithExactly(metrics.add, {
+          event: 'custom-event',
+          'pix-event-category': 'Modulix',
+          'pix-event-action': `Détails du module : ${module.id}`,
+          'pix-event-name': `Click sur le bouton Commencer un passage`,
+        });
+        assert.ok(true);
       });
-      assert.ok(true);
+
+      test('should route to module passage', async function (assert) {
+        // given
+        const { module, router } = prepareDetailsComponentContext.call(this, 'inconvenient');
+        const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
+
+        // when
+        await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+
+        // then
+        sinon.assert.calledWithExactly(router.transitionTo, 'module.passage', module.id);
+        assert.ok(true);
+      });
+    });
+  });
+
+  module('When on tablet', function () {
+    module('When module.tabletSupport is comfortable', function () {
+      module('When start module is clicked', function () {
+        test('should push a passage beginning event', async function (assert) {
+          // given
+          const { module, metrics } = prepareDetailsComponentContext.call(this, 'comfortable', 'tablet');
+          const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
+
+          // when
+          await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+
+          // then
+          sinon.assert.calledWithExactly(metrics.add, {
+            event: 'custom-event',
+            'pix-event-category': 'Modulix',
+            'pix-event-action': `Détails du module : ${module.id}`,
+            'pix-event-name': `Click sur le bouton Commencer un passage`,
+          });
+          assert.ok(true);
+        });
+
+        test('should route to module passage', async function (assert) {
+          // given
+          const { module, router } = prepareDetailsComponentContext.call(this, 'comfortable', 'tablet');
+          const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
+
+          // when
+          await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+
+          // then
+          sinon.assert.calledWithExactly(router.transitionTo, 'module.passage', module.id);
+          assert.ok(true);
+        });
+      });
+    });
+
+    module('When module.tabletSupport is not comfortable', function () {
+      module('When start module is clicked', function () {
+        test('should push a small screen modal opened event', async function (assert) {
+          // given
+          const { module, metrics } = prepareDetailsComponentContext.call(this, 'inconvenient', 'tablet');
+          const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
+
+          // when
+          await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+
+          // then
+          sinon.assert.calledWithExactly(metrics.add, {
+            event: 'custom-event',
+            'pix-event-category': 'Modulix',
+            'pix-event-action': `Détails du module : ${module.id}`,
+            'pix-event-name': `Ouvre la modale d'alerte de largeur d'écran`,
+          });
+          assert.ok(true);
+        });
+
+        test('should open a modal', async function (assert) {
+          // given
+          const { module } = prepareDetailsComponentContext.call(this, 'unusable', 'tablet');
+          const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
+
+          // when
+          await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+
+          // then
+          const dialog = await screen.findByRole('dialog');
+          assert.dom(dialog).exists();
+          assert
+            .dom(
+              await within(dialog).findByRole('heading', {
+                name: this.intl.t('pages.modulix.details.smallScreenModal.title'),
+              }),
+            )
+            .exists();
+          assert
+            .dom(await within(dialog).findByText(this.intl.t('pages.modulix.details.smallScreenModal.description')))
+            .exists();
+        });
+
+        module('When modal start module is clicked', function () {
+          test('should push a passage beginning in small screen event if proceeding', async function (assert) {
+            // given
+            const { module, metrics } = prepareDetailsComponentContext.call(this, 'inconvenient', 'mobile');
+            const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
+
+            // when
+            await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+            const dialog = await screen.findByRole('dialog');
+
+            await click(
+              within(dialog).getByRole('button', {
+                name: this.intl.t('pages.modulix.details.smallScreenModal.startModule'),
+              }),
+            );
+
+            // then
+            sinon.assert.calledWithExactly(metrics.add, {
+              event: 'custom-event',
+              'pix-event-category': 'Modulix',
+              'pix-event-action': `Détails du module : ${module.id}`,
+              'pix-event-name': `Click sur le bouton Commencer un passage en petit écran`,
+            });
+            assert.ok(true);
+          });
+
+          test('should route to module passage', async function (assert) {
+            // given
+            const { module, router } = prepareDetailsComponentContext.call(this, 'inconvenient', 'tablet');
+            const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
+
+            // when
+            await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+            const dialog = await screen.findByRole('dialog');
+
+            await click(
+              within(dialog).getByRole('button', {
+                name: this.intl.t('pages.modulix.details.smallScreenModal.startModule'),
+              }),
+            );
+
+            // then
+            sinon.assert.calledWithExactly(router.transitionTo, 'module.passage', module.id);
+            assert.ok(true);
+          });
+        });
+
+        module('When modal cancel is clicked', function () {
+          test('should push an event if cancelling', async function (assert) {
+            // given
+            const { module, metrics } = prepareDetailsComponentContext.call(this, 'inconvenient', 'tablet');
+            const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
+
+            // when
+            await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+            const dialog = await screen.findByRole('dialog');
+
+            await click(
+              within(dialog).getByRole('button', {
+                name: this.intl.t('pages.modulix.details.smallScreenModal.cancel'),
+              }),
+            );
+
+            // then
+            sinon.assert.calledWithExactly(metrics.add, {
+              event: 'custom-event',
+              'pix-event-category': 'Modulix',
+              'pix-event-action': `Détails du module : ${module.id}`,
+              'pix-event-name': `Ferme la modale d'alerte de largeur d'écran`,
+            });
+            assert.ok(true);
+          });
+
+          test('should not route to module passage', async function (assert) {
+            // given
+            const { module, router } = prepareDetailsComponentContext.call(this, 'inconvenient', 'tablet');
+            const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
+
+            // when
+            await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+            const dialog = await screen.findByRole('dialog');
+
+            await click(
+              within(dialog).getByRole('button', {
+                name: this.intl.t('pages.modulix.details.smallScreenModal.cancel'),
+              }),
+            );
+
+            // then
+            sinon.assert.notCalled(router.transitionTo);
+            assert.ok(true);
+          });
+        });
+      });
     });
   });
 });
+
+function prepareDetailsComponentContext(tabletSupport, breakpoint = 'desktop') {
+  const router = this.owner.lookup('service:router');
+  router.transitionTo = sinon.stub();
+  const metrics = this.owner.lookup('service:metrics');
+  metrics.add = sinon.stub();
+  const store = this.owner.lookup('service:store');
+
+  const details = {
+    image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+    description: 'description',
+    duration: 12,
+    level: 'Débutant',
+    objectives: ['Objectif 1'],
+    tabletSupport,
+  };
+  const module = store.createRecord('module', { id: 'module-title', title: 'Module title', details });
+  setBreakpoint(breakpoint);
+
+  return { router, metrics, store, details, module };
+}

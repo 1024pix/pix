@@ -1353,6 +1353,12 @@
         "explanationTitle": "Wat is een module?",
         "level": "Niveau",
         "objectives": "Doelstellingen",
+        "smallScreenModal": {
+          "title": "Je lijkt een klein scherm te gebruiken",
+          "description": "Sommige activiteiten in deze module zijn mogelijk moeilijk uit te voeren op een klein scherm. Voor de beste ervaring raden we je aan een computer te gebruiken.",
+          "startModule": "Start",
+          "cancel": "Terug naar details"
+        },
         "startModule": "De module starten"
       },
       "download": {

@@ -1,0 +1,10 @@
+.responsive-list-wide-wrap {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--pix-spacing-2x);
+
+  > * {
+    flex: 1;
+    min-width: fit-content;
+  }
+}

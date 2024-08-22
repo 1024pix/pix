@@ -113,3 +113,16 @@
     }
   }
 }
+
+.module-details-content-layout-small-screen-modal {
+  &__footer {
+    margin-bottom: var(--pix-spacing-4x);
+    text-align: right;
+  }
+}
+
+.module-details-content-layout-small-screen-modal-footer-actions-item {
+  &__button {
+    width: 100%;
+  }
+}

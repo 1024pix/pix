@@ -1353,6 +1353,12 @@
         "explanationTitle": "What is a module?",
         "level": "Level",
         "objectives": "Objectives",
+        "smallScreenModal": {
+          "title": "You seem to be using a small screen",
+          "cancel": "Return to details",
+          "description": "Some of the activities in this module may be difficult to perform on a small screen. For the best experience, we recommend that you use a computer.",
+          "startModule": "Start"
+        },
         "startModule": "Start module"
       },
       "download": {

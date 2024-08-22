@@ -15,6 +15,7 @@ export default class ModulePreviewController extends Controller {
     "description": "Découvrez la page de prévisualisation pour contribuer à Modulix !",
     "duration": 5,
     "level": "Débutant",
+    "tabletSupport": "comfortable",
     "objectives": [
       "Prévisualiser un Module",
       "Contribuer au contenu d'un Module"
