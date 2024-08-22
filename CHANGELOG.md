@@ -1,5 +1,53 @@
 # Pix Changelog
 
+## v4.201.0 (22/08/2024)
+
+
+### :rocket: Amélioration
+- [#9893](https://github.com/1024pix/pix/pull/9893) [FEATURE] Accompagner l'utilisateur mobile si son expérience risque d'être dégradée (PIX-13746).
+- [#9902](https://github.com/1024pix/pix/pull/9902) [FEATURE] Rendre la création de sessions en masse fonctionnel avec la compatibilité coeur/complémentaire (PIX-13654).
+- [#9882](https://github.com/1024pix/pix/pull/9882) [FEATURE] Réorganiser la page Administration en créant 2 nouveaux onglets et déplacer les fonctionnalités.
+- [#9876](https://github.com/1024pix/pix/pull/9876) [FEATURE] Le script d'anonymisation ne necessite pas d'admin pour anonymiser (PIX-13798).
+- [#9897](https://github.com/1024pix/pix/pull/9897) [FEATURE] Update clés de trad pour réconciliation SCO FWB (PIX-13943).
+- [#9892](https://github.com/1024pix/pix/pull/9892) [FEATURE] Afficher une image ou vidéo d'introduction (Pix-13631).
+- [#9866](https://github.com/1024pix/pix/pull/9866) [FEATURE] Ajouter un avertissement dans la page d'invitation des membres (PIX-12917).
+- [#9822](https://github.com/1024pix/pix/pull/9822) [FEATURE] Afficher le besoin d'une certification aménagée dans les détails des candidats (PIX-13294).
+- [#9841](https://github.com/1024pix/pix/pull/9841) [FEATURE] Ajout d'une API interne pour récupérer les prescrits et leurs participations (PIX-13815).
+
+### :building_construction: Tech
+- [#9913](https://github.com/1024pix/pix/pull/9913) [TECH] Ajouter une liste de configuration définit pour les retry et expireIn (PIX-13965).
+- [#9909](https://github.com/1024pix/pix/pull/9909) [TECH] Surcharger les propriétés teamConcurrency et teamSize (PIX-13964).
+- [#9879](https://github.com/1024pix/pix/pull/9879) [TECH] Revue de la gestion de l'evenement SessionFinalized (PIX-13922).
+- [#9847](https://github.com/1024pix/pix/pull/9847) [TECH] Utiliser le nouveau format de config ESLint sur mon-pix.
+- [#9820](https://github.com/1024pix/pix/pull/9820) [TECH] Suppression de polyfills Intl (PIX-13595).
+- [#9887](https://github.com/1024pix/pix/pull/9887) [TECH] Renommer le job de l'état shared d'une participation à Pole Emploi pour être ISO par rapport aux autres job (PIX-13938).
+- [#9904](https://github.com/1024pix/pix/pull/9904) [TECH] Ajout d'un mécanisme de regroupement des jobs (PIX-13954).
+- [#9899](https://github.com/1024pix/pix/pull/9899) [TECH] Enregistrement automatique des Jobs dans le worker.js (PIX-13944).
+- [#9860](https://github.com/1024pix/pix/pull/9860) [TECH] Migration du usecase permettant d'associer un utilisateur à un candidat inscrit en certification (PIX-13808).
+- [#9885](https://github.com/1024pix/pix/pull/9885) [TECH] Migrer les fichiers de test des components "target profiles" en GJS.
+- [#9901](https://github.com/1024pix/pix/pull/9901) [TECH] Migrer les fichiers de test des components "users" en GJS.
+- [#9889](https://github.com/1024pix/pix/pull/9889) [TECH] Migrer le composant list-items en gjs (PIX-13902).
+- [#9872](https://github.com/1024pix/pix/pull/9872) [TECH] PixAdmin - Composants Certifications sous gjs (PIX-13892).
+- [#9878](https://github.com/1024pix/pix/pull/9878) [TECH] PixAdmin - Composant complementary-certifications sous gjs (PIX-13893).
+- [#9898](https://github.com/1024pix/pix/pull/9898) [TECH] Retirer le tag deprecated de la route d'inscription de candidat.
+- [#9880](https://github.com/1024pix/pix/pull/9880) [TECH] Migrer le dossier admin/team en gjs (PIX-13919).
+- [#9884](https://github.com/1024pix/pix/pull/9884) [TECH] Migrer les composants du dossier sessions en gjs (PIX-13895).
+- [#9886](https://github.com/1024pix/pix/pull/9886) [TECH] PixAdmin - Composants Stages sous gjs (PIX-13892).
+- [#9888](https://github.com/1024pix/pix/pull/9888) [TECH] PixAdmin - Composants tools sous gjs (PIX-13903).
+- [#9883](https://github.com/1024pix/pix/pull/9883) [TECH] Migration du dossier certification-centers en gjs (PIX-13890).
+- [#9852](https://github.com/1024pix/pix/pull/9852) [TECH] Remove Bookshelf from membership repository.
+- [#9881](https://github.com/1024pix/pix/pull/9881) [TECH] Migrate admin organizations components to gjs.
+
+### :bug: Correction
+- [#9914](https://github.com/1024pix/pix/pull/9914) [BUGFIX] Empêche les jobs de validation d'échouer pour des erreurs métiers (PIX-13956).
+- [#9908](https://github.com/1024pix/pix/pull/9908) [BUGFIX] Jeter une erreur si le candidat n'existe pas lors de la suppression de ce dernier sur Pix Certif (PIX-13961).
+- [#9903](https://github.com/1024pix/pix/pull/9903) [BUGFIX] Un candidat inscrit en certification dans une session, dont le centre est isV3Pilot et complementaryAlone mais sans habilitations, est en échec (PIX-13950).
+
+### :arrow_up: Montée de version
+- [#9894](https://github.com/1024pix/pix/pull/9894) [BUMP] Update adobe/s3mock Docker tag to v3.10.0 (.circleci).
+- [#9896](https://github.com/1024pix/pix/pull/9896) [BUMP] Update adobe/s3mock Docker tag to v3.10.0 (dossier racine).
+- [#9895](https://github.com/1024pix/pix/pull/9895) [BUMP] Update adobe/s3mock Docker tag to v3.10.0 (docker).
+
 ## v4.200.0 (20/08/2024)
 
 
