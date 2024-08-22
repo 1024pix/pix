@@ -3,6 +3,7 @@ import lodash from 'lodash';
 import * as sessionsImportValidationService from '../../../../../../src/certification/enrolment/domain/services/sessions-import-validation-service.js';
 import { SUBSCRIPTION_TYPES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../../src/certification/shared/domain/constants/certification-candidates-errors.js';
+import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { CpfBirthInformationValidation } from '../../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -455,151 +456,351 @@ describe('Unit | Service | sessions import validation Service', function () {
   });
 
   describe('#getValidatedSubscriptionsForMassImport', function () {
-    context('when there are no subscriptions at all', function () {
-      it('should return an error accordingly and no subscriptions models', async function () {
-        // given
-        const subscriptionLabels = [];
-        const line = 12;
-
-        // when
-        const { certificationCandidateComplementaryErrors, subscriptions } =
-          await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
-            subscriptionLabels,
-            line,
-            complementaryCertificationRepository: {},
-          });
-
-        // then
-        expect(certificationCandidateComplementaryErrors).to.deep.equal([
-          {
-            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_NO_SUBSCRIPTION.code,
-            line,
-            isBlocking: true,
-          },
-        ]);
-        expect(subscriptions).to.be.empty;
+    let isCoreComplementaryCompatibilityEnabled;
+    context('isCoreComplementaryCompatibilityEnabled false', function () {
+      beforeEach(function () {
+        isCoreComplementaryCompatibilityEnabled = false;
       });
-    });
-    context('when there is a complementary subscription without core', function () {
-      it('should return an error accordingly and no subscriptions models', async function () {
-        // given
-        const subscriptionLabels = ['MaComplémentaire'];
-        const line = 12;
-        const complementaryCertificationRepository = {
-          getByLabel: sinon
-            .stub()
+      context('when there are no subscriptions at all', function () {
+        it('should return an error accordingly and no subscriptions models', async function () {
+          // given
+          const subscriptionLabels = [];
+          const line = 12;
+
+          // when
+          const { certificationCandidateComplementaryErrors, subscriptions } =
+            await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+              subscriptionLabels,
+              line,
+              complementaryCertificationRepository: {},
+              isCoreComplementaryCompatibilityEnabled,
+            });
+
+          // then
+          expect(certificationCandidateComplementaryErrors).to.deep.equal([
+            {
+              code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_NO_SUBSCRIPTION.code,
+              line,
+              isBlocking: true,
+            },
+          ]);
+          expect(subscriptions).to.be.empty;
+        });
+      });
+      context('when there is a complementary subscription without core', function () {
+        it('should return an error accordingly and no subscriptions models', async function () {
+          // given
+          const subscriptionLabels = ['MaComplémentaire'];
+          const line = 12;
+          const complementaryCertificationRepository = {
+            getByLabel: sinon
+              .stub()
+              .withArgs({ label: 'MaComplémentaire' })
+              .resolves({ id: 3, key: 'SOME_KEY', label: 'MaComplémentaire' }),
+          };
+
+          // when
+          const { certificationCandidateComplementaryErrors, subscriptions } =
+            await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+              subscriptionLabels,
+              line,
+              complementaryCertificationRepository,
+              isCoreComplementaryCompatibilityEnabled,
+            });
+
+          // then
+          expect(certificationCandidateComplementaryErrors).to.deep.equal([
+            {
+              code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_COMPLEMENTARY_WITHOUT_CORE.code,
+              line,
+              isBlocking: true,
+            },
+          ]);
+          expect(subscriptions).to.be.empty;
+        });
+      });
+      context('when there are many complementary subscriptions', function () {
+        it('should return an error accordingly and no subscriptions models', async function () {
+          // given
+          const subscriptionLabels = ['MaComplémentaire1', 'MaComplémentaire2', SUBSCRIPTION_TYPES.CORE];
+          const line = 12;
+          const complementaryCertificationRepository = {
+            getByLabel: sinon.stub(),
+          };
+          complementaryCertificationRepository.getByLabel
+            .withArgs({ label: 'MaComplémentaire1' })
+            .resolves({ id: 3, key: 'SOME_KEY1', label: 'MaComplémentaire1' });
+          complementaryCertificationRepository.getByLabel
+            .withArgs({ label: 'MaComplémentaire2' })
+            .resolves({ id: 4, key: 'SOME_KEY2', label: 'MaComplémentaire2' });
+
+          // when
+          const { certificationCandidateComplementaryErrors, subscriptions } =
+            await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+              subscriptionLabels,
+              line,
+              complementaryCertificationRepository,
+              isCoreComplementaryCompatibilityEnabled,
+            });
+
+          // then
+          expect(certificationCandidateComplementaryErrors).to.deep.equal([
+            {
+              code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
+              line,
+              isBlocking: true,
+            },
+          ]);
+          expect(subscriptions).to.be.empty;
+        });
+      });
+      context('when there is only a core subscription', function () {
+        it('should return no error and a core subscription', async function () {
+          // given
+          const subscriptionLabels = [SUBSCRIPTION_TYPES.CORE];
+          const line = 12;
+
+          // when
+          const { certificationCandidateComplementaryErrors, subscriptions } =
+            await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+              subscriptionLabels,
+              line,
+              complementaryCertificationRepository: {},
+              isCoreComplementaryCompatibilityEnabled,
+            });
+
+          // then
+          expect(certificationCandidateComplementaryErrors).to.be.empty;
+          expect(subscriptions).to.deepEqualArray([
+            domainBuilder.buildCoreSubscription({ certificationCandidateId: null }),
+          ]);
+        });
+      });
+      context('when there are a core and a complementary subscriptions', function () {
+        it('should return no error and the right subscriptions', async function () {
+          // given
+          const subscriptionLabels = [SUBSCRIPTION_TYPES.CORE, 'MaComplémentaire'];
+          const line = 12;
+          const complementaryCertificationRepository = {
+            getByLabel: sinon.stub(),
+          };
+          complementaryCertificationRepository.getByLabel
             .withArgs({ label: 'MaComplémentaire' })
-            .resolves({ id: 3, key: 'SOME_KEY', label: 'MaComplémentaire' }),
-        };
+            .resolves({ id: 3, key: 'SOME_KEY', label: 'MaComplémentaire' });
 
-        // when
-        const { certificationCandidateComplementaryErrors, subscriptions } =
-          await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
-            subscriptionLabels,
-            line,
-            complementaryCertificationRepository,
-          });
+          // when
+          const { certificationCandidateComplementaryErrors, subscriptions } =
+            await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+              subscriptionLabels,
+              line,
+              complementaryCertificationRepository,
+              isCoreComplementaryCompatibilityEnabled,
+            });
 
-        // then
-        expect(certificationCandidateComplementaryErrors).to.deep.equal([
-          {
-            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_COMPLEMENTARY_WITHOUT_CORE.code,
-            line,
-            isBlocking: true,
-          },
-        ]);
-        expect(subscriptions).to.be.empty;
+          // then
+          expect(certificationCandidateComplementaryErrors).to.be.empty;
+          expect(subscriptions).to.deepEqualArray([
+            domainBuilder.buildCoreSubscription({ certificationCandidateId: null }),
+            domainBuilder.buildComplementarySubscription({
+              certificationCandidateId: null,
+              complementaryCertificationId: 3,
+            }),
+          ]);
+        });
       });
     });
-    context('when there are many complementary subscriptions', function () {
-      it('should return an error accordingly and no subscriptions models', async function () {
-        // given
-        const subscriptionLabels = ['MaComplémentaire1', 'MaComplémentaire2', SUBSCRIPTION_TYPES.CORE];
-        const line = 12;
-        const complementaryCertificationRepository = {
-          getByLabel: sinon.stub(),
-        };
-        complementaryCertificationRepository.getByLabel
-          .withArgs({ label: 'MaComplémentaire1' })
-          .resolves({ id: 3, key: 'SOME_KEY1', label: 'MaComplémentaire1' });
-        complementaryCertificationRepository.getByLabel
-          .withArgs({ label: 'MaComplémentaire2' })
-          .resolves({ id: 4, key: 'SOME_KEY2', label: 'MaComplémentaire2' });
 
-        // when
-        const { certificationCandidateComplementaryErrors, subscriptions } =
-          await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
-            subscriptionLabels,
-            line,
-            complementaryCertificationRepository,
-          });
+    context('isCoreComplementaryCompatibilityEnabled true', function () {
+      const notCleaComplementaryCertificationId = 111,
+        notCleaComplementaryCertificationLabel = 'PAS CLEA';
+      const cleaComplementaryCertificationId = 222,
+        cleaComplementaryCertificationLabel = 'CLEA';
+      const reallyNotCleaComplementaryCertificationId = 333,
+        reallyNotCleaComplementaryCertificationLabel = 'VRAIMENT PAS CLEA';
+      let complementaryCertificationRepository;
 
-        // then
-        expect(certificationCandidateComplementaryErrors).to.deep.equal([
-          {
-            code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
-            line,
-            isBlocking: true,
-          },
-        ]);
-        expect(subscriptions).to.be.empty;
-      });
-    });
-    context('when there is only a core subscription', function () {
-      it('should return no error and a core subscription', async function () {
-        // given
-        const subscriptionLabels = [SUBSCRIPTION_TYPES.CORE];
-        const line = 12;
-
-        // when
-        const { certificationCandidateComplementaryErrors, subscriptions } =
-          await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
-            subscriptionLabels,
-            line,
-            complementaryCertificationRepository: {},
-          });
-
-        // then
-        expect(certificationCandidateComplementaryErrors).to.be.empty;
-        expect(subscriptions).to.deepEqualArray([
-          domainBuilder.buildCoreSubscription({ certificationCandidateId: null }),
-        ]);
-      });
-    });
-    context('when there are a core and a complementary subscriptions', function () {
-      it('should return no error and the right subscriptions', async function () {
-        // given
-        const subscriptionLabels = [SUBSCRIPTION_TYPES.CORE, 'MaComplémentaire'];
-        const line = 12;
-        const complementaryCertificationRepository = {
-          getByLabel: sinon.stub(),
-        };
-        complementaryCertificationRepository.getByLabel
-          .withArgs({ label: 'MaComplémentaire' })
-          .resolves({ id: 3, key: 'SOME_KEY', label: 'MaComplémentaire' });
-
-        // when
-        const { certificationCandidateComplementaryErrors, subscriptions } =
-          await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
-            subscriptionLabels,
-            line,
-            complementaryCertificationRepository,
-          });
-
-        // then
-        expect(certificationCandidateComplementaryErrors).to.be.empty;
-        expect(subscriptions).to.deepEqualArray([
-          domainBuilder.buildCoreSubscription({ certificationCandidateId: null }),
-          domainBuilder.buildComplementarySubscription({
-            certificationCandidateId: null,
-            complementaryCertificationId: 3,
+      beforeEach(function () {
+        isCoreComplementaryCompatibilityEnabled = true;
+        const complementaryCertifications = [
+          domainBuilder.buildComplementaryCertification({
+            id: notCleaComplementaryCertificationId,
+            label: notCleaComplementaryCertificationLabel,
+            key: 'someKey',
           }),
-        ]);
+          domainBuilder.buildComplementaryCertification({
+            id: cleaComplementaryCertificationId,
+            label: cleaComplementaryCertificationLabel,
+            key: ComplementaryCertificationKeys.CLEA,
+          }),
+          domainBuilder.buildComplementaryCertification({
+            id: reallyNotCleaComplementaryCertificationId,
+            label: reallyNotCleaComplementaryCertificationLabel,
+            key: 'someOtherKey',
+          }),
+        ];
+        complementaryCertificationRepository = {
+          findAll: sinon.stub().resolves(complementaryCertifications),
+        };
+      });
+
+      context('success cases', function () {
+        it('should return valid core subscription when only core submitted', async function () {
+          // given
+          const subscriptionLabels = [SUBSCRIPTION_TYPES.CORE];
+          const line = 12;
+
+          // when
+          const { certificationCandidateComplementaryErrors, subscriptions } =
+            await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+              subscriptionLabels,
+              line,
+              complementaryCertificationRepository,
+              isCoreComplementaryCompatibilityEnabled,
+            });
+
+          // then
+          expect(certificationCandidateComplementaryErrors).to.be.empty;
+          expect(subscriptions).to.deepEqualArray([
+            domainBuilder.buildCoreSubscription({ certificationCandidateId: null }),
+          ]);
+        });
+
+        it('should return valid core/clea subscriptions when clea submitted', async function () {
+          // given
+          const subscriptionLabels = [cleaComplementaryCertificationLabel];
+          const line = 12;
+
+          // when
+          const { certificationCandidateComplementaryErrors, subscriptions } =
+            await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+              subscriptionLabels,
+              line,
+              complementaryCertificationRepository,
+              isCoreComplementaryCompatibilityEnabled,
+            });
+
+          // then
+          expect(certificationCandidateComplementaryErrors).to.be.empty;
+          expect(subscriptions).to.deepEqualArray([
+            domainBuilder.buildCoreSubscription({ certificationCandidateId: null }),
+            domainBuilder.buildComplementarySubscription({
+              certificationCandidateId: null,
+              complementaryCertificationId: cleaComplementaryCertificationId,
+            }),
+          ]);
+        });
+
+        it('should return valid complementary subscription when only complementary not clea submitted', async function () {
+          // given
+          const subscriptionLabels = [notCleaComplementaryCertificationLabel];
+          const line = 12;
+
+          // when
+          const { certificationCandidateComplementaryErrors, subscriptions } =
+            await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+              subscriptionLabels,
+              line,
+              complementaryCertificationRepository,
+              isCoreComplementaryCompatibilityEnabled,
+            });
+
+          // then
+          expect(certificationCandidateComplementaryErrors).to.be.empty;
+          expect(subscriptions).to.deepEqualArray([
+            domainBuilder.buildComplementarySubscription({
+              certificationCandidateId: null,
+              complementaryCertificationId: notCleaComplementaryCertificationId,
+            }),
+          ]);
+        });
+      });
+
+      context('ko cases', function () {
+        it('should return an error when there are no subscription at all', async function () {
+          // given
+          const subscriptionLabels = [];
+          const line = 12;
+
+          // when
+          const { certificationCandidateComplementaryErrors, subscriptions } =
+            await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+              subscriptionLabels,
+              line,
+              complementaryCertificationRepository,
+              isCoreComplementaryCompatibilityEnabled,
+            });
+
+          // then
+          expect(certificationCandidateComplementaryErrors).to.deep.equal([
+            {
+              code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_NO_SUBSCRIPTION.code,
+              line,
+              isBlocking: true,
+            },
+          ]);
+          expect(subscriptions).to.be.empty;
+        });
+
+        it('should return an error when there are two complementary (neither clea)', async function () {
+          // given
+          const subscriptionLabels = [
+            notCleaComplementaryCertificationLabel,
+            reallyNotCleaComplementaryCertificationLabel,
+          ];
+          const line = 12;
+
+          // when
+          const { certificationCandidateComplementaryErrors, subscriptions } =
+            await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+              subscriptionLabels,
+              line,
+              complementaryCertificationRepository,
+              isCoreComplementaryCompatibilityEnabled,
+            });
+
+          // then
+          expect(certificationCandidateComplementaryErrors).to.deep.equal([
+            {
+              code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
+              line,
+              isBlocking: true,
+            },
+          ]);
+          expect(subscriptions).to.be.empty;
+        });
+
+        it('should return an error when there are two complementary (one clea)', async function () {
+          // given
+          const subscriptionLabels = [
+            cleaComplementaryCertificationLabel,
+            reallyNotCleaComplementaryCertificationLabel,
+          ];
+          const line = 12;
+
+          // when
+          const { certificationCandidateComplementaryErrors, subscriptions } =
+            await sessionsImportValidationService.getValidatedSubscriptionsForMassImport({
+              subscriptionLabels,
+              line,
+              complementaryCertificationRepository,
+              isCoreComplementaryCompatibilityEnabled,
+            });
+
+          // then
+          expect(certificationCandidateComplementaryErrors).to.deep.equal([
+            {
+              code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
+              line,
+              isBlocking: true,
+            },
+          ]);
+          expect(subscriptions).to.be.empty;
+        });
       });
     });
   });
 
-  describe('#getValidatedCandidateBirthInformation', function () {
+  describe('#getValidatedCandidateInformation', function () {
     context('when the parsed data is valid', function () {
       it('should return an empty certificationCandidateErrors', async function () {
         // given
@@ -617,12 +818,13 @@ describe('Unit | Service | sessions import validation Service', function () {
         };
 
         // when
-        const { certificationCandidateErrors } =
-          await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+        const { certificationCandidateErrors } = await sessionsImportValidationService.getValidatedCandidateInformation(
+          {
             candidate,
             isSco: false,
             dependencies: { certificationCpfService: certificationCpfServiceStub },
-          });
+          },
+        );
 
         // then
         expect(certificationCandidateErrors).to.be.empty;
@@ -642,13 +844,14 @@ describe('Unit | Service | sessions import validation Service', function () {
         };
 
         // when
-        const { certificationCandidateErrors } =
-          await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+        const { certificationCandidateErrors } = await sessionsImportValidationService.getValidatedCandidateInformation(
+          {
             candidate,
             isSco,
             line: 1,
             dependencies: { certificationCpfService: certificationCpfServiceStub },
-          });
+          },
+        );
 
         // then
         expect(certificationCandidateErrors).to.deep.equal([
@@ -661,7 +864,7 @@ describe('Unit | Service | sessions import validation Service', function () {
       });
     });
 
-    context("when candidate's extraTimePourcentage is below than 1", function () {
+    context("when candidate's extraTimePercentage is below than 1", function () {
       it('should return a report', async function () {
         // given
         const isSco = false;
@@ -674,13 +877,14 @@ describe('Unit | Service | sessions import validation Service', function () {
         };
 
         // when
-        const { certificationCandidateErrors } =
-          await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+        const { certificationCandidateErrors } = await sessionsImportValidationService.getValidatedCandidateInformation(
+          {
             candidate,
             isSco,
             line: 1,
             dependencies: { certificationCpfService: certificationCpfServiceStub },
-          });
+          },
+        );
 
         // then
         expect(certificationCandidateErrors).to.deep.equal([
@@ -709,7 +913,7 @@ describe('Unit | Service | sessions import validation Service', function () {
 
             // when
             const { certificationCandidateErrors } =
-              await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+              await sessionsImportValidationService.getValidatedCandidateInformation({
                 candidate,
                 isSco,
                 line: 1,
@@ -740,7 +944,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             };
             // when
             const { certificationCandidateErrors } =
-              await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+              await sessionsImportValidationService.getValidatedCandidateInformation({
                 candidate,
                 isSco,
                 line: 1,
@@ -779,7 +983,7 @@ describe('Unit | Service | sessions import validation Service', function () {
 
           // when
           const { certificationCandidateErrors } =
-            await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+            await sessionsImportValidationService.getValidatedCandidateInformation({
               candidate,
               isSco,
               dependencies: { certificationCpfService: certificationCpfServiceStub },
@@ -817,7 +1021,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           };
 
           // when
-          const result = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+          const result = await sessionsImportValidationService.getValidatedCandidateInformation({
             candidate,
             isSco: false,
             certificationCpfCountryRepository,
@@ -860,7 +1064,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             .resolves(cpfBirthInformationValidation),
         };
         // when
-        const result = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+        const result = await sessionsImportValidationService.getValidatedCandidateInformation({
           candidate,
           isSco: false,
           certificationCpfCountryRepository,
@@ -874,6 +1078,50 @@ describe('Unit | Service | sessions import validation Service', function () {
           { code: 'CPF_INCORRECT', line: 1, isBlocking: true },
           { code: 'CPF_INCORRECT 2', line: 1, isBlocking: true },
         ]);
+      });
+    });
+
+    context('when errorCodes contains subscriptions', function () {
+      it('should ignore them', async function () {
+        // given
+        const candidate = _buildValidCandidateModel();
+        const candidateInformation = {
+          birthCountry: 'Pérou',
+          birthCity: 'Pétaouchnok',
+          birthPostalCode: '44329',
+          birthINSEECode: '67890',
+        };
+        candidate.subscriptions = ['je ne suis pas une subscription'];
+        const certificationCpfCountryRepository = Symbol();
+        const certificationCpfCityRepository = Symbol();
+        const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+        cpfBirthInformationValidation.success(candidateInformation);
+
+        const certificationCpfServiceStub = {
+          getBirthInformation: sinon
+            .stub()
+            .withArgs({
+              birthCountry: candidate.birthCountry,
+              birthCity: candidate.birthCity,
+              birthPostalCode: candidate.birthPostalCode,
+              birthINSEECode: candidate.birthINSEECode,
+              certificationCpfCountryRepository,
+              certificationCpfCityRepository,
+            })
+            .resolves(cpfBirthInformationValidation),
+        };
+        // when
+        const result = await sessionsImportValidationService.getValidatedCandidateInformation({
+          candidate,
+          isSco: false,
+          certificationCpfCountryRepository,
+          certificationCpfCityRepository,
+          line: 1,
+          dependencies: { certificationCpfService: certificationCpfServiceStub },
+        });
+
+        // then
+        expect(result.certificationCandidateErrors).to.deep.equal([]);
       });
     });
   });
@@ -978,6 +1226,7 @@ function _buildValidCandidateData({ lineNumber = 0, candidateNumber = 2 } = { ca
     candidateNumber,
   };
 }
+
 function _buildValidCandidateModel({ lineNumber = 0, candidateNumber = 2 } = { candidateNumber: 0, lineNumber: 0 }) {
   return domainBuilder.certification.enrolment.buildCandidate({
     lastName: `Candidat ${candidateNumber}`,

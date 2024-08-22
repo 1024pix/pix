@@ -53,7 +53,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
 
     sessionsImportValidationService = {
       getValidatedSubscriptionsForMassImport: sinon.stub(),
-      getValidatedCandidateBirthInformation: sinon.stub(),
+      getValidatedCandidateInformation: sinon.stub(),
       validateSession: sinon.stub(),
       getUniqueCandidates: sinon.stub(),
       validateCandidateEmails: sinon.stub(),
@@ -149,7 +149,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
       });
 
-      sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
+      sessionsImportValidationService.getValidatedCandidateInformation.resolves({
         certificationCandidateErrors: [],
         cpfBirthInformation,
       });
@@ -270,7 +270,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         cpfBirthInformationValidation2.success({ ...candidate2 });
         const cpfBirthInformationValidation3 = new CpfBirthInformationValidation();
         cpfBirthInformationValidation3.success({ ...candidate3 });
-        sessionsImportValidationService.getValidatedCandidateBirthInformation
+        sessionsImportValidationService.getValidatedCandidateInformation
           .onFirstCall()
           .resolves({ certificationCandidateErrors: [], cpfBirthInformation: cpfBirthInformationValidation1 })
           .onSecondCall()
@@ -359,7 +359,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       sessionsImportValidationService.validateSession.resolves([
         { code: 'Veuillez indiquer un nom de site.', isBlocking: true },
       ]);
-      sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
+      sessionsImportValidationService.getValidatedCandidateInformation.resolves({
         certificationCandidateErrors: [],
         cpfBirthInformation: {},
       });
@@ -394,7 +394,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
         sessionsImportValidationService.validateSession.resolves(['Veuillez indiquer un nom de site.']);
-        sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
+        sessionsImportValidationService.getValidatedCandidateInformation.resolves({
           certificationCandidateErrors: ['lastName required'],
         });
 
@@ -458,7 +458,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           complementaryCertification: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
         sessionsImportValidationService.validateSession.resolves([]);
-        sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
+        sessionsImportValidationService.getValidatedCandidateInformation.resolves({
           certificationCandidateErrors: [],
           cpfBirthInformation: {},
         });
@@ -525,7 +525,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
         sessionsImportValidationService.validateSession.resolves([]);
-        sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
+        sessionsImportValidationService.getValidatedCandidateInformation.resolves({
           certificationCandidateErrors: [],
           cpfBirthInformation: {},
         });

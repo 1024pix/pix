@@ -35,7 +35,12 @@ function _csvSerializeValue(data) {
   }
 }
 
-function deserializeForSessionsImport({ parsedCsvData, hasBillingMode, certificationCenterHabilitations }) {
+function deserializeForSessionsImport({
+  parsedCsvData,
+  hasBillingMode,
+  certificationCenterHabilitations,
+  isCoreComplementaryCompatibilityEnabled,
+}) {
   const sessions = [];
   const expectedHeadersKeys = Object.keys(headers);
 
@@ -91,7 +96,7 @@ function deserializeForSessionsImport({ parsedCsvData, hasBillingMode, certifica
     }
 
     if (_hasCandidateInformation(data)) {
-      currentParsedSession.candidates.push(_createCandidate(data));
+      currentParsedSession.candidates.push(_createCandidate(data, isCoreComplementaryCompatibilityEnabled));
     }
   });
 
@@ -391,24 +396,37 @@ function _createSession({ sessionId, address, room, date, time, examiner, descri
   };
 }
 
-function _createCandidate({
-  lastName,
-  firstName,
-  birthdate,
-  birthINSEECode,
-  birthPostalCode,
-  birthCity,
-  birthCountry,
-  resultRecipientEmail,
-  email,
-  externalId,
-  extraTimePercentage,
-  billingMode,
-  prepaymentCode,
-  sex,
-  complementarySubscriptionLabels,
-  line,
-}) {
+function _createCandidate(
+  {
+    lastName,
+    firstName,
+    birthdate,
+    birthINSEECode,
+    birthPostalCode,
+    birthCity,
+    birthCountry,
+    resultRecipientEmail,
+    email,
+    externalId,
+    extraTimePercentage,
+    billingMode,
+    prepaymentCode,
+    sex,
+    complementarySubscriptionLabels,
+    line,
+  },
+  isCoreComplementaryCompatibilityEnabled,
+) {
+  const subscriptionLabels = [];
+  if (!isCoreComplementaryCompatibilityEnabled) {
+    subscriptionLabels.push(...[SUBSCRIPTION_TYPES.CORE, ...complementarySubscriptionLabels]);
+  } else {
+    if (complementarySubscriptionLabels.length > 0) {
+      subscriptionLabels.push(...complementarySubscriptionLabels);
+    } else {
+      subscriptionLabels.push(SUBSCRIPTION_TYPES.CORE);
+    }
+  }
   return {
     lastName,
     firstName,
@@ -424,7 +442,7 @@ function _createCandidate({
     billingMode,
     prepaymentCode,
     sex,
-    subscriptionLabels: [SUBSCRIPTION_TYPES.CORE, ...complementarySubscriptionLabels],
+    subscriptionLabels,
     line,
   };
 }

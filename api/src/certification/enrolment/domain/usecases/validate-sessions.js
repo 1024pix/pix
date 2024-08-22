@@ -10,7 +10,6 @@ import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
 
 /**
  * @param {Object} params
- * @param {deps["certificationCenterRepository"]} params.certificationCenterRepository
  * @param {deps["sessionRepository"]} params.sessionRepository
  * @param {deps["certificationCpfCountryRepository"]} params.certificationCpfCountryRepository
  * @param {deps["certificationCpfCityRepository"]} params.certificationCpfCityRepository
@@ -80,6 +79,7 @@ const validateSessions = async function ({
         complementaryCertificationRepository,
         translate,
         sessionsImportValidationService,
+        isCoreComplementaryCompatibilityEnabled: center.isCoreComplementaryCompatibilityEnabled,
       });
 
       session.certificationCandidates = validatedCandidates;
@@ -113,6 +113,7 @@ async function _createValidCertificationCandidates({
   complementaryCertificationRepository,
   translate,
   sessionsImportValidationService,
+  isCoreComplementaryCompatibilityEnabled,
 }) {
   const { uniqueCandidates, duplicateCandidateErrors } =
     sessionsImportValidationService.getUniqueCandidates(candidatesDTO);
@@ -133,6 +134,7 @@ async function _createValidCertificationCandidates({
         subscriptionLabels: candidateDTO.subscriptionLabels,
         line: candidateDTO.line,
         complementaryCertificationRepository,
+        isCoreComplementaryCompatibilityEnabled,
       });
 
     certificationCandidateErrors.push(...certificationCandidateComplementaryErrors);
@@ -148,15 +150,14 @@ async function _createValidCertificationCandidates({
       createdAt: null,
     });
 
-    const candidateBirthInformationValidation =
-      await sessionsImportValidationService.getValidatedCandidateBirthInformation({
-        candidate,
-        isSco,
-        isSessionsMassImport: true,
-        line: candidateDTO.line,
-        certificationCpfCountryRepository,
-        certificationCpfCityRepository,
-      });
+    const candidateBirthInformationValidation = await sessionsImportValidationService.getValidatedCandidateInformation({
+      candidate,
+      isSco,
+      isSessionsMassImport: true,
+      line: candidateDTO.line,
+      certificationCpfCountryRepository,
+      certificationCpfCityRepository,
+    });
 
     certificationCandidateErrors.push(...candidateBirthInformationValidation.certificationCandidateErrors);
 
