@@ -1,4 +1,4 @@
-class AutoJuryDone {
+export class AutoJuryDone {
   constructor({ sessionId, finalizedAt, certificationCenterName, sessionDate, sessionTime, hasExaminerGlobalComment }) {
     this.sessionId = sessionId;
     this.finalizedAt = finalizedAt;
@@ -8,5 +8,3 @@ class AutoJuryDone {
     this.hasExaminerGlobalComment = hasExaminerGlobalComment;
   }
 }
-
-export { AutoJuryDone };

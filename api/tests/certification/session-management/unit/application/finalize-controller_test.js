@@ -11,7 +11,10 @@ describe('Certification | Session Management | Unit | Application | Controller |
       const sessionId = 1;
       const aCertificationReport = Symbol('a certficication report');
       const sessionFinalized = Symbol('sessionFinalized');
-      const autoJuryEvents = Symbol('autoJuryEvents');
+      const autoJuryEvents = {
+        certificationJuryDoneEvents: Symbol('certificationJuryDoneEvents'),
+        autoJuryDone: Symbol('autoJuryDone'),
+      };
       const examinerGlobalComment = 'It was a fine session my dear';
       const hasIncident = true;
       const hasJoiningIssue = true;
@@ -40,6 +43,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
       sinon.stub(usecases, 'finalizeSession').resolves(sessionFinalized);
       sinon.stub(usecases, 'processAutoJury').resolves(autoJuryEvents);
       sinon.stub(events.eventDispatcher, 'dispatch').resolves();
+      sinon.stub(usecases, 'registerPublishableSession').resolves();
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
         return callback();
       });
@@ -58,7 +62,12 @@ describe('Certification | Session Management | Unit | Application | Controller |
       expect(usecases.processAutoJury).to.have.been.calledWithExactly({
         sessionFinalized,
       });
-      expect(events.eventDispatcher.dispatch).to.have.been.calledWithExactly(autoJuryEvents);
+      expect(events.eventDispatcher.dispatch).to.have.been.calledWithExactly(
+        autoJuryEvents.certificationJuryDoneEvents,
+      );
+      expect(usecases.registerPublishableSession).to.have.been.calledWithExactly({
+        autoJuryDone: autoJuryEvents.autoJuryDone,
+      });
     });
   });
 });

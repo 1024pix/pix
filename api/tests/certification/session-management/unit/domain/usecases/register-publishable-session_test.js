@@ -1,9 +1,9 @@
-import { AutoJuryDone } from '../../../../lib/domain/events/AutoJuryDone.js';
-import { handleSessionFinalized as handleFinalizedSession } from '../../../../lib/domain/events/handle-session-finalized.js';
-import { JuryCertificationSummary } from '../../../../src/certification/session-management/domain/read-models/JuryCertificationSummary.js';
-import { FinalizedSession } from '../../../../src/certification/shared/domain/models/FinalizedSession.js';
-import { status as assessmentResultStatuses } from '../../../../src/shared/domain/models/AssessmentResult.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { AutoJuryDone } from '../../../../../../src/certification/session-management/domain/read-models/AutoJuryDone.js';
+import { JuryCertificationSummary } from '../../../../../../src/certification/session-management/domain/read-models/JuryCertificationSummary.js';
+import { registerPublishableSession } from '../../../../../../src/certification/session-management/domain/usecases/register-publishable-session.js';
+import { status as assessmentResultStatuses } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
+import { FinalizedSession } from '../../../../../../src/shared/domain/models/index.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const juryCertificationSummaryRepository = { findBySessionId: sinon.stub() };
 const finalizedSessionRepository = { save: sinon.stub() };
@@ -14,21 +14,10 @@ const dependencies = {
   supervisorAccessRepository,
 };
 
-describe('Unit | Domain | Events | handle-session-finalized', function () {
-  it('fails when event is not of correct type', async function () {
-    // given
-    const event = 'not an event of the correct type';
-
-    // when
-    const error = await catchErr(handleFinalizedSession)({ event, ...dependencies });
-
-    // then
-    expect(error).not.to.be.null;
-  });
-
+describe('Unit | UseCase |  register-publishable-session', function () {
   it('saves a finalized session', async function () {
     // given
-    const event = new AutoJuryDone({
+    const autoJuryDone = new AutoJuryDone({
       sessionId: 1234,
       finalizedAt: new Date(),
       hasExaminerGlobalComment: false,
@@ -54,35 +43,37 @@ describe('Unit | Domain | Events | handle-session-finalized', function () {
         }),
       ],
     });
-    juryCertificationSummaryRepository.findBySessionId.withArgs(1234).resolves([juryCertificationSummary]);
+    juryCertificationSummaryRepository.findBySessionId
+      .withArgs({ sessionId: 1234 })
+      .resolves([juryCertificationSummary]);
     finalizedSessionRepository.save.resolves();
     supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
     const finalizedSessionFromSpy = sinon.spy(FinalizedSession, 'from');
 
     // when
-    await handleFinalizedSession({ event, ...dependencies });
+    await registerPublishableSession({ autoJuryDone, ...dependencies });
 
     // then
     expect(supervisorAccessRepository.sessionHasSupervisorAccess).to.have.been.calledOnceWithExactly({
       sessionId: 1234,
     });
     expect(finalizedSessionFromSpy).to.have.been.calledOnceWithExactly({
-      sessionId: event.sessionId,
-      finalizedAt: event.finalizedAt,
-      certificationCenterName: event.certificationCenterName,
-      sessionDate: event.sessionDate,
-      sessionTime: event.sessionTime,
+      sessionId: autoJuryDone.sessionId,
+      finalizedAt: autoJuryDone.finalizedAt,
+      certificationCenterName: autoJuryDone.certificationCenterName,
+      sessionDate: autoJuryDone.sessionDate,
+      sessionTime: autoJuryDone.sessionTime,
       hasExaminerGlobalComment: false,
       hasSupervisorAccess: true,
       juryCertificationSummaries: [juryCertificationSummary],
     });
     expect(finalizedSessionRepository.save).to.have.been.calledWithExactly({
       finalizedSession: new FinalizedSession({
-        sessionId: event.sessionId,
-        finalizedAt: event.finalizedAt,
-        certificationCenterName: event.certificationCenterName,
-        sessionDate: event.sessionDate,
-        sessionTime: event.sessionTime,
+        sessionId: autoJuryDone.sessionId,
+        finalizedAt: autoJuryDone.finalizedAt,
+        certificationCenterName: autoJuryDone.certificationCenterName,
+        sessionDate: autoJuryDone.sessionDate,
+        sessionTime: autoJuryDone.sessionTime,
         isPublishable: true,
         hasSupervisorAccess: true,
         publishedAt: null,

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { FinalizedSession } from '../../../../shared/domain/models/index.js';
+import { FinalizedSession } from '../../domain/models/FinalizedSession.js';
 
 const save = async function ({ finalizedSession }) {
   await knex('finalized-sessions').insert(_toDTO(finalizedSession)).onConflict('sessionId').merge();

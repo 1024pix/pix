@@ -41,7 +41,7 @@ async function main() {
     hasExaminerGlobalComment: Boolean(examinerGlobalComment),
   });
 
-  const autoJuryDoneEvents = await usecases.processAutoJury({
+  const { certificationJuryDoneEvents, autoJuryDone } = await usecases.processAutoJury({
     event: sessionFinalizedEvent,
     certificationIssueReportRepository,
     certificationAssessmentRepository,
@@ -49,7 +49,8 @@ async function main() {
     challengeRepository,
     logger,
   });
-  await events.eventDispatcher.dispatch(autoJuryDoneEvents);
+  await events.eventDispatcher.dispatch(certificationJuryDoneEvents);
+  await usecases.registerPublishableSession({ autoJuryDone });
 
   logger.info('Done !');
 }

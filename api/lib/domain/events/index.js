@@ -9,6 +9,7 @@ import * as certificationAssessmentHistoryRepository from '../../../src/certific
 import * as certificationChallengeForScoringRepository from '../../../src/certification/scoring/infrastructure/repositories/certification-challenge-for-scoring-repository.js';
 import * as scoringConfigurationRepository from '../../../src/certification/scoring/infrastructure/repositories/scoring-configuration-repository.js';
 import * as finalizedSessionRepository from '../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
+import * as juryCertificationSummaryRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-certification-summary-repository.js';
 import * as supervisorAccessRepository from '../../../src/certification/session-management/infrastructure/repositories/supervisor-access-repository.js';
 import * as scoringCertificationService from '../../../src/certification/shared/domain/services/scoring-certification-service.js';
 import * as certificationAssessmentRepository from '../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
@@ -41,14 +42,12 @@ import * as campaignParticipationResultRepository from '../../infrastructure/rep
 import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
-import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import { handleCertificationRescoring } from './handle-certification-rescoring.js';
 import { handleComplementaryCertificationsScoring } from './handle-complementary-certifications-scoring.js';
-import { handleSessionFinalized } from './handle-session-finalized.js';
 
 const { performance } = perf_hooks;
 
@@ -103,7 +102,6 @@ const dependencies = {
 const handlersToBeInjected = {
   handleCertificationRescoring,
   handleComplementaryCertificationsScoring,
-  handleSessionFinalized,
 };
 
 function buildEventDispatcher(handlersStubs) {
