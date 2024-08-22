@@ -1,6 +1,6 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { hbs } from 'ember-cli-htmlbars';
+import LoginForm from 'pix-admin/components/login-form';
 import ENV from 'pix-admin/config/environment';
 import { module, test } from 'qunit';
 import { reject } from 'rsvp';
@@ -14,7 +14,7 @@ module('Integration | Component | login-form', function (hooks) {
 
   test('it displays login information', async function (assert) {
     // when
-    const screen = await render(hbs`<LoginForm />`);
+    const screen = await render(<template><LoginForm /></template>);
 
     // then
     assert.dom(screen.getByText('Pix Admin')).exists();
@@ -32,7 +32,7 @@ module('Integration | Component | login-form', function (hooks) {
       identityProvidersServiceStub.isProviderEnabled.withArgs('google').returns(false);
 
       // when
-      const screen = await render(hbs`<LoginForm />`);
+      const screen = await render(<template><LoginForm /></template>);
 
       // then
       assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail' })).exists();
@@ -54,7 +54,7 @@ module('Integration | Component | login-form', function (hooks) {
 
     test('displays a "login with google" button', async function (assert) {
       // when
-      const screen = await render(hbs`<LoginForm />`);
+      const screen = await render(<template><LoginForm /></template>);
 
       // then
       assert.dom(screen.getByRole('link', { name: 'Se connecter avec Google' })).exists();
@@ -64,10 +64,12 @@ module('Integration | Component | login-form', function (hooks) {
     module('when user has no pix account', function () {
       test('displays a specific error message', async function (assert) {
         // given
-        this.set('userShouldCreateAnAccount', true);
+        const userShouldCreateAnAccount = true;
 
         // when
-        const screen = await render(hbs`<LoginForm @userShouldCreateAnAccount={{this.userShouldCreateAnAccount}} />`);
+        const screen = await render(
+          <template><LoginForm @userShouldCreateAnAccount={{userShouldCreateAnAccount}} /></template>,
+        );
 
         // then
         assert.dom(screen.getByText("Vous n'avez pas de compte Pix.")).exists();
@@ -77,10 +79,12 @@ module('Integration | Component | login-form', function (hooks) {
     module('when user has no pix access rights', function () {
       test('displays a specific error message', async function (assert) {
         // given
-        this.set('userShouldRequestAccess', true);
+        const userShouldRequestAccess = true;
 
         // when
-        const screen = await render(hbs`<LoginForm @userShouldRequestAccess={{this.userShouldRequestAccess}} />`);
+        const screen = await render(
+          <template><LoginForm @userShouldRequestAccess={{userShouldRequestAccess}} /></template>,
+        );
 
         // then
         assert
@@ -96,10 +100,12 @@ module('Integration | Component | login-form', function (hooks) {
     module('when api throw an unknown error', function () {
       test('displays an error message', async function (assert) {
         // given
-        this.set('unknownErrorHasOccured', true);
+        const unknownErrorHasOccured = true;
 
         // when
-        const screen = await render(hbs`<LoginForm @unknownErrorHasOccured={{this.unknownErrorHasOccured}} />`);
+        const screen = await render(
+          <template><LoginForm @unknownErrorHasOccured={{unknownErrorHasOccured}} /></template>,
+        );
 
         // then
         assert
@@ -140,7 +146,7 @@ module('Integration | Component | login-form', function (hooks) {
       };
       sessionStub.authenticate = () => reject(errorResponse);
 
-      const screen = await render(hbs`<LoginForm />`);
+      const screen = await render(<template><LoginForm /></template>);
 
       // when
       await fillByLabel('Adresse e-mail', 'pix@example.net');
@@ -166,7 +172,7 @@ module('Integration | Component | login-form', function (hooks) {
       };
       sessionStub.authenticate = () => reject(errorResponse);
 
-      const screen = await render(hbs`<LoginForm />`);
+      const screen = await render(<template><LoginForm /></template>);
 
       // when
       await fillByLabel('Adresse e-mail', 'pix@');
@@ -185,7 +191,7 @@ module('Integration | Component | login-form', function (hooks) {
       };
       sessionStub.authenticate = () => reject(errorResponse);
 
-      const screen = await render(hbs`<LoginForm />`);
+      const screen = await render(<template><LoginForm /></template>);
 
       // when
       await fillByLabel('Adresse e-mail', 'pix@example.net');
@@ -211,7 +217,7 @@ module('Integration | Component | login-form', function (hooks) {
       };
       sessionStub.authenticate = () => reject(errorResponse);
 
-      const screen = await render(hbs`<LoginForm />`);
+      const screen = await render(<template><LoginForm /></template>);
 
       // when
       await fillByLabel('Adresse e-mail', 'pix@example.net');
@@ -230,7 +236,7 @@ module('Integration | Component | login-form', function (hooks) {
       };
       sessionStub.authenticate = () => reject(errorResponse);
 
-      const screen = await render(hbs`<LoginForm />`);
+      const screen = await render(<template><LoginForm /></template>);
 
       // when
       await fillByLabel('Adresse e-mail', 'pix@example.net');

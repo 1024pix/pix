@@ -1,8 +1,8 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import ActionsOnUsersRoleInOrganization from 'pix-admin/components/actions-on-users-role-in-organization';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -22,7 +22,6 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
         role: 'ADMIN',
         save: sinon.stub(),
       });
-      this.set('organizationMembership', organizationMembership);
 
       const notificationSuccessStub = sinon.stub();
       class NotificationsStub extends Service {
@@ -32,7 +31,7 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
 
       // when
       const screen = await render(
-        hbs`<ActionsOnUsersRoleInOrganization @organizationMembership={{this.organizationMembership}} />`,
+        <template><ActionsOnUsersRoleInOrganization @organizationMembership={{organizationMembership}} /></template>,
       );
       await clickByName('Modifier le rôle');
 
@@ -64,8 +63,6 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
 
       sinon.stub(organizationMembership, 'destroyRecord').resolves();
 
-      this.set('organizationMembership', organizationMembership);
-
       const notificationSuccessStub = sinon.stub();
       class NotificationsStub extends Service {
         success = notificationSuccessStub;
@@ -74,7 +71,7 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
 
       // when
       const screen = await render(
-        hbs`<ActionsOnUsersRoleInOrganization @organizationMembership={{this.organizationMembership}} />`,
+        <template><ActionsOnUsersRoleInOrganization @organizationMembership={{organizationMembership}} /></template>,
       );
 
       await clickByName("Désactiver l'agent");
@@ -92,6 +89,11 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
   module('when user has not access to organization actions scope', function () {
     test('it should not show actions buttons', async function (assert) {
       // given
+      const store = this.owner.lookup('service:store');
+      const organizationMembership = store.createRecord('organization-membership', {
+        role: 'ADMIN',
+        save: sinon.stub(),
+      });
       class AccessControlStub extends Service {
         hasAccessToOrganizationActionsScope = false;
       }
@@ -99,7 +101,7 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
 
       // when
       const screen = await render(
-        hbs`<ActionsOnUsersRoleInOrganization @organizationMembership={{this.organizationMembership}} />`,
+        <template><ActionsOnUsersRoleInOrganization @organizationMembership={{organizationMembership}} /></template>,
       );
 
       // expect
