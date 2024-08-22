@@ -1,80 +1,48 @@
+import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
 import PixCollapsible from '@1024pix/pix-ui/components/pix-collapsible';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { eq } from 'ember-truth-helpers';
 
-import { isTubeSelected } from '../../../helpers/is-tube-selected';
 import Header from '../../table/header';
-import Checkbox from './checkbox';
 import Thematic from './thematic';
 import Tube from './tube';
 
 export default class Competence extends Component {
-  get state() {
-    const checked = this.args.competence
-      .hasMany('thematics')
-      .value()
-      .every((thematic) => this.isThematicSelected(thematic));
-    if (checked) return 'checked';
-
-    const indeterminate = this.args.competence
-      .hasMany('thematics')
-      .value()
-      .any((thematic) => {
-        return thematic
-          .hasMany('tubes')
-          .value()
-          .any((tube) => isTubeSelected(this.args.selectedTubeIds, tube));
-      });
-
-    if (indeterminate) return 'indeterminate';
-
-    return 'unchecked';
-  }
-
-  isThematicSelected(thematic) {
-    return thematic
-      .hasMany('tubes')
-      .value()
-      .every((tube) => isTubeSelected(this.args.selectedTubeIds, tube));
-  }
-
   @action
   onChange(event) {
-    if (event.target.checked) {
-      this.check();
-    } else {
-      this.uncheck();
-    }
+    event.target.checked ? this.checkAllTubes() : this.uncheckAllTubes();
   }
 
-  check() {
-    this.args.competence
-      .hasMany('thematics')
-      .value()
-      .forEach((thematic) => {
-        thematic
-          .hasMany('tubes')
-          .value()
-          .forEach((tube) => {
-            this.args.checkTube(tube);
-          });
-      });
+  get competenceTubes() {
+    const thematics = this.args.competence.hasMany('thematics').value();
+    const tubes = thematics.map((thematic) => thematic.hasMany('tubes').value());
+    return tubes.flat();
   }
 
-  uncheck() {
-    this.args.competence
-      .hasMany('thematics')
-      .value()
-      .forEach((thematic) => {
-        thematic
-          .hasMany('tubes')
-          .value()
-          .forEach((tube) => {
-            this.args.uncheckTube(tube);
-          });
-      });
+  get selectedTubeIds() {
+    return this.args.selectedTubeIds;
+  }
+
+  get isChecked() {
+    return this.competenceTubes.some(({ id }) => this.selectedTubeIds.includes(id));
+  }
+
+  get isIndeterminate() {
+    return this.competenceTubes.some(({ id }) => !this.selectedTubeIds.includes(id));
+  }
+
+  checkAllTubes() {
+    this.competenceTubes.forEach((tube) => {
+      this.args.checkTube(tube);
+    });
+  }
+
+  uncheckAllTubes() {
+    this.competenceTubes.forEach((tube) => {
+      this.args.uncheckTube(tube);
+    });
   }
 
   <template>
@@ -87,8 +55,14 @@ export default class Competence extends Component {
               <tr>
                 <Header @size="medium" scope="col">
                   <label>
-                    <Checkbox id="competence-{{@competence.id}}" @state={{this.state}} {{on "change" this.onChange}} />
-                    Thématiques
+                    <PixCheckbox
+                      id="competence-{{@competence.id}}"
+                      @checked={{this.isChecked}}
+                      @isIndeterminate={{this.isIndeterminate}}
+                      {{on "change" this.onChange}}
+                    >
+                      <:label>Thématiques</:label>
+                    </PixCheckbox>
                   </label>
                 </Header>
                 <Header @size="wide" scope="col">

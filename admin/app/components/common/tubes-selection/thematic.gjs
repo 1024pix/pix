@@ -3,58 +3,50 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 
-import { isTubeSelected } from '../../../helpers/is-tube-selected';
-
 export default class Thematic extends Component {
-  get state() {
-    const checked = this.args.thematic
-      .hasMany('tubes')
-      .value()
-      .any((tube) => isTubeSelected(this.args.selectedTubeIds, tube));
+  get thematicTubes() {
+    return this.args.thematic.hasMany('tubes').value();
+  }
 
-    return checked;
+  get selectedTubeIds() {
+    return this.args.selectedTubeIds;
+  }
+
+  get isChecked() {
+    return this.thematicTubes.any(({ id }) => this.selectedTubeIds.includes(id));
   }
 
   get isIndeterminate() {
-    const isEverythingChecked = this.args.thematic
-      .hasMany('tubes')
-      .value()
-      .every((tube) => isTubeSelected(this.args.selectedTubeIds, tube));
-    return this.state && !isEverythingChecked;
+    return this.thematicTubes.some(({ id }) => !this.selectedTubeIds.includes(id));
   }
 
   @action
   onChange(event) {
-    if (event.target.checked) {
-      this.check();
+    const { checked } = event.target;
+    if (checked) {
+      this.checkAllTubes();
     } else {
-      this.uncheck();
+      this.uncheckAllTubes();
     }
   }
 
-  check() {
-    this.args.thematic
-      .hasMany('tubes')
-      .value()
-      .forEach((tube) => {
-        this.args.checkTube(tube);
-      });
+  checkAllTubes() {
+    this.thematicTubes.forEach((tube) => {
+      this.args.checkTube(tube);
+    });
   }
 
-  uncheck() {
-    this.args.thematic
-      .hasMany('tubes')
-      .value()
-      .forEach((tube) => {
-        this.args.uncheckTube(tube);
-      });
+  uncheckAllTubes() {
+    this.thematicTubes.forEach((tube) => {
+      this.args.uncheckTube(tube);
+    });
   }
 
   <template>
     <th rowspan={{@thematic.tubes.length}}>
       <PixCheckbox
         @id="thematic-{{@thematic.id}}"
-        @checked={{this.state}}
+        @checked={{this.isChecked}}
         {{on "change" this.onChange}}
         @isIndeterminate={{this.isIndeterminate}}
       >

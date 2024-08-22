@@ -11,11 +11,14 @@ module('Unit | Component | common/tubes-selection', function (hooks) {
   let component;
 
   hooks.beforeEach(function () {
+    const store = this.owner.lookup('service:store');
+    const frameworks = [
+      store.createRecord('framework', { name: 'Pix', id: 'id1' }),
+      store.createRecord('framework', { name: 'framework2', id: 'id2' }),
+    ];
+
     component = createComponent('component:common/tubes-selection', {
-      frameworks: [
-        { name: 'Pix', id: 'id1' },
-        { name: 'framework2', id: 'id2' },
-      ],
+      frameworks,
       onChange: sinon.stub(),
     });
   });
@@ -39,7 +42,9 @@ module('Unit | Component | common/tubes-selection', function (hooks) {
       const result = component.selectedFrameworks;
 
       // then
-      assert.deepEqual(result, [{ name: 'Pix', id: 'id1' }]);
+      assert.strictEqual(result.length, 1);
+      assert.strictEqual(result[0].name, 'Pix');
+      assert.strictEqual(result[0].id, 'id1');
     });
   });
 
@@ -158,7 +163,7 @@ module('Unit | Component | common/tubes-selection', function (hooks) {
     });
   });
 
-  module('#_onFileLoad', function (hooks) {
+  module('#onFileLoad', function (hooks) {
     hooks.afterEach(function () {
       sinon.restore();
     });
@@ -189,7 +194,7 @@ module('Unit | Component | common/tubes-selection', function (hooks) {
     });
   });
 
-  module('#_getSelectedTubesWithLevel', function () {
+  module('#getSelectedTubesWithLevel', function () {
     test('it should return selected tubes with level', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');

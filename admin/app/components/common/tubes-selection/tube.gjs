@@ -6,8 +6,6 @@ import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-import { isTubeSelected } from '../../../helpers/is-tube-selected';
-
 const MAX_TUBE_LEVEL = 8;
 
 export default class Tube extends Component {
@@ -38,7 +36,7 @@ export default class Tube extends Component {
   }
 
   get state() {
-    return isTubeSelected(this.args.selectedTubeIds, this.args.tube);
+    return this.args.selectedTubeIds.includes(this.args.tube.id);
   }
 
   get selectedLevel() {

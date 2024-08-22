@@ -142,8 +142,8 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
     // then
     assert.dom(screen.getByLabelText('@tubeName1 : Tube 1')).isChecked();
     assert.dom(screen.getByLabelText('@tubeName2 : Tube 2')).isChecked();
-    assert.dom(screen.getByLabelText('Thématiques')).isNotChecked();
-    assert.dom(screen.getByLabelText('Thématiques')).hasProperty('indeterminate', true);
+
+    assert.dom(screen.getByLabelText('Thématiques')).hasClass('pix-checkbox__input--indeterminate');
   });
 
   test('it should check the thematic if all corresponding tubes are selected', async function (assert) {
@@ -155,8 +155,7 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
 
     // then
     assert.dom(screen.getByLabelText('Thématique 1')).isChecked();
-    assert.dom(screen.getByLabelText('Thématiques')).isNotChecked();
-    assert.dom(screen.getByLabelText('Thématiques')).hasProperty('indeterminate', true);
+    assert.dom(screen.getByLabelText('Thématiques')).hasClass('pix-checkbox__input--indeterminate');
   });
 
   test('it should indeterminate the thematic if not all of corresponding tubes are selected', async function (assert) {
@@ -167,7 +166,7 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
 
     // then
     screen.getByLabelText('Thématique 1').classList.value.includes('indeterminate');
-    assert.dom(screen.getByLabelText('Thématiques')).hasProperty('indeterminate', true);
+    assert.dom(screen.getByLabelText('Thématiques')).hasClass('pix-checkbox__input--indeterminate');
   });
 
   test('it should check the competence if all corresponding thematics are selected', async function (assert) {
@@ -189,10 +188,7 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
 
     // then
     assert.dom(screen.getByLabelText('Thématique 1')).isChecked();
-    assert.dom(screen.getByLabelText('Thématique 1')).hasProperty('indeterminate', false);
-
     assert.dom(screen.getByLabelText('Thématique 2')).isChecked();
-    assert.dom(screen.getByLabelText('Thématique 2')).hasProperty('indeterminate', false);
 
     assert.dom(screen.getByLabelText('@tubeName1 : Tube 1')).isChecked();
     assert.dom(screen.getByLabelText('@tubeName2 : Tube 2')).isChecked();
