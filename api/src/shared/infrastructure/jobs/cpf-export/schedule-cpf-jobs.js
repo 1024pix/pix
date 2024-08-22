@@ -3,17 +3,13 @@ import { logger } from '../../utils/logger.js';
 import { cpfExport } from './index.js';
 const { plannerJob, sendEmailJob } = config.cpf;
 
-const { planner, createAndUpload } = cpfExport;
+const { planner } = cpfExport;
 
 const scheduleCpfJobs = async function (pgBoss) {
   await pgBoss.schedule('CpfExportPlannerJob', plannerJob.cron, null, { tz: 'Europe/Paris' });
 
   await pgBoss.work('CpfExportPlannerJob', async (job) => {
     await _processJob(job, planner, { pgBoss });
-  });
-
-  await pgBoss.work('CpfExportBuilderJob', { batchSize: 1 }, async ([job]) => {
-    await _processJob(job, createAndUpload, { data: job.data });
   });
 
   await pgBoss.schedule('CpfExportSenderJob', sendEmailJob.cron, null, { tz: 'Europe/Paris' });
