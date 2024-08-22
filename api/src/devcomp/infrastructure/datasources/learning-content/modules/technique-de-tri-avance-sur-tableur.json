@@ -51,7 +51,7 @@
             "element": {
               "id": "701f996c-aa90-4035-9c6d-fe0b9072c4a1",
               "type": "text",
-              "content": "<p>Voici un aperçu du tableau de Sarah. </p><p>Elle souhaite classer les enfants, d'abord, par ordre du meilleur score au chamboule-tout puis par ordre de rapidité à la course en sac.<span aria-hidden=\"true\">🏆</span></p>"
+              "content": "<p>Voici un aperçu du tableau de Sarah. </p><p>Elle souhaite classer les enfants, d'abord, par ordre du meilleur score au chamboule-tout, puis par ordre de rapidité à la course en sac.<span aria-hidden=\"true\">🏆</span></p>"
             }
           },
           {
@@ -127,7 +127,7 @@
             "element": {
               "id": "cabf35be-5916-4e49-acc9-f3e66b27d673",
               "type": "text",
-              "content": "<p>Les enfants ont jugé les résultats de la course en sacs trop sérrés. Pour départager les enfants autrement, Sarah a créé la «&nbsp;Question Bonus&nbsp;».<span aria-hidden=\"true\">✨</span> </p><p><span aria-hidden=\"true\">📋</span> Elle a ajouté les réponses des enfants dans le tableau de données.<br> Désormais, l’ordre de de tri est donc défini d'abord par le score au chamboule-tout, puis par la réponse à la «&nbsp;Question Bonus&nbsp;» par ordre alphabétique.</p> <br><p> <span aria-hidden=\"true\">👉</span>Téléchargez le document ci-dessous et triez la liste d'enfants par orde décroissant de score au chamboule-tout, puis par ordre croissant de réponse à la question bonus.</p><br><a href=\"https://docs.google.com/spreadsheets/d/1Z899RbEi8d-uJDKOsHkFN_xL7_kP8-vPQILaPrjq7cs/edit?usp=sharing\" target=\"_blank\">Téléchargement</a>"
+              "content": "<p>Les enfants ont jugé les résultats de la course en sacs trop sérrés. Pour départager les enfants autrement, Sarah a créé la «&nbsp;Question Bonus&nbsp;».<span aria-hidden=\"true\">✨</span> </p><p><span aria-hidden=\"true\">📋</span> Elle a ajouté les réponses des enfants dans le tableau de données.<br> Désormais, l’ordre de de tri est donc défini d'abord par le score au chamboule-tout, puis par la réponse à la «&nbsp;Question Bonus&nbsp;» par ordre alphabétique.</p> <br><p><b> <span aria-hidden=\"true\">👉</span> Téléchargez le fichier ci-dessous et triez la liste d'enfants par orde décroissant de score au chamboule-tout, puis par ordre croissant de réponse à la question bonus.</b></p>"
             }
           },
             {
@@ -136,8 +136,8 @@
         "id": "2080300e-ddbe-4641-b4a8-360426d48adb",
         "type": "download",
         "files": [
-          { "url": "https://dl.pix.fr/1724227288979/PWQKZJVLUU.xlsx", "format": ".xlsx" },
-          { "url": "https://dl.pix.fr/1724227289002/UJANLTUKVL.ods", "format": ".ods" }
+          { "url": "https://dl.pix.fr/1724318432534/ICTHKNLOBX.xlsx", "format": ".xlsx" },
+          { "url": "https://dl.pix.fr/1724318432598/GMFCAJMWAW.ods", "format": ".ods" }
                 ]
             }
            },
@@ -244,7 +244,7 @@
             "element": {
               "id": "949063e9-c3fe-4762-8a45-de450eabf6dc",
               "type": "text",
-              "content": "<p>Le fichier à télécharger contient les résultats des enfants aux nouvelles épreuves. <span aria-hidden=\"true\">📋</span></p> <br><p><span aria-hidden=\"true\">👉</span> Téléchargez ce fichier et triez les données pour reproduire le classsement de Sarah ci-dessous (attention, on ne voit que le début…).</p><br><a href=\"https://docs.google.com/spreadsheets/d/1Z899RbEi8d-uJDKOsHkFN_xL7_kP8-vPQILaPrjq7cs/edit?usp=sharing\" target=\"_blank\">Téléchargement</a>"
+              "content": "<p>Le fichier à télécharger contient les résultats des enfants aux nouvelles épreuves. <span aria-hidden=\"true\">📋</span></p> <b><br><p><span aria-hidden=\"true\">👉</span> Téléchargez ce fichier et triez les données pour reproduire le classsement de Sarah ci-dessous (attention, on ne voit que le début…).</b></p>"
             }
           },
           {
