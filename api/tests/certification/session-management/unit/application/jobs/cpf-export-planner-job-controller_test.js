@@ -73,10 +73,10 @@ describe('Unit | Application | Certification | Sessions Management | jobs | cpf-
     expect(
       cpfCertificationResultRepository.countExportableCertificationCoursesByTimeRange,
     ).to.have.been.calledWithExactly({ startDate, endDate });
-    expect(cpfExportBuilderJobRepository.performAsync).to.have.been.calledOnceWith([
+    expect(cpfExportBuilderJobRepository.performAsync).to.have.been.calledOnceWith(
       new CpfExportBuilderJob({ batchId: '237584-7648#0' }),
       new CpfExportBuilderJob({ batchId: '237584-7648#1' }),
       new CpfExportBuilderJob({ batchId: '237584-7648#2' }),
-    ]);
+    );
   });
 });

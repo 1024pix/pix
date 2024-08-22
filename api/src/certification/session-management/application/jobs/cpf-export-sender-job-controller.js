@@ -1,14 +1,14 @@
 import { mailService } from '../../../../../lib/domain/services/mail-service.js';
-import { JobController } from '../../../../shared/application/jobs/job-controller.js';
+import { JobScheduleController } from '../../../../shared/application/jobs/job-schedule-controller.js';
 import { config } from '../../../../shared/config.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { getPreSignedUrls } from '../../domain/usecases/get-cpf-presigned-urls.js';
 
 const { cpf } = config;
 
-class CpfExportSenderJobController extends JobController {
+class CpfExportSenderJobController extends JobScheduleController {
   constructor() {
-    super('CpfExportSenderJob');
+    super('CpfExportSenderJob', { jobCron: config.cpf.sendEmailJob.cron });
   }
 
   async handle(data, { dependencies = { getPreSignedUrls, mailService } }) {

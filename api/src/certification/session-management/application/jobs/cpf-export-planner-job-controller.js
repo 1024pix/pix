@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 
-import { JobController } from '../../../../shared/application/jobs/job-controller.js';
+import { JobScheduleController } from '../../../../shared/application/jobs/job-schedule-controller.js';
 import { config } from '../../../../shared/config.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { CpfExportBuilderJob } from '../../domain/models/CpfExportBuilderJob.js';
@@ -14,9 +14,9 @@ dayjs.extend(timezone);
 
 const { plannerJob } = config.cpf;
 
-class CpfExportPlannerJobController extends JobController {
+class CpfExportPlannerJobController extends JobScheduleController {
   constructor() {
-    super('CpfExportPlannerJob');
+    super('CpfExportPlannerJob', { jobCron: config.cpf.plannerJob.cron });
   }
 
   async handle(
@@ -57,7 +57,7 @@ class CpfExportPlannerJobController extends JobController {
     }
 
     await dependencies.cpfExportBuilderJobRepository.performAsync(
-      newJobs.map((batchId) => new CpfExportBuilderJob({ batchId })),
+      ...newJobs.map((batchId) => new CpfExportBuilderJob({ batchId })),
     );
   }
 }
