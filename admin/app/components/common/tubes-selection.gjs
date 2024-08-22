@@ -1,7 +1,13 @@
+import PixButtonUpload from '@1024pix/pix-ui/components/pix-button-upload';
+import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
+import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+
+import Card from '../card';
+import Areas from './tubes-selection/areas';
 
 const MAX_TUBE_LEVEL = 8;
 
@@ -27,6 +33,8 @@ export default class TubesSelection extends Component {
     if (this.args.initialCappedTubes?.length > 0) {
       this.setInitialCheckedTubes();
     }
+
+    this.refreshAreas();
   }
 
   setInitialFrameworks() {
@@ -65,6 +73,7 @@ export default class TubesSelection extends Component {
   @action
   setSelectedFrameworkIds(frameworkIds) {
     this.selectedFrameworkIds = frameworkIds;
+    this.refreshAreas();
   }
 
   @action
@@ -206,4 +215,59 @@ export default class TubesSelection extends Component {
       return { id: tube.id, level };
     });
   }
+
+  <template>
+    <div class="tubes-selection">
+      <Card class="tubes-selection__card" @title="Sélection des sujets">
+        <div class="tubes-selection__inline-layout">
+          <PixMultiSelect
+            class="tubes-selection__multi-select"
+            @placeholder="Sélectionner les référentiels souhaités"
+            @id="framework-list"
+            @isSearchable={{true}}
+            @inlineLabel={{true}}
+            @showOptionsOnInput={{true}}
+            @onChange={{this.setSelectedFrameworkIds}}
+            @emptyMessage="Pas de résultat"
+            @values={{this.selectedFrameworkIds}}
+            @options={{this.frameworkOptions}}
+          >
+            <:label>Référentiels :</:label>
+            <:default as |option|>{{option.label}}</:default>
+          </PixMultiSelect>
+          {{#if @displayJsonImportButton}}
+            <div class="tubes-selection__vertical-delimiter"></div>
+            <PixButtonUpload
+              @onChange={{this.fillTubesSelectionFromFile}}
+              @variant="secondary"
+              @size="small"
+              @id="file-upload"
+              accept=".json"
+            >
+              Importer un fichier JSON
+            </PixButtonUpload>
+          {{/if}}
+          <PixTag class="tubes-selection__count" @color="neutral">
+            {{this.selectedTubesCount}}/{{this.totalTubesCount}}
+            sujet(s) sélectionné(s)
+          </PixTag>
+        </div>
+      </Card>
+
+      {{#if this.hasNoFrameworksSelected}}
+        Aucun référentiel de sélectionné
+      {{else}}
+        <Areas
+          @areas={{this.areas}}
+          @setLevelTube={{this.setLevelTube}}
+          @selectedTubeIds={{this.selectedTubeIds}}
+          @checkTube={{this.checkTube}}
+          @uncheckTube={{this.uncheckTube}}
+          @tubeLevels={{this.tubeLevels}}
+          @displayDeviceCompatibility={{@displayDeviceCompatibility}}
+          @displaySkillDifficultyAvailability={{@displaySkillDifficultyAvailability}}
+        />
+      {{/if}}
+    </div>
+  </template>
 }
