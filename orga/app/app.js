@@ -1,9 +1,3 @@
-import '@formatjs/intl-locale/polyfill';
-import '@formatjs/intl-pluralrules/polyfill';
-import '@formatjs/intl-pluralrules/locale-data/en';
-import '@formatjs/intl-pluralrules/locale-data/fr';
-import '@formatjs/intl-getcanonicallocales/polyfill';
-
 import Application from '@ember/application';
 import { dom, library } from '@fortawesome/fontawesome-svg-core';
 import loadInitializers from 'ember-load-initializers';
