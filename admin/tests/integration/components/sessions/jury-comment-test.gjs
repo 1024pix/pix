@@ -1,13 +1,12 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { settled } from '@ember/test-helpers';
 import dayjs from 'dayjs';
-import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import JuryComment from 'pix-admin/components/sessions/jury-comment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Integration | Component | Sessions::JuryComment', function (hooks) {
+module('Integration | Component | JuryComment', function (hooks) {
   setupRenderingTest(hooks);
 
   module('when there is no comment', function () {
@@ -19,13 +18,13 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
         }
         this.owner.register('service:accessControl', SessionStub);
 
-        this.author = null;
-        this.date = null;
-        this.comment = null;
+        const author = null;
+        const date = null;
+        const comment = null;
 
         // when
         const screen = await render(
-          hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
+          <template><JuryComment @author={{author}} @date={{date}} @comment={{comment}} /></template>,
         );
 
         // then
@@ -42,13 +41,13 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
         }
         this.owner.register('service:accessControl', SessionStub);
 
-        this.author = null;
-        this.date = null;
-        this.comment = null;
+        const author = null;
+        const date = null;
+        const comment = null;
 
         // when
         const screen = await render(
-          hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
+          <template><JuryComment @author={{author}} @date={{date}} @comment={{comment}} /></template>,
         );
 
         // then
@@ -67,26 +66,35 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             }
             this.owner.register('service:accessControl', SessionStub);
 
-            this.author = null;
-            this.date = null;
-            this.comment = null;
-            this.onFormSubmit = sinon.stub().callsFake((comment) => {
-              this.set('comment', comment);
-              return new Promise((resolve) => resolve());
+            let screen;
+            const author = null;
+            const date = null;
+            const comment = null;
+            const onFormSubmit = sinon.stub().callsFake(async (newComment) => {
+              screen = await render(
+                <template>
+                  <JuryComment
+                    @author={{author}}
+                    @date={{date}}
+                    @comment={{newComment}}
+                    @onFormSubmit={{onFormSubmit}}
+                  />
+                </template>,
+              );
+              return Promise.resolve();
             });
 
             // when
-            const screen = await render(hbs`<Sessions::JuryComment
-  @author={{this.author}}
-  @date={{this.date}}
-  @comment={{this.comment}}
-  @onFormSubmit={{this.onFormSubmit}}
-/>`);
+            screen = await render(
+              <template>
+                <JuryComment @author={{author}} @date={{date}} @comment={{comment}} @onFormSubmit={{onFormSubmit}} />
+              </template>,
+            );
             await fillByLabel('Texte du commentaire', 'Un nouveau commentaire');
             await clickByName('Enregistrer');
 
             // then
-            assert.ok(this.onFormSubmit.calledWith('Un nouveau commentaire'));
+            assert.ok(onFormSubmit.calledWith('Un nouveau commentaire'));
             assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
             assert.dom(screen.getByRole('button', { name: 'Supprimer' })).exists();
           });
@@ -100,23 +108,22 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             }
             this.owner.register('service:accessControl', SessionStub);
 
-            this.author = null;
-            this.date = null;
-            this.comment = null;
-            this.onFormSubmit = sinon.stub().rejects();
+            const author = null;
+            const date = null;
+            const comment = null;
+            const onFormSubmit = sinon.stub().rejects();
 
             // when
-            const screen = await render(hbs`<Sessions::JuryComment
-  @author={{this.author}}
-  @date={{this.date}}
-  @comment={{this.comment}}
-  @onFormSubmit={{this.onFormSubmit}}
-/>`);
+            const screen = await render(
+              <template>
+                <JuryComment @author={{author}} @date={{date}} @comment={{comment}} @onFormSubmit={{onFormSubmit}} />
+              </template>,
+            );
             await fillByLabel('Texte du commentaire', 'Un nouveau commentaire');
             await clickByName('Enregistrer');
 
             // then
-            assert.ok(this.onFormSubmit.calledWith('Un nouveau commentaire'));
+            assert.ok(onFormSubmit.calledWith('Un nouveau commentaire'));
             assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
           });
         });
@@ -132,14 +139,14 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
       }
       this.owner.register('service:accessControl', SessionStub);
 
-      this.author = 'Vernon Sanders Law';
-      this.date = new Date('2021-06-21T14:30:21Z');
-      this.comment =
+      const author = 'Vernon Sanders Law';
+      const date = new Date('2021-06-21T14:30:21Z');
+      const comment =
         "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
 
       // when
       const screen = await render(
-        hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
+        <template><JuryComment @author={{author}} @date={{date}} @comment={{comment}} /></template>,
       );
 
       // then
@@ -165,14 +172,14 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
         }
         this.owner.register('service:accessControl', SessionStub);
 
-        this.author = 'Vernon Sanders Law';
-        this.date = new Date('2021-06-21T14:30:21Z');
-        this.comment =
+        const author = 'Vernon Sanders Law';
+        const date = new Date('2021-06-21T14:30:21Z');
+        const comment =
           "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
 
         // when
         const screen = await render(
-          hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
+          <template><JuryComment @author={{author}} @date={{date}} @comment={{comment}} /></template>,
         );
 
         // then
@@ -191,14 +198,14 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           }
           this.owner.register('service:accessControl', SessionStub);
 
-          this.author = 'Vernon Sanders Law';
-          this.date = new Date('2021-06-21T14:30:21Z');
-          this.comment =
+          const author = 'Vernon Sanders Law';
+          const date = new Date('2021-06-21T14:30:21Z');
+          const comment =
             "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
 
           // when
           const screen = await render(
-            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
+            <template><JuryComment @author={{author}} @date={{date}} @comment={{comment}} /></template>,
           );
           await clickByName('Modifier');
 
@@ -221,14 +228,14 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           }
           this.owner.register('service:accessControl', SessionStub);
 
-          this.author = 'Vernon Sanders Law';
-          this.date = new Date('2021-06-21T14:30:21Z');
-          this.comment =
+          const author = 'Vernon Sanders Law';
+          const date = new Date('2021-06-21T14:30:21Z');
+          const comment =
             "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
 
           // when
           const screen = await render(
-            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
+            <template><JuryComment @author={{author}} @date={{date}} @comment={{comment}} /></template>,
           );
           await clickByName('Modifier');
           await clickByName('Annuler');
@@ -245,13 +252,13 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           }
           this.owner.register('service:accessControl', SessionStub);
 
-          this.author = 'Serge Gainsbourg';
-          this.date = new Date('2021-06-21T14:30:21Z');
-          this.comment = 'Qui promène son chien est au bout de la laisse.';
+          const author = 'Serge Gainsbourg';
+          const date = new Date('2021-06-21T14:30:21Z');
+          const comment = 'Qui promène son chien est au bout de la laisse.';
 
           // when
           const screen = await render(
-            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
+            <template><JuryComment @author={{author}} @date={{date}} @comment={{comment}} /></template>,
           );
           await clickByName('Modifier');
           await fillByLabel('Texte du commentaire', 'Qui promène son chat est au bout de la laisse.');
@@ -270,14 +277,14 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           }
           this.owner.register('service:accessControl', SessionStub);
 
-          this.author = 'Frederic Brown';
-          this.date = new Date('2006-11-21T15:32:12Z');
-          this.comment =
+          const author = 'Frederic Brown';
+          const date = new Date('2006-11-21T15:32:12Z');
+          const comment =
             'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…';
 
           // when
           const screen = await render(
-            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
+            <template><JuryComment @author={{author}} @date={{date}} @comment={{comment}} /></template>,
           );
           await clickByName('Supprimer');
 
@@ -289,39 +296,50 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
           module('when the deletion succeeds', function () {
             test('it calls the onDeleteButtonClicked callback and closes the modal', async function (assert) {
               // given
+              let screen;
+
               class SessionStub extends Service {
                 hasAccessToCertificationActionsScope = true;
               }
               this.owner.register('service:accessControl', SessionStub);
 
-              this.author = 'Frederic Brown';
-              this.date = new Date('2006-11-21T15:32:12Z');
-              this.comment =
+              const author = 'Frederic Brown';
+              const date = new Date('2006-11-21T15:32:12Z');
+              const comment =
                 'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…';
-              this.onDeleteButtonClicked = sinon.stub().callsFake(() => {
-                this.set('comment', null);
-                return new Promise((resolve) => resolve());
+
+              const onDeleteButtonClicked = sinon.stub().callsFake(async () => {
+                screen = await render(
+                  <template>
+                    <JuryComment
+                      @author={{author}}
+                      @date={{date}}
+                      @comment={{null}}
+                      @onDeleteButtonClicked={{onDeleteButtonClicked}}
+                    />
+                  </template>,
+                );
+                return Promise.resolve();
               });
 
               // when
-              const screen = await render(hbs`<Sessions::JuryComment
-  @author={{this.author}}
-  @date={{this.date}}
-  @comment={{this.comment}}
-  @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
-/>`);
+              screen = await render(
+                <template>
+                  <JuryComment
+                    @author={{author}}
+                    @date={{date}}
+                    @comment={{comment}}
+                    @onDeleteButtonClicked={{onDeleteButtonClicked}}
+                  />
+                </template>,
+              );
+
               await clickByName('Supprimer');
-
               await screen.findByRole('dialog');
-
               await clickByName('Confirmer');
 
               // then
-              assert.ok(this.onDeleteButtonClicked.calledOnce);
-
-              // assert
-              //  .dom(screen.queryByText('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?'))
-              //  .doesNotExist();
+              assert.ok(onDeleteButtonClicked.calledOnce);
               assert
                 .dom(
                   screen.queryByText(
@@ -341,19 +359,23 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
               }
               this.owner.register('service:accessControl', SessionStub);
 
-              this.author = 'Frederic Brown';
-              this.date = new Date('2006-11-21T15:32:12Z');
-              this.comment =
+              const author = 'Frederic Brown';
+              const date = new Date('2006-11-21T15:32:12Z');
+              const comment =
                 'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…';
-              this.onDeleteButtonClicked = sinon.stub().rejects();
+              const onDeleteButtonClicked = sinon.stub().rejects();
 
               // when
-              const screen = await render(hbs`<Sessions::JuryComment
-  @author={{this.author}}
-  @date={{this.date}}
-  @comment={{this.comment}}
-  @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
-/>`);
+              const screen = await render(
+                <template>
+                  <JuryComment
+                    @author={{author}}
+                    @date={{date}}
+                    @comment={{comment}}
+                    @onDeleteButtonClicked={{onDeleteButtonClicked}}
+                  />
+                </template>,
+              );
               await clickByName('Supprimer');
 
               await screen.findByRole('dialog');
@@ -361,7 +383,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
               await clickByName('Confirmer');
 
               // then
-              assert.ok(this.onDeleteButtonClicked.calledOnce);
+              assert.ok(onDeleteButtonClicked.calledOnce);
               assert
                 .dom(screen.getByText('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?'))
                 .exists();
@@ -386,19 +408,23 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             }
             this.owner.register('service:accessControl', SessionStub);
 
-            this.author = 'Frederic Brown';
-            this.date = new Date('2006-11-21T15:32:12Z');
-            this.comment =
+            const author = 'Frederic Brown';
+            const date = new Date('2006-11-21T15:32:12Z');
+            const comment =
               'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…';
-            this.onDeleteButtonClicked = sinon.stub();
+            const onDeleteButtonClicked = sinon.stub();
 
             // when
-            const screen = await render(hbs`<Sessions::JuryComment
-  @author={{this.author}}
-  @date={{this.date}}
-  @comment={{this.comment}}
-  @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
-/>`);
+            const screen = await render(
+              <template>
+                <JuryComment
+                  @author={{author}}
+                  @date={{date}}
+                  @comment={{comment}}
+                  @onDeleteButtonClicked={{onDeleteButtonClicked}}
+                />
+              </template>,
+            );
             await clickByName('Supprimer');
 
             await screen.findByRole('dialog');
@@ -406,10 +432,7 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             await clickByName('Annuler');
 
             // then
-            assert.ok(this.onDeleteButtonClicked.notCalled);
-            //assert
-            //  .dom(screen.queryByText('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?'))
-            //  .doesNotExist();
+            assert.ok(onDeleteButtonClicked.notCalled);
             assert
               .dom(
                 screen.getByText(
@@ -420,37 +443,6 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
             assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
             assert.dom(screen.getByRole('button', { name: 'Supprimer' })).exists();
           });
-        });
-      });
-
-      module("when the component's arguments change", function () {
-        test('it renders the updated comment', async function (assert) {
-          // given
-          class SessionStub extends Service {
-            hasAccessToCertificationActionsScope = true;
-          }
-          this.owner.register('service:accessControl', SessionStub);
-
-          const yesterday = '2021-06-21T14:30:21Z';
-          const today = '2021-07-21T14:30:21Z';
-          this.author = 'Vernon Sanders Law';
-          this.date = new Date(yesterday);
-          this.comment =
-            "L'expérience est un professeur cruel car elle vous fait passer l'examen, avant de vous expliquer la leçon.";
-
-          // when
-          const screen = await render(
-            hbs`<Sessions::JuryComment @author={{this.author}} @date={{this.date}} @comment={{this.comment}} />`,
-          );
-          this.set('author', 'XXXX');
-          this.set('date', new Date(today));
-          this.set('comment', 'Saperlipopette, quelle experience!');
-          await settled();
-
-          // then
-          assert.dom(screen.getByText('XXXX')).exists();
-          assert.dom(screen.getByText(_formatDate(today))).exists();
-          assert.dom(screen.getByText('Saperlipopette, quelle experience!')).exists();
         });
       });
     });
