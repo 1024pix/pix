@@ -9,7 +9,7 @@ import { SiecleFileStreamer } from '../../../../../../src/prescription/learner-m
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | import-organization-learners-from-siecle-xml', function () {
+describe('Unit | UseCase | validate-siecle-xml-file', function () {
   const organizationId = 1234;
   const organizationImportId = 345;
   let parserStub;
@@ -23,7 +23,6 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
   let externalIdSymbol;
   let domainTransactionStub;
   let importOrganizationLearnersJobRepositoryStub;
-  let logErrorWithCorrelationIdsStub;
 
   beforeEach(function () {
     domainTransactionStub = Symbol('domainTransaction');
@@ -32,8 +31,6 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
     importOrganizationLearnersJobRepositoryStub = {
       performAsync: sinon.stub(),
     };
-
-    logErrorWithCorrelationIdsStub = sinon.stub();
 
     organizationImportRepositoryStub = {
       get: sinon.stub(),
@@ -88,22 +85,42 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
   });
 
   context('error cases', function () {
-    it('should save error when there is an error reading file from S3', async function () {
-      const s3Error = new Error('s3 error');
-      importStorageStub.readFile.rejects(s3Error);
-      const error = await catchErr(validateSiecleXmlFile)({
-        organizationImportId,
-        organizationImportRepository: organizationImportRepositoryStub,
-        organizationRepository: organizationRepositoryStub,
-        importStorage: importStorageStub,
-        importOrganizationLearnersJobRepository: importOrganizationLearnersJobRepositoryStub,
+    context('when there is s3 errors', function () {
+      it('should save error when there is an error reading file from S3', async function () {
+        const s3Error = new Error('s3 error');
+        importStorageStub.readFile.rejects(s3Error);
+        const error = await catchErr(validateSiecleXmlFile)({
+          organizationImportId,
+          organizationImportRepository: organizationImportRepositoryStub,
+          organizationRepository: organizationRepositoryStub,
+          importStorage: importStorageStub,
+          importOrganizationLearnersJobRepository: importOrganizationLearnersJobRepositoryStub,
+        });
+        expect(error).to.eq(s3Error);
+        expect(organizationImportStub.validate).to.have.been.calledWith({ errors: [s3Error] });
+        expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({
+          filename: organizationImportStub.filename,
+        });
+        expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
       });
-      expect(error).to.eq(s3Error);
-      expect(organizationImportStub.validate).to.have.been.calledWith({ errors: [s3Error] });
-      expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({
-        filename: organizationImportStub.filename,
+
+      it('should save error when there is an error deleting file from S3', async function () {
+        parserStub.parse.rejects(new AggregateImportError([new Error('parsing')]));
+        const s3Error = new Error('s3 error');
+        importStorageStub.deleteFile.rejects(s3Error);
+        const error = await catchErr(validateSiecleXmlFile)({
+          organizationImportId,
+          organizationImportRepository: organizationImportRepositoryStub,
+          organizationRepository: organizationRepositoryStub,
+          importStorage: importStorageStub,
+          importOrganizationLearnersJobRepository: importOrganizationLearnersJobRepositoryStub,
+        });
+        expect(error).to.eq(s3Error);
+        expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({
+          filename: organizationImportStub.filename,
+        });
+        expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
       });
-      expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
     });
 
     it('should save error when there is an error publishing event', async function () {
@@ -125,28 +142,11 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
       expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
     });
 
-    it('should call log method if file deletion on s3 fails', async function () {
-      const deletionError = new Error('deletion error');
-
-      importOrganizationLearnersJobRepositoryStub.performAsync.rejects();
-      importStorageStub.deleteFile.rejects(deletionError);
-
-      await catchErr(validateSiecleXmlFile)({
-        organizationImportId,
-        organizationImportRepository: organizationImportRepositoryStub,
-        organizationRepository: organizationRepositoryStub,
-        importStorage: importStorageStub,
-        importOrganizationLearnersJobRepository: importOrganizationLearnersJobRepositoryStub,
-        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
-      });
-      expect(logErrorWithCorrelationIdsStub).to.have.been.calledWith(deletionError);
-    });
-
     context('when there is validation errors', function () {
       it('should save parsing errors', async function () {
         const parsingErrors = [new Error('parsing'), new Error('parsing2')];
         parserStub.parse.rejects(new AggregateImportError(parsingErrors));
-        const error = await catchErr(validateSiecleXmlFile)({
+        await validateSiecleXmlFile({
           organizationImportId,
           organizationImportRepository: organizationImportRepositoryStub,
           organizationRepository: organizationRepositoryStub,
@@ -156,14 +156,13 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
         expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({
           filename: organizationImportStub.filename,
         });
-        expect(error).to.be.an.instanceOf(AggregateImportError);
         expect(organizationImportStub.validate).to.have.been.calledWith({ errors: parsingErrors });
         expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
       });
 
       it('should save empty learner error', async function () {
         parserStub.parse.resolves([]);
-        const error = await catchErr(validateSiecleXmlFile)({
+        await validateSiecleXmlFile({
           organizationImportId,
           organizationImportRepository: organizationImportRepositoryStub,
           organizationRepository: organizationRepositoryStub,
@@ -173,8 +172,9 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
         expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({
           filename: organizationImportStub.filename,
         });
-        expect(error).to.be.an.instanceOf(SiecleXmlImportError);
-        expect(organizationImportStub.validate).to.have.been.calledWith({ errors: [error] });
+        expect(organizationImportStub.validate.getCall(0).args[0].errors[0] instanceof SiecleXmlImportError).to.equal(
+          true,
+        );
         expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
       });
     });
