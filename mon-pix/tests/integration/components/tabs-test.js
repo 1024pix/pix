@@ -49,6 +49,11 @@ module('Integration | Component | Tabs', function (hooks) {
         assert.strictEqual(screen.getAllByRole('tabpanel').length, 1);
         assert.dom(screen.getByText('First panel')).exists();
       });
+
+      test('hidden tabpanel content is not rendered', async function (assert) {
+        assert.dom(screen.queryByText('Second panel')).doesNotExist();
+        assert.dom(screen.queryByText('Third panel')).doesNotExist();
+      });
     });
 
     module('on tab click', function () {

@@ -9,6 +9,8 @@ import { eq, notEq } from 'ember-truth-helpers';
     aria-labelledby="{{@id}}-{{@index}}"
     hidden={{notEq @currentTab @index}}
   >
-    {{yield}}
+    {{#if (eq @currentTab @index)}}
+      {{yield}}
+    {{/if}}
   </div>
 </template>
