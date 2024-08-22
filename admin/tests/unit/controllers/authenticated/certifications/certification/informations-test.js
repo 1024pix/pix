@@ -442,7 +442,8 @@ module('Unit | Controller | authenticated/certifications/certification/informati
           },
         );
 
-        controller.certification.editJuryLevel = sinon.stub().resolves();
+        controller.certification.save = sinon.stub().resolves();
+
         controller.certification.reload = sinon.stub().resolves();
         controller.certification.complementaryCertificationCourseResultWithExternal =
           complementaryCertificationCourseResultWithExternal;
@@ -454,9 +455,12 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
         // then
         assert.false(controller.displayJuryLevelSelect);
-        sinon.assert.calledOnceWithExactly(controller.certification.editJuryLevel, {
-          juryLevel: 'REJECTED',
-          complementaryCertificationCourseId: 12345,
+        sinon.assert.calledOnceWithExactly(controller.certification.save, {
+          adapterOptions: {
+            isJuryLevelEdit: true,
+            juryLevel: 'REJECTED',
+            complementaryCertificationCourseId: 12345,
+          },
         });
         assert.ok(controller.certification.reload.calledOnce);
       });

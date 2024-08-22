@@ -13,6 +13,26 @@ export default class Certification extends ApplicationAdapter {
     return `${this.host}/${this.namespace}/admin/certification-courses/${certificationCourseId}`;
   }
 
+  urlForCancelCertification(certificationCourseId) {
+    return `${this.host}/${this.namespace}/admin/certification-courses/${certificationCourseId}/cancel`;
+  }
+
+  urlForUncancelCertification(certificationCourseId) {
+    return `${this.host}/${this.namespace}/admin/certification-courses/${certificationCourseId}/uncancel`;
+  }
+
+  urlForRejectCertification(certificationCourseId) {
+    return `${this.host}/${this.namespace}/admin/certification-courses/${certificationCourseId}/reject`;
+  }
+
+  urlForUnrejectCertification(certificationCourseId) {
+    return `${this.host}/${this.namespace}/admin/certification-courses/${certificationCourseId}/unreject`;
+  }
+
+  urlForEditJuryLevel() {
+    return `${this.host}/${this.namespace}/admin/complementary-certification-course-results`;
+  }
+
   updateRecord(store, type, snapshot) {
     if (snapshot.adapterOptions.updateJuryComment) {
       const {
@@ -26,6 +46,25 @@ export default class Certification extends ApplicationAdapter {
         },
       };
       return this.ajax(this.urlForUpdateJuryComment(snapshot.id), 'POST', { data: payload });
+    } else if (snapshot.adapterOptions.isCertificationCancel) {
+      return this.ajax(this.urlForCancelCertification(snapshot.id), 'PATCH');
+    } else if (snapshot.adapterOptions.isCertificationUncancel) {
+      return this.ajax(this.urlForUncancelCertification(snapshot.id), 'PATCH');
+    } else if (snapshot.adapterOptions.isCertificationReject) {
+      return this.ajax(this.urlForRejectCertification(snapshot.id), 'PATCH');
+    } else if (snapshot.adapterOptions.isCertificationUnreject) {
+      return this.ajax(this.urlForUnrejectCertification(snapshot.id), 'PATCH');
+    } else if (snapshot.adapterOptions.isJuryLevelEdit) {
+      const payload = {
+        data: {
+          attributes: {
+            juryLevel: snapshot.adapterOptions.juryLevel,
+            complementaryCertificationCourseId: snapshot.adapterOptions.complementaryCertificationCourseId,
+          },
+        },
+      };
+
+      return this.ajax(this.urlForEditJuryLevel(snapshot.id), 'POST', { data: payload });
     } else {
       const data = {};
       const serializer = store.serializerFor(type.modelName);
@@ -40,16 +79,5 @@ export default class Certification extends ApplicationAdapter {
       hash.dataType = '*';
     }
     return hash;
-  }
-
-  buildURL(modelName, id, snapshot, requestType, query) {
-    if (['cancel', 'uncancel', 'reject', 'unreject'].includes(requestType)) {
-      return `${this.host}/${this.namespace}/admin/certification-courses/${id}/${requestType}`;
-    }
-
-    if (requestType === 'edit-jury-level') {
-      return `${this.host}/${this.namespace}/admin/complementary-certification-course-results`;
-    }
-    return super.buildURL(modelName, id, snapshot, requestType, query);
   }
 }

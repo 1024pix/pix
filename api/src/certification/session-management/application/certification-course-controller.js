@@ -14,7 +14,7 @@ const reject = async function (request, h, dependencies = { events }) {
   });
 
   await dependencies.events.eventDispatcher.dispatch(certificationCourseRejectedEvent);
-  return h.response().code(200);
+  return h.response().code(204);
 };
 
 const unreject = async function (request, h, dependencies = { events }) {
@@ -26,7 +26,7 @@ const unreject = async function (request, h, dependencies = { events }) {
   });
 
   await dependencies.events.eventDispatcher.dispatch(certificationCourseRejectedEvent);
-  return h.response().code(200);
+  return h.response().code(204);
 };
 
 const updateJuryComment = async function (request, h, dependencies = { juryCommentSerializer }) {
