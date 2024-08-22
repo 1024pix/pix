@@ -1,10 +1,10 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import SwapCampaignCodes from 'pix-admin/components/administration/swap-campaign-codes';
+import SwapCampaignCodes from 'pix-admin/components/administration/campaigns/swap-campaign-codes';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering.js';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering.js';
 
 module('Integration | Component | administration/swap-campaign-codes', function (hooks) {
   setupIntlRenderingTest(hooks);

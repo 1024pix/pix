@@ -2,10 +2,10 @@ import NotificationContainer from '@1024pix/ember-cli-notifications/components/n
 import { render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import OrganizationTagsImport from 'pix-admin/components/administration/organization-tags-import';
+import OrganizationTagsImport from 'pix-admin/components/administration/organizations/organization-tags-import';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | administration/organization-tags-import', function (hooks) {
   setupIntlRenderingTest(hooks);

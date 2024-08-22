@@ -2,11 +2,11 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import OrganizationsImport from 'pix-admin/components/administration/organizations-import';
+import OrganizationsImport from 'pix-admin/components/administration/organizations/organizations-import';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component |  administration/organizations-import', function (hooks) {
   setupIntlRenderingTest(hooks);
