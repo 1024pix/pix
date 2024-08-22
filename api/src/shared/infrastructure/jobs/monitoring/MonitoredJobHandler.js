@@ -4,11 +4,11 @@ class MonitoredJobHandler {
     this.logger = logger;
   }
 
-  async handle(data, jobName) {
+  async handle({ data, jobName, jobId }) {
     let result;
     try {
       this.logJobStarting({ data, jobName });
-      result = await this.handler.handle(data);
+      result = await this.handler.handle(data, { jobId });
     } catch (error) {
       this.logJobFailed({ data, error, jobName });
       throw error;
