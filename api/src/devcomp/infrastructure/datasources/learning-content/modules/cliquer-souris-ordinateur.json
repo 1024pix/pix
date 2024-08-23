@@ -110,7 +110,7 @@
           "element": {
             "id": "564448dc-6485-4918-a2c1-4452b2552650",
             "type": "text",
-            "content": "<p>Gdevelop à créer</p>\n<iframe title=\"\\&quot;dnd\\&quot;\" src=\"\\&quot;https://1024pix.github.io/atelier-contenus/RPE/Modulix-1emarche-souris1-CarteAGratter/index.html\\&quot;\" width=\"\\&quot;100%\\&quot;\" height=\"\\&quot;395\\&quot;\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Modulix-1emarche-clic-3boutonsouris/index.html\" width=\"100%\" height=\"395\"></iframe>"
           }
         },
         {
@@ -119,47 +119,6 @@
             "id": "d9e4718d-a15a-4e62-a967-19971e1a611e",
             "type": "text",
             "content": "<p>🤔 <strong>Bon à savoir :</strong><br>Certaines souris ne possèdent pas la molette.</p>"
-          }
-        }
-      ]
-    },
-    {
-      "id": "3c6cc517-3f84-4979-812f-b826269a67f9",
-      "type": "lesson",
-      "title": "Le clic gauche en vidéo",
-      "components": [
-        {
-          "type": "element",
-          "element": {
-            "id": "b42b3d2f-ebd7-4011-b964-09323d8c485b",
-            "type": "text",
-            "content": "<p>Le bouton de gauche est celui qu’on utilise le plus.&nbsp; Il permet de faire ce qu’on appelle un clic gauche.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "e1ee7c82-ce27-4130-b37a-5291294555b1",
-            "type": "image",
-            "url": "https://images.pix.fr/modulix/placeholder-details.svg",
-            "alt": "",
-            "alternativeText": "<p>image ou schéma de souris où on désigne le bouton de gauche</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "d3ab6539-6142-4bac-a595-f77119fec98c",
-            "type": "text",
-            "content": "<p>Après cette vidéo, nous vous proposerons de vous entraîner à effectuer des clics gauches. </p> <br>\n<p>Découvrez en vidéo comment faire un clic gauche et à quoi il sert. <span aria-hidden=\"\\&quot;true\\&quot;\">▶️</span></p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "74ed4282-5e03-4715-8ca7-d3ff97a4a420",
-            "type": "text",
-            "content": "<iframe width=\"\\&quot;700\\&quot;\" height=\"\\&quot;410\\&quot;\" src=\"\\&quot;https://www.youtube.com/embed/oGwHYZcs5fE\\&quot;\" title=\"\\&quot;Première\" marche=\"\" souris=\"\" -=\"\" prise=\"\" en=\"\" main=\"\" de=\"\" la=\"\" souris\\\"=\"\"></iframe>\n<p>vidéo temporaire - à créer</p> "
           }
         }
       ]
