@@ -169,7 +169,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
   });
 
   module('is for absolute novice choice', function () {
-    module('Campaign is Type Assessment', function (hooks) {
+    module('Campaign is Type Assessment', function () {
       test('should not display choice if hasAccessToCampaignIsForAbsoluteNoviceEditionScope is false', async function (assert) {
         campaign.isTypeAssessment = true;
         // given

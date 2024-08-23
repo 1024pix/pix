@@ -3,7 +3,7 @@ import { click } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import ListItems from 'pix-admin/components/sessions/list-items';
 import { module, test } from 'qunit';
-import sinon, { stub } from 'sinon';
+import sinon from 'sinon';
 
 module('Integration | Component | routes/authenticated/sessions | list-items', function (hooks) {
   setupRenderingTest(hooks);
