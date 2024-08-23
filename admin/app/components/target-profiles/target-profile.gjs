@@ -229,7 +229,7 @@ export default class TargetProfile extends Component {
             @size="small"
             @variant="secondary"
           >
-            Modifier
+            {{t "common.actions.edit"}}
           </PixButtonLink>
           <div class="target-profile__actions-separator"></div>
 

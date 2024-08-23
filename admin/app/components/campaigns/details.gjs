@@ -4,6 +4,7 @@ import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
+import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 
 import SafeMarkdownToHtml from '../safe-markdown-to-html';
@@ -76,7 +77,9 @@ export default class Details extends Component {
 
       {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
         <br />
-        <PixButton @triggerAction={{@toggleEditMode}} @variant="secondary" @size="small">Modifier</PixButton>
+        <PixButton @triggerAction={{@toggleEditMode}} @variant="secondary" @size="small">
+          {{t "common.actions.edit"}}
+        </PixButton>
       {{/if}}
 
     </section>

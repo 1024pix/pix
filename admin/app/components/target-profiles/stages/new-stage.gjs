@@ -5,8 +5,8 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import isInteger from 'lodash/isInteger';
 import { t } from 'ember-intl';
+import isInteger from 'lodash/isInteger';
 
 import StageLevelSelect from '../../stages/stage-level-select';
 

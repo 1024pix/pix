@@ -5,6 +5,7 @@
       "cancel": "Cancel",
       "close": "Close",
       "deactivate": "Deactivate",
+      "edit": "Edit",
       "save": "Save",
       "validate": "Validate"
     },
@@ -329,20 +330,15 @@
           "title": "Informations techniques"
         },
         "user-information": {
+          "homepage": {
+            "label": "Texte de la page d'accueil",
+            "placeholder": "Exemple : description, objectifs..."
+          },
           "public-name": {
             "label": "Nom public <small>(50 caractères maximum)</small>",
             "placeholder": "Exemple : Le super nom de mon parcours autonome",
             "sub-label": "Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
           },
-          "homepage": {
-            "label": "Texte de la page d'accueil",
-            "placeholder": "Exemple : description, objectifs..."
-          },
-          "category-label": "",
-          "label": "",
-          "placeholder": "",
-          "search-label": "",
-          "sub-label": "",
           "title": "Informations pour les utilisateurs"
         }
       }

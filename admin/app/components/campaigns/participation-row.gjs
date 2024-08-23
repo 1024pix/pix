@@ -7,6 +7,7 @@ import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
+import { t } from 'ember-intl';
 
 export default class ParticipationRow extends Component {
   @service notifications;
@@ -121,7 +122,7 @@ export default class ParticipationRow extends Component {
                 class="participation-item-actions__button"
                 @iconBefore="pen-to-square"
               >
-                Modifier
+                {{t "common.actions.edit"}}
               </PixButton>
             {{/if}}
           </div>

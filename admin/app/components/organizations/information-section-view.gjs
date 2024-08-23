@@ -177,7 +177,7 @@ export default class OrganizationInformationSection extends Component {
           {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
             <div class="form-actions">
               <PixButton @variant="secondary" @size="small" @triggerAction={{@toggleEditMode}}>
-                Modifier
+                {{t "common.actions.edit"}}
               </PixButton>
               {{#unless @organization.isArchived}}
                 <PixButton @variant="error" @size="small" @triggerAction={{@toggleArchivingConfirmationModal}}>

@@ -1,13 +1,14 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import dayjs from 'dayjs';
-import { setupRenderingTest } from 'ember-qunit';
 import JuryComment from 'pix-admin/components/sessions/jury-comment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | JuryComment', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('when there is no comment', function () {
     module('when current user is not allowed to comment', function () {

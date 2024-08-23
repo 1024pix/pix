@@ -1,4 +1,5 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import { t } from 'ember-intl';
 
 <template>
   <section class="page-section">
@@ -29,7 +30,7 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
     </div>
     <br />
     <PixButton @size="small" @variant="secondary" @triggerAction={{@toggleEditMode}}>
-      Modifier
+      {{t "common.actions.edit"}}
     </PixButton>
   </section>
 </template>

@@ -116,7 +116,7 @@ export default class InformationView extends Component {
     <ul class="certification-center-information-display__action-buttons">
       <li>
         <PixButton @size="small" @triggerAction={{@toggleEditMode}}>
-          Modifier
+          {{t "common.actions.edit"}}
         </PixButton>
       </li>
       <li>

@@ -267,7 +267,7 @@ export default class UserOverview extends Component {
             </div>
             <div class="form-actions">
               <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancelEdit}}>Annuler</PixButton>
-              <PixButton @type="submit" @size="small" @variant="success">Modifier</PixButton>
+              <PixButton @type="submit" @size="small" @variant="success">{{t "common.actions.edit"}}</PixButton>
             </div>
           </form>
         {{else}}
@@ -383,7 +383,7 @@ export default class UserOverview extends Component {
                 @triggerAction={{this.changeEditionMode}}
                 @isDisabled={{@user.hasBeenAnonymised}}
               >
-                Modifier
+                {{t "common.actions.edit"}}
               </PixButton>
 
               <PixTooltip @position="bottom" @hide={{not @user.isPixAgent}} @isInline="{{true}}">

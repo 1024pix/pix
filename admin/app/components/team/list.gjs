@@ -5,6 +5,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import { or } from 'ember-truth-helpers';
 
 import ConfirmPopup from '../confirm-popup';
@@ -140,7 +141,8 @@ export default class List extends Component {
                         @triggerAction={{fn this.toggleEditionModeForThisMember member}}
                         @iconBefore="pen-to-square"
                       >
-                        Modifier</PixButton>
+                        {{t "common.actions.edit"}}
+                      </PixButton>
                     {{/if}}
                     <PixButton
                       class="admin-member-item-actions__button"
