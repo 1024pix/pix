@@ -31,7 +31,7 @@ export default class OrganizationInvitationsAction extends Component {
   get rolesOptions() {
     return [
       {
-        label: 'Automatique',
+        label: this.intl.t('common.roles.auto'),
         value: 'NULL',
       },
       {

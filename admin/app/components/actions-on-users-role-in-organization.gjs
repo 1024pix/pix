@@ -18,8 +18,8 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
 
   get organizationRoles() {
     return [
-      { value: 'ADMIN', label: 'Administrateur' },
-      { value: 'MEMBER', label: 'Membre' },
+      { value: 'ADMIN', label: this.intl.t('common.roles.admin') },
+      { value: 'MEMBER', label: this.intl.t('common.roles.member') },
     ];
   }
 
