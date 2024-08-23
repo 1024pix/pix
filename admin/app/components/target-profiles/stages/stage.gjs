@@ -92,7 +92,7 @@ export default class Stage extends Component {
                 {{t "common.actions.cancel"}}
               </PixButton>
               <PixButton @variant="error" @triggerAction={{fn @deleteStage @stage}}>
-                Valider
+                {{t "common.actions.validate"}}
               </PixButton>
             </:footer>
           </PixModal>

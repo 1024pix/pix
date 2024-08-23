@@ -128,7 +128,7 @@ export default class Organizations extends Component {
               aria-label="Valider le rattachement"
               @isDisabled={{this.isDisabledAttachOrganizations}}
             >
-              Valider
+              {{t "common.actions.validate"}}
             </PixButton>
           </div>
         </form>
@@ -152,7 +152,7 @@ export default class Organizations extends Component {
               aria-label="Valider le rattachement à partir de ce profil cible"
               @isDisabled={{this.isDisabledAttachOrganizationsFromExistingTargetProfile}}
             >
-              Valider
+              {{t "common.actions.validate"}}
             </PixButton>
           </div>
         </form>

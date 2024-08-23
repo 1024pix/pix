@@ -141,7 +141,9 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
               placeholder="1, 2"
               {{on "input" (pick "target.value" (set this "targetProfilesToAttach"))}}
             />
-            <PixButton @type="submit" @size="small" @isDisabled={{this.isDisabled}}>Valider</PixButton>
+            <PixButton @type="submit" @size="small" @isDisabled={{this.isDisabled}}>
+              {{t "common.actions.validate"}}
+            </PixButton>
           </form>
         </div>
       </section>

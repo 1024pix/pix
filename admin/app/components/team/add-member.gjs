@@ -113,7 +113,7 @@ export default class AddMember extends Component {
           aria-label="Donner accès à un agent Pix"
           @triggerAction={{this.inviteMember}}
         >
-          Valider
+          {{t "common.actions.validate"}}
         </PixButton>
       </section>
     </form>

@@ -132,7 +132,7 @@ export default class List extends Component {
                         aria-label="Valider la modification de rôle"
                         @triggerAction={{fn this.updateMemberRole member}}
                       >
-                        Valider
+                        {{t "common.actions.validate"}}
                       </PixButton>
                     {{else}}
                       <PixButton

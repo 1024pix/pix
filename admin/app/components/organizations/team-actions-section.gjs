@@ -22,7 +22,7 @@ import { on } from '@ember/modifier';
             class="organization-team-section__button"
             aria-label="Ajouter un membre"
           >
-            Valider
+            {{t "common.actions.validate"}}
           </PixButton>
         </div>
       </form>
