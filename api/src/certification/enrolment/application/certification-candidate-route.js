@@ -140,6 +140,37 @@ const register = async function (server) {
         ],
       },
     },
+    {
+      method: 'PATCH',
+      path: '/api/sessions/{id}/certification-candidates/{certificationCandidateId}',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.sessionId,
+            certificationCandidateId: identifiersType.certificationCandidateId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'accessibility-adjustment-needed': Joi.boolean().required(),
+              },
+            },
+          }),
+        },
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
+        handler: certificationCandidateController.updateEnrolledCandidate,
+        tags: ['api', 'sessions', 'certification-candidates'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          "Elle permet de modifier les informations d'un candidat",
+        ],
+      },
+    },
   ]);
 };
 

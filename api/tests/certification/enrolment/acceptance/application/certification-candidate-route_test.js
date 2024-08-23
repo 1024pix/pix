@@ -122,4 +122,65 @@ describe('Acceptance | Controller | Session | certification-candidate-route', fu
       });
     });
   });
+
+  describe('PATCH /api/sessions/{id}/certification-candidates/{certificationCandidateId}', function () {
+    it('should respond with a 200', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
+      const certificationCenterUserId = databaseBuilder.factory.buildUser.withRole({
+        id: 1234,
+        firstName: 'Super',
+        lastName: 'Papa',
+        email: 'super.papa@example.net',
+        password: 'Password123',
+        role: ROLES.CERTIF,
+      }).id;
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId: certificationCenterUserId,
+        certificationCenterId,
+      });
+      const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId, version: 3 }).id;
+      const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+        id: 1001,
+        sessionId,
+        userId: null,
+        billingMode: CertificationCandidate.BILLING_MODES.PREPAID,
+      }).id;
+      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        id: 10000006,
+        key: ComplementaryCertificationKeys.CLEA,
+        label: 'CléA Numérique',
+      });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId,
+        complementaryCertificationId: cleaComplementaryCertification.id,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        certificationCandidateId: candidateId,
+        complementaryCertificationId: cleaComplementaryCertification.id,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const options = {
+        method: 'PATCH',
+        url: `/api/sessions/${sessionId}/certification-candidates/${candidateId}`,
+        payload: {
+          data: {
+            attributes: {
+              'accessibility-adjustment-needed': true,
+            },
+          },
+        },
+        headers: { authorization: generateValidRequestAuthorizationHeader(certificationCenterUserId, 'pix-certif') },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
 });
