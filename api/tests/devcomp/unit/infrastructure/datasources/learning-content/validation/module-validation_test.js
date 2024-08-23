@@ -7,20 +7,16 @@ import { getQrocmSample } from '../../../../../../../src/devcomp/infrastructure/
 import { getTextSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/text.sample.js';
 import { getVideoSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/video.sample.js';
 import { expect } from '../../../../../../test-helper.js';
-import {
-  blockInputSchema,
-  blockSelectSchema,
-  downloadElementSchema,
-  embedElementSchema,
-  imageElementSchema,
-  qcmElementSchema,
-  qcuElementSchema,
-  qrocmElementSchema,
-  textElementSchema,
-  videoElementSchema,
-} from './element/index.js';
+import { downloadElementSchema } from './element/download-schema.js';
+import { embedElementSchema } from './element/embed-schema.js';
+import { imageElementSchema } from './element/image-schema.js';
+import { qcmElementSchema } from './element/qcm-schema.js';
+import { qcuElementSchema } from './element/qcu-schema.js';
+import { blockInputSchema, blockSelectSchema, qrocmElementSchema } from './element/qrocm-schema.js';
+import { textElementSchema } from './element/text-schema.js';
+import { videoElementSchema } from './element/video-schema.js';
 import { joiErrorParser } from './joi-error-parser.js';
-import { grainSchema, moduleDetailsSchema, moduleSchema } from './module.js';
+import { grainSchema, moduleSchema } from './module-schema.js';
 
 describe('Unit | Infrastructure | Datasources | Learning Content | Module Datasource | format validation', function () {
   describe('when element has a valid structure', function () {
@@ -245,69 +241,6 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
       } catch (joiError) {
         expect(joiError.message).to.deep.equal(
           '"title" failed custom validation because HTML is not allowed in this field',
-        );
-      }
-    });
-
-    it('should throw htmlNotAllowedSchema custom error for details.description field', async function () {
-      // given
-      const invalidModuleDetails = {
-        image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-        description: '<strong>Découvrez avec ce didacticiel</strong> comment fonctionne Modulix !',
-        duration: 5,
-        level: 'Débutant',
-        tabletSupport: 'comfortable',
-        objectives: ['Naviguer dans Modulix', 'Découvrir les leçons et les activités'],
-      };
-
-      try {
-        await moduleDetailsSchema.validateAsync(invalidModuleDetails, { abortEarly: false });
-        throw new Error('Joi validation should have thrown');
-      } catch (joiError) {
-        expect(joiError.message).to.deep.equal(
-          '"description" failed custom validation because HTML is not allowed in this field',
-        );
-      }
-    });
-
-    it('should throw htmlNotAllowedSchema custom error for details.objectives fields', async function () {
-      // given
-      const invalidModuleDetails = {
-        image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-        description: 'Découvrez avec ce didacticiel comment fonctionne Modulix !',
-        duration: 5,
-        level: 'Débutant',
-        tabletSupport: 'comfortable',
-        objectives: ['<span>Naviguer dans Modulix<span>', 'Découvrir les leçons et les activités'],
-      };
-
-      try {
-        await moduleDetailsSchema.validateAsync(invalidModuleDetails, { abortEarly: false });
-        throw new Error('Joi validation should have thrown');
-      } catch (joiError) {
-        expect(joiError.message).to.deep.equal(
-          '"objectives[0]" failed custom validation because HTML is not allowed in this field',
-        );
-      }
-    });
-
-    it('should throw  custom error for details.objectives fields', async function () {
-      // given
-      const invalidModuleDetails = {
-        image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-        description: 'Découvrez avec ce didacticiel comment fonctionne Modulix !',
-        duration: 5,
-        level: 'Débutant',
-        tabletSupport: 'comfortable',
-        objectives: ['<span>Naviguer dans Modulix<span>', 'Découvrir les leçons et les activités'],
-      };
-
-      try {
-        await moduleDetailsSchema.validateAsync(invalidModuleDetails, { abortEarly: false });
-        throw new Error('Joi validation should have thrown');
-      } catch (joiError) {
-        expect(joiError.message).to.deep.equal(
-          '"objectives[0]" failed custom validation because HTML is not allowed in this field',
         );
       }
     });

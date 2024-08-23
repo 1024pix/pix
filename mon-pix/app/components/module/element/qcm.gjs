@@ -75,7 +75,7 @@ export default class ModuleQcm extends ModuleElement {
               @variant="tile"
               {{on "click" (fn this.checkboxSelected proposal.id)}}
             >
-              <:label>{{proposal.content}}</:label>
+              <:label>{{htmlUnsafe proposal.content}}</:label>
             </PixCheckbox>
           {{/each}}
         </div>

@@ -1,5 +1,5 @@
 import { catchErr, expect } from '../../../../../../../test-helper.js';
-import { embedElementSchema } from './index.js';
+import { embedElementSchema } from './embed-schema.js';
 
 describe('Unit | Infrastructure | Datasources | Learning Content | Module Datasource | Embed Element', function () {
   describe('when embed isCompletionRequired is false', function () {
