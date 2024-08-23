@@ -7,18 +7,14 @@ import { getQrocmSample } from '../../../../../../../src/devcomp/infrastructure/
 import { getTextSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/text.sample.js';
 import { getVideoSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/video.sample.js';
 import { expect } from '../../../../../../test-helper.js';
-import {
-  blockInputSchema,
-  blockSelectSchema,
-  downloadElementSchema,
-  embedElementSchema,
-  imageElementSchema,
-  qcmElementSchema,
-  qcuElementSchema,
-  qrocmElementSchema,
-  textElementSchema,
-  videoElementSchema,
-} from './element/index.js';
+import { downloadElementSchema } from './element/download-schema.js';
+import { embedElementSchema } from './element/embed-schema.js';
+import { imageElementSchema } from './element/image-schema.js';
+import { qcmElementSchema } from './element/qcm-schema.js';
+import { qcuElementSchema } from './element/qcu-schema.js';
+import { blockInputSchema, blockSelectSchema, qrocmElementSchema } from './element/qrocm-schema.js';
+import { textElementSchema } from './element/text-schema.js';
+import { videoElementSchema } from './element/video-schema.js';
 import { joiErrorParser } from './joi-error-parser.js';
 import { grainSchema, moduleDetailsSchema, moduleSchema } from './module-schema.js';
 
