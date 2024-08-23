@@ -347,6 +347,104 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
       sinon.assert.calledWithExactly(triggerFiltering, 'certificability', ['eligible']);
       assert.ok(true);
     });
+    module('custom filters', function () {
+      module('when import feature is enabled', function (hooks) {
+        const participants = [];
+        hooks.beforeEach(function () {
+          class CurrentUserStub extends Service {
+            hasLearnerImportFeature = true;
+          }
+          this.owner.register('service:current-user', CurrentUserStub);
+          participants.meta = {
+            customFilters: ['classe'],
+          };
+        });
+
+        test('it should display custom filters', async function (assert) {
+          // given
+
+          this.set('participants', participants);
+          this.set('certificabilityFilter', []);
+          this.set('fullNameFilter', null);
+          this.set('customFiltersValues', { classe: 'Troisième' });
+          // when
+          const screen = await render(
+            hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @customFiltersValues={{this.customFiltersValues}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`,
+          );
+
+          // then
+          assert.ok(screen.getByLabelText(t('classe')));
+        });
+        test('it should trigger filtering with custom filters', async function (assert) {
+          // given
+          const triggerFiltering = sinon.spy();
+          this.set('triggerFiltering', triggerFiltering);
+          this.set('participants', participants);
+          this.set('certificabilityFilter', []);
+          this.set('fullNameFilter', null);
+          this.set('customFiltersValues', { classe: '' });
+
+          await render(
+            hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @customFiltersValues={{this.customFiltersValues}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`,
+          );
+
+          // when
+          await fillByLabel(t('classe'), 'CP');
+
+          // then
+          assert.ok(triggerFiltering.calledWith('extraFilters.classe', 'CP'));
+        });
+      });
+      module('when import feature is disabled', function (hooks) {
+        const participants = [];
+        hooks.beforeEach(function () {
+          class CurrentUserStub extends Service {
+            hasLearnerImportFeature = false;
+          }
+          this.owner.register('service:current-user', CurrentUserStub);
+          participants.meta = {
+            customFilters: ['classe'],
+          };
+        });
+
+        test('it should not display custom filters', async function (assert) {
+          // given
+
+          this.set('participants', participants);
+          this.set('certificabilityFilter', []);
+          this.set('fullNameFilter', null);
+          this.set('customFiltersValues', { classe: 'Troisième' });
+          // when
+          const screen = await render(
+            hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @fullName={{this.fullNameFilter}}
+  @customFiltersValues={{this.customFiltersValues}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`,
+          );
+
+          // then
+          assert.notOk(screen.queryByLabelText(t('classe')));
+        });
+      });
+    });
   });
 
   module('when user is sorting the table', function () {

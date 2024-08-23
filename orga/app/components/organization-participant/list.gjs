@@ -50,6 +50,12 @@ export default class List extends Component {
     return this.args.participants.meta.headingCustomColumns;
   }
 
+  get customFilters() {
+    if (!this.currentUser.hasLearnerImportFeature || !this.args.participants.meta) return [];
+
+    return this.args.participants.meta.customFilters;
+  }
+
   @action
   openDeletionModal() {
     this.showDeletionModal = true;
@@ -156,6 +162,8 @@ export default class List extends Component {
                 <LearnerFilters
                   @learnersCount={{@participants.meta.rowCount}}
                   @fullName={{@fullName}}
+                  @customFilters={{this.customFilters}}
+                  @customFiltersValues={{@customFiltersValues}}
                   @certificabilityFilter={{@certificabilityFilter}}
                   @onTriggerFiltering={{fn this.addResetOnFunction @triggerFiltering reset}}
                   @onResetFilter={{fn this.addResetOnFunction @onResetFilter reset}}
