@@ -8,16 +8,14 @@ describe('Unit | Prescription | Application | Jobs | participationResultCalculat
       sinon.stub(usecases, 'saveComputedCampaignParticipationResult');
       // given
       const handler = new ParticipationResultCalculationJobController();
-      const participantResultCalculationJob = { campaignParticipationId: Symbol('campaignParticipationId') };
+      const data = { campaignParticipationId: Symbol('campaignParticipationId') };
 
       // when
-      await handler.handle(participantResultCalculationJob);
+      await handler.handle({ data });
 
       // then
       expect(usecases.saveComputedCampaignParticipationResult).to.have.been.calledOnce;
-      expect(usecases.saveComputedCampaignParticipationResult).to.have.been.calledWithExactly(
-        participantResultCalculationJob,
-      );
+      expect(usecases.saveComputedCampaignParticipationResult).to.have.been.calledWithExactly(data);
     });
   });
 });

@@ -42,10 +42,10 @@ describe('Unit | Application | Certification | Sessions Management | jobs | cpf-
 
     // when
     const jobController = new CpfExportPlannerJobController();
-    await jobController.handle(
-      {},
-      { jobId, dependencies: { cpfCertificationResultRepository, cpfExportBuilderJobRepository, logger } },
-    );
+    await jobController.handle({
+      jobId,
+      dependencies: { cpfCertificationResultRepository, cpfExportBuilderJobRepository, logger },
+    });
 
     // then
     expect(cpfCertificationResultRepository.markCertificationToExport).to.have.been.callCount(3);

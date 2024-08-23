@@ -19,10 +19,7 @@ class CpfExportPlannerJobController extends JobScheduleController {
     super('CpfExportPlannerJob', { jobCron: config.cpf.plannerJob.cron });
   }
 
-  async handle(
-    data,
-    { jobId, dependencies = { cpfCertificationResultRepository, cpfExportBuilderJobRepository, logger } },
-  ) {
+  async handle({ jobId, dependencies = { cpfCertificationResultRepository, cpfExportBuilderJobRepository, logger } }) {
     const startDate = dayjs()
       .utc()
       .subtract(plannerJob.minimumReliabilityPeriod + (plannerJob.monthsToProcess - 1), 'months')

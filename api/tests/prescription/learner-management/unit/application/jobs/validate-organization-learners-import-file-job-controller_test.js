@@ -33,14 +33,14 @@ describe('Unit | Prescription | Application | Jobs | validateOrganizationLearner
       sinon.stub(usecases, 'validateSiecleXmlFile');
       // given
       const handler = new ValidateOrganizationLearnersImportFileJobController();
-      const computeImportOrganizationLearnersJob = { organizationImportId: Symbol('organizationImportId') };
+      const data = { organizationImportId: Symbol('organizationImportId') };
 
       // when
-      await handler.handle(computeImportOrganizationLearnersJob);
+      await handler.handle({ data });
 
       // then
       expect(usecases.validateSiecleXmlFile).to.have.been.calledOnce;
-      expect(usecases.validateSiecleXmlFile).to.have.been.calledWithExactly(computeImportOrganizationLearnersJob);
+      expect(usecases.validateSiecleXmlFile).to.have.been.calledWithExactly(data);
     });
   });
 });

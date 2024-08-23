@@ -10,6 +10,7 @@ import lodash from 'lodash';
 
 import * as cpfCertificationXmlExportService from '../../../../../../lib/domain/services/cpf-certification-xml-export-service.js';
 import { CpfExportBuilderJobController } from '../../../../../../src/certification/session-management/application/jobs/cpf-export-builder-job-controller.js';
+import { usecases } from '../../../../../../src/certification/session-management/domain/usecases/index.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const { noop } = lodash;
@@ -54,13 +55,13 @@ describe('Integration | Application | Certification | Sessions Management | jobs
       markCertificationCoursesAsExported: sinon.stub(),
     };
 
-    uploadCpfFiles = sinon.stub();
+    usecases.uploadCpfFiles = sinon.stub();
 
     cpfCertificationResultRepository.findByBatchId.withArgs(batchId).resolves(cpfCertificationResults);
 
     uuidService.randomUUID.returns('xxx-yyy-zzz');
 
-    uploadCpfFiles
+    usecases.uploadCpfFiles
       .withArgs({
         filename: expectedFileName,
         readableStream: sinon.match(PassThrough),
@@ -75,18 +76,16 @@ describe('Integration | Application | Certification | Sessions Management | jobs
 
     // when
     const jobController = new CpfExportBuilderJobController();
-    await jobController.handle(
-      { batchId },
-      {
-        dependencies: {
-          uploadCpfFiles,
-          cpfCertificationResultRepository,
-          cpfCertificationXmlExportService,
-          uuidService,
-          logger,
-        },
+    await jobController.handle({
+      data: { batchId },
+      dependencies: {
+        uploadCpfFiles,
+        cpfCertificationResultRepository,
+        cpfCertificationXmlExportService,
+        uuidService,
+        logger,
       },
-    );
+    });
 
     // then
     expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWithExactly({

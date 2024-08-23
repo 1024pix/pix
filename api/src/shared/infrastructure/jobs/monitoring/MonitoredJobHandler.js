@@ -8,7 +8,7 @@ class MonitoredJobHandler {
     let result;
     try {
       this.logJobStarting({ data, jobName });
-      result = await this.handler.handle(data, { jobId });
+      result = await this.handler.handle({ data, jobId });
     } catch (error) {
       this.logJobFailed({ data, error, jobName });
       throw error;

@@ -9,16 +9,16 @@ class CertificationRescoringByScriptJobController extends JobController {
   }
 
   /**
-   * @param {Object} event
-   * @param {number} event.certificationCourseId
+   * @param {Object} data
+   * @param {number} data.certificationCourseId
    */
-  async handle(
-    event,
+  async handle({
+    data,
     dependencies = {
       eventDispatcher,
     },
-  ) {
-    await dependencies.eventDispatcher.dispatch(new CertificationRescoredByScript(event));
+  }) {
+    await dependencies.eventDispatcher.dispatch(new CertificationRescoredByScript(data));
   }
 }
 

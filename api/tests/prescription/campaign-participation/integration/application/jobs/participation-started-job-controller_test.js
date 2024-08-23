@@ -49,18 +49,21 @@ describe('Integration | Application | pole-emploi-participation-started-job-cont
     it('should notify pole emploi and save success of this notification', async function () {
       // when
       const handler = new ParticipationStartedJobController();
-      await handler.handle(data, {
-        assessmentRepository,
-        campaignRepository,
-        campaignParticipationRepository,
-        organizationRepository,
-        poleEmploiSendingRepository,
-        targetProfileRepository,
-        userRepository,
-        poleEmploiNotifier,
-        httpErrorsHelper,
-        monitoringTools,
-        httpAgent,
+      await handler.handle({
+        data,
+        dependencies: {
+          assessmentRepository,
+          campaignRepository,
+          campaignParticipationRepository,
+          organizationRepository,
+          poleEmploiSendingRepository,
+          targetProfileRepository,
+          userRepository,
+          poleEmploiNotifier,
+          httpErrorsHelper,
+          monitoringTools,
+          httpAgent,
+        },
       });
 
       // then

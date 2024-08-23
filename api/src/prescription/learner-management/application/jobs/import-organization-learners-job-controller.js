@@ -12,7 +12,7 @@ class ImportOrganizationLearnersJobController extends JobController {
     return config.pgBoss.importFileJobEnabled;
   }
 
-  async handle(data) {
+  async handle({ data }) {
     const { organizationImportId } = data;
 
     return usecases.addOrUpdateOrganizationLearners({ organizationImportId });

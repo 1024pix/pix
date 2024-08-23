@@ -7,8 +7,8 @@ export class ParticipationSharedJobController extends JobController {
     super(ParticipationSharedJob.name);
   }
 
-  async handle(participationSharedJobController) {
-    const { campaignParticipationId } = participationSharedJobController;
+  async handle({ data }) {
+    const { campaignParticipationId } = data;
 
     await usecases.sendSharedParticipationResultsToPoleEmploi({ campaignParticipationId });
   }

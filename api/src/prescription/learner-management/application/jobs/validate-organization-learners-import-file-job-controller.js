@@ -12,8 +12,8 @@ class ValidateOrganizationLearnersImportFileJobController extends JobController 
     return config.pgBoss.validationFileJobEnabled;
   }
 
-  async handle(event) {
-    const { organizationImportId } = event;
+  async handle({ data }) {
+    const { organizationImportId } = data;
 
     await usecases.validateSiecleXmlFile({ organizationImportId });
   }

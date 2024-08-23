@@ -103,11 +103,13 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         new ScheduleComputeOrganizationLearnersCertificabilityJobController();
 
       // when
-      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle(null, {
-        logger,
-        organizationLearnerRepository,
-        computeCertificabilityJobRepository,
-        config,
+      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle({
+        dependencies: {
+          logger,
+          organizationLearnerRepository,
+          computeCertificabilityJobRepository,
+          config,
+        },
       });
 
       // then
@@ -161,18 +163,18 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         new ScheduleComputeOrganizationLearnersCertificabilityJobController();
 
       // when
-      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle(
-        {
+      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle({
+        data: {
           skipLoggedLastDayCheck,
           onlyNotComputed,
         },
-        {
+        dependencies: {
           logger,
           organizationLearnerRepository,
           computeCertificabilityJobRepository,
           config,
         },
-      );
+      });
 
       // then
       expect(computeCertificabilityJobRepository.performAsync.getCall(0).args[0]).to.be.deep.equal(
@@ -220,11 +222,13 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         new ScheduleComputeOrganizationLearnersCertificabilityJobController();
 
       // when
-      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle(null, {
-        logger,
-        organizationLearnerRepository,
-        computeCertificabilityJobRepository,
-        config,
+      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle({
+        dependencies: {
+          logger,
+          organizationLearnerRepository,
+          computeCertificabilityJobRepository,
+          config,
+        },
       });
 
       // then

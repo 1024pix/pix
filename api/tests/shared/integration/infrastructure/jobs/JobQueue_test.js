@@ -19,7 +19,7 @@ describe('Integration | Infrastructure | Jobs | JobQueue', function () {
       const handler = class {
         handle(params) {
           try {
-            expect(params).to.deep.equal(expectedParams);
+            expect(params).to.deep.contains({ data: expectedParams });
           } catch (err) {
             reject(err);
           }
