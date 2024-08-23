@@ -78,7 +78,7 @@ export default class ModuleQcu extends ModuleElement {
               {{on "click" (fn this.radioClicked proposal.id)}}
             >
               <:label>
-                {{proposal.content}}
+                {{htmlUnsafe proposal.content}}
               </:label>
             </PixRadioButton>
           {{/each}}
