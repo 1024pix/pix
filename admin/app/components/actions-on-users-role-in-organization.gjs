@@ -135,7 +135,7 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
             @triggerAction={{this.toggleDisplayConfirm}}
             @iconBefore="trash"
           >
-            Désactiver
+            {{t "common.actions.deactivate"}}
           </PixButton>
         </div>
 

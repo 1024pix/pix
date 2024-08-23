@@ -151,7 +151,7 @@ export default class List extends Component {
                       @triggerAction={{fn this.displayDeactivateConfirmationPopup member}}
                       @iconBefore="trash"
                     >
-                      Désactiver
+                      {{t "common.actions.deactivate"}}
                     </PixButton>
 
                   </div>
