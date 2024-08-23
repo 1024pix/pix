@@ -11,6 +11,7 @@ import { t } from 'ember-intl';
 export default class ActionsOnUsersRoleInOrganization extends Component {
   @service notifications;
   @service accessControl;
+  @service intl;
 
   @tracked isEditionMode = false;
   @tracked selectedNewRole = null;

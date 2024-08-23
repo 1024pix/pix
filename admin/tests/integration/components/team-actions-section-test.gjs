@@ -1,12 +1,13 @@
 import { clickByName, fillByLabel } from '@1024pix/ember-testing-library';
 import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import TeamActionsSection from 'pix-admin/components/organizations/team-actions-section';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+
 module('Integration | Component | organization-team-actions-section', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it should call addOrganizationMembership method', async function (assert) {
     // given

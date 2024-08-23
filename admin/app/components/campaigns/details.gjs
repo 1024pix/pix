@@ -11,6 +11,13 @@ import SafeMarkdownToHtml from '../safe-markdown-to-html';
 
 export default class Details extends Component {
   @service accessControl;
+  @service intl;
+
+  displayBooleanState = (bool) => {
+    const yes = this.intl.t('common.words.yes');
+    const no = this.intl.t('common.words.no');
+    return bool ? yes : no;
+  };
 
   <template>
     <section class="page-section">
@@ -71,8 +78,10 @@ export default class Details extends Component {
         {{#if @campaign.customResultPageButtonUrl}}
           <li>URL du bouton de la page de fin de parcours : {{@campaign.customResultPageButtonUrl}}</li>
         {{/if}}
-        <li>Envoi multiple : {{if @campaign.multipleSendings "Oui" "Non"}}</li>
-        <li>Pour les novices (isForAbsoluteNovice): {{if @campaign.isForAbsoluteNovice "Oui" "Non"}}</li>
+        <li>Envoi multiple : {{this.displayBooleanState @campaign.multipleSendings}}</li>
+        <li>Pour les novices (isForAbsoluteNovice):
+          {{this.displayBooleanState @campaign.isForAbsoluteNovice}}
+        </li>
       </ul>
 
       {{#if this.accessControl.hasAccessToOrganizationActionsScope}}

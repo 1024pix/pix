@@ -208,12 +208,7 @@ export default class InformationEdit extends Component {
         <PixButton @size="small" @variant="secondary" @triggerAction={{@toggleEditMode}}>
           {{t "common.actions.cancel"}}
         </PixButton>
-        <PixButton
-          @type="submit"
-          @size="small"
-          @variant="primary"
-          @triggerAction={{this.updateCertificationCenter}}
-        >
+        <PixButton @type="submit" @size="small" @variant="primary" @triggerAction={{this.updateCertificationCenter}}>
           {{t "common.actions.save"}}
         </PixButton>
       </div>

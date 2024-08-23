@@ -24,7 +24,6 @@ export default class TargetProfile extends Component {
 
   @service fileSaver;
   @service session;
-  @service intl;
 
   @tracked showCopyModal = false;
   @tracked displayConfirm = false;
@@ -55,7 +54,11 @@ export default class TargetProfile extends Component {
     return Boolean(this.args.model.hasLinkedAutonomousCourse);
   }
 
-  displayBooleanState = (bool) => (bool ? 'Oui' : 'Non');
+  displayBooleanState = (bool) => {
+    const yes = this.intl.t('common.words.yes');
+    const no = this.intl.t('common.words.no');
+    return bool ? yes : no;
+  };
 
   @action
   toggleDisplayConfirm() {

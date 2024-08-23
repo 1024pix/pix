@@ -3,6 +3,7 @@ import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import { fn } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 
 import MemberItem from './member-item';
 

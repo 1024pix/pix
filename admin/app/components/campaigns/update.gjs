@@ -246,7 +246,7 @@ export default class Update extends Component {
                   {{on "change" (fn this.updateFormValue "isForAbsoluteNovice")}}
                   checked={{this.form.isForAbsoluteNovice}}
                 >
-                  <:label>Oui</:label>
+                  <:label>{{t "common.words.yes"}}</:label>
                 </PixRadioButton>
 
                 <PixRadioButton
@@ -255,7 +255,9 @@ export default class Update extends Component {
                   {{on "change" (fn this.updateFormValue "isForAbsoluteNovice")}}
                   checked={{not this.form.isForAbsoluteNovice}}
                 >
-                  <:label>Non</:label>
+                  <:label>
+                    {{t "common.words.no"}}
+                  </:label>
                 </PixRadioButton>
               </:content>
             </PixFieldset>
