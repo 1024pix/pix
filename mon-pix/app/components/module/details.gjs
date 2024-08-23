@@ -9,6 +9,7 @@ import { t } from 'ember-intl';
 import { pageTitle } from 'ember-page-title';
 import ResponsiveListWideWrap from 'mon-pix/components/common/responsive-ul-wide-wrap';
 import Objectives from 'mon-pix/components/module/objectives';
+import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
 
 export default class ModulixDetails extends Component {
   @service router;
@@ -76,7 +77,7 @@ export default class ModulixDetails extends Component {
         <div class="module-details-content__layout">
           <h1 class="module-details-content-layout__title">{{@module.title}}</h1>
 
-          <p class="module-details-content-layout__description">{{@module.details.description}}</p>
+          <p class="module-details-content-layout__description">{{htmlUnsafe @module.details.description}}</p>
 
           <div class="module-details-content-layout__link">
             {{#if this.shouldDisplaySmallScreenModal}}

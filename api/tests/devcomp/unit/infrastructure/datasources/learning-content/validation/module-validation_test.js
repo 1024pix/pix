@@ -245,27 +245,6 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
       }
     });
 
-    it('should throw htmlNotAllowedSchema custom error for details.description field', async function () {
-      // given
-      const invalidModuleDetails = {
-        image: 'https://images.pix.fr/modulix/placeholder-details.svg',
-        description: '<strong>Découvrez avec ce didacticiel</strong> comment fonctionne Modulix !',
-        duration: 5,
-        level: 'Débutant',
-        tabletSupport: 'comfortable',
-        objectives: ['Naviguer dans Modulix', 'Découvrir les leçons et les activités'],
-      };
-
-      try {
-        await moduleDetailsSchema.validateAsync(invalidModuleDetails, { abortEarly: false });
-        throw new Error('Joi validation should have thrown');
-      } catch (joiError) {
-        expect(joiError.message).to.deep.equal(
-          '"description" failed custom validation because HTML is not allowed in this field',
-        );
-      }
-    });
-
     it('should throw htmlNotAllowedSchema custom error for details.objectives fields', async function () {
       // given
       const invalidModuleDetails = {

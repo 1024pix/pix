@@ -17,7 +17,7 @@ const transitionTextSchema = Joi.object({
 
 const moduleDetailsSchema = Joi.object({
   image: Joi.string().uri().required(),
-  description: htmlNotAllowedSchema.required(),
+  description: htmlSchema.required(),
   duration: Joi.number().integer().min(0).max(120).required(),
   level: Joi.string().valid('Débutant', 'Intermédiaire', 'Avancé', 'Expert').required(),
   objectives: Joi.array().items(htmlNotAllowedSchema).min(1).required(),
