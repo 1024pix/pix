@@ -18,7 +18,7 @@ export default class ModulixStepper extends Component {
   );
 
   @tracked
-  stepsToDisplay = [this.displayableSteps[0]];
+  stepsToDisplay = this.args.isFolded !== false ? [this.displayableSteps[0]] : this.displayableSteps;
 
   @action
   hasStepJustAppeared(index) {

@@ -532,5 +532,81 @@ module('Integration | Component | Module | Stepper', function (hooks) {
           .doesNotExist();
       });
     });
+
+    module('When isFolded parameter is false', function () {
+      test('should display all the steps', async function (assert) {
+        // given
+        const steps = [
+          {
+            elements: [
+              {
+                id: '342183f7-af51-4e4e-ab4c-ebed1e195063',
+                type: 'text',
+                content: '<p>Text 1</p>',
+              },
+            ],
+          },
+          {
+            elements: [
+              {
+                id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                type: 'text',
+                content: '<p>Text 2</p>',
+              },
+            ],
+          },
+        ];
+
+        // when
+        const screen = await render(<template><ModulixStepper @steps={{steps}} @isFolded={{false}} /></template>);
+
+        // then
+        assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 2);
+        assert.dom(screen.getByRole('heading', { level: 3, name: 'Étape 1 sur 2' })).exists();
+        assert.dom(screen.getByRole('heading', { level: 3, name: 'Étape 2 sur 2' })).exists();
+      });
+
+      module('When has unsupported elements', function () {
+        test('should display all the steps but filter out unsupported element', async function (assert) {
+          // given
+          const steps = [
+            {
+              elements: [
+                {
+                  id: '342183f7-af51-4e4e-ab4c-ebed1e195063',
+                  type: 'text',
+                  content: '<p>Text 1</p>',
+                },
+              ],
+            },
+            {
+              elements: [
+                {
+                  id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                  type: 'text',
+                  content: '<p>Text 2</p>',
+                },
+              ],
+            },
+            {
+              elements: [
+                {
+                  id: 'd7870bf4-e018-482a-829c-6a124066b352',
+                  type: 'nope',
+                },
+              ],
+            },
+          ];
+
+          // when
+          const screen = await render(<template><ModulixStepper @steps={{steps}} @isFolded={{false}} /></template>);
+
+          // then
+          assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 2);
+          assert.dom(screen.getByRole('heading', { level: 3, name: 'Étape 1 sur 2' })).exists();
+          assert.dom(screen.getByRole('heading', { level: 3, name: 'Étape 2 sur 2' })).exists();
+        });
+      });
+    });
   });
 });
