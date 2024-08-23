@@ -5,7 +5,7 @@ class ParticipationStartedJobRepository extends JobRepository {
   constructor() {
     super({
       name: ParticipationStartedJob.name,
-      retry: JobRetry.STANDARD_RETRY,
+      retry: JobRetry.NO_RETRY,
     });
   }
 }

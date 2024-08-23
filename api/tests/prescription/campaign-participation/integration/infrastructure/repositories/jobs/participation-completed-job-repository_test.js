@@ -13,9 +13,9 @@ describe('Integration | Prescription | Infrastructure | Repository | Jobs | part
 
       // then
       await expect(ParticipationCompletedJob.name).to.have.been.performed.withJob({
-        retrylimit: 10,
-        retrydelay: 30,
-        retrybackoff: true,
+        retrylimit: 0,
+        retrydelay: 0,
+        retrybackoff: false,
         data,
       });
     });
