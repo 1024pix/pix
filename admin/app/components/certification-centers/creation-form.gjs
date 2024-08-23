@@ -152,7 +152,9 @@ export default class CertificationCenterForm extends Component {
           </PixButton>
         </li>
         <li>
-          <PixButton @type="submit" @size="small">Ajouter</PixButton>
+          <PixButton @type="submit" @size="small">
+            {{t "common.actions.add"}}
+          </PixButton>
         </li>
       </ul>
     </form>

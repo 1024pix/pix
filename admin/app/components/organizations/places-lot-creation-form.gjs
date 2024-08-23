@@ -151,7 +151,9 @@ export default class PlacesLotCreationForm extends Component {
             >
               {{t "common.actions.cancel"}}
             </PixButtonLink>
-            <PixButton @type="submit" @size="small" @variant="success">Ajouter</PixButton>
+            <PixButton @type="submit" @size="small" @variant="success">
+              {{t "common.actions.add"}}
+            </PixButton>
           </div>
         </form>
       </div>

@@ -105,7 +105,9 @@ export default class OrganizationCreationForm extends Component {
         <PixButton @size="small" @variant="secondary" @triggerAction={{@onCancel}}>
           {{t "common.actions.cancel"}}
         </PixButton>
-        <PixButton @type="submit" @size="small" @variant="success">Ajouter</PixButton>
+        <PixButton @type="submit" @size="small" @variant="success">
+          {{t "common.actions.add"}}
+        </PixButton>
       </section>
     </form>
   </template>
