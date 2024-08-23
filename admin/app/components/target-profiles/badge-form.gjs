@@ -178,7 +178,7 @@ export default class BadgeForm extends Component {
       </section>
       <section class="admin-form__actions">
         <PixButtonLink @variant="secondary" @route="authenticated.target-profiles.target-profile.insights">
-          Annuler
+          {{t "common.actions.cancel"}}
         </PixButtonLink>
         <PixButton @variant="success" @type="submit">
           Enregistrer le RT

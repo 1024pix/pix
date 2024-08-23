@@ -200,7 +200,9 @@ export default class Badge extends Component {
                   ><:label>Lacunes</:label></PixCheckbox>
                 </div>
                 <div class="badge-edit-form__actions">
-                  <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancel}}>Annuler</PixButton>
+                  <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancel}}>
+                    {{t "common.actions.cancel"}}
+                  </PixButton>
                   <PixButton @type="submit" @size="small" @variant="success" data-testid="save-badge-edit">
                     Enregistrer
                   </PixButton>

@@ -7,6 +7,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import difference from 'lodash/difference';
 
 import NewStage from './stages/new-stage';
@@ -280,7 +281,7 @@ export default class Stages extends Component {
         {{#if this.hasNewStage}}
           <div class="stages-actions form-actions">
             <PixButton @variant="secondary" @triggerAction={{this.cancelStagesCreation}}>
-              Annuler
+              {{t "common.actions.cancel"}}
             </PixButton>
             <PixButton type="submit" @variant="success" @triggerAction={{this.createStages}}>
               Enregistrer

@@ -64,7 +64,7 @@ export default class UpdateAutonomousCourseForm extends Component {
       </PixTextarea>
       <div class="form-actions">
         <PixButton type="reset" @variant="secondary" @size="small" @triggerAction={{@cancel}}>
-          Annuler
+          {{t "common.actions.cancel"}}
         </PixButton>
         <PixButton @variant="success" @size="small" type="submit" @triggerAction={{this.noop}}>
           Sauvegarder les modifications

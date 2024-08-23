@@ -1,11 +1,12 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
 import ResolveIssueReportModal from 'pix-admin/components/certifications/issue-reports/resolve-issue-report-modal';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | certifications/issue-reports/resolve-issue-report-modal', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('when the issue is not resolved', function () {
     test('it should display a report resolution title', async function (assert) {

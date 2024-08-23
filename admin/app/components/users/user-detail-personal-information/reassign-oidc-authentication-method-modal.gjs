@@ -3,6 +3,7 @@ import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
+import { t } from 'ember-intl';
 
 <template>
   <PixModal
@@ -31,7 +32,9 @@ import { on } from '@ember/modifier';
         @size="small"
         @variant="secondary"
         @triggerAction={{fn @toggleReassignOidcAuthenticationMethodModal null}}
-      >Annuler</PixButton>
+      >
+        {{t "common.actions.cancel"}}
+      </PixButton>
       <PixButton
         @type="submit"
         @size="small"

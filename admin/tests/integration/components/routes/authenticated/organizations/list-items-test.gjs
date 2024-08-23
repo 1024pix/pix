@@ -1,10 +1,11 @@
 import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import ListItems from 'pix-admin/components/organizations/list-items';
 import { module, test } from 'qunit';
 
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | routes/authenticated/organizations | list-items', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(async function () {
     const currentUser = this.owner.lookup('service:currentUser');

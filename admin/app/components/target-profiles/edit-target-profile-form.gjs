@@ -174,7 +174,7 @@ export default class CreateTargetProfileForm extends Component {
       </section>
       <section class="admin-form__actions">
         <PixButton @variant="secondary" @size="large" @triggerAction={{@onCancel}}>
-          Annuler
+          {{t "common.actions.cancel"}}
         </PixButton>
         <PixButton
           @variant="success"

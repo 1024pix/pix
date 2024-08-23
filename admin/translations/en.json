@@ -326,10 +326,11 @@
           "sub-label": "Le profil cible doit être en accès simplifié et relié à l’organisation \"Organisation pour les parcours autonomes\""
         },
         "technical-informations": {
-          "label": "Nom interne",
-          "title": "Informations techniques"
+          "title": "Informations techniques",
+          "label": "Nom interne"
         },
         "user-information": {
+          "title": "Informations pour les utilisateurs",
           "homepage": {
             "label": "Texte de la page d'accueil",
             "placeholder": "Exemple : description, objectifs..."
@@ -338,8 +339,7 @@
             "label": "Nom public <small>(50 caractères maximum)</small>",
             "placeholder": "Exemple : Le super nom de mon parcours autonome",
             "sub-label": "Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
-          },
-          "title": "Informations pour les utilisateurs"
+          }
         }
       }
     },

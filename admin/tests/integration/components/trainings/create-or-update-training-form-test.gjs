@@ -1,13 +1,14 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import CreateOrUpdateTrainingForm from 'pix-admin/components/trainings/create-or-update-training-form';
 import { localeCategories, typeCategories } from 'pix-admin/models/training';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Integration | Component | CreateOrUpdateTrainingForm', function (hooks) {
-  setupRenderingTest(hooks);
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
+module('Integration | Component | trainings | CreateOrUpdateTrainingForm', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   const onSubmit = sinon.stub();
   const onCancel = sinon.stub();

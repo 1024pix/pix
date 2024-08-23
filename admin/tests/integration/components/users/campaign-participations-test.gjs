@@ -1,13 +1,14 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { setupRenderingTest } from 'ember-qunit';
 import CampaignParticipations from 'pix-admin/components/users/campaign-participations';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | users | campaign-participation', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('When the admin member does not have access to users actions scope', function (hooks) {
     class AccessControlStub extends Service {

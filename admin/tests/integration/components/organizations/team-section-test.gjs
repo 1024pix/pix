@@ -1,12 +1,13 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { setupRenderingTest } from 'ember-qunit';
 import TeamSection from 'pix-admin/components/organizations/team-section';
 import { module, test } from 'qunit';
 
-module('Integration | Component | organization-team-section', function (hooks) {
-  setupRenderingTest(hooks);
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
+module('Integration | Component | organizations | team-section', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   test('it should display a list of members', async function (assert) {
     // given

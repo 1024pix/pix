@@ -266,7 +266,9 @@ export default class UserOverview extends Component {
               </PixSelect>
             </div>
             <div class="form-actions">
-              <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancelEdit}}>Annuler</PixButton>
+              <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancelEdit}}>
+                {{t "common.actions.cancel"}}
+              </PixButton>
               <PixButton @type="submit" @size="small" @variant="success">{{t "common.actions.edit"}}</PixButton>
             </div>
           </form>

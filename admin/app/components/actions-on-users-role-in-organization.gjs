@@ -6,6 +6,7 @@ import { service } from '@ember/service';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 
 export default class ActionsOnUsersRoleInOrganization extends Component {
   @service notifications;
@@ -107,7 +108,7 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
                 @size="small"
                 @variant="secondary"
                 @triggerAction={{this.cancelUpdateRoleOfMember}}
-                aria-label="Annuler"
+                aria-label={{t "common.actions.cancel"}}
                 class="member-item-actions__button--icon"
               >
                 <FaIcon @icon="xmark" />
@@ -150,7 +151,7 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
           </:content>
           <:footer>
             <PixButton @variant="secondary" @triggerAction={{this.toggleDisplayConfirm}}>
-              Annuler
+              {{t "common.actions.cancel"}}
             </PixButton>
             <PixButton @triggerAction={{this.disableOrganizationMembership}}>Confirmer</PixButton>
           </:footer>

@@ -276,7 +276,9 @@ export default class Update extends Component {
         </div>
 
         <div class="admin-form__actions">
-          <PixButton @triggerAction={{@onExit}} @variant="secondary" @size="small">Annuler</PixButton>
+          <PixButton @triggerAction={{@onExit}} @variant="secondary" @size="small">
+            {{t "common.actions.cancel"}}
+          </PixButton>
           <PixButton @type="submit" @variant="success" @size="small">
             Enregistrer
           </PixButton>

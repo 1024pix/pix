@@ -109,7 +109,7 @@ export default class ParticipationRow extends Component {
                   @size="small"
                   @variant="secondary"
                   @triggerAction={{this.cancelUpdateParticipantExternalId}}
-                  aria-label="Annuler"
+                  aria-label={{t "common.actions.cancel"}}
                   class="participation-item-actions__button--icon"
                 >
                   <FaIcon @icon="xmark" />

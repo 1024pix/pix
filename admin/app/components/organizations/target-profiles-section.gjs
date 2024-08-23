@@ -9,6 +9,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import pick from 'ember-composable-helpers/helpers/pick';
+import { t } from 'ember-intl';
 import set from 'ember-set-helper/helpers/set';
 import { not } from 'ember-truth-helpers';
 import uniq from 'lodash/uniq';
@@ -212,7 +213,7 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
       </:content>
       <:footer>
         <PixButton @variant="secondary" @triggerAction={{this.closeModal}}>
-          Annuler
+          {{t "common.actions.cancel"}}
         </PixButton>
         <PixButton
           @variant="error"

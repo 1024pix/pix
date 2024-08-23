@@ -5,6 +5,7 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import pick from 'ember-composable-helpers/helpers/pick';
+import { t } from 'ember-intl';
 import set from 'ember-set-helper/helpers/set';
 
 import CertificationInfoField from '../info-field';
@@ -71,7 +72,7 @@ export default class Comments extends Component {
           <ul class="certification-information-comments">
             <li>
               <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancelJuryCommentEdition}}>
-                Annuler
+                {{t "common.actions.cancel"}}
               </PixButton>
             </li>
             <li>

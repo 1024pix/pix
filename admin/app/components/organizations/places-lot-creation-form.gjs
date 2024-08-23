@@ -148,7 +148,9 @@ export default class PlacesLotCreationForm extends Component {
               @variant="secondary"
               @size="small"
               @route="authenticated.organizations.get.places"
-            >Annuler</PixButtonLink>
+            >
+              {{t "common.actions.cancel"}}
+            </PixButtonLink>
             <PixButton @type="submit" @size="small" @variant="success">Ajouter</PixButton>
           </div>
         </form>

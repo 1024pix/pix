@@ -186,7 +186,8 @@ export default class UpdateStage extends Component {
             </:label></PixTextarea>
         </div>
         <div class="form-actions">
-          <PixButton @variant="secondary" @size="small" @triggerAction={{@toggleEditMode}}>Annuler
+          <PixButton @variant="secondary" @size="small" @triggerAction={{@toggleEditMode}}>
+            {{t "common.actions.cancel"}}
           </PixButton>
           <PixButton @variant="success" @size="small" @type="submit">
             Enregistrer

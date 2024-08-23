@@ -102,7 +102,7 @@ export default class JuryComment extends Component {
             <div class="jury-comment__actions">
               {{#if this.commentExists}}
                 <PixButton @triggerAction={{this.exitEditingMode}} @variant="secondary" @size="small">
-                  Annuler
+                  {{t "common.actions.cancel"}}
                 </PixButton>
               {{/if}}
               <PixButton @type="submit" @size="small">

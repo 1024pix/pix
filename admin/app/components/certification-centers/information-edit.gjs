@@ -206,7 +206,7 @@ export default class InformationEdit extends Component {
 
       <div class="certification-center-information__action-buttons">
         <PixButton @size="small" @variant="secondary" @triggerAction={{@toggleEditMode}}>
-          Annuler
+          {{t "common.actions.cancel"}}
         </PixButton>
         <PixButton
           @type="submit"

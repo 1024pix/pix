@@ -2,7 +2,6 @@ import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import Update from 'pix-admin/components/campaigns/update';
-import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

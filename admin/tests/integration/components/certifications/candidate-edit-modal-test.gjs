@@ -3,12 +3,13 @@ import EmberObject from '@ember/object';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | certifications/candidate-edit-modal', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   let store;
 

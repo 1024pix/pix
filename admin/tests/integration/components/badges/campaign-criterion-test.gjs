@@ -1,13 +1,14 @@
 import { clickByName, fillByLabel, fireEvent, render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import CampaignCriterion from 'pix-admin/components/badges/campaign-criterion';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('should display a CampaignParticipation criterion', async function (assert) {
     // given

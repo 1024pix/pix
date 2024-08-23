@@ -27,7 +27,7 @@ import { t } from 'ember-intl';
 
     <:footer>
       <PixButton @size="small" @variant="secondary" @triggerAction={{@toggleAddAuthenticationMethodModal}}>
-        Annuler
+        {{t "common.actions.cancel"}}
       </PixButton>
       <PixButton form="add-authentication-method-modal" @size="small" @type="submit">
         Enregistrer l'adresse e-mail
