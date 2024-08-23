@@ -18,7 +18,7 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
 
     this.set('model', {
       campaign,
-      campaignParticipationResult: { campaignParticipationBadges: [] },
+      campaignParticipationResult: { campaignParticipationBadges: [], competenceResults: [] },
       trainings: [],
     });
 
@@ -40,7 +40,7 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
 
       this.set('model', {
         campaign,
-        campaignParticipationResult: { campaignParticipationBadges: [] },
+        campaignParticipationResult: { campaignParticipationBadges: [], competenceResults: [] },
         trainings: [Symbol('training')],
       });
 
