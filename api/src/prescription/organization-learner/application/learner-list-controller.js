@@ -10,14 +10,16 @@ const findPaginatedFilteredParticipants = async function (
 ) {
   const organizationId = request.params.organizationId;
   const { page, filter: filters, sort } = request.query;
+  const { extra = {}, ...commonFilters } = filters;
 
-  if (filters.certificability) {
-    filters.certificability = mapCertificabilityByLabel(filters.certificability);
+  if (commonFilters.certificability) {
+    commonFilters.certificability = mapCertificabilityByLabel(commonFilters.certificability);
   }
   const results = await usecases.findPaginatedFilteredParticipants({
     organizationId,
     page,
-    filters,
+    extraFilters: extra,
+    filters: commonFilters,
     sort,
   });
   return dependencies.organizationParticipantsSerializer.serialize(results);

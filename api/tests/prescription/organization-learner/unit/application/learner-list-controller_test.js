@@ -96,7 +96,7 @@ describe('Unit | Application | learner-list-controller', function () {
       const expectedResponse = { data: serializedOrganizationParticipants, meta: {} };
 
       usecases.findPaginatedFilteredParticipants
-        .withArgs({ organizationId, page: 2, filters: parameters.filter, sort: {} })
+        .withArgs({ organizationId, page: 2, filters: parameters.filter, sort: {}, extraFilters: {} })
         .returns({
           organizationParticipants: [participant],
           pagination: expectedPagination,
@@ -138,6 +138,7 @@ describe('Unit | Application | learner-list-controller', function () {
       expect(usecases.findPaginatedFilteredParticipants).to.have.been.calledWithExactly({
         organizationId,
         filters: {},
+        extraFilters: {},
         page: {},
         sort: {
           participationCount: 'asc',
@@ -168,6 +169,7 @@ describe('Unit | Application | learner-list-controller', function () {
       expect(usecases.findPaginatedFilteredParticipants).to.have.been.calledWithExactly({
         organizationId,
         filters: { certificability: [true, false, null] },
+        extraFilters: {},
         page: {},
         sort: {},
       });
