@@ -1,5 +1,11 @@
+import _ from 'lodash';
+
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import {
+  logErrorWithCorrelationIds,
+  logInfoWithCorrelationIds,
+} from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { AssessmentEndedError } from '../../../../shared/domain/errors.js';
 import { CertificationChallenge } from '../../../../shared/domain/models/CertificationChallenge.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
@@ -23,7 +29,20 @@ const save = async function ({ certificationChallenge }) {
   });
   const [savedCertificationChallenge] = await knexConn('certification-challenges')
     .insert(certificationChallengeToSave)
-    .returning('*');
+    .returning('*')
+    .on('query', function (data) {
+      logInfoWithCorrelationIds({
+        event: 'save-certification-challenge',
+        message: `A certification challenge will be inserted with transaction ${data.__knexTxId}`,
+      });
+    })
+    .on('query-error', function (data) {
+      logErrorWithCorrelationIds({
+        event: 'save-certification-challenge',
+        message: `A certification challenge could not be inserted`,
+        data: _(data).pick(['code', 'constraint', 'detail']),
+      });
+    });
 
   return new CertificationChallenge(savedCertificationChallenge);
 };
