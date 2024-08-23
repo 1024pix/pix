@@ -32,6 +32,21 @@ const deleteCandidate = async function (request, h) {
   return h.response().code(204);
 };
 
+const updateEnrolledCandidate = async function (request, h, dependencies = { enrolledCandidateSerializer }) {
+  const candidateId = request.params.certificationCandidateId;
+  const enrolledCandidateData = request.payload.data.attributes;
+  const editedCandidate = dependencies.enrolledCandidateSerializer.deserialize({
+    candidateId,
+    candidateData: enrolledCandidateData,
+  });
+
+  await usecases.updateEnrolledCandidate({
+    editedCandidate,
+  });
+
+  return h.response().code(204);
+};
+
 const validateCertificationInstructions = async function (
   request,
   h,
@@ -42,7 +57,7 @@ const validateCertificationInstructions = async function (
   await usecases.candidateHasSeenCertificationInstructions({
     certificationCandidateId,
   });
-  const enrolledCandidate = await enrolledCandidateRepository.get(certificationCandidateId);
+  const enrolledCandidate = await enrolledCandidateRepository.get({ id: certificationCandidateId });
 
   return dependencies.certificationCandidateSerializer.serialize(enrolledCandidate);
 };
@@ -52,5 +67,6 @@ const certificationCandidateController = {
   getEnrolledCandidates,
   deleteCandidate,
   validateCertificationInstructions,
+  updateEnrolledCandidate,
 };
 export { certificationCandidateController };
