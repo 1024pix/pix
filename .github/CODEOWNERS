@@ -2,6 +2,12 @@
 /api/src/devcomp/ @1024pix/team-devcomp
 /api/tests/devcomp/ @1024pix/team-devcomp
 
+/mon-pix/app/components/module/ @1024pix/team-devcomp
+/mon-pix/app/components/training/ @1024pix/team-devcomp
+/mon-pix/app/components/tutorial/ @1024pix/team-devcomp
+
+/admin/app/components/trainings/ @1024pix/team-devcomp
+
 
 # Directories maintained by team Certification
 /api/src/certification/ @1024pix/team-certification
