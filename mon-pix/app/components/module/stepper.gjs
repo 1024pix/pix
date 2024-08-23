@@ -12,13 +12,17 @@ import didInsert from '../../modifiers/modifier-did-insert';
 
 export default class ModulixStepper extends Component {
   @service modulixAutoScroll;
+  @service modulixPreviewMode;
 
   displayableSteps = this.args.steps.filter((step) =>
     step.elements.some((element) => ModuleGrain.AVAILABLE_ELEMENT_TYPES.includes(element.type)),
   );
 
-  @tracked
-  stepsToDisplay = [this.displayableSteps[0]];
+  @tracked stepsToDisplay = this._initialStepsToDisplay;
+  get _initialStepsToDisplay() {
+    const firstDisplayableStep = this.displayableSteps[0];
+    return this.modulixPreviewMode.isEnabled ? this.displayableSteps : [firstDisplayableStep];
+  }
 
   @action
   hasStepJustAppeared(index) {
