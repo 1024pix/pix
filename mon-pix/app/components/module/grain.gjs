@@ -1,7 +1,15 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
+import { eq } from 'ember-truth-helpers';
+import Element from 'mon-pix/components/module/element';
+import GrainTag from 'mon-pix/components/module/grain/tag';
+import Stepper from 'mon-pix/components/module/stepper';
+import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
+import didInsert from 'mon-pix/modifiers/modifier-did-insert';
 
 export default class ModuleGrain extends Component {
   @service modulixAutoScroll;
@@ -142,4 +150,81 @@ export default class ModuleGrain extends Component {
   onModuleTerminate() {
     this.args.onModuleTerminate({ grainId: this.args.grain.id });
   }
+
+  <template>
+    <article class="grain {{if @hasJustAppeared 'grain--active'}}" tabindex="-1" {{didInsert this.focusAndScroll}}>
+      <h2 class="screen-reader-only">{{@grain.title}}</h2>
+
+      {{#if @transition}}
+        <header class="grain__header">
+          {{htmlUnsafe @transition.content}}
+        </header>
+      {{/if}}
+
+      <div class="grain-card__tag">
+        <GrainTag @type={{this.grainType}} />
+      </div>
+      <div class="grain__card grain-card--{{this.grainType}}">
+        <div class="grain-card__content">
+          <!-- eslint-disable-next-line no-unused-vars -->
+          {{#each this.displayableComponents as |component|}}
+            {{#if (eq component.type "element")}}
+              <div class="grain-card-content__element">
+                <Element
+                  @element={{component.element}}
+                  @onImageAlternativeTextOpen={{@onImageAlternativeTextOpen}}
+                  @onVideoTranscriptionOpen={{@onVideoTranscriptionOpen}}
+                  @onElementAnswer={{@onElementAnswer}}
+                  @onElementRetry={{@onElementRetry}}
+                  @onVideoPlay={{@onVideoPlay}}
+                  @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
+                  @onFileDownload={{@onFileDownload}}
+                />
+              </div>
+            {{else if (eq component.type "stepper")}}
+              <div class="grain-card-content__stepper">
+                <Stepper
+                  @steps={{component.steps}}
+                  @onElementAnswer={{@onElementAnswer}}
+                  @onElementRetry={{@onElementRetry}}
+                  @passage={{@passage}}
+                  @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
+                  @stepperIsFinished={{this.stepperIsFinished}}
+                  @onStepperNextStep={{@onStepperNextStep}}
+                  @onImageAlternativeTextOpen={{@onImageAlternativeTextOpen}}
+                  @onVideoTranscriptionOpen={{@onVideoTranscriptionOpen}}
+                  @onVideoPlay={{@onVideoPlay}}
+                  @onFileDownload={{@onFileDownload}}
+                />
+              </div>
+            {{/if}}
+          {{/each}}
+        </div>
+
+        {{#if this.shouldDisplaySkipButton}}
+          <footer class="grain-card__footer">
+            <PixButton @variant="tertiary" @triggerAction={{@onGrainSkip}}>
+              {{t "pages.modulix.buttons.grain.skip"}}
+            </PixButton>
+          </footer>
+        {{/if}}
+
+        {{#if this.shouldDisplayContinueButton}}
+          <footer class="grain-card__footer">
+            <PixButton @variant="primary" @triggerAction={{@onGrainContinue}}>
+              {{t "pages.modulix.buttons.grain.continue"}}
+            </PixButton>
+          </footer>
+        {{/if}}
+
+        {{#if @shouldDisplayTerminateButton}}
+          <footer class="grain-card__footer">
+            <PixButton @variant="primary" @triggerAction={{this.onModuleTerminate}}>
+              {{t "pages.modulix.buttons.grain.terminate"}}
+            </PixButton>
+          </footer>
+        {{/if}}
+      </div>
+    </article>
+  </template>
 }
