@@ -8,18 +8,18 @@ describe('Unit | Prescription | Application | Jobs | participationSharedJobContr
       sinon.stub(usecases, 'sendSharedParticipationResultsToPoleEmploi');
       // given
       const handler = new ParticipationSharedJobController();
-      const participationSharedJobController = {
+      const data = {
         campaignParticipationId: Symbol('campaignParticipationId'),
       };
 
       // when
-      await handler.handle(participationSharedJobController);
+      await handler.handle({ data });
 
       // then
       expect(usecases.sendSharedParticipationResultsToPoleEmploi).to.have.been.calledOnce;
-      expect(usecases.sendSharedParticipationResultsToPoleEmploi).to.have.been.calledWithExactly(
-        participationSharedJobController,
-      );
+      expect(usecases.sendSharedParticipationResultsToPoleEmploi).to.have.been.calledWithExactly({
+        campaignParticipationId: data.campaignParticipationId,
+      });
     });
   });
 });

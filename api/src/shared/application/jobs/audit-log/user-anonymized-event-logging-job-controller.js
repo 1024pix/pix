@@ -7,8 +7,8 @@ export class UserAnonymizedEventLoggingJobController extends JobController {
     super(UserAnonymizedEventLoggingJob.name);
   }
 
-  async handle(UserAnonymizedEventLoggingJob) {
-    const { userId: targetUserId, updatedByUserId: userId, role, client, occurredAt } = UserAnonymizedEventLoggingJob;
+  async handle({ data }) {
+    const { userId: targetUserId, updatedByUserId: userId, role, client, occurredAt } = data;
 
     // TODO: a mettre dans un usecases
     return auditLoggerRepository.logEvent({

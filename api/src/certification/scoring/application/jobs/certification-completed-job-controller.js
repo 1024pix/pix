@@ -26,8 +26,8 @@ export class CertificationCompletedJobController extends JobController {
     super(CertificationCompletedJob.name);
   }
 
-  async handle(
-    certificationCompletedJob,
+  async handle({
+    data,
     dependencies = {
       answerRepository,
       assessmentResultRepository,
@@ -44,8 +44,8 @@ export class CertificationCompletedJobController extends JobController {
       scoringDegradationService,
       events,
     },
-  ) {
-    const { assessmentId, locale } = certificationCompletedJob;
+  }) {
+    const { assessmentId, locale } = data;
 
     const {
       assessmentResultRepository,

@@ -7,8 +7,8 @@ export class ParticipationResultCalculationJobController extends JobController {
     super(ParticipationResultCalculationJob.name);
   }
 
-  async handle(scheduleParticipationResultCalculation) {
-    const { campaignParticipationId } = scheduleParticipationResultCalculation;
+  async handle({ data }) {
+    const { campaignParticipationId } = data;
 
     await usecases.saveComputedCampaignParticipationResult({ campaignParticipationId });
   }

@@ -156,9 +156,7 @@ describe('Unit | Application | Controller | Jobs | participation-started-control
         // when
         const handler = new ParticipationStartedJobController();
 
-        await handler.handle(data, {
-          ...dependencies,
-        });
+        await handler.handle({ data, dependencies });
         // then
         expect(poleEmploiSendingRepository.create).to.have.been.calledWithExactly({ poleEmploiSending });
       });
@@ -189,9 +187,7 @@ describe('Unit | Application | Controller | Jobs | participation-started-control
         // when
         const handler = new ParticipationStartedJobController();
 
-        await handler.handle(data, {
-          ...dependencies,
-        });
+        await handler.handle({ data, dependencies });
 
         // then
         sinon.assert.notCalled(poleEmploiNotifier.notify);
@@ -223,9 +219,7 @@ describe('Unit | Application | Controller | Jobs | participation-started-control
         // when
         const handler = new ParticipationStartedJobController();
 
-        await handler.handle(data, {
-          ...dependencies,
-        });
+        await handler.handle({ data, dependencies });
 
         sinon.assert.notCalled(poleEmploiNotifier.notify);
       });

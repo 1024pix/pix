@@ -20,7 +20,7 @@ describe('Unit | Jobs | audit-log | User anonymized event logging', function () 
       // given
       sinon.stub(auditLoggerRepository, 'logEvent').resolves();
 
-      const payload = new UserAnonymizedEventLoggingJob({
+      const data = new UserAnonymizedEventLoggingJob({
         userId: 1,
         updatedByUserId: 2,
         role: 'SUPER_ADMIN',
@@ -29,12 +29,12 @@ describe('Unit | Jobs | audit-log | User anonymized event logging', function () 
       const userAnonymizedEventLoggingJobHandler = new UserAnonymizedEventLoggingJobController();
 
       // when
-      await userAnonymizedEventLoggingJobHandler.handle(payload);
+      await userAnonymizedEventLoggingJobHandler.handle({ data });
 
       // then
       const expectedEvent = {
-        userId: payload.updatedByUserId.toString(),
-        targetUserId: payload.userId.toString(),
+        userId: data.updatedByUserId.toString(),
+        targetUserId: data.userId.toString(),
         role: 'SUPER_ADMIN',
         occurredAt: new Date(),
         action: 'ANONYMIZATION',

@@ -9,7 +9,7 @@ import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobController', function () {
   context('#handle', function () {
-    let campaignParticipationCompletedJob, dependencies, expectedResults;
+    let data, dependencies, expectedResults;
     let campaignId, userId, organizationId, assessmentId;
     let campaignParticipationCompletedJobController;
     let assessmentRepository,
@@ -103,7 +103,7 @@ describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobCo
           assessments: [domainBuilder.buildAssessment({ id: assessmentId })],
           createdAt: new Date('2020-01-02'),
         });
-        campaignParticipationCompletedJob = new ParticipationCompletedJob({
+        data = new ParticipationCompletedJob({
           campaignParticipationId: campaignParticipation.id,
         });
 
@@ -145,7 +145,7 @@ describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobCo
           .returns(poleEmploiSending);
 
         // when
-        await campaignParticipationCompletedJobController.handle(campaignParticipationCompletedJob, dependencies);
+        await campaignParticipationCompletedJobController.handle({ data, dependencies });
 
         // then
         expect(poleEmploiSendingRepository.create).to.have.been.calledWithExactly({ poleEmploiSending });
@@ -165,7 +165,7 @@ describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobCo
           campaign,
           createdAt: new Date('2020-01-02'),
         });
-        campaignParticipationCompletedJob = new ParticipationCompletedJob({
+        data = new ParticipationCompletedJob({
           campaignParticipationId: campaignParticipation.id,
         });
 
@@ -176,7 +176,7 @@ describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobCo
 
       it('should not notify to Pole Emploi', async function () {
         // when
-        await campaignParticipationCompletedJobController.handle(campaignParticipationCompletedJob, dependencies);
+        await campaignParticipationCompletedJobController.handle({ data, dependencies });
 
         // then
         sinon.assert.notCalled(poleEmploiNotifier.notify);
@@ -196,7 +196,7 @@ describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobCo
           campaign,
           createdAt: new Date('2020-01-02'),
         });
-        campaignParticipationCompletedJob = new ParticipationCompletedJob({
+        data = new ParticipationCompletedJob({
           campaignParticipationId: campaignParticipation.id,
         });
 
@@ -207,7 +207,7 @@ describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobCo
 
       it('should not notify to Pole Emploi', async function () {
         // when
-        await campaignParticipationCompletedJobController.handle(campaignParticipationCompletedJob, dependencies);
+        await campaignParticipationCompletedJobController.handle({ data, dependencies });
 
         // then
         sinon.assert.notCalled(poleEmploiNotifier.notify);

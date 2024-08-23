@@ -16,12 +16,12 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobController extends Jo
     });
   }
 
-  async handle(
-    event = {},
+  async handle({
+    data = {},
     dependencies = { organizationLearnerRepository, computeCertificabilityJobRepository, config, logger },
-  ) {
-    const skipLoggedLastDayCheck = event?.skipLoggedLastDayCheck;
-    const onlyNotComputed = event?.onlyNotComputed;
+  }) {
+    const skipLoggedLastDayCheck = data?.skipLoggedLastDayCheck;
+    const onlyNotComputed = data?.onlyNotComputed;
     const chunkSize = dependencies.config.features.scheduleComputeOrganizationLearnersCertificability.chunkSize;
     const cronConfig = dependencies.config.features.scheduleComputeOrganizationLearnersCertificability.cron;
 

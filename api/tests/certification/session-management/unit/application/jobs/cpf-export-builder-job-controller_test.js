@@ -7,6 +7,7 @@ import utc from 'dayjs/plugin/utc.js';
 import lodash from 'lodash';
 
 import { CpfExportBuilderJobController } from '../../../../../../src/certification/session-management/application/jobs/cpf-export-builder-job-controller.js';
+import { usecases } from '../../../../../../src/certification/session-management/domain/usecases/index.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const { PassThrough, Readable } = stream;
@@ -19,7 +20,6 @@ dayjs.extend(timezone);
 describe('Unit | Application | Certification | Sessions Management | jobs | cpf-export-builder-job-controller', function () {
   let cpfCertificationResultRepository;
   let cpfCertificationXmlExportService;
-  let uploadCpfFiles;
   let loggerSpy;
   let clock;
   let logger;
@@ -35,7 +35,8 @@ describe('Unit | Application | Certification | Sessions Management | jobs | cpf-
     cpfCertificationXmlExportService = {
       buildXmlExport: sinon.stub(),
     };
-    uploadCpfFiles = sinon.stub();
+
+    usecases.uploadCpfFiles = sinon.stub();
     logger = { error: noop, info: noop };
     loggerSpy = sinon.spy(logger, 'error');
   });
@@ -61,18 +62,15 @@ describe('Unit | Application | Certification | Sessions Management | jobs | cpf-
 
       // when
       const jobController = new CpfExportBuilderJobController();
-      await jobController.handle(
-        { batchId },
-        {
-          dependencies: {
-            cpfCertificationResultRepository,
-            cpfCertificationXmlExportService,
-            uploadCpfFiles,
-            uuidService,
-            logger,
-          },
+      await jobController.handle({
+        data: { batchId },
+        dependencies: {
+          cpfCertificationResultRepository,
+          cpfCertificationXmlExportService,
+          uuidService,
+          logger,
         },
-      );
+      });
 
       // then
       expect(cpfCertificationXmlExportService.buildXmlExport).to.have.been.calledWithExactly({
@@ -80,7 +78,7 @@ describe('Unit | Application | Certification | Sessions Management | jobs | cpf-
         writableStream: sinon.match(PassThrough),
         uuidService,
       });
-      expect(uploadCpfFiles).to.have.been.calledWithExactly({
+      expect(usecases.uploadCpfFiles).to.have.been.calledWithExactly({
         filename: 'pix-cpf-export-20220101-114327.xml.gz',
         readableStream: sinon.match(Readable),
         logger,
@@ -103,22 +101,19 @@ describe('Unit | Application | Certification | Sessions Management | jobs | cpf-
 
       // when
       const jobController = new CpfExportBuilderJobController();
-      await jobController.handle(
-        { batchId },
-        {
-          dependencies: {
-            cpfCertificationResultRepository,
-            cpfCertificationXmlExportService,
-            uploadCpfFiles,
-            uuidService,
-            logger,
-          },
+      await jobController.handle({
+        data: { batchId },
+        dependencies: {
+          cpfCertificationResultRepository,
+          cpfCertificationXmlExportService,
+          uuidService,
+          logger,
         },
-      );
+      });
 
       // then
       expect(cpfCertificationXmlExportService.buildXmlExport).to.not.have.been.called;
-      expect(uploadCpfFiles).to.not.have.been.called;
+      expect(usecases.uploadCpfFiles).to.not.have.been.called;
       expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.not.have.been.called;
 
       expect(loggerSpy).to.have.been.calledOnce;

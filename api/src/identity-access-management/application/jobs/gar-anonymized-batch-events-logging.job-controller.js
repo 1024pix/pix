@@ -9,13 +9,13 @@ export class GarAnonymizedBatchEventsLoggingJobController extends JobController 
     super(GarAnonymizedBatchEventsLoggingJob.name);
   }
 
-  async handle(
-    event,
+  async handle({
+    data,
     dependencies = {
       auditLoggerRepository,
     },
-  ) {
-    const { userIds: targetUserIds, updatedByUserId: userId, role, client, occurredAt } = event;
+  }) {
+    const { userIds: targetUserIds, updatedByUserId: userId, role, client, occurredAt } = data;
 
     const auditLoggerEvents = targetUserIds.map((targetUserId) => {
       return {

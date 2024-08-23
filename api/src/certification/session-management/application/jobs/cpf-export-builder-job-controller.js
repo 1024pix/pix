@@ -9,7 +9,7 @@ import * as cpfCertificationXmlExportService from '../../../../../lib/domain/ser
 import { JobController } from '../../../../shared/application/jobs/job-controller.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { CpfExportBuilderJob } from '../../domain/models/CpfExportBuilderJob.js';
-import { uploadCpfFiles } from '../../domain/usecases/upload-cpf-files.js';
+import { usecases } from '../../domain/usecases/index.js';
 import * as cpfCertificationResultRepository from '../../infrastructure/repositories/cpf-certification-result-repository.js';
 
 dayjs.extend(utc);
@@ -20,18 +20,15 @@ export class CpfExportBuilderJobController extends JobController {
     super(CpfExportBuilderJob.name);
   }
 
-  async handle(
+  async handle({
     data,
-    {
-      dependencies = {
-        uploadCpfFiles,
-        cpfCertificationResultRepository,
-        cpfCertificationXmlExportService,
-        uuidService: uuid,
-        logger,
-      },
+    dependencies = {
+      cpfCertificationResultRepository,
+      cpfCertificationXmlExportService,
+      uuidService: uuid,
+      logger,
     },
-  ) {
+  }) {
     const { batchId } = data;
     const start = new Date();
     const cpfCertificationResults = await dependencies.cpfCertificationResultRepository.findByBatchId(batchId);
@@ -55,7 +52,7 @@ export class CpfExportBuilderJobController extends JobController {
 
     const now = dayjs().tz('Europe/Paris').format('YYYYMMDD-HHmmss');
     const filename = `pix-cpf-export-${now}.xml.gz`;
-    await dependencies.uploadCpfFiles({
+    await usecases.uploadCpfFiles({
       filename,
       readableStream: gzipStream,
       logger: dependencies.logger,
