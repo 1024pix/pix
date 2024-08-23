@@ -1,12 +1,18 @@
-import Controller from '@ember/controller';
+import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
+import { pageTitle } from 'ember-page-title';
+import ModulixGrain from 'mon-pix/components/module/grain';
 
-export default class ModulePreviewController extends Controller {
-  @service('store') store;
+export default class ModulixPreview extends Component {
+  @service store;
 
-  @tracked module = `{
+  @tracked
+  module = `{
   "id": "0000000a-0000-0bcd-e000-0f0000gh0000",
   "slug": "demo-preview-modulix",
   "title": "Démo preview Modulix",
@@ -104,4 +110,51 @@ export default class ModulePreviewController extends Controller {
   grainTransition(grainId) {
     return this.formattedModule.transitionTexts.find((transition) => transition.grainId === grainId);
   }
+
+  <template>
+    {{pageTitle this.module.title}}
+
+    <div class="module-preview">
+      <aside class="module-preview__passage">
+        <div class="module-preview-passage__title">
+          <h1>{{this.formattedModule.title}}</h1>
+        </div>
+
+        <div class="module-preview-passage__content">
+          {{#each this.formattedModule.grains as |grain|}}
+            <ModulixGrain
+              @grain={{grain}}
+              @onElementRetry={{this.noop}}
+              @passage={{this.passage}}
+              @transition={{this.grainTransition grain.id}}
+              @onImageAlternativeTextOpen={{this.noop}}
+              @onVideoTranscriptionOpen={{this.noop}}
+              @onElementAnswer={{this.noop}}
+              @onStepperNextStep={{this.noop}}
+              @canMoveToNextGrain={{false}}
+              @onGrainContinue={{this.noop}}
+              @onGrainSkip={{this.noop}}
+              @shouldDisplayTerminateButton={{false}}
+              @onModuleTerminate={{this.noop}}
+              @hasJustAppeared={{false}}
+              @onVideoPlay={{this.noop}}
+              @onFileDownload={{this.noop}}
+            />
+          {{/each}}
+        </div>
+      </aside>
+
+      <main class="module-preview__form">
+        <PixTextarea
+          class="module-preview-form__textarea"
+          @id="module"
+          @value={{this.module}}
+          @errorMessage={{this.errorMessage}}
+          {{on "change" this.updateModule}}
+        >
+          <:label>{{t "pages.modulix.preview.textarea-label"}}</:label>
+        </PixTextarea>
+      </main>
+    </div>
+  </template>
 }
