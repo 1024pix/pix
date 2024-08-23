@@ -6,6 +6,8 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import ENV from 'pix-admin/config/environment';
 
+import AdministrationBlockLayout from '../block-layout';
+
 export default class AnonymizeGarImport extends Component {
   @service intl;
   @service notifications;
@@ -68,13 +70,10 @@ export default class AnonymizeGarImport extends Component {
   }
 
   <template>
-    <section class="page-section">
-      <header class="page-section__header">
-        <h2 class="page-section__title">{{t "components.administration.anonymize-gar-import.title"}}</h2>
-      </header>
-
-      <p class="description">{{t "components.administration.anonymize-gar-import.description"}}</p>
-
+    <AdministrationBlockLayout
+      @title={{t "components.administration.anonymize-gar-import.title"}}
+      @description={{t "components.administration.anonymize-gar-import.description"}}
+    >
       <PixButtonUpload
         @id="anonymize-gar-upload"
         @onChange={{this.anonymizeGar}}
@@ -88,6 +87,6 @@ export default class AnonymizeGarImport extends Component {
           {{t "components.administration.anonymize-gar-import.upload-button"}}
         {{/if}}
       </PixButtonUpload>
-    </section>
+    </AdministrationBlockLayout>
   </template>
 }

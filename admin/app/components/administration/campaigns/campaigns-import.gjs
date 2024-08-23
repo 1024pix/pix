@@ -4,6 +4,8 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
+import AdministrationBlockLayout from '../block-layout';
+
 export default class CampaignsImport extends Component {
   @service intl;
   @service notifications;
@@ -38,11 +40,10 @@ export default class CampaignsImport extends Component {
     }
   }
   <template>
-    <section class="page-section">
-      <header class="page-section__header">
-        <h2 class="page-section__title">{{t "components.administration.campaigns-import.title"}}</h2>
-      </header>
-      <p class="description">{{t "components.administration.campaigns-import.description"}}</p>
+    <AdministrationBlockLayout
+      @title={{t "components.administration.campaigns-import.title"}}
+      @description={{t "components.administration.campaigns-import.description"}}
+    >
       <PixButtonUpload
         @id="campaigns-file-upload"
         @onChange={{this.importCampaigns}}
@@ -51,6 +52,6 @@ export default class CampaignsImport extends Component {
       >
         {{t "components.administration.campaigns-import.upload-button"}}
       </PixButtonUpload>
-    </section>
+    </AdministrationBlockLayout>
   </template>
 }

@@ -4,6 +4,8 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
+import AdministrationBlockLayout from '../block-layout';
+
 export default class OrganizationsImport extends Component {
   @service intl;
   @service notifications;
@@ -39,14 +41,13 @@ export default class OrganizationsImport extends Component {
   }
 
   <template>
-    <section class="page-section">
-      <header class="page-section__header">
-        <h2 class="page-section__title">{{t "components.administration.organizations-import.title"}}</h2>
-      </header>
-      <p class="description">{{t "components.administration.organizations-import.description"}}</p>
+    <AdministrationBlockLayout
+      @title={{t "components.administration.organizations-import.title"}}
+      @description={{t "components.administration.organizations-import.description"}}
+    >
       <PixButtonUpload @id="orga-file-upload" @onChange={{this.importOrganizations}} @variant="secondary" accept=".csv">
         {{t "components.administration.organizations-import.upload-button"}}
       </PixButtonUpload>
-    </section>
+    </AdministrationBlockLayout>
   </template>
 }

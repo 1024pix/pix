@@ -2,12 +2,12 @@ import NotificationContainer from '@1024pix/ember-cli-notifications/components/n
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
-import AddOrganizationFeaturesInBatch from 'pix-admin/components/administration/add-organization-features-in-batch';
+import AddOrganizationFeaturesInBatch from 'pix-admin/components/administration/common/add-organization-features-in-batch';
 import ENV from 'pix-admin/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 const accessToken = 'An access token';
 const fileContent = 'foo';

@@ -1,10 +1,10 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import UpdateCampaignCode from 'pix-admin/components/administration/update-campaign-code';
+import UpdateCampaignCode from 'pix-admin/components/administration/campaigns/update-campaign-code';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering.js';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering.js';
 
 module('Integration | Component | administration/update-campaign-code', function (hooks) {
   setupIntlRenderingTest(hooks);

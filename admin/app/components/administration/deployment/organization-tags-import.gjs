@@ -5,6 +5,8 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import ENV from 'pix-admin/config/environment';
 
+import AdministrationBlockLayout from '../block-layout';
+
 export default class OrganizationTagsImport extends Component {
   @service intl;
   @service notifications;
@@ -58,11 +60,10 @@ export default class OrganizationTagsImport extends Component {
   }
 
   <template>
-    <section class="page-section">
-      <header class="page-section__header">
-        <h2 class="page-section__title">{{t "components.administration.organization-tags-import.title"}}</h2>
-      </header>
-      <p class="description">{{t "components.administration.organization-tags-import.description"}}</p>
+    <AdministrationBlockLayout
+      @title={{t "components.administration.organization-tags-import.title"}}
+      @description={{t "components.administration.organization-tags-import.description"}}
+    >
       <PixButtonUpload
         @id="organization-tags-import-file-upload"
         @onChange={{this.importOrganizationTags}}
@@ -72,6 +73,6 @@ export default class OrganizationTagsImport extends Component {
 
         {{t "components.administration.organization-tags-import.upload-button"}}
       </PixButtonUpload>
-    </section>
+    </AdministrationBlockLayout>
   </template>
 }

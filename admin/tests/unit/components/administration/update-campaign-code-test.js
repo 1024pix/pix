@@ -14,7 +14,7 @@ module('Unit | Component | update-campaign-code', function (hooks) {
     updateCampaignCodeStub = sinon.stub();
     notificationStub = { clearAll: sinon.stub(), success: sinon.stub(), error: sinon.stub() };
     intlStub = sinon.stub();
-    component = createGlimmerComponent('component:administration/update-campaign-code');
+    component = createGlimmerComponent('component:administration/campaigns/update-campaign-code');
     component.notifications = notificationStub;
     component.store.adapterFor = sinon.stub().returns({ updateCampaignCode: updateCampaignCodeStub });
     component.campaignId = 123;

@@ -299,6 +299,9 @@
           "label": "Access"
         },
         "aria-label": "Administration section navigation",
+        "campaigns": {
+          "label": "Campaigns"
+        },
         "certification": {
           "label": "Certification"
         },

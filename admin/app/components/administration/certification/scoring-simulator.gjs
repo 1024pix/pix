@@ -9,6 +9,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
+import AdministrationBlockLayout from '../block-layout';
+
 export default class ScoringSimulator extends Component {
   @tracked validationStatus = 'default';
   @tracked score = null;
@@ -74,11 +76,7 @@ export default class ScoringSimulator extends Component {
   }
 
   <template>
-    <PixBlock class="page-section">
-
-      <h2 class="page-section__title">
-        {{t "pages.administration.certification.scoring-simulator.title"}}
-      </h2>
+    <AdministrationBlockLayout @title={{t "pages.administration.certification.scoring-simulator.title"}}>
 
       <form class="scoring-simulator-form">
         <PixInput {{on "input" this.updateScore}} @id="score" @value={{this.score}} type="number">
@@ -114,7 +112,7 @@ export default class ScoringSimulator extends Component {
           <dd>{{this.simulatorReport.data.attributes.capacity}}</dd>
         </div>
       </dl>
-    </PixBlock>
+    </AdministrationBlockLayout>
 
     {{#if this.simulatorReport.data.attributes.competences}}
       <PixBlock class="scoring-simulator__competences">

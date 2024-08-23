@@ -1,4 +1,3 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
 import { on } from '@ember/modifier';
@@ -6,6 +5,8 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
+
+import AdministrationBlockLayout from '../block-layout';
 
 export default class CompetenceScoringConfiguration extends Component {
   @service store;
@@ -30,11 +31,7 @@ export default class CompetenceScoringConfiguration extends Component {
   }
 
   <template>
-    <PixBlock class="page-section">
-      <h2 class="page-section__title">
-        {{t "pages.administration.certification.competence-scoring-configuration.title"}}
-      </h2>
-
+    <AdministrationBlockLayout @title={{t "pages.administration.certification.competence-scoring-configuration.title"}}>
       <form class="competence-scoring-configuration-form" {{on "submit" this.onCompetenceScoringConfigurationSubmit}}>
         <PixTextarea
           rows="4"
@@ -46,6 +43,6 @@ export default class CompetenceScoringConfiguration extends Component {
         </PixTextarea>
         <PixButton @type="submit">{{t "common.actions.save"}}</PixButton>
       </form>
-    </PixBlock>
+    </AdministrationBlockLayout>
   </template>
 }
