@@ -1,10 +1,11 @@
-import lodash from 'lodash';
-
-const { _ } = lodash;
-
 import bluebird from 'bluebird';
+import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
+import {
+  logErrorWithCorrelationIds,
+  logInfoWithCorrelationIds,
+} from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { config } from '../../../../shared/config.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
@@ -20,7 +21,20 @@ async function save({ certificationCourse }) {
   const certificationCourseToSaveDTO = _adaptModelToDb(certificationCourse);
   const [{ id: certificationCourseId }] = await knexConn('certification-courses')
     .insert(certificationCourseToSaveDTO)
-    .returning('id');
+    .returning('id')
+    .on('query', function (data) {
+      logInfoWithCorrelationIds({
+        event: 'save-certification-course',
+        message: `A certification course will be inserted with transaction ${data.__knexTxId}`,
+      });
+    })
+    .on('query-error', function (data) {
+      logErrorWithCorrelationIds({
+        event: 'save-certification-course',
+        message: `A certification course could not be inserted`,
+        data: _(data).pick(['code', 'constraint', 'detail']),
+      });
+    });
 
   const complementaryCertificationCourses = certificationCourse
     .toDTO()
