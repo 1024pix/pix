@@ -5,7 +5,7 @@ class ParticipationSharedJobRepository extends JobRepository {
   constructor() {
     super({
       name: ParticipationSharedJob.name,
-      retry: JobRetry.STANDARD_RETRY,
+      retry: JobRetry.NO_RETRY,
     });
   }
 }
