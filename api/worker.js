@@ -7,9 +7,6 @@ import { glob } from 'glob';
 import _ from 'lodash';
 import PgBoss from 'pg-boss';
 
-import { ParticipationCompletedJobController } from './src/prescription/campaign-participation/application/jobs/participation-completed-job-controller.js';
-import { ParticipationSharedJobController } from './src/prescription/campaign-participation/application/jobs/participation-shared-job-controller.js';
-import { ParticipationStartedJobController } from './src/prescription/campaign-participation/application/jobs/participation-started-job-controller.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './src/prescription/learner-management/domain/models/ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 import { JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { config } from './src/shared/config.js';
@@ -97,16 +94,16 @@ export async function registerJobs({ jobGroup, dependencies = { startPgBoss, cre
       logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
       jobQueues.register(job.jobName, ModuleClass);
 
+      if (job.legacyName) {
+        logger.warn(`Temporary Job" ${job.legacyName}" registered from module "${moduleName}."`);
+        jobQueues.register(job.legacyName, ModuleClass);
+      }
+
       jobRegisteredCount++;
     } else {
       logger.warn(`Job "${job.jobName}" is disabled.`);
     }
   }
-
-  // deprecated name remove later
-  jobQueues.register('SendSharedParticipationResultsToPoleEmploiJob', ParticipationSharedJobController);
-  jobQueues.register('PoleEmploiParticipationCompletedJob', ParticipationCompletedJobController);
-  jobQueues.register('PoleEmploiParticipationStartedJob', ParticipationStartedJobController);
 
   logger.info(`${jobRegisteredCount} jobs registered for group "${jobGroup}".`);
 

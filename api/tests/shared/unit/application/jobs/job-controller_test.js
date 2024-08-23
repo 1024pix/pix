@@ -39,4 +39,20 @@ describe('Unit | Shared | Application | Jobs | JobController', function () {
       jobGroup,
     });
   });
+
+  it('should set isJobEnabled to true by default', function () {
+    // when
+    const controller = new JobController('jobName');
+
+    // then
+    expect(controller.isJobEnabled).to.be.true;
+  });
+
+  it('should set legacyName to null by default', function () {
+    // when
+    const controller = new JobController('jobName');
+
+    // then
+    expect(controller.legacyName).to.be.null;
+  });
 });

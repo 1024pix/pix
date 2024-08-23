@@ -19,6 +19,10 @@ export class JobController {
     return true;
   }
 
+  get legacyName() {
+    return null;
+  }
+
   get teamSize() {
     return config.pgBoss.teamSize;
   }
