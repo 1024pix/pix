@@ -4,7 +4,7 @@ import * as poleEmploiSendingRepository from '../../../../../../lib/infrastructu
 import * as targetProfileRepository from '../../../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as userRepository from '../../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { ParticipationCompletedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/participation-completed-job-controller.js';
-import { ParticipationCompletedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationCompletedJob.js';
+import { ParticipationCompletedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/jobs/ParticipationCompletedJob.js';
 import * as assessmentRepository from '../../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import {

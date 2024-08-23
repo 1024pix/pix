@@ -1,4 +1,4 @@
-import { CertificationRescoringByScriptJob } from '../../../../../../../src/certification/session-management/domain/models/CertificationRescoringByScriptJob.js';
+import { CertificationRescoringByScriptJob } from '../../../../../../../src/certification/session-management/domain/models/jobs/CertificationRescoringByScriptJob.js';
 import { certificationRescoringByScriptJobRepository } from '../../../../../../../src/certification/session-management/infrastructure/repositories/jobs/certification-rescoring-by-script-job-repository.js';
 import { expect } from '../../../../../../test-helper.js';
 

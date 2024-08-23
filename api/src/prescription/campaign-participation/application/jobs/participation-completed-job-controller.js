@@ -13,7 +13,7 @@ import * as userRepository from '../../../../identity-access-management/infrastr
 import { JobController } from '../../../../shared/application/jobs/job-controller.js';
 import { PoleEmploiSending } from '../../../../shared/domain/models/index.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
-import { ParticipationCompletedJob } from '../../domain/models/ParticipationCompletedJob.js';
+import { ParticipationCompletedJob } from '../../domain/models/jobs/ParticipationCompletedJob.js';
 
 export class ParticipationCompletedJobController extends JobController {
   constructor() {

@@ -1,4 +1,4 @@
-import { ImportOrganizationLearnersJob } from '../../../../../../../src/prescription/learner-management/domain/models/ImportOrganizationLearnersJob.js';
+import { ImportOrganizationLearnersJob } from '../../../../../../../src/prescription/learner-management/domain/models/jobs/ImportOrganizationLearnersJob.js';
 import { importOrganizationLearnersJobRepository } from '../../../../../../../src/prescription/learner-management/infrastructure/repositories/jobs/import-organization-learners-job-repository.js';
 import { expect } from '../../../../../../test-helper.js';
 

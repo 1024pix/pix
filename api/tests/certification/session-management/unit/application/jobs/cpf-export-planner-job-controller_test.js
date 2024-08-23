@@ -3,7 +3,7 @@ import utc from 'dayjs/plugin/utc.js';
 import lodash from 'lodash';
 
 import { CpfExportPlannerJobController } from '../../../../../../src/certification/session-management/application/jobs/cpf-export-planner-job-controller.js';
-import { CpfExportBuilderJob } from '../../../../../../src/certification/session-management/domain/models/CpfExportBuilderJob.js';
+import { CpfExportBuilderJob } from '../../../../../../src/certification/session-management/domain/models/jobs/CpfExportBuilderJob.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 

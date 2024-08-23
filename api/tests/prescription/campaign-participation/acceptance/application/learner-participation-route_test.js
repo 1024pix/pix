@@ -1,6 +1,6 @@
 import { createServer } from '../../../../../server.js';
-import { ParticipationResultCalculationJob } from '../../../../../src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
-import { ParticipationSharedJob } from '../../../../../src/prescription/campaign-participation/domain/models/ParticipationSharedJob.js';
+import { ParticipationResultCalculationJob } from '../../../../../src/prescription/campaign-participation/domain/models/jobs/ParticipationResultCalculationJob.js';
+import { ParticipationSharedJob } from '../../../../../src/prescription/campaign-participation/domain/models/jobs/ParticipationSharedJob.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';

@@ -1,6 +1,6 @@
 import { JobController } from '../../../../shared/application/jobs/job-controller.js';
 import { config } from '../../../../shared/config.js';
-import { ImportOrganizationLearnersJob } from '../../domain/models/ImportOrganizationLearnersJob.js';
+import { ImportOrganizationLearnersJob } from '../../domain/models/jobs/ImportOrganizationLearnersJob.js';
 import { usecases } from '../../domain/usecases/index.js';
 
 class ImportOrganizationLearnersJobController extends JobController {

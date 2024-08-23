@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
-import { PIX_ADMIN } from '../../../authorization/domain/constants.js';
-import { validateEntity } from '../../../shared/domain/validators/entity-validator.js';
+import { PIX_ADMIN } from '../../../../authorization/domain/constants.js';
+import { validateEntity } from '../../../../shared/domain/validators/entity-validator.js';
 
 const { ROLES } = PIX_ADMIN;
 

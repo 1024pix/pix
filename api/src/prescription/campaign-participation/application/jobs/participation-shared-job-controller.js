@@ -1,6 +1,6 @@
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { JobController } from '../../../../shared/application/jobs/job-controller.js';
-import { ParticipationSharedJob } from '../../domain/models/ParticipationSharedJob.js';
+import { ParticipationSharedJob } from '../../domain/models/jobs/ParticipationSharedJob.js';
 
 export class ParticipationSharedJobController extends JobController {
   constructor() {

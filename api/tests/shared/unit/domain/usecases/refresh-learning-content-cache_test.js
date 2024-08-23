@@ -1,4 +1,4 @@
-import { LcmsRefreshCacheJob } from '../../../../../src/shared/domain/models/LcmsRefreshCacheJob.js';
+import { LcmsRefreshCacheJob } from '../../../../../src/shared/domain/models/jobs/LcmsRefreshCacheJob.js';
 import { refreshLearningContentCache } from '../../../../../src/shared/domain/usecases/refresh-learning-content-cache.js';
 import { expect, sinon } from '../../../../test-helper.js';
 

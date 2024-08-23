@@ -2,7 +2,7 @@ import {
   AggregateImportError,
   SiecleXmlImportError,
 } from '../../../../../../src/prescription/learner-management/domain/errors.js';
-import { ImportOrganizationLearnersJob } from '../../../../../../src/prescription/learner-management/domain/models/ImportOrganizationLearnersJob.js';
+import { ImportOrganizationLearnersJob } from '../../../../../../src/prescription/learner-management/domain/models/jobs/ImportOrganizationLearnersJob.js';
 import { validateSiecleXmlFile } from '../../../../../../src/prescription/learner-management/domain/usecases/validate-siecle-xml-file.js';
 import { SiecleParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/xml/siecle-parser.js';
 import { SiecleFileStreamer } from '../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';

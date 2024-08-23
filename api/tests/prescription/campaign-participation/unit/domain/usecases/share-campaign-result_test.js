@@ -1,5 +1,5 @@
-import { ParticipationResultCalculationJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
-import { ParticipationSharedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationSharedJob.js';
+import { ParticipationResultCalculationJob } from '../../../../../../src/prescription/campaign-participation/domain/models/jobs/ParticipationResultCalculationJob.js';
+import { ParticipationSharedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/jobs/ParticipationSharedJob.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';

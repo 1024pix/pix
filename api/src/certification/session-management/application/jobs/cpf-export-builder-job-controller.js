@@ -8,7 +8,7 @@ import utc from 'dayjs/plugin/utc.js';
 import * as cpfCertificationXmlExportService from '../../../../../lib/domain/services/cpf-certification-xml-export-service.js';
 import { JobController } from '../../../../shared/application/jobs/job-controller.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
-import { CpfExportBuilderJob } from '../../domain/models/CpfExportBuilderJob.js';
+import { CpfExportBuilderJob } from '../../domain/models/jobs/CpfExportBuilderJob.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as cpfCertificationResultRepository from '../../infrastructure/repositories/cpf-certification-result-repository.js';
 

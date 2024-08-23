@@ -4,8 +4,8 @@ import { logErrorWithCorrelationIds } from '../../../../../lib/infrastructure/mo
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { detectEncoding } from '../../infrastructure/utils/xml/detect-encoding.js';
 import * as zip from '../../infrastructure/utils/xml/zip.js';
+import { ValidateOrganizationImportFileJob } from '../models/jobs/ValidateOrganizationImportFileJob.js';
 import { OrganizationImport } from '../models/OrganizationImport.js';
-import { ValidateOrganizationImportFileJob } from '../models/ValidateOrganizationImportFileJob.js';
 
 const uploadSiecleFile = async function ({
   userId,

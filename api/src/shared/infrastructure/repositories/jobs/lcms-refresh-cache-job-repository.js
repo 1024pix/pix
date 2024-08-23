@@ -1,4 +1,4 @@
-import { LcmsRefreshCacheJob } from '../../../domain/models/LcmsRefreshCacheJob.js';
+import { LcmsRefreshCacheJob } from '../../../domain/models/jobs/LcmsRefreshCacheJob.js';
 import { JobRepository } from './job-repository.js';
 
 class LcmsRefreshCacheJobRepository extends JobRepository {

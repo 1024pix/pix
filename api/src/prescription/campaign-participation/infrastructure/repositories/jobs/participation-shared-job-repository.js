@@ -1,5 +1,5 @@
 import { JobRepository } from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
-import { ParticipationSharedJob } from '../../../domain/models/ParticipationSharedJob.js';
+import { ParticipationSharedJob } from '../../../domain/models/jobs/ParticipationSharedJob.js';
 
 class ParticipationSharedJobRepository extends JobRepository {
   constructor() {

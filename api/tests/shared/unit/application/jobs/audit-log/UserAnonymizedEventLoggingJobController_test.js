@@ -1,5 +1,5 @@
 import { auditLoggerRepository } from '../../../../../../lib/infrastructure/repositories/audit-logger-repository.js';
-import { UserAnonymizedEventLoggingJob } from '../../../../../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
+import { UserAnonymizedEventLoggingJob } from '../../../../../../src/identity-access-management/domain/models/jobs/UserAnonymizedEventLoggingJob.js';
 import { UserAnonymizedEventLoggingJobController } from '../../../../../../src/shared/application/jobs/audit-log/user-anonymized-event-logging-job-controller.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 

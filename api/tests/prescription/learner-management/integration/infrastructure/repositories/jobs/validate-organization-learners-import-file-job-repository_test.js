@@ -1,4 +1,4 @@
-import { ValidateOrganizationImportFileJob } from '../../../../../../../src/prescription/learner-management/domain/models/ValidateOrganizationImportFileJob.js';
+import { ValidateOrganizationImportFileJob } from '../../../../../../../src/prescription/learner-management/domain/models/jobs/ValidateOrganizationImportFileJob.js';
 import { validateOrganizationImportFileJobRepository } from '../../../../../../../src/prescription/learner-management/infrastructure/repositories/jobs/validate-organization-learners-import-file-job-repository.js.js';
 import { expect } from '../../../../../../test-helper.js';
 

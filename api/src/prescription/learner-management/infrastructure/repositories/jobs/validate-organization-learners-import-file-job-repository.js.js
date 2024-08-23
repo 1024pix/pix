@@ -1,5 +1,5 @@
 import { JobRepository } from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
-import { ValidateOrganizationImportFileJob } from '../../../domain/models/ValidateOrganizationImportFileJob.js';
+import { ValidateOrganizationImportFileJob } from '../../../domain/models/jobs/ValidateOrganizationImportFileJob.js';
 
 class ValidateOrganizationImportFileJobRepository extends JobRepository {
   constructor() {

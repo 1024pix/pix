@@ -3,7 +3,7 @@ import 'dotenv/config';
 import * as url from 'node:url';
 
 import { disconnect } from '../../db/knex-database-connection.js';
-import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/domain/models/CertificationRescoringByScriptJob.js';
+import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/domain/models/jobs/CertificationRescoringByScriptJob.js';
 import { certificationRescoringByScriptJobRepository } from '../../src/certification/session-management/infrastructure/repositories/jobs/certification-rescoring-by-script-job-repository.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 

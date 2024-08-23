@@ -1,6 +1,6 @@
-import { UserAnonymizedEventLoggingJob } from '../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
+import { UserAnonymizedEventLoggingJob } from '../../src/identity-access-management/domain/models/jobs/UserAnonymizedEventLoggingJob.js';
 import { ValidateOrganizationLearnersImportFileJobController } from '../../src/prescription/learner-management/application/jobs/validate-organization-learners-import-file-job-controller.js';
-import { ValidateOrganizationImportFileJob } from '../../src/prescription/learner-management/domain/models/ValidateOrganizationImportFileJob.js';
+import { ValidateOrganizationImportFileJob } from '../../src/prescription/learner-management/domain/models/jobs/ValidateOrganizationImportFileJob.js';
 import { UserAnonymizedEventLoggingJobController } from '../../src/shared/application/jobs/audit-log/user-anonymized-event-logging-job-controller.js';
 import { JobGroup } from '../../src/shared/application/jobs/job-controller.js';
 import { config } from '../../src/shared/config.js';

@@ -1,5 +1,5 @@
 import { KnowledgeElement } from '../../../../shared/domain/models/KnowledgeElement.js';
-import { ParticipationStartedJob } from '../models/ParticipationStartedJob.js';
+import { ParticipationStartedJob } from '../models/jobs/ParticipationStartedJob.js';
 
 const startCampaignParticipation = async function ({
   campaignParticipation,

@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { UserAnonymizedEventLoggingJob } from '../../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
+import { UserAnonymizedEventLoggingJob } from '../../../src/identity-access-management/domain/models/jobs/UserAnonymizedEventLoggingJob.js';
 import { config } from '../../../src/shared/config.js';
 import { UserNotFoundError } from '../../../src/shared/domain/errors.js';
 import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
