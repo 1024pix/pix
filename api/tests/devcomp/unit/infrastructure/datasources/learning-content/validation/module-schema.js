@@ -20,7 +20,7 @@ const moduleDetailsSchema = Joi.object({
   description: htmlSchema.required(),
   duration: Joi.number().integer().min(0).max(120).required(),
   level: Joi.string().valid('Débutant', 'Intermédiaire', 'Avancé', 'Expert').required(),
-  objectives: Joi.array().items(htmlNotAllowedSchema).min(1).required(),
+  objectives: Joi.array().items(htmlSchema).min(1).required(),
   tabletSupport: Joi.string().valid('comfortable', 'inconvenient', 'obstructed').required(),
 });
 
@@ -100,4 +100,4 @@ const moduleSchema = Joi.object({
   grains: Joi.array().items(grainSchema).required(),
 }).required();
 
-export { grainSchema, moduleDetailsSchema, moduleSchema };
+export { grainSchema, moduleSchema };
