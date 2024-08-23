@@ -12,6 +12,7 @@ export default class ListController extends Controller {
 
   @tracked pageNumber = 1;
   @tracked pageSize = 50;
+  @tracked extraFilters = this.encodeExtraFilters({});
   @tracked fullName = null;
   @tracked certificability = [];
   @tracked participationCountOrder = null;
@@ -23,8 +24,24 @@ export default class ListController extends Controller {
   }
 
   @action
+  decodeExtraFilters(extraFilters) {
+    return JSON.parse(decodeURI(extraFilters));
+  }
+
+  encodeExtraFilters(extraFilters) {
+    return encodeURI(JSON.stringify(extraFilters));
+  }
+
+  @action
   triggerFiltering(fieldName, value) {
-    this[fieldName] = value || undefined;
+    if (fieldName.includes('.')) {
+      const [, property] = fieldName.split('.');
+      const queryParamValue = this.decodeExtraFilters(this.extraFilters);
+      queryParamValue[property] = value || undefined;
+      this.extraFilters = this.encodeExtraFilters(queryParamValue);
+    } else {
+      this[fieldName] = value || undefined;
+    }
     this.pageNumber = null;
   }
 
@@ -57,6 +74,7 @@ export default class ListController extends Controller {
     this.pageNumber = null;
     this.fullName = null;
     this.certificability = [];
+    this.extraFilters = this.encodeExtraFilters({});
   }
 
   @action

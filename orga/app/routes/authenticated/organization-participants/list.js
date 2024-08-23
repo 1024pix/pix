@@ -6,6 +6,7 @@ export default class ListRoute extends Route {
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
+    extraFilters: { refreshModel: true },
     fullName: { refreshModel: true },
     certificability: { refreshModel: true },
     participationCountOrder: { refreshModel: true },
@@ -22,6 +23,7 @@ export default class ListRoute extends Route {
         organizationId: this.currentUser.organization.id,
         fullName: params.fullName,
         certificability: params.certificability,
+        extra: JSON.parse(decodeURI(params.extraFilters)),
       },
       sort: {
         participationCount: params.participationCountOrder,
@@ -41,6 +43,7 @@ export default class ListRoute extends Route {
       controller.pageSize = 50;
       controller.fullName = null;
       controller.certificability = [];
+      controller.extraFilters = encodeURI(JSON.stringify({}));
       controller.participationCountOrder = null;
       controller.latestParticipationOrder = null;
       controller.lastnameSort = 'asc';

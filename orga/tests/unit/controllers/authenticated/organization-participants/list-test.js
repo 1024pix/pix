@@ -47,6 +47,48 @@ module('Unit | Controller | authenticated/organization-participants', function (
         assert.strictEqual(controller.fullName, undefined);
       });
     });
+
+    module('when the filters is prefixed by extraFilters', function () {
+      test('it should fill the extraFilters property', async function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/organization-participants/list');
+
+        controller.extraFilters = controller.encodeExtraFilters({ classe: 'sixième' });
+
+        // when
+        controller.triggerFiltering('extraFilters.classe', 'cinquième');
+
+        // then
+        assert.strictEqual(controller.extraFilters, controller.encodeExtraFilters({ classe: 'cinquième' }));
+      });
+      test('it should update the extraFilters property', async function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/organization-participants/list');
+
+        controller.extraFilters = controller.encodeExtraFilters({ classe: 'sixième', ville: 'Paris' });
+
+        // when
+        controller.triggerFiltering('extraFilters.classe', 'cinquième');
+
+        // then
+        assert.strictEqual(
+          controller.extraFilters,
+          controller.encodeExtraFilters({ classe: 'cinquième', ville: 'Paris' }),
+        );
+      });
+      test('it should clear the corresponding extraFilters property', async function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/organization-participants/list');
+
+        controller.extraFilters = controller.encodeExtraFilters({ classe: 'sixième', ville: 'Paris' });
+
+        // when
+        controller.triggerFiltering('extraFilters.classe', '');
+
+        // then
+        assert.strictEqual(controller.extraFilters, controller.encodeExtraFilters({ ville: 'Paris' }));
+      });
+    });
   });
 
   module('#resetFilters', function () {
@@ -56,6 +98,7 @@ module('Unit | Controller | authenticated/organization-participants', function (
 
       controller.fullName = 'value';
       controller.pageNumber = 2;
+      controller.extraFilters = controller.encodeExtraFilters({ foo: 'bar' });
 
       // when
       controller.resetFilters();
@@ -63,6 +106,7 @@ module('Unit | Controller | authenticated/organization-participants', function (
       // then
       assert.strictEqual(controller.fullName, null);
       assert.strictEqual(controller.pageNumber, null);
+      assert.strictEqual(controller.extraFilters, controller.encodeExtraFilters({}));
     });
   });
 
