@@ -18,6 +18,7 @@ export default class Update extends Component {
   @service notifications;
   @service accessControl;
   @service store;
+  @service intl;
 
   @tracked displayIsForAbsoluteNoviceWarning;
 
@@ -121,14 +122,16 @@ export default class Update extends Component {
     } catch (errorResponse) {
       campaign.rollbackAttributes();
       const errors = errorResponse.errors;
+      const genericErrorMessage = this.intl.t('common.notifications.generic-error');
+
       if (!errors) {
-        return this.notifications.error('Une erreur est survenue.');
+        return this.notifications.error(genericErrorMessage);
       }
       return errorResponse.errors.forEach((error) => {
         if (error.status === '422') {
           return this.notifications.error(error.detail);
         }
-        return this.notifications.error('Une erreur est survenue.');
+        return this.notifications.error(genericErrorMessage);
       });
     }
   }

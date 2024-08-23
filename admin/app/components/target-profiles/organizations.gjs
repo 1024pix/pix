@@ -16,6 +16,7 @@ export default class Organizations extends Component {
   @service notifications;
   @service router;
   @service currentUser;
+  @service intl;
 
   @tracked organizationsToAttach = '';
   @tracked existingTargetProfile = '';
@@ -89,14 +90,16 @@ export default class Organizations extends Component {
   }
 
   _handleResponseError({ errors }) {
+    const genericErrorMessage = this.intl.t('common.notifications.generic-error');
+
     if (!errors) {
-      return this.notifications.error('Une erreur est survenue.');
+      return this.notifications.error(genericErrorMessage);
     }
     errors.forEach((error) => {
       if (['404', '412'].includes(error.status)) {
         return this.notifications.error(error.detail);
       }
-      return this.notifications.error('Une erreur est survenue.');
+      return this.notifications.error(genericErrorMessage);
     });
   }
 

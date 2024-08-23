@@ -20,6 +20,7 @@ import PdfParametersModal from './pdf-parameters-modal';
 export default class TargetProfile extends Component {
   @service notifications;
   @service router;
+  @service intl;
 
   @service fileSaver;
   @service session;
@@ -92,7 +93,8 @@ export default class TargetProfile extends Component {
 
       this.notifications.success('Ce profil cible a bien été marqué comme accès simplifié.');
     } catch (responseError) {
-      this.notifications.error('Une erreur est survenue.');
+      const genericErrorMessage = this.intl.t('common.notifications.generic-error');
+      this.notifications.error(genericErrorMessage);
     }
   }
 

@@ -18,6 +18,7 @@ const THRESHOLD_COLUMN_NAME = 'Seuil';
 
 export default class Stages extends Component {
   @service store;
+  @service intl;
   @service notifications;
 
   @tracked
@@ -156,7 +157,8 @@ export default class Stages extends Component {
         });
       this.notifications.success('Palier(s) ajouté(s) avec succès.');
     } catch (e) {
-      this.notifications.error(e.errors?.[0]?.detail ?? 'Une erreur est survenue.');
+      const genericErrorMessage = this.intl.t('common.notifications.generic-error');
+      this.notifications.error(e.errors?.[0]?.detail ?? genericErrorMessage);
     }
   }
 

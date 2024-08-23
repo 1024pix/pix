@@ -9,6 +9,7 @@ import AdministrationBlockLayout from '../block-layout';
 export default class LearningContent extends Component {
   @service notifications;
   @service store;
+  @service intl;
 
   @action
   async refreshLearningContent() {
@@ -16,7 +17,8 @@ export default class LearningContent extends Component {
       await this.store.adapterFor('learning-content-cache').refreshCacheEntries();
       this.notifications.success('La demande de rechargement du cache a bien été prise en compte.');
     } catch (err) {
-      this.notifications.error('Une erreur est survenue.');
+      const genericErrorMessage = this.intl.t('common.notifications.generic-error');
+      this.notifications.error(genericErrorMessage);
     }
   }
 
