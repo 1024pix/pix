@@ -1,11 +1,11 @@
-import { downloadElementSchema } from './download.js';
-import { embedElementSchema } from './embed.js';
-import { imageElementSchema } from './image.js';
-import { qcmElementSchema } from './qcm.js';
-import { qcuElementSchema } from './qcu.js';
-import { blockInputSchema, blockSelectSchema, qrocmElementSchema } from './qrocm.js';
-import { textElementSchema } from './text.js';
-import { videoElementSchema } from './video.js';
+import { downloadElementSchema } from './download-schema.js';
+import { embedElementSchema } from './embed-schema.js';
+import { imageElementSchema } from './image-schema.js';
+import { qcmElementSchema } from './qcm-schema.js';
+import { qcuElementSchema } from './qcu-schema.js';
+import { blockInputSchema, blockSelectSchema, qrocmElementSchema } from './qrocm-schema.js';
+import { textElementSchema } from './text-schema.js';
+import { videoElementSchema } from './video-schema.js';
 
 export {
   blockInputSchema,

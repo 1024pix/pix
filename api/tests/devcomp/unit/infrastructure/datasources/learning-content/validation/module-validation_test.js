@@ -20,7 +20,7 @@ import {
   videoElementSchema,
 } from './element/index.js';
 import { joiErrorParser } from './joi-error-parser.js';
-import { grainSchema, moduleDetailsSchema, moduleSchema } from './module.js';
+import { grainSchema, moduleDetailsSchema, moduleSchema } from './module-schema.js';
 
 describe('Unit | Infrastructure | Datasources | Learning Content | Module Datasource | format validation', function () {
   describe('when element has a valid structure', function () {
