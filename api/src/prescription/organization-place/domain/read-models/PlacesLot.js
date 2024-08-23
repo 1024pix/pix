@@ -5,6 +5,7 @@ import { validateEntity } from '../../../../shared/domain/validators/entity-vali
 
 const validationSchema = Joi.object({
   count: Joi.number().required().allow(null),
+  organizationId: Joi.number(),
   activationDate: Joi.date().required(),
   expirationDate: Joi.date().required().allow(null),
   deletedAt: Joi.date().required().allow(null),
@@ -17,6 +18,7 @@ export class PlacesLot {
   constructor(params = {}) {
     validateEntity(validationSchema, params);
     this.count = params.count === null ? 0 : params.count;
+    this.organizationId = params.organizationId;
     this.#activationDate = params.activationDate;
     this.#expirationDate = params.expirationDate;
     this.#deletedAt = params.deletedAt;

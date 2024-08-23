@@ -266,6 +266,67 @@ describe('Integration | Repository | Organization Places Lot', function () {
     });
   });
 
+  describe('#findAllByOrganizationIds', function () {
+    let firstOrganizationId;
+    let secondOrganizationId;
+
+    beforeEach(async function () {
+      firstOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      secondOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
+    });
+
+    it('should return empty array if there is no placesLot', async function () {
+      const organizationIds = [firstOrganizationId, secondOrganizationId];
+
+      const places = await organizationPlacesLotRepository.findAllByOrganizationIds(organizationIds);
+
+      expect(places).to.be.empty;
+    });
+
+    it('should return places if there are places for given organizationIds', async function () {
+      databaseBuilder.factory.buildOrganizationPlace({
+        organizationId: firstOrganizationId,
+        count: 7,
+      });
+      databaseBuilder.factory.buildOrganizationPlace({
+        organizationId: secondOrganizationId,
+        count: 3,
+      });
+      await databaseBuilder.commit();
+      const organizationIds = [firstOrganizationId, secondOrganizationId];
+
+      const places = await organizationPlacesLotRepository.findAllByOrganizationIds(organizationIds);
+
+      expect(places.length).to.equal(2);
+      expect(places[0]).to.be.an.instanceOf(PlacesLot);
+      expect(places[1]).to.be.an.instanceOf(PlacesLot);
+
+      const firstOrganizationIdPlaces = places.find((place) => place.organizationId === firstOrganizationId);
+      expect(firstOrganizationIdPlaces.count).to.equal(7);
+
+      const secondOrganizationIdPlaces = places.find((place) => place.organizationId === secondOrganizationId);
+      expect(secondOrganizationIdPlaces.count).to.equal(3);
+    });
+
+    it('should not return places for others organization than given', async function () {
+      databaseBuilder.factory.buildOrganizationPlace({
+        organizationId: firstOrganizationId,
+        count: 7,
+      });
+      databaseBuilder.factory.buildOrganizationPlace({
+        organizationId: secondOrganizationId,
+        count: 3,
+      });
+      await databaseBuilder.commit();
+      const organizationIds = [firstOrganizationId];
+
+      const places = await organizationPlacesLotRepository.findAllByOrganizationIds(organizationIds);
+      expect(places.length).to.equal(1);
+      expect(places[0].organizationId).to.equal(firstOrganizationId);
+    });
+  });
+
   describe('#create', function () {
     it('should create the given lot of places', async function () {
       // given
