@@ -1,5 +1,5 @@
 import { CpfExportSenderJobController } from '../../../../../../src/certification/session-management/application/jobs/cpf-export-sender-job-controller.js';
-import { usecases } from '../../../../../../src/certification/session-management/domain/usecases/index.js';
+import {usecases} from '../../../../../../src/certification/session-management/domain/usecases/index.js';
 import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
