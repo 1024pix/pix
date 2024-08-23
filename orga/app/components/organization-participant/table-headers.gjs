@@ -3,22 +3,10 @@ import { on } from '@ember/modifier';
 import { t } from 'ember-intl';
 import { not } from 'ember-truth-helpers';
 
+import { getColumnName } from '../../helpers/import-format.js';
 import Tooltip from '../certificability/tooltip';
 import Header from '../table/header';
 import HeaderSort from '../table/header-sort';
-
-const COLUMN_KEY_FIELD = {
-  COMMON_BIRTHDATE: 'common.import.field.birthdate',
-  COMMON_DIVISION: 'common.import.field.division',
-};
-
-function getColumnName(heading) {
-  const columnKey = COLUMN_KEY_FIELD[heading];
-
-  if (!columnKey) return heading;
-
-  return columnKey;
-}
 
 <template>
   <tr>
