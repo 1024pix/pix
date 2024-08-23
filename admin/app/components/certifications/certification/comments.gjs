@@ -77,7 +77,7 @@ export default class Comments extends Component {
             </li>
             <li>
               <PixButton @size="small" @triggerAction={{this.saveJuryComment}}>
-                Enregistrer
+                {{t "common.actions.save"}}
               </PixButton>
             </li>
           </ul>

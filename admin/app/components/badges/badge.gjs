@@ -204,7 +204,7 @@ export default class Badge extends Component {
                     {{t "common.actions.cancel"}}
                   </PixButton>
                   <PixButton @type="submit" @size="small" @variant="success" data-testid="save-badge-edit">
-                    Enregistrer
+                    {{t "common.actions.save"}}
                   </PixButton>
                 </div>
               </form>

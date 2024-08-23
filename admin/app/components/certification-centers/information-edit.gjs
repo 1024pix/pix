@@ -213,7 +213,9 @@ export default class InformationEdit extends Component {
           @size="small"
           @variant="primary"
           @triggerAction={{this.updateCertificationCenter}}
-        >Enregistrer</PixButton>
+        >
+          {{t "common.actions.save"}}
+        </PixButton>
       </div>
     </form>
   </template>

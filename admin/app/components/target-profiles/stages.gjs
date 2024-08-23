@@ -284,7 +284,7 @@ export default class Stages extends Component {
               {{t "common.actions.cancel"}}
             </PixButton>
             <PixButton type="submit" @variant="success" @triggerAction={{this.createStages}}>
-              Enregistrer
+              {{t "common.actions.save"}}
             </PixButton>
           </div>
         {{/if}}

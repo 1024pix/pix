@@ -106,7 +106,7 @@ export default class JuryComment extends Component {
                 </PixButton>
               {{/if}}
               <PixButton @type="submit" @size="small">
-                Enregistrer
+                {{t "common.actions.save"}}
               </PixButton>
             </div>
           </form>

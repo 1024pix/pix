@@ -102,7 +102,7 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
                 @triggerAction={{this.updateRoleOfMember}}
                 class="member-item-actions__button member-item-actions__button--save"
               >
-                Enregistrer
+                {{t "common.actions.save"}}
               </PixButton>
               <PixButton
                 @size="small"

@@ -103,7 +103,7 @@ export default class ParticipationRow extends Component {
                   @triggerAction={{this.updateParticipantExternalId}}
                   class="participation-item-actions__button participation-item-actions__button--save"
                 >
-                  Enregistrer
+                  {{t "common.actions.save"}}
                 </PixButton>
                 <PixButton
                   @size="small"

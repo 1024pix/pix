@@ -280,7 +280,7 @@ export default class Update extends Component {
             {{t "common.actions.cancel"}}
           </PixButton>
           <PixButton @type="submit" @variant="success" @size="small">
-            Enregistrer
+            {{t "common.actions.save"}}
           </PixButton>
         </div>
       </form>

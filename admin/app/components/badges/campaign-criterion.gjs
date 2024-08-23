@@ -103,7 +103,7 @@ export default class CampaignCriterion extends Component {
             {{t "common.actions.cancel"}}
           </PixButton>
           <PixButton @triggerAction={{this.updateThreshold}} @size="small">
-            Enregistrer
+            {{t "common.actions.save"}}
           </PixButton>
         </:footer>
       </PixModal>

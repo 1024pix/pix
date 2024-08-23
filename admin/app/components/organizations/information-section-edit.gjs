@@ -256,7 +256,9 @@ export default class OrganizationInformationSectionEditionMode extends Component
           <PixButton @size="small" @variant="secondary" @triggerAction={{this.closeAndResetForm}}>
             {{t "common.actions.cancel"}}
           </PixButton>
-          <PixButton @type="submit" @size="small" @variant="success">Enregistrer</PixButton>
+          <PixButton @type="submit" @size="small" @variant="success">
+            {{t "common.actions.save"}}
+          </PixButton>
         </div>
       </form>
     </div>

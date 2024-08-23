@@ -190,7 +190,7 @@ export default class UpdateStage extends Component {
             {{t "common.actions.cancel"}}
           </PixButton>
           <PixButton @variant="success" @size="small" @type="submit">
-            Enregistrer
+            {{t "common.actions.save"}}
           </PixButton>
         </div>
       </form>
