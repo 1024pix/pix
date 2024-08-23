@@ -1,5 +1,5 @@
 import { JobRepository } from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
-import { ImportOrganizationLearnersJob } from '../../../domain/models/ImportOrganizationLearnersJob.js';
+import { ImportOrganizationLearnersJob } from '../../../domain/models/jobs/ImportOrganizationLearnersJob.js';
 
 class ImportOrganizationLearnersJobRepository extends JobRepository {
   constructor() {

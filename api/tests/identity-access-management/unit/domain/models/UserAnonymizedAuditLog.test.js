@@ -1,4 +1,4 @@
-import { UserAnonymizedEventLoggingJob } from '../../../../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
+import { UserAnonymizedEventLoggingJob } from '../../../../../src/identity-access-management/domain/models/jobs/UserAnonymizedEventLoggingJob.js';
 import { ObjectValidationError } from '../../../../../src/shared/domain/errors.js';
 import { expect, sinon } from '../../../../test-helper.js';
 

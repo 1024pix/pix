@@ -1,4 +1,4 @@
-import { ParticipationCompletedJob } from '../../../src/prescription/campaign-participation/domain/models/ParticipationCompletedJob.js';
+import { ParticipationCompletedJob } from '../../../src/prescription/campaign-participation/domain/models/jobs/ParticipationCompletedJob.js';
 import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 import { AlreadyRatedAssessmentError } from '../../../src/shared/domain/errors.js';
 import { CertificationCompletedJob } from '../events/CertificationCompleted.js';

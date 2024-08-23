@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { CertificationCompletedJob } from '../../../../lib/domain/events/CertificationCompleted.js';
 import { completeAssessment } from '../../../../lib/domain/usecases/complete-assessment.js';
-import { ParticipationCompletedJob } from '../../../../src/prescription/campaign-participation/domain/models/ParticipationCompletedJob.js';
+import { ParticipationCompletedJob } from '../../../../src/prescription/campaign-participation/domain/models/jobs/ParticipationCompletedJob.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 import { AlreadyRatedAssessmentError } from '../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';

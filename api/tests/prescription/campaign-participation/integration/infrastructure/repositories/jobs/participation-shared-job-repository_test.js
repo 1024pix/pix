@@ -1,4 +1,4 @@
-import { ParticipationSharedJob } from '../../../../../../../src/prescription/campaign-participation/domain/models/ParticipationSharedJob.js';
+import { ParticipationSharedJob } from '../../../../../../../src/prescription/campaign-participation/domain/models/jobs/ParticipationSharedJob.js';
 import { participationSharedJobRepository } from '../../../../../../../src/prescription/campaign-participation/infrastructure/repositories/jobs/participation-shared-job-repository.js';
 import { expect } from '../../../../../../test-helper.js';
 

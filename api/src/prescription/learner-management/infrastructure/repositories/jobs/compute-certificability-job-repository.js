@@ -1,5 +1,5 @@
 import { JobRepository } from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
-import { ComputeCertificabilityJob } from '../../../domain/models/ComputeCertificabilityJob.js';
+import { ComputeCertificabilityJob } from '../../../domain/models/jobs/ComputeCertificabilityJob.js';
 
 class ComputeCertificabilityJobRepository extends JobRepository {
   constructor() {

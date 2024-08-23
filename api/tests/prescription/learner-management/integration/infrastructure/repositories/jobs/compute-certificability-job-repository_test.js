@@ -1,4 +1,4 @@
-import { ComputeCertificabilityJob } from '../../../../../../../src/prescription/learner-management/domain/models/ComputeCertificabilityJob.js';
+import { ComputeCertificabilityJob } from '../../../../../../../src/prescription/learner-management/domain/models/jobs/ComputeCertificabilityJob.js';
 import { computeCertificabilityJobRepository } from '../../../../../../../src/prescription/learner-management/infrastructure/repositories/jobs/compute-certificability-job-repository.js';
 import { expect } from '../../../../../../test-helper.js';
 

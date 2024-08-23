@@ -5,7 +5,7 @@ import utc from 'dayjs/plugin/utc.js';
 import { JobScheduleController } from '../../../../shared/application/jobs/job-schedule-controller.js';
 import { config } from '../../../../shared/config.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
-import { CpfExportBuilderJob } from '../../domain/models/CpfExportBuilderJob.js';
+import { CpfExportBuilderJob } from '../../domain/models/jobs/CpfExportBuilderJob.js';
 import * as cpfCertificationResultRepository from '../../infrastructure/repositories/cpf-certification-result-repository.js';
 import { cpfExportBuilderJobRepository } from '../../infrastructure/repositories/jobs/cpf-export-builder-job-repository.js';
 

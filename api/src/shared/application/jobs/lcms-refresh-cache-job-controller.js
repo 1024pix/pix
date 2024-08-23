@@ -1,4 +1,4 @@
-import { LcmsRefreshCacheJob } from '../../domain/models/LcmsRefreshCacheJob.js';
+import { LcmsRefreshCacheJob } from '../../domain/models/jobs/LcmsRefreshCacheJob.js';
 import * as learningContentDatasource from '../../infrastructure/datasources/learning-content/datasource.js';
 import { JobController } from './job-controller.js';
 

@@ -1,6 +1,6 @@
 import { DomainTransaction } from '../../../../../shared/domain/DomainTransaction.js';
 import { JobRepository } from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
-import { ParticipationStartedJob } from '../../../domain/models/ParticipationStartedJob.js';
+import { ParticipationStartedJob } from '../../../domain/models/jobs/ParticipationStartedJob.js';
 
 class ParticipationStartedJobRepository extends JobRepository {
   constructor() {

@@ -67,6 +67,7 @@ describe('Unit | Application | Certification | Sessions Management | jobs | cpf-
         dependencies: {
           cpfCertificationResultRepository,
           cpfCertificationXmlExportService,
+
           uuidService,
           logger,
         },
@@ -106,6 +107,7 @@ describe('Unit | Application | Certification | Sessions Management | jobs | cpf-
         dependencies: {
           cpfCertificationResultRepository,
           cpfCertificationXmlExportService,
+
           uuidService,
           logger,
         },

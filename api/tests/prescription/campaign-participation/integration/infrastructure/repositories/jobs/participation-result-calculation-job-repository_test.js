@@ -1,4 +1,4 @@
-import { ParticipationResultCalculationJob } from '../../../../../../../src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
+import { ParticipationResultCalculationJob } from '../../../../../../../src/prescription/campaign-participation/domain/models/jobs/ParticipationResultCalculationJob.js';
 import { participationResultCalculationJobRepository } from '../../../../../../../src/prescription/campaign-participation/infrastructure/repositories/jobs/participation-result-calculation-job-repository.js';
 import { expect } from '../../../../../../test-helper.js';
 

@@ -1,5 +1,5 @@
 import { JobRepository } from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
-import { CertificationRescoringByScriptJob } from '../../../domain/models/CertificationRescoringByScriptJob.js';
+import { CertificationRescoringByScriptJob } from '../../../domain/models/jobs/CertificationRescoringByScriptJob.js';
 
 class CertificationRescoringByScriptJobRepository extends JobRepository {
   constructor() {

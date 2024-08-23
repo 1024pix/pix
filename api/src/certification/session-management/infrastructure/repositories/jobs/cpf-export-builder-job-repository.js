@@ -1,5 +1,5 @@
 import { JobRepository } from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
-import { CpfExportBuilderJob } from '../../../domain/models/CpfExportBuilderJob.js';
+import { CpfExportBuilderJob } from '../../../domain/models/jobs/CpfExportBuilderJob.js';
 
 class CpfExportBuilderJobRepository extends JobRepository {
   constructor() {

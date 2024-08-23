@@ -1,6 +1,6 @@
 import { UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
-import { ParticipationResultCalculationJob } from '../models/ParticipationResultCalculationJob.js';
-import { ParticipationSharedJob } from '../models/ParticipationSharedJob.js';
+import { ParticipationResultCalculationJob } from '../models/jobs/ParticipationResultCalculationJob.js';
+import { ParticipationSharedJob } from '../models/jobs/ParticipationSharedJob.js';
 
 const shareCampaignResult = async function ({
   userId,

@@ -11,7 +11,7 @@ import * as userRepository from '../../../../identity-access-management/infrastr
 import { JobController } from '../../../../shared/application/jobs/job-controller.js';
 import { PoleEmploiSending } from '../../../../shared/domain/models/index.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
-import { ParticipationStartedJob } from '../../domain/models/ParticipationStartedJob.js';
+import { ParticipationStartedJob } from '../../domain/models/jobs/ParticipationStartedJob.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 
 export class ParticipationStartedJobController extends JobController {

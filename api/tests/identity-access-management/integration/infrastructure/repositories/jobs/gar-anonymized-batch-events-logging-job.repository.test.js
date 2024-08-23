@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 
-import { GarAnonymizedBatchEventsLoggingJob } from '../../../../../../src/identity-access-management/domain/models/GarAnonymizedBatchEventsLoggingJob.js';
+import { GarAnonymizedBatchEventsLoggingJob } from '../../../../../../src/identity-access-management/domain/models/jobs/GarAnonymizedBatchEventsLoggingJob.js';
 import { garAnonymizedBatchEventsLoggingJobRepository } from '../../../../../../src/identity-access-management/infrastructure/repositories/jobs/gar-anonymized-batch-events-logging-job-repository.js';
 import { expect } from '../../../../../test-helper.js';
 

@@ -2,7 +2,7 @@ import { CertificationCompletedJob } from '../../../../lib/domain/events/Certifi
 import { completeAssessment } from '../../../../lib/domain/usecases/complete-assessment.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { certificationCompletedJobRepository } from '../../../../lib/infrastructure/repositories/jobs/certification-completed-job-repository.js';
-import { ParticipationCompletedJob } from '../../../../src/prescription/campaign-participation/domain/models/ParticipationCompletedJob.js';
+import { ParticipationCompletedJob } from '../../../../src/prescription/campaign-participation/domain/models/jobs/ParticipationCompletedJob.js';
 import * as campaignParticipationBCRepository from '../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import { participationCompletedJobRepository } from '../../../../src/prescription/campaign-participation/infrastructure/repositories/jobs/participation-completed-job-repository.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';

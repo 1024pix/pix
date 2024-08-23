@@ -1,5 +1,5 @@
 import { JobRepository } from '../../../../shared/infrastructure/repositories/jobs/job-repository.js';
-import { GarAnonymizedBatchEventsLoggingJob } from '../../../domain/models/GarAnonymizedBatchEventsLoggingJob.js';
+import { GarAnonymizedBatchEventsLoggingJob } from '../../../domain/models/jobs/GarAnonymizedBatchEventsLoggingJob.js';
 
 class GarAnonymizedBatchEventsLoggingJobRepository extends JobRepository {
   constructor() {

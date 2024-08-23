@@ -3,7 +3,7 @@ import * as httpErrorsHelper from '../../../../../../lib/infrastructure/http/err
 import { httpAgent } from '../../../../../../lib/infrastructure/http/http-agent.js';
 import { monitoringTools } from '../../../../../../lib/infrastructure/monitoring-tools.js';
 import { ParticipationCompletedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/participation-completed-job-controller.js';
-import { ParticipationCompletedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationCompletedJob.js';
+import { ParticipationCompletedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/jobs/ParticipationCompletedJob.js';
 import { PoleEmploiSending } from '../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 

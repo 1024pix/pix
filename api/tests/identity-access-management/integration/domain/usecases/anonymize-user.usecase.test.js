@@ -4,7 +4,7 @@ import { userAnonymizedEventLoggingJobRepository } from '../../../../../lib/infr
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
-import { UserAnonymizedEventLoggingJob } from '../../../../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
+import { UserAnonymizedEventLoggingJob } from '../../../../../src/identity-access-management/domain/models/jobs/UserAnonymizedEventLoggingJob.js';
 import { refreshTokenService } from '../../../../../src/identity-access-management/domain/services/refresh-token-service.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { resetPasswordDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
