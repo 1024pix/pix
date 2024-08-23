@@ -1,4 +1,5 @@
 import { UserAnonymizedEventLoggingJob } from '../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
+import { ParticipationSharedJobController } from '../../src/prescription/campaign-participation/application/jobs/participation-shared-job-controller.js';
 import { ValidateOrganizationLearnersImportFileJobController } from '../../src/prescription/learner-management/application/jobs/validate-organization-learners-import-file-job-controller.js';
 import { ValidateOrganizationImportFileJob } from '../../src/prescription/learner-management/domain/models/ValidateOrganizationImportFileJob.js';
 import { UserAnonymizedEventLoggingJobController } from '../../src/shared/application/jobs/audit-log/user-anonymized-event-logging-job-controller.js';
@@ -36,6 +37,22 @@ describe('#registerJobs', function () {
       UserAnonymizedEventLoggingJob.name,
       UserAnonymizedEventLoggingJobController,
     );
+  });
+
+  it('should register legacyName', async function () {
+    // when
+    await registerJobs({
+      jobGroup: JobGroup.DEFAULT,
+      dependencies: {
+        startPgBoss: startPgBossStub,
+        createJobQueues: createJobQueuesStub,
+        scheduleCpfJobs: scheduleCpfJobsStub,
+      },
+    });
+
+    const job = new ParticipationSharedJobController();
+    // then
+    expect(jobQueueStub.register).to.have.been.calledWithExactly(job.legacyName, ParticipationSharedJobController);
   });
 
   it('should register ValidateOrganizationImportFileJob when job is enabled', async function () {

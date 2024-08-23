@@ -20,6 +20,10 @@ export class ParticipationCompletedJobController extends JobController {
     super(ParticipationCompletedJob.name);
   }
 
+  get legacyName() {
+    return 'PoleEmploiParticipationCompletedJob';
+  }
+
   async handle(
     campaignParticipationCompletedJob,
     dependencies = {
