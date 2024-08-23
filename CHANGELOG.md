@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v4.202.0 (23/08/2024)
+
+
+### :rocket: Amélioration
+- [#9922](https://github.com/1024pix/pix/pull/9922) [FEATURE] Permettre l'usage d'HTML sur davantage de champs (PIX-13907).
+- [#9907](https://github.com/1024pix/pix/pull/9907) [FEATURE] Réduire la taille du textarea de la Preview Modulix (PIX-13955).
+
+### :building_construction: Tech
+- [#9923](https://github.com/1024pix/pix/pull/9923) [TECH] Retirer le retry sur les Job d'état de participation (PIX-13979).
+- [#9910](https://github.com/1024pix/pix/pull/9910) [TECH] Améliorer la page administration/common (PIX-13962).
+- [#9920](https://github.com/1024pix/pix/pull/9920) [TECH] Logger les id de transaction et erreurs des requêtes d'insertion de certification-courses et certification-challenges.
+- [#9906](https://github.com/1024pix/pix/pull/9906) [TECH] Migration des tests d’intégration admin en GJS.
+
 ## v4.201.0 (22/08/2024)
 
 
