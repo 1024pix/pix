@@ -1,8 +1,10 @@
 import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
+import { get } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
+import { getColumnName } from '../../helpers/import-format.js';
 import UiMultiSelectFilter from '../ui/multi-select-filter';
 import UiSearchInputFilter from '../ui/search-input-filter';
 
@@ -56,6 +58,17 @@ export default class LearnerFilters extends Component {
         @placeholder={{t "pages.organization-participants.filters.type.certificability.placeholder"}}
         @emptyMessage=""
       />
+      {{#each @customFilters as |customFilter|}}
+        {{#let (t (getColumnName customFilter)) as |columnName|}}
+          <UiSearchInputFilter
+            @field="extraFilters.{{customFilter}}"
+            @value={{get @customFiltersValues customFilter}}
+            @placeholder={{columnName}}
+            @label={{columnName}}
+            @triggerFiltering={{@onTriggerFiltering}}
+          />
+        {{/let}}
+      {{/each}}
     </PixFilterBanner>
   </template>
 }
