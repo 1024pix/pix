@@ -41,9 +41,7 @@ describe('Unit | Prescription | Application | Jobs | importOrganizationLearnersJ
 
       // then
       expect(usecases.addOrUpdateOrganizationLearners).to.have.been.calledOnce;
-      expect(usecases.addOrUpdateOrganizationLearners).to.have.been.calledWithExactly({
-        organizationImportId: data.organizationImportId,
-      });
+      expect(usecases.addOrUpdateOrganizationLearners).to.have.been.calledWithExactly(data);
     });
   });
 });

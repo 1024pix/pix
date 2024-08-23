@@ -15,9 +15,7 @@ describe('Unit | Prescription | Application | Jobs | computeCertificabilityJobCo
 
       // then
       expect(usecases.computeOrganizationLearnerCertificability).to.have.been.calledOnce;
-      expect(usecases.computeOrganizationLearnerCertificability).to.have.been.calledWithExactly({
-        organizationLearnerId: data.organizationLearnerId,
-      });
+      expect(usecases.computeOrganizationLearnerCertificability).to.have.been.calledWithExactly(data);
     });
   });
 });

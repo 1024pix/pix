@@ -18,6 +18,7 @@ import {
   certificationChallengeRepository,
   challengeRepository,
   competenceMarkRepository,
+  cpfExportRepository,
   flashAlgorithmConfigurationRepository,
   sessionRepositories,
   sharedCompetenceMarkRepository,
@@ -94,6 +95,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {pickChallengeService} PickChallengeService
  * @typedef {flashAlgorithmService} FlashAlgorithmService
  * @typedef {flashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
+ * @typedef {cpfExportRepository} CpfExportRepository
  **/
 const dependencies = {
   ...sessionRepositories,
@@ -105,6 +107,7 @@ const dependencies = {
   competenceMarkRepository,
   cpfReceiptsStorage,
   cpfExportsStorage,
+  cpfExportRepository,
   certificationBadgesService,
   temporaryCompanionStorageService,
   placementProfileService,
