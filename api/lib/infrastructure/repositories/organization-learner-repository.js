@@ -357,11 +357,38 @@ const findAllLearnerWithAtLeastOneParticipationByOrganizationId = async function
   return new ParticipantRepartition(result);
 };
 
+const findAllLearnerWithAtLeastOneParticipationByOrganizationIds = async function (organizationIds) {
+  const knexConn = DomainTransaction.getConnection();
+  const results = await knexConn
+    .select('users.isAnonymous', 'view-active-organization-learners.organizationId')
+    .distinct('view-active-organization-learners.id')
+    .from('view-active-organization-learners')
+    .join('users', 'users.id', 'view-active-organization-learners.userId')
+    .join('campaign-participations', function () {
+      this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id').andOnVal(
+        'campaign-participations.deletedAt',
+        knex.raw('IS'),
+        knex.raw('NULL'),
+      );
+    })
+    .whereIn('organizationId', organizationIds);
+
+  const resultByOrganization = {};
+
+  organizationIds.forEach((organizationId) => {
+    const participants = results.filter((result) => result.organizationId === organizationId);
+    resultByOrganization[organizationId] = new ParticipantRepartition(participants);
+  });
+
+  return resultByOrganization;
+};
+
 export {
   _reconcileOrganizationLearners,
   countByOrganizationsWhichNeedToComputeCertificability,
   dissociateAllStudentsByUserId,
   findAllLearnerWithAtLeastOneParticipationByOrganizationId,
+  findAllLearnerWithAtLeastOneParticipationByOrganizationIds,
   findByIds,
   findByOrganizationId,
   findByOrganizationIdAndBirthdate,
