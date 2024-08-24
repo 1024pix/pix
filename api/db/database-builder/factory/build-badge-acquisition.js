@@ -7,6 +7,7 @@ const buildBadgeAcquisition = function ({
   userId,
   campaignParticipationId = buildCampaignParticipation().id,
   createdAt = new Date('2000-01-01'),
+  updatedAt = new Date('2000-01-01'),
 } = {}) {
   return databaseBuffer.pushInsertable({
     tableName: 'badge-acquisitions',
@@ -16,6 +17,7 @@ const buildBadgeAcquisition = function ({
       userId,
       campaignParticipationId,
       createdAt,
+      updatedAt,
     },
   });
 };
