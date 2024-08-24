@@ -1,4 +1,6 @@
+import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as complementaryCertificationApi from '../../../complementary-certification/application/api/complementary-certification-api.js';
 import * as sessionManagementRepository from '../../../session-management/infrastructure/repositories/session-repository.js';
@@ -14,6 +16,7 @@ import * as enrolledCandidateRepository from './enrolled-candidate-repository.js
 import * as scoCertificationCandidateRepository from './sco-certification-candidate-repository.js';
 import * as sessionForAttendanceSheetRepository from './session-for-attendance-sheet-repository.js';
 import * as sessionRepository from './session-repository.js';
+import * as userCertificabilityCalculatorRepository from './user-certificability-calculator-repository.js';
 import * as userRepository from './user-repository.js';
 
 /**
@@ -33,7 +36,10 @@ import * as userRepository from './user-repository.js';
  * @typedef {enrolledCandidateRepository} EnrolledCandidateRepository
  * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {organizationLearnerRepository} OrganizationLearnerRepository
+ * @typedef {userCertificabilityCalculatorRepository} UserCertificabilityCalculatorRepository
  * @typedef {userRepository} UserRepository
+ * @typedef {knowledgeElementRepository} KnowledgeElementRepository
+ * @typedef {competenceRepository} CompetenceRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   candidateRepository,
@@ -50,7 +56,10 @@ const repositoriesWithoutInjectedDependencies = {
   sessionManagementRepository,
   sessionRepository,
   organizationLearnerRepository,
+  userCertificabilityCalculatorRepository,
   userRepository,
+  knowledgeElementRepository,
+  competenceRepository,
 };
 
 /**
