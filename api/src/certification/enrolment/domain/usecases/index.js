@@ -11,6 +11,7 @@ import * as temporaryCompanionStorageService from '../../../shared/domain/servic
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
+import { getUserCertificability } from '../services/get-user-certificability.js';
 import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
@@ -92,7 +93,11 @@ const usecasesWithoutInjectedDependencies = {
     ignoredFileNames: ['index.js'],
   })),
 };
+const servicesWithoutInjectedDependencies = {
+  getUserCertificability: getUserCertificability,
+};
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const services = injectDependencies(servicesWithoutInjectedDependencies, dependencies);
 
-export { usecases };
+export { services, usecases };
