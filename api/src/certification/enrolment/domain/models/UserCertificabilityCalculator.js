@@ -129,6 +129,7 @@ export class UserCertificabilityCalculator {
     minimumEarnedPixValuesByComplementaryCertificationBadgeId,
     highestPixScoreObtainedInCoreCertification,
     complementaryCertificationCourseWithResults,
+    howManyVersionsBehindByComplementaryCertificationBadgeId,
   }) {
     this.#haveComplementariesBeenCalculated = true;
     for (const certifiableBadgeAcquisition of certifiableBadgeAcquisitions) {
@@ -137,6 +138,7 @@ export class UserCertificabilityCalculator {
         minimumEarnedPixValuesByComplementaryCertificationBadgeId,
         highestPixScoreObtainedInCoreCertification,
         complementaryCertificationCourseWithResults,
+        howManyVersionsBehindByComplementaryCertificationBadgeId,
       });
     }
   }
@@ -155,6 +157,7 @@ export class UserCertificabilityCalculator {
     minimumEarnedPixValuesByComplementaryCertificationBadgeId,
     highestPixScoreObtainedInCoreCertification,
     complementaryCertificationCourseWithResults,
+    howManyVersionsBehindByComplementaryCertificationBadgeId,
   }) {
     const hasComplementaryCertificationForBadge = complementaryCertificationCourseWithResults.some(
       (complementaryCertificationCourseWithResult) =>
@@ -162,7 +165,11 @@ export class UserCertificabilityCalculator {
           certifiableBadgeAcquisition.complementaryCertificationBadgeId &&
         complementaryCertificationCourseWithResult.isAcquiredExpectedLevelByPixSource(),
     );
-    const info = { hasComplementaryCertificationForBadge };
+    const versionsBehind =
+      howManyVersionsBehindByComplementaryCertificationBadgeId[
+        certifiableBadgeAcquisition.complementaryCertificationBadgeId
+      ];
+    const info = { hasComplementaryCertificationForBadge, versionsBehind };
     this.#_computeComplementaryCertificabilityV2({ certifiableBadgeAcquisition, info });
     this.#_computeComplementaryCertificability({
       certifiableBadgeAcquisition,
@@ -241,7 +248,7 @@ function buildComplementaryCertificability({
   certifiableBadgeAcquisition,
   isCertifiable,
   why,
-  info: { hasComplementaryCertificationForBadge },
+  info: { hasComplementaryCertificationForBadge, versionsBehind },
 }) {
   return {
     certification: certifiableBadgeAcquisition.complementaryCertificationKey,
@@ -251,7 +258,7 @@ function buildComplementaryCertificability({
     campaignId: certifiableBadgeAcquisition.campaignId,
     badgeKey: certifiableBadgeAcquisition.badgeKey,
     why,
-    info: { hasComplementaryCertificationForBadge },
+    info: { hasComplementaryCertificationForBadge, versionsBehind },
   };
 }
 

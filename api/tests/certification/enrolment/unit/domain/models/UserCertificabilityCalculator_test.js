@@ -480,6 +480,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
     let userCertificabilityCalculator;
     let someDate;
     let complementaryCertificationCourseWithResults;
+    let howManyVersionsBehindByComplementaryCertificationBadgeId;
 
     beforeEach(function () {
       notCleaCertifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
@@ -504,6 +505,10 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
         complementaryCertificationBadgeLabel: 'some_clea_ignored_label',
         isOutdated: false,
       });
+      howManyVersionsBehindByComplementaryCertificationBadgeId = {
+        [cleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 0,
+        [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 0,
+      };
       someDate = new Date('2021-10-29');
       userCertificabilityCalculator = domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
         id: 1,
@@ -544,6 +549,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             minimumEarnedPixValuesByComplementaryCertificationBadgeId,
             highestPixScoreObtainedInCoreCertification,
             complementaryCertificationCourseWithResults,
+            howManyVersionsBehindByComplementaryCertificationBadgeId,
           });
 
           // then
@@ -597,6 +603,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             minimumEarnedPixValuesByComplementaryCertificationBadgeId,
             highestPixScoreObtainedInCoreCertification,
             complementaryCertificationCourseWithResults,
+            howManyVersionsBehindByComplementaryCertificationBadgeId,
           });
 
           // then
@@ -648,6 +655,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             minimumEarnedPixValuesByComplementaryCertificationBadgeId,
             highestPixScoreObtainedInCoreCertification,
             complementaryCertificationCourseWithResults,
+            howManyVersionsBehindByComplementaryCertificationBadgeId,
           });
 
           // then
@@ -714,6 +722,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
               complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
             });
 
             // then
@@ -732,7 +741,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                   campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
                   badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
                   why: { isOutdated: false, isCoreCertifiable: true },
-                  info: { hasComplementaryCertificationForBadge: true },
+                  info: { hasComplementaryCertificationForBadge: true, versionsBehind: 0 },
                 },
               ],
               latestKnowledgeElementCreatedAt: someDate,
@@ -767,6 +776,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
               complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
             });
 
             // then
@@ -785,7 +795,108 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                   campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
                   badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
                   why: { isOutdated: false, isCoreCertifiable: true },
-                  info: { hasComplementaryCertificationForBadge: false },
+                  info: { hasComplementaryCertificationForBadge: false, versionsBehind: 0 },
+                },
+              ],
+              latestKnowledgeElementCreatedAt: someDate,
+              latestCertificationDeliveredAt: someDate,
+              latestBadgeAcquisitionUpdatedAt: null,
+              latestComplementaryCertificationBadgeDetachedAt: null,
+            });
+          });
+        });
+        context('"versionsBehind"', function () {
+          it('should return the number of versions behind is the complementary certification badge', function () {
+            // given
+            userCertificabilityCalculator = domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
+              ...userCertificabilityCalculator,
+              certificabilityV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
+            });
+            notCleaCertifiableBadgeAcquisition.outdated = false;
+            howManyVersionsBehindByComplementaryCertificationBadgeId = {
+              [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 3,
+            };
+
+            // when
+            userCertificabilityCalculator.computeComplementaryCertificabilities({
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
+              minimumEarnedPixValuesByComplementaryCertificationBadgeId,
+              highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
+            });
+
+            // then
+            sinon.assert.match(userCertificabilityCalculator, {
+              id: 1,
+              userId: 123,
+              draftCertificability: sinon.match.any,
+              draftCertificabilityV2: [
+                { certification: LABEL_FOR_CORE, isCertifiable: true },
+                {
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                  isCertifiable: true,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
+                  why: { isOutdated: false, isCoreCertifiable: true },
+                  info: { hasComplementaryCertificationForBadge: false, versionsBehind: 3 },
+                },
+              ],
+              latestKnowledgeElementCreatedAt: someDate,
+              latestCertificationDeliveredAt: someDate,
+              latestBadgeAcquisitionUpdatedAt: null,
+              latestComplementaryCertificationBadgeDetachedAt: null,
+            });
+          });
+          it('should return false when user has not a validated complementary certification for the badge', function () {
+            // given
+            userCertificabilityCalculator = domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
+              ...userCertificabilityCalculator,
+              certificabilityV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
+            });
+            notCleaCertifiableBadgeAcquisition.outdated = false;
+            complementaryCertificationCourseWithResults = [
+              domainBuilder.buildComplementaryCertificationCourseWithResults({
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                results: [
+                  {
+                    source: sources.PIX,
+                    acquired: true,
+                    complementaryCertificationBadgeId: 'someOtherLevelBadgeId',
+                  },
+                ],
+              }),
+            ];
+
+            // when
+            userCertificabilityCalculator.computeComplementaryCertificabilities({
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
+              minimumEarnedPixValuesByComplementaryCertificationBadgeId,
+              highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
+            });
+
+            // then
+            sinon.assert.match(userCertificabilityCalculator, {
+              id: 1,
+              userId: 123,
+              draftCertificability: sinon.match.any,
+              draftCertificabilityV2: [
+                { certification: LABEL_FOR_CORE, isCertifiable: true },
+                {
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                  isCertifiable: true,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
+                  why: { isOutdated: false, isCoreCertifiable: true },
+                  info: { hasComplementaryCertificationForBadge: false, versionsBehind: 0 },
                 },
               ],
               latestKnowledgeElementCreatedAt: someDate,
@@ -824,6 +935,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
               complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
             });
 
             // then
@@ -866,6 +978,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
               complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
             });
 
             // then
@@ -906,6 +1019,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
               complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
             });
 
             // then
@@ -955,6 +1069,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
               complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
             });
 
             // then
@@ -1005,6 +1120,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
               complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
             });
 
             // then
@@ -1057,6 +1173,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
               complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
             });
 
             // then
@@ -1107,6 +1224,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
               complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
             });
 
             // then
@@ -1157,6 +1275,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
               complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
             });
 
             // then
@@ -1224,6 +1343,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
               complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
             });
 
             // then
@@ -1245,7 +1365,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                     hasObtainedCoreCertification: true,
                     hasMinimumRequiredScoreForComplementaryCertification: true,
                   },
-                  info: { hasComplementaryCertificationForBadge: true },
+                  info: { hasComplementaryCertificationForBadge: true, versionsBehind: 0 },
                 },
               ],
               draftCertificabilityV2: sinon.match.any,
@@ -1286,6 +1406,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
               complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
             });
 
             // then
@@ -1307,7 +1428,63 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                     hasObtainedCoreCertification: true,
                     hasMinimumRequiredScoreForComplementaryCertification: true,
                   },
-                  info: { hasComplementaryCertificationForBadge: false },
+                  info: { hasComplementaryCertificationForBadge: false, versionsBehind: 0 },
+                },
+              ],
+              draftCertificabilityV2: sinon.match.any,
+              latestKnowledgeElementCreatedAt: someDate,
+              latestCertificationDeliveredAt: someDate,
+              latestBadgeAcquisitionUpdatedAt: null,
+              latestComplementaryCertificationBadgeDetachedAt: null,
+            });
+          });
+        });
+        context('"versionsBehind"', function () {
+          it('should return the number of versions behind is the complementary certification badge', function () {
+            // given
+            userCertificabilityCalculator = domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
+              ...userCertificabilityCalculator,
+              certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
+            });
+            notCleaCertifiableBadgeAcquisition.outdated = false;
+            const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
+              [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 60,
+              222222: 80,
+            };
+            const highestPixScoreObtainedInCoreCertification = 70;
+            howManyVersionsBehindByComplementaryCertificationBadgeId = {
+              [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 5,
+            };
+
+            // when
+            userCertificabilityCalculator.computeComplementaryCertificabilities({
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
+              minimumEarnedPixValuesByComplementaryCertificationBadgeId,
+              highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
+            });
+
+            // then
+            sinon.assert.match(userCertificabilityCalculator, {
+              id: 1,
+              userId: 123,
+              draftCertificability: [
+                { certification: 'ItDoesNotMatter', isCertifiable: true },
+                {
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                  isCertifiable: true,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
+                  why: {
+                    isOutdated: false,
+                    hasObtainedCoreCertification: true,
+                    hasMinimumRequiredScoreForComplementaryCertification: true,
+                  },
+                  info: { hasComplementaryCertificationForBadge: false, versionsBehind: 5 },
                 },
               ],
               draftCertificabilityV2: sinon.match.any,

@@ -9,6 +9,8 @@ Valider qu'une certif complémentaire ne génère pas d'assessment result
  * @typedef {import('./index.js').ComplementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
  * @typedef {import('./index.js').CertificationBadgesService} CertificationBadgesService
  */
+import { findHowManyVersionsBehindByComplementaryCertificationBadgeId } from '../../infrastructure/repositories/user-certificability-calculator-repository.js';
+
 /**
  * @param {Object} params
  * @param {UserCertificabilityCalculatorRepository} params.userCertificabilityCalculatorRepository
@@ -95,6 +97,8 @@ async function computeComplementaryCertificabilities({
   });
   let minimumEarnedPixValuesByComplementaryCertificationBadgeId;
   let highestPixScoreObtainedInCoreCertification;
+  let complementaryCertificationCourseWithResults;
+  let howManyVersionsBehindByComplementaryCertificationBadgeId;
   if (highestLatestCertifiableBadgeAcquisitions.length > 0) {
     minimumEarnedPixValuesByComplementaryCertificationBadgeId =
       await userCertificabilityCalculatorRepository.findMinimumEarnedPixValuesByComplementaryCertificationBadgeId();
@@ -102,15 +106,18 @@ async function computeComplementaryCertificabilities({
       await userCertificabilityCalculatorRepository.getHighestPixScoreObtainedInCoreCertification({
         userId: userCertificabilityCalculator.userId,
       });
+    complementaryCertificationCourseWithResults = await complementaryCertificationCourseRepository.findByUserId({
+      userId: userCertificabilityCalculator.userId,
+    });
+    howManyVersionsBehindByComplementaryCertificationBadgeId =
+      await userCertificabilityCalculatorRepository.findHowManyVersionsBehindByComplementaryCertificationBadgeId();
   }
 
-  const complementaryCertificationCourseWithResults = await complementaryCertificationCourseRepository.findByUserId({
-    userId: userCertificabilityCalculator.userId,
-  });
   userCertificabilityCalculator.computeComplementaryCertificabilities({
     certifiableBadgeAcquisitions: highestLatestCertifiableBadgeAcquisitions,
     minimumEarnedPixValuesByComplementaryCertificationBadgeId,
     highestPixScoreObtainedInCoreCertification,
     complementaryCertificationCourseWithResults,
+    howManyVersionsBehindByComplementaryCertificationBadgeId,
   });
 }

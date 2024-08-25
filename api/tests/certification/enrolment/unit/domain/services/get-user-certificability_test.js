@@ -22,6 +22,7 @@ describe('Certification | Enrolment | Unit | Domain | Services | getUserCertific
       save: sinon.stub(),
       findMinimumEarnedPixValuesByComplementaryCertificationBadgeId: sinon.stub(),
       getHighestPixScoreObtainedInCoreCertification: sinon.stub(),
+      findHowManyVersionsBehindByComplementaryCertificationBadgeId: sinon.stub(),
     };
     knowledgeElementRepository = {
       findUniqByUserId: sinon.stub(),
@@ -45,6 +46,9 @@ describe('Certification | Enrolment | Unit | Domain | Services | getUserCertific
     };
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     complementaryCertificationCourseRepository.findByUserId.withArgs({ userId }).resolves([]);
+    userCertificabilityCalculatorRepository.findHowManyVersionsBehindByComplementaryCertificationBadgeId
+      .withArgs()
+      .resolves({});
   });
 
   afterEach(function () {
@@ -190,6 +194,7 @@ describe('Certification | Enrolment | Unit | Domain | Services | getUserCertific
           minimumEarnedPixValuesByComplementaryCertificationBadgeId,
           highestPixScoreObtainedInCoreCertification: highestPixScore,
           complementaryCertificationCourseWithResults: [],
+          howManyVersionsBehindByComplementaryCertificationBadgeId: {},
         });
         expect(buildUserCertificabilitySpy).to.have.been.calledOnce;
       });
