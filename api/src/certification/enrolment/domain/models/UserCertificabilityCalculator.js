@@ -128,6 +128,7 @@ export class UserCertificabilityCalculator {
     certifiableBadgeAcquisitions,
     minimumEarnedPixValuesByComplementaryCertificationBadgeId,
     highestPixScoreObtainedInCoreCertification,
+    complementaryCertificationCourseWithResults,
   }) {
     this.#haveComplementariesBeenCalculated = true;
     for (const certifiableBadgeAcquisition of certifiableBadgeAcquisitions) {
@@ -135,6 +136,7 @@ export class UserCertificabilityCalculator {
         certifiableBadgeAcquisition,
         minimumEarnedPixValuesByComplementaryCertificationBadgeId,
         highestPixScoreObtainedInCoreCertification,
+        complementaryCertificationCourseWithResults,
       });
     }
   }
@@ -152,16 +154,25 @@ export class UserCertificabilityCalculator {
     certifiableBadgeAcquisition,
     minimumEarnedPixValuesByComplementaryCertificationBadgeId,
     highestPixScoreObtainedInCoreCertification,
+    complementaryCertificationCourseWithResults,
   }) {
-    this.#_computeComplementaryCertificabilityV2({ certifiableBadgeAcquisition });
+    const hasComplementaryCertificationForBadge = complementaryCertificationCourseWithResults.some(
+      (complementaryCertificationCourseWithResult) =>
+        complementaryCertificationCourseWithResult.complementaryCertificationBadgeId ===
+          certifiableBadgeAcquisition.complementaryCertificationBadgeId &&
+        complementaryCertificationCourseWithResult.isAcquiredExpectedLevelByPixSource(),
+    );
+    const info = { hasComplementaryCertificationForBadge };
+    this.#_computeComplementaryCertificabilityV2({ certifiableBadgeAcquisition, info });
     this.#_computeComplementaryCertificability({
       certifiableBadgeAcquisition,
+      info,
       minimumEarnedPixValuesByComplementaryCertificationBadgeId,
       highestPixScoreObtainedInCoreCertification,
     });
   }
 
-  #_computeComplementaryCertificabilityV2({ certifiableBadgeAcquisition }) {
+  #_computeComplementaryCertificabilityV2({ certifiableBadgeAcquisition, info }) {
     const isOutdated = certifiableBadgeAcquisition.outdated;
     const isCoreCertifiable = this.#certificabilityV2.some(
       (certificabilityData) => certificabilityData.certification === LABEL_FOR_CORE,
@@ -172,12 +183,14 @@ export class UserCertificabilityCalculator {
         certifiableBadgeAcquisition,
         isCertifiable,
         why: { isOutdated, isCoreCertifiable },
+        info,
       }),
     );
   }
 
   #_computeComplementaryCertificability({
     certifiableBadgeAcquisition,
+    info,
     minimumEarnedPixValuesByComplementaryCertificationBadgeId,
     highestPixScoreObtainedInCoreCertification,
   }) {
@@ -192,6 +205,7 @@ export class UserCertificabilityCalculator {
           certifiableBadgeAcquisition,
           isCertifiable,
           why: { isOutdated, isCoreCertifiable },
+          info,
         }),
       );
     } else {
@@ -209,6 +223,7 @@ export class UserCertificabilityCalculator {
           certifiableBadgeAcquisition,
           isCertifiable,
           why: { isOutdated, hasObtainedCoreCertification, hasMinimumRequiredScoreForComplementaryCertification },
+          info,
         }),
       );
     }
@@ -222,10 +237,11 @@ function buildCoreCertificabilityData({ isCertifiable }) {
   };
 }
 
-function buildComplementaryCertificabilityDataV2({
+function buildComplementaryCertificability({
   certifiableBadgeAcquisition,
   isCertifiable,
-  why: { isOutdated, isCoreCertifiable },
+  why,
+  info: { hasComplementaryCertificationForBadge },
 }) {
   return {
     certification: certifiableBadgeAcquisition.complementaryCertificationKey,
@@ -234,38 +250,49 @@ function buildComplementaryCertificabilityDataV2({
     complementaryCertificationId: certifiableBadgeAcquisition.complementaryCertificationId,
     campaignId: certifiableBadgeAcquisition.campaignId,
     badgeKey: certifiableBadgeAcquisition.badgeKey,
-    why: { isOutdated, isCoreCertifiable },
+    why,
+    info: { hasComplementaryCertificationForBadge },
   };
+}
+
+function buildComplementaryCertificabilityDataV2({
+  certifiableBadgeAcquisition,
+  isCertifiable,
+  why: { isOutdated, isCoreCertifiable },
+  info,
+}) {
+  return buildComplementaryCertificability({
+    certifiableBadgeAcquisition,
+    isCertifiable,
+    why: { isOutdated, isCoreCertifiable },
+    info,
+  });
 }
 
 function buildComplementaryCertificabilityDataCleaV3({
   certifiableBadgeAcquisition,
   isCertifiable,
   why: { isOutdated, isCoreCertifiable },
+  info,
 }) {
-  return {
-    certification: certifiableBadgeAcquisition.complementaryCertificationKey,
+  return buildComplementaryCertificability({
+    certifiableBadgeAcquisition,
     isCertifiable,
-    complementaryCertificationBadgeId: certifiableBadgeAcquisition.complementaryCertificationBadgeId,
-    complementaryCertificationId: certifiableBadgeAcquisition.complementaryCertificationId,
-    campaignId: certifiableBadgeAcquisition.campaignId,
-    badgeKey: certifiableBadgeAcquisition.badgeKey,
     why: { isOutdated, isCoreCertifiable },
-  };
+    info,
+  });
 }
 
 function buildComplementaryCertificabilityDataV3({
   certifiableBadgeAcquisition,
   isCertifiable,
   why: { isOutdated, hasObtainedCoreCertification, hasMinimumRequiredScoreForComplementaryCertification },
+  info,
 }) {
-  return {
-    certification: certifiableBadgeAcquisition.complementaryCertificationKey,
+  return buildComplementaryCertificability({
+    certifiableBadgeAcquisition,
     isCertifiable,
-    complementaryCertificationBadgeId: certifiableBadgeAcquisition.complementaryCertificationBadgeId,
-    complementaryCertificationId: certifiableBadgeAcquisition.complementaryCertificationId,
-    campaignId: certifiableBadgeAcquisition.campaignId,
-    badgeKey: certifiableBadgeAcquisition.badgeKey,
     why: { isOutdated, hasObtainedCoreCertification, hasMinimumRequiredScoreForComplementaryCertification },
-  };
+    info,
+  });
 }

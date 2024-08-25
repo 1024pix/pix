@@ -6,12 +6,15 @@ Valider qu'une certif complémentaire ne génère pas d'assessment result
  * @typedef {import('./index.js').UserCertificabilityCalculatorRepository} UserCertificabilityRepository
  * @typedef {import('./index.js').KnowledgeElementRepository} KnowledgeElementRepository
  * @typedef {import('./index.js').CompetenceRepository} CompetenceRepository
+ * @typedef {import('./index.js').ComplementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
  * @typedef {import('./index.js').CertificationBadgesService} CertificationBadgesService
  */
 /**
  * @param {Object} params
  * @param {UserCertificabilityCalculatorRepository} params.userCertificabilityCalculatorRepository
  * @param {KnowledgeElementRepository} params.knowledgeElementRepository
+ * @param {CompetenceRepository} params.competenceRepository
+ * @param {ComplementaryCertificationCourseRepository} params.complementaryCertificationCourseRepository
  * @param {CertificationBadgesService} params.certificationBadgesService
  */
 export async function getUserCertificability({
@@ -19,6 +22,7 @@ export async function getUserCertificability({
   userCertificabilityCalculatorRepository,
   knowledgeElementRepository,
   competenceRepository,
+  complementaryCertificationCourseRepository,
   certificationBadgesService,
 }) {
   const now = new Date();
@@ -57,6 +61,7 @@ export async function getUserCertificability({
     now,
     certificationBadgesService,
     userCertificabilityCalculatorRepository,
+    complementaryCertificationCourseRepository,
   });
 
   await userCertificabilityCalculatorRepository.save(userCertificabilityCalculator);
@@ -82,6 +87,7 @@ async function computeComplementaryCertificabilities({
   now,
   certificationBadgesService,
   userCertificabilityCalculatorRepository,
+  complementaryCertificationCourseRepository,
 }) {
   const highestLatestCertifiableBadgeAcquisitions = await certificationBadgesService.findLatestBadgeAcquisitions({
     userId: userCertificabilityCalculator.userId,
@@ -97,9 +103,14 @@ async function computeComplementaryCertificabilities({
         userId: userCertificabilityCalculator.userId,
       });
   }
+
+  const complementaryCertificationCourseWithResults = await complementaryCertificationCourseRepository.findByUserId({
+    userId: userCertificabilityCalculator.userId,
+  });
   userCertificabilityCalculator.computeComplementaryCertificabilities({
     certifiableBadgeAcquisitions: highestLatestCertifiableBadgeAcquisitions,
     minimumEarnedPixValuesByComplementaryCertificationBadgeId,
     highestPixScoreObtainedInCoreCertification,
+    complementaryCertificationCourseWithResults,
   });
 }

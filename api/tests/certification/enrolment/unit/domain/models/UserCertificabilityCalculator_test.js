@@ -2,6 +2,7 @@ import {
   LABEL_FOR_CORE,
   UserCertificabilityCalculator,
 } from '../../../../../../src/certification/enrolment/domain/models/UserCertificabilityCalculator.js';
+import { sources } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -474,13 +475,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
   });
 
   context('#computeComplementaryCertificabilities', function () {
-    let notCleaCertifiableBadgeAcquision;
-    let cleaCertifiableBadgeAcquision;
+    let notCleaCertifiableBadgeAcquisition;
+    let cleaCertifiableBadgeAcquisition;
     let userCertificabilityCalculator;
     let someDate;
+    let complementaryCertificationCourseWithResults;
 
     beforeEach(function () {
-      notCleaCertifiableBadgeAcquision = domainBuilder.buildCertifiableBadgeAcquisition({
+      notCleaCertifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
         badgeId: 111,
         badgeKey: 'PIX_POULET_MAITRE',
         campaignId: 222,
@@ -491,7 +493,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
         complementaryCertificationBadgeLabel: 'some_ignored_label',
         isOutdated: false,
       });
-      cleaCertifiableBadgeAcquision = domainBuilder.buildCertifiableBadgeAcquisition({
+      cleaCertifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
         badgeId: 555,
         badgeKey: 'CLEA_SUPER_BADGE',
         campaignId: 666,
@@ -513,6 +515,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
         latestBadgeAcquisitionUpdatedAt: null,
         latestComplementaryCertificationBadgeDetachedAt: null,
       });
+      complementaryCertificationCourseWithResults = [];
     });
     context('V2', function () {
       let minimumEarnedPixValuesByComplementaryCertificationBadgeId;
@@ -520,8 +523,8 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
 
       beforeEach(function () {
         minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
-          [notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId]: -1,
-          [cleaCertifiableBadgeAcquision.complementaryCertificationBadgeId]: -1,
+          [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: -1,
+          [cleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: -1,
         };
       });
 
@@ -532,14 +535,15 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             ...userCertificabilityCalculator,
             certificabilityV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
           });
-          notCleaCertifiableBadgeAcquision.outdated = false;
-          cleaCertifiableBadgeAcquision.outdated = false;
+          notCleaCertifiableBadgeAcquisition.outdated = false;
+          cleaCertifiableBadgeAcquisition.outdated = false;
 
           // when
           userCertificabilityCalculator.computeComplementaryCertificabilities({
-            certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquision, cleaCertifiableBadgeAcquision],
+            certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition, cleaCertifiableBadgeAcquisition],
             minimumEarnedPixValuesByComplementaryCertificationBadgeId,
             highestPixScoreObtainedInCoreCertification,
+            complementaryCertificationCourseWithResults,
           });
 
           // then
@@ -550,22 +554,24 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             draftCertificabilityV2: [
               { certification: LABEL_FOR_CORE, isCertifiable: true },
               {
-                certification: notCleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
                 isCertifiable: true,
-                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
-                complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
-                campaignId: notCleaCertifiableBadgeAcquision.campaignId,
-                badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
                 why: { isOutdated: false, isCoreCertifiable: true },
+                info: sinon.match.any,
               },
               {
-                certification: cleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                certification: cleaCertifiableBadgeAcquisition.complementaryCertificationKey,
                 isCertifiable: true,
-                complementaryCertificationBadgeId: cleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
-                complementaryCertificationId: cleaCertifiableBadgeAcquision.complementaryCertificationId,
-                campaignId: cleaCertifiableBadgeAcquision.campaignId,
-                badgeKey: cleaCertifiableBadgeAcquision.badgeKey,
+                complementaryCertificationBadgeId: cleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                complementaryCertificationId: cleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                campaignId: cleaCertifiableBadgeAcquisition.campaignId,
+                badgeKey: cleaCertifiableBadgeAcquisition.badgeKey,
                 why: { isOutdated: false, isCoreCertifiable: true },
+                info: sinon.match.any,
               },
             ],
             latestKnowledgeElementCreatedAt: someDate,
@@ -582,14 +588,15 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             ...userCertificabilityCalculator,
             certificabilityV2: [{ certification: 'SomethingElse', isCertifiable: true }],
           });
-          notCleaCertifiableBadgeAcquision.outdated = false;
-          cleaCertifiableBadgeAcquision.outdated = false;
+          notCleaCertifiableBadgeAcquisition.outdated = false;
+          cleaCertifiableBadgeAcquisition.outdated = false;
 
           // when
           userCertificabilityCalculator.computeComplementaryCertificabilities({
-            certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquision, cleaCertifiableBadgeAcquision],
+            certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition, cleaCertifiableBadgeAcquisition],
             minimumEarnedPixValuesByComplementaryCertificationBadgeId,
             highestPixScoreObtainedInCoreCertification,
+            complementaryCertificationCourseWithResults,
           });
 
           // then
@@ -600,22 +607,24 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             draftCertificabilityV2: [
               { certification: 'SomethingElse', isCertifiable: true },
               {
-                certification: notCleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
                 isCertifiable: false,
-                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
-                complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
-                campaignId: notCleaCertifiableBadgeAcquision.campaignId,
-                badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
                 why: { isOutdated: false, isCoreCertifiable: false },
+                info: sinon.match.any,
               },
               {
-                certification: cleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                certification: cleaCertifiableBadgeAcquisition.complementaryCertificationKey,
                 isCertifiable: false,
-                complementaryCertificationBadgeId: cleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
-                complementaryCertificationId: cleaCertifiableBadgeAcquision.complementaryCertificationId,
-                campaignId: cleaCertifiableBadgeAcquision.campaignId,
-                badgeKey: cleaCertifiableBadgeAcquision.badgeKey,
+                complementaryCertificationBadgeId: cleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                complementaryCertificationId: cleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                campaignId: cleaCertifiableBadgeAcquisition.campaignId,
+                badgeKey: cleaCertifiableBadgeAcquisition.badgeKey,
                 why: { isOutdated: false, isCoreCertifiable: false },
+                info: sinon.match.any,
               },
             ],
             latestKnowledgeElementCreatedAt: someDate,
@@ -630,14 +639,15 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             ...userCertificabilityCalculator,
             certificabilityV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
           });
-          notCleaCertifiableBadgeAcquision.outdated = true;
-          cleaCertifiableBadgeAcquision.outdated = true;
+          notCleaCertifiableBadgeAcquisition.outdated = true;
+          cleaCertifiableBadgeAcquisition.outdated = true;
 
           // when
           userCertificabilityCalculator.computeComplementaryCertificabilities({
-            certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquision, cleaCertifiableBadgeAcquision],
+            certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition, cleaCertifiableBadgeAcquisition],
             minimumEarnedPixValuesByComplementaryCertificationBadgeId,
             highestPixScoreObtainedInCoreCertification,
+            complementaryCertificationCourseWithResults,
           });
 
           // then
@@ -648,28 +658,141 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             draftCertificabilityV2: [
               { certification: LABEL_FOR_CORE, isCertifiable: true },
               {
-                certification: notCleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
                 isCertifiable: false,
-                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
-                complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
-                campaignId: notCleaCertifiableBadgeAcquision.campaignId,
-                badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
                 why: { isOutdated: true, isCoreCertifiable: true },
+                info: sinon.match.any,
               },
               {
-                certification: cleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                certification: cleaCertifiableBadgeAcquisition.complementaryCertificationKey,
                 isCertifiable: false,
-                complementaryCertificationBadgeId: cleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
-                complementaryCertificationId: cleaCertifiableBadgeAcquision.complementaryCertificationId,
-                campaignId: cleaCertifiableBadgeAcquision.campaignId,
-                badgeKey: cleaCertifiableBadgeAcquision.badgeKey,
+                complementaryCertificationBadgeId: cleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                complementaryCertificationId: cleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                campaignId: cleaCertifiableBadgeAcquisition.campaignId,
+                badgeKey: cleaCertifiableBadgeAcquisition.badgeKey,
                 why: { isOutdated: true, isCoreCertifiable: true },
+                info: sinon.match.any,
               },
             ],
             latestKnowledgeElementCreatedAt: someDate,
             latestCertificationDeliveredAt: someDate,
             latestBadgeAcquisitionUpdatedAt: null,
             latestComplementaryCertificationBadgeDetachedAt: null,
+          });
+        });
+      });
+      context('"info" section', function () {
+        context('"hasComplementaryCertificationForBadge"', function () {
+          it('should return true when user has a validated complementary certification for the badge', function () {
+            // given
+            userCertificabilityCalculator = domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
+              ...userCertificabilityCalculator,
+              certificabilityV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
+            });
+            notCleaCertifiableBadgeAcquisition.outdated = false;
+            complementaryCertificationCourseWithResults = [
+              domainBuilder.buildComplementaryCertificationCourseWithResults({
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                results: [
+                  {
+                    source: sources.PIX,
+                    acquired: true,
+                    complementaryCertificationBadgeId:
+                      notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  },
+                ],
+              }),
+            ];
+
+            // when
+            userCertificabilityCalculator.computeComplementaryCertificabilities({
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
+              minimumEarnedPixValuesByComplementaryCertificationBadgeId,
+              highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
+            });
+
+            // then
+            sinon.assert.match(userCertificabilityCalculator, {
+              id: 1,
+              userId: 123,
+              draftCertificability: sinon.match.any,
+              draftCertificabilityV2: [
+                { certification: LABEL_FOR_CORE, isCertifiable: true },
+                {
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                  isCertifiable: true,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
+                  why: { isOutdated: false, isCoreCertifiable: true },
+                  info: { hasComplementaryCertificationForBadge: true },
+                },
+              ],
+              latestKnowledgeElementCreatedAt: someDate,
+              latestCertificationDeliveredAt: someDate,
+              latestBadgeAcquisitionUpdatedAt: null,
+              latestComplementaryCertificationBadgeDetachedAt: null,
+            });
+          });
+          it('should return false when user has not a validated complementary certification for the badge', function () {
+            // given
+            userCertificabilityCalculator = domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
+              ...userCertificabilityCalculator,
+              certificabilityV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
+            });
+            notCleaCertifiableBadgeAcquisition.outdated = false;
+            complementaryCertificationCourseWithResults = [
+              domainBuilder.buildComplementaryCertificationCourseWithResults({
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                results: [
+                  {
+                    source: sources.PIX,
+                    acquired: true,
+                    complementaryCertificationBadgeId: 'someOtherLevelBadgeId',
+                  },
+                ],
+              }),
+            ];
+
+            // when
+            userCertificabilityCalculator.computeComplementaryCertificabilities({
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
+              minimumEarnedPixValuesByComplementaryCertificationBadgeId,
+              highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
+            });
+
+            // then
+            sinon.assert.match(userCertificabilityCalculator, {
+              id: 1,
+              userId: 123,
+              draftCertificability: sinon.match.any,
+              draftCertificabilityV2: [
+                { certification: LABEL_FOR_CORE, isCertifiable: true },
+                {
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                  isCertifiable: true,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
+                  why: { isOutdated: false, isCoreCertifiable: true },
+                  info: { hasComplementaryCertificationForBadge: false },
+                },
+              ],
+              latestKnowledgeElementCreatedAt: someDate,
+              latestCertificationDeliveredAt: someDate,
+              latestBadgeAcquisitionUpdatedAt: null,
+              latestComplementaryCertificationBadgeDetachedAt: null,
+            });
           });
         });
       });
@@ -682,8 +805,8 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
 
         beforeEach(function () {
           minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
-            [notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId]: -1,
-            [cleaCertifiableBadgeAcquision.complementaryCertificationBadgeId]: -1,
+            [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: -1,
+            [cleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: -1,
           };
         });
         context('when all criteria are fulfilled', function () {
@@ -693,13 +816,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
             });
-            cleaCertifiableBadgeAcquision.outdated = false;
+            cleaCertifiableBadgeAcquisition.outdated = false;
 
             // when
             userCertificabilityCalculator.computeComplementaryCertificabilities({
-              certifiableBadgeAcquisitions: [cleaCertifiableBadgeAcquision],
+              certifiableBadgeAcquisitions: [cleaCertifiableBadgeAcquisition],
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
             });
 
             // then
@@ -709,13 +833,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               draftCertificability: [
                 { certification: LABEL_FOR_CORE, isCertifiable: true },
                 {
-                  certification: cleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                  certification: cleaCertifiableBadgeAcquisition.complementaryCertificationKey,
                   isCertifiable: true,
-                  complementaryCertificationBadgeId: cleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
-                  complementaryCertificationId: cleaCertifiableBadgeAcquision.complementaryCertificationId,
-                  campaignId: cleaCertifiableBadgeAcquision.campaignId,
-                  badgeKey: cleaCertifiableBadgeAcquision.badgeKey,
+                  complementaryCertificationBadgeId: cleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: cleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: cleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: cleaCertifiableBadgeAcquisition.badgeKey,
                   why: { isOutdated: false, isCoreCertifiable: true },
+                  info: sinon.match.any,
                 },
               ],
               draftCertificabilityV2: sinon.match.any,
@@ -733,13 +858,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'SomethingElse', isCertifiable: true }],
             });
-            cleaCertifiableBadgeAcquision.outdated = false;
+            cleaCertifiableBadgeAcquisition.outdated = false;
 
             // when
             userCertificabilityCalculator.computeComplementaryCertificabilities({
-              certifiableBadgeAcquisitions: [cleaCertifiableBadgeAcquision],
+              certifiableBadgeAcquisitions: [cleaCertifiableBadgeAcquisition],
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
             });
 
             // then
@@ -749,13 +875,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               draftCertificability: [
                 { certification: 'SomethingElse', isCertifiable: true },
                 {
-                  certification: cleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                  certification: cleaCertifiableBadgeAcquisition.complementaryCertificationKey,
                   isCertifiable: false,
-                  complementaryCertificationBadgeId: cleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
-                  complementaryCertificationId: cleaCertifiableBadgeAcquision.complementaryCertificationId,
-                  campaignId: cleaCertifiableBadgeAcquision.campaignId,
-                  badgeKey: cleaCertifiableBadgeAcquision.badgeKey,
+                  complementaryCertificationBadgeId: cleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: cleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: cleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: cleaCertifiableBadgeAcquisition.badgeKey,
                   why: { isOutdated: false, isCoreCertifiable: false },
+                  info: sinon.match.any,
                 },
               ],
               draftCertificabilityV2: sinon.match.any,
@@ -771,13 +898,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
             });
-            cleaCertifiableBadgeAcquision.outdated = true;
+            cleaCertifiableBadgeAcquisition.outdated = true;
 
             // when
             userCertificabilityCalculator.computeComplementaryCertificabilities({
-              certifiableBadgeAcquisitions: [cleaCertifiableBadgeAcquision],
+              certifiableBadgeAcquisitions: [cleaCertifiableBadgeAcquisition],
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
             });
 
             // then
@@ -787,13 +915,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               draftCertificability: [
                 { certification: LABEL_FOR_CORE, isCertifiable: true },
                 {
-                  certification: cleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                  certification: cleaCertifiableBadgeAcquisition.complementaryCertificationKey,
                   isCertifiable: false,
-                  complementaryCertificationBadgeId: cleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
-                  complementaryCertificationId: cleaCertifiableBadgeAcquision.complementaryCertificationId,
-                  campaignId: cleaCertifiableBadgeAcquision.campaignId,
-                  badgeKey: cleaCertifiableBadgeAcquision.badgeKey,
+                  complementaryCertificationBadgeId: cleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: cleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: cleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: cleaCertifiableBadgeAcquisition.badgeKey,
                   why: { isOutdated: true, isCoreCertifiable: true },
+                  info: sinon.match.any,
                 },
               ],
               draftCertificabilityV2: sinon.match.any,
@@ -813,18 +942,19 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquision.outdated = false;
+            notCleaCertifiableBadgeAcquisition.outdated = false;
             const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
-              [notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId]: 60,
+              [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 60,
               222222: 80,
             };
             const highestPixScoreObtainedInCoreCertification = 70;
 
             // when
             userCertificabilityCalculator.computeComplementaryCertificabilities({
-              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquision],
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
             });
 
             // then
@@ -834,17 +964,19 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               draftCertificability: [
                 { certification: 'ItDoesNotMatter', isCertifiable: true },
                 {
-                  certification: notCleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
                   isCertifiable: true,
-                  complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
-                  complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
-                  campaignId: notCleaCertifiableBadgeAcquision.campaignId,
-                  badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
                   why: {
                     isOutdated: false,
                     hasObtainedCoreCertification: true,
                     hasMinimumRequiredScoreForComplementaryCertification: true,
                   },
+                  info: sinon.match.any,
                 },
               ],
               draftCertificabilityV2: sinon.match.any,
@@ -860,18 +992,19 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquision.outdated = false;
+            notCleaCertifiableBadgeAcquisition.outdated = false;
             const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
-              [notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId]: 57,
+              [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 57,
               222222: 80,
             };
             const highestPixScoreObtainedInCoreCertification = 57;
 
             // when
             userCertificabilityCalculator.computeComplementaryCertificabilities({
-              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquision],
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
             });
 
             // then
@@ -881,17 +1014,19 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               draftCertificability: [
                 { certification: 'ItDoesNotMatter', isCertifiable: true },
                 {
-                  certification: notCleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
                   isCertifiable: true,
-                  complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
-                  complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
-                  campaignId: notCleaCertifiableBadgeAcquision.campaignId,
-                  badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
                   why: {
                     isOutdated: false,
                     hasObtainedCoreCertification: true,
                     hasMinimumRequiredScoreForComplementaryCertification: true,
                   },
+                  info: sinon.match.any,
                 },
               ],
               draftCertificabilityV2: sinon.match.any,
@@ -909,18 +1044,19 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquision.outdated = true;
+            notCleaCertifiableBadgeAcquisition.outdated = true;
             const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
-              [notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId]: 60,
+              [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 60,
               222222: 80,
             };
             const highestPixScoreObtainedInCoreCertification = 70;
 
             // when
             userCertificabilityCalculator.computeComplementaryCertificabilities({
-              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquision],
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
             });
 
             // then
@@ -930,17 +1066,19 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               draftCertificability: [
                 { certification: 'ItDoesNotMatter', isCertifiable: true },
                 {
-                  certification: notCleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
                   isCertifiable: false,
-                  complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
-                  complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
-                  campaignId: notCleaCertifiableBadgeAcquision.campaignId,
-                  badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
                   why: {
                     isOutdated: true,
                     hasObtainedCoreCertification: true,
                     hasMinimumRequiredScoreForComplementaryCertification: true,
                   },
+                  info: sinon.match.any,
                 },
               ],
               draftCertificabilityV2: sinon.match.any,
@@ -956,18 +1094,19 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquision.outdated = false;
+            notCleaCertifiableBadgeAcquisition.outdated = false;
             const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
-              [notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId]: 60,
+              [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 60,
               222222: 80,
             };
             const highestPixScoreObtainedInCoreCertification = 30;
 
             // when
             userCertificabilityCalculator.computeComplementaryCertificabilities({
-              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquision],
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
             });
 
             // then
@@ -977,17 +1116,19 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               draftCertificability: [
                 { certification: 'ItDoesNotMatter', isCertifiable: true },
                 {
-                  certification: notCleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
                   isCertifiable: false,
-                  complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
-                  complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
-                  campaignId: notCleaCertifiableBadgeAcquision.campaignId,
-                  badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
                   why: {
                     isOutdated: false,
                     hasObtainedCoreCertification: true,
                     hasMinimumRequiredScoreForComplementaryCertification: false,
                   },
+                  info: sinon.match.any,
                 },
               ],
               draftCertificabilityV2: sinon.match.any,
@@ -1003,18 +1144,19 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquision.outdated = false;
+            notCleaCertifiableBadgeAcquisition.outdated = false;
             const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
-              [notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId]: 0,
+              [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 0,
               222222: 80,
             };
             const highestPixScoreObtainedInCoreCertification = -1;
 
             // when
             userCertificabilityCalculator.computeComplementaryCertificabilities({
-              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquision],
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
               minimumEarnedPixValuesByComplementaryCertificationBadgeId,
               highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
             });
 
             // then
@@ -1024,17 +1166,148 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               draftCertificability: [
                 { certification: 'ItDoesNotMatter', isCertifiable: true },
                 {
-                  certification: notCleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
                   isCertifiable: false,
-                  complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
-                  complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
-                  campaignId: notCleaCertifiableBadgeAcquision.campaignId,
-                  badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
                   why: {
                     isOutdated: false,
                     hasObtainedCoreCertification: false,
                     hasMinimumRequiredScoreForComplementaryCertification: false,
                   },
+                  info: sinon.match.any,
+                },
+              ],
+              draftCertificabilityV2: sinon.match.any,
+              latestKnowledgeElementCreatedAt: someDate,
+              latestCertificationDeliveredAt: someDate,
+              latestBadgeAcquisitionUpdatedAt: null,
+              latestComplementaryCertificationBadgeDetachedAt: null,
+            });
+          });
+        });
+      });
+      context('"info" section', function () {
+        context('"hasComplementaryCertificationForBadge"', function () {
+          it('should return true when user has a validated complementary certification for the badge', function () {
+            // given
+            userCertificabilityCalculator = domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
+              ...userCertificabilityCalculator,
+              certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
+            });
+            notCleaCertifiableBadgeAcquisition.outdated = false;
+            const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
+              [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 60,
+              222222: 80,
+            };
+            const highestPixScoreObtainedInCoreCertification = 70;
+            complementaryCertificationCourseWithResults = [
+              domainBuilder.buildComplementaryCertificationCourseWithResults({
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                results: [
+                  {
+                    source: sources.PIX,
+                    acquired: true,
+                    complementaryCertificationBadgeId:
+                      notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  },
+                ],
+              }),
+            ];
+
+            // when
+            userCertificabilityCalculator.computeComplementaryCertificabilities({
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
+              minimumEarnedPixValuesByComplementaryCertificationBadgeId,
+              highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
+            });
+
+            // then
+            sinon.assert.match(userCertificabilityCalculator, {
+              id: 1,
+              userId: 123,
+              draftCertificability: [
+                { certification: 'ItDoesNotMatter', isCertifiable: true },
+                {
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                  isCertifiable: true,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
+                  why: {
+                    isOutdated: false,
+                    hasObtainedCoreCertification: true,
+                    hasMinimumRequiredScoreForComplementaryCertification: true,
+                  },
+                  info: { hasComplementaryCertificationForBadge: true },
+                },
+              ],
+              draftCertificabilityV2: sinon.match.any,
+              latestKnowledgeElementCreatedAt: someDate,
+              latestCertificationDeliveredAt: someDate,
+              latestBadgeAcquisitionUpdatedAt: null,
+              latestComplementaryCertificationBadgeDetachedAt: null,
+            });
+          });
+          it('should return false when user has a not validated complementary certification for the badge', function () {
+            // given
+            userCertificabilityCalculator = domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
+              ...userCertificabilityCalculator,
+              certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
+            });
+            notCleaCertifiableBadgeAcquisition.outdated = false;
+            const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
+              [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 60,
+              222222: 80,
+            };
+            const highestPixScoreObtainedInCoreCertification = 70;
+            complementaryCertificationCourseWithResults = [
+              domainBuilder.buildComplementaryCertificationCourseWithResults({
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                results: [
+                  {
+                    source: sources.PIX,
+                    acquired: true,
+                    complementaryCertificationBadgeId: 'someOtherLevelBadgeId',
+                  },
+                ],
+              }),
+            ];
+
+            // when
+            userCertificabilityCalculator.computeComplementaryCertificabilities({
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
+              minimumEarnedPixValuesByComplementaryCertificationBadgeId,
+              highestPixScoreObtainedInCoreCertification,
+              complementaryCertificationCourseWithResults,
+            });
+
+            // then
+            sinon.assert.match(userCertificabilityCalculator, {
+              id: 1,
+              userId: 123,
+              draftCertificability: [
+                { certification: 'ItDoesNotMatter', isCertifiable: true },
+                {
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                  isCertifiable: true,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
+                  why: {
+                    isOutdated: false,
+                    hasObtainedCoreCertification: true,
+                    hasMinimumRequiredScoreForComplementaryCertification: true,
+                  },
+                  info: { hasComplementaryCertificationForBadge: false },
                 },
               ],
               draftCertificabilityV2: sinon.match.any,
