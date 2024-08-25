@@ -18,14 +18,24 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
         domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
           id: null,
           userId: 123,
-          certificability: [],
-          certificabilityV2: [],
           latestKnowledgeElementCreatedAt: null,
           latestCertificationDeliveredAt: null,
           latestBadgeAcquisitionUpdatedAt: null,
           latestComplementaryCertificationBadgeDetachedAt: null,
         }),
       );
+      expect(emptyUserCertificabilityCalculator.draftCertificability).to.deep.equal([
+        {
+          certification: LABEL_FOR_CORE,
+          isCertifiable: false,
+        },
+      ]);
+      expect(emptyUserCertificabilityCalculator.draftCertificabilityV2).to.deep.equal([
+        {
+          certification: LABEL_FOR_CORE,
+          isCertifiable: false,
+        },
+      ]);
     });
   });
 
@@ -239,14 +249,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
         domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
           id: 1,
           userId: 123,
-          certificability: [],
-          certificabilityV2: [],
           latestKnowledgeElementCreatedAt: newLatestKnowledgeElementCreatedAt,
           latestCertificationDeliveredAt: newLatestCertificationDeliveredAt,
           latestBadgeAcquisitionUpdatedAt: newLatestBadgeAcquisitionUpdatedAt,
           latestComplementaryCertificationBadgeDetachedAt: newLatestComplementaryCertificationBadgeDetachedAt,
         }),
       );
+      expect(userCertificabilityCalculator.draftCertificability).to.deep.equal([]);
+      expect(userCertificabilityCalculator.draftCertificabilityV2).to.deep.equal([]);
     });
   });
 
@@ -356,14 +366,18 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
           domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
             id: 1,
             userId: 123,
-            certificability: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
-            certificabilityV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
             latestKnowledgeElementCreatedAt: someDate,
             latestCertificationDeliveredAt: someDate,
             latestBadgeAcquisitionUpdatedAt: null,
             latestComplementaryCertificationBadgeDetachedAt: null,
           }),
         );
+        expect(userCertificabilityCalculator.draftCertificability).to.deep.equal([
+          { certification: LABEL_FOR_CORE, isCertifiable: true },
+        ]);
+        expect(userCertificabilityCalculator.draftCertificabilityV2).to.deep.equal([
+          { certification: LABEL_FOR_CORE, isCertifiable: true },
+        ]);
       });
 
       it('should compute core certificable as false when user is level 1 on less than 5 competences', function () {
@@ -395,14 +409,24 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
           domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
             id: 1,
             userId: 123,
-            certificability: [],
-            certificabilityV2: [],
             latestKnowledgeElementCreatedAt: someDate,
             latestCertificationDeliveredAt: someDate,
             latestBadgeAcquisitionUpdatedAt: null,
             latestComplementaryCertificationBadgeDetachedAt: null,
           }),
         );
+        expect(userCertificabilityCalculator.draftCertificability).to.deep.equal([
+          {
+            certification: LABEL_FOR_CORE,
+            isCertifiable: false,
+          },
+        ]);
+        expect(userCertificabilityCalculator.draftCertificabilityV2).to.deep.equal([
+          {
+            certification: LABEL_FOR_CORE,
+            isCertifiable: false,
+          },
+        ]);
       });
 
       it('should compute core certificable as false when user is level 1 on less than 5 competences (no KE in one competence)', function () {
@@ -427,14 +451,24 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
           domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
             id: 1,
             userId: 123,
-            certificability: [],
-            certificabilityV2: [],
             latestKnowledgeElementCreatedAt: someDate,
             latestCertificationDeliveredAt: someDate,
             latestBadgeAcquisitionUpdatedAt: null,
             latestComplementaryCertificationBadgeDetachedAt: null,
           }),
         );
+        expect(userCertificabilityCalculator.draftCertificability).to.deep.equal([
+          {
+            certification: LABEL_FOR_CORE,
+            isCertifiable: false,
+          },
+        ]);
+        expect(userCertificabilityCalculator.draftCertificabilityV2).to.deep.equal([
+          {
+            certification: LABEL_FOR_CORE,
+            isCertifiable: false,
+          },
+        ]);
       });
     });
   });
@@ -522,6 +556,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                 complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
                 campaignId: notCleaCertifiableBadgeAcquision.campaignId,
                 badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                why: { isOutdated: false, isCoreCertifiable: true },
               },
               {
                 certification: cleaCertifiableBadgeAcquision.complementaryCertificationKey,
@@ -530,6 +565,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                 complementaryCertificationId: cleaCertifiableBadgeAcquision.complementaryCertificationId,
                 campaignId: cleaCertifiableBadgeAcquision.campaignId,
                 badgeKey: cleaCertifiableBadgeAcquision.badgeKey,
+                why: { isOutdated: false, isCoreCertifiable: true },
               },
             ],
             latestKnowledgeElementCreatedAt: someDate,
@@ -561,7 +597,27 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             id: 1,
             userId: 123,
             draftCertificability: sinon.match.any,
-            draftCertificabilityV2: [{ certification: 'SomethingElse', isCertifiable: true }],
+            draftCertificabilityV2: [
+              { certification: 'SomethingElse', isCertifiable: true },
+              {
+                certification: notCleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                isCertifiable: false,
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
+                complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
+                campaignId: notCleaCertifiableBadgeAcquision.campaignId,
+                badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                why: { isOutdated: false, isCoreCertifiable: false },
+              },
+              {
+                certification: cleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                isCertifiable: false,
+                complementaryCertificationBadgeId: cleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
+                complementaryCertificationId: cleaCertifiableBadgeAcquision.complementaryCertificationId,
+                campaignId: cleaCertifiableBadgeAcquision.campaignId,
+                badgeKey: cleaCertifiableBadgeAcquision.badgeKey,
+                why: { isOutdated: false, isCoreCertifiable: false },
+              },
+            ],
             latestKnowledgeElementCreatedAt: someDate,
             latestCertificationDeliveredAt: someDate,
             latestBadgeAcquisitionUpdatedAt: null,
@@ -589,7 +645,27 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             id: 1,
             userId: 123,
             draftCertificability: sinon.match.any,
-            draftCertificabilityV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
+            draftCertificabilityV2: [
+              { certification: LABEL_FOR_CORE, isCertifiable: true },
+              {
+                certification: notCleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                isCertifiable: false,
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
+                complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
+                campaignId: notCleaCertifiableBadgeAcquision.campaignId,
+                badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                why: { isOutdated: true, isCoreCertifiable: true },
+              },
+              {
+                certification: cleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                isCertifiable: false,
+                complementaryCertificationBadgeId: cleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
+                complementaryCertificationId: cleaCertifiableBadgeAcquision.complementaryCertificationId,
+                campaignId: cleaCertifiableBadgeAcquision.campaignId,
+                badgeKey: cleaCertifiableBadgeAcquision.badgeKey,
+                why: { isOutdated: true, isCoreCertifiable: true },
+              },
+            ],
             latestKnowledgeElementCreatedAt: someDate,
             latestCertificationDeliveredAt: someDate,
             latestBadgeAcquisitionUpdatedAt: null,
@@ -639,6 +715,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                   complementaryCertificationId: cleaCertifiableBadgeAcquision.complementaryCertificationId,
                   campaignId: cleaCertifiableBadgeAcquision.campaignId,
                   badgeKey: cleaCertifiableBadgeAcquision.badgeKey,
+                  why: { isOutdated: false, isCoreCertifiable: true },
                 },
               ],
               draftCertificabilityV2: sinon.match.any,
@@ -669,7 +746,18 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             sinon.assert.match(userCertificabilityCalculator, {
               id: 1,
               userId: 123,
-              draftCertificability: [{ certification: 'SomethingElse', isCertifiable: true }],
+              draftCertificability: [
+                { certification: 'SomethingElse', isCertifiable: true },
+                {
+                  certification: cleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                  isCertifiable: false,
+                  complementaryCertificationBadgeId: cleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
+                  complementaryCertificationId: cleaCertifiableBadgeAcquision.complementaryCertificationId,
+                  campaignId: cleaCertifiableBadgeAcquision.campaignId,
+                  badgeKey: cleaCertifiableBadgeAcquision.badgeKey,
+                  why: { isOutdated: false, isCoreCertifiable: false },
+                },
+              ],
               draftCertificabilityV2: sinon.match.any,
               latestKnowledgeElementCreatedAt: someDate,
               latestCertificationDeliveredAt: someDate,
@@ -696,7 +784,18 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             sinon.assert.match(userCertificabilityCalculator, {
               id: 1,
               userId: 123,
-              draftCertificability: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
+              draftCertificability: [
+                { certification: LABEL_FOR_CORE, isCertifiable: true },
+                {
+                  certification: cleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                  isCertifiable: false,
+                  complementaryCertificationBadgeId: cleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
+                  complementaryCertificationId: cleaCertifiableBadgeAcquision.complementaryCertificationId,
+                  campaignId: cleaCertifiableBadgeAcquision.campaignId,
+                  badgeKey: cleaCertifiableBadgeAcquision.badgeKey,
+                  why: { isOutdated: true, isCoreCertifiable: true },
+                },
+              ],
               draftCertificabilityV2: sinon.match.any,
               latestKnowledgeElementCreatedAt: someDate,
               latestCertificationDeliveredAt: someDate,
@@ -741,6 +840,11 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                   complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
                   campaignId: notCleaCertifiableBadgeAcquision.campaignId,
                   badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                  why: {
+                    isOutdated: false,
+                    hasObtainedCoreCertification: true,
+                    hasMinimumRequiredScoreForComplementaryCertification: true,
+                  },
                 },
               ],
               draftCertificabilityV2: sinon.match.any,
@@ -783,6 +887,11 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                   complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
                   campaignId: notCleaCertifiableBadgeAcquision.campaignId,
                   badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                  why: {
+                    isOutdated: false,
+                    hasObtainedCoreCertification: true,
+                    hasMinimumRequiredScoreForComplementaryCertification: true,
+                  },
                 },
               ],
               draftCertificabilityV2: sinon.match.any,
@@ -818,7 +927,22 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             sinon.assert.match(userCertificabilityCalculator, {
               id: 1,
               userId: 123,
-              draftCertificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
+              draftCertificability: [
+                { certification: 'ItDoesNotMatter', isCertifiable: true },
+                {
+                  certification: notCleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                  isCertifiable: false,
+                  complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquision.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                  why: {
+                    isOutdated: true,
+                    hasObtainedCoreCertification: true,
+                    hasMinimumRequiredScoreForComplementaryCertification: true,
+                  },
+                },
+              ],
               draftCertificabilityV2: sinon.match.any,
               latestKnowledgeElementCreatedAt: someDate,
               latestCertificationDeliveredAt: someDate,
@@ -850,7 +974,22 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             sinon.assert.match(userCertificabilityCalculator, {
               id: 1,
               userId: 123,
-              draftCertificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
+              draftCertificability: [
+                { certification: 'ItDoesNotMatter', isCertifiable: true },
+                {
+                  certification: notCleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                  isCertifiable: false,
+                  complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquision.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                  why: {
+                    isOutdated: false,
+                    hasObtainedCoreCertification: true,
+                    hasMinimumRequiredScoreForComplementaryCertification: false,
+                  },
+                },
+              ],
               draftCertificabilityV2: sinon.match.any,
               latestKnowledgeElementCreatedAt: someDate,
               latestCertificationDeliveredAt: someDate,
@@ -882,7 +1021,22 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             sinon.assert.match(userCertificabilityCalculator, {
               id: 1,
               userId: 123,
-              draftCertificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
+              draftCertificability: [
+                { certification: 'ItDoesNotMatter', isCertifiable: true },
+                {
+                  certification: notCleaCertifiableBadgeAcquision.complementaryCertificationKey,
+                  isCertifiable: false,
+                  complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquision.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquision.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquision.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquision.badgeKey,
+                  why: {
+                    isOutdated: false,
+                    hasObtainedCoreCertification: false,
+                    hasMinimumRequiredScoreForComplementaryCertification: false,
+                  },
+                },
+              ],
               draftCertificabilityV2: sinon.match.any,
               latestKnowledgeElementCreatedAt: someDate,
               latestCertificationDeliveredAt: someDate,

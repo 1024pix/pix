@@ -54,8 +54,8 @@ export class UserCertificabilityCalculator {
     return new UserCertificabilityCalculator({
       id: null,
       userId,
-      certificability: [],
-      certificabilityV2: [],
+      certificability: [buildCoreCertificabilityData({ isCertifiable: false })],
+      certificabilityV2: [buildCoreCertificabilityData({ isCertifiable: false })],
       latestKnowledgeElementCreatedAt: null,
       latestCertificationDeliveredAt: null,
       latestBadgeAcquisitionUpdatedAt: null,
@@ -116,8 +116,11 @@ export class UserCertificabilityCalculator {
     }
 
     if (countAtLeastLevelOneCompetences >= MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY) {
-      this.#certificability.push(buildCoreCertificabilityData());
-      this.#certificabilityV2.push(buildCoreCertificabilityData());
+      this.#certificability.push(buildCoreCertificabilityData({ isCertifiable: true }));
+      this.#certificabilityV2.push(buildCoreCertificabilityData({ isCertifiable: true }));
+    } else {
+      this.#certificability.push(buildCoreCertificabilityData({ isCertifiable: false }));
+      this.#certificabilityV2.push(buildCoreCertificabilityData({ isCertifiable: false }));
     }
   }
 
@@ -159,15 +162,18 @@ export class UserCertificabilityCalculator {
   }
 
   #_computeComplementaryCertificabilityV2({ certifiableBadgeAcquisition }) {
-    if (certifiableBadgeAcquisition.outdated) {
-      return;
-    }
+    const isOutdated = certifiableBadgeAcquisition.outdated;
     const isCoreCertifiable = this.#certificabilityV2.some(
       (certificabilityData) => certificabilityData.certification === LABEL_FOR_CORE,
     );
-    if (isCoreCertifiable) {
-      this.#certificabilityV2.push(buildComplementaryCertificabilityData(certifiableBadgeAcquisition));
-    }
+    const isCertifiable = !isOutdated && isCoreCertifiable;
+    this.#certificabilityV2.push(
+      buildComplementaryCertificabilityDataV2({
+        certifiableBadgeAcquisition,
+        isCertifiable,
+        why: { isOutdated, isCoreCertifiable },
+      }),
+    );
   }
 
   #_computeComplementaryCertificability({
@@ -175,41 +181,91 @@ export class UserCertificabilityCalculator {
     minimumEarnedPixValuesByComplementaryCertificationBadgeId,
     highestPixScoreObtainedInCoreCertification,
   }) {
-    if (certifiableBadgeAcquisition.outdated) {
-      return;
-    }
+    const isOutdated = certifiableBadgeAcquisition.outdated;
     if (certifiableBadgeAcquisition.complementaryCertificationKey === ComplementaryCertificationKeys.CLEA) {
       const isCoreCertifiable = this.#certificability.some(
         (certificabilityData) => certificabilityData.certification === LABEL_FOR_CORE,
       );
-      if (isCoreCertifiable) {
-        this.#certificability.push(buildComplementaryCertificabilityData(certifiableBadgeAcquisition));
-      }
+      const isCertifiable = !isOutdated && isCoreCertifiable;
+      this.#certificability.push(
+        buildComplementaryCertificabilityDataCleaV3({
+          certifiableBadgeAcquisition,
+          isCertifiable,
+          why: { isOutdated, isCoreCertifiable },
+        }),
+      );
     } else {
       const minimumEarnedPixValueRequiredForComplementaryCertification =
         minimumEarnedPixValuesByComplementaryCertificationBadgeId[
           certifiableBadgeAcquisition.complementaryCertificationBadgeId
         ];
-      if (highestPixScoreObtainedInCoreCertification >= minimumEarnedPixValueRequiredForComplementaryCertification)
-        this.#certificability.push(buildComplementaryCertificabilityData(certifiableBadgeAcquisition));
+      const hasObtainedCoreCertification = highestPixScoreObtainedInCoreCertification >= 0;
+      const hasMinimumRequiredScoreForComplementaryCertification =
+        highestPixScoreObtainedInCoreCertification >= minimumEarnedPixValueRequiredForComplementaryCertification;
+      const isCertifiable =
+        !isOutdated && hasObtainedCoreCertification && hasMinimumRequiredScoreForComplementaryCertification;
+      this.#certificability.push(
+        buildComplementaryCertificabilityDataV3({
+          certifiableBadgeAcquisition,
+          isCertifiable,
+          why: { isOutdated, hasObtainedCoreCertification, hasMinimumRequiredScoreForComplementaryCertification },
+        }),
+      );
     }
   }
 }
 
-function buildCoreCertificabilityData() {
+function buildCoreCertificabilityData({ isCertifiable }) {
   return {
     certification: LABEL_FOR_CORE,
-    isCertifiable: true,
+    isCertifiable,
   };
 }
 
-function buildComplementaryCertificabilityData(certifiableBadgeAcquisition) {
+function buildComplementaryCertificabilityDataV2({
+  certifiableBadgeAcquisition,
+  isCertifiable,
+  why: { isOutdated, isCoreCertifiable },
+}) {
   return {
     certification: certifiableBadgeAcquisition.complementaryCertificationKey,
-    isCertifiable: true,
+    isCertifiable,
     complementaryCertificationBadgeId: certifiableBadgeAcquisition.complementaryCertificationBadgeId,
     complementaryCertificationId: certifiableBadgeAcquisition.complementaryCertificationId,
     campaignId: certifiableBadgeAcquisition.campaignId,
     badgeKey: certifiableBadgeAcquisition.badgeKey,
+    why: { isOutdated, isCoreCertifiable },
+  };
+}
+
+function buildComplementaryCertificabilityDataCleaV3({
+  certifiableBadgeAcquisition,
+  isCertifiable,
+  why: { isOutdated, isCoreCertifiable },
+}) {
+  return {
+    certification: certifiableBadgeAcquisition.complementaryCertificationKey,
+    isCertifiable,
+    complementaryCertificationBadgeId: certifiableBadgeAcquisition.complementaryCertificationBadgeId,
+    complementaryCertificationId: certifiableBadgeAcquisition.complementaryCertificationId,
+    campaignId: certifiableBadgeAcquisition.campaignId,
+    badgeKey: certifiableBadgeAcquisition.badgeKey,
+    why: { isOutdated, isCoreCertifiable },
+  };
+}
+
+function buildComplementaryCertificabilityDataV3({
+  certifiableBadgeAcquisition,
+  isCertifiable,
+  why: { isOutdated, hasObtainedCoreCertification, hasMinimumRequiredScoreForComplementaryCertification },
+}) {
+  return {
+    certification: certifiableBadgeAcquisition.complementaryCertificationKey,
+    isCertifiable,
+    complementaryCertificationBadgeId: certifiableBadgeAcquisition.complementaryCertificationBadgeId,
+    complementaryCertificationId: certifiableBadgeAcquisition.complementaryCertificationId,
+    campaignId: certifiableBadgeAcquisition.campaignId,
+    badgeKey: certifiableBadgeAcquisition.badgeKey,
+    why: { isOutdated, hasObtainedCoreCertification, hasMinimumRequiredScoreForComplementaryCertification },
   };
 }
