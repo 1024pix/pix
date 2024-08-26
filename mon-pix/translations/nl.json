@@ -116,7 +116,7 @@
     "invited": {
       "reconciliation": {
         "error-message": {
-          "date-field": "Gebruik het formaat dd/mm/jjjj bij het invoeren van het veld {fieldName}",
+          "date-field": "Gebruik het formaat dd-mm-jjjj bij het invoeren van het veld {fieldName}",
           "invalid-reconciliation-error": "Controleer je gegevens ({fields}) of neem contact op met een docent.",
           "mandatory-field": "Dit veld is verplicht"
         },
@@ -125,7 +125,7 @@
           "firstname": "Voornaam",
           "lastname": "Achternaam",
           "sub-label": {
-            "date": "In (dd/mm/jjjj) formaat, bijvoorbeeld : {dateFormat}"
+            "date": "In (dd-mm-jjjj) formaat, bijvoorbeeld : {dateFormat}"
           }
         },
         "title": "Sluit je aan bij de organisatie { organizationName }"
@@ -1263,7 +1263,7 @@
               "label": "Geboortedag",
               "placeholder": "JJ"
             },
-            "label": "Geboortedatum (dd/mm/jjjj)",
+            "label": "Geboortedatum (dd-mm-jjjj)",
             "month": {
               "error": "Je geboortemaand is niet geldig.",
               "label": "Maand van geboorte",
@@ -1353,12 +1353,6 @@
         "explanationTitle": "Wat is een module?",
         "level": "Niveau",
         "objectives": "Doelstellingen",
-        "smallScreenModal": {
-          "title": "Je lijkt een klein scherm te gebruiken",
-          "description": "Sommige activiteiten in deze module zijn mogelijk moeilijk uit te voeren op een klein scherm. Voor de beste ervaring raden we je aan een computer te gebruiken.",
-          "startModule": "Start",
-          "cancel": "Terug naar details"
-        },
         "startModule": "De module starten"
       },
       "download": {
