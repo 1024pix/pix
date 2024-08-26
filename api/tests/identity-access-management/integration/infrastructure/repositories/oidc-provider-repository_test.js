@@ -9,6 +9,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repositori
         // given
         const oidcProviderProperties = {
           accessTokenLifespan: '7d',
+          claimsToStore: 'email,employeeNumber',
           clientId: 'client',
           encryptedClientSecret: '#%@!!!!!!!!!!!!!',
           shouldCloseSession: true,
@@ -25,8 +26,9 @@ describe('Integration | Identity Access Management | Infrastructure | Repositori
         const savedOidcProvider = await oidcProviderRepository.create(oidcProviderProperties);
 
         // then
-        const oidcProvider = await knex('oidc-providers').where({ identityProvider: 'OIDC_EXAMPLE_NET' }).first('id');
+        const oidcProvider = await knex('oidc-providers').where({ identityProvider: 'OIDC_EXAMPLE_NET' }).first();
         expect(oidcProvider.id).to.equal(savedOidcProvider[0].id);
+        expect(oidcProvider).to.contain(oidcProviderProperties);
       });
     });
 
