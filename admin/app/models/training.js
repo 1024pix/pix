@@ -1,4 +1,3 @@
-import { memberAction } from '@1024pix/ember-api-actions';
 import Model, { attr, hasMany } from '@ember-data/model';
 
 import formatList from '../utils/format-select-options';
@@ -42,11 +41,6 @@ export default class Training extends Model {
 
   @hasMany('training-trigger', { async: true, inverse: 'training' }) trainingTriggers;
   @hasMany('target-profile-summary', { async: true, inverse: null }) targetProfileSummaries;
-
-  attachTargetProfiles = memberAction({
-    path: 'attach-target-profiles',
-    type: 'post',
-  });
 
   get prerequisiteTrigger() {
     const trainingTriggers = this.hasMany('trainingTriggers').value() || [];
