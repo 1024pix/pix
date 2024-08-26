@@ -101,7 +101,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repositori
       const oidcProviders = await oidcProviderRepository.findAllOidcProviders();
 
       // then
-      expect(oidcProviders.length).to.equal(2);
+      expect(oidcProviders).to.have.length(2);
       const oidcIdentityProviders = oidcProviders.map(({ identityProvider }) => identityProvider);
       expect(oidcIdentityProviders).to.deep.equal(['OIDC_EXAMPLE1', 'OIDC_EXAMPLE2']);
     });
