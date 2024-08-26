@@ -1,4 +1,5 @@
 import { clickByText, render } from '@1024pix/ember-testing-library';
+import { t } from 'ember-intl/test-support';
 import CreateTrainingTriggers from 'pix-admin/components/trainings/create-training-triggers';
 import { module, test } from 'qunit';
 
@@ -137,7 +138,7 @@ module('Integration | Component | Trainings::CreateTrainingTriggers', function (
 
       // then
       assert
-        .dom(screen.queryByLabelText(this.intl.t('pages.trainings.training.triggers.prerequisite.alternative-title')))
+        .dom(screen.queryByLabelText(t('pages.trainings.training.triggers.prerequisite.alternative-title')))
         .exists();
     });
 
@@ -151,9 +152,7 @@ module('Integration | Component | Trainings::CreateTrainingTriggers', function (
       const screen = await render(<template><CreateTrainingTriggers @training={{training}} /></template>);
 
       // then
-      assert
-        .dom(screen.queryByLabelText(this.intl.t('pages.trainings.training.triggers.goal.alternative-title')))
-        .doesNotExist();
+      assert.dom(screen.queryByLabelText(t('pages.trainings.training.triggers.goal.alternative-title'))).doesNotExist();
       assert.dom(screen.getByText('Seuil : 19%')).exists();
       assert.dom(screen.getByText('5 sujets')).exists();
       assert.dom(screen.getByText('area1 code · area1 title')).exists();
@@ -184,9 +183,7 @@ module('Integration | Component | Trainings::CreateTrainingTriggers', function (
       const screen = await render(<template><CreateTrainingTriggers @training={{training}} /></template>);
 
       // then
-      assert
-        .dom(screen.queryByLabelText(this.intl.t('pages.trainings.training.triggers.goal.alternative-title')))
-        .exists();
+      assert.dom(screen.queryByLabelText(t('pages.trainings.training.triggers.goal.alternative-title'))).exists();
     });
   });
 });

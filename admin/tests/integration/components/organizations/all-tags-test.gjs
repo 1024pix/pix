@@ -1,6 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { fillIn } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import AllTags from 'pix-admin/components/organizations/all-tags';
 import ENV from 'pix-admin/config/environment';
 import { module, test } from 'qunit';
@@ -75,7 +76,7 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
         assert
           .dom(
             screen.getByRole('heading', {
-              name: this.intl.t('components.organizations.all-tags.recently-used-tags', { tagName: tag2.name }),
+              name: t('components.organizations.all-tags.recently-used-tags', { tagName: tag2.name }),
             }),
           )
           .exists();
@@ -106,7 +107,7 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
         assert
           .dom(
             screen.queryByRole('heading', {
-              name: this.intl.t('components.organizations.all-tags.recently-used-tags', { tagName: tag2.name }),
+              name: t('components.organizations.all-tags.recently-used-tags', { tagName: tag2.name }),
             }),
           )
           .doesNotExist();

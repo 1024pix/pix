@@ -2,6 +2,7 @@ import NotificationContainer from '@1024pix/ember-cli-notifications/components/n
 import { render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import OidcProvidersImport from 'pix-admin/components/administration/access/oidc-providers-import';
 import { module, test } from 'qunit';
 
@@ -19,15 +20,11 @@ module('Integration | Component | administration/oidc-providers-import', functio
 
       // when
       const screen = await render(<template><OidcProvidersImport /><NotificationContainer /></template>);
-      const input = await screen.findByLabelText(
-        this.intl.t('components.administration.oidc-providers-import.upload-button'),
-      );
+      const input = await screen.findByLabelText(t('components.administration.oidc-providers-import.upload-button'));
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
-      assert.ok(
-        await screen.findByText(this.intl.t('components.administration.oidc-providers-import.notifications.success')),
-      );
+      assert.ok(await screen.findByText(t('components.administration.oidc-providers-import.notifications.success')));
     });
   });
 
@@ -48,13 +45,11 @@ module('Integration | Component | administration/oidc-providers-import', functio
 
       // when
       const screen = await render(<template><OidcProvidersImport /><NotificationContainer /></template>);
-      const input = await screen.findByLabelText(
-        this.intl.t('components.administration.oidc-providers-import.upload-button'),
-      );
+      const input = await screen.findByLabelText(t('components.administration.oidc-providers-import.upload-button'));
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
-      assert.ok(await screen.findByText(this.intl.t('common.notifications.generic-error')));
+      assert.ok(await screen.findByText(t('common.notifications.generic-error')));
     });
   });
 });

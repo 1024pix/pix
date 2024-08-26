@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import CampaignsImport from 'pix-admin/components/administration/campaigns/campaigns-import';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -36,16 +37,14 @@ module('Integration | Component |  administration/campaigns-import', function (h
 
       // when
       const screen = await render(<template><CampaignsImport /></template>);
-      const input = await screen.findByLabelText(
-        this.intl.t('components.administration.campaigns-import.upload-button'),
-      );
+      const input = await screen.findByLabelText(t('components.administration.campaigns-import.upload-button'));
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
       assert.ok(true);
       sinon.assert.calledWith(
         notificationSuccessStub,
-        this.intl.t('components.administration.campaigns-import.notifications.success'),
+        t('components.administration.campaigns-import.notifications.success'),
       );
     });
   });
@@ -72,9 +71,7 @@ module('Integration | Component |  administration/campaigns-import', function (h
 
       // when
       const screen = await render(<template><CampaignsImport /></template>);
-      const input = await screen.findByLabelText(
-        this.intl.t('components.administration.campaigns-import.upload-button'),
-      );
+      const input = await screen.findByLabelText(t('components.administration.campaigns-import.upload-button'));
       await triggerEvent(input, 'change', { files: [file] });
 
       // then

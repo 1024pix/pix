@@ -16,7 +16,13 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
     await render(<template><List /></template>);
 
     // then
-    assert.dom(getByTextWithHtml(this.intl.t('common.forms.mandatory-fields'))).exists();
+    assert
+      .dom(
+        getByTextWithHtml(
+          `Les champs marqués de <abbr title="obligatoire" class="mandatory-mark">*</abbr> sont obligatoires`,
+        ),
+      )
+      .exists();
   });
 
   module('Without badges', function () {

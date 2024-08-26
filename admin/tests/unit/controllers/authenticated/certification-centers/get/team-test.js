@@ -1,10 +1,12 @@
 import Service from '@ember/service';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/certification-centers/get/team', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks, 'fr');
 
   module('#updateEmailErrorMessage', function () {
     test('should set email error message if email syntax is invalid', function (assert) {

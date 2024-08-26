@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import SwapCampaignCodes from 'pix-admin/components/administration/campaigns/swap-campaign-codes';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -34,17 +35,17 @@ module('Integration | Component | administration/swap-campaign-codes', function 
     const screen = await render(<template><SwapCampaignCodes /></template>);
 
     await fillIn(
-      screen.getByLabelText(this.intl.t('components.administration.swap-campaign-codes.form.firstCampaignId')),
+      screen.getByLabelText(t('components.administration.swap-campaign-codes.form.firstCampaignId')),
       firstCampaignId,
     );
     await fillIn(
-      screen.getByLabelText(this.intl.t('components.administration.swap-campaign-codes.form.secondCampaignId')),
+      screen.getByLabelText(t('components.administration.swap-campaign-codes.form.secondCampaignId')),
       secondCampaignId,
     );
 
     await click(
       screen.getByRole('button', {
-        name: this.intl.t('components.administration.swap-campaign-codes.form.button'),
+        name: t('components.administration.swap-campaign-codes.form.button'),
       }),
     );
 
@@ -52,7 +53,7 @@ module('Integration | Component | administration/swap-campaign-codes', function 
     assert.true(swapStub.calledOnce);
     assert.true(
       notificationService.success.calledOnceWithExactly(
-        this.intl.t('components.administration.swap-campaign-codes.notifications.success'),
+        t('components.administration.swap-campaign-codes.notifications.success'),
       ),
     );
     assert.true(notificationService.error.notCalled);
@@ -73,17 +74,17 @@ module('Integration | Component | administration/swap-campaign-codes', function 
     const screen = await render(<template><SwapCampaignCodes /></template>);
 
     await fillIn(
-      screen.getByLabelText(this.intl.t('components.administration.swap-campaign-codes.form.firstCampaignId')),
+      screen.getByLabelText(t('components.administration.swap-campaign-codes.form.firstCampaignId')),
       firstCampaignId,
     );
     await fillIn(
-      screen.getByLabelText(this.intl.t('components.administration.swap-campaign-codes.form.secondCampaignId')),
+      screen.getByLabelText(t('components.administration.swap-campaign-codes.form.secondCampaignId')),
       secondCampaignId,
     );
 
     await click(
       screen.getByRole('button', {
-        name: this.intl.t('components.administration.swap-campaign-codes.form.button'),
+        name: t('components.administration.swap-campaign-codes.form.button'),
       }),
     );
 
@@ -91,7 +92,7 @@ module('Integration | Component | administration/swap-campaign-codes', function 
     assert.true(swapStub.calledOnce);
     assert.true(notificationService.clearAll.called);
     assert.true(notificationService.success.notCalled);
-    assert.true(notificationService.error.calledOnceWithExactly(this.intl.t('common.notifications.generic-error')));
+    assert.true(notificationService.error.calledOnceWithExactly(t('common.notifications.generic-error')));
   });
 
   test('it should display mismatch organization error notification', async function (assert) {
@@ -108,17 +109,17 @@ module('Integration | Component | administration/swap-campaign-codes', function 
     const screen = await render(<template><SwapCampaignCodes /></template>);
 
     await fillIn(
-      screen.getByLabelText(this.intl.t('components.administration.swap-campaign-codes.form.firstCampaignId')),
+      screen.getByLabelText(t('components.administration.swap-campaign-codes.form.firstCampaignId')),
       firstCampaignId,
     );
     await fillIn(
-      screen.getByLabelText(this.intl.t('components.administration.swap-campaign-codes.form.secondCampaignId')),
+      screen.getByLabelText(t('components.administration.swap-campaign-codes.form.secondCampaignId')),
       secondCampaignId,
     );
 
     await click(
       screen.getByRole('button', {
-        name: this.intl.t('components.administration.swap-campaign-codes.form.button'),
+        name: t('components.administration.swap-campaign-codes.form.button'),
       }),
     );
 
@@ -128,7 +129,7 @@ module('Integration | Component | administration/swap-campaign-codes', function 
     assert.true(notificationService.success.notCalled);
     assert.true(
       notificationService.error.calledOnceWithExactly(
-        this.intl.t('components.administration.swap-campaign-codes.notifications.error.mismatch-organization'),
+        t('components.administration.swap-campaign-codes.notifications.error.mismatch-organization'),
       ),
     );
   });
@@ -147,17 +148,17 @@ module('Integration | Component | administration/swap-campaign-codes', function 
     const screen = await render(<template><SwapCampaignCodes /></template>);
 
     await fillIn(
-      screen.getByLabelText(this.intl.t('components.administration.swap-campaign-codes.form.firstCampaignId')),
+      screen.getByLabelText(t('components.administration.swap-campaign-codes.form.firstCampaignId')),
       firstCampaignId,
     );
     await fillIn(
-      screen.getByLabelText(this.intl.t('components.administration.swap-campaign-codes.form.secondCampaignId')),
+      screen.getByLabelText(t('components.administration.swap-campaign-codes.form.secondCampaignId')),
       secondCampaignId,
     );
 
     await click(
       screen.getByRole('button', {
-        name: this.intl.t('components.administration.swap-campaign-codes.form.button'),
+        name: t('components.administration.swap-campaign-codes.form.button'),
       }),
     );
 
@@ -167,7 +168,7 @@ module('Integration | Component | administration/swap-campaign-codes', function 
     assert.true(notificationService.success.notCalled);
     assert.true(
       notificationService.error.calledOnceWithExactly(
-        this.intl.t('components.administration.swap-campaign-codes.notifications.error.swap-code-error'),
+        t('components.administration.swap-campaign-codes.notifications.error.swap-code-error'),
       ),
     );
   });

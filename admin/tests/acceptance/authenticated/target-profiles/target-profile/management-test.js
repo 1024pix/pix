@@ -1,15 +1,15 @@
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { module, test } from 'qunit';
 
-import setupIntl from '../../../../helpers/setup-intl';
-
 module('Acceptance | Target Profile Management', function (hooks) {
   setupApplicationTest(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
   setupMirage(hooks);
 
   module('Access restriction stuff', function () {
@@ -94,9 +94,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
       assert.dom(_findByListItemText(screen, 'Public : Oui')).exists();
       assert.dom(_findByListItemText(screen, 'Obsolète : Non')).exists();
       assert.dom(_findByListItemText(screen, 'Parcours Accès Simplifié : Oui')).exists();
-      assert
-        .dom(_findByListItemText(screen, `${this.intl.t('pages.target-profiles.resettable-checkbox.label')} : Non`))
-        .exists();
+      assert.dom(_findByListItemText(screen, `${t('pages.target-profiles.resettable-checkbox.label')} : Non`)).exists();
       assert.dom(_findByListItemText(screen, 'Est associé à une campagne : Oui')).exists();
       assert.dom(screen.getByText('456')).exists();
       assert.dom(screen.getByText('Top profil cible.')).exists();

@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import AuthenticationMethod from 'pix-admin/components/users/user-detail-personal-information/authentication-method';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -119,10 +120,10 @@ module('Integration | Component | users | user-detail-personal-information | aut
           const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
           // then
-          const expectedLabel = this.intl.t(
+          const expectedLabel = t(
             'components.users.user-detail-personal-information.authentication-method.should-change-password-status',
           );
-          const expectedValue = this.intl.t('common.words.yes');
+          const expectedValue = t('common.words.yes');
           assert
             .dom(
               screen.getAllByRole('listitem').find((listItem) => {
@@ -149,10 +150,10 @@ module('Integration | Component | users | user-detail-personal-information | aut
           const screen = await render(<template><AuthenticationMethod @user={{user}} /></template>);
 
           // then
-          const expectedLabel = this.intl.t(
+          const expectedLabel = t(
             'components.users.user-detail-personal-information.authentication-method.should-change-password-status',
           );
-          const expectedValue = this.intl.t('common.words.no');
+          const expectedValue = t('common.words.no');
           assert
             .dom(
               screen.getAllByRole('listitem').find((listItem) => {
