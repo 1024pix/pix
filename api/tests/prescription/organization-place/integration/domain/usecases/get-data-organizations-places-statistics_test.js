@@ -1,5 +1,6 @@
+import * as organizationLearnerRepository from '../../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { getDataOrganizationsPlacesStatistics } from '../../../../../../src/prescription/organization-place/domain/usecases/get-data-organizations-places-statistics.js';
-import { usecases as organizationPlacesUsecases } from '../../../../../../src/prescription/organization-place/domain/usecases/index.js';
+import * as organizationPlacesLotRepository from '../../../../../../src/prescription/organization-place/infrastructure/repositories/organization-places-lot-repository.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { databaseBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -44,8 +45,9 @@ describe('Integration | UseCases | get-data-organizations-places-statistics', fu
 
     // when
     const dataOrganizationsPlacesStatistics = await getDataOrganizationsPlacesStatistics({
-      getOrganizationPlacesStatistics: organizationPlacesUsecases.getOrganizationPlacesStatistics,
       organizationRepository,
+      organizationPlacesLotRepository,
+      organizationLearnerRepository,
     });
 
     // then

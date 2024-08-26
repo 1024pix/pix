@@ -36,6 +36,16 @@ const findAllByOrganizationId = async function (organizationId) {
     .where({ organizationId });
   return placesLots.map((e) => new PlacesLot(e));
 };
+
+const findAllByOrganizationIds = async function (organizationIds) {
+  const knexConn = DomainTransaction.getConnection();
+  const placesLots = await knexConn('organization-places')
+    .select('count', 'organizationId', 'activationDate', 'expirationDate', 'deletedAt')
+    .whereIn('organizationId', organizationIds);
+
+  return placesLots.map((e) => new PlacesLot(e));
+};
+
 const get = async function (id) {
   const result = await knex('organization-places')
     .select(
@@ -74,4 +84,4 @@ const remove = async function ({ id, deletedBy }) {
   }
 };
 
-export { create, findAllByOrganizationId, findByOrganizationId, get, remove };
+export { create, findAllByOrganizationId, findAllByOrganizationIds, findByOrganizationId, get, remove };

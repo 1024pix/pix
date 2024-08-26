@@ -1,18 +1,31 @@
 import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { DataOrganizationPlacesStatistics } from '../read-models/DataOrganizationPlacesStatistics.js';
+import { PlaceStatistics } from '../read-models/PlaceStatistics.js';
 
 const getDataOrganizationsPlacesStatistics = withTransaction(async function ({
   organizationRepository,
-  getOrganizationPlacesStatistics,
+  organizationPlacesLotRepository,
+  organizationLearnerRepository,
 }) {
   const organizationWithPlaces = await organizationRepository.getOrganizationsWithPlaces();
 
-  return Promise.all(
-    organizationWithPlaces.map(async (organization) => {
-      const placeStatistics = await getOrganizationPlacesStatistics({ organizationId: organization.id });
-      return new DataOrganizationPlacesStatistics({ placeStatistics, organization });
-    }),
-  );
+  const organizationWithPlacesIds = organizationWithPlaces.map((organization) => organization.id);
+
+  const placesLots = await organizationPlacesLotRepository.findAllByOrganizationIds(organizationWithPlacesIds);
+
+  const placeRepartitions =
+    await organizationLearnerRepository.findAllLearnerWithAtLeastOneParticipationByOrganizationIds(
+      organizationWithPlacesIds,
+    );
+
+  return organizationWithPlaces.map((organization) => {
+    const placeStatistics = PlaceStatistics.buildFrom({
+      placesLots: placesLots.filter((place) => place.organizationId === organization.id),
+      placeRepartition: placeRepartitions[organization.id],
+      organizationId: organization.id,
+    });
+    return new DataOrganizationPlacesStatistics({ placeStatistics, organization });
+  });
 });
 
 export { getDataOrganizationsPlacesStatistics };
