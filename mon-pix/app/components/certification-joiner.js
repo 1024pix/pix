@@ -36,7 +36,8 @@ export default class CertificationJoiner extends Component {
   @tracked errorMessage = null;
   @tracked errorDetailList = [];
   @tracked errorMessageLink = null;
-  @tracked sessionIdIsNotANumberError = null;
+  @tracked sessionIdIsNotANumberMessage = null;
+  @tracked sessionIdStatus = 'default';
   @tracked validationClassName = '';
   @tracked sessionId = null;
   @tracked firstName = null;
@@ -69,12 +70,15 @@ export default class CertificationJoiner extends Component {
   @action
   checkSessionIdIsValid(event) {
     const { value } = event.target;
+
+    this.sessionIdIsNotANumberMessage = null;
+    this.sessionIdStatus = 'default';
+
     if (value && !this._isANumber(value)) {
-      this.sessionIdIsNotANumberError = this.intl.t(
+      this.sessionIdIsNotANumberMessage = this.intl.t(
         'pages.certification-joiner.form.fields-validation.session-number-error',
       );
-    } else {
-      this.sessionIdIsNotANumberError = null;
+      this.sessionIdStatus = 'error';
     }
   }
 

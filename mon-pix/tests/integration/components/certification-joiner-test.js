@@ -289,6 +289,49 @@ module('Integration | Component | certification-joiner', function (hooks) {
     assert.ok(screen.getByText(this.intl.t('pages.certification-joiner.form.fields.session-number-information')));
   });
 
+  test('should have inputs mandatory', async function (assert) {
+    // given & when
+    const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
+
+    // then
+    assert
+      .dom(
+        screen.getByRole('textbox', {
+          name: 'Numéro de session Communiqué uniquement par le surveillant en début de session',
+        }),
+      )
+      .isRequired();
+    assert
+      .dom(screen.getByRole('textbox', { name: this.intl.t('pages.certification-joiner.form.fields.first-name') }))
+      .isRequired();
+    assert
+      .dom(screen.getByRole('textbox', { name: this.intl.t('pages.certification-joiner.form.fields.birth-name') }))
+      .isRequired();
+    assert
+      .dom(
+        screen.getByRole('spinbutton', {
+          name: `${this.intl.t('pages.certification-joiner.form.fields.birth-date')} ${this.intl.t(
+            'pages.certification-joiner.form.fields.birth-day',
+          )}`,
+        }),
+      )
+      .isRequired();
+    assert
+      .dom(
+        screen.getByRole('spinbutton', {
+          name: `${this.intl.t('pages.certification-joiner.form.fields.birth-month')}`,
+        }),
+      )
+      .isRequired();
+    assert
+      .dom(
+        screen.getByRole('spinbutton', {
+          name: `${this.intl.t('pages.certification-joiner.form.fields.birth-year')}`,
+        }),
+      )
+      .isRequired();
+  });
+
   module('when filling form', function () {
     module('should not allow filling letters in birth date', function () {
       test('day', async function (assert) {

@@ -1,88 +1,27 @@
 .certification-joiner {
-  margin-top: 32px;
+  margin: var(--pix-spacing-8x) 0;
   text-rendering: optimizelegibility;
 
   &__title {
-    margin-bottom: 32px;
-    color: var(--pix-neutral-900);
-    font-size: 2rem;
-    font-family: $font-open-sans;
+    @extend %pix-title-m;
+
+    margin-bottom: var(--pix-spacing-4x);
     text-align: center;
   }
 
-  &__row {
-    position: relative;
-    display: flex;
-    flex-flow: column nowrap;
-    width: 100%;
-    margin-bottom: 24px;
+  &__mandatory {
+    @extend %pix-body-s;
+
+    color: var(--pix-neutral-800);
+    text-align: center;
   }
 
   form {
-    display: block;
-    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-6x);
+    width: 300px;
     margin: 0 auto;
-  }
-
-  input {
-    width: 100%;
-    min-width: 0;
-    height: 50px;
-    padding-left: 10px;
-    border: 2px solid var(--pix-neutral-100);
-    border-radius: 4px;
-    outline-width: 1px;
-
-    &:hover {
-      box-shadow: 0 0 0 2px var(--pix-primary-500);
-    }
-
-    &:focus {
-      outline: 1px solid var(--pix-primary-500);
-      box-shadow: 0 0 0 2px var(--pix-primary-500);
-    }
-
-    &:focus-within {
-      outline: 1px solid var(--pix-primary-500);
-      box-shadow: 0 0 0 2px var(--pix-primary-500);
-    }
-
-    &.certification-joiner__input--invalid:not(:hover) {
-      outline: 1px solid var(--pix-error-500);
-      box-shadow: 0 0 0 2px var(--pix-error-500);
-    }
-
-    &.certification-joiner__input--invalid:focus {
-      outline: 1px solid var(--pix-error-500);
-      box-shadow: 0 0 0 2px var(--pix-error-500);
-    }
-  }
-
-  input::-ms-clear {
-    display: none;
-  }
-
-  button {
-    width: 100%;
-    margin-top: 8px;
-    margin-bottom: 34px;
-    border: 2px solid var(--pix-neutral-0);
-
-    &:focus-within {
-      border: 2px solid var(--pix-neutral-0);
-      box-shadow: 0 0 0 2px var(--pix-primary-500);
-    }
-  }
-
-  :input-placeholder {
-    color: var(--pix-neutral-100);
-  }
-
-  p.certification-joiner__validation-error {
-    margin-top: 6px;
-    margin-bottom: 0;
-    color: var(--pix-error-500);
-    font-size: 0.875rem;
   }
 
   &__birthdate {
@@ -101,7 +40,7 @@
   }
 
   &__label {
-    margin-bottom: 4px;
+    margin-bottom: var(--pix-spacing-2x);
   }
 
   .certification-course-page {
