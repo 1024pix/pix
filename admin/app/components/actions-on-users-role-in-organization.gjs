@@ -6,10 +6,12 @@ import { service } from '@ember/service';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 
 export default class ActionsOnUsersRoleInOrganization extends Component {
   @service notifications;
   @service accessControl;
+  @service intl;
 
   @tracked isEditionMode = false;
   @tracked selectedNewRole = null;
@@ -17,8 +19,8 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
 
   get organizationRoles() {
     return [
-      { value: 'ADMIN', label: 'Administrateur' },
-      { value: 'MEMBER', label: 'Membre' },
+      { value: 'ADMIN', label: this.intl.t('common.roles.admin') },
+      { value: 'MEMBER', label: this.intl.t('common.roles.member') },
     ];
   }
 
@@ -101,13 +103,13 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
                 @triggerAction={{this.updateRoleOfMember}}
                 class="member-item-actions__button member-item-actions__button--save"
               >
-                Enregistrer
+                {{t "common.actions.save"}}
               </PixButton>
               <PixButton
                 @size="small"
                 @variant="secondary"
                 @triggerAction={{this.cancelUpdateRoleOfMember}}
-                aria-label="Annuler"
+                aria-label={{t "common.actions.cancel"}}
                 class="member-item-actions__button--icon"
               >
                 <FaIcon @icon="xmark" />
@@ -134,7 +136,7 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
             @triggerAction={{this.toggleDisplayConfirm}}
             @iconBefore="trash"
           >
-            Désactiver
+            {{t "common.actions.deactivate"}}
           </PixButton>
         </div>
 
@@ -150,7 +152,7 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
           </:content>
           <:footer>
             <PixButton @variant="secondary" @triggerAction={{this.toggleDisplayConfirm}}>
-              Annuler
+              {{t "common.actions.cancel"}}
             </PixButton>
             <PixButton @triggerAction={{this.disableOrganizationMembership}}>Confirmer</PixButton>
           </:footer>

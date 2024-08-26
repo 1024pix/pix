@@ -1,12 +1,13 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { setupRenderingTest } from 'ember-qunit';
 import ListItems from 'pix-admin/components/to-be-published-sessions/list-items';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | routes/authenticated/to-be-published-sessions | list-items', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it should display to be published sessions list', async function (assert) {
     // given

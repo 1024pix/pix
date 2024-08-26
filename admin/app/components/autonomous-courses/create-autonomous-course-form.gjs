@@ -66,68 +66,79 @@ export default class CreateAutonomousCourseForm extends Component {
   <template>
     <form class="admin-form" {{on "submit" this.onSubmit}}>
       <p class="admin-form__mandatory-text">
-        Les champs marqués de
-        <span class="mandatory-mark">*</span>
-        sont obligatoires.
+        {{t "common.forms.mandatory-fields" htmlSafe=true}}
       </p>
       <section class="admin-form__content admin-form__content--with-counters">
-        <Card class="admin-form__card" @title="Informations techniques">
+        <Card
+          class="admin-form__card"
+          @title={{t "pages.autonomous-course.creation-form-fields.technical-informations.title"}}
+        >
           <PixInput
             class="form-field"
             @id="autonomousCourseName"
             required="true"
-            @requiredLabel="Champ obligatoire"
+            @requiredLabel={{t "common.forms.mandatory"}}
             {{on "change" (fn this.updateAutonomousCourseValue "internalTitle")}}
           >
-            <:label>Nom interne :</:label>
+            <:label>{{t "pages.autonomous-course.creation-form-fields.technical-informations.label"}} :</:label>
           </PixInput>
           <PixFilterableAndSearchableSelect
-            @placeholder="Choisir un profil cible"
+            @placeholder={{t "pages.autonomous-course.creation-form-fields.target-profile.placeholder"}}
             @options={{this.targetProfileListOptions}}
             @hideDefaultOption={{true}}
             @onChange={{this.selectTargetProfile}}
             @categoriesPlaceholder="Filtres"
             @value={{@autonomousCourse.targetProfileId}}
-            @requiredLabel="Champ obligatoire"
+            @requiredLabel={{t "common.forms.mandatory"}}
             @errorMessage={{if
               @errors.autonomousCourse
               (t "api-error-messages.campaign-creation.target-profile-required")
             }}
             @isSearchable={{true}}
-            @searchLabel="Recherchez un profil cible"
-            @subLabel="Le profil cible doit être en accès simplifié et relié à l’organisation &quot;Organisation pour les parcours autonomes&quot;"
+            @searchLabel={{t "pages.autonomous-course.creation-form-fields.target-profile.search-label"}}
+            @subLabel={{t "pages.autonomous-course.creation-form-fields.target-profile.sub-label"}}
             required={{true}}
           >
-            <:label>Quel profil cible voulez-vous associer à ce parcours autonome ?</:label>
-            <:categoriesLabel>Sélectionner une ou plusieurs catégories de profils cibles</:categoriesLabel>
+            <:label>{{t "pages.autonomous-course.creation-form-fields.target-profile.label"}}</:label>
+            <:categoriesLabel>{{t
+                "pages.autonomous-course.creation-form-fields.target-profile.category-label"
+              }}</:categoriesLabel>
           </PixFilterableAndSearchableSelect>
         </Card>
-        <Card class="admin-form__card" @title="Informations pour les utilisateurs">
+        <Card
+          class="admin-form__card"
+          @title={{t "pages.autonomous-course.creation-form-fields.user-information.title"}}
+        >
           <PixInput
             @id="nom-public"
             class="form-field"
-            placeholder="Exemple : Le super nom de mon parcours autonome"
+            placeholder={{t "pages.autonomous-course.creation-form-fields.user-information.public-name.placeholder"}}
             required={{true}}
-            @requiredLabel="Champ obligatoire"
+            @requiredLabel={{t "common.forms.mandatory"}}
             maxlength="50"
-            @subLabel="Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
+            @subLabel={{t "pages.autonomous-course.creation-form-fields.user-information.public-name.sub-label"}}
             {{on "change" (fn this.updateAutonomousCourseValue "publicTitle")}}
           >
-            <:label>Nom public <small>(50 caractères maximum)</small> :</:label>
+            <:label>{{t
+                "pages.autonomous-course.creation-form-fields.user-information.public-name.label"
+                htmlSafe=true
+              }}
+              :</:label>
           </PixInput>
           <PixTextarea
             @id="text-page-accueil"
             class="form-field"
             @maxlength="5000"
-            placeholder="Exemple : description, objectifs..."
+            placeholder={{t "pages.autonomous-course.creation-form-fields.user-information.homepage.placeholder"}}
             {{on "change" (fn this.updateAutonomousCourseValue "customLandingPageText")}}
           >
-            <:label>Texte de la page d'accueil :</:label>
+            <:label>{{t "pages.autonomous-course.creation-form-fields.user-information.homepage.label"}} :</:label>
           </PixTextarea>
         </Card>
       </section>
       <section class="admin-form__actions">
-        <PixButton @variant="secondary" @size="large" @triggerAction={{@onCancel}}>Annuler
+        <PixButton @variant="secondary" @size="large" @triggerAction={{@onCancel}}>
+          {{t "common.actions.cancel"}}
         </PixButton>
         <PixButton
           @variant="success"
@@ -136,7 +147,7 @@ export default class CreateAutonomousCourseForm extends Component {
           @isLoading={{this.submitting}}
           @triggerAction={{this.noop}}
         >
-          Créer le parcours autonome
+          {{t "pages.autonomous-course.creation-form-fields.create-autonomous-course"}}
         </PixButton>
       </section>
     </form>

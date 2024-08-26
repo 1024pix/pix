@@ -1,13 +1,14 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import BadgeForm from 'pix-admin/components/target-profiles/badge-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | BadgeForm', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   const targetProfile = {
     areas: [

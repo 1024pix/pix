@@ -1,12 +1,13 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { setupRenderingTest } from 'ember-qunit';
 import List from 'pix-admin/components/team/list';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | team | list', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('with members', function () {
     test('should display the list of members', async function (assert) {

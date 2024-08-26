@@ -1,10 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
 import Insights from 'pix-admin/components/target-profiles/insights';
 import { module, test } from 'qunit';
 
+import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | routes/authenticated/target-profiles/target-profile | Insights', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('section rendering', function () {
     const targetProfile = {

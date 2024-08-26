@@ -11,6 +11,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import pick from 'ember-composable-helpers/helpers/pick';
 import toggle from 'ember-composable-helpers/helpers/toggle';
+import { t } from 'ember-intl';
 import set from 'ember-set-helper/helpers/set';
 import { not } from 'ember-truth-helpers';
 
@@ -199,9 +200,11 @@ export default class Badge extends Component {
                   ><:label>Lacunes</:label></PixCheckbox>
                 </div>
                 <div class="badge-edit-form__actions">
-                  <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancel}}>Annuler</PixButton>
+                  <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancel}}>
+                    {{t "common.actions.cancel"}}
+                  </PixButton>
                   <PixButton @type="submit" @size="small" @variant="success" data-testid="save-badge-edit">
-                    Enregistrer
+                    {{t "common.actions.save"}}
                   </PixButton>
                 </div>
               </form>
@@ -231,7 +234,9 @@ export default class Badge extends Component {
                 class="badge-data__action"
                 @size="small"
                 @triggerAction={{this.toggleEditMode}}
-              >Modifier</PixButton>
+              >
+                {{t "common.actions.edit"}}
+              </PixButton>
             </div>
           {{/if}}
         </div>

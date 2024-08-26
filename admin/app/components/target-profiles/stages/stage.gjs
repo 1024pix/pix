@@ -5,6 +5,7 @@ import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 
 import TickOrCross from '../../common/tick-or-cross';
 
@@ -88,10 +89,10 @@ export default class Stage extends Component {
             </:content>
             <:footer>
               <PixButton @variant="secondary" @triggerAction={{this.toggleModal}}>
-                Annuler
+                {{t "common.actions.cancel"}}
               </PixButton>
               <PixButton @variant="error" @triggerAction={{fn @deleteStage @stage}}>
-                Valider
+                {{t "common.actions.validate"}}
               </PixButton>
             </:footer>
           </PixModal>

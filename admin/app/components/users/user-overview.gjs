@@ -191,9 +191,7 @@ export default class UserOverview extends Component {
         {{#if this.isEditionMode}}
           <form class="form" {{on "submit" this.updateUserDetails}}>
             <span class="form__instructions">
-              Les champs marqués de
-              <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-              sont obligatoires.
+              {{t "common.forms.mandatory-fields" htmlSafe=true}}
             </span>
             <div class="form-field">
               <PixInput
@@ -268,8 +266,10 @@ export default class UserOverview extends Component {
               </PixSelect>
             </div>
             <div class="form-actions">
-              <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancelEdit}}>Annuler</PixButton>
-              <PixButton @type="submit" @size="small" @variant="success">Modifier</PixButton>
+              <PixButton @size="small" @variant="secondary" @triggerAction={{this.cancelEdit}}>
+                {{t "common.actions.cancel"}}
+              </PixButton>
+              <PixButton @type="submit" @size="small" @variant="success">{{t "common.actions.edit"}}</PixButton>
             </div>
           </form>
         {{else}}
@@ -385,7 +385,7 @@ export default class UserOverview extends Component {
                 @triggerAction={{this.changeEditionMode}}
                 @isDisabled={{@user.hasBeenAnonymised}}
               >
-                Modifier
+                {{t "common.actions.edit"}}
               </PixButton>
 
               <PixTooltip @position="bottom" @hide={{not @user.isPixAgent}} @isInline="{{true}}">

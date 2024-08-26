@@ -12,6 +12,7 @@ import ENV from 'pix-admin/config/environment';
 export default class OrganizationInformationSection extends Component {
   @service oidcIdentityProviders;
   @service accessControl;
+  @service intl;
   @tracked tags;
   @tracked hasOrganizationChildren;
 
@@ -51,6 +52,12 @@ export default class OrganizationInformationSection extends Component {
     const urlDashboardPrefix = ENV.APP.ORGANIZATION_DASHBOARD_URL;
     return urlDashboardPrefix && urlDashboardPrefix + this.args.organization.id;
   }
+
+  displayBooleanState = (bool) => {
+    const yes = this.intl.t('common.words.yes');
+    const no = this.intl.t('common.words.no');
+    return bool ? yes : no;
+  };
 
   <template>
     <div class="organization__data">
@@ -150,18 +157,26 @@ export default class OrganizationInformationSection extends Component {
                 Non spécifié
               {{/if}}
             </li>
-            <li>Affichage du Net Promoter Score : {{if @organization.showNPS "Oui" "Non"}}</li>
+            <li>Affichage du Net Promoter Score :
+              {{this.displayBooleanState @organization.showNPS}}
+            </li>
           </ul>
           <h3 class="page-section__title page-section__title--sub">Fonctionnalités disponibles : </h3>
           <ul class="organization-information-section__details__list">
-            <li>Affichage des acquis dans l'export de résultats : {{if @organization.showSkills "Oui" "Non"}}</li>
+            <li>Affichage des acquis dans l'export de résultats :
+              {{this.displayBooleanState @organization.showSkills}}
+            </li>
             {{#if this.isManagingStudentAvailable}}
-              <li>Gestion d’élèves/étudiants : {{if @organization.isManagingStudents "Oui" "Non"}}</li>
+              <li>Gestion d’élèves/étudiants :
+                {{this.displayBooleanState @organization.isManagingStudents}}
+              </li>
             {{/if}}
             <li>Activer l'envoi multiple sur les campagnes d'évaluation :
-              {{if @organization.isMultipleSendingAssessmentEnabled "Oui" "Non"}}</li>
+              {{this.displayBooleanState @organization.isMultipleSendingAssessmentEnabled}}
+            </li>
             <li>Activer la page Places sur PixOrga :
-              {{if @organization.isPlacesManagementEnabled "Oui" "Non"}}</li>
+              {{this.displayBooleanState @organization.isPlacesManagementEnabled}}
+            </li>
             {{#if @organization.code}}
               <br />
               <li>Code : {{@organization.code}}</li>
@@ -177,7 +192,7 @@ export default class OrganizationInformationSection extends Component {
           {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
             <div class="form-actions">
               <PixButton @variant="secondary" @size="small" @triggerAction={{@toggleEditMode}}>
-                Modifier
+                {{t "common.actions.edit"}}
               </PixButton>
               {{#unless @organization.isArchived}}
                 <PixButton @variant="error" @size="small" @triggerAction={{@toggleArchivingConfirmationModal}}>

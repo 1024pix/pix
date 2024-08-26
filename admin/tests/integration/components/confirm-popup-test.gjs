@@ -1,11 +1,12 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
 import ConfirmPopup from 'pix-admin/components/confirm-popup';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+
 module('Integration | Component | confirm-popup', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('should display confirm', async function (assert) {
     // given & when

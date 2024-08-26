@@ -1,13 +1,14 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { find } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import Badges from 'pix-admin/components/target-profiles/badges';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | TargetProfiles::Badges', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it should display the items', async function (assert) {
     // given

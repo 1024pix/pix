@@ -2,6 +2,7 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 
 import UpdateAutonomousCourseForm from './update-autonomous-course-form';
 import ViewAutonomousCourse from './view-autonomous-course';
@@ -41,7 +42,7 @@ export default class Details extends Component {
         <ViewAutonomousCourse @autonomousCourse={{@autonomousCourse}} />
         <div class="form-actions">
           <PixButton @variant="secondary" @size="small" @triggerAction={{this.toggleEditMode}}>
-            Modifier
+            {{t "common.actions.edit"}}
           </PixButton>
         </div>
       {{/if}}

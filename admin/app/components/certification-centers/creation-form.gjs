@@ -147,10 +147,14 @@ export default class CertificationCenterForm extends Component {
 
       <ul class="form-actions">
         <li>
-          <PixButton @size="small" @variant="secondary" @triggerAction={{@onCancel}}>Annuler</PixButton>
+          <PixButton @size="small" @variant="secondary" @triggerAction={{@onCancel}}>
+            {{t "common.actions.cancel"}}
+          </PixButton>
         </li>
         <li>
-          <PixButton @type="submit" @size="small">Ajouter</PixButton>
+          <PixButton @type="submit" @size="small">
+            {{t "common.actions.add"}}
+          </PixButton>
         </li>
       </ul>
     </form>

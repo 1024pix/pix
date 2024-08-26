@@ -3,19 +3,21 @@ import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import { fn } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 
 import MemberItem from './member-item';
 
 export default class OrganizationTeamSection extends Component {
   @service accessControl;
+  @service intl;
 
   searchedFirstName = this.args.firstName;
   searchedLastName = this.args.lastName;
   searchedEmail = this.args.email;
 
   options = [
-    { value: 'ADMIN', label: 'Administrateur' },
-    { value: 'MEMBER', label: 'Membre' },
+    { value: 'ADMIN', label: this.intl.t('common.roles.admin') },
+    { value: 'MEMBER', label: this.intl.t('common.roles.member') },
   ];
 
   <template>
@@ -91,7 +93,7 @@ export default class OrganizationTeamSection extends Component {
             {{#if @organizationMemberships}}
               <tbody>
                 {{#each @organizationMemberships as |organizationMembership|}}
-                  <tr aria-label="Membre">
+                  <tr aria-label={{t "common.roles.member"}}>
                     <MemberItem @organizationMembership={{organizationMembership}} />
                   </tr>
                 {{/each}}

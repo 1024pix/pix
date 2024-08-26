@@ -1,12 +1,13 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import PlacesLotCreationForm from 'pix-admin/components/organizations/places-lot-creation-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | organizations/places-lot-creation-form', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('Should send add organization places set request to API', async function (assert) {
     // given

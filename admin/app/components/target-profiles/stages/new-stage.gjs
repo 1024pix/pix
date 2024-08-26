@@ -5,6 +5,7 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import isInteger from 'lodash/isInteger';
 
 import StageLevelSelect from '../../stages/stage-level-select';
@@ -90,7 +91,7 @@ export default class NewStage extends Component {
                 @id={{concat "threshold-" @index}}
                 @errorMessage="Le seuil est invalide"
                 @validationStatus={{this.thresholdStatus}}
-                @requiredLabel="Champ obligatoire"
+                @requiredLabel={{t "common.forms.mandatory"}}
                 type="number"
                 @value={{this.threshold}}
                 readonly={{@stage.isZeroStage}}
@@ -110,7 +111,7 @@ export default class NewStage extends Component {
           @errorMessage="Le titre est vide"
           @validationStatus={{this.titleStatus}}
           @value={{this.title}}
-          @requiredLabel="Champ obligatoire"
+          @requiredLabel={{t "common.forms.mandatory"}}
           @screenReaderOnly={{true}}
           {{on "focusout" this.checkTitleValidity}}
         >
@@ -122,7 +123,7 @@ export default class NewStage extends Component {
           @id={{concat "message-" @index}}
           @errorMessage="Le message est vide"
           @validationStatus={{this.messageStatus}}
-          @requiredLabel="Champ obligatoire"
+          @requiredLabel={{t "common.forms.mandatory"}}
           @screenReaderOnly={{true}}
           @value={{this.message}}
           {{on "focusout" this.checkMessageValidity}}

@@ -9,6 +9,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import dayjs from 'dayjs';
 import pick from 'ember-composable-helpers/helpers/pick';
+import { t } from 'ember-intl';
 import set from 'ember-set-helper/helpers/set';
 import get from 'lodash/get';
 
@@ -69,9 +70,7 @@ export default class PlacesLotCreationForm extends Component {
       <div class="places__add-form">
         <form class="form" {{on "submit" this.onSubmit}}>
           <span class="form__instructions">
-            Les champs marqués de
-            <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-            sont obligatoires.
+            {{t "common.forms.mandatory-fields" htmlSafe=true}}
           </span>
           <div class="form-field">
             <PixInput
@@ -149,8 +148,12 @@ export default class PlacesLotCreationForm extends Component {
               @variant="secondary"
               @size="small"
               @route="authenticated.organizations.get.places"
-            >Annuler</PixButtonLink>
-            <PixButton @type="submit" @size="small" @variant="success">Ajouter</PixButton>
+            >
+              {{t "common.actions.cancel"}}
+            </PixButtonLink>
+            <PixButton @type="submit" @size="small" @variant="success">
+              {{t "common.actions.add"}}
+            </PixButton>
           </div>
         </form>
       </div>

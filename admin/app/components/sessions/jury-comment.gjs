@@ -6,6 +6,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
+import { t } from 'ember-intl';
 import noop from 'lodash/noop';
 
 import ConfirmPopup from '../confirm-popup';
@@ -101,11 +102,11 @@ export default class JuryComment extends Component {
             <div class="jury-comment__actions">
               {{#if this.commentExists}}
                 <PixButton @triggerAction={{this.exitEditingMode}} @variant="secondary" @size="small">
-                  Annuler
+                  {{t "common.actions.cancel"}}
                 </PixButton>
               {{/if}}
               <PixButton @type="submit" @size="small">
-                Enregistrer
+                {{t "common.actions.save"}}
               </PixButton>
             </div>
           </form>
@@ -120,7 +121,7 @@ export default class JuryComment extends Component {
         {{#if this.accessControl.hasAccessToCertificationActionsScope}}
           <div class="jury-comment__actions">
             <PixButton @triggerAction={{this.enterEditingMode}} @size="small">
-              Modifier
+              {{t "common.actions.edit"}}
             </PixButton>
             <PixButton @triggerAction={{this.openDeletionConfirmationModal}} @size="small" @variant="secondary">
               Supprimer

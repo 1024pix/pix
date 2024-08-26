@@ -4,6 +4,7 @@ import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 
 import Card from '../card';
 
@@ -101,8 +102,12 @@ export default class OrganizationCreationForm extends Component {
       </section>
 
       <section class="admin-form__actions">
-        <PixButton @size="small" @variant="secondary" @triggerAction={{@onCancel}}>Annuler</PixButton>
-        <PixButton @type="submit" @size="small" @variant="success">Ajouter</PixButton>
+        <PixButton @size="small" @variant="secondary" @triggerAction={{@onCancel}}>
+          {{t "common.actions.cancel"}}
+        </PixButton>
+        <PixButton @type="submit" @size="small" @variant="success">
+          {{t "common.actions.add"}}
+        </PixButton>
       </section>
     </form>
   </template>

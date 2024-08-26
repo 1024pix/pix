@@ -1,12 +1,13 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { setupRenderingTest } from 'ember-qunit';
 import Details from 'pix-admin/components/campaigns/details';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | Campaigns | details', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   const toggleEditMode = sinon.stub();
 

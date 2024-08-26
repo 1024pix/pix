@@ -1,12 +1,13 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { setupRenderingTest } from 'ember-qunit';
 import IssueReport from 'pix-admin/components/certifications/issue-report';
 import { certificationIssueReportSubcategories } from 'pix-admin/models/certification-issue-report';
 import { module, test } from 'qunit';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | certifications/issue-report', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it should display issue details', async function (assert) {
     // Given

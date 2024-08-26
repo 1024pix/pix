@@ -6,6 +6,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import { not } from 'ember-truth-helpers';
 
 export default class CampaignCriterion extends Component {
@@ -99,10 +100,10 @@ export default class CampaignCriterion extends Component {
         </:content>
         <:footer>
           <PixButton @triggerAction={{this.toggleEditModal}} @size="small" @variant="secondary">
-            Annuler
+            {{t "common.actions.cancel"}}
           </PixButton>
           <PixButton @triggerAction={{this.updateThreshold}} @size="small">
-            Enregistrer
+            {{t "common.actions.save"}}
           </PixButton>
         </:footer>
       </PixModal>

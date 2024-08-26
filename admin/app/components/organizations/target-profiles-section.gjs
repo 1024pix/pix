@@ -9,6 +9,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import pick from 'ember-composable-helpers/helpers/pick';
+import { t } from 'ember-intl';
 import set from 'ember-set-helper/helpers/set';
 import { not } from 'ember-truth-helpers';
 import uniq from 'lodash/uniq';
@@ -22,6 +23,7 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
   @service notifications;
   @service router;
   @service store;
+  @service intl;
 
   get isDisabled() {
     return this.targetProfilesToAttach === '';
@@ -109,14 +111,16 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
   }
 
   _handleResponseError({ errors }) {
+    const genericErrorMessage = this.intl.t('common.notifications.generic-error');
+
     if (!errors) {
-      return this.notifications.error('Une erreur est survenue.');
+      return this.notifications.error(genericErrorMessage);
     }
     errors.forEach((error) => {
       if (['404', '412'].includes(error.status)) {
         return this.notifications.error(error.detail);
       }
-      return this.notifications.error('Une erreur est survenue.');
+      return this.notifications.error(genericErrorMessage);
     });
   }
 
@@ -140,7 +144,9 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
               placeholder="1, 2"
               {{on "input" (pick "target.value" (set this "targetProfilesToAttach"))}}
             />
-            <PixButton @type="submit" @size="small" @isDisabled={{this.isDisabled}}>Valider</PixButton>
+            <PixButton @type="submit" @size="small" @isDisabled={{this.isDisabled}}>
+              {{t "common.actions.validate"}}
+            </PixButton>
           </form>
         </div>
       </section>
@@ -212,7 +218,7 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
       </:content>
       <:footer>
         <PixButton @variant="secondary" @triggerAction={{this.closeModal}}>
-          Annuler
+          {{t "common.actions.cancel"}}
         </PixButton>
         <PixButton
           @variant="error"

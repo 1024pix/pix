@@ -6,6 +6,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import pick from 'ember-composable-helpers/helpers/pick';
+import { t } from 'ember-intl';
 import set from 'ember-set-helper/helpers/set';
 import uniq from 'lodash/uniq';
 
@@ -16,6 +17,7 @@ export default class Organizations extends Component {
   @service notifications;
   @service router;
   @service currentUser;
+  @service intl;
 
   @tracked organizationsToAttach = '';
   @tracked existingTargetProfile = '';
@@ -89,14 +91,16 @@ export default class Organizations extends Component {
   }
 
   _handleResponseError({ errors }) {
+    const genericErrorMessage = this.intl.t('common.notifications.generic-error');
+
     if (!errors) {
-      return this.notifications.error('Une erreur est survenue.');
+      return this.notifications.error(genericErrorMessage);
     }
     errors.forEach((error) => {
       if (['404', '412'].includes(error.status)) {
         return this.notifications.error(error.detail);
       }
-      return this.notifications.error('Une erreur est survenue.');
+      return this.notifications.error(genericErrorMessage);
     });
   }
 
@@ -128,7 +132,7 @@ export default class Organizations extends Component {
               aria-label="Valider le rattachement"
               @isDisabled={{this.isDisabledAttachOrganizations}}
             >
-              Valider
+              {{t "common.actions.validate"}}
             </PixButton>
           </div>
         </form>
@@ -152,7 +156,7 @@ export default class Organizations extends Component {
               aria-label="Valider le rattachement à partir de ce profil cible"
               @isDisabled={{this.isDisabledAttachOrganizationsFromExistingTargetProfile}}
             >
-              Valider
+              {{t "common.actions.validate"}}
             </PixButton>
           </div>
         </form>

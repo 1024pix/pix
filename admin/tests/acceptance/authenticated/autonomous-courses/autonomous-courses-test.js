@@ -125,8 +125,8 @@ module('Acceptance | Autonomous courses', function (hooks) {
       test('it displays the update form when requested', async function (assert) {
         // when
         const screen = await visit('/autonomous-courses/1');
-
         const button = screen.getByText('Modifier');
+
         await click(button);
 
         // then

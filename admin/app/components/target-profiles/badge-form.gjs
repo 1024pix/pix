@@ -8,6 +8,7 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 
 import Card from '../card';
 import Criteria from './badge-form/criteria';
@@ -98,7 +99,7 @@ export default class BadgeForm extends Component {
             <PixInput
               @id="title"
               @value={{this.badge.title}}
-              @requiredLabel="Champ obligatoire"
+              @requiredLabel={{t "common.forms.mandatory"}}
               {{on "change" (fn this.updateFormValue "title")}}
             >
               <:label>Nom du résultat thématique :</:label>
@@ -118,7 +119,7 @@ export default class BadgeForm extends Component {
             <PixInput
               @id="image-name"
               @value={{this.imageName}}
-              @requiredLabel="Champ obligatoire"
+              @requiredLabel={{t "common.forms.mandatory"}}
               placeholder="exemple: clea_num.svg"
               {{on "change" (fn this.updateFormValue "imageName")}}
             >
@@ -129,7 +130,7 @@ export default class BadgeForm extends Component {
             <PixInput
               @id="alt-message"
               @value={{this.badge.altMessage}}
-              @requiredLabel="Champ obligatoire"
+              @requiredLabel={{t "common.forms.mandatory"}}
               {{on "change" (fn this.updateFormValue "altMessage")}}
             >
               <:label>Texte alternatif pour l'image :</:label>
@@ -150,7 +151,7 @@ export default class BadgeForm extends Component {
               @id="badge-key"
               maxlength="255"
               @value={{this.badge.key}}
-              @requiredLabel="Champ obligatoire"
+              @requiredLabel={{t "common.forms.mandatory"}}
               {{on "change" (fn this.updateFormValue "key")}}
             >
               <:label>Clé (texte unique , vérifier qu'il n'existe pas) :</:label>
@@ -177,7 +178,7 @@ export default class BadgeForm extends Component {
       </section>
       <section class="admin-form__actions">
         <PixButtonLink @variant="secondary" @route="authenticated.target-profiles.target-profile.insights">
-          Annuler
+          {{t "common.actions.cancel"}}
         </PixButtonLink>
         <PixButton @variant="success" @type="submit">
           Enregistrer le RT

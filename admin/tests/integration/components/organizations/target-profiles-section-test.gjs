@@ -2,13 +2,14 @@ import { clickByName, fillByLabel, render, within } from '@1024pix/ember-testing
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import TargetProfilesSection from 'pix-admin/components/organizations/target-profiles-section';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | organizations/target-profiles-section', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   let store;
 

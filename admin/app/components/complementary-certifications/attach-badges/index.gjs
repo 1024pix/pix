@@ -7,6 +7,7 @@ import { service } from '@ember/service';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import Card from 'pix-admin/components/card';
 
 import LinkToCurrentTargetProfile from '../common/link-to-current-target-profile';
@@ -192,7 +193,7 @@ export default class AttachBadges extends Component {
             Rattacher le profil cible
           </PixButton>
           <PixButton @size="large" @variant="secondary" @triggerAction={{this.onCancel}}>
-            Annuler
+            {{t "common.actions.cancel"}}
           </PixButton>
         </div>
       </form>

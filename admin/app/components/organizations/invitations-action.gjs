@@ -4,10 +4,12 @@ import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 export default class OrganizationInvitationsAction extends Component {
+  @service intl;
   @tracked organizationInvitationLang = this.languagesOptions[0].value;
   @tracked organizationInvitationRole = this.rolesOptions[0].value;
 
@@ -31,7 +33,7 @@ export default class OrganizationInvitationsAction extends Component {
   get rolesOptions() {
     return [
       {
-        label: 'Automatique',
+        label: this.intl.t('common.roles.auto'),
         value: 'NULL',
       },
       {

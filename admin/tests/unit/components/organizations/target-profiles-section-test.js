@@ -1,4 +1,5 @@
 import Service from '@ember/service';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -7,6 +8,7 @@ import createComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | organizations/target-profiles-section', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks, 'fr');
 
   module('#attachTargetProfiles', function (hooks) {
     let event;

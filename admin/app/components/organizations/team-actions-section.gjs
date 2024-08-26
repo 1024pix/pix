@@ -1,6 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import { on } from '@ember/modifier';
+import { t } from 'ember-intl';
 
 <template>
   <section class="page-section organization-team-section">
@@ -22,7 +23,7 @@ import { on } from '@ember/modifier';
             class="organization-team-section__button"
             aria-label="Ajouter un membre"
           >
-            Valider
+            {{t "common.actions.validate"}}
           </PixButton>
         </div>
       </form>

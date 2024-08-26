@@ -1,3 +1,4 @@
+import { setupIntl } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -6,6 +7,7 @@ import createComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | Target Profiles | Organizations', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks, 'fr');
 
   module('#attachOrganizations', function (hooks) {
     let event;
