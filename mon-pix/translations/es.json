@@ -1353,6 +1353,12 @@
         "explanationTitle": "¿Qué es un módulo?",
         "level": "Nivel",
         "objectives": "Objetivos",
+        "smallScreenModal": {
+          "cancel": "Volver a los detalles",
+          "description": "Algunas de las actividades de este módulo pueden resultar difíciles de realizar en una pantalla pequeña. Para disfrutar de la mejor experiencia, le recomendamos que utilice un ordenador.",
+          "startModule": "Empezar",
+          "title": "Parece que estás usando una pantalla pequeña"
+        },
         "startModule": "Iniciar el módulo"
       },
       "download": {
