@@ -8,18 +8,25 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
   setupIntlRenderingTest(hooks);
 
   module('when there are rewards and trainings', function (hooks) {
-    hooks.beforeEach(function () {
+    let screen;
+
+    hooks.beforeEach(async function () {
+      // given
       const store = this.owner.lookup('service:store');
+
       const acquiredBadge = store.createRecord('badge', { isAcquired: true });
       this.set('badges', [acquiredBadge]);
+
+      const training = store.createRecord('training');
+      this.set('trainings', [training]);
+
+      // when
+      screen = await render(
+        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs @badges={{this.badges}} @trainings={{this.trainings}} />`,
+      );
     });
 
     test('it should display a tablist with three tabs', async function (assert) {
-      // when
-      const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs @badges={{this.badges}} />`,
-      );
-
       // then
       assert.dom(screen.getByRole('tablist', { name: this.intl.t('pages.skill-review.tabs.aria-label') })).exists();
       assert.strictEqual(screen.getAllByRole('tab').length, 3);
@@ -29,11 +36,6 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
     });
 
     test('it should display the rewards tab first', async function (assert) {
-      // when
-      const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs @badges={{this.badges}} />`,
-      );
-
       // then
       assert
         .dom(screen.getByRole('heading', { name: this.intl.t('pages.skill-review.tabs.rewards.title') }))
@@ -41,16 +43,47 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
     });
   });
 
-  module('when there are no rewards', function () {
-    test('it should not display the rewards tab', async function (assert) {
+  module('when there are rewards but no trainings', function () {
+    test('it should not display the trainings tab', async function (assert) {
       // given
-      this.set('badges', []);
+      const store = this.owner.lookup('service:store');
+      const acquiredBadge = store.createRecord('badge', { isAcquired: true });
+      this.set('badges', [acquiredBadge]);
+      this.set('trainings', []);
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs @badges={{this.badges}} />`,
+        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs @badges={{this.badges}} @trainings={{this.trainings}} />`,
       );
 
+      // then
+      assert.dom(screen.getByRole('tablist', { name: this.intl.t('pages.skill-review.tabs.aria-label') })).exists();
+      assert.strictEqual(screen.getAllByRole('tab').length, 2);
+      assert.dom(screen.getByRole('tab', { name: this.intl.t('pages.skill-review.tabs.rewards.tab-label') }));
+      assert.dom(screen.getByRole('tab', { name: this.intl.t('pages.skill-review.tabs.results-details.tab-label') }));
+      assert.notOk(screen.queryByRole('tab', { name: this.intl.t('pages.skill-review.tabs.trainings.tab-label') }));
+    });
+  });
+
+  module('when there are no rewards but trainings', function (hooks) {
+    let screen;
+
+    hooks.beforeEach(async function () {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      this.set('badges', []);
+
+      const training = store.createRecord('training');
+      this.set('trainings', [training]);
+
+      // when
+      screen = await render(
+        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs @badges={{this.badges}} @trainings={{this.trainings}} />`,
+      );
+    });
+
+    test('it should not display the rewards tab', async function (assert) {
       // then
       assert.dom(screen.getByRole('tablist', { name: this.intl.t('pages.skill-review.tabs.aria-label') })).exists();
       assert.strictEqual(screen.getAllByRole('tab').length, 2);
@@ -60,18 +93,26 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
     });
 
     test('it should display the results details tab first', async function (assert) {
-      // given
-      this.set('badges', []);
-
-      // when
-      const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs @badges={{this.badges}} />`,
-      );
-
       // then
       assert
         .dom(screen.getByRole('heading', { name: this.intl.t('pages.skill-review.tabs.results-details.title') }))
         .isVisible();
+    });
+  });
+
+  module('when there are no rewards and no trainings', function () {
+    test('it should not display the tabs component', async function (assert) {
+      // given
+      this.set('badges', []);
+      this.set('trainings', []);
+
+      // when
+      const screen = await render(
+        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs @badges={{this.badges}} @trainings={{this.trainings}} />`,
+      );
+
+      // then
+      assert.notOk(screen.queryByRole('tablist', { name: this.intl.t('pages.skill-review.tabs.aria-label') }));
     });
   });
 });

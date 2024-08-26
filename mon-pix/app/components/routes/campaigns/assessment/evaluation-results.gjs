@@ -14,6 +14,9 @@ import EvaluationResultsTabs from '../../../campaigns/assessment/skill-review/ev
         {{t "common.actions.quit"}}
       </LinkTo>
     </header>
-    <EvaluationResultsTabs @badges={{@model.campaignParticipationResult.campaignParticipationBadges}} />
+    <EvaluationResultsTabs
+      @badges={{@model.campaignParticipationResult.campaignParticipationBadges}}
+      @trainings={{@model.trainings}}
+    />
   </div>
 </template>

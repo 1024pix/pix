@@ -70,7 +70,9 @@ module('Acceptance | Campaigns | Skill Review', function (hooks) {
 
           // then
           assert.ok(screen.getByText(campaign.title));
-          assert.dom(screen.getByRole('tablist')).exists();
+          assert
+            .dom(screen.getByRole('heading', { name: this.intl.t('pages.skill-review.tabs.results-details.title') }))
+            .isVisible();
         });
       });
 
