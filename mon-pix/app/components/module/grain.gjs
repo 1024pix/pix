@@ -195,7 +195,6 @@ export default class ModuleGrain extends Component {
                   @onVideoTranscriptionOpen={{@onVideoTranscriptionOpen}}
                   @onVideoPlay={{@onVideoPlay}}
                   @onFileDownload={{@onFileDownload}}
-                  @isFolded={{@shouldFoldStepper}}
                 />
               </div>
             {{/if}}
