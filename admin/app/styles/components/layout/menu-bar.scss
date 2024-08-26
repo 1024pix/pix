@@ -3,7 +3,7 @@
   width: 100%;
   color: var(--pix-neutral-0);
 
-  .menu-bar__entries {
+  > ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
@@ -12,7 +12,7 @@
       margin: 10px 0 0;
       padding: 0 15px;
 
-      .menu-bar__link {
+      a {
         position: relative;
         display: block;
         width: 50px;

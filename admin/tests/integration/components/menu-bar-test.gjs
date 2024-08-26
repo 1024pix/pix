@@ -1,11 +1,12 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { setupRenderingTest } from 'ember-qunit';
-import MenuBar from 'pix-admin/components/menu-bar';
+import MenuBar from 'pix-admin/components/layout/menu-bar';
 import { module, test } from 'qunit';
 
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+
 module('Integration | Component | menu-bar', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('should display principal navigation', async function (assert) {
     // given
