@@ -10,6 +10,7 @@
     }
   }
 
+  /** Revert Pix UI styles for Modulix */
   h3,
   h4,
   p {
@@ -19,6 +20,11 @@
   h3,
   h4 {
     font-weight: var(--pix-font-medium);
+  }
+
+  a:not([class]) {
+    color: revert;
+    text-decoration: revert;
   }
 
   ul:not([class]),
@@ -95,4 +101,3 @@
     justify-content: center;
   }
 }
-
