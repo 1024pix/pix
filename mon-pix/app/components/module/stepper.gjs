@@ -4,7 +4,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import DumbGrain from 'mon-pix/components/module/grain/dumb-grain';
+import ModuleGrain from 'mon-pix/components/module/grain';
 import Step from 'mon-pix/components/module/step';
 import { inc } from 'mon-pix/helpers/inc';
 
@@ -14,7 +14,7 @@ export default class ModulixStepper extends Component {
   @service modulixAutoScroll;
 
   displayableSteps = this.args.steps.filter((step) =>
-    step.elements.some((element) => DumbGrain.AVAILABLE_ELEMENT_TYPES.includes(element.type)),
+    step.elements.some((element) => ModuleGrain.AVAILABLE_ELEMENT_TYPES.includes(element.type)),
   );
 
   @tracked
@@ -69,17 +69,12 @@ export default class ModulixStepper extends Component {
     return this.hasNextStep && this.allAnswerableElementsAreAnsweredInCurrentStep;
   }
 
-  @action
-  focusAndScroll(htmlElement) {
-    if (this.args.isFolded === false) {
-      return;
-    }
-
-    this.modulixAutoScroll.focusAndScroll(htmlElement);
-  }
-
   <template>
-    <div class="stepper" aria-live="assertive" {{didInsert this.focusAndScroll}}>
+    <div
+      class="stepper"
+      aria-live="assertive"
+      {{didInsert this.modulixAutoScroll.setHTMLElementScrollOffsetCssProperty}}
+    >
       {{#if this.hasDisplayableSteps}}
         {{#each this.stepsToDisplay as |step index|}}
           <Step
