@@ -1,16 +1,16 @@
 import { clickByName, fillByLabel, screen, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { module, test } from 'qunit';
 
-import setupIntl from '../../../helpers/setup-intl';
-
 module('Acceptance | Trainings | Training', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   module('When admin member is logged in', function (hooks) {
     let triggersTabName;
@@ -21,10 +21,10 @@ module('Acceptance | Trainings | Training', function (hooks) {
     let targetProfileName;
 
     hooks.beforeEach(async function () {
-      triggersTabName = this.intl.t('pages.trainings.training.triggers.tabName');
-      targetProfilesTabName = this.intl.t('pages.trainings.training.targetProfiles.tabName');
-      prerequisiteTriggerHeading = this.intl.t('pages.trainings.training.triggers.prerequisite.title');
-      goalTriggerHeading = this.intl.t('pages.trainings.training.triggers.goal.title');
+      triggersTabName = t('pages.trainings.training.triggers.tabName');
+      targetProfilesTabName = t('pages.trainings.training.targetProfiles.tabName');
+      prerequisiteTriggerHeading = t('pages.trainings.training.triggers.prerequisite.title');
+      goalTriggerHeading = t('pages.trainings.training.triggers.goal.title');
       trainingId = 2;
       targetProfileName = 'Profile Cible 1';
 

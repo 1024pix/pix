@@ -1,10 +1,10 @@
 import { render } from '@1024pix/ember-testing-library';
 import ArrayProxy from '@ember/array/proxy';
+import { t } from 'ember-intl/test-support';
 import InformationView from 'pix-admin/components/certification-centers/information-view';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-
 function _createEmberDataHabilitations(store) {
   return ArrayProxy.create({
     content: [
@@ -89,7 +89,7 @@ module('Integration | Component | certification-centers/information-view', funct
       assert
         .dom(
           screen.getByLabelText(
-            this.intl.t('pages.certification-centers.information-view.pilot-features.is-v3-pilot.aria-label.active'),
+            t('pages.certification-centers.information-view.pilot-features.is-v3-pilot.aria-label.active'),
           ),
         )
         .exists();
@@ -115,7 +115,7 @@ module('Integration | Component | certification-centers/information-view', funct
       assert
         .dom(
           screen.getByLabelText(
-            this.intl.t('pages.certification-centers.information-view.pilot-features.is-v3-pilot.aria-label.inactive'),
+            t('pages.certification-centers.information-view.pilot-features.is-v3-pilot.aria-label.inactive'),
           ),
         )
         .exists();
@@ -141,7 +141,7 @@ module('Integration | Component | certification-centers/information-view', funct
       assert
         .dom(
           screen.getByLabelText(
-            this.intl.t(
+            t(
               'pages.certification-centers.information-view.pilot-features.is-complementary-alone-pilot.aria-label.active',
             ),
           ),
@@ -169,7 +169,7 @@ module('Integration | Component | certification-centers/information-view', funct
       assert
         .dom(
           screen.getByLabelText(
-            this.intl.t(
+            t(
               'pages.certification-centers.information-view.pilot-features.is-complementary-alone-pilot.aria-label.inactive',
             ),
           ),

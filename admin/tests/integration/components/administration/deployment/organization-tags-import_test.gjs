@@ -2,6 +2,7 @@ import NotificationContainer from '@1024pix/ember-cli-notifications/components/n
 import { render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import OrganizationTagsImport from 'pix-admin/components/administration/deployment/organization-tags-import';
 import { module, test } from 'qunit';
 
@@ -19,17 +20,11 @@ module('Integration | Component | administration/organization-tags-import', func
 
       // when
       const screen = await render(<template><OrganizationTagsImport /><NotificationContainer /></template>);
-      const input = await screen.findByLabelText(
-        this.intl.t('components.administration.organization-tags-import.upload-button'),
-      );
+      const input = await screen.findByLabelText(t('components.administration.organization-tags-import.upload-button'));
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
-      assert.ok(
-        await screen.findByText(
-          this.intl.t('components.administration.organization-tags-import.notifications.success'),
-        ),
-      );
+      assert.ok(await screen.findByText(t('components.administration.organization-tags-import.notifications.success')));
     });
   });
 
@@ -50,13 +45,11 @@ module('Integration | Component | administration/organization-tags-import', func
 
       // when
       const screen = await render(<template><OrganizationTagsImport /><NotificationContainer /></template>);
-      const input = await screen.findByLabelText(
-        this.intl.t('components.administration.organization-tags-import.upload-button'),
-      );
+      const input = await screen.findByLabelText(t('components.administration.organization-tags-import.upload-button'));
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
-      assert.ok(await screen.findByText(this.intl.t('common.notifications.generic-error')));
+      assert.ok(await screen.findByText(t('common.notifications.generic-error')));
     });
   });
 });

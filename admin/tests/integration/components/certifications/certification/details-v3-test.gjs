@@ -1,5 +1,6 @@
 import { fireEvent, render, within } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import DetailsV3 from 'pix-admin/components/certifications/certification/details-v3';
 import { module, test } from 'qunit';
 
@@ -128,9 +129,7 @@ module('Integration | Component | Certifications | certification > details v3', 
         const creationDate = await screen.getByLabelText('Créée le :').innerText;
 
         // then
-        const pixScoreLabel = this.intl.t(
-          'pages.certifications.certification.details.v3.general-informations.labels.pix-score',
-        );
+        const pixScoreLabel = t('pages.certifications.certification.details.v3.general-informations.labels.pix-score');
 
         assert.dom(screen.getByRole('heading', { name: 'Certification N°123456', level: 2 })).exists();
         assert.dom(screen.getByLabelText(`${pixScoreLabel} :`)).exists();
@@ -147,7 +146,7 @@ module('Integration | Component | Certifications | certification > details v3', 
 
           // then
           const assessmentResultStatusElement = screen.getByText(
-            this.intl.t('pages.certifications.certification.details.v3.assessment-result-status.validated'),
+            t('pages.certifications.certification.details.v3.assessment-result-status.validated'),
           );
 
           assert.dom(assessmentResultStatusElement).exists();
@@ -162,9 +161,7 @@ module('Integration | Component | Certifications | certification > details v3', 
           const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
           // then
-          const endedAtLabel = this.intl.t(
-            'pages.certifications.certification.details.v3.general-informations.labels.ended-at',
-          );
+          const endedAtLabel = t('pages.certifications.certification.details.v3.general-informations.labels.ended-at');
 
           assert.dom(screen.getByText(`${endedAtLabel} :`)).exists();
         });
@@ -177,11 +174,9 @@ module('Integration | Component | Certifications | certification > details v3', 
           const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
           // then
-          const endedAtLabel = this.intl.t(
-            'pages.certifications.certification.details.v3.general-informations.labels.ended-by',
-          );
+          const endedAtLabel = t('pages.certifications.certification.details.v3.general-informations.labels.ended-by');
 
-          const abortReasonLabel = this.intl.t(
+          const abortReasonLabel = t(
             'pages.certifications.certification.details.v3.general-informations.labels.abort-reason',
           );
 
@@ -215,7 +210,7 @@ module('Integration | Component | Certifications | certification > details v3', 
 
           // then
           const assessmentResultStatusElement = screen.getByText(
-            this.intl.t('pages.certifications.certification.details.v3.assessment-result-status.rejected'),
+            t('pages.certifications.certification.details.v3.assessment-result-status.rejected'),
           );
 
           assert.dom(assessmentResultStatusElement).exists();
@@ -230,9 +225,7 @@ module('Integration | Component | Certifications | certification > details v3', 
           const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
           // then
-          const endedAtLabel = this.intl.t(
-            'pages.certifications.certification.details.v3.general-informations.labels.ended-at',
-          );
+          const endedAtLabel = t('pages.certifications.certification.details.v3.general-informations.labels.ended-at');
 
           assert.dom(screen.getByText(`${endedAtLabel} :`)).exists();
         });
@@ -245,16 +238,12 @@ module('Integration | Component | Certifications | certification > details v3', 
           const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
 
           // then
-          const endedAtLabel = this.intl.t(
-            'pages.certifications.certification.details.v3.general-informations.labels.ended-by',
-          );
+          const endedAtLabel = t('pages.certifications.certification.details.v3.general-informations.labels.ended-by');
 
-          const abortReasonLabel = this.intl.t(
+          const abortReasonLabel = t(
             'pages.certifications.certification.details.v3.general-informations.labels.abort-reason',
           );
-          const abortReasonTranslation = this.intl.t(
-            'pages.certifications.certification.details.v3.abort-reason.candidate',
-          );
+          const abortReasonTranslation = t('pages.certifications.certification.details.v3.abort-reason.candidate');
           const abortReasonElement = screen.getByLabelText(`${abortReasonLabel} :`);
 
           assert.dom(screen.getByLabelText(`${endedAtLabel} :`)).exists();
@@ -419,7 +408,7 @@ module('Integration | Component | Certifications | certification > details v3', 
         ];
 
         const list = screen.getByRole('list', {
-          name: this.intl.t('pages.certifications.certification.details.v3.more-informations.title'),
+          name: t('pages.certifications.certification.details.v3.more-informations.title'),
         });
         const terms = within(list).getAllByRole('term');
         const definitions = within(list).getAllByRole('definition');

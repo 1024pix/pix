@@ -1,9 +1,11 @@
+import { setupIntl } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/users/get/certification-center-memberships', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks, 'fr');
 
   let UserCertificationCenterMembership, notifications;
 

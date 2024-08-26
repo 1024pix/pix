@@ -1,4 +1,5 @@
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -70,7 +71,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
         assert.strictEqual(controller.modalConfirmAction, controller.confirmAssignment);
         assert.deepEqual(
           controller.modalMessage,
-          this.intl.t('pages.sessions.informations.assignment-confirmation-modal', { fullName, htmlSafe: true }),
+          t('pages.sessions.informations.assignment-confirmation-modal', { fullName, htmlSafe: true }),
         );
         assert.strictEqual(controller.modalTitle, 'Assignation de la session');
         assert.true(controller.model.save.notCalled);

@@ -2,6 +2,7 @@ import NotificationContainer from '@1024pix/ember-cli-notifications/components/n
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import UpdateOrganizationsInBatch from 'pix-admin/components/administration/deployment/update-organizations-in-batch';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -35,15 +36,13 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       // when
       const screen = await render(<template><UpdateOrganizationsInBatch /><NotificationContainer /></template>);
       const input = await screen.getByLabelText(
-        this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
+        t('components.administration.update-organizations-in-batch.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
       assert.ok(
-        await screen.findByText(
-          this.intl.t('components.administration.update-organizations-in-batch.notifications.success'),
-        ),
+        await screen.findByText(t('components.administration.update-organizations-in-batch.notifications.success')),
       );
     });
   });
@@ -63,17 +62,16 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       // when
       const screen = await render(<template><UpdateOrganizationsInBatch /><NotificationContainer /></template>);
       const input = await screen.findByLabelText(
-        this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
+        t('components.administration.update-organizations-in-batch.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
       assert.ok(
         await screen.findByText(
-          this.intl.t(
-            'components.administration.update-organizations-in-batch.notifications.errors.organization-not-found',
-            { organizationId: '123' },
-          ),
+          t('components.administration.update-organizations-in-batch.notifications.errors.organization-not-found', {
+            organizationId: '123',
+          }),
         ),
       );
     });
@@ -97,14 +95,14 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       // when
       const screen = await render(<template><UpdateOrganizationsInBatch /><NotificationContainer /></template>);
       const input = await screen.findByLabelText(
-        this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
+        t('components.administration.update-organizations-in-batch.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
       assert.ok(
         await screen.findByText(
-          this.intl.t(
+          t(
             'components.administration.update-organizations-in-batch.notifications.errors.parent-organization-not-found',
             { organizationId: '123' },
           ),
@@ -131,14 +129,14 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       // when
       const screen = await render(<template><UpdateOrganizationsInBatch /><NotificationContainer /></template>);
       const input = await screen.findByLabelText(
-        this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
+        t('components.administration.update-organizations-in-batch.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
       assert.ok(
         await screen.findByText(
-          this.intl.t(
+          t(
             'components.administration.update-organizations-in-batch.notifications.errors.data-protection-email-invalid',
             { organizationId: '123', value: 'foo' },
           ),
@@ -160,14 +158,14 @@ module('Integration | Component |  administration/update-organizations-in-batch'
       // when
       const screen = await render(<template><UpdateOrganizationsInBatch /><NotificationContainer /></template>);
       const input = await screen.findByLabelText(
-        this.intl.t('components.administration.update-organizations-in-batch.upload-button'),
+        t('components.administration.update-organizations-in-batch.upload-button'),
       );
       await triggerEvent(input, 'change', { files: [file] });
 
       // then
       assert.ok(
         await screen.findByText(
-          this.intl.t(
+          t(
             'components.administration.update-organizations-in-batch.notifications.errors.organization-batch-update-error',
             { organizationId: '123' },
           ),
