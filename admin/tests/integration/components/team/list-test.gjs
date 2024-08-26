@@ -5,6 +5,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { waitForDialogClose } from '../../../helpers/wait-for.js';
 
 module('Integration | Component | team | list', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -126,17 +127,21 @@ module('Integration | Component | team | list', function (hooks) {
             },
           ];
 
-          const screen = await render(<template><List @members={{members}} /></template>);
+          const screen = await render(
+            <template><List @members={{members}} @refreshValues={{refreshValues}} /></template>,
+          );
           await clickByName("Désactiver l'agent Marie Tim");
 
           await screen.findByRole('dialog');
+
           // when
           await clickByName('Confirmer');
 
           // then
+          await waitForDialogClose();
           sinon.assert.calledWith(notificationSuccessStub, "L'agent Marie Tim n'a plus accès à Pix Admin.");
+          assert.dom(await screen.queryByRole('dialog')).doesNotExist();
           assert.ok(true);
-          // assert.dom(screen.queryByRole('dialog')).isNotVisible();
         });
 
         test('should display an error message and close the modal when an error occurs while disabling', async function (assert) {
@@ -169,10 +174,11 @@ module('Integration | Component | team | list', function (hooks) {
           await clickByName('Confirmer');
 
           // then
+          await waitForDialogClose();
+
           sinon.assert.calledWith(notificationErrorStub, 'Impossible de désactiver cet agent.');
           assert.ok(true);
-          // TODO : Add aria-hidden to Pix Modal
-          //assert.dom(screen.queryByRole('button', { name: 'Confirmer' })).doesNotExist();
+          assert.dom(screen.queryByRole('button', { name: 'Confirmer' })).doesNotExist();
         });
       });
     });
