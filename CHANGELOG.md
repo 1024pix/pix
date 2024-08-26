@@ -1,5 +1,36 @@
 # Pix Changelog
 
+## v4.203.0 (26/08/2024)
+
+
+### :rocket: Amélioration
+- [#9915](https://github.com/1024pix/pix/pull/9915) [FEATURE] Améliorer le formulaire d'entrée en certification sur Pix App (PIX-13948).
+
+### :building_construction: Tech
+- [#9931](https://github.com/1024pix/pix/pull/9931) [TECH] Améliorer les performances pour la récupération des stats de places de toutes les organisations via un endpoint (PIX-13983).
+- [#9928](https://github.com/1024pix/pix/pull/9928) [TECH] Ajouter un legacyName afin de pouvoir renommer un Job (PIX-13982).
+
+### :bug: Correction
+- [#9924](https://github.com/1024pix/pix/pull/9924) [BUGFIX] Fixer le problème de contraste dans l'écran de fin de test sur Pix App (PIX-13951).
+
+### :arrow_up: Montée de version
+- [#9948](https://github.com/1024pix/pix/pull/9948) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.8 (load-testing).
+- [#9947](https://github.com/1024pix/pix/pull/9947) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.6 (admin).
+- [#9945](https://github.com/1024pix/pix/pull/9945) [BUMP] Update dependency @1024pix/ember-testing-library to ^3.0.6 (certif).
+- [#9944](https://github.com/1024pix/pix/pull/9944) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.19 (mon-pix).
+- [#9943](https://github.com/1024pix/pix/pull/9943) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.19 (junior).
+- [#9942](https://github.com/1024pix/pix/pull/9942) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.19 (admin).
+- [#9941](https://github.com/1024pix/pix/pull/9941) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.23 (junior).
+- [#9940](https://github.com/1024pix/pix/pull/9940) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.23 (orga).
+- [#9938](https://github.com/1024pix/pix/pull/9938) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.23 (mon-pix).
+- [#9937](https://github.com/1024pix/pix/pull/9937) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.23 (admin).
+- [#9935](https://github.com/1024pix/pix/pull/9935) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.8 (orga).
+- [#9934](https://github.com/1024pix/pix/pull/9934) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.8 (junior).
+- [#9933](https://github.com/1024pix/pix/pull/9933) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.8 (certif).
+- [#9932](https://github.com/1024pix/pix/pull/9932) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.19 (orga).
+- [#9813](https://github.com/1024pix/pix/pull/9813) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.8 (audit-logger).
+- [#9930](https://github.com/1024pix/pix/pull/9930) [BUMP] Update dependency @1024pix/eslint-config to ^1.3.8 (dossier racine).
+
 ## v4.202.0 (23/08/2024)
 
 
