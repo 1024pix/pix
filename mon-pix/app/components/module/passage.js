@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-import ModuleGrain from './grain.js';
+import DumbGrain from './grain/dumb-grain';
 
 export default class ModulePassage extends Component {
   @service router;
@@ -11,7 +11,7 @@ export default class ModulePassage extends Component {
   @service store;
   @service modulixAutoScroll;
 
-  displayableGrains = this.args.module.grains.filter((grain) => ModuleGrain.getSupportedComponents(grain).length > 0);
+  displayableGrains = this.args.module.grains.filter((grain) => DumbGrain.getSupportedComponents(grain).length > 0);
   @tracked grainsToDisplay = this.displayableGrains.length > 0 ? [this.displayableGrains[0]] : [];
 
   @action

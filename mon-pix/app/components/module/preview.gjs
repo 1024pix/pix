@@ -7,6 +7,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { pageTitle } from 'ember-page-title';
 import ModulixGrain from 'mon-pix/components/module/grain';
+import DumbGrain from 'mon-pix/components/module/grain/dumb-grain';
 
 export default class ModulixPreview extends Component {
   @service store;
@@ -122,7 +123,7 @@ export default class ModulixPreview extends Component {
 
         <div class="module-preview-passage__content">
           {{#each this.formattedModule.grains as |grain|}}
-            <ModulixGrain
+            <DumbGrain
               @grain={{grain}}
               @onElementRetry={{this.noop}}
               @passage={{this.passage}}
@@ -131,7 +132,6 @@ export default class ModulixPreview extends Component {
               @onVideoTranscriptionOpen={{this.noop}}
               @onElementAnswer={{this.noop}}
               @onStepperNextStep={{this.noop}}
-              @canMoveToNextGrain={{false}}
               @onGrainContinue={{this.noop}}
               @onGrainSkip={{this.noop}}
               @shouldDisplayTerminateButton={{false}}
@@ -139,7 +139,11 @@ export default class ModulixPreview extends Component {
               @hasJustAppeared={{false}}
               @onVideoPlay={{this.noop}}
               @onFileDownload={{this.noop}}
-              @shouldFoldStepper={{false}}
+              @getLastCorrectionForElement={{this.noop}}
+              @shouldDisplaySkipButton={{false}}
+              @shouldDisplayContinueButton={{false}}
+              @stepperIsFinished={{this.noop}}
+              @
             />
           {{/each}}
         </div>

@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import Element from 'mon-pix/components/module/element';
-import ModuleGrain from 'mon-pix/components/module/grain';
+import DumbGrain from 'mon-pix/components/module/grain/dumb-grain';
 
 import didInsert from '../../modifiers/modifier-did-insert';
 
@@ -11,7 +11,7 @@ export default class ModulixStep extends Component {
   @service modulixAutoScroll;
 
   get displayableElements() {
-    return this.args.step.elements.filter((element) => ModuleGrain.AVAILABLE_ELEMENT_TYPES.includes(element.type));
+    return this.args.step.elements.filter((element) => DumbGrain.AVAILABLE_ELEMENT_TYPES.includes(element.type));
   }
 
   get hasDisplayableElements() {
