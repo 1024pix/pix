@@ -10,6 +10,7 @@ import ModulixGrain from 'mon-pix/components/module/grain';
 
 export default class ModulixPreview extends Component {
   @service store;
+  @service modulixPreviewMode;
 
   @tracked
   module = `{
@@ -70,6 +71,12 @@ export default class ModulixPreview extends Component {
   ]
 }`;
   @tracked errorMessage = null;
+
+  constructor(owner, args) {
+    super(owner, args);
+
+    this.modulixPreviewMode.enable();
+  }
 
   get passage() {
     return this.store.createRecord('passage');
