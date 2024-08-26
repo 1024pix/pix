@@ -139,7 +139,6 @@ export default class ModulixPreview extends Component {
               @hasJustAppeared={{false}}
               @onVideoPlay={{this.noop}}
               @onFileDownload={{this.noop}}
-              @shouldFoldStepper={{false}}
             />
           {{/each}}
         </div>
