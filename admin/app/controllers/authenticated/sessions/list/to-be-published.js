@@ -12,8 +12,10 @@ export default class SessionToBePublishedController extends Controller {
 
   @action
   async publishSession(toBePublishedSession) {
+    const adapter = this.store.adapterFor('to-be-published-session');
     try {
-      await toBePublishedSession.publish();
+      await adapter.publishSession(toBePublishedSession.id);
+      this.send('refreshModel');
     } catch (err) {
       const finalErr = get(err, 'errors[0].detail', err);
       this.notifications.error(finalErr);

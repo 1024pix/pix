@@ -7,8 +7,9 @@ export default class ToBePublishedSessionAdapter extends ApplicationAdapter {
     return `${this.host}/${this.namespace}/sessions/to-publish`;
   }
 
-  urlForUpdateRecord(id) {
-    return `${this.host}/${this.namespace}/sessions/${id}`;
+  publishSession(id) {
+    const url = `${this.host}/${this.namespace}/sessions/${id}/publish`;
+    return this.ajax(url, 'PATCH');
   }
 
   publishSessionInBatch(sessionIds) {

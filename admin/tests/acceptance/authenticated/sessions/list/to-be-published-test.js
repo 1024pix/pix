@@ -1,5 +1,4 @@
-import { visit, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, visit, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';

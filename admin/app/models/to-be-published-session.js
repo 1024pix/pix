@@ -1,4 +1,3 @@
-import { memberAction } from '@1024pix/ember-api-actions';
 import Model, { attr } from '@ember-data/model';
 import dayjs from 'dayjs';
 
@@ -16,13 +15,4 @@ export default class ToBePublishedSession extends Model {
   get printableFinalizationDate() {
     return dayjs(this.finalizedAt).format('DD/MM/YYYY');
   }
-
-  publish = memberAction({
-    path: 'publish',
-    type: 'patch',
-    urlType: 'updateRecord',
-    after() {
-      this.unloadRecord();
-    },
-  });
 }
