@@ -1,4 +1,3 @@
-import { memberAction } from '@1024pix/ember-api-actions';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { equal } from '@ember/object/computed';
 import Model, { attr, hasMany } from '@ember-data/model';
@@ -114,9 +113,4 @@ export default class Organization extends Model {
 
     return fullName.join(' ');
   }
-
-  attachTargetProfiles = memberAction({
-    path: 'attach-target-profiles',
-    type: 'post',
-  });
 }

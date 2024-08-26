@@ -42,6 +42,8 @@ module('Integration | Component | organizations/target-profiles-section', functi
       class NotificationsStub extends Service {
         success = sinon.stub();
       }
+      const adapter = store.adapterFor('target-profile');
+      const attachToOrganizationStub = sinon.stub(adapter, 'attachToOrganization').resolves();
       this.owner.register('service:notifications', NotificationsStub);
       const targetProfileSummary = store.createRecord('target-profile-summary', {
         id: 666,
@@ -66,7 +68,7 @@ module('Integration | Component | organizations/target-profiles-section', functi
       await clickByName('Valider');
 
       // then
-      assert.ok(organization.attachTargetProfiles.calledWith({ 'target-profile-ids': ['1'] }));
+      assert.ok(attachToOrganizationStub.calledWith({ organizationId: 1, targetProfileIds: ['1'] }));
     });
 
     test('it should have a link to redirect on target profile page', async function (assert) {

@@ -44,6 +44,16 @@ export default class TargetProfileAdapter extends ApplicationAdapter {
     return result.data.attributes['detached-organization-ids'];
   }
 
+  async attachToOrganization(options) {
+    const { organizationId } = options;
+    const payload = {
+      'target-profile-ids': options.targetProfileIds,
+    };
+
+    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/attach-target-profiles`;
+    return this.ajax(url, 'POST', { data: payload });
+  }
+
   urlForQueryRecord(query) {
     if (query.targetProfileId) {
       const { targetProfileId } = query;
