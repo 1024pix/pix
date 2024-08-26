@@ -1,7 +1,9 @@
 import { action } from '@ember/object';
-import Service from '@ember/service';
+import Service, { service } from '@ember/service';
 
 export default class ModulixAutoScroll extends Service {
+  @service modulixPreviewMode;
+
   #SCROLL_OFFSET_PX = 70;
 
   @action
@@ -17,6 +19,10 @@ export default class ModulixAutoScroll extends Service {
       getWindowScrollY: this.#getWindowScrollY,
     },
   ) {
+    if (this.modulixPreviewMode.isEnabled) {
+      return;
+    }
+
     htmlElement.focus({ preventScroll: true });
 
     const elementY = htmlElement.getBoundingClientRect().top + getWindowScrollY();
