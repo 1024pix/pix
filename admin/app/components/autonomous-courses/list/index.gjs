@@ -1,7 +1,7 @@
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import { LinkTo } from '@ember/routing';
 
-import formatDate from '../../helpers/format-date';
+import formatDate from '../../../helpers/format-date';
 
 <template>
   <div class="content-text content-text--small">

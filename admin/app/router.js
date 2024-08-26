@@ -122,7 +122,6 @@ Router.map(function () {
     });
 
     this.route('autonomous-courses', function () {
-      this.route('list');
       this.route('new');
       this.route('autonomous-course', { path: '/:autonomous_course_id' }, function () {
         this.route('details');

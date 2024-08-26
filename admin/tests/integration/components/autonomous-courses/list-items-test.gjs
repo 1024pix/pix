@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
-import ListItems from 'pix-admin/components/autonomous-courses/list-items';
+import ListItems from 'pix-admin/components/autonomous-courses/list';
 import { module, test } from 'qunit';
 
 module('Integration | Component | AutonomousCourses::ListItems', function (hooks) {
