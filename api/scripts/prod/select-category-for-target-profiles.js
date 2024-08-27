@@ -1,6 +1,5 @@
 import 'dotenv/config';
 
-import bluebird from 'bluebird';
 import lodash from 'lodash';
 const { groupBy, sum, has, partition, negate } = lodash;
 
@@ -8,6 +7,7 @@ import * as url from 'node:url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { categories } from '../../src/shared/domain/models/TargetProfile.js';
+import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
 import { parseCsvData, readCsvFile } from '../helpers/csvHelpers.js';
 
 const TARGET_PROFILE_ID_COLUMN = 'targetProfileId';
@@ -32,7 +32,7 @@ async function setCategoriesToTargetProfiles(csvData) {
   const validCategories = parsedCategories.filter(_isSupportedCategory);
   let invalidTargetProfiles = [];
 
-  const result = await bluebird.mapSeries(validCategories, function (category) {
+  const result = await PromiseUtils.mapSeries(validCategories, async function (category) {
     const targetProfiles = targetProfilesGroupedByCategory[category].map((row) => row[TARGET_PROFILE_ID_COLUMN]);
     const [validTargetProfilesIds, invalidTargetProfilesIds] = partition(targetProfiles, (targetProfileId) =>
       Number.isInteger(parseInt(targetProfileId)),

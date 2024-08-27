@@ -2,7 +2,6 @@ import 'dotenv/config';
 
 import perf_hooks from 'node:perf_hooks';
 
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 const { performance } = perf_hooks;
@@ -19,6 +18,7 @@ import * as knowledgeElementRepository from '../../lib/infrastructure/repositori
 import { CampaignParticipation } from '../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import { learningContentCache as cache } from '../../src/shared/infrastructure/caches/learning-content-cache.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
 
 const MAX_RANGE_SIZE = 100_000;
 
@@ -65,7 +65,7 @@ function normalizeRange({ idMin, idMax }) {
 
 async function computeAllBadgeAcquisitions({ idMin, idMax, dryRun }) {
   const campaignParticipations = await getCampaignParticipationsBetweenIds({ idMin, idMax });
-  const numberOfBadgeCreatedByCampaignParticipation = await bluebird.mapSeries(
+  const numberOfBadgeCreatedByCampaignParticipation = await PromiseUtils.mapSeries(
     campaignParticipations,
     async (campaignParticipation, index) => {
       logger.info(`${index}/${campaignParticipations.length}`);

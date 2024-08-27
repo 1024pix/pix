@@ -1,7 +1,5 @@
 import * as url from 'node:url';
 
-import bluebird from 'bluebird';
-
 import { disconnect } from '../db/knex-database-connection.js';
 import * as authenticationMethodRepository from '../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { userToCreateRepository } from '../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
@@ -22,7 +20,8 @@ function prepareDataForInsert(rawUsers) {
 
 async function createUsers({ usersInRaw }) {
   const now = new Date();
-  await bluebird.mapSeries(usersInRaw, async (userDTO) => {
+
+  for (const userDTO of usersInRaw) {
     const userToCreate = {
       firstName: userDTO.firstName,
       lastName: userDTO.lastName,
@@ -40,7 +39,7 @@ async function createUsers({ usersInRaw }) {
       userToCreateRepository,
       authenticationMethodRepository,
     });
-  });
+  }
 }
 
 const modulePath = url.fileURLToPath(import.meta.url);

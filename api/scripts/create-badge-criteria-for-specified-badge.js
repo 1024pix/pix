@@ -1,7 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import * as url from 'node:url';
 
-import bluebird from 'bluebird';
 import Joi from 'joi';
 
 import { disconnect } from '../db/knex-database-connection.js';
@@ -71,10 +70,10 @@ async function main() {
   console.log('BadgeCriteria schema ok');
 
   console.log('Saving badge criteria... ');
-  return DomainTransaction.execute(async () => {
-    await bluebird.mapSeries(jsonFile.criteria, (badgeCriterion) => {
-      return _createBadgeCriterion({ ...badgeCriterion, badgeId: jsonFile.badgeId });
-    });
+  await DomainTransaction.execute(async () => {
+    for (const badgeCriterion of jsonFile.criteria) {
+      await _createBadgeCriterion({ ...badgeCriterion, badgeId: jsonFile.badgeId });
+    }
   });
 }
 

@@ -1,10 +1,10 @@
 import * as url from 'node:url';
 
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { disconnect, knex } from '../db/knex-database-connection.js';
 import { Membership } from '../src/shared/domain/models/Membership.js';
+import { PromiseUtils } from '../src/shared/infrastructure/utils/promise-utils.js';
 import { parseCsvWithHeader } from './helpers/csvHelpers.js';
 
 async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externalId) {
@@ -60,7 +60,7 @@ async function fetchCertificationCenterMembershipsByExternalId(externalId) {
 
 async function prepareDataForInsert(rawExternalIds) {
   const externalIds = _.uniq(_.map(rawExternalIds, 'externalId'));
-  const certificationCenterMembershipsLists = await bluebird.mapSeries(
+  const certificationCenterMembershipsLists = await PromiseUtils.mapSeries(
     externalIds,
     fetchCertificationCenterMembershipsByExternalId,
   );
