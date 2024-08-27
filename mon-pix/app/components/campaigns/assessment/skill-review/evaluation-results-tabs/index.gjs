@@ -51,7 +51,11 @@ export default class EvaluationResultsTabs extends Component {
           </Panel>
           {{#if this.showTrainingsTab}}
             <Panel @index={{2}}>
-              <Trainings />
+              <Trainings
+                @trainings={{@trainings}}
+                @isParticipationShared={{@isParticipationShared}}
+                @campaignParticipationResultId={{@campaignParticipationResultId}}
+              />
             </Panel>
           {{/if}}
         </:panels>

@@ -1740,7 +1740,11 @@
         "trainings": {
           "title": "Vous souhaitez en apprendre plus ?",
           "description": "Obtenez des recommandations de formations personnalisées pour continuer à progresser et nourrir votre curiosité pour vous aider à réaliser votre plein potentiel.",
-          "tab-label": "Formations"
+          "tab-label": "Formations",
+          "modal": {
+            "content": "Envoyez vos résultats pour permettre à l’organisateur du parcours de vous accompagner.'<br />'Après avoir partagé, vous bénéficierez d'un accès à ces formations&nbsp;!",
+            "share-error": "Il y a eu une erreur lors de l'envoi de vos résultats. Veuillez réessayer."
+          }
         }
       },
       "trainings": {
