@@ -1,4 +1,5 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import { fn } from '@ember/helper';
@@ -55,39 +56,20 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
             </tr>
             <tr>
               <td class="table__column table__column--id">
-                <input
-                  id="id"
-                  type="text"
-                  value={{this.searchedId}}
-                  oninput={{fn @triggerFiltering "id"}}
-                  class="table-admin-input form-control"
-                />
+                <PixInput id="id" type="text" value={{this.searchedId}} oninput={{fn @triggerFiltering "id"}} />
               </td>
               <td>
-                <input
-                  id="name"
-                  type="text"
-                  value={{this.searchedName}}
-                  oninput={{fn @triggerFiltering "name"}}
-                  class="table-admin-input form-control"
-                />
+                <PixInput id="name" type="text" value={{this.searchedName}} oninput={{fn @triggerFiltering "name"}} />
               </td>
               <td>
-                <input
-                  id="type"
-                  type="text"
-                  value={{this.searchedType}}
-                  oninput={{fn @triggerFiltering "type"}}
-                  class="table-admin-input form-control"
-                />
+                <PixInput id="type" type="text" value={{this.searchedType}} oninput={{fn @triggerFiltering "type"}} />
               </td>
               <td>
-                <input
+                <PixInput
                   id="externalId"
                   type="text"
                   value={{this.searchedExternalId}}
                   oninput={{fn @triggerFiltering "externalId"}}
-                  class="table-admin-input form-control"
                 />
               </td>
               {{#if @showDetachColumn}}

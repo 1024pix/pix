@@ -1,3 +1,4 @@
+import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import { fn } from '@ember/helper';
@@ -106,30 +107,27 @@ export default class ListItems extends Component {
           </tr>
           <tr>
             <td class="table__column table__column--id">
-              <input
+              <PixInput
                 aria-label="Filtrer les sessions avec un id"
                 type="text"
                 value={{this.searchedId}}
                 oninput={{fn @triggerFiltering "id"}}
-                class="table-admin-input"
               />
             </td>
             <td>
-              <input
+              <PixInput
                 aria-label="Filtrer les sessions avec le nom d'un centre de certification"
                 type="text"
                 value={{this.searchedCertificationCenterName}}
                 oninput={{fn @triggerFiltering "certificationCenterName"}}
-                class="table-admin-input"
               />
             </td>
             <td>
-              <input
+              <PixInput
                 aria-label="Filtrer les sessions avec un identifiant externe"
                 type="text"
                 value={{this.searchedCertificationCenterExternalId}}
                 oninput={{fn @triggerFiltering "certificationCenterExternalId"}}
-                class="table-admin-input"
               />
             </td>
             <td>

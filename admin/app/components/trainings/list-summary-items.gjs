@@ -1,3 +1,4 @@
+import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import { fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
@@ -26,20 +27,18 @@ export default class TrainingListSummaryItems extends Component {
             {{#if @triggerFiltering}}
               <tr>
                 <td class="table__column table__column--id">
-                  <input
+                  <PixInput
                     type="text"
                     value={{this.searchedId}}
                     oninput={{fn @triggerFiltering "id"}}
-                    class="table-admin-input"
                     aria-label="Filtrer les contenus formatifs par un id"
                   />
                 </td>
                 <td>
-                  <input
+                  <PixInput
                     type="text"
                     value={{this.searchedTitle}}
                     oninput={{fn @triggerFiltering "title"}}
-                    class="table-admin-input"
                     aria-label="Filtrer les contenus formatifs par un titre"
                   />
                 </td>

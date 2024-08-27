@@ -1,3 +1,4 @@
+import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import { fn } from '@ember/helper';
@@ -43,33 +44,30 @@ export default class OrganizationTeamSection extends Component {
               <tr>
                 <td class="table__column"></td>
                 <td class="table__column table__column--wide">
-                  <input
+                  <PixInput
                     id="firstName"
                     type="text"
                     aria-label="Rechercher par prénom"
                     value={{this.searchedFirstName}}
                     oninput={{fn @triggerFiltering "firstName"}}
-                    class="table-admin-input form-control"
                   />
                 </td>
                 <td class="table__column table__column--wide">
-                  <input
+                  <PixInput
                     id="lastName"
                     type="text"
                     aria-label="Rechercher par nom"
                     value={{this.searchedLastName}}
                     oninput={{fn @triggerFiltering "lastName"}}
-                    class="table-admin-input form-control"
                   />
                 </td>
                 <td class="table__column table__column--wide">
-                  <input
+                  <PixInput
                     id="email"
                     type="text"
                     aria-label="Rechercher par adresse e-mail"
                     value={{this.searchedEmail}}
                     oninput={{fn @triggerFiltering "email"}}
-                    class="table-admin-input form-control"
                   />
                 </td>
                 <td class="table__column">
