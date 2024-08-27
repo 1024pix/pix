@@ -928,42 +928,6 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
-  describe('GET /api/organizations/{organizationId}/divisions', function () {
-    it('should return the divisions', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser().id;
-      const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-      databaseBuilder.factory.buildMembership({
-        userId,
-        organizationId: organization.id,
-        organizationRole: Membership.roles.ADMIN,
-      });
-
-      _buildOrganizationLearners(
-        organization,
-        { id: 1, division: '2ndB', firstName: 'Laura', lastName: 'Certif4Ever' },
-        { id: 2, division: '2ndA', firstName: 'Laura', lastName: 'Booooo' },
-        { id: 3, division: '2ndA', firstName: 'Laura', lastName: 'aaaaa' },
-        { id: 4, division: '2ndA', firstName: 'Bart', lastName: 'Coucou' },
-        { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' },
-      );
-
-      await databaseBuilder.commit();
-
-      const request = {
-        method: 'GET',
-        url: '/api/organizations/' + organization.id + '/divisions',
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-      };
-
-      // when
-      const response = await server.inject(request);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('GET /api/admin/organizations/{organizationId}/children', function () {
     context('error cases', function () {
       context('when organization does not exist', function () {
@@ -1043,9 +1007,3 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 });
-
-function _buildOrganizationLearners(organization, ...students) {
-  return students.map((student) =>
-    databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id, ...student }),
-  );
-}

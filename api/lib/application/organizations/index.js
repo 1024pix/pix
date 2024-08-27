@@ -336,28 +336,6 @@ const register = async function (server) {
         ],
       },
     },
-    {
-      method: 'GET',
-      path: '/api/organizations/{id}/divisions',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-        },
-        handler: organizationController.getDivisions,
-        tags: ['api', 'organizations'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle retourne les classes rattachées à l’organisation.',
-        ],
-      },
-    },
   ];
 
   server.route([...adminRoutes, ...orgaRoutes]);
