@@ -4,18 +4,20 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { AssessmentResult } from '../../../../shared/domain/models/index.js';
 import { UserCertificabilityCalculator } from '../../domain/models/UserCertificabilityCalculator.js';
 
+const ATTRS = [
+  'id',
+  'userId',
+  'certificability',
+  'certificabilityV2',
+  'latestKnowledgeElementCreatedAt',
+  'latestCertificationDeliveredAt',
+  'latestBadgeAcquisitionUpdatedAt',
+  'latestComplementaryCertificationBadgeDetachedAt',
+];
+
 export async function getByUserId({ userId }) {
   const userCertificabilityData = await knex('user-certificabilities')
-    .select([
-      'id',
-      'userId',
-      'certificability',
-      'certificabilityV2',
-      'latestKnowledgeElementCreatedAt',
-      'latestCertificationDeliveredAt',
-      'latestBadgeAcquisitionUpdatedAt',
-      'latestComplementaryCertificationBadgeDetachedAt',
-    ])
+    .select(['id', ...ATTRS])
     .where({ userId })
     .first();
   if (!userCertificabilityData) {
@@ -96,13 +98,11 @@ export async function getActivityDatesForUserId({ userId }) {
 
 export async function save(userCertificabilityCalculator) {
   const dataToInsert = adaptModelToDB(userCertificabilityCalculator);
-  if (!userCertificabilityCalculator.id) {
-    delete dataToInsert.id;
-    await knex('user-certificabilities').insert(dataToInsert);
-  } else {
-    dataToInsert.updatedAt = new Date();
-    await knex('user-certificabilities').update(dataToInsert).where({ id: dataToInsert.id });
-  }
+  dataToInsert.updatedAt = new Date();
+  await knex('user-certificabilities')
+    .insert(dataToInsert)
+    .onConflict('id')
+    .merge(['updatedAt', ...ATTRS]);
 }
 
 export async function getHighestPixScoreObtainedInCoreCertification({ userId }) {
@@ -170,7 +170,7 @@ export async function findHowManyVersionsBehindByComplementaryCertificationBadge
 
 function adaptModelToDB(userCertificabilityCalculator) {
   return {
-    id: userCertificabilityCalculator.id,
+    id: userCertificabilityCalculator.id ?? undefined,
     userId: userCertificabilityCalculator.userId,
     certificability: JSON.stringify(userCertificabilityCalculator.draftCertificability),
     certificabilityV2: JSON.stringify(userCertificabilityCalculator.draftCertificabilityV2),
