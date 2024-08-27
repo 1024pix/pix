@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import lodash from 'lodash';
 
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
@@ -48,12 +47,12 @@ async function addOrUpdateOrganizationLearners({
         'IMPORT_LOG -> <<addOrUpdateOrganizationLearners>> Aprés la methode disableAllOrganizationLearnersInOrganization',
       );
 
-      await bluebird.mapSeries(organizationLearnersChunks, (chunk) => {
-        return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
+      for (const chunk of organizationLearnersChunks) {
+        await organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
           chunk,
           organizationImport.organizationId,
         );
-      });
+      }
       loggerForImport(
         'IMPORT_LOG -> <<addOrUpdateOrganizationLearners>> Aprés la methode addOrUpdateOrganizationOfOrganizationLearners',
       );

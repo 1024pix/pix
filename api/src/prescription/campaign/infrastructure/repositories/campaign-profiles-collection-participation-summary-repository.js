@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import chunk from 'lodash/chunk.js';
 import isBoolean from 'lodash/isBoolean.js';
 
@@ -8,6 +7,7 @@ import * as placementProfileService from '../../../../shared/domain/services/pla
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
+import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { CampaignProfilesCollectionParticipationSummary } from '../../domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
 
 async function findPaginatedByCampaignId(campaignId, page = {}, filters = {}) {
@@ -81,7 +81,7 @@ async function _makeMemoizedGetPlacementProfileForUser(results) {
 
   const sharedResults = results.filter(({ sharedAt }) => sharedAt);
 
-  const sharedResultsChunks = await bluebird.mapSeries(
+  const sharedResultsChunks = await PromiseUtils.mapSeries(
     chunk(sharedResults, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING),
     (sharedResultsChunk) => {
       const userIdsAndDates = sharedResultsChunk.map(({ userId, sharedAt }) => {
