@@ -57,7 +57,7 @@ Il faut **TOUJOURS** mettre un alt sur une balise `<img>`.
  
 Pour les autres images, jouant le rôle de boutons ou de lien etc., le contenu de l'alt est primordial. Par exemple, on préférera les formulations : 
 - "Retour vers l'accueil de Pix" plutôt que "Logo de Pix", pour expliquer ce que fait le bouton avec l'image du logo de Pix dans le footer.
-- "Nous suivre sur facebook" plutôt que "Lien vers notre page Facebook" (parce que l'information "lien" est déjà contenu dans la balise elle même).
+- "Nous suivre sur facebook" plutôt que "Lien vers notre page Facebook" (parce que l'information "lien" est déjà contenu dans la balise elle-même).
 - "Soutenu par le ministère de ..." plutôt que "Logo du ministère de ..."
 
 ## Unités CSS
