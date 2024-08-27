@@ -2,24 +2,9 @@
 TODO / reflexions :
 Valider qu'une certif complémentaire ne génère pas d'assessment result
  */
-/**
- * @typedef {import('./index.js').UserCertificabilityCalculatorRepository} UserCertificabilityRepository
- * @typedef {import('./index.js').KnowledgeElementRepository} KnowledgeElementRepository
- * @typedef {import('./index.js').CompetenceRepository} CompetenceRepository
- * @typedef {import('./index.js').ComplementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
- * @typedef {import('./index.js').CertificationBadgesService} CertificationBadgesService
- */
-import { findHowManyVersionsBehindByComplementaryCertificationBadgeId } from '../../infrastructure/repositories/user-certificability-calculator-repository.js';
+export { getUserCertificability };
 
-/**
- * @param {Object} params
- * @param {UserCertificabilityCalculatorRepository} params.userCertificabilityCalculatorRepository
- * @param {KnowledgeElementRepository} params.knowledgeElementRepository
- * @param {CompetenceRepository} params.competenceRepository
- * @param {ComplementaryCertificationCourseRepository} params.complementaryCertificationCourseRepository
- * @param {CertificationBadgesService} params.certificationBadgesService
- */
-export async function getUserCertificability({
+async function getUserCertificability({
   userId,
   userCertificabilityCalculatorRepository,
   knowledgeElementRepository,

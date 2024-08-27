@@ -540,8 +540,8 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             ...userCertificabilityCalculator,
             certificabilityV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
           });
-          notCleaCertifiableBadgeAcquisition.outdated = false;
-          cleaCertifiableBadgeAcquisition.outdated = false;
+          notCleaCertifiableBadgeAcquisition.isOutdated = false;
+          cleaCertifiableBadgeAcquisition.isOutdated = false;
 
           // when
           userCertificabilityCalculator.computeComplementaryCertificabilities({
@@ -594,8 +594,8 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             ...userCertificabilityCalculator,
             certificabilityV2: [{ certification: 'SomethingElse', isCertifiable: true }],
           });
-          notCleaCertifiableBadgeAcquisition.outdated = false;
-          cleaCertifiableBadgeAcquisition.outdated = false;
+          notCleaCertifiableBadgeAcquisition.isOutdated = false;
+          cleaCertifiableBadgeAcquisition.isOutdated = false;
 
           // when
           userCertificabilityCalculator.computeComplementaryCertificabilities({
@@ -646,8 +646,8 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
             ...userCertificabilityCalculator,
             certificabilityV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
           });
-          notCleaCertifiableBadgeAcquisition.outdated = true;
-          cleaCertifiableBadgeAcquisition.outdated = true;
+          notCleaCertifiableBadgeAcquisition.isOutdated = true;
+          cleaCertifiableBadgeAcquisition.isOutdated = true;
 
           // when
           userCertificabilityCalculator.computeComplementaryCertificabilities({
@@ -694,14 +694,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
         });
       });
       context('"info" section', function () {
-        context('"hasComplementaryCertificationForBadge"', function () {
+        context('"hasComplementaryCertificationForThisLevel"', function () {
           it('should return true when user has a validated complementary certification for the badge', function () {
             // given
             userCertificabilityCalculator = domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
               ...userCertificabilityCalculator,
               certificabilityV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquisition.outdated = false;
+            notCleaCertifiableBadgeAcquisition.isOutdated = false;
             complementaryCertificationCourseWithResults = [
               domainBuilder.buildComplementaryCertificationCourseWithResults({
                 complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
@@ -741,7 +741,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                   campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
                   badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
                   why: { isOutdated: false, isCoreCertifiable: true },
-                  info: { hasComplementaryCertificationForBadge: true, versionsBehind: 0 },
+                  info: { hasComplementaryCertificationForThisLevel: true, versionsBehind: 0 },
                 },
               ],
               latestKnowledgeElementCreatedAt: someDate,
@@ -756,7 +756,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificabilityV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquisition.outdated = false;
+            notCleaCertifiableBadgeAcquisition.isOutdated = false;
             complementaryCertificationCourseWithResults = [
               domainBuilder.buildComplementaryCertificationCourseWithResults({
                 complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
@@ -795,7 +795,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                   campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
                   badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
                   why: { isOutdated: false, isCoreCertifiable: true },
-                  info: { hasComplementaryCertificationForBadge: false, versionsBehind: 0 },
+                  info: { hasComplementaryCertificationForThisLevel: false, versionsBehind: 0 },
                 },
               ],
               latestKnowledgeElementCreatedAt: someDate,
@@ -812,7 +812,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificabilityV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquisition.outdated = false;
+            notCleaCertifiableBadgeAcquisition.isOutdated = false;
             howManyVersionsBehindByComplementaryCertificationBadgeId = {
               [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 3,
             };
@@ -842,7 +842,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                   campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
                   badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
                   why: { isOutdated: false, isCoreCertifiable: true },
-                  info: { hasComplementaryCertificationForBadge: false, versionsBehind: 3 },
+                  info: { hasComplementaryCertificationForThisLevel: false, versionsBehind: 3 },
                 },
               ],
               latestKnowledgeElementCreatedAt: someDate,
@@ -857,7 +857,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificabilityV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquisition.outdated = false;
+            notCleaCertifiableBadgeAcquisition.isOutdated = false;
             complementaryCertificationCourseWithResults = [
               domainBuilder.buildComplementaryCertificationCourseWithResults({
                 complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
@@ -896,7 +896,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                   campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
                   badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
                   why: { isOutdated: false, isCoreCertifiable: true },
-                  info: { hasComplementaryCertificationForBadge: false, versionsBehind: 0 },
+                  info: { hasComplementaryCertificationForThisLevel: false, versionsBehind: 0 },
                 },
               ],
               latestKnowledgeElementCreatedAt: someDate,
@@ -927,7 +927,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
             });
-            cleaCertifiableBadgeAcquisition.outdated = false;
+            cleaCertifiableBadgeAcquisition.isOutdated = false;
 
             // when
             userCertificabilityCalculator.computeComplementaryCertificabilities({
@@ -970,7 +970,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'SomethingElse', isCertifiable: true }],
             });
-            cleaCertifiableBadgeAcquisition.outdated = false;
+            cleaCertifiableBadgeAcquisition.isOutdated = false;
 
             // when
             userCertificabilityCalculator.computeComplementaryCertificabilities({
@@ -1011,7 +1011,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
             });
-            cleaCertifiableBadgeAcquisition.outdated = true;
+            cleaCertifiableBadgeAcquisition.isOutdated = true;
 
             // when
             userCertificabilityCalculator.computeComplementaryCertificabilities({
@@ -1056,7 +1056,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquisition.outdated = false;
+            notCleaCertifiableBadgeAcquisition.isOutdated = false;
             const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
               [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 60,
               222222: 80,
@@ -1107,7 +1107,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquisition.outdated = false;
+            notCleaCertifiableBadgeAcquisition.isOutdated = false;
             const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
               [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 57,
               222222: 80,
@@ -1160,7 +1160,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquisition.outdated = true;
+            notCleaCertifiableBadgeAcquisition.isOutdated = true;
             const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
               [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 60,
               222222: 80,
@@ -1211,7 +1211,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquisition.outdated = false;
+            notCleaCertifiableBadgeAcquisition.isOutdated = false;
             const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
               [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 60,
               222222: 80,
@@ -1262,7 +1262,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquisition.outdated = false;
+            notCleaCertifiableBadgeAcquisition.isOutdated = false;
             const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
               [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 0,
               222222: 80,
@@ -1310,14 +1310,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
         });
       });
       context('"info" section', function () {
-        context('"hasComplementaryCertificationForBadge"', function () {
+        context('"hasComplementaryCertificationForThisLevel"', function () {
           it('should return true when user has a validated complementary certification for the badge', function () {
             // given
             userCertificabilityCalculator = domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquisition.outdated = false;
+            notCleaCertifiableBadgeAcquisition.isOutdated = false;
             const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
               [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 60,
               222222: 80,
@@ -1365,7 +1365,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                     hasObtainedCoreCertification: true,
                     hasMinimumRequiredScoreForComplementaryCertification: true,
                   },
-                  info: { hasComplementaryCertificationForBadge: true, versionsBehind: 0 },
+                  info: { hasComplementaryCertificationForThisLevel: true, versionsBehind: 0 },
                 },
               ],
               draftCertificabilityV2: sinon.match.any,
@@ -1381,7 +1381,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquisition.outdated = false;
+            notCleaCertifiableBadgeAcquisition.isOutdated = false;
             const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
               [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 60,
               222222: 80,
@@ -1428,7 +1428,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                     hasObtainedCoreCertification: true,
                     hasMinimumRequiredScoreForComplementaryCertification: true,
                   },
-                  info: { hasComplementaryCertificationForBadge: false, versionsBehind: 0 },
+                  info: { hasComplementaryCertificationForThisLevel: false, versionsBehind: 0 },
                 },
               ],
               draftCertificabilityV2: sinon.match.any,
@@ -1446,7 +1446,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
               ...userCertificabilityCalculator,
               certificability: [{ certification: 'ItDoesNotMatter', isCertifiable: true }],
             });
-            notCleaCertifiableBadgeAcquisition.outdated = false;
+            notCleaCertifiableBadgeAcquisition.isOutdated = false;
             const minimumEarnedPixValuesByComplementaryCertificationBadgeId = {
               [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 60,
               222222: 80,
@@ -1484,7 +1484,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabili
                     hasObtainedCoreCertification: true,
                     hasMinimumRequiredScoreForComplementaryCertification: true,
                   },
-                  info: { hasComplementaryCertificationForBadge: false, versionsBehind: 5 },
+                  info: { hasComplementaryCertificationForThisLevel: false, versionsBehind: 5 },
                 },
               ],
               draftCertificabilityV2: sinon.match.any,

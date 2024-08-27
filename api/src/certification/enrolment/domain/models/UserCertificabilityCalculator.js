@@ -159,7 +159,7 @@ export class UserCertificabilityCalculator {
     complementaryCertificationCourseWithResults,
     howManyVersionsBehindByComplementaryCertificationBadgeId,
   }) {
-    const hasComplementaryCertificationForBadge = complementaryCertificationCourseWithResults.some(
+    const hasComplementaryCertificationForThisLevel = complementaryCertificationCourseWithResults.some(
       (complementaryCertificationCourseWithResult) =>
         complementaryCertificationCourseWithResult.complementaryCertificationBadgeId ===
           certifiableBadgeAcquisition.complementaryCertificationBadgeId &&
@@ -169,7 +169,7 @@ export class UserCertificabilityCalculator {
       howManyVersionsBehindByComplementaryCertificationBadgeId[
         certifiableBadgeAcquisition.complementaryCertificationBadgeId
       ];
-    const info = { hasComplementaryCertificationForBadge, versionsBehind };
+    const info = { hasComplementaryCertificationForThisLevel, versionsBehind };
     this.#_computeComplementaryCertificabilityV2({ certifiableBadgeAcquisition, info });
     this.#_computeComplementaryCertificability({
       certifiableBadgeAcquisition,
@@ -180,7 +180,7 @@ export class UserCertificabilityCalculator {
   }
 
   #_computeComplementaryCertificabilityV2({ certifiableBadgeAcquisition, info }) {
-    const isOutdated = certifiableBadgeAcquisition.outdated;
+    const isOutdated = certifiableBadgeAcquisition.isOutdated;
     const isCoreCertifiable = this.#certificabilityV2.some(
       (certificabilityData) => certificabilityData.certification === LABEL_FOR_CORE,
     );
@@ -201,7 +201,7 @@ export class UserCertificabilityCalculator {
     minimumEarnedPixValuesByComplementaryCertificationBadgeId,
     highestPixScoreObtainedInCoreCertification,
   }) {
-    const isOutdated = certifiableBadgeAcquisition.outdated;
+    const isOutdated = certifiableBadgeAcquisition.isOutdated;
     if (certifiableBadgeAcquisition.complementaryCertificationKey === ComplementaryCertificationKeys.CLEA) {
       const isCoreCertifiable = this.#certificability.some(
         (certificabilityData) => certificabilityData.certification === LABEL_FOR_CORE,
@@ -248,7 +248,7 @@ function buildComplementaryCertificability({
   certifiableBadgeAcquisition,
   isCertifiable,
   why,
-  info: { hasComplementaryCertificationForBadge, versionsBehind },
+  info: { hasComplementaryCertificationForThisLevel, versionsBehind },
 }) {
   return {
     certification: certifiableBadgeAcquisition.complementaryCertificationKey,
@@ -258,7 +258,7 @@ function buildComplementaryCertificability({
     campaignId: certifiableBadgeAcquisition.campaignId,
     badgeKey: certifiableBadgeAcquisition.badgeKey,
     why,
-    info: { hasComplementaryCertificationForBadge, versionsBehind },
+    info: { hasComplementaryCertificationForThisLevel, versionsBehind },
   };
 }
 
