@@ -1,10 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
-import ListItems from 'pix-admin/components/autonomous-courses/list';
+import List from 'pix-admin/components/autonomous-courses/list';
 import { module, test } from 'qunit';
 
-module('Integration | Component | AutonomousCourses::ListItems', function (hooks) {
-  setupRenderingTest(hooks);
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+
+module('Integration | Component | AutonomousCourses | List', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   test('it should display a autonomous courses list', async function (assert) {
     // given
@@ -22,7 +23,7 @@ module('Integration | Component | AutonomousCourses::ListItems', function (hooks
     ];
 
     // when
-    const screen = await render(<template><ListItems @items={{autonomousCoursesList}} /></template>);
+    const screen = await render(<template><List @items={{autonomousCoursesList}} /></template>);
 
     // then
     assert.dom(screen.getByText('Id')).exists();
@@ -53,7 +54,7 @@ module('Integration | Component | AutonomousCourses::ListItems', function (hooks
     ];
 
     // when
-    const screen = await render(<template><ListItems @items={{autonomousCoursesList}} /></template>);
+    const screen = await render(<template><List @items={{autonomousCoursesList}} /></template>);
 
     // then
     assert.dom(screen.getByText('Archivé')).exists();
