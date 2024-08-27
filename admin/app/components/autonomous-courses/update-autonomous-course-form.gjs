@@ -23,8 +23,6 @@ export default class UpdateAutonomousCourseForm extends Component {
     this.args.update();
   }
 
-  noop() {}
-
   <template>
     <form class="form update-autonomous-course" {{on "submit" this.onSubmit}}>
       <span class="form__instructions">
@@ -66,7 +64,7 @@ export default class UpdateAutonomousCourseForm extends Component {
         <PixButton type="reset" @variant="secondary" @size="small" @triggerAction={{@cancel}}>
           {{t "common.actions.cancel"}}
         </PixButton>
-        <PixButton @variant="success" @size="small" type="submit" @triggerAction={{this.noop}}>
+        <PixButton @variant="success" @size="small" @type="submit">
           Sauvegarder les modifications
         </PixButton>
       </div>
