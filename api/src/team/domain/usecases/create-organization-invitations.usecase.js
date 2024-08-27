@@ -1,5 +1,4 @@
-import bluebird from 'bluebird';
-
+import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
 import { OrganizationArchivedError } from '../errors.js';
 
 const createOrganizationInvitations = async function ({
@@ -19,7 +18,7 @@ const createOrganizationInvitations = async function ({
   const trimmedEmails = emails.map((email) => email.trim());
   const uniqueEmails = [...new Set(trimmedEmails)];
 
-  return bluebird.mapSeries(uniqueEmails, (email) => {
+  return PromiseUtils.mapSeries(uniqueEmails, async (email) => {
     return organizationInvitationService.createOrUpdateOrganizationInvitation({
       organizationRepository,
       organizationInvitationRepository,

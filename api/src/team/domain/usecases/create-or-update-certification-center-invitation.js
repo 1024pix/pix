@@ -1,5 +1,3 @@
-import bluebird from 'bluebird';
-
 const createOrUpdateCertificationCenterInvitation = async function ({
   certificationCenterId,
   emails,
@@ -13,15 +11,15 @@ const createOrUpdateCertificationCenterInvitation = async function ({
   const uniqueEmails = [...new Set(emails)];
   const trimmedUniqueEmails = uniqueEmails.map((email) => email.replace(/[\s\r\n]/g, ''));
 
-  return bluebird.mapSeries(trimmedUniqueEmails, (email) =>
-    certificationCenterInvitationService.createOrUpdateCertificationCenterInvitation({
+  for (const email of trimmedUniqueEmails) {
+    await certificationCenterInvitationService.createOrUpdateCertificationCenterInvitation({
       certificationCenterInvitationRepository,
     })({
       certificationCenter,
       email,
       locale,
-    }),
-  );
+    });
+  }
 };
 
 export { createOrUpdateCertificationCenterInvitation };
