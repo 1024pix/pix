@@ -81,7 +81,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#isReady', function () {
-    describe('when enabled in config', function () {
+    context('when enabled in config', function () {
       it('returns true', function () {
         // given
         const oidcAuthenticationService = new OidcAuthenticationService({
@@ -103,7 +103,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
-    describe('when not enabled in config', function () {
+    context('when not enabled in config', function () {
       it('returns false', function () {
         // given
         const oidcAuthenticationService = new OidcAuthenticationService({});
@@ -500,7 +500,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
-    describe('when default required properties are not returned in id token', function () {
+    context('when default required properties are not returned in id token', function () {
       it('calls userInfo endpoint', async function () {
         // given
         const idToken = jsonwebtoken.sign(
@@ -527,7 +527,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
-    describe('when claimsToStore are not returned in id token', function () {
+    context('when claimsToStore are not returned in id token', function () {
       it('calls userInfo endpoint', async function () {
         // given
         const idToken = jsonwebtoken.sign(
@@ -637,7 +637,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
-    describe('when required properties are not returned by external API', function () {
+    context('when required properties are not returned by external API', function () {
       it('throws an error', async function () {
         // given
         const clientId = 'OIDC_CLIENT_ID';
