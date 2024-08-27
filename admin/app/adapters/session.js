@@ -25,12 +25,16 @@ export default class SessionAdapter extends ApplicationAdapter {
     return `${this.host}/${this.namespace}/admin/sessions/${id}`;
   }
 
+  getDownloadLink({ id, lang }) {
+    const link = `${this.host}/${this.namespace}/admin/sessions/${id}/generate-results-download-link?lang=${lang}`;
+    return this.ajax(link, 'GET');
+  }
+
   updateRecord(store, type, snapshot) {
     if (snapshot.adapterOptions.flagResultsAsSentToPrescriber) {
       const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/results-sent-to-prescriber';
       return this.ajax(url, 'PUT');
-    }
-    if (snapshot.adapterOptions.updatePublishedCertifications) {
+    } else if (snapshot.adapterOptions.updatePublishedCertifications) {
       let url;
       if (snapshot.adapterOptions.toPublish) {
         url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/publish';
@@ -38,14 +42,18 @@ export default class SessionAdapter extends ApplicationAdapter {
         url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/unpublish';
       }
       return this.ajax(url, 'PATCH');
-    }
-    if (snapshot.adapterOptions.certificationOfficerAssignment) {
+    } else if (snapshot.adapterOptions.certificationOfficerAssignment) {
       const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/certification-officer-assignment';
       return this.ajax(url, 'PATCH');
-    }
-    if (snapshot.adapterOptions.unfinalize) {
+    } else if (snapshot.adapterOptions.unfinalize) {
       const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/unfinalize';
       return this.ajax(url, 'PATCH');
+    } else if (snapshot.adapterOptions.isComment) {
+      const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/comment';
+      return this.ajax(url, 'PUT', { data: { 'jury-comment': snapshot.adapterOptions.comment } });
+    } else if (snapshot.adapterOptions.isDeleteComment) {
+      const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/comment';
+      return this.ajax(url, 'DELETE');
     }
 
     return super.updateRecord(...arguments);

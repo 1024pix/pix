@@ -14,6 +14,7 @@ export default class IndexController extends Controller {
   @service session;
   @service fileSaver;
   @service intl;
+  @service store;
 
   @alias('model') sessionModel;
 
@@ -94,8 +95,9 @@ export default class IndexController extends Controller {
   @action
   async copyResultsDownloadLink() {
     try {
-      const link = await this.sessionModel.getDownloadLink({ lang: this.intl.primaryLocale });
-      await navigator.clipboard.writeText(link);
+      const adapter = this.store.adapterFor('session');
+      const link = await adapter.getDownloadLink({ id: this.model.id, lang: this.intl.primaryLocale });
+      await navigator.clipboard.writeText(link.sessionResultsLink);
       this._displaySuccessTooltip();
     } catch (err) {
       this._displayErrorTooltip();
@@ -118,7 +120,8 @@ export default class IndexController extends Controller {
   @action
   async saveComment(comment) {
     try {
-      await this.sessionModel.comment({ 'jury-comment': comment });
+      await this.sessionModel.save({ adapterOptions: { isComment: true, comment } });
+      this.sessionModel.reload();
     } catch (error) {
       this.notifications.error("Une erreur est survenue pendant l'enregistrement du commentaire. ");
     }
@@ -127,7 +130,7 @@ export default class IndexController extends Controller {
   @action
   async deleteComment() {
     try {
-      await this.sessionModel.deleteComment();
+      await this.sessionModel.save({ adapterOptions: { isDeleteComment: true } });
       await this.sessionModel.reload();
     } catch (error) {
       this.notifications.error('Une erreur est survenue pendant la suppression du commentaire.');

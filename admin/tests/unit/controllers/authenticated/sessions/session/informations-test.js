@@ -160,15 +160,21 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
   });
 
   module('#copyResultsDownloadLink', function (hooks) {
+    let getDownloadLinkStub;
+    hooks.beforeEach(function () {
+      const store = this.owner.lookup('service:store');
+      const adapter = store.adapterFor('session');
+      getDownloadLinkStub = sinon.stub(adapter, 'getDownloadLink');
+    });
     hooks.afterEach(function () {
       sinon.restore();
     });
 
     test('it should retrieve link from api and copy it', async function (assert) {
       // given
-      const getDownloadLink = sinon.stub();
-      getDownloadLink.resolves('www.jeremypluquet.com');
-      controller.model = { getDownloadLink };
+      const session = sinon.stub();
+      controller.model = { session };
+      getDownloadLinkStub.resolves({ sessionResultsLink: 'www.jeremypluquet.com' });
 
       const writeTextStub = sinon.stub();
       writeTextStub.returns();
@@ -189,9 +195,9 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
 
     test('it should notify error when retrieving link fails', async function (assert) {
       // given
-      const getDownloadLink = sinon.stub();
-      getDownloadLink.rejects('An error');
-      controller.model = { getDownloadLink };
+      const session = sinon.stub();
+      controller.model = { session };
+      getDownloadLinkStub.rejects('An error');
 
       sinon.stub(window, 'setTimeout').returns();
 
@@ -209,9 +215,11 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     test('it should return true if current user is assigned to session', async function (assert) {
       // given
       const getUserIdStub = sinon.stub();
+
       class CurrentUserStub extends Service {
         adminMember = { get: getUserIdStub.withArgs('userId').returns(3) };
       }
+
       this.owner.register('service:currentUser', CurrentUserStub);
 
       const getIdStub = sinon.stub();
