@@ -135,6 +135,25 @@
         "upload-button": "Import CSV file"
       }
     },
+    "autonomous-course": {
+      "title": "Tous les parcours autonomes",
+      "actions": {
+        "new": "Nouveau parcours autonome"
+      },
+      "list": {
+        "title": "Liste des parcours autonomes",
+        "headers": {
+          "createdAt": "Date de création",
+          "name": "Nom",
+          "status": "Date"
+        },
+        "no-result": "Aucun résultat",
+        "status": {
+          "active": "Actif",
+          "archived": "Archivé"
+        }
+      }
+    },
     "badges": {
       "api-error-messages": {
         "key-already-exists": "The badge key {badgeKey} already exists"
