@@ -1,5 +1,5 @@
 const rememberUserHasSeenLevelSevenInfo = function ({ userId, userRepository }) {
-  return userRepository.updateHasSeenLevelSevenInfoToTrue(userId);
+  return userRepository.update({ userId });
 };
 
 export { rememberUserHasSeenLevelSevenInfo };
