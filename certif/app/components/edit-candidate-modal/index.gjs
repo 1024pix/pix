@@ -21,7 +21,7 @@ export default class EditCandidateModal extends Component {
       @onCloseButtonClick={{this.closeModal}}
     >
       <:content>
-        <form id='edit-candidate-form' class='edit-candidate-modal__form'>
+        <form id='edit-candidate-form' class='edit-candidate-modal__form' {{on 'submit' @updateCandidate}}>
           <div class='edit-candidate-modal-form__disabled-fields'>
             <PixInput @id='last-name' autocomplete='off' disabled='true' value={{@candidate.lastName}}>
               <:label>{{t 'common.labels.candidate.birth-name'}}</:label>

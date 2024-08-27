@@ -108,6 +108,21 @@ export default class EnrolledCandidates extends Component {
   }
 
   @action
+  async updateCandidate(event) {
+    event.preventDefault();
+    try {
+      const adapter = this.store.adapterFor('certification-candidate');
+      await adapter.updateRecord({ candidate: this.certificationCandidateInEditModal, sessionId: this.args.sessionId });
+      this.notifications.success(this.intl.t('pages.sessions.detail.candidates.edit-modal.notifications.success'));
+      this.closeEditCandidateModal();
+    } catch (e) {
+      this.notifications.error(this.intl.t('pages.sessions.detail.candidates.edit-modal.notifications.error'));
+    } finally {
+      this.args.reloadCertificationCandidate();
+    }
+  }
+
+  @action
   updateCertificationCandidateInStagingBirthdate(candidateInStaging, value) {
     candidateInStaging.set('birthdate', value);
   }

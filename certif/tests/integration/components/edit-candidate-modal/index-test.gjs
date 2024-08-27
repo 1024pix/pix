@@ -19,6 +19,7 @@ module('Integration | Component | edit-candidate-modal', function (hooks) {
 
     const closeModalStub = sinon.stub();
     const updateCandidateDataFromValueStub = sinon.stub();
+    const updateCandidateStub = sinon.stub();
 
     // when
     const screen = await render(
@@ -28,6 +29,7 @@ module('Integration | Component | edit-candidate-modal', function (hooks) {
           @closeModal={{closeModalStub}}
           @candidate={{candidate}}
           @updateCandidateDataFromValue={{updateCandidateDataFromValueStub}}
+          @updateCandidate={{updateCandidateStub}}
         />
       </template>,
     );

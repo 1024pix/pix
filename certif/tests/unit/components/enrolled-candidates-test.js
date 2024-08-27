@@ -38,6 +38,77 @@ module('Unit | Component | enrolled-candidates', function (hooks) {
     });
   });
 
+  module('#updateCandidate', function () {
+    module('when update succeeds', function () {
+      test('should update the candidate with appropriate edited parameters', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const adapter = store.adapterFor('certification-candidate');
+        adapter.updateRecord = sinon.stub();
+        adapter.updateRecord.resolves();
+
+        const notifications = this.owner.lookup('service:notifications');
+        notifications.success = sinon.stub();
+
+        const sessionId = 'sessionId';
+        const candidate = _buildCandidate({}, { destroyRecord: sinon.stub() });
+        component.args = {
+          sessionId,
+          reloadCertificationCandidate: sinon.stub(),
+        };
+        component.certificationCandidateInEditModal = candidate;
+
+        const event = {
+          preventDefault: sinon.stub(),
+        };
+
+        // when
+        await component.updateCandidate(event);
+
+        // then
+        sinon.assert.calledOnce(notifications.success);
+        sinon.assert.calledWithExactly(adapter.updateRecord, {
+          candidate: component.certificationCandidateInEditModal,
+          sessionId,
+        });
+        assert.ok(true);
+      });
+    });
+
+    module('when update fails', function () {
+      test('should display an error message', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+
+        const adapter = store.adapterFor('certification-candidate');
+        adapter.updateRecord = sinon.stub();
+        adapter.updateRecord.throws();
+
+        const notifications = this.owner.lookup('service:notifications');
+        notifications.error = sinon.stub();
+
+        const sessionId = 'sessionId';
+        const candidate = _buildCandidate({}, { destroyRecord: sinon.stub() });
+        component.args = {
+          sessionId,
+          reloadCertificationCandidate: sinon.stub(),
+        };
+        component.certificationCandidateInEditModal = candidate;
+
+        const event = {
+          preventDefault: sinon.stub(),
+        };
+
+        // when
+        await component.updateCandidate(event);
+
+        // then
+        sinon.assert.calledOnce(notifications.error);
+        assert.ok(true);
+      });
+    });
+  });
+
   module('#openCertificationCandidateDetailsModal', function () {
     test('should open the candidate details modal', async function (assert) {
       // given

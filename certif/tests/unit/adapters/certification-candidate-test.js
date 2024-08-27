@@ -1,6 +1,6 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import { resolve } from 'rsvp';
+import sinon from 'sinon';
 
 module('Unit | Adapters | certification-candidate', function (hooks) {
   setupTest(hooks);
@@ -11,8 +11,7 @@ module('Unit | Adapters | certification-candidate', function (hooks) {
 
   hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:certification-candidate');
-    const ajaxStub = () => resolve();
-    adapter.ajax = ajaxStub;
+    adapter.ajax = sinon.stub();
   });
 
   module('#urlForQuery', function () {
@@ -64,6 +63,30 @@ module('Unit | Adapters | certification-candidate', function (hooks) {
 
       // then
       assert.true(url.endsWith(`/sessions/${sessionId}/certification-candidates/${certificationCandidateId}`));
+    });
+  });
+
+  module('#updateRecord', function () {
+    test('should build create url from certification-candidate id', async function (assert) {
+      // given
+      const candidate = { id: 1, accessibilityAdjustmentNeeded: true };
+      const sessionId = 2;
+      const payload = {
+        data: {
+          attributes: {
+            'accessibility-adjustment-needed': candidate.accessibilityAdjustmentNeeded,
+          },
+        },
+      };
+
+      // when
+      await adapter.updateRecord({ candidate, sessionId });
+
+      // then
+      const expectedUrl = 'http://localhost:3000/api/sessions/2/certification-candidates/1';
+
+      sinon.assert.calledWithExactly(adapter.ajax, expectedUrl, 'PATCH', { data: payload });
+      assert.ok(true);
     });
   });
 });

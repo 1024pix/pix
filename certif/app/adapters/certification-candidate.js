@@ -52,4 +52,18 @@ export default class CertificationCandidateAdapter extends ApplicationAdapter {
 
     return super.createRecord(...arguments);
   }
+
+  updateRecord({ candidate, sessionId }) {
+    const certificationCandidateId = candidate.id;
+    const payload = {
+      data: {
+        attributes: {
+          'accessibility-adjustment-needed': candidate.accessibilityAdjustmentNeeded,
+        },
+      },
+    };
+    const url = `${this.host}/${this.namespace}/sessions/${sessionId}/certification-candidates/${certificationCandidateId}`;
+
+    return this.ajax(url, 'PATCH', { data: payload });
+  }
 }

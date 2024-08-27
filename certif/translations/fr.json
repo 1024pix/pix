@@ -585,15 +585,15 @@
               "title": "Aménagement d'accessibilité numérique",
               "details": "L'aménagement consiste à retirer les questions non accessibles",
               "label": "Le candidat a besoin d'un aménagement"
+            },
+            "notifications": {
+              "error": "Un problème est survenu pendant la mise à jour du candidat. Merci de réessayer ultérieurement.",
+              "success": "Données mises à jour avec succès."
             }
           },
           "list": {
             "title": "Liste des candidats",
             "actions": {
-              "edit": {
-                "extra-information": "Editer le candidat",
-                "tooltip": "Ce candidat a déjà rejoint la session. Vous ne pouvez pas l'éditer."
-              },
               "delete": {
                 "extra-information": "Supprimer le candidat",
                 "tooltip": "Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer."
@@ -601,6 +601,10 @@
               "details": {
                 "extra-information": "Voir le détail du candidat",
                 "label": "Voir le détail"
+              },
+              "edit": {
+                "extra-information": "Editer le candidat",
+                "tooltip": "Ce candidat a déjà rejoint la session. Vous ne pouvez pas l'éditer."
               },
               "inscription": {
                 "label": "Inscrire un candidat"

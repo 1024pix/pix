@@ -585,15 +585,15 @@
               "title": "Digital accessibility adjustment",
               "details": "The adjustment involves removing questions that are not accessible",
               "label": "Candidate needs an adjustment"
+            },
+            "notifications": {
+              "error": "A problem occurred while trying to edit the candidate. Please try again later.",
+              "success": "Canditate's information has been successfully updated."
             }
           },
           "list": {
             "title": "Candidates' list",
             "actions": {
-              "edit": {
-                "extra-information": "Edit the candidate",
-                "tooltip": "This candidate has already joined the session, you can’t edit them."
-              },
               "delete": {
                 "extra-information": "Delete the candidate",
                 "tooltip": "This candidate has already joined the session, you can’t delete them."
@@ -601,6 +601,10 @@
               "details": {
                 "extra-information": "See the candidate’s details",
                 "label": "See details"
+              },
+              "edit": {
+                "extra-information": "Edit the candidate",
+                "tooltip": "This candidate has already joined the session, you can’t edit them."
               },
               "inscription": {
                 "label": "Enrol a candidate"
