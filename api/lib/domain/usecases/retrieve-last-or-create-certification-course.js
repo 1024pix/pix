@@ -24,6 +24,7 @@ import {
   UserNotAuthorizedToCertifyError,
 } from '../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const { features } = config;
 
@@ -305,21 +306,23 @@ async function _createCertificationCourse({
     lang,
   });
 
-  const savedCertificationCourse = await certificationCourseRepository.save({
-    certificationCourse: newCertificationCourse,
+  return DomainTransaction.execute(async () => {
+    const savedCertificationCourse = await certificationCourseRepository.save({
+      certificationCourse: newCertificationCourse,
+    });
+
+    const newAssessment = Assessment.createForCertificationCourse({
+      userId,
+      certificationCourseId: savedCertificationCourse.getId(),
+    });
+    const savedAssessment = await assessmentRepository.save({ assessment: newAssessment });
+
+    const certificationCourse = savedCertificationCourse.withAssessment(savedAssessment);
+
+    // FIXME : return CertificationCourseCreated or CertificationCourseRetrieved with only needed fields
+    return {
+      created: true,
+      certificationCourse,
+    };
   });
-
-  const newAssessment = Assessment.createForCertificationCourse({
-    userId,
-    certificationCourseId: savedCertificationCourse.getId(),
-  });
-  const savedAssessment = await assessmentRepository.save({ assessment: newAssessment });
-
-  const certificationCourse = savedCertificationCourse.withAssessment(savedAssessment);
-
-  // FIXME : return CertificationCourseCreated or CertificationCourseRetrieved with only needed fields
-  return {
-    created: true,
-    certificationCourse,
-  };
 }

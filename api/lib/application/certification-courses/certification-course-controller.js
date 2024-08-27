@@ -1,6 +1,5 @@
 import { extractLocaleFromRequest } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as certifiedProfileRepository from '../../infrastructure/repositories/certified-profile-repository.js';
 import * as certificationCourseSerializer from '../../infrastructure/serializers/jsonapi/certification-course-serializer.js';
 import * as certifiedProfileSerializer from '../../infrastructure/serializers/jsonapi/certified-profile-serializer.js';
@@ -11,13 +10,11 @@ const save = async function (request, h, dependencies = { extractLocaleFromReque
   const sessionId = request.payload.data.attributes['session-id'];
   const locale = dependencies.extractLocaleFromRequest(request);
 
-  const { created, certificationCourse } = await DomainTransaction.execute(() => {
-    return usecases.retrieveLastOrCreateCertificationCourse({
-      sessionId,
-      accessCode,
-      userId,
-      locale,
-    });
+  const { created, certificationCourse } = await usecases.retrieveLastOrCreateCertificationCourse({
+    sessionId,
+    accessCode,
+    userId,
+    locale,
   });
 
   const serialized = await dependencies.certificationCourseSerializer.serialize(certificationCourse);
