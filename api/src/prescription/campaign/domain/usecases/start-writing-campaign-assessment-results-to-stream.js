@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
@@ -13,6 +12,7 @@ import {
 import { CampaignTypeError } from '../../../../shared/domain/errors.js';
 import { CampaignLearningContent } from '../../../../shared/domain/models/CampaignLearningContent.js';
 import * as csvSerializer from '../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
+import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 
 const startWritingCampaignAssessmentResultsToStream = async function ({
   campaignId,
@@ -66,85 +66,87 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   // function, node will keep all the data in memory until the end of the
   // complete operation.
   const campaignParticipationInfoChunks = _.chunk(campaignParticipationInfos, CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
-  bluebird
-    .map(
-      campaignParticipationInfoChunks,
-      async (campaignParticipationInfoChunk) => {
-        const sharedParticipations = campaignParticipationInfoChunk.filter(({ isShared }) => isShared);
-        const startedParticipations = campaignParticipationInfoChunk.filter(
-          ({ isShared, isCompleted }) => !isShared && !isCompleted,
+
+  PromiseUtils.map(
+    campaignParticipationInfoChunks,
+    async (campaignParticipationInfoChunk) => {
+      const sharedParticipations = campaignParticipationInfoChunk.filter(({ isShared }) => isShared);
+      const startedParticipations = campaignParticipationInfoChunk.filter(
+        ({ isShared, isCompleted }) => !isShared && !isCompleted,
+      );
+
+      const sharedKnowledgeElementsByUserIdAndCompetenceId =
+        await knowledgeElementSnapshotRepository.findMultipleUsersFromUserIdsAndSnappedAtDates(
+          sharedParticipations.map(({ userId, sharedAt }) => ({ userId, sharedAt })),
         );
 
-        const sharedKnowledgeElementsByUserIdAndCompetenceId =
-          await knowledgeElementSnapshotRepository.findMultipleUsersFromUserIdsAndSnappedAtDates(
-            sharedParticipations.map(({ userId, sharedAt }) => ({ userId, sharedAt })),
-          );
+      const othersKnowledgeElementsByUserIdAndCompetenceId = await knowledgeElementRepository.findUniqByUserIds(
+        startedParticipations.map(({ userId }) => userId),
+      );
 
-        const othersKnowledgeElementsByUserIdAndCompetenceId = await knowledgeElementRepository.findUniqByUserIds(
-          startedParticipations.map(({ userId }) => userId),
+      let acquiredBadgesByCampaignParticipations;
+      if (targetProfile.hasBadges) {
+        const campaignParticipationsIds = campaignParticipationInfoChunk.map(
+          (campaignParticipationInfo) => campaignParticipationInfo.campaignParticipationId,
         );
+        acquiredBadgesByCampaignParticipations =
+          await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds });
+      }
 
-        let acquiredBadgesByCampaignParticipations;
-        if (targetProfile.hasBadges) {
-          const campaignParticipationsIds = campaignParticipationInfoChunk.map(
-            (campaignParticipationInfo) => campaignParticipationInfo.campaignParticipationId,
+      const csvLines = campaignParticipationInfoChunk.map((campaignParticipationInfo) => {
+        let participantKnowledgeElementsByCompetenceId = [];
+
+        if (campaignParticipationInfo.isShared) {
+          const sharedResultInfo = sharedKnowledgeElementsByUserIdAndCompetenceId.find(
+            (knowledElementForSharedParticipation) => {
+              const sameUserId = campaignParticipationInfo.userId === knowledElementForSharedParticipation.userId;
+              const sameDate =
+                campaignParticipationInfo.sharedAt &&
+                campaignParticipationInfo.sharedAt.getTime() ===
+                  knowledElementForSharedParticipation.snappedAt.getTime();
+
+              return sameUserId && sameDate;
+            },
           );
-          acquiredBadgesByCampaignParticipations =
-            await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds });
+
+          participantKnowledgeElementsByCompetenceId = campaignLearningContent.getKnowledgeElementsGroupedByCompetence(
+            sharedResultInfo.knowledgeElements,
+          );
+        } else if (campaignParticipationInfo.isCompleted === false) {
+          const othersResultInfo = othersKnowledgeElementsByUserIdAndCompetenceId.find(
+            (knowledElementForOtherParticipation) =>
+              campaignParticipationInfo.userId === knowledElementForOtherParticipation.userId,
+          );
+          participantKnowledgeElementsByCompetenceId = campaignLearningContent.getKnowledgeElementsGroupedByCompetence(
+            othersResultInfo.knowledgeElements,
+          );
         }
 
-        const csvLines = campaignParticipationInfoChunk.map((campaignParticipationInfo) => {
-          let participantKnowledgeElementsByCompetenceId = [];
+        const acquiredBadges =
+          acquiredBadgesByCampaignParticipations &&
+          acquiredBadgesByCampaignParticipations[campaignParticipationInfo.campaignParticipationId]
+            ? acquiredBadgesByCampaignParticipations[campaignParticipationInfo.campaignParticipationId].map(
+                (badge) => badge.title,
+              )
+            : [];
 
-          if (campaignParticipationInfo.isShared) {
-            const sharedResultInfo = sharedKnowledgeElementsByUserIdAndCompetenceId.find(
-              (knowledElementForSharedParticipation) => {
-                const sameUserId = campaignParticipationInfo.userId === knowledElementForSharedParticipation.userId;
-                const sameDate =
-                  campaignParticipationInfo.sharedAt &&
-                  campaignParticipationInfo.sharedAt.getTime() ===
-                    knowledElementForSharedParticipation.snappedAt.getTime();
-
-                return sameUserId && sameDate;
-              },
-            );
-
-            participantKnowledgeElementsByCompetenceId =
-              campaignLearningContent.getKnowledgeElementsGroupedByCompetence(sharedResultInfo.knowledgeElements);
-          } else if (campaignParticipationInfo.isCompleted === false) {
-            const othersResultInfo = othersKnowledgeElementsByUserIdAndCompetenceId.find(
-              (knowledElementForOtherParticipation) =>
-                campaignParticipationInfo.userId === knowledElementForOtherParticipation.userId,
-            );
-            participantKnowledgeElementsByCompetenceId =
-              campaignLearningContent.getKnowledgeElementsGroupedByCompetence(othersResultInfo.knowledgeElements);
-          }
-
-          const acquiredBadges =
-            acquiredBadgesByCampaignParticipations &&
-            acquiredBadgesByCampaignParticipations[campaignParticipationInfo.campaignParticipationId]
-              ? acquiredBadgesByCampaignParticipations[campaignParticipationInfo.campaignParticipationId].map(
-                  (badge) => badge.title,
-                )
-              : [];
-
-          return campaignCsvExportService.createOneCsvLine({
-            organization,
-            campaign,
-            campaignParticipationInfo,
-            targetProfile,
-            learningContent: campaignLearningContent,
-            stageCollection,
-            participantKnowledgeElementsByCompetenceId,
-            acquiredBadges,
-            translate,
-          });
+        return campaignCsvExportService.createOneCsvLine({
+          organization,
+          campaign,
+          campaignParticipationInfo,
+          targetProfile,
+          learningContent: campaignLearningContent,
+          stageCollection,
+          participantKnowledgeElementsByCompetenceId,
+          acquiredBadges,
+          translate,
         });
+      });
 
-        writableStream.write(csvLines.join(''));
-      },
-      { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
-    )
+      writableStream.write(csvLines.join(''));
+    },
+    { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
+  )
     .then(() => {
       writableStream.end();
     })
