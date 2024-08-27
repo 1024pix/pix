@@ -1,3 +1,4 @@
+import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import { fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
@@ -21,39 +22,20 @@ export default class CertificationCenterListItems extends Component {
           </tr>
           <tr>
             <td class="table__column table__column--id">
-              <input
-                id="id"
-                type="text"
-                value={{this.searchedId}}
-                oninput={{fn @triggerFiltering "id"}}
-                class="table-admin-input"
-              />
+              <PixInput id="id" type="text" value={{this.searchedId}} oninput={{fn @triggerFiltering "id"}} />
             </td>
             <td>
-              <input
-                id="name"
-                type="text"
-                value={{this.searchedName}}
-                oninput={{fn @triggerFiltering "name"}}
-                class="table-admin-input"
-              />
+              <PixInput id="name" type="text" value={{this.searchedName}} oninput={{fn @triggerFiltering "name"}} />
             </td>
             <td>
-              <input
-                id="type"
-                type="text"
-                value={{this.searchedType}}
-                oninput={{fn @triggerFiltering "type"}}
-                class="table-admin-input"
-              />
+              <PixInput id="type" type="text" value={{this.searchedType}} oninput={{fn @triggerFiltering "type"}} />
             </td>
             <td>
-              <input
+              <PixInput
                 id="externalId"
                 type="text"
                 value={{this.searchedExternalId}}
                 oninput={{fn @triggerFiltering "externalId"}}
-                class="table-admin-input"
               />
             </td>
           </tr>
