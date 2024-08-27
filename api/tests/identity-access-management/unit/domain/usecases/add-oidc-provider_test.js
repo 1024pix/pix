@@ -29,6 +29,7 @@ describe('Unit | Identity Access Management | Domain | UseCases | add-oidc-provi
     const expectedOidcProviderProperties = {
       accessTokenLifespan: '7d',
       additionalRequiredProperties: undefined,
+      claimMapping: undefined,
       claimsToStore: undefined,
       clientId: 'client',
       enabled: undefined,
@@ -59,6 +60,7 @@ describe('Unit | Identity Access Management | Domain | UseCases | add-oidc-provi
     expect(addOidcProviderValidator.validate).to.have.been.calledWith({
       accessTokenLifespan: '7d',
       additionalRequiredProperties: undefined,
+      claimMapping: undefined,
       claimsToStore: undefined,
       clientId: 'client',
       clientSecret: 'secret',
