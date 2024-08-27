@@ -1,12 +1,12 @@
 /**
  * @typedef {import ('../../../../../src/shared/domain/models/CertifiableBadgeAcquisition.js').CertifiableBadgeAcquisition} CertifiableBadgeAcquisition
  */
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import * as badgeForCalculationRepository from '../../../../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as certifiableBadgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/certifiable-badge-acquisition-repository.js';
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 
 const findStillValidBadgeAcquisitions = async function ({
   userId,
@@ -50,7 +50,7 @@ const _findBadgeAcquisitions = async function ({
     limitDate,
   });
 
-  const badgeAcquisitions = await bluebird.mapSeries(
+  const badgeAcquisitions = await PromiseUtils.mapSeries(
     highestCertifiableBadgeAcquisitions,
     async (certifiableBadgeAcquisition) => {
       if (!shouldGetOutdated && certifiableBadgeAcquisition.isOutdated) {

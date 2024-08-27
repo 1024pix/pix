@@ -2,7 +2,6 @@ import 'dotenv/config';
 
 import fs from 'node:fs';
 
-import bluebird from 'bluebird';
 import lodash from 'lodash';
 
 const { isEmpty, compact } = lodash;
@@ -16,6 +15,7 @@ import { NotFoundError } from '../../../shared/domain/errors.js';
 import { learningContentCache as cache } from '../../../shared/infrastructure/caches/learning-content-cache.js';
 import { options } from '../../../shared/infrastructure/plugins/i18n.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
 import * as certificationCourseRepository from '../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificateRepository from '../infrastructure/repositories/certificate-repository.js';
 import * as certificationAttestationPdf from '../infrastructure/utils/pdf/certification-attestation-pdf.js';
@@ -43,16 +43,16 @@ async function main() {
 
   const sessionIds = process.argv[2].split(',');
 
-  await bluebird.mapSeries(sessionIds, async (sessionId) => {
+  for (const sessionId of sessionIds) {
     const certificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({ sessionId });
 
     if (isEmpty(certificationCourses)) {
       logger.error(`Pas de certifications trouvées pour la session ${sessionId}.`);
-      return;
+      continue;
     }
 
     const certificationAttestations = compact(
-      await bluebird.mapSeries(certificationCourses, async (certificationCourse) => {
+      await PromiseUtils.mapSeries(certificationCourses, async (certificationCourse) => {
         try {
           return await certificateRepository.getCertificationAttestation({
             certificationCourseId: certificationCourse.getId(),
@@ -67,7 +67,7 @@ async function main() {
 
     if (isEmpty(certificationAttestations)) {
       logger.error(`Pas d'attestation trouvée pour la session ${sessionId}.`);
-      return;
+      continue;
     }
 
     logger.info(`${certificationAttestations.length} attestations récupérées pour la session ${sessionId}.`);
@@ -81,7 +81,7 @@ async function main() {
     logger.info(`Génération du fichier pdf ${filename}.`);
 
     await fs.promises.writeFile(filename, buffer);
-  });
+  }
 
   logger.info('Fin du script.');
 }

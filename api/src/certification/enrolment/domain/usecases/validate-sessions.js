@@ -2,8 +2,7 @@
  * @typedef {import ("./index.js").dependencies} deps
  */
 
-import bluebird from 'bluebird';
-
+import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { Candidate } from '../models/Candidate.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
 import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
@@ -41,7 +40,7 @@ const validateSessions = async function ({
   const sessionsMassImportReport = new SessionMassImportReport();
   const translate = i18n.__;
 
-  const validatedSessions = await bluebird.mapSeries(sessionsData, async (sessionDTO) => {
+  const validatedSessions = await PromiseUtils.mapSeries(sessionsData, async (sessionDTO) => {
     const { sessionId } = sessionDTO;
 
     const accessCode = sessionCodeService.getNewSessionCode();
@@ -121,7 +120,7 @@ async function _createValidCertificationCandidates({
     sessionsMassImportReport.addErrorReports(duplicateCandidateErrors);
   }
 
-  return bluebird.mapSeries(uniqueCandidates, async (candidateDTO) => {
+  return PromiseUtils.mapSeries(uniqueCandidates, async (candidateDTO) => {
     const billingMode = Candidate.parseBillingMode({
       billingMode: candidateDTO.billingMode,
       translate,

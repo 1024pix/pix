@@ -1,5 +1,3 @@
-import bluebird from 'bluebird';
-
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CandidateAlreadyLinkedToUserError } from '../../../../shared/domain/errors.js';
 
@@ -37,12 +35,10 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function ({
 
   await DomainTransaction.execute(async () => {
     await candidateRepository.deleteBySessionId({ sessionId });
-    await bluebird.mapSeries(candidates, function (candidate) {
-      return candidateRepository.saveInSession({
-        candidate,
-        sessionId,
-      });
-    });
+
+    for (const candidate of candidates) {
+      await candidateRepository.saveInSession({ candidate, sessionId });
+    }
   });
 };
 

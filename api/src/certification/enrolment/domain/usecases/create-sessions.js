@@ -2,8 +2,6 @@
  * @typedef {import ("./index.js").dependencies} deps
  */
 
-import bluebird from 'bluebird';
-
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
@@ -38,7 +36,7 @@ const createSessions = async function ({
   const { isV3Pilot } = await centerRepository.getById({ id: certificationCenterId });
 
   await DomainTransaction.execute(async () => {
-    return await bluebird.mapSeries(temporaryCachedSessions, async (sessionDTO) => {
+    for (const sessionDTO of temporaryCachedSessions) {
       let { id: sessionId } = sessionDTO;
       const candidates = sessionDTO.certificationCandidates;
 
@@ -60,7 +58,7 @@ const createSessions = async function ({
           candidateRepository,
         });
       }
-    });
+    }
   });
 
   await temporarySessionsStorageForMassImportService.remove({
@@ -88,11 +86,11 @@ async function _deleteExistingCandidatesInSession({ candidateRepository, session
 }
 
 async function _saveCandidates({ candidates, sessionId, candidateRepository }) {
-  await bluebird.mapSeries(candidates, async (candidateDTO) => {
+  for (const candidateDTO of candidates) {
     const candidate = new Candidate({ ...candidateDTO });
     await candidateRepository.saveInSession({
       sessionId,
       candidate,
     });
-  });
+  }
 }

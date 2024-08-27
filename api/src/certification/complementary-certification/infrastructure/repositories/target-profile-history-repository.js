@@ -1,8 +1,7 @@
-import bluebird from 'bluebird';
-
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { ComplementaryCertificationBadgeForAdmin } from '../../../../shared/domain/models/ComplementaryCertificationBadgeForAdmin.js';
 import { TargetProfileHistoryForAdmin } from '../../../../shared/domain/models/TargetProfileHistoryForAdmin.js';
+import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 
 const getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId = async function ({
   complementaryCertificationId,
@@ -21,7 +20,7 @@ const getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId = 
     .whereNull('complementary-certification-badges.detachedAt')
     .orderBy('attachedAt', 'desc');
 
-  return bluebird.mapSeries(currentTargetProfiles, async (targetProfile) => {
+  return PromiseUtils.mapSeries(currentTargetProfiles, async (targetProfile) => {
     const badges = await _getTargetProfileComplementaryCertificationBadges({ targetProfile });
     return _toDomain({ targetProfile, badges });
   });
@@ -49,7 +48,7 @@ const getDetachedTargetProfilesHistoryByComplementaryCertificationId = async fun
     )
     .orderBy('attachedAt', 'desc');
 
-  return bluebird.mapSeries(detachedTargetProfiles, async (targetProfile) => {
+  return PromiseUtils.mapSeries(detachedTargetProfiles, async (targetProfile) => {
     const badges = await _getTargetProfileComplementaryCertificationBadges({ targetProfile });
     return _toDomain({ targetProfile, badges });
   });
