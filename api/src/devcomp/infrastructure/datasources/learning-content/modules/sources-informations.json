@@ -198,59 +198,58 @@
       "title": "Y a-t-il une source à cette information ?",
       "components": [
         {
-          "type": "stepper",
-          "steps": [
-            {
-              "elements": [
-                {
-                  "id": "96cf39cd-88df-4104-a155-0fff0b40ac31",
-                  "type": "text",
-                  "content": "<p>Une radio a publié une interview pour expliquer l’origine de la soucoupe volante vue par Madame Sarah.&nbsp;<span aria-hidden=\"true\">👽</span>&nbsp;<span aria-hidden=\"true\">🛸</span><br>Vous devrez par la suite choisir qui est la source d'information dans cette interview.</p>"
-                },
-                {
-                  "id": "edbeb7c0-52cc-45b8-b3b9-d8cdac00536f",
-                  "type": "video",
-                  "title": "Une vidéo",
-                  "url": "https://videos.pix.fr/modulix/sources-informations/itw-saturne.mp4",
-                  "subtitles": "https://videos.pix.fr/modulix/sources-informations/itw-saturne.vtt",
-                  "transcription": "<ul><li> <strong>Journaliste Dupont</strong>&nbsp;: Flash info, bonjour&#8239;! ici le journaliste Dupont pour la radio d'à côté Lundi dernier, aux alentours de vingt et une heures, Mme. Sarah a vu une soucoupe volante dans le ciel. Croyance ou réalité&#8239;? <br>Je suis aujourd'hui avec la professeur Saturne, experte en astrophysique, auteur du livre Les soucoupes volantes existent-elles. Bonjour professeur, merci d'être avec nous.</li> <li><strong>Professeur Saturne</strong>&nbsp;: Bonjour, merci pour votre invitation. Alors, ce que Madame Sarah a vu, c'est pas une soucoupe, c'est une aurore boréale. Mon équipe et moi l'avons observé au télescope de l'université. Nous étudions les aurores boréales depuis plusieurs années maintenant et il arrive souvent que les gens confondent.</li><li><strong>Journaliste Dupont</strong>&nbsp;: Merci professeur Saturne pour votre témoignage. Merci aux auditeurs fidèles qui suivent notre émission à vous les studios.</li></ul>"
-                }
-              ]
+          "type": "element",
+          "element": {
+            "id": "96cf39cd-88df-4104-a155-0fff0b40ac31",
+            "type": "text",
+            "content": "<p>Une radio a publié une interview pour expliquer l’origine de la soucoupe volante vue par Madame Sarah.&nbsp;<span aria-hidden=\"true\">👽</span>&nbsp;<span aria-hidden=\"true\">🛸</span><br>Vous devrez par la suite choisir qui est la source d'information dans cette interview.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "edbeb7c0-52cc-45b8-b3b9-d8cdac00536f",
+            "type": "video",
+            "title": "Une vidéo",
+            "url": "https://videos.pix.fr/modulix/sources-informations/itw-saturne.mp4",
+            "subtitles": "https://videos.pix.fr/modulix/sources-informations/itw-saturne.vtt",
+            "transcription": "<ul><li> <strong>Journaliste Dupont</strong>&nbsp;: Flash info, bonjour&#8239;! ici le journaliste Dupont pour la radio d'à côté Lundi dernier, aux alentours de vingt et une heures, Mme. Sarah a vu une soucoupe volante dans le ciel. Croyance ou réalité&#8239;? <br>Je suis aujourd'hui avec la professeur Saturne, experte en astrophysique, auteur du livre Les soucoupes volantes existent-elles. Bonjour professeur, merci d'être avec nous.</li> <li><strong>Professeur Saturne</strong>&nbsp;: Bonjour, merci pour votre invitation. Alors, ce que Madame Sarah a vu, c'est pas une soucoupe, c'est une aurore boréale. Mon équipe et moi l'avons observé au télescope de l'université. Nous étudions les aurores boréales depuis plusieurs années maintenant et il arrive souvent que les gens confondent.</li><li><strong>Journaliste Dupont</strong>&nbsp;: Merci professeur Saturne pour votre témoignage. Merci aux auditeurs fidèles qui suivent notre émission à vous les studios.</li></ul>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "fa0b94f1-5139-4c55-a8bb-c7a4257c1a40",
+            "type": "text",
+            "content": "<hr>Dans l'interview, on entend que Madame Sarah a sûrement vu une aurore boréale et non une soucoupe volante."
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "921f42c0-b47b-44b7-8bde-328c40e03e44",
+            "type": "qcu",
+            "instruction": "<p>Qui est la source de cette information&#8239;?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "le journaliste Dupont"
+              },
+              {
+                "id": "2",
+                "content": "la professeure Saturne"
+              },
+              {
+                "id": "3",
+                "content": "Madame Sarah"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<span class=\"feedback__state\">Oui,c'est correct.</span><p> la professeure Saturne explique qu'il n'y avait pas de soucoupe volante. Son équipe et elle ont pu observer l'aurore boréale au télescope.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Madame Sarah n'est pas présente et le journaliste Dupont écoute le témoignage de la professeure Saturne.</p>"
             },
-            {
-              "elements": [
-                {
-                  "id": "fa0b94f1-5139-4c55-a8bb-c7a4257c1a40",
-                  "type": "text",
-                  "content": "Dans l'interview, on entend que Madame Sarah a sûrement vu une aurore boréale et non une soucoupe volante."
-                },
-                {
-                  "id": "921f42c0-b47b-44b7-8bde-328c40e03e44",
-                  "type": "qcu",
-                  "instruction": "<p>Qui est la source de cette information&#8239;?</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "le journaliste Dupont"
-                    },
-                    {
-                      "id": "2",
-                      "content": "la professeure Saturne"
-                    },
-                    {
-                      "id": "3",
-                      "content": "Madame Sarah"
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Oui,c'est correct.</span><p> la professeure Saturne explique qu'il n'y avait pas de soucoupe volante. Son équipe et elle ont pu observer l'aurore boréale au télescope.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Madame Sarah n'est pas présente et le journaliste Dupont écoute le témoignage de la professeure Saturne.</p>"
-                  },
-                  "solution": "2"
-                }
-              ]
-            }
-          ]
+            "solution": "2"
+          }
         }
       ]
     },
