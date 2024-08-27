@@ -173,6 +173,7 @@ import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-c
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
 import { buildCandidate } from './certification/enrolment/build-candidate.js';
+import { buildEditedCandidate } from './certification/enrolment/build-edited-candidate.js';
 import { buildEnrolledCandidate } from './certification/enrolment/build-enrolled-candidate.js';
 import { buildSessionEnrolment } from './certification/enrolment/build-session.js';
 import {
@@ -215,6 +216,7 @@ const certification = {
     buildCandidate,
     buildCoreSubscription,
     buildComplementarySubscription,
+    buildEditedCandidate,
     buildSubscription,
     buildUser: buildUserEnrolment,
   },
