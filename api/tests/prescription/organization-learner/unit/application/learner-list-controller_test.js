@@ -3,6 +3,55 @@ import { usecases } from '../../../../../src/prescription/organization-learner/d
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | learner-list-controller', function () {
+  describe('#getDivisions', function () {
+    it('Should return a serialized list of divisions', async function () {
+      // given
+      const request = {
+        auth: {
+          credentials: { userId: '111' },
+        },
+        params: {
+          id: 99,
+        },
+      };
+
+      sinon
+        .stub(usecases, 'findDivisionsByOrganization')
+        .withArgs({ organizationId: 99 })
+        .resolves([{ name: '3A' }, { name: '3B' }, { name: '4C' }]);
+
+      // when
+      const response = await learnerListController.getDivisions(request, hFake);
+
+      // then
+      expect(response).to.deep.equal({
+        data: [
+          {
+            type: 'divisions',
+            id: '3A',
+            attributes: {
+              name: '3A',
+            },
+          },
+          {
+            type: 'divisions',
+            id: '3B',
+            attributes: {
+              name: '3B',
+            },
+          },
+          {
+            type: 'divisions',
+            id: '4C',
+            attributes: {
+              name: '4C',
+            },
+          },
+        ],
+      });
+    });
+  });
+
   describe('#findPaginatedFilteredParticipants', function () {
     const connectedUserId = 1;
     const organizationId = 145;

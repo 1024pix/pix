@@ -1,6 +1,5 @@
 import * as organizationSerializer from '../../../src/organizational-entities/infrastructure/serializers/jsonapi/organization-serializer.js';
 import { organizationForAdminSerializer } from '../../../src/organizational-entities/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
-import * as divisionSerializer from '../../../src/prescription/campaign/infrastructure/serializers/jsonapi/division-serializer.js';
 import * as csvSerializer from '../../../src/shared/infrastructure/serializers/csv/csv-serializer.js';
 import * as membershipSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/membership.serializer.js';
 import {
@@ -76,12 +75,6 @@ const getOrganizationMemberIdentities = async function (
   return dependencies.organizationMemberIdentitySerializer.serialize(members);
 };
 
-const getDivisions = async function (request) {
-  const organizationId = request.params.id;
-  const divisions = await usecases.findDivisionsByOrganization({ organizationId });
-  return divisionSerializer.serialize(divisions);
-};
-
 const resendInvitation = async function (request, h) {
   const organizationId = request.params.id;
   const email = request.payload.data.attributes.email;
@@ -129,7 +122,6 @@ const organizationController = {
   findPaginatedFilteredMembershipsForAdmin,
   findPaginatedFilteredOrganizations,
   findTargetProfileSummariesForAdmin,
-  getDivisions,
   getOrganizationMemberIdentities,
   resendInvitation,
 };
