@@ -1,5 +1,6 @@
 import { QROCM } from '../../../../../../src/devcomp/domain/models/element/QROCM.js';
-import { expect } from '../../../../../test-helper.js';
+import { DomainError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QROCM', function () {
   describe('#constructor', function () {
@@ -26,29 +27,45 @@ describe('Unit | Devcomp | Domain | Models | Element | QROCM', function () {
 
   describe('A QROCM without id', function () {
     it('should throw an error', function () {
-      expect(() => new QROCM({})).to.throw('The id is required for an element');
+      // when
+      const error = catchErrSync(() => new QROCM({}))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The id is required for an element');
     });
   });
 
   describe('A QROCM without instruction', function () {
     it('should throw an error', function () {
-      expect(() => new QROCM({ id: '123' })).to.throw("L'instruction est obligatoire pour un QROCM");
+      // when
+      const error = catchErrSync(() => new QROCM({ id: '123' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal("L'instruction est obligatoire pour un QROCM");
     });
   });
 
   describe('A QROCM with an empty list of proposals', function () {
     it('should throw an error', function () {
-      expect(() => new QROCM({ id: '123', instruction: 'toto', proposals: [] })).to.throw(
-        'Les propositions sont obligatoires pour un QROCM',
-      );
+      // when
+      const error = catchErrSync(() => new QROCM({ id: '123', instruction: 'toto', proposals: [] }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('Les propositions sont obligatoires pour un QROCM');
     });
   });
 
   describe('A QROCM does not have a list of proposals', function () {
     it('should throw an error', function () {
-      expect(() => new QROCM({ id: '123', instruction: 'toto', proposals: 'toto' })).to.throw(
-        'Les propositions doivent apparaître dans une liste',
-      );
+      // when
+      const error = catchErrSync(() => new QROCM({ id: '123', instruction: 'toto', proposals: 'toto' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('Les propositions doivent apparaître dans une liste');
     });
   });
 });

@@ -1,3 +1,4 @@
+import { DomainError } from '../../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 
 class ComponentStepper {
@@ -11,7 +12,7 @@ class ComponentStepper {
 
   #assertStepsAreAnArray(steps) {
     if (!Array.isArray(steps)) {
-      throw new Error('Steps should be an array');
+      throw new DomainError('Steps should be an array');
     }
   }
 }

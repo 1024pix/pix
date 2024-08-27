@@ -1,3 +1,4 @@
+import { DomainError } from '../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
 
 class Grain {
@@ -14,7 +15,7 @@ class Grain {
 
   #assertComponentsIsDefinedAndAnArray(components) {
     if (components !== undefined && !Array.isArray(components)) {
-      throw new Error(`Grain components should be a list of components`);
+      throw new DomainError(`Grain components should be a list of components`);
     }
   }
 }

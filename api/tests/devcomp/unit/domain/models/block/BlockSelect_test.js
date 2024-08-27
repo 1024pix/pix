@@ -1,5 +1,6 @@
 import { BlockSelect } from '../../../../../../src/devcomp/domain/models/block/BlockSelect.js';
-import { expect } from '../../../../../test-helper.js';
+import { DomainError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
   describe('#constructor', function () {
@@ -34,49 +35,54 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
 
   describe('If input is missing', function () {
     it('should throw an error', function () {
-      expect(() => new BlockSelect({})).to.throw('The input is required for a select block');
+      // when
+      const error = catchErrSync(() => new BlockSelect({}))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The input is required for a select block');
     });
   });
 
   describe('If display is missing', function () {
     it('should throw an error', function () {
-      expect(
-        () =>
-          new BlockSelect({
-            input: 'symbole',
-          }),
-      ).to.throw('The display is required for a select block');
+      // when
+      const error = catchErrSync(() => new BlockSelect({ input: 'symbole' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The display is required for a select block');
     });
   });
 
   describe('If placeholder is missing', function () {
     it('should throw an error', function () {
-      expect(
-        () =>
-          new BlockSelect({
-            input: 'symbole',
-            display: 'inline',
-          }),
-      ).to.throw('The placeholder is required for a select block');
+      // when
+      const error = catchErrSync(() => new BlockSelect({ input: 'symbole', display: 'inline' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The placeholder is required for a select block');
     });
   });
 
   describe('If ariaLabel is missing', function () {
     it('should throw an error', function () {
-      expect(
-        () =>
-          new BlockSelect({
-            input: 'symbole',
-            display: 'inline',
-            placeholder: 'a placeholder',
-          }),
-      ).to.throw('The aria Label is required for a select block');
+      // when
+      const error = catchErrSync(
+        () => new BlockSelect({ input: 'symbole', display: 'inline', placeholder: 'a placeholder' }),
+      )();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The aria Label is required for a select block');
     });
   });
 
   describe('If defaultValue is missing', function () {
     it('should throw an error', function () {
-      expect(
+      // when
+      const error = catchErrSync(
         () =>
           new BlockSelect({
             input: 'symbole',
@@ -84,13 +90,18 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
             placeholder: 'a placeholder',
             ariaLabel: 'Réponse 1',
           }),
-      ).to.throw('The default value is required for a select block');
+      )();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The default value is required for a select block');
     });
   });
 
   describe('If tolerances are missing', function () {
     it('should throw an error', function () {
-      expect(
+      // when
+      const error = catchErrSync(
         () =>
           new BlockSelect({
             input: 'symbole',
@@ -99,13 +110,18 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
             ariaLabel: 'Réponse 1',
             defaultValue: 'default',
           }),
-      ).to.throw('The tolerances are required for a select block');
+      )();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The tolerances are required for a select block');
     });
   });
 
   describe('If options are missing', function () {
     it('should throw an error', function () {
-      expect(
+      // when
+      const error = catchErrSync(
         () =>
           new BlockSelect({
             input: 'symbole',
@@ -115,13 +131,18 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
             defaultValue: 'default',
             tolerances: ['t1'],
           }),
-      ).to.throw('The options are required for a select block');
+      )();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The options are required for a select block');
     });
   });
 
   describe('If solutions are missing', function () {
     it('should throw an error', function () {
-      expect(
+      // when
+      const error = catchErrSync(
         () =>
           new BlockSelect({
             input: 'symbole',
@@ -132,7 +153,11 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
             tolerances: ['t1'],
             options: [Symbol('option')],
           }),
-      ).to.throw('The solutions are required for a select block');
+      )();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The solutions are required for a select block');
     });
   });
 });

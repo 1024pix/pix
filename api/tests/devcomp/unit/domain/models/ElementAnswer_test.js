@@ -1,5 +1,6 @@
 import { ElementAnswer } from '../../../../../src/devcomp/domain/models/ElementAnswer.js';
-import { expect } from '../../../../test-helper.js';
+import { DomainError } from '../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | ElementAnswer', function () {
   describe('#constructor', function () {
@@ -22,23 +23,36 @@ describe('Unit | Devcomp | Domain | Models | ElementAnswer', function () {
 
     describe('An element answer without element id', function () {
       it('should throw an error', function () {
-        expect(() => new ElementAnswer({})).to.throw('The id of the element is required for an element answer.');
+        // when
+        const error = catchErrSync(() => new ElementAnswer({}))();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The id of the element is required for an element answer.');
       });
     });
 
     describe('An element answer without user response value', function () {
       it('should throw an error', function () {
-        expect(() => new ElementAnswer({ elementId: 'elementId' })).to.throw(
-          'The user response is required for an element answer.',
-        );
+        // when
+        const error = catchErrSync(() => new ElementAnswer({ elementId: 'elementId' }))();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The user response is required for an element answer.');
       });
     });
 
     describe('An element answer without correction', function () {
       it('should throw an error', function () {
-        expect(() => new ElementAnswer({ elementId: 'elementId', userResponseValue: 'userResponseValue' })).to.throw(
-          'The correction is required for an element answer.',
-        );
+        // when
+        const error = catchErrSync(
+          () => new ElementAnswer({ elementId: 'elementId', userResponseValue: 'userResponseValue' }),
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The correction is required for an element answer.');
       });
     });
   });

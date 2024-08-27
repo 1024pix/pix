@@ -1,5 +1,6 @@
 import { Feedbacks } from '../../../../../src/devcomp/domain/models/Feedbacks.js';
-import { expect } from '../../../../test-helper.js';
+import { DomainError } from '../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Feedbacks', function () {
   describe('#constructor', function () {
@@ -22,15 +23,23 @@ describe('Unit | Devcomp | Domain | Models | Feedbacks', function () {
 
   describe('An empty Feedbacks', function () {
     it('should throw an error', function () {
-      expect(() => new Feedbacks({})).to.throw('The feedback message for the field valid is required');
+      // when
+      const error = catchErrSync(() => new Feedbacks({}))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The feedback message for the field valid is required');
     });
   });
 
   describe('A Feedbacks without invalid key', function () {
     it('should throw an error', function () {
-      expect(() => new Feedbacks({ valid: 'valid' })).to.throw(
-        'The feedback message for the field invalid is required',
-      );
+      // when
+      const error = catchErrSync(() => new Feedbacks({ valid: 'valid' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The feedback message for the field invalid is required');
     });
   });
 });

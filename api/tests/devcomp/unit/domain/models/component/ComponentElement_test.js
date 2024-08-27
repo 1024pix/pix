@@ -1,5 +1,6 @@
 import { ComponentElement } from '../../../../../../src/devcomp/domain/models/component/ComponentElement.js';
-import { expect } from '../../../../../test-helper.js';
+import { DomainError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Component | ComponentElement', function () {
   describe('#constructor', function () {
@@ -19,7 +20,12 @@ describe('Unit | Devcomp | Domain | Models | Component | ComponentElement', func
 
   describe('if a componentElement does not have an element', function () {
     it('should throw an error', function () {
-      expect(() => new ComponentElement({})).to.throw('An element is required for a componentElement');
+      // when
+      const error = catchErrSync(() => new ComponentElement({}))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('An element is required for a componentElement');
     });
   });
 });

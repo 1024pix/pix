@@ -1,6 +1,7 @@
 import { EmbedCorrectionResponse } from '../../../../../src/devcomp/domain/models/EmbedCorrectionResponse.js';
 import { AnswerStatus } from '../../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
-import { expect } from '../../../../test-helper.js';
+import { DomainError } from '../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | EmbedCorrectionResponse', function () {
   describe('#constructor', function () {
@@ -21,15 +22,25 @@ describe('Unit | Devcomp | Domain | Models | EmbedCorrectionResponse', function 
 
   describe('A QCU correction response without status', function () {
     it('should throw an error', function () {
-      expect(() => new EmbedCorrectionResponse({})).to.throw('The result is required for an embed response');
+      // when
+      const error = catchErrSync(() => new EmbedCorrectionResponse({}))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The result is required for an embed response');
     });
   });
 
   describe('A QCU correction response without proposal id', function () {
     it('should throw an error', function () {
-      expect(() => new EmbedCorrectionResponse({ status: AnswerStatus.OK, feedback: 'Bien joué !' })).to.throw(
-        'The id of the correct proposal is required for an embed response',
-      );
+      // when
+      const error = catchErrSync(
+        () => new EmbedCorrectionResponse({ status: AnswerStatus.OK, feedback: 'Bien joué !' }),
+      )();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The id of the correct proposal is required for an embed response');
     });
   });
 });

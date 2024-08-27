@@ -2,8 +2,8 @@ import { QCMForAnswerVerification } from '../../../../../../src/devcomp/domain/m
 import { Feedbacks } from '../../../../../../src/devcomp/domain/models/Feedbacks.js';
 import { QcmCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcmCorrectionResponse.js';
 import { ValidatorQCM } from '../../../../../../src/devcomp/domain/models/validator/ValidatorQCM.js';
-import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect, sinon } from '../../../../../test-helper.js';
+import { DomainError, EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification', function () {
   describe('#constructor', function () {
@@ -38,14 +38,19 @@ describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification'
 
     describe('A QCM For Verification without a solution', function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new QCMForAnswerVerification({
               id: '123',
               instruction: 'toto',
               proposals: [Symbol('proposal1')],
             }),
-        ).to.throw('The solutions are required for a QCM for verification');
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The solutions are required for a QCM for verification');
       });
     });
   });
@@ -212,8 +217,12 @@ describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification'
             solutions: qcmSolutions,
           });
 
-          // when/then
-          expect(() => qcm.setUserResponse(userResponse)).to.throw(EntityValidationError);
+          // when
+          const error = catchErrSync(() => qcm.setUserResponse(userResponse))();
+
+          // then
+          expect(error).to.be.instanceOf(EntityValidationError);
+          expect(error.message).to.equal("Échec de validation de l'entité.");
         });
       });
     });

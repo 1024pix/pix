@@ -1,5 +1,6 @@
 import { Video } from '../../../../../../src/devcomp/domain/models/element/Video.js';
-import { expect } from '../../../../../test-helper.js';
+import { DomainError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | Video', function () {
   describe('#constructor', function () {
@@ -27,35 +28,56 @@ describe('Unit | Devcomp | Domain | Models | Element | Video', function () {
 
   describe('An video without id', function () {
     it('should throw an error', function () {
-      expect(() => new Video({})).to.throw('The id is required for an element');
+      // when
+      const error = catchErrSync(() => new Video({}))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The id is required for an element');
     });
   });
 
   describe('An video without a title', function () {
     it('should throw an error', function () {
-      expect(() => new Video({ id: 'id' })).to.throw('The title is required for a video');
+      // when
+      const error = catchErrSync(() => new Video({ id: 'id' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The title is required for a video');
     });
   });
 
   describe('A video without a url', function () {
     it('should throw an error', function () {
-      expect(() => new Video({ id: 'id', title: 'title' })).to.throw('The URL is required for a video');
+      // when
+      const error = catchErrSync(() => new Video({ id: 'id', title: 'title' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The URL is required for a video');
     });
   });
 
   describe('A video without subtitles', function () {
     it('should throw an error', function () {
-      expect(() => new Video({ id: 'id', title: 'title', url: 'url' })).to.throw(
-        'The subtitles are required for a video',
-      );
+      // when
+      const error = catchErrSync(() => new Video({ id: 'id', title: 'title', url: 'url' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The subtitles are required for a video');
     });
   });
 
   describe('A video without a transcription', function () {
     it('should throw an error', function () {
-      expect(() => new Video({ id: 'id', title: 'title', url: 'url', subtitles: 'subtitles' })).to.throw(
-        'The transcription is required for a video',
-      );
+      // when
+      const error = catchErrSync(() => new Video({ id: 'id', title: 'title', url: 'url', subtitles: 'subtitles' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The transcription is required for a video');
     });
   });
 });

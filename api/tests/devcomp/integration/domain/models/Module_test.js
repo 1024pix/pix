@@ -1,7 +1,8 @@
 import { Text } from '../../../../../src/devcomp/domain/models/element/Text.js';
 import { Grain } from '../../../../../src/devcomp/domain/models/Grain.js';
 import { Module } from '../../../../../src/devcomp/domain/models/module/Module.js';
-import { expect } from '../../../../test-helper.js';
+import { DomainError } from '../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
 
 describe('Integration | Devcomp | Domain | Models | Module', function () {
   describe('When a transition text is related to a missing grain', function () {
@@ -28,9 +29,12 @@ describe('Integration | Devcomp | Domain | Models | Module', function () {
       ];
       const details = Symbol('details');
 
-      expect(() => new Module({ id, slug, title, grains, transitionTexts, details })).to.throw(
-        'All the transition texts should be linked to a grain contained in the module.',
-      );
+      // when
+      const error = catchErrSync(() => new Module({ id, slug, title, grains, transitionTexts, details }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('All the transition texts should be linked to a grain contained in the module.');
     });
   });
 });

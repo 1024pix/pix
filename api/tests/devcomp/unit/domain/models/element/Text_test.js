@@ -1,5 +1,6 @@
 import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.js';
-import { expect } from '../../../../../test-helper.js';
+import { DomainError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | Text', function () {
   describe('#constructor', function () {
@@ -16,13 +17,23 @@ describe('Unit | Devcomp | Domain | Models | Element | Text', function () {
 
   describe('A text without id', function () {
     it('should throw an error', function () {
-      expect(() => new Text({ content: 'content' })).to.throw('The id is required for an element');
+      // when
+      const error = catchErrSync(() => new Text({ content: 'content' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The id is required for an element');
     });
   });
 
   describe('A text without content', function () {
     it('should throw an error', function () {
-      expect(() => new Text({ id: '1' })).to.throw('The content is required for a text');
+      // when
+      const error = catchErrSync(() => new Text({ id: '1' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The content is required for a text');
     });
   });
 });
