@@ -1,5 +1,3 @@
-import bluebird from 'bluebird';
-
 const TABLE_NAME = 'complementary-certification-badges';
 const MESSAGE_COLUMN_NAME = 'certificateMessage';
 const TEMP_MESSAGE_COLUMN_NAME = 'temporaryCertificateMessage';
@@ -19,14 +17,15 @@ const up = async function (knex) {
     complementaryCertificationIds,
   );
 
-  await bluebird.mapSeries(eduBadges, async ({ id, label }) => {
+  for (const eduBadge of eduBadges) {
+    const { id, label } = eduBadge;
     await knex(TABLE_NAME)
       .where({ id })
       .update({
         [MESSAGE_COLUMN_NAME]: `Vous avez obtenu la certification ${label}`,
         [TEMP_MESSAGE_COLUMN_NAME]: `Vous avez obtenu le niveau “${label}” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2`,
       });
-  });
+  }
 };
 
 const down = function (knex) {

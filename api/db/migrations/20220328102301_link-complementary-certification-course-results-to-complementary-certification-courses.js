@@ -5,7 +5,6 @@ const COMPLEMENTARY_CERTIFICATION_COURSE_ID_COLUMN = 'complementaryCertification
 const CERTIFICATION_COURSE_ID = 'certificationCourseId';
 import lodash from 'lodash';
 const { uniqBy } = lodash;
-import bluebird from 'bluebird';
 
 import { badges } from '../constants.js';
 const {
@@ -52,14 +51,14 @@ const up = async function (knex) {
     const complementaryCertifCourseIdForComplementaryCertifCourseResultIds =
       await _getComplementaryCertifCourseIdForComplementaryCertifCourseResultId();
 
-    return bluebird.mapSeries(
-      complementaryCertifCourseIdForComplementaryCertifCourseResultIds,
-      async ({ complementaryCertificationCourseResultId, complementaryCertificationCourseId }) => {
-        await knex(COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE)
-          .update(COMPLEMENTARY_CERTIFICATION_COURSE_ID_COLUMN, complementaryCertificationCourseId)
-          .where({ id: complementaryCertificationCourseResultId });
-      },
-    );
+    for (const complementaryCertifCourse of complementaryCertifCourseIdForComplementaryCertifCourseResultIds) {
+      const { complementaryCertificationCourseResultId, complementaryCertificationCourseId } =
+        complementaryCertifCourse;
+
+      await knex(COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE)
+        .update(COMPLEMENTARY_CERTIFICATION_COURSE_ID_COLUMN, complementaryCertificationCourseId)
+        .where({ id: complementaryCertificationCourseResultId });
+    }
   }
 
   async function _addMissingComplementaryCertificationCourses() {

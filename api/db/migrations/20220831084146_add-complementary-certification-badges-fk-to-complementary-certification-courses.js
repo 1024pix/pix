@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 const TABLE_NAME = 'complementary-certification-courses';
 const COLUMN = 'complementaryCertificationBadgeId';
 
@@ -18,10 +17,11 @@ const up = async function (knex) {
     )
     .select('complementary-certification-courses.id', 'complementary-certification-course-results.partnerKey');
 
-  await bluebird.mapSeries(complementaryCertificationCourses, async function ({ id, partnerKey }) {
+  for (const complementaryCertificationCourse of complementaryCertificationCourses) {
+    const { id, partnerKey } = complementaryCertificationCourse;
     const complementaryCertificationBadgeId = complementaryCertificationBadges.find(({ key }) => key === partnerKey).id;
     await knex(TABLE_NAME).update(COLUMN, complementaryCertificationBadgeId).where({ id });
-  });
+  }
 };
 
 const down = async function (knex) {
