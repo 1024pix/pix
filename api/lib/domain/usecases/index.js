@@ -189,8 +189,13 @@ function requirePoleEmploiNotifier() {
  * @typedef {complementaryCertificationHabilitationRepository} ComplementaryCertificationHabilitationRepository
  * @typedef {dataProtectionOfficerRepository} DataProtectionOfficerRepository
  * @typedef {userAnonymizedEventLoggingJobRepository} UserAnonymizedEventLoggingJobRepository
+ * @typedef {certificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {certificationCourseRepository} CertificationCourseRepository
+ * @typedef {userRepository} UserRepository
+ * @typedef {certificationChallengesService} CertificationChallengesService
+ * @typedef {verifyCertificateCodeService} VerifyCertificateCodeService
+ * @typedef {assessmentRepository} AssessmentRepository
  */
-
 const dependencies = {
   accountRecoveryDemandRepository,
   certificationCompletedJobRepository,
