@@ -33,7 +33,7 @@ Ce code partagé est actuellement placé dans différents dossiers nommés `shar
 Il y a plusieurs conséquences négatives à garder ce code dans un état partagé :
 
 - nécessite de la communication et du partage de connaissances qui, s'ils sont réalisés, entraînent une surcharge cognitive, et dans le cas contraire, risquent d'occasionner des anomalies ou incohérences.
-- allonge les délais de mise en oeuvre
+- allonge les délais de mise en œuvre
 - perte d'engagement sur le sujet
 - perte d'autonomie des équipes
 
