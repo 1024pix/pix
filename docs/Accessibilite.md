@@ -53,7 +53,7 @@ Voir le [site du w3c pour la liste des balises](https://www.w3schools.com/TAGS/d
 ## Quand mettre un alt sur une image ?
 Il faut **TOUJOURS** mettre un alt sur une balise `<img>`. 
 
-A noter cependant qu'il faut mettre l'alt vide si l'image est "décorative" (c'est-à-dire qu'elle peut être enlevée sans perdre d'informations, par exemple une image de fond). Pour savoir si une image est utile, se poser la question : "**si on enlève l’image, est-ce qu’il nous manque un information ?**"
+À noter cependant qu'il faut mettre l'alt vide si l'image est "décorative" (c'est-à-dire qu'elle peut être enlevée sans perdre d'informations, par exemple une image de fond). Pour savoir si une image est utile, se poser la question : "**si on enlève l’image, est-ce qu’il nous manque un information ?**"
  
 Pour les autres images, jouant le rôle de boutons ou de lien etc., le contenu de l'alt est primordial. Par exemple, on préférera les formulations : 
 - "Retour vers l'accueil de Pix" plutôt que "Logo de Pix", pour expliquer ce que fait le bouton avec l'image du logo de Pix dans le footer.
