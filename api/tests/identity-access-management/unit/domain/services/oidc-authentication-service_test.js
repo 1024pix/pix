@@ -530,6 +530,81 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
+    context('when claimMapping is defined', function () {
+      it('returns mapped firstName, lastName, external identity id', async function () {
+        // given
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: 'givenName',
+            usual_name: 'familyName',
+            nonce: 'nonce-id',
+            sub: 'sub-id',
+          },
+          'secret',
+        );
+
+        const claimMapping = {
+          firstName: ['given_name'],
+          lastName: ['usual_name'],
+          externalIdentityId: ['sub'],
+        };
+        const oidcAuthenticationService = new OidcAuthenticationService({ claimMapping });
+
+        // when
+        const result = await oidcAuthenticationService.getUserInfo({
+          idToken,
+          accessToken: 'accessToken',
+        });
+
+        // then
+        expect(result).to.deep.equal({
+          firstName: 'givenName',
+          lastName: 'familyName',
+          externalIdentityId: 'sub-id',
+        });
+      });
+    });
+
+    context('when claimMapping and claimsToStore are defined', function () {
+      it('returns mapped firstName, lastName, external identity id and claims to store', async function () {
+        // given
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: 'givenName',
+            usual_name: 'familyName',
+            nonce: 'nonce-id',
+            sub: 'sub-id',
+            employeeNumber: '12345',
+          },
+          'secret',
+        );
+
+        const claimMapping = {
+          firstName: ['given_name'],
+          lastName: ['usual_name'],
+          externalIdentityId: ['sub'],
+        };
+        const oidcAuthenticationService = new OidcAuthenticationService({
+          claimMapping,
+          claimsToStore: 'employeeNumber',
+        });
+
+        // when
+        const result = await oidcAuthenticationService.getUserInfo({
+          idToken,
+          accessToken: 'accessToken',
+        });
+
+        // then
+        expect(result).to.deep.equal({
+          firstName: 'givenName',
+          lastName: 'familyName',
+          externalIdentityId: 'sub-id',
+          employeeNumber: '12345',
+        });
+      });
+    });
+
     context('when default required properties are not returned in id token', function () {
       it('calls userInfo endpoint', async function () {
         // given
