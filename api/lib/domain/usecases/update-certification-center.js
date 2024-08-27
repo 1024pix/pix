@@ -4,8 +4,6 @@
  * @typedef {import('./index.js').ComplementaryCertificationHabilitationRepository} ComplementaryCertificationHabilitationRepository
  * @typedef {import('./index.js').DataProtectionOfficerRepository} DataProtectionOfficerRepository
  */
-import bluebird from 'bluebird';
-
 import { CenterForAdminFactory } from '../../../src/certification/enrolment/domain/models/factories/CenterForAdminFactory.js';
 import { CertificationCenterPilotFeaturesConflictError } from '../../../src/shared/domain/errors.js';
 import {
@@ -113,13 +111,13 @@ const _updateHabilitations = async ({
   await complementaryCertificationHabilitationRepository.deleteByCertificationCenterId(certificationCenterId);
 
   if (complementaryCertificationIds) {
-    await bluebird.mapSeries(complementaryCertificationIds, (complementaryCertificationId) => {
+    for (const complementaryCertificationId of complementaryCertificationIds) {
       const complementaryCertificationHabilitation = new ComplementaryCertificationHabilitation({
         complementaryCertificationId: parseInt(complementaryCertificationId),
         certificationCenterId,
       });
-      return complementaryCertificationHabilitationRepository.save(complementaryCertificationHabilitation);
-    });
+      await complementaryCertificationHabilitationRepository.save(complementaryCertificationHabilitation);
+    }
   }
 };
 

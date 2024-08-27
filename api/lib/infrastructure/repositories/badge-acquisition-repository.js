@@ -1,5 +1,3 @@
-import bluebird from 'bluebird';
-
 import { knex } from '../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
@@ -7,18 +5,22 @@ const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
 
 const createOrUpdate = async function ({ badgeAcquisitionsToCreate = [] }) {
   const knexConn = DomainTransaction.getConnection();
-  return bluebird.mapSeries(badgeAcquisitionsToCreate, async ({ badgeId, userId, campaignParticipationId }) => {
+
+  for (const badgeAcquisitionToCreate of badgeAcquisitionsToCreate) {
+    const { badgeId, userId, campaignParticipationId } = badgeAcquisitionToCreate;
+
     const alreadyCreatedBadgeAcquisition = await knexConn(BADGE_ACQUISITIONS_TABLE)
       .select('id')
       .where({ badgeId, userId, campaignParticipationId });
+
     if (alreadyCreatedBadgeAcquisition.length === 0) {
-      return knexConn(BADGE_ACQUISITIONS_TABLE).insert(badgeAcquisitionsToCreate);
+      await knexConn(BADGE_ACQUISITIONS_TABLE).insert(badgeAcquisitionsToCreate);
     } else {
-      return knexConn(BADGE_ACQUISITIONS_TABLE)
+      await knexConn(BADGE_ACQUISITIONS_TABLE)
         .update({ updatedAt: knex.raw('CURRENT_TIMESTAMP') })
         .where({ userId, badgeId, campaignParticipationId });
     }
-  });
+  }
 };
 
 const getAcquiredBadgeIds = async function ({ badgeIds, userId }) {

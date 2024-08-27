@@ -1,5 +1,3 @@
-import bluebird from 'bluebird';
-
 class SubscriberList {
   constructor() {
     this._subscribers = new Map();
@@ -36,13 +34,13 @@ class EventBus {
   }
   async publish(event, domainTransaction) {
     const subscribersToCall = this._subscriptions.get(event);
-    await bluebird.mapSeries(subscribersToCall, async (subscriberClass) => {
+    for (const subscriberClass of subscribersToCall) {
       //La transaction knex est injecté dans le subscriber via le constructeur
       //Du coup à chaque requête il faut re-instancier le subscriber pour passer
       //une nouvelle transaction.
       const subscriber = this._dependenciesBuilder.build(subscriberClass, domainTransaction);
       await subscriber.handle(event);
-    });
+    }
   }
 }
 
