@@ -277,7 +277,7 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
                 await settled();
 
                 // then
-                assert.dom(screen.getByText('1 point d’attention non bloquant')).exists();
+                assert.dom(screen.getByRole('button', { name: 'Point d’attention non bloquant 1 erreur' })).exists();
                 assert.dom(screen.getByRole('heading', { name: 'Importer à nouveau' })).exists();
 
                 //given
@@ -306,7 +306,7 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
 
                 // then
                 await screen.findByRole('heading', { name: 'Récapitulatif' });
-                assert.dom(screen.getByText('2 points d’attention non bloquants')).exists();
+                assert.dom(screen.getByRole('button', { name: 'Points d’attention non bloquants 2 erreurs' })).exists();
               });
             });
 

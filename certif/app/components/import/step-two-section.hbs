@@ -43,6 +43,11 @@
             nonBlockingErrorReportsCount=this.nonBlockingErrorReportsCount
           }}
           @iconTitle="plus"
+          @tagContent={{t
+            "pages.sessions.import.step-two.non-blocking-errors.tag-information"
+            nonBlockingErrorReportsCount=this.nonBlockingErrorReportsCount
+          }}
+          @tagColor="secondary"
           class="collapsible-header collapsible-header--non-blocking"
         >
           <ul class="collapsible-header__list">
@@ -72,6 +77,11 @@
             blockingErrorReportsCount=this.blockingErrorReportsCount
           }}
           @iconTitle="plus"
+          @tagContent={{t
+            "pages.sessions.import.step-two.blocking-errors.tag-information"
+            blockingErrorReportsCount=this.blockingErrorReportsCount
+          }}
+          @tagColor="error"
           class="collapsible-header collapsible-header--blocking"
         >
           <ul class="collapsible-header__list">
