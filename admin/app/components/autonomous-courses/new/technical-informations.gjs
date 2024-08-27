@@ -6,10 +6,7 @@ import { t } from 'ember-intl';
 import Card from 'pix-admin/components/card';
 
 <template>
-  <Card
-    class="admin-form__card"
-    @title={{t "components.autonomous-course.new.technical-informations.title"}}
-  >
+  <Card class="admin-form__card" @title={{t "components.autonomous-course.new.technical-informations.title"}}>
     <PixInput
       class="form-field"
       @id="autonomousCourseName"
@@ -34,9 +31,7 @@ import Card from 'pix-admin/components/card';
       required={{true}}
     >
       <:label>{{t "components.autonomous-course.new.target-profile.label"}}</:label>
-      <:categoriesLabel>{{t
-          "components.autonomous-course.new.target-profile.category-label"
-        }}</:categoriesLabel>
+      <:categoriesLabel>{{t "components.autonomous-course.new.target-profile.category-label"}}</:categoriesLabel>
     </PixFilterableAndSearchableSelect>
   </Card>
 </template>

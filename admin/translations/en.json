@@ -179,6 +179,33 @@
             "sub-label": "Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
           }
         }
+      },
+      "update": {
+        "custom-landing-page": {
+          "label": "Texte de la page d'accueil",
+          "placeholder": "Exemple : description, objectifs..."
+        },
+        "internal-title": {
+          "label": "Nom interne"
+        },
+        "public-title": {
+          "label": "Nom public <small>(50 caractères maximum)</small>",
+          "placeholder": "Exemple : Le super nom de mon parcours autonome",
+          "sublabel": "Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
+        },
+        "save": "Sauvegarder les modifications"
+      },
+      "view": {
+        "labels": {
+          "created-date": "Date de création",
+          "custom-landing-page": "Texte de la page d'accueil",
+          "internal-title": "Nom interne",
+          "public-title": "Nom public"
+        },
+        "link-copy-action": "Copier le lien de la campagne",
+        "link-copy-validation": "Lien copié !",
+        "link-label": "Lien vers la campagne {code} (nouvelle fenêtre)",
+        "link-title": "Lien public"
       }
     },
     "badges": {
