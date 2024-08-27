@@ -470,7 +470,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#getUserInfo', function () {
-    it('returns firstName, lastName, external identity id and claims to store', async function () {
+    it('returns firstName, lastName and external identity id', async function () {
       // given
       const idToken = jsonwebtoken.sign(
         {
@@ -478,12 +478,11 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           family_name: 'familyName',
           nonce: 'nonce-id',
           sub: 'sub-id',
-          employeeNumber: '12345',
         },
         'secret',
       );
 
-      const oidcAuthenticationService = new OidcAuthenticationService({ claimsToStore: 'employeeNumber' });
+      const oidcAuthenticationService = new OidcAuthenticationService({});
 
       // when
       const result = await oidcAuthenticationService.getUserInfo({
@@ -496,7 +495,38 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         firstName: 'givenName',
         lastName: 'familyName',
         externalIdentityId: 'sub-id',
-        employeeNumber: '12345',
+      });
+    });
+
+    context('when claimsToStore is defined', function () {
+      it('returns firstName, lastName, external identity id and claims to store', async function () {
+        // given
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: 'givenName',
+            family_name: 'familyName',
+            nonce: 'nonce-id',
+            sub: 'sub-id',
+            employeeNumber: '12345',
+          },
+          'secret',
+        );
+
+        const oidcAuthenticationService = new OidcAuthenticationService({ claimsToStore: 'employeeNumber' });
+
+        // when
+        const result = await oidcAuthenticationService.getUserInfo({
+          idToken,
+          accessToken: 'accessToken',
+        });
+
+        // then
+        expect(result).to.deep.equal({
+          firstName: 'givenName',
+          lastName: 'familyName',
+          externalIdentityId: 'sub-id',
+          employeeNumber: '12345',
+        });
       });
     });
 
