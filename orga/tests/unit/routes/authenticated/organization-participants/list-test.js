@@ -1,8 +1,7 @@
 import { setupTest } from 'ember-qunit';
+import extraFilterSerializer from 'pix-orga/utils/extra-filter-serializer.js';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-
-import * as extraFilterSerializer from '../../../helpers/extra-filter-serializer-test.js';
 
 module('Unit | Route | authenticated/organization-participants/list', function (hooks) {
   setupTest(hooks);
@@ -30,7 +29,9 @@ module('Unit | Route | authenticated/organization-participants/list', function (
     pageNumber: pageNumberSymbol,
     pageSize: pageSizeSymbol,
   };
-
+  hooks.afterEach(function () {
+    sinon.restore();
+  });
   hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/organization-participants/list');
     store = this.owner.lookup('service:store');
@@ -72,9 +73,11 @@ module('Unit | Route | authenticated/organization-participants/list', function (
 
   test('should resetController on exiting', function (assert) {
     sinon.stub(extraFilterSerializer, 'encodeExtraFilters').withArgs({}).returns(encodedExtraFiltersSymbol);
-
+    // given
     const controllerSpy = {};
+    // when
     route.resetController(controllerSpy, true);
+    // then
     assert.deepEqual(controllerSpy, {
       pageNumber: 1,
       pageSize: 50,

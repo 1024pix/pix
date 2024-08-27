@@ -3,6 +3,8 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
+import { decodeExtraFilters, encodeExtraFilters } from '../../../utils/extra-filter-serializer.js';
+
 export default class ListController extends Controller {
   @service currentUser;
   @service router;
@@ -12,7 +14,7 @@ export default class ListController extends Controller {
 
   @tracked pageNumber = 1;
   @tracked pageSize = 50;
-  @tracked extraFilters = this.encodeExtraFilters({});
+  @tracked extraFilters = encodeExtraFilters({});
   @tracked fullName = null;
   @tracked certificability = [];
   @tracked participationCountOrder = null;
@@ -24,21 +26,12 @@ export default class ListController extends Controller {
   }
 
   @action
-  decodeExtraFilters(extraFilters) {
-    return JSON.parse(decodeURI(extraFilters));
-  }
-
-  encodeExtraFilters(extraFilters) {
-    return encodeURI(JSON.stringify(extraFilters));
-  }
-
-  @action
   triggerFiltering(fieldName, value) {
     if (fieldName.includes('.')) {
       const [, property] = fieldName.split('.');
-      const queryParamValue = this.decodeExtraFilters(this.extraFilters);
+      const queryParamValue = decodeExtraFilters(this.extraFilters);
       queryParamValue[property] = value || undefined;
-      this.extraFilters = this.encodeExtraFilters(queryParamValue);
+      this.extraFilters = encodeExtraFilters(queryParamValue);
     } else {
       this[fieldName] = value || undefined;
     }
@@ -74,7 +67,7 @@ export default class ListController extends Controller {
     this.pageNumber = null;
     this.fullName = null;
     this.certificability = [];
-    this.extraFilters = this.encodeExtraFilters({});
+    this.extraFilters = encodeExtraFilters({});
   }
 
   @action

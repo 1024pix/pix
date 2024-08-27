@@ -1,5 +1,6 @@
 import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
+import extraFilterSerializer from 'pix-orga/utils/extra-filter-serializer.js';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -10,7 +11,6 @@ module('Unit | Controller | authenticated/organization-participants', function (
   setupIntl(hooks);
 
   let controller;
-
   hooks.beforeEach(function () {
     this.intl = this.owner.lookup('service:intl');
     this.intl.setLocale('fr');
@@ -52,20 +52,16 @@ module('Unit | Controller | authenticated/organization-participants', function (
       test('it should fill the extraFilters property', async function (assert) {
         // given
         const controller = this.owner.lookup('controller:authenticated/organization-participants/list');
-
-        controller.extraFilters = controller.encodeExtraFilters({ classe: 'sixième' });
-
         // when
         controller.triggerFiltering('extraFilters.classe', 'cinquième');
-
         // then
-        assert.strictEqual(controller.extraFilters, controller.encodeExtraFilters({ classe: 'cinquième' }));
+        assert.strictEqual(controller.extraFilters, extraFilterSerializer.encodeExtraFilters({ classe: 'cinquième' }));
       });
       test('it should update the extraFilters property', async function (assert) {
         // given
         const controller = this.owner.lookup('controller:authenticated/organization-participants/list');
 
-        controller.extraFilters = controller.encodeExtraFilters({ classe: 'sixième', ville: 'Paris' });
+        controller.extraFilters = extraFilterSerializer.encodeExtraFilters({ classe: 'sixième', ville: 'Paris' });
 
         // when
         controller.triggerFiltering('extraFilters.classe', 'cinquième');
@@ -73,20 +69,20 @@ module('Unit | Controller | authenticated/organization-participants', function (
         // then
         assert.strictEqual(
           controller.extraFilters,
-          controller.encodeExtraFilters({ classe: 'cinquième', ville: 'Paris' }),
+          extraFilterSerializer.encodeExtraFilters({ classe: 'cinquième', ville: 'Paris' }),
         );
       });
       test('it should clear the corresponding extraFilters property', async function (assert) {
         // given
         const controller = this.owner.lookup('controller:authenticated/organization-participants/list');
 
-        controller.extraFilters = controller.encodeExtraFilters({ classe: 'sixième', ville: 'Paris' });
+        controller.extraFilters = extraFilterSerializer.encodeExtraFilters({ classe: 'sixième', ville: 'Paris' });
 
         // when
         controller.triggerFiltering('extraFilters.classe', '');
 
         // then
-        assert.strictEqual(controller.extraFilters, controller.encodeExtraFilters({ ville: 'Paris' }));
+        assert.strictEqual(controller.extraFilters, extraFilterSerializer.encodeExtraFilters({ ville: 'Paris' }));
       });
     });
   });
@@ -98,7 +94,7 @@ module('Unit | Controller | authenticated/organization-participants', function (
 
       controller.fullName = 'value';
       controller.pageNumber = 2;
-      controller.extraFilters = controller.encodeExtraFilters({ foo: 'bar' });
+      controller.extraFilters = null;
 
       // when
       controller.resetFilters();
@@ -106,7 +102,7 @@ module('Unit | Controller | authenticated/organization-participants', function (
       // then
       assert.strictEqual(controller.fullName, null);
       assert.strictEqual(controller.pageNumber, null);
-      assert.strictEqual(controller.extraFilters, controller.encodeExtraFilters({}));
+      assert.strictEqual(controller.extraFilters, extraFilterSerializer.encodeExtraFilters({}));
     });
   });
 
