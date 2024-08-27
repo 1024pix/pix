@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { knex } from '../../db/knex-database-connection.js';
@@ -58,10 +57,10 @@ async function makeUserCleaCertifiable({ userId, databaseBuilder }) {
 
   const skillIds = await campaignRepository.findSkillIds({ campaignId });
 
-  return bluebird.mapSeries(skillIds, async (skillId) => {
+  for (const skillId of skillIds) {
     const skill = await skillRepository.get(skillId);
-    return _addAnswerAndKnowledgeElementForSkill({ assessmentId, userId, skill, databaseBuilder });
-  });
+    await _addAnswerAndKnowledgeElementForSkill({ assessmentId, userId, skill, databaseBuilder });
+  }
 }
 
 function _createComplementeCompetenceEvaluationAssessment({ databaseBuilder, userId }) {
@@ -79,9 +78,10 @@ async function _cacheLearningContent() {
     allPixCompetences = _.filter(allCompetences, { origin: 'Pix' });
     allDroitCompetences = _.filter(allCompetences, { origin: 'Droit' });
     allEduCompetences = _.filter(allCompetences, { origin: 'Edu' });
-    await bluebird.mapSeries(allCompetences, async (competence) => {
+
+    for (const competence of allCompetences) {
       skillsByCompetenceId[competence.id] = await skillRepository.findActiveByCompetenceId(competence.id);
-    });
+    }
   }
 }
 
