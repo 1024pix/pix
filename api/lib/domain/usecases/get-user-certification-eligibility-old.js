@@ -34,7 +34,7 @@ import { CertificationEligibility } from '../../../src/shared/domain/read-models
  *
  * @returns {CertificationEligibility}
  */
-const getUserCertificationEligibility = async function ({
+const getUserCertificationEligibilityOld = async function ({
   userId,
   limitDate = new Date(),
   placementProfileService,
@@ -64,7 +64,7 @@ const getUserCertificationEligibility = async function ({
   });
 };
 
-export { getUserCertificationEligibility };
+export { getUserCertificationEligibilityOld };
 
 /**
  * @param {Object} params

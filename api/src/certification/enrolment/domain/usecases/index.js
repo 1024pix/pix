@@ -15,12 +15,12 @@ import * as certificationCandidatesOdsService from '../services/certification-ca
 import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
-import * as userCertificabilityService from '../services/user-certificability-service.js';
 
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionRepository} SessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationBadgeRepository} ComplementaryCertificationBadgeRepository
  * @typedef {import('../../../session-management/infrastructure/repositories/index.js').CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
@@ -95,10 +95,6 @@ const usecasesWithoutInjectedDependencies = {
     ignoredFileNames: ['index.js'],
   })),
 };
-const servicesWithoutInjectedDependencies = {
-  userCertificabilityService: userCertificabilityService,
-};
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
-const services = injectDependencies(servicesWithoutInjectedDependencies, dependencies);
-export { services, usecases };
+export { usecases };

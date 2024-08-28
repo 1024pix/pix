@@ -131,7 +131,7 @@ const getCampaignParticipationOverviews = async function (
 const isCertifiable = async function (request, h, dependencies = { certificationEligibilitySerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
 
-  const certificationEligibility = await usecases.getUserCertificationEligibility({ userId: authenticatedUserId });
+  const certificationEligibility = await usecases.getUserCertificationEligibilityOld({ userId: authenticatedUserId });
   return dependencies.certificationEligibilitySerializer.serialize(certificationEligibility);
 };
 

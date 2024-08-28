@@ -1,8 +1,8 @@
-import { getUserCertificationEligibility } from '../../../../lib/domain/usecases/get-user-certification-eligibility.js';
+import { getUserCertificationEligibilityOld } from '../../../../lib/domain/usecases/get-user-certification-eligibility-old.js';
 import { config } from '../../../../src/shared/config.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
-describe('Unit | UseCase | get-user-certification-eligibility', function () {
+describe('Unit | UseCase | get-user-certification-eligibility-old', function () {
   let clock,
     placementProfileService,
     certificationBadgesService,
@@ -39,7 +39,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
       certificationBadgesService.findLatestBadgeAcquisitions.throws(new Error('I should not be called'));
 
       // when
-      const certificationEligibility = await getUserCertificationEligibility({
+      const certificationEligibility = await getUserCertificationEligibilityOld({
         userId: 2,
         placementProfileService,
         certificationBadgesService,
@@ -64,7 +64,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
       complementaryCertificationCourseRepository.findByUserId.resolves([]);
 
       // when
-      const certificationEligibility = await getUserCertificationEligibility({
+      const certificationEligibility = await getUserCertificationEligibilityOld({
         userId: 2,
         placementProfileService,
         certificationBadgesService,
@@ -129,7 +129,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         ]);
 
         // when
-        const certificationEligibility = await getUserCertificationEligibility({
+        const certificationEligibility = await getUserCertificationEligibilityOld({
           userId: 2,
           placementProfileService,
           certificationBadgesService,
@@ -174,7 +174,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         ]);
 
         // when
-        const certificationEligibility = await getUserCertificationEligibility({
+        const certificationEligibility = await getUserCertificationEligibilityOld({
           userId: 2,
           placementProfileService,
           certificationBadgesService,
@@ -254,7 +254,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
               ]);
 
               // when
-              const certificationEligibility = await getUserCertificationEligibility({
+              const certificationEligibility = await getUserCertificationEligibilityOld({
                 userId: 2,
                 placementProfileService,
                 certificationBadgesService,
@@ -349,7 +349,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
                 ]);
 
                 // when
-                const certificationEligibility = await getUserCertificationEligibility({
+                const certificationEligibility = await getUserCertificationEligibilityOld({
                   userId: 2,
                   placementProfileService,
                   certificationBadgesService,
@@ -436,7 +436,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
                 ]);
 
                 // when
-                const certificationEligibility = await getUserCertificationEligibility({
+                const certificationEligibility = await getUserCertificationEligibilityOld({
                   userId: 2,
                   placementProfileService,
                   certificationBadgesService,
@@ -517,7 +517,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
             ]);
 
             // when
-            const certificationEligibility = await getUserCertificationEligibility({
+            const certificationEligibility = await getUserCertificationEligibilityOld({
               userId: 2,
               placementProfileService,
               certificationBadgesService,
@@ -568,7 +568,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         ]);
 
         // when
-        const certificationEligibility = await getUserCertificationEligibility({
+        const certificationEligibility = await getUserCertificationEligibilityOld({
           userId: 2,
           placementProfileService,
           certificationBadgesService,
@@ -642,7 +642,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
             ]);
 
             // when
-            const certificationEligibility = await getUserCertificationEligibility({
+            const certificationEligibility = await getUserCertificationEligibilityOld({
               userId: 2,
               placementProfileService,
               certificationBadgesService,
