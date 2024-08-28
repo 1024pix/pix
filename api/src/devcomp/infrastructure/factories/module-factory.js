@@ -13,6 +13,7 @@ import { Image } from '../../domain/models/element/Image.js';
 import { QCM } from '../../domain/models/element/QCM.js';
 import { QCU } from '../../domain/models/element/QCU.js';
 import { QROCM } from '../../domain/models/element/QROCM.js';
+import { Separator } from '../../domain/models/element/Separator.js';
 import { Text } from '../../domain/models/element/Text.js';
 import { Video } from '../../domain/models/element/Video.js';
 import { Grain } from '../../domain/models/Grain.js';
@@ -89,6 +90,8 @@ export class ModuleFactory {
         return ModuleFactory.#buildEmbed(element);
       case 'image':
         return ModuleFactory.#buildImage(element);
+      case 'separator':
+        return ModuleFactory.#buildSeparator(element);
       case 'text':
         return ModuleFactory.#buildText(element);
       case 'video':
@@ -131,6 +134,12 @@ export class ModuleFactory {
       url: element.url,
       alt: element.alt,
       alternativeText: element.alternativeText,
+    });
+  }
+
+  static #buildSeparator(element) {
+    return new Separator({
+      id: element.id,
     });
   }
 

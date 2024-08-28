@@ -73,7 +73,7 @@ Par exemple, pour générer un élément textuel :
 node ./scripts/modulix/get-sample-text-element.js
 ```
 
-Les types d'éléments disponibles pour le moment sont : `download`, `embed`, `image`, `qcm`, `qcu`, `qrocm`, `text`, `video`.
+Les types d'éléments disponibles pour le moment sont : `download`, `embed`, `image`, `qcm`, `qcu`, `qrocm`, `separator`, `text`, `video`.
 
 #### Valider les règles techniques du contenu d'un module
 

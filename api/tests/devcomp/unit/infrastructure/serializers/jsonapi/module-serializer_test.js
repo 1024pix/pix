@@ -10,6 +10,7 @@ import { Image } from '../../../../../../src/devcomp/domain/models/element/Image
 import { QCM } from '../../../../../../src/devcomp/domain/models/element/QCM.js';
 import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
 import { QROCM } from '../../../../../../src/devcomp/domain/models/element/QROCM.js';
+import { Separator } from '../../../../../../src/devcomp/domain/models/element/Separator.js';
 import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.js';
 import { Video } from '../../../../../../src/devcomp/domain/models/element/Video.js';
 import { Module } from '../../../../../../src/devcomp/domain/models/module/Module.js';
@@ -239,6 +240,11 @@ function getComponents() {
         files: [{ format: '.pdf', url: 'https://example.net/file.pdf' }],
       }),
     }),
+    new ComponentElement({
+      element: new Separator({
+        id: '6',
+      }),
+    }),
   ];
 }
 
@@ -394,6 +400,14 @@ function getAttributesComponents() {
         isAnswerable: false,
         files: [{ format: '.pdf', url: 'https://example.net/file.pdf' }],
         type: 'download',
+      },
+    },
+    {
+      type: 'element',
+      element: {
+        id: '6',
+        isAnswerable: false,
+        type: 'separator',
       },
     },
   ];

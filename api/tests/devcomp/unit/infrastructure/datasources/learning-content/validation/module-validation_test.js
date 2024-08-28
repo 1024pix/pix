@@ -4,6 +4,7 @@ import { getImageSample } from '../../../../../../../src/devcomp/infrastructure/
 import { getQcmSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/qcm.sample.js';
 import { getQcuSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/qcu.sample.js';
 import { getQrocmSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/qrocm.sample.js';
+import { getSeparatorSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/separator.sample.js';
 import { getTextSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/text.sample.js';
 import { getVideoSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/video.sample.js';
 import { expect } from '../../../../../../test-helper.js';
@@ -13,6 +14,7 @@ import { imageElementSchema } from './element/image-schema.js';
 import { qcmElementSchema } from './element/qcm-schema.js';
 import { qcuElementSchema } from './element/qcu-schema.js';
 import { blockInputSchema, blockSelectSchema, qrocmElementSchema } from './element/qrocm-schema.js';
+import { separatorElementSchema } from './element/separator-schema.js';
 import { textElementSchema } from './element/text-schema.js';
 import { videoElementSchema } from './element/video-schema.js';
 import { joiErrorParser } from './joi-error-parser.js';
@@ -68,6 +70,15 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
     it('should validate sample qrocm structure', async function () {
       try {
         await qrocmElementSchema.validateAsync(getQrocmSample(), { abortEarly: false });
+      } catch (joiError) {
+        const formattedError = joiErrorParser.format(joiError);
+        expect(joiError).to.equal(undefined, formattedError);
+      }
+    });
+
+    it('should validate sample separator structure', async function () {
+      try {
+        await separatorElementSchema.validateAsync(getSeparatorSample(), { abortEarly: false });
       } catch (joiError) {
         const formattedError = joiErrorParser.format(joiError);
         expect(joiError).to.equal(undefined, formattedError);
