@@ -7,31 +7,39 @@ import { ComplementaryCertificationKeys } from '../../../../../../src/certificat
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Enrolment | Domain | Models | UserCertificabilityCalculator', function () {
-  context('#static buildEmpty', function () {
-    it('should return an empty UserCertificabilityCalculator', function () {
+  context('#static buildNew', function () {
+    it('should return a new UserCertificabilityCalculator', function () {
       // when
-      const emptyUserCertificabilityCalculator = UserCertificabilityCalculator.buildEmpty({
+      const someDate1 = new Date('2020-01-01');
+      const someDate2 = new Date('2020-01-02');
+      const someDate3 = new Date('2020-01-03');
+      const someDate4 = null;
+      const newUserCertificabilityCalculator = UserCertificabilityCalculator.buildNew({
         userId: 123,
+        latestKnowledgeElementCreatedAt: someDate1,
+        latestCertificationDeliveredAt: someDate2,
+        latestBadgeAcquisitionUpdatedAt: someDate3,
+        latestComplementaryCertificationBadgeDetachedAt: someDate4,
       });
 
       // then
-      expect(emptyUserCertificabilityCalculator).to.deepEqualInstance(
+      expect(newUserCertificabilityCalculator).to.deepEqualInstance(
         domainBuilder.certification.enrolment.buildUserCertificabilityCalculator({
           id: null,
           userId: 123,
-          latestKnowledgeElementCreatedAt: null,
-          latestCertificationDeliveredAt: null,
-          latestBadgeAcquisitionUpdatedAt: null,
-          latestComplementaryCertificationBadgeDetachedAt: null,
+          latestKnowledgeElementCreatedAt: someDate1,
+          latestCertificationDeliveredAt: someDate2,
+          latestBadgeAcquisitionUpdatedAt: someDate3,
+          latestComplementaryCertificationBadgeDetachedAt: someDate4,
         }),
       );
-      expect(emptyUserCertificabilityCalculator.draftCertificability).to.deep.equal([
+      expect(newUserCertificabilityCalculator.draftCertificability).to.deep.equal([
         {
           certification: LABEL_FOR_CORE,
           isCertifiable: false,
         },
       ]);
-      expect(emptyUserCertificabilityCalculator.draftCertificabilityV2).to.deep.equal([
+      expect(newUserCertificabilityCalculator.draftCertificabilityV2).to.deep.equal([
         {
           certification: LABEL_FOR_CORE,
           isCertifiable: false,

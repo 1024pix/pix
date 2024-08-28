@@ -21,7 +21,7 @@ export async function getByUserId({ userId }) {
     .where({ userId })
     .first();
   if (!userCertificabilityData) {
-    return UserCertificabilityCalculator.buildEmpty({ userId });
+    return null;
   }
   return new UserCertificabilityCalculator({
     id: userCertificabilityData.id,
@@ -96,7 +96,7 @@ export async function getActivityDatesForUserId({ userId }) {
   };
 }
 
-export async function save(userCertificabilityCalculator) {
+export async function save({ userCertificabilityCalculator }) {
   const dataToInsert = adaptModelToDB(userCertificabilityCalculator);
   dataToInsert.updatedAt = new Date();
   await knex('user-certificabilities')

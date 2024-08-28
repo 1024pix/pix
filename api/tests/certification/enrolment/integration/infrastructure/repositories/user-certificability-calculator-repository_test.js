@@ -205,7 +205,7 @@ describe('Integration | Repository | certification | enrolment | UserCertificabi
         });
 
         // when
-        await userCertificabilityCalculatorRepository.save(userCertificabilityToSave);
+        await userCertificabilityCalculatorRepository.save({ userCertificabilityToSave });
 
         // then
         const savedUserCertificability = await userCertificabilityCalculatorRepository.getByUserId({ userId });
@@ -250,7 +250,7 @@ describe('Integration | Repository | certification | enrolment | UserCertificabi
         });
 
         // when
-        await userCertificabilityCalculatorRepository.save(userCertificabilityToSave);
+        await userCertificabilityCalculatorRepository.save({ userCertificabilityToSave });
 
         // then
         const savedUserCertificability = await userCertificabilityCalculatorRepository.getByUserId({ userId });

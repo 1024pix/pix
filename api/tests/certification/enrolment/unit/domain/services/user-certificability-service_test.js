@@ -1,10 +1,16 @@
 import dayjs from 'dayjs';
 
 import { UserCertificability } from '../../../../../../src/certification/enrolment/domain/models/UserCertificability.js';
-import { getUserCertificability } from '../../../../../../src/certification/enrolment/domain/services/get-user-certificability.js';
+import { services } from '../../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Certification | Enrolment | Unit | Domain | Services | UserCertificability', function () {
+describe('Certification | Enrolment | Unit | Domain | Services | UserCertificabilityService', function () {
+  let userCertificabilityService;
+
+  beforeEach(function () {
+    userCertificabilityService = services.userCertificabilityService;
+  });
+
   describe('#getUserCertificability', function () {
     const userId = 123;
     let userCertificabilityCalculatorRepository;
@@ -100,7 +106,7 @@ describe('Certification | Enrolment | Unit | Domain | Services | UserCertificabi
           });
 
           // when
-          const actualUserCertificability = await getUserCertificability(dependencies);
+          const actualUserCertificability = await userCertificabilityService.getUserCertificability(dependencies);
 
           // then
           expect(actualUserCertificability).to.be.instanceOf(UserCertificability);
@@ -180,7 +186,7 @@ describe('Certification | Enrolment | Unit | Domain | Services | UserCertificabi
           const buildUserCertificabilitySpy = sinon.spy(userCertificabilityCalculator, 'buildUserCertificability');
 
           // when
-          const actualUserCertificability = await getUserCertificability(dependencies);
+          const actualUserCertificability = await userCertificabilityService.getUserCertificability(dependencies);
 
           // then
           expect(actualUserCertificability).to.be.instanceOf(UserCertificability);
@@ -235,7 +241,7 @@ describe('Certification | Enrolment | Unit | Domain | Services | UserCertificabi
           });
 
           // when
-          const actualUserCertificability = await getUserCertificability(dependencies);
+          const actualUserCertificability = await userCertificabilityService.getUserCertificability(dependencies);
 
           // then
           expect(actualUserCertificability).to.be.instanceOf(UserCertificability);

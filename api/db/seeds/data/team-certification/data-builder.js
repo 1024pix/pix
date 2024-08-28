@@ -283,7 +283,7 @@ async function _createProOrganization({ databaseBuilder }) {
     organizationId: PRO_ORGANIZATION_ID,
     type: 'PRO',
     name: 'Orga team Certification',
-    isManagingStudents: true,
+    isManagingStudents: false,
     externalId: PRO_EXTERNAL_ID,
     adminIds: [PRO_ORGANIZATION_USER_ID],
     configOrganization: {

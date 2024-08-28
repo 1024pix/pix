@@ -39,6 +39,8 @@ export class UserCertificabilityCalculator {
   }
 
   get draftCertificability() {
+    console.log('coucou');
+    console.log(this.#certificability);
     return this.#certificability;
   }
 
@@ -50,16 +52,22 @@ export class UserCertificabilityCalculator {
     return !this.#hasCoreBeenCalculated || !this.#haveComplementariesBeenCalculated;
   }
 
-  static buildEmpty({ userId }) {
+  static buildNew({
+    userId,
+    latestKnowledgeElementCreatedAt,
+    latestCertificationDeliveredAt,
+    latestBadgeAcquisitionUpdatedAt,
+    latestComplementaryCertificationBadgeDetachedAt,
+  }) {
     return new UserCertificabilityCalculator({
       id: null,
       userId,
       certificability: [buildCoreCertificabilityData({ isCertifiable: false })],
       certificabilityV2: [buildCoreCertificabilityData({ isCertifiable: false })],
-      latestKnowledgeElementCreatedAt: null,
-      latestCertificationDeliveredAt: null,
-      latestBadgeAcquisitionUpdatedAt: null,
-      latestComplementaryCertificationBadgeDetachedAt: null,
+      latestKnowledgeElementCreatedAt,
+      latestCertificationDeliveredAt,
+      latestBadgeAcquisitionUpdatedAt,
+      latestComplementaryCertificationBadgeDetachedAt,
     });
   }
 

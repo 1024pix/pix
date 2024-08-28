@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as complementaryCertificationCourseRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-course-repository.js';
 import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
@@ -11,10 +12,10 @@ import * as temporaryCompanionStorageService from '../../../shared/domain/servic
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
-import { getUserCertificability } from '../services/get-user-certificability.js';
 import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
+import * as userCertificabilityService from '../services/user-certificability-service.js';
 
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
@@ -78,6 +79,7 @@ const dependencies = {
   certificationCpfService,
   temporaryCompanionStorageService,
   certificationCandidatesOdsService,
+  complementaryCertificationCourseRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -94,10 +96,9 @@ const usecasesWithoutInjectedDependencies = {
   })),
 };
 const servicesWithoutInjectedDependencies = {
-  getUserCertificability: getUserCertificability,
+  userCertificabilityService: userCertificabilityService,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 const services = injectDependencies(servicesWithoutInjectedDependencies, dependencies);
-
 export { services, usecases };

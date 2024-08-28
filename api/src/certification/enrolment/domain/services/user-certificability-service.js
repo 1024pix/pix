@@ -1,9 +1,4 @@
-/*
-TODO / reflexions :
-Valider qu'une certif complémentaire ne génère pas d'assessment result
- */
-export { getUserCertificability };
-
+import { UserCertificabilityCalculator } from '../models/UserCertificabilityCalculator.js';
 async function getUserCertificability({
   userId,
   userCertificabilityCalculatorRepository,
@@ -13,21 +8,32 @@ async function getUserCertificability({
   certificationBadgesService,
 }) {
   const now = new Date();
-  const userCertificabilityCalculator = await userCertificabilityCalculatorRepository.getByUserId({ userId });
+  let userCertificabilityCalculator = await userCertificabilityCalculatorRepository.getByUserId({ userId });
   const {
     latestKnowledgeElementCreatedAt,
     latestCertificationDeliveredAt,
     latestBadgeAcquisitionUpdatedAt,
     latestComplementaryCertificationBadgeDetachedAt,
   } = await userCertificabilityCalculatorRepository.getActivityDatesForUserId({ userId });
-  if (
-    userCertificabilityCalculator.isUpToDate({
+  let isUpToDate;
+  if (!userCertificabilityCalculator) {
+    userCertificabilityCalculator = UserCertificabilityCalculator.buildNew({
+      userId,
+      latestKnowledgeElementCreatedAt,
+      latestCertificationDeliveredAt,
+      latestBadgeAcquisitionUpdatedAt,
+      latestComplementaryCertificationBadgeDetachedAt,
+    });
+    isUpToDate = false;
+  } else {
+    isUpToDate = userCertificabilityCalculator.isUpToDate({
       realLatestKnowledgeElementCreatedAt: latestKnowledgeElementCreatedAt,
       realLatestCertificationDeliveredAt: latestCertificationDeliveredAt,
       realLatestBadgeAcquisitionUpdatedAt: latestBadgeAcquisitionUpdatedAt,
       realLatestComplementaryCertificationBadgeDetachedAt: latestComplementaryCertificationBadgeDetachedAt,
-    })
-  ) {
+    });
+  }
+  if (isUpToDate) {
     return userCertificabilityCalculator.buildUserCertificability();
   }
 
@@ -51,7 +57,7 @@ async function getUserCertificability({
     complementaryCertificationCourseRepository,
   });
 
-  await userCertificabilityCalculatorRepository.save(userCertificabilityCalculator);
+  await userCertificabilityCalculatorRepository.save({ userCertificabilityCalculator });
   return userCertificabilityCalculator.buildUserCertificability();
 }
 
@@ -106,3 +112,9 @@ async function computeComplementaryCertificabilities({
     howManyVersionsBehindByComplementaryCertificationBadgeId,
   });
 }
+
+/**
+ * @typedef {Object} UserCertificabilityService
+ * @property {function} getUserCertificability
+ */
+export { getUserCertificability };
