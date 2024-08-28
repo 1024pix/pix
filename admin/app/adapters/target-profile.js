@@ -52,17 +52,6 @@ export default class TargetProfileAdapter extends ApplicationAdapter {
     return result;
   }
 
-  //TODO: move to trainings
-  async attachToTraining(options) {
-    const { trainingId } = options;
-    const payload = {
-      'target-profile-ids': options.targetProfileIds,
-    };
-
-    const url = `${this.host}/${this.namespace}/trainings/${trainingId}/attach-target-profiles`;
-    return this.ajax(url, 'POST', { data: payload });
-  }
-
   async attachOrganizationsFromExistingTargetProfile(options) {
     const { targetProfileId } = options;
     const payload = {

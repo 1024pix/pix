@@ -29,8 +29,8 @@ export default class TrainingDetailsTargetProfilesController extends Controller 
     try {
       const targetProfileIdsBefore = targetProfileSummaries.map(({ id }) => id);
       const targetProfileIdsToAttach = this._getUniqueTargetProfileIds();
-      const adapter = this.store.adapterFor('target-profile');
-      await adapter.attachToTraining({
+      const adapter = this.store.adapterFor('training');
+      await adapter.attachTargetProfile({
         trainingId: training.id,
         targetProfileIds: targetProfileIdsToAttach,
       });

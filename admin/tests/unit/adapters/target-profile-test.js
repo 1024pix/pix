@@ -75,25 +75,6 @@ module('Unit | Adapter | Target-profile ', function (hooks) {
     });
   });
 
-  module('#attachToTraining', function () {
-    test('should trigger an ajax call with the right url, method and payload', async function (assert) {
-      // given
-      sinon.stub(adapter, 'ajax').resolves();
-      const trainingId = 1;
-      const expectedPayload = {
-        data: { 'target-profile-ids': ['123', '456'] },
-      };
-      const expectedUrl = `http://localhost:3000/api/admin/trainings/${trainingId}/attach-target-profiles`;
-
-      // when
-      await adapter.attachToTraining({ trainingId, targetProfileIds: ['123', '456'] });
-
-      // then
-      sinon.assert.calledWith(adapter.ajax, expectedUrl, 'POST', expectedPayload);
-      assert.ok(true);
-    });
-  });
-
   module('#outdate', function () {
     test('should trigger an ajax call with the right url and method', async function (assert) {
       // given
