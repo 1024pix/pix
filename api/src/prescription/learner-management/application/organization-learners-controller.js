@@ -1,3 +1,4 @@
+import * as scoOrganizationLearnerSerializer from '../../../../lib/infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { ApplicationTransaction } from '../../shared/infrastructure/ApplicationTransaction.js';
 import { usecases } from '../domain/usecases/index.js';
@@ -51,11 +52,28 @@ const dissociate = async function (request, h) {
   return h.response().code(204);
 };
 
+const reconcileScoOrganizationLearnerAutomatically = async function (
+  request,
+  h,
+  dependencies = { scoOrganizationLearnerSerializer },
+) {
+  const authenticatedUserId = request.auth.credentials.userId;
+  const payload = request.payload.data.attributes;
+  const campaignCode = payload['campaign-code'];
+  const organizationLearner = await usecases.reconcileScoOrganizationLearnerAutomatically({
+    userId: authenticatedUserId,
+    campaignCode,
+  });
+
+  return h.response(dependencies.scoOrganizationLearnerSerializer.serializeIdentity(organizationLearner));
+};
+
 const organizationLearnersController = {
   reconcileCommonOrganizationLearner,
   deleteOrganizationLearners,
   importOrganizationLearnerFromFeature,
   dissociate,
+  reconcileScoOrganizationLearnerAutomatically,
 };
 
 export { organizationLearnersController };

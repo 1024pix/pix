@@ -39,22 +39,6 @@ const reconcileScoOrganizationLearnerManually = async function (
   return response;
 };
 
-const reconcileScoOrganizationLearnerAutomatically = async function (
-  request,
-  h,
-  dependencies = { scoOrganizationLearnerSerializer },
-) {
-  const authenticatedUserId = request.auth.credentials.userId;
-  const payload = request.payload.data.attributes;
-  const campaignCode = payload['campaign-code'];
-  const organizationLearner = await usecases.reconcileScoOrganizationLearnerAutomatically({
-    userId: authenticatedUserId,
-    campaignCode,
-  });
-
-  return h.response(dependencies.scoOrganizationLearnerSerializer.serializeIdentity(organizationLearner));
-};
-
 const generateUsername = async function (request, h, dependencies = { scoOrganizationLearnerSerializer }) {
   const payload = request.payload.data.attributes;
   const { 'campaign-code': campaignCode } = payload;
@@ -208,7 +192,6 @@ const updateOrganizationLearnersPassword = async function (request, h) {
 
 const scoOrganizationLearnerController = {
   reconcileScoOrganizationLearnerManually,
-  reconcileScoOrganizationLearnerAutomatically,
   generateUsername,
   createAndReconcileUserToOrganizationLearner,
   createUserAndReconcileToOrganizationLearnerFromExternalUser,

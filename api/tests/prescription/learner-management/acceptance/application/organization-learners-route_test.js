@@ -222,4 +222,66 @@ describe('Acceptance | Prescription | learner management | Application | organiz
       expect(response.statusCode).to.equal(204);
     });
   });
+
+  describe('POST /api/sco-organization-learners/association/auto', function () {
+    const nationalStudentId = '12345678AZ';
+    let organization;
+    let campaign;
+    let options;
+    let user;
+
+    beforeEach(async function () {
+      // given
+      options = {
+        method: 'POST',
+        url: '/api/sco-organization-learners/association/auto',
+        headers: {},
+        payload: {},
+      };
+
+      user = databaseBuilder.factory.buildUser();
+      organization = databaseBuilder.factory.buildOrganization();
+      campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
+      databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization.id,
+        userId: null,
+        nationalStudentId,
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return an 200 status after having successfully associated user to organizationLearner', async function () {
+      // given
+      databaseBuilder.factory.buildOrganizationLearner({ userId: user.id, nationalStudentId });
+      await databaseBuilder.commit();
+
+      options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
+      options.payload.data = {
+        attributes: {
+          'campaign-code': campaign.code,
+        },
+        type: 'sco-organization-learners',
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    context('when user is not authenticated', function () {
+      it('should respond with a 401 - unauthorized access', async function () {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+    });
+  });
 });
