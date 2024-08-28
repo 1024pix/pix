@@ -25,7 +25,7 @@ if (isLaunchedFromCommandLine) {
 }
 
 export async function backfillAnonymizedUsers() {
-  const anonymizedUserIds = await anonymizedUserRepository.findIds();
+  const anonymizedUserIds = await anonymizedUserRepository.findLegacyAnonymizedIds();
 
   logger.info(`Total anonymized users to backfill: ${anonymizedUserIds.length}`);
 
