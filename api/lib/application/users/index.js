@@ -395,30 +395,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/users/{id}/is-certifiable',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        handler: userController.isCertifiable,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Récupération du nombre total de Pix de l'utilisateur\n" +
-            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'user'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/users/{id}/profile',
       config: {
         pre: [

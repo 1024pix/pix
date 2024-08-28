@@ -49,7 +49,6 @@ import { buildCertificationChallengeWithType } from './build-certification-chall
 import { buildCertificationCourse } from './build-certification-course.js';
 import { buildCertificationCpfCity } from './build-certification-cpf-city.js';
 import { buildCertificationCpfCountry } from './build-certification-cpf-country.js';
-import { buildCertificationEligibility } from './build-certification-eligibility.js';
 import { buildCertificationIssueReport } from './build-certification-issue-report.js';
 import { buildCertificationOfficer } from './build-certification-officer.js';
 import { buildCertificationPointOfContact } from './build-certification-point-of-contact.js';
@@ -84,10 +83,6 @@ import { buildComplementaryCertificationHabilitation } from './build-complementa
 import { buildComplementaryCertificationScoringCriteria } from './build-complementary-certification-scoring-criteria.js';
 import { buildComplementaryCertificationScoringWithoutComplementaryReferential } from './build-complementary-certification-scoring-without-complementary-referential.js';
 import { buildComplementaryCertificationTargetProfileHistory } from './build-complementary-certification-target-profile-history-for-admin.js';
-import {
-  buildComplementaryCertificationBadge as buildCertificationComplementaryCertificationBadge,
-  buildComplementaryCertificationVersioning,
-} from './build-complementary-certification-versioning.js';
 import { buildCountry } from './build-country.js';
 import { buildCourse } from './build-course.js';
 import { buildCpfCertificationResult } from './build-cpf-certification-result.js';
@@ -233,10 +228,6 @@ const certification = {
   shared: {
     buildJuryComment: buildJuryComment,
   },
-  lib: {
-    buildComplementaryCertificationVersioning,
-    buildComplementaryCertificationBadge: buildCertificationComplementaryCertificationBadge,
-  },
 };
 
 const prescription = {
@@ -302,7 +293,6 @@ export {
   buildCertificationCpfCity,
   buildCertificationCpfCountry,
   buildCertificationDetails,
-  buildCertificationEligibility,
   buildCertificationIssueReport,
   buildCertificationOfficer,
   buildCertificationPointOfContact,

@@ -128,13 +128,6 @@ const getCampaignParticipationOverviews = async function (
   );
 };
 
-const isCertifiable = async function (request, h, dependencies = { certificationEligibilitySerializer }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-
-  const certificationEligibility = await usecases.getUserCertificationEligibilityOld({ userId: authenticatedUserId });
-  return dependencies.certificationEligibilitySerializer.serialize(certificationEligibility);
-};
-
 const getProfile = function (request, h, dependencies = { profileSerializer, requestResponseUtils }) {
   const authenticatedUserId = request.auth.credentials.userId;
   const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
@@ -309,7 +302,6 @@ const userController = {
   getUserCampaignParticipationToCampaign,
   getUserDetailsForAdmin,
   getUserProfileSharedForCampaign,
-  isCertifiable,
   reassignAuthenticationMethods,
   rememberUserHasSeenAssessmentInstructions,
   rememberUserHasSeenChallengeTooltip,
