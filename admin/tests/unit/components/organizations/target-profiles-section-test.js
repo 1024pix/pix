@@ -26,7 +26,7 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
         const reloadStub = sinon.stub();
         const mapStub = sinon.stub();
         const adapter = this.owner.lookup('adapter:attachable-target-profile');
-        adapter.attachToOrganization = sinon.stub().resolves();
+        adapter.attachTargetProfile = sinon.stub().resolves();
         sinon.stub(store, 'adapterFor').returns(adapter);
 
         mapStub.onCall(0).returns([]);
@@ -45,7 +45,7 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
 
         await component.attachTargetProfiles(event);
 
-        assert.ok(adapter.attachToOrganization.calledWith({ organizationId: 123, targetProfileIds: ['1', '2'] }));
+        assert.ok(adapter.attachTargetProfile.calledWith({ organizationId: 123, targetProfileIds: ['1', '2'] }));
         assert.strictEqual(component.targetProfilesToAttach, '');
         assert.ok(
           component.notifications.success.calledWithExactly('Profil(s) cible(s) rattaché(s) avec succès.', {
@@ -62,7 +62,7 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
         mapStub.onCall(0).returns(['1', '2']);
         mapStub.onCall(1).returns(['1', '2', '3']);
         const adapter = this.owner.lookup('adapter:attachable-target-profile');
-        adapter.attachToOrganization = sinon.stub().resolves();
+        adapter.attachTargetProfile = sinon.stub().resolves();
         sinon.stub(store, 'adapterFor').returns(adapter);
         component.args = {
           organization: {
@@ -104,7 +104,7 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
           const mapStub = sinon.stub();
           reloadStub.returns([]);
           const adapter = this.owner.lookup('adapter:attachable-target-profile');
-          adapter.attachToOrganization = sinon.stub().rejects(errors);
+          adapter.attachTargetProfile = sinon.stub().rejects(errors);
           sinon.stub(store, 'adapterFor').returns(adapter);
           component.args = {
             organization: {
@@ -138,7 +138,7 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
           const mapStub = sinon.stub();
           reloadStub.returns([]);
           const adapter = this.owner.lookup('adapter:attachable-target-profile');
-          adapter.attachToOrganization = sinon.stub().rejects(errors);
+          adapter.attachTargetProfile = sinon.stub().rejects(errors);
           sinon.stub(store, 'adapterFor').returns(adapter);
           component.args = {
             organization: {
@@ -174,7 +174,7 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
           const mapStub = sinon.stub();
           reloadStub.returns([]);
           const adapter = this.owner.lookup('adapter:attachable-target-profile');
-          adapter.attachToOrganization = sinon.stub().rejects(errors);
+          adapter.attachTargetProfile = sinon.stub().rejects(errors);
           sinon.stub(store, 'adapterFor').returns(adapter);
           component.args = {
             organization: {
