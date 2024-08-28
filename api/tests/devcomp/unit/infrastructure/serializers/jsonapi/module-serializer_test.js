@@ -4,6 +4,7 @@ import { BlockSelectOption } from '../../../../../../src/devcomp/domain/models/b
 import { BlockText } from '../../../../../../src/devcomp/domain/models/block/BlockText.js';
 import { ComponentElement } from '../../../../../../src/devcomp/domain/models/component/ComponentElement.js';
 import { ComponentStepper } from '../../../../../../src/devcomp/domain/models/component/ComponentStepper.js';
+import { Download } from '../../../../../../src/devcomp/domain/models/element/Download.js';
 import { Embed } from '../../../../../../src/devcomp/domain/models/element/Embed.js';
 import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
 import { QCM } from '../../../../../../src/devcomp/domain/models/element/QCM.js';
@@ -232,6 +233,12 @@ function getComponents() {
         transcription: 'transcription',
       }),
     }),
+    new ComponentElement({
+      element: new Download({
+        id: '5',
+        files: [{ format: '.pdf', url: 'https://example.net/file.pdf' }],
+      }),
+    }),
   ];
 }
 
@@ -378,6 +385,15 @@ function getAttributesComponents() {
         transcription: 'transcription',
         type: 'video',
         url: 'url',
+      },
+    },
+    {
+      type: 'element',
+      element: {
+        id: '5',
+        isAnswerable: false,
+        files: [{ format: '.pdf', url: 'https://example.net/file.pdf' }],
+        type: 'download',
       },
     },
   ];
