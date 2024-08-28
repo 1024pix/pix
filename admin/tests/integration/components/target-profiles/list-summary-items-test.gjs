@@ -2,8 +2,11 @@ import { render } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
 import ListSummaryItems from 'pix-admin/components/target-profiles/list-summary-items';
 import { module, test } from 'qunit';
+
+import setupIntl from '../../../helpers/setup-intl';
 module('Integration | Component | TargetProfiles::ListSummaryItems', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   const triggerFiltering = () => {};
 

@@ -3,8 +3,11 @@ import { setupRenderingTest } from 'ember-qunit';
 import ListItems from 'pix-admin/components/autonomous-courses/list-items';
 import { module, test } from 'qunit';
 
+import setupIntl from '../../../helpers/setup-intl';
+
 module('Integration | Component | AutonomousCourses::ListItems', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   test('it should display a autonomous courses list', async function (assert) {
     // given

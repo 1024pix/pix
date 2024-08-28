@@ -1,5 +1,6 @@
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import { LinkTo } from '@ember/routing';
+import { t } from 'ember-intl';
 
 import formatDate from '../../helpers/format-date';
 
@@ -7,13 +8,17 @@ import formatDate from '../../helpers/format-date';
   <div class="content-text content-text--small">
     <div class="table-admin">
       <table>
-        <caption class="screen-reader-only">Liste des parcours autonomes</caption>
+        <caption class="screen-reader-only">{{t "components.autonomous-courses.list-items.table-caption"}}</caption>
         <thead>
           <tr>
-            <th scope="col" class="table__column table__column--id">Id</th>
-            <th scope="col">Nom</th>
-            <th scope="col" class="table__column table__medium">Date de création</th>
-            <th scope="col" class="table__column table__medium">Statut</th>
+            <th scope="col" id="autonomous-course-id" class="table__column--id">
+              {{t "components.autonomous-courses.list-items.table-headers.autonomous-course-id"}}</th>
+            <th scope="col" id="autonomous-course-name">
+              {{t "components.autonomous-courses.list-items.table-headers.autonomous-course-name"}}</th>
+            <th scope="col" id="autonomous-course-creation-date" class="table__column--medium">
+              {{t "components.autonomous-courses.list-items.table-headers.autonomous-course-creation-date"}}</th>
+            <th scope="col" id="autonomous-course-status" class="table__column--medium">
+              {{t "components.autonomous-courses.list-items.table-headers.autonomous-course-status"}}</th>
           </tr>
         </thead>
 
@@ -21,10 +26,10 @@ import formatDate from '../../helpers/format-date';
           <tbody>
             {{#each @items as |autonomousCourseListItem|}}
               <tr>
-                <td>
+                <td headers="autonomous-course-id">
                   {{autonomousCourseListItem.id}}
                 </td>
-                <td>
+                <td headers="autonomous-course-name">
                   <LinkTo
                     @route="authenticated.autonomous-courses.autonomous-course"
                     @model={{autonomousCourseListItem.id}}
@@ -32,17 +37,17 @@ import formatDate from '../../helpers/format-date';
                     {{autonomousCourseListItem.name}}
                   </LinkTo>
                 </td>
-                <td>
+                <td headers="autonomous-course-creation-date">
                   {{formatDate autonomousCourseListItem.createdAt}}
                 </td>
-                <td>
+                <td headers="autonomous-course-status">
                   {{#if autonomousCourseListItem.archivedAt}}
                     <PixTag @color="grey-light">
-                      Archivé
+                      {{t "common.words.archived"}}
                     </PixTag>
                   {{else}}
                     <PixTag @color="green-light">
-                      Actif
+                      {{t "common.words.active"}}
                     </PixTag>
                   {{/if}}
                 </td>
@@ -53,7 +58,7 @@ import formatDate from '../../helpers/format-date';
       </table>
 
       {{#unless @items}}
-        <div class="table__empty">Aucun résultat</div>
+        <div class="table__empty">{{t "common.tables.no-result"}}</div>
       {{/unless}}
     </div>
   </div>

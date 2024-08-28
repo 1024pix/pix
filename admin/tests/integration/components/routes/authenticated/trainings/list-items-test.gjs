@@ -3,8 +3,11 @@ import { setupRenderingTest } from 'ember-qunit';
 import ListSummaryItems from 'pix-admin/components/trainings/list-summary-items';
 import { module, test } from 'qunit';
 
+import setupIntl from '../../../../../helpers/setup-intl';
+
 module('Integration | Component | routes/authenticated/trainings | list-items', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   const noop = () => {};
 

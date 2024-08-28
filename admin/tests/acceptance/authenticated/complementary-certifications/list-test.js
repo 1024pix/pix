@@ -1,13 +1,17 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { module, test } from 'qunit';
 
+import setupIntl from '../../../helpers/setup-intl';
+
 module('Acceptance | Complementary certifications | list ', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   module('When admin member is not logged in', function () {
     test('it should not be accessible by an unauthenticated user', async function (assert) {
@@ -48,10 +52,14 @@ module('Acceptance | Complementary certifications | list ', function (hooks) {
       const screen = await visit('/complementary-certifications/list');
 
       // then
-      assert.dom(screen.getByText('ID')).exists({ count: 1 });
+      assert
+        .dom(screen.getByText(t('components.complementary-certifications.list.table-headers.id')))
+        .exists({ count: 1 });
       assert.dom(screen.getByText('1')).exists({ count: 1 });
 
-      assert.dom(screen.getByText('Nom')).exists({ count: 1 });
+      assert
+        .dom(screen.getByText(t('components.complementary-certifications.list.table-headers.name')))
+        .exists({ count: 1 });
       assert.dom(screen.getByText('TOINE')).exists({ count: 1 });
     });
 

@@ -7,7 +7,8 @@
       "deactivate": "Désactiver",
       "edit": "Modifier",
       "save": "Enregistrer",
-      "validate": "Valider"
+      "validate": "Valider",
+      "confirm": "Confirmer"
     },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
@@ -31,8 +32,14 @@
       "auto": "Automatique",
       "member": "Membre"
     },
+    "tables": {
+      "no-result": "Aucun résultat"
+    },
     "words": {
+      "active": "Actif",
+      "archived": "Archivé",
       "no": "Non",
+      "obsolete": "Obsolète",
       "yes": "Oui"
     }
   },
@@ -143,6 +150,17 @@
         "upload-button": "Importer un fichier CSV"
       }
     },
+    "autonomous-courses": {
+      "list-items": {
+        "table-caption": "Liste des parcours autonomes",
+        "table-headers": {
+          "autonomous-course-creation-date": "Date de création",
+          "autonomous-course-id": "Id",
+          "autonomous-course-name": "Nom",
+          "autonomous-course-status": "Statut"
+        }
+      }
+    },
     "badges": {
       "api-error-messages": {
         "key-already-exists": "La clé de badge {badgeKey} est déjà utilisée"
@@ -169,6 +187,13 @@
       }
     },
     "complementary-certifications": {
+      "list" : {
+        "table-caption": "Liste des certifications complémentaires",
+        "table-headers": {
+          "id": "Id",
+          "name": "Nom"
+        }
+      },
       "target-profiles": {
         "badges-list": {
           "title": "Badges certifiés du profil cible actuel",
@@ -212,6 +237,55 @@
         "parent-organization": "Organisation mère"
       }
     },
+    "sessions": {
+      "list-items": {
+        "labels": {
+          "filter-by-certification-center": "Filtrer les sessions avec le nom d'un centre de certification",
+          "filter-by-certification-center-type": "Filtrer les sessions en sélectionnant un type de centre de certification",
+          "filter-by-external-id": "Filtrer les sessions avec un identifiant externe",
+          "filter-by-session-id": "Filtrer les sessions avec un id",
+          "filter-by-status": "Filtrer les sessions en sélectionnant un statut",
+          "filter-by-version": "Filtrer les sessions par leur version"
+        },
+        "table-headers": {
+          "certification-center-category": "Catégorie",
+          "certification-center-name": "Centre de certification",
+          "session-date": "Date de session",
+          "session-external-id": "Identifiant externe",
+          "session-finalization-date": "Date de finalisation",
+          "session-id": "Id",
+          "session-publication-date": "Date de publication",
+          "session-status": "Statut",
+          "session-version": "Version de la session"
+        }
+      }
+    },
+    "target-profiles": {
+      "list-summary-items": {
+        "table-headers": {
+          "target-profile-creation-date": "Date de création",
+          "target-profile-id": "Id",
+          "target-profile-name": "Nom",
+          "target-profile-status": "Statut"
+        }
+      }
+    },
+    "trainings": {
+      "list-summary-items": {
+        "labels": {
+          "filter-by-id": "Filtrer les contenus formatifs par un id",
+          "filter-by-title": "Filtrer les contenus formatifs par un titre"
+        },
+        "table-headers": {
+          "training-goal-threshold": "Objectif à ne pas dépasser",
+          "training-id": "ID",
+          "training-prerequisite-threshold": "Prérequis",
+          "training-state": "État",
+          "training-target-profile-count": "Profils cibles associés",
+          "training-title": "Titre"
+        }
+      }
+    },
     "users": {
       "certification-centers": {
         "memberships": {
@@ -240,6 +314,15 @@
           }
         }
       },
+      "list-items": {
+        "table-headers": {
+          "user-email": "Adresse e-mail",
+          "user-firstname": "Prénom",
+          "user-id": "Id",
+          "user-lastname": "Nom",
+          "user-username": "Identifiant"
+        }
+      },
       "user-detail-personal-information": {
         "actions": {
           "copy-email": "Copier l’adresse e-mail",
@@ -249,6 +332,25 @@
           "should-change-password-status": "Mot de passe temporaire :"
         },
         "copied": "Copié !"
+      }
+    },
+    "team": {
+      "list": {
+        "table-caption" : "Liste des membres de l'équipe",
+        "table-headers": {
+          "team-member-first-name" : "Prénom",
+          "team-member-last-name" : "Nom",
+          "team-member-email" :  "Adresse e-mail",
+          "team-member-role" : "Rôle",
+          "team-member-actions" :  "Actions"
+        },
+        "labels": {
+          "select-role": "Sélectionner un rôle",
+          "confirm-role-modification": "Valider la modification du rôle",
+          "change-member-role": "Modifier le rôle de l'agent {firstName} {lastName}",
+          "deactivate-member": "Désactiver l'agent {firstName} {lastName}",
+          "deactivate-confirmation": "Désactivation d'un agent Pix"
+        }
       }
     }
   },

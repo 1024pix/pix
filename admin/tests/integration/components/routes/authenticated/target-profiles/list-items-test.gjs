@@ -3,8 +3,11 @@ import { setupRenderingTest } from 'ember-qunit';
 import ListSummaryItems from 'pix-admin/components/target-profiles/list-summary-items';
 import { module, test } from 'qunit';
 
+import setupIntl from '../../../../../helpers/setup-intl';
+
 module('Integration | Component | routes/authenticated/target-profiles | list-items', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   const triggerFiltering = function () {};
   const goToTargetProfilePage = function () {};
@@ -18,7 +21,7 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
     );
 
     // then
-    assert.dom(screen.getByText('ID')).exists();
+    assert.dom(screen.getByText('Id')).exists();
     assert.dom(screen.getByText('Nom')).exists();
     assert.dom(screen.getByText('Statut')).exists();
   });

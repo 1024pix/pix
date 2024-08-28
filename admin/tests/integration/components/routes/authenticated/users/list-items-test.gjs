@@ -3,8 +3,11 @@ import { setupRenderingTest } from 'ember-qunit';
 import ListItems from 'pix-admin/components/users/list-items';
 import { module, test } from 'qunit';
 
+import setupIntl from '../../../../../helpers/setup-intl';
+
 module('Integration | Component | routes/authenticated/users | list-items', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   const triggerFiltering = () => {};
 

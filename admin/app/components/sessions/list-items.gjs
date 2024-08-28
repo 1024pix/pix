@@ -6,6 +6,7 @@ import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import map from 'lodash/map';
 import { statusToDisplayName } from 'pix-admin/models/session';
 
@@ -95,20 +96,34 @@ export default class ListItems extends Component {
       <table class="table-admin table-admin__auto-width">
         <thead>
           <tr>
-            <th class="table__column table__column--id" id="session-id">ID</th>
-            <th id="certification-center-name">Centre de certification</th>
-            <th id="session-external-id">Identifiant externe</th>
-            <th id="certification-center-category">Catégorie</th>
-            <th id="session-date">Date de session</th>
-            <th id="session-status">Statut</th>
-            <th id="session-finalization-date">Date de finalisation</th>
-            <th id="session-publication-date">Date de publication</th>
-            <th id="session-version">Version de la session</th>
+            <th scope="col" id="session-id" class="table__column table__column--id">{{t
+                "components.sessions.list-items.table-headers.session-id"
+              }}</th>
+            <th scope="col" id="certification-center-name">{{t
+                "components.sessions.list-items.table-headers.certification-center-name"
+              }}</th>
+            <th scope="col" id="session-external-id">{{t
+                "components.sessions.list-items.table-headers.session-external-id"
+              }}</th>
+            <th scope="col" id="certification-center-category">{{t
+                "components.sessions.list-items.table-headers.certification-center-category"
+              }}</th>
+            <th scope="col" id="session-date">{{t "components.sessions.list-items.table-headers.session-date"}}</th>
+            <th scope="col" id="session-status">{{t "components.sessions.list-items.table-headers.session-status"}}</th>
+            <th scope="col" id="session-finalization-date">{{t
+                "components.sessions.list-items.table-headers.session-finalization-date"
+              }}</th>
+            <th scope="col" id="session-publication-date">{{t
+                "components.sessions.list-items.table-headers.session-publication-date"
+              }}</th>
+            <th scope="col" id="session-version">{{t
+                "components.sessions.list-items.table-headers.session-version"
+              }}</th>
           </tr>
           <tr>
             <td class="table__column table__column--id">
               <PixInput
-                aria-label="Filtrer les sessions avec un id"
+                aria-label="{{t 'components.sessions.list-items.labels.filter-by-session-id'}}"
                 type="text"
                 value={{this.searchedId}}
                 oninput={{fn @triggerFiltering "id"}}
@@ -116,7 +131,7 @@ export default class ListItems extends Component {
             </td>
             <td>
               <PixInput
-                aria-label="Filtrer les sessions avec le nom d'un centre de certification"
+                aria-label="{{t 'components.sessions.list-items.labels.filter-by-certification-center'}}"
                 type="text"
                 value={{this.searchedCertificationCenterName}}
                 oninput={{fn @triggerFiltering "certificationCenterName"}}
@@ -124,7 +139,7 @@ export default class ListItems extends Component {
             </td>
             <td>
               <PixInput
-                aria-label="Filtrer les sessions avec un identifiant externe"
+                aria-label="{{t 'components.sessions.list-items.labels.filter-by-external-id'}}"
                 type="text"
                 value={{this.searchedCertificationCenterExternalId}}
                 oninput={{fn @triggerFiltering "certificationCenterExternalId"}}
@@ -138,7 +153,7 @@ export default class ListItems extends Component {
                 @onChange={{this.selectCertificationCenterType}}
                 @value={{@certificationCenterType}}
               >
-                <:label>Filtrer les sessions en sélectionnant un type de centre de certification</:label>
+                <:label>{{t "components.sessions.list-items.labels.filter-by-certification-center-type"}}</:label>
               </PixSelect>
             </td>
             <td></td>
@@ -150,7 +165,7 @@ export default class ListItems extends Component {
                 @onChange={{this.selectSessionStatus}}
                 @value={{@status}}
               >
-                <:label>Filtrer les sessions en sélectionnant un statut</:label>
+                <:label>{{t "components.sessions.list-items.labels.filter-by-status"}}</:label>
               </PixSelect>
             </td>
             <td></td>
@@ -163,7 +178,7 @@ export default class ListItems extends Component {
                 @onChange={{this.selectSessionVersion}}
                 @value={{@version}}
               >
-                <:label>Filtrer les sessions par leur version</:label>
+                <:label>{{t "components.sessions.list-items.labels.filter-by-version"}}</:label>
               </PixSelect>
             </td>
           </tr>
@@ -199,7 +214,7 @@ export default class ListItems extends Component {
       </table>
 
       {{#unless @sessions}}
-        <div class="table__empty">Aucun résultat</div>
+        <div class="table__empty">{{t "common.tables.no-result"}}</div>
       {{/unless}}
     </div>
 

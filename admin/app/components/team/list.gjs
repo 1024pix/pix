@@ -92,23 +92,34 @@ export default class List extends Component {
   <template>
     <div class="content-text content-text--small">
       <table aria-label="Liste des membres" class="table-admin">
+        <caption class="screen-reader-only">{{t "components.team.list.table-caption"}}</caption>
         <thead>
           <tr>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Adresse e-mail</th>
-            <th>Rôle</th>
-            <th>Actions</th>
+            <th scope="col" id="team-member-first-name">
+              {{t "components.team.list.table-headers.team-member-first-name"}}
+            </th>
+            <th scope="col" id="team-member-last-name">
+              {{t "components.team.list.table-headers.team-member-last-name"}}
+            </th>
+            <th scope="col" id="team-member-email">
+              {{t "components.team.list.table-headers.team-member-email"}}
+            </th>
+            <th scope="col" id="team-member-role">
+              {{t "components.team.list.table-headers.team-member-role"}}
+            </th>
+            <th scope="col" id="team-member-actions">
+              {{t "components.team.list.table-headers.team-member-actions"}}
+            </th>
           </tr>
         </thead>
         {{#if @members}}
           <tbody>
             {{#each @members as |member|}}
               <tr aria-label={{concat member.firstName " " member.lastName}}>
-                <td>{{member.firstName}}</td>
-                <td>{{member.lastName}}</td>
-                <td>{{member.email}}</td>
-                <td>
+                <td headers="team-member-first-name">{{member.firstName}}</td>
+                <td headers="team-member-last-name">{{member.lastName}}</td>
+                <td headers="team-member-email">{{member.email}}</td>
+                <td headers="team-member-role">
                   {{#if member.isInEditionMode}}
                     <PixSelect
                       @onChange={{fn this.setAdminRoleSelection member}}
@@ -117,19 +128,21 @@ export default class List extends Component {
                       @screenReaderOnly={{true}}
                       @hideDefaultOption={{true}}
                     >
-                      <:label>Sélectionner un rôle</:label>
+                      <:label>
+                        {{t "components.team.list.labels.select-role"}}
+                      </:label>
                       <:default as |role|>{{role.label}}</:default>
                     </PixSelect>
                   {{else}}
                     {{member.role}}
                   {{/if}}
                 </td>
-                <td>
+                <td headers="team-member-actions">
                   <div class="admin-member-item-actions">
                     {{#if member.isInEditionMode}}
                       <PixButton
                         class="admin-member-item-actions__button"
-                        aria-label="Valider la modification de rôle"
+                        aria-label="{{t 'components.team.list.labels.confirm-role-modification'}}"
                         @triggerAction={{fn this.updateMemberRole member}}
                       >
                         {{t "common.actions.validate"}}
@@ -137,7 +150,11 @@ export default class List extends Component {
                     {{else}}
                       <PixButton
                         class="admin-member-item-actions__button"
-                        aria-label={{concat "Modifier le rôle de l'agent " member.firstName " " member.lastName}}
+                        aria-label={{t
+                          "components.team.list.labels.change-member-role"
+                          firstName=member.firstName
+                          lastName=member.lastName
+                        }}
                         @triggerAction={{fn this.toggleEditionModeForThisMember member}}
                         @iconBefore="pen-to-square"
                       >
@@ -147,13 +164,16 @@ export default class List extends Component {
                     <PixButton
                       class="admin-member-item-actions__button"
                       @variant="error"
-                      aria-label={{concat "Désactiver l'agent " member.firstName " " member.lastName}}
+                      aria-label={{t
+                        "components.team.list.labels.deactivate-member"
+                        firstName=member.firstName
+                        lastName=member.lastName
+                      }}
                       @triggerAction={{fn this.displayDeactivateConfirmationPopup member}}
                       @iconBefore="trash"
                     >
                       {{t "common.actions.deactivate"}}
                     </PixButton>
-
                   </div>
                 </td>
               </tr>
@@ -162,14 +182,14 @@ export default class List extends Component {
         {{/if}}
       </table>
       {{#unless @members}}
-        <div class="table__empty">Aucun résultat</div>
+        <div class="table__empty">{{t "common.tables.no-result"}}</div>
       {{/unless}}
     </div>
 
     <ConfirmPopup
       @message={{this.confirmPopUpMessage}}
-      @title="Désactivation d'un agent Pix"
-      @submitTitle="Confirmer"
+      @title={{t "components.team.list.labels.deactivate-confirmation"}}
+      @submitTitle={{t "common.actions.confirm"}}
       @confirm={{fn this.deactivateAdminMember this.adminMemberToDeactivate}}
       @cancel={{this.toggleDisplayConfirm}}
       @show={{this.displayConfirm}}
