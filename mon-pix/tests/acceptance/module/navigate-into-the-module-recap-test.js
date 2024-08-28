@@ -30,7 +30,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleRecap', function (ho
         grains: [grain],
         details: {
           image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
-          description: 'Description',
+          description: '<p>Description</p>',
           duration: 'duration',
           level: 'level',
           objectives: ['Objectif #1'],

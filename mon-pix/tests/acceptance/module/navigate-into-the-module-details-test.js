@@ -20,7 +20,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleDetails', function (
         grains: [],
         details: {
           image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
-          description: 'Description',
+          description: '<p>Description</p>',
           duration: 'duration',
           level: 'level',
           objectives: ['Objectif #1'],
@@ -48,7 +48,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleDetails', function (
         grains: [grain],
         details: {
           image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
-          description: 'Description',
+          description: '<p>Description</p>',
           duration: 'duration',
           level: 'level',
           objectives: ['Objectif #1'],
