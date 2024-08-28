@@ -1,5 +1,6 @@
 import { ComponentStepper } from '../../../../../../src/devcomp/domain/models/component/ComponentStepper.js';
-import { expect } from '../../../../../test-helper.js';
+import { DomainError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Component | ComponentStepper', function () {
   describe('#constructor', function () {
@@ -19,17 +20,23 @@ describe('Unit | Devcomp | Domain | Models | Component | ComponentStepper', func
 
   describe('if a componentStepper does not have steps', function () {
     it('should throw an error', function () {
-      expect(() => new ComponentStepper({})).to.throw('Steps are required for a componentStepper');
+      // when
+      const error = catchErrSync(() => new ComponentStepper({}))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('Steps are required for a componentStepper');
     });
   });
 
   describe('when a componentStepper does not have an array of Steps', function () {
     it('should throw an error', function () {
-      // given
-      const steps = 'steps';
+      // when
+      const error = catchErrSync(() => new ComponentStepper({ steps: 'steps' }))();
 
-      // when/then
-      expect(() => new ComponentStepper({ steps })).to.throw('Steps should be an array');
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('Steps should be an array');
     });
   });
 });

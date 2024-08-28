@@ -1,5 +1,6 @@
 import { BlockText } from '../../../../../../src/devcomp/domain/models/block/BlockText.js';
-import { expect } from '../../../../../test-helper.js';
+import { DomainError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Block | BlockText', function () {
   describe('#constructor', function () {
@@ -15,7 +16,12 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockText', function () {
 
   describe('If content is missing', function () {
     it('should throw an error', function () {
-      expect(() => new BlockText({})).to.throw('The content is required for a text block');
+      // when
+      const error = catchErrSync(() => new BlockText({}))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The content is required for a text block');
     });
   });
 });

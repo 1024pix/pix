@@ -1,5 +1,6 @@
 import { QcmProposal } from '../../../../../src/devcomp/domain/models/QcmProposal.js';
-import { expect } from '../../../../test-helper.js';
+import { DomainError } from '../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | QcmProposal', function () {
   describe('#constructor', function () {
@@ -20,13 +21,23 @@ describe('Unit | Devcomp | Domain | Models | QcmProposal', function () {
 
   describe('A QCM proposal without id', function () {
     it('should throw an error', function () {
-      expect(() => new QcmProposal({})).to.throw('The id is required for a QCM proposal');
+      // when
+      const error = catchErrSync(() => new QcmProposal({}))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The id is required for a QCM proposal');
     });
   });
 
   describe('A QCM proposal without content', function () {
     it('should throw an error', function () {
-      expect(() => new QcmProposal({ id: '1' })).to.throw('The content is required for a QCM proposal');
+      // when
+      const error = catchErrSync(() => new QcmProposal({ id: '1' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The content is required for a QCM proposal');
     });
   });
 });

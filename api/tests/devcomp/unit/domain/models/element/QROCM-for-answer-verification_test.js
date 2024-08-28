@@ -1,7 +1,7 @@
 import { QROCMForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QROCM-for-answer-verification.js';
 import { QrocmCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QrocmCorrectionResponse.js';
-import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect, sinon } from '../../../../../test-helper.js';
+import { DomainError, EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerification', function () {
   describe('#constructor', function () {
@@ -68,7 +68,8 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
 
     describe('A QROCM For Verification without feedbacks', function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new QROCMForAnswerVerification({
               id: '123',
@@ -88,7 +89,11 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
                 },
               ],
             }),
-        ).to.throw('The feedbacks are required for a verification QROCM.');
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The feedbacks are required for a verification QROCM.');
       });
     });
   });

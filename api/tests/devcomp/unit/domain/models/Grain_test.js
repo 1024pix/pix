@@ -1,5 +1,6 @@
 import { Grain } from '../../../../../src/devcomp/domain/models/Grain.js';
-import { expect } from '../../../../test-helper.js';
+import { DomainError } from '../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Grain', function () {
   describe('#constructor', function () {
@@ -20,13 +21,23 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
 
     describe('if a grain does not have an id', function () {
       it('should throw an error', function () {
-        expect(() => new Grain({})).to.throw('The id is required for a grain');
+        // when
+        const error = catchErrSync(() => new Grain({}))();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The id is required for a grain');
       });
     });
 
     describe('if a grain does not have a title', function () {
       it('should throw an error', function () {
-        expect(() => new Grain({ id: 1 })).to.throw('The title is required for a grain');
+        // when
+        const error = catchErrSync(() => new Grain({ id: 1 }))();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The title is required for a grain');
       });
     });
 
@@ -39,14 +50,14 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
     describe('if a grain does have components', function () {
       describe('given a wrong typed grain.components in param', function () {
         it('should throw an error', function () {
-          expect(
-            () =>
-              new Grain({
-                id: 'id_grain_1',
-                title: 'Bien écrire son adresse mail',
-                components: 'components',
-              }),
-          ).to.throw(`Grain components should be a list of components`);
+          // when
+          const error = catchErrSync(
+            () => new Grain({ id: 'id_grain_1', title: 'Bien écrire son adresse mail', components: 'components' }),
+          )();
+
+          // then
+          expect(error).to.be.instanceOf(DomainError);
+          expect(error.message).to.equal('Grain components should be a list of components');
         });
       });
     });

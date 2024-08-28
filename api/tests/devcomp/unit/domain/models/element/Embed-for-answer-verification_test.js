@@ -1,7 +1,7 @@
 import { EmbedForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/Embed-for-answer-verification.js';
 import { EmbedCorrectionResponse } from '../../../../../../src/devcomp/domain/models/EmbedCorrectionResponse.js';
-import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect, sinon } from '../../../../../test-helper.js';
+import { DomainError, EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerification', function () {
   describe('#constructor', function () {
@@ -28,7 +28,8 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
 
     describe('An embed For Verification without a solution', function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new EmbedForAnswerVerification({
               id: '123',
@@ -37,7 +38,11 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
               url: 'https://embed.example.net',
               instruction: 'toto',
             }),
-        ).to.throw('The solution is required for a verification embed');
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The solution is required for a verification embed');
       });
     });
   });
@@ -197,8 +202,11 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
             solution: embedSolution,
           });
 
-          // when/then
-          expect(() => embed.setUserResponse(userResponse)).to.throw(EntityValidationError);
+          // when
+          const error = catchErrSync(() => embed.setUserResponse(userResponse))();
+
+          // then
+          expect(error).to.be.instanceOf(EntityValidationError);
         });
       });
     });

@@ -1,5 +1,6 @@
 import { Details } from '../../../../../../src/devcomp/domain/models/module/Details.js';
-import { expect } from '../../../../../test-helper.js';
+import { DomainError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
   describe('#constructor', function () {
@@ -26,37 +27,54 @@ describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
 
     describe('if the details do not have an image', function () {
       it('should throw an error', function () {
-        expect(() => new Details({})).to.throw('The image is required for module details');
+        // when
+        const error = catchErrSync(() => new Details({}))();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The image is required for module details');
       });
     });
 
     describe('if the details do not have a description', function () {
       it('should throw an error', function () {
-        expect(() => new Details({ image: 'https://image.com' })).to.throw(
-          'The description is required for module details',
-        );
+        // when
+        const error = catchErrSync(() => new Details({ image: 'https://image.com' }))();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The description is required for module details');
       });
     });
 
     describe('if the details do not have a duration', function () {
       it('should throw an error', function () {
-        expect(() => new Details({ image: 'https://image.com', description: 'description' })).to.throw(
-          'The duration is required for module details',
-        );
+        // when
+        const error = catchErrSync(() => new Details({ image: 'https://image.com', description: 'description' }))();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The duration is required for module details');
       });
     });
 
     describe('if the details do not have a level', function () {
       it('should throw an error', function () {
-        expect(() => new Details({ image: 'https://image.com', description: 'description', duration: 12 })).to.throw(
-          'The level is required for module details',
-        );
+        // when
+        const error = catchErrSync(
+          () => new Details({ image: 'https://image.com', description: 'description', duration: 12 }),
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The level is required for module details');
       });
     });
 
     describe('if the details do not have a tabletSupport', function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new Details({
               image: 'https://image.com',
@@ -65,13 +83,18 @@ describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
               level: 'level',
               objectives: ['objective1'],
             }),
-        ).to.throw('The tabletSupport is required for module details');
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The tabletSupport is required for module details');
       });
     });
 
     describe('if the details do not have objectives', function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new Details({
               image: 'https://image.com',
@@ -80,13 +103,18 @@ describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
               level: 'level',
               tabletSupport: 'comfortable',
             }),
-        ).to.throw('The objectives are required for module details');
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The objectives are required for module details');
       });
     });
 
     describe('if the objectives is not a list', function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new Details({
               image: 'https://image.com',
@@ -96,13 +124,18 @@ describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
               tabletSupport: 'comfortable',
               objectives: ' not-a-list',
             }),
-        ).to.throw('The module details should contain a list of objectives');
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The module details should contain a list of objectives');
       });
     });
 
     describe(`if details has less than 1 objective`, function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new Details({
               image: 'https://image.com',
@@ -112,7 +145,11 @@ describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
               tabletSupport: 'comfortable',
               objectives: [],
             }),
-        ).to.throw('The module details should contain at least one objective');
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The module details should contain at least one objective');
       });
     });
   });

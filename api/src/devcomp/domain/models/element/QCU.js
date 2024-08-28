@@ -1,3 +1,4 @@
+import { DomainError } from '../../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 import { Element } from './Element.js';
 
@@ -17,13 +18,13 @@ class QCU extends Element {
 
   #assertProposalsAreNotEmpty(proposals) {
     if (proposals.length === 0) {
-      throw new Error('The proposals are required for a QCU');
+      throw new DomainError('The proposals are required for a QCU');
     }
   }
 
   #assertProposalsIsAnArray(proposals) {
     if (!Array.isArray(proposals)) {
-      throw new Error('The QCU proposals should be a list');
+      throw new DomainError('The QCU proposals should be a list');
     }
   }
 }

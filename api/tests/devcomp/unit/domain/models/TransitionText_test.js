@@ -1,5 +1,6 @@
 import { TransitionText } from '../../../../../src/devcomp/domain/models/TransitionText.js';
-import { expect } from '../../../../test-helper.js';
+import { DomainError } from '../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | TransitionText', function () {
   describe('#constructor', function () {
@@ -15,13 +16,23 @@ describe('Unit | Devcomp | Domain | Models | TransitionText', function () {
 
   describe('if a transition text does not have a content', function () {
     it('should throw an error', function () {
-      expect(() => new TransitionText({})).to.throw('The content is required for a transition text');
+      // when
+      const error = catchErrSync(() => new TransitionText({}))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The content is required for a transition text');
     });
   });
 
   describe('if a transition text does not have a grain id', function () {
     it('should throw an error', function () {
-      expect(() => new TransitionText({ content: '' })).to.throw('The grain id is required for a transition text');
+      // when
+      const error = catchErrSync(() => new TransitionText({ content: '' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The grain id is required for a transition text');
     });
   });
 });

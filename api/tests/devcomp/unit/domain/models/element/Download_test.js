@@ -1,5 +1,6 @@
 import { Download } from '../../../../../../src/devcomp/domain/models/element/Download.js';
-import { expect } from '../../../../../test-helper.js';
+import { DomainError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | Download', function () {
   describe('#constructor', function () {
@@ -21,34 +22,57 @@ describe('Unit | Devcomp | Domain | Models | Element | Download', function () {
     describe('errors', function () {
       describe('A Download without an id', function () {
         it('should throw an error', function () {
-          expect(() => new Download({})).to.throw('The id is required for an element');
+          // when
+          const error = catchErrSync(() => new Download({}))();
+
+          // then
+          expect(error).to.be.instanceOf(DomainError);
+          expect(error.message).to.equal('The id is required for an element');
         });
       });
 
       describe('A Download without files', function () {
         it('should throw an error', function () {
-          expect(() => new Download({ id: '123' })).to.throw('The Download files should be a list');
+          // when
+          const error = catchErrSync(() => new Download({ id: '123' }))();
+
+          // then
+          expect(error).to.be.instanceOf(DomainError);
+          expect(error.message).to.equal('The Download files should be a list');
         });
       });
 
       describe('A Download with an empty list of files', function () {
         it('should throw an error', function () {
-          expect(() => new Download({ id: '123', files: [] })).to.throw('The files are required for a Download');
+          // when
+          const error = catchErrSync(() => new Download({ id: '123', files: [] }))();
+
+          // then
+          expect(error).to.be.instanceOf(DomainError);
+          expect(error.message).to.equal('The files are required for a Download');
         });
       });
 
       describe('files', function () {
         describe('A file with no URL', function () {
           it('should throw an error', function () {
-            expect(() => new Download({ id: '123', files: [{}] })).to.throw('The Download files should have an URL');
+            // when
+            const error = catchErrSync(() => new Download({ id: '123', files: [{}] }))();
+
+            // then
+            expect(error).to.be.instanceOf(DomainError);
+            expect(error.message).to.equal('The Download files should have an URL');
           });
         });
 
         describe('A file with no format', function () {
           it('should throw an error', function () {
-            expect(() => new Download({ id: '123', files: [{ url: 'https://example.org' }] })).to.throw(
-              'The Download files should have a format',
-            );
+            // when
+            const error = catchErrSync(() => new Download({ id: '123', files: [{ url: 'https://example.org' }] }))();
+
+            // then
+            expect(error).to.be.instanceOf(DomainError);
+            expect(error.message).to.equal('The Download files should have a format');
           });
         });
       });

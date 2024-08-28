@@ -1,5 +1,6 @@
 import { QcuProposal } from '../../../../../src/devcomp/domain/models/QcuProposal.js';
-import { expect } from '../../../../test-helper.js';
+import { DomainError } from '../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | QcuProposal', function () {
   describe('#constructor', function () {
@@ -20,13 +21,23 @@ describe('Unit | Devcomp | Domain | Models | QcuProposal', function () {
 
   describe('A QCU proposal without id', function () {
     it('should throw an error', function () {
-      expect(() => new QcuProposal({})).to.throw('The id is required for a QCU proposal.');
+      // when
+      const error = catchErrSync(() => new QcuProposal({}))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The id is required for a QCU proposal.');
     });
   });
 
   describe('A QCU proposal without content', function () {
     it('should throw an error', function () {
-      expect(() => new QcuProposal({ id: '1' })).to.throw('The content is required for a QCU proposal.');
+      // when
+      const error = catchErrSync(() => new QcuProposal({ id: '1' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The content is required for a QCU proposal.');
     });
   });
 });

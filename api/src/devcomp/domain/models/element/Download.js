@@ -1,3 +1,4 @@
+import { DomainError } from '../../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 import { Element } from './Element.js';
 
@@ -18,12 +19,12 @@ class Download extends Element {
 
   #assertFilesIsAnArray(files) {
     if (!Array.isArray(files)) {
-      throw new Error('The Download files should be a list');
+      throw new DomainError('The Download files should be a list');
     }
   }
 
   #assertFilesAreNotEmpty(files) {
-    if (files.length === 0) throw new Error('The files are required for a Download');
+    if (files.length === 0) throw new DomainError('The files are required for a Download');
   }
 }
 
