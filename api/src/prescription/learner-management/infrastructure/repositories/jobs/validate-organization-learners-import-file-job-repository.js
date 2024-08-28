@@ -10,7 +10,7 @@ class ValidateOrganizationImportFileJobRepository extends JobRepository {
     super({
       name: ValidateOrganizationImportFileJob.name,
       expireIn: JobExpireIn.HIGH,
-      retry: JobRetry.NO_RETRY,
+      retry: JobRetry.STANDARD_RETRY,
     });
   }
 }
