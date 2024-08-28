@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v4.204.0 (28/08/2024)
+
+
+### :rocket: Amélioration
+- [#9956](https://github.com/1024pix/pix/pull/9956) [FEATURE] Ajouter une clé de traduction nl pour le bandeau d'avertissement à l'invitation d'un nouveau membre (PIX-13992).
+- [#9973](https://github.com/1024pix/pix/pull/9973) [FEATURE] Optimiser le script d'anonymisation (PIX-14044).
+- [#9951](https://github.com/1024pix/pix/pull/9951) [FEATURE] Gérer l'affichage conditionnel de l'onglet Formations (PIX-13986).
+- [#9949](https://github.com/1024pix/pix/pull/9949) [FEATURE] Changer le format de date en NL sur la page de réconciliation (PIX-13985).
+- [#9952](https://github.com/1024pix/pix/pull/9952) [FEATURE] Modulix - Déplier les steppers dans la preview (PIX-13075).
+
+### :building_construction: Tech
+- [#9960](https://github.com/1024pix/pix/pull/9960) [TECH] Remplacer les erreurs génériques par des `DomainError` dans le contexte Modulix (PIX-14015).
+- [#9957](https://github.com/1024pix/pix/pull/9957) [TECH] Utiliser des PixInput pour les champs de recherche des tables de l'administration.
+- [#9911](https://github.com/1024pix/pix/pull/9911) [TECH] Supprimer l'utilisation des "render-modifiers" dans l'admin.
+- [#9921](https://github.com/1024pix/pix/pull/9921) [TECH] Mettre les clés de traduction sur les boutons d'actions  (PIX-13970).
+
+### :bug: Correction
+- [#9962](https://github.com/1024pix/pix/pull/9962) [BUGFIX] Corriger la couleur du descriptif des parcours thématiques autonomes (PIX-14032).
+- [#9953](https://github.com/1024pix/pix/pull/9953) [BUGFIX] Utiliser les styles par défaut du navigateur sur les liens hypertexte des contenus Modulix (PIX-13989).
+
+### :arrow_up: Montée de version
+- [#9689](https://github.com/1024pix/pix/pull/9689) [BUMP] Update dependency ember-intl to v7 (admin).
+
+### :coffee: Autre
+- [#9966](https://github.com/1024pix/pix/pull/9966) [DOC] Corriger des fautes dans la doc pour tester la CI.
+- [#9961](https://github.com/1024pix/pix/pull/9961) [DOC] Corriger une erreur de frappe dans la doc. .
+
 ## v4.203.0 (26/08/2024)
 
 
