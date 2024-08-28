@@ -65,11 +65,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       // then
       assert.dom('textarea.correction-qroc-box-answer--paragraph').doesNotExist();
       assert.dom('textarea.correction-qroc-box-answer--sentence').doesNotExist();
-      assert.dom('input.correction-qroc-box-answer--input').hasAttribute('disabled');
-      assert.strictEqual(
-        find('input.correction-qroc-box-answer--input').getAttribute('size'),
-        answer.value.length.toString(),
-      );
+      assert.dom('.correction-qroc-box-answer--input').exists();
     });
   });
 
@@ -166,7 +162,10 @@ module('Integration | Component | QROC solution panel', function (hooks) {
           const answerBlock = find(data.input);
 
           assert.ok(answerBlock);
-          assert.strictEqual(answerBlock.value, EMPTY_DEFAULT_MESSAGE);
+
+          const answerContent = answerBlock.value || answerBlock.innerText;
+          assert.ok(answerContent.includes(EMPTY_DEFAULT_MESSAGE));
+
           assert.dom('.correction-qroc-box-answer--aband').exists();
         });
       });
@@ -198,7 +197,10 @@ module('Integration | Component | QROC solution panel', function (hooks) {
           const answerBlock = find(data.input);
 
           assert.ok(answerBlock);
-          assert.strictEqual(answerBlock.value, 'Temps dépassé');
+
+          const answerContent = answerBlock.value || answerBlock.innerText;
+          assert.ok(answerContent.includes('Temps dépassé'));
+
           assert.dom('.correction-qroc-box-answer--timeout').exists();
         });
       });

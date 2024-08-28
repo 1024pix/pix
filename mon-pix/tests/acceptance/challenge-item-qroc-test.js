@@ -5,6 +5,9 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
+const BAD_ANSWER_ARIA_TEXT = 'La réponse donnée est fausse';
+const cleanString = (string) => string.trim().replace(/\s+/g, ' ');
+
 module('Acceptance | Displaying a QROC challenge', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -208,7 +211,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         const badAnswerFromUserResultInput = find('.correction-qroc-box-answer--input');
         assert.strictEqual(goodAnswer.textContent.trim(), 'Mangue');
         assert.ok(badAnswerFromUserResultContainer.className.includes('correction-qroc-box-answer--wrong'));
-        assert.strictEqual(badAnswerFromUserResultInput.value, 'Banane');
+        assert.strictEqual(cleanString(badAnswerFromUserResultInput.textContent), `${BAD_ANSWER_ARIA_TEXT} Banane`);
         assert.ok(find('.tutorial-panel__hint-container').textContent.includes(correction.hint));
 
         const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-card')[0];
@@ -485,7 +488,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
         assert.strictEqual(goodAnswer.textContent.trim(), 'Mangue');
         assert.ok(badAnswerFromUserResultContainer.className.includes('correction-qroc-box-answer--wrong'));
-        assert.strictEqual(badAnswerFromUserResultInput.value, 'Banane');
+        assert.strictEqual(cleanString(badAnswerFromUserResultInput.textContent), `${BAD_ANSWER_ARIA_TEXT} Banane`);
         assert.ok(find('.tutorial-panel__hint-container').textContent.includes(correction.hint));
 
         const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-card')[0];

@@ -98,14 +98,10 @@ export default class QrocSolutionPanel extends Component {
               </div>
             {{else}}
               <div class="correction-qroc-box-answer {{this.inputClass}}">
-                <PixInput
-                  class="correction-qroc-box-answer--input"
-                  @id="correction-qroc-box-answer"
-                  size="{{this.answerToDisplay.length}}"
-                  @value="{{this.answerToDisplay}}"
-                  @ariaLabel={{this.inputAriaLabel}}
-                  disabled
-                />
+                <span id="correction-qroc-box-answer" class="correction-qroc-box-answer--input">
+                  <span class="sr-only">{{this.inputAriaLabel}}</span>
+                  {{this.answerToDisplay}}
+                </span>
               </div>
             {{/if}}
           </div>

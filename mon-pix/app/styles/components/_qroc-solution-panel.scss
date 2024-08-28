@@ -16,13 +16,22 @@
   }
 
   &--input {
-    width: auto;
+    display: inline-block;
     max-width: 100%;
+    padding: var(--pix-spacing-2x) var(--pix-spacing-3x);
+    overflow: hidden;
+    color: var(--pix-neutral-500);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    background-color: var(--pix-neutral-20);
+    border: 1px solid var(--pix-neutral-100);
+    border-radius: var(--pix-spacing-1x);
   }
 
   &--correct {
     textarea,
-    input,
+    .correction-qroc-box-answer--input,
     [disabled] {
       color: var(--pix-success-700);
       font-weight: var(--pix-font-bold);
@@ -31,14 +40,15 @@
 
   &--wrong {
     textarea,
-    input {
+    .correction-qroc-box-answer--input {
       text-decoration: line-through;
     }
   }
 
-  &--aband, &--timeout {
+  &--aband,
+  &--timeout {
     textarea,
-    input {
+    .correction-qroc-box-answer--input {
       color: var(--pix-neutral-800);
       font-style: italic;
     }
