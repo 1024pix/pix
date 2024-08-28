@@ -8,7 +8,7 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 const ANSWER = '.correction-qrocm__answer';
-const INPUT = 'input.correction-qrocm-answer__input';
+const INPUT = '.correction-qrocm-answer__input';
 const PARAGRAPH = 'textarea.correction-qrocm-answer__input-paragraph';
 const SENTENCE = 'input.correction-qrocm-answer__input-sentence';
 const SOLUTION_BLOCK = '.correction-qrocm__solution';
@@ -103,7 +103,10 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
           const answerInput = findAll(data.input)[0];
 
           assert.ok(answerInput);
-          assert.strictEqual(answerInput.value, EMPTY_DEFAULT_MESSAGE);
+
+          const answerContent = answerInput.value || answerInput.innerText;
+          assert.ok(answerContent.includes(EMPTY_DEFAULT_MESSAGE));
+
           assert.true(answerInputContainer.classList.contains('correction-qroc-box-answer--aband'));
         });
       });
@@ -154,7 +157,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
       this.set('challenge', challenge);
     });
 
-    test(`should display a disabled input with size based on the length of the value`, async function (assert) {
+    test(`should display a span with the user answer`, async function (assert) {
       //given
       const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
       //when
@@ -166,13 +169,10 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
 />`,
       );
       //then
-
       assert.dom(PARAGRAPH).doesNotExist();
-      assert.strictEqual(find(INPUT).tagName, 'INPUT');
-      assert.strictEqual(find(INPUT).value, EMPTY_DEFAULT_MESSAGE);
-      assert.strictEqual(find(INPUT).getAttribute('size'), EMPTY_DEFAULT_MESSAGE.length.toString());
-      assert.strictEqual(find(INPUT).getAttribute('aria-label'), 'Question passée');
-      assert.true(find(INPUT).hasAttribute('disabled'));
+
+      const answerContent = find(INPUT).value || find(INPUT).innerText;
+      assert.ok(answerContent.includes(EMPTY_DEFAULT_MESSAGE));
     });
   });
 

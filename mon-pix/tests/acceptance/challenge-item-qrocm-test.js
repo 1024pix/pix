@@ -7,6 +7,9 @@ import { module, test } from 'qunit';
 
 import setupIntl from '../helpers/setup-intl';
 
+const BAD_ANSWER_ARIA_TEXT = 'La réponse donnée est fausse';
+const cleanString = (string) => string.trim().replace(/\s+/g, ' ');
+
 module('Acceptance | Displaying a QROCM challenge', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -283,8 +286,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       const badAnswersFromUserResult = findAll('.correction-qrocm-answer__input');
 
       assert.strictEqual(goodAnswers.textContent.trim(), 'Versailles-Chantiers');
-      assert.strictEqual(badAnswersFromUserResult[0].value, 'Republique');
-      assert.strictEqual(badAnswersFromUserResult[1].value, 'Chatelet');
+      assert.strictEqual(cleanString(badAnswersFromUserResult[0].textContent), `${BAD_ANSWER_ARIA_TEXT} Republique`);
+      assert.strictEqual(cleanString(badAnswersFromUserResult[1].textContent), `${BAD_ANSWER_ARIA_TEXT} Chatelet`);
 
       assert.ok(find('.tutorial-panel__hint-container').textContent.includes(correctionDep.hint));
 
@@ -312,8 +315,12 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
       assert.strictEqual(goodAnswers[0].textContent.trim(), 'Le petit prince');
       assert.strictEqual(goodAnswers[1].textContent.trim(), 'Saint-Exupéry');
-      assert.strictEqual(badAnswersFromUserResult[0].value, 'Le rouge et le noir');
-      assert.strictEqual(badAnswersFromUserResult[1].value, 'Stendhal');
+
+      assert.strictEqual(
+        cleanString(badAnswersFromUserResult[0].textContent),
+        `${BAD_ANSWER_ARIA_TEXT} Le rouge et le noir`,
+      );
+      assert.strictEqual(cleanString(badAnswersFromUserResult[1].textContent), `${BAD_ANSWER_ARIA_TEXT} Stendhal`);
 
       assert.ok(find('.tutorial-panel__hint-container').textContent.includes(correctionDep.hint));
 
@@ -340,7 +347,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       const badAnswersFromUserResult = findAll('.correction-qrocm-answer__input');
 
       assert.strictEqual(goodAnswers[0].textContent.trim(), 'mango');
-      assert.strictEqual(badAnswersFromUserResult[0].value, 'potato');
+      assert.strictEqual(cleanString(badAnswersFromUserResult[0].textContent), `${BAD_ANSWER_ARIA_TEXT} potato`);
 
       assert.ok(find('.tutorial-panel__hint-container').textContent.includes(correctionIndSelect.hint));
 

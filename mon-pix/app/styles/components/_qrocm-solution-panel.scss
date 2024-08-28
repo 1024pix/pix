@@ -12,7 +12,7 @@
   &--input {
     display: inline-block;
     padding: var(--pix-spacing-1x) var(--pix-spacing-1x) var(--pix-spacing-1x) 0;
-    vertical-align: 0;
+    vertical-align: middle;
 
     &:not(:last-child) {
       padding-left: 0;

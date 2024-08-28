@@ -8,7 +8,7 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 const ANSWER = '.correction-qrocm__answer';
-const INPUT = 'input.correction-qrocm-answer__input';
+const INPUT = '.correction-qrocm-answer__input';
 const PARAGRAPH = 'textarea.correction-qrocm-answer__input-paragraph';
 const SENTENCE = 'input.correction-qrocm-answer__input-sentence';
 const SOLUTION_BLOCK = '.comparison-window-solution';
@@ -122,7 +122,10 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
             const firstAnswerInputContainer = findAll(ANSWER)[0];
             const firstAnswerInput = findAll(input)[0];
             assert.ok(firstAnswerInput);
-            assert.strictEqual(firstAnswerInput.value, EMPTY_DEFAULT_MESSAGE);
+
+            const answerContent = firstAnswerInput.value || firstAnswerInput.innerText;
+            assert.ok(answerContent.includes(EMPTY_DEFAULT_MESSAGE));
+
             assert.true(firstAnswerInputContainer.classList.contains('correction-qroc-box-answer--aband'));
           });
         });
@@ -241,10 +244,8 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
       // Then
       assert.dom(PARAGRAPH).doesNotExist();
       assert.dom(SENTENCE).doesNotExist();
-      assert.strictEqual(find(INPUT).tagName, 'INPUT');
-      assert.strictEqual(find(INPUT).getAttribute('size'), '12');
-      assert.strictEqual(find(INPUT).getAttribute('aria-label'), 'La réponse donnée est valide');
-      assert.true(find(INPUT).hasAttribute('disabled'));
+      assert.dom(INPUT).exists();
+      assert.ok(find(INPUT).innerText.includes('La réponse donnée est valide'));
     });
   });
 });
