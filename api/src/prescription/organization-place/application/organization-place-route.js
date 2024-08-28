@@ -127,6 +127,10 @@ const register = async (server) => {
             method: securityPreHandlers.makeCheckOrganizationHasFeature(ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key),
             assign: 'checkOrganizationHasPlacesFeature',
           },
+          {
+            method: securityPreHandlers.checkUserIsAdminInOrganization,
+            assign: 'checkUserIsOrganizationsAdmin',
+          },
         ],
         validate: {
           params: Joi.object({
