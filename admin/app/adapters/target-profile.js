@@ -44,6 +44,15 @@ export default class TargetProfileAdapter extends ApplicationAdapter {
     return result.data.attributes['detached-organization-ids'];
   }
 
+  async attachOrganizations({ targetProfileId, organizationIds }) {
+    const url = `${this.host}/${this.namespace}/target-profiles/${targetProfileId}/attach-organizations`;
+    const result = await this.ajax(url, 'POST', {
+      data: { 'organization-ids': organizationIds },
+    });
+    return result;
+  }
+
+  //TODO: move to orga
   async attachToOrganization(options) {
     const { organizationId } = options;
     const payload = {
@@ -54,6 +63,7 @@ export default class TargetProfileAdapter extends ApplicationAdapter {
     return this.ajax(url, 'POST', { data: payload });
   }
 
+  //TODO: move to trainings
   async attachToTraining(options) {
     const { trainingId } = options;
     const payload = {
@@ -62,6 +72,25 @@ export default class TargetProfileAdapter extends ApplicationAdapter {
 
     const url = `${this.host}/${this.namespace}/trainings/${trainingId}/attach-target-profiles`;
     return this.ajax(url, 'POST', { data: payload });
+  }
+
+  async attachOrganizationsFromExistingTargetProfile(options) {
+    const { targetProfileId } = options;
+    const payload = {
+      'target-profile-id': options.targetProfileIdToCopy,
+    };
+    const url = `${this.host}/${this.namespace}/target-profiles/${targetProfileId}/copy-organizations`;
+    return this.ajax(url, 'POST', { data: payload });
+  }
+
+  async outdate(targetProfileId) {
+    const url = `${this.host}/${this.namespace}/target-profiles/${targetProfileId}/outdate`;
+    return this.ajax(url, 'PUT');
+  }
+
+  async copy(targetProfileId) {
+    const url = `${this.host}/${this.namespace}/target-profiles/${targetProfileId}/copy`;
+    return this.ajax(url, 'POST');
   }
 
   urlForQueryRecord(query) {

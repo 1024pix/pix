@@ -1,4 +1,3 @@
-import { memberAction } from '@1024pix/ember-api-actions';
 import { service } from '@ember/service';
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
@@ -42,27 +41,4 @@ export default class TargetProfile extends Model {
   @hasMany('training-summary', { async: true, inverse: null }) trainingSummaries;
 
   @hasMany('area', { async: true, inverse: null }) areas;
-
-  attachOrganizations = memberAction({
-    path: 'attach-organizations',
-    type: 'post',
-  });
-
-  attachOrganizationsFromExistingTargetProfile = memberAction({
-    path: 'copy-organizations',
-    type: 'post',
-  });
-
-  outdate = memberAction({
-    path: 'outdate',
-    type: 'put',
-    after() {
-      this.reload();
-    },
-  });
-
-  copy = memberAction({
-    path: 'copy',
-    type: 'post',
-  });
 }

@@ -11,9 +11,15 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
 
   module('#attachOrganizations', function (hooks) {
     let event;
+    let attachOrganizations;
 
     hooks.beforeEach(function () {
-      event = { preventDefault() {} };
+      event = {
+        preventDefault() {},
+      };
+      const store = this.owner.lookup('service:store');
+      const adapter = store.adapterFor('target-profile');
+      attachOrganizations = sinon.stub(adapter, 'attachOrganizations');
     });
 
     module('when attaching organization works correctly', () => {
@@ -23,24 +29,25 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         component.notifications = { success: sinon.stub() };
         component.args = {
           targetProfile: {
-            attachOrganizations: sinon.stub().resolves({
-              data: {
-                attributes: {
-                  'duplicated-ids': [],
-                  'attached-ids': [1, 2],
-                },
-              },
-            }),
+            id: 56,
           },
         };
-        component.organizationsToAttach = '1,2';
+        attachOrganizations.resolves({
+          data: {
+            attributes: {
+              'duplicated-ids': [],
+              'attached-ids': [1, 2],
+            },
+          },
+        }),
+          (component.organizationsToAttach = '1,2');
         component.router = { replaceWith: sinon.stub() };
 
         // when
         await component.attachOrganizations(event);
 
         // then
-        assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2] }));
+        assert.ok(attachOrganizations.calledWith({ organizationIds: [1, 2], targetProfileId: 56 }));
         assert.strictEqual(component.organizationsToAttach, '');
         assert.ok(
           component.notifications.success.calledWith('Organisation(s) rattaché(es) avec succès.', {
@@ -58,11 +65,12 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         component.notifications = { success: sinon.stub() };
         component.args = {
           targetProfile: {
-            attachOrganizations: sinon
-              .stub()
-              .resolves({ data: { attributes: { 'duplicated-ids': [1], 'attached-ids': [] } } }),
+            id: 56,
           },
         };
+        attachOrganizations.resolves({
+          data: { attributes: { 'duplicated-ids': [1], 'attached-ids': [] } },
+        });
         component.organizationsToAttach = '1';
         component.router = { replaceWith: sinon.stub() };
 
@@ -70,7 +78,7 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         await component.attachOrganizations(event);
 
         // then
-        assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1] }));
+        assert.ok(attachOrganizations.calledWith({ organizationIds: [1], targetProfileId: 56 }));
         assert.strictEqual(component.organizationsToAttach, '');
         assert.ok(
           component.notifications.success.calledWith(
@@ -89,11 +97,12 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         component.notifications = { success: sinon.stub() };
         component.args = {
           targetProfile: {
-            attachOrganizations: sinon
-              .stub()
-              .resolves({ data: { attributes: { 'duplicated-ids': [1], 'attached-ids': [2] } } }),
+            id: 56,
           },
         };
+        attachOrganizations.resolves({
+          data: { attributes: { 'duplicated-ids': [1], 'attached-ids': [2] } },
+        });
         component.organizationsToAttach = '1,2';
         component.router = { replaceWith: sinon.stub() };
 
@@ -101,7 +110,7 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         await component.attachOrganizations(event);
 
         // then
-        assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2] }));
+        assert.ok(attachOrganizations.calledWith({ organizationIds: [1, 2], targetProfileId: 56 }));
         assert.strictEqual(component.organizationsToAttach, '');
         assert.ok(
           component.notifications.success.calledWith(
@@ -122,11 +131,12 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         component.notifications = { success: sinon.stub() };
         component.args = {
           targetProfile: {
-            attachOrganizations: sinon
-              .stub()
-              .resolves({ data: { attributes: { 'duplicated-ids': [], 'attached-ids': [] } } }),
+            id: 56,
           },
         };
+        attachOrganizations.resolves({
+          data: { attributes: { 'duplicated-ids': [], 'attached-ids': [] } },
+        });
         component.organizationsToAttach = '1,1,2,3,3';
         component.router = { replaceWith: sinon.stub() };
 
@@ -134,7 +144,7 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         await component.attachOrganizations(event);
 
         // then
-        assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2, 3] }));
+        assert.ok(attachOrganizations.calledWith({ organizationIds: [1, 2, 3], targetProfileId: 56 }));
         assert.strictEqual(component.organizationsToAttach, '');
         assert.ok(
           component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations'),
@@ -154,9 +164,9 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
             ],
           };
           component.notifications = { error: sinon.stub() };
-          component.args = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };
+          component.args = { targetProfile: { id: 56 } };
+          attachOrganizations.rejects(errors);
           component.organizationsToAttach = '1,1,2,3,3';
-
           // when
           await component.attachOrganizations(event);
 
@@ -176,7 +186,8 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
             ],
           };
           component.notifications = { error: sinon.stub() };
-          component.args = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };
+          component.args = { targetProfile: { id: 56 } };
+          attachOrganizations.rejects(errors);
           component.organizationsToAttach = '1,1,5,3,3';
 
           // when
@@ -198,7 +209,8 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
             ],
           };
           component.notifications = { error: sinon.stub() };
-          component.args = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };
+          component.args = { targetProfile: { id: 56 } };
+          attachOrganizations.rejects(errors);
           component.organizationsToAttach = '1,1,2,3,3';
 
           // when
@@ -230,11 +242,20 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
     });
   });
 
-  module('#attachOrganizationsFromExistingTargetProfile', function (hooks) {
+  module('#organizationsFromExistingTargetProfileToAttach', function (hooks) {
     let event;
+    let attachOrganizationsFromExistingTargetProfile;
 
     hooks.beforeEach(function () {
-      event = { preventDefault() {} };
+      event = {
+        preventDefault() {},
+      };
+      const store = this.owner.lookup('service:store');
+      const adapter = store.adapterFor('target-profile');
+      attachOrganizationsFromExistingTargetProfile = sinon.stub(
+        adapter,
+        'attachOrganizationsFromExistingTargetProfile',
+      );
     });
 
     module('when attaching organization works correctly', () => {
@@ -242,17 +263,19 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         // given
         const component = createComponent('component:target-profiles/organizations');
         component.notifications = { success: sinon.stub() };
-        component.args = { targetProfile: { attachOrganizationsFromExistingTargetProfile: sinon.stub().resolves() } };
-        component.existingTargetProfile = 1;
+        component.args = { targetProfile: { id: 1 } };
+        component.existingTargetProfile = 2;
         component.router = { replaceWith: sinon.stub() };
+        attachOrganizationsFromExistingTargetProfile.resolves();
 
         // when
-        await component.attachOrganizationsFromExistingTargetProfile(event);
+        await component.organizationsFromExistingTargetProfileToAttach(event);
 
         // then
         assert.ok(
-          component.args.targetProfile.attachOrganizationsFromExistingTargetProfile.calledWith({
-            'target-profile-id': 1,
+          attachOrganizationsFromExistingTargetProfile.calledWith({
+            targetProfileId: 1,
+            targetProfileIdToCopy: 2,
           }),
         );
         assert.strictEqual(component.existingTargetProfile, '');
@@ -275,11 +298,12 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
           };
           component.notifications = { error: sinon.stub() };
           component.args = {
-            targetProfile: { attachOrganizationsFromExistingTargetProfile: sinon.stub().rejects(errors) },
+            targetProfile: { id: 1 },
           };
-          component.existingTargetProfile = 1;
+          attachOrganizationsFromExistingTargetProfile.rejects(errors);
+          component.existingTargetProfile = 2;
 
-          await component.attachOrganizationsFromExistingTargetProfile(event);
+          await component.organizationsFromExistingTargetProfileToAttach(event);
 
           assert.ok(component.notifications.error.calledWith('I am displayed 1'));
           assert.ok(component.notifications.error.calledWith('I am displayed 2'));
@@ -294,12 +318,13 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
             ],
           };
           component.notifications = { error: sinon.stub() };
+          attachOrganizationsFromExistingTargetProfile.rejects(errors);
           component.args = {
-            targetProfile: { attachOrganizationsFromExistingTargetProfile: sinon.stub().rejects(errors) },
+            targetProfile: { id: 1 },
           };
-          component.existingTargetProfile = 1;
+          component.existingTargetProfile = 2;
 
-          await component.attachOrganizationsFromExistingTargetProfile(event);
+          await component.organizationsFromExistingTargetProfileToAttach(event);
 
           assert.ok(component.notifications.error.calledWith('I am displayed too 1'));
           assert.ok(component.notifications.error.calledWith('I am displayed too 2'));
@@ -316,12 +341,13 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
           };
           component.notifications = { error: sinon.stub() };
           component.args = {
-            targetProfile: { attachOrganizationsFromExistingTargetProfile: sinon.stub().rejects(errors) },
+            targetProfile: { id: 1 },
           };
-          component.existingTargetProfile = 1;
+          attachOrganizationsFromExistingTargetProfile.rejects(errors);
+          component.existingTargetProfile = 2;
 
           // when
-          await component.attachOrganizationsFromExistingTargetProfile(event);
+          await component.organizationsFromExistingTargetProfileToAttach(event);
 
           // then
           assert.strictEqual(component.notifications.error.withArgs('Une erreur est survenue.').callCount, 2);
@@ -330,16 +356,20 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
 
       module('when the error is not correctly formed', () => {
         test('it shows default notification', async function (assert) {
+          // given
           const component = createComponent('component:target-profiles/organizations');
           const errors = {};
           component.notifications = { error: sinon.stub() };
           component.args = {
-            targetProfile: { attachOrganizationsFromExistingTargetProfile: sinon.stub().rejects(errors) },
+            targetProfile: { id: 1 },
           };
-          component.existingTargetProfile = 1;
+          attachOrganizationsFromExistingTargetProfile.rejects(errors);
+          component.existingTargetProfile = 2;
 
-          await component.attachOrganizationsFromExistingTargetProfile(event);
+          // when
+          await component.organizationsFromExistingTargetProfileToAttach(event);
 
+          // then
           assert.ok(component.notifications.error.calledWith('Une erreur est survenue.'));
         });
       });

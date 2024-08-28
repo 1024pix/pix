@@ -20,6 +20,7 @@ import PdfParametersModal from './pdf-parameters-modal';
 export default class TargetProfile extends Component {
   @service notifications;
   @service router;
+  @service store;
   @service intl;
 
   @service fileSaver;
@@ -77,10 +78,11 @@ export default class TargetProfile extends Component {
 
   @action
   async outdate() {
+    const adapter = this.store.adapterFor('target-profile');
     this.toggleDisplayConfirm();
     try {
-      await this.args.model.outdate();
-
+      await adapter.outdate(this.args.model.id);
+      this.args.model.reload();
       return this.notifications.success('Profil cible marqué comme obsolète.');
     } catch (responseError) {
       this._handleResponseError(responseError);
@@ -145,7 +147,8 @@ export default class TargetProfile extends Component {
   @action
   async copyTargetProfile() {
     try {
-      const newTargetProfileId = await this.args.model.copy(this.args.model.id);
+      const adapter = this.store.adapterFor('target-profile');
+      const newTargetProfileId = await adapter.copy(this.args.model.id);
       this.router.transitionTo('authenticated.target-profiles.target-profile', newTargetProfileId);
       this.notifications.success(this.intl.t('pages.target-profiles.copy.notifications.success'));
       this.showCopyModal = false;
