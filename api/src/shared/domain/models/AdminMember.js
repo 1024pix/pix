@@ -28,7 +28,7 @@ class AdminMember {
         userId: Joi.number().optional(),
         firstName: Joi.string().optional(),
         lastName: Joi.string().optional(),
-        email: Joi.string().email().optional(),
+        email: Joi.string().email().optional().allow(null),
         role: Joi.string().valid(ROLES.SUPER_ADMIN, ROLES.SUPPORT, ROLES.METIER, ROLES.CERTIF).required(),
         createdAt: Joi.date().allow(null).optional(),
         updatedAt: Joi.date().allow(null).optional(),
