@@ -2,7 +2,11 @@ import _ from 'lodash';
 
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { NotFoundError, OrganizationLearnersCouldNotBeSavedError } from '../../../../shared/domain/errors.js';
+import {
+  NotFoundError,
+  OrganizationLearnersCouldNotBeSavedError,
+  UserCouldNotBeReconciledError,
+} from '../../../../shared/domain/errors.js';
 import { OrganizationLearner } from '../../../../shared/domain/models/index.js';
 import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 import { CommonOrganizationLearner } from '../../domain/models/CommonOrganizationLearner.js';
@@ -177,6 +181,41 @@ const update = async function (organizationLearner) {
   return updatedRows === 1;
 };
 
+const reconcileUserByNationalStudentIdAndOrganizationId = async function ({
+  nationalStudentId,
+  userId,
+  organizationId,
+}) {
+  const knexConn = DomainTransaction.getConnection();
+  try {
+    const [rawOrganizationLearner] = await knexConn('organization-learners')
+      .where({
+        organizationId,
+        nationalStudentId,
+        isDisabled: false,
+      })
+      .update({ userId, updatedAt: knexConn.fn.now() })
+      .returning('*');
+
+    if (!rawOrganizationLearner) throw new Error();
+    return new OrganizationLearner(rawOrganizationLearner);
+  } catch (error) {
+    throw new UserCouldNotBeReconciledError();
+  }
+};
+
+// copied from api/lib/repositories/organization-learner-repository-test.js-
+const findByUserId = async function ({ userId }) {
+  const knexConn = DomainTransaction.getConnection();
+  const rawOrganizationLearners = await knexConn
+    .select('*')
+    .from('view-active-organization-learners')
+    .where({ userId })
+    .orderBy('id');
+
+  return rawOrganizationLearners.map((rawOrganizationLearner) => new OrganizationLearner(rawOrganizationLearner));
+};
+
 export {
   addOrUpdateOrganizationOfOrganizationLearners,
   disableAllOrganizationLearnersInOrganization,
@@ -184,7 +223,9 @@ export {
   dissociateUserFromOrganizationLearner,
   findAllCommonLearnersFromOrganizationId,
   findAllCommonOrganizationLearnerByReconciliationInfos,
+  findByUserId,
   getOrganizationLearnerForAdmin,
+  reconcileUserByNationalStudentIdAndOrganizationId,
   removeByIds,
   saveCommonOrganizationLearners,
   update,

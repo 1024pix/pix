@@ -149,27 +149,6 @@ const reconcileUserToOrganizationLearner = async function ({ userId, organizatio
   }
 };
 
-const reconcileUserByNationalStudentIdAndOrganizationId = async function ({
-  nationalStudentId,
-  userId,
-  organizationId,
-}) {
-  try {
-    const [rawOrganizationLearner] = await knex('organization-learners')
-      .where({
-        organizationId,
-        nationalStudentId,
-        isDisabled: false,
-      })
-      .update({ userId, updatedAt: knex.fn.now() })
-      .returning('*');
-    if (!rawOrganizationLearner) throw new Error();
-    return new OrganizationLearner(rawOrganizationLearner);
-  } catch (error) {
-    throw new UserCouldNotBeReconciledError();
-  }
-};
-
 const dissociateAllStudentsByUserId = async function ({ userId }) {
   const knexConn = DomainTransaction.getConnection();
   await _queryBuilderDissociation(knexConn)
@@ -398,7 +377,6 @@ export {
   get,
   getLatestOrganizationLearner,
   isActive,
-  reconcileUserByNationalStudentIdAndOrganizationId,
   reconcileUserToOrganizationLearner,
   updateCertificability,
   updateUserIdWhereNull,

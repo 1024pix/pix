@@ -14,7 +14,7 @@ import {
 import { OrganizationLearner } from '../../../../src/shared/domain/models/index.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
-describe('Integration | Infrastructure | Repository | organization-learner-repository', function () {
+describe('Integration ¨| Infrastructure | Repository | organization-learner-repository', function () {
   describe('#findByIds', function () {
     it('should return all the organizationLearners for given organizationLearner IDs', async function () {
       // given
@@ -779,112 +779,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // then
       expect(error).to.be.instanceOf(UserCouldNotBeReconciledError);
-    });
-  });
-
-  describe('#reconcileUserAndOrganization', function () {
-    context('when the organizationLearner is active', function () {
-      let organization;
-      let organizationLearner;
-      let user;
-      let initialDate;
-
-      beforeEach(async function () {
-        initialDate = new Date('2023-01-01');
-        organization = databaseBuilder.factory.buildOrganization();
-        organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId: organization.id,
-          userId: null,
-          firstName: 'Steeve',
-          lastName: 'Roger',
-          isDisabled: false,
-        });
-        user = databaseBuilder.factory.buildUser({ firstName: 'Steeve', lastName: 'Roger' });
-        await databaseBuilder.commit();
-      });
-
-      it('should save association between user and organization', async function () {
-        // when
-        const organizationLearnerPatched =
-          await organizationLearnerRepository.reconcileUserByNationalStudentIdAndOrganizationId({
-            userId: user.id,
-            nationalStudentId: organizationLearner.nationalStudentId,
-            organizationId: organization.id,
-          });
-
-        // then
-        expect(organizationLearnerPatched).to.be.instanceof(OrganizationLearner);
-        expect(organizationLearnerPatched.updatedAt).to.be.above(initialDate);
-        expect(organizationLearnerPatched.userId).to.equal(user.id);
-      });
-
-      it('should return an error when we don’t find the organizationLearner for this organization to update', async function () {
-        // given
-        const fakeOrganizationId = 1;
-
-        // when
-        const error = await catchErr(organizationLearnerRepository.reconcileUserByNationalStudentIdAndOrganizationId)({
-          userId: user.id,
-          nationalStudentId: organizationLearner.nationalStudentId,
-          organizationId: fakeOrganizationId,
-        });
-
-        // then
-        expect(error).to.be.instanceof(UserCouldNotBeReconciledError);
-      });
-
-      it('should return an error when we don’t find the organizationLearner for this nationalStudentId to update', async function () {
-        // given
-        const fakeNationalStudentId = 1;
-
-        // when
-        const error = await catchErr(organizationLearnerRepository.reconcileUserByNationalStudentIdAndOrganizationId)({
-          userId: user.id,
-          nationalStudentId: fakeNationalStudentId,
-          organizationId: organization.id,
-        });
-
-        // then
-        expect(error).to.be.instanceof(UserCouldNotBeReconciledError);
-      });
-
-      it('should return an error when the userId to link don’t match a user', async function () {
-        // given
-        const fakeUserId = 1;
-
-        // when
-        const error = await catchErr(organizationLearnerRepository.reconcileUserByNationalStudentIdAndOrganizationId)({
-          userId: fakeUserId,
-          nationalStudentId: organizationLearner.nationalStudentId,
-          organizationId: organization.id,
-        });
-
-        // then
-        expect(error).to.be.instanceof(UserCouldNotBeReconciledError);
-      });
-    });
-
-    context('when the organizationLearner is disabled', function () {
-      it('should return an error', async function () {
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        const { id: userId } = databaseBuilder.factory.buildUser({ firstName: 'Natasha', lastName: 'Romanoff' });
-        const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId,
-          userId: null,
-          firstName: 'Natasha',
-          lastName: 'Romanoff',
-          isDisabled: true,
-        });
-        // when
-        const error = await catchErr(organizationLearnerRepository.reconcileUserByNationalStudentIdAndOrganizationId)({
-          userId,
-          nationalStudentId: organizationLearner.nationalStudentId,
-          organizationId,
-        });
-
-        // then
-        expect(error).to.be.instanceof(UserCouldNotBeReconciledError);
-      });
     });
   });
 
