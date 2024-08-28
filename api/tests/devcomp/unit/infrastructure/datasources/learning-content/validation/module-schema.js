@@ -26,14 +26,14 @@ const moduleDetailsSchema = Joi.object({
 
 const elementSchema = Joi.alternatives().conditional('.type', {
   switch: [
-    { is: 'text', then: textElementSchema },
+    { is: 'download', then: downloadElementSchema },
+    { is: 'embed', then: embedElementSchema },
     { is: 'image', then: imageElementSchema },
     { is: 'qcu', then: qcuElementSchema },
     { is: 'qcm', then: qcmElementSchema },
     { is: 'qrocm', then: qrocmElementSchema },
+    { is: 'text', then: textElementSchema },
     { is: 'video', then: videoElementSchema },
-    { is: 'embed', then: embedElementSchema },
-    { is: 'download', then: downloadElementSchema },
   ],
 });
 
