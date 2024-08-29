@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v4.205.0 (29/08/2024)
+
+
+### :rocket: Amélioration
+- [#9970](https://github.com/1024pix/pix/pull/9970) [FEATURE] Ajoute le support des éléments "Separator" dans Modulix (PIX-14013).
+- [#9971](https://github.com/1024pix/pix/pull/9971) [FEATURE] Transforme le paragraphe de description du module en `div` (PIX-14011).
+- [#9968](https://github.com/1024pix/pix/pull/9968) [FEATURE] Créer une migration pour stocker les correspondance des claims en base de données (PIX-14039).
+
+### :building_construction: Tech
+- [#9989](https://github.com/1024pix/pix/pull/9989) [TECH] Ajouter des logs pour aider le debug des timeouts des jobs d'import SIECLE (PIX-14055).
+- [#9988](https://github.com/1024pix/pix/pull/9988) [TECH] Optimiser les requêtes sur organization-learners (PIX-14068).
+- [#9991](https://github.com/1024pix/pix/pull/9991) [TECH] Ajouter le `deletedBy` en condition de la vue des organisation learners actif (PIX-14071).
+- [#9965](https://github.com/1024pix/pix/pull/9965) [TECH] Ajouter une configuration de retry pour les jobs d'import (PIX-14023).
+- [#9972](https://github.com/1024pix/pix/pull/9972) [TECH] ♻️ migration de la route `/api/sco-organization-learners/association/auto` vers src/prescription.
+- [#9964](https://github.com/1024pix/pix/pull/9964) [TECH] ♻️ migration de la route `/api/organizations/{id}/divisions` vers src/prescription (PIX-14030) .
+
+### :bug: Correction
+- [#9974](https://github.com/1024pix/pix/pull/9974) [BUGFIX] Ajout d'un prehandler sur le endpoint place-statistics.
+
+### :arrow_up: Montée de version
+- [#9979](https://github.com/1024pix/pix/pull/9979) [BUMP] Update dependency webpack to v5.94.0 [SECURITY].
+
 ## v4.204.0 (28/08/2024)
 
 
