@@ -14,6 +14,7 @@ import * as enrolledCandidateRepository from './enrolled-candidate-repository.js
 import * as scoCertificationCandidateRepository from './sco-certification-candidate-repository.js';
 import * as sessionForAttendanceSheetRepository from './session-for-attendance-sheet-repository.js';
 import * as sessionRepository from './session-repository.js';
+import * as userEligibilityCalculatorRepository from './user-eligibility-calculator-repository.js';
 import * as userRepository from './user-repository.js';
 
 /**
@@ -34,6 +35,7 @@ import * as userRepository from './user-repository.js';
  * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {organizationLearnerRepository} OrganizationLearnerRepository
  * @typedef {userRepository} UserRepository
+ * @typedef {userEligibilityCalculatorRepository} UserEligibilityCalculatorRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   candidateRepository,
@@ -51,6 +53,7 @@ const repositoriesWithoutInjectedDependencies = {
   sessionRepository,
   organizationLearnerRepository,
   userRepository,
+  userEligibilityCalculatorRepository,
 };
 
 /**
