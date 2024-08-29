@@ -1,5 +1,8 @@
 import { updateEnrolledCandidate } from '../../../../../../src/certification/enrolment/domain/usecases/update-enrolled-candidate.js';
-import { CertificationCandidateNotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import {
+  CandidateAlreadyLinkedToUserError,
+  CertificationCandidateNotFoundError,
+} from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | update-enrolled-candidate', function () {
@@ -19,11 +22,11 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
     });
   });
 
-  context('when the candidate is found', function () {
+  context('when the  candidate is found and not linked to a user', function () {
     it('should call update method with correct data', async function () {
       // given
       const foundedCandidate = domainBuilder.certification.enrolment.buildEnrolledCandidate({
-        id: editedCandidate.id,
+        userId: null,
         accessibilityAdjustmentNeeded: false,
         createdAt,
       });
@@ -61,6 +64,27 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
 
       // then
       expect(error).to.be.instanceOf(CertificationCandidateNotFoundError);
+    });
+  });
+
+  context('when the candidate is linked to a user', function () {
+    it('should call update method with correct data', async function () {
+      // given
+      const foundedCandidate = domainBuilder.certification.enrolment.buildEnrolledCandidate({
+        id: editedCandidate.id,
+        accessibilityAdjustmentNeeded: false,
+        userId: 123,
+      });
+      enrolledCandidateRepository.get.withArgs({ id: editedCandidate.id }).resolves(foundedCandidate);
+
+      // when
+      const error = await catchErr(updateEnrolledCandidate)({
+        editedCandidate,
+        enrolledCandidateRepository,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(CandidateAlreadyLinkedToUserError);
     });
   });
 });

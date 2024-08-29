@@ -2,7 +2,10 @@
  * @typedef {import('./index.js').EnrolledCandidateRepository} EnrolledCandidateRepository
  */
 
-import { CertificationCandidateNotFoundError } from '../../../../shared/domain/errors.js';
+import {
+  CandidateAlreadyLinkedToUserError,
+  CertificationCandidateNotFoundError,
+} from '../../../../shared/domain/errors.js';
 import { Candidate } from '../models/Candidate.js';
 
 /**
@@ -15,6 +18,10 @@ const updateEnrolledCandidate = async function ({ editedCandidate, enrolledCandi
 
   if (!foundedCandidate) {
     throw new CertificationCandidateNotFoundError();
+  }
+
+  if (foundedCandidate.isLinkedToAUser()) {
+    throw new CandidateAlreadyLinkedToUserError();
   }
 
   const candidate = new Candidate({
