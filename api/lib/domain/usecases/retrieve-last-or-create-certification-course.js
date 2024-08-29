@@ -200,20 +200,6 @@ async function _startNewCertification({
     throw new UserNotAuthorizedToCertifyError();
   }
 
-  // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
-  // In case the simultaneous call finished earlier than the current one, we want to return its result
-  const certificationCourseCreatedMeanwhile = await _getCertificationCourseIfCreatedMeanwhile(
-    certificationCourseRepository,
-    userId,
-    sessionId,
-  );
-  if (certificationCourseCreatedMeanwhile) {
-    return {
-      created: false,
-      certificationCourse: certificationCourseCreatedMeanwhile,
-    };
-  }
-
   const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
 
   const complementaryCertificationCourseData = [];
@@ -252,6 +238,20 @@ async function _startNewCertification({
       locale,
     );
     challengesForCertification.push(...challengesForPixCertification);
+  }
+
+  // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
+  // In case the simultaneous call finished earlier than the current one, we want to return its result
+  const certificationCourseCreatedMeanwhile = await _getCertificationCourseIfCreatedMeanwhile(
+    certificationCourseRepository,
+    userId,
+    sessionId,
+  );
+  if (certificationCourseCreatedMeanwhile) {
+    return {
+      created: false,
+      certificationCourse: certificationCourseCreatedMeanwhile,
+    };
   }
 
   return _createCertificationCourse({
