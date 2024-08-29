@@ -13,9 +13,10 @@ module('Integration | Component | Module | Details', function (hooks) {
   test('should display the details of a given module', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
+    const descriptionContent = 'description';
     const details = {
       image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
-      description: 'description',
+      description: `<p>${descriptionContent}</p>`,
       duration: 12,
       level: 'Débutant',
       objectives: ['Objectif 1'],
@@ -28,7 +29,7 @@ module('Integration | Component | Module | Details', function (hooks) {
     // then
     assert.ok(screen.getByRole('heading', { name: module.title, level: 1 }));
     assert.ok(screen.getByRole('presentation').hasAttribute('src', module.details.image));
-    assert.ok(screen.getByText(module.details.description));
+    assert.ok(screen.getByText(descriptionContent));
     assert.ok(screen.getByText(`${module.details.duration} min`));
     assert.ok(screen.getByText(module.details.level));
     assert.ok(screen.getByText(module.details.objectives[0]));
@@ -257,7 +258,7 @@ function prepareDetailsComponentContext(tabletSupport, breakpoint = 'desktop') {
 
   const details = {
     image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
-    description: 'description',
+    description: '<p>Description</p>',
     duration: 12,
     level: 'Débutant',
     objectives: ['Objectif 1'],

@@ -68,6 +68,7 @@ export default class ModulixDetails extends Component {
 
   <template>
     {{pageTitle @module.title}}
+
     <main id="main" class="module-details" role="main">
       <div class="module-details__image">
         <img alt="" class="module-details-image__illustration" src={{@module.details.image}} height="150" />
@@ -77,7 +78,7 @@ export default class ModulixDetails extends Component {
         <div class="module-details-content__layout">
           <h1 class="module-details-content-layout__title">{{@module.title}}</h1>
 
-          <p class="module-details-content-layout__description">{{htmlUnsafe @module.details.description}}</p>
+          <div class="module-details-content-layout__description">{{htmlUnsafe @module.details.description}}</div>
 
           <div class="module-details-content-layout__link">
             {{#if this.shouldDisplaySmallScreenModal}}

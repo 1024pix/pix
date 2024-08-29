@@ -12,7 +12,7 @@ module('Integration | Component | Module | Recap', function (hooks) {
     const store = this.owner.lookup('service:store');
     const details = {
       image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
-      description: 'description',
+      description: '<p>Description</p>',
       duration: 12,
       level: 'Débutant',
       objectives: ['Objectif 1'],
@@ -32,7 +32,7 @@ module('Integration | Component | Module | Recap', function (hooks) {
     const store = this.owner.lookup('service:store');
     const details = {
       image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
-      description: 'description',
+      description: '<p>Description</p>',
       duration: 12,
       level: 'Débutant',
       objectives: ['Objectif 1'],
