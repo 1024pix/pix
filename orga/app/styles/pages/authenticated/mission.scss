@@ -50,18 +50,14 @@
 }
 
 .mission-header {
-  margin-bottom: var(--pix-spacing-6x);
-
-  &__banner {
-    margin: var(--pix-spacing-4x) 0;
-  }
+  margin-bottom: var(--pix-spacing-8x);
 
   &-informations {
     display: flex;
-    align-items: end;
+    align-items: center;
     justify-content: space-between;
-    margin: 25px 0;
-
+    margin-top: var(--pix-spacing-6x);
+    margin-bottom: var(--pix-spacing-2x); ;
 
     &__title {
       @extend %pix-title-m;
@@ -72,50 +68,33 @@
     }
 
     &__details {
-      display: flex;
-      flex: 0 0 auto;
-      align-items: center;
-      margin: 0;
-      padding: 0;
-
-
-      & > * {
-        margin-right: 15px;
-        padding-right: 15px;
-        border-right: 1px solid var(--pix-neutral-20);
-      }
-
-      & > *:last-child {
-        margin-right: 0;
-        padding-right: 0;
-        border-right-width: 0;
-      }
-    }
-
-    &__details-item {
-      @extend %pix-body-s;
+      @extend %pix-body-m;
 
       color: var(--pix-neutral-500);
 
-      & > dt {
-        display: block;
+      .competence-title {
         margin-bottom: var(--pix-spacing-2x);
       }
 
-      & > dd {
+     .competence-name {
         margin: 0;
         color: var(--pix-neutral-900);
       }
     }
+
+    &__documentation-button {
+      width: fit-content;
+      margin: 16px auto;
+    }
   }
 }
 
-.mission-informations {
+.mission-header-objectives {
   @extend %pix-body-l;
 
   color: var(--pix-neutral-500);
 
-  &__objective-list {
+  &__list {
     margin-top: var(--pix-spacing-2x);
     margin-left: var(--pix-spacing-6x);
     list-style: disc;

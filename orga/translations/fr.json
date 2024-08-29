@@ -853,6 +853,7 @@
       "title": "Missions",
       "details": {
         "title": "Détails d'une mission",
+        "button-label": "Voir la fiche mission",
         "competence": {
           "title": "Compétence :"
         },
@@ -917,7 +918,6 @@
             "option2": {
               "body": "ou utiliser le lien direct&nbsp'<'a href=\"{pixJuniorUrl}\" target=_blank >junior.pix.fr/schools/{code}'</a>'",
               "hint": "Vous pouvez enregistrer ce favori sur les ordinateurs."
-
             }
           },
           "step3": "Étape 3 : <b>Activez la session Pix Junior</b> via le bouton ci-dessus. <b>Cette action est à réaliser avant chaque séance avec vos élèves</b>.",
