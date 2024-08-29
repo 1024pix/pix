@@ -1,4 +1,8 @@
-import { JobExpireIn, JobRepository } from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
+import {
+  JobExpireIn,
+  JobRepository,
+  JobRetry,
+} from '../../../../../shared/infrastructure/repositories/jobs/job-repository.js';
 import { ImportOrganizationLearnersJob } from '../../../domain/models/ImportOrganizationLearnersJob.js';
 
 class ImportOrganizationLearnersJobRepository extends JobRepository {
@@ -6,6 +10,7 @@ class ImportOrganizationLearnersJobRepository extends JobRepository {
     super({
       name: ImportOrganizationLearnersJob.name,
       expireIn: JobExpireIn.HIGH,
+      retry: JobRetry.STANDARD_RETRY,
     });
   }
 }
