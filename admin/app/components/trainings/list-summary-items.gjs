@@ -3,6 +3,7 @@ import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import { fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 
 import StateTag from './state-tag';
 
@@ -14,15 +15,27 @@ export default class TrainingListSummaryItems extends Component {
     <div class="content-text content-text--small">
       <div class="table-admin">
         <table>
-          <caption class="screen-reader-only">Liste des contenus formatifs</caption>
+          <caption class="screen-reader-only">{{t "components.trainings.list-summary-items.table-caption"}}</caption>
           <thead>
             <tr>
-              <th class="table__column table__column--id" id="training-id" scope="col">ID</th>
-              <th id="training-titre" scope="col">Titre</th>
-              <th id="training-prerequisite-threshold" scope="col" class="col-status">Prérequis</th>
-              <th id="training-goal-threshold" scope="col" class="col-status">Objectif à ne pas dépasser</th>
-              <th id="training-target-profile-count" scope="col" class="col-status">Profils cibles associés</th>
-              <th id="training-state" scope="col" class="col-status">État</th>
+              <th id="training-id" scope="col" class="table__column--id">{{t
+                  "components.trainings.list-summary-items.table-headers.training-id"
+                }}</th>
+              <th id="training-title" scope="col">{{t
+                  "components.trainings.list-summary-items.table-headers.training-title"
+                }}</th>
+              <th id="training-prerequisite-threshold" scope="col" class="table__column--medium">{{t
+                  "components.trainings.list-summary-items.table-headers.training-prerequisite-threshold"
+                }}</th>
+              <th id="training-goal-threshold" scope="col" class="table__column--medium">{{t
+                  "components.trainings.list-summary-items.table-headers.training-goal-threshold"
+                }}</th>
+              <th id="training-target-profile-count" scope="col" class="table__column--medium">{{t
+                  "components.trainings.list-summary-items.table-headers.training-target-profile-count"
+                }}</th>
+              <th id="training-state" scope="col" class="table__column--medium">{{t
+                  "components.trainings.list-summary-items.table-headers.training-state"
+                }}</th>
             </tr>
             {{#if @triggerFiltering}}
               <tr>
@@ -31,7 +44,7 @@ export default class TrainingListSummaryItems extends Component {
                     type="text"
                     value={{this.searchedId}}
                     oninput={{fn @triggerFiltering "id"}}
-                    aria-label="Filtrer les contenus formatifs par un id"
+                    aria-label={{t "components.trainings.list-summary-items.labels.filter-by-id"}}
                   />
                 </td>
                 <td>
@@ -39,7 +52,7 @@ export default class TrainingListSummaryItems extends Component {
                     type="text"
                     value={{this.searchedTitle}}
                     oninput={{fn @triggerFiltering "title"}}
-                    aria-label="Filtrer les contenus formatifs par un titre"
+                    aria-label={{t "components.trainings.list-summary-items.labels.filter-by-title"}}
                   />
                 </td>
                 <td></td>
@@ -79,7 +92,7 @@ export default class TrainingListSummaryItems extends Component {
         </table>
 
         {{#unless @summaries}}
-          <div class="table__empty">Aucun résultat</div>
+          <div class="table__empty">{{t "common.tables.no-result"}}</div>
         {{/unless}}
       </div>
     </div>
