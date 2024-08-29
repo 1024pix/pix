@@ -18,6 +18,7 @@ describe('Integration | Repository | mission-repository', function () {
           introductionMediaUrl: 'http://monimage.pix.fr',
           introductionMediaType: 'image',
           introductionMediaAlt: "Alt à l'image",
+          documentationUrl: 'http://madoc.pix.fr',
         });
 
         mockLearningContent({
@@ -32,6 +33,7 @@ describe('Integration | Repository | mission-repository', function () {
               introductionMediaUrl: 'http://monimage.pix.fr',
               introductionMediaType: 'image',
               introductionMediaAlt: "Alt à l'image",
+              documentationUrl: 'http://madoc.pix.fr',
             },
           ],
         });
@@ -40,7 +42,7 @@ describe('Integration | Repository | mission-repository', function () {
         const mission = await missionRepository.get('1');
 
         // then
-        expect(mission).to.deep.equal(expectedMission);
+        expect({ ...mission }).to.deep.equal(expectedMission);
       });
     });
     context('when there is no mission for the given id', function () {

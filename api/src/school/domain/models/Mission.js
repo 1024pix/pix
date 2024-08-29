@@ -12,6 +12,7 @@ class Mission {
     introductionMediaUrl,
     introductionMediaType,
     introductionMediaAlt,
+    documentationUrl,
     areaCode,
     startedBy,
     content,
@@ -27,6 +28,7 @@ class Mission {
     this.introductionMediaUrl = introductionMediaUrl;
     this.introductionMediaType = introductionMediaType;
     this.introductionMediaAlt = introductionMediaAlt;
+    this.documentationUrl = documentationUrl;
     this.startedBy = startedBy;
     this.content = new MissionContent(content);
   }

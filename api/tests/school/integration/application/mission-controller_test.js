@@ -17,6 +17,7 @@ describe('Integration | Controller | mission-controller', function () {
         introductionMediaType: 'image',
         introductionMediaAlt: "Alt à l'image",
         startedBy: '',
+        documentationUrl: 'http://madoc.pix.fr',
       });
       sinon.stub(usecases, 'getMission').resolves(mission);
 
@@ -42,6 +43,7 @@ describe('Integration | Controller | mission-controller', function () {
           'introduction-media-url': mission.introductionMediaUrl,
           'introduction-media-type': mission.introductionMediaType,
           'introduction-media-alt': mission.introductionMediaAlt,
+          'documentation-url': mission.documentationUrl,
           'started-by': '',
         },
         id: `${mission.id}`,
@@ -57,7 +59,13 @@ describe('Integration | Controller | mission-controller', function () {
   describe('#findAllActive', function () {
     it('should find all active missions', async function () {
       // given
-      const mission = new Mission({ id: 1, name: 'TAG1', color: 'Green', startedBy: 'CM1' });
+      const mission = new Mission({
+        id: 1,
+        name: 'TAG1',
+        color: 'Green',
+        startedBy: 'CM1',
+        documentationUrl: 'http://madoc.pix.fr',
+      });
       sinon.stub(usecases, 'findAllActiveMissions').resolves([mission]);
 
       // when
@@ -75,6 +83,7 @@ describe('Integration | Controller | mission-controller', function () {
             'introduction-media-url': mission.introductionMediaUrl,
             'introduction-media-type': mission.introductionMediaType,
             'introduction-media-alt': mission.introductionMediaAlt,
+            'documentation-url': mission.documentationUrl,
             'started-by': mission.startedBy,
           },
           id: `${mission.id}`,
