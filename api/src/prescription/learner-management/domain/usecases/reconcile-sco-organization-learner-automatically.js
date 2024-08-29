@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { CampaignCodeError, UserCouldNotBeReconciledError } from '../../../src/shared/domain/errors.js';
+import { CampaignCodeError, UserCouldNotBeReconciledError } from '../../../../shared/domain/errors.js';
 
 const reconcileScoOrganizationLearnerAutomatically = async function ({
   campaignCode,
@@ -14,7 +14,6 @@ const reconcileScoOrganizationLearnerAutomatically = async function ({
   }
 
   const studentOrganizationLearners = await organizationLearnerRepository.findByUserId({ userId });
-
   if (_.isEmpty(studentOrganizationLearners)) {
     throw new UserCouldNotBeReconciledError();
   }

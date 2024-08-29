@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { sendJsonApiError } from '../../../shared/application/http-errors.js';
+import { sendJsonApiError, UnprocessableEntityError } from '../../../shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
@@ -102,6 +102,34 @@ const register = async (server) => {
             "- Elle permet de mettre se reconcilier auprès d'une organisation ayant la fonctionnalité d'import.",
         ],
         tags: ['api', 'organization-learners', 'reconciliation'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/sco-organization-learners/association/auto',
+      config: {
+        handler: organizationLearnersController.reconcileScoOrganizationLearnerAutomatically,
+        validate: {
+          options: {
+            allowUnknown: false,
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+              },
+              type: 'sco-organization-learners',
+            },
+          }),
+          failAction: (request, h) => {
+            return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
+          },
+        },
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Elle essaye d’associer automatiquement l’utilisateur à l’inscription de l’élève dans cette organisation',
+        ],
+        tags: ['api', 'sco-organization-learners'],
       },
     },
   ]);

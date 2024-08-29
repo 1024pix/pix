@@ -53,34 +53,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'POST',
-      path: '/api/sco-organization-learners/association/auto',
-      config: {
-        handler: scoOrganizationLearnerController.reconcileScoOrganizationLearnerAutomatically,
-        validate: {
-          options: {
-            allowUnknown: false,
-          },
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-              },
-              type: 'sco-organization-learners',
-            },
-          }),
-          failAction: (request, h) => {
-            return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
-          },
-        },
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Elle essaye d’associer automatiquement l’utilisateur à l’inscription de l’élève dans cette organisation',
-        ],
-        tags: ['api', 'sco-organization-learners'],
-      },
-    },
-    {
       method: 'PUT',
       path: '/api/sco-organization-learners/possibilities',
       config: {

@@ -10,9 +10,7 @@ describe('Integration | Application | Route | sco-organization-learners', functi
     sinon
       .stub(scoOrganizationLearnerController, 'reconcileScoOrganizationLearnerManually')
       .callsFake((request, h) => h.response('ok').code(204));
-    sinon
-      .stub(scoOrganizationLearnerController, 'reconcileScoOrganizationLearnerAutomatically')
-      .callsFake((request, h) => h.response('ok').code(204));
+
     sinon
       .stub(scoOrganizationLearnerController, 'generateUsername')
       .callsFake((request, h) => h.response('ok').code(200));
@@ -217,46 +215,6 @@ describe('Integration | Application | Route | sco-organization-learners', functi
         // then
         expect(response.statusCode).to.equal(422);
       });
-    });
-  });
-
-  describe('POST /api/sco-organization-learners/association/auto', function () {
-    const method = 'POST';
-    const url = '/api/sco-organization-learners/association/auto';
-
-    it('should succeed', async function () {
-      // given
-      const payload = {
-        data: {
-          attributes: {
-            'campaign-code': 'RESTRICTD',
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-    });
-
-    it('should return an error when there is an invalid campaign code attribute in the payload', async function () {
-      // given
-      const INVALID_CAMPAIGNCODE = '';
-      const payload = {
-        data: {
-          attributes: {
-            'campaign-code': INVALID_CAMPAIGNCODE,
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(422);
     });
   });
 
