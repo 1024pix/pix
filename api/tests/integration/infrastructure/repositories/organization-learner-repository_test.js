@@ -216,12 +216,14 @@ describe('Integration ¨| Infrastructure | Repository | organization-learner-rep
       const firstOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization_1.id,
         division: '3A',
+        lastName: 'last-name-1',
         updatedAt: new Date(),
       });
       const secondOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization_1.id,
         userId: user.id,
         division: '3A',
+        lastName: 'last-name-2',
         updatedAt: new Date(),
       });
       databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization_2.id });
