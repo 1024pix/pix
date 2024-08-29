@@ -1,8 +1,10 @@
 $grain-card-border-radius: var(--pix-spacing-4x);
 
 .grain {
-  --modulix-lesson-card-background: rgb(240 247 254);
-  --modulix-activity-card-background: rgb(249 249 250);
+  --modulix-lesson-card-background: var(--pix-info-50);
+  --modulix-lesson-card-footer-background: rgb(237 245 254);
+  --modulix-activity-card-background: var(--pix-neutral-20);
+  --modulix-activity-card-footer-background: rgb(247 249 250);
 
   width: 100%;
 
@@ -51,7 +53,7 @@ $grain-card-border-radius: var(--pix-spacing-4x);
     }
 
     .grain-card__footer {
-      background: var(--pix-info-50);
+      background: var(--modulix-lesson-card-footer-background);
     }
   }
 
@@ -63,7 +65,7 @@ $grain-card-border-radius: var(--pix-spacing-4x);
     }
 
     .grain-card__footer {
-      background: var(--pix-neutral-20);
+      background: var(--modulix-activity-card-footer-background);
     }
   }
 }
