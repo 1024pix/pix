@@ -14,18 +14,18 @@ import { Candidate } from '../models/Candidate.js';
  * @param {EnrolledCandidateRepository} params.enrolledCandidateRepository
  */
 const updateEnrolledCandidate = async function ({ editedCandidate, enrolledCandidateRepository }) {
-  const foundedCandidate = await enrolledCandidateRepository.get({ id: editedCandidate.id });
+  const foundCandidate = await enrolledCandidateRepository.get({ id: editedCandidate.id });
 
-  if (!foundedCandidate) {
+  if (!foundCandidate) {
     throw new CertificationCandidateNotFoundError();
   }
 
-  if (foundedCandidate.isLinkedToAUser()) {
+  if (foundCandidate.isLinkedToAUser()) {
     throw new CandidateAlreadyLinkedToUserError();
   }
 
   const candidate = new Candidate({
-    ...foundedCandidate,
+    ...foundCandidate,
     accessibilityAdjustmentNeeded: editedCandidate.accessibilityAdjustmentNeeded,
   });
 

@@ -25,12 +25,12 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
   context('when the  candidate is found and not linked to a user', function () {
     it('should call update method with correct data', async function () {
       // given
-      const foundedCandidate = domainBuilder.certification.enrolment.buildEnrolledCandidate({
+      const foundCandidate = domainBuilder.certification.enrolment.buildEnrolledCandidate({
         userId: null,
         accessibilityAdjustmentNeeded: false,
         createdAt,
       });
-      enrolledCandidateRepository.get.withArgs({ id: editedCandidate.id }).resolves(foundedCandidate);
+      enrolledCandidateRepository.get.withArgs({ id: editedCandidate.id }).resolves(foundCandidate);
       enrolledCandidateRepository.update.resolves();
 
       // when
@@ -41,7 +41,7 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
 
       // then
       const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        ...foundedCandidate,
+        ...foundCandidate,
         accessibilityAdjustmentNeeded: editedCandidate.accessibilityAdjustmentNeeded,
       });
 
@@ -70,12 +70,12 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
   context('when the candidate is linked to a user', function () {
     it('should call update method with correct data', async function () {
       // given
-      const foundedCandidate = domainBuilder.certification.enrolment.buildEnrolledCandidate({
+      const foundCandidate = domainBuilder.certification.enrolment.buildEnrolledCandidate({
         id: editedCandidate.id,
         accessibilityAdjustmentNeeded: false,
         userId: 123,
       });
-      enrolledCandidateRepository.get.withArgs({ id: editedCandidate.id }).resolves(foundedCandidate);
+      enrolledCandidateRepository.get.withArgs({ id: editedCandidate.id }).resolves(foundCandidate);
 
       // when
       const error = await catchErr(updateEnrolledCandidate)({
