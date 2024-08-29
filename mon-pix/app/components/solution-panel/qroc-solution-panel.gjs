@@ -5,6 +5,8 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 
+import inc from '../../helpers/inc';
+
 const classByResultValue = {
   ok: 'correction-qroc-box-answer--correct',
   ko: 'correction-qroc-box-answer--wrong',
@@ -98,14 +100,16 @@ export default class QrocSolutionPanel extends Component {
               </div>
             {{else}}
               <div class="correction-qroc-box-answer {{this.inputClass}}">
-                <PixInput
-                  class="correction-qroc-box-answer--input"
-                  @id="correction-qroc-box-answer"
-                  size="{{this.answerToDisplay.length}}"
-                  @value="{{this.answerToDisplay}}"
-                  @ariaLabel={{this.inputAriaLabel}}
-                  disabled
-                />
+                {{#if this.answerToDisplay.length}}
+                  <PixInput
+                    class="correction-qroc-box-answer--input"
+                    @id="correction-qroc-box-answer"
+                    size="{{inc this.answerToDisplay.length}}"
+                    @value="{{this.answerToDisplay}}"
+                    @ariaLabel={{this.inputAriaLabel}}
+                    disabled
+                  />
+                {{/if}}
               </div>
             {{/if}}
           </div>

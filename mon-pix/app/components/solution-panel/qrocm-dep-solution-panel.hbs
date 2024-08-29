@@ -45,14 +45,16 @@
           </div>
         {{else}}
           <div class="correction-qrocm__answer correction-qrocm__answer--input {{block.inputClass}}">
-            <PixInput
-              class="correction-qrocm-answer__input"
-              @value="{{block.answer}}"
-              size="{{block.answer.length}}"
-              @id="{{block.input}}"
-              aria-label={{block.ariaLabel}}
-              disabled
-            />
+            {{#if block.answer.length}}
+              <PixInput
+                class="correction-qrocm-answer__input"
+                @value="{{block.answer}}"
+                size={{inc block.answer.length}}
+                @id="{{block.input}}"
+                aria-label={{block.ariaLabel}}
+                disabled
+              />
+            {{/if}}
             {{#if block.solution}}
               <p class="correction-qrocm__solution">
                 <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
