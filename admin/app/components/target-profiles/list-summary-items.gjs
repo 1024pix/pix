@@ -3,6 +3,7 @@ import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import { fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 
 import formatDate from '../../helpers/format-date';
 
@@ -14,16 +15,26 @@ export default class TargetProfileListSummaryItems extends Component {
     <div class="content-text content-text--small">
       <div class="table-admin">
         <table>
-
+          <caption class="screen-reader-only">
+            {{t "components.target-profiles.list-summary-items.table-caption"}}
+          </caption>
           <thead>
             <tr>
-              <th class="table__column table__column--id" id="target-profile-id">ID</th>
-              <th id="target-profile-name">Nom</th>
-              <th class="col-date">Date de création</th>
-              <th class="col-status" id="target-profile-status">Statut</th>
+              <th scope="col" id="target-profile-id" class="table__column--id">{{t
+                  "components.target-profiles.list-summary-items.table-headers.target-profile-id"
+                }}</th>
+              <th scope="col" id="target-profile-name">{{t
+                  "components.target-profiles.list-summary-items.table-headers.target-profile-name"
+                }}</th>
+              <th scope="col" id="target-profile-creation-date" class="table__column--medium">{{t
+                  "components.target-profiles.list-summary-items.table-headers.target-profile-creation-date"
+                }}</th>
+              <th scope="col" id="target-profile-status" class="table__column--medium">{{t
+                  "components.target-profiles.list-summary-items.table-headers.target-profile-status"
+                }}</th>
             </tr>
             <tr>
-              <td class="table__column table__column--id">
+              <td class="table__column--id">
                 <PixInput
                   type="text"
                   value={{this.searchedId}}
@@ -48,15 +59,15 @@ export default class TargetProfileListSummaryItems extends Component {
             <tbody>
               {{#each @summaries as |summary|}}
                 <tr aria-label="Profil cible">
-                  <td headers="target-profile-id" class="table__column table__column--id">{{summary.id}}</td>
+                  <td headers="target-profile-id" class="table__column--id">{{summary.id}}</td>
                   <td headers="target-profile-name">
                     <LinkTo @route="authenticated.target-profiles.target-profile" @model={{summary.id}}>
                       {{summary.name}}
                     </LinkTo>
                   </td>
-                  <td class="table__column">{{formatDate summary.createdAt}}</td>
-                  <td headers="target-profile-status" class="target-profile-table-column__status">
-                    {{if summary.outdated "Obsolète" "Actif"}}
+                  <td headers="target-profile-creation-date" class="table__column">{{formatDate summary.createdAt}}</td>
+                  <td headers="target-profile-status">
+                    {{if summary.outdated (t "common.words.obsolete") (t "common.words.active")}}
                   </td>
                 </tr>
               {{/each}}
@@ -65,7 +76,7 @@ export default class TargetProfileListSummaryItems extends Component {
         </table>
 
         {{#unless @summaries}}
-          <div class="table__empty">Aucun résultat</div>
+          <div class="table__empty">{{t "common.tables.no-result"}}</div>
         {{/unless}}
       </div>
     </div>
