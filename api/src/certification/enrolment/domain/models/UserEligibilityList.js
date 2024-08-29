@@ -17,6 +17,10 @@ export class UserEligibilityList {
     return this.#eligibilitiesV2.find((eligibility) => eligibility.isCore) ?? null;
   }
 
+  get complementaryEligibilitiesV2() {
+    return this.#eligibilitiesV2.filter((eligibility) => !eligibility.isCore);
+  }
+
   toDTO() {
     return {
       userId: this.#userId,
@@ -83,6 +87,35 @@ export class UserComplementaryEligibilityV2 {
     this.#badgeKey = badgeKey;
     this.#why = { isOutdated, isCoreCertifiable };
     this.#info = { hasComplementaryCertificationForThisLevel, versionsBehind };
+  }
+
+  get complementaryCertificationBadgeId() {
+    return this.#complementaryCertificationBadgeId;
+  }
+
+  get isOutdated() {
+    return this.#why.isOutdated;
+  }
+
+  get hasComplementaryCertificationForThisLevel() {
+    return this.#info.hasComplementaryCertificationForThisLevel;
+  }
+
+  estCertifiable() {
+    return this.#isCertifiable;
+  }
+
+  estPasCertifiableCarLeBadgeEstPerimé() {
+    if (this.#isCertifiable) return false;
+    if (!this.#why.isCoreCertifiable) return false;
+    return this.#why.isOutdated;
+  }
+
+  estPasCertifiableCarLeBadgeEstPeriméMaisQueDuneSeuleVersionDeRetard() {
+    if (this.#isCertifiable) return false;
+    if (!this.#why.isOutdated) return false;
+    if (!this.#why.isCoreCertifiable) return false;
+    return this.#info.versionsBehind === 1;
   }
 
   toDTO() {
