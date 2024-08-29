@@ -14,6 +14,7 @@ import { tagRepository } from '../../../../organizational-entities/infrastructur
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as divisionRepository from '../../../campaign/infrastructure/repositories/division-repository.js';
 import * as groupRepository from '../../../campaign/infrastructure/repositories/group-repository.js';
 import * as organizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 import * as organizationLearnerActivityRepository from '../../infrastructure/repositories/organization-learner-activity-repository.js';
@@ -24,6 +25,7 @@ import * as scoOrganizationParticipantRepository from '../../infrastructure/repo
 import * as supOrganizationParticipantRepository from '../../infrastructure/repositories/sup-organization-participant-repository.js';
 
 const dependencies = {
+  divisionRepository,
   groupRepository,
   supOrganizationParticipantRepository,
   scoOrganizationParticipantRepository,

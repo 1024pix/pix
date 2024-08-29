@@ -10,8 +10,9 @@ describe('Integration | Application | learner-list-controller', function () {
   beforeEach(async function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'findPaginatedFilteredParticipants');
-
+    sandbox.stub(usecases, 'findDivisionsByOrganization');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganization');
+    sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
   });
@@ -51,6 +52,41 @@ describe('Integration | Application | learner-list-controller', function () {
             },
           },
         ]);
+      });
+    });
+  });
+
+  describe('#getDivisions', function () {
+    context('when the user is a member of the organization', function () {
+      it('returns organizations divisions', async function () {
+        const organizationId = 1234;
+        securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.returns(true);
+        usecases.findDivisionsByOrganization.withArgs({ organizationId }).resolves([{ name: 'G1' }]);
+
+        const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/divisions`);
+
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal([{ id: 'G1', type: 'divisions', attributes: { name: 'G1' } }]);
+      });
+    });
+
+    context('when the user is not a member of the organization', function () {
+      it('returns organizations divisions', async function () {
+        const organizationId = 1234;
+        securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) => {
+          return Promise.resolve(h.response().code(403).takeover());
+        });
+        const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/divisions`);
+
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    context('when the organization id is invalid', function () {
+      it('returns returns an error 400', async function () {
+        const response = await httpTestServer.request('GET', `/api/organizations/ABC/divisions`);
+
+        expect(response.statusCode).to.equal(400);
       });
     });
   });
