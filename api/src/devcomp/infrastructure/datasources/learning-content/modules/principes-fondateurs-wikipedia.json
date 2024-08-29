@@ -16,7 +16,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Vous avez probablement déjà utilisé Wikipédia. Mais connaissez-vous la signification de son logo&#8239;?&nbsp;<span aria-hidden=\"true\">🌎</span>&nbsp;<span aria-hidden=\"true\">🧩</span></p>",
+      "content": "<p>Vous avez probablement déjà utilisé Wikipédia. Mais connaissez-vous la signification de son logo&#8239;?&nbsp;<span aria-hidden=\"true\">🌎</span>&nbsp;</p>",
       "grainId": "da95d2bc-e597-4366-a095-21f7ab0f4845"
     },
     {
@@ -48,56 +48,63 @@
     {
       "id": "da95d2bc-e597-4366-a095-21f7ab0f4845",
       "type": "activity",
-      "title": "Wikipédia : un site de référence !",
+      "title": "Wikipédia : un site de référence",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "30b9ada4-a87a-4dfb-baa2-d97925b0bba5",
-            "type": "text",
-            "content": "<p>Depuis sa création en 2001, Wikipédia a fait évoluer son logo à trois reprises.<br> Aujourd'hui, le logo représente un globe composé de pièces de puzzle avec différents symboles.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "a4a95061-c1c4-475a-9cb8-c64928d40b8c",
-            "type": "image",
-            "url": "https://i.imgur.com/q1pokb5.png",
-            "alt": "Logos de Wikipédia de 2001 à 2010 décrits en alternative textuelle.",
-            "alternativeText": "Chronologie des logos de Wikipédia depuis sa création :<ul><li>2001 : image représentant un globe sur lequel est inscrit un article d'encyclopédie en langue anglaise. Deux segments noirs verticaux découpent le globe en trois morceaux.</li><li>2001 à 2003 : image représentant un globe sur lequel est inscrit un article d'encyclopédie en langue anglaise. Le nom \"Wikipédia\" est centré sous le globe, en lettres capitales. En dessous, le sous-titre \"The Free Encyclopedia\" est également centré et en caractères de taille plus petite.</li><li>2003 à 2010 : image représentant un globe incomplet constitué de pièces de puzzle. Sur chacune des pièces de puzzle figure un caractère de différents systèmes d'écriture, dont une lettre W en majuscule de l'alphabet latin. Le nom \"Wikipédia\" est centré sous le globe, en lettres capitales. En dessous, le sous-titre \"The Free Encyclopedia\" est également centré et en caractères de taille plus petite et en italiques.</li><li>depuis 2010 : les éléments sont quasiment identiques au logo de 2003 à 2010. La seule différence est le sous-titre qui n'est plus en italiques.</li></ul><p>Source : <a href=\"https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia\" target=\"_blank\">https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia</a></p><p>Licence : CC BY-SA 3.0 DEED</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "d5acb701-fd9c-40d4-b59d-fb2fd8f6b3fe",
-            "type": "qcm",
-            "instruction": "<p>Une devinette&nbsp;: selon vous, quelles sont les <strong>deux</strong> phrases qui décrivent le mieux la signification du logo actuel de Wikipédia&#8239;?</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Le globe est incomplet car Wikipédia est constamment en construction."
-              },
-              {
-                "id": "2",
-                "content": "Le globe est incomplet car Wikipédia sera toujours ouvert."
-              },
-              {
-                "id": "3",
-                "content": "Les symboles représentent la diversité des savoirs rassemblés sur Wikipédia."
-              },
-              {
-                "id": "4",
-                "content": "Les symboles représentent les différentes langues qui existent sur Wikipédia."
-              }
-            ],
-            "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> La construction permanente et les différentes langues de Wikipédia sont symbolisées prioritairement à travers ce logo.</p>"
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "df0943c8-5972-4544-b7f8-0cec31c379b8",
+                  "type": "qcm",
+                  "instruction": "<p>Devinette&nbsp;: Quels sont les éléments présents dans le logo actuel de Wikipédia ?</p>",
+                  "proposals": [
+                    {
+                      "id": "",
+                      "content": "<p>Des pièces de puzzle</p>"
+                    },
+                    {
+                      "id": "",
+                      "content": "<p>Les différents continents</p>"
+                    },
+                    {
+                      "id": "",
+                      "content": "<p>Des animaux</p>"
+                    },
+                    {
+                      "id": "",
+                      "content": "<p>Des lettres de différentes langues</p>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> Le logo représente un globe incomplet composé de pièces de puzzle car Wikipédia est en construction permanente. Les symboles et les lettres de différentes langues représentent la diversité des langues présentes sur Wikipédia.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.!</span><p>Indice&nbsp;: le logo représente le fait que Wikipédia est constamment en construction, ainsi que les différents langages utilisés sur Wikipédia.</p>"
+                  },
+                  "solutions": [
+                    "1",
+                    "4"
+                  ]
+                }
+              ]
             },
-            "solutions": ["1", "4"]
-          }
+            {
+              "elements": [
+                {
+                  "id": "c95345a6-a6b7-4be7-a5dd-d07be4e99a0f",
+                  "type": "text",
+                  "content": "<p>Depuis sa création en 2001, Wikipédia a fait évoluer son logo à trois reprises. Voici les versions du logo qui ont existé.</p>"
+                },
+                {
+                  "id": "4a257097-98a0-4501-93ee-6e3f8dac6c1e",
+                  "type": "image",
+                  "url": "https://i.imgur.com/q1pokb5.png",
+                  "alt": "",
+                  "alternativeText": "<p>Chronologie des logos de Wikipédia depuis sa création :</p><ul><li>2001 : image représentant un globe sur lequel est inscrit un article d'encyclopédie en langue anglaise. Deux segments noirs verticaux découpent le globe en trois morceaux.</li><li>2001 à 2003 : image représentant un globe sur lequel est inscrit un article d'encyclopédie en langue anglaise. Le nom \\\"Wikipédia\\\" est centré sous le globe, en lettres capitales. En dessous, le sous-titre \\\"The Free Encyclopedia\\\" est également centré et en caractères de taille plus petite.</li><li>2003 à 2010 : image représentant un globe incomplet constitué de pièces de puzzle. Sur chacune des pièces de puzzle figure un caractère de différents systèmes d'écriture, dont une lettre W en majuscule de l'alphabet latin. Le nom \\\"Wikipédia\\\" est centré sous le globe, en lettres capitales. En dessous, le sous-titre \\\"The Free Encyclopedia\\\" est également centré et en caractères de taille plus petite et en italiques.</li><li>depuis 2010 : les éléments sont quasiment identiques au logo de 2003 à 2010. La seule différence est le sous-titre qui n'est plus en italiques.</li></ul><p>Source : <a href=\"\\&quot;https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia\\&quot;\" data-sce-target=\"\\&quot;_blank\\&quot;\">https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia</a></p><p>Licence : CC BY-SA 3.0 DEED</p>"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
