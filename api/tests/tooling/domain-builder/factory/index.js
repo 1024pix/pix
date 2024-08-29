@@ -181,6 +181,9 @@ import {
   buildSubscription,
 } from './certification/enrolment/build-subscription.js';
 import { buildUserEnrolment } from './certification/enrolment/build-user.js';
+import { buildUserCoreEligibility } from './certification/enrolment/build-user-core-eligibility.js';
+import { buildUserEligibilityCalculator } from './certification/enrolment/build-user-eligibility-calculator.js';
+import { buildUserEligibilityList } from './certification/enrolment/build-user-eligibility-list.js';
 import { buildFlashAssessmentAlgorithm } from './certification/flash-certification/build-flash-assessment-algorithm.js';
 import { buildAssessmentResult as buildCertificationScoringAssessmentResult } from './certification/scoring/build-assessment-result.js';
 import { buildCertificationAssessmentHistory } from './certification/scoring/build-certification-assessment-history.js';
@@ -217,6 +220,9 @@ const certification = {
     buildComplementarySubscription,
     buildSubscription,
     buildUser: buildUserEnrolment,
+    buildUserEligibilityCalculator,
+    buildUserEligibilityList,
+    buildUserCoreEligibility,
   },
   sessionManagement: {
     buildCertificationSessionComplementaryCertification,
