@@ -12,6 +12,7 @@ import { getCenterForAdmin } from '../../../src/certification/enrolment/domain/u
 import * as centerRepository from '../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as certificationCandidateRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCpfCityRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
+import * as complementaryCertificationBadgeRepository from '../../../src/certification/enrolment/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as sessionEnrolmentRepository from '../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import * as certificationOfficerRepository from '../../../src/certification/session-management/infrastructure/repositories/certification-officer-repository.js';
@@ -179,6 +180,7 @@ function requirePoleEmploiNotifier() {
  * @typedef {certificationRepository} CertificationRepository
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {complementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
+ * @typedef {complementaryCertificationBadgeRepository} ComplementaryCertificationBadgeRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {mailService} MailService
  * @typedef {placementProfileService} PlacementProfileService
@@ -247,6 +249,7 @@ const dependencies = {
   complementaryCertificationCourseResultRepository,
   complementaryCertificationHabilitationRepository,
   complementaryCertificationRepository,
+  complementaryCertificationBadgeRepository,
   config,
   correctionRepository: repositories.correctionRepository,
   courseRepository,

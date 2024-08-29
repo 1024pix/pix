@@ -8,6 +8,7 @@ import * as centerRepository from './center-repository.js';
 import * as certificationCandidateRepository from './certification-candidate-repository.js';
 import * as certificationCpfCityRepository from './certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from './certification-cpf-country-repository.js';
+import * as complementaryCertificationBadgeRepository from './complementary-certification-badge-repository.js';
 import * as complementaryCertificationRepository from './complementary-certification-repository.js';
 import * as countryRepository from './country-repository.js';
 import * as enrolledCandidateRepository from './enrolled-candidate-repository.js';
@@ -28,6 +29,7 @@ import * as userRepository from './user-repository.js';
  * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
+ * @typedef {complementaryCertificationBadgeRepository} ComplementaryCertificationBadgeRepository
  * @typedef {sessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {sessionManagementRepository} SessionManagementRepository
  * @typedef {countryRepository} CountryRepository
@@ -45,6 +47,7 @@ const repositoriesWithoutInjectedDependencies = {
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
+  complementaryCertificationBadgeRepository,
   countryRepository,
   enrolledCandidateRepository,
   scoCertificationCandidateRepository,
