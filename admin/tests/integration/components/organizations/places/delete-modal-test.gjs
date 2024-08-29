@@ -1,12 +1,13 @@
 import { clickByText, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { setupRenderingTest } from 'ember-qunit';
 import DeleteModal from 'pix-admin/components/organizations/places/delete-modal';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | Organizations | Places | Delete-modal', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   const places = {
     count: 7777,

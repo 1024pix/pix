@@ -7,6 +7,7 @@ import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
+import { t } from 'ember-intl';
 
 export default class ParticipationRow extends Component {
   @service notifications;
@@ -102,13 +103,13 @@ export default class ParticipationRow extends Component {
                   @triggerAction={{this.updateParticipantExternalId}}
                   class="participation-item-actions__button participation-item-actions__button--save"
                 >
-                  Enregistrer
+                  {{t "common.actions.save"}}
                 </PixButton>
                 <PixButton
                   @size="small"
                   @variant="secondary"
                   @triggerAction={{this.cancelUpdateParticipantExternalId}}
-                  aria-label="Annuler"
+                  aria-label={{t "common.actions.cancel"}}
                   class="participation-item-actions__button--icon"
                 >
                   <FaIcon @icon="xmark" />
@@ -121,7 +122,7 @@ export default class ParticipationRow extends Component {
                 class="participation-item-actions__button"
                 @iconBefore="pen-to-square"
               >
-                Modifier
+                {{t "common.actions.edit"}}
               </PixButton>
             {{/if}}
           </div>

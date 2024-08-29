@@ -1,3 +1,4 @@
+import { setupIntl } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import ENV from 'pix-admin/config/environment';
 import { module, test } from 'qunit';
@@ -6,6 +7,7 @@ import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | certification-centers/information-view', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks, 'fr');
 
   module('#availableHabilitations', function () {
     test('it should return a sorted list of available habilitations', async function (assert) {

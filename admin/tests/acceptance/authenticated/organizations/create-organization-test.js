@@ -5,9 +5,12 @@ import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { module, test } from 'qunit';
 
+import setupIntl from '../../../helpers/setup-intl';
+
 module('Acceptance | Organizations | Create', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   hooks.beforeEach(async function () {
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);

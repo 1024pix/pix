@@ -1,6 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
 import { on } from '@ember/modifier';
+import { t } from 'ember-intl';
 
 <template>
   <PixModal
@@ -28,11 +29,9 @@ import { on } from '@ember/modifier';
     </:content>
 
     <:footer>
-      <PixButton
-        @size="small"
-        @variant="secondary"
-        @triggerAction={{@toggleArchivingConfirmationModal}}
-      >Annuler</PixButton>
+      <PixButton @size="small" @variant="secondary" @triggerAction={{@toggleArchivingConfirmationModal}}>
+        {{t "common.actions.cancel"}}
+      </PixButton>
       <PixButton @type="submit" @size="small" {{on "click" @archiveOrganization}}>
         Confirmer
       </PixButton>

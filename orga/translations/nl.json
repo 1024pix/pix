@@ -1465,7 +1465,8 @@
         "invitation": "Er is een uitnodiging verstuurd naar het e-mailadres {email}.",
         "multiple-invitations": "Er is een uitnodiging gestuurd naar de vermelde e-mailadressen."
       },
-      "title": "Een lid uitnodigen"
+      "title": "Een lid uitnodigen",
+      "warning":"Les membres que vous ajoutez ci-dessous auront accès aux résultats des participants et à l’analyse des campagnes. Veuillez vous assurer que les personnes invitées sont des membres de votre organisation."
     },
     "terms-of-service": {
       "accept": "Ik accepteer de gebruiksvoorwaarden",

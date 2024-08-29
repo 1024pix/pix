@@ -1,5 +1,6 @@
 import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import MembershipItemRole from 'pix-admin/components/users/certification-centers/membership-item-role';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -29,8 +30,8 @@ module('Integration | Component | users | certification-centers | membership-ite
     test('it displays role selection input', async function (assert) {
       // given
       const certificationCenterRoles = [
-        { value: 'ADMIN', label: this.intl.t('common.roles.admin') },
-        { value: 'MEMBER', label: this.intl.t('common.roles.member') },
+        { value: 'ADMIN', label: t('common.roles.admin') },
+        { value: 'MEMBER', label: t('common.roles.member') },
       ];
       const isEditionMode = true;
       const role = 'MEMBER';
@@ -56,8 +57,8 @@ module('Integration | Component | users | certification-centers | membership-ite
       test('it displays a list of roles', async function (assert) {
         // given
         const certificationCenterRoles = [
-          { value: 'ADMIN', label: this.intl.t('common.roles.admin') },
-          { value: 'MEMBER', label: this.intl.t('common.roles.member') },
+          { value: 'ADMIN', label: t('common.roles.admin') },
+          { value: 'MEMBER', label: t('common.roles.member') },
         ];
         const isEditionMode = true;
         const role = 'MEMBER';
@@ -86,8 +87,8 @@ module('Integration | Component | users | certification-centers | membership-ite
         test('it emits an event with the new role', async function (assert) {
           // given
           const certificationCenterRoles = [
-            { value: 'ADMIN', label: this.intl.t('common.roles.admin') },
-            { value: 'MEMBER', label: this.intl.t('common.roles.member') },
+            { value: 'ADMIN', label: t('common.roles.admin') },
+            { value: 'MEMBER', label: t('common.roles.member') },
           ];
           const onRoleSelected = sinon.stub();
           const isEditionMode = true;

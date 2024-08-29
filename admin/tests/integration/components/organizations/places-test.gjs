@@ -1,10 +1,11 @@
 import { clickByText, render } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
 import Places from 'pix-admin/components/organizations/places';
 import { module, test } from 'qunit';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | Organizations | Places', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   let store;
   let currentUser;

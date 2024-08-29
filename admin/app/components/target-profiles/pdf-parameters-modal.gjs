@@ -5,6 +5,7 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 
 export default class PdfParametersModal extends Component {
   @tracked language = null;
@@ -58,7 +59,7 @@ export default class PdfParametersModal extends Component {
           class="pix-button--background-transparent-light"
           {{on "click" @onCloseButtonClicked}}
         >
-          Annuler
+          {{t "common.actions.cancel"}}
         </PixButton>
         <PixButton @size="small" @triggerAction={{this.submit}}>Télécharger</PixButton>
       </:footer>

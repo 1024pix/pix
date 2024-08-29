@@ -1,12 +1,13 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import ListItems from 'pix-admin/components/organizations/list-items';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | ListItems', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
   let currentUser;
 
   hooks.beforeEach(function () {

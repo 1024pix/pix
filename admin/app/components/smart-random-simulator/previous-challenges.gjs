@@ -3,6 +3,12 @@ import Component from '@glimmer/component';
 import Card from '../card';
 
 export default class PreviousChallenges extends Component {
+  displayBooleanState = (bool) => {
+    const yes = this.intl.t('common.words.yes');
+    const no = this.intl.t('common.words.no');
+    return bool ? yes : no;
+  };
+
   incrementIndex(index) {
     return index + 1;
   }
@@ -15,8 +21,12 @@ export default class PreviousChallenges extends Component {
             <div class="previous-challenges__result {{challenge.result}}">
               <p class="previous-challenges__result__count">Épreuve {{this.incrementIndex index}}</p>
               <h2>{{challenge.skill.name}}</h2>
-              <p class="previous-challenges__result__focused">Focus : {{if challenge.focused "Oui" "Non"}}</p>
-              <p class="previous-challenges__result__timed">Temps imparti: {{if challenge.timer "Oui" "Non"}}</p>
+              <p class="previous-challenges__result__focused">Focus :
+                {{this.displayBooleanState challenge.focused}}
+              </p>
+              <p class="previous-challenges__result__timed">Temps imparti:
+                {{this.displayBooleanState challenge.timer}}
+              </p>
             </div>
           {{/each}}
         </div>

@@ -1,5 +1,6 @@
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import { on } from '@ember/modifier';
+import { t } from 'ember-intl';
 
 <template>
   <section class="badge-form-criterion">
@@ -12,7 +13,7 @@ import { on } from '@ember/modifier';
       type="number"
       min="0"
       max="100"
-      @requiredLabel="Champ obligatoire"
+      @requiredLabel={{t "common.forms.mandatory"}}
       {{on "change" @onThresholdChange}}
     >
       <:label>Taux de réussite requis :</:label>

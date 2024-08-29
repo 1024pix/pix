@@ -1,14 +1,17 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 
 export default class ConfirmPopup extends Component {
+  @service() intl;
+
   get title() {
     return this.args.title || 'Merci de confirmer';
   }
 
   get closeTitle() {
-    return this.args.closeTitle || 'Annuler';
+    return this.args.closeTitle || this.intl.t('common.actions.cancel');
   }
 
   get submitTitle() {

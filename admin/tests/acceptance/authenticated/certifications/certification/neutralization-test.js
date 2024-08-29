@@ -3,11 +3,13 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
+import setupIntl from '../../../../helpers/setup-intl';
 import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
 module('Acceptance | Route | routes/authenticated/certifications/certification | neutralization', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   module('when there is no challenge for this certification', function () {
     test('it renders "Aucune épreuve posée"', async function (assert) {

@@ -1,16 +1,15 @@
 import { fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { module, test } from 'qunit';
 
-import setupIntl from '../../../helpers/setup-intl';
-
 module('Acceptance | Autonomous courses', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   module('When admin member is logged in', function (hooks) {
     hooks.beforeEach(async function () {
@@ -125,8 +124,8 @@ module('Acceptance | Autonomous courses', function (hooks) {
       test('it displays the update form when requested', async function (assert) {
         // when
         const screen = await visit('/autonomous-courses/1');
-
         const button = screen.getByText('Modifier');
+
         await click(button);
 
         // then

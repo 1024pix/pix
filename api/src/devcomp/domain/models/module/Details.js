@@ -1,3 +1,4 @@
+import { DomainError } from '../../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 
 class Details {
@@ -21,13 +22,13 @@ class Details {
 
   #assertObjectivesIsAnArray(objectives) {
     if (!Array.isArray(objectives)) {
-      throw new Error('The module details should contain a list of objectives');
+      throw new DomainError('The module details should contain a list of objectives');
     }
   }
 
   #assertObjectivesHasMinimumLength(objectives) {
     if (objectives.length < 1) {
-      throw new Error('The module details should contain at least one objective');
+      throw new DomainError('The module details should contain at least one objective');
     }
   }
 }

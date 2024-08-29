@@ -1,3 +1,4 @@
+import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import { fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
@@ -13,6 +14,7 @@ export default class TargetProfileListSummaryItems extends Component {
     <div class="content-text content-text--small">
       <div class="table-admin">
         <table>
+
           <thead>
             <tr>
               <th class="table__column table__column--id" id="target-profile-id">ID</th>
@@ -22,20 +24,18 @@ export default class TargetProfileListSummaryItems extends Component {
             </tr>
             <tr>
               <td class="table__column table__column--id">
-                <input
+                <PixInput
                   type="text"
                   value={{this.searchedId}}
                   oninput={{fn @triggerFiltering "id"}}
-                  class="table-admin-input"
                   aria-label="Filtrer les profils cible par un id"
                 />
               </td>
               <td>
-                <input
+                <PixInput
                   type="text"
                   value={{this.searchedName}}
                   oninput={{fn @triggerFiltering "name"}}
-                  class="table-admin-input"
                   aria-label="Filtrer les profils cible par un nom"
                 />
               </td>

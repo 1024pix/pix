@@ -1,5 +1,6 @@
 import { QrocmSolutions } from '../../../../../src/devcomp/domain/models/QrocmSolutions.js';
-import { expect } from '../../../../test-helper.js';
+import { DomainError } from '../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | QrocmSolutions', function () {
   describe('#constructor', function () {
@@ -60,7 +61,8 @@ describe('Unit | Devcomp | Domain | Models | QrocmSolutions', function () {
 
     describe('A QROCM solution with missing solutions into a proposal', function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new QrocmSolutions([
               {
@@ -75,13 +77,18 @@ describe('Unit | Devcomp | Domain | Models | QrocmSolutions', function () {
                 tolerances: ['t1', 't2'],
               },
             ]),
-        ).to.throw('The solutions are required for each QROCM proposal in QROCM solutions');
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The solutions are required for each QROCM proposal in QROCM solutions');
       });
     });
 
     describe('A QROCM solution with missing tolerances into a proposal', function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new QrocmSolutions([
               {
@@ -96,13 +103,18 @@ describe('Unit | Devcomp | Domain | Models | QrocmSolutions', function () {
                 solutions: ['@'],
               },
             ]),
-        ).to.throw('The tolerances are required for each QROCM proposal in QROCM solutions');
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The tolerances are required for each QROCM proposal in QROCM solutions');
       });
     });
 
     describe('A QROCM solution with solutions which is not a list', function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new QrocmSolutions([
               {
@@ -118,13 +130,18 @@ describe('Unit | Devcomp | Domain | Models | QrocmSolutions', function () {
                 solutions: '@',
               },
             ]),
-        ).to.throw('Each proposal in QROCM solutions should have a list of solutions');
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('Each proposal in QROCM solutions should have a list of solutions');
       });
     });
 
     describe('A QROCM solution with tolerances which is not a list', function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new QrocmSolutions([
               {
@@ -140,7 +157,11 @@ describe('Unit | Devcomp | Domain | Models | QrocmSolutions', function () {
                 tolerances: 't1',
               },
             ]),
-        ).to.throw('A QROCM solution should have a list of tolerances');
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('A QROCM solution should have a list of tolerances');
       });
     });
   });

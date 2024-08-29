@@ -1,5 +1,6 @@
 import { Module } from '../../../../../../src/devcomp/domain/models/module/Module.js';
-import { expect } from '../../../../../test-helper.js';
+import { DomainError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
   describe('#constructor', function () {
@@ -26,38 +27,59 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
 
     describe('if a module does not have an id', function () {
       it('should throw an error', function () {
-        expect(() => new Module({})).to.throw('The id is required for a module');
+        // when
+        const error = catchErrSync(() => new Module({}))();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The id is required for a module');
       });
     });
 
     describe('if a module does not have a title', function () {
       it('should throw an error', function () {
-        expect(() => new Module({ id: 1 })).to.throw('The title is required for a module');
+        // when
+        const error = catchErrSync(() => new Module({ id: 1 }))();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The title is required for a module');
       });
     });
 
     describe('if a module does not have a slug', function () {
       it('should throw an error', function () {
-        expect(() => new Module({ id: 1, title: '' })).to.throw('The slug is required for a module');
+        // when
+        const error = catchErrSync(() => new Module({ id: 1, title: '' }))();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The slug is required for a module');
       });
     });
 
     describe('if a module does not have grains', function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new Module({
               id: 'id_module_1',
               slug: 'bien-ecrire-son-adresse-mail',
               title: 'Bien écrire son adresse mail',
             }),
-        ).to.throw('A list of grains is required for a module');
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('A list of grains is required for a module');
       });
     });
 
     describe('if a module has grains with the wrong type', function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new Module({
               id: 'id_module_1',
@@ -65,13 +87,18 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               title: 'Bien écrire son adresse mail',
               grains: 'elements',
             }),
-        ).to.throw(`A module should have a list of grains`);
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal(`A module should have a list of grains`);
       });
     });
 
     describe('if a module does not have details', function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new Module({
               id: 'id_module_1',
@@ -79,7 +106,11 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               title: 'Bien écrire son adresse mail',
               grains: [],
             }),
-        ).to.throw('The details are required for a module');
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The details are required for a module');
       });
     });
   });

@@ -1354,10 +1354,10 @@
         "level": "Nivel",
         "objectives": "Objetivos",
         "smallScreenModal": {
-          "title": "Parece que estás usando una pantalla pequeña",
+          "cancel": "Volver a los detalles",
           "description": "Algunas de las actividades de este módulo pueden resultar difíciles de realizar en una pantalla pequeña. Para disfrutar de la mejor experiencia, le recomendamos que utilice un ordenador.",
           "startModule": "Inicio",
-          "cancel": "Volver a los detalles"
+          "title": "Parece que estás usando una pantalla pequeña"
         },
         "startModule": "Iniciar el módulo"
       },

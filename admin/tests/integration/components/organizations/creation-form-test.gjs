@@ -1,11 +1,12 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import CreationForm from 'pix-admin/components/organizations/creation-form';
 import { module, test } from 'qunit';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | organizations/creation-form', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
   const onSubmit = () => {};
   const onCancel = () => {};
 

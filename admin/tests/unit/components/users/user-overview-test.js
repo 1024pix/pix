@@ -1,3 +1,4 @@
+import { setupIntl } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import ENV from 'pix-admin/config/environment';
 import { module, test } from 'qunit';
@@ -7,6 +8,7 @@ import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | users | user-overview', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks, 'fr');
 
   module('#externalURL', function () {
     test('it should generate dashboard URL based on environment and object', async function (assert) {

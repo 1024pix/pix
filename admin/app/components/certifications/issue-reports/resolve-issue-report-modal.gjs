@@ -5,6 +5,7 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 
 import focus from '../../../modifiers/focus';
 
@@ -60,7 +61,7 @@ export default class CertificationIssueReportModal extends Component {
           class="pix-button--background-transparent-light"
           {{on "click" @toggleResolveModal}}
         >
-          Annuler
+          {{t "common.actions.cancel"}}
         </PixButton>
         <PixButton @size="small" @triggerAction={{this.resolve}}>{{this.actionName}}</PixButton>
       </:footer>

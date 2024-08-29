@@ -66,16 +66,14 @@ export default class CreateTargetProfileForm extends Component {
   <template>
     <form class="admin-form">
       <p class="admin-form__mandatory-text">
-        Les champs marqués de
-        <span class="mandatory-mark">*</span>
-        sont obligatoires.
+        {{t "common.forms.mandatory-fields" htmlSafe=true}}
       </p>
       <section class="admin-form__content admin-form__content--with-counters">
         <Card class="admin-form__card" @title="Information sur le profil cible">
           <PixInput
             @id="targetProfileName"
             required={{true}}
-            @requiredLabel="Champ obligatoire"
+            @requiredLabel={{t "common.forms.mandatory"}}
             aria-required={{true}}
             @value={{@targetProfile.name}}
             {{on "change" (fn this.handleInputValue "name")}}
@@ -90,7 +88,7 @@ export default class CreateTargetProfileForm extends Component {
             @placeholder="-"
             @hideDefaultOption={{true}}
             required={{true}}
-            @requiredLabel="Champ obligatoire"
+            @requiredLabel={{t "common.forms.mandatory"}}
             aria-required={{true}}
           >
             <:label>Catégorie :</:label>
@@ -102,7 +100,7 @@ export default class CreateTargetProfileForm extends Component {
               type="number"
               @errorMessage=""
               required={{true}}
-              @requiredLabel="Champ obligatoire"
+              @requiredLabel={{t "common.forms.mandatory"}}
               aria-required={{true}}
               placeholder="7777"
               value={{@targetProfile.ownerOrganizationId}}
@@ -176,7 +174,7 @@ export default class CreateTargetProfileForm extends Component {
       </section>
       <section class="admin-form__actions">
         <PixButton @variant="secondary" @size="large" @triggerAction={{@onCancel}}>
-          Annuler
+          {{t "common.actions.cancel"}}
         </PixButton>
         <PixButton
           @variant="success"

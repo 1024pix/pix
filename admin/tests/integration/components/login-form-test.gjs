@@ -1,5 +1,6 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import LoginForm from 'pix-admin/components/login-form';
 import ENV from 'pix-admin/config/environment';
 import { module, test } from 'qunit';
@@ -154,7 +155,7 @@ module('Integration | Component | login-form', function (hooks) {
       await clickByName('Je me connecte');
 
       // then
-      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
+      assert.dom(screen.getByText(t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
     });
 
     test('should display good error message when an error 400 occurred', async function (assert) {
@@ -180,7 +181,7 @@ module('Integration | Component | login-form', function (hooks) {
       await clickByName('Je me connecte');
 
       // then
-      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.BAD_REQUEST.I18N_KEY))).exists();
+      assert.dom(screen.getByText(t(ApiErrorMessages.BAD_REQUEST.I18N_KEY))).exists();
     });
 
     test('should display good error message when an error 403 occurred', async function (assert) {
@@ -199,7 +200,7 @@ module('Integration | Component | login-form', function (hooks) {
       await clickByName('Je me connecte');
 
       // then
-      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.LOGIN_NO_PERMISSION.I18N_KEY))).exists();
+      assert.dom(screen.getByText(t(ApiErrorMessages.LOGIN_NO_PERMISSION.I18N_KEY))).exists();
     });
 
     test('should display good error message when an 500 error occurred', async function (assert) {
@@ -225,7 +226,7 @@ module('Integration | Component | login-form', function (hooks) {
       await clickByName('Je me connecte');
 
       // then
-      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
+      assert.dom(screen.getByText(t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
     });
 
     test('should display good error message when an non handled status code', async function (assert) {
@@ -244,7 +245,7 @@ module('Integration | Component | login-form', function (hooks) {
       await clickByName('Je me connecte');
 
       // then
-      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
+      assert.dom(screen.getByText(t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
     });
   });
 });

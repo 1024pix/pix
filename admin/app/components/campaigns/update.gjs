@@ -10,6 +10,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import { not } from 'ember-truth-helpers';
 import PixFieldset from 'pix-admin/components/ui/pix-fieldset';
 
@@ -17,6 +18,7 @@ export default class Update extends Component {
   @service notifications;
   @service accessControl;
   @service store;
+  @service intl;
 
   @tracked displayIsForAbsoluteNoviceWarning;
 
@@ -120,14 +122,16 @@ export default class Update extends Component {
     } catch (errorResponse) {
       campaign.rollbackAttributes();
       const errors = errorResponse.errors;
+      const genericErrorMessage = this.intl.t('common.notifications.generic-error');
+
       if (!errors) {
-        return this.notifications.error('Une erreur est survenue.');
+        return this.notifications.error(genericErrorMessage);
       }
       return errorResponse.errors.forEach((error) => {
         if (error.status === '422') {
           return this.notifications.error(error.detail);
         }
-        return this.notifications.error('Une erreur est survenue.');
+        return this.notifications.error(genericErrorMessage);
       });
     }
   }
@@ -145,16 +149,14 @@ export default class Update extends Component {
       <h1>{{@campaign.name}}</h1>
 
       <p class="admin-form__mandatory-text">
-        Les champs marqués de
-        <span class="mandatory-mark">*</span>
-        sont obligatoires.
+        {{t "common.forms.mandatory-fields" htmlSafe=true}}
       </p>
 
       <form class="admin-form" {{on "submit" this.update}}>
         <div class="admin-form__content">
           <PixInput
             @id="name"
-            @requiredLabel="Champ obligatoire"
+            @requiredLabel={{t "common.forms.mandatory"}}
             @errorMessage={{this.nameError.message}}
             @validationStatus={{this.nameError.state}}
             @value={{this.form.name}}
@@ -244,7 +246,7 @@ export default class Update extends Component {
                   {{on "change" (fn this.updateFormValue "isForAbsoluteNovice")}}
                   checked={{this.form.isForAbsoluteNovice}}
                 >
-                  <:label>Oui</:label>
+                  <:label>{{t "common.words.yes"}}</:label>
                 </PixRadioButton>
 
                 <PixRadioButton
@@ -253,7 +255,9 @@ export default class Update extends Component {
                   {{on "change" (fn this.updateFormValue "isForAbsoluteNovice")}}
                   checked={{not this.form.isForAbsoluteNovice}}
                 >
-                  <:label>Non</:label>
+                  <:label>
+                    {{t "common.words.no"}}
+                  </:label>
                 </PixRadioButton>
               </:content>
             </PixFieldset>
@@ -277,9 +281,11 @@ export default class Update extends Component {
         </div>
 
         <div class="admin-form__actions">
-          <PixButton @triggerAction={{@onExit}} @variant="secondary" @size="small">Annuler</PixButton>
+          <PixButton @triggerAction={{@onExit}} @variant="secondary" @size="small">
+            {{t "common.actions.cancel"}}
+          </PixButton>
           <PixButton @type="submit" @variant="success" @size="small">
-            Enregistrer
+            {{t "common.actions.save"}}
           </PixButton>
         </div>
       </form>

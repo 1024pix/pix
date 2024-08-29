@@ -1,11 +1,12 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import { setupRenderingTest } from 'ember-qunit';
 import Organizations from 'pix-admin/components/target-profiles/organizations';
 import { module, test } from 'qunit';
 
-module('Integration | Component | Organizations', function (hooks) {
-  setupRenderingTest(hooks);
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
+module('Integration | Component | target-profiles | Organizations', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   const triggerFiltering = () => {};
   const goToOrganizationPage = () => {};

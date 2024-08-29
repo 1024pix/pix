@@ -1,12 +1,13 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import Details from 'pix-admin/components/autonomous-courses/details';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | AutonomousCourses::Details', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   let screen;
 

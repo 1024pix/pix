@@ -2,6 +2,7 @@ import { clickByName, render, waitFor } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import UserOverview from 'pix-admin/components/users/user-overview';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -118,7 +119,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
             assert.ok(
               screen
                 .getByRole('button', {
-                  name: this.intl.t('components.users.user-detail-personal-information.actions.copy-email'),
+                  name: t('components.users.user-detail-personal-information.actions.copy-email'),
                 })
                 .hasAttribute('data-clipboard-text', email),
             );
@@ -140,15 +141,13 @@ module('Integration | Component | users | user-overview', function (hooks) {
             // when
             const screen = await render(<template><UserOverview @user={{user}} /></template>);
             const copyButton = await screen.getByRole('button', {
-              name: this.intl.t('components.users.user-detail-personal-information.actions.copy-email'),
+              name: t('components.users.user-detail-personal-information.actions.copy-email'),
             });
             await triggerEvent(copyButton, 'mouseenter');
 
             // then
             assert
-              .dom(
-                screen.getByText(this.intl.t('components.users.user-detail-personal-information.actions.copy-email')),
-              )
+              .dom(screen.getByText(t('components.users.user-detail-personal-information.actions.copy-email')))
               .exists();
           });
 
@@ -172,7 +171,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
             assert.ok(
               screen
                 .getByRole('button', {
-                  name: this.intl.t('components.users.user-detail-personal-information.actions.copy-username'),
+                  name: t('components.users.user-detail-personal-information.actions.copy-username'),
                 })
                 .hasAttribute('data-clipboard-text', username),
             );
@@ -194,17 +193,13 @@ module('Integration | Component | users | user-overview', function (hooks) {
             // when
             const screen = await render(<template><UserOverview @user={{user}} /></template>);
             const copyButton = await screen.getByRole('button', {
-              name: this.intl.t('components.users.user-detail-personal-information.actions.copy-username'),
+              name: t('components.users.user-detail-personal-information.actions.copy-username'),
             });
             await triggerEvent(copyButton, 'mouseenter');
 
             // then
             assert
-              .dom(
-                screen.getByText(
-                  this.intl.t('components.users.user-detail-personal-information.actions.copy-username'),
-                ),
-              )
+              .dom(screen.getByText(t('components.users.user-detail-personal-information.actions.copy-username')))
               .exists();
           });
         });
@@ -229,7 +224,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
             assert
               .dom(
                 screen.queryByRole('button', {
-                  name: this.intl.t('components.users.user-detail-personal-information.actions.copy-email'),
+                  name: t('components.users.user-detail-personal-information.actions.copy-email'),
                 }),
               )
               .doesNotExist();
@@ -254,7 +249,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
             assert
               .dom(
                 screen.queryByRole('button', {
-                  name: this.intl.t('components.users.user-detail-personal-information.actions.copy-username'),
+                  name: t('components.users.user-detail-personal-information.actions.copy-username'),
                 }),
               )
               .doesNotExist();

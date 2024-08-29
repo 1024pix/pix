@@ -1,21 +1,24 @@
+import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import { fn } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 
 import MemberItem from './member-item';
 
 export default class OrganizationTeamSection extends Component {
   @service accessControl;
+  @service intl;
 
   searchedFirstName = this.args.firstName;
   searchedLastName = this.args.lastName;
   searchedEmail = this.args.email;
 
   options = [
-    { value: 'ADMIN', label: 'Administrateur' },
-    { value: 'MEMBER', label: 'Membre' },
+    { value: 'ADMIN', label: this.intl.t('common.roles.admin') },
+    { value: 'MEMBER', label: this.intl.t('common.roles.member') },
   ];
 
   <template>
@@ -41,33 +44,30 @@ export default class OrganizationTeamSection extends Component {
               <tr>
                 <td class="table__column"></td>
                 <td class="table__column table__column--wide">
-                  <input
+                  <PixInput
                     id="firstName"
                     type="text"
                     aria-label="Rechercher par prénom"
                     value={{this.searchedFirstName}}
                     oninput={{fn @triggerFiltering "firstName"}}
-                    class="table-admin-input form-control"
                   />
                 </td>
                 <td class="table__column table__column--wide">
-                  <input
+                  <PixInput
                     id="lastName"
                     type="text"
                     aria-label="Rechercher par nom"
                     value={{this.searchedLastName}}
                     oninput={{fn @triggerFiltering "lastName"}}
-                    class="table-admin-input form-control"
                   />
                 </td>
                 <td class="table__column table__column--wide">
-                  <input
+                  <PixInput
                     id="email"
                     type="text"
                     aria-label="Rechercher par adresse e-mail"
                     value={{this.searchedEmail}}
                     oninput={{fn @triggerFiltering "email"}}
-                    class="table-admin-input form-control"
                   />
                 </td>
                 <td class="table__column">
@@ -91,7 +91,7 @@ export default class OrganizationTeamSection extends Component {
             {{#if @organizationMemberships}}
               <tbody>
                 {{#each @organizationMemberships as |organizationMembership|}}
-                  <tr aria-label="Membre">
+                  <tr aria-label={{t "common.roles.member"}}>
                     <MemberItem @organizationMembership={{organizationMembership}} />
                   </tr>
                 {{/each}}

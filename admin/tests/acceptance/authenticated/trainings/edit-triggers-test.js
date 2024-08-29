@@ -1,16 +1,16 @@
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { module, test } from 'qunit';
 
-import setupIntl from '../../../helpers/setup-intl';
-
 module('Acceptance | Trainings | Triggers edit', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks);
+  setupIntl(hooks, 'fr');
 
   let trainingId;
 
@@ -53,7 +53,7 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
       const screen = await visit(`/trainings/${trainingId}/`);
       await click(
         screen.getByRole('link', {
-          name: this.intl.t('pages.trainings.training.triggers.prerequisite.alternative-title'),
+          name: t('pages.trainings.training.triggers.prerequisite.alternative-title'),
         }),
       );
 
@@ -66,9 +66,7 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
 
       // when
       const screen = await visit(`/trainings/${trainingId}/`);
-      await click(
-        screen.getByRole('link', { name: this.intl.t('pages.trainings.training.triggers.goal.alternative-title') }),
-      );
+      await click(screen.getByRole('link', { name: t('pages.trainings.training.triggers.goal.alternative-title') }));
 
       // then
       assert.strictEqual(currentURL(), `/trainings/${trainingId}/triggers/edit?type=goal`);
@@ -92,7 +90,7 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
       const screen = await visit(`/trainings/${trainingId}/`);
       await click(
         screen.getByRole('link', {
-          name: this.intl.t('pages.trainings.training.triggers.prerequisite.alternative-title'),
+          name: t('pages.trainings.training.triggers.prerequisite.alternative-title'),
         }),
       );
 
@@ -124,7 +122,7 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
         assert
           .dom(
             screen.queryByRole('link', {
-              name: this.intl.t('pages.trainings.training.triggers.prerequisite.alternative-title'),
+              name: t('pages.trainings.training.triggers.prerequisite.alternative-title'),
             }),
           )
           .doesNotExist();

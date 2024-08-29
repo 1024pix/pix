@@ -1,3 +1,4 @@
+import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -55,7 +56,7 @@ module('Unit | Controller | authenticated/organizations/get', function (hooks) {
         sinon.assert.calledOnce(controller.model.rollbackAttributes);
         sinon.assert.calledWith(
           controller.notifications.error,
-          this.intl.t('pages.organizations.notifications.errors.payload-too-large', { maxSizeInMegaBytes: '2.5' }),
+          t('pages.organizations.notifications.errors.payload-too-large', { maxSizeInMegaBytes: '2.5' }),
         );
         assert.ok(true);
       });

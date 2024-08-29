@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import UpdateCampaignCode from 'pix-admin/components/administration/campaigns/update-campaign-code';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -34,17 +35,17 @@ module('Integration | Component | administration/update-campaign-code', function
     const screen = await render(<template><UpdateCampaignCode /></template>);
 
     await fillIn(
-      screen.getByLabelText(this.intl.t('components.administration.update-campaign-code.form.campaignId')),
+      screen.getByLabelText(t('components.administration.update-campaign-code.form.campaignId')),
       campaignId,
     );
     await fillIn(
-      screen.getByLabelText(this.intl.t('components.administration.update-campaign-code.form.campaignCode')),
+      screen.getByLabelText(t('components.administration.update-campaign-code.form.campaignCode')),
       campaignCode,
     );
 
     await click(
       screen.getByRole('button', {
-        name: this.intl.t('components.administration.update-campaign-code.form.button'),
+        name: t('components.administration.update-campaign-code.form.button'),
       }),
     );
 
@@ -52,7 +53,7 @@ module('Integration | Component | administration/update-campaign-code', function
     assert.true(updateAdapterStub.calledOnce);
     assert.true(
       notificationService.success.calledOnceWithExactly(
-        this.intl.t('components.administration.update-campaign-code.notifications.success'),
+        t('components.administration.update-campaign-code.notifications.success'),
       ),
     );
     assert.true(notificationService.error.notCalled);

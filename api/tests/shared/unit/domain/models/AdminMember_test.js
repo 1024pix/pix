@@ -54,6 +54,20 @@ describe('Unit | Shared | Domain | Models | AdminMember', function () {
       });
     });
 
+    describe('when email is null', function () {
+      it('should successfully instantiate object', function () {
+        // when
+        expect(
+          () =>
+            new AdminMember({
+              id: 1,
+              email: null,
+              role: ROLES.SUPER_ADMIN,
+            }),
+        ).not.to.throw(ObjectValidationError);
+      });
+    });
+
     describe('when the given role is undefined or null', function () {
       it('should throw an ObjectValidationError', function () {
         // when

@@ -1,8 +1,8 @@
 import { QCUForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QCU-for-answer-verification.js';
 import { Feedbacks } from '../../../../../../src/devcomp/domain/models/Feedbacks.js';
 import { QcuCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcuCorrectionResponse.js';
-import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { expect, sinon } from '../../../../../test-helper.js';
+import { DomainError, EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification', function () {
   describe('#constructor', function () {
@@ -35,20 +35,21 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
 
     describe('A QCU For Verification without a solution', function () {
       it('should throw an error', function () {
-        expect(
-          () =>
-            new QCUForAnswerVerification({
-              id: '123',
-              instruction: 'toto',
-              proposals: [Symbol('proposal1')],
-            }),
-        ).to.throw('The solution is required for a verification QCU');
+        // when
+        const error = catchErrSync(
+          () => new QCUForAnswerVerification({ id: '123', instruction: 'toto', proposals: [Symbol('proposal1')] }),
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The solution is required for a verification QCU');
       });
     });
 
     describe('A QCU For Verification with an unexisting solution', function () {
       it('should throw an error', function () {
-        expect(
+        // when
+        const error = catchErrSync(
           () =>
             new QCUForAnswerVerification({
               id: '123',
@@ -56,7 +57,11 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
               proposals: [Symbol('proposal1')],
               solution: Symbol('unexistingProposalId'),
             }),
-        ).to.throw('The QCU solution id is not an existing proposal id');
+        )();
+
+        // then
+        expect(error).to.be.instanceOf(DomainError);
+        expect(error.message).to.equal('The QCU solution id is not an existing proposal id');
       });
     });
   });
@@ -215,8 +220,11 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
             solution: qcuSolution,
           });
 
-          // when/then
-          expect(() => qcu.setUserResponse(userResponse)).to.throw(EntityValidationError);
+          // when
+          const error = catchErrSync(() => qcu.setUserResponse(userResponse))();
+
+          // then
+          expect(error).to.be.instanceOf(EntityValidationError);
         });
       });
     });

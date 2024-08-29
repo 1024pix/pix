@@ -8,6 +8,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import set from 'lodash/set';
 
 import { optionsLocaleList, optionsTypeList } from '../../models/training';
@@ -212,7 +213,7 @@ export default class CreateOrUpdateTrainingForm extends Component {
       </section>
       <section class="admin-form__actions">
         <PixButton @variant="secondary" @size="large" @triggerAction={{@onCancel}}>
-          Annuler
+          {{t "common.actions.cancel"}}
         </PixButton>
         <PixButton @variant="success" @size="large" @type="submit" @isLoading={{this.submitting}}>
           {{if @model "Modifier" "Créer"}}

@@ -1,5 +1,6 @@
 import { QCM } from '../../../../../../src/devcomp/domain/models/element/QCM.js';
-import { expect } from '../../../../../test-helper.js';
+import { DomainError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QCM', function () {
   describe('#constructor', function () {
@@ -28,29 +29,45 @@ describe('Unit | Devcomp | Domain | Models | Element | QCM', function () {
 
   describe('A QCM without id', function () {
     it('should throw an error', function () {
-      expect(() => new QCM({})).to.throw('The id is required for an element');
+      // when
+      const error = catchErrSync(() => new QCM({}))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The id is required for an element');
     });
   });
 
   describe('A QCM without instruction', function () {
     it('should throw an error', function () {
-      expect(() => new QCM({ id: '123' })).to.throw('The instruction is required for a QCM');
+      // when
+      const error = catchErrSync(() => new QCM({ id: '123' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The instruction is required for a QCM');
     });
   });
 
   describe('A QCM with an empty list of proposals', function () {
     it('should throw an error', function () {
-      expect(() => new QCM({ id: '123', instruction: 'toto', proposals: [] })).to.throw(
-        'The proposals are required for a QCM',
-      );
+      // when
+      const error = catchErrSync(() => new QCM({ id: '123', instruction: 'toto', proposals: [] }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The proposals are required for a QCM');
     });
   });
 
   describe('A QCM does not have a list of proposals', function () {
     it('should throw an error', function () {
-      expect(() => new QCM({ id: '123', instruction: 'toto', proposals: 'toto' })).to.throw(
-        'The proposals should be in a list',
-      );
+      // when
+      const error = catchErrSync(() => new QCM({ id: '123', instruction: 'toto', proposals: 'toto' }))();
+
+      // then
+      expect(error).to.be.instanceOf(DomainError);
+      expect(error.message).to.equal('The proposals should be in a list');
     });
   });
 });

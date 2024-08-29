@@ -5,6 +5,7 @@ import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 
 export default class UpdateAutonomousCourseForm extends Component {
   constructor() {
@@ -27,15 +28,13 @@ export default class UpdateAutonomousCourseForm extends Component {
   <template>
     <form class="form update-autonomous-course" {{on "submit" this.onSubmit}}>
       <span class="form__instructions">
-        Les champs marqués de
-        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-        sont obligatoires.
+        {{t "common.forms.mandatory-fields" htmlSafe=true}}
       </span>
       <PixInput
         class="form-field"
         @id="autonomousCourseName"
         required={{true}}
-        @requiredLabel="Champ obligatoire"
+        @requiredLabel={{t "common.forms.mandatory"}}
         @value={{@autonomousCourse.internalTitle}}
         {{on "change" (fn this.updateAutonomousCourseValue "internalTitle")}}
       >
@@ -48,7 +47,7 @@ export default class UpdateAutonomousCourseForm extends Component {
         required={{true}}
         maxlength="50"
         @value={{@autonomousCourse.publicTitle}}
-        @requiredLabel="Champ obligatoire"
+        @requiredLabel={{t "common.forms.mandatory"}}
         @subLabel="Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
         {{on "change" (fn this.updateAutonomousCourseValue "publicTitle")}}
       >
@@ -65,7 +64,7 @@ export default class UpdateAutonomousCourseForm extends Component {
       </PixTextarea>
       <div class="form-actions">
         <PixButton type="reset" @variant="secondary" @size="small" @triggerAction={{@cancel}}>
-          Annuler
+          {{t "common.actions.cancel"}}
         </PixButton>
         <PixButton @variant="success" @size="small" type="submit" @triggerAction={{this.noop}}>
           Sauvegarder les modifications

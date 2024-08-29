@@ -20,10 +20,10 @@ import PdfParametersModal from './pdf-parameters-modal';
 export default class TargetProfile extends Component {
   @service notifications;
   @service router;
+  @service intl;
 
   @service fileSaver;
   @service session;
-  @service intl;
 
   @tracked showCopyModal = false;
   @tracked displayConfirm = false;
@@ -54,7 +54,11 @@ export default class TargetProfile extends Component {
     return Boolean(this.args.model.hasLinkedAutonomousCourse);
   }
 
-  displayBooleanState = (bool) => (bool ? 'Oui' : 'Non');
+  displayBooleanState = (bool) => {
+    const yes = this.intl.t('common.words.yes');
+    const no = this.intl.t('common.words.no');
+    return bool ? yes : no;
+  };
 
   @action
   toggleDisplayConfirm() {
@@ -92,7 +96,8 @@ export default class TargetProfile extends Component {
 
       this.notifications.success('Ce profil cible a bien été marqué comme accès simplifié.');
     } catch (responseError) {
-      this.notifications.error('Une erreur est survenue.');
+      const genericErrorMessage = this.intl.t('common.notifications.generic-error');
+      this.notifications.error(genericErrorMessage);
     }
   }
 
@@ -229,7 +234,7 @@ export default class TargetProfile extends Component {
             @size="small"
             @variant="secondary"
           >
-            Modifier
+            {{t "common.actions.edit"}}
           </PixButtonLink>
           <div class="target-profile__actions-separator"></div>
 

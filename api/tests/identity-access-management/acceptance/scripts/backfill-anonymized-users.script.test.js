@@ -14,6 +14,11 @@ describe('Acceptance | Identity Access Management | Scripts | backfill-anonymize
       firstName: 'Jack',
       hasBeenAnonymised: false,
     });
+    databaseBuilder.factory.buildUser({
+      lastName: '(anonymized)',
+      hasBeenAnonymised: true,
+      hasBeenAnonymisedBy: admin.id,
+    });
     await databaseBuilder.commit();
 
     // when

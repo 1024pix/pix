@@ -319,6 +319,48 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
         expect(anonymizedUser.hasBeenAnonymisedBy).to.equal(newAdmin.id);
       });
     });
+
+    context('when admin user is anonymized', function () {
+      it('anonymizes the user', async function () {
+        // given
+        const anonymizedAdmin = databaseBuilder.factory.buildUser.withRole({
+          firstName: '(anonymised)',
+          lastName: '(anonymised)',
+          email: null,
+          hasBeenAnonymised: true,
+        });
+        const user = databaseBuilder.factory.buildUser({
+          firstName: 'Bob',
+          hasBeenAnonymised: true,
+          hasBeenAnonymisedBy: anonymizedAdmin.id,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        await DomainTransaction.execute(async (domainTransaction) =>
+          anonymizeUser({
+            userId: user.id,
+            userRepository,
+            userLoginRepository,
+            authenticationMethodRepository,
+            refreshTokenService,
+            membershipRepository,
+            certificationCenterMembershipRepository,
+            organizationLearnerRepository,
+            resetPasswordDemandRepository,
+            domainTransaction,
+            adminMemberRepository,
+            userAnonymizedEventLoggingJobRepository,
+          }),
+        );
+
+        // then
+        const anonymizedUser = await knex('users').where({ id: user.id }).first();
+        expect(anonymizedUser.firstName).to.equal('(anonymised)');
+        expect(anonymizedUser.hasBeenAnonymised).to.be.true;
+        expect(anonymizedUser.hasBeenAnonymisedBy).to.equal(anonymizedAdmin.id);
+      });
+    });
   });
 
   context('when audit logger is disabled', function () {

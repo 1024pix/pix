@@ -8,6 +8,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 
 export default class OrganizationInformationSectionEditionMode extends Component {
   @service accessControl;
@@ -117,9 +118,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
       <form class="form" {{on "submit" this.updateOrganization}}>
 
         <span class="form__instructions">
-          Les champs marqués de
-          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-          sont obligatoires.
+          {{t "common.forms.mandatory-fields" htmlSafe=true}}
         </span>
 
         <div class="form-field">
@@ -254,8 +253,12 @@ export default class OrganizationInformationSectionEditionMode extends Component
           </PixCheckbox>
         </div>
         <div class="form-actions">
-          <PixButton @size="small" @variant="secondary" @triggerAction={{this.closeAndResetForm}}>Annuler</PixButton>
-          <PixButton @type="submit" @size="small" @variant="success">Enregistrer</PixButton>
+          <PixButton @size="small" @variant="secondary" @triggerAction={{this.closeAndResetForm}}>
+            {{t "common.actions.cancel"}}
+          </PixButton>
+          <PixButton @type="submit" @size="small" @variant="success">
+            {{t "common.actions.save"}}
+          </PixButton>
         </div>
       </form>
     </div>

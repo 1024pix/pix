@@ -1,13 +1,14 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import ActionsOnUsersRoleInOrganization from 'pix-admin/components/actions-on-users-role-in-organization';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+
 module('Integration | Component | actions-on-users-role-in-organization', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('when user has access to organization actions scope', function () {
     test('it should be possible to modify user role', async function (assert) {
