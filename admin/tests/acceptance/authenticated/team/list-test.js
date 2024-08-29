@@ -5,9 +5,12 @@ import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { module, test } from 'qunit';
 
+import setupIntl from '../../../helpers/setup-intl';
+
 module('Acceptance | Team | List', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   module('When user is not logged in', function () {
     test('it should not be accessible by an unauthenticated user', async function (assert) {
@@ -66,7 +69,7 @@ module('Acceptance | Team | List', function (hooks) {
       await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'CERTIF' }));
-      await clickByName('Valider la modification de rôle');
+      await clickByName('Valider la modification du rôle');
 
       // then
       assert.dom(screen.getByText("L'agent Anne Estésie a désormais le rôle CERTIF")).exists();
@@ -98,7 +101,6 @@ module('Acceptance | Team | List', function (hooks) {
       await clickByName("Désactiver l'agent Anne Estésie");
 
       await screen.findByRole('dialog');
-
       await clickByName('Confirmer');
 
       // then
@@ -145,7 +147,7 @@ module('Acceptance | Team | List', function (hooks) {
       await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'CERTIF' }));
-      await clickByName('Valider la modification de rôle');
+      await clickByName('Valider la modification du rôle');
 
       // then
       assert.dom(screen.getByText('Erreur lors de la mise à jour du rôle de cet agent Pix.')).exists();
