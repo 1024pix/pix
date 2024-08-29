@@ -467,7 +467,7 @@
           "element": {
             "id": "be1ba37e-0588-42ed-8fab-f47bf118953a",
             "type": "qrocm",
-            "instruction": "<p>Quel est le niveau de qualité estimé de cet article&#8239;?</p>",
+            "instruction": "<p>Quel est le niveau de qualité de cet article&#8239;?</p>",
             "proposals": [
               {
                 "type": "text",
