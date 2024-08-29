@@ -11,6 +11,7 @@ import { OrganizationLearner } from '../../../../shared/domain/models/index.js';
 import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 import { CommonOrganizationLearner } from '../../domain/models/CommonOrganizationLearner.js';
 import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';
+import { loggerForImport } from '../../utils/loggerForImport.js';
 
 const dissociateUserFromOrganizationLearner = async function (organizationLearnerId) {
   const knexConn = DomainTransaction.getConnection();
@@ -64,14 +65,19 @@ const removeByIds = function ({ organizationLearnerIds, userId }) {
 };
 
 const disableAllOrganizationLearnersInOrganization = async function ({ organizationId, nationalStudentIds }) {
+  loggerForImport('IMPORT_LOG -> <<disableAllOrganizationLearnersInOrganization>> Debut de la méthode');
+
   const knexConn = DomainTransaction.getConnection();
   await knexConn('organization-learners')
     .where({ organizationId, isDisabled: false })
     .whereNotIn('nationalStudentId', nationalStudentIds)
     .update({ isDisabled: true, updatedAt: knexConn.raw('CURRENT_TIMESTAMP') });
+  loggerForImport('IMPORT_LOG -> <<disableAllOrganizationLearnersInOrganization>> Fin de la méthode');
 };
 
 const addOrUpdateOrganizationOfOrganizationLearners = async function (organizationLearnerDatas, organizationId) {
+  loggerForImport('IMPORT_LOG -> <<addOrUpdateOrganizationOfOrganizationLearners>> Debut de la methode');
+
   const knexConn = DomainTransaction.getConnection();
   const organizationLearnersFromFile = organizationLearnerDatas.map(
     (organizationLearnerData) =>
@@ -81,25 +87,34 @@ const addOrUpdateOrganizationOfOrganizationLearners = async function (organizati
       }),
   );
   const existingOrganizationLearners = await organizationLearnerRepository.findByOrganizationId({ organizationId });
-
+  loggerForImport(
+    'IMPORT_LOG -> <<addOrUpdateOrganizationOfOrganizationLearners>> Apres la recuperation des learners existants',
+  );
   const reconciledOrganizationLearnersToImport = await organizationLearnerRepository._reconcileOrganizationLearners(
     organizationLearnersFromFile,
     existingOrganizationLearners,
   );
-
+  loggerForImport(
+    'IMPORT_LOG -> <<addOrUpdateOrganizationOfOrganizationLearners>> Apres la recuperation des reconciledOrganizationLearnersToImport',
+  );
   try {
     const organizationLearnersToSave = reconciledOrganizationLearnersToImport.map((organizationLearner) => ({
       ..._.omit(organizationLearner, ['id', 'createdAt', 'isCertifiable', 'certifiableAt']),
       updatedAt: knexConn.raw('CURRENT_TIMESTAMP'),
       isDisabled: false,
     }));
+    loggerForImport(
+      'IMPORT_LOG -> <<addOrUpdateOrganizationOfOrganizationLearners>> Apres la recuperation des organizationLearnersToSave',
+    );
     await knexConn('organization-learners')
       .insert(organizationLearnersToSave)
       .onConflict(['organizationId', 'nationalStudentId'])
       .merge();
+    loggerForImport('IMPORT_LOG -> <<addOrUpdateOrganizationOfOrganizationLearners>> Apres linsertion en bdd');
   } catch (err) {
     throw new OrganizationLearnersCouldNotBeSavedError();
   }
+  loggerForImport('IMPORT_LOG -> <<addOrUpdateOrganizationOfOrganizationLearners>> Fin de la méthode');
 };
 
 const saveCommonOrganizationLearners = function (learners) {

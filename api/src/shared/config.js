@@ -61,6 +61,7 @@ const configuration = (function () {
           forcePathStyle: true,
         },
       },
+      logEnabled: toBoolean(process.env.DEBUG_IMPORT_LOG),
     },
     account: {
       passwordValidationPattern: '^(?=.*\\p{Lu})(?=.*\\p{Ll})(?=.*\\d).{8,}$',
