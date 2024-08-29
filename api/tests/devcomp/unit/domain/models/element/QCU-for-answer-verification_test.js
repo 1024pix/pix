@@ -1,3 +1,4 @@
+import { ModuleInstantiationError } from '../../../../../../src/devcomp/domain/errors.js';
 import { QCUForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QCU-for-answer-verification.js';
 import { Feedbacks } from '../../../../../../src/devcomp/domain/models/Feedbacks.js';
 import { QcuCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcuCorrectionResponse.js';
@@ -60,7 +61,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         )();
 
         // then
-        expect(error).to.be.instanceOf(DomainError);
+        expect(error).to.be.instanceOf(ModuleInstantiationError);
         expect(error.message).to.equal('The QCU solution id is not an existing proposal id');
       });
     });

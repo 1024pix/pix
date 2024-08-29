@@ -1,3 +1,4 @@
+import { ModuleInstantiationError } from '../../../../../../src/devcomp/domain/errors.js';
 import { Step } from '../../../../../../src/devcomp/domain/models/component/Step.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync, expect } from '../../../../../test-helper.js';
@@ -33,7 +34,7 @@ describe('Unit | Devcomp | Domain | Models | Component | Step', function () {
       const error = catchErrSync(() => new Step({ elements: 'not a list' }))();
 
       // then
-      expect(error).to.be.instanceOf(DomainError);
+      expect(error).to.be.instanceOf(ModuleInstantiationError);
       expect(error.message).to.equal('step.elements should be an array');
     });
   });
@@ -44,7 +45,7 @@ describe('Unit | Devcomp | Domain | Models | Component | Step', function () {
       const error = catchErrSync(() => new Step({ elements: [] }))();
 
       // then
-      expect(error).to.be.instanceOf(DomainError);
+      expect(error).to.be.instanceOf(ModuleInstantiationError);
       expect(error.message).to.equal('A step should contain at least one element');
     });
   });

@@ -1,3 +1,4 @@
+import { ModuleInstantiationError } from '../../../../../../src/devcomp/domain/errors.js';
 import { Download } from '../../../../../../src/devcomp/domain/models/element/Download.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync, expect } from '../../../../../test-helper.js';
@@ -37,7 +38,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Download', function () {
           const error = catchErrSync(() => new Download({ id: '123' }))();
 
           // then
-          expect(error).to.be.instanceOf(DomainError);
+          expect(error).to.be.instanceOf(ModuleInstantiationError);
           expect(error.message).to.equal('The Download files should be a list');
         });
       });
@@ -48,7 +49,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Download', function () {
           const error = catchErrSync(() => new Download({ id: '123', files: [] }))();
 
           // then
-          expect(error).to.be.instanceOf(DomainError);
+          expect(error).to.be.instanceOf(ModuleInstantiationError);
           expect(error.message).to.equal('The files are required for a Download');
         });
       });

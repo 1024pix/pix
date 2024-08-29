@@ -1,5 +1,5 @@
-import { DomainError } from '../../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
+import { ModuleInstantiationError } from '../../errors.js';
 
 class Step {
   constructor({ elements }) {
@@ -11,10 +11,10 @@ class Step {
 
   #assertElementsNotEmpty(elements) {
     if (!Array.isArray(elements)) {
-      throw new DomainError('step.elements should be an array');
+      throw new ModuleInstantiationError('step.elements should be an array');
     }
     if (elements.length === 0) {
-      throw new DomainError('A step should contain at least one element');
+      throw new ModuleInstantiationError('A step should contain at least one element');
     }
   }
 }

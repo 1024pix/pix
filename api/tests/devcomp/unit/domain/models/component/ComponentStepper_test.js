@@ -1,3 +1,4 @@
+import { ModuleInstantiationError } from '../../../../../../src/devcomp/domain/errors.js';
 import { ComponentStepper } from '../../../../../../src/devcomp/domain/models/component/ComponentStepper.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync, expect } from '../../../../../test-helper.js';
@@ -35,7 +36,7 @@ describe('Unit | Devcomp | Domain | Models | Component | ComponentStepper', func
       const error = catchErrSync(() => new ComponentStepper({ steps: 'steps' }))();
 
       // then
-      expect(error).to.be.instanceOf(DomainError);
+      expect(error).to.be.instanceOf(ModuleInstantiationError);
       expect(error.message).to.equal('Steps should be an array');
     });
   });

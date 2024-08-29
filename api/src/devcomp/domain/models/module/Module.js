@@ -1,5 +1,5 @@
-import { DomainError } from '../../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
+import { ModuleInstantiationError } from '../../errors.js';
 
 class Module {
   constructor({ id, slug, title, grains, details, transitionTexts = [] }) {
@@ -24,13 +24,15 @@ class Module {
       ({ grainId }) => !!grains.find(({ id }) => grainId === id),
     );
     if (!isTransitionTextsLinkedToGrain) {
-      throw new DomainError('All the transition texts should be linked to a grain contained in the module.');
+      throw new ModuleInstantiationError(
+        'All the transition texts should be linked to a grain contained in the module.',
+      );
     }
   }
 
   #assertGrainsIsAnArray(grains) {
     if (!Array.isArray(grains)) {
-      throw new DomainError('A module should have a list of grains');
+      throw new ModuleInstantiationError('A module should have a list of grains');
     }
   }
 }

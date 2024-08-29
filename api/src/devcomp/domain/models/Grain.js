@@ -1,5 +1,5 @@
-import { DomainError } from '../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
+import { ModuleInstantiationError } from '../errors.js';
 
 class Grain {
   constructor({ id, title, type, components }) {
@@ -15,7 +15,7 @@ class Grain {
 
   #assertComponentsIsDefinedAndAnArray(components) {
     if (components !== undefined && !Array.isArray(components)) {
-      throw new DomainError(`Grain components should be a list of components`);
+      throw new ModuleInstantiationError(`Grain components should be a list of components`);
     }
   }
 }

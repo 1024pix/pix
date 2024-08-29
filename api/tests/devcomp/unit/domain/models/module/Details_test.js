@@ -1,3 +1,4 @@
+import { ModuleInstantiationError } from '../../../../../../src/devcomp/domain/errors.js';
 import { Details } from '../../../../../../src/devcomp/domain/models/module/Details.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync, expect } from '../../../../../test-helper.js';
@@ -127,7 +128,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
         )();
 
         // then
-        expect(error).to.be.instanceOf(DomainError);
+        expect(error).to.be.instanceOf(ModuleInstantiationError);
         expect(error.message).to.equal('The module details should contain a list of objectives');
       });
     });
@@ -148,7 +149,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
         )();
 
         // then
-        expect(error).to.be.instanceOf(DomainError);
+        expect(error).to.be.instanceOf(ModuleInstantiationError);
         expect(error.message).to.equal('The module details should contain at least one objective');
       });
     });

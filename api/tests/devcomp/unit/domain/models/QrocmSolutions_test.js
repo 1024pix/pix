@@ -1,3 +1,4 @@
+import { ModuleInstantiationError } from '../../../../../src/devcomp/domain/errors.js';
 import { QrocmSolutions } from '../../../../../src/devcomp/domain/models/QrocmSolutions.js';
 import { DomainError } from '../../../../../src/shared/domain/errors.js';
 import { catchErrSync, expect } from '../../../../test-helper.js';
@@ -133,7 +134,7 @@ describe('Unit | Devcomp | Domain | Models | QrocmSolutions', function () {
         )();
 
         // then
-        expect(error).to.be.instanceOf(DomainError);
+        expect(error).to.be.instanceOf(ModuleInstantiationError);
         expect(error.message).to.equal('Each proposal in QROCM solutions should have a list of solutions');
       });
     });
@@ -160,7 +161,7 @@ describe('Unit | Devcomp | Domain | Models | QrocmSolutions', function () {
         )();
 
         // then
-        expect(error).to.be.instanceOf(DomainError);
+        expect(error).to.be.instanceOf(ModuleInstantiationError);
         expect(error.message).to.equal('A QROCM solution should have a list of tolerances');
       });
     });
