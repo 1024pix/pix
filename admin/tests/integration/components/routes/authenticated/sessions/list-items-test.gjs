@@ -5,8 +5,11 @@ import ListItems from 'pix-admin/components/sessions/list-items';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntl from '../../../../../helpers/setup-intl';
+
 module('Integration | Component | routes/authenticated/sessions | list-items', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   const triggerFiltering = () => {};
 
