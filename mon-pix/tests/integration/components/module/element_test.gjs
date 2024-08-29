@@ -104,6 +104,20 @@ module('Integration | Component | Module | Element', function (hooks) {
     assert.dom(screen.getByTitle(element.title)).exists();
   });
 
+  test('should display an element with a separator element', async function (assert) {
+    // given
+    const element = {
+      id: '11f382f1-d36a-48d2-a99d-4aa052ab7841',
+      type: 'separator',
+    };
+
+    // when
+    await render(<template><ModulixElement @element={{element}} /></template>);
+
+    // then
+    assert.dom('hr').exists();
+  });
+
   test('should display an element with a qcu element', async function (assert) {
     // given
     const element = {

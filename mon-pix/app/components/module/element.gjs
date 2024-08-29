@@ -7,6 +7,7 @@ import ImageElement from 'mon-pix/components/module/element/image';
 import QcmElement from 'mon-pix/components/module/element/qcm';
 import QcuElement from 'mon-pix/components/module/element/qcu';
 import QrocmElement from 'mon-pix/components/module/element/qrocm';
+import SeparatorElement from 'mon-pix/components/module/element/separator';
 import TextElement from 'mon-pix/components/module/element/text';
 import VideoElement from 'mon-pix/components/module/element/video';
 
@@ -27,6 +28,8 @@ export default class ModulixElement extends Component {
       <DownloadElement @download={{@element}} @onDownload={{@onFileDownload}} />
     {{else if (eq @element.type "embed")}}
       <EmbedElement @embed={{@element}} @onAnswer={{@onElementAnswer}} />
+    {{else if (eq @element.type "separator")}}
+      <SeparatorElement />
     {{else if (eq @element.type "qcu")}}
       <QcuElement
         @element={{@element}}

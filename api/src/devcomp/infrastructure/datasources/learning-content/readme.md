@@ -42,20 +42,22 @@ flowchart TD
 Il faut créer un nouveau fichier `.json` dans le dossier `modules`. Le nom du fichier doit être unique. Il doit respecter un format alphanumérique, en minuscule et avec des tirets entre les mots. TODO : définir règles contenu et bonnes pratiques.
 
 Un module est composé de plusieurs méta-données :
+
 - Un `slug` : l'identifiant unique du module. Sert à construire l'URL d'accès du module. Doit correspondre au nom du fichier,
 - Un `title` : le titre du module affiché à l'utilisateur,
 - Des `details` :
-  * Une `image` affichée en haut de la page de détails du module. Format `.svg`,
-  * Une `description` affichée sur la page de détails du module,
-  * Une durée `duration` en minutes,
-  * Un niveau `level` : `Débutant`/`Intermédiaire`/`Avancé`/`Expert`,
-  * Une liste d'objectifs `objectives` affichés sur la page de détails du module.
+  - Une `image` affichée en haut de la page de détails du module. Format `.svg`,
+  - Une `description` affichée sur la page de détails du module,
+  - Une durée `duration` en minutes,
+  - Un niveau `level` : `Débutant`/`Intermédiaire`/`Avancé`/`Expert`,
+  - Une liste d'objectifs `objectives` affichés sur la page de détails du module.
 
 #### Évolutions du contenu d'un module
 
 Dans chaque module, la clé `grains` contient tous les grains pédagogiques d'un module.
 
 Chaque grain possède :
+
 - Un identifiant technique `id` au format [UUID v4](https://www.uuidgenerator.net/version4),
 - Un type `lesson` ou `activity`,
 - Un titre `title` utilisé pour structurer la page pour les lecteurs d'écran,
@@ -66,11 +68,12 @@ Chaque grain possède :
 En se plaçant dans un terminal sur le dossier `api`, il est possible de générer un example d'élément via ligne de commande.
 
 Par exemple, pour générer un élément textuel :
+
 ```shell
 node ./scripts/modulix/get-sample-text-element.js
 ```
 
-Les types d'éléments disponibles pour le moment sont :  `image`, `qcm`, `qcu`, `qrocm`, `text`, `video`.
+Les types d'éléments disponibles pour le moment sont : `download`, `embed`, `image`, `qcm`, `qcu`, `qrocm`, `separator`, `text`, `video`.
 
 #### Valider les règles techniques du contenu d'un module
 

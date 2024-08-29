@@ -51,34 +51,37 @@
           }
         },
         {
-          "type": "stepper",
-          "steps": [
-            {
-              "elements": [
-                {
-                  "id": "a2372bf4-86a4-4ecc-a188-b51f4f98bca2",
-                  "type": "text",
-                  "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden=\"true\">📚</span>.</p>"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "4cfd27d5-0947-47af-bfb6-52467143c38b",
-                  "type": "text",
-                  "content": "<p>Et là, voici une image&#8239;!</p>"
-                },
-                {
-                  "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
-                  "type": "image",
-                  "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
-                  "alt": "Dessin détaillé dans l'alternative textuelle",
-                  "alternativeText": "Dessin d'un ordinateur dans un univers spatial."
-                }
-              ]
-            }
-          ]
+          "type": "element",
+          "element": {
+            "id": "048e5319-5e81-44cc-ad71-c6c0d3be611f",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "a2372bf4-86a4-4ecc-a188-b51f4f98bca2",
+            "type": "text",
+            "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden=\"true\">📚</span>.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "4cfd27d5-0947-47af-bfb6-52467143c38b",
+            "type": "text",
+            "content": "<p>Et là, voici une image&#8239;!</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
+            "type": "image",
+            "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+            "alt": "Dessin détaillé dans l'alternative textuelle",
+            "alternativeText": "Dessin d'un ordinateur dans un univers spatial."
+          }
         }
       ]
     },

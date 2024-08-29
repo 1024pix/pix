@@ -26,7 +26,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Video', function () {
     });
   });
 
-  describe('An video without id', function () {
+  describe('A video without id', function () {
     it('should throw an error', function () {
       // when
       const error = catchErrSync(() => new Video({}))();

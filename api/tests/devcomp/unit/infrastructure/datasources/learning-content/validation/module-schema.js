@@ -6,6 +6,7 @@ import { imageElementSchema } from './element/image-schema.js';
 import { qcmElementSchema } from './element/qcm-schema.js';
 import { qcuElementSchema } from './element/qcu-schema.js';
 import { qrocmElementSchema } from './element/qrocm-schema.js';
+import { separatorElementSchema } from './element/separator-schema.js';
 import { textElementSchema } from './element/text-schema.js';
 import { videoElementSchema } from './element/video-schema.js';
 import { htmlNotAllowedSchema, htmlSchema, uuidSchema } from './utils.js';
@@ -26,14 +27,15 @@ const moduleDetailsSchema = Joi.object({
 
 const elementSchema = Joi.alternatives().conditional('.type', {
   switch: [
-    { is: 'text', then: textElementSchema },
+    { is: 'download', then: downloadElementSchema },
+    { is: 'embed', then: embedElementSchema },
     { is: 'image', then: imageElementSchema },
     { is: 'qcu', then: qcuElementSchema },
     { is: 'qcm', then: qcmElementSchema },
     { is: 'qrocm', then: qrocmElementSchema },
+    { is: 'separator', then: separatorElementSchema },
+    { is: 'text', then: textElementSchema },
     { is: 'video', then: videoElementSchema },
-    { is: 'embed', then: embedElementSchema },
-    { is: 'download', then: downloadElementSchema },
   ],
 });
 
