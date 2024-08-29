@@ -53,3 +53,52 @@ export class UserCoreEligibility {
     };
   }
 }
+
+export class UserComplementaryEligibilityV2 {
+  #certification;
+  #isCertifiable;
+  #isV2 = true;
+  #complementaryCertificationBadgeId;
+  #complementaryCertificationId;
+  #campaignId;
+  #badgeKey;
+  #why;
+  #info;
+
+  constructor({
+    certification,
+    isCertifiable,
+    complementaryCertificationBadgeId,
+    complementaryCertificationId,
+    campaignId,
+    badgeKey,
+    why: { isOutdated, isCoreCertifiable },
+    info: { hasComplementaryCertificationForThisLevel, versionsBehind },
+  }) {
+    this.#certification = certification;
+    this.#isCertifiable = isCertifiable;
+    this.#complementaryCertificationBadgeId = complementaryCertificationBadgeId;
+    this.#complementaryCertificationId = complementaryCertificationId;
+    this.#campaignId = campaignId;
+    this.#badgeKey = badgeKey;
+    this.#why = { isOutdated, isCoreCertifiable };
+    this.#info = { hasComplementaryCertificationForThisLevel, versionsBehind };
+  }
+
+  toDTO() {
+    return {
+      certification: this.#certification,
+      isCertifiable: this.#isCertifiable,
+      isV2: this.#isV2,
+      complementaryCertificationBadgeId: this.#complementaryCertificationBadgeId,
+      complementaryCertificationId: this.#complementaryCertificationId,
+      campaignId: this.#campaignId,
+      badgeKey: this.#badgeKey,
+      why: { isOutdated: this.#why.isOutdated, isCoreCertifiable: this.#why.isCoreCertifiable },
+      info: {
+        hasComplementaryCertificationForThisLevel: this.#info.hasComplementaryCertificationForThisLevel,
+        versionsBehind: this.#info.versionsBehind,
+      },
+    };
+  }
+}

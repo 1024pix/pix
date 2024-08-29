@@ -123,4 +123,39 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserEligibilityLi
       });
     });
   });
+
+  describe('UserComplementaryEligibilityV2', function () {
+    context('#toDTO', function () {
+      it('should return model as DTO', function () {
+        // given
+        const complementaryUserEligibilityV2 =
+          domainBuilder.certification.enrolment.buildUserComplementaryEligibilityV2({
+            certification: 'maSuperComplémentaire',
+            isCertifiable: true,
+            complementaryCertificationBadgeId: 99,
+            complementaryCertificationId: 88,
+            campaignId: 77,
+            badgeKey: 'maSuperClé',
+            why: { isOutdated: true, isCoreCertifiable: true },
+            info: { hasComplementaryCertificationForThisLevel: true, versionsBehind: 2000 },
+          });
+
+        // when
+        const DTO = complementaryUserEligibilityV2.toDTO();
+
+        // then
+        expect(DTO).to.deep.equal({
+          certification: 'maSuperComplémentaire',
+          isCertifiable: true,
+          isV2: true,
+          complementaryCertificationBadgeId: 99,
+          complementaryCertificationId: 88,
+          campaignId: 77,
+          badgeKey: 'maSuperClé',
+          why: { isOutdated: true, isCoreCertifiable: true },
+          info: { hasComplementaryCertificationForThisLevel: true, versionsBehind: 2000 },
+        });
+      });
+    });
+  });
 });

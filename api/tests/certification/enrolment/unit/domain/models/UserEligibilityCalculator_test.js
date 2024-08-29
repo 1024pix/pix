@@ -1,6 +1,8 @@
 import { LABEL_FOR_CORE } from '../../../../../../src/certification/enrolment/domain/models/UserEligibilityCalculator.js';
 import { UserEligibilityList } from '../../../../../../src/certification/enrolment/domain/models/UserEligibilityList.js';
-import { catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
+import { sources } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { catchErrSync, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Enrolment | Domain | Models | UserEligibilityCalculator', function () {
   context('#computeCoreEligibility', function () {
@@ -162,6 +164,362 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserEligibilityCa
     });
   });
 
+  describe('#computeComplementaryEligibilities', function () {
+    let notCleaCertifiableBadgeAcquisition;
+    let cleaCertifiableBadgeAcquisition;
+    let complementaryCertificationCourseWithResults;
+    let howManyVersionsBehindByComplementaryCertificationBadgeId;
+    const userId = 66;
+    let someDate;
+
+    beforeEach(function () {
+      someDate = new Date('1990-01-04');
+      notCleaCertifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+        badgeId: 111,
+        badgeKey: 'PIX_POULET_MAITRE',
+        campaignId: 222,
+        complementaryCertificationId: 333,
+        complementaryCertificationKey: 'PIX_POULET',
+        complementaryCertificationBadgeId: 444,
+        complementaryCertificationBadgeImageUrl: 'some_ignored_image',
+        complementaryCertificationBadgeLabel: 'some_ignored_label',
+        isOutdated: false,
+      });
+      cleaCertifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+        badgeId: 555,
+        badgeKey: 'CLEA_SUPER_BADGE',
+        campaignId: 666,
+        complementaryCertificationId: 777,
+        complementaryCertificationKey: ComplementaryCertificationKeys.CLEA,
+        complementaryCertificationBadgeId: 888,
+        complementaryCertificationBadgeImageUrl: 'some_clea_ignored_image',
+        complementaryCertificationBadgeLabel: 'some_clea_ignored_label',
+        isOutdated: false,
+      });
+      complementaryCertificationCourseWithResults = [];
+      howManyVersionsBehindByComplementaryCertificationBadgeId = {
+        [cleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 0,
+        [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 0,
+      };
+    });
+
+    context('V2', function () {
+      context('when all criteria are fulfilled for eligibility (CLEA or any other)', function () {
+        it('should compute complementary eligibilities as certifiable along with some useful data', function () {
+          // given
+          const userEligibilityCalculator = domainBuilder.certification.enrolment.buildUserEligibilityCalculator({
+            userId,
+            date: someDate,
+            eligibilitiesV2: [
+              domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: true, isV2: true }),
+            ],
+          });
+          notCleaCertifiableBadgeAcquisition.isOutdated = false;
+          cleaCertifiableBadgeAcquisition.isOutdated = false;
+
+          // when
+          userEligibilityCalculator.computeComplementaryEligibilities({
+            certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition, cleaCertifiableBadgeAcquisition],
+            complementaryCertificationCourseWithResults,
+            howManyVersionsBehindByComplementaryCertificationBadgeId,
+          });
+
+          // then
+          sinon.assert.match(userEligibilityCalculator.toDTO(), {
+            userId,
+            date: someDate,
+            eligibilities: sinon.match.any,
+            eligibilitiesV2: [
+              { certification: LABEL_FOR_CORE, isCertifiable: true, isV2: true },
+              {
+                certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                isCertifiable: true,
+                isV2: true,
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
+                why: { isOutdated: false, isCoreCertifiable: true },
+                info: sinon.match.any,
+              },
+              {
+                certification: cleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                isCertifiable: true,
+                isV2: true,
+                complementaryCertificationBadgeId: cleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                complementaryCertificationId: cleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                campaignId: cleaCertifiableBadgeAcquisition.campaignId,
+                badgeKey: cleaCertifiableBadgeAcquisition.badgeKey,
+                why: { isOutdated: false, isCoreCertifiable: true },
+                info: sinon.match.any,
+              },
+            ],
+          });
+        });
+      });
+      context('when user is not eligible for pix certification', function () {
+        it('should compute complementary eligibilities as not certifiable', function () {
+          // given
+          const userEligibilityCalculator = domainBuilder.certification.enrolment.buildUserEligibilityCalculator({
+            userId,
+            date: someDate,
+            eligibilitiesV2: [
+              domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: false, isV2: true }),
+            ],
+          });
+          notCleaCertifiableBadgeAcquisition.isOutdated = false;
+          cleaCertifiableBadgeAcquisition.isOutdated = false;
+
+          // when
+          userEligibilityCalculator.computeComplementaryEligibilities({
+            certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition, cleaCertifiableBadgeAcquisition],
+            complementaryCertificationCourseWithResults,
+            howManyVersionsBehindByComplementaryCertificationBadgeId,
+          });
+
+          // then
+          sinon.assert.match(userEligibilityCalculator.toDTO(), {
+            userId,
+            date: someDate,
+            eligibilities: sinon.match.any,
+            eligibilitiesV2: [
+              { certification: LABEL_FOR_CORE, isCertifiable: false, isV2: true },
+              {
+                certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                isCertifiable: false,
+                isV2: true,
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
+                why: { isOutdated: false, isCoreCertifiable: false },
+                info: sinon.match.any,
+              },
+              {
+                certification: cleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                isCertifiable: false,
+                isV2: true,
+                complementaryCertificationBadgeId: cleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                complementaryCertificationId: cleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                campaignId: cleaCertifiableBadgeAcquisition.campaignId,
+                badgeKey: cleaCertifiableBadgeAcquisition.badgeKey,
+                why: { isOutdated: false, isCoreCertifiable: false },
+                info: sinon.match.any,
+              },
+            ],
+          });
+        });
+      });
+      context('when user certifiable badge acquisition is outdated', function () {
+        it('should compute complementary eligibilities as not certifiable', function () {
+          // given
+          const userEligibilityCalculator = domainBuilder.certification.enrolment.buildUserEligibilityCalculator({
+            userId,
+            date: someDate,
+            eligibilitiesV2: [
+              domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: true, isV2: true }),
+            ],
+          });
+          notCleaCertifiableBadgeAcquisition.isOutdated = true;
+          cleaCertifiableBadgeAcquisition.isOutdated = true;
+
+          // when
+          userEligibilityCalculator.computeComplementaryEligibilities({
+            certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition, cleaCertifiableBadgeAcquisition],
+            complementaryCertificationCourseWithResults,
+            howManyVersionsBehindByComplementaryCertificationBadgeId,
+          });
+
+          // then
+          sinon.assert.match(userEligibilityCalculator.toDTO(), {
+            userId,
+            date: someDate,
+            eligibilities: sinon.match.any,
+            eligibilitiesV2: [
+              { certification: LABEL_FOR_CORE, isCertifiable: true, isV2: true },
+              {
+                certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                isCertifiable: false,
+                isV2: true,
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
+                why: { isOutdated: true, isCoreCertifiable: true },
+                info: sinon.match.any,
+              },
+              {
+                certification: cleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                isCertifiable: false,
+                isV2: true,
+                complementaryCertificationBadgeId: cleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                complementaryCertificationId: cleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                campaignId: cleaCertifiableBadgeAcquisition.campaignId,
+                badgeKey: cleaCertifiableBadgeAcquisition.badgeKey,
+                why: { isOutdated: true, isCoreCertifiable: true },
+                info: sinon.match.any,
+              },
+            ],
+          });
+        });
+      });
+      context('"info" section', function () {
+        context('"hasComplementaryCertificationForThisLevel"', function () {
+          it('should return true when user has a validated complementary certification for the badge', function () {
+            // given
+            const userEligibilityCalculator = domainBuilder.certification.enrolment.buildUserEligibilityCalculator({
+              userId,
+              date: someDate,
+              eligibilitiesV2: [
+                domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: true, isV2: true }),
+              ],
+            });
+            notCleaCertifiableBadgeAcquisition.isOutdated = false;
+            complementaryCertificationCourseWithResults = [
+              domainBuilder.buildComplementaryCertificationCourseWithResults({
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                results: [
+                  {
+                    source: sources.PIX,
+                    acquired: true,
+                    complementaryCertificationBadgeId:
+                      notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  },
+                ],
+              }),
+            ];
+
+            // when
+            userEligibilityCalculator.computeComplementaryEligibilities({
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
+              complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
+            });
+
+            // then
+            sinon.assert.match(userEligibilityCalculator.toDTO(), {
+              userId,
+              date: someDate,
+              eligibilities: sinon.match.any,
+              eligibilitiesV2: [
+                { certification: LABEL_FOR_CORE, isCertifiable: true, isV2: true },
+                {
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                  isCertifiable: true,
+                  isV2: true,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
+                  why: { isOutdated: false, isCoreCertifiable: true },
+                  info: { hasComplementaryCertificationForThisLevel: true, versionsBehind: 0 },
+                },
+              ],
+            });
+          });
+          it('should return false when user has not a validated complementary certification for the badge', function () {
+            // given
+            const userEligibilityCalculator = domainBuilder.certification.enrolment.buildUserEligibilityCalculator({
+              userId,
+              date: someDate,
+              eligibilitiesV2: [
+                domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: true, isV2: true }),
+              ],
+            });
+            notCleaCertifiableBadgeAcquisition.isOutdated = false;
+            complementaryCertificationCourseWithResults = [
+              domainBuilder.buildComplementaryCertificationCourseWithResults({
+                complementaryCertificationBadgeId: notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                results: [
+                  {
+                    source: sources.PIX,
+                    acquired: true,
+                    complementaryCertificationBadgeId: 'someOtherBadgeId',
+                  },
+                ],
+              }),
+            ];
+
+            // when
+            userEligibilityCalculator.computeComplementaryEligibilities({
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
+              complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
+            });
+
+            // then
+            sinon.assert.match(userEligibilityCalculator.toDTO(), {
+              userId,
+              date: someDate,
+              eligibilities: sinon.match.any,
+              eligibilitiesV2: [
+                { certification: LABEL_FOR_CORE, isCertifiable: true, isV2: true },
+                {
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                  isCertifiable: true,
+                  isV2: true,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
+                  why: { isOutdated: false, isCoreCertifiable: true },
+                  info: { hasComplementaryCertificationForThisLevel: false, versionsBehind: 0 },
+                },
+              ],
+            });
+          });
+        });
+        context('"versionsBehind"', function () {
+          it('should return the number of versions behind is the complementary certification badge', function () {
+            howManyVersionsBehindByComplementaryCertificationBadgeId = {
+              [notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId]: 3,
+            };
+            // given
+            const userEligibilityCalculator = domainBuilder.certification.enrolment.buildUserEligibilityCalculator({
+              userId,
+              date: someDate,
+              eligibilitiesV2: [
+                domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: true, isV2: true }),
+              ],
+            });
+            notCleaCertifiableBadgeAcquisition.isOutdated = false;
+
+            // when
+            userEligibilityCalculator.computeComplementaryEligibilities({
+              certifiableBadgeAcquisitions: [notCleaCertifiableBadgeAcquisition],
+              complementaryCertificationCourseWithResults,
+              howManyVersionsBehindByComplementaryCertificationBadgeId,
+            });
+
+            // then
+            sinon.assert.match(userEligibilityCalculator.toDTO(), {
+              userId,
+              date: someDate,
+              eligibilities: sinon.match.any,
+              eligibilitiesV2: [
+                { certification: LABEL_FOR_CORE, isCertifiable: true, isV2: true },
+                {
+                  certification: notCleaCertifiableBadgeAcquisition.complementaryCertificationKey,
+                  isCertifiable: true,
+                  isV2: true,
+                  complementaryCertificationBadgeId:
+                    notCleaCertifiableBadgeAcquisition.complementaryCertificationBadgeId,
+                  complementaryCertificationId: notCleaCertifiableBadgeAcquisition.complementaryCertificationId,
+                  campaignId: notCleaCertifiableBadgeAcquisition.campaignId,
+                  badgeKey: notCleaCertifiableBadgeAcquisition.badgeKey,
+                  why: { isOutdated: false, isCoreCertifiable: true },
+                  info: { hasComplementaryCertificationForThisLevel: false, versionsBehind: 3 },
+                },
+              ],
+            });
+          });
+        });
+      });
+    });
+  });
+
   context('#buildUserEligibilityList', function () {
     context('when computing is not done', function () {
       it('should throw an Error stating that computing is not done', function () {
@@ -192,6 +550,11 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserEligibilityCa
           eligibilitiesV2: [],
         });
         userEligibilityCalculator.computeCoreEligibility({ allKnowledgeElements: [], coreCompetences: [] });
+        userEligibilityCalculator.computeComplementaryEligibilities({
+          certifiableBadgeAcquisitions: [],
+          complementaryCertificationCourseWithResults: [],
+          howManyVersionsBehindByComplementaryCertificationBadgeId: {},
+        });
 
         // when
         const userEligibilityList = userEligibilityCalculator.buildUserEligibilityList();

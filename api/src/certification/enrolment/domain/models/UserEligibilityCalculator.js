@@ -5,25 +5,27 @@ import {
   MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY,
   PIX_COUNT_BY_LEVEL,
 } from '../../../../shared/domain/constants.js';
-import { UserCoreEligibility, UserEligibilityList } from './UserEligibilityList.js';
+import { UserComplementaryEligibilityV2, UserCoreEligibility, UserEligibilityList } from './UserEligibilityList.js';
 
 export const LABEL_FOR_CORE = 'CORE';
 
 export class UserEligibilityCalculator {
   #eligibilities;
   #eligibilitiesV2;
-  #hasBeenCalculated;
+  #hasCoreBeenCalculated;
+  #haveComplementariesBeenCalculated;
 
   constructor({ userId, date, eligibilities, eligibilitiesV2 }) {
     this.userId = userId;
     this.date = date;
     this.#eligibilities = eligibilities ?? [];
     this.#eligibilitiesV2 = eligibilitiesV2 ?? [];
-    this.#hasBeenCalculated = false;
+    this.#hasCoreBeenCalculated = false;
+    this.#haveComplementariesBeenCalculated = false;
   }
 
   computeCoreEligibility({ allKnowledgeElements, coreCompetences }) {
-    this.#hasBeenCalculated = true;
+    this.#hasCoreBeenCalculated = true;
     const knowledgeElementsGroupedByCompetence = _.groupBy(allKnowledgeElements, 'competenceId');
     let countAtLeastLevelOneCompetences = 0;
     for (const competence of coreCompetences) {
@@ -43,8 +45,59 @@ export class UserEligibilityCalculator {
     this.#eligibilitiesV2.push(buildCoreEligibility({ isCertifiable, isV2: true }));
   }
 
+  computeComplementaryEligibilities({
+    certifiableBadgeAcquisitions,
+    complementaryCertificationCourseWithResults,
+    howManyVersionsBehindByComplementaryCertificationBadgeId,
+  }) {
+    this.#haveComplementariesBeenCalculated = true;
+    for (const certifiableBadgeAcquisition of certifiableBadgeAcquisitions) {
+      this.#computeComplementaryEligibility({
+        certifiableBadgeAcquisition,
+        complementaryCertificationCourseWithResults,
+        howManyVersionsBehindByComplementaryCertificationBadgeId,
+      });
+    }
+  }
+
+  #computeComplementaryEligibility({
+    certifiableBadgeAcquisition,
+    complementaryCertificationCourseWithResults,
+    howManyVersionsBehindByComplementaryCertificationBadgeId,
+  }) {
+    const hasComplementaryCertificationForThisLevel = complementaryCertificationCourseWithResults.some(
+      (complementaryCertificationCourseWithResult) =>
+        complementaryCertificationCourseWithResult.complementaryCertificationBadgeId ===
+          certifiableBadgeAcquisition.complementaryCertificationBadgeId &&
+        complementaryCertificationCourseWithResult.isAcquiredExpectedLevelByPixSource(),
+    );
+    const versionsBehind =
+      howManyVersionsBehindByComplementaryCertificationBadgeId[
+        certifiableBadgeAcquisition.complementaryCertificationBadgeId
+      ];
+    const info = { hasComplementaryCertificationForThisLevel, versionsBehind };
+    this.#_computeComplementaryEligibilityV2({ certifiableBadgeAcquisition, info });
+  }
+
+  #_computeComplementaryEligibilityV2({ certifiableBadgeAcquisition, info }) {
+    const isOutdated = certifiableBadgeAcquisition.isOutdated;
+    const isCoreCertifiable = this.#eligibilitiesV2.some(
+      (eligibility) => eligibility.isCore && eligibility.isCertifiable,
+    );
+    const isCertifiable = !isOutdated && isCoreCertifiable;
+    this.#eligibilitiesV2.push(
+      buildComplementaryEligibilityV2({
+        certifiableBadgeAcquisition,
+        isCertifiable,
+        why: { isOutdated, isCoreCertifiable },
+        info,
+      }),
+    );
+  }
+
   buildUserEligibilityList() {
-    if (!this.#hasBeenCalculated) throw new Error('Cannot produce final UserEligibilityList before computing them.');
+    if (!this.#hasCoreBeenCalculated || !this.#haveComplementariesBeenCalculated)
+      throw new Error('Cannot produce final UserEligibilityList before computing them.');
     return new UserEligibilityList({
       userId: this.userId,
       date: this.date,
@@ -65,4 +118,22 @@ export class UserEligibilityCalculator {
 
 function buildCoreEligibility({ isCertifiable, isV2 }) {
   return new UserCoreEligibility({ isCertifiable, isV2 });
+}
+
+function buildComplementaryEligibilityV2({
+  certifiableBadgeAcquisition,
+  isCertifiable,
+  why: { isOutdated, isCoreCertifiable },
+  info: { hasComplementaryCertificationForThisLevel, versionsBehind },
+}) {
+  return new UserComplementaryEligibilityV2({
+    certification: certifiableBadgeAcquisition.complementaryCertificationKey,
+    isCertifiable,
+    complementaryCertificationBadgeId: certifiableBadgeAcquisition.complementaryCertificationBadgeId,
+    complementaryCertificationId: certifiableBadgeAcquisition.complementaryCertificationId,
+    campaignId: certifiableBadgeAcquisition.campaignId,
+    badgeKey: certifiableBadgeAcquisition.badgeKey,
+    why: { isOutdated, isCoreCertifiable },
+    info: { hasComplementaryCertificationForThisLevel, versionsBehind },
+  });
 }

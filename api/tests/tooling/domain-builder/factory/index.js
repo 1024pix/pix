@@ -181,6 +181,7 @@ import {
   buildSubscription,
 } from './certification/enrolment/build-subscription.js';
 import { buildUserEnrolment } from './certification/enrolment/build-user.js';
+import { buildUserComplementaryEligibilityV2 } from './certification/enrolment/build-user-complementary-eligibility-v2.js';
 import { buildUserCoreEligibility } from './certification/enrolment/build-user-core-eligibility.js';
 import { buildUserEligibilityCalculator } from './certification/enrolment/build-user-eligibility-calculator.js';
 import { buildUserEligibilityList } from './certification/enrolment/build-user-eligibility-list.js';
@@ -223,6 +224,7 @@ const certification = {
     buildUserEligibilityCalculator,
     buildUserEligibilityList,
     buildUserCoreEligibility,
+    buildUserComplementaryEligibilityV2,
   },
   sessionManagement: {
     buildCertificationSessionComplementaryCertification,
