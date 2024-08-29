@@ -61,19 +61,19 @@
                   "instruction": "<p>Devinette&nbsp;: Quels sont les éléments présents dans le logo actuel de Wikipédia ?</p>",
                   "proposals": [
                     {
-                      "id": "",
+                      "id": "051ffcb1-6c7a-435c-9a6a-2ee1029b69bd",
                       "content": "<p>Des pièces de puzzle</p>"
                     },
                     {
-                      "id": "",
+                      "id": "192c2d39-be82-44ff-b611-1e506bf80a6f",
                       "content": "<p>Les différents continents</p>"
                     },
                     {
-                      "id": "",
+                      "id": "42169b7d-7715-48e5-9f22-3b9f0b7306a1",
                       "content": "<p>Des animaux</p>"
                     },
                     {
-                      "id": "",
+                      "id": "b8c385b4-425d-4abf-a01b-1032e0477d90",
                       "content": "<p>Des lettres de différentes langues</p>"
                     }
                   ],
@@ -99,7 +99,7 @@
                   "id": "4a257097-98a0-4501-93ee-6e3f8dac6c1e",
                   "type": "image",
                   "url": "https://i.imgur.com/q1pokb5.png",
-                  "alt": "",
+                  "alt": "Chronologie des logos de Wikipédia depuis sa création",
                   "alternativeText": "<p>Chronologie des logos de Wikipédia depuis sa création :</p><ul><li>2001 : image représentant un globe sur lequel est inscrit un article d'encyclopédie en langue anglaise. Deux segments noirs verticaux découpent le globe en trois morceaux.</li><li>2001 à 2003 : image représentant un globe sur lequel est inscrit un article d'encyclopédie en langue anglaise. Le nom \\\"Wikipédia\\\" est centré sous le globe, en lettres capitales. En dessous, le sous-titre \\\"The Free Encyclopedia\\\" est également centré et en caractères de taille plus petite.</li><li>2003 à 2010 : image représentant un globe incomplet constitué de pièces de puzzle. Sur chacune des pièces de puzzle figure un caractère de différents systèmes d'écriture, dont une lettre W en majuscule de l'alphabet latin. Le nom \\\"Wikipédia\\\" est centré sous le globe, en lettres capitales. En dessous, le sous-titre \\\"The Free Encyclopedia\\\" est également centré et en caractères de taille plus petite et en italiques.</li><li>depuis 2010 : les éléments sont quasiment identiques au logo de 2003 à 2010. La seule différence est le sous-titre qui n'est plus en italiques.</li></ul><p>Source : <a href=\"\\&quot;https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia\\&quot;\" data-sce-target=\"\\&quot;_blank\\&quot;\">https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia</a></p><p>Licence : CC BY-SA 3.0 DEED</p>"
                 }
               ]
@@ -337,7 +337,7 @@
           "element": {
             "id": "01eb319e-8219-425a-b66f-00f8f73a4842",
             "type": "text",
-            "content": "<h3>Répondez aux questions ci-dessous en naviguant dans  <a href=\"https://fr.wikipedia.org/wiki/Inca_(Majorque)\" target=\"blank\">l'article Wikipédia de la commune d'Inca.</a></h3>"
+            "content": "<h3>Répondez aux questions ci-dessous en naviguant dans  <a href=\"https://fr.wikipedia.org/wiki/Calypso_25017\" target=\"blank\">l'article Wikipédia du cheval Calypso 25017.</a></h3>"
           }
         },
         {
@@ -353,28 +353,28 @@
           "element": {
             "id": "ea12a08f-fa0b-4693-a1fd-8a5baf27f494",
             "type": "qrocm",
-            "instruction": "<p>Dans le sommaire de cet article, trouvez la section <strong>Début</strong>. Quel est le nom de la cinquième section&#8239;?</p>",
+            "instruction": "<p>Dans le sommaire de cet article, trouvez la section <strong>Début</strong>. Quel est le nom de la septième section&#8239;?</p>",
             "proposals": [
               {
                 "type": "text",
-                "content": "<span>Nom de la cinquième section&nbsp;:</span>"
+                "content": "<span>Nom de la septième section&nbsp;:</span>"
               },
               {
-                "input": "cinquieme-section",
+                "input": "septieme-section",
                 "type": "input",
                 "inputType": "text",
                 "size": 20,
                 "display": "block",
                 "placeholder": "",
-                "ariaLabel": "Remplir le nom de la cinquième section du sommaire de l'article Wikipédia proposé",
+                "ariaLabel": "Remplir le nom de la septième section du sommaire de l'article Wikipédia proposé",
                 "defaultValue": "",
                 "tolerances": ["t1"],
-                "solutions": ["Honneur"]
+                "solutions": ["Hommage"]
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p>C'est bien la septième section de cet article</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Le sommaire se situe à gauche de la page. Comptez bien les nombre de section à partir de Début</p> </p>"
             }
           }
         },
@@ -382,6 +382,44 @@
           "type": "element",
           "element": {
             "id": "c6526e70-ac27-47d3-9794-3e1e2d243334",
+            "type": "text",
+            "content": "<hr>"
+          }
+        },
+ {
+          "type": "element",
+          "element": {
+            "id": "ba95b1bd-8f84-4bbc-a5f5-6f465ac52060",
+            "type": "qrocm",
+            "instruction": "<p>Quel est le nom du père de Calypso 25017&#8239;?</p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<span>Nom&nbsp;:</span>"
+              },
+              {
+                "input": "nom-pere",
+                "type": "input",
+                "inputType": "text",
+                "size": 20,
+                "display": "block",
+                "placeholder": "",
+                "ariaLabel": "Remplir avec le nom du père de Calypso",
+                "defaultValue": "",
+                "tolerances": ["t1"],
+                "solutions": ["Theudis 40871", "Theudis", "Theudis40871", "Theudis_40871"]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> L'aviez-vous vu&#8239;? Cette information peut être trouvée dans la section Origine, mais elle fait partie des éléments qui sont récapitulés dans l’infobox à droite de l'article.</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Cette information se trouve à deux endroits dans l'article&nbsp;: dans l’infobox à droite et dans la section Origine</p>"
+            }
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d41149b9-38e5-4f10-afe4-1ce2d47395d4",
             "type": "text",
             "content": "<hr>"
           }
@@ -407,7 +445,7 @@
                 "ariaLabel": "Remplir avec le nombre de notes et références",
                 "defaultValue": "",
                 "tolerances": ["t1"],
-                "solutions": ["1"]
+                "solutions": ["20"]
               }
             ],
             "feedbacks": {
@@ -457,12 +495,12 @@
                     "content": "Non renseigné"
                   }
                 ],
-                "solutions": ["2"]
+                "solutions": ["1"]
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span>"
+              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p>Cet article a été labellisé en 2023</p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>L'indication de labellisation se trouve en haut de l'article.</p>"
             }
           }
         }
