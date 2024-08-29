@@ -30,9 +30,11 @@ export class UserEligibilityList {
 export class UserCoreEligibility {
   #certification = LABEL_FOR_CORE;
   #isCertifiable;
+  #isV2;
 
-  constructor({ isCertifiable }) {
+  constructor({ isCertifiable, isV2 }) {
     this.#isCertifiable = isCertifiable;
+    this.#isV2 = isV2;
   }
 
   get isCore() {
@@ -47,6 +49,7 @@ export class UserCoreEligibility {
     return {
       certification: this.#certification,
       isCertifiable: this.#isCertifiable,
+      isV2: this.#isV2,
     };
   }
 }

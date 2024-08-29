@@ -7,8 +7,12 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserEligibilityLi
       it('should return core eligibility v2 if any', function () {
         // given
         const userEligibilityList = domainBuilder.certification.enrolment.buildUserEligibilityList({
-          eligibilities: [domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: false })],
-          eligibilitiesV2: [domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: true })],
+          eligibilities: [
+            domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: false, isV2: false }),
+          ],
+          eligibilitiesV2: [
+            domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: true, isV2: true }),
+          ],
         });
 
         // when
@@ -18,12 +22,15 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserEligibilityLi
         expect(coreEligibilityV2.toDTO()).to.deep.equal({
           certification: LABEL_FOR_CORE,
           isCertifiable: true,
+          isV2: true,
         });
       });
       it('should return null if none', function () {
         // given
         const userEligibilityList = domainBuilder.certification.enrolment.buildUserEligibilityList({
-          eligibilities: [domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: false })],
+          eligibilities: [
+            domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: false, isV2: false }),
+          ],
           eligibilitiesV2: [],
         });
 
@@ -41,8 +48,12 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserEligibilityLi
         const userEligibilityList = domainBuilder.certification.enrolment.buildUserEligibilityList({
           userId: 123,
           date: someDate,
-          eligibilities: [domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: true })],
-          eligibilitiesV2: [domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: true })],
+          eligibilities: [
+            domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: true, isV2: false }),
+          ],
+          eligibilitiesV2: [
+            domainBuilder.certification.enrolment.buildUserCoreEligibility({ isCertifiable: true, isV2: true }),
+          ],
         });
 
         // when
@@ -52,8 +63,8 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserEligibilityLi
         expect(DTO).to.deep.equal({
           userId: 123,
           date: someDate,
-          eligibilities: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
-          eligibilitiesV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
+          eligibilities: [{ certification: LABEL_FOR_CORE, isCertifiable: true, isV2: false }],
+          eligibilitiesV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true, isV2: true }],
         });
       });
     });
@@ -101,13 +112,14 @@ describe('Unit | Certification | Enrolment | Domain | Models | UserEligibilityLi
         // given
         const coreUserEligibility = domainBuilder.certification.enrolment.buildUserCoreEligibility({
           isCertifiable: true,
+          isV2: false,
         });
 
         // when
         const DTO = coreUserEligibility.toDTO();
 
         // then
-        expect(DTO).to.deep.equal({ certification: LABEL_FOR_CORE, isCertifiable: true });
+        expect(DTO).to.deep.equal({ certification: LABEL_FOR_CORE, isCertifiable: true, isV2: false });
       });
     });
   });

@@ -38,8 +38,8 @@ describe('Certification | Enrolment | Integration | Domain | Services | UserElig
       expect(userEligibilityList.toDTO()).to.deep.equal({
         userId,
         date: someDate,
-        eligibilities: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
-        eligibilitiesV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true }],
+        eligibilities: [{ certification: LABEL_FOR_CORE, isCertifiable: true, isV2: false }],
+        eligibilitiesV2: [{ certification: LABEL_FOR_CORE, isCertifiable: true, isV2: true }],
       });
     });
   });

@@ -39,8 +39,8 @@ export class UserEligibilityCalculator {
     }
 
     const isCertifiable = countAtLeastLevelOneCompetences >= MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY;
-    this.#eligibilities.push(buildCoreEligibility({ isCertifiable }));
-    this.#eligibilitiesV2.push(buildCoreEligibility({ isCertifiable }));
+    this.#eligibilities.push(buildCoreEligibility({ isCertifiable, isV2: false }));
+    this.#eligibilitiesV2.push(buildCoreEligibility({ isCertifiable, isV2: true }));
   }
 
   buildUserEligibilityList() {
@@ -63,6 +63,6 @@ export class UserEligibilityCalculator {
   }
 }
 
-function buildCoreEligibility({ isCertifiable }) {
-  return new UserCoreEligibility({ isCertifiable });
+function buildCoreEligibility({ isCertifiable, isV2 }) {
+  return new UserCoreEligibility({ isCertifiable, isV2 });
 }

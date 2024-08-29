@@ -40,8 +40,8 @@ describe('Certification | Enrolment | Unit | Domain | Services | UserEligibility
       expect(userEligibilityList.toDTO()).to.deep.equal({
         userId: 123,
         date: someDate,
-        eligibilities: [{ certification: LABEL_FOR_CORE, isCertifiable: false }],
-        eligibilitiesV2: [{ certification: LABEL_FOR_CORE, isCertifiable: false }],
+        eligibilities: [{ certification: LABEL_FOR_CORE, isCertifiable: false, isV2: false }],
+        eligibilitiesV2: [{ certification: LABEL_FOR_CORE, isCertifiable: false, isV2: true }],
       });
       expect(knowledgeElementRepository.findUniqByUserId).to.have.been.calledWith({
         userId,
