@@ -13,6 +13,10 @@ export class UserEligibilityList {
     this.#eligibilitiesV2 = eligibilitiesV2;
   }
 
+  get coreEligibilityV2() {
+    return this.#eligibilitiesV2.find((eligibility) => eligibility.isCore) ?? null;
+  }
+
   toDTO() {
     return {
       userId: this.#userId,
@@ -29,6 +33,14 @@ export class UserCoreEligibility {
 
   constructor({ isCertifiable }) {
     this.#isCertifiable = isCertifiable;
+  }
+
+  get isCore() {
+    return true;
+  }
+
+  get isCertifiable() {
+    return this.#isCertifiable;
   }
 
   toDTO() {

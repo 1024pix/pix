@@ -30,20 +30,21 @@ import { CertificationEligibility } from '../../../src/shared/domain/read-models
  * @param {CertificationBadgesService} params.certificationBadgesService
  * @param {ComplementaryCertificationCourseRepository} params.complementaryCertificationCourseRepository
  * @param {TargetProfileHistoryRepository} params.targetProfileHistoryRepository
- * @param {PlacementProfileService} params.placementProfileService
+ * @param {UserEligibilityService} params.userEligibilityService
  *
  * @returns {CertificationEligibility}
  */
 const getUserCertificationEligibility = async function ({
   userId,
   limitDate = new Date(),
-  placementProfileService,
+  userEligibilityService,
   certificationBadgesService,
   complementaryCertificationCourseRepository,
   targetProfileHistoryRepository,
 }) {
-  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate });
-  const pixCertificationEligible = placementProfile.isCertifiable();
+  const userEligibilityList = await userEligibilityService.getUserEligibilityList({ userId, limitDate });
+  const coreEligibility = userEligibilityList.coreEligibilityV2;
+  const pixCertificationEligible = coreEligibility.isCertifiable;
 
   if (!pixCertificationEligible) {
     return CertificationEligibility.notCertifiable({ userId });

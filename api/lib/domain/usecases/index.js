@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import * as complementaryCertificationCourseRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-course-repository.js';
 import * as complementaryCertificationRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
 import * as targetProfileHistoryRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/target-profile-history-repository.js';
+import { services as certificationEnrolmentServices } from '../../../src/certification/enrolment/domain/services/index.js';
 import * as sessionCodeService from '../../../src/certification/enrolment/domain/services/session-code-service.js';
 import { getCenterForAdmin } from '../../../src/certification/enrolment/domain/usecases/get-center-for-admin.js';
 import * as centerRepository from '../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
@@ -189,6 +190,7 @@ function requirePoleEmploiNotifier() {
  * @typedef {complementaryCertificationHabilitationRepository} ComplementaryCertificationHabilitationRepository
  * @typedef {dataProtectionOfficerRepository} DataProtectionOfficerRepository
  * @typedef {userAnonymizedEventLoggingJobRepository} UserAnonymizedEventLoggingJobRepository
+ * @typedef {userEligibilityService} UserEligibilityService
  */
 
 const dependencies = {
@@ -348,6 +350,7 @@ const dependencies = {
   badgeCriteriaRepository,
   sharedSessionRepository,
   improvementService,
+  userEligibilityService: certificationEnrolmentServices.userEligibilityService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
