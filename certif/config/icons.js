@@ -18,7 +18,6 @@ module.exports = function () {
       'redo',
       'sign-out-alt',
       'trash-alt',
-      'trash-can',
       'up-right-from-square',
       'user',
       'users',
