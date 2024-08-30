@@ -6,13 +6,11 @@ import { fileURLToPath } from 'node:url';
 import * as complementaryCertificationCourseRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-course-repository.js';
 import * as complementaryCertificationRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
 import * as targetProfileHistoryRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/target-profile-history-repository.js';
-import { services as certificationEnrolmentServices } from '../../../src/certification/enrolment/domain/services/index.js';
 import * as sessionCodeService from '../../../src/certification/enrolment/domain/services/session-code-service.js';
 import { getCenterForAdmin } from '../../../src/certification/enrolment/domain/usecases/get-center-for-admin.js';
 import * as centerRepository from '../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
 import * as certificationCandidateRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCpfCityRepository from '../../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
-import * as complementaryCertificationBadgeRepository from '../../../src/certification/enrolment/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as sessionEnrolmentRepository from '../../../src/certification/enrolment/infrastructure/repositories/session-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import * as certificationOfficerRepository from '../../../src/certification/session-management/infrastructure/repositories/certification-officer-repository.js';
@@ -180,7 +178,6 @@ function requirePoleEmploiNotifier() {
  * @typedef {certificationRepository} CertificationRepository
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {complementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
- * @typedef {complementaryCertificationBadgeRepository} ComplementaryCertificationBadgeRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {mailService} MailService
  * @typedef {placementProfileService} PlacementProfileService
@@ -192,7 +189,6 @@ function requirePoleEmploiNotifier() {
  * @typedef {complementaryCertificationHabilitationRepository} ComplementaryCertificationHabilitationRepository
  * @typedef {dataProtectionOfficerRepository} DataProtectionOfficerRepository
  * @typedef {userAnonymizedEventLoggingJobRepository} UserAnonymizedEventLoggingJobRepository
- * @typedef {userEligibilityService} UserEligibilityService
  */
 
 const dependencies = {
@@ -249,7 +245,6 @@ const dependencies = {
   complementaryCertificationCourseResultRepository,
   complementaryCertificationHabilitationRepository,
   complementaryCertificationRepository,
-  complementaryCertificationBadgeRepository,
   config,
   correctionRepository: repositories.correctionRepository,
   courseRepository,
@@ -353,7 +348,6 @@ const dependencies = {
   badgeCriteriaRepository,
   sharedSessionRepository,
   improvementService,
-  userEligibilityService: certificationEnrolmentServices.userEligibilityService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

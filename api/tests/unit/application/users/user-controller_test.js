@@ -471,43 +471,6 @@ describe('Unit | Controller | user-controller', function () {
     });
   });
 
-  describe('#isCertifiable', function () {
-    it('should return user certification eligibility', async function () {
-      // given
-      const certificationEligibility = domainBuilder.buildCertificationEligibility({
-        id: 123,
-        pixCertificationEligible: true,
-        complementaryCertifications: ['Pix+ Droit Maître', 'Pix+ Édu 1er degré Avancé'],
-      });
-      sinon
-        .stub(usecases, 'getUserCertificationEligibility')
-        .withArgs({ userId: 123 })
-        .resolves(certificationEligibility);
-      const request = {
-        auth: {
-          credentials: {
-            userId: 123,
-          },
-        },
-      };
-
-      // when
-      const serializedEligibility = await userController.isCertifiable(request);
-
-      // then
-      expect(serializedEligibility).to.deep.equal({
-        data: {
-          id: '123',
-          type: 'isCertifiables',
-          attributes: {
-            'is-certifiable': true,
-            'complementary-certifications': ['Pix+ Droit Maître', 'Pix+ Édu 1er degré Avancé'],
-          },
-        },
-      });
-    });
-  });
-
   describe('#getProfile', function () {
     beforeEach(function () {
       sinon.stub(usecases, 'getUserProfile').resolves({

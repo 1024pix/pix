@@ -5,8 +5,8 @@
  * @property {boolean} isOutdated
  * @property {boolean} isAcquired
  */
-import { config } from '../../../src/shared/config.js';
-import { CertificationEligibility } from '../../../src/shared/domain/read-models/CertificationEligibility.js';
+import { config } from '../../../../shared/config.js';
+import { CertificationEligibility } from '../read-models/CertificationEligibility.js';
 /**
  * @param {Object} params
  * @param {UserEligibilityService} params.userEligibilityService

@@ -49,7 +49,6 @@ import { buildCertificationChallengeWithType } from './build-certification-chall
 import { buildCertificationCourse } from './build-certification-course.js';
 import { buildCertificationCpfCity } from './build-certification-cpf-city.js';
 import { buildCertificationCpfCountry } from './build-certification-cpf-country.js';
-import { buildCertificationEligibility } from './build-certification-eligibility.js';
 import { buildCertificationIssueReport } from './build-certification-issue-report.js';
 import { buildCertificationOfficer } from './build-certification-officer.js';
 import { buildCertificationPointOfContact } from './build-certification-point-of-contact.js';
@@ -169,6 +168,7 @@ import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-c
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
 import { buildCandidate } from './certification/enrolment/build-candidate.js';
+import { buildCertificationEligibilityEnrolment } from './certification/enrolment/build-certification-eligibility.js';
 import { buildComplementaryCertificationBadgeEnrolment } from './certification/enrolment/build-complementary-certification-badge.js';
 import { buildEnrolledCandidate } from './certification/enrolment/build-enrolled-candidate.js';
 import { buildSessionEnrolment } from './certification/enrolment/build-session.js';
@@ -223,6 +223,7 @@ const certification = {
     buildUserCoreEligibility,
     buildUserComplementaryEligibilityV2,
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadgeEnrolment,
+    buildCertificationEligibility: buildCertificationEligibilityEnrolment,
   },
   sessionManagement: {
     buildCertificationSessionComplementaryCertification,
@@ -296,7 +297,6 @@ export {
   buildCertificationCpfCity,
   buildCertificationCpfCountry,
   buildCertificationDetails,
-  buildCertificationEligibility,
   buildCertificationIssueReport,
   buildCertificationOfficer,
   buildCertificationPointOfContact,

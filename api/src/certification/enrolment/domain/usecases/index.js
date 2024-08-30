@@ -11,6 +11,7 @@ import * as temporaryCompanionStorageService from '../../../shared/domain/servic
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
+import { services } from '../services/index.js';
 import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
@@ -37,6 +38,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../../shared/domain/services/temporary-companion-storage-service.js')} TemporaryCompanionStorageService
  * @typedef {import('../../../shared/domain/services/certification-badges-service.js')} CertificationBadgesService
  * @typedef {import('../services/certification-candidates-ods-service.js')} CertificationCandidatesOdsService
+ * @typedef {userEligibilityService} UserEligibilityService
  **/
 
 /**
@@ -77,6 +79,7 @@ const dependencies = {
   certificationCpfService,
   temporaryCompanionStorageService,
   certificationCandidatesOdsService,
+  userEligibilityService: services.userEligibilityService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

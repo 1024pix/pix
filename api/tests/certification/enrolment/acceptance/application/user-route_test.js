@@ -5,9 +5,9 @@ import {
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   mockLearningContent,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-describe('Acceptance | users-controller-is-certifiable', function () {
+describe('Certification | Enrolment | Acceptance | user routes', function () {
   let server;
   let options;
   let user;
