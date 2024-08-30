@@ -10,7 +10,7 @@ import formatDate from '../../../helpers/format-date';
       {{@item.id}}
     </td>
     <td>
-      <LinkTo @route="authenticated.autonomous-courses.autonomous-course" @model={{@item.id}}>
+      <LinkTo @route="authenticated.autonomous-courses.details" @model={{@item.id}}>
         {{@item.name}}
       </LinkTo>
     </td>

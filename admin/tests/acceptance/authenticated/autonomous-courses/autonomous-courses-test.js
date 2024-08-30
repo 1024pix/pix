@@ -47,7 +47,7 @@ module('Acceptance | Autonomous courses', function (hooks) {
         await click(submitButton);
 
         //then
-        assert.strictEqual(currentURL(), '/autonomous-courses/1/details');
+        assert.strictEqual(currentURL(), '/autonomous-courses/1');
       });
     });
 
@@ -81,7 +81,7 @@ module('Acceptance | Autonomous courses', function (hooks) {
         await click(screen.getByRole('link', { name: 'Parcours autonome n°3' }));
 
         // then
-        assert.strictEqual(currentURL(), '/autonomous-courses/3/details');
+        assert.strictEqual(currentURL(), '/autonomous-courses/3');
       });
 
       test('it should display a button to create a new autonomous course', async function (assert) {
@@ -113,7 +113,7 @@ module('Acceptance | Autonomous courses', function (hooks) {
         const screen = await visit('/autonomous-courses/1');
 
         // then
-        assert.strictEqual(currentURL(), '/autonomous-courses/1/details');
+        assert.strictEqual(currentURL(), '/autonomous-courses/1');
         assert.dom(screen.getAllByRole('heading', { name: 'Parcours SUP SCO 2023', level: 1 })[0]).exists();
         assert.dom(screen.getByText('Bienvenue dans votre parcours')).exists();
 

@@ -3,13 +3,13 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/autonomous-courses/autonomous-course', function (hooks) {
+module('Unit | Route | authenticated/autonomous-courses/autonomous-course/details', function (hooks) {
   setupTest(hooks);
 
   module('#beforeModel', function () {
-    test('it should check if current user is "SUPER_ADMIN", "METIER" or "SUPPORT"', function (assert) {
+    test('it should check if current user is "SUPER_ADMIN", "SUPPORT", or "METIER"', function (assert) {
       // given
-      const route = this.owner.lookup('route:authenticated/autonomous-courses/autonomous-course');
+      const route = this.owner.lookup('route:authenticated/autonomous-courses/details');
 
       const restrictAccessToStub = sinon.stub().returns();
       class AccessControlStub extends Service {
