@@ -16,14 +16,14 @@
               {{#if (eq @version 3)}}
                 {{#unless issueReport.isInChallengeIssue}}
                   <PixIconButton
-                    @icon="trash"
+                    @icon="trash-alt"
                     aria-label={{t "pages.session-finalization.issue-reports-modal.actions.delete-reporting"}}
                     @triggerAction={{fn this.handleClickOnDeleteButton issueReport}}
                   />
                 {{/unless}}
               {{else}}
                 <PixIconButton
-                  @icon="trash"
+                  @icon="trash-alt"
                   aria-label={{t "pages.session-finalization.issue-reports-modal.actions.delete-reporting"}}
                   @triggerAction={{fn this.handleClickOnDeleteButton issueReport}}
                 />
