@@ -57,100 +57,73 @@
       "title": "Explications : les parties d’une adresse mail",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "d4bf1c51-b113-440a-949a-f21c1e001daa",
-            "type": "text",
-            "content": "<h3 class=\"screen-reader-only\">L'adresse mail de Mickaël</h3><h4>L'adresse mail de Mickaël est composée de deux parties et d'un séparateur au centre.</h4>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "167907eb-ee0d-4de0-9fc8-609b2b62ed9f",
-            "type": "image",
-            "url": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg",
-            "alt": "Schéma de la syntaxe d’une adresse mail décrit dans l’alternative textuelle",
-            "alternativeText": "<ul><li>Partie 1&nbsp;: identifiant, exemple&nbsp;: mickael.aubert123</li><li>Séparateur&nbsp;: Arobase</li><li>Partie 2&nbsp;: Fournisseur d'adresse mail, exemple&nbsp;: laposte.net</li></ul>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "392260cd-6fd6-4c5d-9cc7-143fc86468aa",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
-            "type": "image",
-            "url": "https://i.imgur.com/lLEwbG6.png",
-            "alt": "Première partie, décrite dans l'alternative textuelle",
-            "alternativeText": "Partie 1&nbsp;: Identifiant, exemple&nbsp;: mickael.aubert123"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
-            "type": "text",
-            "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>Partie 1&nbsp;: l’identifiant choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque, même avec des majuscules&#8239;!</p><p><span aria-hidden=\"true\">✅</span> Par exemple&nbsp;: mika671 ou G3oDu671</p><p class=\"pix-list-inline\"><span aria-hidden=\"true\">❌</span> Mais certains caractères sont interdits&nbsp;:</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "8137ddf4-f689-4297-8beb-a8de0c64b14d",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "9ccbf056-fd7f-4478-96c7-a7520fbe01b6",
-            "type": "image",
-            "url": "https://i.imgur.com/FAxBAds.png",
-            "alt": "Séparateur décrit dans l'alternative textuelle",
-            "alternativeText": "Séparateur&nbsp;: Arobase"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "ad8ad08a-3ff7-4228-8233-6cd5ce0f4812",
-            "type": "text",
-            "content": "<h3 class=\"screen-reader-only\">L'arobase</h3><h4>Au centre&nbsp;: l’arobase qui sépare l’identifiant du fournisseur d’adresse mail.</h4><p><span aria-hidden=\"true\">🇬🇧</span> En anglais, ce symbole se lit <i lang=\"en\">“at”</i> et veut dire “chez”.</p><p><span aria-hidden=\"true\">🤔</span> Le saviez-vous&nbsp;? L'arobase est un symbole qui était utilisé bien avant l’informatique, pour compter des quantités par exemple.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "887ad2ce-26e0-4277-a0b0-45d51a1b7a12",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "bbbdeea8-f9c1-4c6f-9061-d85f9a78cf3c",
-            "type": "image",
-            "url": "https://i.imgur.com/SIsWHfL.png",
-            "alt": "Partie 2, décrite dans l'alternative textuelle",
-            "alternativeText": "Partie 2&nbsp;: Fournisseur d'adresse mail, exemple&nbsp;: laposte.net"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "1fd829f8-1799-4779-a28d-5d26fba31b8b",
-            "type": "text",
-            "content": "<h3 class=\"screen-reader-only\">Le fournisseur d’adresse mail</h3><h4>Partie 2&nbsp;: le fournisseur d’adresse mail. Cette partie de l’adresse est donnée par le fournisseur.</h4><p><span aria-hidden=\"true\">✅</span> Voici des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com, yahoo.fr)</li><li>Microsoft (hotmail.com, live.fr)</li></ul>"
-          }
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "d4bf1c51-b113-440a-949a-f21c1e001daa",
+                  "type": "text",
+                  "content": "<h3 class=\"screen-reader-only\">L'adresse mail de Mickaël</h3><h4>L'adresse mail de Mickaël est composée de deux parties et d'un séparateur au centre.</h4>"
+                },
+                {
+                  "id": "167907eb-ee0d-4de0-9fc8-609b2b62ed9f",
+                  "type": "image",
+                  "url": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg",
+                  "alt": "Schéma de la syntaxe d’une adresse mail décrit dans l’alternative textuelle",
+                  "alternativeText": "<ul><li>Partie 1&nbsp;: identifiant, exemple&nbsp;: mickael.aubert123</li><li>Séparateur&nbsp;: Arobase</li><li>Partie 2&nbsp;: Fournisseur d'adresse mail, exemple&nbsp;: laposte.net</li></ul>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
+                  "type": "image",
+                  "url": "https://i.imgur.com/lLEwbG6.png",
+                  "alt": "Première partie, décrite dans l'alternative textuelle",
+                  "alternativeText": "Partie 1&nbsp;: Identifiant, exemple&nbsp;: mickael.aubert123"
+                },
+                {
+                  "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
+                  "type": "text",
+                  "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>Partie 1&nbsp;: l’identifiant choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque, même avec des majuscules&#8239;!</p><p><span aria-hidden=\"true\">✅</span> Par exemple&nbsp;: mika671 ou G3oDu671</p><p class=\"pix-list-inline\"><span aria-hidden=\"true\">❌</span> Mais certains caractères sont interdits&nbsp;:</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "9ccbf056-fd7f-4478-96c7-a7520fbe01b6",
+                  "type": "image",
+                  "url": "https://i.imgur.com/FAxBAds.png",
+                  "alt": "Séparateur décrit dans l'alternative textuelle",
+                  "alternativeText": "Séparateur&nbsp;: Arobase"
+                },
+                {
+                  "id": "ad8ad08a-3ff7-4228-8233-6cd5ce0f4812",
+                  "type": "text",
+                  "content": "<h3 class=\"screen-reader-only\">L'arobase</h3><h4>Au centre&nbsp;: l’arobase qui sépare l’identifiant du fournisseur d’adresse mail.</h4><p><span aria-hidden=\"true\">🇬🇧</span> En anglais, ce symbole se lit <i lang=\"en\">“at”</i> et veut dire “chez”.</p><p><span aria-hidden=\"true\">🤔</span> Le saviez-vous&nbsp;? L'arobase est un symbole qui était utilisé bien avant l’informatique, pour compter des quantités par exemple.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "bbbdeea8-f9c1-4c6f-9061-d85f9a78cf3c",
+                  "type": "image",
+                  "url": "https://i.imgur.com/SIsWHfL.png",
+                  "alt": "Partie 2, décrite dans l'alternative textuelle",
+                  "alternativeText": "Partie 2&nbsp;: Fournisseur d'adresse mail, exemple&nbsp;: laposte.net"
+                },
+                {
+                  "id": "1fd829f8-1799-4779-a28d-5d26fba31b8b",
+                  "type": "text",
+                  "content": "<h3 class=\"screen-reader-only\">Le fournisseur d’adresse mail</h3><h4>Partie 2&nbsp;: le fournisseur d’adresse mail. Cette partie de l’adresse est donnée par le fournisseur.</h4><p><span aria-hidden=\"true\">✅</span> Voici des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com, yahoo.fr)</li><li>Microsoft (hotmail.com, live.fr)</li></ul>"
+                }
+              ]
+            }
+          ]
         }
       ]
     },

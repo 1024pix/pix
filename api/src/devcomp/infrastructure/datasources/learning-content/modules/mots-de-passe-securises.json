@@ -289,89 +289,81 @@
           }
         },
         {
-          "type": "element",
-          "element": {
-            "id": "669c89e1-167e-40a3-a198-2ee226494b2e",
-            "type": "qcu",
-            "instruction": "<p>Un mot de passe long est plus dur à pirater qu'un mot de passe court.</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Vrai"
-              },
-              {
-                "id": "2",
-                "content": "Faux"
-              }
-            ],
-            "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span>",
-              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span>"
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "669c89e1-167e-40a3-a198-2ee226494b2e",
+                  "type": "qcu",
+                  "instruction": "<p>Un mot de passe long est plus dur à pirater qu'un mot de passe court.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span>"
+                  },
+                  "solution": "1"
+                }
+              ]
             },
-            "solution": "1"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "2237a247-aa3b-4f1b-95c1-a994615ed611",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "006acae6-1bca-420f-ba74-29e7e0369069",
-            "type": "qcu",
-            "instruction": "<p>Utiliser des caractères spéciaux rend les mots de passe moins solides.</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Vrai"
-              },
-              {
-                "id": "2",
-                "content": "Faux"
-              }
-            ],
-            "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span> </span>",
-              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span>"
+            {
+              "elements": [
+                {
+                  "id": "006acae6-1bca-420f-ba74-29e7e0369069",
+                  "type": "qcu",
+                  "instruction": "<p>Utiliser des caractères spéciaux rend les mots de passe moins solides.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span> </span>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span>"
+                  },
+                  "solution": "2"
+                }
+              ]
             },
-            "solution": "2"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "d15351c2-d617-4aeb-b942-2a1907ee00b8",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "68f45335-8aab-40f5-baff-9719ce8b582a",
-            "type": "qcu",
-            "instruction": "<p>Utiliser sa date de naissance comme mot de passe le rend facile à trouver.</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Vrai"
-              },
-              {
-                "id": "2",
-                "content": "Faux"
-              }
-            ],
-            "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span> </span>",
-              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span>"
-            },
-            "solution": "1"
-          }
+            {
+              "elements": [
+                {
+                  "id": "68f45335-8aab-40f5-baff-9719ce8b582a",
+                  "type": "qcu",
+                  "instruction": "<p>Utiliser sa date de naissance comme mot de passe le rend facile à trouver.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span> </span>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
