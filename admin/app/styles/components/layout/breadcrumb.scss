@@ -1,0 +1,17 @@
+.breadcrumb > ol {
+  display: flex;
+  font-weight: 500;
+  font-size: 1rem;
+
+  h1 {
+    display: inline;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  > li:not(:last-child)::after {
+    margin: 0 0.5rem;
+    color: var(--pix-neutral-500);
+    content: ">";
+  }
+}
