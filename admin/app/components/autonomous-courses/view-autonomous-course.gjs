@@ -12,17 +12,19 @@ export default class ViewAutonomousCourse extends Component {
   @service intl;
   @tracked linkHasJustBeenCopied = false;
 
-  internalTitleLabel = this.intl.t('components.autonomous-course.view.labels.internal-title');
-  publicTitleLabel = this.intl.t('components.autonomous-course.view.labels.public-title');
-  customLandingPageLabel = this.intl.t('components.autonomous-course.view.labels.custom-landing-page');
-  createdDateLabel = this.intl.t('components.autonomous-course.view.labels.created-date');
+  autonomousCourse = this.args.autonomousCourse;
+
+  translatedLabel = (label) => this.intl.t(`components.autonomous-course.view.labels.${label}`);
 
   displayedAttributes = [
     { label: 'Id', value: this.args.autonomousCourse.id },
-    { label: this.internalTitleLabel, value: this.args.autonomousCourse.internalTitle },
-    { label: this.publicTitleLabel, value: this.args.autonomousCourse.publicTitle },
-    { label: this.customLandingPageLabel, value: this.args.autonomousCourse.customLandingPageText },
-    { label: this.createdDateLabel, value: dayjs(this.args.autonomousCourse.createdAt).format('DD/MM/YYYY') },
+    { label: this.translatedLabel('internal-title'), value: this.args.autonomousCourse.internalTitle },
+    { label: this.translatedLabel('public-title'), value: this.args.autonomousCourse.publicTitle },
+    { label: this.translatedLabel('custom-landing-page'), value: this.args.autonomousCourse.customLandingPageText },
+    {
+      label: this.translatedLabel('created-date'),
+      value: dayjs(this.args.autonomousCourse.createdAt).format('DD/MM/YYYY'),
+    },
   ];
 
   constructor() {

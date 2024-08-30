@@ -36,8 +36,6 @@ export default class Details extends Component {
 
       if (errors[0]?.detail) {
         return this.notifications.error(errors[0].detail);
-      } else {
-        return this.notifications.error('Problème lors de la modification du parcours autonome.');
       }
     }
   }
