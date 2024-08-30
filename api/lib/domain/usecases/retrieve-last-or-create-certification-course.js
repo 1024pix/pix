@@ -1,3 +1,15 @@
+/**
+ * @typedef {import('./index.js').SessionRepository} SessionRepository
+ * @typedef {import('./index.js').CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {import('./index.js').CertificationCourseRepository} CertificationCourseRepository
+ * @typedef {import('./index.js').UserRepository} UserRepository
+ * @typedef {import('./index.js').PlacementProfileService} PlacementProfileService
+ * @typedef {import('./index.js').CertificationCenterRepository} CertificationCenterRepository
+ * @typedef {import('./index.js').CertificationBadgesService} CertificationBadgesService
+ * @typedef {import('./index.js').CertificationChallengesService} CertificationChallengesService
+ * @typedef {import('./index.js').VerifyCertificateCodeService} VerifyCertificateCodeService
+ * @typedef {import('./index.js').AssessmentRepository} AssessmentRepository
+ */
 import { SessionNotAccessible } from '../../../src/certification/session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
 import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
@@ -12,16 +24,29 @@ import {
   UserNotAuthorizedToCertifyError,
 } from '../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const { features } = config;
 
+/**
+ * @param {Object} params
+ * @param {SessionRepository} params.sessionRepository
+ * @param {AssessmentRepository} params.assessmentRepository
+ * @param {CertificationCandidateRepository} params.certificationCandidateRepository
+ * @param {CertificationCourseRepository} params.certificationCourseRepository
+ * @param {UserRepository} params.userRepository
+ * @param {PlacementProfileService} params.placementProfileService
+ * @param {CertificationCenterRepository} params.certificationCenterRepository
+ * @param {CertificationBadgesService} params.certificationBadgesService
+ * @param {CertificationChallengesService} params.certificationChallengesService
+ * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
+ */
 const retrieveLastOrCreateCertificationCourse = async function ({
   accessCode,
   sessionId,
   userId,
   locale,
   assessmentRepository,
-  competenceRepository,
   certificationCandidateRepository,
   certificationCourseRepository,
   sessionRepository,
@@ -85,7 +110,6 @@ const retrieveLastOrCreateCertificationCourse = async function ({
     certificationCandidate,
     locale,
     assessmentRepository,
-    competenceRepository,
     certificationCourseRepository,
     certificationCenterRepository,
     certificationChallengesService,
@@ -139,6 +163,16 @@ async function _blockCandidateFromRestartingWithoutExplicitValidation(
   await certificationCandidateRepository.update(certificationCandidate);
 }
 
+/**
+ * @param {Object} params
+ * @param {CertificationCourseRepository} params.certificationCourseRepository
+ * @param {PlacementProfileService} params.placementProfileService
+ * @param {CertificationCenterRepository} params.certificationCenterRepository
+ * @param {CertificationBadgesService} params.certificationBadgesService
+ * @param {AssessmentRepository} params.assessmentRepository
+ * @param {CertificationChallengesService} params.certificationChallengesService
+ * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
+ */
 async function _startNewCertification({
   sessionId,
   userId,
@@ -164,20 +198,6 @@ async function _startNewCertification({
 
   if (!placementProfile.isCertifiable()) {
     throw new UserNotAuthorizedToCertifyError();
-  }
-
-  // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
-  // In case the simultaneous call finished earlier than the current one, we want to return its result
-  const certificationCourseCreatedMeanwhile = await _getCertificationCourseIfCreatedMeanwhile(
-    certificationCourseRepository,
-    userId,
-    sessionId,
-  );
-  if (certificationCourseCreatedMeanwhile) {
-    return {
-      created: false,
-      certificationCourse: certificationCourseCreatedMeanwhile,
-    };
   }
 
   const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
@@ -220,6 +240,20 @@ async function _startNewCertification({
     challengesForCertification.push(...challengesForPixCertification);
   }
 
+  // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
+  // In case the simultaneous call finished earlier than the current one, we want to return its result
+  const certificationCourseCreatedMeanwhile = await _getCertificationCourseIfCreatedMeanwhile(
+    certificationCourseRepository,
+    userId,
+    sessionId,
+  );
+  if (certificationCourseCreatedMeanwhile) {
+    return {
+      created: false,
+      certificationCourse: certificationCourseCreatedMeanwhile,
+    };
+  }
+
   return _createCertificationCourse({
     certificationCandidate,
     certificationCourseRepository,
@@ -240,6 +274,12 @@ async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepo
   });
 }
 
+/**
+ * @param {Object} params
+ * @param {CertificationCourseRepository} params.certificationCourseRepository
+ * @param {AssessmentRepository} params.assessmentRepository
+ * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
+ */
 async function _createCertificationCourse({
   certificationCandidate,
   certificationCourseRepository,
@@ -266,21 +306,23 @@ async function _createCertificationCourse({
     lang,
   });
 
-  const savedCertificationCourse = await certificationCourseRepository.save({
-    certificationCourse: newCertificationCourse,
+  return DomainTransaction.execute(async () => {
+    const savedCertificationCourse = await certificationCourseRepository.save({
+      certificationCourse: newCertificationCourse,
+    });
+
+    const newAssessment = Assessment.createForCertificationCourse({
+      userId,
+      certificationCourseId: savedCertificationCourse.getId(),
+    });
+    const savedAssessment = await assessmentRepository.save({ assessment: newAssessment });
+
+    const certificationCourse = savedCertificationCourse.withAssessment(savedAssessment);
+
+    // FIXME : return CertificationCourseCreated or CertificationCourseRetrieved with only needed fields
+    return {
+      created: true,
+      certificationCourse,
+    };
   });
-
-  const newAssessment = Assessment.createForCertificationCourse({
-    userId,
-    certificationCourseId: savedCertificationCourse.getId(),
-  });
-  const savedAssessment = await assessmentRepository.save({ assessment: newAssessment });
-
-  const certificationCourse = savedCertificationCourse.withAssessment(savedAssessment);
-
-  // FIXME : return CertificationCourseCreated or CertificationCourseRetrieved with only needed fields
-  return {
-    created: true,
-    certificationCourse,
-  };
 }

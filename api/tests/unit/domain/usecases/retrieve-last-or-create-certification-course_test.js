@@ -366,6 +366,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   now,
                   version: foundSession.version,
                 });
+
+                certificationBadgesService.findStillValidBadgeAcquisitions.resolves([]);
+
                 certificationChallengesService.pickCertificationChallenges
                   .withArgs(placementProfile)
                   .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));

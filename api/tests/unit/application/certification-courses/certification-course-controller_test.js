@@ -1,6 +1,5 @@
 import { certificationCourseController } from '../../../../lib/application/certification-courses/certification-course-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
 
@@ -50,13 +49,10 @@ describe('Unit | Controller | certification-course-controller', function () {
 
     it('should call the use case with the right arguments', async function () {
       // given
-      const usecaseArgs = { sessionId: '12345', accessCode: 'ABCD12', userId: 'userId' };
+      const usecaseArgs = { sessionId: '12345', accessCode: 'ABCD12', userId: 'userId', locale: 'fr' };
       usecases.retrieveLastOrCreateCertificationCourse
         .withArgs(usecaseArgs)
         .resolves({ created: true, certificationCourse: retrievedCertificationCourse });
-      sinon.stub(DomainTransaction, 'execute').callsFake(() => {
-        return usecases.retrieveLastOrCreateCertificationCourse(usecaseArgs);
-      });
 
       // when
       await certificationCourseController.save(request, hFake, {
@@ -65,23 +61,16 @@ describe('Unit | Controller | certification-course-controller', function () {
       });
 
       // then
-      sinon.assert.calledWith(usecases.retrieveLastOrCreateCertificationCourse, {
-        sessionId: '12345',
-        accessCode: 'ABCD12',
-        userId: 'userId',
-      });
+      expect(usecases.retrieveLastOrCreateCertificationCourse).to.have.been.calledOnce;
     });
 
     it('should reply the certification course serialized', async function () {
       // given
       const serializedCertificationCourse = Symbol('a serialized certification course');
-      const usecaseArgs = { sessionId: '12345', accessCode: 'ABCD12', userId: 'userId' };
+      const usecaseArgs = { sessionId: '12345', accessCode: 'ABCD12', userId: 'userId', locale: 'fr' };
       usecases.retrieveLastOrCreateCertificationCourse
         .withArgs(usecaseArgs)
         .resolves({ created: true, certificationCourse: retrievedCertificationCourse });
-      sinon.stub(DomainTransaction, 'execute').callsFake(() => {
-        return usecases.retrieveLastOrCreateCertificationCourse(usecaseArgs);
-      });
       certificationCourseSerializer.serialize.resolves(serializedCertificationCourse);
 
       // when

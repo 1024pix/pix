@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
@@ -48,15 +47,15 @@ async function save({ certificationCourse }) {
     await knexConn('complementary-certification-courses').insert(complementaryCertificationCourses);
   }
 
-  await bluebird.mapSeries(certificationCourse.toDTO().challenges, (certificationChallenge) => {
+  for (const certificationChallenge of certificationCourse.toDTO().challenges) {
     const certificationChallengeWithCourseId = {
       ...certificationChallenge,
       courseId: certificationCourseId,
     };
-    return certificationChallengeRepository.save({
+    await certificationChallengeRepository.save({
       certificationChallenge: certificationChallengeWithCourseId,
     });
-  });
+  }
 
   return get({ id: certificationCourseId });
 }
