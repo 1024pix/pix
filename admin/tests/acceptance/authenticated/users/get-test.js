@@ -9,44 +9,9 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  async function buildAndAuthenticateUser(server, { email, username }) {
-    const organizationLearner = server.create('organization-learner', { firstName: 'John' });
-    const pixAuthenticationMethod = server.create('authentication-method', { identityProvider: 'PIX' });
-    const garAuthenticationMethod = server.create('authentication-method', { identityProvider: 'GAR' });
-    const organizationMembership1 = server.create('organization-membership');
-    const organizationMembership2 = server.create('organization-membership');
-    const certificationCenterMembership1 = server.create('certification-center-membership');
-    const certificationCenterMembership2 = server.create('certification-center-membership');
-    const certificationCenterMembership3 = server.create('certification-center-membership');
-    const participation = server.create('user-participation');
-    const user = server.create('user', {
-      'first-name': 'john',
-      'last-name': 'harry',
-      email,
-      username,
-      'is-authenticated-from-gar': false,
-    });
-    user.organizationMemberships = [organizationMembership1, organizationMembership2];
-    user.certificationCenterMemberships = [
-      certificationCenterMembership1,
-      certificationCenterMembership2,
-      certificationCenterMembership3,
-    ];
-    user.participations = [participation];
-    user.organizationLearners = [organizationLearner];
-    user.authenticationMethods = [pixAuthenticationMethod, garAuthenticationMethod];
-    user.save();
-    server.create('admin-member', {
-      userId: user.id,
-      isSuperAdmin: true,
-    });
-    await createAuthenticateSession({ userId: user.id });
-    return user;
-  }
-
   test('access to user details page by URL /users/:id', async function (assert) {
     // when
-    const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
+    const user = await _buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
     await visit(`/users/${user.id}`);
 
     // then
@@ -55,7 +20,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
 
   test('displays user detail information page', async function (assert) {
     // given
-    const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
+    const user = await _buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
     const expectedOrganizationMembershipsCount = 2;
     const expectedParticipationCount = 1;
     const expectedCertificationCenterCount = 3;
@@ -65,11 +30,11 @@ module('Acceptance | authenticated/users/get', function (hooks) {
 
     // then
     assert.dom(screen.getByRole('heading', { name: "Informations de l'utilisateur" })).exists();
-    assert.dom(screen.getByRole('heading', { name: 'Méthodes de connexion' })).exists();
     assert.dom(screen.getByRole('heading', { name: 'Informations prescrit' })).exists();
 
     const userNavigation = within(screen.getByLabelText("Navigation de la section détails d'un utilisateur"));
-    assert.dom(userNavigation.getByRole('link', { name: 'Détails' })).exists();
+    assert.dom(userNavigation.getByRole('link', { name: 'Informations prescrit' })).exists();
+    assert.dom(userNavigation.getByRole('link', { name: 'Méthodes de connexion' })).exists();
     assert.dom(userNavigation.getByRole('link', { name: 'Profil' })).exists();
     assert.dom(userNavigation.getByRole('link', { name: `Participations (${expectedParticipationCount})` })).exists();
     assert
@@ -82,7 +47,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
 
   test('redirects to list users page when click page title', async function (assert) {
     // given
-    const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
+    const user = await _buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
     await visit(`/users/${user.id}`);
 
     // when
@@ -95,7 +60,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   module('when administrator click to edit users details', function () {
     test('updates user language, username, firstName, lastName and email', async function (assert) {
       // given
-      const user = await buildAndAuthenticateUser(this.server, {
+      const user = await _buildAndAuthenticateUser(this.server, {
         email: 'john.harry@example.net',
         username: 'john.harry0101',
       });
@@ -127,7 +92,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   module('when administrator click on anonymize button and confirm modal', function () {
     test('anonymizes the user and remove all authentication methods', async function (assert) {
       // given
-      await buildAndAuthenticateUser(this.server, {
+      await _buildAndAuthenticateUser(this.server, {
         email: 'john.harry@example.net',
         username: 'john.harry121297',
       });
@@ -168,17 +133,19 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       assert.dom(screen.getByText('Prénom : (anonymised)')).exists();
       assert.dom(screen.getByText('Nom : (anonymised)')).exists();
 
+      // when & then #2
+      await click(screen.getByRole('link', { name: 'Méthodes de connexion' }));
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec identifiant")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Médiacentre")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Partenaire OIDC")).exists();
 
-      // when & then #2
+      // when & then #3
       await click(screen.getByRole('link', { name: 'Organisations de l’utilisateur' }));
       assert.deepEqual(currentURL(), `/users/${userToAnonymise.id}/organizations`);
       assert.dom(screen.queryByText('Organization #1')).doesNotExist();
 
-      // when & then #3
+      // when & then #4
       await click(screen.getByLabelText('Centres de certification auxquels appartient l´utilisateur'));
       assert.deepEqual(currentURL(), `/users/${userToAnonymise.id}/certification-center-memberships`);
       assert.dom(screen.queryByText('Certification Center #1')).doesNotExist();
@@ -188,7 +155,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   module('when administrator click on unblock button', function () {
     test('unblocks the user', async function (assert) {
       // given
-      await buildAndAuthenticateUser(this.server, {
+      await _buildAndAuthenticateUser(this.server, {
         email: 'john.harry@example.net',
         username: 'john.harry121297',
       });
@@ -219,7 +186,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   module('when administrator click on dissociate button', function () {
     test('not displays registration any more', async function (assert) {
       // given
-      const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
+      const user = await _buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
       const organizationName = 'Organisation_to_dissociate_of';
       const organizationLearnerToDissociate = this.server.create('organization-learner', {
         id: 10,
@@ -246,8 +213,9 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   module('when administrator click on remove authentication method button', function () {
     test('not displays remove link and display unchecked icon', async function (assert) {
       // given
-      const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
+      const user = await _buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
       const screen = await visit(`/users/${user.id}`);
+      await click(screen.getByRole('link', { name: 'Méthodes de connexion' }));
 
       // when
       await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
@@ -359,4 +327,39 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       assert.dom(screen.getByText('Centre Kaede')).exists();
     });
   });
+
+  async function _buildAndAuthenticateUser(server, { email, username }) {
+    const organizationLearner = server.create('organization-learner', { firstName: 'John' });
+    const pixAuthenticationMethod = server.create('authentication-method', { identityProvider: 'PIX' });
+    const garAuthenticationMethod = server.create('authentication-method', { identityProvider: 'GAR' });
+    const organizationMembership1 = server.create('organization-membership');
+    const organizationMembership2 = server.create('organization-membership');
+    const certificationCenterMembership1 = server.create('certification-center-membership');
+    const certificationCenterMembership2 = server.create('certification-center-membership');
+    const certificationCenterMembership3 = server.create('certification-center-membership');
+    const participation = server.create('user-participation');
+    const user = server.create('user', {
+      'first-name': 'john',
+      'last-name': 'harry',
+      email,
+      username,
+      'is-authenticated-from-gar': false,
+    });
+    user.organizationMemberships = [organizationMembership1, organizationMembership2];
+    user.certificationCenterMemberships = [
+      certificationCenterMembership1,
+      certificationCenterMembership2,
+      certificationCenterMembership3,
+    ];
+    user.participations = [participation];
+    user.organizationLearners = [organizationLearner];
+    user.authenticationMethods = [pixAuthenticationMethod, garAuthenticationMethod];
+    user.save();
+    server.create('admin-member', {
+      userId: user.id,
+      isSuperAdmin: true,
+    });
+    await createAuthenticateSession({ userId: user.id });
+    return user;
+  }
 });
