@@ -56,7 +56,7 @@ const createCandidateParticipation = async function (request, h) {
     normalizeStringFnc: normalize,
   });
 
-  const candidate = await enrolledCandidateRepository.get(candidateId);
+  const candidate = await enrolledCandidateRepository.get({ id: candidateId });
   const serialized = await enrolledCandidateSerializer.serializeForParticipation(candidate);
   return linkAlreadyDone ? serialized : h.response(serialized).created();
 };

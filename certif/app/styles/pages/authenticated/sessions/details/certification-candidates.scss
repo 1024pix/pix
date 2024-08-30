@@ -184,12 +184,13 @@
   align-items: center;
   justify-content: flex-end;
   padding-right: 16px;
+  gap: var(--pix-spacing-2x);
 
   &__display-details {
     margin-right: 16px;
   }
 
-  &__delete {
+  &__delete, &__edit {
 
     display: flex;
     justify-content: center;

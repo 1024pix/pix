@@ -61,6 +61,10 @@ export class EnrolledCandidate {
     this.accessibilityAdjustmentNeeded = accessibilityAdjustmentNeeded;
   }
 
+  isLinkedToAUser() {
+    return !_.isNil(this.userId);
+  }
+
   findComplementarySubscriptionInfo() {
     return this.subscriptions.find((sub) => sub.type === SUBSCRIPTION_TYPES.COMPLEMENTARY);
   }

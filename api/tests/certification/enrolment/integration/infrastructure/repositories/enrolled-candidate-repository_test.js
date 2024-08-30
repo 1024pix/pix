@@ -266,7 +266,7 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
 
     it('should return null when candidate not found', async function () {
       // when
-      const actualEnrolledCandidate = await enrolledCandidateRepository.get(999999);
+      const actualEnrolledCandidate = await enrolledCandidateRepository.get({ id: 999999 });
 
       // then
       expect(actualEnrolledCandidate).to.be.null;
@@ -274,7 +274,7 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
 
     it('should return the candidate when found', async function () {
       // when
-      const actualEnrolledCandidate = await enrolledCandidateRepository.get(michelId);
+      const actualEnrolledCandidate = await enrolledCandidateRepository.get({ id: michelId });
 
       // then
       expect(actualEnrolledCandidate).to.deepEqualInstance(
@@ -306,7 +306,7 @@ describe('Certification | Enrolment | Integration | Repository | EnrolledCandida
       await databaseBuilder.commit();
 
       // when
-      const actualEnrolledCandidate = await enrolledCandidateRepository.get(michelId);
+      const actualEnrolledCandidate = await enrolledCandidateRepository.get({ id: michelId });
 
       // then
       expect(actualEnrolledCandidate).to.deepEqualInstance(

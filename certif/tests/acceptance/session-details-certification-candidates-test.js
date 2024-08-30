@@ -206,6 +206,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               certificationCenterId: allowedCertificationCenterAccess.id,
             });
             server.create('certification-candidate', {
+              firstName: 'John',
+              lastName: 'Doe',
               sessionId: session.id,
               accessibilityAdjustedCertificationNeeded: true,
             });
@@ -217,13 +219,26 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
           test('should display accessibility adjusted certification needed information', async function (assert) {
             // given
-
-            // when
             const screen = await visit(`/sessions/${session.id}/candidats`);
 
             // then
             assert.dom(screen.getByRole('columnheader', { name: 'Accessibilité' })).exists();
             assert.dom(screen.getByRole('cell', { name: 'Oui' })).exists();
+          });
+
+          test('should be possible to update candidate information', async function (assert) {
+            // given
+            const screen = await visit(`/sessions/${session.id}/candidats`);
+            assert.dom(screen.getByRole('columnheader', { name: 'Accessibilité' })).exists();
+            assert.dom(screen.getByRole('cell', { name: 'Oui' })).exists();
+
+            // when
+            await click(screen.getByRole('button', { name: 'Editer le candidat John Doe' }));
+            await click(screen.getByText("Le candidat a besoin d'un aménagement"));
+            await click(screen.getByText('Modifier'));
+
+            // then
+            assert.dom(screen.queryByRole('cell', { name: 'Oui' })).doesNotExist();
           });
         },
       );

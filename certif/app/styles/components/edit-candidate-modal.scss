@@ -1,0 +1,25 @@
+.edit-candidate-modal__form {
+  display: flex;
+  flex-flow: column wrap;
+  gap: var(--pix-spacing-4x);
+}
+
+.edit-candidate-modal-form {
+  &__disabled-fields {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  &__accessibility-adjustment {
+    display: flex;
+    flex-flow: column wrap;
+    gap: var(--pix-spacing-1x);
+  }
+}
+
+.edit-candidate-modal-form-accessibility-adjustment__legend {
+  color: var(--pix-neutral-900);
+  font-weight: var(--pix-font-medium);
+  font-size: 1rem;
+}

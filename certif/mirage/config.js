@@ -114,6 +114,10 @@ function routes() {
     });
   });
 
+  this.patch('/sessions/:id/certification-candidates/:candidateId', function () {
+    return new Response(204);
+  });
+
   this.post('/certification-reports/:id/certification-issue-reports', function (schema, request) {
     const certificationCourseId = request.params.id;
     const requestBody = JSON.parse(request.requestBody);

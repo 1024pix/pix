@@ -132,6 +132,37 @@
                       </button>
                     </div>
                   {{/unless}}
+                  {{#if this.shouldDisplayAccessibilityAdjustmentNeededFeature}}
+                    <div class="certification-candidates-actions__edit">
+                      {{#if candidate.isLinked}}
+                        <PixTooltip @position="left" @isInline={{true}} @id="tooltip-edit-student-button">
+                          <:triggerElement>
+                            <PixIconButton
+                              @icon="pen-to-square"
+                              class="certification-candidates-actions__edit-button--disabled"
+                              aria-label="{{t
+                                'pages.sessions.detail.candidates.list.actions.edit.extra-information'
+                              }} {{candidate.firstName}} {{candidate.lastName}}"
+                              aria-disabled="true"
+                              aria-describedby="tooltip-edit-student-button"
+                              @withBackground={{true}}
+                            />
+                          </:triggerElement>
+                          <:tooltip>{{t "pages.sessions.detail.candidates.list.actions.edit.tooltip"}}</:tooltip>
+                        </PixTooltip>
+                      {{else}}
+                        <PixIconButton
+                          @icon="pen-to-square"
+                          {{on "click" (fn this.openEditCertificationCandidateDetailsModal candidate)}}
+                          aria-label="{{t
+                            'pages.sessions.detail.candidates.list.actions.edit.extra-information'
+                          }} {{candidate.firstName}} {{candidate.lastName}}"
+                          class="certification-candidates-actions__edit-button"
+                          @withBackground={{true}}
+                        />
+                      {{/if}}
+                    </div>
+                  {{/if}}
                   <div class="certification-candidates-actions__delete">
                     {{#if candidate.isLinked}}
                       <PixTooltip @position="left" @isInline={{true}} @id="tooltip-delete-student-button">
@@ -194,4 +225,12 @@
   @updateCandidateData={{this.updateCertificationCandidateInStagingFieldFromEvent}}
   @updateCandidateDataFromValue={{this.updateCertificationCandidateInStagingFieldFromValue}}
   @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
+/>
+
+<EditCandidateModal
+  @showModal={{this.shouldDisplayEditCertificationCandidateModal}}
+  @closeModal={{this.closeEditCandidateModal}}
+  @candidate={{this.certificationCandidateInEditModal}}
+  @updateCandidateDataFromValue={{this.updateEditCandidateInStagingFieldFromValue}}
+  @updateCandidate={{this.updateCandidate}}
 />

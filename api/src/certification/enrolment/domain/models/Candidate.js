@@ -29,6 +29,7 @@ export class Candidate {
     prepaymentCode,
     hasSeenCertificationInstructions = false,
     subscriptions = [],
+    accessibilityAdjustmentNeeded,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -53,6 +54,7 @@ export class Candidate {
     this.prepaymentCode = prepaymentCode;
     this.hasSeenCertificationInstructions = hasSeenCertificationInstructions;
     this.subscriptions = subscriptions;
+    this.accessibilityAdjustmentNeeded = accessibilityAdjustmentNeeded;
   }
 
   isLinkedToAUser() {
@@ -65,6 +67,10 @@ export class Candidate {
 
   link(userId) {
     this.userId = userId;
+  }
+
+  updateAccessibilityAdjustmentNeededStatus(newAdjustmentStatus) {
+    this.accessibilityAdjustmentNeeded = newAdjustmentStatus;
   }
 
   validateCertificationInstructions() {

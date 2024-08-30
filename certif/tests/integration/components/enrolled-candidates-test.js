@@ -12,7 +12,9 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   const DELETE_BUTTON_SELECTOR = 'certification-candidates-actions__delete-button';
+  const EDIT_BUTTON_SELECTOR = 'certification-candidates-actions__edit-button';
   const DELETE_BUTTON_DISABLED_SELECTOR = `${DELETE_BUTTON_SELECTOR}--disabled`;
+  const EDIT_BUTTON_DISABLED_SELECTOR = `${EDIT_BUTTON_SELECTOR}--disabled`;
 
   let store;
 
@@ -153,6 +155,59 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
         this.owner.register('service:feature-toggles', FeatureTogglesStub);
       });
 
+      test('it display candidates with an edit button', async function (assert) {
+        // given
+        const certificationCandidates = [
+          _buildCertificationCandidate({
+            id: 1,
+            firstName: 'Riri',
+            lastName: 'Duck',
+            isLinked: false,
+            subscriptions: [],
+          }),
+          _buildCertificationCandidate({
+            id: 2,
+            firstName: 'Fifi',
+            lastName: 'Duck',
+            isLinked: true,
+            subscriptions: [],
+          }),
+          _buildCertificationCandidate({
+            id: 3,
+            firstName: 'Loulou',
+            lastName: 'Duck',
+            isLinked: false,
+            subscriptions: [],
+          }),
+        ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
+        const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
+
+        this.set('countries', [countries]);
+        this.set('certificationCandidates', certificationCandidates);
+
+        // when
+        const screen = await renderScreen(hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @countries={{this.countries}}
+/>`);
+
+        // then
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Editer le candidat Riri Duck' })).hasClass(EDIT_BUTTON_SELECTOR);
+        assert
+          .dom(screen.getByRole('button', { name: 'Editer le candidat Fifi Duck' }))
+          .hasClass(EDIT_BUTTON_DISABLED_SELECTOR);
+        assert
+          .dom(screen.getByRole('button', { name: 'Editer le candidat Loulou Duck' }))
+          .hasClass(EDIT_BUTTON_SELECTOR);
+        assert.strictEqual(
+          screen.getAllByText("Ce candidat a déjà rejoint la session. Vous ne pouvez pas l'éditer.").length,
+          1,
+        );
+      });
+
       module('when candidate needs accessibility adjusted certification', function () {
         test('should display candidate needs accessibility adjusted certification', async function (assert) {
           // given
@@ -244,6 +299,41 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
         // then
         assert.dom(screen.queryByRole('columnheader', { name: 'Accessibilité' })).doesNotExist();
         assert.dom(screen.queryByRole('cell', { name: 'Oui' })).doesNotExist();
+      });
+
+      test('it does not display candidates with an edit button', async function (assert) {
+        // given
+        const certificationCandidates = [
+          _buildCertificationCandidate({
+            id: 1,
+            firstName: 'Riri',
+            lastName: 'Duck',
+            isLinked: false,
+            subscriptions: [],
+          }),
+          _buildCertificationCandidate({
+            id: 2,
+            firstName: 'Fifi',
+            lastName: 'Duck',
+            isLinked: true,
+            subscriptions: [],
+          }),
+        ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
+        const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
+
+        this.set('countries', [countries]);
+        this.set('certificationCandidates', certificationCandidates);
+
+        // when
+        const screen = await renderScreen(hbs`<EnrolledCandidates
+  @sessionId='1'
+  @certificationCandidates={{this.certificationCandidates}}
+  @countries={{this.countries}}
+/>`);
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: 'Editer le candidat Riri Duck' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Editer le candidat Fifi Duck' })).doesNotExist();
       });
     });
   });

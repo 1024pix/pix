@@ -18,7 +18,7 @@ const buildEnrolledCandidate = function ({
   externalId = 'externalId',
   userId = 789,
   sessionId = 456,
-  organizationLearnerId,
+  organizationLearnerId = null,
   billingMode = null,
   prepaymentCode = null,
   subscriptions = [],

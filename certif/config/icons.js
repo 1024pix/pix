@@ -12,6 +12,7 @@ module.exports = function () {
       'file-download',
       'info',
       'link',
+      'pen-to-square',
       'plus-circle',
       'power-off',
       'redo',

@@ -17,7 +17,9 @@ export default class EnrolledCandidates extends Component {
   @tracked candidatesInStaging = [];
   @tracked newCandidate = {};
   @tracked shouldDisplayCertificationCandidateModal = false;
+  @tracked shouldDisplayEditCertificationCandidateModal = false;
   @tracked certificationCandidateInDetailsModal = null;
+  @tracked certificationCandidateInEditModal = null;
   @tracked showNewCandidateModal = false;
 
   get shouldDisplayAccessibilityAdjustmentNeededFeature() {
@@ -101,6 +103,26 @@ export default class EnrolledCandidates extends Component {
   }
 
   @action
+  updateEditCandidateInStagingFieldFromValue(candidateInStaging, field, event) {
+    candidateInStaging.set(field, event.target.checked);
+  }
+
+  @action
+  async updateCandidate(event) {
+    event.preventDefault();
+    try {
+      const adapter = this.store.adapterFor('certification-candidate');
+      await adapter.updateRecord({ candidate: this.certificationCandidateInEditModal, sessionId: this.args.sessionId });
+      this.notifications.success(this.intl.t('pages.sessions.detail.candidates.edit-modal.notifications.success'));
+      this.closeEditCandidateModal();
+    } catch (e) {
+      this.notifications.error(this.intl.t('pages.sessions.detail.candidates.edit-modal.notifications.error'));
+    } finally {
+      this.args.reloadCertificationCandidate();
+    }
+  }
+
+  @action
   updateCertificationCandidateInStagingBirthdate(candidateInStaging, value) {
     candidateInStaging.set('birthdate', value);
   }
@@ -139,6 +161,12 @@ export default class EnrolledCandidates extends Component {
   }
 
   @action
+  openEditCertificationCandidateDetailsModal(candidate) {
+    this.shouldDisplayEditCertificationCandidateModal = true;
+    this.certificationCandidateInEditModal = candidate;
+  }
+
+  @action
   closeCertificationCandidateDetailsModal() {
     this.shouldDisplayCertificationCandidateModal = false;
     this.certificationCandidateInDetailsModal = null;
@@ -153,6 +181,11 @@ export default class EnrolledCandidates extends Component {
   @action
   closeNewCandidateModal() {
     this.showNewCandidateModal = false;
+  }
+
+  @action
+  closeEditCandidateModal() {
+    this.shouldDisplayEditCertificationCandidateModal = false;
   }
 
   _createCertificationCandidateRecord(certificationCandidateData) {
