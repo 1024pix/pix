@@ -170,7 +170,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
       assert.dom(PARAGRAPH).doesNotExist();
       assert.strictEqual(find(INPUT).tagName, 'INPUT');
       assert.strictEqual(find(INPUT).value, EMPTY_DEFAULT_MESSAGE);
-      assert.strictEqual(find(INPUT).getAttribute('size'), EMPTY_DEFAULT_MESSAGE.length.toString());
+      assert.strictEqual(find(INPUT).getAttribute('size'), String(EMPTY_DEFAULT_MESSAGE.length + 1));
       assert.strictEqual(find(INPUT).getAttribute('aria-label'), 'Question passée');
       assert.true(find(INPUT).hasAttribute('disabled'));
     });

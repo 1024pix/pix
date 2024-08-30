@@ -68,7 +68,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       assert.dom('input.correction-qroc-box-answer--input').hasAttribute('disabled');
       assert.strictEqual(
         find('input.correction-qroc-box-answer--input').getAttribute('size'),
-        answer.value.length.toString(),
+        String(answer.value.length + 1),
       );
     });
   });

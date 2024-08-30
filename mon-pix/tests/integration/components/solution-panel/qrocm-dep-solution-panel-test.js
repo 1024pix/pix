@@ -242,7 +242,7 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
       assert.dom(PARAGRAPH).doesNotExist();
       assert.dom(SENTENCE).doesNotExist();
       assert.strictEqual(find(INPUT).tagName, 'INPUT');
-      assert.strictEqual(find(INPUT).getAttribute('size'), '12');
+      assert.strictEqual(find(INPUT).getAttribute('size'), '13');
       assert.strictEqual(find(INPUT).getAttribute('aria-label'), 'La réponse donnée est valide');
       assert.true(find(INPUT).hasAttribute('disabled'));
     });
