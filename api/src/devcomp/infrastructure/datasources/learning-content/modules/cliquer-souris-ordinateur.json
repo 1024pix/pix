@@ -85,9 +85,9 @@
           "element": {
             "id": "4ec66bb9-f016-48c3-9653-56d7ae04d1b9",
             "type": "image",
-            "url": "https://i.imgur.com/oLKqqUS.gif",
+            "url": "https://i.imgur.com/kPq1cJ4.gif",
             "alt": "",
-            "alternativeText": "<p>Gif temporaire à changer</p>"
+            "alternativeText": "<p>Gif animé. Dessin d'une main posée sur une souris. L'index appuie sur un bouton de la souris et crée le son : «&nbsp;clic&nbsp;».</p>"
           }
         }
       ]
@@ -195,7 +195,7 @@
           "element": {
             "id": "6aeac8ef-eed7-4393-998e-2b7e2e798de0",
             "type": "image",
-            "url": "https://images.pix.fr/modulix/placeholder-details.svg",
+            "url": "https://i.imgur.com/TWB2dU8.png",
             "alt": "",
             "alternativeText": "<p>image à créer : image comparative où on voit les 2 position du doigt sur la souris</p>"
           }
@@ -419,9 +419,9 @@
                 {
                   "id": "48218129-a5ac-4c43-8a4a-db3345400477",
                   "type": "image",
-                  "url": "https://images.pix.fr/modulix/placeholder-details.svg",
+                  "url": "https://i.imgur.com/LlDjagi.gif",
                   "alt": "",
-                  "alternativeText": "<p>Image à trouver avec liste : citer ici les éléments de liste qu'on voit à l'image</p>"
+                  "alternativeText": "<p>Gif animé. Sur la table, une main déplace la souris. À l'écran le pointeur se dirige jusqu'à un dossier. La main fait un clic sur le bouton droit de la souris. À l'écran, une liste d'action possible apparaît à côté du dossier&nbsp;:</p> <ul><li>Ouvrir</li><li>Épingler à l'accès rapide</li><li>Épingler au menu démarrer</li><li>Compresser dans un fichier zip</li><li>Copier en tant que chemin d'accès</li><li>Propriété</li><li>Ouvrir dans un terminal</li><li>Afficher d'autres options.</li></ul> "
                 }
               ]
             },
@@ -435,7 +435,7 @@
                 {
                   "id": "242c6637-6a37-43dc-a1f3-d0e46c5fb2de",
                   "type": "image",
-                  "url": "https://images.pix.fr/modulix/placeholder-details.svg",
+                  "url": "https://i.imgur.com/dfyChwE.gif",
                   "alt": "",
                   "alternativeText": "<p>Gif d'un doigt qui fait rouler la molette de la souris de haut en bas</p>"
                 },
