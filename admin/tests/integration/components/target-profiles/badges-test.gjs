@@ -105,8 +105,6 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
       //given
       const badges = [badge];
 
-      console.log(badges);
-
       // when
       const screen = await render(<template><Badges @badges={{badges}} /></template>);
       await clickByName('Supprimer');
