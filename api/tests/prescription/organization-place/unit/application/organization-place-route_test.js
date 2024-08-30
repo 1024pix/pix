@@ -35,7 +35,7 @@ describe('Unit | Router | organization-place-route', function () {
     sinon.stub(usecases, 'findOrganizationPlacesLot');
     sinon.stub(organizationPlaceController, 'createOrganizationPlacesLot');
     sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
-    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
+    sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization');
     sinon.stub(organizationPlaceController, 'getOrganizationPlacesStatistics');
     httpTestServer = new HttpTestServer();
     httpTestServer.setupAuthentication();
@@ -166,14 +166,14 @@ describe('Unit | Router | organization-place-route', function () {
   });
 
   describe('GET /api/organizations/{id}/places-statistics', function () {
-    it('should return HTTP code 200 when organization has the right feature activated and user is admin of the orga', async function () {
+    it('should return HTTP code 200 when organization has the right feature activated and user belong to the orga', async function () {
       // given
       const method = 'GET';
       const url = '/api/organizations/1/place-statistics';
       const payload = {};
 
       checkOrganizationHasPlacesFeature.resolves(true);
-      securityPreHandlers.checkUserIsAdminInOrganization.resolves(true);
+      securityPreHandlers.checkUserBelongsToOrganization.resolves(true);
 
       organizationPlaceController.getOrganizationPlacesStatistics.callsFake((_, h) => h.response('ok').code(200));
 
@@ -187,13 +187,13 @@ describe('Unit | Router | organization-place-route', function () {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return HTTP code 403 if user is not admin of the organization', async function () {
+    it('should return HTTP code 403 if user do not belong of the organization', async function () {
       // given
       const method = 'GET';
       const url = '/api/organizations/1/place-statistics';
       const payload = {};
 
-      securityPreHandlers.checkUserIsAdminInOrganization.callsFake(respondWithError);
+      securityPreHandlers.checkUserBelongsToOrganization.callsFake(respondWithError);
       checkOrganizationHasPlacesFeature.resolves(true);
 
       // when
@@ -211,7 +211,7 @@ describe('Unit | Router | organization-place-route', function () {
       const url = '/api/organizations/1/place-statistics';
       const payload = {};
 
-      securityPreHandlers.checkUserIsAdminInOrganization.resolves(true);
+      securityPreHandlers.checkUserBelongsToOrganization.resolves(true);
       checkOrganizationHasPlacesFeature.callsFake(respondWithError);
 
       // when

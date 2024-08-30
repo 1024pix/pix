@@ -128,8 +128,8 @@ const register = async (server) => {
             assign: 'checkOrganizationHasPlacesFeature',
           },
           {
-            method: securityPreHandlers.checkUserIsAdminInOrganization,
-            assign: 'checkUserIsOrganizationsAdmin',
+            method: securityPreHandlers.checkUserBelongsToOrganization,
+            assign: 'checkUserBelongsToOrganization',
           },
         ],
         validate: {
