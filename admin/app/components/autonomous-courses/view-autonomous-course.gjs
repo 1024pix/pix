@@ -1,20 +1,30 @@
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import dayjs from 'dayjs';
+import { t } from 'ember-intl';
 
 export default class ViewAutonomousCourse extends Component {
+  @service intl;
   @tracked linkHasJustBeenCopied = false;
+
+  autonomousCourse = this.args.autonomousCourse;
+
+  translatedLabel = (label) => this.intl.t(`components.autonomous-course.view.labels.${label}`);
 
   displayedAttributes = [
     { label: 'Id', value: this.args.autonomousCourse.id },
-    { label: 'Nom interne', value: this.args.autonomousCourse.internalTitle },
-    { label: 'Nom public', value: this.args.autonomousCourse.publicTitle },
-    { label: "Texte de la page d'accueil", value: this.args.autonomousCourse.customLandingPageText },
-    { label: 'Date de création', value: dayjs(this.args.autonomousCourse.createdAt).format('DD/MM/YYYY') },
+    { label: this.translatedLabel('internal-title'), value: this.args.autonomousCourse.internalTitle },
+    { label: this.translatedLabel('public-title'), value: this.args.autonomousCourse.publicTitle },
+    { label: this.translatedLabel('custom-landing-page'), value: this.args.autonomousCourse.customLandingPageText },
+    {
+      label: this.translatedLabel('created-date'),
+      value: dayjs(this.args.autonomousCourse.createdAt).format('DD/MM/YYYY'),
+    },
   ];
 
   constructor() {
@@ -22,7 +32,10 @@ export default class ViewAutonomousCourse extends Component {
   }
 
   get tooltipLabel() {
-    return this.linkHasJustBeenCopied ? 'Lien copié !' : 'Copier le lien de la campagne';
+    const linkCopyAction = this.intl.t('components.autonomous-course.view.link-copy-action');
+    const linkCopyValidation = this.intl.t('components.autonomous-course.view.link-copy-validation');
+
+    return this.linkHasJustBeenCopied ? linkCopyValidation : linkCopyAction;
   }
 
   get campaignLink() {
@@ -47,13 +60,15 @@ export default class ViewAutonomousCourse extends Component {
         <dd class="autonomous-course-card__details-value">{{attribute.value}}</dd>
       {{/each}}
 
-      <dt class="autonomous-course-card__details-label">Lien public&nbsp;:&nbsp;</dt>
+      <dt class="autonomous-course-card__details-label">{{t
+          "components.autonomous-course.view.link-title"
+        }}&nbsp;:&nbsp;</dt>
       <dd class="autonomous-course-card__details-value">
         <a
           href={{this.campaignLink}}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Lien vers la campagne {{@autonomousCourse.code}} (nouvelle fenêtre)"
+          aria-label={{t "components.autonomous-course.view.link-label" code=@autonomousCourse.code}}
           class="autonomous-course-card-details-value__link"
         >
           {{this.campaignLink}}

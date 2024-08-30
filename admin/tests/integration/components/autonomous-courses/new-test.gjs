@@ -1,12 +1,12 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
-import CreateAutonomousCourseForm from 'pix-admin/components/autonomous-courses/create-autonomous-course-form';
+import NewAutonomousCourse from 'pix-admin/components/autonomous-courses/new';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | AutonomousCourses::CreateAutonomousCourseForm', function (hooks) {
+module('Integration | Component | AutonomousCourses | NewAutonomousCourse', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   const autonomousCourse = {};
@@ -18,7 +18,7 @@ module('Integration | Component | AutonomousCourses::CreateAutonomousCourseForm'
     // when
     const screen = await render(
       <template>
-        <CreateAutonomousCourseForm
+        <NewAutonomousCourse
           @autonomousCourse={{autonomousCourse}}
           @targetProfiles={{targetProfiles}}
           @onSubmit={{onSubmit}}
@@ -52,7 +52,7 @@ module('Integration | Component | AutonomousCourses::CreateAutonomousCourseForm'
     // when
     await render(
       <template>
-        <CreateAutonomousCourseForm
+        <NewAutonomousCourse
           @autonomousCourse={{autonomousCourse}}
           @targetProfiles={{targetProfiles}}
           @onSubmit={{onSubmit}}
@@ -71,7 +71,7 @@ module('Integration | Component | AutonomousCourses::CreateAutonomousCourseForm'
     // when
     await render(
       <template>
-        <CreateAutonomousCourseForm
+        <NewAutonomousCourse
           @autonomousCourse={{autonomousCourse}}
           @targetProfiles={{targetProfiles}}
           @onSubmit={{onSubmit}}

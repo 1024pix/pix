@@ -20,7 +20,7 @@ module('Unit | Controller | authenticated/autonomous-courses/new', function (hoo
       controller.goBackToAutonomousCoursesList();
 
       // then
-      assert.ok(controller.router.transitionTo.calledWith('authenticated.autonomous-courses.list'));
+      assert.ok(controller.router.transitionTo.calledWith('authenticated.autonomous-courses'));
     });
   });
 

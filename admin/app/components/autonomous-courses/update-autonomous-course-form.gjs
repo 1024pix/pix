@@ -23,8 +23,6 @@ export default class UpdateAutonomousCourseForm extends Component {
     this.args.update();
   }
 
-  noop() {}
-
   <template>
     <form class="form update-autonomous-course" {{on "submit" this.onSubmit}}>
       <span class="form__instructions">
@@ -38,36 +36,36 @@ export default class UpdateAutonomousCourseForm extends Component {
         @value={{@autonomousCourse.internalTitle}}
         {{on "change" (fn this.updateAutonomousCourseValue "internalTitle")}}
       >
-        <:label>Nom interne :</:label>
+        <:label>{{t "components.autonomous-course.update.internal-title.label"}} :</:label>
       </PixInput>
       <PixInput
         @id="nom-public"
         class="form-field"
-        placeholder="Exemple&nbsp;:&nbsp;Le super nom de mon parcours autonome"
+        placeholder={{t "components.autonomous-course.update.public-title.placeholder" htmlSafe=true}}
         required={{true}}
         maxlength="50"
         @value={{@autonomousCourse.publicTitle}}
         @requiredLabel={{t "common.forms.mandatory"}}
-        @subLabel="Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
+        @subLabel={{t "components.autonomous-course.update.public-title.sublabel"}}
         {{on "change" (fn this.updateAutonomousCourseValue "publicTitle")}}
       >
-        <:label>Nom public <small>(50 caractères maximum)</small> :</:label>
+        <:label>{{t "components.autonomous-course.update.public-title.label" htmlSafe=true}}:</:label>
       </PixInput>
       <PixTextarea
         @id="text-page-accueil"
         @maxlength="5000"
         @value={{@autonomousCourse.customLandingPageText}}
-        placeholder="Exemple : description, objectifs..."
+        placeholder={{t "components.autonomous-course.update.custom-landing-page.placeholder"}}
         {{on "change" (fn this.updateAutonomousCourseValue "customLandingPageText")}}
       >
-        <:label>Texte de la page d'accueil :</:label>
+        <:label>{{t "components.autonomous-course.update.custom-landing-page.label"}} :</:label>
       </PixTextarea>
       <div class="form-actions">
         <PixButton type="reset" @variant="secondary" @size="small" @triggerAction={{@cancel}}>
           {{t "common.actions.cancel"}}
         </PixButton>
-        <PixButton @variant="success" @size="small" type="submit" @triggerAction={{this.noop}}>
-          Sauvegarder les modifications
+        <PixButton @variant="success" @size="small" @type="submit">
+          {{t "components.autonomous-course.update.save"}}
         </PixButton>
       </div>
     </form>

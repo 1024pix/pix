@@ -135,6 +135,79 @@
         "upload-button": "Import CSV file"
       }
     },
+    "autonomous-course": {
+      "title": "Tous les parcours autonomes",
+      "actions": {
+        "new": "Nouveau parcours autonome"
+      },
+      "list": {
+        "title": "Liste des parcours autonomes",
+        "headers": {
+          "createdAt": "Date de création",
+          "name": "Nom",
+          "status": "Date"
+        },
+        "no-result": "Aucun résultat",
+        "status": {
+          "active": "Actif",
+          "archived": "Archivé"
+        }
+      },
+      "new": {
+        "title": "Nouveau parcours autonome",
+        "create-autonomous-course": "Créer le parcours autonome",
+        "target-profile": {
+          "category-label": "Sélectionner une ou plusieurs catégories de profils cibles",
+          "label": "Quel profil cible voulez-vous associer à ce parcours autonome ?",
+          "placeholder": "Choisir un profil cible",
+          "search-label": "Recherchez un profil cible",
+          "sub-label": "Le profil cible doit être en accès simplifié et relié à l’organisation \"Organisation pour les parcours autonomes\""
+        },
+        "technical-informations": {
+          "title": "Informations techniques",
+          "label": "Nom interne"
+        },
+        "user-information": {
+          "title": "Informations pour les utilisateurs",
+          "homepage": {
+            "label": "Texte de la page d'accueil",
+            "placeholder": "Exemple : description, objectifs..."
+          },
+          "public-name": {
+            "label": "Nom public <small>(50 caractères maximum)</small>",
+            "placeholder": "Exemple : Le super nom de mon parcours autonome",
+            "sub-label": "Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
+          }
+        }
+      },
+      "update": {
+        "custom-landing-page": {
+          "label": "Texte de la page d'accueil",
+          "placeholder": "Exemple : description, objectifs..."
+        },
+        "internal-title": {
+          "label": "Nom interne"
+        },
+        "public-title": {
+          "label": "Nom public <small>(50 caractères maximum)</small>",
+          "placeholder": "Exemple : Le super nom de mon parcours autonome",
+          "sublabel": "Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
+        },
+        "save": "Sauvegarder les modifications"
+      },
+      "view": {
+        "labels": {
+          "created-date": "Date de création",
+          "custom-landing-page": "Texte de la page d'accueil",
+          "internal-title": "Nom interne",
+          "public-title": "Nom public"
+        },
+        "link-copy-action": "Copier le lien de la campagne",
+        "link-copy-validation": "Lien copié !",
+        "link-label": "Lien vers la campagne {code} (nouvelle fenêtre)",
+        "link-title": "Lien public"
+      }
+    },
     "badges": {
       "api-error-messages": {
         "key-already-exists": "The badge key {badgeKey} already exists"
@@ -332,34 +405,6 @@
         },
         "deployment": {
           "label": "Deployment"
-        }
-      }
-    },
-    "autonomous-course": {
-      "creation-form-fields": {
-        "create-autonomous-course": "Créer le parcours autonome",
-        "target-profile": {
-          "category-label": "Sélectionner une ou plusieurs catégories de profils cibles",
-          "label": "Quel profil cible voulez-vous associer à ce parcours autonome ?",
-          "placeholder": "Choisir un profil cible",
-          "search-label": "Recherchez un profil cible",
-          "sub-label": "Le profil cible doit être en accès simplifié et relié à l’organisation \"Organisation pour les parcours autonomes\""
-        },
-        "technical-informations": {
-          "title": "Informations techniques",
-          "label": "Nom interne"
-        },
-        "user-information": {
-          "title": "Informations pour les utilisateurs",
-          "homepage": {
-            "label": "Texte de la page d'accueil",
-            "placeholder": "Exemple : description, objectifs..."
-          },
-          "public-name": {
-            "label": "Nom public <small>(50 caractères maximum)</small>",
-            "placeholder": "Exemple : Le super nom de mon parcours autonome",
-            "sub-label": "Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
-          }
         }
       }
     },

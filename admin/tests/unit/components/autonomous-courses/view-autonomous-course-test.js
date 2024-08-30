@@ -1,11 +1,11 @@
-import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import createComponent from '../../../helpers/create-glimmer-component';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Unit | Component | Autonomous courses | ViewAutonomousCourse', function (hooks) {
-  setupTest(hooks);
+  setupIntlRenderingTest(hooks);
   let component;
 
   hooks.beforeEach(function () {

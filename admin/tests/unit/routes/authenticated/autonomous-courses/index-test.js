@@ -3,13 +3,13 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/autonomous-courses/list', function (hooks) {
+module('Unit | Route | authenticated/autonomous-courses', function (hooks) {
   setupTest(hooks);
 
   let route;
 
   hooks.beforeEach(function () {
-    route = this.owner.lookup('route:authenticated/autonomous-courses/list');
+    route = this.owner.lookup('route:authenticated/autonomous-courses/index');
   });
 
   module('#beforeModel', function () {

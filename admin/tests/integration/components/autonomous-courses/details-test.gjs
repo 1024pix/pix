@@ -6,7 +6,7 @@ import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | AutonomousCourses::Details', function (hooks) {
+module('Integration | Component | AutonomousCourses | Details', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let screen;
@@ -14,23 +14,16 @@ module('Integration | Component | AutonomousCourses::Details', function (hooks) 
   const autonomousCourse = {
     id: 123,
     publicTitle: 'Parkour',
-    internalTitle: 'titre interne',
+    internalTitle: 'Mon titre de parcours',
     customLandingPageText: "texte de la page d'accueil",
     code: 'CODE',
     createdAt: '2023-12-27T15:07:57.376Z',
+    rollbackAttributes: sinon.stub(),
+    save: sinon.stub(),
   };
 
-  const update = sinon.stub().callsFake(() => {
-    return Promise.resolve();
-  });
-  const reset = sinon.stub().callsFake(() => {
-    return Promise.resolve();
-  });
-
   hooks.beforeEach(async function () {
-    screen = await render(
-      <template><Details @autonomousCourse={{autonomousCourse}} @update={{update}} @reset={{reset}} /></template>,
-    );
+    screen = await render(<template><Details @autonomousCourse={{autonomousCourse}} /></template>);
   });
 
   test('it should display autonomous course', async function (assert) {
@@ -39,7 +32,7 @@ module('Integration | Component | AutonomousCourses::Details', function (hooks) 
 
     // then
     assert.dom(screen.getByText('123')).exists();
-    assert.strictEqual(screen.getAllByText('titre interne').length, 2);
+    assert.strictEqual(screen.getAllByText('Mon titre de parcours').length, 3);
     assert.dom(screen.getByText("texte de la page d'accueil")).exists();
     assert.dom(screen.getByText('27/12/2023')).exists();
     assert.ok(link.trim().endsWith('/campagnes/CODE'));
@@ -58,21 +51,7 @@ module('Integration | Component | AutonomousCourses::Details', function (hooks) 
     assert.dom(screen.getByText('Sauvegarder les modifications')).exists();
   });
 
-  test('it should call reset argument function on reset', async function (assert) {
-    // when
-    const editButton = screen.getByText('Modifier');
-    await click(editButton);
-
-    await fillByLabel(/Nom interne/, 'Une erreur de frappe');
-
-    const cancelButton = screen.getByText('Annuler');
-    await click(cancelButton);
-
-    // then
-    assert.ok(reset.calledOnce);
-  });
-
-  test('it should call update argument function on update', async function (assert) {
+  test('it should update the course', async function (assert) {
     // when
     const button = screen.getByText('Modifier');
     await click(button);
@@ -83,6 +62,8 @@ module('Integration | Component | AutonomousCourses::Details', function (hooks) 
     await click(submitButton);
 
     // then
-    assert.ok(update.calledOnce);
+    assert.ok(autonomousCourse.save.called);
+    assert.dom(screen.getByText('Modifier')).exists();
+    assert.dom(screen.queryByText('Sauvegarder les modifications')).doesNotExist();
   });
 });

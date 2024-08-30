@@ -54,7 +54,7 @@ module('Acceptance | Autonomous courses', function (hooks) {
     module('list page', function () {
       test('it should set autonomous course menubar item active', async function (assert) {
         // when
-        const screen = await visit('/autonomous-courses/list');
+        const screen = await visit('/autonomous-courses');
 
         // then
         assert.dom(screen.getByRole('link', { name: 'Parcours autonomes' })).hasClass('active');
@@ -76,7 +76,7 @@ module('Acceptance | Autonomous courses', function (hooks) {
         }
 
         // when
-        const screen = await visit('/autonomous-courses/list');
+        const screen = await visit('/autonomous-courses');
 
         await click(screen.getByRole('link', { name: 'Parcours autonome n°3' }));
 
@@ -86,7 +86,7 @@ module('Acceptance | Autonomous courses', function (hooks) {
 
       test('it should display a button to create a new autonomous course', async function (assert) {
         // when
-        const screen = await visit('/autonomous-courses/list');
+        const screen = await visit('/autonomous-courses');
 
         await click(screen.getByRole('link', { name: 'Nouveau parcours autonome' }));
 

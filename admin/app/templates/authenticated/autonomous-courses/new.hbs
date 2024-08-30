@@ -1,16 +1,6 @@
-{{page-title "Nouveau parcours autonome"}}
-
-<header class="page-header">
-  <div class="page-title">
-    <h1>Nouveau parcours autonome</h1>
-  </div>
-</header>
-
-<main class="main-admin-form">
-  <AutonomousCourses::CreateAutonomousCourseForm
-    @autonomousCourse={{this.model.autonomousCourse}}
-    @targetProfiles={{this.model.targetProfiles}}
-    @onSubmit={{this.createAutonomousCourse}}
-    @onCancel={{this.goBackToAutonomousCoursesList}}
-  />
-</main>
+<AutonomousCourses::New
+  @autonomousCourse={{this.model.autonomousCourse}}
+  @targetProfiles={{this.model.targetProfiles}}
+  @onSubmit={{this.createAutonomousCourse}}
+  @onCancel={{this.goBackToAutonomousCoursesList}}
+/>
