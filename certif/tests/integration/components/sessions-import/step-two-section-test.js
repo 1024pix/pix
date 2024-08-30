@@ -174,7 +174,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
           hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} @validateSessions={{this.validateSessions}} />`,
         );
 
-        await click(getByRole('button', { name: '1 erreur bloquante' }));
+        await click(getByRole('button', { name: 'Erreur bloquante 1 erreur' }));
 
         // then
         assert.dom(getByText(`Ligne 5 : ${expectedMessage}`)).exists();
@@ -221,7 +221,11 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
           hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} @validateSessions={{this.validateSessions}} />`,
         );
 
-        await click(getByRole('button', { name: '1 point d’attention non bloquant' }));
+        await click(
+          getByRole('button', {
+            name: 'Point d’attention non bloquant 1 erreur',
+          }),
+        );
 
         // then
         assert.dom(getByText(`Ligne 5 : ${expectedMessage}`)).exists();

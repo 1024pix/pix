@@ -28,6 +28,41 @@
         </p>
       </li>
     </ul>
+
+    {{#if (gt this.blockingErrorReportsCount 0)}}
+      <span class="import-page-section__information">
+        {{t "pages.sessions.import.step-two.blocking-errors.information"}}
+      </span>
+      <div>
+        <PixCollapsible
+          @titleIcon="circle-exclamation"
+          @title={{t
+            "pages.sessions.import.step-two.blocking-errors.title"
+            blockingErrorReportsCount=this.blockingErrorReportsCount
+          }}
+          @iconTitle="plus"
+          @tagContent={{t
+            "pages.sessions.import.step-two.blocking-errors.tag-information"
+            blockingErrorReportsCount=this.blockingErrorReportsCount
+          }}
+          @tagColor="error"
+          class="collapsible-header collapsible-header--blocking"
+        >
+          <ul class="collapsible-header__list">
+            {{#each this.translatedBlockingErrorReport as |report|}}
+              <li>
+                <PixMessage @type="error">
+                  {{t "pages.sessions.import.step-two.blocking-errors.line"}}
+                  {{report.line}}
+                  :
+                  {{report.message}}
+                </PixMessage>
+              </li>
+            {{/each}}
+          </ul>
+        </PixCollapsible>
+      </div>
+    {{/if}}
     {{#if (gt this.nonBlockingErrorReportsCount 0)}}
       <span class="import-page-section__information">
         {{t
@@ -43,6 +78,11 @@
             nonBlockingErrorReportsCount=this.nonBlockingErrorReportsCount
           }}
           @iconTitle="plus"
+          @tagContent={{t
+            "pages.sessions.import.step-two.non-blocking-errors.tag-information"
+            nonBlockingErrorReportsCount=this.nonBlockingErrorReportsCount
+          }}
+          @tagColor="secondary"
           class="collapsible-header collapsible-header--non-blocking"
         >
           <ul class="collapsible-header__list">
@@ -50,35 +90,6 @@
               <li>
                 <PixMessage @type="warning">
                   {{t "pages.sessions.import.step-two.non-blocking-errors.line"}}
-                  {{report.line}}
-                  :
-                  {{report.message}}
-                </PixMessage>
-              </li>
-            {{/each}}
-          </ul>
-        </PixCollapsible>
-      </div>
-    {{/if}}
-    {{#if (gt this.blockingErrorReportsCount 0)}}
-      <span class="import-page-section__information">
-        {{t "pages.sessions.import.step-two.blocking-errors.information"}}
-      </span>
-      <div>
-        <PixCollapsible
-          @titleIcon="circle-exclamation"
-          @title={{t
-            "pages.sessions.import.step-two.blocking-errors.title"
-            blockingErrorReportsCount=this.blockingErrorReportsCount
-          }}
-          @iconTitle="plus"
-          class="collapsible-header collapsible-header--blocking"
-        >
-          <ul class="collapsible-header__list">
-            {{#each this.translatedBlockingErrorReport as |report|}}
-              <li>
-                <PixMessage @type="error">
-                  {{t "pages.sessions.import.step-two.blocking-errors.line"}}
                   {{report.line}}
                   :
                   {{report.message}}
