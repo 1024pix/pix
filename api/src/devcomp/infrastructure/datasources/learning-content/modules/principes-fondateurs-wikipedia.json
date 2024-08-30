@@ -61,19 +61,19 @@
                   "instruction": "<p>Devinette&nbsp;: Quels sont les éléments présents dans le logo actuel de Wikipédia ?</p>",
                   "proposals": [
                     {
-                      "id": "051ffcb1-6c7a-435c-9a6a-2ee1029b69bd",
+                      "id": "1",
                       "content": "<p>Des pièces de puzzle</p>"
                     },
                     {
-                      "id": "192c2d39-be82-44ff-b611-1e506bf80a6f",
+                      "id": "2",
                       "content": "<p>Les différents continents</p>"
                     },
                     {
-                      "id": "42169b7d-7715-48e5-9f22-3b9f0b7306a1",
+                      "id": "3",
                       "content": "<p>Des animaux</p>"
                     },
                     {
-                      "id": "b8c385b4-425d-4abf-a01b-1032e0477d90",
+                      "id": "4",
                       "content": "<p>Des lettres de différentes langues</p>"
                     }
                   ],
