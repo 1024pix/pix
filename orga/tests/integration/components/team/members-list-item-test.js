@@ -7,6 +7,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { waitForDialogClose } from '../../../helpers/wait-for';
 
 module('Integration | Component | Team::MembersListItem', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -299,7 +300,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         // then
         sinon.assert.calledWith(removeMembershipStub, memberMembership);
 
-        await waitForElementToBeRemoved(() => screen.queryByRole('dialog'));
+        await waitForDialogClose();
 
         assert
           .dom(
