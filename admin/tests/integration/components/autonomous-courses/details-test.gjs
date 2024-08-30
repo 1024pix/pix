@@ -23,6 +23,12 @@ module('Integration | Component | AutonomousCourses | Details', function (hooks)
   };
 
   hooks.beforeEach(async function () {
+    const serviceRouter = this.owner.lookup('service:router');
+    sinon.stub(serviceRouter, 'currentRouteName').value('authenticated.autonomous-courses.details');
+    sinon
+      .stub(serviceRouter, 'currentRoute')
+      .value({ localName: 'details', parent: { name: 'authenticated.autonomous-courses' } });
+
     screen = await render(<template><Details @autonomousCourse={{autonomousCourse}} /></template>);
   });
 

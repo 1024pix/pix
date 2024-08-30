@@ -1,6 +1,6 @@
 /* stylelint-disable selector-class-pattern */
 .page {
-  .page-header {
+  header, .page-header {
     top: 0;
     right: 0;
     left: 80px;
@@ -60,7 +60,7 @@
         margin-bottom: 20px;
       }
 
-      &__title {
+      h2, &__title {
         @extend %pix-title-xs;
 
         &--sub {
