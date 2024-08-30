@@ -2,6 +2,7 @@ import {
   FEATURE_LEARNER_IMPORT_ID,
   FEATURE_MISSIONS_MANAGEMENT_ID,
   IMPORT_FORMAT_ONDE_ID,
+  USER_ID_ADMIN_ORGANIZATION,
   USER_ID_MEMBER_ORGANIZATION,
 } from '../common/constants.js';
 import * as tooling from '../common/tooling/index.js';
@@ -47,7 +48,7 @@ async function _createSco1dOrganizations(databaseBuilder) {
     isManagingStudents: true,
     externalId: 'PIX1D_1',
     tagIds: [],
-    adminIds: [TEAM_1D_USER_ID],
+    adminIds: [TEAM_1D_USER_ID, USER_ID_ADMIN_ORGANIZATION],
     memberIds: [USER_ID_MEMBER_ORGANIZATION],
     features: [
       { id: FEATURE_MISSIONS_MANAGEMENT_ID },

@@ -850,6 +850,7 @@
       "title": "Missions",
       "details": {
         "title": "Mission's information",
+        "button-label": "View the mission documentation",
         "competence": {
           "title": "Competence :"
         },
@@ -910,7 +911,7 @@
             "title": "Step 2 : To enable pupils to access your school's Pix Junior space, you can :",
             "option1": "use the&nbsp'<'a href=\"{pixJuniorUrl}\"'>'junior.pix.fr'</a>'&nbsplink. You will be asked for your school's code each time you connect.",
             "option2": {
-              "body" : "or use the direct link &nbsp'<'a href=\"{pixJuniorUrl}\" target=_blank '>'junior.pix.fr/schools/{code}'</a>'",
+              "body": "or use the direct link &nbsp'<'a href=\"{pixJuniorUrl}\" target=_blank '>'junior.pix.fr/schools/{code}'</a>'",
               "hint": "You can save this bookmark on your computers."
             }
           },

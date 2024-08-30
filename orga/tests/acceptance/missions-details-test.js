@@ -34,6 +34,47 @@ module('Acceptance | Missions Detail', function (hooks) {
     assert.dom(screen.getByText('Super competence')).exists();
     assert.dom(screen.getByText('Super Objectif')).exists();
   });
+  module('documentation button', function () {
+    test('when mission has a documentation, should display button', async function (assert) {
+      // given
+      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      const prescriber = createPrescriberByUser({ user });
+      prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
+      await authenticateSession(user.id);
+
+      server.create('mission', {
+        id: 1,
+        name: 'Super Mission',
+        competenceName: 'Super competence',
+        learningObjectives: 'Super Objectif',
+        documentationUrl: 'http://madoc.pix.fr',
+      });
+
+      const screen = await visit('/missions/1');
+      assert.dom(screen.getByRole('link', { name: t('pages.missions.details.button-label') })).exists();
+      assert.strictEqual(
+        screen.getByRole('link', { name: t('pages.missions.details.button-label') }).href,
+        'http://madoc.pix.fr/',
+      );
+    });
+    test('when mission has not a documentation, should not display any button', async function (assert) {
+      // given
+      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      const prescriber = createPrescriberByUser({ user });
+      prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
+      await authenticateSession(user.id);
+
+      server.create('mission', {
+        id: 1,
+        name: 'Super Mission',
+        competenceName: 'Super competence',
+        learningObjectives: 'Super Objectif',
+      });
+
+      const screen = await visit('/missions/1');
+      assert.dom(screen.queryByRole('link', { name: t('pages.missions.details.button-label') })).doesNotExist();
+    });
+  });
 
   module('when there is no mission learners', function () {
     test('should display empty state', async function (assert) {

@@ -12,6 +12,7 @@ const serialize = function (missions) {
       'introductionMediaUrl',
       'introductionMediaType',
       'introductionMediaAlt',
+      'documentationUrl',
     ],
   }).serialize(missions);
 };

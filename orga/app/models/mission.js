@@ -5,4 +5,5 @@ export default class Mission extends Model {
   @attr('string') competenceName;
   @attr('string') startedBy;
   @attr('string') learningObjectives;
+  @attr('string') documentationUrl;
 }

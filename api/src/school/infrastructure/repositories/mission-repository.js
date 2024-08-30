@@ -21,6 +21,7 @@ function _toDomain(data, locale) {
     introductionMediaUrl: data.introductionMediaUrl,
     introductionMediaType: data.introductionMediaType,
     introductionMediaAlt: data.introductionMediaAlt,
+    documentationUrl: data.documentationUrl,
     content: data.content,
   });
 }
