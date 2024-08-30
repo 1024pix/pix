@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v4.206.0 (30/08/2024)
+
+
+### :rocket: Amélioration
+- [#9997](https://github.com/1024pix/pix/pull/9997) [FEATURE] Ajouter un lien pour accéder à la documentation d'une mission (Pix-13775).
+- [#9954](https://github.com/1024pix/pix/pull/9954) [FEATURE] Ajout des stepper-step sur les modules du MVP.
+- [#9996](https://github.com/1024pix/pix/pull/9996) [FEATURE] Changement des couleurs de fonds Modulix (PIX-14066).
+
+### :building_construction: Tech
+- [#10002](https://github.com/1024pix/pix/pull/10002) [TECH] Suppression de scripts certification plus utilisés (PIX-14069).
+
+### :bug: Correction
+- [#10003](https://github.com/1024pix/pix/pull/10003) [BUGFIX] Vérifier si l'utilisateur est membre de l'orga pour accéder aux stats de places (PIX-14083).
+- [#9967](https://github.com/1024pix/pix/pull/9967) [BUGFIX] Tentative de reduction des erreurs 500 a la creation du certification course (PIX-13997).
+
 ## v4.205.0 (29/08/2024)
 
 
