@@ -6,6 +6,7 @@ import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
+  knex,
 } from '../../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -145,6 +146,7 @@ describe('Acceptance | Controller | Session | certification-candidate-route', fu
         sessionId,
         userId: null,
         billingMode: CertificationCandidate.BILLING_MODES.PREPAID,
+        accessibilityAdjustmentNeeded: false,
       }).id;
       const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         id: 10000006,
@@ -180,6 +182,11 @@ describe('Acceptance | Controller | Session | certification-candidate-route', fu
       const response = await server.inject(options);
 
       // then
+      const [{ accessibilityAdjustmentNeeded: candidateAccessibilityAdjustmentNeededExpected }] = await knex
+        .select('accessibilityAdjustmentNeeded')
+        .from('certification-candidates')
+        .where({ id: candidateId });
+      expect(candidateAccessibilityAdjustmentNeededExpected).to.equal(true);
       expect(response.statusCode).to.equal(204);
     });
   });

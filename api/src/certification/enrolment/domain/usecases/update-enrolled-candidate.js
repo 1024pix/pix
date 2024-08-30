@@ -1,20 +1,19 @@
 /**
- * @typedef {import('./index.js').EnrolledCandidateRepository} EnrolledCandidateRepository
+ * @typedef {import('./index.js').CandidateRepository} CandidateRepository
  */
 
 import {
   CandidateAlreadyLinkedToUserError,
   CertificationCandidateNotFoundError,
 } from '../../../../shared/domain/errors.js';
-import { Candidate } from '../models/Candidate.js';
 
 /**
  * @param {Object} params
  * @param {EditedCandidate} params.editedCandidate
- * @param {EnrolledCandidateRepository} params.enrolledCandidateRepository
+ * @param {CandidateRepository} params.candidateRepository
  */
-const updateEnrolledCandidate = async function ({ editedCandidate, enrolledCandidateRepository }) {
-  const foundCandidate = await enrolledCandidateRepository.get({ id: editedCandidate.id });
+const updateEnrolledCandidate = async function ({ editedCandidate, candidateRepository }) {
+  const foundCandidate = await candidateRepository.get({ certificationCandidateId: editedCandidate.id });
 
   if (!foundCandidate) {
     throw new CertificationCandidateNotFoundError();
@@ -24,12 +23,9 @@ const updateEnrolledCandidate = async function ({ editedCandidate, enrolledCandi
     throw new CandidateAlreadyLinkedToUserError();
   }
 
-  const candidate = new Candidate({
-    ...foundCandidate,
-    accessibilityAdjustmentNeeded: editedCandidate.accessibilityAdjustmentNeeded,
-  });
+  foundCandidate.updateAccessibilityAdjustmentNeededStatus(editedCandidate.accessibilityAdjustmentNeeded);
 
-  return enrolledCandidateRepository.update({ candidate });
+  return candidateRepository.update(foundCandidate);
 };
 
 export { updateEnrolledCandidate };

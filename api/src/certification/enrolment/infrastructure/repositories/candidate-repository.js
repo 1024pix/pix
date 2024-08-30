@@ -189,6 +189,7 @@ function adaptModelToDb(candidate) {
     billingMode: candidate.billingMode,
     prepaymentCode: candidate.prepaymentCode,
     hasSeenCertificationInstructions: candidate.hasSeenCertificationInstructions,
+    accessibilityAdjustmentNeeded: candidate.accessibilityAdjustmentNeeded,
   };
 }
 

@@ -69,6 +69,10 @@ export class Candidate {
     this.userId = userId;
   }
 
+  updateAccessibilityAdjustmentNeededStatus(newAdjustmentStatus) {
+    this.accessibilityAdjustmentNeeded = newAdjustmentStatus;
+  }
+
   validateCertificationInstructions() {
     this.hasSeenCertificationInstructions = true;
   }
