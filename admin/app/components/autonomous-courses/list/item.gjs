@@ -20,11 +20,11 @@ import formatDate from '../../../helpers/format-date';
     <td>
       {{#if @item.archivedAt}}
         <PixTag @color="grey-light">
-          {{t "components.autonomous-course.list.status.archived"}}
+          {{t "components.autonomous-courses.list.status.archived"}}
         </PixTag>
       {{else}}
         <PixTag @color="green-light">
-          {{t "components.autonomous-course.list.status.active"}}
+          {{t "components.autonomous-courses.list.status.active"}}
         </PixTag>
       {{/if}}
     </td>

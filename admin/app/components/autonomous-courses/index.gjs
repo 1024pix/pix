@@ -3,9 +3,9 @@ import { t } from 'ember-intl';
 
 <template>
   <header class="page-header">
-    <h1 class="page-title">{{t "components.autonomous-course.title"}}</h1>
+    <h1 class="page-title">{{t "components.autonomous-courses.title"}}</h1>
     <PixButtonLink @route="authenticated.autonomous-courses.new" @variant="secondary">
-      {{t "components.autonomous-course.actions.new"}}
+      {{t "components.autonomous-courses.actions.new"}}
     </PixButtonLink>
   </header>
 

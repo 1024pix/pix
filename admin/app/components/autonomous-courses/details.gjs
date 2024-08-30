@@ -43,7 +43,7 @@ export default class Details extends Component {
   <template>
     <header class="page-header">
       <div class="page-title">
-        <LinkTo @route="authenticated.autonomous-courses">{{t "components.autonomous-course.title"}}</LinkTo>
+        <LinkTo @route="authenticated.autonomous-courses">{{t "components.autonomous-courses.title"}}</LinkTo>
         <span class="wire">&nbsp;>&nbsp;</span>
         <h1>{{@autonomousCourse.internalTitle}}</h1>
       </div>

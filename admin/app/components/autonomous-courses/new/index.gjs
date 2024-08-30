@@ -19,7 +19,7 @@ export default class NewAutonomousCourse extends Component {
   }
 
   get translatedTitle() {
-    return this.intl.t('components.autonomous-course.new.title');
+    return this.intl.t('components.autonomous-courses.new.title');
   }
 
   @action
@@ -104,7 +104,7 @@ export default class NewAutonomousCourse extends Component {
             @isLoading={{this.submitting}}
             @triggerAction={{this.noop}}
           >
-            {{t "components.autonomous-course.new.create-autonomous-course"}}
+            {{t "components.autonomous-courses.new.create-autonomous-course"}}
           </PixButton>
         </section>
       </form>
