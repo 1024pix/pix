@@ -2,7 +2,11 @@
 {{page-title (t "pages.certifications.title")}}
 <div class="page">
   <header class="page-header">
-    <h1 class="page-title">{{t "pages.certifications.title"}}</h1>
+    <div class="page-title">
+      <h1>
+        {{t "pages.certifications.title"}}
+      </h1>
+    </div>
     <div class="page-actions">
       <form class="form-inline" {{on "submit" this.loadCertification}}>
         <PixInput

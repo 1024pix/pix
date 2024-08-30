@@ -182,6 +182,26 @@
         }
       }
     },
+    "layout": {
+      "menu-bar": {
+        "entries": {
+          "administration": "Administration",
+          "autonomous-courses": "Parcours autonomes",
+          "certification-centers": "Centres de certification",
+          "certifications": "Certifications",
+          "complementary-certifications": "Certifications complémentaires",
+          "logout": "Se déconnecter",
+          "organizations": "Organisations",
+          "sessions": "Sessions de certifications",
+          "target-profiles": "Profils cibles",
+          "team": "Équipe",
+          "tools": "Outils",
+          "trainings": "Contenus formatifs",
+          "users": "Utilisateurs"
+        },
+        "label": "Navigation principale"
+      }
+    },
     "memberships-section": {
       "roles": {
         "admin": "Administrateur",
