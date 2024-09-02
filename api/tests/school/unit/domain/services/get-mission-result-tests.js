@@ -1,9 +1,10 @@
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { getMissionResult, results } from '../../../../../src/school/domain/services/get-mission-result.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
+
 const { EXCEEDED, REACHED, NOT_REACHED, PARTIALLY_REACHED } = results;
 
-describe('Unit | Domain | Pix Junior | get mission resultt', function () {
+describe('Unit | Domain | Pix Junior | get mission result', function () {
   // eslint-disable-next-line mocha/no-setup-in-describe
   [
     {
