@@ -159,7 +159,8 @@
           "element": {
             "id": "d96505a1-c5c0-4dbf-af9d-900453586d45",
             "type": "separator"
-          },
+          }
+        },  
         {
           "type": "element",
           "element": {
@@ -183,7 +184,8 @@
           "element": {
             "id": "681755b0-98b0-49fc-bddf-acfa6987a8da",
             "type": "separator"
-          },
+          }
+        }, 
         {
           "type": "element",
           "element": {
@@ -207,7 +209,8 @@
           "element": {
             "id": "7a9a75a3-2dbc-46d4-9d36-a34a8a771519",
             "type": "separator"
-          },
+          }
+        },
         {
           "type": "element",
           "element": {
@@ -310,7 +313,7 @@
                 {
                   "id": "35e0ae32-980e-45fc-bb69-b94da529d6fb",
                   "type": "text",
-                  "content": "<h3>Faites un clic gauche sur «&nbsp;Bon à savoir&nbsp;» ci-dessous pour faire apparaître du texte supplémentaire.</h3><br><br><details><summary>🤔 Bon à savoir</summary><p>Quand on dit cliquer, on veut dire "faire un clic gauche", car c'est le type de clic le plus courant</p></details><br><p>Faites un clic gauche sur le bouton «&nbsp;Suivant&nbsp;» ci-dessous.</p>"
+                  "content": "<h3>Faites un clic gauche sur «&nbsp;Bon à savoir&nbsp;» ci-dessous pour faire apparaître du texte supplémentaire.</h3><br><br><details><summary>🤔 Bon à savoir</summary><p>Quand on dit cliquer, on veut dire faire un clic gauche, car c'est le type de clic le plus courant</p></details><br><p>Faites un clic gauche sur le bouton «&nbsp;Suivant&nbsp;» ci-dessous.</p>"
                 }
               ]
             },
@@ -319,7 +322,7 @@
                 {
                   "id": "734ef21d-3850-40db-840e-e16253d8817b",
                   "type": "text",
-                  "content": "<h3><strong>Lancez la vidéo ci-dessous en appuyant sur le bouton «&nbsp;Play&nbsp;» </strong></h3><iframe width=\"700\" height=\"410\" src=\"https://youtu.be/czfvEpLfCV0?si=xims_g2kzScelpuG\" title=\"Bravo vous ête sur internet"></iframe><p>Pour accéder à la suite, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+                  "content": "<h3><strong>Lancez la vidéo ci-dessous en appuyant sur le bouton «&nbsp;Play&nbsp;» </strong></h3><iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/czfvEpLfCV0?si=2Q1MBBnh2-c-0CmD\" title=\"Bravo\"></iframe><p>Pour accéder à la suite, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
                 }
               ]
             }
