@@ -1,9 +1,9 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/tag-serializer.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/tag-serializer.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | tag-serializer', function () {
+describe('Unit | Organizational Entities | Serializer | JSONAPI | tag', function () {
   describe('#serialize', function () {
-    it('should convert a tag model to JSON', function () {
+    it('converts a tag model to JSON', function () {
       // given
       const tag = domainBuilder.buildTag({ name: 'TAG1' });
 
