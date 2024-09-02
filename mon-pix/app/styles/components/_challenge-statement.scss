@@ -60,7 +60,8 @@
     color: var(--pix-neutral-800);
 
     p {
-      overflow-wrap: break-word;
+      overflow-wrap: break-word; // keep break-word as fallback for older browsers
+      overflow-wrap: anywhere;
     }
 
     strong {
