@@ -2,10 +2,10 @@ import bluebird from 'bluebird';
 
 import { CertificationJuryDone } from '../../../../../lib/domain/events/CertificationJuryDone.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { AutoJuryDone } from '../events/AutoJuryDone.js';
 import { CertificationAssessment } from '../models/CertificationAssessment.js';
 import { CertificationIssueReportResolutionAttempt } from '../models/CertificationIssueReportResolutionAttempt.js';
 import { CertificationIssueReportResolutionStrategies } from '../models/CertificationIssueReportResolutionStrategies.js';
-import { AutoJuryDone } from '../read-models/AutoJuryDone.js';
 
 export const processAutoJury = async ({
   sessionFinalized,

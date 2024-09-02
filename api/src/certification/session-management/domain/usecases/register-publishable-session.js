@@ -1,5 +1,5 @@
 /**
- * @typedef {import('../read-models/AutoJuryDone.js').AutoJuryDone} AutoJuryDone
+ * @typedef {import('../events/AutoJuryDone.js').AutoJuryDone} AutoJuryDone
  *  @typedef {import('./index.js').JuryCertificationSummaryRepository} JuryCertificationSummaryRepository
  *  @typedef {import('./index.js').FinalizedSessionRepository} FinalizedSessionRepository
  *  @typedef {import('./index.js').SupervisorAccessRepository} SupervisorAccessRepository
