@@ -414,7 +414,7 @@
             "type": "embed",
             "isCompletionRequired": false,
             "title": "Simulateur de visioconférence",
-            "url": "https://epreuves.pix.fr/filemanager-visu/filemanager-visu.html?mode=filemanager_color&lang=fr#706c7b26595c5618544b474e431556565511631070697e7d58515619",
+            "url": "https://epreuves.pix.fr/filemanager-visu/filemanager-visu.html?mode=example&lang=fr",
             "instruction": "<p>Dans l'explorateur de fichier ci-dessous, double-cliquez sur les dossiers suivants&nbsp;:</p> <ul><li> Photos</li><li>Album</li><li>Famille</li><li>80 ans Mamie</li></ul>",
             "height": 600
           }
