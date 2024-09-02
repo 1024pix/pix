@@ -8,7 +8,6 @@ import { ShareableCertificate } from '../../../certification/results/domain/mode
 import { CertificationAssessmentScore } from '../../../certification/scoring/domain/models/CertificationAssessmentScore.js';
 import { CertificationCandidateForSupervising } from '../../../certification/session-management/domain/models/CertificationCandidateForSupervising.js';
 import { CertificationOfficer } from '../../../certification/session-management/domain/models/CertificationOfficer.js';
-import { FinalizedSession } from '../../../certification/session-management/domain/models/FinalizedSession.js';
 import { CertificationCourse } from '../../../certification/shared/domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../../certification/shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../certification/shared/domain/models/CertificationIssueReportCategory.js';
@@ -185,7 +184,6 @@ export {
   DataProtectionOfficer,
   EmailingAttempt,
   Examiner,
-  FinalizedSession,
   FlashAssessmentAlgorithm,
   Framework,
   Group,
