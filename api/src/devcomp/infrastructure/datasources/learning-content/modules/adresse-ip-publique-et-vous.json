@@ -494,14 +494,6 @@
         {
           "type": "element",
           "element": {
-            "id": "83c57d2b-c2d8-46fe-9b1c-051a58dcf890",
-            "type": "text",
-            "content": "<h3>Indice n°1&nbsp;:</h3><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p><h3>Indice n°2&nbsp;:</h3><p>Pour votre recherche, utilisez les mots-clés \"trouver\" et \"mon adresse IP\".</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
             "id": "0856af53-1060-478f-8416-ddbc5ed3940c",
             "type": "text",
             "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><details><summary>Indice n°1&nbsp;:</summary><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p></details><details><summary>Indice n°2&nbsp;:</summary><p>Pour votre recherche, utilisez les mots-clés \"trouver\" et \"mon adresse IP\".</p></details>"
