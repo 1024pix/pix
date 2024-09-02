@@ -28,6 +28,9 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
 
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCourseRepository} CertificationCourseRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').FinalizedSessionRepository} FinalizedSessionRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').JuryCertificationSummaryRepository} JuryCertificationSummaryRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').SupervisorAccessRepository} SupervisorAccessRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationOfficerRepository} CertificationOfficerRepository
  * @typedef {import('../../infrastructure/repositories/index.js').FinalizedSessionRepository} FinalizedSessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').JuryCertificationRepository} JuryCertificationRepository

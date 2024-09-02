@@ -1,8 +1,8 @@
 import bluebird from 'bluebird';
 
-import { AutoJuryDone } from '../../../../../lib/domain/events/AutoJuryDone.js';
 import { CertificationJuryDone } from '../../../../../lib/domain/events/CertificationJuryDone.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { AutoJuryDone } from '../events/AutoJuryDone.js';
 import { CertificationAssessment } from '../models/CertificationAssessment.js';
 import { CertificationIssueReportResolutionAttempt } from '../models/CertificationIssueReportResolutionAttempt.js';
 import { CertificationIssueReportResolutionStrategies } from '../models/CertificationIssueReportResolutionStrategies.js';
@@ -77,9 +77,9 @@ async function _handleAutoJuryV2({
     }
   }
 
-  return [
-    ...certificationJuryDoneEvents,
-    new AutoJuryDone({
+  return {
+    certificationJuryDoneEvents,
+    autoJuryDone: new AutoJuryDone({
       sessionId: sessionFinalized.sessionId,
       finalizedAt: sessionFinalized.finalizedAt,
       certificationCenterName: sessionFinalized.certificationCenterName,
@@ -87,7 +87,7 @@ async function _handleAutoJuryV2({
       sessionTime: sessionFinalized.sessionTime,
       hasExaminerGlobalComment: sessionFinalized.hasExaminerGlobalComment,
     }),
-  ];
+  };
 }
 
 function _areV3CertificationCourses(certificationCourses) {
@@ -115,9 +115,9 @@ async function _handleAutoJuryV3({ sessionFinalized, certificationCourses, certi
     await certificationAssessmentRepository.save(certificationAssessment);
   }
 
-  return [
-    ...certificationJuryDoneEvents,
-    new AutoJuryDone({
+  return {
+    certificationJuryDoneEvents,
+    autoJuryDone: new AutoJuryDone({
       sessionId: sessionFinalized.sessionId,
       finalizedAt: sessionFinalized.finalizedAt,
       certificationCenterName: sessionFinalized.certificationCenterName,
@@ -125,7 +125,7 @@ async function _handleAutoJuryV3({ sessionFinalized, certificationCourses, certi
       sessionTime: sessionFinalized.sessionTime,
       hasExaminerGlobalComment: sessionFinalized.hasExaminerGlobalComment,
     }),
-  ];
+  };
 }
 
 function _v3CertificationShouldBeScored(certificationAssessment) {

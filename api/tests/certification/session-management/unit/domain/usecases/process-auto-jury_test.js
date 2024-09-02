@@ -1,5 +1,5 @@
-import { AutoJuryDone } from '../../../../../../lib/domain/events/AutoJuryDone.js';
 import { CertificationJuryDone } from '../../../../../../lib/domain/events/CertificationJuryDone.js';
+import { AutoJuryDone } from '../../../../../../src/certification/session-management/domain/events/AutoJuryDone.js';
 import { CertificationAssessment } from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { SessionFinalized } from '../../../../../../src/certification/session-management/domain/read-models/SessionFinalized.js';
 import { processAutoJury } from '../../../../../../src/certification/session-management/domain/usecases/process-auto-jury.js';
@@ -11,7 +11,7 @@ import {
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | Events | handle-auto-jury', function () {
+describe('Unit | UseCase | process-auto-jury', function () {
   describe('when certification is V2', function () {
     it('auto neutralizes challenges', async function () {
       // given
@@ -125,7 +125,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       });
 
       // when
-      const resultEvents = await processAutoJury({
+      const { autoJuryDone } = await processAutoJury({
         sessionFinalized,
         certificationIssueReportRepository,
         certificationAssessmentRepository,
@@ -133,9 +133,8 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       });
 
       // then
-      const autoJuryDoneEvent = resultEvents[resultEvents.length - 1];
-      expect(autoJuryDoneEvent).to.be.an.instanceof(AutoJuryDone);
-      expect(autoJuryDoneEvent).to.deep.equal(
+      expect(autoJuryDone).to.be.an.instanceof(AutoJuryDone);
+      expect(autoJuryDone).to.deep.equal(
         new AutoJuryDone({
           sessionId: 1234,
           finalizedAt: now,
@@ -188,7 +187,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       });
 
       // when
-      const events = await processAutoJury({
+      const { certificationJuryDoneEvents } = await processAutoJury({
         sessionFinalized,
         certificationIssueReportRepository,
         certificationAssessmentRepository,
@@ -196,8 +195,8 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       });
 
       // then
-      expect(events[0]).to.be.an.instanceof(CertificationJuryDone);
-      expect(events[0]).to.deep.equal(
+      expect(certificationJuryDoneEvents[0]).to.be.an.instanceof(CertificationJuryDone);
+      expect(certificationJuryDoneEvents[0]).to.deep.equal(
         new CertificationJuryDone({
           certificationCourseId: certificationCourse.getId(),
         }),
@@ -237,7 +236,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // when
-        const events = await processAutoJury({
+        const { certificationJuryDoneEvents } = await processAutoJury({
           sessionFinalized,
           certificationIssueReportRepository,
           certificationAssessmentRepository,
@@ -245,7 +244,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // then
-        expect(events[0]).to.deepEqualInstance(
+        expect(certificationJuryDoneEvents[0]).to.deepEqualInstance(
           new CertificationJuryDone({
             certificationCourseId: certificationCourse.getId(),
           }),
@@ -514,7 +513,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // when
-        const events = await processAutoJury({
+        const { certificationJuryDoneEvents } = await processAutoJury({
           sessionFinalized,
           certificationIssueReportRepository,
           certificationAssessmentRepository,
@@ -522,8 +521,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // then
-        expect(events[0]).not.to.be.an.instanceof(CertificationJuryDone);
-        expect(events.length).to.equal(1);
+        expect(certificationJuryDoneEvents).to.be.empty;
       });
     });
 
@@ -567,7 +565,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // when
-        const events = await processAutoJury({
+        const { certificationJuryDoneEvents } = await processAutoJury({
           sessionFinalized,
           certificationIssueReportRepository,
           certificationAssessmentRepository,
@@ -575,8 +573,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // then
-        expect(events.length).to.equal(1);
-        expect(events[0]).not.to.be.an.instanceOf(CertificationJuryDone);
+        expect(certificationJuryDoneEvents).to.be.empty;
       });
     });
 
@@ -623,7 +620,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // when
-        const events = await processAutoJury({
+        const { certificationJuryDoneEvents } = await processAutoJury({
           sessionFinalized,
           certificationIssueReportRepository,
           certificationAssessmentRepository,
@@ -631,8 +628,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // then
-        expect(events.length).to.equal(1);
-        expect(events[0]).not.to.be.an.instanceOf(CertificationJuryDone);
+        expect(certificationJuryDoneEvents).to.be.empty;
       });
     });
 
@@ -762,7 +758,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       });
 
       // when
-      const resultEvents = await processAutoJury({
+      const { autoJuryDone } = await processAutoJury({
         sessionFinalized,
         certificationIssueReportRepository,
         certificationAssessmentRepository,
@@ -770,9 +766,8 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       });
 
       // then
-      const autoJuryDoneEvent = resultEvents[resultEvents.length - 1];
-      expect(autoJuryDoneEvent).to.be.an.instanceof(AutoJuryDone);
-      expect(autoJuryDoneEvent).to.deep.equal(
+      expect(autoJuryDone).to.be.an.instanceof(AutoJuryDone);
+      expect(autoJuryDone).to.deep.equal(
         new AutoJuryDone({
           sessionId: 1234,
           finalizedAt: now,
@@ -814,7 +809,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       });
 
       // when
-      const events = await processAutoJury({
+      const { certificationJuryDoneEvents } = await processAutoJury({
         sessionFinalized,
         certificationIssueReportRepository,
         certificationAssessmentRepository,
@@ -822,8 +817,8 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       });
 
       // then
-      expect(events[0]).to.be.an.instanceof(CertificationJuryDone);
-      expect(events[0]).to.deep.equal(
+      expect(certificationJuryDoneEvents[0]).to.be.an.instanceof(CertificationJuryDone);
+      expect(certificationJuryDoneEvents[0]).to.deep.equal(
         new CertificationJuryDone({
           certificationCourseId: certificationCourse.getId(),
         }),
@@ -849,7 +844,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // when
-        const events = await processAutoJury({
+        const { certificationJuryDoneEvents } = await processAutoJury({
           sessionFinalized,
           certificationIssueReportRepository,
           certificationAssessmentRepository,
@@ -857,7 +852,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // then
-        expect(events[0]).to.deepEqualInstance(
+        expect(certificationJuryDoneEvents[0]).to.deepEqualInstance(
           new CertificationJuryDone({
             certificationCourseId: certificationCourse.getId(),
           }),
@@ -965,7 +960,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // when
-        const events = await processAutoJury({
+        const { certificationJuryDoneEvents } = await processAutoJury({
           sessionFinalized,
           certificationIssueReportRepository,
           certificationAssessmentRepository,
@@ -973,7 +968,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // then
-        expect(events[0]).to.deepEqualInstance(
+        expect(certificationJuryDoneEvents[0]).to.deepEqualInstance(
           new CertificationJuryDone({
             certificationCourseId: certificationCourse.getId(),
           }),
@@ -1000,7 +995,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // when
-        const events = await processAutoJury({
+        const { autoJuryDone } = await processAutoJury({
           sessionFinalized,
           certificationIssueReportRepository,
           certificationAssessmentRepository,
@@ -1008,7 +1003,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // then
-        expect(events[0]).to.be.instanceOf(AutoJuryDone);
+        expect(autoJuryDone).to.be.instanceOf(AutoJuryDone);
       });
     });
 
@@ -1047,7 +1042,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // when
-        const events = await processAutoJury({
+        const { certificationJuryDoneEvents } = await processAutoJury({
           sessionFinalized,
           certificationIssueReportRepository,
           certificationAssessmentRepository,
@@ -1055,8 +1050,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // then
-        expect(events[0]).not.to.be.an.instanceof(CertificationJuryDone);
-        expect(events.length).to.equal(1);
+        expect(certificationJuryDoneEvents).to.be.empty;
       });
     });
 
@@ -1095,7 +1089,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // when
-        const events = await processAutoJury({
+        const { certificationJuryDoneEvents } = await processAutoJury({
           sessionFinalized,
           certificationIssueReportRepository,
           certificationAssessmentRepository,
@@ -1103,8 +1097,8 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
 
         // then
-        expect(events.length).to.equal(2);
-        expect(events[0]).to.be.an.instanceOf(CertificationJuryDone);
+        expect(certificationJuryDoneEvents).to.have.lengthOf(1);
+        expect(certificationJuryDoneEvents[0]).to.be.an.instanceOf(CertificationJuryDone);
       });
     });
   });

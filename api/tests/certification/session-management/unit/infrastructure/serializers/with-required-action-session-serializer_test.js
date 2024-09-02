@@ -1,5 +1,5 @@
+import { FinalizedSession } from '../../../../../../src/certification/session-management/domain/models/FinalizedSession.js';
 import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/with-required-action-session-serializer.js';
-import { FinalizedSession } from '../../../../../../src/certification/shared/domain/models/FinalizedSession.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Certification | Session-management | Unit | Infrastructure | Serializers | with-required-action-session-serializer', function () {

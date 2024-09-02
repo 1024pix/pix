@@ -14,7 +14,6 @@ import { CertificationIssueReportCategory } from '../../../certification/shared/
 import { CertificationReport } from '../../../certification/shared/domain/models/CertificationReport.js';
 import { CompetenceMark } from '../../../certification/shared/domain/models/CompetenceMark.js';
 import { ComplementaryCertificationCourseResult } from '../../../certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-import { FinalizedSession } from '../../../certification/shared/domain/models/FinalizedSession.js';
 import { Training } from '../../../devcomp/domain/models/Training.js';
 import { TrainingTrigger } from '../../../devcomp/domain/models/TrainingTrigger.js';
 import { TrainingTriggerTube } from '../../../devcomp/domain/models/TrainingTriggerTube.js';
@@ -185,7 +184,6 @@ export {
   DataProtectionOfficer,
   EmailingAttempt,
   Examiner,
-  FinalizedSession,
   FlashAssessmentAlgorithm,
   Framework,
   Group,

@@ -1,13 +1,13 @@
-import * as juryCertificationSummaryRepository from '../../../../lib/infrastructure/repositories/jury-certification-summary-repository.js';
-import { JuryCertificationSummary } from '../../../../src/certification/session-management/domain/read-models/JuryCertificationSummary.js';
+import { JuryCertificationSummary } from '../../../../../../src/certification/session-management/domain/read-models/JuryCertificationSummary.js';
+import * as juryCertificationSummaryRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/jury-certification-summary-repository.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
   ImpactfulSubcategories,
-} from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { status as assessmentResultStatuses } from '../../../../src/shared/domain/models/AssessmentResult.js';
-import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
+} from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { status as assessmentResultStatuses } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | JuryCertificationSummary', function () {
   describe('#findBySessionId', function () {
@@ -22,7 +22,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
 
       it('should return an empty array', async function () {
         // when
-        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId({ sessionId });
 
         // then
         expect(juryCertificationSummaries).to.have.length(0);
@@ -75,7 +75,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
 
       it('should return an array of JuryCertificationSummary sorted by name', async function () {
         // when
-        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId({ sessionId });
 
         // then
         const expectedJuryCertificationSummary = domainBuilder.buildJuryCertificationSummary({
@@ -110,7 +110,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
       context('when the certification has assessment-results', function () {
         it('should return JuryCertificationSummary based on their latest assessment result', async function () {
           // when
-          const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+          const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId({ sessionId });
 
           // then
           expect(juryCertificationSummaries[0].pixScore).to.equal(latestAssessmentResult.pixScore);
@@ -129,7 +129,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
       context('when the certification has no assessment-result', function () {
         it('should return all juryCertificationSummaries with status started', async function () {
           // when
-          const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+          const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId({ sessionId });
 
           // then
           expect(juryCertificationSummaries[1].id).to.equal(startedCertification.id);
@@ -162,7 +162,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         await databaseBuilder.commit();
 
         // when
-        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId({ sessionId });
 
         // then
         expect(juryCertificationSummaries[0].status).to.equal('endedBySupervisor');
@@ -207,7 +207,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         await databaseBuilder.commit();
 
         // when
-        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId({ sessionId });
         const certificationIssueReports = juryCertificationSummaries[0].certificationIssueReports;
 
         // then
@@ -263,7 +263,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
       await databaseBuilder.commit();
 
       // when
-      const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+      const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId({ sessionId });
 
       // then
       expect(juryCertificationSummaries).to.have.lengthOf(1);
