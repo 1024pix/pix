@@ -330,17 +330,10 @@
         {
           "type": "element",
           "element": {
-            "id": "92a9f441-41c2-4e23-966c-bd1f172fbe45",
-            "type": "text",
-            "content": "<hr>Si vous êtes bloqué, vous pouvez lire les indices ci-dessous."
-          }
-        },
-        {
-          "type": "element",
-          "element": {
             "id": "0856af53-1060-478f-8416-ddbc5ed3940c",
             "type": "text",
-            "content": "<h3>Indice n°1&nbsp;:</h3><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p><h3>Indice n°2&nbsp;:</h3><p>Pour votre recherche, utilisez les mots-clés \"localisation\" et \"adresse IP\".</p>"
+            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><details><summary>Indice n°1&nbsp;:</summary><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p></details><details><summary>Indice n°2&nbsp;:</summary><p>Pour votre recherche, utilisez les mots-clés \"localisation\" et \"adresse IP\".</p></details>"
+            
           }
         }
       ]
