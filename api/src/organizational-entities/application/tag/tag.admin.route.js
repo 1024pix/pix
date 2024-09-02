@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
-import { tagController } from '../../../../lib/application/tags/tag-controller.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { tagAdminController } from './tag.admin.controller.js';
 
 const register = async function (server) {
   server.route([
@@ -28,7 +28,7 @@ const register = async function (server) {
             allowUnknown: true,
           },
         },
-        handler: (request, h) => tagController.create(request, h),
+        handler: (request, h) => tagAdminController.create(request, h),
         tags: ['api', 'admin', 'tags'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés ayant le role Super Admin**\n' +

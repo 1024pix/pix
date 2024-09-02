@@ -1,4 +1,4 @@
-import { tagController } from '../../../../../lib/application/tags/tag-controller.js';
+import { tagAdminController } from '../../../../../src/organizational-entities/application/tag/tag.admin.controller.js';
 import * as tagAdminRoutes from '../../../../../src/organizational-entities/application/tag/tag.admin.route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
@@ -7,7 +7,7 @@ describe('Integration | Route | Admin | Tag', function () {
   describe('POST /api/admin/tags', function () {
     it('returns forbidden access if admin member has CERTIF or SUPPORT or METIER role', async function () {
       // given
-      sinon.stub(tagController, 'create').resolves('ok');
+      sinon.stub(tagAdminController, 'create').resolves('ok');
 
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
@@ -31,7 +31,7 @@ describe('Integration | Route | Admin | Tag', function () {
 
       // then
       expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(tagController.create);
+      sinon.assert.notCalled(tagAdminController.create);
     });
   });
 });
