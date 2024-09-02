@@ -333,7 +333,7 @@
             "id": "0856af53-1060-478f-8416-ddbc5ed3940c",
             "type": "text",
             "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><details><summary>Indice n°1&nbsp;:</summary><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p></details><details><summary>Indice n°2&nbsp;:</summary><p>Pour votre recherche, utilisez les mots-clés \"localisation\" et \"adresse IP\".</p></details>"
-            
+
           }
         }
       ]
@@ -381,7 +381,7 @@
           "element": {
             "id": "9bc62c21-dfd4-40a8-9497-680a7e1c13d9",
             "type": "text",
-            "content": "<p>Pour chaque affirmation, choisissez si elle correspond à une IP publique ou à une IP privée.</p>"
+            "content": "<p>Pour chaque question, choisissez si elle correspond à une IP publique ou à une IP privée.</p>"
           }
         },
         {
@@ -392,7 +392,7 @@
                 {
                   "id": "01136211-72e8-47c3-a3d3-753edb2dfd09",
                   "type": "qcu",
-                  "instruction": "<p>Cette adresse est visible en ligne par les sites que vous visitez.</p>",
+                  "instruction": "<p>Quelle adresse est visible en ligne par les sites que vous visitez ?</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -416,7 +416,7 @@
                 {
                   "id": "6f0e2bdd-c56f-45d4-ab0a-1497b9cfdc1e",
                   "type": "qcu",
-                  "instruction": "<p>Cette adresse permet les échanges entre une box internet et les appareils connectés à cette box.</p>",
+                  "instruction": "<p>Quelle adresse permet les échanges entre une box internet et les appareils connectés à cette box ?</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -440,7 +440,7 @@
                 {
                   "id": "952234bc-4ec1-4ebd-9208-6cc261a1efd8",
                   "type": "qcu",
-                  "instruction": "<p>Cette adresse est unique pour chaque appareil connecté à une même box internet.</p>",
+                  "instruction": "<p>Quelle adresse est unique pour chaque appareil connecté à une même box internet ?</p>",
                   "proposals": [
                     {
                       "id": "1",
