@@ -8,9 +8,10 @@ import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 import lodash from 'lodash';
 
-import * as cpfCertificationXmlExportService from '../../../../../../../lib/domain/services/cpf-certification-xml-export-service.js';
-import { createAndUpload } from '../../../../../../../src/shared/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
-import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
+import * as cpfCertificationXmlExportService from '../../../../../../lib/domain/services/cpf-certification-xml-export-service.js';
+import { CpfExportBuilderJobController } from '../../../../../../src/certification/session-management/application/jobs/cpf-export-builder-job-controller.js';
+import { usecases } from '../../../../../../src/certification/session-management/domain/usecases/index.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const { noop } = lodash;
 
@@ -21,7 +22,7 @@ const { PassThrough } = stream;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload', function () {
+describe('Integration | Application | Certification | Sessions Management | jobs | cpf-export-builder-job-controller', function () {
   let cpfCertificationResultRepository;
   let uploadCpfFiles;
   let clock;
@@ -54,13 +55,13 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
       markCertificationCoursesAsExported: sinon.stub(),
     };
 
-    uploadCpfFiles = sinon.stub();
+    usecases.uploadCpfFiles = sinon.stub();
 
     cpfCertificationResultRepository.findByBatchId.withArgs(batchId).resolves(cpfCertificationResults);
 
     uuidService.randomUUID.returns('xxx-yyy-zzz');
 
-    uploadCpfFiles
+    usecases.uploadCpfFiles
       .withArgs({
         filename: expectedFileName,
         readableStream: sinon.match(PassThrough),
@@ -74,13 +75,16 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
       });
 
     // when
-    await createAndUpload({
+    const jobController = new CpfExportBuilderJobController();
+    await jobController.handle({
       data: { batchId },
-      cpfCertificationResultRepository,
-      cpfCertificationXmlExportService,
-      uploadCpfFiles,
-      logger,
-      uuidService,
+      dependencies: {
+        uploadCpfFiles,
+        cpfCertificationResultRepository,
+        cpfCertificationXmlExportService,
+        uuidService,
+        logger,
+      },
     });
 
     // then

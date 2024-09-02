@@ -3,24 +3,25 @@ import dayjs from 'dayjs';
 
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { ComputeCertificabilityJob } from '../../../../prescription/learner-management/domain/models/ComputeCertificabilityJob.js';
-import { JobController } from '../../../../shared/application/jobs/job-controller.js';
+import { JobScheduleController } from '../../../../shared/application/jobs/job-schedule-controller.js';
 import { config } from '../../../../shared/config.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { computeCertificabilityJobRepository } from '../../../learner-management/infrastructure/repositories/jobs/compute-certificability-job-repository.js';
-import { ScheduleComputeOrganizationLearnersCertificabilityJob } from '../../domain/models/ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 
-class ScheduleComputeOrganizationLearnersCertificabilityJobController extends JobController {
+class ScheduleComputeOrganizationLearnersCertificabilityJobController extends JobScheduleController {
   constructor() {
-    super(ScheduleComputeOrganizationLearnersCertificabilityJob.name);
+    super('ComputeOrganizationLearnersCertificabilityJob', {
+      jobCron: config.features.scheduleComputeOrganizationLearnersCertificability.cron,
+    });
   }
 
-  async handle(
-    event = {},
+  async handle({
+    data = {},
     dependencies = { organizationLearnerRepository, computeCertificabilityJobRepository, config, logger },
-  ) {
-    const skipLoggedLastDayCheck = event?.skipLoggedLastDayCheck;
-    const onlyNotComputed = event?.onlyNotComputed;
+  }) {
+    const skipLoggedLastDayCheck = data?.skipLoggedLastDayCheck;
+    const onlyNotComputed = data?.onlyNotComputed;
     const chunkSize = dependencies.config.features.scheduleComputeOrganizationLearnersCertificability.chunkSize;
     const cronConfig = dependencies.config.features.scheduleComputeOrganizationLearnersCertificability.cron;
 

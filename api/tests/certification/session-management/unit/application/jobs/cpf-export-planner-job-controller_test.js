@@ -1,34 +1,35 @@
 import dayjs from 'dayjs';
-
-import { config } from '../../../../../../../src/shared/config.js';
-import { planner } from '../../../../../../../src/shared/infrastructure/jobs/cpf-export/handlers/planner.js';
-import { expect, sinon } from '../../../../../../test-helper.js';
-const { cpf } = config;
 import utc from 'dayjs/plugin/utc.js';
 import lodash from 'lodash';
 
+import { CpfExportPlannerJobController } from '../../../../../../src/certification/session-management/application/jobs/cpf-export-planner-job-controller.js';
+import { CpfExportBuilderJob } from '../../../../../../src/certification/session-management/domain/models/CpfExportBuilderJob.js';
+import { config } from '../../../../../../src/shared/config.js';
+import { expect, sinon } from '../../../../../test-helper.js';
+
+const { cpf } = config;
 const { noop } = lodash;
 
 dayjs.extend(utc);
 
-describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
+describe('Unit | Application | Certification | Sessions Management | jobs | cpf-export-planner-job-controller', function () {
   let cpfCertificationResultRepository;
-  let pgBoss;
+  let cpfExportBuilderJobRepository;
 
   beforeEach(function () {
+    cpfExportBuilderJobRepository = {
+      performAsync: sinon.stub(),
+    };
     cpfCertificationResultRepository = {
       countExportableCertificationCoursesByTimeRange: sinon.stub(),
       markCertificationToExport: sinon.stub(),
       updateCertificationImportStatus: sinon.stub(),
     };
-    pgBoss = {
-      insert: sinon.stub(),
-    };
   });
 
   it('should send to CpfExportBuilderJob chunks of certification course ids', async function () {
     // given
-    const job = { id: '237584-7648' };
+    const jobId = '237584-7648';
     const logger = { info: noop };
     sinon.stub(cpf.plannerJob, 'chunkSize').value(2);
     sinon.stub(cpf.plannerJob, 'monthsToProcess').value(2);
@@ -40,7 +41,11 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
     cpfCertificationResultRepository.countExportableCertificationCoursesByTimeRange.resolves(5);
 
     // when
-    await planner({ pgBoss, cpfCertificationResultRepository, logger, job });
+    const jobController = new CpfExportPlannerJobController();
+    await jobController.handle({
+      jobId,
+      dependencies: { cpfCertificationResultRepository, cpfExportBuilderJobRepository, logger },
+    });
 
     // then
     expect(cpfCertificationResultRepository.markCertificationToExport).to.have.been.callCount(3);
@@ -68,25 +73,10 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
     expect(
       cpfCertificationResultRepository.countExportableCertificationCoursesByTimeRange,
     ).to.have.been.calledWithExactly({ startDate, endDate });
-    expect(pgBoss.insert).to.have.been.calledOnceWith([
-      {
-        name: 'CpfExportBuilderJob',
-        data: {
-          batchId: '237584-7648#0',
-        },
-      },
-      {
-        name: 'CpfExportBuilderJob',
-        data: {
-          batchId: '237584-7648#1',
-        },
-      },
-      {
-        name: 'CpfExportBuilderJob',
-        data: {
-          batchId: '237584-7648#2',
-        },
-      },
-    ]);
+    expect(cpfExportBuilderJobRepository.performAsync).to.have.been.calledOnceWith(
+      new CpfExportBuilderJob({ batchId: '237584-7648#0' }),
+      new CpfExportBuilderJob({ batchId: '237584-7648#1' }),
+      new CpfExportBuilderJob({ batchId: '237584-7648#2' }),
+    );
   });
 });

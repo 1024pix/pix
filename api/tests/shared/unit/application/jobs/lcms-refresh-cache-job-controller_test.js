@@ -13,7 +13,7 @@ describe('Unit | Shared | Application | Jobs | LcmsRefreshCacheJobController', f
       const handler = new LcmsRefreshCacheJobController();
 
       // when
-      await handler.handle(Symbol('data'), dependencies);
+      await handler.handle({ dependencies });
 
       // then
       expect(dependencies.learningContentDatasource.refreshLearningContentCacheRecords).to.have.been.calledOnce;

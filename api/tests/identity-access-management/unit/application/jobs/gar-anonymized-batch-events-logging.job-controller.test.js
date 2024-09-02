@@ -26,14 +26,14 @@ describe('Unit | Prescription | Application | Jobs | garAnonymizedBatchEventsLog
 
       // given
       const handler = new GarAnonymizedBatchEventsLoggingJobController();
-      const computeGarAnonymizedBatchEventsLoggingJob = new GarAnonymizedBatchEventsLoggingJob({
+      const data = new GarAnonymizedBatchEventsLoggingJob({
         userIds: [13, 42],
         updatedByUserId: 777,
         role: 'fun',
       });
 
       // when
-      await handler.handle(computeGarAnonymizedBatchEventsLoggingJob, dependencies);
+      await handler.handle({ data, dependencies });
 
       // then
       expect(dependencies.auditLoggerRepository.logEvents).to.have.been.calledOnce;

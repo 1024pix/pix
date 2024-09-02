@@ -1,8 +1,8 @@
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').CpfExportsStorage} CpfExportsStorage
+ * @typedef {import('./index.js').CpfExportsStorage} CpfExportsStorage
  */
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').CpfExportRepository} CpfExportRepository
+ * @typedef {import('./index.js').CpfExportRepository} CpfExportRepository
  */
 import { CpfImportStatus } from '../models/CpfImportStatus.js';
 

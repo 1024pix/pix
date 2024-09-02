@@ -8,16 +8,14 @@ describe('Unit | Prescription | Application | Jobs | computeCertificabilityJobCo
       sinon.stub(usecases, 'computeOrganizationLearnerCertificability');
       // given
       const handler = new ComputeCertificabilityJobController();
-      const computeCertificabilityJob = { organizationLearnerId: Symbol('organizationLearnerId') };
+      const data = { organizationLearnerId: Symbol('organizationLearnerId') };
 
       // when
-      await handler.handle(computeCertificabilityJob);
+      await handler.handle({ data });
 
       // then
       expect(usecases.computeOrganizationLearnerCertificability).to.have.been.calledOnce;
-      expect(usecases.computeOrganizationLearnerCertificability).to.have.been.calledWithExactly(
-        computeCertificabilityJob,
-      );
+      expect(usecases.computeOrganizationLearnerCertificability).to.have.been.calledWithExactly(data);
     });
   });
 });

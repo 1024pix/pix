@@ -6,7 +6,7 @@ class ComputeCertificabilityJobController extends JobController {
   constructor() {
     super(ComputeCertificabilityJob.name);
   }
-  async handle(data) {
+  async handle({ data }) {
     const { organizationLearnerId } = data;
 
     await usecases.computeOrganizationLearnerCertificability({ organizationLearnerId });

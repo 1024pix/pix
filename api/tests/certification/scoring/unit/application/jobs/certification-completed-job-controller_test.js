@@ -65,11 +65,11 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
     const userId = 4567;
 
     context('when certification is V2', function () {
-      let certificationCompletedJob;
+      let data;
       let certificationAssessment;
 
       beforeEach(function () {
-        certificationCompletedJob = new CertificationCompletedJob({
+        data = new CertificationCompletedJob({
           assessmentId,
           userId,
           certificationCourseId: 123,
@@ -92,7 +92,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
           const dependencies = { certificationAssessmentRepository, scoringCertificationService };
 
           // when
-          await catchErr(certificationCompletedJobController.handle)(certificationCompletedJob, dependencies);
+          await catchErr(certificationCompletedJobController.handle)(data, dependencies);
 
           // then
           expect(AssessmentResultFactory.buildAlgoErrorResult).to.not.have.been.called;
@@ -129,7 +129,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
           };
 
           // when
-          await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
+          await certificationCompletedJobController.handle({ data, dependencies });
 
           // then
           expect(AssessmentResultFactory.buildAlgoErrorResult).to.have.been.calledWithExactly({
@@ -185,7 +185,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
           };
 
           // when
-          await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
+          await certificationCompletedJobController.handle({ data, dependencies });
 
           // then
           expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
@@ -236,7 +236,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
             };
 
             // when
-            await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
+            await certificationCompletedJobController.handle({ data, dependencies });
 
             // then
             expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
@@ -258,14 +258,14 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
     });
 
     context('when certification is V3', function () {
-      let certificationCompletedJob;
+      let data;
       let certificationAssessment;
       let certificationCourse;
       const assessmentResultId = 99;
       const certificationCourseStartDate = new Date('2022-02-01');
 
       beforeEach(function () {
-        certificationCompletedJob = new CertificationCompletedJob({
+        data = new CertificationCompletedJob({
           assessmentId,
           userId,
           certificationCourseId: 123,
@@ -330,7 +330,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
             };
 
             // when
-            await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
+            await certificationCompletedJobController.handle({ data, dependencies });
 
             // then
             expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
@@ -379,7 +379,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
             };
 
             // when
-            await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
+            await certificationCompletedJobController.handle({ data, dependencies });
 
             // then
             expect(certificationCourseRepository.update).to.have.been.calledOnceWithExactly({
@@ -430,7 +430,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
             };
 
             // when
-            await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
+            await certificationCompletedJobController.handle({ data, dependencies });
 
             // then
             expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
@@ -480,7 +480,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               };
 
               // when
-              await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
+              await certificationCompletedJobController.handle({ data, dependencies });
 
               // then
               expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
@@ -530,7 +530,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               };
 
               // when
-              await certificationCompletedJobController.handle(certificationCompletedJob, dependencies);
+              await certificationCompletedJobController.handle({ data, dependencies });
 
               // then
               expect(certificationCourseRepository.update).to.have.been.calledWithExactly({

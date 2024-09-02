@@ -34,16 +34,14 @@ describe('Unit | Prescription | Application | Jobs | importOrganizationLearnersJ
 
       // given
       const handler = new ImportOrganizationLearnersJobController();
-      const computeImportOrganizationLearnersJob = { organizationImportId: Symbol('organizationImportId') };
+      const data = { organizationImportId: Symbol('organizationImportId') };
 
       // when
-      await handler.handle(computeImportOrganizationLearnersJob);
+      await handler.handle({ data });
 
       // then
       expect(usecases.addOrUpdateOrganizationLearners).to.have.been.calledOnce;
-      expect(usecases.addOrUpdateOrganizationLearners).to.have.been.calledWithExactly(
-        computeImportOrganizationLearnersJob,
-      );
+      expect(usecases.addOrUpdateOrganizationLearners).to.have.been.calledWithExactly(data);
     });
   });
 });

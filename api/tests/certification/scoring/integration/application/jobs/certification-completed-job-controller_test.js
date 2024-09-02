@@ -446,7 +446,7 @@ describe('Integration | Certification | Application | jobs | CertificationComple
 
           await databaseBuilder.commit();
 
-          const certificationCompletedJob = new CertificationCompletedJob({
+          const data = new CertificationCompletedJob({
             assessmentId: certificationAssessment.id,
             certificationCourseId,
             userId: certifiableUserId,
@@ -454,7 +454,7 @@ describe('Integration | Certification | Application | jobs | CertificationComple
           });
 
           // when
-          await certificationCompletedJobController.handle(certificationCompletedJob);
+          await certificationCompletedJobController.handle({ data });
 
           // then
 
@@ -492,7 +492,7 @@ describe('Integration | Certification | Application | jobs | CertificationComple
 
           await databaseBuilder.commit();
 
-          const certificationCompletedJob = new CertificationCompletedJob({
+          const data = new CertificationCompletedJob({
             assessmentId: certificationAssessment.id,
             certificationCourseId,
             userId: certifiableUserId,
@@ -500,7 +500,7 @@ describe('Integration | Certification | Application | jobs | CertificationComple
           });
 
           // when
-          await certificationCompletedJobController.handle(certificationCompletedJob);
+          await certificationCompletedJobController.handle({ data });
 
           // then
           const certificationChallengeCapacities = await knex('certification-challenge-capacities')
@@ -543,7 +543,7 @@ describe('Integration | Certification | Application | jobs | CertificationComple
 
             await databaseBuilder.commit();
 
-            const certificationCompletedJob = new CertificationCompletedJob({
+            const data = new CertificationCompletedJob({
               assessmentId: certificationAssessment.id,
               certificationCourseId,
               userId: certifiableUserId,
@@ -551,7 +551,7 @@ describe('Integration | Certification | Application | jobs | CertificationComple
             });
 
             // when
-            await certificationCompletedJobController.handle(certificationCompletedJob);
+            await certificationCompletedJobController.handle({ data });
 
             // then
 

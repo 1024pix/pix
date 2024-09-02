@@ -8,9 +8,9 @@ export const JobGroup = {
 };
 
 export class JobController {
-  constructor(jobName, jobGroup = JobGroup.DEFAULT) {
+  constructor(jobName, options = {}) {
     this.jobName = jobName;
-    this.jobGroup = jobGroup;
+    this.jobGroup = options.jobGroup || JobGroup.DEFAULT;
 
     this.#validate();
   }

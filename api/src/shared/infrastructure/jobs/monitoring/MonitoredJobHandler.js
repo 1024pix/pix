@@ -4,34 +4,36 @@ class MonitoredJobHandler {
     this.logger = logger;
   }
 
-  async handle(data, jobName) {
+  async handle({ data, jobName, jobId }) {
     let result;
     try {
-      this.logJobStarting({ data, jobName });
-      result = await this.handler.handle(data);
+      this.logJobStarting({ data, jobName, jobId });
+      result = await this.handler.handle({ data, jobId });
     } catch (error) {
-      this.logJobFailed({ data, error, jobName });
+      this.logJobFailed({ data, error, jobName, jobId });
       throw error;
     }
     return result;
   }
 
-  logJobStarting({ data, jobName }) {
+  logJobStarting({ data, jobName, jobId }) {
     this.logger.info({
       data,
       handlerName: jobName,
       type: 'JOB_LOG',
       message: 'Job Started',
+      jobId,
     });
   }
 
-  logJobFailed({ data, jobName, error }) {
+  logJobFailed({ data, jobName, jobId, error }) {
     this.logger.error({
       data,
       handlerName: jobName,
       error: error?.message ? error.message + ' (see dedicated log for more information)' : undefined,
       type: 'JOB_LOG_ERROR',
       message: 'Job failed',
+      jobId,
     });
   }
 }

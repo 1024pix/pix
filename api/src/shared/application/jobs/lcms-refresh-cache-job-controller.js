@@ -7,7 +7,7 @@ export class LcmsRefreshCacheJobController extends JobController {
     super(LcmsRefreshCacheJob.name);
   }
 
-  async handle(_, dependencies = { learningContentDatasource }) {
+  async handle({ dependencies = { learningContentDatasource } }) {
     await dependencies.learningContentDatasource.refreshLearningContentCacheRecords();
   }
 }

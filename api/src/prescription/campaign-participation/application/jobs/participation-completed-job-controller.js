@@ -24,8 +24,8 @@ export class ParticipationCompletedJobController extends JobController {
     return 'PoleEmploiParticipationCompletedJob';
   }
 
-  async handle(
-    campaignParticipationCompletedJob,
+  async handle({
+    data,
     dependencies = {
       authenticationMethodRepository,
       assessmentRepository,
@@ -37,8 +37,8 @@ export class ParticipationCompletedJobController extends JobController {
       userRepository,
       poleEmploiNotifier,
     },
-  ) {
-    const { campaignParticipationId } = campaignParticipationCompletedJob;
+  }) {
+    const { campaignParticipationId } = data;
 
     if (!campaignParticipationId) return;
 

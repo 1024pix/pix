@@ -17,7 +17,7 @@ import {
 } from '../../../../../test-helper.js';
 
 describe('Integration | Prescription | Application | Jobs | ParticipationCompletedJobController', function () {
-  let campaignParticipationId, userId, campaignParticipationCompletedJob, poleEmploiNotifier, responseCode;
+  let campaignParticipationId, userId, data, poleEmploiNotifier, responseCode;
 
   describe('#handle', function () {
     beforeEach(async function () {
@@ -34,7 +34,7 @@ describe('Integration | Prescription | Application | Jobs | ParticipationComplet
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId, organizationId }).id;
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId }).id;
       databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
-      campaignParticipationCompletedJob = new ParticipationCompletedJob({ campaignParticipationId });
+      data = new ParticipationCompletedJob({ campaignParticipationId });
 
       const learningContentObjects = learningContentBuilder.fromAreas([]);
       mockLearningContent(learningContentObjects);
@@ -46,15 +46,18 @@ describe('Integration | Prescription | Application | Jobs | ParticipationComplet
       // when
       const campaignParticipationCompletedJobController = new ParticipationCompletedJobController();
 
-      await campaignParticipationCompletedJobController.handle(campaignParticipationCompletedJob, {
-        assessmentRepository,
-        campaignRepository,
-        campaignParticipationRepository,
-        organizationRepository,
-        poleEmploiSendingRepository,
-        targetProfileRepository,
-        userRepository,
-        poleEmploiNotifier,
+      await campaignParticipationCompletedJobController.handle({
+        data,
+        dependencies: {
+          assessmentRepository,
+          campaignRepository,
+          campaignParticipationRepository,
+          organizationRepository,
+          poleEmploiSendingRepository,
+          targetProfileRepository,
+          userRepository,
+          poleEmploiNotifier,
+        },
       });
 
       // then

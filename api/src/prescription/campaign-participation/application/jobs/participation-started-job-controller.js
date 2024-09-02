@@ -23,7 +23,7 @@ export class ParticipationStartedJobController extends JobController {
     return 'PoleEmploiParticipationStartedJob';
   }
 
-  async handle(
+  async handle({
     data,
     dependencies = {
       authenticationMethodRepository,
@@ -38,7 +38,7 @@ export class ParticipationStartedJobController extends JobController {
       httpErrorsHelper,
       monitoringTools,
     },
-  ) {
+  }) {
     const { campaignParticipationId } = data;
 
     const participation = await dependencies.campaignParticipationRepository.get(campaignParticipationId);

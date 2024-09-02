@@ -1,5 +1,5 @@
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').CpfReceiptsStorage} CpfReceiptsStorage
+ * @typedef {import('./index.js').CpfReceiptsStorage} CpfReceiptsStorage
  *
  * @typedef {import('../../../shared/domain/usecases/index.js').CpfCertificationResultRepository} CpfCertificationResultRepository
  */
