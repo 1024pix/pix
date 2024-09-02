@@ -1,6 +1,5 @@
 import stream from 'node:stream';
 
-import { MissingQueryParamError } from '../../../shared/application/http-errors.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { escapeFileName } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
@@ -18,10 +17,9 @@ const getByCode = async function (
     campaignToJoinSerializer,
   },
 ) {
-  const filters = request.query.filter;
-  await _validateFilters(filters);
+  const { code } = request.query.filter;
 
-  const campaignToJoin = await usecases.getCampaignByCode({ code: filters.code });
+  const campaignToJoin = await usecases.getCampaignByCode({ code });
   return dependencies.campaignToJoinSerializer.serialize(campaignToJoin);
 };
 
@@ -136,12 +134,6 @@ const findParticipantsActivity = async function (
 
   return dependencies.campaignParticipantsActivitySerializer.serialize(paginatedParticipations);
 };
-
-function _validateFilters(filters) {
-  if (typeof filters.code === 'undefined') {
-    throw new MissingQueryParamError('filter.code');
-  }
-}
 
 const campaignDetailController = {
   getByCode,
