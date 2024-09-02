@@ -1,5 +1,4 @@
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
-import { DEFAULT_PASSWORD } from '../../../constants.js';
 import { SCO_ORGANIZATION_ID } from './constants.js';
 
 export function buildScoOrganizationLearners(databaseBuilder) {
@@ -14,7 +13,7 @@ export function buildScoOrganizationLearners(databaseBuilder) {
 }
 
 function _buildScoOrganizationLearnerWithAllConnectionTypes(databaseBuilder) {
-  const user = databaseBuilder.factory.buildUser({
+  const user = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Eliza',
     lastName: 'Delajungle',
     email: 'eliza-dlj@school.net',
@@ -42,7 +41,7 @@ function _buildScoOrganizationLearnerWithAllConnectionTypes(databaseBuilder) {
 }
 
 function _buildScoOrganizationLearnerWithUsernameAndMediacentre(databaseBuilder) {
-  const user = databaseBuilder.factory.buildUser({
+  const user = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Bob',
     lastName: 'Leponge',
     email: null,
@@ -70,14 +69,14 @@ function _buildScoOrganizationLearnerWithUsernameAndMediacentre(databaseBuilder)
 }
 
 function _buildScoOrganizationLearnerWithUsernameAndEmail(databaseBuilder) {
-  const user = databaseBuilder.factory.buildUser({
+  const user = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Naruto',
     lastName: 'Uzumaki',
     email: 'hokage@school.net',
     username: 'naruto.uzumaki.0303',
   });
 
-  const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+  databaseBuilder.factory.buildOrganizationLearner({
     firstName: user.firstName,
     lastName: user.lastName,
     birthdate: '2013-03-03',
@@ -87,18 +86,10 @@ function _buildScoOrganizationLearnerWithUsernameAndEmail(databaseBuilder) {
     userId: user.id,
     nationalStudentId: '123456789NU',
   });
-
-  databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndPassword({
-    userFirstName: organizationLearner.firstName,
-    userLastName: organizationLearner.lastName,
-    password: DEFAULT_PASSWORD,
-    shouldChangePassword: false,
-    userId: user.id,
-  });
 }
 
 function _buildScoOrganizationLearnerWithEmailAndMediacentre(databaseBuilder) {
-  const userWithoutPixAuthenticationMethod = databaseBuilder.factory.buildUser({
+  const userWithoutPixAuthenticationMethod = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Bart',
     lastName: 'Simpson',
     email: 'bart@school.net',
@@ -144,7 +135,7 @@ function _buildScoOrganizationLearnerWithEmailAndMediacentre(databaseBuilder) {
 }
 
 function _buildScoOrganizationLearnerWithEmail(databaseBuilder) {
-  const user = databaseBuilder.factory.buildUser({
+  const user = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Hermione',
     lastName: 'Granger',
     email: 'hermione@school.net',
@@ -164,7 +155,7 @@ function _buildScoOrganizationLearnerWithEmail(databaseBuilder) {
 }
 
 function _buildScoOrganizationLearnerWithUsername(databaseBuilder) {
-  const user = databaseBuilder.factory.buildUser({
+  const user = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Kirua',
     lastName: 'Zoldik',
     email: null,
