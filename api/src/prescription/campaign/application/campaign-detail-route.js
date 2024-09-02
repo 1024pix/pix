@@ -15,6 +15,13 @@ const register = async function (server) {
       config: {
         auth: false,
         handler: campaignDetailController.getByCode,
+        validate: {
+          query: Joi.object({
+            filter: Joi.object({
+              code: Joi.string().required(),
+            }).required(),
+          }),
+        },
         notes: ['- Récupération de la campagne dont le code est spécifié dans les filtres de la requête'],
         tags: ['api', 'campaign'],
       },

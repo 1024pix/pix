@@ -5,31 +5,61 @@ import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Router | campaign-detail-router ', function () {
-  describe('GET /api/campaigns?filter[code=SOMECODE]', function () {
+  describe('GET /api/campaigns', function () {
+    let getByCodeStub;
+
+    beforeEach(function () {
+      getByCodeStub = sinon.stub(campaignDetailController, 'getByCode');
+    });
+
     it('should return 200', async function () {
       // given
-      sinon.stub(campaignDetailController, 'getByCode').callsFake((request, h) => h.response('ok').code(200));
+      getByCodeStub.callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
-      // given
-      campaignDetailController.getByCode.returns('ok');
-
       // when
-      const response = await httpTestServer.request('GET', '/api/campaigns?filter[code=SOMECODE]');
+      const response = await httpTestServer.request('GET', '/api/campaigns?filter[code]=SOMECODE');
 
       // then
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 404 when controller throws a NotFound domain error', async function () {
+    it('should return 400 when unauthorized filter', async function () {
       // given
-      sinon.stub(campaignDetailController, 'getByCode').rejects(new NotFoundError());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('GET', '/api/campaigns?filter[code=SOMECODE]');
+      const response = await httpTestServer.request('GET', '/api/campaigns?filter[toto]=plop');
+
+      // then
+      expect(getByCodeStub.notCalled).to.be.true;
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when no filter', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/campaigns');
+
+      // then
+      expect(getByCodeStub.notCalled).to.be.true;
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 404 when controller throws a NotFound domain error', async function () {
+      // given
+      getByCodeStub.rejects(new NotFoundError());
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/campaigns?filter[code]=SOMECODE');
 
       // then
       expect(response.statusCode).to.equal(404);
