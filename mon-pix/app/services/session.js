@@ -1,6 +1,7 @@
 import { service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 import get from 'lodash/get';
+import ENV from 'mon-pix/config/environment';
 import { FRENCH_FRANCE_LOCALE, FRENCH_INTERNATIONAL_LOCALE } from 'mon-pix/services/locale';
 
 const FRANCE_TLD = 'fr';
@@ -20,8 +21,8 @@ export default class CurrentSessionService extends SessionService {
   async authenticateUser(login, password) {
     await this._removeExternalUserContext();
 
-    const scope = 'mon-pix';
     const trimedLogin = login ? login.trim() : '';
+    const scope = ENV.APP.AUTHENTICATION.SCOPE;
     return this.authenticate('authenticator:oauth2', { login: trimedLogin, password, scope });
   }
 
