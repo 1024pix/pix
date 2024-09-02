@@ -82,6 +82,9 @@ module.exports = function (environment) {
         minValue: 6,
       }),
       APP_VERSION: process.env.SOURCE_VERSION || 'development',
+      AUTHENTICATION: {
+        SCOPE: 'pix-admin',
+      },
     },
 
     'ember-cli-notifications': {
