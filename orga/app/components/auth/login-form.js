@@ -102,7 +102,7 @@ export default class LoginForm extends Component {
   }
 
   async _authenticate(password, email) {
-    const scope = 'pix-orga';
+    const scope = ENV.APP.AUTHENTICATION.SCOPE;
 
     this.errorMessage = null;
     try {

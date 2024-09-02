@@ -3,6 +3,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import isEmpty from 'lodash/isEmpty';
+import ENV from 'pix-orga/config/environment';
 
 import isEmailValid from '../../utils/email-validator';
 import isPasswordValid from '../../utils/password-validator';
@@ -213,7 +214,7 @@ export default class RegisterForm extends Component {
   }
 
   _authenticate(email, password) {
-    const scope = 'pix-orga';
+    const scope = ENV.APP.AUTHENTICATION.SCOPE;
     return this.session.authenticate('authenticator:oauth2', email, password, scope);
   }
 }
