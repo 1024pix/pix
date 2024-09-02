@@ -30,7 +30,7 @@ export default class Application extends JSONAPIAdapter {
   }
 
   get _locale() {
-    const currentLocale = this.intl.get('locale')[0];
+    const currentLocale = this.intl.primaryLocale;
     if (currentLocale === FRENCH_INTERNATIONAL_LOCALE) {
       return this.currentDomain.getExtension() === FRANCE_TLD ? FRENCH_FRANCE_LOCALE : FRENCH_INTERNATIONAL_LOCALE;
     }
