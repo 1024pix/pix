@@ -26,6 +26,7 @@ const register = async function (server) {
               number: Joi.number().integer().empty(''),
             }).default({}),
             filter: Joi.object({
+              extra: Joi.object().default({}),
               fullName: Joi.string().empty(''),
               certificability: [Joi.string(), Joi.array().items(Joi.string())],
             }).default({}),

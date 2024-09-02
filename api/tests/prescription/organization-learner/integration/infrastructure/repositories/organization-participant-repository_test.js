@@ -2368,6 +2368,35 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
     });
 
     context('when we are filtering', function () {
+      context('extra filters', function () {
+        it('returns the participants which match by an attribute', async function () {
+          // given
+          databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            organizationId,
+            attributes: { classe: '3ème' },
+          });
+          const { id: id2 } = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            organizationId,
+            attributes: { classe: '6ème' },
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const { organizationParticipants } =
+            await organizationParticipantRepository.findPaginatedFilteredImportedParticipants({
+              organizationId,
+              extraColumns: [{ key: 'classe', name: 'CLASSE' }],
+              extraFilters: { CLASSE: '6ème' },
+            });
+
+          const ids = organizationParticipants.map(({ id }) => id);
+
+          // then
+          expect(ids).to.exactlyContain([id2]);
+        });
+      });
+
       context('fullName filter', function () {
         it('returns the participants which match by first name', async function () {
           // given

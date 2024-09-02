@@ -3,6 +3,8 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
+import { decodeExtraFilters, encodeExtraFilters } from '../../../utils/extra-filter-serializer.js';
+
 export default class ListController extends Controller {
   @service currentUser;
   @service router;
@@ -12,6 +14,7 @@ export default class ListController extends Controller {
 
   @tracked pageNumber = 1;
   @tracked pageSize = 50;
+  @tracked extraFilters = encodeExtraFilters({});
   @tracked fullName = null;
   @tracked certificability = [];
   @tracked participationCountOrder = null;
@@ -24,7 +27,14 @@ export default class ListController extends Controller {
 
   @action
   triggerFiltering(fieldName, value) {
-    this[fieldName] = value || undefined;
+    if (fieldName.includes('.')) {
+      const [, property] = fieldName.split('.');
+      const queryParamValue = decodeExtraFilters(this.extraFilters);
+      queryParamValue[property] = value || undefined;
+      this.extraFilters = encodeExtraFilters(queryParamValue);
+    } else {
+      this[fieldName] = value || undefined;
+    }
     this.pageNumber = null;
   }
 
@@ -57,6 +67,7 @@ export default class ListController extends Controller {
     this.pageNumber = null;
     this.fullName = null;
     this.certificability = [];
+    this.extraFilters = encodeExtraFilters({});
   }
 
   @action

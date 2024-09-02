@@ -26,7 +26,39 @@ describe('Integration | Application | learner-list-controller', function () {
       it('returns organization participants', async function () {
         const organizationId = 5678;
         usecases.findPaginatedFilteredParticipants
-          .withArgs({ organizationId, page: {}, filters: {}, sort: {} })
+          .withArgs({ organizationId, page: {}, filters: {}, sort: {}, extraFilters: {} })
+          .resolves({
+            organizationParticipants: [
+              {
+                id: 5678,
+                firstName: 'Mei',
+                lastName: 'Lee',
+              },
+            ],
+            pagination: 1,
+          });
+        securityPreHandlers.checkUserBelongsToOrganization.returns(() => true);
+        const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/participants`);
+
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal([
+          {
+            id: '5678',
+            type: 'organization-participants',
+            attributes: {
+              'first-name': 'Mei',
+              'last-name': 'Lee',
+            },
+          },
+        ]);
+      });
+    });
+    context('when extrafilters are provided', function () {
+      it('returns organization participants that match filters', async function () {
+        const organizationId = 5678;
+
+        usecases.findPaginatedFilteredParticipants
+          .withArgs({ organizationId, page: {}, filters: {}, sort: {}, extraFilters: { firstName: 'Mei' } })
           .resolves({
             organizationParticipants: [
               {
@@ -39,8 +71,10 @@ describe('Integration | Application | learner-list-controller', function () {
           });
         securityPreHandlers.checkUserBelongsToOrganization.returns(() => true);
 
-        const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/participants`);
-
+        const response = await httpTestServer.request(
+          'GET',
+          `/api/organizations/${organizationId}/participants?filter[extra][firstName]=Mei`,
+        );
         expect(response.statusCode).to.equal(200);
         expect(response.result.data).to.deep.equal([
           {

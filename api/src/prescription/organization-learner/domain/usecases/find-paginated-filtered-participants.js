@@ -1,6 +1,7 @@
 const findPaginatedFilteredParticipants = async function ({
   organizationId,
   filters,
+  extraFilters,
   page,
   sort,
   organizationParticipantRepository,
@@ -16,12 +17,14 @@ const findPaginatedFilteredParticipants = async function ({
       await organizationParticipantRepository.findPaginatedFilteredImportedParticipants({
         organizationId,
         extraColumns: importFormat.extraColumns,
+        extraFilters,
         filters,
         sort,
         page,
       });
 
     meta.headingCustomColumns = importFormat.columnsToDisplay;
+    meta.customFilters = importFormat.filtersToDisplay;
 
     return { organizationParticipants, meta };
   } else {

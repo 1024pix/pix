@@ -2,10 +2,13 @@ import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
+import extraFilters from '../../../utils/extra-filter-serializer.js';
+
 export default class ListRoute extends Route {
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
+    extraFilters: { refreshModel: true },
     fullName: { refreshModel: true },
     certificability: { refreshModel: true },
     participationCountOrder: { refreshModel: true },
@@ -16,12 +19,13 @@ export default class ListRoute extends Route {
   @service currentUser;
   @service store;
 
-  model(params) {
+  async model(params) {
     return this.store.query('organization-participant', {
       filter: {
         organizationId: this.currentUser.organization.id,
         fullName: params.fullName,
         certificability: params.certificability,
+        extra: extraFilters.decodeExtraFilters(params.extraFilters),
       },
       sort: {
         participationCount: params.participationCountOrder,
@@ -41,6 +45,7 @@ export default class ListRoute extends Route {
       controller.pageSize = 50;
       controller.fullName = null;
       controller.certificability = [];
+      controller.extraFilters = extraFilters.encodeExtraFilters({});
       controller.participationCountOrder = null;
       controller.latestParticipationOrder = null;
       controller.lastnameSort = 'asc';

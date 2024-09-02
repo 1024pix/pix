@@ -27,8 +27,18 @@ class OrganizationLearnerImportFormat {
     return this.config.displayableColumns.slice().sort(this.#sortObject);
   }
 
+  get orderedFilterableColumns() {
+    if (!this.config.filterableColumns) return [];
+
+    return this.config.filterableColumns.slice().sort(this.#sortObject);
+  }
+
   get columnsToDisplay() {
     return this.orderedDisplayabledColumns.map((column) => column.name);
+  }
+
+  get filtersToDisplay() {
+    return this.orderedFilterableColumns.map((column) => column.name);
   }
 
   get extraColumns() {
@@ -52,7 +62,6 @@ class OrganizationLearnerImportFormat {
    * @param {Object} params
    * @returns {Promise<boolean>}
    */
-
   transformReconciliationData(params) {
     return Object.entries(params).reduce((obj, [fieldId, value]) => {
       const reconciliationField = this.config.reconciliationMappingColumns.find((column) => column.fieldId === fieldId);
