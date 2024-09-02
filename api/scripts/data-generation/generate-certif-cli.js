@@ -5,7 +5,6 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 import * as dotenv from 'dotenv';
 
 dotenv.config({ path: `${__dirname}/../../.env` });
-import bluebird from 'bluebird';
 import lodash from 'lodash';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
@@ -135,12 +134,12 @@ async function _createComplementaryCertificationHabilitations(
   { complementaryCertificationIds, certificationCenterId },
   databaseBuilder,
 ) {
-  return bluebird.mapSeries(complementaryCertificationIds, async (complementaryCertificationId) => {
-    databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+  for (const complementaryCertificationId of complementaryCertificationIds) {
+    await databaseBuilder.factory.buildComplementaryCertificationHabilitation({
       certificationCenterId,
       complementaryCertificationId,
     });
-  });
+  }
 }
 
 async function _createSessionAndReturnId({ certificationCenterId, databaseBuilder, userIds }) {

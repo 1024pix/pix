@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
@@ -19,7 +18,7 @@ const getCampaignCollectiveResult = async function (campaignId, campaignLearning
   const userIdsAndSharedDatesChunks = await _getChunksSharedParticipationsWithUserIdsAndDates(campaignId);
 
   let participantCount = 0;
-  await bluebird.mapSeries(userIdsAndSharedDatesChunks, async (userIdsAndSharedDates) => {
+  for (const userIdsAndSharedDates of userIdsAndSharedDatesChunks) {
     participantCount += userIdsAndSharedDates.length;
     const validatedTargetedKnowledgeElementsCountByCompetenceId =
       await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
@@ -27,7 +26,7 @@ const getCampaignCollectiveResult = async function (campaignId, campaignLearning
         campaignLearningContent,
       );
     campaignCollectiveResult.addValidatedSkillCountToCompetences(validatedTargetedKnowledgeElementsCountByCompetenceId);
-  });
+  }
 
   campaignCollectiveResult.finalize(participantCount);
   return campaignCollectiveResult;

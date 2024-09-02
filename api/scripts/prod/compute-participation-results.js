@@ -11,7 +11,6 @@ import { CampaignParticipationStatuses } from '../../src/prescription/shared/dom
 import { ParticipantResultsShared } from '../../src/shared/domain/models/ParticipantResultsShared.js';
 
 const { SHARED } = CampaignParticipationStatuses;
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
@@ -85,7 +84,7 @@ async function _computeCampaignParticipationResults(campaign) {
   const skillIds = await campaignRepository.findSkillIds({ campaignId: campaign.id });
   const computeResultsWithTargetedSkillIds = _.partial(_computeResults, skillIds, competences);
 
-  const participantsResults = await bluebird.mapSeries(
+  const participantsResults = await PromiseUtils.mapSeries(
     campaignParticipationInfosChunks,
     computeResultsWithTargetedSkillIds,
   );

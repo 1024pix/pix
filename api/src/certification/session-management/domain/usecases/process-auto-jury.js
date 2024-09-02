@@ -1,7 +1,6 @@
-import bluebird from 'bluebird';
-
 import { CertificationJuryDone } from '../../../../../lib/domain/events/CertificationJuryDone.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { AutoJuryDone } from '../events/AutoJuryDone.js';
 import { CertificationAssessment } from '../models/CertificationAssessment.js';
 import { CertificationIssueReportResolutionAttempt } from '../models/CertificationIssueReportResolutionAttempt.js';
@@ -173,14 +172,17 @@ async function _autoResolveCertificationIssueReport({
     return null;
   }
 
-  const resolutionAttempts = await bluebird.mapSeries(certificationIssueReports, async (certificationIssueReport) => {
-    try {
-      return await resolutionStrategies.resolve({ certificationIssueReport, certificationAssessment });
-    } catch (e) {
-      logger.error(e);
-      return CertificationIssueReportResolutionAttempt.unresolved();
-    }
-  });
+  const resolutionAttempts = await PromiseUtils.mapSeries(
+    certificationIssueReports,
+    async (certificationIssueReport) => {
+      try {
+        return await resolutionStrategies.resolve({ certificationIssueReport, certificationAssessment });
+      } catch (e) {
+        logger.error(e);
+        return CertificationIssueReportResolutionAttempt.unresolved();
+      }
+    },
+  );
 
   if (resolutionAttempts.some((attempt) => attempt.isResolvedWithEffect())) {
     await certificationAssessmentRepository.save(certificationAssessment);

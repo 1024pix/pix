@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import * as scoringService from '../../../../evaluation/domain/services/scoring/scoring-service.js';
@@ -366,13 +365,13 @@ async function _saveV3Result({
     assessmentResult,
   });
 
-  await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
+  for (const competenceMark of certificationAssessmentScore.competenceMarks) {
     const competenceMarkDomain = new CompetenceMark({
       ...competenceMark,
       assessmentResultId: newAssessmentResult.id,
     });
-    return competenceMarkRepository.save(competenceMarkDomain);
-  });
+    await competenceMarkRepository.save(competenceMarkDomain);
+  }
 }
 
 function _createV2AssessmentResult({
@@ -445,10 +444,10 @@ async function _saveV2Result({
     assessmentResult,
   });
 
-  await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
+  for (const competenceMark of certificationAssessmentScore.competenceMarks) {
     const competenceMarkDomain = new CompetenceMark({ ...competenceMark, assessmentResultId });
-    return competenceMarkRepository.save(competenceMarkDomain);
-  });
+    await competenceMarkRepository.save(competenceMarkDomain);
+  }
 }
 
 function _shouldRejectWhenV3CertificationCandidateDidNotAnswerToEnoughQuestions({ allAnswers, certificationCourse }) {

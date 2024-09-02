@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
@@ -21,13 +20,14 @@ const getCampaignAnalysis = async function (campaignId, campaignLearningContent,
     participantCount,
   });
 
-  await bluebird.mapSeries(userIdsAndSharedDatesChunks, async (userIdsAndSharedDates) => {
+  for (const userIdsAndSharedDates of userIdsAndSharedDatesChunks) {
     const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
       Object.fromEntries(userIdsAndSharedDates),
       campaignLearningContent,
     );
     campaignAnalysis.addToTubeRecommendations({ knowledgeElementsByTube });
-  });
+  }
+
   campaignAnalysis.finalize();
   return campaignAnalysis;
 };

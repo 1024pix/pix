@@ -1,5 +1,3 @@
-import bluebird from 'bluebird';
-
 const TEMPLATE_TABLE_NAME = 'target-profile-templates';
 const OLD_TEMPLATE_TUBES_TABLE_NAME = 'target-profile-templates_tubes';
 const TARGET_PROFILE_TUBES_TABLE_NAME = 'target-profile_tubes';
@@ -45,12 +43,13 @@ const down = async function (knex) {
 
   const results = await knex(TARGET_PROFILE_TUBES_TABLE_NAME).distinct('targetProfileId');
 
-  await bluebird.mapSeries(results, async ({ targetProfileId }) => {
+  for (const targetProfiles of results) {
+    const { targetProfileId } = targetProfiles;
     const [{ id: targetProfileTemplateId }] = await knex(TEMPLATE_TABLE_NAME).insert({}).returning('id');
 
     await knex(TARGET_PROFILE_TABLE_NAME).update({ targetProfileTemplateId }).where({ id: targetProfileId });
     await knex(TARGET_PROFILE_TUBES_TABLE_NAME).update({ targetProfileTemplateId }).where({ targetProfileId });
-  });
+  }
 
   await knex.schema.table(TARGET_PROFILE_TUBES_TABLE_NAME, (t) => {
     t.dropNullable('targetProfileTemplateId');

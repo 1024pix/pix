@@ -19,8 +19,6 @@ const {
   PIX_EMPLOI_CLEA_V3,
 } = badges.keys;
 
-import bluebird from 'bluebird';
-
 const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.string(COLUMN_NAME);
@@ -83,7 +81,9 @@ const up = async function (knex) {
     },
   ];
 
-  await bluebird.mapSeries(data, addImageUrlForBadgeKey);
+  for (const badgeImage of data) {
+    await addImageUrlForBadgeKey(badgeImage);
+  }
 
   await knex.schema.alterTable(TABLE_NAME, function (table) {
     table.string(COLUMN_NAME).notNullable().alter();

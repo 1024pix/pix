@@ -1,12 +1,11 @@
-import bluebird from 'bluebird';
-
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { TargetProfileForSpecifier } from '../../domain/read-models/TargetProfileForSpecifier.js';
 
 async function availableForOrganization(organizationId) {
   const targetProfileRows = await _fetchTargetProfiles(organizationId);
 
-  return bluebird.mapSeries(targetProfileRows, _buildTargetProfileForSpecifier);
+  return PromiseUtils.mapSeries(targetProfileRows, _buildTargetProfileForSpecifier);
 }
 
 function _fetchTargetProfiles(organizationId) {

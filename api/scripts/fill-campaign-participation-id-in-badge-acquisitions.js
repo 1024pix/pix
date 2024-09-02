@@ -1,7 +1,5 @@
 import * as url from 'node:url';
 
-import bluebird from 'bluebird';
-
 import { disconnect, knex } from '../db/knex-database-connection.js';
 
 async function getAllBadgeAcquistionsWithoutCampaignParticipationId() {
@@ -70,10 +68,10 @@ async function main() {
   console.log(`${badgeAcquisitionsWithoutCampaignParticipationId.length} badges without campaignParticipationId.`);
   console.log('badgeAcquisitionId;BadgeId;Possibility;ListOfCampaignParticipations');
 
-  await bluebird.mapSeries(badgeAcquisitionsWithoutCampaignParticipationId, async (badgeAcquisition) => {
+  for (const badgeAcquisition of badgeAcquisitionsWithoutCampaignParticipationId) {
     const campaignsParticipations = await getCampaignParticipationFromBadgeAcquisition(badgeAcquisition);
     await updateBadgeAcquisitionWithCampaignParticipationId(badgeAcquisition, campaignsParticipations);
-  });
+  }
 }
 
 (async () => {

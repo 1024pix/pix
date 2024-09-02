@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 const up = async function (knex) {
@@ -16,13 +15,13 @@ const up = async function (knex) {
     return [badgeId, partnerCompetenceIds];
   });
 
-  await bluebird.mapSeries(badgesWithPartnerCompetences, async (badgeWithPartnerCompetences) => {
+  for (const badgeWithPartnerCompetences of badgesWithPartnerCompetences) {
     const badgeId = badgeWithPartnerCompetences[0];
     const partnerCompetenceIds = badgeWithPartnerCompetences[1];
     await knex('badge-criteria')
       .update({ partnerCompetenceIds, scope: 'SomePartnerCompetences' })
       .where({ badgeId, scope: 'EveryPartnerCompetence' });
-  });
+  }
 };
 
 const down = function () {

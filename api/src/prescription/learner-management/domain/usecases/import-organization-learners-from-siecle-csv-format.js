@@ -1,6 +1,5 @@
 const { chunk } = lodash;
 
-import bluebird from 'bluebird';
 import lodash from 'lodash';
 
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
@@ -40,9 +39,9 @@ const importOrganizationLearnersFromSIECLECSVFormat = async function ({
         nationalStudentIds: nationalStudentIdData,
       });
 
-      await bluebird.mapSeries(organizationLearnersChunks, (chunk) => {
-        return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(chunk, organizationId);
-      });
+      for (const chunk of organizationLearnersChunks) {
+        await organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(chunk, organizationId);
+      }
     } catch (error) {
       errors.push(error);
       throw error;

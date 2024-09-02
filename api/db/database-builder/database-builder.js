@@ -1,5 +1,4 @@
 /* eslint-disable knex/avoid-injections */
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { databaseBuffer } from './database-buffer.js';
@@ -97,12 +96,13 @@ class DatabaseBuilder {
     }
     const dirtyTablesSequencesInfo = await this._getSequencesInfo(dirtyTables);
 
-    return bluebird.mapSeries(dirtyTablesSequencesInfo, async ({ tableName, sequenceName }) => {
+    for (const dirtyTablesSequence of dirtyTablesSequencesInfo) {
+      const { tableName, sequenceName } = dirtyTablesSequence;
       const sequenceRestartAtNumber = (await this._getTableMaxId(tableName)) + 1;
       if (sequenceRestartAtNumber !== 0) {
         await this.knex.raw(`ALTER SEQUENCE "${sequenceName}" RESTART WITH ${sequenceRestartAtNumber};`);
       }
-    });
+    }
   }
 
   async _getSequencesInfo(dirtyTables) {

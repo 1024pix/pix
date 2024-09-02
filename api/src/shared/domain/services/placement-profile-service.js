@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
@@ -14,6 +13,7 @@ import * as assessmentRepository from '../../infrastructure/repositories/assessm
 import * as assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository.js';
 import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
+import { PromiseUtils } from '../../infrastructure/utils/promise-utils.js';
 
 async function getPlacementProfile({
   userId,
@@ -35,7 +35,7 @@ async function getPlacementProfile({
 }
 
 async function _createUserCompetencesV1({ competences, userLastAssessments, limitDate }) {
-  return bluebird.mapSeries(competences, async (competence) => {
+  return PromiseUtils.mapSeries(competences, async (competence) => {
     const assessment = _.find(userLastAssessments, { competenceId: competence.id });
     let estimatedLevel = 0;
     let pixScore = 0;

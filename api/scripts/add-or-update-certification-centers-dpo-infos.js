@@ -2,7 +2,6 @@ import 'dotenv/config';
 
 import * as url from 'node:url';
 
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { disconnect } from '../db/knex-database-connection.js';
@@ -48,7 +47,7 @@ async function _updateCertificationCentersDataProtectionOfficerInformation(fileP
 
   const dataProtectionOfficers = await parseCsvWithHeader(filePath, parsingOptions);
 
-  await bluebird.mapSeries(dataProtectionOfficers, async (dataProtectionOfficer) => {
+  for (const dataProtectionOfficer of dataProtectionOfficers) {
     try {
       await updateCertificationCenterDataProtectionOfficerInformation({
         dataProtectionOfficer,
@@ -57,7 +56,7 @@ async function _updateCertificationCentersDataProtectionOfficerInformation(fileP
     } catch (error) {
       errors.push({ dataProtectionOfficer, error });
     }
-  });
+  }
 
   if (errors.length === 0) {
     return;

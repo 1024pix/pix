@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import lodash from 'lodash';
 
 import { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } from '../../../db/pgsql-errors.js';
@@ -274,13 +273,13 @@ async function _sendInvitationEmails({
       })
       .filter((organization) => Boolean(organization.email));
 
-    await bluebird.mapSeries(createdOrganizationsWithEmail, (organizationWithEmail) =>
-      organizationInvitationService.createProOrganizationInvitation({
+    for (const organizationWithEmail of createdOrganizationsWithEmail) {
+      await organizationInvitationService.createProOrganizationInvitation({
         organizationRepository,
         organizationInvitationRepository,
         ...organizationWithEmail,
-      }),
-    );
+      });
+    }
   } catch (error) {
     _monitorError(error.message, { error, event: 'send-organizations-invitation-emails' });
 

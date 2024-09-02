@@ -41,4 +41,22 @@ function map(array, mapper, { concurrency = Infinity } = {}) {
   });
 }
 
-export const PromiseUtils = { map };
+/**
+ * Asynchronously maps in series over an array of values and keeps the array order.
+ *
+ * @param {Array} array - The array of values to be mapped.
+ * @param {Function} mapper - A function that takes a value and its index, and returns a promise or value.
+ *
+ * @returns {Promise<Array>} A promise that resolves to an array of mapped results.
+ *
+ */
+async function mapSeries(array, mapper) {
+  const result = [];
+  for (const [index, item] of array.entries()) {
+    const mapped = await mapper(item, index);
+    result.push(mapped);
+  }
+  return result;
+}
+
+export const PromiseUtils = { map, mapSeries };

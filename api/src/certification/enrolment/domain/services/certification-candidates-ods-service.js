@@ -1,7 +1,7 @@
-import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { CertificationCandidatesError } from '../../../../shared/domain/errors.js';
+import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../shared/domain/constants/certification-candidates-errors.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
@@ -54,7 +54,8 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
   candidatesDataByLine = _filterOutEmptyCandidateData(candidatesDataByLine);
 
   const _checkForDuplication = _handleDuplicateCandidate();
-  return await bluebird.mapSeries(Object.entries(candidatesDataByLine), async ([line, candidateData]) => {
+
+  return PromiseUtils.mapSeries(Object.entries(candidatesDataByLine), async ([line, candidateData]) => {
     let { sex, birthCountry, birthINSEECode, birthPostalCode, birthCity, billingMode } = candidateData;
     const { email, resultRecipientEmail } = candidateData;
     const { hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre, hasPixPlusProSante } =

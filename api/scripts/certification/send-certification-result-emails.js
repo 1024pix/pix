@@ -3,7 +3,6 @@ import 'dotenv/config';
 import path from 'node:path';
 import * as url from 'node:url';
 
-import bluebird from 'bluebird';
 import i18n from 'i18n';
 
 import { disconnect } from '../../db/knex-database-connection.js';
@@ -39,19 +38,19 @@ async function main() {
   const sessionIds = process.argv[2].split(',');
   let successes = 0;
 
-  await bluebird.mapSeries(sessionIds, async (sessionId) => {
+  for (const sessionId of sessionIds) {
     let session;
 
     try {
       session = await sharedSessionRepository.getWithCertificationCandidates({ id: parseInt(sessionId) });
     } catch (e) {
       logger.error({ e });
-      return;
+      continue;
     }
 
     if (!session.isPublished()) {
       logger.error(`La session ${sessionId} n'est pas publiée`);
-      return;
+      continue;
     }
 
     const publishedAt = session.publishedAt;
@@ -70,7 +69,7 @@ async function main() {
     } catch (e) {
       logger.error(e);
     }
-  });
+  }
 
   logger.info(`Nombre de session traitées: ${successes}/${sessionIds.length}`);
   logger.info('Fin du script.');

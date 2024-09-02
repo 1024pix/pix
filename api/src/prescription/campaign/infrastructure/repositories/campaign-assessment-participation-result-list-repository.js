@@ -1,8 +1,7 @@
-import bluebird from 'bluebird';
-
 import { knex } from '../../../../../db/knex-database-connection.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
+import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 import { CampaignAssessmentParticipationResultMinimal } from '../../domain/read-models/CampaignAssessmentParticipationResultMinimal.js';
 
@@ -155,7 +154,7 @@ function _filterByStage(queryBuilder, stageCollection, filters) {
 }
 
 async function _buildCampaignAssessmentParticipationResultList(results, stageCollection) {
-  return await bluebird.mapSeries(results, async (result) => {
+  return PromiseUtils.mapSeries(results, async (result) => {
     const badges = await getAcquiredBadges(result.campaignParticipationId);
     const participantReachedStage = stageCollection.getReachedStage(
       result.validatedSkillsCount,

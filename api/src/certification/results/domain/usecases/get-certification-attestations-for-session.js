@@ -1,8 +1,8 @@
-import bluebird from 'bluebird';
 import compact from 'lodash/compact.js';
 import isEmpty from 'lodash/isEmpty.js';
 
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 
 const getCertificationAttestationsForSession = async function ({
   sessionId,
@@ -16,7 +16,7 @@ const getCertificationAttestationsForSession = async function ({
   }
 
   const certificationAttestations = compact(
-    await bluebird.mapSeries(certificationCourses, async (certificationCourse) => {
+    await PromiseUtils.mapSeries(certificationCourses, async (certificationCourse) => {
       try {
         return await certificateRepository.getCertificationAttestation({
           certificationCourseId: certificationCourse.getId(),
