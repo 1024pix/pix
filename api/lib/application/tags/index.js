@@ -7,37 +7,6 @@ import { tagController } from './tag-controller.js';
 const register = async function (server) {
   server.route([
     {
-      method: 'POST',
-      path: '/api/admin/tags',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
-          },
-        ],
-        validate: {
-          payload: Joi.object({
-            data: {
-              type: 'tags',
-              attributes: {
-                name: Joi.string().required(),
-              },
-            },
-          }),
-          options: {
-            allowUnknown: true,
-          },
-        },
-        handler: tagController.create,
-        tags: ['api', 'tags'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés ayant le role Super Admin**\n' +
-            '- Elle permet de créer un tag',
-        ],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/admin/tags',
       config: {
