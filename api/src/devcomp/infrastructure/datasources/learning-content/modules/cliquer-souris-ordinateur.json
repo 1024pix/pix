@@ -407,12 +407,24 @@
             "content": "<p>Nous allons maintenant vous proposer des situations de double&#x002D;clic proche de cas que vous pourriez rencontrer. <br><br> <strong>Dans l’espace ci-dessous, effectuez un double&#x002D;clic sur chacun des éléments demandés.<br></strong><br></p>\n<p>Si vous avez terminé cette activité, faites un clic gauche sur le bouton «&nbsp;Suivant&nbsp;» ci-dessous.</p>"
           }
         },
+     {
+          "type": "element",
+          "element": {
+            "id": "99f1bc24-3a69-458d-b176-2a284db75831",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "Simulateur de visioconférence",
+            "url": "https://epreuves.pix.fr/filemanager-visu/filemanager-visu.html?mode=filemanager_color&lang=fr#706c7b26595c5618544b474e431556565511631070697e7d58515619",
+            "instruction": "<p>Dans l'explorateur de fichier ci-dessous, double-cliquez sur les dossiers suivants&nbsp;:</p> <ul><li> Photos</li><li>Album</li><li>Famille</li><li>80 ans Mamie</li></ul>",
+            "height": 600
+          }
+        },
         {
           "type": "element",
           "element": {
             "id": "178900ef-95a4-44d3-b95f-ef7e971f61fa",
             "type": "qrocm",
-            "instruction": "<p>Combien de photos se trouvent dans le dossier 80 ans Mamie ?</p>",
+            "instruction": "<p>Combien de photos se trouvent dans le dossier 80 ans Mamie&#8239;?</p>",
             "proposals": [
               {
                 "type": "text",
