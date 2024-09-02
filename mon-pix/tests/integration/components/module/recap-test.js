@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -44,10 +45,10 @@ module('Integration | Component | Module | Recap', function (hooks) {
     const screen = await render(hbs`<Module::Recap @module={{this.module}} />`);
 
     // then
-    assert.ok(screen.getByRole('heading', { level: 1, name: this.intl.t('pages.modulix.recap.title') }));
+    assert.ok(screen.getByRole('heading', { level: 1, name: t('pages.modulix.recap.title') }));
     assert.ok(
       screen.getByText((content, element) => {
-        return element.innerHTML.trim() === this.intl.t('pages.modulix.recap.subtitle');
+        return element.innerHTML.trim() === t('pages.modulix.recap.subtitle');
       }),
     );
     assert.ok(screen.getByText('Objectif 1'));

@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -30,7 +31,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
       assert
         .dom(
           screen.getByRole('heading', {
-            name: this.intl.t('pages.campaign-landing.profiles-collection.announcement'),
+            name: t('pages.campaign-landing.profiles-collection.announcement'),
             level: 2,
           }),
         )
@@ -72,13 +73,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
       // then
       assert.ok(
-        screen.getByText(
-          this.intl.t('pages.campaign-landing.warning-message', { firstName: 'Izuku', lastName: 'Midorya' }),
-        ),
+        screen.getByText(t('pages.campaign-landing.warning-message', { firstName: 'Izuku', lastName: 'Midorya' })),
       );
-      assert
-        .dom(screen.getByRole('link', { name: this.intl.t('pages.campaign-landing.warning-message-logout') }))
-        .exists();
+      assert.dom(screen.getByRole('link', { name: t('pages.campaign-landing.warning-message-logout') })).exists();
     });
 
     test('should call session.invalidate to shut down the session when user click on disconnect', async function (assert) {
@@ -87,7 +84,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
         hbs`<CampaignStartBlock @campaign={{this.campaign}} @startCampaignParticipation={{this.startCampaignParticipation}} />`,
       );
 
-      await click(screen.getByRole('link', { name: this.intl.t('pages.campaign-landing.warning-message-logout') }));
+      await click(screen.getByRole('link', { name: t('pages.campaign-landing.warning-message-logout') }));
 
       // then
       sinon.assert.calledOnce(session.invalidate);
@@ -109,18 +106,18 @@ module('Integration | Component | campaign-start-block', function (hooks) {
         assert
           .dom(
             screen.queryByRole('heading', {
-              name: this.intl.t('pages.campaign-landing.profiles-collection.announcement'),
+              name: t('pages.campaign-landing.profiles-collection.announcement'),
             }),
           )
           .doesNotExist();
         assert
           .dom(
             screen.getByRole('button', {
-              name: this.intl.t('pages.campaign-landing.profiles-collection.action'),
+              name: t('pages.campaign-landing.profiles-collection.action'),
             }),
           )
           .exists();
-        assert.dom(screen.getByText(this.intl.t('pages.campaign-landing.profiles-collection.legal'))).exists();
+        assert.dom(screen.getByText(t('pages.campaign-landing.profiles-collection.legal'))).exists();
       });
 
       test('should display the userName', async function (assert) {
@@ -155,18 +152,18 @@ module('Integration | Component | campaign-start-block', function (hooks) {
         assert
           .dom(
             screen.queryByRole('heading', {
-              name: this.intl.t('pages.campaign-landing.profiles-collection.announcement'),
+              name: t('pages.campaign-landing.profiles-collection.announcement'),
             }),
           )
           .doesNotExist();
         assert
           .dom(
             screen.getByRole('button', {
-              name: this.intl.t('pages.campaign-landing.assessment.action'),
+              name: t('pages.campaign-landing.assessment.action'),
             }),
           )
           .exists();
-        assert.dom(screen.getByText(this.intl.t('pages.campaign-landing.assessment.legal'))).exists();
+        assert.dom(screen.getByText(t('pages.campaign-landing.assessment.legal'))).exists();
       });
 
       test('should display the userName', async function (assert) {
@@ -218,13 +215,11 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
       // then
       assert
-        .dom(screen.queryByRole('link', { name: this.intl.t('pages.campaign-landing.warning-message-logout') }))
+        .dom(screen.queryByRole('link', { name: t('pages.campaign-landing.warning-message-logout') }))
         .doesNotExist();
       assert
         .dom(
-          screen.queryByText(
-            this.intl.t('pages.campaign-landing.warning-message', { firstName: 'Izuku', lastName: 'Midorya' }),
-          ),
+          screen.queryByText(t('pages.campaign-landing.warning-message', { firstName: 'Izuku', lastName: 'Midorya' })),
         )
         .doesNotExist();
     });
@@ -306,13 +301,11 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
       // then
       assert
-        .dom(screen.queryByRole('link', { name: this.intl.t('pages.campaign-landing.warning-message-logout') }))
+        .dom(screen.queryByRole('link', { name: t('pages.campaign-landing.warning-message-logout') }))
         .doesNotExist();
       assert
         .dom(
-          screen.queryByText(
-            this.intl.t('pages.campaign-landing.warning-message', { firstName: 'Izuku', lastName: 'Midorya' }),
-          ),
+          screen.queryByText(t('pages.campaign-landing.warning-message', { firstName: 'Izuku', lastName: 'Midorya' })),
         )
         .doesNotExist();
     });

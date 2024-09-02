@@ -1,6 +1,7 @@
 import { getByTextWithHtml, queryByTextWithHtml, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -79,7 +80,7 @@ module('Acceptance | Profile', function (hooks) {
           // then
           assert.ok(
             getByTextWithHtml(
-              this.intl.t('common.new-information-banner.lvl-seven', { lvlSevenUrl: this.url.levelSevenNewsUrl }),
+              t('common.new-information-banner.lvl-seven', { lvlSevenUrl: this.url.levelSevenNewsUrl }),
             ),
           );
         });
@@ -91,12 +92,12 @@ module('Acceptance | Profile', function (hooks) {
           const screen = await visit('/competences');
 
           // when
-          await click(screen.getByRole('button', { name: this.intl.t('common.new-information-banner.close-label') }));
+          await click(screen.getByRole('button', { name: t('common.new-information-banner.close-label') }));
 
           // then
           assert.strictEqual(
             queryByTextWithHtml(
-              this.intl.t('common.new-information-banner.lvl-seven', { lvlSevenUrl: this.url.levelSevenNewsUrl }),
+              t('common.new-information-banner.lvl-seven', { lvlSevenUrl: this.url.levelSevenNewsUrl }),
             ),
             null,
           );
@@ -115,7 +116,7 @@ module('Acceptance | Profile', function (hooks) {
 
         assert.strictEqual(
           queryByTextWithHtml(
-            this.intl.t('common.new-information-banner.lvl-seven', { lvlSevenUrl: this.url.levelSevenNewsUrl }),
+            t('common.new-information-banner.lvl-seven', { lvlSevenUrl: this.url.levelSevenNewsUrl }),
           ),
           null,
         );
@@ -137,7 +138,7 @@ module('Acceptance | Profile', function (hooks) {
       await fillIn(screen.getByLabelText('Mot de passe'), 'Pix20!!');
 
       // when
-      await click(screen.getByRole('button', { name: this.intl.t('pages.sign-in.actions.submit') }));
+      await click(screen.getByRole('button', { name: t('pages.sign-in.actions.submit') }));
 
       // then
       assert.strictEqual(currentURL(), '/connexion');

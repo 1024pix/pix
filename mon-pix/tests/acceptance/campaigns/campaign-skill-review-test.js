@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -71,7 +72,7 @@ module('Acceptance | Campaigns | Skill Review', function (hooks) {
           // then
           assert.ok(screen.getByText(campaign.title));
           assert
-            .dom(screen.getByRole('heading', { name: this.intl.t('pages.skill-review.tabs.results-details.title') }))
+            .dom(screen.getByRole('heading', { name: t('pages.skill-review.tabs.results-details.title') }))
             .isVisible();
         });
       });

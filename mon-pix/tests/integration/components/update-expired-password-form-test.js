@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -76,7 +77,7 @@ module('Integration | Component | update-expired-password-form', function (hooks
       await click(screen.getByRole('button', { name: 'Réinitialiser' }));
 
       // then
-      assert.ok(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY));
+      assert.ok(t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY));
     });
   });
 });

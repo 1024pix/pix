@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn, findAll, settled } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setLocale, t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { module, test } from 'qunit';
@@ -116,7 +117,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.badges-title')));
+        assert.notOk(screen.queryByText(t('pages.skill-review.badges-title')));
       });
 
       test('should display acquired and isAlwaysVisible badges', async function (assert) {
@@ -261,24 +262,24 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // when
-        await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
+        await clickByLabel(t('pages.skill-review.actions.send'));
         await settled();
 
         // then
-        assert.ok(screen.getByText(this.intl.t('pages.skill-review.already-shared')));
-        assert.ok(screen.getByText(this.intl.t('pages.skill-review.actions.continue')));
-        assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.send-results')));
-        assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.actions.improve')));
+        assert.ok(screen.getByText(t('pages.skill-review.already-shared')));
+        assert.ok(screen.getByText(t('pages.skill-review.actions.continue')));
+        assert.notOk(screen.queryByText(t('pages.skill-review.send-results')));
+        assert.notOk(screen.queryByText(t('pages.skill-review.actions.improve')));
       });
 
       test('should redirect to default page on click', async function (assert) {
         // given
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
-        await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
+        await clickByLabel(t('pages.skill-review.actions.send'));
         await settled();
 
         // when
-        await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
+        await clickByLabel(t('pages.skill-review.actions.continue'));
         await settled();
 
         // then
@@ -306,8 +307,8 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
       // given
       await authenticate(user);
       await visit(`/campagnes/${campaignForNovice.code}`);
-      await clickByLabel(this.intl.t('pages.checkpoint.actions.next-page.results'));
-      await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
+      await clickByLabel(t('pages.checkpoint.actions.next-page.results'));
+      await clickByLabel(t('pages.skill-review.actions.continue'));
 
       // then
       assert.strictEqual(currentURL(), '/accueil');
@@ -322,10 +323,10 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
       await click('.fill-in-campaign-code__start-button');
 
       //TODO: locale is UNDEFINED after using visit
-      this.intl.setLocale(['fr']);
+      setLocale('fr');
 
-      await clickByLabel(this.intl.t('pages.checkpoint.actions.next-page.results'));
-      await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
+      await clickByLabel(t('pages.checkpoint.actions.next-page.results'));
+      await clickByLabel(t('pages.skill-review.actions.continue'));
 
       // then
       assert.strictEqual(currentURL(), '/inscription');

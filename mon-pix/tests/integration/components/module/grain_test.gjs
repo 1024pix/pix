@@ -2,6 +2,7 @@ import { clickByName, render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import ModuleGrain from 'mon-pix/components/module/grain';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -282,9 +283,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
           <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} @passage={{this.passage}} />`);
 
         // then
-        assert
-          .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') }))
-          .doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: t('pages.modulix.buttons.grain.skip') })).doesNotExist();
       });
 
       module('when canMoveToNextGrain is true', function () {
@@ -376,7 +375,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
             <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} @passage={{this.passage}} />`);
 
           // then
-          assert.dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') })).exists();
+          assert.dom(screen.queryByRole('button', { name: t('pages.modulix.buttons.grain.skip') })).exists();
         });
       });
 
@@ -419,9 +418,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
             <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{false}} @passage={{this.passage}} />`);
 
           // then
-          assert
-            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') }))
-            .doesNotExist();
+          assert.dom(screen.queryByRole('button', { name: t('pages.modulix.buttons.grain.skip') })).doesNotExist();
         });
       });
     });
@@ -479,7 +476,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
                          @onGrainContinue={{this.onGrainContinue}} @onGrainSkip={{this.onGrainSkip}}
                          @passage={{this.passage}} />`,
       );
-      await clickByName(this.intl.t('pages.modulix.buttons.grain.skip'));
+      await clickByName(t('pages.modulix.buttons.grain.skip'));
 
       // then
       sinon.assert.calledOnce(onGrainSkipStub);
@@ -507,7 +504,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       await render(hbs`
         <Module::Grain @grain={{this.grain}} @onElementRetry={{this.onElementRetry}} @canMoveToNextGrain={{true}}
                        @passage={{this.passage}} />`);
-      await clickByName(this.intl.t('pages.modulix.buttons.activity.retry'));
+      await clickByName(t('pages.modulix.buttons.activity.retry'));
 
       // then
       sinon.assert.calledOnce(onElementRetryStub);
@@ -589,7 +586,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
         // then
         await clickByName('radio1');
-        await clickByName(this.intl.t('pages.modulix.buttons.activity.verify'));
+        await clickByName(t('pages.modulix.buttons.activity.verify'));
         sinon.assert.calledOnce(onElementAnswerStub);
         assert.ok(true);
       });
@@ -656,7 +653,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
         // then
         await clickByName('radio1');
-        await clickByName(this.intl.t('pages.modulix.buttons.activity.retry'));
+        await clickByName(t('pages.modulix.buttons.activity.retry'));
         sinon.assert.calledOnce(onElementRetryStub);
         assert.ok(true);
       });
@@ -712,7 +709,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
           <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @onElementRetry={{this.onElementRetry}}  />`);
 
           // then
-          assert.dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') })).exists();
+          assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.grain.skip') })).exists();
         });
         test('should not display continue button', async function (assert) {
           // given
@@ -762,9 +759,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
           <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @onElementRetry={{this.onElementRetry}}  />`);
 
           // then
-          assert
-            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.continue') }))
-            .doesNotExist();
+          assert.dom(screen.queryByRole('button', { name: t('pages.modulix.buttons.grain.continue') })).doesNotExist();
         });
       });
 
@@ -824,12 +819,10 @@ module('Integration | Component | Module | Grain', function (hooks) {
           // when
           const screen = await render(hbs`
           <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @onElementRetry={{this.onElementRetry}} @onStepperNextStep={{this.onStepperNextStep}} />`);
-          await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
+          await clickByName(t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
           // then
-          assert
-            .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.continue') }))
-            .exists();
+          assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.grain.continue') })).exists();
         });
 
         test('should not display skip button', async function (assert) {
@@ -875,12 +868,10 @@ module('Integration | Component | Module | Grain', function (hooks) {
           // when
           const screen = await render(hbs`
           <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @onElementRetry={{this.onElementRetry}} @onStepperNextStep={{this.onStepperNextStep}} />`);
-          await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
+          await clickByName(t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
           // then
-          assert
-            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') }))
-            .doesNotExist();
+          assert.dom(screen.queryByRole('button', { name: t('pages.modulix.buttons.grain.skip') })).doesNotExist();
         });
       });
     });
@@ -946,7 +937,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
           <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @onElementRetry={{this.onElementRetry}} @onStepperNextStep={{this.onStepperNextStep}} />`);
 
             // then
-            assert.dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') })).exists();
+            assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.grain.skip') })).exists();
           });
 
           test('should not display continue button', async function (assert) {
@@ -996,7 +987,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
             // then
             assert
-              .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.continue') }))
+              .dom(screen.queryByRole('button', { name: t('pages.modulix.buttons.grain.continue') }))
               .doesNotExist();
           });
         });
@@ -1047,12 +1038,10 @@ module('Integration | Component | Module | Grain', function (hooks) {
               // when
               const screen = await render(hbs`
             <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @onElementRetry={{this.onElementRetry}} @onStepperNextStep={{this.onStepperNextStep}} />`);
-              await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
+              await clickByName(t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
               // then
-              assert
-                .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') }))
-                .exists();
+              assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.grain.skip') })).exists();
             });
 
             test('should not display continue button', async function (assert) {
@@ -1099,11 +1088,11 @@ module('Integration | Component | Module | Grain', function (hooks) {
               // when
               const screen = await render(hbs`
             <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @onElementRetry={{this.onElementRetry}} @onStepperNextStep={{this.onStepperNextStep}} />`);
-              await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
+              await clickByName(t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
               // then
               assert
-                .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.continue') }))
+                .dom(screen.queryByRole('button', { name: t('pages.modulix.buttons.grain.continue') }))
                 .doesNotExist();
             });
           });
@@ -1170,7 +1159,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
           <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @onElementRetry={{this.onElementRetry}}  />`);
 
             // then
-            assert.dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') })).exists();
+            assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.grain.skip') })).exists();
           });
           test('should not display continue button', async function (assert) {
             // given
@@ -1231,7 +1220,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
             // then
             assert
-              .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.continue') }))
+              .dom(screen.queryByRole('button', { name: t('pages.modulix.buttons.grain.continue') }))
               .doesNotExist();
           });
         });
@@ -1305,12 +1294,10 @@ module('Integration | Component | Module | Grain', function (hooks) {
               const screen = await render(hbs`
                 <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @onElementRetry={{this.onElementRetry}} @onStepperNextStep={{this.onStepperNextStep}} />`);
 
-              await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
+              await clickByName(t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
               // then
-              assert
-                .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.continue') }))
-                .exists();
+              assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.grain.continue') })).exists();
             });
 
             test('should display continue button', async function (assert) {
@@ -1370,12 +1357,10 @@ module('Integration | Component | Module | Grain', function (hooks) {
               const screen = await render(hbs`
                 <Module::Grain @grain={{this.grain}} @passage={{this.passage}} @canMoveToNextGrain={{true}} @onElementRetry={{this.onElementRetry}} @onStepperNextStep={{this.onStepperNextStep}} />`);
 
-              await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
+              await clickByName(t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
               // then
-              assert
-                .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.continue') }))
-                .exists();
+              assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.grain.continue') })).exists();
             });
           });
         });

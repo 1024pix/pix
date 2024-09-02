@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
@@ -28,18 +29,16 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
     test('it should display a tablist with three tabs', async function (assert) {
       // then
-      assert.dom(screen.getByRole('tablist', { name: this.intl.t('pages.skill-review.tabs.aria-label') })).exists();
+      assert.dom(screen.getByRole('tablist', { name: t('pages.skill-review.tabs.aria-label') })).exists();
       assert.strictEqual(screen.getAllByRole('tab').length, 3);
-      assert.dom(screen.getByRole('tab', { name: this.intl.t('pages.skill-review.tabs.rewards.tab-label') }));
-      assert.dom(screen.getByRole('tab', { name: this.intl.t('pages.skill-review.tabs.results-details.tab-label') }));
-      assert.dom(screen.getByRole('tab', { name: this.intl.t('pages.skill-review.tabs.trainings.tab-label') }));
+      assert.dom(screen.getByRole('tab', { name: t('pages.skill-review.tabs.rewards.tab-label') }));
+      assert.dom(screen.getByRole('tab', { name: t('pages.skill-review.tabs.results-details.tab-label') }));
+      assert.dom(screen.getByRole('tab', { name: t('pages.skill-review.tabs.trainings.tab-label') }));
     });
 
     test('it should display the rewards tab first', async function (assert) {
       // then
-      assert
-        .dom(screen.getByRole('heading', { name: this.intl.t('pages.skill-review.tabs.rewards.title') }))
-        .isVisible();
+      assert.dom(screen.getByRole('heading', { name: t('pages.skill-review.tabs.rewards.title') })).isVisible();
     });
   });
 
@@ -57,11 +56,11 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       );
 
       // then
-      assert.dom(screen.getByRole('tablist', { name: this.intl.t('pages.skill-review.tabs.aria-label') })).exists();
+      assert.dom(screen.getByRole('tablist', { name: t('pages.skill-review.tabs.aria-label') })).exists();
       assert.strictEqual(screen.getAllByRole('tab').length, 2);
-      assert.dom(screen.getByRole('tab', { name: this.intl.t('pages.skill-review.tabs.rewards.tab-label') }));
-      assert.dom(screen.getByRole('tab', { name: this.intl.t('pages.skill-review.tabs.results-details.tab-label') }));
-      assert.notOk(screen.queryByRole('tab', { name: this.intl.t('pages.skill-review.tabs.trainings.tab-label') }));
+      assert.dom(screen.getByRole('tab', { name: t('pages.skill-review.tabs.rewards.tab-label') }));
+      assert.dom(screen.getByRole('tab', { name: t('pages.skill-review.tabs.results-details.tab-label') }));
+      assert.notOk(screen.queryByRole('tab', { name: t('pages.skill-review.tabs.trainings.tab-label') }));
     });
   });
 
@@ -85,18 +84,16 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
     test('it should not display the rewards tab', async function (assert) {
       // then
-      assert.dom(screen.getByRole('tablist', { name: this.intl.t('pages.skill-review.tabs.aria-label') })).exists();
+      assert.dom(screen.getByRole('tablist', { name: t('pages.skill-review.tabs.aria-label') })).exists();
       assert.strictEqual(screen.getAllByRole('tab').length, 2);
-      assert.notOk(screen.queryByRole('tab', { name: this.intl.t('pages.skill-review.tabs.rewards.tab-label') }));
-      assert.dom(screen.getByRole('tab', { name: this.intl.t('pages.skill-review.tabs.results-details.tab-label') }));
-      assert.dom(screen.getByRole('tab', { name: this.intl.t('pages.skill-review.tabs.trainings.tab-label') }));
+      assert.notOk(screen.queryByRole('tab', { name: t('pages.skill-review.tabs.rewards.tab-label') }));
+      assert.dom(screen.getByRole('tab', { name: t('pages.skill-review.tabs.results-details.tab-label') }));
+      assert.dom(screen.getByRole('tab', { name: t('pages.skill-review.tabs.trainings.tab-label') }));
     });
 
     test('it should display the results details tab first', async function (assert) {
       // then
-      assert
-        .dom(screen.getByRole('heading', { name: this.intl.t('pages.skill-review.tabs.results-details.title') }))
-        .isVisible();
+      assert.dom(screen.getByRole('heading', { name: t('pages.skill-review.tabs.results-details.title') })).isVisible();
     });
   });
 
@@ -112,7 +109,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       );
 
       // then
-      assert.notOk(screen.queryByRole('tablist', { name: this.intl.t('pages.skill-review.tabs.aria-label') }));
+      assert.notOk(screen.queryByRole('tablist', { name: t('pages.skill-review.tabs.aria-label') }));
     });
   });
 });

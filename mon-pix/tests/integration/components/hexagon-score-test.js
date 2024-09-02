@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -55,7 +56,7 @@ module('Integration | Component | hexagon-score', function (hooks) {
       );
 
       // then
-      assert.ok(screen.getByRole('button', { name: this.intl.t('pages.profile.total-score-helper.label') }));
+      assert.ok(screen.getByRole('button', { name: t('pages.profile.total-score-helper.label') }));
     });
   });
 });

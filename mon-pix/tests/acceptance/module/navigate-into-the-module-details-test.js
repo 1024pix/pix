@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -31,9 +32,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleDetails', function (
       const screen = await visit('/modules/bien-ecrire-son-adresse-mail/details');
 
       // then
-      assert
-        .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }))
-        .exists({ count: 1 });
+      assert.dom(screen.getByRole('button', { name: t('pages.modulix.details.startModule') })).exists({ count: 1 });
     });
 
     test('should navigate to passage page by clicking on start module button', async function (assert) {
@@ -57,7 +56,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleDetails', function (
 
       // when
       const screen = await visit('/modules/bien-ecrire-son-adresse-mail/details');
-      await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+      await click(screen.getByRole('button', { name: t('pages.modulix.details.startModule') }));
 
       // then
       assert.strictEqual(currentURL(), '/modules/bien-ecrire-son-adresse-mail/passage');

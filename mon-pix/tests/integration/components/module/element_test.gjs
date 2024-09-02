@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { findAll } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import ModulixElement from 'mon-pix/components/module/element';
 import { module, test } from 'qunit';
 
@@ -81,9 +82,9 @@ module('Integration | Component | Module | Element', function (hooks) {
 
     // then
     const downloadElement = screen.getByRole('link', {
-      name: this.intl.t('pages.modulix.download.label', { format: '.jpg' }),
+      name: t('pages.modulix.download.label', { format: '.jpg' }),
     });
-    assert.dom(downloadElement).hasText(this.intl.t('pages.modulix.download.button'));
+    assert.dom(downloadElement).hasText(t('pages.modulix.download.button'));
   });
 
   test('should display an element with an embed element', async function (assert) {

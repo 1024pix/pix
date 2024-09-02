@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -15,7 +16,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       this.set('onStepChange', sinon.stub());
       const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
 
-      await _fillInputsToJoinSession({ screen, intl: this.intl });
+      await _fillInputsToJoinSession({ screen, t });
 
       const store = this.owner.lookup('service:store');
       const createRecordMock = sinon.mock();
@@ -23,7 +24,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       store.createRecord = createRecordMock;
 
       // when
-      await click(screen.getByRole('button', { name: this.intl.t('pages.certification-joiner.form.actions.submit') }));
+      await click(screen.getByRole('button', { name: t('pages.certification-joiner.form.actions.submit') }));
 
       // then
       sinon.assert.calledWith(createRecordMock, 'certification-candidate', {
@@ -40,7 +41,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       this.set('onStepChange', sinon.stub());
       const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
 
-      await _fillInputsToJoinSession({ screen, intl: this.intl });
+      await _fillInputsToJoinSession({ screen, t });
 
       const store = this.owner.lookup('service:store');
       const createRecordMock = sinon.mock();
@@ -48,7 +49,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       store.createRecord = createRecordMock;
 
       // when
-      await click(screen.getByRole('button', { name: this.intl.t('pages.certification-joiner.form.actions.submit') }));
+      await click(screen.getByRole('button', { name: t('pages.certification-joiner.form.actions.submit') }));
 
       // then
       sinon.assert.calledWith(createRecordMock, 'certification-candidate', {
@@ -66,7 +67,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       this.set('onStepChange', stepChangeStub);
       const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
 
-      await _fillInputsToJoinSession({ screen, intl: this.intl });
+      await _fillInputsToJoinSession({ screen, t });
 
       const store = this.owner.lookup('service:store');
       const createRecordMock = sinon.mock();
@@ -77,7 +78,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       store.createRecord = createRecordMock;
 
       // when
-      await click(screen.getByRole('button', { name: this.intl.t('pages.certification-joiner.form.actions.submit') }));
+      await click(screen.getByRole('button', { name: t('pages.certification-joiner.form.actions.submit') }));
 
       // then
       sinon.assert.calledWith(stepChangeStub, '112233');
@@ -89,7 +90,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       this.set('onStepChange', sinon.stub());
       const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
 
-      await _fillInputsToJoinSession({ screen, intl: this.intl });
+      await _fillInputsToJoinSession({ screen, t });
 
       const store = this.owner.lookup('service:store');
       const saveStub = sinon.stub();
@@ -101,7 +102,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       store.createRecord = createRecordMock;
 
       // when
-      await click(screen.getByRole('button', { name: this.intl.t('pages.certification-joiner.form.actions.submit') }));
+      await click(screen.getByRole('button', { name: t('pages.certification-joiner.form.actions.submit') }));
 
       // then
       assert.ok(
@@ -118,7 +119,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
       const sessionIdWithLetters = '123AAA456AAA';
 
-      await _fillInputsToJoinSession({ sessionId: sessionIdWithLetters, screen, intl: this.intl });
+      await _fillInputsToJoinSession({ sessionId: sessionIdWithLetters, screen, t });
 
       const store = this.owner.lookup('service:store');
       const createRecordMock = sinon.mock();
@@ -126,7 +127,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       store.createRecord = createRecordMock;
 
       // when
-      await click(screen.getByRole('button', { name: this.intl.t('pages.certification-joiner.form.actions.submit') }));
+      await click(screen.getByRole('button', { name: t('pages.certification-joiner.form.actions.submit') }));
 
       // then
       assert.ok(screen.getByText('Le numéro de session est composé uniquement de chiffres.'));
@@ -137,7 +138,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       this.set('onStepChange', sinon.stub());
       const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
 
-      await _fillInputsToJoinSession({ screen, intl: this.intl });
+      await _fillInputsToJoinSession({ screen, t });
 
       const store = this.owner.lookup('service:store');
       const saveStub = sinon.stub();
@@ -154,7 +155,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       store.createRecord = createRecordMock;
 
       // when
-      await click(screen.getByRole('button', { name: this.intl.t('pages.certification-joiner.form.actions.submit') }));
+      await click(screen.getByRole('button', { name: t('pages.certification-joiner.form.actions.submit') }));
 
       // then
       assert.ok(
@@ -170,7 +171,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       this.set('onStepChange', sinon.stub());
       const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
 
-      await _fillInputsToJoinSession({ screen, intl: this.intl });
+      await _fillInputsToJoinSession({ screen, t });
 
       const store = this.owner.lookup('service:store');
       const saveStub = sinon.stub();
@@ -187,7 +188,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       store.createRecord = createRecordMock;
 
       // when
-      await click(screen.getByRole('button', { name: this.intl.t('pages.certification-joiner.form.actions.submit') }));
+      await click(screen.getByRole('button', { name: t('pages.certification-joiner.form.actions.submit') }));
 
       // then
       assert.ok(
@@ -202,7 +203,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       this.set('onStepChange', sinon.stub());
       const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
 
-      await _fillInputsToJoinSession({ screen, intl: this.intl });
+      await _fillInputsToJoinSession({ screen, t });
 
       const store = this.owner.lookup('service:store');
       const saveStub = sinon.stub();
@@ -214,14 +215,12 @@ module('Integration | Component | certification-joiner', function (hooks) {
       store.createRecord = createRecordMock;
 
       // when
-      await click(screen.getByRole('button', { name: this.intl.t('pages.certification-joiner.form.actions.submit') }));
+      await click(screen.getByRole('button', { name: t('pages.certification-joiner.form.actions.submit') }));
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer')));
-      assert.ok(
-        screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number')),
-      );
-      assert.ok(screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info')));
+      assert.ok(screen.getByText(t('pages.certification-joiner.error-messages.generic.disclaimer')));
+      assert.ok(screen.getByText(t('pages.certification-joiner.error-messages.generic.check-session-number')));
+      assert.ok(screen.getByText(t('pages.certification-joiner.error-messages.generic.check-personal-info')));
     });
 
     test('should display an error message on session not accessible', async function (assert) {
@@ -229,7 +228,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       this.set('onStepChange', sinon.stub());
       const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
 
-      await _fillInputsToJoinSession({ screen, intl: this.intl });
+      await _fillInputsToJoinSession({ screen, t });
 
       const store = this.owner.lookup('service:store');
       const saveStub = sinon.stub();
@@ -241,7 +240,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
       store.createRecord = createRecordMock;
 
       // when
-      await click(screen.getByRole('button', { name: this.intl.t('pages.certification-joiner.form.actions.submit') }));
+      await click(screen.getByRole('button', { name: t('pages.certification-joiner.form.actions.submit') }));
 
       // then
       assert.ok(screen.getByText("La session que vous tentez de rejoindre n'est plus accessible."));
@@ -253,7 +252,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
         this.set('onStepChange', sinon.stub());
         const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
 
-        await _fillInputsToJoinSession({ screen, intl: this.intl });
+        await _fillInputsToJoinSession({ screen, t });
 
         const store = this.owner.lookup('service:store');
         const saveStub = sinon.stub();
@@ -265,18 +264,12 @@ module('Integration | Component | certification-joiner', function (hooks) {
         store.createRecord = createRecordMock;
 
         // when
-        await click(
-          screen.getByRole('button', { name: this.intl.t('pages.certification-joiner.form.actions.submit') }),
-        );
+        await click(screen.getByRole('button', { name: t('pages.certification-joiner.form.actions.submit') }));
 
         // then
-        assert.ok(screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer')));
-        assert.ok(
-          screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number')),
-        );
-        assert.ok(
-          screen.getByText(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info')),
-        );
+        assert.ok(screen.getByText(t('pages.certification-joiner.error-messages.generic.disclaimer')));
+        assert.ok(screen.getByText(t('pages.certification-joiner.error-messages.generic.check-session-number')));
+        assert.ok(screen.getByText(t('pages.certification-joiner.error-messages.generic.check-personal-info')));
       });
     });
   });
@@ -286,7 +279,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
     const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
 
     // then
-    assert.ok(screen.getByText(this.intl.t('pages.certification-joiner.form.fields.session-number-information')));
+    assert.ok(screen.getByText(t('pages.certification-joiner.form.fields.session-number-information')));
   });
 
   test('should have inputs mandatory', async function (assert) {
@@ -302,15 +295,15 @@ module('Integration | Component | certification-joiner', function (hooks) {
       )
       .isRequired();
     assert
-      .dom(screen.getByRole('textbox', { name: this.intl.t('pages.certification-joiner.form.fields.first-name') }))
+      .dom(screen.getByRole('textbox', { name: t('pages.certification-joiner.form.fields.first-name') }))
       .isRequired();
     assert
-      .dom(screen.getByRole('textbox', { name: this.intl.t('pages.certification-joiner.form.fields.birth-name') }))
+      .dom(screen.getByRole('textbox', { name: t('pages.certification-joiner.form.fields.birth-name') }))
       .isRequired();
     assert
       .dom(
         screen.getByRole('spinbutton', {
-          name: `${this.intl.t('pages.certification-joiner.form.fields.birth-date')} ${this.intl.t(
+          name: `${t('pages.certification-joiner.form.fields.birth-date')} ${t(
             'pages.certification-joiner.form.fields.birth-day',
           )}`,
         }),
@@ -319,14 +312,14 @@ module('Integration | Component | certification-joiner', function (hooks) {
     assert
       .dom(
         screen.getByRole('spinbutton', {
-          name: `${this.intl.t('pages.certification-joiner.form.fields.birth-month')}`,
+          name: `${t('pages.certification-joiner.form.fields.birth-month')}`,
         }),
       )
       .isRequired();
     assert
       .dom(
         screen.getByRole('spinbutton', {
-          name: `${this.intl.t('pages.certification-joiner.form.fields.birth-year')}`,
+          name: `${t('pages.certification-joiner.form.fields.birth-year')}`,
         }),
       )
       .isRequired();
@@ -339,7 +332,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
         this.set('onStepChange', sinon.stub());
         const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
         const birthDayInput = screen.getByRole('spinbutton', {
-          name: `${this.intl.t('pages.certification-joiner.form.fields.birth-date')} ${this.intl.t(
+          name: `${t('pages.certification-joiner.form.fields.birth-date')} ${t(
             'pages.certification-joiner.form.fields.birth-day',
           )}`,
         });
@@ -356,7 +349,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
         this.set('onStepChange', sinon.stub());
         const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
         const birthMonthInput = screen.getByRole('spinbutton', {
-          name: this.intl.t('pages.certification-joiner.form.fields.birth-month'),
+          name: t('pages.certification-joiner.form.fields.birth-month'),
         });
 
         // when
@@ -371,7 +364,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
         this.set('onStepChange', sinon.stub());
         const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}} />`);
         const birthYearInput = screen.getByRole('spinbutton', {
-          name: this.intl.t('pages.certification-joiner.form.fields.birth-year'),
+          name: t('pages.certification-joiner.form.fields.birth-year'),
         });
 
         // when
@@ -383,7 +376,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
     });
   });
 
-  async function _fillInputsToJoinSession({ sessionId = '123456', screen, intl }) {
+  async function _fillInputsToJoinSession({ sessionId = '123456', screen, t }) {
     await fillIn(
       screen.getByRole('textbox', {
         name: 'Numéro de session Communiqué uniquement par le surveillant en début de session',
@@ -391,27 +384,27 @@ module('Integration | Component | certification-joiner', function (hooks) {
       sessionId,
     );
     await fillIn(
-      screen.getByRole('textbox', { name: intl.t('pages.certification-joiner.form.fields.first-name') }),
+      screen.getByRole('textbox', { name: t('pages.certification-joiner.form.fields.first-name') }),
       'Robert' + '  ',
     );
     await fillIn(
-      screen.getByRole('textbox', { name: intl.t('pages.certification-joiner.form.fields.birth-name') }),
+      screen.getByRole('textbox', { name: t('pages.certification-joiner.form.fields.birth-name') }),
       '  ' + 'de Pix',
     );
     await fillIn(
       screen.getByRole('spinbutton', {
-        name: `${intl.t('pages.certification-joiner.form.fields.birth-date')} ${intl.t(
+        name: `${t('pages.certification-joiner.form.fields.birth-date')} ${t(
           'pages.certification-joiner.form.fields.birth-day',
         )}`,
       }),
       '02',
     );
     await fillIn(
-      screen.getByRole('spinbutton', { name: intl.t('pages.certification-joiner.form.fields.birth-month') }),
+      screen.getByRole('spinbutton', { name: t('pages.certification-joiner.form.fields.birth-month') }),
       '01',
     );
     await fillIn(
-      screen.getByRole('spinbutton', { name: intl.t('pages.certification-joiner.form.fields.birth-year') }),
+      screen.getByRole('spinbutton', { name: t('pages.certification-joiner.form.fields.birth-year') }),
       '2000',
     );
   }

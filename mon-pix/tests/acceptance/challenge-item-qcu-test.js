@@ -2,6 +2,7 @@ import { visit } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, currentURL, find, findAll } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -69,7 +70,7 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
     test('should go to checkpoint when user selects an answer and validates', async function (assert) {
       // when
       await click(screen.getByRole('radio', { name: '2eme possibilite' }));
-      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.validate-go-to-next') }));
+      await click(screen.getByRole('button', { name: t('pages.challenge.actions.validate-go-to-next') }));
 
       // then
       assert.ok(currentURL().includes(`/assessments/${assessment.id}/checkpoint`));

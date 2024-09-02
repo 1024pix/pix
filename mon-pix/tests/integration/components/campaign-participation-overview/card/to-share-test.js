@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -31,10 +32,8 @@ module('Integration | Component | CampaignParticipationOverview | Card | ToShare
     // then
     assert.ok(screen.getByRole('heading', { name: 'My organization' }));
     assert.ok(screen.getByText('My campaign'));
-    assert.ok(screen.getByText(this.intl.t('pages.campaign-participation-overview.card.tag.completed')));
-    assert.ok(screen.getByText(this.intl.t('pages.campaign-participation-overview.card.send')));
-    assert.ok(
-      screen.getByText(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '10/12/2020' })),
-    );
+    assert.ok(screen.getByText(t('pages.campaign-participation-overview.card.tag.completed')));
+    assert.ok(screen.getByText(t('pages.campaign-participation-overview.card.send')));
+    assert.ok(screen.getByText(t('pages.campaign-participation-overview.card.started-at', { date: '10/12/2020' })));
   });
 });

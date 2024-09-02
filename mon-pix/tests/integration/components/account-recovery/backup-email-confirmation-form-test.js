@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -33,36 +34,33 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       // then
       assert.ok(
         screen.getByText(
-          this.intl.t(
-            'pages.account-recovery.find-sco-record.backup-email-confirmation.email-already-exist-for-account-message',
-          ),
+          t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-already-exist-for-account-message'),
         ),
       );
       assert.ok(
-        screen.getByText(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-valid-message'),
-          { exact: false },
-        ),
+        screen.getByText(t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-valid-message'), {
+          exact: false,
+        }),
       );
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.ask-for-new-email-message'),
+          t('pages.account-recovery.find-sco-record.backup-email-confirmation.ask-for-new-email-message'),
           { exact: false },
         ),
       );
       assert.ok(
         screen.getByRole('link', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-reset-message'),
+          name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-reset-message'),
         }),
       );
       assert.ok(
         screen.getByRole('textbox', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
+          name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
         }),
       );
 
       const submitButton = screen.getByRole('button', {
-        name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
+        name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
       });
 
       assert.ok(submitButton);
@@ -85,31 +83,24 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t(
-            'pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message',
-            {
-              firstName,
-            },
-          ),
+          name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', {
+            firstName,
+          }),
         }),
       );
       assert.ok(
         screen.getByText(
-          this.intl.t(
-            'pages.account-recovery.find-sco-record.backup-email-confirmation.email-sent-to-choose-password-message',
-          ),
+          t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-sent-to-choose-password-message'),
         ),
       );
       assert.ok(
         screen.getByRole('textbox', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
+          name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
         }),
       );
       assert.notOk(
         screen.queryByText(
-          this.intl.t(
-            'pages.account-recovery.find-sco-record.backup-email-confirmation.email-already-exist-for-account-message',
-          ),
+          t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-already-exist-for-account-message'),
         ),
       );
     });
@@ -138,13 +129,13 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       // when
       await fillIn(
         screen.getByRole('textbox', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
+          name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
         }),
         email,
       );
       await click(
         screen.getByRole('button', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
+          name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
         }),
       );
 
@@ -162,14 +153,14 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       // when
       await fillIn(
         screen.getByRole('textbox', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
+          name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
         }),
         email,
       );
 
       // then
       const submitButton = screen.getByRole('button', {
-        name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
+        name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
         hidden: true,
       });
       assert.true(submitButton.disabled);
@@ -187,7 +178,7 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
         hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}} />`,
       );
       const emailInput = screen.getByRole('textbox', {
-        name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
+        name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
       });
 
       // when
@@ -196,9 +187,7 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
 
       // then
       assert.ok(
-        screen.getByText(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.empty-email'),
-        ),
+        screen.getByText(t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.empty-email')),
       );
     });
 
@@ -213,7 +202,7 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       );
 
       const emailInput = screen.getByRole('textbox', {
-        name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
+        name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
       });
 
       // when
@@ -223,7 +212,7 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       // then
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.wrong-email-format'),
+          t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.wrong-email-format'),
         ),
       );
     });
@@ -245,25 +234,25 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
       // when
       await fillIn(
         screen.getByRole('textbox', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
+          name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
         }),
         email,
       );
       await click(
         screen.getByRole('button', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
+          name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
         }),
       );
 
       // then
       assert.notOk(
         screen.queryByText(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.wrong-email-format'),
+          t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.wrong-email-format'),
         ),
       );
       assert.notOk(
         screen.queryByText(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.empty-email'),
+          t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.empty-email'),
         ),
       );
     });

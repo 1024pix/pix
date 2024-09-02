@@ -114,10 +114,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
                 ),
                 prescritUser.password,
               );
-              await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+              await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
 
               // when
-              await click(screen.getByRole('button', { name: this.intl.t('pages.sign-up.actions.submit') }));
+              await click(screen.getByRole('button', { name: t('pages.sign-up.actions.submit') }));
 
               // then
               assert.strictEqual(sentCampaignCode, campaign.code);

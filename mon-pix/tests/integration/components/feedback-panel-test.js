@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import { resolve } from 'rsvp';
 
@@ -54,7 +55,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await screen.findByRole('listbox');
         await click(
           screen.getByRole('option', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+            name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
           }),
         );
       });
@@ -78,7 +79,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
         // when
         await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
-        await click(screen.getByText(this.intl.t('common.actions.cancel')));
+        await click(screen.getByText(t('common.actions.cancel')));
 
         // then
         assert.ok(
@@ -90,10 +91,10 @@ module('Integration | Component | feedback-panel', function (hooks) {
         // when
         await click(
           screen.getByRole('button', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.actions.submit-aria-label'),
+            name: t('pages.challenge.feedback-panel.form.actions.submit-aria-label'),
           }),
         );
-        await click(screen.getByText(this.intl.t('common.actions.validate')));
+        await click(screen.getByText(t('common.actions.validate')));
 
         // then
         assert.dom(screen.getByText('Votre commentaire a bien été transmis à l’équipe du projet Pix.')).exists();
@@ -104,7 +105,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         // given
         await click(
           screen.getByRole('button', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
+            name: t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
           }),
         );
         const contentValue = 'Prêtes-moi ta plume, pour écrire un mot';
@@ -115,7 +116,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
         // when
         await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
-        await click(screen.getByText(this.intl.t('common.actions.validate')));
+        await click(screen.getByText(t('common.actions.validate')));
 
         // then
         assert
@@ -140,7 +141,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await screen.findByRole('listbox');
         await click(
           screen.getByRole('option', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'),
+            name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'),
           }),
         );
 
@@ -167,12 +168,12 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await screen.findByRole('listbox');
         await click(
           screen.getByRole('option', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+            name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
           }),
         );
         await click(
           screen.getByRole('button', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
+            name: t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
           }),
         );
 
@@ -196,7 +197,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await screen.findByRole('listbox');
         await click(
           screen.getByRole('option', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.picture'),
+            name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.picture'),
           }),
         );
 
@@ -223,7 +224,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
         await click(
           await screen.findByRole('option', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+            name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
           }),
         );
 
@@ -251,27 +252,25 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
         await click(
           await screen.findByRole('option', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'),
+            name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'),
           }),
         );
 
         await click(
           await screen.findByRole('button', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary'),
+            name: t('pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary'),
           }),
         );
 
         await click(
           await screen.findByRole('option', {
-            name: this.intl.t(
-              'pages.challenge.feedback-panel.form.fields.detail-selection.options.question-improvement',
-            ),
+            name: t('pages.challenge.feedback-panel.form.fields.detail-selection.options.question-improvement'),
           }),
         );
 
         await click(
           await screen.findByRole('button', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
+            name: t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
           }),
         );
 
@@ -296,20 +295,20 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await screen.findByRole('listbox');
         await click(
           screen.getByRole('option', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.embed'),
+            name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.embed'),
           }),
         );
         await click(screen.getByRole('button', { name: 'Sélectionner une option pour préciser votre problème' }));
         await click(
           await screen.findByRole('option', {
-            name: this.intl.t(
+            name: t(
               'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-mobile-devices-with-problems.label',
             ),
           }),
         );
         await click(
           screen.getByRole('button', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
+            name: t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
           }),
         );
 
@@ -474,12 +473,12 @@ module('Integration | Component | feedback-panel', function (hooks) {
       await screen.findByRole('listbox');
       await click(
         screen.getByRole('option', {
-          name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+          name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
         }),
       );
       await click(
         screen.getByRole('button', {
-          name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
+          name: t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
         }),
       );
 

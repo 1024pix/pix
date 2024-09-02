@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -40,7 +41,7 @@ module('Acceptance | Login or register oidc', function (hooks) {
         assert
           .dom(
             screen.getByRole('heading', {
-              name: this.intl.t('pages.login-or-register-oidc.register-form.title'),
+              name: t('pages.login-or-register-oidc.register-form.title'),
               level: 2,
             }),
           )

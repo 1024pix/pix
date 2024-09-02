@@ -89,7 +89,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
 
         // then
         assert.strictEqual(currentURL(), `/connexion/oidc?authenticationKey=key&identityProviderSlug=oidc-partner`);
-        assert.ok(screen.getByRole('heading', { name: this.intl.t('pages.login-or-register-oidc.title') }));
+        assert.ok(screen.getByRole('heading', { name: t('pages.login-or-register-oidc.title') }));
       });
 
       test('should begin campaign participation once user has accepted terms of service', async function (assert) {
@@ -104,7 +104,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
 
         // when
         const screen = await visit(`/connexion/oidc?authenticationKey=key&identityProviderSlug=oidc-partner`);
-        await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+        await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
         await click(screen.getByRole('button', { name: 'Je crée mon compte' }));
 
         // then

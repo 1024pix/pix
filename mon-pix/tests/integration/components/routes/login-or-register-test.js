@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import { clickByLabel } from '../../../helpers/click-by-label';
@@ -39,7 +40,7 @@ module('Integration | Routes | routes/login-or-register', function (hooks) {
     );
 
     // when
-    await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
+    await clickByLabel(t('pages.login-or-register.login-form.button'));
 
     // then
     assert.dom('.register-form').doesNotExist();

@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn, settled } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -16,7 +17,7 @@ module('Acceptance | OIDC | authentication flow', function (hooks) {
       test('should redirect the user to logout url', async function (assert) {
         // given
         const screen = await visit('/connexion/oidc-partner?code=code&state=state');
-        await click(screen.getByLabelText(this.intl.t('common.cgu.label')));
+        await click(screen.getByLabelText(t('common.cgu.label')));
         await click(screen.getByRole('button', { name: 'Je crée mon compte' }));
         await click(screen.getByRole('button', { name: 'Lloyd Consulter mes informations' }));
 
@@ -42,10 +43,10 @@ module('Acceptance | OIDC | authentication flow', function (hooks) {
 
         // when
         await fillIn(
-          screen.getByRole('textbox', { name: this.intl.t('pages.login-or-register-oidc.login-form.email') }),
+          screen.getByRole('textbox', { name: t('pages.login-or-register-oidc.login-form.email') }),
           'lloyd.ce@example.net',
         );
-        await fillIn(screen.getByLabelText(this.intl.t('pages.login-or-register-oidc.login-form.password')), 'pix123');
+        await fillIn(screen.getByLabelText(t('pages.login-or-register-oidc.login-form.password')), 'pix123');
         await click(screen.getByRole('button', { name: 'Je me connecte' }));
         // eslint-disable-next-line ember/no-settled-after-test-helper
         await settled();

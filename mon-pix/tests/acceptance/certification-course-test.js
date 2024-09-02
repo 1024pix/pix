@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, settled } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
 import { assessmentStates } from 'mon-pix/models/assessment';
@@ -73,7 +74,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               dayOfBirth: '04',
               monthOfBirth: '01',
               yearOfBirth: '1990',
-              intl: this.intl,
+              t,
             });
 
             // then
@@ -104,7 +105,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               dayOfBirth: '04',
               monthOfBirth: '01',
               yearOfBirth: '1990',
-              intl: this.intl,
+              t,
             });
 
             // then
@@ -135,7 +136,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               dayOfBirth: '04',
               monthOfBirth: '01',
               yearOfBirth: '1990',
-              intl: this.intl,
+              t,
             });
 
             // then
@@ -179,7 +180,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               dayOfBirth: '04',
               monthOfBirth: '01',
               yearOfBirth: '1990',
-              intl: this.intl,
+              t,
             });
 
             // then
@@ -206,7 +207,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               dayOfBirth: '04',
               monthOfBirth: '01',
               yearOfBirth: '1990',
-              intl: this.intl,
+              t,
             });
 
             // then
@@ -252,11 +253,11 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
                 dayOfBirth: '04',
                 monthOfBirth: '01',
                 yearOfBirth: '1990',
-                intl: this.intl,
+                t,
               });
 
               // when
-              await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+              await fillCertificationStarter({ accessCode: 'ABCD12', t });
 
               // then
               assert.true(currentURL().startsWith(`/assessments/${assessment.id}/challenges`));
@@ -273,9 +274,9 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
                 dayOfBirth: '04',
                 monthOfBirth: '01',
                 yearOfBirth: '1990',
-                intl: this.intl,
+                t,
               });
-              await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+              await fillCertificationStarter({ accessCode: 'ABCD12', t });
 
               // when
               await click(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }));
@@ -296,9 +297,9 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
                   dayOfBirth: '04',
                   monthOfBirth: '01',
                   yearOfBirth: '1990',
-                  intl: this.intl,
+                  t,
                 });
-                await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+                await fillCertificationStarter({ accessCode: 'ABCD12', t });
 
                 // when
                 for (let i = 0; i < NB_CHALLENGES; ++i) {
@@ -322,9 +323,9 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
                 dayOfBirth: '04',
                 monthOfBirth: '01',
                 yearOfBirth: '1990',
-                intl: this.intl,
+                t,
               });
-              await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+              await fillCertificationStarter({ accessCode: 'ABCD12', t });
 
               await click(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }));
               await visit('/');
@@ -371,9 +372,9 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           dayOfBirth: '04',
           monthOfBirth: '01',
           yearOfBirth: '1990',
-          intl: this.intl,
+          t,
         });
-        await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+        await fillCertificationStarter({ accessCode: 'ABCD12', t });
 
         // when
         for (let i = 0; i < NB_CHALLENGES; ++i) {
@@ -446,9 +447,9 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               dayOfBirth: '01',
               monthOfBirth: '01',
               yearOfBirth: '2000',
-              intl: this.intl,
+              t,
             });
-            await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+            await fillCertificationStarter({ accessCode: 'ABCD12', t });
 
             // when
             assessment.update({ state: assessmentStates.ENDED_BY_SUPERVISOR });
@@ -525,9 +526,9 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             dayOfBirth: '04',
             monthOfBirth: '01',
             yearOfBirth: '1990',
-            intl: this.intl,
+            t,
           });
-          await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+          await fillCertificationStarter({ accessCode: 'ABCD12', t });
 
           // when
           await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
@@ -576,9 +577,9 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             dayOfBirth: '04',
             monthOfBirth: '01',
             yearOfBirth: '1990',
-            intl: this.intl,
+            t,
           });
-          await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+          await fillCertificationStarter({ accessCode: 'ABCD12', t });
 
           // when
           await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
@@ -621,9 +622,9 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               dayOfBirth: '04',
               monthOfBirth: '01',
               yearOfBirth: '1990',
-              intl: this.intl,
+              t,
             });
-            await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+            await fillCertificationStarter({ accessCode: 'ABCD12', t });
             await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
             // when
@@ -678,9 +679,9 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               dayOfBirth: '04',
               monthOfBirth: '01',
               yearOfBirth: '1990',
-              intl: this.intl,
+              t,
             });
-            await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+            await fillCertificationStarter({ accessCode: 'ABCD12', t });
             await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
             await click(screen.getByRole('button', { name: 'Oui, je suis sûr(e)' }));
             // eslint-disable-next-line ember/no-settled-after-test-helper

@@ -1,6 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import ModulixEmbed from 'mon-pix/components/module/element/embed';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -29,12 +30,8 @@ module('Integration | Component | Module | Embed', function (hooks) {
     const expectedIframe = screen.getByTitle(embed.title);
     assert.strictEqual(expectedIframe.getAttribute('src'), embed.url);
     assert.strictEqual(expectedIframe.style.getPropertyValue('height'), '800px');
-    assert
-      .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.embed.start.ariaLabel') }))
-      .exists();
-    assert
-      .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.embed.reset.ariaLabel') }))
-      .doesNotExist();
+    assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.embed.start.ariaLabel') })).exists();
+    assert.dom(screen.queryByRole('button', { name: t('pages.modulix.buttons.embed.reset.ariaLabel') })).doesNotExist();
     assert.dom(screen.getByText("Instruction de l'embed")).exists();
   });
 
@@ -70,12 +67,10 @@ module('Integration | Component | Module | Embed', function (hooks) {
       const screen = await render(<template><ModulixEmbed @embed={{embed}} /></template>);
 
       // then
-      const startButtonName = this.intl.t('pages.modulix.buttons.embed.start.ariaLabel');
+      const startButtonName = t('pages.modulix.buttons.embed.start.ariaLabel');
       await clickByName(startButtonName);
       assert.dom(screen.queryByRole('button', { name: startButtonName })).doesNotExist();
-      assert
-        .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.embed.reset.ariaLabel') }))
-        .exists();
+      assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.embed.reset.ariaLabel') })).exists();
     });
 
     test('should focus on the iframe', async function (assert) {
@@ -90,7 +85,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
       const screen = await render(<template><ModulixEmbed @embed={{embed}} /></template>);
 
       // when
-      await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
+      await clickByName(t('pages.modulix.buttons.embed.start.ariaLabel'));
 
       // then
       const iframe = screen.getByTitle(embed.title);
@@ -110,7 +105,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
           };
           const onElementAnswerStub = sinon.stub();
           await render(<template><ModulixEmbed @embed={{embed}} @onAnswer={{onElementAnswerStub}} /></template>);
-          await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
+          await clickByName(t('pages.modulix.buttons.embed.start.ariaLabel'));
 
           // when
           const event = new MessageEvent('message', {
@@ -137,7 +132,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
           };
           const onElementAnswerStub = sinon.stub();
           await render(<template><ModulixEmbed @embed={{embed}} @onAnswer={{onElementAnswerStub}} /></template>);
-          await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
+          await clickByName(t('pages.modulix.buttons.embed.start.ariaLabel'));
 
           // when
           const event = new MessageEvent('message', {
@@ -164,7 +159,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
           };
           const onElementAnswerStub = sinon.stub();
           await render(<template><ModulixEmbed @embed={{embed}} @onAnswer={{onElementAnswerStub}} /></template>);
-          await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
+          await clickByName(t('pages.modulix.buttons.embed.start.ariaLabel'));
 
           // when
           const event = new MessageEvent('message', {
@@ -191,7 +186,7 @@ module('Integration | Component | Module | Embed', function (hooks) {
           };
           const onElementAnswerStub = sinon.stub();
           await render(<template><ModulixEmbed @embed={{embed}} @onAnswer={{onElementAnswerStub}} /></template>);
-          await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
+          await clickByName(t('pages.modulix.buttons.embed.start.ariaLabel'));
 
           // when
           const event = new MessageEvent('message', {
@@ -221,8 +216,8 @@ module('Integration | Component | Module | Embed', function (hooks) {
       const screen = await render(<template><ModulixEmbed @embed={{embed}} /></template>);
 
       // when
-      await clickByName(this.intl.t('pages.modulix.buttons.embed.start.ariaLabel'));
-      await clickByName(this.intl.t('pages.modulix.buttons.embed.reset.ariaLabel'));
+      await clickByName(t('pages.modulix.buttons.embed.start.ariaLabel'));
+      await clickByName(t('pages.modulix.buttons.embed.reset.ariaLabel'));
 
       // then
       const iframe = screen.getByTitle(embed.title);

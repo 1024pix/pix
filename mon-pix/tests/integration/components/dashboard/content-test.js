@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -80,8 +81,8 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      assert.dom(screen.getByRole('heading', { name: this.intl.t('pages.dashboard.campaigns.title') })).exists();
-      assert.dom(screen.getByRole('link', { name: this.intl.t('pages.dashboard.campaigns.tests-link') })).exists();
+      assert.dom(screen.getByRole('heading', { name: t('pages.dashboard.campaigns.title') })).exists();
+      assert.dom(screen.getByRole('link', { name: t('pages.dashboard.campaigns.tests-link') })).exists();
     });
 
     test('should not render campaign participations when there is no campaign participation overviews', async function (assert) {
@@ -96,12 +97,8 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      assert
-        .dom(screen.queryByRole('heading', { name: this.intl.t('pages.dashboard.campaigns.title') }))
-        .doesNotExist();
-      assert
-        .dom(screen.queryByRole('link', { name: this.intl.t('pages.dashboard.campaigns.tests-link') }))
-        .doesNotExist();
+      assert.dom(screen.queryByRole('heading', { name: t('pages.dashboard.campaigns.title') })).doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: t('pages.dashboard.campaigns.tests-link') })).doesNotExist();
     });
   });
 
@@ -135,13 +132,9 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
+      assert.dom(screen.getByRole('heading', { name: t('pages.dashboard.recommended-competences.title') })).exists();
       assert
-        .dom(screen.getByRole('heading', { name: this.intl.t('pages.dashboard.recommended-competences.title') }))
-        .exists();
-      assert
-        .dom(
-          screen.getByRole('link', { name: this.intl.t('pages.dashboard.recommended-competences.extra-information') }),
-        )
+        .dom(screen.getByRole('link', { name: t('pages.dashboard.recommended-competences.extra-information') }))
         .exists();
     });
 
@@ -158,10 +151,10 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
 
       // then
       assert
-        .dom(screen.queryByRole('heading', { name: this.intl.t('pages.dashboard.recommended-competences.title') }))
+        .dom(screen.queryByRole('heading', { name: t('pages.dashboard.recommended-competences.title') }))
         .doesNotExist();
       assert
-        .dom(screen.queryByRole('link', { name: this.intl.t('pages.dashboard.recommended-competences.profile-link') }))
+        .dom(screen.queryByRole('link', { name: t('pages.dashboard.recommended-competences.profile-link') }))
         .doesNotExist();
     });
 
@@ -223,7 +216,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.dashboard.improvable-competences.subtitle')));
+      assert.ok(screen.getByText(t('pages.dashboard.improvable-competences.subtitle')));
     });
 
     test('should not render competence-card when there is no competence-card', async function (assert) {
@@ -238,7 +231,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      assert.notOk(screen.queryByText(this.intl.t('pages.dashboard.improvable-competences.subtitle')));
+      assert.notOk(screen.queryByText(t('pages.dashboard.improvable-competences.subtitle')));
     });
 
     test('should render the four first non improvable competence cards from the received arguments', async function (assert) {
@@ -307,9 +300,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      assert
-        .dom(screen.getByRole('heading', { name: this.intl.t('pages.dashboard.started-competences.title') }))
-        .exists();
+      assert.dom(screen.getByRole('heading', { name: t('pages.dashboard.started-competences.title') })).exists();
     });
 
     test('should not render competence-card when there is no competence-card', async function (assert) {
@@ -325,7 +316,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
 
       // then
       assert
-        .dom(screen.queryByRole('heading', { name: this.intl.t('pages.dashboard.started-competences.title') }))
+        .dom(screen.queryByRole('heading', { name: t('pages.dashboard.started-competences.title') }))
         .doesNotExist();
     });
 
@@ -458,8 +449,8 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
 
       // then
       assert
-        .dom(screen.getByRole('link', { name: this.intl.t('pages.dashboard.presentation.link.text') }))
-        .hasAttribute('href', this.intl.t('pages.dashboard.presentation.link.url'));
+        .dom(screen.getByRole('link', { name: t('pages.dashboard.presentation.link.text') }))
+        .hasAttribute('href', t('pages.dashboard.presentation.link.url'));
     });
 
     test('should hide link on new dashboard banner when domain is pix.org', async function (assert) {
@@ -494,9 +485,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Bonjour Banana, découvrez votre tableau de bord.' })).exists();
-      assert
-        .dom(screen.queryByRole('link', { name: this.intl.t('pages.dashboard.presentation.link.text') }))
-        .doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: t('pages.dashboard.presentation.link.text') })).doesNotExist();
     });
   });
 
@@ -563,7 +552,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         .dom(screen.queryByRole('heading', { name: 'Bravo vous avez terminé les compétences recommandées !' }))
         .doesNotExist();
       assert
-        .dom(screen.queryByRole('button', { name: this.intl.t('pages.dashboard.empty-dashboard.link-to-competences') }))
+        .dom(screen.queryByRole('button', { name: t('pages.dashboard.empty-dashboard.link-to-competences') }))
         .doesNotExist();
     });
   });
@@ -595,7 +584,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
 
       // then
       assert.dom(screen.getByText(pixScore)).exists();
-      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.profile.total-score-helper.label') })).exists();
+      assert.dom(screen.getByRole('button', { name: t('pages.profile.total-score-helper.label') })).exists();
     });
   });
 
@@ -626,7 +615,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
 
       // then
-      assert.ok(screen.getByRole('link', { name: this.intl.t('pages.dashboard.campaigns.resume.action') }));
+      assert.ok(screen.getByRole('link', { name: t('pages.dashboard.campaigns.resume.action') }));
     });
 
     test('should not display the banner when there is no code', async function (assert) {
@@ -654,7 +643,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       const screen = await render(hbs`<Dashboard::Content @model={{this.model}} />`);
 
       // then
-      assert.notOk(screen.queryByRole('link', { name: this.intl.t('pages.dashboard.campaigns.resume.action') }));
+      assert.notOk(screen.queryByRole('link', { name: t('pages.dashboard.campaigns.resume.action') }));
     });
   });
 });

@@ -4,6 +4,7 @@ import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -29,7 +30,7 @@ module('Integration | Component | learning-more-panel', function (hooks) {
       // then
       assert.dom('.learning-more-panel__container').exists({ count: 1 });
       assert.dom('.learning-more-panel__list-container').exists({ count: 1 });
-      assert.ok(find('.learning-more-panel__container').textContent.includes(this.intl.t('pages.learning-more.title')));
+      assert.ok(find('.learning-more-panel__container').textContent.includes(t('pages.learning-more.title')));
     });
 
     module('when newTutorials FT is enabled', function () {

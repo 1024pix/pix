@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -15,20 +16,20 @@ module('Integration | Component | account-recovery/confirmation-email-sent', fun
     assert
       .dom(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.title'),
+          name: t('pages.account-recovery.find-sco-record.send-email-confirmation.title'),
         }),
       )
       .exists();
     assert
-      .dom(screen.getByText(this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.send-email')))
+      .dom(screen.getByText(t('pages.account-recovery.find-sco-record.send-email-confirmation.send-email')))
       .exists();
     assert
-      .dom(screen.getByText(this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.check-spam')))
+      .dom(screen.getByText(t('pages.account-recovery.find-sco-record.send-email-confirmation.check-spam')))
       .exists();
     assert
       .dom(
         screen.getByRole('link', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.return'),
+          name: t('pages.account-recovery.find-sco-record.send-email-confirmation.return'),
         }),
       )
       .exists();

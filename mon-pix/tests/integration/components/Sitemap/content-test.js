@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -15,34 +16,22 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     const screen = await render(hbs`<Sitemap::Content />`);
 
     // then
-    assert.dom(screen.getByRole('heading', { name: this.intl.t('pages.sitemap.title') })).exists();
-    assert.dom(screen.getByText(this.intl.t('pages.sitemap.resources'))).exists();
+    assert.dom(screen.getByRole('heading', { name: t('pages.sitemap.title') })).exists();
+    assert.dom(screen.getByText(t('pages.sitemap.resources'))).exists();
+    assert.dom(screen.getByRole('link', { name: t('navigation.main.dashboard') })).hasAttribute('href', '/accueil');
+    assert.dom(screen.getByRole('link', { name: t('navigation.main.skills') })).hasAttribute('href', '/competences');
     assert
-      .dom(screen.getByRole('link', { name: this.intl.t('navigation.main.dashboard') }))
-      .hasAttribute('href', '/accueil');
-    assert
-      .dom(screen.getByRole('link', { name: this.intl.t('navigation.main.skills') }))
-      .hasAttribute('href', '/competences');
-    assert
-      .dom(screen.getByRole('link', { name: this.intl.t('navigation.main.start-certification') }))
+      .dom(screen.getByRole('link', { name: t('navigation.main.start-certification') }))
       .hasAttribute('href', '/certifications');
+    assert.dom(screen.getByRole('link', { name: t('navigation.main.tutorials') })).hasAttribute('href', '/mes-tutos');
+    assert.dom(screen.getByRole('link', { name: t('navigation.main.code') })).hasAttribute('href', '/campagnes');
+    assert.dom(screen.getByRole('link', { name: t('navigation.user.account') })).hasAttribute('href', '/mon-compte');
+    assert.dom(screen.getByRole('link', { name: t('navigation.user.tests') })).hasAttribute('href', '/mes-parcours');
     assert
-      .dom(screen.getByRole('link', { name: this.intl.t('navigation.main.tutorials') }))
-      .hasAttribute('href', '/mes-tutos');
-    assert
-      .dom(screen.getByRole('link', { name: this.intl.t('navigation.main.code') }))
-      .hasAttribute('href', '/campagnes');
-    assert
-      .dom(screen.getByRole('link', { name: this.intl.t('navigation.user.account') }))
-      .hasAttribute('href', '/mon-compte');
-    assert
-      .dom(screen.getByRole('link', { name: this.intl.t('navigation.user.tests') }))
-      .hasAttribute('href', '/mes-parcours');
-    assert
-      .dom(screen.getByRole('link', { name: this.intl.t('navigation.user.certifications') }))
+      .dom(screen.getByRole('link', { name: t('navigation.user.certifications') }))
       .hasAttribute('href', '/mes-certifications');
     assert
-      .dom(screen.getByRole('link', { name: this.intl.t('navigation.main.trainings') }))
+      .dom(screen.getByRole('link', { name: t('navigation.main.trainings') }))
       .hasAttribute('href', '/mes-formations');
   });
 
@@ -76,7 +65,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     assert
       .dom(
         screen.getByRole('link', {
-          name: `${this.intl.t('pages.sitemap.cgu.subcontractors')} ${this.intl.t('navigation.external-link-title')}`,
+          name: `${t('pages.sitemap.cgu.subcontractors')} ${t('navigation.external-link-title')}`,
         }),
       )
       .hasAttribute('href', 'https://pix.fr/politique-protection-donnees-personnelles-app');
@@ -94,7 +83,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     assert
       .dom(
         screen.getByRole('link', {
-          name: `${this.intl.t('pages.sitemap.accessibility.help')} ${this.intl.t('navigation.external-link-title')}`,
+          name: `${t('pages.sitemap.accessibility.help')} ${t('navigation.external-link-title')}`,
         }),
       )
       .hasAttribute('href', 'https://pix.fr/aide-accessibilite');
@@ -108,7 +97,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     assert
       .dom(
         screen.getByRole('link', {
-          name: `${this.intl.t('navigation.main.help')} ${this.intl.t('navigation.external-link-title')}`,
+          name: `${t('navigation.main.help')} ${t('navigation.external-link-title')}`,
         }),
       )
       .hasAttribute('href', 'https://pix.org/fr/support');
@@ -126,7 +115,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     assert
       .dom(
         screen.getByRole('link', {
-          name: `${this.intl.t('pages.sitemap.accessibility.title')} ${this.intl.t('navigation.external-link-title')}`,
+          name: `${t('pages.sitemap.accessibility.title')} ${t('navigation.external-link-title')}`,
         }),
       )
       .hasAttribute('href', 'https://pix.fr/accessibilite');
@@ -144,7 +133,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     assert
       .dom(
         screen.getByRole('link', {
-          name: `${this.intl.t('navigation.footer.eula')} ${this.intl.t('navigation.external-link-title')}`,
+          name: `${t('navigation.footer.eula')} ${t('navigation.external-link-title')}`,
         }),
       )
       .hasAttribute('href', 'https://pix.fr/conditions-generales-d-utilisation');
@@ -162,7 +151,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     assert
       .dom(
         screen.getByRole('link', {
-          name: `${this.intl.t('pages.sitemap.cgu.policy')} ${this.intl.t('navigation.external-link-title')}`,
+          name: `${t('pages.sitemap.cgu.policy')} ${t('navigation.external-link-title')}`,
         }),
       )
       .hasAttribute('href', 'https://pix.fr/politique-protection-donnees-personnelles-app');

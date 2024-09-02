@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -47,7 +48,7 @@ module('Acceptance | Certifications | Information', function (hooks) {
           dayOfBirth: '01',
           monthOfBirth: '01',
           yearOfBirth: '2000',
-          intl: this.intl,
+          t,
         });
 
         // then
@@ -86,7 +87,7 @@ module('Acceptance | Certifications | Information', function (hooks) {
             dayOfBirth: '01',
             monthOfBirth: '01',
             yearOfBirth: '2000',
-            intl: this.intl,
+            t,
           });
           for (let i = 0; i < 4; i++) {
             await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
@@ -133,7 +134,7 @@ module('Acceptance | Certifications | Information', function (hooks) {
             dayOfBirth: '01',
             monthOfBirth: '01',
             yearOfBirth: '2000',
-            intl: this.intl,
+            t,
           });
 
           // then
@@ -168,7 +169,7 @@ module('Acceptance | Certifications | Information', function (hooks) {
           dayOfBirth: '01',
           monthOfBirth: '01',
           yearOfBirth: '2000',
-          intl: this.intl,
+          t,
         });
 
         // then

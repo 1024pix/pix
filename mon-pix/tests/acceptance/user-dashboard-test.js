@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -54,13 +55,11 @@ module('Acceptance | User dashboard page', function (hooks) {
         const screen = await visit('/campagnes');
 
         // when
-        await click(
-          screen.getByRole('link', { name: this.intl.t('pages.fill-in-campaign-code.warning-message-logout') }),
-        );
+        await click(screen.getByRole('link', { name: t('pages.fill-in-campaign-code.warning-message-logout') }));
 
         // then
         assert.notOk(screen.queryByText('Hermione Granger'));
-        assert.ok(screen.getByText(this.intl.t('navigation.not-logged.sign-in')));
+        assert.ok(screen.getByText(t('navigation.not-logged.sign-in')));
       });
     });
 
@@ -182,7 +181,7 @@ module('Acceptance | User dashboard page', function (hooks) {
       const screen = await visit('/accueil');
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.dashboard.improvable-competences.subtitle')));
+      assert.ok(screen.getByText(t('pages.dashboard.improvable-competences.subtitle')));
     });
   });
 

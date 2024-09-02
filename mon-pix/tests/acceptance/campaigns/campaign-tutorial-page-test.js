@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -25,24 +26,24 @@ module('Acceptance | Campaigns | campaign-tutorial-page', function (hooks) {
 
       // when
       screen = await visit(`/campagnes/${campaign.code}`);
-      await click(screen.getByRole('button', { name: this.intl.t('pages.campaign-landing.assessment.action') }));
+      await click(screen.getByRole('button', { name: t('pages.campaign-landing.assessment.action') }));
     });
 
     test('displays the first tutorial page', async function (assert) {
       // then
       assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
-      assert.dom(screen.getByRole('main', { heading: this.intl.t('pages.tutorial.title') })).exists();
-      assert.dom(screen.getByText(this.intl.t('pages.tutorial.pages.page0.title'))).exists();
+      assert.dom(screen.getByRole('main', { heading: t('pages.tutorial.title') })).exists();
+      assert.dom(screen.getByText(t('pages.tutorial.pages.page0.title'))).exists();
     });
 
     test('should start the campaign at the end of the tutorial', async function (assert) {
       // when
       await click(
         screen.getByRole('button', {
-          name: this.intl.t('pages.tutorial.dot-action-title', { stepNumber: 5, stepsCount: 5 }),
+          name: t('pages.tutorial.dot-action-title', { stepNumber: 5, stepsCount: 5 }),
         }),
       );
-      await click(screen.getByRole('button', { name: this.intl.t('pages.tutorial.start') }));
+      await click(screen.getByRole('button', { name: t('pages.tutorial.start') }));
 
       // then
       assert.ok(currentURL().startsWith('/assessments/'));
@@ -51,7 +52,7 @@ module('Acceptance | Campaigns | campaign-tutorial-page', function (hooks) {
 
     test('should start the campaign on pass action', async function (assert) {
       // when
-      await click(screen.getByRole('button', { name: this.intl.t('pages.tutorial.pass') }));
+      await click(screen.getByRole('button', { name: t('pages.tutorial.pass') }));
 
       // then
       assert.ok(currentURL().startsWith('/assessments/'));
@@ -68,7 +69,7 @@ module('Acceptance | Campaigns | campaign-tutorial-page', function (hooks) {
 
       // when
       const screen = await visit(`/campagnes/${campaign.code}`);
-      await click(screen.getByRole('button', { name: this.intl.t('pages.campaign-landing.assessment.action') }));
+      await click(screen.getByRole('button', { name: t('pages.campaign-landing.assessment.action') }));
 
       // then
       assert.ok(currentURL().startsWith('/assessments/'));

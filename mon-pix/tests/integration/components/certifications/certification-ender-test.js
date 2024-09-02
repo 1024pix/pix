@@ -1,6 +1,7 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -13,7 +14,7 @@ module('Integration | Component | Certifications | CertificationEnder', function
     const screen = await renderScreen(hbs`<Certifications::CertificationEnder />`);
 
     // then
-    assert.ok(screen.getByText(this.intl.t('pages.certification-ender.candidate.title')));
+    assert.ok(screen.getByText(t('pages.certification-ender.candidate.title')));
   });
 
   test('should display the certification number', async function (assert) {
@@ -55,7 +56,7 @@ module('Integration | Component | Certifications | CertificationEnder', function
     );
 
     // then
-    assert.ok(screen.getByText(this.intl.t('pages.certification-ender.candidate.remote-certification')));
+    assert.ok(screen.getByText(t('pages.certification-ender.candidate.remote-certification')));
   });
 
   module('when the assessment status is not ended by supervisor', function () {
@@ -75,7 +76,7 @@ module('Integration | Component | Certifications | CertificationEnder', function
       );
 
       // then
-      assert.notOk(screen.queryByText(this.intl.t('pages.certification-ender.candidate.ended-by-supervisor')));
+      assert.notOk(screen.queryByText(t('pages.certification-ender.candidate.ended-by-supervisor')));
     });
   });
 
@@ -96,7 +97,7 @@ module('Integration | Component | Certifications | CertificationEnder', function
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.certification-ender.candidate.ended-by-supervisor')));
+      assert.ok(screen.getByText(t('pages.certification-ender.candidate.ended-by-supervisor')));
     });
   });
 
@@ -118,7 +119,7 @@ module('Integration | Component | Certifications | CertificationEnder', function
 />`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.certification-ender.candidate.ended-due-to-finalization')));
+      assert.ok(screen.getByText(t('pages.certification-ender.candidate.ended-due-to-finalization')));
     });
   });
 });

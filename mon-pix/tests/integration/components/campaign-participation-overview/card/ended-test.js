@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -32,11 +33,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
       // then
       assert.ok(screen.getByRole('heading', { name: 'My organization' }));
       assert.ok(screen.getByText('My campaign'));
-      assert.ok(screen.getByText(this.intl.t('pages.campaign-participation-overview.card.tag.finished')));
-      assert.ok(screen.getByText(this.intl.t('pages.campaign-participation-overview.card.see-more')));
-      assert.ok(
-        screen.getByText(this.intl.t('pages.campaign-participation-overview.card.finished-at', { date: '18/12/2020' })),
-      );
+      assert.ok(screen.getByText(t('pages.campaign-participation-overview.card.tag.finished')));
+      assert.ok(screen.getByText(t('pages.campaign-participation-overview.card.see-more')));
+      assert.ok(screen.getByText(t('pages.campaign-participation-overview.card.finished-at', { date: '18/12/2020' })));
     });
 
     module('when the campaign has no stages', function () {

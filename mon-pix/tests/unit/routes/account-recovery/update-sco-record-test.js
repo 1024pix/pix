@@ -1,9 +1,9 @@
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-
 module('Unit | Route | account-recovery | update sco record', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
@@ -84,7 +84,7 @@ module('Unit | Route | account-recovery | update sco record', function (hooks) {
           const result = await route.model(params);
 
           // then
-          assert.strictEqual(result.errorMessage, this.intl.t('pages.account-recovery.errors.key-invalid'));
+          assert.strictEqual(result.errorMessage, t('pages.account-recovery.errors.key-invalid'));
           assert.true(result.showBackToHomeButton);
         });
       });
@@ -100,7 +100,7 @@ module('Unit | Route | account-recovery | update sco record', function (hooks) {
         const result = await route.model(params);
 
         // then
-        assert.strictEqual(result.errorMessage, this.intl.t('pages.account-recovery.errors.key-expired'));
+        assert.strictEqual(result.errorMessage, t('pages.account-recovery.errors.key-expired'));
         assert.true(result.showRenewLink);
       });
 
@@ -115,7 +115,7 @@ module('Unit | Route | account-recovery | update sco record', function (hooks) {
         const result = await route.model(params);
 
         // then
-        assert.strictEqual(result.errorMessage, this.intl.t('pages.account-recovery.errors.account-exists'));
+        assert.strictEqual(result.errorMessage, t('pages.account-recovery.errors.account-exists'));
         assert.true(result.showBackToHomeButton);
       });
 
@@ -130,7 +130,7 @@ module('Unit | Route | account-recovery | update sco record', function (hooks) {
         const result = await route.model(params);
 
         // then
-        assert.strictEqual(result.errorMessage, this.intl.t('pages.account-recovery.errors.key-used'));
+        assert.strictEqual(result.errorMessage, t('pages.account-recovery.errors.key-used'));
         assert.true(result.showBackToHomeButton);
       });
 
@@ -146,7 +146,7 @@ module('Unit | Route | account-recovery | update sco record', function (hooks) {
           const result = await route.model(params);
 
           // then
-          assert.strictEqual(result.errorMessage, this.intl.t('common.api-error-messages.internal-server-error'));
+          assert.strictEqual(result.errorMessage, t('common.api-error-messages.internal-server-error'));
           assert.true(result.showBackToHomeButton);
         });
       });

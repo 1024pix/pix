@@ -1,6 +1,7 @@
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -43,18 +44,18 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleRecap', function (ho
 
     test('should include the right page title', async function (assert) {
       // then
-      assert.ok(document.title.includes(this.intl.t('pages.modulix.recap.title')));
-      assert.ok(screen.getByRole('heading', { level: 1, name: this.intl.t('pages.modulix.recap.title') }));
+      assert.ok(document.title.includes(t('pages.modulix.recap.title')));
+      assert.ok(screen.getByRole('heading', { level: 1, name: t('pages.modulix.recap.title') }));
     });
 
     test('should display the links to details button and to form builder', async function (assert) {
       // when
-      const formLink = screen.getByRole('link', { name: this.intl.t('pages.modulix.recap.goToForm') });
+      const formLink = screen.getByRole('link', { name: t('pages.modulix.recap.goToForm') });
 
       // then
       const passage = server.schema.passages.all().models[0];
       assert.ok(formLink);
-      assert.ok(screen.getByRole('link', { name: this.intl.t('pages.modulix.recap.backToModuleDetails') }));
+      assert.ok(screen.getByRole('link', { name: t('pages.modulix.recap.backToModuleDetails') }));
       assert.strictEqual(
         formLink.getAttribute('href'),
         `https://form-eu.123formbuilder.com/71180/modulix-experimentation?2850087=${passage.id}`,
@@ -63,7 +64,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleRecap', function (ho
 
     test('should navigate to details page by clicking on back to module details button', async function (assert) {
       // when
-      await click(screen.getByRole('link', { name: this.intl.t('pages.modulix.recap.backToModuleDetails') }));
+      await click(screen.getByRole('link', { name: t('pages.modulix.recap.backToModuleDetails') }));
 
       // then
       assert.strictEqual(currentURL(), '/modules/bien-ecrire-son-adresse-mail/details');

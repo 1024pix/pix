@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
@@ -37,22 +38,18 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
     );
 
     // then
-    assert.dom(screen.getByRole('heading', { name: this.intl.t('pages.skill-review.tabs.rewards.title') })).isVisible();
-    assert.dom(screen.getByText(this.intl.t('pages.skill-review.tabs.rewards.description'))).isVisible();
+    assert.dom(screen.getByRole('heading', { name: t('pages.skill-review.tabs.rewards.title') })).isVisible();
+    assert.dom(screen.getByText(t('pages.skill-review.tabs.rewards.description'))).isVisible();
 
-    assert
-      .dom(screen.getByRole('heading', { name: this.intl.t('pages.skill-review.badge-card.acquired') }))
-      .isVisible();
+    assert.dom(screen.getByRole('heading', { name: t('pages.skill-review.badge-card.acquired') })).isVisible();
     assert.strictEqual(
-      screen.getAllByRole('listitem', { name: this.intl.t('pages.skill-review.badge-card.acquired-full') }).length,
+      screen.getAllByRole('listitem', { name: t('pages.skill-review.badge-card.acquired-full') }).length,
       2,
     );
 
-    assert
-      .dom(screen.getByRole('heading', { name: this.intl.t('pages.skill-review.badge-card.not-acquired') }))
-      .isVisible();
+    assert.dom(screen.getByRole('heading', { name: t('pages.skill-review.badge-card.not-acquired') })).isVisible();
     assert.strictEqual(
-      screen.getAllByRole('listitem', { name: this.intl.t('pages.skill-review.badge-card.not-acquired-full') }).length,
+      screen.getAllByRole('listitem', { name: t('pages.skill-review.badge-card.not-acquired-full') }).length,
       2,
     );
   });
@@ -85,12 +82,12 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
 
       // then
       const acquiredBadges = screen.getAllByRole('listitem', {
-        name: this.intl.t('pages.skill-review.badge-card.acquired-full'),
+        name: t('pages.skill-review.badge-card.acquired-full'),
       });
       const firstBadgeItem = acquiredBadges[0];
 
       assert.strictEqual(
-        screen.getByText(this.intl.t('pages.skill-review.badge-card.certifiable')).closest('li'),
+        screen.getByText(t('pages.skill-review.badge-card.certifiable')).closest('li'),
         firstBadgeItem,
       );
     });
@@ -127,12 +124,12 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results T
 
       // then
       const notAcquiredBadges = screen.getAllByRole('listitem', {
-        name: this.intl.t('pages.skill-review.badge-card.not-acquired-full'),
+        name: t('pages.skill-review.badge-card.not-acquired-full'),
       });
       const firstBadgeItem = notAcquiredBadges[0];
 
       assert.strictEqual(
-        screen.getByText(this.intl.t('pages.skill-review.badge-card.certifiable')).closest('li'),
+        screen.getByText(t('pages.skill-review.badge-card.certifiable')).closest('li'),
         firstBadgeItem,
       );
     });

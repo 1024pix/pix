@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { currentURL, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -33,7 +34,7 @@ module('Acceptance | Password reset demand form', function (hooks) {
     await fillIn('#email', 'brandone.martins@pix.com');
 
     // when
-    await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
+    await clickByLabel(t('pages.password-reset-demand.actions.reset'));
 
     assert.strictEqual(currentURL(), '/mot-de-passe-oublie');
     assert.dom('.password-reset-demand-form__body').exists();
@@ -52,10 +53,10 @@ module('Acceptance | Password reset demand form', function (hooks) {
     await fillIn('#email', 'unexisting@user.com');
 
     // when
-    await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
+    await clickByLabel(t('pages.password-reset-demand.actions.reset'));
 
     // then
     assert.strictEqual(currentURL(), '/mot-de-passe-oublie');
-    assert.dom(screen.getByText(this.intl.t('pages.password-reset-demand.error.message'))).exists();
+    assert.dom(screen.getByText(t('pages.password-reset-demand.error.message'))).exists();
   });
 });

@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import Sinon from 'sinon';
 
@@ -41,25 +42,23 @@ module('Integration | Component |  authentication | oidc-reconciliation', functi
     // then
     assert.ok(
       screen.getByRole('heading', {
-        name: `${this.intl.t('pages.oidc-reconciliation.title')} ${this.intl.t('pages.oidc-reconciliation.sub-title')}`,
+        name: `${t('pages.oidc-reconciliation.title')} ${t('pages.oidc-reconciliation.sub-title')}`,
       }),
     );
-    assert.ok(screen.getByText(this.intl.t('pages.oidc-reconciliation.information')));
+    assert.ok(screen.getByText(t('pages.oidc-reconciliation.information')));
     assert.ok(screen.getByText('Lloyd Cé'));
     assert.ok(screen.getByText('Lloyd Pix'));
-    assert.ok(screen.getByText(this.intl.t('pages.oidc-reconciliation.current-authentication-methods')));
-    assert.ok(screen.getByText(this.intl.t('pages.oidc-reconciliation.email')));
+    assert.ok(screen.getByText(t('pages.oidc-reconciliation.current-authentication-methods')));
+    assert.ok(screen.getByText(t('pages.oidc-reconciliation.email')));
     assert.ok(screen.getByText('lloyidce@example.net'));
     assert.ok(screen.getByText('France Connect'));
     assert.ok(screen.getByText('Impots.gouv'));
 
-    assert.ok(screen.getByText(this.intl.t('pages.oidc-reconciliation.authentication-method-to-add')));
-    assert.ok(
-      screen.getByText(`${this.intl.t('pages.oidc-reconciliation.external-connection-via')} Nouveau partenaire`),
-    );
+    assert.ok(screen.getByText(t('pages.oidc-reconciliation.authentication-method-to-add')));
+    assert.ok(screen.getByText(`${t('pages.oidc-reconciliation.external-connection-via')} Nouveau partenaire`));
 
-    assert.ok(screen.getByRole('button', { name: this.intl.t('pages.oidc-reconciliation.switch-account') }));
-    assert.ok(screen.getByRole('button', { name: this.intl.t('pages.oidc-reconciliation.return') }));
-    assert.ok(screen.getByRole('button', { name: this.intl.t('pages.oidc-reconciliation.confirm') }));
+    assert.ok(screen.getByRole('button', { name: t('pages.oidc-reconciliation.switch-account') }));
+    assert.ok(screen.getByRole('button', { name: t('pages.oidc-reconciliation.return') }));
+    assert.ok(screen.getByRole('button', { name: t('pages.oidc-reconciliation.confirm') }));
   });
 });

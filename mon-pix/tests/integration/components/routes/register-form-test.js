@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -74,10 +75,8 @@ module('Integration | Component | routes/register-form', function (hooks) {
       // given
       const screen = await render(hbs`<Routes::RegisterForm />`);
 
-      await fillInputReconciliationForm({ screen, intl: this.intl });
-      await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-      );
+      await fillInputReconciliationForm({ screen, t });
+      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
       await click(screen.getByText('Mon adresse e-mail'));
 
@@ -85,9 +84,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
       await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'Mypassword1');
 
       // when
-      await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-      );
+      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
       // then
       sinon.assert.calledWith(authenticateStub, 'authenticator:oauth2', {
@@ -102,16 +99,12 @@ module('Integration | Component | routes/register-form', function (hooks) {
       // given
       const screen = await render(hbs`<Routes::RegisterForm />`);
 
-      await fillInputReconciliationForm({ screen, intl: this.intl });
-      await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-      );
+      await fillInputReconciliationForm({ screen, t });
+      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
       await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'Mypassword1');
 
       // when
-      await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-      );
+      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
       // then
       sinon.assert.calledWith(authenticateStub, 'authenticator:oauth2', {
@@ -125,18 +118,14 @@ module('Integration | Component | routes/register-form', function (hooks) {
     test('should display RGPD legal notice', async function (assert) {
       // given
       const screen = await render(hbs`<Routes::RegisterForm />`);
-      await fillInputReconciliationForm({ screen, intl: this.intl });
+      await fillInputReconciliationForm({ screen, t });
 
       // when
-      await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-      );
+      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.login-or-register.register-form.rgpd-legal-notice')));
-      assert.ok(
-        screen.getByRole('link', { name: this.intl.t('pages.login-or-register.register-form.rgpd-legal-notice-link') }),
-      );
+      assert.ok(screen.getByText(t('pages.login-or-register.register-form.rgpd-legal-notice')));
+      assert.ok(screen.getByRole('link', { name: t('pages.login-or-register.register-form.rgpd-legal-notice-link') }));
     });
   });
 
@@ -225,10 +214,8 @@ module('Integration | Component | routes/register-form', function (hooks) {
           // given
           const screen = await render(hbs`<Routes::RegisterForm />`);
 
-          await fillInputReconciliationForm({ screen, intl: this.intl });
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await fillInputReconciliationForm({ screen, t });
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // when
           await click(screen.getByText('Mon adresse e-mail'));
@@ -251,10 +238,8 @@ module('Integration | Component | routes/register-form', function (hooks) {
           // given
           const screen = await render(hbs`<Routes::RegisterForm />`);
 
-          await fillInputReconciliationForm({ screen, intl: this.intl });
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await fillInputReconciliationForm({ screen, t });
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // when
           await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), stringFilledIn);
@@ -270,18 +255,14 @@ module('Integration | Component | routes/register-form', function (hooks) {
       // given
       const screen = await render(hbs`<Routes::RegisterForm />`);
 
-      await fillInputReconciliationForm({ screen, intl: this.intl });
-      await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-      );
+      await fillInputReconciliationForm({ screen, t });
+      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
       // when
       await click(screen.getByText('Mon adresse e-mail'));
       await fillIn(screen.getByRole('textbox', { name: EMAIL_INPUT_LABEL }), 'shi.fu');
       await triggerEvent(screen.getByRole('textbox', { name: EMAIL_INPUT_LABEL }), 'focusout');
-      await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-      );
+      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
       // then
       assert.dom(screen.getByText(EMPTY_EMAIL_ERROR_MESSAGE)).exists();
@@ -297,18 +278,14 @@ module('Integration | Component | routes/register-form', function (hooks) {
         // when
         const screen = await render(hbs`<Routes::RegisterForm />`);
 
-        await fillInputReconciliationForm({ screen, intl: this.intl });
-        await click(
-          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-        );
+        await fillInputReconciliationForm({ screen, t });
+        await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
         await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'Mypassword1');
-        await click(
-          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-        );
+        await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
         // then
-        assert.dom(screen.getByText(this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
+        assert.dom(screen.getByText(t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
       });
 
       test('Should display username specific errors when authentication service fails with username error', async function (assert) {
@@ -330,18 +307,14 @@ module('Integration | Component | routes/register-form', function (hooks) {
         // when
         const screen = await render(hbs`<Routes::RegisterForm />`);
 
-        await fillInputReconciliationForm({ screen, intl: this.intl });
-        await click(
-          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-        );
+        await fillInputReconciliationForm({ screen, t });
+        await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
         await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'Mypassword1');
-        await click(
-          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-        );
+        await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
         // then
-        assert.dom(screen.getByText(this.intl.t('api-error-messages.register-error.s50'))).exists();
+        assert.dom(screen.getByText(t('api-error-messages.register-error.s50'))).exists();
       });
     });
 
@@ -349,17 +322,13 @@ module('Integration | Component | routes/register-form', function (hooks) {
       // given
       const screen = await render(hbs`<Routes::RegisterForm />`);
 
-      await fillInputReconciliationForm({ screen, intl: this.intl });
-      await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-      );
+      await fillInputReconciliationForm({ screen, t });
+      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
       // when
       await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'toto');
       await triggerEvent(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'focusout');
-      await click(
-        screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-      );
+      await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
       // then
       assert.dom(screen.getByText(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE)).exists();
@@ -381,12 +350,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
       test(`should display an error message if user saves with an error response status ${status}`, async function (assert) {
         saveUserAssociationStub.rejects({ errors: [{ status }] });
         const screen = await render(hbs`<Routes::RegisterForm />`);
-        await fillInputReconciliationForm({ screen, intl: this.intl });
+        await fillInputReconciliationForm({ screen, t });
 
         // when
-        await click(
-          screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-        );
+        await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
         // then
         assert.dom(screen.getByText(errorMessage)).exists();
@@ -409,12 +376,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
           saveUserAssociationStub.rejects({ errors: [error] });
 
           const screen = await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -439,12 +404,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
           saveUserAssociationStub.rejects({ errors: [error] });
 
           const screen = await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -470,12 +433,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
           saveUserAssociationStub.rejects({ errors: [error] });
 
           const screen = await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -500,12 +461,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
           saveUserAssociationStub.rejects({ errors: [error] });
 
           const screen = await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -530,12 +489,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
           saveUserAssociationStub.rejects({ errors: [error] });
 
           const screen = await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -560,12 +517,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
           saveUserAssociationStub.rejects({ errors: [error] });
 
           const screen = await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -590,12 +545,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
           saveUserAssociationStub.rejects({ errors: [error] });
 
           const screen = await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -623,12 +576,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
           saveUserAssociationStub.rejects({ errors: [error] });
 
           const screen = await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -653,12 +604,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
           saveUserAssociationStub.rejects({ errors: [error] });
 
           const screen = await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -684,12 +633,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
           saveUserAssociationStub.rejects({ errors: [error] });
 
           const screen = await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // then
           assert.dom(screen.getByText(S53_ERROR_MESSAGE)).exists();
@@ -711,12 +658,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
           saveUserAssociationStub.rejects({ errors: [error] });
 
           const screen = await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // then
           assert.dom(screen.getByText(S53_ERROR_MESSAGE)).exists();
@@ -738,12 +683,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
           saveUserAssociationStub.rejects({ errors: [error] });
 
           const screen = await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // then
           assert.dom(screen.getByText(S53_ERROR_MESSAGE)).exists();
@@ -765,12 +708,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
           saveUserAssociationStub.rejects({ errors: [error] });
 
           const screen = await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // then
           assert.dom(screen.getByText(S53_ERROR_MESSAGE)).exists();
@@ -792,12 +733,10 @@ module('Integration | Component | routes/register-form', function (hooks) {
           saveUserAssociationStub.rejects({ errors: [error] });
 
           const screen = await render(hbs`<Routes::RegisterForm />`);
-          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await fillInputReconciliationForm({ screen, t });
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.login-or-register.register-form.button-form') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.login-or-register.register-form.button-form') }));
 
           // then
           const errorMessage = screen.getByText(
@@ -811,24 +750,24 @@ module('Integration | Component | routes/register-form', function (hooks) {
   });
 });
 
-async function fillInputReconciliationForm({ screen, intl }) {
+async function fillInputReconciliationForm({ screen, t }) {
   await fillIn(screen.getByRole('textbox', { name: '* Prénom' }), 'Legolas');
   await fillIn(screen.getByRole('textbox', { name: '* Nom' }), 'Vertefeuille');
   await fillIn(
     screen.getByRole('spinbutton', {
-      name: intl.t('pages.login-or-register.register-form.fields.birthdate.day.label'),
+      name: t('pages.login-or-register.register-form.fields.birthdate.day.label'),
     }),
     '10',
   );
   await fillIn(
     screen.getByRole('spinbutton', {
-      name: intl.t('pages.login-or-register.register-form.fields.birthdate.month.label'),
+      name: t('pages.login-or-register.register-form.fields.birthdate.month.label'),
     }),
     '10',
   );
   await fillIn(
     screen.getByRole('spinbutton', {
-      name: intl.t('pages.login-or-register.register-form.fields.birthdate.year.label'),
+      name: t('pages.login-or-register.register-form.fields.birthdate.year.label'),
     }),
     '2010',
   );

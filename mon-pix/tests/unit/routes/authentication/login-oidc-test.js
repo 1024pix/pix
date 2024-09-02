@@ -5,8 +5,11 @@ import { ApplicationError } from 'mon-pix/errors/application-error';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntl from '../../../helpers/setup-intl';
+
 module('Unit | Route | login-oidc', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks);
 
   module('#beforeModel', function () {
     module('when receives error from identity provider', function () {

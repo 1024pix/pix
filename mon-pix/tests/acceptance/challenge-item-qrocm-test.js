@@ -2,6 +2,7 @@ import { clickByName, visit } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, currentURL, fillIn, find, findAll, triggerEvent } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -154,7 +155,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         assert.strictEqual(input2.value, 'Chatelet');
         assert.true(input2.disabled);
 
-        assert.ok(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.continue') }));
+        assert.ok(screen.getByRole('button', { name: t('pages.challenge.actions.continue') }));
         assert.dom('.challenge-actions__action-validate').doesNotExist();
         assert.dom('.challenge-actions__action-skip-text').doesNotExist();
       });

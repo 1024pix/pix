@@ -49,7 +49,7 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
       test('should add Accept-Language header set to fr-fr when the current domain contains pix.fr and locale is "fr"', function (assert) {
         // Given
         const applicationAdapter = this.owner.lookup('adapter:application');
-        applicationAdapter.intl = { get: () => [FRENCH_INTERNATIONAL_LOCALE] };
+        applicationAdapter.intl = { primaryLocale: FRENCH_INTERNATIONAL_LOCALE };
 
         // When
         applicationAdapter.set('currentDomain', {
@@ -65,7 +65,7 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
       test('should add Accept-Language header set to fr when the current domain contains pix.digital and locale is "fr"', function (assert) {
         // Given
         const applicationAdapter = this.owner.lookup('adapter:application');
-        applicationAdapter.intl = { get: () => [FRENCH_INTERNATIONAL_LOCALE] };
+        applicationAdapter.intl = { primaryLocale: FRENCH_INTERNATIONAL_LOCALE };
 
         // When
         applicationAdapter.set('currentDomain', {
@@ -83,7 +83,7 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
         const applicationAdapter = this.owner.lookup('adapter:application');
 
         // When
-        applicationAdapter.intl = { get: () => [ENGLISH_INTERNATIONAL_LOCALE] };
+        applicationAdapter.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
 
         // Then
         assert.strictEqual(applicationAdapter.headers['Accept-Language'], ENGLISH_INTERNATIONAL_LOCALE);

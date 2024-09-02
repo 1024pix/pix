@@ -2,6 +2,7 @@ import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -20,7 +21,7 @@ module('Integration | Component | signin form', function (hooks) {
       const screen = await render(hbs`<SigninForm />`);
 
       // then
-      assert.dom(screen.getByText(this.intl.t('common.form.mandatory-all-fields'))).exists();
+      assert.dom(screen.getByText(t('common.form.mandatory-all-fields'))).exists();
     });
 
     test('should display a required input for username field', async function (assert) {
@@ -28,9 +29,7 @@ module('Integration | Component | signin form', function (hooks) {
       const screen = await render(hbs`<SigninForm />`);
 
       // then
-      assert
-        .dom(screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }))
-        .hasAttribute('required');
+      assert.dom(screen.getByRole('textbox', { name: t('pages.sign-in.fields.login.label') })).hasAttribute('required');
     });
 
     test('should display a required input for password field', async function (assert) {
@@ -38,7 +37,7 @@ module('Integration | Component | signin form', function (hooks) {
       const screen = await render(hbs`<SigninForm />`);
 
       // then
-      assert.dom(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label'))).hasAttribute('required');
+      assert.dom(screen.getByLabelText(t('pages.sign-in.fields.password.label'))).hasAttribute('required');
     });
 
     test('should display a submit button to authenticate', async function (assert) {
@@ -46,7 +45,7 @@ module('Integration | Component | signin form', function (hooks) {
       const screen = await render(hbs`<SigninForm />`);
 
       // then
-      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.sign-in.actions.submit') })).exists();
+      assert.dom(screen.getByRole('button', { name: t('pages.sign-in.actions.submit') })).exists();
     });
 
     test('should display a link to password reset view', async function (assert) {
@@ -54,7 +53,7 @@ module('Integration | Component | signin form', function (hooks) {
       const screen = await render(hbs`<SigninForm />`);
 
       // then
-      assert.dom(screen.getByRole('link', { name: this.intl.t('pages.sign-in.forgotten-password') })).exists();
+      assert.dom(screen.getByRole('link', { name: t('pages.sign-in.forgotten-password') })).exists();
     });
 
     test('should not display any error by default', async function (assert) {
@@ -76,14 +75,14 @@ module('Integration | Component | signin form', function (hooks) {
 
         // when
         await fillIn(
-          screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+          screen.getByRole('textbox', { name: t('pages.sign-in.fields.login.label') }),
           'usernotexist@example.net',
         );
-        await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'password');
-        await clickByName(this.intl.t('pages.sign-in.actions.submit'));
+        await fillIn(screen.getByLabelText(t('pages.sign-in.fields.password.label')), 'password');
+        await clickByName(t('pages.sign-in.actions.submit'));
 
         // then
-        assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
+        assert.dom(screen.getByText(t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
       });
 
       test('should display related error message if bad request error', async function (assert) {
@@ -96,14 +95,14 @@ module('Integration | Component | signin form', function (hooks) {
 
         // when
         await fillIn(
-          screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+          screen.getByRole('textbox', { name: t('pages.sign-in.fields.login.label') }),
           'usernotexist@example.net',
         );
-        await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'password');
-        await clickByName(this.intl.t('pages.sign-in.actions.submit'));
+        await fillIn(screen.getByLabelText(t('pages.sign-in.fields.password.label')), 'password');
+        await clickByName(t('pages.sign-in.actions.submit'));
 
         // then
-        assert.ok(screen.getByText(this.intl.t(ApiErrorMessages.BAD_REQUEST.I18N_KEY)));
+        assert.ok(screen.getByText(t(ApiErrorMessages.BAD_REQUEST.I18N_KEY)));
       });
 
       test('should display an error if api cannot be reached', async function (assert) {
@@ -117,14 +116,14 @@ module('Integration | Component | signin form', function (hooks) {
 
         // when
         await fillIn(
-          screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+          screen.getByRole('textbox', { name: t('pages.sign-in.fields.login.label') }),
           'johnharry@example.net',
         );
-        await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'password123');
-        await clickByName(this.intl.t('pages.sign-in.actions.submit'));
+        await fillIn(screen.getByLabelText(t('pages.sign-in.fields.password.label')), 'password123');
+        await clickByName(t('pages.sign-in.actions.submit'));
 
         // then
-        assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
+        assert.dom(screen.getByText(t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
       });
 
       module('blocking', function () {
@@ -141,11 +140,11 @@ module('Integration | Component | signin form', function (hooks) {
 
             // when
             await fillIn(
-              screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+              screen.getByRole('textbox', { name: t('pages.sign-in.fields.login.label') }),
               'user.temporary-blocked@example.net',
             );
-            await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'password123');
-            await clickByName(this.intl.t('pages.sign-in.actions.submit'));
+            await fillIn(screen.getByLabelText(t('pages.sign-in.fields.password.label')), 'password123');
+            await clickByName(t('pages.sign-in.actions.submit'));
 
             // then
             const errorMessage = screen.getByText(
@@ -174,11 +173,11 @@ module('Integration | Component | signin form', function (hooks) {
 
             // when
             await fillIn(
-              screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+              screen.getByRole('textbox', { name: t('pages.sign-in.fields.login.label') }),
               'user.blocked@example.net',
             );
-            await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'password123');
-            await clickByName(this.intl.t('pages.sign-in.actions.submit'));
+            await fillIn(screen.getByLabelText(t('pages.sign-in.fields.password.label')), 'password123');
+            await clickByName(t('pages.sign-in.actions.submit'));
 
             // then
             const errorMessage = screen.getByText((content) =>
@@ -209,11 +208,11 @@ module('Integration | Component | signin form', function (hooks) {
 
             // when
             await fillIn(
-              screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+              screen.getByRole('textbox', { name: t('pages.sign-in.fields.login.label') }),
               'invalid-locale@example.net',
             );
-            await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'P@ssword123');
-            await clickByName(this.intl.t('pages.sign-in.actions.submit'));
+            await fillIn(screen.getByLabelText(t('pages.sign-in.fields.password.label')), 'P@ssword123');
+            await clickByName(t('pages.sign-in.actions.submit'));
 
             // then
             const errorMessage = screen.getByText(`Votre locale "macos" n'est pas dans le bon format.`);
@@ -235,11 +234,11 @@ module('Integration | Component | signin form', function (hooks) {
 
             // when
             await fillIn(
-              screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+              screen.getByRole('textbox', { name: t('pages.sign-in.fields.login.label') }),
               'not-supported-locale@example.net',
             );
-            await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'P@ssword123');
-            await clickByName(this.intl.t('pages.sign-in.actions.submit'));
+            await fillIn(screen.getByLabelText(t('pages.sign-in.fields.password.label')), 'P@ssword123');
+            await clickByName(t('pages.sign-in.actions.submit'));
 
             // then
             const errorMessage = screen.getByText(`Votre locale "fr-CA" n'est actuellement pas supportée.`);
@@ -277,16 +276,14 @@ module('Integration | Component | signin form', function (hooks) {
           assert
             .dom(
               screen.getByRole('link', {
-                name: `${this.intl.t('pages.sign-in.fwb.link.img')} ${this.intl.t('pages.sign-in.fwb.title')}`,
+                name: `${t('pages.sign-in.fwb.link.img')} ${t('pages.sign-in.fwb.title')}`,
               }),
             )
             .hasAttribute('href', '/connexion/fwb');
           assert
             .dom(
               screen.queryByRole('link', {
-                name: `${this.intl.t('pages.sign-in.pole-emploi.link.img')} ${this.intl.t(
-                  'pages.sign-in.pole-emploi.title',
-                )}`,
+                name: `${t('pages.sign-in.pole-emploi.link.img')} ${t('pages.sign-in.pole-emploi.title')}`,
               }),
             )
             .doesNotExist();
@@ -319,16 +316,14 @@ module('Integration | Component | signin form', function (hooks) {
             assert
               .dom(
                 screen.queryByRole('link', {
-                  name: `${this.intl.t('pages.sign-in.fwb.link.img')} ${this.intl.t('pages.sign-in.fwb.title')}`,
+                  name: `${t('pages.sign-in.fwb.link.img')} ${t('pages.sign-in.fwb.title')}`,
                 }),
               )
               .doesNotExist();
             assert
               .dom(
                 screen.queryByRole('link', {
-                  name: `${this.intl.t('pages.sign-in.pole-emploi.link.img')} ${this.intl.t(
-                    'pages.sign-in.pole-emploi.title',
-                  )}`,
+                  name: `${t('pages.sign-in.pole-emploi.link.img')} ${t('pages.sign-in.pole-emploi.title')}`,
                 }),
               )
               .doesNotExist();
@@ -363,16 +358,14 @@ module('Integration | Component | signin form', function (hooks) {
           assert
             .dom(
               screen.getByRole('link', {
-                name: `${this.intl.t('pages.sign-in.pole-emploi.link.img')} ${this.intl.t(
-                  'pages.sign-in.pole-emploi.title',
-                )}`,
+                name: `${t('pages.sign-in.pole-emploi.link.img')} ${t('pages.sign-in.pole-emploi.title')}`,
               }),
             )
             .hasAttribute('href', '/connexion/pole-emploi');
           assert
             .dom(
               screen.queryByRole('link', {
-                name: `${this.intl.t('pages.sign-in.fwb.link.img')} ${this.intl.t('pages.sign-in.fwb.title')}`,
+                name: `${t('pages.sign-in.fwb.link.img')} ${t('pages.sign-in.fwb.title')}`,
               }),
             )
             .doesNotExist();
@@ -393,13 +386,13 @@ module('Integration | Component | signin form', function (hooks) {
       const screen = await render(hbs`<SigninForm />`);
 
       await fillIn(
-        screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+        screen.getByRole('textbox', { name: t('pages.sign-in.fields.login.label') }),
         'johnharry@example.net',
       );
-      await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'password123');
+      await fillIn(screen.getByLabelText(t('pages.sign-in.fields.password.label')), 'password123');
 
       // when
-      await clickByName(this.intl.t('pages.sign-in.actions.submit'));
+      await clickByName(t('pages.sign-in.actions.submit'));
 
       // Then
       sinon.assert.calledOnce(session.authenticateUser);

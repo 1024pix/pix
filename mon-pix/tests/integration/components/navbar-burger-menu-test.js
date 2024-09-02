@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -31,11 +32,11 @@ module('Integration | Component | navbar-burger-menu', function (hooks) {
     const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}} />`);
 
     // then
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.main.code') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.main.dashboard') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.main.skills') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.main.start-certification') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.main.tutorials') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.main.code') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.main.dashboard') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.main.skills') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.main.start-certification') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.main.tutorials') }));
   });
 
   test('should display the user menu with "My account", "My certifications", "Help", "Log-out" links', async function (assert) {
@@ -43,10 +44,10 @@ module('Integration | Component | navbar-burger-menu', function (hooks) {
     const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}} />`);
 
     // then
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.user.account') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.user.certifications') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.main.help') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.user.sign-out') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.user.account') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.user.certifications') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.main.help') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.user.sign-out') }));
   });
 
   module('when user has participations', function (hooks) {
@@ -67,7 +68,7 @@ module('Integration | Component | navbar-burger-menu', function (hooks) {
       const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}} />`);
 
       // then
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.user.tests') }));
+      assert.ok(screen.getByRole('link', { name: t('navigation.user.tests') }));
     });
   });
 
@@ -89,7 +90,7 @@ module('Integration | Component | navbar-burger-menu', function (hooks) {
       const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}} />`);
 
       // then
-      assert.notOk(screen.queryByRole('link', { name: this.intl.t('navigation.user.tests') }));
+      assert.notOk(screen.queryByRole('link', { name: t('navigation.user.tests') }));
     });
   });
   module('when user has recommended trainings', function (hooks) {
@@ -110,7 +111,7 @@ module('Integration | Component | navbar-burger-menu', function (hooks) {
       const screen = await render(hbs`<NavbarBurgerMenu @showSidebar={{true}} />`);
 
       // then
-      assert.notOk(screen.queryByRole('link', { name: this.intl.t('navigation.user.trainings') }));
+      assert.notOk(screen.queryByRole('link', { name: t('navigation.user.trainings') }));
     });
   });
 });
