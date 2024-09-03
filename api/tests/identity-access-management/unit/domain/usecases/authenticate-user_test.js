@@ -148,13 +148,10 @@ describe('Unit | Identity Access Management | Domain | UseCases | authenticate-u
         const expirationDelaySeconds = '';
 
         refreshTokenService.createRefreshTokenFromUserId
-          .withArgs({
-            userId: user.id,
-            source,
-          })
+          .withArgs({ userId: user.id, source, scope })
           .returns(refreshToken);
         refreshTokenService.createAccessTokenFromRefreshToken
-          .withArgs({ refreshToken })
+          .withArgs({ refreshToken, scope })
           .resolves({ accessToken, expirationDelaySeconds });
 
         // when
@@ -196,13 +193,10 @@ describe('Unit | Identity Access Management | Domain | UseCases | authenticate-u
 
           pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
           refreshTokenService.createRefreshTokenFromUserId
-            .withArgs({
-              userId: user.id,
-              source,
-            })
+            .withArgs({ userId: user.id, source, scope })
             .returns(refreshToken);
           refreshTokenService.createAccessTokenFromRefreshToken
-            .withArgs({ refreshToken })
+            .withArgs({ refreshToken, scope })
             .resolves({ accessToken, expirationDelaySeconds });
 
           // when
@@ -233,18 +227,14 @@ describe('Unit | Identity Access Management | Domain | UseCases | authenticate-u
     const accessToken = 'jwt.access.token';
     const refreshToken = 'jwt.refresh.token';
     const source = 'pix';
+    const scope = 'mon-pix';
     const expirationDelaySeconds = 1;
     const user = domainBuilder.buildUser({ email: userEmail });
 
     pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
-    refreshTokenService.createRefreshTokenFromUserId
-      .withArgs({
-        userId: user.id,
-        source,
-      })
-      .returns(refreshToken);
+    refreshTokenService.createRefreshTokenFromUserId.withArgs({ userId: user.id, source, scope }).returns(refreshToken);
     refreshTokenService.createAccessTokenFromRefreshToken
-      .withArgs({ refreshToken })
+      .withArgs({ refreshToken, scope })
       .resolves({ accessToken, expirationDelaySeconds });
 
     // when
@@ -252,6 +242,7 @@ describe('Unit | Identity Access Management | Domain | UseCases | authenticate-u
       username: userEmail,
       password,
       source,
+      scope,
       pixAuthenticationService,
       refreshTokenService,
       userRepository,
@@ -271,6 +262,7 @@ describe('Unit | Identity Access Management | Domain | UseCases | authenticate-u
     // given
     const accessToken = 'jwt.access.token';
     const source = 'pix';
+    const scope = 'mon-pix';
     const expirationDelaySeconds = 1;
     const user = domainBuilder.buildUser({ email: userEmail });
 
@@ -282,6 +274,7 @@ describe('Unit | Identity Access Management | Domain | UseCases | authenticate-u
       username: userEmail,
       password,
       source,
+      scope,
       pixAuthenticationService,
       refreshTokenService,
       userRepository,
@@ -398,6 +391,7 @@ describe('Unit | Identity Access Management | Domain | UseCases | authenticate-u
           // given
           const accessToken = 'jwt.access.token';
           const source = 'pix';
+          const scope = 'mon-pix';
           const expirationDelaySeconds = 1;
           const user = domainBuilder.buildUser({ email: userEmail, locale: null });
           const setLocaleIfNotAlreadySetStub = sinon.stub(user, 'setLocaleIfNotAlreadySet');
@@ -410,6 +404,7 @@ describe('Unit | Identity Access Management | Domain | UseCases | authenticate-u
             username: userEmail,
             password,
             source,
+            scope,
             localeFromCookie: 'localeFromCookie',
             pixAuthenticationService,
             refreshTokenService,
@@ -427,6 +422,7 @@ describe('Unit | Identity Access Management | Domain | UseCases | authenticate-u
           // given
           const accessToken = 'jwt.access.token';
           const source = 'pix';
+          const scope = 'mon-pix';
           const expirationDelaySeconds = 1;
           const user = domainBuilder.buildUser({ email: userEmail, locale: undefined });
 
@@ -438,6 +434,7 @@ describe('Unit | Identity Access Management | Domain | UseCases | authenticate-u
             username: userEmail,
             password,
             source,
+            scope,
             localeFromCookie: undefined,
             pixAuthenticationService,
             refreshTokenService,

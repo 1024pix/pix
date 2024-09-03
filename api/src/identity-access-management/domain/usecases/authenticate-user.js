@@ -39,6 +39,7 @@ const authenticateUser = async function ({
       userRepository,
     });
 
+    // TODO: étrange ?
     const shouldChangePassword = get(
       foundUser,
       'authenticationMethods[0].authenticationComplement.shouldChangePassword',
@@ -50,9 +51,14 @@ const authenticateUser = async function ({
     }
 
     await _checkUserAccessScope(scope, foundUser, adminMemberRepository);
-    const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({ userId: foundUser.id, source });
+    const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({
+      userId: foundUser.id,
+      source,
+      scope,
+    });
     const { accessToken, expirationDelaySeconds } = await refreshTokenService.createAccessTokenFromRefreshToken({
       refreshToken,
+      scope,
     });
 
     foundUser.setLocaleIfNotAlreadySet(localeFromCookie);

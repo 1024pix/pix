@@ -9,13 +9,14 @@ describe('Unit | Identity Access Management | Domain | UseCases | create-access-
       const expirationDelaySeconds = 1;
 
       const refreshToken = 'valid refresh token';
+      const scope = 'mon-pix';
       const refreshTokenService = { createAccessTokenFromRefreshToken: sinon.stub() };
       refreshTokenService.createAccessTokenFromRefreshToken
-        .withArgs({ refreshToken })
+        .withArgs({ refreshToken, scope })
         .returns({ accessToken, expirationDelaySeconds });
 
       // when
-      const createdAccessToken = await createAccessTokenFromRefreshToken({ refreshToken, refreshTokenService });
+      const createdAccessToken = await createAccessTokenFromRefreshToken({ refreshToken, scope, refreshTokenService });
 
       // then
       expect(createdAccessToken).to.deep.equal({ accessToken, expirationDelaySeconds });
