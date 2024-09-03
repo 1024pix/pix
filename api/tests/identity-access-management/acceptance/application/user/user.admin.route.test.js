@@ -4,7 +4,7 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
 describe('Acceptance | Identity Access Management | Application | Route | Admin | User', function () {
   describe('PUT /admin/users/:id/unblock', function () {

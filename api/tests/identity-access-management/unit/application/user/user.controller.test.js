@@ -1,9 +1,9 @@
-import { userController } from '../../../../src/identity-access-management/application/user/user.controller.js';
-import { User } from '../../../../src/identity-access-management/domain/models/User.js';
-import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
-import * as requestResponseUtils from '../../../../src/shared/infrastructure/utils/request-response-utils.js';
-import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
+import { userController } from '../../../../../src/identity-access-management/application/user/user.controller.js';
+import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
+import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
+import * as requestResponseUtils from '../../../../../src/shared/infrastructure/utils/request-response-utils.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
+import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 describe('Unit | Identity Access Management | Application | Controller | User', function () {
   let userSerializer;
