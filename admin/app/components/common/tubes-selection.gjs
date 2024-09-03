@@ -25,20 +25,19 @@ export default class TubesSelection extends Component {
     super(...args);
 
     if (this.args.initialAreas?.length > 0) {
-      this.setInitialFrameworks();
+      this.setInitialFrameworks().then(this.refreshAreas);
     } else {
       this.setDefaultFrameworks();
+      this.refreshAreas();
     }
 
     if (this.args.initialCappedTubes?.length > 0) {
       this.setInitialCheckedTubes();
     }
-
-    this.refreshAreas();
   }
 
   setInitialFrameworks() {
-    Promise.resolve(this.args.initialAreas).then((initialAreas) => {
+    return Promise.resolve(this.args.initialAreas).then((initialAreas) => {
       const initialAreasFrameworks = initialAreas.map((area) => area.frameworkId);
       this.selectedFrameworkIds = Array.from(new Set(initialAreasFrameworks));
     });

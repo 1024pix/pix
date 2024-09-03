@@ -9,22 +9,67 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
   setupIntlRenderingTest(hooks);
 
   let store;
-  let framework;
+  let targetProfileTemplate, framework, tubes1, tubes2, area, thematics, competences;
 
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
-    framework = store.createRecord('framework', { id: 'framework1', name: 'Pix', areas: [] });
-  });
+    tubes1 = [
+      store.createRecord('tube', {
+        id: 'tubeId1',
+        name: '@tubeName1',
+        practicalTitle: 'Tube 1',
+        skills: [],
+        level: 8,
+      }),
+      store.createRecord('tube', {
+        id: 'tubeId2',
+        name: '@tubeName2',
+        practicalTitle: 'Tube 2',
+        skills: [],
+        level: 8,
+      }),
+    ];
 
-  const targetProfile = {
-    areKnowledgeElementsResettable: false,
-    category: 'OTHER',
-    comment: '',
-    imageUrl: '',
-    isPublic: false,
-    name: 'A name',
-    ownerOrganizationId: 1000,
-  };
+    tubes2 = [
+      store.createRecord('tube', {
+        id: 'tubeId3',
+        name: '@tubeName3',
+        practicalTitle: 'Tube 3',
+        skills: [],
+        level: 8,
+      }),
+    ];
+    thematics = [
+      store.createRecord('thematic', { id: 'thematicId1', name: 'Thématique 1', tubes: tubes1 }),
+      store.createRecord('thematic', { id: 'thematicId2', name: 'Thématique 2', tubes: tubes2 }),
+    ];
+    competences = [
+      store.createRecord('competence', {
+        id: 'competenceId',
+        index: '1',
+        name: 'Titre competence',
+        thematics,
+      }),
+    ];
+    area = store.createRecord('area', {
+      id: 'areaId',
+      title: 'Titre domaine',
+      code: 1,
+      frameworkId: 'framework1',
+      competences,
+    });
+    framework = store.createRecord('framework', { id: 'framework1', name: 'Pix', areas: [area] });
+
+    targetProfileTemplate = {
+      areKnowledgeElementsResettable: false,
+      category: 'OTHER',
+      comment: '',
+      imageUrl: '',
+      isPublic: false,
+      name: 'A name',
+      ownerOrganizationId: 1000,
+    };
+  });
   const onSubmit = sinon.stub();
   const onCancel = sinon.stub();
 
@@ -32,7 +77,10 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
     test('it should display the items', async function (assert) {
       //given
       const frameworks = [framework];
-
+      const targetProfile = store.createRecord('target-profile', {
+        id: 'targetProfile1',
+        ...targetProfileTemplate,
+      });
       // when
       const screen = await render(
         <template>
@@ -67,7 +115,10 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
     test('it should call onSubmit when form is valid', async function (assert) {
       //given
       const frameworks = [framework];
-
+      const targetProfile = store.createRecord('target-profile', {
+        id: 'targetProfile1',
+        ...targetProfileTemplate,
+      });
       // when
       await render(
         <template>
@@ -89,7 +140,10 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
     test('it should call onCancel when form is cancelled', async function (assert) {
       //given
       const frameworks = [framework];
-
+      const targetProfile = store.createRecord('target-profile', {
+        id: 'targetProfile1',
+        ...targetProfileTemplate,
+      });
       // when
       await render(
         <template>
@@ -113,6 +167,11 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
     test('it should not display all form fields', async function (assert) {
       //given
       const frameworks = [framework];
+      const targetProfile = store.createRecord('target-profile', {
+        id: 'targetProfile1',
+        ...targetProfileTemplate,
+        areas: [area],
+      });
 
       // when
       const screen = await render(
@@ -130,6 +189,8 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
       // then
       assert.notOk(screen.queryByLabelText(/Identifiant de l'organisation de référence/));
       assert.notOk(screen.queryByLabelText(/Public/));
+      assert.dom(screen.getByText(/Sélection des sujets/)).exists();
+      assert.dom(screen.getByText(/1 · Titre domaine/)).exists();
 
       await clickByName('Modifier le profil cible');
       assert.ok(onSubmit.called);
@@ -140,16 +201,17 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
     test('it should display edit form', async function (assert) {
       // given
       const frameworks = [framework];
-      const targetProfileWitLinkedCampaign = {
-        ...targetProfile,
+      const targetProfile = store.createRecord('target-profile', {
+        id: 'targetProfile1',
+        ...targetProfileTemplate,
         hasLinkedCampaign: true,
-      };
+      });
 
       // when
       const screen = await render(
         <template>
           <EditTargetProfileForm
-            @targetProfile={{targetProfileWitLinkedCampaign}}
+            @targetProfile={{targetProfile}}
             @frameworks={{frameworks}}
             @onSubmit={{onSubmit}}
             @onCancel={{onCancel}}
