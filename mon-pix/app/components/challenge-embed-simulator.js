@@ -49,9 +49,16 @@ export default class ChallengeEmbedSimulator extends Component {
 
     thisComponent._embedMessageListener = ({ origin, data }) => {
       if (!isEmbedAllowedOrigin(origin)) return;
+      if (isInitMessage(data)) {
+        if (data.autoLaunch || thisComponent.isSimulatorLaunched) {
+          thisComponent.launchSimulator();
+        }
+        if (!data.rebootable) {
+          thisComponent.isSimulatorRebootable = false;
+        }
+      }
       if (isReadyMessage(data) && thisComponent.isSimulatorLaunched) {
-        iframe.contentWindow.postMessage('launch', '*');
-        iframe.focus();
+        thisComponent.launchSimulator();
       }
       if (isHeightMessage(data)) {
         thisComponent.embedHeight = data.height;
@@ -112,6 +119,18 @@ export default class ChallengeEmbedSimulator extends Component {
  */
 function isReadyMessage(data) {
   return isMessageType(data, 'ready');
+}
+
+/**
+ * Checks if event is an "init" message.
+ * @param {unknown} data
+ * @returns {data is {
+ *   autoLaunch: boolean
+ *   rebootable: boolean
+ * }}
+ */
+function isInitMessage(data) {
+  return isMessageType(data, 'init');
 }
 
 /**
