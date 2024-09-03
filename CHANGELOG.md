@@ -1,5 +1,48 @@
 # Pix Changelog
 
+## v4.207.0 (03/09/2024)
+
+
+### :rocket: Amélioration
+- [#9916](https://github.com/1024pix/pix/pull/9916) [FEATURE] Ajoute la gestion des filtres dans les imports à format (PIX-13509).
+- [#9995](https://github.com/1024pix/pix/pull/9995) [FEATURE] : Traduction du message d'avertissement.
+- [#10009](https://github.com/1024pix/pix/pull/10009) [FEATURE] Mise à jour de la clé de traduction NL de la bannière d'infos (PIX-14091).
+- [#9874](https://github.com/1024pix/pix/pull/9874) [FEATURE] Ajout d'une modale d'édition de candidat pour les ajustements d'a11y en certif (PIX-13683).
+- [#9958](https://github.com/1024pix/pix/pull/9958) [FEATURE] Améliorer l'affichage des erreurs dans l'import en masse sur Pix Certif (PIX-10155).
+
+### :building_construction: Tech
+- [#10017](https://github.com/1024pix/pix/pull/10017) [TECH] Corriger les seeds Acces d'élèves (PIX-14101).
+- [#9959](https://github.com/1024pix/pix/pull/9959) [TECH] Remplacer Bluebird mapSeries par des fonctions natives.
+- [#9919](https://github.com/1024pix/pix/pull/9919) [TECH] Migration hors event handler maison de AutoJuryDone (PIX-13977).
+- [#9912](https://github.com/1024pix/pix/pull/9912) [TECH] Gestion des schedule jobs (PIX-13971).
+- [#9955](https://github.com/1024pix/pix/pull/9955) [TECH] Simplification du code de la page Parcours autonomes (PIX-14003).
+- [#9950](https://github.com/1024pix/pix/pull/9950) [TECH] Ajout d'un layout pour les composants PixAdmin (PIX-13988).
+- [#9992](https://github.com/1024pix/pix/pull/9992) [TECH] : bouger le fichier nav.scss du dossier globals vers le dossier composants.
+
+### :bug: Correction
+- [#10000](https://github.com/1024pix/pix/pull/10000) [BUGFIX] Consigne : retour ligne pour les très long mots (PIX-13836).
+- [#10023](https://github.com/1024pix/pix/pull/10023) [BUGFIX] Empêcher d'appeler la route de récupération d'une campagne par son code SANS code (PIX-14090).
+- [#10008](https://github.com/1024pix/pix/pull/10008) [BUGFIX] Utiliser la même icône de suppression dans Pix-Certif (PIX-14086).
+- [#9984](https://github.com/1024pix/pix/pull/9984) [BUGFIX] Améliorer la lisibilité de la solution d'un input de QROC(M) (PIX-14045).
+- [#10005](https://github.com/1024pix/pix/pull/10005) [BUGFIX] Corriger un test flaky dans 'Integration | Component | Team::MembersListItem' (PIX-14084).
+
+### :arrow_up: Montée de version
+- [#10022](https://github.com/1024pix/pix/pull/10022) [BUMP] Update nginx Docker tag to v1.27.1.
+- [#10021](https://github.com/1024pix/pix/pull/10021) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.26 (orga).
+- [#10018](https://github.com/1024pix/pix/pull/10018) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.26 (admin).
+- [#10019](https://github.com/1024pix/pix/pull/10019) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.26 (mon-pix).
+- [#10011](https://github.com/1024pix/pix/pull/10011) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.25 (admin).
+- [#10016](https://github.com/1024pix/pix/pull/10016) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.19 (certif).
+- [#10015](https://github.com/1024pix/pix/pull/10015) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.26 (junior).
+- [#10014](https://github.com/1024pix/pix/pull/10014) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.26 (certif).
+- [#10013](https://github.com/1024pix/pix/pull/10013) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.25 (junior).
+- [#10012](https://github.com/1024pix/pix/pull/10012) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.25 (certif).
+- [#9939](https://github.com/1024pix/pix/pull/9939) [BUMP] Update dependency micromatch to v4.0.8 [SECURITY].
+- [#9980](https://github.com/1024pix/pix/pull/9980) [BUMP] Update dependency webpack to v5.94.0 [SECURITY].
+- [#9981](https://github.com/1024pix/pix/pull/9981) [BUMP] Update dependency webpack to v5.94.0 [SECURITY].
+- [#9982](https://github.com/1024pix/pix/pull/9982) [BUMP] Update dependency webpack to v5.94.0 [SECURITY].
+- [#9978](https://github.com/1024pix/pix/pull/9978) [BUMP] Update dependency webpack to v5.94.0 [SECURITY].
+
 ## v4.206.0 (30/08/2024)
 
 
