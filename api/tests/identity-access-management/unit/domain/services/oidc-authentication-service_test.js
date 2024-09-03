@@ -81,7 +81,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#isReady', function () {
-    describe('when enabled in config', function () {
+    context('when enabled in config', function () {
       it('returns true', function () {
         // given
         const oidcAuthenticationService = new OidcAuthenticationService({
@@ -103,7 +103,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
-    describe('when not enabled in config', function () {
+    context('when not enabled in config', function () {
       it('returns false', function () {
         // given
         const oidcAuthenticationService = new OidcAuthenticationService({});
@@ -470,7 +470,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#getUserInfo', function () {
-    it('returns firstName, lastName, external identity id and claims to store', async function () {
+    it('returns firstName, lastName and external identity id', async function () {
       // given
       const idToken = jsonwebtoken.sign(
         {
@@ -478,12 +478,11 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           family_name: 'familyName',
           nonce: 'nonce-id',
           sub: 'sub-id',
-          employeeNumber: '12345',
         },
         'secret',
       );
 
-      const oidcAuthenticationService = new OidcAuthenticationService({ claimsToStore: 'employeeNumber' });
+      const oidcAuthenticationService = new OidcAuthenticationService({});
 
       // when
       const result = await oidcAuthenticationService.getUserInfo({
@@ -496,11 +495,117 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         firstName: 'givenName',
         lastName: 'familyName',
         externalIdentityId: 'sub-id',
-        employeeNumber: '12345',
       });
     });
 
-    describe('when default required properties are not returned in id token', function () {
+    context('when claimsToStore is defined', function () {
+      it('returns firstName, lastName, external identity id and claims to store', async function () {
+        // given
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: 'givenName',
+            family_name: 'familyName',
+            nonce: 'nonce-id',
+            sub: 'sub-id',
+            employeeNumber: '12345',
+          },
+          'secret',
+        );
+
+        const oidcAuthenticationService = new OidcAuthenticationService({ claimsToStore: 'employeeNumber' });
+
+        // when
+        const result = await oidcAuthenticationService.getUserInfo({
+          idToken,
+          accessToken: 'accessToken',
+        });
+
+        // then
+        expect(result).to.deep.equal({
+          firstName: 'givenName',
+          lastName: 'familyName',
+          externalIdentityId: 'sub-id',
+          employeeNumber: '12345',
+        });
+      });
+    });
+
+    context('when claimMapping is defined', function () {
+      it('returns mapped firstName, lastName, external identity id', async function () {
+        // given
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: 'givenName',
+            usual_name: 'familyName',
+            nonce: 'nonce-id',
+            sub: 'sub-id',
+          },
+          'secret',
+        );
+
+        const claimMapping = {
+          firstName: ['given_name'],
+          lastName: ['usual_name'],
+          externalIdentityId: ['sub'],
+        };
+        const oidcAuthenticationService = new OidcAuthenticationService({ claimMapping });
+
+        // when
+        const result = await oidcAuthenticationService.getUserInfo({
+          idToken,
+          accessToken: 'accessToken',
+        });
+
+        // then
+        expect(result).to.deep.equal({
+          firstName: 'givenName',
+          lastName: 'familyName',
+          externalIdentityId: 'sub-id',
+        });
+      });
+    });
+
+    context('when claimMapping and claimsToStore are defined', function () {
+      it('returns mapped firstName, lastName, external identity id and claims to store', async function () {
+        // given
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: 'givenName',
+            usual_name: 'familyName',
+            nonce: 'nonce-id',
+            sub: 'sub-id',
+            employeeNumber: '12345',
+          },
+          'secret',
+        );
+
+        const claimMapping = {
+          firstName: ['given_name'],
+          lastName: ['usual_name'],
+          externalIdentityId: ['sub'],
+        };
+        const oidcAuthenticationService = new OidcAuthenticationService({
+          claimMapping,
+          claimsToStore: 'employeeNumber',
+        });
+
+        // when
+        const result = await oidcAuthenticationService.getUserInfo({
+          idToken,
+          accessToken: 'accessToken',
+        });
+
+        // then
+        expect(result).to.deep.equal({
+          firstName: 'givenName',
+          lastName: 'familyName',
+          externalIdentityId: 'sub-id',
+          employeeNumber: '12345',
+        });
+      });
+    });
+
+    context('when default required properties are not returned in id token', function () {
       it('calls userInfo endpoint', async function () {
         // given
         const idToken = jsonwebtoken.sign(
@@ -527,7 +632,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
-    describe('when claimsToStore are not returned in id token', function () {
+    context('when claimsToStore are not returned in id token', function () {
       it('calls userInfo endpoint', async function () {
         // given
         const idToken = jsonwebtoken.sign(
@@ -637,7 +742,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
-    describe('when required properties are not returned by external API', function () {
+    context('when required properties are not returned by external API', function () {
       it('throws an error', async function () {
         // given
         const clientId = 'OIDC_CLIENT_ID';
