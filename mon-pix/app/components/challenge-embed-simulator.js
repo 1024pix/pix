@@ -91,7 +91,6 @@ export default class ChallengeEmbedSimulator extends Component {
         iframe.src = tmpSrc;
       } else {
         // Second onload: when we re-assign the iframe's src to its original value
-        iframe.contentWindow.postMessage('reload', '*');
         iframe.focus();
         iframe.removeEventListener('load', loadListener);
       }
