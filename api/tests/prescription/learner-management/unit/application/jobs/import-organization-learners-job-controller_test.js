@@ -1,7 +1,8 @@
 import { ImportOrganizationLearnersJobController } from '../../../../../../src/prescription/learner-management/application/jobs/import-organization-learners-job-controller.js';
 import { usecases } from '../../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { config } from '../../../../../../src/shared/config.js';
-import { expect, sinon } from '../../../../../test-helper.js';
+import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Prescription | Application | Jobs | importOrganizationLearnersJobController', function () {
   describe('#isJobEnabled', function () {
@@ -42,6 +43,36 @@ describe('Unit | Prescription | Application | Jobs | importOrganizationLearnersJ
       // then
       expect(usecases.addOrUpdateOrganizationLearners).to.have.been.calledOnce;
       expect(usecases.addOrUpdateOrganizationLearners).to.have.been.calledWithExactly(data);
+    });
+
+    it('should not throw when error is from domain', async function () {
+      const error = new OrganizationLearnersCouldNotBeSavedError();
+      sinon.stub(usecases, 'addOrUpdateOrganizationLearners').rejects(error);
+
+      // given
+      const errorStub = sinon.stub();
+      const handler = new ImportOrganizationLearnersJobController({ logger: { error: errorStub } });
+      const data = { organizationImportId: Symbol('organizationImportId') };
+
+      // when & then
+      await handler.handle({ data });
+
+      expect(errorStub).to.have.been.calledWithExactly(error);
+    });
+
+    it('should throw when error is not from domain', async function () {
+      const error = new Error();
+      sinon.stub(usecases, 'addOrUpdateOrganizationLearners').rejects(error);
+
+      // given
+      const handler = new ImportOrganizationLearnersJobController();
+      const data = { organizationImportId: Symbol('organizationImportId') };
+
+      // when
+      const result = await catchErr(handler.handle)({ data });
+
+      // then
+      expect(result).to.equal(error);
     });
   });
 });
