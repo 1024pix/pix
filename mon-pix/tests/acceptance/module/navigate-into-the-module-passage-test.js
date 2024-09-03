@@ -1,5 +1,5 @@
 import { clickByName, visit } from '@1024pix/ember-testing-library';
-import { currentURL } from '@ember/test-helpers';
+import { currentURL, waitUntil } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -105,10 +105,14 @@ module('Acceptance | Module | Routes | navigateIntoTheModulePassage', function (
           },
         ],
       });
-      server.create('module', {
+      const module = server.create('module', {
         id: 'bien-ecrire-son-adresse-mail',
         title: 'Bien écrire son adresse mail',
         grains: [grain1],
+      });
+      server.create('passage', {
+        id: '122',
+        moduleId: module.id,
       });
 
       // when
@@ -121,6 +125,10 @@ module('Acceptance | Module | Routes | navigateIntoTheModulePassage', function (
       await clickByName('Terminer');
 
       // then
+      await waitUntil(() => {
+        return screen.queryByRole('heading', { name: 'Bravo ! Module terminé', level: 1 });
+      });
+
       assert.strictEqual(currentURL(), '/modules/bien-ecrire-son-adresse-mail/recap');
     });
   });

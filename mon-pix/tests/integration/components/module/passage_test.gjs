@@ -2,6 +2,7 @@ import { clickByName, render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { find, findAll } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
+import ApplicationAdapter from 'mon-pix/adapters/application';
 import ModulePassage from 'mon-pix/components/module/passage';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -905,6 +906,10 @@ module('Integration | Component | Module | Passage', function (hooks) {
   module('When click on terminate button', function () {
     test('should push an event', async function (assert) {
       // given
+      class PassageAdapterStub extends ApplicationAdapter {
+        terminate = sinon.stub().resolves();
+      }
+      this.owner.register('adapter:passage', PassageAdapterStub);
       const router = this.owner.lookup('service:router');
       router.transitionTo = sinon.stub();
       const metrics = this.owner.lookup('service:metrics');
