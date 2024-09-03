@@ -11,48 +11,6 @@ const register = async function (server) {
   const adminRoutes = [
     {
       method: 'GET',
-      path: '/api/admin/users',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-          },
-        ],
-        validate: {
-          options: {
-            allowUnknown: true,
-          },
-          query: Joi.object({
-            filter: Joi.object({
-              id: identifiersType.userId.empty('').allow(null).optional(),
-              firstName: Joi.string().empty('').allow(null).optional(),
-              lastName: Joi.string().empty('').allow(null).optional(),
-              email: Joi.string().empty('').allow(null).optional(),
-              username: Joi.string().empty('').allow(null).optional(),
-            }).default({}),
-            page: Joi.object({
-              number: Joi.number().integer().empty('').allow(null).optional(),
-              size: Joi.number().integer().empty('').allow(null).optional(),
-            }).default({}),
-          }),
-        },
-        handler: userController.findPaginatedFilteredUsers,
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de récupérer & chercher une liste d’utilisateurs\n' +
-            '- Cette liste est paginée et filtrée selon un **id**, **firstName**, un **lastName**, un **email** et **identifiant** donnés',
-        ],
-        tags: ['api', 'admin', 'user'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/admin/users/{id}',
       config: {
         validate: {
