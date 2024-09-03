@@ -96,7 +96,15 @@ class User {
       (authenticationMethod) => authenticationMethod.identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
     );
 
-    return pixAuthenticationMethod ? pixAuthenticationMethod.authenticationComplement.shouldChangePassword : null;
+    return pixAuthenticationMethod ? pixAuthenticationMethod.authenticationComplement?.shouldChangePassword : null;
+  }
+
+  get passwordHash() {
+    const pixAuthenticationMethod = this.authenticationMethods.find(
+      (authenticationMethod) => authenticationMethod.identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
+    );
+
+    return pixAuthenticationMethod ? pixAuthenticationMethod.authenticationComplement?.password : null;
   }
 
   get shouldSeeDataProtectionPolicyInformationBanner() {
