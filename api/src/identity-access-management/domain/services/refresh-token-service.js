@@ -30,17 +30,18 @@ async function findByUserId(userId) {
  * @typedef {function} createRefreshTokenFromUserId
  * @param {Object} params
  * @param {string} params.userId
+ * @param {string} params.scope
  * @param {string} params.source
  * @param {function} params.uuidGenerator
  * @return {Promise<string>}
  */
-async function createRefreshTokenFromUserId({ userId, source, uuidGenerator = randomUUID }) {
+async function createRefreshTokenFromUserId({ userId, scope, source, uuidGenerator = randomUUID }) {
   const expirationDelaySeconds = config.authentication.refreshTokenLifespanMs / 1000;
-  const refreshToken = `${_prefixForUser(userId)}${uuidGenerator()}`;
+  const refreshToken = [userId, scope, uuidGenerator()].filter(Boolean).join(':');
 
   await refreshTokenTemporaryStorage.save({
     key: refreshToken,
-    value: { type: 'refresh_token', userId, source },
+    value: { type: 'refresh_token', userId, scope, source },
     expirationDelaySeconds,
   });
   await userRefreshTokensTemporaryStorage.lpush({ key: userId, value: refreshToken });
@@ -56,10 +57,14 @@ async function createRefreshTokenFromUserId({ userId, source, uuidGenerator = ra
  * @typedef {function} createAccessTokenFromRefreshToken
  * @param {Object} params
  * @param {string} params.refreshToken
+ * @param {string} params.scope
  * @return {Promise<{expirationDelaySeconds: number, accessToken: string}>}
  */
-async function createAccessTokenFromRefreshToken({ refreshToken }) {
-  const { userId, source } = (await findByRefreshToken(refreshToken)) || {};
+async function createAccessTokenFromRefreshToken({ refreshToken, scope: targetScope }) {
+  const { userId, source, scope } = (await findByRefreshToken(refreshToken)) || {};
+  if (scope && targetScope && scope !== targetScope) {
+    throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
+  }
   if (!userId) throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
   return tokenService.createAccessTokenFromUser(userId, source);
 }
@@ -106,7 +111,3 @@ export const refreshTokenService = {
   revokeRefreshToken,
   revokeRefreshTokensForUserId,
 };
-
-function _prefixForUser(userId) {
-  return `${userId}:`;
-}
