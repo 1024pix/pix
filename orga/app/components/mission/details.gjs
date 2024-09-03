@@ -14,7 +14,7 @@ export default class MissionDetails extends Component {
         label: this.intl.t('navigation.main.missions'),
       },
       {
-        route: 'authenticated.missions.details',
+        route: 'authenticated.missions.mission',
         label: this.args.mission.name,
       },
     ];
@@ -33,7 +33,7 @@ export default class MissionDetails extends Component {
         </h1>
         <div class="mission-header-informations__details">
           <p class="competence-title">
-            {{t "pages.missions.details.competence.title"}}
+            {{t "pages.missions.mission.details.competence.title"}}
           </p>
           <p class="competence-name">
             {{@mission.competenceName}}
@@ -44,7 +44,7 @@ export default class MissionDetails extends Component {
               @href={{@mission.documentationUrl}}
               target="_blank "
             >
-              {{t "pages.missions.details.button-label"}}</PixButtonLink>
+              {{t "pages.missions.mission.details.button-label"}}</PixButtonLink>
           {{/if}}
         </div>
       </div>
@@ -52,7 +52,7 @@ export default class MissionDetails extends Component {
       <div class="mission-header-objectives">
         {{#if this.displayObjectives}}
           <h2>
-            {{t "pages.missions.details.objective.title"}}
+            {{t "pages.missions.mission.details.objective.title"}}
           </h2>
           <ul class="mission-header-objectives__list">
             {{#each this.displayObjectives as |objective|}}

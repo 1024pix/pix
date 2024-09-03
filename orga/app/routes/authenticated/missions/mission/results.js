@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import RSVP from 'rsvp';
 
-export default class MissionLearnersRoute extends Route {
+export default class MissionResultsRoute extends Route {
   @service currentUser;
   @service router;
   @service store;
@@ -29,7 +29,7 @@ export default class MissionLearnersRoute extends Route {
 
   model(params) {
     const organization = this.currentUser.organization;
-    const missionModel = this.modelFor('authenticated.missions.details');
+    const missionModel = this.modelFor('authenticated.missions.mission');
     const missionLearners = this.store.query(
       'mission-learner',
       {

@@ -165,7 +165,7 @@ module('Acceptance | Missions List', function (hooks) {
       await click(screen.getByText('Super Mission'));
 
       // then
-      assert.deepEqual(currentURL(), '/missions/1');
+      assert.deepEqual(currentURL(), '/missions/1/activities');
     });
 
     test('should not access to my-campaigns page', async function (assert) {

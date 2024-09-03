@@ -14,7 +14,7 @@
     },
     "default": "De service is tijdelijk niet beschikbaar. Probeer het later nog eens.",
     "edit-student-number": {
-      "student-number-exists": "Het ingevoerde studentnummer is al in gebruik door de student {firstName} {lastName}"
+      "student-number-exists": "Het Lingevoerde studentnummer is al in gebruik door de student {firstName} {lastName}"
     },
     "global": "Er is een fout opgetreden. Probeer het later nog eens.",
     "or-separator": "of",
@@ -62,7 +62,6 @@
     },
     "import": {
       "message": "De beheerder kan certificeringsresultaten downloaden en de studentendatabase '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'importeren'</a>' om terug-naar-school campagnes per niveau te maken. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Meer info'</a>'"
-      
     },
     "language-availability": {
       "message": "Jouw taal is nog niet beschikbaar op Pix Orga. Voor jouw gemak wordt de applicatie in het Engels weergegeven. Het Pix-team werkt eraan om jouw taal toe te voegen."
@@ -810,46 +809,65 @@
       "title": "Inloggen"
     },
     "missions": {
-      "details": {
-        "button-label": "Bekijk de missiedocumentatie",
-        "competence": {
-          "title": "Vaardigheid:"
-        },
-        "learners": {
-          "list": {
-            "aria-label": "Student",
-            "caption": "Tabel van studenten met de resultaten van hun deelname aan de opdracht {missionName}",
-            "filters": {
-              "aria-label": "Filter studenten",
-              "learners-count": "{count, plural, =0 {geen student} =1 {1 student} other {{count} studenten}}"
-            },
-            "headers": {
-              "division": "Klas",
-              "first-name": "Voornaam",
-              "last-name": "Achternaam",
-              "result": "Positionering",
-              "status": "Status opdracht"
-            },
-            "mission-result": {
-              "exceeded": "Overtroffen",
-              "not-reached": "Niet bereikt",
-              "partially-reached": "Gedeeltelijk bereikt",
-              "reached": "Bereikt",
-              "undefined": "-"
-            },
-            "mission-status": {
-              "completed": "Voltooid",
-              "not-started": "Niet gestart",
-              "started": "Bezig"
-            }
+      "mission": {
+        "title": "Details van een opdracht",
+        "details": {
+          "button-label": "Bekijk de missiedocumentatie",
+          "competence": {
+            "title": "Vaardigheid:"
           },
-          "no-data": "Er zijn geen deelnemers",
-          "title": "Lijst van studenten"
+          "objective": {
+            "title": "Doelstellingen:"
+          }
         },
-        "objective": {
-          "title": "Doelstellingen:"
+        "tabs": {
+          "aria-label": "Navigatie tussen de activiteit of resultaten van de missie",
+          "activities": "Activiteiten",
+          "results": "Resultaten"
         },
-        "title": "Details van een opdracht"
+        "table": {
+            "activities": {
+              "aria-label": "Student",
+              "caption": "Tabel van studenten met de resultaten van hun deelname aan de opdracht {missionName}",
+              "filters": {
+                "aria-label": "Filter studenten",
+                "learners-count": "{count, plural, =0 {geen student} =1 {1 student} other {{count} studenten}}"
+              },
+              "headers": {
+                "division": "Klas",
+                "first-name": "Voornaam",
+                "last-name": "Achternaam",
+                "status": "Status opdracht"
+              },
+              "mission-status": {
+                "completed": "Voltooid",
+                "not-started": "Niet gestart",
+                "started": "Bezig"
+              }
+            },
+            "results": {
+              "aria-label": "Student",
+              "caption": "Tabel van studenten met de resultaten van hun deelname aan de opdracht {missionName}",
+              "filters": {
+                "aria-label": "Filter studenten",
+                "learners-count": "{count, plural, =0 {geen student} =1 {1 student} other {{count} studenten}}"
+              },
+              "headers": {
+                "division": "Klas",
+                "first-name": "Voornaam",
+                "last-name": "Achternaam",
+                "result": "Positionering"
+              },
+              "mission-result": {
+                "exceeded": "Overtroffen",
+                "not-reached": "Niet bereikt",
+                "partially-reached": "Gedeeltelijk bereikt",
+                "reached": "Bereikt",
+                "undefined": "-"
+              }
+            },
+            "no-data": "Er zijn geen deelnemers"
+          }
       },
       "list": {
         "aria-label": "Opdracht",

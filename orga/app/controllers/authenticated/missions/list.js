@@ -9,7 +9,7 @@ export default class MissionList extends Controller {
 
   @action
   goToMissionDetails(id) {
-    this.router.transitionTo('authenticated.missions.details', id);
+    this.router.transitionTo('authenticated.missions.mission', id);
   }
 
   get schoolCode() {

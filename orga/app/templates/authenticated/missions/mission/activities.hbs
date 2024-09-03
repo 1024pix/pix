@@ -1,9 +1,8 @@
-<h2 class="learners-title">{{t "pages.missions.details.learners.title"}}</h2>
 <PixFilterBanner
   @title={{t "common.filters.title"}}
   class="participant-filter-banner hide-on-mobile"
-  aria-label={{t "pages.missions.details.learners.list.filters.aria-label"}}
-  @details={{t "pages.missions.details.learners.list.filters.learners-count" count=this.learnersCount}}
+  aria-label={{t "pages.missions.mission.table.activities.filters.aria-label"}}
+  @details={{t "pages.missions.mission.table.activities.filters.learners-count" count=this.learnersCount}}
   @clearFiltersLabel={{t "common.filters.actions.clear"}}
   @onClearFilters={{this.onResetFilter}}
   @isClearFilterButtonDisabled={{this.isClearFiltersButtonDisabled}}
@@ -26,22 +25,21 @@
   <div class="panel">
     <table class="table content-text content-text--small participation-list__table">
       <caption class="screen-reader-only">{{t
-          "pages.missions.details.learners.list.caption"
+          "pages.missions.mission.table.activities.caption"
           missionName=@model.mission.mission.name
         }}</caption>
       <thead>
         <tr>
-          <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.first-name"}}</Table::Header>
-          <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.last-name"}}</Table::Header>
-          <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.division"}}</Table::Header>
-          <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.status"}}</Table::Header>
-          <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.result"}}</Table::Header>
+          <Table::Header scope="col">{{t "pages.missions.mission.table.activities.headers.first-name"}}</Table::Header>
+          <Table::Header scope="col">{{t "pages.missions.mission.table.activities.headers.last-name"}}</Table::Header>
+          <Table::Header scope="col">{{t "pages.missions.mission.table.activities.headers.division"}}</Table::Header>
+          <Table::Header scope="col">{{t "pages.missions.mission.table.activities.headers.status"}}</Table::Header>
         </tr>
       </thead>
       <tbody>
 
         {{#each this.model.missionLearners as |missionLearner|}}
-          <tr aria-label={{t "pages.missions.details.learners.list.aria-label"}}>
+          <tr aria-label={{t "pages.missions.mission.table.activities.aria-label"}}>
             <td>
               {{missionLearner.firstName}}
             </td>
@@ -54,7 +52,6 @@
             <td>
               <PixTag @color={{this.statusColor missionLearner.status}}>{{t missionLearner.displayableStatus}}</PixTag>
             </td>
-            <td>{{t missionLearner.displayableResult}}</td>
           </tr>
         {{/each}}
       </tbody>
@@ -63,6 +60,6 @@
   <Table::PaginationControl @pagination={{this.model.missionLearners.meta}} />
 {{else}}
   <div class="table__empty content-text">
-    {{t "pages.missions.details.learners.no-data"}}
+    {{t "pages.missions.mission.table.activities.no-data"}}
   </div>
 {{/if}}

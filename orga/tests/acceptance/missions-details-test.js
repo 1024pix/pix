@@ -51,9 +51,9 @@ module('Acceptance | Missions Detail', function (hooks) {
       });
 
       const screen = await visit('/missions/1');
-      assert.dom(screen.getByRole('link', { name: t('pages.missions.details.button-label') })).exists();
+      assert.dom(screen.getByRole('link', { name: t('pages.missions.mission.details.button-label') })).exists();
       assert.strictEqual(
-        screen.getByRole('link', { name: t('pages.missions.details.button-label') }).href,
+        screen.getByRole('link', { name: t('pages.missions.mission.details.button-label') }).href,
         'http://madoc.pix.fr/',
       );
     });
@@ -72,7 +72,7 @@ module('Acceptance | Missions Detail', function (hooks) {
       });
 
       const screen = await visit('/missions/1');
-      assert.dom(screen.queryByRole('link', { name: t('pages.missions.details.button-label') })).doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: t('pages.missions.mission.details.button-label') })).doesNotExist();
     });
   });
 
@@ -93,7 +93,7 @@ module('Acceptance | Missions Detail', function (hooks) {
 
       const screen = await visit('/missions/1');
 
-      assert.dom(screen.getByText(t('pages.missions.details.learners.no-data'))).exists();
+      assert.dom(screen.getByText(t('pages.missions.mission.table.activities.no-data'))).exists();
     });
   });
 
@@ -115,21 +115,21 @@ module('Acceptance | Missions Detail', function (hooks) {
         firstName: 'Mario',
         lastName: 'Super',
         division: 'CM2-A',
-        displayableStatus: 'pages.missions.details.learners.list.mission-status.not-started',
+        displayableStatus: 'pages.missions.mission.table.activities.mission-status.not-started',
         status: 'not-started',
       },
       {
         firstName: 'Luigi',
         lastName: 'SuperBros',
         division: 'CM2-B',
-        displayableStatus: 'pages.missions.details.learners.list.mission-status.started',
+        displayableStatus: 'pages.missions.mission.table.activities.mission-status.started',
         status: 'started',
       },
       {
         firstName: 'Charles',
         lastName: 'Xavier',
         division: 'CM2-C',
-        displayableStatus: 'pages.missions.details.learners.list.mission-status.completed',
+        displayableStatus: 'pages.missions.mission.table.activities.mission-status.completed',
         status: 'completed',
       },
     ];
@@ -183,7 +183,7 @@ module('Acceptance | Missions Detail', function (hooks) {
       const screen = await visit('/missions/1');
 
       assert
-        .dom(screen.getByText(t('pages.missions.details.learners.list.caption', { missionName: 'Super Mission' })))
+        .dom(screen.getByText(t('pages.missions.mission.table.activities.caption', { missionName: 'Super Mission' })))
         .exists({ count: 1 });
     });
     module('FilterBanner', function () {
