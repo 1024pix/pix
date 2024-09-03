@@ -1,9 +1,6 @@
 import { sendSharedParticipationResultsToPoleEmploi } from '../../../../lib/domain/usecases/send-shared-participation-results-to-pole-emploi.js';
 import { PoleEmploiPayload } from '../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
-import * as httpErrorsHelper from '../../../../lib/infrastructure/http/errors-helper.js';
-import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
 import { PoleEmploiSending } from '../../../../src/shared/domain/models/PoleEmploiSending.js';
-import * as monitoringTools from '../../../../src/shared/infrastructure/monitoring-tools.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-emploi', function () {
@@ -18,10 +15,14 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
     userRepository,
     poleEmploiNotifier,
     poleEmploiSendingRepository;
+  let httpAgent, httpErrorsHelper, logger;
   let campaignId, campaignParticipationId, userId, organizationId, badges, badgeAcquiredIds;
   let authenticationMethodRepository;
 
   beforeEach(function () {
+    httpAgent = Symbol('httpAgent');
+    logger = Symbol('logger');
+    httpErrorsHelper = Symbol('httpErrorsHelper');
     badgeRepository = { findByCampaignId: sinon.stub() };
     badgeAcquisitionRepository = { getAcquiredBadgeIds: sinon.stub() };
     campaignRepository = { get: sinon.stub() };
@@ -49,6 +50,11 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
       targetProfileRepository,
       userRepository,
       poleEmploiNotifier,
+      notifierDependencies: {
+        httpAgent,
+        logger,
+        httpErrorsHelper,
+      },
     };
 
     expectedResults = new PoleEmploiPayload({
@@ -193,8 +199,8 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
         .withArgs(userId, expectedResults, {
           authenticationMethodRepository,
           httpAgent,
+          logger,
           httpErrorsHelper,
-          monitoringTools,
         })
         .resolves(expectedResponse);
       const poleEmploiSending = Symbol('Pole emploi sending');

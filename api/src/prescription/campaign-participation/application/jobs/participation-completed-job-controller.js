@@ -6,7 +6,7 @@ import * as campaignParticipationRepository from '../../../../../lib/infrastruct
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as poleEmploiSendingRepository from '../../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../../../../lib/infrastructure/repositories/target-profile-repository.js';
-import { monitoringTools } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
+import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import { assessmentRepository } from '../../../../certification/session-management/infrastructure/repositories/index.js';
 import * as authenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
@@ -36,8 +36,9 @@ export class ParticipationCompletedJobController extends JobController {
       targetProfileRepository,
       userRepository,
       poleEmploiNotifier,
+      logger,
       httpAgent,
-      monitoringTools,
+      httpErrorsHelper,
     },
   }) {
     const { campaignParticipationId } = data;
@@ -63,8 +64,8 @@ export class ParticipationCompletedJobController extends JobController {
       const response = await dependencies.poleEmploiNotifier.notify(user.id, payload, {
         authenticationMethodRepository: dependencies.authenticationMethodRepository,
         httpAgent: dependencies.httpAgent,
-        httpErrorsHelper,
-        monitoringTools: dependencies.monitoringTools,
+        httpErrorsHelper: dependencies.httpErrorsHelper,
+        logger: dependencies.logger,
       });
 
       const poleEmploiSending = PoleEmploiSending.buildForParticipationFinished({

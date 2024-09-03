@@ -1,5 +1,4 @@
 import { PoleEmploiPayload } from '../../../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
-import * as httpErrorsHelper from '../../../../../../lib/infrastructure/http/errors-helper.js';
 import { ParticipationCompletedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/participation-completed-job-controller.js';
 import { ParticipationCompletedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationCompletedJob.js';
 import { PoleEmploiSending } from '../../../../../../src/shared/domain/models/PoleEmploiSending.js';
@@ -10,6 +9,7 @@ describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobCo
     let data, dependencies, expectedResults;
     let campaignId, userId, organizationId, assessmentId;
     let campaignParticipationCompletedJobController;
+    let httpAgent, logger, httpErrorsHelper;
     let assessmentRepository,
       campaignRepository,
       campaignParticipationRepository,
@@ -18,9 +18,7 @@ describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobCo
       userRepository,
       poleEmploiNotifier,
       poleEmploiSendingRepository,
-      authenticationMethodRepository,
-      httpAgent,
-      monitoringTools;
+      authenticationMethodRepository;
 
     beforeEach(function () {
       campaignId = Symbol('campaignId');
@@ -29,7 +27,8 @@ describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobCo
       assessmentId = Symbol('assessmentId');
 
       httpAgent = sinon.stub();
-      monitoringTools = sinon.stub();
+      logger = sinon.stub();
+      httpErrorsHelper = sinon.stub();
       assessmentRepository = { get: sinon.stub() };
       campaignRepository = { get: sinon.stub() };
       campaignParticipationRepository = { get: sinon.stub() };
@@ -54,8 +53,9 @@ describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobCo
         poleEmploiNotifier,
         poleEmploiSendingRepository,
         authenticationMethodRepository,
+        httpErrorsHelper,
         httpAgent,
-        monitoringTools,
+        logger,
       };
 
       expectedResults = new PoleEmploiPayload({
@@ -131,9 +131,9 @@ describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobCo
         poleEmploiNotifier.notify
           .withArgs(userId, expectedResults, {
             authenticationMethodRepository,
-            httpAgent,
             httpErrorsHelper,
-            monitoringTools,
+            httpAgent,
+            logger,
           })
           .resolves(expectedResponse);
         const poleEmploiSending = Symbol('Pole emploi sending');

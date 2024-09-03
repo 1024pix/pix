@@ -11,11 +11,11 @@ import {
 
 describe('Integration | Domain | UseCases | send-shared-participation-results-to-pole-emploi', function () {
   let campaignParticipationId, userId, responseCode;
-  let httpAgentStub, httpErrorsHelperStub, monitoringToolsStub;
+  let httpAgentStub, httpErrorsHelperStub, loggerStub;
 
   beforeEach(async function () {
     httpAgentStub = { post: sinon.stub() };
-    monitoringToolsStub = { logErrorWithCorrelationIds: sinon.stub(), logInfoWithCorrelationIds: sinon.stub() };
+    loggerStub = { info: sinon.stub(), error: sinon.stub() };
     httpErrorsHelperStub = { serializeHttpErrorResponse: sinon.stub() };
     responseCode = Symbol('responseCode');
 
@@ -53,7 +53,7 @@ describe('Integration | Domain | UseCases | send-shared-participation-results-to
       notifierDependencies: {
         httpAgent: httpAgentStub,
         httpErrorsHelper: httpErrorsHelperStub,
-        monitoringTools: monitoringToolsStub,
+        logger: loggerStub,
       },
     });
 

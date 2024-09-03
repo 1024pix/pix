@@ -12,15 +12,20 @@ import { config } from '../../../../src/shared/config.js';
 import { UnexpectedUserAccountError } from '../../../../src/shared/domain/errors.js';
 
 const notify = async (userId, payload, dependencies) => {
-  const { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools } = dependencies;
+  const { authenticationMethodRepository, httpAgent, httpErrorsHelper, logger } = dependencies;
   if (config.featureToggles.deprecatePoleEmploiPushNotification) {
     payload = { ...payload, deprecated: true };
   }
-  monitoringTools.logInfoWithCorrelationIds({
-    event: 'participation-send-pole-emploi',
-    'pole-emploi-action': 'send-results',
-    'participation-state': participationState(payload),
-  });
+
+  logger.info(
+    buildPayload({
+      payload,
+      extraParams: {
+        'pole-emploi-action': 'send-results',
+      },
+    }),
+  );
+
   const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
     userId,
     identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
@@ -35,12 +40,16 @@ const notify = async (userId, payload, dependencies) => {
   const expiredDate = get(authenticationMethod, 'authenticationComplement.expiredDate');
   const refreshToken = get(authenticationMethod, 'authenticationComplement.refreshToken');
   if (!refreshToken || new Date(expiredDate) <= new Date()) {
-    monitoringTools.logInfoWithCorrelationIds({
-      event: 'participation-send-pole-emploi',
-      'pole-emploi-action': 'refresh-token',
-      'participation-state': participationState(payload),
-      'expired-date': expiredDate,
-    });
+    logger.info(
+      buildPayload({
+        payload,
+        extraParams: {
+          'pole-emploi-action': 'refresh-token',
+          'expired-date': expiredDate,
+        },
+      }),
+    );
+
     const data = {
       grant_type: 'refresh_token',
       refresh_token: refreshToken,
@@ -56,13 +65,16 @@ const notify = async (userId, payload, dependencies) => {
     });
 
     if (!tokenResponse.isSuccessful) {
-      const serializedError = httpErrorsHelper.serializeHttpErrorResponse(tokenResponse);
-      monitoringTools.logErrorWithCorrelationIds({
-        event: 'participation-send-pole-emploi',
-        'pole-emploi-action': 'refresh-token',
-        'participation-state': participationState(payload),
-        message: serializedError,
-      });
+      logger.error(
+        buildPayload({
+          payload,
+          extraParams: {
+            'pole-emploi-action': 'refresh-token',
+            message: httpErrorsHelper.serializeHttpErrorResponse(tokenResponse),
+          },
+        }),
+      );
+
       return {
         isSuccessful: tokenResponse.isSuccessful,
         code: tokenResponse.code || '500',
@@ -99,13 +111,16 @@ const notify = async (userId, payload, dependencies) => {
   });
 
   if (!httpResponse.isSuccessful) {
-    const serializedError = httpErrorsHelper.serializeHttpErrorResponse(httpResponse);
-    monitoringTools.logErrorWithCorrelationIds({
-      event: 'participation-send-pole-emploi',
-      'pole-emploi-action': 'send-results',
-      'participation-state': participationState(payload),
-      message: serializedError,
-    });
+    logger.error(
+      buildPayload({
+        payload,
+        extraParams: {
+          'pole-emploi-action': 'send-results',
+          message: httpErrorsHelper.serializeHttpErrorResponse(httpResponse),
+        },
+        pushInfo: false,
+      }),
+    );
   }
 
   return {
@@ -115,6 +130,15 @@ const notify = async (userId, payload, dependencies) => {
 };
 
 export { notify };
+
+function buildPayload({ payload, extraParams }) {
+  return {
+    event: 'participation-send-pole-emploi',
+    'participation-state': participationState(payload),
+    'participation-id': payload.test.referenceExterne,
+    ...extraParams,
+  };
+}
 
 function participationState({ test }) {
   if (test.dateValidation) {

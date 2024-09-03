@@ -15,7 +15,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     let authenticationMethodRepository;
     let httpAgent;
     let httpErrorsHelper;
-    let monitoringTools;
+    let logger;
     let payload;
 
     // TODO: Fix this the next time the file is edited.
@@ -50,14 +50,14 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         findOneByUserIdAndIdentityProvider: sinon.stub(),
         updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub(),
       };
-      monitoringTools = {
-        logErrorWithCorrelationIds: sinon.stub(),
-        logInfoWithCorrelationIds: sinon.stub(),
+      logger = {
+        error: sinon.stub(),
+        info: sinon.stub(),
       };
 
       settings.poleEmploi.tokenUrl = 'someTokenUrlToPoleEmploi';
       settings.poleEmploi.sendingUrl = 'someSendingUrlToPoleEmploi';
-      payload = { test: { progression: 0 } };
+      payload = { test: { progression: 0, referenceExterne: 777 } };
     });
 
     afterEach(function () {
@@ -77,7 +77,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         authenticationMethodRepository,
         httpAgent,
         httpErrorsHelper,
-        monitoringTools,
+        logger,
       });
 
       // then
@@ -112,7 +112,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             authenticationMethodRepository,
             httpAgent,
             httpErrorsHelper,
-            monitoringTools,
+            logger,
           });
 
           // then
@@ -142,7 +142,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         httpAgent.post.resolves({ isSuccessful: true, code });
 
         // when
-        await notify(userId, payload, { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools });
+        await notify(userId, payload, { authenticationMethodRepository, httpAgent, httpErrorsHelper, logger });
 
         // then
         expect(httpAgent.post).to.have.been.calledWithExactly({
@@ -155,7 +155,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
       it('should log the notification to Pole Emploi', async function () {
         // given
-        payload = { test: { progression: 100 } };
+        payload = { test: { progression: 100, referenceExterne: 777 } };
         const expiredDate = dayjs().add(10, 'm').toDate();
         const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
 
@@ -164,13 +164,14 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           .resolves(authenticationMethod);
         httpAgent.post.resolves({ isSuccessful: true, code });
         // when
-        await notify(userId, payload, { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools });
+        await notify(userId, payload, { authenticationMethodRepository, httpAgent, httpErrorsHelper, logger });
 
         // then
-        expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWithExactly({
+        expect(logger.info).to.have.been.calledWithExactly({
           event: 'participation-send-pole-emploi',
           'pole-emploi-action': 'send-results',
           'participation-state': 'PARTICIPATION_COMPLETED',
+          'participation-id': 777,
         });
       });
     });
@@ -191,7 +192,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         httpAgent.post.resolves({ isSuccessful: true, code, data });
 
         // when
-        await notify(userId, payload, { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools });
+        await notify(userId, payload, { authenticationMethodRepository, httpAgent, httpErrorsHelper, logger });
 
         // then
         expect(httpAgent.post).to.have.been.calledWithExactly({
@@ -210,14 +211,15 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         httpAgent.post.resolves({ isSuccessful: true, code, data });
 
         // when
-        await notify(userId, payload, { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools });
+        await notify(userId, payload, { authenticationMethodRepository, httpAgent, httpErrorsHelper, logger });
 
         // then
-        expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWithExactly({
+        expect(logger.info).to.have.been.calledWithExactly({
           event: 'participation-send-pole-emploi',
           'pole-emploi-action': 'refresh-token',
           'participation-state': 'PARTICIPATION_STARTED',
           'expired-date': expiredDate,
+          'participation-id': 777,
         });
       });
 
@@ -239,7 +241,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             authenticationMethodRepository,
             httpAgent,
             httpErrorsHelper,
-            monitoringTools,
+            logger,
           });
 
           // then
@@ -286,7 +288,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             authenticationMethodRepository,
             httpAgent,
             httpErrorsHelper,
-            monitoringTools,
+            logger,
           });
 
           // then
@@ -323,7 +325,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             })
             .resolves(tokenResponse);
           httpErrorsHelper.serializeHttpErrorResponse.returns(JSON.stringify(tokenResponse.data));
-          monitoringTools.logErrorWithCorrelationIds.resolves();
+          logger.error.resolves();
 
           const expectedLoggerMessage = JSON.stringify(tokenResponse.data);
           const expectedResult = {
@@ -336,14 +338,15 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             authenticationMethodRepository,
             httpAgent,
             httpErrorsHelper,
-            monitoringTools,
+            logger,
           });
 
           // then
-          expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
+          expect(logger.error).to.have.been.calledWithExactly({
             event: 'participation-send-pole-emploi',
             'pole-emploi-action': 'refresh-token',
             'participation-state': 'PARTICIPATION_STARTED',
+            'participation-id': 777,
             message: expectedLoggerMessage,
           });
           expect(result).to.deep.equal(expectedResult);
@@ -351,7 +354,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
         it('should log error and return httpResponse with error if sending to PE fails', async function () {
           // given
-          payload = { test: { dateValidation: new Date() } };
+          payload = { test: { referenceExterne: 777, dateValidation: new Date() } };
 
           const tokenResponse = {
             isSuccessful: true,
@@ -384,7 +387,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             })
             .resolves(httpResponse);
           httpErrorsHelper.serializeHttpErrorResponse.returns(httpResponse.data);
-          monitoringTools.logErrorWithCorrelationIds.resolves();
+          logger.error.resolves();
 
           const expectedLoggerMessage = httpResponse.data;
           const expectedResult = {
@@ -397,15 +400,16 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             authenticationMethodRepository,
             httpAgent,
             httpErrorsHelper,
-            monitoringTools,
+            logger,
           });
 
           // then
-          expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
+          expect(logger.error).to.have.been.calledWithExactly({
             event: 'participation-send-pole-emploi',
             'pole-emploi-action': 'send-results',
             'participation-state': 'PARTICIPATION_SHARED',
             message: expectedLoggerMessage,
+            'participation-id': 777,
           });
           expect(result).to.deep.equal(expectedResult);
         });
