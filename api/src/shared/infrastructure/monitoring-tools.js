@@ -94,18 +94,6 @@ function getContext() {
   return asyncLocalStorage.getStore();
 }
 
-function pushInContext(path, value) {
-  const store = asyncLocalStorage.getStore();
-  if (!store) return;
-  let array = get(store, path);
-  if (!array) {
-    array = [value];
-    set(store, path, array);
-  } else {
-    array.push(value);
-  }
-}
-
 function installHapiHook() {
   if (!config.hapi.enableRequestMonitoring) return;
 
@@ -130,7 +118,6 @@ const monitoringTools = {
   installHapiHook,
   logErrorWithCorrelationIds,
   logInfoWithCorrelationIds,
-  pushInContext,
   setInContext,
   asyncLocalStorage,
 };
@@ -145,6 +132,5 @@ export {
   logErrorWithCorrelationIds,
   logInfoWithCorrelationIds,
   monitoringTools,
-  pushInContext,
   setInContext,
 };
