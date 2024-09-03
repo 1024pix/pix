@@ -6,7 +6,8 @@ export default class ResultRoute extends Route {
   @service store;
 
   async model() {
-    const assessment = await this.modelFor('assessment');
-    return this.store.findRecord('mission', assessment.missionId);
+    const assessment = await this.modelFor('assessment').reload();
+    const mission = await this.store.findRecord('mission', assessment.missionId);
+    return { mission, assessment };
   }
 }

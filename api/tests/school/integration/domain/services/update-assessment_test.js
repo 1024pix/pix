@@ -2,6 +2,7 @@ import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
 import { updateAssessment } from '../../../../../src/school/domain/services/update-assessment.js';
 import * as activityRepository from '../../../../../src/school/infrastructure/repositories/activity-repository.js';
+import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
 import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import { databaseBuilder, domainBuilder, expect, knex } from '../../../../test-helper.js';
 
@@ -24,14 +25,41 @@ describe('Integration | Usecase | update-assessment', function () {
             assessmentId,
             lastActivity,
             assessmentRepository,
+            activityRepository,
+            missionAssessmentRepository,
           });
 
           const assessment = await knex('assessments').where({ id: assessmentId }).first();
           expect(assessment.state).to.deep.equal(Assessment.states.COMPLETED);
         }),
       );
-    });
 
+      it('should update mission assessment result', async function () {
+        const { assessmentId } = databaseBuilder.factory.buildMissionAssessment();
+        databaseBuilder.factory.buildActivity({
+          assessmentId,
+          level: Activity.levels.VALIDATION,
+          status: Activity.status.SUCCEEDED,
+        });
+        const lastActivity = databaseBuilder.factory.buildActivity({
+          assessmentId,
+          level: Activity.levels.CHALLENGE,
+          status: Activity.status.SUCCEEDED,
+        });
+        await databaseBuilder.commit();
+
+        await updateAssessment({
+          assessmentId,
+          lastActivity,
+          assessmentRepository,
+          activityRepository,
+          missionAssessmentRepository,
+        });
+
+        const missionAssessment = await knex('mission-assessments').where({ assessmentId }).first();
+        expect(missionAssessment.result).to.deep.equal(Assessment.results.EXCEEDED);
+      });
+    });
     context('when there is at least one activity left in the mission', function () {
       it('should leave assessment STARTED', async function () {
         const { assessmentId } = databaseBuilder.factory.buildMissionAssessment();
@@ -45,7 +73,6 @@ describe('Integration | Usecase | update-assessment', function () {
         await updateAssessment({
           assessmentId,
           lastActivity,
-          activityRepository,
           assessmentRepository,
         });
 

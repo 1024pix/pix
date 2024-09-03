@@ -1,7 +1,7 @@
+import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
 import { MissionAssessment } from '../../../../../src/school/infrastructure/models/mission-assessment.js';
 import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { databaseBuilder, expect } from '../../../../test-helper.js';
+import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Repository | mission-assessment-repository', function () {
   describe('#getByAssessmentId', function () {
@@ -9,12 +9,42 @@ describe('Integration | Repository | mission-assessment-repository', function ()
       const missionId = 123;
       const assessmentId = databaseBuilder.factory.buildPix1dAssessment().id;
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
-      databaseBuilder.factory.buildMissionAssessment({ missionId, assessmentId, organizationLearnerId });
+      databaseBuilder.factory.buildMissionAssessment({
+        missionId,
+        assessmentId,
+        organizationLearnerId,
+        status: Assessment.states.COMPLETED,
+        result: Assessment.results.REACHED,
+      });
       await databaseBuilder.commit();
 
       const result = await missionAssessmentRepository.getByAssessmentId(assessmentId);
 
-      expect(result).to.deep.equal(new MissionAssessment({ missionId, assessmentId, organizationLearnerId }));
+      expect(result).to.deep.equal(
+        new MissionAssessment({ missionId, assessmentId, organizationLearnerId, result: Assessment.results.REACHED }),
+      );
+    });
+  });
+
+  describe('#updateResult', function () {
+    it('returns the missionAssessment updating with the result', async function () {
+      const missionId = 123;
+      const assessmentId = databaseBuilder.factory.buildPix1dAssessment().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
+      databaseBuilder.factory.buildMissionAssessment({
+        missionId,
+        assessmentId,
+        organizationLearnerId,
+        status: Assessment.states.COMPLETED,
+        result: null,
+      });
+      await databaseBuilder.commit();
+
+      await missionAssessmentRepository.updateResult(assessmentId, Assessment.results.REACHED);
+
+      const { result } = await knex('mission-assessments').select('result').where({ assessmentId }).first();
+
+      expect(result).to.deep.equal(Assessment.results.REACHED);
     });
   });
 
@@ -53,7 +83,9 @@ describe('Integration | Repository | mission-assessment-repository', function ()
 
       const result = await missionAssessmentRepository.getCurrent(missionId, organizationLearnerId);
 
-      expect(result).to.deep.equal(new MissionAssessment({ missionId, assessmentId, organizationLearnerId }));
+      expect(result).to.deep.equal(
+        new MissionAssessment({ missionId, assessmentId, organizationLearnerId, result: null }),
+      );
     });
 
     it('should not return any assessment', async function () {

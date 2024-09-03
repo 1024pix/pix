@@ -46,6 +46,8 @@ const handleActivityAnswer = async function ({
       lastActivity,
       assessmentId,
       assessmentRepository,
+      activityRepository,
+      missionAssessmentRepository,
     });
 
     return correctedAnswer;

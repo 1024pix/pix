@@ -1,13 +1,14 @@
 {{page-title (t "pages.missions.end-page.title")}}
 <div class="mission-page">
-  <RobotDialog @class="happy">
+  <RobotDialog @class={{this.robotMood}}>
     <Bubble @message={{t "pages.missions.end-page.congratulations"}} @status="success" />
+    <Bubble @message={{t this.resultMessage}} @status="success" />
   </RobotDialog>
   <div class="mission-page__body">
     <MissionCard::CompletedMissionCard
       @missionLabelStatus={{t "pages.missions.list.status.completed.label"}}
-      @title={{@model.name}}
-      @areaCode={{@model.areaCode}}
+      @title={{@model.mission.name}}
+      @areaCode={{@model.mission.areaCode}}
     />
 
     <div class="mission-page__details">

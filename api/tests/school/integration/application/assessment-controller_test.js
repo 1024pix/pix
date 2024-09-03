@@ -14,6 +14,7 @@ describe('Integration | Controller | assessment-controller', function () {
         id: assessmentId,
         organizationLearnerId,
         state: Assessment.states.STARTED,
+        result: Assessment.results.EXCEEDED,
       });
       sinon.stub(usecases, 'getAssessmentById').withArgs({ assessmentId }).resolves(createdMissionAssessment);
       const request = { params: { id: assessmentId } };
@@ -25,6 +26,7 @@ describe('Integration | Controller | assessment-controller', function () {
           'mission-id': missionId,
           'organization-learner-id': organizationLearnerId,
           state: Assessment.states.STARTED,
+          result: Assessment.results.EXCEEDED,
         },
         type: 'assessments',
       });

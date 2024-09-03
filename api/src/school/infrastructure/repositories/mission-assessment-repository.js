@@ -10,6 +10,11 @@ const save = async function ({ missionAssessment }) {
   await knexConn('mission-assessments').insert({ ...missionAssessment });
 };
 
+async function updateResult(assessmentId, result) {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('mission-assessments').update('result', result).where({ assessmentId });
+}
+
 const getByAssessmentId = async function (assessmentId) {
   const knexConn = DomainTransaction.getConnection();
   const rawAssessmentMission = await knexConn('mission-assessments')
@@ -105,4 +110,4 @@ const getMissionIdsByState = async function (organizationLearnerId) {
   return missionIdsGroupByState;
 };
 
-export { getByAssessmentId, getCurrent, getMissionIdsByState, getStatusesForLearners, save };
+export { getByAssessmentId, getCurrent, getMissionIdsByState, getStatusesForLearners, save, updateResult };

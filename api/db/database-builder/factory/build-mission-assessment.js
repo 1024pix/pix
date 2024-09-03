@@ -12,6 +12,7 @@ const buildMissionAssessment = function ({
   createdAt = new Date('2020-01-01'),
   state = Assessment.states.STARTED,
   lastChallengeId,
+  result = null,
 } = {}) {
   assessmentId = _.isUndefined(assessmentId)
     ? buildPix1dAssessment({ state, lastChallengeId, createdAt }).id
@@ -23,6 +24,7 @@ const buildMissionAssessment = function ({
     assessmentId,
     organizationLearnerId,
     createdAt,
+    result,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'mission-assessments',
