@@ -2,11 +2,11 @@ import * as poleEmploiNotifier from '../../../../../lib/infrastructure/externals
 import { PoleEmploiPayload } from '../../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import * as httpErrorsHelper from '../../../../../lib/infrastructure/http/errors-helper.js';
 import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
-import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import * as campaignParticipationRepository from '../../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as poleEmploiSendingRepository from '../../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../../../../lib/infrastructure/repositories/target-profile-repository.js';
+import { monitoringTools } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { assessmentRepository } from '../../../../certification/session-management/infrastructure/repositories/index.js';
 import * as authenticationMethodRepository from '../../../../identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
@@ -36,6 +36,8 @@ export class ParticipationCompletedJobController extends JobController {
       targetProfileRepository,
       userRepository,
       poleEmploiNotifier,
+      httpAgent,
+      monitoringTools,
     },
   }) {
     const { campaignParticipationId } = data;
@@ -60,9 +62,9 @@ export class ParticipationCompletedJobController extends JobController {
       });
       const response = await dependencies.poleEmploiNotifier.notify(user.id, payload, {
         authenticationMethodRepository: dependencies.authenticationMethodRepository,
-        httpAgent,
+        httpAgent: dependencies.httpAgent,
         httpErrorsHelper,
-        monitoringTools,
+        monitoringTools: dependencies.monitoringTools,
       });
 
       const poleEmploiSending = PoleEmploiSending.buildForParticipationFinished({

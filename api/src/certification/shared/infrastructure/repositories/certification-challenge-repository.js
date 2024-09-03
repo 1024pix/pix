@@ -5,7 +5,7 @@ import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTrans
 import {
   logErrorWithCorrelationIds,
   logInfoWithCorrelationIds,
-} from '../../../../../lib/infrastructure/monitoring-tools.js';
+} from '../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { AssessmentEndedError } from '../../../../shared/domain/errors.js';
 import { CertificationChallenge } from '../../../../shared/domain/models/CertificationChallenge.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';

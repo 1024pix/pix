@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 
-import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
+import { logErrorWithCorrelationIds } from '../../../../src/shared/infrastructure/monitoring-tools.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { usecases } from '../domain/usecases/index.js';
 import { SupOrganizationLearnerParser } from '../infrastructure/serializers/csv/sup-organization-learner-parser.js';

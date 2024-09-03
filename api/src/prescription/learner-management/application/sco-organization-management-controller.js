@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 
-import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { FileValidationError } from '../../../../src/shared/domain/errors.js';
+import { logErrorWithCorrelationIds } from '../../../../src/shared/infrastructure/monitoring-tools.js';
 import { usecases } from '../domain/usecases/index.js';
 import { OrganizationLearnerParser } from '../infrastructure/serializers/csv/organization-learner-parser.js';
 

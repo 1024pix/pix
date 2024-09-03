@@ -1,5 +1,5 @@
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
+import { monitoringTools } from '../../../shared/infrastructure/monitoring-tools.js';
 import { ApplicationTransaction } from '../../shared/infrastructure/ApplicationTransaction.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as campaignParticipationSerializer from '../infrastructure/serializers/jsonapi/campaign-participation-serializer.js';

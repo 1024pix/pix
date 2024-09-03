@@ -1,13 +1,13 @@
 import Request from '@hapi/hapi/lib/request.js';
 import lodash from 'lodash';
 
-import { config } from '../../src/shared/config.js';
+import { config } from '../config.js';
 
 const { get, set, update, omit } = lodash;
 import async_hooks from 'node:async_hooks';
 
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-import * as requestResponseUtils from '../../src/shared/infrastructure/utils/request-response-utils.js';
+import { logger } from './utils/logger.js';
+import * as requestResponseUtils from './utils/request-response-utils.js';
 
 const { AsyncLocalStorage } = async_hooks;
 

@@ -1,5 +1,5 @@
-import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { validateUserAccountEmail } from '../../../../../src/identity-access-management/domain/usecases/validate-user-account-email.usecase.js';
+import { monitoringTools } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | validate-user-account-email', function () {

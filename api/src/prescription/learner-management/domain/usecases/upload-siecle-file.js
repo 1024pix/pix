@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 
-import { logErrorWithCorrelationIds } from '../../../../../lib/infrastructure/monitoring-tools.js';
+import { logErrorWithCorrelationIds } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { detectEncoding } from '../../infrastructure/utils/xml/detect-encoding.js';
 import * as zip from '../../infrastructure/utils/xml/zip.js';
