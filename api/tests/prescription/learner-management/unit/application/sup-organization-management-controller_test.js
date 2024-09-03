@@ -12,7 +12,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
   let userId;
 
   let supOrganizationLearnerWarningSerializerStub;
-  let logErrorWithCorrelationIdsStub;
+  let loggerStub;
   let unlinkStub;
 
   beforeEach(function () {
@@ -26,7 +26,9 @@ describe('Unit | Controller | sup-organization-management-controller', function 
     sinon.stub(usecases, 'importSupOrganizationLearners');
     sinon.stub(usecases, 'replaceSupOrganizationLearners');
     supOrganizationLearnerWarningSerializerStub = { serialize: sinon.stub() };
-    logErrorWithCorrelationIdsStub = sinon.stub();
+    loggerStub = {
+      error: sinon.stub(),
+    };
     unlinkStub = sinon.stub();
   });
 
@@ -55,7 +57,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       // when
       const response = await supOrganizationManagementController.importSupOrganizationLearners(request, hFake, {
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
-        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+        logger: loggerStub,
         unlink: unlinkStub,
       });
 
@@ -85,7 +87,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       // when
       await catchErr(supOrganizationManagementController.importSupOrganizationLearners)(request, hFake, {
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
-        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+        logger: loggerStub,
         unlink: unlinkStub,
       });
 
@@ -106,14 +108,14 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       const response = await supOrganizationManagementController.importSupOrganizationLearners(request, hFake, {
-        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+        logger: loggerStub,
         unlink: unlinkStub,
       });
 
       // then
       expect(response.statusCode).to.be.equal(204);
 
-      expect(logErrorWithCorrelationIdsStub).to.have.been.calledWith(error);
+      expect(loggerStub.error).to.have.been.calledWith(error);
     });
   });
   context('#replaceSupOrganizationLearner', function () {
@@ -141,7 +143,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       // when
       const response = await supOrganizationManagementController.replaceSupOrganizationLearners(request, hFake, {
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
-        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+        logger: loggerStub,
         unlink: unlinkStub,
       });
 
@@ -171,7 +173,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       await catchErr(supOrganizationManagementController.replaceSupOrganizationLearners)(request, hFake, {
-        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+        logger: loggerStub,
         unlink: unlinkStub,
       });
 
@@ -193,14 +195,14 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       // when
       const response = await supOrganizationManagementController.replaceSupOrganizationLearners(request, hFake, {
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
-        logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
+        logger: loggerStub,
         unlink: unlinkStub,
       });
 
       // then
       expect(response.statusCode).to.be.equal(204);
 
-      expect(logErrorWithCorrelationIdsStub).to.have.been.calledWith(error);
+      expect(loggerStub.error).to.have.been.calledWith(error);
     });
   });
 

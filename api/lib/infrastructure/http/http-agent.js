@@ -1,10 +1,8 @@
 import perf_hooks from 'node:perf_hooks';
 
 import axios from 'axios';
-
 const { performance } = perf_hooks;
-
-import { monitoringTools } from '../../../src/shared/infrastructure/monitoring-tools.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 class HttpResponse {
   constructor({ code, data, isSuccessful }) {
@@ -27,10 +25,12 @@ const httpAgent = {
       }
       const httpResponse = await axios.post(url, payload, config);
       responseTime = performance.now() - startTime;
-      monitoringTools.logInfoWithCorrelationIds({
-        metrics: { responseTime },
-        message: `End POST request to ${url} success: ${httpResponse.status}`,
-      });
+      logger.info(
+        {
+          metrics: { responseTime },
+        },
+        `End POST request to ${url} success: ${httpResponse.status}`,
+      );
 
       return new HttpResponse({
         code: httpResponse.status,
@@ -52,10 +52,12 @@ const httpAgent = {
 
       const message = `End POST request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
 
-      monitoringTools.logErrorWithCorrelationIds({
-        metrics: { responseTime },
+      logger.error(
+        {
+          metrics: { responseTime },
+        },
         message,
-      });
+      );
 
       return new HttpResponse({
         code,
@@ -77,10 +79,12 @@ const httpAgent = {
       }
       const httpResponse = await axios.get(url, config);
       responseTime = performance.now() - startTime;
-      monitoringTools.logInfoWithCorrelationIds({
-        metrics: { responseTime },
-        message: `End GET request to ${url} success: ${httpResponse.status}`,
-      });
+      logger.info(
+        {
+          metrics: { responseTime },
+        },
+        `End GET request to ${url} success: ${httpResponse.status}`,
+      );
 
       return new HttpResponse({
         code: httpResponse.status,
@@ -102,10 +106,12 @@ const httpAgent = {
         data = null;
       }
 
-      monitoringTools.logErrorWithCorrelationIds({
-        metrics: { responseTime },
-        message: `End GET request to ${url} error: ${code || ''} ${JSON.stringify(data)}`,
-      });
+      logger.error(
+        {
+          metrics: { responseTime },
+        },
+        `End GET request to ${url} error: ${code || ''} ${JSON.stringify(data)}`,
+      );
 
       return new HttpResponse({
         code,

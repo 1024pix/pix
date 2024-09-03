@@ -3,7 +3,7 @@ import _ from 'lodash';
 import sax from 'sax';
 
 import { FileValidationError } from '../../../../../shared/domain/errors.js';
-import { logErrorWithCorrelationIds } from '../../../../../shared/infrastructure/monitoring-tools.js';
+import { logger } from '../../../../../shared/infrastructure/utils/logger.js';
 import { SiecleXmlImportError } from '../../../domain/errors.js';
 
 /*
@@ -18,7 +18,7 @@ const ERRORS = {
 };
 
 class SiecleFileStreamer {
-  static async create(readableStream, encoding = 'utf-8', logError = logErrorWithCorrelationIds) {
+  static async create(readableStream, encoding = 'utf-8', logError = logger.error) {
     const stream = new SiecleFileStreamer(readableStream, encoding, logError);
     return stream;
   }
@@ -68,7 +68,7 @@ function _getDecodingStream(encoding) {
   try {
     return iconv.decodeStream(encoding);
   } catch (err) {
-    logErrorWithCorrelationIds(err);
+    logger.error(err);
     throw new SiecleXmlImportError(ERRORS.ENCODING_NOT_SUPPORTED);
   }
 }

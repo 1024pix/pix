@@ -3,10 +3,9 @@ import lodash from 'lodash';
 
 import { config } from '../config.js';
 
-const { get, set, update, omit } = lodash;
+const { get, set, update } = lodash;
 import async_hooks from 'node:async_hooks';
 
-import { logger } from './utils/logger.js';
 import * as requestResponseUtils from './utils/request-response-utils.js';
 
 const { AsyncLocalStorage } = async_hooks;
@@ -24,46 +23,6 @@ function getCorrelationContext() {
     request_id: get(request, 'headers.x-request-id', '-'),
     id: get(request, 'info.id', '-'),
   };
-}
-
-function logInfoWithCorrelationIds(data) {
-  const context = getCorrelationContext();
-  logger.info(
-    {
-      ...context,
-      ...omit(data, 'message'),
-    },
-    get(data, 'message', '-'),
-  );
-}
-
-/**
- * In order to be displayed properly in Datadog,
- * the parameter "data" should contain
- * - a required property message as string
- * - all other properties you need to pass to Datadog
- *
- * @example
- * const data = {
- *   message: 'Error message',
- *   context: 'My Context',
- *   data: { more: 'data', if: 'needed' },
- *   event: 'Event which trigger this error',
- *   team: 'My Team',
- * };
- * monitoringTools.logErrorWithCorrelationIds(data);
- *
- * @param {object} data
- */
-function logErrorWithCorrelationIds(data) {
-  const context = getCorrelationContext();
-  logger.error(
-    {
-      ...context,
-      ...omit(data, 'message'),
-    },
-    get(data, 'message', '-'),
-  );
 }
 
 function extractUserIdFromRequest(request) {
@@ -116,21 +75,19 @@ const monitoringTools = {
   getInContext,
   incrementInContext,
   installHapiHook,
-  logErrorWithCorrelationIds,
-  logInfoWithCorrelationIds,
   setInContext,
   asyncLocalStorage,
+  getCorrelationContext,
 };
 
 export {
   asyncLocalStorage,
   extractUserIdFromRequest,
   getContext,
+  getCorrelationContext,
   getInContext,
   incrementInContext,
   installHapiHook,
-  logErrorWithCorrelationIds,
-  logInfoWithCorrelationIds,
   monitoringTools,
   setInContext,
 };

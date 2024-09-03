@@ -10,7 +10,6 @@ import { OIDC_ERRORS } from '../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { OidcError, OidcMissingFieldsError } from '../../../shared/domain/errors.js';
 import { AuthenticationMethod, AuthenticationSessionContent } from '../../../shared/domain/models/index.js';
-import { monitoringTools } from '../../../shared/infrastructure/monitoring-tools.js';
 import { temporaryStorage } from '../../../shared/infrastructure/temporary-storage/index.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { DEFAULT_CLAIM_MAPPING } from '../constants/oidc-identity-providers.js';
@@ -306,7 +305,6 @@ export class OidcAuthenticationService {
 
 function _monitorOidcError(message, { data, error, event }) {
   const monitoringData = {
-    message,
     context: 'oidc',
     data,
     event,
@@ -319,5 +317,5 @@ function _monitorOidcError(message, { data, error, event }) {
     error.response && Object.assign(monitoringData.error, { response: error.response });
   }
 
-  monitoringTools.logErrorWithCorrelationIds(monitoringData);
+  logger.error(monitoringData, message);
 }

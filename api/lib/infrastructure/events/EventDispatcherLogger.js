@@ -1,16 +1,18 @@
 class EventDispatcherLogger {
-  constructor(monitoringTools, settings, performance) {
-    this._monitoringTools = monitoringTools;
+  constructor(logger, settings, performance) {
+    this._logger = logger;
     this._settings = settings;
     this._performance = performance;
   }
 
   onEventDispatchStarted(event, eventHandlerName) {
     if (this._settings?.logging?.enableLogStartingEventDispatch) {
-      this._monitoringTools.logInfoWithCorrelationIds({
-        ...buildLogBody({ event, eventHandlerName }),
-        message: 'EventDispatcher : Event dispatch started',
-      });
+      this._logger.info(
+        {
+          ...buildLogBody({ event, eventHandlerName }),
+        },
+        'EventDispatcher : Event dispatch started',
+      );
     }
     return {
       startedAt: this._performance.now(),
@@ -19,19 +21,23 @@ class EventDispatcherLogger {
 
   onEventDispatchSuccess(event, eventHandlerName, loggingContext) {
     if (this._settings?.logging?.enableLogEndingEventDispatch) {
-      this._monitoringTools.logInfoWithCorrelationIds({
-        ...buildLogBody({ event, eventHandlerName, duration: this._duration(loggingContext) }),
-        message: 'EventDispatcher : Event dispatched successfully',
-      });
+      this._logger.info(
+        {
+          ...buildLogBody({ event, eventHandlerName, duration: this._duration(loggingContext) }),
+        },
+        'EventDispatcher : Event dispatched successfully',
+      );
     }
   }
 
   onEventDispatchFailure(event, eventHandlerName, error) {
     if (this._settings?.logging?.enableLogEndingEventDispatch) {
-      this._monitoringTools.logInfoWithCorrelationIds({
-        ...buildLogBody({ event, eventHandlerName, error }),
-        message: 'EventDispatcher : An error occurred while dispatching the event',
-      });
+      this._logger.info(
+        {
+          ...buildLogBody({ event, eventHandlerName, error }),
+        },
+        'EventDispatcher : An error occurred while dispatching the event',
+      );
     }
   }
 

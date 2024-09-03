@@ -1,5 +1,5 @@
 import { validateUserAccountEmail } from '../../../../../src/identity-access-management/domain/usecases/validate-user-account-email.usecase.js';
-import { monitoringTools } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
+import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | validate-user-account-email', function () {
@@ -22,7 +22,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | validate-user-a
     now = new Date('2024-06-26');
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
-    sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+    sinon.stub(logger, 'error');
   });
 
   afterEach(function () {
@@ -132,12 +132,14 @@ describe('Unit | Identity Access Management | Domain | UseCase | validate-user-a
       });
 
       // then
-      expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
-        message: 'error',
-        context: 'email-validation',
-        data: { token },
-        team: 'acces',
-      });
+      expect(logger.error).to.have.been.calledWith(
+        {
+          context: 'email-validation',
+          data: { token },
+          team: 'acces',
+        },
+        'error',
+      );
       expect(redirectionUrl).to.equal(defaultRedirectionUrl);
     });
   });

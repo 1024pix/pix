@@ -1,17 +1,13 @@
 import fs from 'node:fs/promises';
 
-import { FileValidationError } from '../../../../src/shared/domain/errors.js';
-import { logErrorWithCorrelationIds } from '../../../../src/shared/infrastructure/monitoring-tools.js';
+import { FileValidationError } from '../../../shared/domain/errors.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { usecases } from '../domain/usecases/index.js';
 import { OrganizationLearnerParser } from '../infrastructure/serializers/csv/organization-learner-parser.js';
 
 const INVALID_FILE_EXTENSION_ERROR = 'INVALID_FILE_EXTENSION';
 
-const importOrganizationLearnersFromSIECLE = async function (
-  request,
-  h,
-  dependencies = { logErrorWithCorrelationIds },
-) {
+const importOrganizationLearnersFromSIECLE = async function (request, h, dependencies = { logger }) {
   const authenticatedUserId = request.auth.credentials.userId;
   const organizationId = request.params.id;
   const userId = request.auth.credentials.userId;
@@ -51,7 +47,7 @@ const importOrganizationLearnersFromSIECLE = async function (
     try {
       await fs.unlink(request.payload.path);
     } catch (err) {
-      dependencies.logErrorWithCorrelationIds(err);
+      dependencies.logger.error(err);
     }
   }
 
