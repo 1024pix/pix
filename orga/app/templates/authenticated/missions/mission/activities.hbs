@@ -1,0 +1,24 @@
+<PixFilterBanner
+  @title={{t "common.filters.title"}}
+  class="participant-filter-banner hide-on-mobile"
+  aria-label={{t "pages.missions.mission.table.activities.filters.aria-label"}}
+  @details={{t "pages.missions.mission.table.activities.filters.learners-count" count=this.learnersCount}}
+  @clearFiltersLabel={{t "common.filters.actions.clear"}}
+  @onClearFilters={{this.onResetFilter}}
+  @isClearFilterButtonDisabled={{this.isClearFiltersButtonDisabled}}
+>
+  <Ui::DivisionsFilter
+    @model={{@model.organization}}
+    @selected={{this.divisions}}
+    @onSelect={{this.onSelectDivisions}}
+  />
+  <Ui::SearchInputFilter
+    @field="name"
+    @value={{this.name}}
+    @placeholder={{t "common.filters.fullname.placeholder"}}
+    @label={{t "common.filters.fullname.label"}}
+    @triggerFiltering={{this.onFilter}}
+  />
+
+</PixFilterBanner>
+<Mission::ActivityTable @missionLearners={{this.model.missionLearners}} @mission={{this.model.mission.mission}} />

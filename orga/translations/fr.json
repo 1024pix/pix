@@ -851,47 +851,6 @@
     },
     "missions": {
       "title": "Missions",
-      "details": {
-        "title": "Détails d'une mission",
-        "button-label": "Voir la fiche mission",
-        "competence": {
-          "title": "Compétence :"
-        },
-        "learners": {
-          "title": "Liste des élèves",
-          "list": {
-            "aria-label": "Élève",
-            "caption": "Tableau des élèves avec le résultat de leur participation à la mission {missionName}",
-            "filters": {
-              "aria-label": "Filtre sur les élèves",
-              "learners-count": "{count, plural, =0 {Aucun élève} =1 {1 élève} other {{count} élèves}}"
-            },
-            "headers": {
-              "division": "Classe",
-              "first-name": "Prénom",
-              "last-name": "Nom",
-              "result": "Positionnement",
-              "status": "Statut de la mission"
-            },
-            "mission-result": {
-              "exceeded": "Dépassé",
-              "not-reached": "Non atteint",
-              "partially-reached": "Partiellement atteint",
-              "reached": "Atteint",
-              "undefined": "-"
-            },
-            "mission-status": {
-              "completed": "Terminée",
-              "not-started": "Non débutée",
-              "started": "En cours"
-            }
-          },
-          "no-data": "Il n'y a aucun participant"
-        },
-        "objective": {
-          "title": "Objectifs :"
-        }
-      },
       "list": {
         "aria-label": "Mission",
         "banner": {
@@ -933,6 +892,67 @@
         "no-division": "Aucune classe",
         "non-admin": {
           "abstract": "Pour commencer, demandez à votre administrateur d’importer les élèves."
+        }
+      },
+      "mission": {
+        "title": "Détails d'une mission",
+        "details": {
+          "button-label": "Voir la fiche mission",
+          "competence": {
+            "title": "Compétence :"
+          },
+          "objective": {
+            "title": "Objectifs :"
+          }
+        },
+        "table": {
+          "activities": {
+            "aria-label": "Élève",
+            "caption": "Tableau des élèves avec leur participation à la mission {missionName}",
+            "filters": {
+              "aria-label": "Filtre sur les élèves",
+              "learners-count": "{count, plural, =0 {Aucun élève} =1 {1 élève} other {{count} élèves}}"
+            },
+            "headers": {
+              "division": "Classe",
+              "first-name": "Prénom",
+              "last-name": "Nom",
+              "status": "Statut de la mission"
+            },
+            "mission-status": {
+              "completed": "Terminée",
+              "not-started": "Non débutée",
+              "started": "En cours"
+            },
+            "no-data": "Il n'y a aucun participant"
+          },
+          "result": {
+            "aria-label": "Élève",
+            "caption": "Tableau des élèves avec le résultat de leur participation à la mission {missionName}",
+            "filters": {
+              "aria-label": "Filtre sur les élèves",
+              "learners-count": "{count, plural, =0 {Aucun élève} =1 {1 élève} other {{count} élèves}}"
+            },
+            "headers": {
+              "division": "Classe",
+              "first-name": "Prénom",
+              "last-name": "Nom",
+              "result": "Positionnement"
+            },
+            "mission-result": {
+              "exceeded": "Dépassé",
+              "not-reached": "Non atteint",
+              "partially-reached": "Partiellement atteint",
+              "reached": "Atteint",
+              "undefined": "-"
+            },
+            "no-data": "Il n'y a aucun participant"
+          }
+        },
+        "tabs": {
+          "activities": "Activités",
+          "aria-label": "Navigation entre l'activité ou les résultats de la mission",
+          "results": "Résultats"
         }
       }
     },

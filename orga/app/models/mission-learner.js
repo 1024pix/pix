@@ -9,10 +9,10 @@ export default class MissionLearner extends Model {
   @attr('string') result;
 
   get displayableStatus() {
-    return `pages.missions.details.learners.list.mission-status.${this.status}`;
+    return `pages.missions.mission.table.activities.mission-status.${this.status}`;
   }
 
   get displayableResult() {
-    return `pages.missions.details.learners.list.mission-result.${this.result}`;
+    return `pages.missions.mission.table.result.mission-result.${this.result}`;
   }
 }

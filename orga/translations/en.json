@@ -848,47 +848,6 @@
     },
     "missions": {
       "title": "Missions",
-      "details": {
-        "title": "Mission's information",
-        "button-label": "View the mission documentation",
-        "competence": {
-          "title": "Competence :"
-        },
-        "learners": {
-          "title": "List of students",
-          "list": {
-            "aria-label": "Student",
-            "caption": "List of students with their result for the mission {missionName}",
-            "filters": {
-              "aria-label": "Filter on students",
-              "learners-count": "{count, plural, =0 {No student} =1 {1 student} other {{count} students}}"
-            },
-            "headers": {
-              "division": "Division",
-              "first-name": "First name",
-              "last-name": "Last name",
-              "result": "Positioning",
-              "status": "Mission status"
-            },
-            "mission-result": {
-              "exceeded": "Exceeded",
-              "not-reached": "Not reached",
-              "partially-reached": "Partially reached",
-              "reached": "Reached",
-              "undefined": "-"
-            },
-            "mission-status": {
-              "completed": "Completed",
-              "not-started": "Not started",
-              "started": "In progress"
-            }
-          },
-          "no-data": "There is not any participants"
-        },
-        "objective": {
-          "title": "Objectives :"
-        }
-      },
       "list": {
         "aria-label": "Mission",
         "banner": {
@@ -926,6 +885,67 @@
           "started-by": "Started by"
         },
         "no-division": "No division yet"
+      },
+      "mission": {
+        "title": "Mission's information",
+        "details": {
+          "button-label": "View the mission documentation",
+          "competence": {
+            "title": "Competence :"
+          },
+          "objective": {
+            "title": "Objectives :"
+          }
+        },
+        "table": {
+          "activities": {
+            "aria-label": "Student",
+            "caption": "List of students with their activity for the mission {missionName}",
+            "filters": {
+              "aria-label": "Filter on students",
+              "learners-count": "{count, plural, =0 {No student} =1 {1 student} other {{count} students}}"
+            },
+            "headers": {
+              "division": "Division",
+              "first-name": "First name",
+              "last-name": "Last name",
+              "status": "Mission status"
+            },
+            "mission-status": {
+              "completed": "Completed",
+              "not-started": "Not started",
+              "started": "In progress"
+            },
+            "no-data": "There is not any participants"
+          },
+          "results": {
+            "aria-label": "Student",
+            "caption": "List of students with their result for the mission {missionName}",
+            "filters": {
+              "aria-label": "Filter on students",
+              "learners-count": "{count, plural, =0 {No student} =1 {1 student} other {{count} students}}"
+            },
+            "headers": {
+              "division": "Division",
+              "first-name": "First name",
+              "last-name": "Last name",
+              "result": "Positioning"
+            },
+            "mission-result": {
+              "exceeded": "Exceeded",
+              "not-reached": "Not reached",
+              "partially-reached": "Partially reached",
+              "reached": "Reached",
+              "undefined": "-"
+            },
+            "no-data": "There is not any participants"
+          }
+        },
+        "tabs": {
+          "activities": "Activities",
+          "aria-label": "Navigation between the activity or results of the mission",
+          "results": "Results"
+        }
       }
     },
     "organization-learner": {

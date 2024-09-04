@@ -5,7 +5,7 @@ import { tracked } from '@glimmer/tracking';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
-export default class MissionLearnersController extends Controller {
+export default class MissionActivitiesController extends Controller {
   @service router;
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 25;

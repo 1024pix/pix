@@ -1,5 +1,6 @@
-{{page-title (t "pages.missions.details.title")}}
+{{page-title (t "pages.missions.mission.title")}}
 <article class="mission-page">
   <Mission::Details @mission={{@model.mission}} />
+  <Mission::Navigation />
   {{outlet}}
 </article>
