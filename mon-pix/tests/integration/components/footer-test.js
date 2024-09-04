@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -13,7 +14,7 @@ module('Integration | Component | Footer', function (hooks) {
     const screen = await render(hbs`<Footer />}`);
 
     // then
-    assert.ok(screen.getByAltText(this.intl.t('navigation.homepage')));
+    assert.ok(screen.getByAltText(t('navigation.homepage')));
   });
 
   test('displays the navigation menu with expected elements', async function (assert) {
@@ -21,12 +22,12 @@ module('Integration | Component | Footer', function (hooks) {
     const screen = await render(hbs`<Footer />}`);
 
     // then
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.a11y') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.data-protection-policy') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.eula') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.help-center') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.legal-notice') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.sitemap') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.footer.a11y') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.footer.data-protection-policy') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.footer.eula') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.footer.help-center') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.footer.legal-notice') }));
+    assert.ok(screen.getByRole('link', { name: t('navigation.footer.sitemap') }));
   });
 
   module('when url does not have frenchDomainExtension', function (hooks) {

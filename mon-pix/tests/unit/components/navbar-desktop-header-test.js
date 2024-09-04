@@ -3,9 +3,11 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
-
+import setupIntl from '../../helpers/setup-intl';
 module('Unit | Component | Navbar Desktop Header Component', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks);
+
   const sessionStubResolve = Service.create({ isAuthenticated: true });
   const sessionStubReject = Service.create({ isAuthenticated: false });
   const currentUserStub = Service.create({ user: {} });

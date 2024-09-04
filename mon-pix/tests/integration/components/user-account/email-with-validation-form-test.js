@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -15,10 +16,10 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       const screen = await render(hbs`<UserAccount::EmailWithValidationForm />`);
 
       // then
-      assert.ok(screen.getByRole('button', { name: this.intl.t('common.actions.cancel') }));
+      assert.ok(screen.getByRole('button', { name: t('common.actions.cancel') }));
       assert.ok(
         screen.getByRole('button', {
-          name: this.intl.t('pages.user-account.account-update-email-with-validation.save-button'),
+          name: t('pages.user-account.account-update-email-with-validation.save-button'),
         }),
       );
     });
@@ -34,7 +35,7 @@ module('Integration | Component | user-account | email-with-validation-form', fu
         );
 
         // when
-        await click(screen.getByRole('button', { name: this.intl.t('common.actions.cancel') }));
+        await click(screen.getByRole('button', { name: t('common.actions.cancel') }));
 
         // then
         sinon.assert.called(disableEmailEditionMode);
@@ -82,7 +83,7 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       );
 
       // when
-      await _fillInputsAndValidateNewEmail({ screen, intl: this.intl, email: newEmail, password });
+      await _fillInputsAndValidateNewEmail({ screen, t, email: newEmail, password });
 
       // then
       sinon.assert.calledOnce(this.showVerificationCode);
@@ -102,12 +103,12 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       );
 
       // when
-      await _fillInputsAndValidateNewEmail({ screen, intl: this.intl, email: emailAlreadyExist, password });
+      await _fillInputsAndValidateNewEmail({ screen, t, email: emailAlreadyExist, password });
 
       // then
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.new-email-already-exist'),
+          t('pages.user-account.account-update-email-with-validation.fields.errors.new-email-already-exist'),
         ),
       );
     });
@@ -125,13 +126,11 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       );
 
       // when
-      await _fillInputsAndValidateNewEmail({ screen, intl: this.intl, email: newEmail, password });
+      await _fillInputsAndValidateNewEmail({ screen, t, email: newEmail, password });
 
       // then
       assert.ok(
-        screen.getByText(
-          this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-password'),
-        ),
+        screen.getByText(t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-password')),
       );
     });
 
@@ -148,13 +147,11 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       );
 
       // when
-      await _fillInputsAndValidateNewEmail({ screen, intl: this.intl, email: newEmail, password });
+      await _fillInputsAndValidateNewEmail({ screen, t, email: newEmail, password });
 
       // then
       assert.ok(
-        screen.getByText(
-          this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-email'),
-        ),
+        screen.getByText(t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-email')),
       );
     });
 
@@ -171,23 +168,21 @@ module('Integration | Component | user-account | email-with-validation-form', fu
       );
 
       // when
-      await _fillInputsAndValidateNewEmail({ screen, intl: this.intl, email: newEmail, password });
+      await _fillInputsAndValidateNewEmail({ screen, t, email: newEmail, password });
 
       // then
       assert.ok(
-        screen.getByText(
-          this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.empty-password'),
-        ),
+        screen.getByText(t('pages.user-account.account-update-email-with-validation.fields.errors.empty-password')),
       );
     });
   });
 
-  async function _fillInputsAndValidateNewEmail({ screen, intl, email, password }) {
+  async function _fillInputsAndValidateNewEmail({ screen, t, email, password }) {
     await fillIn(screen.getByRole('textbox', { name: 'Nouvelle adresse e-mail' }), email);
     await fillIn(screen.getByLabelText('Mot de passe'), password);
     await click(
       screen.getByRole('button', {
-        name: intl.t('pages.user-account.account-update-email-with-validation.save-button'),
+        name: t('pages.user-account.account-update-email-with-validation.save-button'),
       }),
     );
   }

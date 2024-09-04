@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -22,9 +23,7 @@ module('Integration | Component | Autonomous Course | Landing page start block',
 
     // then
     assert
-      .dom(
-        screen.getByText(`${this.intl.t('pages.autonomous-course.landing-page.texts.title')} dummy landing page title`),
-      )
+      .dom(screen.getByText(`${t('pages.autonomous-course.landing-page.texts.title')} dummy landing page title`))
       .exists();
     assert.dom(screen.getByText('dummy landing page text')).exists();
   });
@@ -38,7 +37,7 @@ module('Integration | Component | Autonomous Course | Landing page start block',
       assert
         .dom(
           screen.getByRole('button', {
-            name: this.intl.t('pages.autonomous-course.landing-page.actions.start-anonymously'),
+            name: t('pages.autonomous-course.landing-page.actions.start-anonymously'),
           }),
         )
         .exists();
@@ -56,7 +55,7 @@ module('Integration | Component | Autonomous Course | Landing page start block',
       // then
       await click(
         screen.getByRole('button', {
-          name: this.intl.t('pages.autonomous-course.landing-page.actions.start-anonymously'),
+          name: t('pages.autonomous-course.landing-page.actions.start-anonymously'),
         }),
       );
       sinon.assert.calledOnce(this.startCampaignParticipation);
@@ -78,7 +77,7 @@ module('Integration | Component | Autonomous Course | Landing page start block',
       // then
       await click(
         screen.getByRole('button', {
-          name: this.intl.t('pages.autonomous-course.landing-page.actions.sign-in'),
+          name: t('pages.autonomous-course.landing-page.actions.sign-in'),
         }),
       );
       sinon.assert.calledOnce(sessionService.requireAuthenticationAndApprovedTermsOfService);
@@ -104,7 +103,7 @@ module('Integration | Component | Autonomous Course | Landing page start block',
       // then
       await click(
         screen.getByRole('button', {
-          name: this.intl.t('pages.autonomous-course.landing-page.actions.start-connected'),
+          name: t('pages.autonomous-course.landing-page.actions.start-connected'),
         }),
       );
       sinon.assert.calledOnce(this.startCampaignParticipation);

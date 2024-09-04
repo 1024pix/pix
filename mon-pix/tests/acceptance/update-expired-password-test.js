@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn, settled } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
 import { module, test } from 'qunit';
@@ -25,7 +26,7 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'newPass12345!');
 
     // when
-    await click(screen.getByRole('button', { name: this.intl.t('pages.update-expired-password.button') }));
+    await click(screen.getByRole('button', { name: t('pages.update-expired-password.button') }));
     // eslint-disable-next-line ember/no-settled-after-test-helper
     await settled();
 
@@ -58,13 +59,13 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'newPass12345!');
 
     // when
-    await click(screen.getByRole('button', { name: this.intl.t('pages.update-expired-password.button') }));
+    await click(screen.getByRole('button', { name: t('pages.update-expired-password.button') }));
     // eslint-disable-next-line ember/no-settled-after-test-helper
     await settled();
 
     // then
     assert.strictEqual(currentURL(), '/mise-a-jour-mot-de-passe-expire');
-    const expectedValidationErrorMessage = this.intl.t('pages.update-expired-password.fields.error');
+    const expectedValidationErrorMessage = t('pages.update-expired-password.fields.error');
     assert.ok(screen.getByText(expectedValidationErrorMessage));
   });
 
@@ -92,13 +93,13 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'newPass12345!');
 
     // when
-    await click(screen.getByRole('button', { name: this.intl.t('pages.update-expired-password.button') }));
+    await click(screen.getByRole('button', { name: t('pages.update-expired-password.button') }));
     // eslint-disable-next-line ember/no-settled-after-test-helper
     await settled();
 
     // then
     assert.strictEqual(currentURL(), '/mise-a-jour-mot-de-passe-expire');
-    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
+    assert.dom(screen.getByText(t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
   });
 
   test('should display error message when update password fails with http 404 error', async function (assert) {
@@ -119,10 +120,10 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'newPass12345!');
 
     // when
-    await click(screen.getByRole('button', { name: this.intl.t('pages.update-expired-password.button') }));
+    await click(screen.getByRole('button', { name: t('pages.update-expired-password.button') }));
 
     // then
-    assert.ok(this.intl.t('common.error'));
+    assert.ok(t('common.error'));
   });
 
   test('should display error message when update password fails', async function (assert) {
@@ -140,12 +141,12 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), 'newPass12345!');
 
     // when
-    await click(screen.getByRole('button', { name: this.intl.t('pages.update-expired-password.button') }));
+    await click(screen.getByRole('button', { name: t('pages.update-expired-password.button') }));
     // eslint-disable-next-line ember/no-settled-after-test-helper
     await settled();
 
     // then
     assert.strictEqual(currentURL(), '/mise-a-jour-mot-de-passe-expire');
-    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
+    assert.dom(screen.getByText(t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
   });
 });

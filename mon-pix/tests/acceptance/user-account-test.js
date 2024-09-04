@@ -2,6 +2,7 @@ import { visit } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -47,13 +48,9 @@ module('Acceptance | User account page', function (hooks) {
         const screen = await visit('/mon-compte');
 
         // then
-        assert.ok(
-          screen.getByRole('link', { name: this.intl.t('pages.user-account.personal-information.menu-link-title') }),
-        );
-        assert.ok(
-          screen.getByRole('link', { name: this.intl.t('pages.user-account.connexion-methods.menu-link-title') }),
-        );
-        assert.ok(screen.getByRole('link', { name: this.intl.t('pages.user-account.language.menu-link-title') }));
+        assert.ok(screen.getByRole('link', { name: t('pages.user-account.personal-information.menu-link-title') }));
+        assert.ok(screen.getByRole('link', { name: t('pages.user-account.connexion-methods.menu-link-title') }));
+        assert.ok(screen.getByRole('link', { name: t('pages.user-account.language.menu-link-title') }));
       });
 
       test('should display personal information on click on "Informations personnelles"', async function (assert) {
@@ -61,9 +58,7 @@ module('Acceptance | User account page', function (hooks) {
         const screen = await visit('/mon-compte');
 
         // when
-        await click(
-          screen.getByRole('link', { name: this.intl.t('pages.user-account.personal-information.menu-link-title') }),
-        );
+        await click(screen.getByRole('link', { name: t('pages.user-account.personal-information.menu-link-title') }));
 
         // then
         assert.strictEqual(currentURL(), '/mon-compte/informations-personnelles');
@@ -74,9 +69,7 @@ module('Acceptance | User account page', function (hooks) {
         const screen = await visit('/mon-compte');
 
         // when
-        await click(
-          screen.getByRole('link', { name: this.intl.t('pages.user-account.connexion-methods.menu-link-title') }),
-        );
+        await click(screen.getByRole('link', { name: t('pages.user-account.connexion-methods.menu-link-title') }));
 
         // then
         assert.strictEqual(currentURL(), '/mon-compte/methodes-de-connexion');
@@ -98,7 +91,7 @@ module('Acceptance | User account page', function (hooks) {
           const screen = await visit('/mon-compte');
 
           // when
-          await click(screen.getByRole('link', { name: this.intl.t('pages.user-account.language.menu-link-title') }));
+          await click(screen.getByRole('link', { name: t('pages.user-account.language.menu-link-title') }));
 
           // then
           const languageSwitcherGeneric = screen.getByRole('button', { name: 'Sélectionnez une langue' });
@@ -125,7 +118,7 @@ module('Acceptance | User account page', function (hooks) {
 
           // when / then
           const languageMenuLink = screen.queryByRole('link', {
-            name: this.intl.t('pages.user-account.language.menu-link-title'),
+            name: t('pages.user-account.language.menu-link-title'),
           });
 
           assert.dom(languageMenuLink).doesNotExist();

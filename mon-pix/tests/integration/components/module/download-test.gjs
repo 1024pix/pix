@@ -1,4 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
+import { t } from 'ember-intl/test-support';
 import ModuleElementDownload from 'mon-pix/components/module/element/download';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -23,13 +24,13 @@ module('Integration | Component | Module | Element | Download', function (hooks)
 
     // then
     const pngDownloadLink = screen.getByRole('link', {
-      name: this.intl.t('pages.modulix.download.label', { format: '.png' }),
+      name: t('pages.modulix.download.label', { format: '.png' }),
     });
     assert.dom(pngDownloadLink).hasAttribute('href', 'https://example.org/image.png');
     assert.dom(pngDownloadLink).hasAttribute('download');
 
     const jpgDownloadLink = screen.getByRole('link', {
-      name: this.intl.t('pages.modulix.download.label', { format: '.jpg' }),
+      name: t('pages.modulix.download.label', { format: '.jpg' }),
     });
     assert.dom(jpgDownloadLink).hasAttribute('href', 'https://example.org/image.jpg');
     assert.dom(jpgDownloadLink).hasAttribute('download');
@@ -66,9 +67,9 @@ module('Integration | Component | Module | Element | Download', function (hooks)
 
     // then
     const documentationLink = screen.getByRole('link', {
-      name: this.intl.t('pages.modulix.download.documentationLinkLabel'),
+      name: t('pages.modulix.download.documentationLinkLabel'),
     });
-    assert.dom(documentationLink).hasAttribute('href', this.intl.t('pages.modulix.download.documentationLinkHref'));
+    assert.dom(documentationLink).hasAttribute('href', t('pages.modulix.download.documentationLinkHref'));
   });
 
   module('when download button is clicked', function () {
@@ -87,7 +88,7 @@ module('Integration | Component | Module | Element | Download', function (hooks)
 
       //  when
       const downloadLink = await screen.getByRole('link', {
-        name: this.intl.t('pages.modulix.download.label', { format: downloadedFormat }),
+        name: t('pages.modulix.download.label', { format: downloadedFormat }),
       });
       downloadLink.addEventListener('click', (event) => {
         event.preventDefault();

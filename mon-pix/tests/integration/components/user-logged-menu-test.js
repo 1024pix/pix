@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, triggerKeyEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -28,13 +29,13 @@ module('Integration | Component | user logged menu', function (hooks) {
 
       // then
       const buttonMenu = screen.getByRole('button', {
-        name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
+        name: `Hermione ${t('navigation.user-logged-menu.details')}`,
       });
       const nodes = buttonMenu.childNodes;
       const buttonTextContent = nodes[1].textContent;
       const a11yText = nodes[3].textContent;
 
-      assert.strictEqual(a11yText, this.intl.t('navigation.user-logged-menu.details'));
+      assert.strictEqual(a11yText, t('navigation.user-logged-menu.details'));
       assert.strictEqual(buttonTextContent, 'Hermione');
     });
 
@@ -46,15 +47,15 @@ module('Integration | Component | user logged menu', function (hooks) {
       assert
         .dom(
           screen.getByRole('button', {
-            name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
+            name: `Hermione ${t('navigation.user-logged-menu.details')}`,
             expanded: false,
           }),
         )
         .exists();
-      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.user.account') })).doesNotExist();
-      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.user.certifications') })).doesNotExist();
-      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.main.help') })).doesNotExist();
-      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.user.sign-out') })).doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: t('navigation.user.account') })).doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: t('navigation.user.certifications') })).doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: t('navigation.main.help') })).doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: t('navigation.user.sign-out') })).doesNotExist();
     });
 
     test('should display a user menu, when user-name is clicked', async function (assert) {
@@ -62,7 +63,7 @@ module('Integration | Component | user logged menu', function (hooks) {
       const screen = await render(hbs`<UserLoggedMenu />`);
       await click(
         screen.getByRole('button', {
-          name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
+          name: `Hermione ${t('navigation.user-logged-menu.details')}`,
         }),
       );
 
@@ -70,7 +71,7 @@ module('Integration | Component | user logged menu', function (hooks) {
       assert
         .dom(
           screen.getByRole('button', {
-            name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
+            name: `Hermione ${t('navigation.user-logged-menu.details')}`,
             expanded: true,
           }),
         )
@@ -83,12 +84,12 @@ module('Integration | Component | user logged menu', function (hooks) {
       const screen = await render(hbs`<UserLoggedMenu />`);
       await click(
         screen.getByRole('button', {
-          name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
+          name: `Hermione ${t('navigation.user-logged-menu.details')}`,
         }),
       );
 
       // then
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.user.certifications') }));
+      assert.ok(screen.getByRole('link', { name: t('navigation.user.certifications') }));
     });
 
     test('should display link to help center', async function (assert) {
@@ -96,19 +97,19 @@ module('Integration | Component | user logged menu', function (hooks) {
       const screen = await render(hbs`<UserLoggedMenu />`);
       await click(
         screen.getByRole('button', {
-          name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
+          name: `Hermione ${t('navigation.user-logged-menu.details')}`,
         }),
       );
 
       // then
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.main.help') }));
+      assert.ok(screen.getByRole('link', { name: t('navigation.main.help') }));
     });
 
     test('should hide user menu, when it was previously open and user-name is clicked one more time', async function (assert) {
       // given
       const screen = await render(hbs`<UserLoggedMenu />`);
       const buttonMenu = screen.getByRole('button', {
-        name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
+        name: `Hermione ${t('navigation.user-logged-menu.details')}`,
       });
 
       // when
@@ -119,19 +120,19 @@ module('Integration | Component | user logged menu', function (hooks) {
       assert
         .dom(
           screen.getByRole('button', {
-            name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
+            name: `Hermione ${t('navigation.user-logged-menu.details')}`,
             expanded: false,
           }),
         )
         .exists();
-      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.user.account') })).doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: t('navigation.user.account') })).doesNotExist();
     });
 
     test('should hide user menu, when it was previously open and user press key escape', async function (assert) {
       // given
       const screen = await render(hbs`<UserLoggedMenu />`);
       const buttonMenu = screen.getByRole('button', {
-        name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
+        name: `Hermione ${t('navigation.user-logged-menu.details')}`,
       });
 
       // when
@@ -142,19 +143,19 @@ module('Integration | Component | user logged menu', function (hooks) {
       assert
         .dom(
           screen.getByRole('button', {
-            name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
+            name: `Hermione ${t('navigation.user-logged-menu.details')}`,
             expanded: false,
           }),
         )
         .exists();
-      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.user.account') })).doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: t('navigation.user.account') })).doesNotExist();
     });
 
     test('should hide user menu, when it was previously open and user press shift-tab key', async function (assert) {
       // given
       const screen = await render(hbs`<UserLoggedMenu />`);
       const buttonMenu = screen.getByRole('button', {
-        name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
+        name: `Hermione ${t('navigation.user-logged-menu.details')}`,
       });
 
       // when
@@ -165,12 +166,12 @@ module('Integration | Component | user logged menu', function (hooks) {
       assert
         .dom(
           screen.getByRole('button', {
-            name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
+            name: `Hermione ${t('navigation.user-logged-menu.details')}`,
             expanded: false,
           }),
         )
         .exists();
-      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.user.account') })).doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: t('navigation.user.account') })).doesNotExist();
     });
 
     module('Link to "My tests"', function () {
@@ -191,12 +192,12 @@ module('Integration | Component | user logged menu', function (hooks) {
           const screen = await render(hbs`<UserLoggedMenu />`);
           await click(
             screen.getByRole('button', {
-              name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
+              name: `Hermione ${t('navigation.user-logged-menu.details')}`,
             }),
           );
 
           // then
-          assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.user.tests') }));
+          assert.ok(screen.getByRole('link', { name: t('navigation.user.tests') }));
         });
       });
 
@@ -206,12 +207,12 @@ module('Integration | Component | user logged menu', function (hooks) {
           const screen = await render(hbs`<UserLoggedMenu />`);
           await click(
             screen.getByRole('button', {
-              name: `Hermione ${this.intl.t('navigation.user-logged-menu.details')}`,
+              name: `Hermione ${t('navigation.user-logged-menu.details')}`,
             }),
           );
 
           // then
-          assert.notOk(screen.queryByRole('link', { name: this.intl.t('navigation.user.tests') }));
+          assert.notOk(screen.queryByRole('link', { name: t('navigation.user.tests') }));
         });
       });
     });
@@ -233,7 +234,7 @@ module('Integration | Component | user logged menu', function (hooks) {
       assert
         .dom(
           screen.queryByRole('button', {
-            name: this.intl.t('navigation.user-logged-menu.details'),
+            name: t('navigation.user-logged-menu.details'),
           }),
         )
         .doesNotExist();

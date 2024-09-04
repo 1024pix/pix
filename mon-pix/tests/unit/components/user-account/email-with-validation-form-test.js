@@ -3,8 +3,11 @@ import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-compone
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntl from '../../../helpers/setup-intl';
+
 module('Unit | Component | user-account | email-with-validation-form', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks);
 
   module('#validateNewEmail', function () {
     test('should trim on email validation', function (assert) {

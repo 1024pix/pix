@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -37,7 +38,7 @@ module('Integration | Component | authentication | login-or-register-oidc', func
     // then
     assert.ok(
       screen.getByRole('heading', {
-        name: this.intl.t('pages.login-or-register-oidc.title'),
+        name: t('pages.login-or-register-oidc.title'),
         level: 1,
       }),
     );
@@ -57,29 +58,29 @@ module('Integration | Component | authentication | login-or-register-oidc', func
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.login-or-register-oidc.register-form.title'),
+          name: t('pages.login-or-register-oidc.register-form.title'),
           level: 2,
         }),
       );
-      assert.ok(screen.getByRole('button', { name: this.intl.t('pages.login-or-register-oidc.register-form.button') }));
+      assert.ok(screen.getByRole('button', { name: t('pages.login-or-register-oidc.register-form.button') }));
       assert.ok(screen.getByText('Partenaire OIDC'));
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.login-or-register-oidc.register-form.information.given-name', {
+          t('pages.login-or-register-oidc.register-form.information.given-name', {
             givenName: 'Mélusine',
           }),
         ),
       );
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.login-or-register-oidc.register-form.information.family-name', {
+          t('pages.login-or-register-oidc.register-form.information.family-name', {
             familyName: 'TITEGOUTTE',
           }),
         ),
       );
-      assert.ok(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('common.cgu.cgu') }));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('common.cgu.data-protection-policy') }));
+      assert.ok(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+      assert.ok(screen.getByRole('link', { name: t('common.cgu.cgu') }));
+      assert.ok(screen.getByRole('link', { name: t('common.cgu.data-protection-policy') }));
     });
   });
 
@@ -97,23 +98,23 @@ module('Integration | Component | authentication | login-or-register-oidc', func
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.login-or-register-oidc.login-form.title'),
+          name: t('pages.login-or-register-oidc.login-form.title'),
           level: 2,
         }),
       );
-      assert.ok(screen.getByRole('textbox', { name: this.intl.t('pages.login-or-register-oidc.login-form.email') }));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('pages.sign-in.forgotten-password') }));
-      assert.ok(screen.getByRole('button', { name: this.intl.t('pages.login-or-register-oidc.login-form.button') }));
+      assert.ok(screen.getByRole('textbox', { name: t('pages.login-or-register-oidc.login-form.email') }));
+      assert.ok(screen.getByRole('link', { name: t('pages.sign-in.forgotten-password') }));
+      assert.ok(screen.getByRole('button', { name: t('pages.login-or-register-oidc.login-form.button') }));
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.login-or-register-oidc.register-form.information.given-name', {
+          t('pages.login-or-register-oidc.register-form.information.given-name', {
             givenName: 'Mélusine',
           }),
         ),
       );
       assert.ok(
         screen.getByText(
-          this.intl.t('pages.login-or-register-oidc.register-form.information.family-name', {
+          t('pages.login-or-register-oidc.register-form.information.family-name', {
             familyName: 'TITEGOUTTE',
           }),
         ),

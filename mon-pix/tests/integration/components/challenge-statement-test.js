@@ -3,6 +3,7 @@ import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
 import { click, find, findAll } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -118,8 +119,8 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       const link2 = screen.queryByRole('link', { name: 'lien 2' });
       assert.dom(link1).exists();
       assert.dom(link2).exists();
-      assert.dom(link1).hasAttribute('title', `lien 1 (${this.intl.t('navigation.external-link-title')})`);
-      assert.dom(link2).hasAttribute('title', `lien 2 (${this.intl.t('navigation.external-link-title')})`);
+      assert.dom(link1).hasAttribute('title', `lien 1 (${t('navigation.external-link-title')})`);
+      assert.dom(link2).hasAttribute('title', `lien 2 (${t('navigation.external-link-title')})`);
     });
 
     test('should display a specific style', async function (assert) {
@@ -173,7 +174,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       // then
       assert.ok(
         find('.challenge-statement__instructions-and-text-to-speech-container > .sr-only').textContent.includes(
-          this.intl.t('pages.challenge.statement.sr-only.embed'),
+          t('pages.challenge.statement.sr-only.embed'),
         ),
       );
     });
@@ -193,7 +194,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       // then
       assert.ok(
         find('.challenge-statement__instruction-section > .sr-only').textContent.includes(
-          this.intl.t('pages.challenge.statement.sr-only.alternative-instruction'),
+          t('pages.challenge.statement.sr-only.alternative-instruction'),
         ),
       );
     });
@@ -233,7 +234,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               assert
                 .dom(
                   screen.getByRole('button', {
-                    name: this.intl.t('pages.challenge.statement.text-to-speech.play'),
+                    name: t('pages.challenge.statement.text-to-speech.play'),
                   }),
                 )
                 .exists();
@@ -255,7 +256,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
                 // when
                 await click(
                   screen.getByRole('button', {
-                    name: this.intl.t('pages.challenge.statement.text-to-speech.play'),
+                    name: t('pages.challenge.statement.text-to-speech.play'),
                   }),
                 );
 
@@ -263,7 +264,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
                 assert
                   .dom(
                     screen.getByRole('button', {
-                      name: this.intl.t('pages.challenge.statement.text-to-speech.stop'),
+                      name: t('pages.challenge.statement.text-to-speech.stop'),
                     }),
                   )
                   .exists();
@@ -291,9 +292,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
                 );
 
                 // when
-                await click(
-                  screen.getByRole('button', { name: this.intl.t('pages.challenge.statement.text-to-speech.play') }),
-                );
+                await click(screen.getByRole('button', { name: t('pages.challenge.statement.text-to-speech.play') }));
 
                 // then
                 sinon.assert.calledWithExactly(add, {
@@ -326,7 +325,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               assert
                 .dom(
                   screen.queryByRole('button', {
-                    name: this.intl.t('pages.challenge.statement.text-to-speech.play'),
+                    name: t('pages.challenge.statement.text-to-speech.play'),
                   }),
                 )
                 .doesNotExist();
@@ -353,7 +352,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
             assert
               .dom(
                 screen.queryByRole('button', {
-                  name: this.intl.t('pages.challenge.statement.text-to-speech.play'),
+                  name: t('pages.challenge.statement.text-to-speech.play'),
                 }),
               )
               .doesNotExist();
@@ -390,7 +389,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               assert
                 .dom(
                   screen.queryByRole('button', {
-                    name: this.intl.t('pages.challenge.statement.text-to-speech.play'),
+                    name: t('pages.challenge.statement.text-to-speech.play'),
                   }),
                 )
                 .doesNotExist();
@@ -416,7 +415,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               assert
                 .dom(
                   screen.queryByRole('button', {
-                    name: this.intl.t('pages.challenge.statement.text-to-speech.play'),
+                    name: t('pages.challenge.statement.text-to-speech.play'),
                   }),
                 )
                 .doesNotExist();
@@ -446,7 +445,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
           assert
             .dom(
               screen.queryByRole('button', {
-                name: this.intl.t('pages.challenge.statement.text-to-speech.play'),
+                name: t('pages.challenge.statement.text-to-speech.play'),
               }),
             )
             .doesNotExist();

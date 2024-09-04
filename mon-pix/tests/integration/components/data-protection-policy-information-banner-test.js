@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { setLocale, t } from 'ember-intl/test-support';
 import ENV from 'mon-pix/config/environment';
 import PixWindow from 'mon-pix/utils/pix-window';
 import { module, test } from 'qunit';
@@ -28,7 +29,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
       assert
         .dom(
           screen.queryByRole('link', {
-            name: this.intl.t('common.data-protection-policy-information-banner.url-label'),
+            name: t('common.data-protection-policy-information-banner.url-label'),
           }),
         )
         .doesNotExist();
@@ -50,7 +51,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
         assert
           .dom(
             screen.queryByRole('link', {
-              name: this.intl.t('common.data-protection-policy-information-banner.url-label'),
+              name: t('common.data-protection-policy-information-banner.url-label'),
             }),
           )
           .doesNotExist();
@@ -72,7 +73,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
           assert
             .dom(
               screen.queryByRole('link', {
-                name: this.intl.t('common.data-protection-policy-information-banner.url-label'),
+                name: t('common.data-protection-policy-information-banner.url-label'),
               }),
             )
             .doesNotExist();
@@ -108,7 +109,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
             test('displays the data protection policy banner in english', async function (assert) {
               // given
               _stubWindowLocationHostname('pix.org');
-              this.intl.setLocale('en');
+              setLocale('en');
               _communicationBannerIsNotDisplayed();
               _userShouldSeeTheDataProtectionPolicyUpdateInformation(this);
 
@@ -133,7 +134,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
             test('displays the data protection policy banner in dutch', async function (assert) {
               // given
               _stubWindowLocationHostname('pix.org');
-              this.intl.setLocale('nl');
+              setLocale('nl');
               _communicationBannerIsNotDisplayed();
               _userShouldSeeTheDataProtectionPolicyUpdateInformation(this);
 

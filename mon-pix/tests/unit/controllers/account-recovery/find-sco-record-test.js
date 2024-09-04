@@ -2,9 +2,11 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntl from '../../../helpers/setup-intl';
+
 module('Unit | Controller | account-recovery | find-sco-record', function (hooks) {
   setupTest(hooks);
-
+  setupIntl(hooks);
   module('#submitStudentInformation', function () {
     module('when submitting recover account student information form', function () {
       test('should submit student information', async function (assert) {

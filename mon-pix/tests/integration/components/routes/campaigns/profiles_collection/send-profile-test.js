@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -24,7 +25,7 @@ module('Integration | Component | routes/campaigns/profiles_collection/send-prof
       );
 
       // then
-      assert.notOk(screen.queryByRole('button', { name: this.intl.t('pages.send-profile.form.send') }));
+      assert.notOk(screen.queryByRole('button', { name: t('pages.send-profile.form.send') }));
     });
   });
 
@@ -44,7 +45,7 @@ module('Integration | Component | routes/campaigns/profiles_collection/send-prof
       );
 
       // when
-      const sendProfileButtons = screen.getAllByRole('button', { name: this.intl.t('pages.send-profile.form.send') });
+      const sendProfileButtons = screen.getAllByRole('button', { name: t('pages.send-profile.form.send') });
       await click(sendProfileButtons[0]);
 
       // then

@@ -1,6 +1,7 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -50,18 +51,18 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
     // then
     assert.ok(
       screen.getByRole('heading', {
-        name: this.intl.t('components.invited.reconciliation.title', { organizationName }),
+        name: t('components.invited.reconciliation.title', { organizationName }),
         level: 1,
       }),
     );
-    assert.ok(screen.getByText(this.intl.t('common.form.mandatory-all-fields')));
-    assert.ok(screen.getByRole('textbox', { name: this.intl.t('components.invited.reconciliation.field.firstname') }));
+    assert.ok(screen.getByText(t('common.form.mandatory-all-fields')));
+    assert.ok(screen.getByRole('textbox', { name: t('components.invited.reconciliation.field.firstname') }));
     assert.ok(
       screen.getByRole('textbox', {
-        name: `${this.intl.t('components.invited.reconciliation.field.birthdate')} ${this.intl.t('components.invited.reconciliation.field.sub-label.date', { dateFormat: '31/12/2020' })}`,
+        name: `${t('components.invited.reconciliation.field.birthdate')} ${t('components.invited.reconciliation.field.sub-label.date', { dateFormat: '31/12/2020' })}`,
       }),
     );
-    assert.ok(screen.getByRole('button', { name: this.intl.t('common.actions.lets-go') }));
+    assert.ok(screen.getByRole('button', { name: t('common.actions.lets-go') }));
   });
 
   module('validation cases', function () {
@@ -75,21 +76,21 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
 />`,
       );
       // when
-      const button = screen.getByRole('button', { name: this.intl.t('common.actions.lets-go') });
+      const button = screen.getByRole('button', { name: t('common.actions.lets-go') });
 
       await click(button);
       // then
       assert.ok(
         screen.getByText(
-          this.intl.t('components.invited.reconciliation.error-message.mandatory-field', {
-            fieldName: this.intl.t('components.invited.reconciliation.field.firstname'),
+          t('components.invited.reconciliation.error-message.mandatory-field', {
+            fieldName: t('components.invited.reconciliation.field.firstname'),
           }),
         ),
       );
       assert.ok(
         screen.getByText(
-          this.intl.t('components.invited.reconciliation.error-message.mandatory-field', {
-            fieldName: this.intl.t('components.invited.reconciliation.field.birthdate'),
+          t('components.invited.reconciliation.error-message.mandatory-field', {
+            fieldName: t('components.invited.reconciliation.field.birthdate'),
           }),
         ),
       );
@@ -107,19 +108,19 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
       // when
       await fillIn(
         screen.getByRole('textbox', {
-          name: `${this.intl.t('components.invited.reconciliation.field.birthdate')} ${this.intl.t('components.invited.reconciliation.field.sub-label.date', { dateFormat: '31/12/2020' })}`,
+          name: `${t('components.invited.reconciliation.field.birthdate')} ${t('components.invited.reconciliation.field.sub-label.date', { dateFormat: '31/12/2020' })}`,
         }),
         '2020-45-12',
       );
 
-      const button = screen.getByRole('button', { name: this.intl.t('common.actions.lets-go') });
+      const button = screen.getByRole('button', { name: t('common.actions.lets-go') });
 
       await click(button);
       // then
       assert.ok(
         screen.getByText(
-          this.intl.t('components.invited.reconciliation.error-message.date-field', {
-            fieldName: this.intl.t('components.invited.reconciliation.field.birthdate'),
+          t('components.invited.reconciliation.error-message.date-field', {
+            fieldName: t('components.invited.reconciliation.field.birthdate'),
           }),
         ),
       );
@@ -138,7 +139,7 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
 />`,
         );
         // when
-        const button = screen.getByRole('button', { name: this.intl.t('common.actions.lets-go') });
+        const button = screen.getByRole('button', { name: t('common.actions.lets-go') });
         assert.false(button.hasAttribute('disabled'));
       });
 
@@ -172,17 +173,17 @@ module('Integration | Component | Campaign | Invited | learner-reconciliation', 
       );
       // when
       await fillIn(
-        screen.getByRole('textbox', { name: this.intl.t('components.invited.reconciliation.field.firstname') }),
+        screen.getByRole('textbox', { name: t('components.invited.reconciliation.field.firstname') }),
         'jaune',
       );
       await fillIn(
         screen.getByRole('textbox', {
-          name: `${this.intl.t('components.invited.reconciliation.field.birthdate')} ${this.intl.t('components.invited.reconciliation.field.sub-label.date', { dateFormat: '31/12/2020' })}`,
+          name: `${t('components.invited.reconciliation.field.birthdate')} ${t('components.invited.reconciliation.field.sub-label.date', { dateFormat: '31/12/2020' })}`,
         }),
         '06/01/2020',
       );
 
-      const button = screen.getByRole('button', { name: this.intl.t('common.actions.lets-go') });
+      const button = screen.getByRole('button', { name: t('common.actions.lets-go') });
 
       await click(button);
 

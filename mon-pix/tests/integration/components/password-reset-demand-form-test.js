@@ -5,6 +5,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import { reject, resolve } from 'rsvp';
 import sinon from 'sinon';
@@ -51,7 +52,7 @@ module('Integration | Component | password reset demand form', function (hooks) 
 
     // when
     await fillIn('#email', 'test@example.net');
-    await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
+    await clickByLabel(t('pages.password-reset-demand.actions.reset'));
 
     // then
     assert.dom('div[id="password-reset-demand-failed-message"]').exists();
@@ -74,7 +75,7 @@ module('Integration | Component | password reset demand form', function (hooks) 
 
     // when
     await fillIn('#email', 'test@example.net');
-    await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
+    await clickByLabel(t('pages.password-reset-demand.actions.reset'));
 
     // then
     assert.dom('div[id="password-reset-demand-failed-message"]').doesNotExist();

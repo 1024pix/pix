@@ -1,3 +1,4 @@
+import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -151,14 +152,14 @@ module('Unit | Component | routes/campaigns/invited/associate-sco-student-form',
       test('should display a not found error', async function (assert) {
         // given
         onSubmitStub.rejects({ errors: [{ status: '404' }] });
-        const expectedErrorMessage = this.intl.t('pages.join.sco.error-not-found');
+        const expectedErrorMessage = t('pages.join.sco.error-not-found', { htmlSafe: true });
 
         // when
         await component.actions.submit.call(component, attributes);
 
         // then
         sinon.assert.calledOnce(record.unloadRecord);
-        assert.strictEqual(component.errorMessage.toString(), expectedErrorMessage);
+        assert.strictEqual(component.errorMessage.toString(), expectedErrorMessage.toString());
         assert.ok(true);
       });
 
@@ -184,7 +185,7 @@ module('Unit | Component | routes/campaigns/invited/associate-sco-student-form',
         test('should return a conflict error and display the error message related to the short code R70)', async function (assert) {
           // given
           const meta = { shortCode: 'R70' };
-          const expectedErrorMessage = this.intl.t('api-error-messages.join-error.r70');
+          const expectedErrorMessage = t('api-error-messages.join-error.r70');
 
           const error = {
             status: '409',
@@ -228,7 +229,7 @@ module('Unit | Component | routes/campaigns/invited/associate-sco-student-form',
       module('When user has an invalid reconciliation', function () {
         test('should return a bad request error and display the invalid reconciliation error message', async function (assert) {
           // given
-          const expectedErrorMessage = this.intl.t('pages.join.sco.invalid-reconciliation-error', { htmlSafe: true });
+          const expectedErrorMessage = t('pages.join.sco.invalid-reconciliation-error', { htmlSafe: true });
           const error = { status: '400' };
 
           onSubmitStub.rejects({ errors: [error] });

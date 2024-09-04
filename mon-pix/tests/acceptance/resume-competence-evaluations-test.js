@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -34,7 +35,7 @@ module('Acceptance | Competence Evaluations | Resume Competence Evaluations', f
         // when
         await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), user.email);
         await fillIn(screen.getByLabelText('Mot de passe'), user.password);
-        await click(screen.getByRole('button', { name: this.intl.t('pages.sign-in.actions.submit') }));
+        await click(screen.getByRole('button', { name: t('pages.sign-in.actions.submit') }));
 
         assert.ok(currentURL().includes('/assessments'));
       });

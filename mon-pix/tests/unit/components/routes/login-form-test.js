@@ -1,4 +1,5 @@
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import ENV from 'mon-pix/config/environment';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
@@ -84,7 +85,7 @@ module('Unit | Component | routes/login-form', function (hooks) {
           await component.authenticate(eventStub);
 
           // then
-          const expectedErrorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.USER_IS_TEMPORARY_BLOCKED.I18N_KEY, {
+          const expectedErrorMessage = t(ENV.APP.API_ERROR_MESSAGES.USER_IS_TEMPORARY_BLOCKED.I18N_KEY, {
             url: '/mot-de-passe-oublie',
             htmlSafe: true,
           });
@@ -108,7 +109,7 @@ module('Unit | Component | routes/login-form', function (hooks) {
           await component.authenticate(eventStub);
 
           // then
-          const expectedErrorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.USER_IS_BLOCKED.I18N_KEY, {
+          const expectedErrorMessage = t(ENV.APP.API_ERROR_MESSAGES.USER_IS_BLOCKED.I18N_KEY, {
             url: 'https://support.pix.org/support/tickets/new',
             htmlSafe: true,
           });

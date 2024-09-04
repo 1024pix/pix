@@ -1,4 +1,5 @@
 import EmberObject from '@ember/object';
+import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -163,8 +164,8 @@ module('Unit | Component | comparison-window', function (hooks) {
         resultItem = component.resultItem;
 
         // then
-        assert.strictEqual(this.intl.t(resultItem.title), `${data.expectedTitle}`);
-        assert.strictEqual(this.intl.t(resultItem.tooltip), `${data.expectedTooltip}`);
+        assert.strictEqual(t(resultItem.title), `${data.expectedTitle}`);
+        assert.strictEqual(t(resultItem.tooltip), `${data.expectedTooltip}`);
       });
     });
 
@@ -182,8 +183,8 @@ module('Unit | Component | comparison-window', function (hooks) {
         resultItem = component.resultItem;
 
         // then
-        assert.strictEqual(this.intl.t(resultItem.title), `${data.expectedTitle}`);
-        assert.strictEqual(this.intl.t(resultItem.tooltip), `${data.expectedTooltip}`);
+        assert.strictEqual(t(resultItem.title), `${data.expectedTitle}`);
+        assert.strictEqual(t(resultItem.tooltip), `${data.expectedTooltip}`);
       });
     });
   });

@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -91,9 +92,7 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
           await click(checkbox);
 
           // when
-          await click(
-            screen.getByRole('button', { name: this.intl.t('pages.user-tutorials.sidebar.reset-aria-label') }),
-          );
+          await click(screen.getByRole('button', { name: t('pages.user-tutorials.sidebar.reset-aria-label') }));
 
           // then
           assert.false(checkbox.checked);

@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -23,24 +24,22 @@ module('Integration | Component | account-recovery | update-sco-record', functio
     // then
     assert.ok(
       screen.getByRole('heading', {
-        name: this.intl.t('pages.account-recovery.update-sco-record.welcome-message', { firstName }),
+        name: t('pages.account-recovery.update-sco-record.welcome-message', { firstName }),
       }),
     );
-    assert.ok(screen.getByText(this.intl.t('pages.account-recovery.update-sco-record.fill-password')));
-    assert.ok(
-      screen.getByRole('textbox', { name: this.intl.t('pages.account-recovery.update-sco-record.form.email-label') }),
-    );
-    assert.ok(screen.getByLabelText(this.intl.t('pages.account-recovery.update-sco-record.form.password-label')));
+    assert.ok(screen.getByText(t('pages.account-recovery.update-sco-record.fill-password')));
+    assert.ok(screen.getByRole('textbox', { name: t('pages.account-recovery.update-sco-record.form.email-label') }));
+    assert.ok(screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label')));
 
     const submitButton = screen.getByRole('button', {
-      name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
+      name: t('pages.account-recovery.update-sco-record.form.login-button'),
     });
     assert.ok(submitButton);
     assert.true(submitButton.disabled);
 
-    assert.dom(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') })).exists();
-    assert.ok(screen.getByRole('link', { name: this.intl.t('common.cgu.cgu') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('common.cgu.data-protection-policy') }));
+    assert.dom(screen.getByRole('checkbox', { name: t('common.cgu.label') })).exists();
+    assert.ok(screen.getByRole('link', { name: t('common.cgu.cgu') }));
+    assert.ok(screen.getByRole('link', { name: t('common.cgu.data-protection-policy') }));
   });
 
   module('Form submission', function () {
@@ -49,14 +48,11 @@ module('Integration | Component | account-recovery | update-sco-record', functio
       const screen = await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
 
       // when
-      await fillIn(
-        screen.getByLabelText(this.intl.t('pages.account-recovery.update-sco-record.form.password-label')),
-        'pass',
-      );
+      await fillIn(screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label')), 'pass');
 
       // then
       const submitButton = screen.getByRole('button', {
-        name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
+        name: t('pages.account-recovery.update-sco-record.form.login-button'),
       });
       assert.true(submitButton.disabled);
     });
@@ -67,13 +63,13 @@ module('Integration | Component | account-recovery | update-sco-record', functio
 
       // when
       await fillIn(
-        screen.getByLabelText(this.intl.t('pages.account-recovery.update-sco-record.form.password-label')),
+        screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label')),
         'pix123A*',
       );
 
       // then
       const submitButton = screen.getByRole('button', {
-        name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
+        name: t('pages.account-recovery.update-sco-record.form.login-button'),
       });
       assert.true(submitButton.disabled);
     });
@@ -84,14 +80,14 @@ module('Integration | Component | account-recovery | update-sco-record', functio
 
       // when
       await fillIn(
-        screen.getByLabelText(this.intl.t('pages.account-recovery.update-sco-record.form.password-label')),
+        screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label')),
         'pix123A*',
       );
-      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
 
       // then
       const submitButton = screen.getByRole('button', {
-        name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
+        name: t('pages.account-recovery.update-sco-record.form.login-button'),
       });
       assert.true(submitButton.disabled);
     });
@@ -102,14 +98,14 @@ module('Integration | Component | account-recovery | update-sco-record', functio
 
       // when
       await fillIn(
-        screen.getByLabelText(this.intl.t('pages.account-recovery.update-sco-record.form.password-label')),
+        screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label')),
         'pix123A*',
       );
-      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
 
       // then
       const submitButton = screen.getByRole('button', {
-        name: this.intl.t('pages.account-recovery.update-sco-record.form.login-button'),
+        name: t('pages.account-recovery.update-sco-record.form.login-button'),
       });
       assert.false(submitButton.disabled);
     });
@@ -121,18 +117,14 @@ module('Integration | Component | account-recovery | update-sco-record', functio
         // given
         const validPassword = 'pix123A*';
         const screen = await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
-        const passwordInput = screen.getByLabelText(
-          this.intl.t('pages.account-recovery.update-sco-record.form.password-label'),
-        );
+        const passwordInput = screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label'));
 
         // when
         await fillIn(passwordInput, validPassword);
         await triggerEvent(passwordInput, 'focusout');
 
         // then
-        assert.notOk(
-          screen.queryByText(this.intl.t('pages.account-recovery.update-sco-record.form.errors.invalid-password')),
-        );
+        assert.notOk(screen.queryByText(t('pages.account-recovery.update-sco-record.form.errors.invalid-password')));
       });
     });
 
@@ -148,34 +140,28 @@ module('Integration | Component | account-recovery | update-sco-record', functio
         const screen = await render(
           hbs`<AccountRecovery::UpdateScoRecordForm @firstName={{this.firstName}} @email={{this.email}} />`,
         );
-        const passwordInput = screen.getByLabelText(
-          this.intl.t('pages.account-recovery.update-sco-record.form.password-label'),
-        );
+        const passwordInput = screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label'));
 
         // when
         await fillIn(passwordInput, invalidPassword);
         await triggerEvent(passwordInput, 'focusout');
 
         // then
-        assert.ok(
-          screen.getByText(this.intl.t('pages.account-recovery.update-sco-record.form.errors.invalid-password')),
-        );
+        assert.ok(screen.getByText(t('pages.account-recovery.update-sco-record.form.errors.invalid-password')));
       });
 
       test('should display a required field error message on focus-out if password field is empty', async function (assert) {
         // given
         const password = '';
         const screen = await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
-        const passwordInput = screen.getByLabelText(
-          this.intl.t('pages.account-recovery.update-sco-record.form.password-label'),
-        );
+        const passwordInput = screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label'));
 
         // when
         await fillIn(passwordInput, password);
         await triggerEvent(passwordInput, 'focusout');
 
         // then
-        assert.ok(screen.getByText(this.intl.t('pages.account-recovery.update-sco-record.form.errors.empty-password')));
+        assert.ok(screen.getByText(t('pages.account-recovery.update-sco-record.form.errors.empty-password')));
       });
     });
   });

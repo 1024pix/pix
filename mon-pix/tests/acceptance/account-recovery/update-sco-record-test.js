@@ -1,6 +1,7 @@
 import { fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, settled } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
 import { module, test } from 'qunit';
@@ -27,7 +28,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
 
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.update-sco-record.welcome-message', { firstName: 'George' }),
+          name: t('pages.account-recovery.update-sco-record.welcome-message', { firstName: 'George' }),
         }),
       );
     });
@@ -57,11 +58,11 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.errors.title'),
+          name: t('pages.account-recovery.errors.title'),
         }),
       );
-      assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.account-exists')));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
+      assert.ok(screen.getByText(t('pages.account-recovery.errors.account-exists')));
+      assert.ok(screen.getByRole('link', { name: t('navigation.back-to-homepage') }));
     });
 
     test('should display an error message when user has already left SCO', async function (assert) {
@@ -88,11 +89,11 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.errors.title'),
+          name: t('pages.account-recovery.errors.title'),
         }),
       );
-      assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.title')));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
+      assert.ok(screen.getByText(t('pages.account-recovery.errors.title')));
+      assert.ok(screen.getByRole('link', { name: t('navigation.back-to-homepage') }));
     });
 
     test('should display an error message when temporary key not found', async function (assert) {
@@ -119,11 +120,11 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.errors.title'),
+          name: t('pages.account-recovery.errors.title'),
         }),
       );
-      assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-invalid')));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
+      assert.ok(screen.getByText(t('pages.account-recovery.errors.key-invalid')));
+      assert.ok(screen.getByRole('link', { name: t('navigation.back-to-homepage') }));
     });
 
     test('should display an error message when temporary key has expired', async function (assert) {
@@ -150,12 +151,10 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.errors.title'),
+          name: t('pages.account-recovery.errors.title'),
         }),
       );
-      assert.ok(
-        screen.getByRole('link', { name: this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link') }),
-      );
+      assert.ok(screen.getByRole('link', { name: t('pages.account-recovery.errors.key-expired-renew-demand-link') }));
     });
   });
 
@@ -170,11 +169,11 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
 
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
-      await fillByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), password);
-      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+      await fillByLabel(t('pages.account-recovery.update-sco-record.form.password-label'), password);
+      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
 
       // when
-      await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      await clickByLabel(t('pages.account-recovery.update-sco-record.form.login-button'));
 
       await settled();
 
@@ -202,22 +201,22 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       server.patch('/account-recovery', () => errorsApi);
 
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
-      await fillByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+      await fillByLabel(t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
 
       // when
-      await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      await clickByLabel(t('pages.account-recovery.update-sco-record.form.login-button'));
 
       await settled();
 
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.errors.title'),
+          name: t('pages.account-recovery.errors.title'),
         }),
       );
-      assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.account-exists')));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
+      assert.ok(screen.getByText(t('pages.account-recovery.errors.account-exists')));
+      assert.ok(screen.getByRole('link', { name: t('navigation.back-to-homepage') }));
     });
 
     test('should display an error message when user has already left SCO', async function (assert) {
@@ -239,21 +238,21 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       server.patch('/account-recovery', () => errorsApi);
 
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
-      await fillByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+      await fillByLabel(t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
 
       // when
-      await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      await clickByLabel(t('pages.account-recovery.update-sco-record.form.login-button'));
       await settled();
 
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.errors.title'),
+          name: t('pages.account-recovery.errors.title'),
         }),
       );
-      assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used')));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
+      assert.ok(screen.getByText(t('pages.account-recovery.errors.key-used')));
+      assert.ok(screen.getByRole('link', { name: t('navigation.back-to-homepage') }));
     });
 
     test('should display an error message when temporary key not found', async function (assert) {
@@ -275,22 +274,22 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       server.patch('/account-recovery', () => errorsApi);
 
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
-      await fillByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+      await fillByLabel(t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
 
       // when
-      await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      await clickByLabel(t('pages.account-recovery.update-sco-record.form.login-button'));
 
       await settled();
 
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.errors.title'),
+          name: t('pages.account-recovery.errors.title'),
         }),
       );
-      assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-invalid')));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
+      assert.ok(screen.getByText(t('pages.account-recovery.errors.key-invalid')));
+      assert.ok(screen.getByRole('link', { name: t('navigation.back-to-homepage') }));
     });
 
     test('should display an error message when temporary key has expired', async function (assert) {
@@ -312,23 +311,21 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       server.patch('/account-recovery', () => errorsApi);
 
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
-      await fillByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+      await fillByLabel(t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
 
       // when
-      await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      await clickByLabel(t('pages.account-recovery.update-sco-record.form.login-button'));
 
       await settled();
 
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.errors.title'),
+          name: t('pages.account-recovery.errors.title'),
         }),
       );
-      assert.ok(
-        screen.getByRole('link', { name: this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link') }),
-      );
+      assert.ok(screen.getByRole('link', { name: t('pages.account-recovery.errors.key-expired-renew-demand-link') }));
     });
 
     test('should display an error message when internal server error returned', async function (assert) {
@@ -350,22 +347,22 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       server.patch('/account-recovery', () => errorsApi);
 
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
-      await fillByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+      await fillByLabel(t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
 
       // when
-      await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      await clickByLabel(t('pages.account-recovery.update-sco-record.form.login-button'));
 
       await settled();
 
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.errors.title'),
+          name: t('pages.account-recovery.errors.title'),
         }),
       );
-      assert.ok(screen.getByText(this.intl.t('common.api-error-messages.internal-server-error')));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.back-to-homepage') }));
+      assert.ok(screen.getByText(t('common.api-error-messages.internal-server-error')));
+      assert.ok(screen.getByRole('link', { name: t('navigation.back-to-homepage') }));
     });
   });
 });

@@ -1,4 +1,5 @@
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -61,7 +62,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           // then
           assert.strictEqual(
             component.registerErrorMessage,
-            this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key'),
+            t('pages.login-or-register-oidc.error.expired-authentication-key'),
           );
         });
       });
@@ -76,10 +77,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           component.register();
 
           // then
-          assert.strictEqual(
-            component.registerErrorMessage,
-            this.intl.t('pages.login-or-register-oidc.error.error-message'),
-          );
+          assert.strictEqual(component.registerErrorMessage, t('pages.login-or-register-oidc.error.error-message'));
         });
       });
 
@@ -107,7 +105,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
             // then
             assert.strictEqual(
               component.registerErrorMessage,
-              `${this.intl.t('pages.sign-up.errors.invalid-locale-format', { invalidLocale: 'zzzz' })}`,
+              `${t('pages.sign-up.errors.invalid-locale-format', { invalidLocale: 'zzzz' })}`,
             );
           });
         });
@@ -135,7 +133,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
             // then
             assert.strictEqual(
               component.registerErrorMessage,
-              `${this.intl.t('pages.sign-up.errors.locale-not-supported', { localeNotSupported: 'jp' })}`,
+              `${t('pages.sign-up.errors.locale-not-supported', { localeNotSupported: 'jp' })}`,
             );
           });
         });
@@ -159,7 +157,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         await component.register();
 
         // then
-        assert.strictEqual(component.registerErrorMessage, `${this.intl.t('common.error')} (some detail)`);
+        assert.strictEqual(component.registerErrorMessage, `${t('common.error')} (some detail)`);
       });
 
       test('displays default error message', async function (assert) {
@@ -181,7 +179,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
 
         // then
         assert.false(component.isRegisterLoading);
-        assert.strictEqual(component.registerErrorMessage, this.intl.t('common.error'));
+        assert.strictEqual(component.registerErrorMessage, t('common.error'));
       });
     });
 
@@ -235,10 +233,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         component.validateEmail({ target: { value: invalidEmail } });
 
         // then
-        assert.strictEqual(
-          component.emailValidationMessage,
-          this.intl.t('pages.login-or-register-oidc.error.invalid-email'),
-        );
+        assert.strictEqual(component.emailValidationMessage, t('pages.login-or-register-oidc.error.invalid-email'));
       });
     });
   });
@@ -317,7 +312,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           // then
           assert.strictEqual(
             component.loginErrorMessage,
-            this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key'),
+            t('pages.login-or-register-oidc.error.expired-authentication-key'),
           );
         });
       });
@@ -337,7 +332,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           // then
           assert.strictEqual(
             component.loginErrorMessage,
-            this.intl.t('pages.login-or-register-oidc.error.login-unauthorized-error'),
+            t('pages.login-or-register-oidc.error.login-unauthorized-error'),
           );
         });
       });
@@ -355,10 +350,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
           await component.login(eventStub);
 
           // then
-          assert.strictEqual(
-            component.loginErrorMessage,
-            this.intl.t('pages.login-or-register-oidc.error.account-conflict'),
-          );
+          assert.strictEqual(component.loginErrorMessage, t('pages.login-or-register-oidc.error.account-conflict'));
         });
       });
 
@@ -375,7 +367,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
 
         // then
         assert.false(component.isLoginLoading);
-        assert.strictEqual(component.loginErrorMessage, this.intl.t('common.error'));
+        assert.strictEqual(component.loginErrorMessage, t('common.error'));
       });
     });
 

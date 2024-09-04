@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -30,22 +31,20 @@ module('Integration | Component | confirmation-step', function (hooks) {
     assert
       .dom(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', {
+          name: t('pages.account-recovery.find-sco-record.confirmation-step.good-news', {
             firstName: 'Philippe',
           }),
         }),
       )
       .exists();
-    assert
-      .dom(screen.getByText(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.found-account')))
-      .exists();
+    assert.dom(screen.getByText(t('pages.account-recovery.find-sco-record.confirmation-step.found-account'))).exists();
     assert
       .dom(
         screen.getByRole('link', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.contact-support.link-text'),
+          name: t('pages.account-recovery.find-sco-record.contact-support.link-text'),
         }),
       )
-      .hasAttribute('href', this.intl.t('pages.account-recovery.find-sco-record.contact-support.link-url'));
+      .hasAttribute('href', t('pages.account-recovery.find-sco-record.contact-support.link-url'));
 
     assert.dom(screen.getByText('Auguste')).exists();
     assert.dom(screen.getByText('Philippe')).exists();
@@ -54,7 +53,7 @@ module('Integration | Component | confirmation-step', function (hooks) {
     assert
       .dom(
         screen.getByRole('checkbox', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'),
+          name: t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'),
         }),
       )
       .exists();
@@ -78,9 +77,7 @@ module('Integration | Component | confirmation-step', function (hooks) {
 
       // then
       assert
-        .dom(
-          screen.queryByText(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.fields.username')),
-        )
+        .dom(screen.queryByText(t('pages.account-recovery.find-sco-record.confirmation-step.fields.username')))
         .doesNotExist();
     });
   });
@@ -105,7 +102,7 @@ module('Integration | Component | confirmation-step', function (hooks) {
 />`);
     await click(
       screen.getByRole('button', {
-        name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel'),
+        name: t('pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel'),
       }),
     );
 
@@ -135,7 +132,7 @@ module('Integration | Component | confirmation-step', function (hooks) {
 
     // then
     const confirmButton = screen.getByRole('button', {
-      name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'),
+      name: t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'),
     });
     assert.ok(confirmButton);
     assert.true(confirmButton.disabled);
@@ -161,12 +158,12 @@ module('Integration | Component | confirmation-step', function (hooks) {
 />`);
     await click(
       screen.getByRole('checkbox', {
-        name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'),
+        name: t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'),
       }),
     );
     await click(
       screen.getByRole('button', {
-        name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'),
+        name: t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'),
       }),
     );
 

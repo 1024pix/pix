@@ -1,6 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { find, findAll } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import ModulePassage from 'mon-pix/components/module/passage';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -180,7 +181,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
       assert.strictEqual(findAll('.element-text').length, 0);
 
       // when
-      await clickByName(this.intl.t('pages.modulix.buttons.grain.skip'));
+      await clickByName(t('pages.modulix.buttons.grain.skip'));
 
       // then
       assert.strictEqual(findAll('.element-text').length, 1);
@@ -208,7 +209,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
       metrics.add = sinon.stub();
 
       // when
-      await clickByName(this.intl.t('pages.modulix.buttons.grain.skip'));
+      await clickByName(t('pages.modulix.buttons.grain.skip'));
 
       // then
       sinon.assert.calledWithExactly(metrics.add, {
@@ -224,7 +225,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
   module('when user click on continue button', function (hooks) {
     let continueButtonName;
     hooks.beforeEach(function () {
-      continueButtonName = this.intl.t('pages.modulix.buttons.grain.continue');
+      continueButtonName = t('pages.modulix.buttons.grain.continue');
     });
 
     test('should display next grain', async function (assert) {
@@ -350,7 +351,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
 
       // when
       await clickByName(qcuElement.proposals[0].content);
-      await clickByName(this.intl.t('pages.modulix.buttons.activity.verify'));
+      await clickByName(t('pages.modulix.buttons.activity.verify'));
 
       // then
       sinon.assert.calledWith(saveStub, { adapterOptions: { passageId: passage.id } });
@@ -386,7 +387,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
 
       // when
       await clickByName(qcuElement.proposals[0].content);
-      await clickByName(this.intl.t('pages.modulix.buttons.activity.verify'));
+      await clickByName(t('pages.modulix.buttons.activity.verify'));
 
       // then
       sinon.assert.calledWithExactly(metrics.add, {
@@ -417,7 +418,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
 
       // when
       await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
-      await clickByName(this.intl.t('pages.modulix.buttons.activity.retry'));
+      await clickByName(t('pages.modulix.buttons.activity.retry'));
 
       // then
       sinon.assert.calledWithExactly(metrics.add, {
@@ -591,7 +592,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
 
       const module = store.createRecord('module', { id: '1', title: 'Module title', grains: [grain] });
       const passage = store.createRecord('passage');
-      const onStepperNextStepButtonName = this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel');
+      const onStepperNextStepButtonName = t('pages.modulix.buttons.stepper.next.ariaLabel');
 
       await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
 
@@ -626,7 +627,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
 
       // then
-      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') })).exists();
+      assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.grain.terminate') })).exists();
     });
 
     module('when there is an answerable element', function () {
@@ -651,9 +652,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
           const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
 
           // then
-          assert
-            .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') }))
-            .exists();
+          assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.grain.terminate') })).exists();
         });
       });
 
@@ -678,9 +677,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
           const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
 
           // then
-          assert
-            .dom(screen.getByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') }))
-            .exists();
+          assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.grain.terminate') })).exists();
         });
       });
     });
@@ -708,9 +705,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
           const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
 
           // then
-          assert
-            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') }))
-            .exists();
+          assert.dom(screen.queryByRole('button', { name: t('pages.modulix.buttons.grain.terminate') })).exists();
         });
       });
 
@@ -730,12 +725,10 @@ module('Integration | Component | Module | Passage', function (hooks) {
 
           // when
           const screen = await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
-          await clickByName(this.intl.t('pages.modulix.buttons.stepper.next.ariaLabel'));
+          await clickByName(t('pages.modulix.buttons.stepper.next.ariaLabel'));
 
           // then
-          assert
-            .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') }))
-            .exists();
+          assert.dom(screen.queryByRole('button', { name: t('pages.modulix.buttons.grain.terminate') })).exists();
         });
       });
     });
@@ -849,7 +842,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
 
       //  when
       const downloadLink = await screen.getByRole('link', {
-        name: this.intl.t('pages.modulix.download.label', { format: downloadedFormat }),
+        name: t('pages.modulix.download.label', { format: downloadedFormat }),
       });
       downloadLink.addEventListener('click', (event) => {
         event.preventDefault();
@@ -890,7 +883,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
 
         //  when
         const link = await screen.getByRole('link', {
-          name: this.intl.t('pages.modulix.download.label', { format: downloadedFormat }),
+          name: t('pages.modulix.download.label', { format: downloadedFormat }),
         });
         link.addEventListener('click', (event) => {
           event.preventDefault();
@@ -940,7 +933,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
       await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
 
       // when
-      await clickByName(this.intl.t('pages.modulix.buttons.grain.terminate'));
+      await clickByName(t('pages.modulix.buttons.grain.terminate'));
 
       // then
       sinon.assert.calledWithExactly(metrics.add, {

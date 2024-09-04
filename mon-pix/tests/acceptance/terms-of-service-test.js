@@ -1,5 +1,6 @@
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -45,7 +46,7 @@ module('Acceptance | terms-of-service', function (hooks) {
 
       // when
       await click('#pix-cgu');
-      await clickByLabel(this.intl.t('pages.terms-of-service.form.button'));
+      await clickByLabel(t('pages.terms-of-service.form.button'));
 
       // then
       assert.strictEqual(currentURL(), '/accueil');

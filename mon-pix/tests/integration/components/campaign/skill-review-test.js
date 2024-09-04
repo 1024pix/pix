@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 
@@ -198,7 +199,7 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
       // when
       const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
-      assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.organization-message')));
+      assert.notOk(screen.queryByText(t('pages.skill-review.organization-message')));
     });
 
     test('not display Organization Custom Message or Url when not set and campaign isForAbsoluteNovice', async function (assert) {
@@ -213,7 +214,7 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
       // when
       const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
-      assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.organization-message')));
+      assert.notOk(screen.queryByText(t('pages.skill-review.organization-message')));
     });
   });
 
@@ -271,7 +272,7 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
       // when
       const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
-      assert.ok(screen.getByRole('button', { name: this.intl.t('pages.skill-review.actions.send') }));
+      assert.ok(screen.getByRole('button', { name: t('pages.skill-review.actions.send') }));
     });
 
     test('not display share button', async function (assert) {
@@ -279,7 +280,7 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
       // when
       const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
-      assert.notOk(screen.queryByRole('button', { name: this.intl.t('pages.skill-review.actions.send') }));
+      assert.notOk(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') }));
     });
   });
 
@@ -297,7 +298,7 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
       // when
       const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
-      assert.ok(screen.getByRole('button', { name: this.intl.t('pages.skill-review.actions.improve') }));
+      assert.ok(screen.getByRole('button', { name: t('pages.skill-review.actions.improve') }));
     });
 
     test('not display improve button', async function (assert) {
@@ -305,7 +306,7 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
       // when
       const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
-      assert.notOk(screen.queryByRole('button', { name: this.intl.t('pages.skill-review.actions.improve') }));
+      assert.notOk(screen.queryByRole('button', { name: t('pages.skill-review.actions.improve') }));
     });
   });
 
@@ -315,8 +316,8 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
 
     const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
-    assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.stage.title')));
-    assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.details.title')));
+    assert.notOk(screen.queryByText(t('pages.skill-review.stage.title')));
+    assert.notOk(screen.queryByText(t('pages.skill-review.details.title')));
   });
 
   module('#displayTrainings', () => {
@@ -328,8 +329,8 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
       // when
       const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
-      assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.trainings.title')));
-      assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.trainings.description')));
+      assert.notOk(screen.queryByText(t('pages.skill-review.trainings.title')));
+      assert.notOk(screen.queryByText(t('pages.skill-review.trainings.description')));
     });
 
     test('should display trainings', async function (assert) {
@@ -350,8 +351,8 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
       // when
       const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
 
-      assert.ok(screen.queryByText(this.intl.t('pages.skill-review.trainings.title')));
-      assert.ok(screen.queryByText(this.intl.t('pages.skill-review.trainings.description')));
+      assert.ok(screen.queryByText(t('pages.skill-review.trainings.title')));
+      assert.ok(screen.queryByText(t('pages.skill-review.trainings.description')));
     });
   });
 
@@ -366,10 +367,10 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
 
       // when
       const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
-      const continueLink = screen.getByRole('link', { name: this.intl.t('pages.skill-review.actions.continue') });
+      const continueLink = screen.getByRole('link', { name: t('pages.skill-review.actions.continue') });
 
-      assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.actions.send')));
-      assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.send-results')));
+      assert.notOk(screen.queryByText(t('pages.skill-review.actions.send')));
+      assert.notOk(screen.queryByText(t('pages.skill-review.send-results')));
 
       assert.dom(continueLink).exists();
     });

@@ -1,5 +1,6 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { click, findAll } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import ModulixDetails from 'mon-pix/components/module/details';
 import { module, test } from 'qunit';
@@ -33,7 +34,7 @@ module('Integration | Component | Module | Details', function (hooks) {
     assert.ok(screen.getByText(`${module.details.duration} min`));
     assert.ok(screen.getByText(module.details.level));
     assert.ok(screen.getByText(module.details.objectives[0]));
-    assert.ok(screen.getByRole('heading', { name: this.intl.t('pages.modulix.details.explanationTitle'), level: 2 }));
+    assert.ok(screen.getByRole('heading', { name: t('pages.modulix.details.explanationTitle'), level: 2 }));
     assert.ok(findAll('.module-details-infos-explanation__title').length > 0);
   });
 
@@ -45,7 +46,7 @@ module('Integration | Component | Module | Details', function (hooks) {
         const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
 
         // when
-        await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+        await click(screen.getByRole('button', { name: t('pages.modulix.details.startModule') }));
 
         // then
         sinon.assert.calledWithExactly(metrics.add, {
@@ -63,7 +64,7 @@ module('Integration | Component | Module | Details', function (hooks) {
         const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
 
         // when
-        await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+        await click(screen.getByRole('button', { name: t('pages.modulix.details.startModule') }));
 
         // then
         sinon.assert.calledWithExactly(router.transitionTo, 'module.passage', module.id);
@@ -81,7 +82,7 @@ module('Integration | Component | Module | Details', function (hooks) {
           const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
 
           // when
-          await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+          await click(screen.getByRole('button', { name: t('pages.modulix.details.startModule') }));
 
           // then
           sinon.assert.calledWithExactly(metrics.add, {
@@ -99,7 +100,7 @@ module('Integration | Component | Module | Details', function (hooks) {
           const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
 
           // when
-          await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+          await click(screen.getByRole('button', { name: t('pages.modulix.details.startModule') }));
 
           // then
           sinon.assert.calledWithExactly(router.transitionTo, 'module.passage', module.id);
@@ -116,7 +117,7 @@ module('Integration | Component | Module | Details', function (hooks) {
           const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
 
           // when
-          await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+          await click(screen.getByRole('button', { name: t('pages.modulix.details.startModule') }));
 
           // then
           sinon.assert.calledWithExactly(metrics.add, {
@@ -134,7 +135,7 @@ module('Integration | Component | Module | Details', function (hooks) {
           const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
 
           // when
-          await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+          await click(screen.getByRole('button', { name: t('pages.modulix.details.startModule') }));
 
           // then
           const dialog = await screen.findByRole('dialog');
@@ -142,13 +143,11 @@ module('Integration | Component | Module | Details', function (hooks) {
           assert
             .dom(
               await within(dialog).findByRole('heading', {
-                name: this.intl.t('pages.modulix.details.smallScreenModal.title'),
+                name: t('pages.modulix.details.smallScreenModal.title'),
               }),
             )
             .exists();
-          assert
-            .dom(await within(dialog).findByText(this.intl.t('pages.modulix.details.smallScreenModal.description')))
-            .exists();
+          assert.dom(await within(dialog).findByText(t('pages.modulix.details.smallScreenModal.description'))).exists();
         });
 
         module('When modal start module is clicked', function () {
@@ -158,12 +157,12 @@ module('Integration | Component | Module | Details', function (hooks) {
             const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
 
             // when
-            await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+            await click(screen.getByRole('button', { name: t('pages.modulix.details.startModule') }));
             const dialog = await screen.findByRole('dialog');
 
             await click(
               within(dialog).getByRole('button', {
-                name: this.intl.t('pages.modulix.details.smallScreenModal.startModule'),
+                name: t('pages.modulix.details.smallScreenModal.startModule'),
               }),
             );
 
@@ -183,12 +182,12 @@ module('Integration | Component | Module | Details', function (hooks) {
             const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
 
             // when
-            await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+            await click(screen.getByRole('button', { name: t('pages.modulix.details.startModule') }));
             const dialog = await screen.findByRole('dialog');
 
             await click(
               within(dialog).getByRole('button', {
-                name: this.intl.t('pages.modulix.details.smallScreenModal.startModule'),
+                name: t('pages.modulix.details.smallScreenModal.startModule'),
               }),
             );
 
@@ -205,12 +204,12 @@ module('Integration | Component | Module | Details', function (hooks) {
             const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
 
             // when
-            await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+            await click(screen.getByRole('button', { name: t('pages.modulix.details.startModule') }));
             const dialog = await screen.findByRole('dialog');
 
             await click(
               within(dialog).getByRole('button', {
-                name: this.intl.t('pages.modulix.details.smallScreenModal.cancel'),
+                name: t('pages.modulix.details.smallScreenModal.cancel'),
               }),
             );
 
@@ -230,12 +229,12 @@ module('Integration | Component | Module | Details', function (hooks) {
             const screen = await render(<template><ModulixDetails @module={{module}} /></template>);
 
             // when
-            await click(screen.getByRole('button', { name: this.intl.t('pages.modulix.details.startModule') }));
+            await click(screen.getByRole('button', { name: t('pages.modulix.details.startModule') }));
             const dialog = await screen.findByRole('dialog');
 
             await click(
               within(dialog).getByRole('button', {
-                name: this.intl.t('pages.modulix.details.smallScreenModal.cancel'),
+                name: t('pages.modulix.details.smallScreenModal.cancel'),
               }),
             );
 

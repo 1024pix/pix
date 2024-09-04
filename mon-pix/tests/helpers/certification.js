@@ -9,7 +9,7 @@ export async function fillCertificationJoiner({
   dayOfBirth,
   monthOfBirth,
   yearOfBirth,
-  intl,
+  t,
 }) {
   await fillIn('#certificationJoinerSessionId', sessionId);
   await fillIn('#certificationJoinerFirstName', firstName);
@@ -17,10 +17,10 @@ export async function fillCertificationJoiner({
   await fillIn('#certificationJoinerDayOfBirth', dayOfBirth);
   await fillIn('#certificationJoinerMonthOfBirth', monthOfBirth);
   await fillIn('#certificationJoinerYearOfBirth', yearOfBirth);
-  await clickByLabel(intl.t('pages.certification-joiner.form.actions.submit'));
+  await clickByLabel(t('pages.certification-joiner.form.actions.submit'));
 }
 
-export async function fillCertificationStarter({ accessCode, intl }) {
+export async function fillCertificationStarter({ accessCode, t }) {
   await fillIn('#certificationStarterSessionCode', accessCode);
-  await clickByLabel(intl.t('pages.certification-start.actions.submit'));
+  await clickByLabel(t('pages.certification-start.actions.submit'));
 }

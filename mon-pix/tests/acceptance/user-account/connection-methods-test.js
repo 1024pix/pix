@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, fillIn, settled, triggerEvent } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import PixWindow from 'mon-pix/utils/pix-window';
 import { module, test } from 'qunit';
@@ -53,8 +54,8 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       const screen = await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label')));
-      assert.ok(screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.gar')));
+      assert.ok(screen.getByText(t('pages.user-account.connexion-methods.authentication-methods.label')));
+      assert.ok(screen.getByText(t('pages.user-account.connexion-methods.authentication-methods.gar')));
     });
 
     test("should display user's OIDC authentication methods", async function (assert) {
@@ -70,7 +71,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       const screen = await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label')));
+      assert.ok(screen.getByText(t('pages.user-account.connexion-methods.authentication-methods.label')));
       assert.ok(screen.getByText('via Partenaire OIDC'));
     });
 
@@ -90,7 +91,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
           const screen = await visit('/mon-compte/methodes-de-connexion');
 
           // then
-          assert.dom(screen.getByText(this.intl.t('pages.user-account.email-confirmed'))).exists();
+          assert.dom(screen.getByText(t('pages.user-account.email-confirmed'))).exists();
         });
       });
 
@@ -109,7 +110,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
           const screen = await visit('/mon-compte/methodes-de-connexion');
 
           // then
-          assert.dom(screen.queryByText(this.intl.t('pages.user-account.email-confirmed'))).doesNotExist();
+          assert.dom(screen.queryByText(t('pages.user-account.email-confirmed'))).doesNotExist();
         });
       });
     });
@@ -128,7 +129,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       const screen = await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      assert.notOk(screen.queryByText(this.intl.t('pages.user-account.connexion-methods.email')));
+      assert.notOk(screen.queryByText(t('pages.user-account.connexion-methods.email')));
     });
   });
 
@@ -145,7 +146,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       const screen = await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      assert.notOk(screen.queryByText(this.intl.t('pages.user-account.connexion-methods.username')));
+      assert.notOk(screen.queryByText(t('pages.user-account.connexion-methods.username')));
     });
   });
 
@@ -156,16 +157,14 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       server.create('authentication-method', 'withPixIdentityProvider', { user });
       await authenticate(user);
       const screen = await visit('/mon-compte/methodes-de-connexion');
-      await click(
-        screen.getByRole('button', { name: this.intl.t('pages.user-account.connexion-methods.edit-button') }),
-      );
+      await click(screen.getByRole('button', { name: t('pages.user-account.connexion-methods.edit-button') }));
 
       // when
       await visit('/mon-compte/informations-personnelles');
       await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.user-account.connexion-methods.email')));
+      assert.ok(screen.getByText(t('pages.user-account.connexion-methods.email')));
       assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
     });
 
@@ -191,8 +190,8 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       await settled();
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.user-account.connexion-methods.email')));
-      assert.ok(screen.getByText(this.intl.t('pages.user-account.email-verification.update-successful')));
+      assert.ok(screen.getByText(t('pages.user-account.connexion-methods.email')));
+      assert.ok(screen.getByText(t('pages.user-account.email-verification.update-successful')));
       assert.ok(screen.getByText(newEmail));
     });
   });

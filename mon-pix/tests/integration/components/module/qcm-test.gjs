@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, find } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import ModulixQcm from 'mon-pix/components/module/element/qcm';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -25,7 +26,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
     // then
     assert.ok(screen);
-    assert.ok(screen.getByRole('group', { legend: this.intl.t('pages.modulix.qcm.direction') }));
+    assert.ok(screen.getByRole('group', { legend: t('pages.modulix.qcm.direction') }));
 
     // Pas possible de faire un `getByRole('form')`. Voir https://github.com/1024pix/pix/pull/8835#discussion_r1596407648
     const form = find('form');

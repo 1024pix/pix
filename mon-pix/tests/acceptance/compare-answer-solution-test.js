@@ -1,6 +1,7 @@
 import { clickByText, visit } from '@1024pix/ember-testing-library';
 import { click, findAll } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -87,18 +88,18 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
       await click('.result-item__correction-button');
 
       // when
-      await clickByText(this.intl.t('pages.challenge.feedback-panel.actions.open-close'));
+      await clickByText(t('pages.challenge.feedback-panel.actions.open-close'));
 
-      await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.aria-first'));
-      await clickByText(this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'));
+      await clickByLabel(t('pages.challenge.feedback-panel.form.fields.detail-selection.aria-first'));
+      await clickByText(t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'));
 
-      await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary'));
+      await clickByLabel(t('pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary'));
       await clickByText(
-        this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.options.question-not-understood'),
+        t('pages.challenge.feedback-panel.form.fields.detail-selection.options.question-not-understood'),
       );
 
-      await clickByText(this.intl.t('pages.challenge.feedback-panel.form.actions.submit'));
-      await clickByText(this.intl.t('common.actions.validate'));
+      await clickByText(t('pages.challenge.feedback-panel.form.actions.submit'));
+      await clickByText(t('common.actions.validate'));
 
       // then
       assert.dom('.feedback-panel__view--mercix').exists();

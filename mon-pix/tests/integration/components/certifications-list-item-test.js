@@ -3,6 +3,7 @@ import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { click, find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -90,7 +91,7 @@ module('Integration | Component | certifications list item', function (hooks) {
 
       test('should not show Détail in last column', function (assert) {
         assert
-          .dom(screen.queryByRole('button', { name: this.intl.t('pages.certifications-list.statuses.fail.action') }))
+          .dom(screen.queryByRole('button', { name: t('pages.certifications-list.statuses.fail.action') }))
           .doesNotExist();
       });
 
@@ -136,7 +137,7 @@ module('Integration | Component | certifications list item', function (hooks) {
 
       test('should show Détail in last column', function (assert) {
         assert
-          .dom(screen.getByRole('button', { name: `${this.intl.t('pages.certifications-list.statuses.fail.action')}` }))
+          .dom(screen.getByRole('button', { name: `${t('pages.certifications-list.statuses.fail.action')}` }))
           .exists();
       });
 

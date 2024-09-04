@@ -1,3 +1,4 @@
+import { setLocale } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -21,11 +22,14 @@ module('Unit | Service | url', function (hooks) {
       const service = this.owner.lookup('service:url');
       service.definedHomeUrl = 'pix.test.fr';
 
+      const currentLocale = 'en';
+      setLocale([currentLocale, 'fr']);
+
       // when
       const homeUrl = service.homeUrl;
 
       // then
-      const expectedDefinedHomeUrl = `${service.definedHomeUrl}?lang=${this.intl.primaryLocale}`;
+      const expectedDefinedHomeUrl = `${service.definedHomeUrl}?lang=${currentLocale}`;
       assert.strictEqual(homeUrl, expectedDefinedHomeUrl);
     });
   });
@@ -34,11 +38,11 @@ module('Unit | Service | url', function (hooks) {
     let defaultLocale;
 
     hooks.beforeEach(function () {
-      defaultLocale = this.intl.primaryLocale;
+      defaultLocale = 'fr';
     });
 
     hooks.afterEach(function () {
-      this.intl.setLocale(defaultLocale);
+      setLocale(defaultLocale);
     });
 
     [
@@ -72,7 +76,7 @@ module('Unit | Service | url', function (hooks) {
         const service = this.owner.lookup('service:url');
         service.definedHomeUrl = '/';
         service.currentDomain = { getExtension: sinon.stub().returns(testCase.currentDomainExtension) };
-        this.intl.setLocale([testCase.language]);
+        setLocale([testCase.language]);
 
         // when
         const showcase = service.showcase;

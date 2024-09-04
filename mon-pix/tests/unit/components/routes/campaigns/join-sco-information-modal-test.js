@@ -1,4 +1,5 @@
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -77,7 +78,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
 
         test('should display error message', function (assert) {
           // given
-          const expectedErrorMessage = this.intl.t('api-error-messages.join-error.r11', {
+          const expectedErrorMessage = t('api-error-messages.join-error.r11', {
             value: reconciliationError.meta.value,
             htmlSafe: true,
           });
@@ -142,7 +143,7 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
 
       test('should display an information message', function (assert) {
         // given
-        const expectedWarningMessage = this.intl.t('pages.join.sco.login-information-message', {
+        const expectedWarningMessage = t('pages.join.sco.login-information-message', {
           ...reconciliationWarning,
           htmlSafe: true,
         });

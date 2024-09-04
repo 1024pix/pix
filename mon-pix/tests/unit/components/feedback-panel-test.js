@@ -3,10 +3,13 @@ import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-compone
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import setupIntl from '../../helpers/setup-intl';
+
 module('Unit | Component | feedback-panel', function (hooks) {
   let component;
 
   setupTest(hooks);
+  setupIntl(hooks);
 
   hooks.beforeEach(function () {
     // given

@@ -1,5 +1,6 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -188,7 +189,7 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
           // then
           assert.strictEqual(
             component.reconcileErrorMessage,
-            this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key'),
+            t('pages.login-or-register-oidc.error.expired-authentication-key'),
           );
           assert.false(component.isLoading);
         });
@@ -213,7 +214,7 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
           await component.reconcile();
 
           // then
-          assert.strictEqual(component.reconcileErrorMessage, this.intl.t('common.error'));
+          assert.strictEqual(component.reconcileErrorMessage, t('common.error'));
           assert.false(component.isLoading);
         });
       });

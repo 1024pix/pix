@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { module, test } from 'qunit';
 
@@ -24,7 +25,7 @@ module('Integration | Component | navbar-mobile-header', function (hooks) {
       const screen = await render(hbs`<NavbarMobileHeader />`);
 
       // then
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.homepage') }));
+      assert.ok(screen.getByRole('link', { name: t('navigation.homepage') }));
     });
 
     test('should not display the burger menu', async function (assert) {
@@ -32,8 +33,8 @@ module('Integration | Component | navbar-mobile-header', function (hooks) {
       const screen = await render(hbs`<NavbarMobileHeader />`);
 
       // then
-      assert.dom(screen.queryByRole('navigation', { name: this.intl.t('navigation.main.label') })).doesNotExist();
-      assert.dom(screen.queryByRole('button', { name: this.intl.t('navigation.mobile-button-title') })).doesNotExist();
+      assert.dom(screen.queryByRole('navigation', { name: t('navigation.main.label') })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: t('navigation.mobile-button-title') })).doesNotExist();
     });
   });
 
@@ -55,7 +56,7 @@ module('Integration | Component | navbar-mobile-header', function (hooks) {
       const screen = await render(hbs`<NavbarMobileHeader />`);
 
       // then
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.homepage') }));
+      assert.ok(screen.getByRole('link', { name: t('navigation.homepage') }));
     });
 
     test('should display the burger icon', async function (assert) {
@@ -63,8 +64,8 @@ module('Integration | Component | navbar-mobile-header', function (hooks) {
       const screen = await render(hbs`<NavbarMobileHeader />`);
 
       // then
-      assert.ok(screen.getByRole('navigation', { name: this.intl.t('navigation.main.label') }));
-      assert.ok(screen.getByRole('button', { name: this.intl.t('navigation.mobile-button-title') }));
+      assert.ok(screen.getByRole('navigation', { name: t('navigation.main.label') }));
+      assert.ok(screen.getByRole('button', { name: t('navigation.mobile-button-title') }));
     });
   });
 
@@ -76,7 +77,7 @@ module('Integration | Component | navbar-mobile-header', function (hooks) {
     const screen = await render(hbs`<NavbarMobileHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
 
     // then
-    assert.dom(screen.queryByRole('img', { name: this.intl.t('common.french-republic') })).doesNotExist();
+    assert.dom(screen.queryByRole('img', { name: t('common.french-republic') })).doesNotExist();
   });
 
   test('should display marianne logo when url does have frenchDomainExtension', async function (assert) {
@@ -87,6 +88,6 @@ module('Integration | Component | navbar-mobile-header', function (hooks) {
     const screen = await render(hbs`<NavbarMobileHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
 
     // then
-    assert.ok(screen.getByRole('img', { name: this.intl.t('common.french-republic') }));
+    assert.ok(screen.getByRole('img', { name: t('common.french-republic') }));
   });
 });

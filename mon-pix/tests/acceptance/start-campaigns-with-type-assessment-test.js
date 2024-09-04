@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -39,7 +40,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
             // given
             campaign = server.create('campaign', { idPixLabel: 'email', type: ASSESSMENT });
             const screen = await startCampaignByCode(campaign.code);
-            await _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl: this.intl });
+            await _fillInputsToCreateUserPixAccount({ prescritUser, screen, t });
 
             // when
             await fillIn(screen.getByRole('textbox', { name: 'email' }), 'monmail@truc.fr');
@@ -53,7 +54,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
             // given
             campaign = server.create('campaign', { idPixLabel: 'email', type: ASSESSMENT });
             const screen = await startCampaignByCode(campaign.code);
-            await _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl: this.intl });
+            await _fillInputsToCreateUserPixAccount({ prescritUser, screen, t });
 
             // when
             await click(screen.getByRole('button', { name: 'Annuler' }));
@@ -69,7 +70,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
               // given
               campaign = server.create('campaign', { isRestricted: false, idPixLabel: 'toto', type: ASSESSMENT });
               const screen = await startCampaignByCodeAndExternalId(campaign.code);
-              await _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl: this.intl });
+              await _fillInputsToCreateUserPixAccount({ prescritUser, screen, t });
 
               // when & then
               assert.ok(currentURL().includes('/didacticiel'));
@@ -101,8 +102,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
               await fillIn(screen.getByRole('textbox', { name: 'jour de naissance' }), '10');
               await fillIn(screen.getByRole('textbox', { name: 'mois de naissance' }), '12');
               await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
-              await click(screen.getByRole('button', { name: this.intl.t('pages.join.button') }));
-              await click(screen.getByRole('button', { name: this.intl.t('pages.join.sco.associate') }));
+              await click(screen.getByRole('button', { name: t('pages.join.button') }));
+              await click(screen.getByRole('button', { name: t('pages.join.sco.associate') }));
 
               // then
               assert.ok(currentURL().includes('/didacticiel'));
@@ -116,7 +117,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
           // given & when
           campaign = server.create('campaign', { idPixLabel: null, type: ASSESSMENT });
           const screen = await startCampaignByCode(campaign.code);
-          await _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl: this.intl });
+          await _fillInputsToCreateUserPixAccount({ prescritUser, screen, t });
 
           // then
           assert.ok(currentURL().includes('/didacticiel'));
@@ -128,7 +129,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
           // given & when
           campaign = server.create('campaign', { type: ASSESSMENT });
           const screen = await startCampaignByCodeAndExternalId(campaign.code);
-          await _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl: this.intl });
+          await _fillInputsToCreateUserPixAccount({ prescritUser, screen, t });
 
           // then
           assert.ok(currentURL().includes('/didacticiel'));
@@ -181,8 +182,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
             await fillIn(screen.getByRole('textbox', { name: 'jour de naissance' }), '10');
             await fillIn(screen.getByRole('textbox', { name: 'mois de naissance' }), '12');
             await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
-            await click(screen.getByRole('button', { name: this.intl.t('pages.join.button') }));
-            await click(screen.getByRole('button', { name: this.intl.t('pages.join.sco.associate') }));
+            await click(screen.getByRole('button', { name: t('pages.join.button') }));
+            await click(screen.getByRole('button', { name: t('pages.join.sco.associate') }));
             await fillIn(screen.getByRole('textbox', { name: 'nom de naissance de maman' }), 'truc');
 
             // when
@@ -217,7 +218,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
             // when
             await fillIn(screen.getByRole('textbox', { name: 'nom de naissance de maman' }), 'truc');
             await click(screen.getByRole('button', { name: 'Continuer' }));
-            await click(screen.getByRole('button', { name: this.intl.t('pages.tutorial.pass') }));
+            await click(screen.getByRole('button', { name: t('pages.tutorial.pass') }));
 
             // then
             assert.ok(currentURL().includes('/assessments/'));
@@ -255,7 +256,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
             const screen = await startCampaignByCodeAndExternalId(campaign.code);
 
             // when
-            await click(screen.getByRole('button', { name: this.intl.t('pages.tutorial.pass') }));
+            await click(screen.getByRole('button', { name: t('pages.tutorial.pass') }));
 
             // then
             assert.ok(currentURL().includes('/assessments/'));
@@ -362,7 +363,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
     });
   });
 
-  async function _fillInputsToCreateUserPixAccount({ prescritUser, screen, intl }) {
+  async function _fillInputsToCreateUserPixAccount({ prescritUser, screen, t }) {
     await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), prescritUser.firstName);
     await fillIn(screen.getByRole('textbox', { name: 'Nom' }), prescritUser.lastName);
     await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }), prescritUser.email);
@@ -370,7 +371,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
       screen.getByLabelText('Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'),
       prescritUser.password,
     );
-    await click(screen.getByRole('checkbox', { name: intl.t('common.cgu.label') }));
-    await click(screen.getByRole('button', { name: intl.t('pages.sign-up.actions.submit') }));
+    await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+    await click(screen.getByRole('button', { name: t('pages.sign-up.actions.submit') }));
   }
 });

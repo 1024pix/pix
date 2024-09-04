@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -20,10 +21,10 @@ module('Integration | Component | Tutorials | Header', function (hooks) {
     const screen = await render(hbs`<Tutorials::Header />`);
 
     // then
-    assert.ok(screen.getByRole('heading', { name: this.intl.t('pages.user-tutorials.title') }));
-    assert.ok(screen.getByText(this.intl.t('pages.user-tutorials.description')));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('pages.user-tutorials.recommended') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('pages.user-tutorials.saved') }));
+    assert.ok(screen.getByRole('heading', { name: t('pages.user-tutorials.title') }));
+    assert.ok(screen.getByText(t('pages.user-tutorials.description')));
+    assert.ok(screen.getByRole('link', { name: t('pages.user-tutorials.recommended') }));
+    assert.ok(screen.getByRole('link', { name: t('pages.user-tutorials.saved') }));
   });
 
   module('when shouldShowFilterButton is true', function () {

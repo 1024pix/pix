@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
 import { module, test } from 'qunit';
@@ -42,7 +43,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
             await fillIn(screen.getByRole('textbox', { name: LAST_NAME_INPUT_LABEL }), campaignParticipant.lastName);
             await fillIn(screen.getByRole('textbox', { name: EMAIL_INPUT_LABEL }), campaignParticipant.email);
             await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), campaignParticipant.password);
-            await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+            await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
             await click(screen.getByRole('button', { name: "Je m'inscris" }));
 
             // when
@@ -71,7 +72,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
               await fillIn(screen.getByRole('textbox', { name: LAST_NAME_INPUT_LABEL }), campaignParticipant.lastName);
               await fillIn(screen.getByRole('textbox', { name: EMAIL_INPUT_LABEL }), campaignParticipant.email);
               await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), campaignParticipant.password);
-              await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+              await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
               await click(screen.getByRole('button', { name: "Je m'inscris" }));
 
               // then
@@ -127,7 +128,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
           await fillIn(screen.getByRole('textbox', { name: LAST_NAME_INPUT_LABEL }), campaignParticipant.lastName);
           await fillIn(screen.getByRole('textbox', { name: EMAIL_INPUT_LABEL }), campaignParticipant.email);
           await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), campaignParticipant.password);
-          await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+          await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
           await click(screen.getByRole('button', { name: "Je m'inscris" }));
 
           // then
@@ -144,7 +145,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
           await fillIn(screen.getByRole('textbox', { name: LAST_NAME_INPUT_LABEL }), campaignParticipant.lastName);
           await fillIn(screen.getByRole('textbox', { name: EMAIL_INPUT_LABEL }), campaignParticipant.email);
           await fillIn(screen.getByLabelText(PASSWORD_INPUT_LABEL), campaignParticipant.password);
-          await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+          await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
 
           // when
           await click(screen.getByRole('button', { name: "Je m'inscris" }));
@@ -225,7 +226,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
               await click(screen.getByRole('button', { name: "C'est parti !" }));
 
               //then
-              assert.ok(screen.getByRole('dialog', { name: this.intl.t('pages.join.sco.login-information-title') }));
+              assert.ok(screen.getByRole('dialog', { name: t('pages.join.sco.login-information-title') }));
             });
 
             test('should redirect to connection form when continue button is clicked', async function (assert) {

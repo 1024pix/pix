@@ -1,4 +1,5 @@
 import Service from '@ember/service';
+import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -98,7 +99,7 @@ module('Unit | Component | register-form', function (hooks) {
         sinon.assert.called(unloadRecordStub);
         assert.false(component.matchingStudentFound);
         assert.false(component.isLoading);
-        assert.strictEqual(component.errorMessage, this.intl.t('api-error-messages.register-error.s50'));
+        assert.strictEqual(component.errorMessage, t('api-error-messages.register-error.s50'));
       });
     });
 
@@ -214,7 +215,7 @@ module('Unit | Component | register-form', function (hooks) {
         assert.false(component.isCreationFormNotValid);
         assert.false(component.isLoading);
         assert.ok(component.displayRegisterErrorMessage);
-        assert.strictEqual(component.registerErrorMessage, this.intl.t('api-error-messages.register-error.s50'));
+        assert.strictEqual(component.registerErrorMessage, t('api-error-messages.register-error.s50'));
       });
     });
 

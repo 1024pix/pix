@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -27,11 +28,11 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
       const screen = await visit('/campagnes');
 
       // when
-      await clickByLabel(this.intl.t('pages.fill-in-campaign-code.warning-message-logout'));
+      await clickByLabel(t('pages.fill-in-campaign-code.warning-message-logout'));
 
       // then
       assert.notOk(screen.queryByText(user.firstName));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.not-logged.sign-in') }));
+      assert.ok(screen.getByRole('link', { name: t('navigation.not-logged.sign-in') }));
     });
   });
 
@@ -42,7 +43,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
       await visit('/campagnes');
 
       // when
-      await clickByLabel(this.intl.t('pages.fill-in-campaign-code.explanation-message'));
+      await clickByLabel(t('pages.fill-in-campaign-code.explanation-message'));
 
       // then
       assert
@@ -66,12 +67,12 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
 
         // when
         const screen = await visit(`/campagnes`);
-        await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.label')), campaign.code);
+        await fillIn(screen.getByLabelText(t('pages.fill-in-campaign-code.label')), campaign.code);
         await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
         // then
         assert.strictEqual(currentURL(), '/campagnes');
-        assert.ok(screen.getByText(this.intl.t('pages.fill-in-campaign-code.mediacentre-start-campaign-modal.title')));
+        assert.ok(screen.getByText(t('pages.fill-in-campaign-code.mediacentre-start-campaign-modal.title')));
       });
 
       module('and wants to continue', function () {
@@ -85,7 +86,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
 
           // when
           const screen = await visit(`/campagnes`);
-          await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.label')), campaign.code);
+          await fillIn(screen.getByLabelText(t('pages.fill-in-campaign-code.label')), campaign.code);
           await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
           await waitForDialog();
           await click(screen.getByRole('link', { name: 'Continuer' }));
@@ -106,7 +107,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
 
           // when
           const screen = await visit(`/campagnes`);
-          await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.label')), campaign.code);
+          await fillIn(screen.getByLabelText(t('pages.fill-in-campaign-code.label')), campaign.code);
           await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
           await waitForDialog();
           await click(screen.getByRole('button', { name: 'Quitter' }));
@@ -124,7 +125,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
 
         // when
         const screen = await visit(`/campagnes`);
-        await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.label')), campaign.code);
+        await fillIn(screen.getByLabelText(t('pages.fill-in-campaign-code.label')), campaign.code);
         await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
         // then

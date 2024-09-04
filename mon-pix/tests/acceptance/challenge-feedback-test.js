@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -53,12 +54,12 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
           await screen.findByRole('listbox');
           await click(
             screen.getByRole('option', {
-              name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+              name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
             }),
           );
           await click(
             screen.getByRole('button', {
-              name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
+              name: t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
             }),
           );
           const contentValue = 'Prêtes-moi ta plume, pour écrire un mot';
@@ -87,14 +88,12 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
             await screen.findByRole('listbox');
             await click(
               screen.getByRole('option', {
-                name: this.intl.t(
-                  'pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility',
-                ),
+                name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
               }),
             );
             await click(
               screen.getByRole('button', {
-                name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
+                name: t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
               }),
             );
 

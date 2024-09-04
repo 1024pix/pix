@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { currentURL, settled } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
 import { module, test } from 'qunit';
@@ -20,42 +21,30 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
   const birthdate = '2000-05-20';
   const username = 'manuela.lecol2005';
 
-  const fillStudentInformationFormAndSubmit = async (
-    currentThis,
-    {
-      ineIna = '0123456789A',
-      lastName = 'Lecol',
-      firstName = 'Manuela',
-      dayOfBirth = 20,
-      monthOfBirth = 5,
-      yearOfBirth = 2000,
-    } = {},
-  ) => {
+  const fillStudentInformationFormAndSubmit = async ({
+    ineIna = '0123456789A',
+    lastName = 'Lecol',
+    firstName = 'Manuela',
+    dayOfBirth = 20,
+    monthOfBirth = 5,
+    yearOfBirth = 2000,
+  } = {}) => {
+    await fillInByLabel(t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), ineIna);
+    await fillInByLabel(t('pages.account-recovery.find-sco-record.student-information.form.first-name'), firstName);
+    await fillInByLabel(t('pages.account-recovery.find-sco-record.student-information.form.last-name'), lastName);
     await fillInByLabel(
-      currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'),
-      ineIna,
-    );
-    await fillInByLabel(
-      currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'),
-      firstName,
-    );
-    await fillInByLabel(
-      currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'),
-      lastName,
-    );
-    await fillInByLabel(
-      currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'),
+      t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'),
       dayOfBirth,
     );
     await fillInByLabel(
-      currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'),
+      t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'),
       monthOfBirth,
     );
     await fillInByLabel(
-      currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'),
+      t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'),
       yearOfBirth,
     );
-    await clickByLabel(currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
+    await clickByLabel(t('pages.account-recovery.find-sco-record.student-information.form.submit'));
     await settled();
   };
 
@@ -67,7 +56,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
     assert.strictEqual(currentURL(), '/recuperer-mon-compte');
     assert.ok(
       screen.getByRole('heading', {
-        name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
+        name: t('pages.account-recovery.find-sco-record.student-information.title'),
       }),
     );
   });
@@ -80,17 +69,17 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
 
       // when
       const screen = await visit('/recuperer-mon-compte');
-      await fillStudentInformationFormAndSubmit(this);
+      await fillStudentInformationFormAndSubmit();
 
       // then
       assert.notOk(
         screen.queryByRole('heading', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
+          name: t('pages.account-recovery.find-sco-record.student-information.title'),
         }),
       );
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }),
+          name: t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }),
         }),
       );
     });
@@ -112,18 +101,18 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
 
       // when
       const screen = await visit('/recuperer-mon-compte');
-      await fillStudentInformationFormAndSubmit(this);
+      await fillStudentInformationFormAndSubmit();
 
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.errors.title'),
+          name: t('pages.account-recovery.errors.title'),
         }),
       );
-      assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used')));
+      assert.ok(screen.getByText(t('pages.account-recovery.errors.key-used')));
       assert.ok(
         screen.getByRole('link', {
-          name: this.intl.t('navigation.back-to-homepage'),
+          name: t('navigation.back-to-homepage'),
         }),
       );
     });
@@ -135,21 +124,19 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         this.server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
 
         const screen = await visit('/recuperer-mon-compte');
-        await fillStudentInformationFormAndSubmit(this);
+        await fillStudentInformationFormAndSubmit();
 
         // when
-        await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel'));
+        await clickByLabel(t('pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel'));
 
         // then
         assert.ok(
           screen.getByRole('heading', {
-            name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
+            name: t('pages.account-recovery.find-sco-record.student-information.title'),
           }),
         );
         assert.notOk(
-          screen.queryByText(
-            this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }),
-          ),
+          screen.queryByText(t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName })),
         );
       });
     });
@@ -159,17 +146,17 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
     test('should show a not found error', async function (assert) {
       // given & when
       const screen = await visit('/recuperer-mon-compte');
-      await fillStudentInformationFormAndSubmit(this);
+      await fillStudentInformationFormAndSubmit();
 
       // then
       assert.ok(
         screen.getByRole('heading', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
+          name: t('pages.account-recovery.find-sco-record.student-information.title'),
         }),
       );
       assert.ok(
         screen.getByRole('link', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.contact-support.link-text'),
+          name: t('pages.account-recovery.find-sco-record.contact-support.link-text'),
         }),
       );
     });
@@ -194,17 +181,15 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
 
       //when
       const screen = await visit('/recuperer-mon-compte');
-      await fillStudentInformationFormAndSubmit(this);
+      await fillStudentInformationFormAndSubmit();
 
       // then
       assert.notOk(
         screen.queryByRole('heading', {
-          name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
+          name: t('pages.account-recovery.find-sco-record.student-information.title'),
         }),
       );
-      assert.ok(
-        screen.getByText(this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName })),
-      );
+      assert.ok(screen.getByText(t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName })));
     });
   });
 
@@ -216,27 +201,24 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         this.server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
 
         const screen = await visit('/recuperer-mon-compte');
-        await fillStudentInformationFormAndSubmit(this);
+        await fillStudentInformationFormAndSubmit();
 
         // when
-        await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
-        await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
+        await clickByLabel(t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
+        await clickByLabel(t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
         await settled();
 
         // then
         assert.ok(
           screen.getByRole('heading', {
-            name: this.intl.t(
-              'pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message',
-              {
-                firstName,
-              },
-            ),
+            name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', {
+              firstName,
+            }),
           }),
         );
         assert.notOk(
           screen.queryByRole('heading', {
-            name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }),
+            name: t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }),
           }),
         );
       });
@@ -249,27 +231,20 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         this.server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
 
         const screen = await visit('/recuperer-mon-compte');
-        await fillStudentInformationFormAndSubmit(this);
-        await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
-        await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
+        await fillStudentInformationFormAndSubmit();
+        await clickByLabel(t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
+        await clickByLabel(t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
         await settled();
 
         // when
-        await fillInByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
-          email,
-        );
-        await clickByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
-        );
+        await fillInByLabel(t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'), email);
+        await clickByLabel(t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'));
         await settled();
 
         // then
         assert.ok(
           screen.getByText(
-            this.intl.t(
-              'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.new-email-already-exist',
-            ),
+            t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.new-email-already-exist'),
           ),
         );
       });
@@ -282,35 +257,27 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         this.server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
 
         const screen = await visit('/recuperer-mon-compte');
-        await fillStudentInformationFormAndSubmit(this);
+        await fillStudentInformationFormAndSubmit();
 
-        await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
-        await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
+        await clickByLabel(t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
+        await clickByLabel(t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
 
         // when
-        await fillInByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
-          newEmail,
-        );
-        await clickByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
-        );
+        await fillInByLabel(t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'), newEmail);
+        await clickByLabel(t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'));
         await settled();
 
         // then
         assert.ok(
           screen.getByRole('heading', {
-            name: this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.title'),
+            name: t('pages.account-recovery.find-sco-record.send-email-confirmation.title'),
           }),
         );
         assert.notOk(
           screen.queryByRole('heading', {
-            name: this.intl.t(
-              'pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message',
-              {
-                firstName,
-              },
-            ),
+            name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', {
+              firstName,
+            }),
           }),
         );
       });
@@ -336,31 +303,26 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         this.server.post('/account-recovery', () => errorsApi);
 
         const screen = await visit('/recuperer-mon-compte');
-        await fillStudentInformationFormAndSubmit(this);
+        await fillStudentInformationFormAndSubmit();
 
-        await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
-        await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
+        await clickByLabel(t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
+        await clickByLabel(t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
 
         // when
-        await fillInByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
-          newEmail,
-        );
-        await clickByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
-        );
+        await fillInByLabel(t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'), newEmail);
+        await clickByLabel(t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'));
         await settled();
 
         // then
         assert.ok(
           screen.getByRole('heading', {
-            name: this.intl.t('pages.account-recovery.errors.title'),
+            name: t('pages.account-recovery.errors.title'),
           }),
         );
-        assert.ok(screen.getByText(this.intl.t('pages.account-recovery.errors.key-used')));
+        assert.ok(screen.getByText(t('pages.account-recovery.errors.key-used')));
         assert.ok(
           screen.getByRole('link', {
-            name: this.intl.t('navigation.back-to-homepage'),
+            name: t('navigation.back-to-homepage'),
           }),
         );
       });
@@ -386,31 +348,26 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         this.server.post('/account-recovery', () => errorsApi);
 
         const screen = await visit('/recuperer-mon-compte');
-        await fillStudentInformationFormAndSubmit(this);
+        await fillStudentInformationFormAndSubmit();
 
-        await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
-        await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
+        await clickByLabel(t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
+        await clickByLabel(t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
 
         // when
-        await fillInByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
-          newEmail,
-        );
-        await clickByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
-        );
+        await fillInByLabel(t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'), newEmail);
+        await clickByLabel(t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'));
         await settled();
 
         // then
         assert.ok(
           screen.getByRole('heading', {
-            name: this.intl.t('pages.account-recovery.errors.title'),
+            name: t('pages.account-recovery.errors.title'),
           }),
         );
-        assert.ok(screen.getByText(this.intl.t('common.api-error-messages.internal-server-error')));
+        assert.ok(screen.getByText(t('common.api-error-messages.internal-server-error')));
         assert.ok(
           screen.getByRole('link', {
-            name: this.intl.t('navigation.back-to-homepage'),
+            name: t('navigation.back-to-homepage'),
           }),
         );
       });
@@ -424,28 +381,23 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         this.server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
 
         const screen = await visit('/recuperer-mon-compte');
-        await fillStudentInformationFormAndSubmit(this);
+        await fillStudentInformationFormAndSubmit();
 
         // when
-        await clickByLabel(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.cancel'),
-        );
+        await clickByLabel(t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.cancel'));
         await settled();
 
         // then
         assert.ok(
           screen.getByRole('heading', {
-            name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
+            name: t('pages.account-recovery.find-sco-record.student-information.title'),
           }),
         );
         assert.notOk(
           screen.queryByRole('heading', {
-            name: this.intl.t(
-              'pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message',
-              {
-                firstName,
-              },
-            ),
+            name: t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', {
+              firstName,
+            }),
           }),
         );
       });

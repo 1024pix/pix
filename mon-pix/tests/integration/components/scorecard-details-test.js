@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { A } from '@ember/array';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -139,7 +140,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
         const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        assert.ok(screen.getByRole('button', this.intl.t('pages.competence-details.actions.improve.label')));
+        assert.ok(screen.getByRole('button', t('pages.competence-details.actions.improve.label')));
       });
 
       test('should show the improving countdown if the remaining days before improving are different than 0', async function (assert) {
@@ -233,10 +234,9 @@ module('Integration | Component | scorecard-details', function (hooks) {
         // then
         assert.ok(
           screen.getByRole('link', {
-            name: `${this.intl.t('pages.competence-details.actions.start.label')} ${this.intl.t(
-              'pages.competence-details.for-competence',
-              { competence: scorecard.name },
-            )}`,
+            name: `${t('pages.competence-details.actions.start.label')} ${t('pages.competence-details.for-competence', {
+              competence: scorecard.name,
+            })}`,
           }),
         );
       });
@@ -260,7 +260,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
         // then
         assert.ok(
           screen.getByRole('link', {
-            name: `${this.intl.t('pages.competence-details.actions.continue.label')} ${this.intl.t(
+            name: `${t('pages.competence-details.actions.continue.label')} ${t(
               'pages.competence-details.for-competence',
               { competence: scorecard.name },
             )}`,

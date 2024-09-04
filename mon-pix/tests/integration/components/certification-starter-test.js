@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -181,7 +182,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           routerObserver.replaceWith.returns('ok');
 
           // when
-          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+          await clickByLabel(t('pages.certification-start.actions.submit'));
 
           // then
           sinon.assert.calledWithExactly(createRecordStub, 'certification-course', {
@@ -239,7 +240,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           certificationCourse.save.rejects({ errors: [{ status: '404' }] });
 
           // when
-          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+          await clickByLabel(t('pages.certification-start.actions.submit'));
 
           // then
           assert.ok(screen.getByText('Ce code n’existe pas ou n’est plus valide.'));
@@ -276,7 +277,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           certificationCourse.save.rejects({ errors: [{ status: '404' }] });
 
           // when
-          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+          await clickByLabel(t('pages.certification-start.actions.submit'));
 
           // then
           assert.ok(screen.getByText('Ce code n’existe pas ou n’est plus valide.'));
@@ -312,7 +313,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           certificationCourse.save.rejects({ errors: [{ status: '412' }] });
 
           // when
-          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+          await clickByLabel(t('pages.certification-start.actions.submit'));
 
           // then
           assert.ok(screen.getByText("La session de certification n'est plus accessible."));
@@ -351,13 +352,11 @@ module('Integration | Component | certification-starter', function (hooks) {
             });
 
             // when
-            await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+            await clickByLabel(t('pages.certification-start.actions.submit'));
 
             // then
             assert.ok(
-              screen.getByText(
-                this.intl.t('pages.certification-start.error-messages.candidate-not-authorized-to-start'),
-              ),
+              screen.getByText(t('pages.certification-start.error-messages.candidate-not-authorized-to-start')),
             );
           });
 
@@ -393,13 +392,11 @@ module('Integration | Component | certification-starter', function (hooks) {
             });
 
             // when
-            await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+            await clickByLabel(t('pages.certification-start.actions.submit'));
 
             // then
             assert.ok(
-              screen.getByText(
-                this.intl.t('pages.certification-start.error-messages.candidate-not-authorized-to-resume'),
-              ),
+              screen.getByText(t('pages.certification-start.error-messages.candidate-not-authorized-to-resume')),
             );
           });
         });
@@ -435,7 +432,7 @@ module('Integration | Component | certification-starter', function (hooks) {
             certificationCourse.save.throws(new Error("Détails de l'erreur à envoyer à Pix"));
 
             // when
-            await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
+            await clickByLabel(t('pages.certification-start.actions.submit'));
 
             // then
             assert.ok(screen.getByText('Une erreur serveur inattendue vient de se produire.'));

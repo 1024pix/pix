@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import { clickByLabel } from '../../helpers/click-by-label';
@@ -26,7 +27,7 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
       const screen = await render(hbs`<ChallengeEmbedSimulator />`);
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.challenge.embed-simulator.actions.launch')));
+      assert.ok(screen.getByText(t('pages.challenge.embed-simulator.actions.launch')));
     });
 
     test('should close the acknowledgment overlay when clicked', async function (assert) {
@@ -34,7 +35,7 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
       await render(hbs`<ChallengeEmbedSimulator />`);
 
       // when
-      await clickByLabel(this.intl.t('pages.challenge.embed-simulator.actions.launch'));
+      await clickByLabel(t('pages.challenge.embed-simulator.actions.launch'));
 
       // then
       assert.dom('.embed__acknowledgment-overlay').doesNotExist();
@@ -65,7 +66,7 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
       await render(hbs`<ChallengeEmbedSimulator />`);
 
       // when
-      await clickByLabel(this.intl.t('pages.challenge.embed-simulator.actions.launch'));
+      await clickByLabel(t('pages.challenge.embed-simulator.actions.launch'));
 
       // then
       assert.false(find('.embed__simulator').classList.contains('blurred'));
@@ -123,8 +124,8 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
 
         await new Promise((resolve) => setTimeout(resolve, 0));
 
-        assert.dom(screen.queryByText(this.intl.t('pages.challenge.embed-simulator.actions.launch'))).doesNotExist();
-        assert.dom(screen.queryByText(this.intl.t('pages.challenge.embed-simulator.actions.reset'))).doesNotExist();
+        assert.dom(screen.queryByText(t('pages.challenge.embed-simulator.actions.launch'))).doesNotExist();
+        assert.dom(screen.queryByText(t('pages.challenge.embed-simulator.actions.reset'))).doesNotExist();
       });
     });
   });

@@ -3,6 +3,7 @@ import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { fillIn, find, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import { reject, resolve } from 'rsvp';
 import sinon from 'sinon';
@@ -80,7 +81,7 @@ module('Integration | Component | reset password form', function (hooks) {
         await fillIn(passwordInput, validPassword);
         await triggerEvent(passwordInput, 'change');
 
-        await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
+        await clickByLabel(t('pages.reset-password.actions.submit'));
 
         // then
         assert.true(isSaveMethodCalled);
@@ -102,7 +103,7 @@ module('Integration | Component | reset password form', function (hooks) {
         // when
         await fillIn(passwordInput, validPassword);
         await triggerEvent(passwordInput, 'change');
-        await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
+        await clickByLabel(t('pages.reset-password.actions.submit'));
 
         // then
         assert.true(isSaveMethodCalled);

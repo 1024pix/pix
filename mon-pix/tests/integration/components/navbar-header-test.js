@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { module, test } from 'qunit';
 
@@ -18,8 +19,8 @@ module('Integration | Component | navbar-header', function (hooks) {
       const screen = await render(hbs`<NavbarHeader />`);
 
       // then
-      assert.ok(screen.getByRole('link', { name: this.intl.t('common.skip-links.skip-to-content') }));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('common.skip-links.skip-to-footer') }));
+      assert.ok(screen.getByRole('link', { name: t('common.skip-links.skip-to-content') }));
+      assert.ok(screen.getByRole('link', { name: t('common.skip-links.skip-to-footer') }));
     });
   });
 
@@ -40,8 +41,8 @@ module('Integration | Component | navbar-header', function (hooks) {
       const screen = await render(hbs`<NavbarHeader />`);
 
       // then
-      assert.ok(screen.getByRole('navigation', { name: this.intl.t('navigation.main.label') }));
-      assert.ok(screen.getByRole('button', { name: this.intl.t('navigation.mobile-button-title') }));
+      assert.ok(screen.getByRole('navigation', { name: t('navigation.main.label') }));
+      assert.ok(screen.getByRole('button', { name: t('navigation.mobile-button-title') }));
     });
 
     test('should be rendered in mobile/tablet mode without burger', async function (assert) {
@@ -56,8 +57,8 @@ module('Integration | Component | navbar-header', function (hooks) {
       const screen = await render(hbs`<NavbarHeader />`);
 
       // then
-      assert.dom(screen.queryByRole('navigation', { name: this.intl.t('navigation.main.label') })).doesNotExist();
-      assert.dom(screen.queryByRole('button', { name: this.intl.t('navigation.mobile-button-title') })).doesNotExist();
+      assert.dom(screen.queryByRole('navigation', { name: t('navigation.main.label') })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: t('navigation.mobile-button-title') })).doesNotExist();
     });
 
     test('should render skip links', async function (assert) {
@@ -68,8 +69,8 @@ module('Integration | Component | navbar-header', function (hooks) {
       const screen = await render(hbs`<NavbarHeader />`);
 
       // then
-      assert.ok(screen.getByRole('link', { name: this.intl.t('common.skip-links.skip-to-content') }));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('common.skip-links.skip-to-footer') }));
+      assert.ok(screen.getByRole('link', { name: t('common.skip-links.skip-to-content') }));
+      assert.ok(screen.getByRole('link', { name: t('common.skip-links.skip-to-footer') }));
     });
   });
 });

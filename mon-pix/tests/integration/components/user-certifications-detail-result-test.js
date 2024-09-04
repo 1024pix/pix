@@ -1,6 +1,7 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -56,7 +57,7 @@ module('Integration | Component | user certifications detail result', function (
       const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}} />`);
 
       // then
-      assert.notOk(screen.queryByRole('heading', { name: this.intl.t('pages.certificate.jury-title') }));
+      assert.notOk(screen.queryByRole('heading', { name: t('pages.certificate.jury-title') }));
     });
   });
 
@@ -87,7 +88,7 @@ module('Integration | Component | user certifications detail result', function (
       const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}} />`);
 
       // then
-      assert.ok(screen.getByRole('heading', { name: this.intl.t('pages.certificate.complementary.title') }));
+      assert.ok(screen.getByRole('heading', { name: t('pages.certificate.complementary.title') }));
     });
 
     module('when certification has a certified badge image', function () {
@@ -208,7 +209,7 @@ module('Integration | Component | user certifications detail result', function (
       const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}} />`);
 
       // then
-      assert.notOk(screen.queryByRole('heading', { name: this.intl.t('pages.certificate.complementary.title') }));
+      assert.notOk(screen.queryByRole('heading', { name: t('pages.certificate.complementary.title') }));
     });
   });
 });

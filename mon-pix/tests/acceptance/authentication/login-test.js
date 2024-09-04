@@ -1,6 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -19,7 +20,7 @@ module('Acceptance | Login', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/connexion');
-        assert.dom(screen.getByRole('heading', { name: this.intl.t('pages.sign-in.first-title'), level: 1 })).exists();
+        assert.dom(screen.getByRole('heading', { name: t('pages.sign-in.first-title'), level: 1 })).exists();
         assert.dom(screen.getByRole('button', { name: 'Sélectionnez une langue' })).exists();
       });
 
@@ -33,9 +34,7 @@ module('Acceptance | Login', function (hooks) {
 
           // then
           assert.strictEqual(currentURL(), '/connexion');
-          assert
-            .dom(screen.getByRole('heading', { name: this.intl.t('pages.sign-in.first-title'), level: 1 }))
-            .exists();
+          assert.dom(screen.getByRole('heading', { name: t('pages.sign-in.first-title'), level: 1 })).exists();
           assert.dom(screen.getByRole('button', { name: 'Select a language' })).exists();
         });
       });
@@ -48,7 +47,7 @@ module('Acceptance | Login', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/connexion?lang=en');
-        assert.dom(screen.getByRole('heading', { name: this.intl.t('pages.sign-in.first-title'), level: 1 })).exists();
+        assert.dom(screen.getByRole('heading', { name: t('pages.sign-in.first-title'), level: 1 })).exists();
         assert.dom(screen.getByRole('button', { name: 'Select a language' })).exists();
       });
 
@@ -62,9 +61,7 @@ module('Acceptance | Login', function (hooks) {
 
           // then
           assert.strictEqual(currentURL(), '/connexion');
-          assert
-            .dom(screen.getByRole('heading', { name: this.intl.t('pages.sign-in.first-title'), level: 1 }))
-            .exists();
+          assert.dom(screen.getByRole('heading', { name: t('pages.sign-in.first-title'), level: 1 })).exists();
           assert.dom(screen.getByRole('button', { name: 'Sélectionnez une langue' })).exists();
         });
       });

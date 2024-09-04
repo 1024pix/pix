@@ -1,10 +1,10 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
-
 module('Acceptance | Module | Routes | details', function (hooks) {
   setupApplicationTest(hooks);
   setupIntl(hooks);
@@ -33,8 +33,8 @@ module('Acceptance | Module | Routes | details', function (hooks) {
     assert.strictEqual(currentURL(), '/modules/bien-ecrire-son-adresse-mail/details');
     assert.ok(document.title.includes(module.title));
     assert.dom(screen.getByRole('alert')).exists();
-    assert.dom(screen.getByRole('link', { name: this.intl.t('common.skip-links.skip-to-content') })).exists();
-    assert.dom(screen.getByRole('link', { name: this.intl.t('common.skip-links.skip-to-footer') })).exists();
+    assert.dom(screen.getByRole('link', { name: t('common.skip-links.skip-to-content') })).exists();
+    assert.dom(screen.getByRole('link', { name: t('common.skip-links.skip-to-footer') })).exists();
     assert.dom(screen.getByRole('contentinfo')).exists();
   });
 

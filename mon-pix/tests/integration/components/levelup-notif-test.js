@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -30,7 +31,7 @@ module('Integration | Component | levelup-notif', function (hooks) {
     // then
     assert.strictEqual(
       find('.levelup-competence__level').innerHTML,
-      this.intl.t('pages.levelup-notif.obtained-level', { level: this.newLevel }),
+      t('pages.levelup-notif.obtained-level', { level: this.newLevel }),
     );
     assert.strictEqual(find('.levelup-competence__name').innerHTML, "Mener une recherche et une veille d'information");
   });

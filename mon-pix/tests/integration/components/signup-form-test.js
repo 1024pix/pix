@@ -4,6 +4,7 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setLocale, t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import { reject, resolve } from 'rsvp';
 import sinon from 'sinon';
@@ -26,7 +27,7 @@ module('Integration | Component | SignupForm', function (hooks) {
       test(`${testCase.locale}`, async function (assert) {
         const expectedTitle = testCase.expectedFormTitle;
         this.set('user', userEmpty);
-        this.intl.setLocale(testCase.locale);
+        setLocale(testCase.locale);
 
         // when
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -46,33 +47,27 @@ module('Integration | Component | SignupForm', function (hooks) {
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // then
-      assert
-        .dom(screen.getByRole('link', { name: this.intl.t('navigation.showcase-homepage', { tld: 'localhost' }) }))
-        .exists();
-      assert.dom(screen.getByRole('heading', { name: this.intl.t('pages.sign-up.first-title') })).exists();
-      assert.dom(screen.getByRole('link', { name: this.intl.t('pages.sign-up.subtitle.link') })).exists();
-      assert.dom(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.firstname.label') })).exists();
-      assert.dom(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.lastname.label') })).exists();
+      assert.dom(screen.getByRole('link', { name: t('navigation.showcase-homepage', { tld: 'localhost' }) })).exists();
+      assert.dom(screen.getByRole('heading', { name: t('pages.sign-up.first-title') })).exists();
+      assert.dom(screen.getByRole('link', { name: t('pages.sign-up.subtitle.link') })).exists();
+      assert.dom(screen.getByRole('textbox', { name: t('pages.sign-up.fields.firstname.label') })).exists();
+      assert.dom(screen.getByRole('textbox', { name: t('pages.sign-up.fields.lastname.label') })).exists();
       assert
         .dom(
           screen.getByLabelText(
-            `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t(
-              'pages.sign-up.fields.password.help',
-            )}`,
+            `${t('pages.sign-up.fields.password.label')} ${t('pages.sign-up.fields.password.help')}`,
           ),
         )
         .exists();
       assert
         .dom(
           screen.getByRole('textbox', {
-            name: `${this.intl.t('pages.sign-up.fields.email.label')} ${this.intl.t(
-              'pages.sign-up.fields.email.help',
-            )}`,
+            name: `${t('pages.sign-up.fields.email.label')} ${t('pages.sign-up.fields.email.help')}`,
           }),
         )
         .exists();
-      assert.dom(screen.getByRole('button', { name: this.intl.t('common.form.visible-password') })).exists();
-      assert.dom(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') })).exists();
+      assert.dom(screen.getByRole('button', { name: t('common.form.visible-password') })).exists();
+      assert.dom(screen.getByRole('checkbox', { name: t('common.cgu.label') })).exists();
     });
 
     test("links to Pix's CGU and data protection policy are available", async function (assert) {
@@ -83,8 +78,8 @@ module('Integration | Component | SignupForm', function (hooks) {
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // then
-      assert.ok(screen.getByRole('link', { name: this.intl.t('common.cgu.cgu') }));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('common.cgu.data-protection-policy') }));
+      assert.ok(screen.getByRole('link', { name: t('common.cgu.cgu') }));
+      assert.ok(screen.getByRole('link', { name: t('common.cgu.data-protection-policy') }));
     });
 
     test('renders a submit button', async function (assert) {
@@ -95,7 +90,7 @@ module('Integration | Component | SignupForm', function (hooks) {
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // then
-      assert.ok(screen.getByRole('button', { name: this.intl.t('pages.sign-up.actions.submit') }));
+      assert.ok(screen.getByRole('button', { name: t('pages.sign-up.actions.submit') }));
     });
 
     test('[a11y] displays a message that all inputs are required', async function (assert) {
@@ -103,28 +98,24 @@ module('Integration | Component | SignupForm', function (hooks) {
       const screen = await render(hbs`<SignupForm />`);
 
       // then
-      assert.dom(screen.getByText(this.intl.t('common.form.mandatory-all-fields'))).exists();
+      assert.dom(screen.getByText(t('common.form.mandatory-all-fields'))).exists();
       assert
-        .dom(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.firstname.label') }))
+        .dom(screen.getByRole('textbox', { name: t('pages.sign-up.fields.firstname.label') }))
         .hasAttribute('required');
       assert
-        .dom(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.lastname.label') }))
+        .dom(screen.getByRole('textbox', { name: t('pages.sign-up.fields.lastname.label') }))
         .hasAttribute('required');
       assert
         .dom(
           screen.getByRole('textbox', {
-            name: `${this.intl.t('pages.sign-up.fields.email.label')} ${this.intl.t(
-              'pages.sign-up.fields.email.help',
-            )}`,
+            name: `${t('pages.sign-up.fields.email.label')} ${t('pages.sign-up.fields.email.help')}`,
           }),
         )
         .hasAttribute('required');
       assert
         .dom(
           screen.getByLabelText(
-            `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t(
-              'pages.sign-up.fields.password.help',
-            )}`,
+            `${t('pages.sign-up.fields.password.label')} ${t('pages.sign-up.fields.password.help')}`,
           ),
         )
         .hasAttribute('required');
@@ -148,10 +139,10 @@ module('Integration | Component | SignupForm', function (hooks) {
       await _fillFormWithCorrectData(screen);
 
       // when
-      await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+      await clickByName(t('pages.sign-up.actions.submit'));
 
       // then
-      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
+      assert.dom(screen.getByText(t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
     });
 
     test('displays related error message if internal server error', async function (assert) {
@@ -177,10 +168,10 @@ module('Integration | Component | SignupForm', function (hooks) {
       await _fillFormWithCorrectData(screen);
 
       // when
-      await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+      await clickByName(t('pages.sign-up.actions.submit'));
 
       // then
-      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
+      assert.dom(screen.getByText(t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
     });
 
     test('displays related error message if bad gateway error', async function (assert) {
@@ -205,10 +196,10 @@ module('Integration | Component | SignupForm', function (hooks) {
       await _fillFormWithCorrectData(screen);
 
       // when
-      await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+      await clickByName(t('pages.sign-up.actions.submit'));
 
       // then
-      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.BAD_GATEWAY.I18N_KEY))).exists();
+      assert.dom(screen.getByText(t(ApiErrorMessages.BAD_GATEWAY.I18N_KEY))).exists();
     });
 
     test('displays related error message if gateway timeout error', async function (assert) {
@@ -233,10 +224,10 @@ module('Integration | Component | SignupForm', function (hooks) {
       await _fillFormWithCorrectData(screen);
 
       // when
-      await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+      await clickByName(t('pages.sign-up.actions.submit'));
 
       // then
-      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.GATEWAY_TIMEOUT.I18N_KEY))).exists();
+      assert.dom(screen.getByText(t(ApiErrorMessages.GATEWAY_TIMEOUT.I18N_KEY))).exists();
     });
 
     test('displays related error message if not implemented error', async function (assert) {
@@ -262,10 +253,10 @@ module('Integration | Component | SignupForm', function (hooks) {
       await _fillFormWithCorrectData(screen);
 
       // when
-      await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+      await clickByName(t('pages.sign-up.actions.submit'));
 
       // then
-      assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
+      assert.dom(screen.getByText(t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
     });
   });
 
@@ -300,7 +291,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await _fillFormWithCorrectData(screen);
 
         // when
-        await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+        await clickByName(t('pages.sign-up.actions.submit'));
 
         // then
         assert.true(isFormSubmitted);
@@ -323,7 +314,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await _fillFormWithCorrectData(screen);
 
         // when
-        await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+        await clickByName(t('pages.sign-up.actions.submit'));
 
         // then
         sinon.assert.calledOnce(session.authenticateUser);
@@ -340,7 +331,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         const firstNameInput = screen.getByRole('textbox', {
-          name: this.intl.t('pages.sign-up.fields.firstname.label'),
+          name: t('pages.sign-up.fields.firstname.label'),
         });
 
         // when
@@ -348,7 +339,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent(firstNameInput, 'focusout');
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.sign-up.fields.firstname.error'))).exists();
+        assert.dom(screen.getByText(t('pages.sign-up.fields.firstname.error'))).exists();
       });
 
       test('displays an error message on last name field, when field is empty and focus-out', async function (assert) {
@@ -357,7 +348,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         const lastNameInput = screen.getByRole('textbox', {
-          name: this.intl.t('pages.sign-up.fields.lastname.label'),
+          name: t('pages.sign-up.fields.lastname.label'),
         });
 
         // when
@@ -365,7 +356,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent(lastNameInput, 'focusout');
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.sign-up.fields.lastname.error'))).exists();
+        assert.dom(screen.getByText(t('pages.sign-up.fields.lastname.error'))).exists();
       });
 
       test('displays an error message on email field, when field is empty and focus-out', async function (assert) {
@@ -374,7 +365,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         const emailInput = screen.getByRole('textbox', {
-          name: `${this.intl.t('pages.sign-up.fields.email.label')} ${this.intl.t('pages.sign-up.fields.email.help')}`,
+          name: `${t('pages.sign-up.fields.email.label')} ${t('pages.sign-up.fields.email.help')}`,
         });
 
         // when
@@ -382,7 +373,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent(emailInput, 'focusout');
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.sign-up.fields.email.error'))).exists();
+        assert.dom(screen.getByText(t('pages.sign-up.fields.email.error'))).exists();
       });
 
       test('displays an error message on password field, when field is empty and focus-out', async function (assert) {
@@ -391,7 +382,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         const passwordInput = screen.getByLabelText(
-          `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t('pages.sign-up.fields.password.help')}`,
+          `${t('pages.sign-up.fields.password.label')} ${t('pages.sign-up.fields.password.help')}`,
         );
 
         // when
@@ -399,12 +390,12 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent(passwordInput, 'focusout');
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.sign-up.fields.password.error'))).exists();
+        assert.dom(screen.getByText(t('pages.sign-up.fields.password.error'))).exists();
       });
 
       test("displays an error message on cgu field, when cgu isn't accepted and form is submitted", async function (assert) {
         // given
-        const uncheckedCheckboxCguErrorMessage = this.intl.t('common.cgu.error');
+        const uncheckedCheckboxCguErrorMessage = t('common.cgu.error');
         const userWithCguNotAccepted = EmberObject.create({
           cgu: false,
           errors: ArrayProxy.create({
@@ -430,7 +421,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
-        await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+        await clickByName(t('pages.sign-up.actions.submit'));
 
         // then
         assert.dom(screen.getByText(uncheckedCheckboxCguErrorMessage)).exists();
@@ -472,7 +463,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         );
 
         // when
-        await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+        await clickByName(t('pages.sign-up.actions.submit'));
 
         // then
         assert.dom(screen.getByText(expectedMaxLengthEmailError)).exists();
@@ -497,7 +488,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
-        await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+        await clickByName(t('pages.sign-up.actions.submit'));
 
         // then
         assert.dom('.signup-form__notification-message').doesNotExist();
@@ -524,11 +515,11 @@ module('Integration | Component | SignupForm', function (hooks) {
             ),
             'P@ssword123',
           );
-          await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+          await clickByName(t('pages.sign-up.actions.submit'));
 
           // then
           assert
-            .dom(screen.getByText(this.intl.t('pages.sign-up.errors.invalid-locale-format', { invalidLocale: 'zzzz' })))
+            .dom(screen.getByText(t('pages.sign-up.errors.invalid-locale-format', { invalidLocale: 'zzzz' })))
             .exists();
         });
       });
@@ -554,13 +545,11 @@ module('Integration | Component | SignupForm', function (hooks) {
             ),
             'P@ssword123',
           );
-          await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+          await clickByName(t('pages.sign-up.actions.submit'));
 
           // then
           assert
-            .dom(
-              screen.getByText(this.intl.t('pages.sign-up.errors.locale-not-supported', { localeNotSupported: 'jp' })),
-            )
+            .dom(screen.getByText(t('pages.sign-up.errors.locale-not-supported', { localeNotSupported: 'jp' })))
             .exists();
         });
       });
@@ -598,8 +587,8 @@ module('Integration | Component | SignupForm', function (hooks) {
           await _fillFormWithCorrectData(screen);
 
           // when
-          await click(screen.getByRole('button', { name: this.intl.t('pages.sign-up.actions.submit') }));
-          await click(screen.getByRole('button', { name: this.intl.t('pages.sign-up.actions.submit') }));
+          await click(screen.getByRole('button', { name: t('pages.sign-up.actions.submit') }));
+          await click(screen.getByRole('button', { name: t('pages.sign-up.actions.submit') }));
 
           // then
           assert.strictEqual(counter, 1);
@@ -614,7 +603,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         const firstNameInput = screen.getByRole('textbox', {
-          name: this.intl.t('pages.sign-up.fields.firstname.label'),
+          name: t('pages.sign-up.fields.firstname.label'),
         });
 
         // when
@@ -622,7 +611,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent(firstNameInput, 'focusout');
 
         // then
-        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.firstname.error'))).doesNotExist();
+        assert.dom(screen.queryByText(t('pages.sign-up.fields.firstname.error'))).doesNotExist();
       });
 
       test('displays last name field as validated without error message, when field is filled and focus-out', async function (assert) {
@@ -631,7 +620,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         const lastNameInput = screen.getByRole('textbox', {
-          name: this.intl.t('pages.sign-up.fields.lastname.label'),
+          name: t('pages.sign-up.fields.lastname.label'),
         });
 
         // when
@@ -639,7 +628,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent(lastNameInput, 'focusout');
 
         // then
-        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.lastname.error'))).doesNotExist();
+        assert.dom(screen.queryByText(t('pages.sign-up.fields.lastname.error'))).doesNotExist();
       });
 
       test('displays email field as validated without error message, when field is filled and focus-out', async function (assert) {
@@ -648,7 +637,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         const emailInput = screen.getByRole('textbox', {
-          name: `${this.intl.t('pages.sign-up.fields.email.label')} ${this.intl.t('pages.sign-up.fields.email.help')}`,
+          name: `${t('pages.sign-up.fields.email.label')} ${t('pages.sign-up.fields.email.help')}`,
         });
 
         // when
@@ -656,7 +645,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent(emailInput, 'focusout');
 
         // then
-        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.email.error'))).doesNotExist();
+        assert.dom(screen.queryByText(t('pages.sign-up.fields.email.error'))).doesNotExist();
       });
 
       test('displays password field as validated without error message, when field is filled and focus-out', async function (assert) {
@@ -665,7 +654,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         const passwordInput = screen.getByLabelText(
-          `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t('pages.sign-up.fields.password.help')}`,
+          `${t('pages.sign-up.fields.password.label')} ${t('pages.sign-up.fields.password.help')}`,
         );
 
         // when
@@ -673,7 +662,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent(passwordInput, 'focusout');
 
         // then
-        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.password.error'))).doesNotExist();
+        assert.dom(screen.queryByText(t('pages.sign-up.fields.password.error'))).doesNotExist();
       });
 
       test('does not display an error message on cgu field, when cgu is accepted and form is submitted', async function (assert) {
@@ -690,10 +679,10 @@ module('Integration | Component | SignupForm', function (hooks) {
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
-        await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+        await clickByName(t('pages.sign-up.actions.submit'));
 
         // then
-        assert.dom(screen.queryByText(this.intl.t('common.cgu.error'))).doesNotExist();
+        assert.dom(screen.queryByText(t('common.cgu.error'))).doesNotExist();
       });
 
       test('resets validation property, when all informations are validated and form is submitted', async function (assert) {
@@ -714,14 +703,14 @@ module('Integration | Component | SignupForm', function (hooks) {
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
-        await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+        await clickByName(t('pages.sign-up.actions.submit'));
 
         // then
-        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.firstname.error'))).doesNotExist();
-        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.lastname.error'))).doesNotExist();
-        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.email.error'))).doesNotExist();
-        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.password.error'))).doesNotExist();
-        assert.dom(screen.queryByText(this.intl.t('common.cgu.error'))).doesNotExist();
+        assert.dom(screen.queryByText(t('pages.sign-up.fields.firstname.error'))).doesNotExist();
+        assert.dom(screen.queryByText(t('pages.sign-up.fields.lastname.error'))).doesNotExist();
+        assert.dom(screen.queryByText(t('pages.sign-up.fields.email.error'))).doesNotExist();
+        assert.dom(screen.queryByText(t('pages.sign-up.fields.password.error'))).doesNotExist();
+        assert.dom(screen.queryByText(t('common.cgu.error'))).doesNotExist();
       });
     });
   });

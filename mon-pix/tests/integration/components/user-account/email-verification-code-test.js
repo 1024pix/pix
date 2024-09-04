@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -19,7 +20,7 @@ module('Integration | Component | user-account | email-verification-code', funct
       const screen = await render(hbs`<UserAccount::EmailVerificationCode @email={{this.email}} />`);
 
       // then
-      const resendCodeMessage = screen.getByText(this.intl.t('pages.user-account.email-verification.did-not-receive'));
+      const resendCodeMessage = screen.getByText(t('pages.user-account.email-verification.did-not-receive'));
       assert.dom(resendCodeMessage).doesNotHaveClass('visible');
     });
 
@@ -36,10 +37,10 @@ module('Integration | Component | user-account | email-verification-code', funct
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.user-account.email-verification.did-not-receive')));
+      assert.ok(screen.getByText(t('pages.user-account.email-verification.did-not-receive')));
       assert.ok(
         screen.getByRole('button', {
-          name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
+          name: t('pages.user-account.email-verification.send-back-the-code'),
         }),
       );
     });
@@ -64,14 +65,14 @@ module('Integration | Component | user-account | email-verification-code', funct
 
       await click(
         screen.getByRole('button', {
-          name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
+          name: t('pages.user-account.email-verification.send-back-the-code'),
         }),
       );
 
       // then
       assert.true(
         screen.getByRole('button', {
-          name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
+          name: t('pages.user-account.email-verification.send-back-the-code'),
           hidden: true,
         }).disabled,
       );
@@ -98,15 +99,15 @@ module('Integration | Component | user-account | email-verification-code', funct
 
       await click(
         screen.getByRole('button', {
-          name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
+          name: t('pages.user-account.email-verification.send-back-the-code'),
         }),
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('pages.user-account.email-verification.confirmation-message')));
+      assert.ok(screen.getByText(t('pages.user-account.email-verification.confirmation-message')));
       assert.notOk(
         screen.queryByRole('button', {
-          name: this.intl.t('pages.user-account.email-verification.send-back-the-code'),
+          name: t('pages.user-account.email-verification.send-back-the-code'),
         }),
       );
     });
@@ -138,7 +139,7 @@ module('Integration | Component | user-account | email-verification-code', funct
       // then
       sinon.assert.notCalled(disableEmailEditionMode);
       sinon.assert.notCalled(displayEmailUpdateMessage);
-      assert.ok(screen.getByText(this.intl.t('pages.user-account.email-verification.errors.incorrect-code')));
+      assert.ok(screen.getByText(t('pages.user-account.email-verification.errors.incorrect-code')));
     });
 
     test('should show demand expired message when receiving 403', async function (assert) {
@@ -173,9 +174,7 @@ module('Integration | Component | user-account | email-verification-code', funct
       // then
       sinon.assert.notCalled(disableEmailEditionMode);
       sinon.assert.notCalled(displayEmailUpdateMessage);
-      assert.ok(
-        screen.getByText(this.intl.t('pages.user-account.email-verification.errors.email-modification-demand-expired')),
-      );
+      assert.ok(screen.getByText(t('pages.user-account.email-verification.errors.email-modification-demand-expired')));
     });
 
     test('should show email already exists message when receiving 400', async function (assert) {
@@ -210,7 +209,7 @@ module('Integration | Component | user-account | email-verification-code', funct
       // then
       sinon.assert.notCalled(disableEmailEditionMode);
       sinon.assert.notCalled(displayEmailUpdateMessage);
-      assert.ok(screen.getByText(this.intl.t('pages.user-account.email-verification.errors.new-email-already-exist')));
+      assert.ok(screen.getByText(t('pages.user-account.email-verification.errors.new-email-already-exist')));
     });
 
     test('should show error message when receiving 500', async function (assert) {
@@ -238,7 +237,7 @@ module('Integration | Component | user-account | email-verification-code', funct
       // then
       sinon.assert.notCalled(disableEmailEditionMode);
       sinon.assert.notCalled(displayEmailUpdateMessage);
-      assert.ok(screen.getByText(this.intl.t('pages.user-account.email-verification.errors.unknown-error')));
+      assert.ok(screen.getByText(t('pages.user-account.email-verification.errors.unknown-error')));
     });
   });
 });

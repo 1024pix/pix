@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -35,7 +36,7 @@ module('Integration | Component | reached-stage', function (hooks) {
         // then
         assert.ok(
           screen.getByText(
-            this.intl.t('pages.skill-review.stage.starsAcquired', {
+            t('pages.skill-review.stage.starsAcquired', {
               acquired: reachedStage - 1,
               total: totalStage - 1,
             }),

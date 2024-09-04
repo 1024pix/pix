@@ -2,6 +2,7 @@ import { clickByName, render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, fillIn, find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -50,7 +51,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     };
     this.set('el', qrocm);
     const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} />`);
-    const direction = this.intl.t('pages.modulix.qrocm.direction', {
+    const direction = t('pages.modulix.qrocm.direction', {
       count: qrocm.proposals.filter(({ type }) => type !== 'text').length,
     });
 
@@ -117,7 +118,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     assert.dom(screen.getByText('Mon instruction')).exists({ count: 1 });
     assert.ok(
       screen.getByRole('group', {
-        legend: this.intl.t('pages.modulix.qrocm.direction', {
+        legend: t('pages.modulix.qrocm.direction', {
           count: qrocm.proposals.filter(({ type }) => type !== 'text').length,
         }),
       }),
