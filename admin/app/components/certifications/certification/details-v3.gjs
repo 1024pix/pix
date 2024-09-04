@@ -8,7 +8,6 @@ import { action } from '@ember/object';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import dayjsDuration from 'ember-dayjs/helpers/dayjs-duration';
 import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
 import { t } from 'ember-intl';
 import { lt } from 'ember-truth-helpers';
@@ -238,7 +237,7 @@ export default class DetailsV3 extends Component {
                 </:tooltip>
               </PixTooltip>
               {{#if (lt @details.duration this.twentyFourHoursInMs)}}
-                <PixTag @color={{this.durationTagColor}}>{{dayjsDuration @details.duration "H[h]mm"}}</PixTag>
+                <PixTag @color={{this.durationTagColor}}>{{dayjsFormat @details.duration "HH[h]mm"}}</PixTag>
               {{else}}
                 <PixTag @color={{this.durationTagColor}}> > 24h</PixTag>
               {{/if}}
