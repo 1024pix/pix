@@ -1,8 +1,8 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-for-admin-serializer.js';
-import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
-import { expect } from '../../../../test-helper.js';
+import { User } from '../../../../../../src/identity-access-management/domain/models/User.js';
+import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-for-admin.serializer.js';
+import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | user-for-adminserializer', function () {
+describe('Unit | Identity Access Management | Serializer | JSONAPI | user-for-admin', function () {
   describe('#serialize', function () {
     let userModelObject;
 
@@ -27,7 +27,7 @@ describe('Unit | Serializer | JSONAPI | user-for-adminserializer', function () {
     });
 
     describe('when user has no userOrgaSettings', function () {
-      it('should serialize excluding password', function () {
+      it('serializes excluding password', function () {
         // given
         const expectedSerializedUser = {
           data: {
