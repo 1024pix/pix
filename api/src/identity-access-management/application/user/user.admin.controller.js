@@ -1,4 +1,3 @@
-import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as userForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-for-admin.serializer.js';
 import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
@@ -14,7 +13,7 @@ import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/u
 const findPaginatedFilteredUsers = async function (request, h, dependencies = { userForAdminSerializer }) {
   const { filter, page } = request.query;
 
-  const { models: users, pagination } = await libUsecases.findPaginatedFilteredUsers({ filter, page });
+  const { models: users, pagination } = await usecases.findPaginatedFilteredUsers({ filter, page });
   return dependencies.userForAdminSerializer.serialize(users, pagination);
 };
 

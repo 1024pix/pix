@@ -1,9 +1,9 @@
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { User } from '../../../../src/identity-access-management/domain/models/User.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
+import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | find-paginated-filtered-users', function () {
-  it('should search users with filtering and pagination', async function () {
+describe('Unit | Identity Access Management | UseCase | find-paginated-filtered-users', function () {
+  it('searches users with filtering and pagination', async function () {
     // given
     const filter = { email: 'gigi@example.net' };
     const page = { number: 1, size: 2 };
