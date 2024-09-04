@@ -1,6 +1,6 @@
 import { knex } from '../../../../../../db/knex-database-connection.js';
 import * as categories from '../../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
-import { OrganizationPlacesLot } from '../../../../../../src/prescription/organization-place/domain/models/OrganizationPlacesLot.js';
+import { OrganizationPlacesLotForManagement } from '../../../../../../src/prescription/organization-place/domain/models/OrganizationPlacesLotForManagement.js';
 import { OrganizationPlacesLotManagement } from '../../../../../../src/prescription/organization-place/domain/read-models/OrganizationPlacesLotManagement.js';
 import { PlacesLot } from '../../../../../../src/prescription/organization-place/domain/read-models/PlacesLot.js';
 import * as organizationPlacesLotRepository from '../../../../../../src/prescription/organization-place/infrastructure/repositories/organization-places-lot-repository.js';
@@ -333,7 +333,7 @@ describe('Integration | Repository | Organization Places Lot', function () {
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const user = databaseBuilder.factory.buildUser.withRole({ firstName: 'Gareth', lastName: 'Edwards' });
 
-      const placesToSave = new OrganizationPlacesLot({
+      const placesToSave = new OrganizationPlacesLotForManagement({
         organizationId,
         count: 66,
         category: categories.FREE_RATE,

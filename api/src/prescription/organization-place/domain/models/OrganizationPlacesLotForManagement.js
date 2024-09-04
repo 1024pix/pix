@@ -8,7 +8,7 @@ const codeByCategories = {
   [categories.SPECIAL_REDUCE_RATE]: categories.T2bis,
   [categories.FULL_RATE]: categories.T3,
 };
-class OrganizationPlacesLot {
+class OrganizationPlacesLotForManagement {
   constructor({ organizationId, count, activationDate, expirationDate, reference, category, createdBy } = {}) {
     this.organizationId = organizationId;
     this.count = count || null;
@@ -21,6 +21,6 @@ class OrganizationPlacesLot {
   }
 }
 
-OrganizationPlacesLot.categories = categories;
+OrganizationPlacesLotForManagement.categories = categories;
 
-export { OrganizationPlacesLot };
+export { OrganizationPlacesLotForManagement };

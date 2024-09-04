@@ -1,4 +1,4 @@
-import { OrganizationPlacesLot } from '../../../../src/prescription/organization-place/domain/models/OrganizationPlacesLot.js';
+import { OrganizationPlacesLotForManagement } from '../../../../src/prescription/organization-place/domain/models/OrganizationPlacesLotForManagement.js';
 
 function buildOrganizationPlacesLot({
   id = 1,
@@ -7,10 +7,10 @@ function buildOrganizationPlacesLot({
   activationDate = '2022-01-01',
   expirationDate = '2023-01-01',
   reference = 'abc123',
-  category = OrganizationPlacesLot.categories.FREE_RATE,
+  category = OrganizationPlacesLotForManagement.categories.FREE_RATE,
   createdBy = 199,
 } = {}) {
-  return new OrganizationPlacesLot({
+  return new OrganizationPlacesLotForManagement({
     id,
     count,
     organizationId,
