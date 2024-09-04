@@ -71,13 +71,11 @@ describe('Unit | Application | organization-place-controller', function () {
       sinon.stub(usecases, 'createOrganizationPlacesLot');
       const organizationPlacesLotManagementSerializerStub = {
         serialize: sinon.stub(),
-      };
-      const organizationPlacesLotSerializerStub = {
         deserialize: sinon.stub(),
       };
+
       dependencies = {
         organizationPlacesLotManagementSerializer: organizationPlacesLotManagementSerializerStub,
-        organizationPlacesLotSerializer: organizationPlacesLotSerializerStub,
       };
     });
 
@@ -112,7 +110,7 @@ describe('Unit | Application | organization-place-controller', function () {
           },
         };
 
-        dependencies.organizationPlacesLotSerializer.deserialize
+        dependencies.organizationPlacesLotManagementSerializer.deserialize
           .withArgs(request.payload)
           .returns(organizationPlacesLotData);
         usecases.createOrganizationPlacesLot
