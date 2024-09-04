@@ -136,16 +136,6 @@
             "content": "<p>Le bouton de gauche est celui qu’on utilise le plus. Il permet de faire ce qu’on appelle un <strong>clic gauche</strong>.</p>"
           }
         },
-        {
-          "type": "element",
-          "element": {
-            "id": "c9a50f76-67e6-4738-9fb1-7247556a54e0",
-            "type": "image",
-            "url": "https://i.imgur.com/8TEct0D.png",
-            "alt": "",
-            "alternativeText": "<p>image ou schéma d'une souris qui montre le bouton gauche</p>"
-          }
-        },
          {
           "type": "element",
           "element": {
@@ -226,7 +216,7 @@
             "type": "image",
             "url": "https://i.imgur.com/TWB2dU8.png",
             "alt": "",
-            "alternativeText": "<p>image à créer : image comparative où on voit les 2 position du doigt sur la souris</p>"
+            "alternativeText": "<p>Image comparative où on voit les 3 positions du doigt sur la souris : à plat, légèrement courbé, ou complètement courbé pour appuyer avec la pulpe du doigt.</p>"
           }
         }
       ]
@@ -350,7 +340,7 @@
             "type": "image",
             "url": "https://i.imgur.com/B7eLpxg.gif",
             "alt": "",
-            "alternativeText": "<p>Gif animé qui montre un &#x002D;clic</p>"
+            "alternativeText": "<p>Gif animé qui montre un double&#x002D;clic</p>"
           }
         },
         {
@@ -469,9 +459,9 @@
                 {
                   "id": "be765345-0a61-43b2-8a40-395d6f12b9e2",
                   "type": "image",
-                  "url": "https://images.pix.fr/modulix/placeholder-details.svg",
+                  "url": "https://i.imgur.com/1GCK4q0.gif",
                   "alt": "",
-                  "alternativeText": "<p>Gif animé qui illustre les deux utilisation du bouton gauche de la souris : le clic gauche, et le double&#x002D;clic.</p>"
+                  "alternativeText": "<p>Gif animé qui illustre les deux utilisations du bouton gauche de la souris&nbsp;: le clic gauche, et le double&#x002D;clic.</p>"
                 },
                 {
                   "id": "3c8b388b-a8ca-41ad-bc89-ff9e8cd3e613",
@@ -527,7 +517,7 @@
                 {
                   "id": "6a7f19dd-ba4a-4696-9f46-2f31ac5461f0",
                   "type": "image",
-                  "url": "https://images.pix.fr/modulix/placeholder-details.svg",
+                  "url": "https://i.imgur.com/lnHqKEk.png",
                   "alt": "",
                   "alternativeText": "<p>A voir si ici on met une image, un gif animé, ou bien un gdevelop</p>"
                 }
