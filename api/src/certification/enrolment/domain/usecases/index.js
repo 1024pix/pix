@@ -2,6 +2,7 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/utils/pdf/attendance-sheet-pdf.js';
@@ -11,7 +12,6 @@ import * as temporaryCompanionStorageService from '../../../shared/domain/servic
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
-import { services } from '../services/index.js';
 import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
@@ -38,7 +38,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../../shared/domain/services/temporary-companion-storage-service.js')} TemporaryCompanionStorageService
  * @typedef {import('../../../shared/domain/services/certification-badges-service.js')} CertificationBadgesService
  * @typedef {import('../services/certification-candidates-ods-service.js')} CertificationCandidatesOdsService
- * @typedef {placementProfileService} PlacementProfileService
+ * @typedef {import('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
  **/
 
 /**
@@ -67,6 +67,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {TemporaryCompanionStorageService} TemporaryCompanionStorageService
  * @typedef {CertificationBadgesService} CertificationBadgesService
  * @typedef {CertificationCandidatesOdsService} CertificationCandidatesOdsService
+ * @typedef {PlacementProfileService} PlacementProfileService
  **/
 const dependencies = {
   certificationBadgesService,
@@ -79,7 +80,7 @@ const dependencies = {
   certificationCpfService,
   temporaryCompanionStorageService,
   certificationCandidatesOdsService,
-  placementProfileService: services.placementProfileService,
+  placementProfileService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

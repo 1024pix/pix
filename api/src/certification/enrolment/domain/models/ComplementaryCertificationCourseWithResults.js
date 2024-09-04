@@ -8,8 +8,8 @@
  * @property {Source} source
  */
 
-import { sources } from '../../../certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-import { _ } from '../../infrastructure/utils/lodash-utils.js';
+import { _ } from '../../../../shared/infrastructure/utils/lodash-utils.js';
+import { sources } from '../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
 
 class ComplementaryCertificationCourseWithResults {
   /**

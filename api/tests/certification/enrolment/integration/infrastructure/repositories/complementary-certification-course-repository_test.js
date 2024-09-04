@@ -1,4 +1,4 @@
-import * as complementaryCertificationCourseRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-course-repository.js';
+import * as complementaryCertificationCourseRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/complementary-certification-course-repository.js';
 import { ComplementaryCertificationCourseResult } from '../../../../../../src/shared/domain/models/index.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
@@ -92,7 +92,7 @@ describe('Integration | Repository | complementary-certification-course-reposito
 
         // then
         const complementaryCertificationCourseWithResult1 =
-          domainBuilder.buildComplementaryCertificationCourseWithResults({
+          domainBuilder.certification.enrolment.buildComplementaryCertificationCourseWithResults({
             hasExternalJury: false,
             id: 999,
             complementaryCertificationBadgeId: 123,
@@ -106,7 +106,7 @@ describe('Integration | Repository | complementary-certification-course-reposito
             ],
           });
         const complementaryCertificationCourseWithResult2 =
-          domainBuilder.buildComplementaryCertificationCourseWithResults({
+          domainBuilder.certification.enrolment.buildComplementaryCertificationCourseWithResults({
             id: 1000,
             hasExternalJury: true,
             complementaryCertificationBadgeId: 456,
