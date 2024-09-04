@@ -23,10 +23,10 @@ export const fillCampaignIdInPartipations = async (object) => {
       i++;
       logger.info(`Mise a jour de la participation ${i}/${totalCampaignParticipations}`);
     }
-    trx.commit();
+    await trx.commit();
     logger.info(`Toutes les campaign-participations ont bien été mises à jour ✅`);
   } catch (error) {
-    trx.rollback();
+    await trx.rollback();
     logger.info("Aucune participation n'a été mise a jour, une erreur est survenue");
     logger.info(error);
   }
