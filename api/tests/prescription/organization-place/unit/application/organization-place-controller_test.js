@@ -176,4 +176,37 @@ describe('Unit | Application | organization-place-controller', function () {
       expect(result).to.equal(dataOrganizationPlacesStatisticsSerialized);
     });
   });
+
+  describe('#getOrganizationPlacesLots', function () {
+    it('should call the usecase and serialize the response', async function () {
+      // given
+      const organizationId = Symbol('organizationId');
+      const request = { params: { id: organizationId } };
+
+      const organizationPlacesLots = Symbol('organizationPlacesLots');
+      const organizationPlacesLotsSerialized = Symbol('organizationPlacesLotsSerialized');
+
+      sinon.stub(usecases, 'getOrganizationPlacesLots');
+
+      usecases.getOrganizationPlacesLots.resolves(organizationPlacesLots).withArgs(organizationId);
+
+      const organizationPlacesLotsSerializerStub = {
+        serialize: sinon.stub(),
+      };
+
+      organizationPlacesLotsSerializerStub.serialize
+        .withArgs(organizationPlacesLots)
+        .returns(organizationPlacesLotsSerialized);
+
+      const dependencies = {
+        organizationPlacesLotsSerializer: organizationPlacesLotsSerializerStub,
+      };
+
+      // when
+      const result = await organizationPlaceController.getOrganizationPlacesLots(request, hFake, dependencies);
+
+      // then
+      expect(result).to.equal(organizationPlacesLotsSerialized);
+    });
+  });
 });
