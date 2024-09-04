@@ -1,6 +1,6 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../src/shared/domain/errors.js';
-import { CertificationCenterInvitedUser } from '../../../src/shared/domain/models/CertificationCenterInvitedUser.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
+import { CertificationCenterInvitedUser } from '../../../shared/domain/models/CertificationCenterInvitedUser.js';
 
 const get = async function ({ certificationCenterInvitationId, email }) {
   const invitation = await knex('certification-center-invitations')
@@ -36,4 +36,5 @@ const save = async function (certificationCenterInvitedUser) {
     .where({ id: certificationCenterInvitedUser.invitation.id });
 };
 
-export { get, save };
+const certificationCenterInvitedUserRepository = { get, save };
+export { certificationCenterInvitedUserRepository };

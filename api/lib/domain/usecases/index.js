@@ -104,6 +104,7 @@ import { importNamedExportsFromDirectory } from '../../../src/shared/infrastruct
 import * as certificationCenterInvitationService from '../../../src/team/domain/services/certification-center-invitation-service.js';
 import { organizationInvitationService } from '../../../src/team/domain/services/organization-invitation.service.js';
 import * as certificationCenterInvitationRepository from '../../../src/team/infrastructure/repositories/certification-center-invitation-repository.js';
+import { certificationCenterInvitedUserRepository } from '../../../src/team/infrastructure/repositories/certification-center-invited-user.repository.js';
 import { organizationInvitationRepository } from '../../../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import { userOrgaSettingsRepository } from '../../../src/team/infrastructure/repositories/user-orga-settings-repository.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
@@ -122,7 +123,6 @@ import { campaignParticipationResultRepository } from '../../infrastructure/repo
 import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
 import * as certifiableProfileForLearningContentRepository from '../../infrastructure/repositories/certifiable-profile-for-learning-content-repository.js';
 import * as certificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin-repository.js';
-import * as certificationCenterInvitedUserRepository from '../../infrastructure/repositories/certification-center-invited-user-repository.js';
 import * as certificationCenterMembershipRepository from '../../infrastructure/repositories/certification-center-membership-repository.js';
 import * as certificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact-repository.js';
 import * as certificationRepository from '../../infrastructure/repositories/certification-repository.js';
