@@ -1,4 +1,9 @@
-import { ImportStorage } from '../../../../../../src/prescription/learner-management/infrastructure/storage/import-storage.js';
+import {
+  ImportStorage,
+  S3DeleteError,
+  S3ReadError,
+  S3UploadError,
+} from '../../../../../../src/prescription/learner-management/infrastructure/storage/import-storage.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { FileValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
@@ -62,7 +67,7 @@ describe('Unit | Storage | ImportStorage', function () {
       expect(filename).to.equals('hey.xml');
     });
 
-    it('throw a en error if createReadStream fails', async function () {
+    it('throw an error if createReadStream fails', async function () {
       // Given
       const filepath = 'hey.xml';
       createReadStreamStub.throws();
@@ -77,7 +82,7 @@ describe('Unit | Storage | ImportStorage', function () {
       expect(fileError).to.be.an.instanceOf(FileValidationError);
     });
 
-    it('throw a en error if stream send fails', async function () {
+    it('throw an error if stream send fails', async function () {
       // Given
       const filepath = 'hey.xml';
       const streamStub = {
@@ -96,6 +101,26 @@ describe('Unit | Storage | ImportStorage', function () {
       // Then
       expect(fileError).to.be.an.instanceOf(FileValidationError);
     });
+
+    it('throws a S3UploadError if startUpload fail', async function () {
+      // Given
+      const filepath = 'hey.xml';
+      const noOpStream = { on: () => sinon.stub() };
+      const providerStub = sinon.createStubInstance(S3ObjectStorageProvider);
+      sinon.stub(S3ObjectStorageProvider, 'createClient').returns(providerStub);
+      providerStub.startUpload.rejects(new Error('Something went wrong'));
+
+      const importStorage = new ImportStorage({
+        basename: basenameStub,
+        createReadStream: createReadStreamStub.returns(noOpStream),
+      });
+
+      // When
+      const error = await catchErr(importStorage.sendFile, importStorage)({ filepath });
+      // Then
+      expect(error).to.be.an.instanceOf(S3UploadError);
+      expect(error.message).to.equal('Something went wrong');
+    });
   });
 
   describe('#readFile', function () {
@@ -112,6 +137,21 @@ describe('Unit | Storage | ImportStorage', function () {
 
       // then
       expect(expectedStream).to.equal(noOpStream);
+    });
+
+    it('should throw a S3ReadError if readFile fail', async function () {
+      // given
+      const providerStub = sinon.createStubInstance(S3ObjectStorageProvider);
+      sinon.stub(S3ObjectStorageProvider, 'createClient').returns(providerStub);
+      const importStorage = new ImportStorage();
+      providerStub.readFile.rejects(new Error('Something went wrong'));
+
+      // when
+      const error = await catchErr(importStorage.readFile, importStorage)({ filename: 'hey.xml' });
+
+      // then
+      expect(error).to.be.instanceOf(S3ReadError);
+      expect(error.message).to.equal('Something went wrong');
     });
   });
 
@@ -130,6 +170,21 @@ describe('Unit | Storage | ImportStorage', function () {
       expect(providerStub.deleteFile).to.have.been.calledWithExactly({
         key: 'hey.xml',
       });
+    });
+
+    it('should throw a S3DeleteError if deleteFile fail', async function () {
+      // given
+      const providerStub = sinon.createStubInstance(S3ObjectStorageProvider);
+      sinon.stub(S3ObjectStorageProvider, 'createClient').returns(providerStub);
+      const importStorage = new ImportStorage();
+      providerStub.deleteFile.rejects(new Error('Something went wrong'));
+
+      // when
+      const error = await catchErr(importStorage.deleteFile, importStorage)({ filename: 'hey.xml' });
+
+      // then
+      expect(error).to.be.instanceOf(S3DeleteError);
+      expect(error.message).to.equal('Something went wrong');
     });
   });
 });
