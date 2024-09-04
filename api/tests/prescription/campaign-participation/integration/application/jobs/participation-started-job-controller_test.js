@@ -1,5 +1,3 @@
-import * as httpErrorsHelper from '../../../../../../lib/infrastructure/http/errors-helper.js';
-import { httpAgent } from '../../../../../../lib/infrastructure/http/http-agent.js';
 import * as campaignParticipationRepository from '../../../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignRepository from '../../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as poleEmploiSendingRepository from '../../../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
@@ -7,7 +5,6 @@ import * as targetProfileRepository from '../../../../../../lib/infrastructure/r
 import * as userRepository from '../../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { ParticipationStartedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/participation-started-job-controller.js';
 import { ParticipationStartedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationStartedJob.js';
-import { monitoringTools } from '../../../../../../src/shared/infrastructure/monitoring-tools.js';
 import * as assessmentRepository from '../../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import {
@@ -20,10 +17,13 @@ import {
 } from '../../../../../test-helper.js';
 
 describe('Integration | Application | pole-emploi-participation-started-job-controller', function () {
-  let campaignParticipationId, userId, poleEmploiNotifier, responseCode, data;
+  let campaignParticipationId, userId, poleEmploiNotifier, responseCode, data, logger, httpAgent, httpErrorsHelper;
 
   describe('#handle', function () {
     beforeEach(async function () {
+      logger = sinon.stub();
+      httpAgent = sinon.stub();
+      httpErrorsHelper = sinon.stub();
       responseCode = Symbol('responseCode');
       poleEmploiNotifier = { notify: sinon.stub().resolves({ isSuccessful: true, code: responseCode }) };
 
@@ -61,7 +61,7 @@ describe('Integration | Application | pole-emploi-participation-started-job-cont
           userRepository,
           poleEmploiNotifier,
           httpErrorsHelper,
-          monitoringTools,
+          logger,
           httpAgent,
         },
       });

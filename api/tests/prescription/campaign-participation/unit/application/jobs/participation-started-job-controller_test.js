@@ -8,7 +8,7 @@ describe('Unit | Application | Controller | Jobs | participation-started-control
   let data, dependencies, expectedResults;
   let httpAgent,
     httpErrorsHelper,
-    monitoringTools,
+    logger,
     campaignRepository,
     campaignParticipationRepository,
     organizationRepository,
@@ -32,7 +32,7 @@ describe('Unit | Application | Controller | Jobs | participation-started-control
     poleEmploiSendingRepository = { create: sinon.stub() };
 
     httpAgent = Symbol('httpAgent');
-    monitoringTools = Symbol('monitoringTools');
+    logger = Symbol('logger');
     httpErrorsHelper = Symbol('httpErrorsHelper');
 
     dependencies = {
@@ -45,7 +45,7 @@ describe('Unit | Application | Controller | Jobs | participation-started-control
       userRepository,
       poleEmploiNotifier,
       httpAgent,
-      monitoringTools,
+      logger,
       httpErrorsHelper,
     };
 
@@ -139,7 +139,7 @@ describe('Unit | Application | Controller | Jobs | participation-started-control
             authenticationMethodRepository,
             httpAgent,
             httpErrorsHelper,
-            monitoringTools,
+            logger,
           })
           .resolves(expectedResponse);
         const poleEmploiSending = Symbol('Pole emploi sending');

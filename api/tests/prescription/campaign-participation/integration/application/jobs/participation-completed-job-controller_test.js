@@ -17,10 +17,13 @@ import {
 } from '../../../../../test-helper.js';
 
 describe('Integration | Prescription | Application | Jobs | ParticipationCompletedJobController', function () {
-  let campaignParticipationId, userId, data, poleEmploiNotifier, responseCode;
+  let campaignParticipationId, userId, data, poleEmploiNotifier, responseCode, logger, httpAgent, httpErrorsHelper;
 
   describe('#handle', function () {
     beforeEach(async function () {
+      logger = sinon.stub();
+      httpAgent = sinon.stub();
+      httpErrorsHelper = sinon.stub();
       responseCode = Symbol('responseCode');
       poleEmploiNotifier = { notify: sinon.stub().resolves({ isSuccessful: true, code: responseCode }) };
 
@@ -57,6 +60,9 @@ describe('Integration | Prescription | Application | Jobs | ParticipationComplet
           targetProfileRepository,
           userRepository,
           poleEmploiNotifier,
+          httpErrorsHelper,
+          logger,
+          httpAgent,
         },
       });
 

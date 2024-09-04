@@ -9,8 +9,8 @@ import * as authenticationMethodRepository from '../../../../identity-access-man
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { JobController } from '../../../../shared/application/jobs/job-controller.js';
 import { PoleEmploiSending } from '../../../../shared/domain/models/index.js';
-import { monitoringTools } from '../../../../shared/infrastructure/monitoring-tools.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { ParticipationStartedJob } from '../../domain/models/ParticipationStartedJob.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 
@@ -36,7 +36,7 @@ export class ParticipationStartedJobController extends JobController {
       poleEmploiNotifier,
       httpAgent,
       httpErrorsHelper,
-      monitoringTools,
+      logger,
     },
   }) {
     const { campaignParticipationId } = data;
@@ -60,7 +60,7 @@ export class ParticipationStartedJobController extends JobController {
         authenticationMethodRepository: dependencies.authenticationMethodRepository,
         httpAgent: dependencies.httpAgent,
         httpErrorsHelper: dependencies.httpErrorsHelper,
-        monitoringTools: dependencies.monitoringTools,
+        logger: dependencies.logger,
       });
 
       const poleEmploiSending = PoleEmploiSending.buildForParticipationStarted({
