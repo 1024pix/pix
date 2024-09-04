@@ -1,5 +1,5 @@
 import { anonymizeUser } from '../../../../../lib/domain/usecases/anonymize-user.js';
-import * as certificationCenterMembershipRepository from '../../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
+import { certificationCenterMembershipRepository } from '../../../../../src/team/infrastructure/repositories/certification-center-membership.repository.js';
 import { userAnonymizedEventLoggingJobRepository } from '../../../../../lib/infrastructure/repositories/jobs/user-anonymized-event-logging-job-repository.js';
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';

@@ -1,19 +1,19 @@
 import _ from 'lodash';
 
-import { knex } from '../../../db/knex-database-connection.js';
-import { User } from '../../../src/identity-access-management/domain/models/User.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { User } from '../../../identity-access-management/domain/models/User.js';
 import {
   AlreadyExistingMembershipError,
   CertificationCenterMembershipCreationError,
   CertificationCenterMembershipDisableError,
   NotFoundError,
-} from '../../../src/shared/domain/errors.js';
-import { CertificationCenter } from '../../../src/shared/domain/models/CertificationCenter.js';
-import { CertificationCenterMembership } from '../../../src/shared/domain/models/CertificationCenterMembership.js';
-import { BookshelfCertificationCenterMembership } from '../../../src/shared/infrastructure/orm-models/CertificationCenterMembership.js';
-import * as bookshelfToDomainConverter from '../../../src/shared/infrastructure/utils/bookshelf-to-domain-converter.js';
-import * as knexUtils from '../../../src/shared/infrastructure/utils/knex-utils.js';
-import { DomainTransaction } from '../DomainTransaction.js';
+} from '../../../shared/domain/errors.js';
+import { CertificationCenter } from '../../../shared/domain/models/CertificationCenter.js';
+import { CertificationCenterMembership } from '../../../shared/domain/models/CertificationCenterMembership.js';
+import { BookshelfCertificationCenterMembership } from '../../../shared/infrastructure/orm-models/CertificationCenterMembership.js';
+import * as bookshelfToDomainConverter from '../../../shared/infrastructure/utils/bookshelf-to-domain-converter.js';
+import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
 
 const CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME = 'certification-center-memberships';
 
@@ -314,7 +314,7 @@ async function findActiveAdminsByCertificationCenterId(certificationCenterId) {
   return certificationCenterMemberships.map(_toDomain);
 }
 
-export {
+const certificationCenterMembershipRepository = {
   countActiveMembersForCertificationCenter,
   create,
   disableById,
@@ -333,3 +333,5 @@ export {
   update,
   updateRefererStatusByUserIdAndCertificationCenterId,
 };
+
+export { certificationCenterMembershipRepository };
