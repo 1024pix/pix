@@ -32,7 +32,7 @@ export default class LoginForm extends Component {
     event.preventDefault();
     const identification = this.email ? this.email.trim() : '';
     const password = this.password;
-    const scope = 'pix-admin';
+    const scope = ENV.APP.AUTHENTICATION.SCOPE;
     try {
       await this.session.authenticate('authenticator:oauth2', identification, password, scope);
     } catch (responseError) {

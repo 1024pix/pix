@@ -37,7 +37,7 @@ export default class Login extends Component {
     event.preventDefault();
     const email = this.email ? this.email.trim() : '';
     const password = this.password;
-    const scope = 'pix-certif';
+    const scope = ENV.APP.AUTHENTICATION.SCOPE;
     try {
       await this.session.authenticate('authenticator:oauth2', email, password, scope);
     } catch (responseError) {

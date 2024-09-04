@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import ENV from 'mon-pix/config/environment';
 
 export default class UpdateScoRecordController extends Controller {
   @service intl;
@@ -31,7 +32,7 @@ export default class UpdateScoRecordController extends Controller {
       await this.session.authenticate('authenticator:oauth2', {
         login: this.model.email,
         password,
-        scope: 'mon-pix',
+        scope: ENV.APP.AUTHENTICATION.SCOPE,
       });
     } catch (err) {
       this._handleError(err);

@@ -101,6 +101,9 @@ module.exports = function (environment) {
       COOKIE_LOCALE_LIFESPAN_IN_SECONDS: 31536000, // 1 year in seconds
       AUTONOMOUS_COURSES_ORGANIZATION_ID: parseInt(process.env.AUTONOMOUS_COURSES_ORGANIZATION_ID, 10),
       APP_VERSION: process.env.SOURCE_VERSION || 'development',
+      AUTHENTICATION: {
+        SCOPE: 'mon-pix',
+      },
     },
 
     fontawesome: {

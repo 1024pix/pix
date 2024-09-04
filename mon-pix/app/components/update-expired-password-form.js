@@ -10,7 +10,6 @@ import ENV from 'mon-pix/config/environment';
 
 import isPasswordValid from '../utils/password-validator';
 
-const SCOPE_MON_PIX = 'mon-pix';
 const ERROR_PASSWORD_MESSAGE = 'pages.update-expired-password.fields.error';
 const AUTHENTICATED_SOURCE_FROM_GAR = ENV.APP.AUTHENTICATED_SOURCE_FROM_GAR;
 
@@ -90,11 +89,8 @@ export default class UpdateExpiredPasswordForm extends Component {
 
   async _authenticateWithUpdatedPassword({ login, password }) {
     try {
-      await this.session.authenticate('authenticator:oauth2', {
-        login,
-        password,
-        scope: SCOPE_MON_PIX,
-      });
+      const scope = ENV.APP.AUTHENTICATION.SCOPE;
+      await this.session.authenticate('authenticator:oauth2', { login, password, scope });
       this.session.set('data.externalUser', null);
       this.session.set('data.expectedUserId', null);
     } catch (errorResponse) {

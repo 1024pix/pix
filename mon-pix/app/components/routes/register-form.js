@@ -340,7 +340,7 @@ export default class RegisterForm extends Component {
   }
 
   _authenticate(login, password) {
-    const scope = 'mon-pix';
+    const scope = ENV.APP.AUTHENTICATION.SCOPE;
     return this.session.authenticate('authenticator:oauth2', { login, password, scope });
   }
 
