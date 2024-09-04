@@ -3,6 +3,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import * as complementaryCertificationApi from '../../../complementary-certification/application/api/complementary-certification-api.js';
 import * as sessionManagementRepository from '../../../session-management/infrastructure/repositories/session-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
+import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
 import * as candidateRepository from './candidate-repository.js';
 import * as centerRepository from './center-repository.js';
 import * as certificationCandidateRepository from './certification-candidate-repository.js';
@@ -34,6 +35,7 @@ import * as userRepository from './user-repository.js';
  * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {organizationLearnerRepository} OrganizationLearnerRepository
  * @typedef {userRepository} UserRepository
+ * @typedef {targetProfileHistoryRepository} TargetProfileHistoryRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   candidateRepository,
@@ -51,6 +53,7 @@ const repositoriesWithoutInjectedDependencies = {
   sessionRepository,
   organizationLearnerRepository,
   userRepository,
+  targetProfileHistoryRepository,
 };
 
 /**

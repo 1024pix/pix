@@ -1,9 +1,9 @@
-import * as targetProfileHistoryRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/target-profile-history-repository.js';
+import * as targetProfileHistoryRepository from '../../../../../../src/certification/shared/infrastructure/repositories/target-profile-history-repository.js';
 import { ComplementaryCertificationBadgeForAdmin } from '../../../../../../src/shared/domain/models/ComplementaryCertificationBadgeForAdmin.js';
 import { TargetProfileHistoryForAdmin } from '../../../../../../src/shared/domain/models/TargetProfileHistoryForAdmin.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Integration | Repository | complementary-certification-target-profile-history-repository', function () {
+describe('Integration | Repository | target-profile-history-repository', function () {
   describe('#getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId', function () {
     describe('when there is only one current target profile associated to complementary certification', function () {
       it('should return the current target profile with badges', async function () {
