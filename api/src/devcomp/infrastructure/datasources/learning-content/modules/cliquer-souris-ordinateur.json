@@ -249,7 +249,7 @@
           "element": {
             "id": "73b6a6d3-8c76-46e9-ae1f-d208d5bf1960",
             "type": "text",
-            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Modulix-1emarche-clic-1erclicsgauches/index.html\" width=\"100%\" height=\"395\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Modulix-1emarche-clic-1erclicsgauchesV2/index.html\" width=\"100%\" height=\"395\"></iframe>"
           }
         },
         {
@@ -381,7 +381,7 @@
           "element": {
             "id": "31625a13-1f4a-4d10-bd65-64a14505d1f6",
             "type": "text",
-            "content": "<iframe title=\"\\&quot;dnd\\&quot;\" src=\"\\&quot;https://1024pix.github.io/atelier-contenus/RPE/Modulix-1emarche-souris1-CarteAGratter/index.html\\&quot;\" width=\"\\&quot;100%\\&quot;\" height=\"\\&quot;395\\&quot;\"></iframe>"
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Modulix-1emarche-clic-1erdoublesclics/index.html\" width=\"100%\" height=\"395\"></iframe>"
           }
         },
         {
@@ -404,7 +404,7 @@
           "element": {
             "id": "be23697d-9393-405a-bb01-852e660e6818",
             "type": "text",
-            "content": "<p>Nous allons maintenant vous proposer des situations de double&#x002D;clic proche de cas que vous pourriez rencontrer. <br><br> <strong>Dans l’espace ci-dessous, effectuez un double&#x002D;clic sur chacun des éléments demandés.<br></strong><br></p>\n<p>Si vous avez terminé cette activité, faites un clic gauche sur le bouton «&nbsp;Suivant&nbsp;» ci-dessous.</p>"
+            "content": "<p>Nous allons maintenant vous proposer des situations de double&#x002D;clic proche de cas que vous pourriez rencontrer.</p>"
           }
         },
      {
@@ -428,7 +428,7 @@
             "proposals": [
               {
                 "type": "text",
-                "content": "<span>Nombre de photos dans le dossier 80 ans Mamie&#8239;: </span>"
+                "content": "<span>Nombre de photos#8239;: </span>"
               },
               {
                 "input": "nombre-photo",
