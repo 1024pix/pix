@@ -1,6 +1,5 @@
 import Joi from 'joi';
 
-import { userController } from '../../../../lib/application/users/user-controller.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { userAdminController } from './user.admin.controller.js';
@@ -62,7 +61,7 @@ export const userAdminRoutes = [
           }).default({}),
         }),
       },
-      handler: (request, h) => userController.findPaginatedFilteredUsers(request, h),
+      handler: (request, h) => userAdminController.findPaginatedFilteredUsers(request, h),
       notes: [
         "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
           '- Elle permet de récupérer & chercher une liste d’utilisateurs\n' +
