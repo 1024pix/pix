@@ -22,6 +22,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
           disabledAt: '2020-01-03',
           status: 'STARTED',
           campaignTitle: 'My campaign',
+          campaignCode: 'CAMPAIGN',
           organizationName: 'My organization',
           masteryRate: null,
         });
@@ -49,6 +50,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
           disabledAt: '2020-01-03',
           status: 'TO_SHARE',
           campaignTitle: 'My campaign',
+          campaignCode: 'CAMPAIGN',
           organizationName: 'My organization',
           masteryRate: null,
         });
@@ -76,6 +78,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
           disabledAt: '2020-01-03',
           status: 'TO_SHARE',
           campaignTitle: 'My campaign',
+          campaignCode: 'CAMPAIGN',
           organizationName: 'My organization',
           masteryRate: null,
         });
@@ -100,6 +103,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
           status: 'SHARED',
           isShared: true,
           campaignTitle: 'My campaign',
+          campaignCode: 'CAMPAIGN',
           organizationName: 'My organization',
           masteryRate: 0.56,
         });
@@ -123,6 +127,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
             status: 'SHARED',
             isShared: true,
             campaignTitle: 'My campaign',
+            campaignCode: 'CAMPAIGN',
             organizationName: 'My organization',
             masteryRate: 0.56,
           });
@@ -147,6 +152,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
             status: 'SHARED',
             isShared: true,
             campaignTitle: 'My campaign',
+            campaignCode: 'CAMPAIGN',
             organizationName: 'My organization',
             masteryRate: '0.56',
             totalStagesCount: 4,

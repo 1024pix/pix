@@ -12,7 +12,7 @@ module('Acceptance | User account', function (hooks) {
   module('When in profile', function () {
     test('should open tests page when click on menu', async function (assert) {
       //given
-      server.create('campaign-participation-overview', { assessmentState: 'completed' });
+      server.create('campaign-participation-overview', { assessmentState: 'completed', campaignCode: 'CAMPAIGN' });
       const user = server.create('user', 'withEmail', 'withAssessmentParticipations', { firstName: 'Henri' });
       const screen = await authenticateByEmail(user);
 
@@ -26,7 +26,7 @@ module('Acceptance | User account', function (hooks) {
 
     test('should open certifications page when click on menu', async function (assert) {
       //given
-      server.create('campaign-participation-overview', { assessmentState: 'completed' });
+      server.create('campaign-participation-overview', { assessmentState: 'completed', campaignCode: 'CAMPAIGN' });
       const user = server.create('user', 'withEmail', 'withAssessmentParticipations', { firstName: 'Henri' });
       const screen = await authenticateByEmail(user);
 
@@ -40,7 +40,7 @@ module('Acceptance | User account', function (hooks) {
 
     test('should contain link to pix.fr/support', async function (assert) {
       // given
-      server.create('campaign-participation-overview', { assessmentState: 'completed' });
+      server.create('campaign-participation-overview', { assessmentState: 'completed', campaignCode: 'CAMPAIGN' });
       const user = server.create('user', 'withEmail', 'withAssessmentParticipations', { firstName: 'Henri' });
       const screen = await authenticateByEmail(user);
 
@@ -54,7 +54,7 @@ module('Acceptance | User account', function (hooks) {
 
     test('should open My account page when click on menu', async function (assert) {
       //given
-      server.create('campaign-participation-overview', { assessmentState: 'completed' });
+      server.create('campaign-participation-overview', { assessmentState: 'completed', campaignCode: 'CAMPAIGN' });
       const user = server.create('user', 'withEmail', 'withAssessmentParticipations', { firstName: 'Henri' });
       const screen = await authenticateByEmail(user);
       await click(screen.getByRole('button', { name: 'Henri Consulter mes informations' }));
@@ -69,7 +69,7 @@ module('Acceptance | User account', function (hooks) {
 
   test('should close menu when click outside', async function (assert) {
     // given
-    server.create('campaign-participation-overview', { assessmentState: 'completed' });
+    server.create('campaign-participation-overview', { assessmentState: 'completed', campaignCode: 'CAMPAIGN' });
     const user = server.create('user', 'withEmail', 'withAssessmentParticipations', { firstName: 'Henri' });
     const screen = await authenticateByEmail(user);
     await click(screen.getByRole('button', { name: 'Henri Consulter mes informations' }));

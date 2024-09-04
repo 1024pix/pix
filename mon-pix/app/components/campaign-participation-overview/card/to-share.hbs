@@ -10,12 +10,13 @@
     </time>
   </div>
   <section class="campaign-participation-overview-card-content">
-    <LinkTo
-      class="button button--link button--yellow campaign-participation-overview-card-content__action"
+    <PixButtonLink
+      class="campaign-participation-overview-card-content__action"
       @route="campaigns.entry-point"
       @model={{@model.campaignCode}}
+      @variant="primary-bis"
     >
       {{t "pages.campaign-participation-overview.card.send"}}
-    </LinkTo>
+    </PixButtonLink>
   </section>
 </article>
