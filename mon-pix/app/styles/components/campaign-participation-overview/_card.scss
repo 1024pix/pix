@@ -1,24 +1,30 @@
 .campaign-participation-overview-card {
+  @extend %pix-shadow-xs;
+
   display: flex;
   flex-direction: column;
+  gap: var(--pix-spacing-8x);
   align-items: flex-start;
   justify-content: space-between;
-  min-width: 0;
-  height: 273px;
-  padding: 16px 24px 32px;
+  height: 290px;
+  padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
   font-family: $font-roboto;
   background: var(--pix-neutral-0);
   border-radius: 8px;
-  box-shadow: 0 2px 0 0 rgb(23 43 77 / 6%);
 
   &__header {
     width: 100%;
-    letter-spacing: 0.009rem;
   }
 }
 
 .campaign-participation-overview-card-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
   width: 100%;
+
 
   &__content {
     display: flex;
@@ -35,18 +41,12 @@
     border-radius: 4px;
   }
 
-  &__archived-and-not-shared {
-    margin-bottom: 32px;
-  }
-
   &__action {
-    padding: 11px 16px;
-    font-weight: var(--pix-font-medium);
-    font-size: 0.825rem;
+    display: block;
   }
 
-  &__see-more {
-    padding: 0;
+  &__archived-and-not-shared {
+    margin-bottom: auto;
   }
 
   &--archived {
@@ -55,19 +55,20 @@
     font-family: $font-open-sans;
     text-align: center;
   }
-
-  svg {
-    width: 24px;
-  }
 }
 
 .campaign-participation-overview-card-header {
+  line-height: normal;
+
   &__tag {
-    margin-bottom: 16px;
-    border-radius: 11px;
+    @extend %pix-body-xs;
+
+    margin-bottom: var(--pix-spacing-4x);
   }
 
   &__title {
+    @extend %pix-body-m;
+
     overflow: hidden;
     color: var(--pix-neutral-900);
     font-weight: var(--pix-font-medium);
@@ -78,15 +79,16 @@
   }
 
   &__subtitle {
+    @extend %pix-body-s;
+
     display: block;
-    margin-top: 8px;
+    margin-top: var(--pix-spacing-2x);
     color: var(--pix-neutral-500);
-    font-weight: var(--pix-font-medium);
-    font-size: 0.875rem;
   }
 
   &__date {
+    @extend %pix-body-s;
+
     color: var(--pix-neutral-500);
-    font-size: 0.8125rem;
   }
 }

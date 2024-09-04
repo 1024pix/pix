@@ -24,13 +24,13 @@
         </p>
       {{/if}}
     </div>
-    <LinkTo
-      class="link campaign-participation-overview-card-content__see-more campaign-participation-overview-card-content__action"
+    <PixButtonLink
+      class="campaign-participation-overview-card-content__action"
       @route="campaigns.entry-point"
       @model={{@model.campaignCode}}
+      @variant="secondary"
     >
-      <FaIcon @icon="arrow-right" aria-hidden="true" />
       {{t "pages.campaign-participation-overview.card.see-more"}}
-    </LinkTo>
+    </PixButtonLink>
   </section>
 </article>

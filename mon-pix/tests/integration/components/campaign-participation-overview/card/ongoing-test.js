@@ -15,6 +15,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ongoing
       createdAt: '2020-12-10T15:16:20.109Z',
       status: 'STARTED',
       campaignTitle: 'My campaign',
+      campaignCode: 'CAMPAIGN',
       organizationName: 'My organization',
     });
     this.set('campaignParticipationOverview', campaignParticipationOverview);
