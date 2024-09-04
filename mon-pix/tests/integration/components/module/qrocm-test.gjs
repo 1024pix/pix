@@ -1,14 +1,15 @@
-import { clickByName, render } from '@1024pix/ember-testing-library';
+import {clickByName, render} from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
-import { click, fillIn, find } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
-import { t } from 'ember-intl/test-support';
-import { module, test } from 'qunit';
+import {click, fillIn, find} from '@ember/test-helpers';
+import {hbs} from 'ember-cli-htmlbars';
+import {t} from 'ember-intl/test-support';
+import {module, test} from 'qunit';
 import sinon from 'sinon';
+import ModuleQrocm from 'mon-pix/components/module/element/qrocm';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Module | QROCM', function (hooks) {
+module.only('Integration | Component | Module | QROCM', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('should display a block QROCM', async function (assert) {
@@ -49,8 +50,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    this.set('el', qrocm);
-    const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} />`);
+    const screen = await render(<template>
+      <ModuleQrocm @element={{qrocm}}/>
+    </template>)
     const direction = t('pages.modulix.qrocm.direction', {
       count: qrocm.proposals.filter(({ type }) => type !== 'text').length,
     });
@@ -110,8 +112,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    this.set('el', qrocm);
-    const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} />`);
+    const screen = await render(<template>
+      <ModuleQrocm @element={{qrocm}}/>
+    </template>)
 
     // then
     assert.ok(screen);
@@ -156,8 +159,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    this.set('el', qrocm);
-    const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} />`);
+    const screen = await render(<template>
+      <ModuleQrocm @element={{qrocm}}/>
+    </template>)
 
     // when
     await clickByName('select-aria');
@@ -200,8 +204,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    this.set('el', qrocm);
-    const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} />`);
+    const screen = await render(<template>
+      <ModuleQrocm @element={{qrocm}}/>
+    </template>)
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -236,10 +241,12 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    const givenonElementAnswerStub = function () {};
-    this.set('onAnswer', givenonElementAnswerStub);
-    this.set('el', qrocm);
-    const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
+    const onAnswer = function (){}
+
+    const screen = await render(<template>
+      <ModuleQrocm @element={{qrocm}}
+                   @onAnswer={{onAnswer}}/>
+    </template>)
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -548,6 +555,8 @@ function prepareContextRecords(store, correctionResponse) {
     correction: correctionResponse,
     elementId: qrocm.id,
   });
-  this.set('el', qrocm);
-  this.set('correctionResponse', correctionResponse);
+  return {
+    qrocm,
+    correctionResponse,
+  };
 }
