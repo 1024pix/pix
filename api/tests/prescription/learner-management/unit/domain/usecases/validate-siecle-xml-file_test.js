@@ -146,7 +146,7 @@ describe('Unit | UseCase | validate-siecle-xml-file', function () {
       it('should save parsing errors', async function () {
         const parsingErrors = [new Error('parsing'), new Error('parsing2')];
         parserStub.parse.rejects(new AggregateImportError(parsingErrors));
-        await validateSiecleXmlFile({
+        const error = await catchErr(validateSiecleXmlFile)({
           organizationImportId,
           organizationImportRepository: organizationImportRepositoryStub,
           organizationRepository: organizationRepositoryStub,
@@ -156,22 +156,26 @@ describe('Unit | UseCase | validate-siecle-xml-file', function () {
         expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({
           filename: organizationImportStub.filename,
         });
+        expect(error).to.be.instanceof(AggregateImportError);
         expect(organizationImportStub.validate).to.have.been.calledWith({ errors: parsingErrors });
         expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
       });
 
       it('should save empty learner error', async function () {
         parserStub.parse.resolves([]);
-        await validateSiecleXmlFile({
+
+        const error = await catchErr(validateSiecleXmlFile)({
           organizationImportId,
           organizationImportRepository: organizationImportRepositoryStub,
           organizationRepository: organizationRepositoryStub,
           importStorage: importStorageStub,
           importOrganizationLearnersJobRepository: importOrganizationLearnersJobRepositoryStub,
         });
+
         expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({
           filename: organizationImportStub.filename,
         });
+        expect(error).to.be.instanceof(SiecleXmlImportError);
         expect(organizationImportStub.validate.getCall(0).args[0].errors[0] instanceof SiecleXmlImportError).to.equal(
           true,
         );
