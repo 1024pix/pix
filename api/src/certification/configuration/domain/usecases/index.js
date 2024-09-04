@@ -5,6 +5,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as complementaryCertificationRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
+import * as centerPilotFeaturesRepository from '../../infrastructure/repositories/center-pilot-features-repository.js';
 
 /**
  *
@@ -12,10 +13,12 @@ import * as attachableTargetProfileRepository from '../../infrastructure/reposit
  *
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {attachableTargetProfileRepository} AttachableTargetProfileRepository
+ * @typedef {centerPilotFeaturesRepository} CenterPilotFeaturesRepository
  **/
 const dependencies = {
   attachableTargetProfileRepository,
   complementaryCertificationRepository,
+  centerPilotFeaturesRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
