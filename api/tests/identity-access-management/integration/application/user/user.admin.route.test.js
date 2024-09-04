@@ -1,5 +1,5 @@
-import { userController } from '../../../../../lib/application/users/user-controller.js';
 import { identityAccessManagementRoutes } from '../../../../../src/identity-access-management/application/routes.js';
+import { userAdminController } from '../../../../../src/identity-access-management/application/user/user.admin.controller.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
@@ -10,7 +10,7 @@ describe('Integration | Identity Access Management | Application | Route | Admin
     it('returns an HTTP status code 200', async function () {
       // given
       sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(userController, 'findPaginatedFilteredUsers').returns('ok');
+      sinon.stub(userAdminController, 'findPaginatedFilteredUsers').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(routesUnderTest);
 
@@ -23,7 +23,7 @@ describe('Integration | Identity Access Management | Application | Route | Admin
       // then
       expect(response.statusCode).to.equal(200);
       sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
-      sinon.assert.calledOnce(userController.findPaginatedFilteredUsers);
+      sinon.assert.calledOnce(userAdminController.findPaginatedFilteredUsers);
     });
 
     it('returns an HTTP status code 403', async function () {
@@ -52,7 +52,7 @@ describe('Integration | Identity Access Management | Application | Route | Admin
       it('is accepted and the search is performed', async function () {
         // given
         sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
-        sinon.stub(userController, 'findPaginatedFilteredUsers').returns('ok');
+        sinon.stub(userAdminController, 'findPaginatedFilteredUsers').returns('ok');
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(routesUnderTest);
 

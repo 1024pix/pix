@@ -14,7 +14,6 @@ import * as profileSerializer from '../../infrastructure/serializers/jsonapi/pro
 import * as sharedProfileForCampaignSerializer from '../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer.js';
 import * as userAnonymizedDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js';
 import * as userDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer.js';
-import * as userForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-for-admin-serializer.js';
 import * as userOrganizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
 
 const getUserDetailsForAdmin = async function (request, h, dependencies = { userDetailsForAdminSerializer }) {
@@ -69,13 +68,6 @@ const rememberUserHasSeenChallengeTooltip = async function (request, h, dependen
     challengeType,
   });
   return dependencies.userSerializer.serialize(updatedUser);
-};
-
-const findPaginatedFilteredUsers = async function (request, h, dependencies = { userForAdminSerializer }) {
-  const { filter, page } = request.query;
-
-  const { models: users, pagination } = await usecases.findPaginatedFilteredUsers({ filter, page });
-  return dependencies.userForAdminSerializer.serialize(users, pagination);
 };
 
 const findPaginatedUserRecommendedTrainings = async function (
@@ -290,7 +282,6 @@ const userController = {
   addPixAuthenticationMethodByEmail,
   anonymizeUser,
   findCertificationCenterMembershipsByUser,
-  findPaginatedFilteredUsers,
   findPaginatedUserRecommendedTrainings,
   findUserOrganizationsForAdmin,
   getCampaignParticipationOverviews,
