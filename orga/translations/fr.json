@@ -926,7 +926,7 @@
             },
             "no-data": "Il n'y a aucun participant"
           },
-          "results": {
+          "result": {
             "aria-label": "Élève",
             "caption": "Tableau des élèves avec le résultat de leur participation à la mission {missionName}",
             "filters": {

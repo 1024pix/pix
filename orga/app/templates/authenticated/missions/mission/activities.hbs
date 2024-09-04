@@ -21,45 +21,4 @@
   />
 
 </PixFilterBanner>
-{{#if @model.missionLearners}}
-  <div class="panel">
-    <table class="table content-text content-text--small participation-list__table">
-      <caption class="screen-reader-only">{{t
-          "pages.missions.mission.table.activities.caption"
-          missionName=@model.mission.mission.name
-        }}</caption>
-      <thead>
-        <tr>
-          <Table::Header scope="col">{{t "pages.missions.mission.table.activities.headers.first-name"}}</Table::Header>
-          <Table::Header scope="col">{{t "pages.missions.mission.table.activities.headers.last-name"}}</Table::Header>
-          <Table::Header scope="col">{{t "pages.missions.mission.table.activities.headers.division"}}</Table::Header>
-          <Table::Header scope="col">{{t "pages.missions.mission.table.activities.headers.status"}}</Table::Header>
-        </tr>
-      </thead>
-      <tbody>
-
-        {{#each this.model.missionLearners as |missionLearner|}}
-          <tr aria-label={{t "pages.missions.mission.table.activities.aria-label"}}>
-            <td>
-              {{missionLearner.firstName}}
-            </td>
-            <td>
-              {{missionLearner.lastName}}
-            </td>
-            <td>
-              {{missionLearner.division}}
-            </td>
-            <td>
-              <PixTag @color={{this.statusColor missionLearner.status}}>{{t missionLearner.displayableStatus}}</PixTag>
-            </td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
-  <Table::PaginationControl @pagination={{this.model.missionLearners.meta}} />
-{{else}}
-  <div class="table__empty content-text">
-    {{t "pages.missions.mission.table.activities.no-data"}}
-  </div>
-{{/if}}
+<Mission::ActivityTable @missionLearners={{this.model.missionLearners}} @mission={{this.model.mission.mission}} />

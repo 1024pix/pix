@@ -13,6 +13,6 @@ export default class MissionLearner extends Model {
   }
 
   get displayableResult() {
-    return `pages.missions.mission.table.results.mission-result.${this.result}`;
+    return `pages.missions.mission.table.result.mission-result.${this.result}`;
   }
 }

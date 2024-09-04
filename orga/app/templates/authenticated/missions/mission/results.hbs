@@ -21,37 +21,4 @@
   />
 
 </PixFilterBanner>
-<div class="panel">
-  <table class="table content-text content-text--small participation-list__table">
-    <caption class="screen-reader-only">{{t
-        "pages.missions.mission.table.activities.caption"
-        missionName=@model.mission.mission.name
-      }}</caption>
-    <thead>
-      <tr>
-        <Table::Header scope="col">{{t "pages.missions.mission.table.results.headers.first-name"}}</Table::Header>
-        <Table::Header scope="col">{{t "pages.missions.mission.table.results.headers.last-name"}}</Table::Header>
-        <Table::Header scope="col">{{t "pages.missions.mission.table.results.headers.division"}}</Table::Header>
-        <Table::Header scope="col">{{t "pages.missions.mission.table.results.headers.result"}}</Table::Header>
-      </tr>
-    </thead>
-    <tbody>
-
-      {{#each this.model.missionLearners as |missionLearner|}}
-        <tr aria-label={{t "pages.missions.mission.tabs.activities.aria-label"}}>
-          <td>
-            {{missionLearner.firstName}}
-          </td>
-          <td>
-            {{missionLearner.lastName}}
-          </td>
-          <td>
-            {{missionLearner.division}}
-          </td>
-          <td>{{t missionLearner.displayableResult}}</td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-<Table::PaginationControl @pagination={{this.model.missionLearners.meta}} />
+<Mission::ResultTable @missionLearners={{this.model.missionLearners}} @mission={{this.model.mission.mission}} />
