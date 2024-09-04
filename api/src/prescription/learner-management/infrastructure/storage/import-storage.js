@@ -3,9 +3,18 @@ import path from 'node:path';
 
 import { logErrorWithCorrelationIds } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { config } from '../../../../shared/config.js';
-import { FileValidationError } from '../../../../shared/domain/errors.js';
+import { DomainError, FileValidationError } from '../../../../shared/domain/errors.js';
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { getDataBuffer as gDB } from '../utils/bufferize/get-data-buffer.js';
+
+class S3UploadError extends Error {}
+
+class S3ReadError extends Error {}
+
+class S3FileDoesNotExistError extends DomainError {}
+
+class S3DeleteError extends DomainError {}
 
 class ImportStorage {
   #client;
@@ -32,14 +41,25 @@ class ImportStorage {
       logErrorWithCorrelationIds(error);
       throw new FileValidationError('INVALID_FILE');
     }
-    await this.#client.startUpload({ filename, readableStream });
+    try {
+      await this.#client.startUpload({ filename, readableStream });
+    } catch (err) {
+      logger.error(err);
+      throw new S3UploadError(err.message);
+    }
     return filename;
   }
 
   async readFile({ filename }) {
-    const data = await this.#client.readFile({ key: filename });
+    try {
+      const data = await this.#client.readFile({ key: filename });
 
-    return data.Body;
+      return data.Body;
+    } catch (error) {
+      logger.error(error);
+      if (error.Code === 'NoSuchKey') throw new S3FileDoesNotExistError(error.message);
+      throw new S3ReadError(error.message);
+    }
   }
 
   async getParser({ Parser, filename }, ...args) {
@@ -50,9 +70,14 @@ class ImportStorage {
   }
 
   async deleteFile({ filename }) {
-    await this.#client.deleteFile({ key: filename });
+    try {
+      await this.#client.deleteFile({ key: filename });
+    } catch (err) {
+      logger.error(err);
+      throw new S3DeleteError(err.message);
+    }
   }
 }
 
 const importStorage = new ImportStorage();
-export { ImportStorage, importStorage };
+export { ImportStorage, importStorage, S3DeleteError, S3FileDoesNotExistError, S3ReadError, S3UploadError };

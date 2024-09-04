@@ -14,7 +14,6 @@ async function addOrUpdateOrganizationLearners({
   organizationImportRepository,
   importStorage,
   chunkSize = ORGANIZATION_LEARNER_CHUNK_SIZE,
-  logErrorWithCorrelationIds,
 }) {
   const errors = [];
   const organizationImport = await organizationImportRepository.get(organizationImportId);
@@ -66,11 +65,8 @@ async function addOrUpdateOrganizationLearners({
       await organizationImportRepository.save(organizationImport);
       loggerForImport("IMPORT_LOG -> <<addOrUpdateOrganizationLearners>> Aprés le save de l'organizationImport");
 
-      try {
-        await importStorage.deleteFile({ filename: organizationImport.filename });
-      } catch (e) {
-        logErrorWithCorrelationIds(e);
-      }
+      await importStorage.deleteFile({ filename: organizationImport.filename });
+
       loggerForImport('IMPORT_LOG -> <<addOrUpdateOrganizationLearners>> Fin du usecase');
     }
   });

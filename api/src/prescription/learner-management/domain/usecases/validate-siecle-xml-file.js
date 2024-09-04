@@ -57,10 +57,7 @@ const validateSiecleXmlFile = async function ({
 
       await importStorage.deleteFile({ filename: organizationImport.filename });
 
-      const isKnownError = error instanceof AggregateImportError || error instanceof SiecleXmlImportError;
-      if (!isKnownError) {
-        throw error;
-      }
+      throw error;
     } finally {
       organizationImport.validate({ errors });
       await organizationImportRepository.save(organizationImport);
