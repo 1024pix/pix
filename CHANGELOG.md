@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v4.208.0 (04/09/2024)
+
+
+### :rocket: Amélioration
+- [#10025](https://github.com/1024pix/pix/pull/10025) [FEATURE] Passer le nom de l'application (le scope) à l'authentification de manière standardisée (PIX-13910).
+- [#10042](https://github.com/1024pix/pix/pull/10042) [FEATURE] Junior - Séparer l'activité et les résultats d'une mission en 2 onglets (PIX-13846).
+- [#9790](https://github.com/1024pix/pix/pull/9790) [FEATURE] Réaligner le design des cartes de participation.
+- [#10028](https://github.com/1024pix/pix/pull/10028) [FEATURE] Personnaliser le message de fin de mission en fonction des résultats (Pix-13845).
+- [#10031](https://github.com/1024pix/pix/pull/10031) [FEATURE] Remettre dans leur état initial les participations ayant eu leurs campaignId supprimé (PIX-14054).
+- [#9969](https://github.com/1024pix/pix/pull/9969) [FEATURE] Utiliser les correspondances des claims en base de données (PIX-13766).
+
+### :building_construction: Tech
+- [#10035](https://github.com/1024pix/pix/pull/10035) [TECH] Ajouter le participation id sur le log des jobs des état de participation (PIX-14106).
+- [#10040](https://github.com/1024pix/pix/pull/10040) [TECH] Monter de version ember-source en 5.9.0 (PIX-14126).
+- [#10001](https://github.com/1024pix/pix/pull/10001) [TECH] Remplacer le `request_id` d'Hapi par celui de Scalingo.
+- [#9836](https://github.com/1024pix/pix/pull/9836) [TECH] :recycle: Déménagement de `monitoring_tools` vers `src/shared`.
+
+### :bug: Correction
+- [#10048](https://github.com/1024pix/pix/pull/10048) [BUGFIX] Encapsule les erreurs venant du client S3 et les log (PIX-14109).
+- [#10045](https://github.com/1024pix/pix/pull/10045) [BUGFIX] Remettre le numéro des questions sur la page de détails des certifs V3 (PIX-14142).
+- [#10036](https://github.com/1024pix/pix/pull/10036) [BUGFIX] Changer la couleur pour corriger le contraste sur la page de code candidat sur Pix App (PIX-14123).
+- [#10032](https://github.com/1024pix/pix/pull/10032) [BUGFIX] Empêche le job d'import d'échouer lorsqu'il y a une erreur du domain (PIX-14108).
+
+### :arrow_up: Montée de version
+- [#10046](https://github.com/1024pix/pix/pull/10046) [BUMP] Update node.
+- [#9785](https://github.com/1024pix/pix/pull/9785) [BUMP] Update dependency ember-intl to v7 (mon-pix).
+
 ## v4.207.0 (03/09/2024)
 
 
