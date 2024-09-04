@@ -8,7 +8,7 @@ import {
   generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | membership-controller', function () {
+describe('Acceptance | Team | Application | Route | membership', function () {
   let server;
 
   beforeEach(async function () {
@@ -76,7 +76,7 @@ describe('Acceptance | Controller | membership-controller', function () {
     });
 
     context('Success cases', function () {
-      it('should return the updated membership and add certification center membership', async function () {
+      it('returns the updated membership and add certification center membership', async function () {
         // given
         const expectedMembership = {
           data: {
@@ -112,7 +112,7 @@ describe('Acceptance | Controller | membership-controller', function () {
     });
 
     context('Error cases', function () {
-      it('should respond with a 403 if user is not admin of membership organization', async function () {
+      it('responds with a 403 if user is not admin of membership organization', async function () {
         // given
         const notAdminUserId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildMembership({
@@ -131,7 +131,7 @@ describe('Acceptance | Controller | membership-controller', function () {
         expect(response.statusCode).to.equal(403);
       });
 
-      it('should respond with a 400 if membership does not exist', async function () {
+      it('responds with a 400 if membership does not exist', async function () {
         // given
         options.url = '/api/memberships/NOT_NUMERIC';
 
@@ -142,6 +142,141 @@ describe('Acceptance | Controller | membership-controller', function () {
         expect(response.statusCode).to.equal(400);
         const firstError = response.result.errors[0];
         expect(firstError.detail).to.equal('"id" must be a number');
+      });
+    });
+  });
+
+  describe('GET /api/organizations/{id}/memberships', function () {
+    context('Expected output', function () {
+      it('returns the matching membership as JSON API', async function () {
+        // given
+        const adminOfTheOrganization = databaseBuilder.factory.buildUser();
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const adminMembershipId = databaseBuilder.factory.buildMembership({
+          organizationId,
+          userId: adminOfTheOrganization.id,
+          organizationRole: 'ADMIN',
+        }).id;
+
+        const userToUpdateMembership = databaseBuilder.factory.buildUser();
+        const membershipId = databaseBuilder.factory.buildMembership({
+          userId: userToUpdateMembership.id,
+          organizationId: organizationId,
+        }).id;
+
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/organizations/${organizationId}/memberships/?filter[email]=&filter[firstName]=&filter[lastName]=&filter[organizationRole]=`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(adminOfTheOrganization.id) },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal({
+          data: [
+            {
+              attributes: {
+                'organization-role': 'ADMIN',
+              },
+              id: adminMembershipId.toString(),
+              relationships: {
+                user: {
+                  data: {
+                    id: adminOfTheOrganization.id.toString(),
+                    type: 'users',
+                  },
+                },
+              },
+              type: 'memberships',
+            },
+            {
+              attributes: {
+                'organization-role': 'MEMBER',
+              },
+              id: membershipId.toString(),
+              relationships: {
+                user: {
+                  data: {
+                    id: userToUpdateMembership.id.toString(),
+                    type: 'users',
+                  },
+                },
+              },
+              type: 'memberships',
+            },
+          ],
+          included: [
+            {
+              attributes: {
+                email: adminOfTheOrganization.email,
+                'first-name': adminOfTheOrganization.firstName,
+                'last-name': adminOfTheOrganization.lastName,
+              },
+              id: adminOfTheOrganization.id.toString(),
+              type: 'users',
+            },
+            {
+              attributes: {
+                email: userToUpdateMembership.email,
+                'first-name': userToUpdateMembership.firstName,
+                'last-name': userToUpdateMembership.lastName,
+              },
+              id: userToUpdateMembership.id.toString(),
+              type: 'users',
+            },
+          ],
+          meta: {
+            page: 1,
+            pageCount: 1,
+            pageSize: 10,
+            rowCount: 2,
+          },
+        });
+      });
+    });
+
+    context('Resource access management', function () {
+      it('responds with a 401 - unauthorized access - if user is not authenticated', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/organizations/${organizationId}/memberships`,
+          headers: { authorization },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('responds with a 403 - forbidden access - if user is not in organization nor is SUPERADMIN', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildMembership({
+          organizationRole: Membership.roles.MEMBER,
+          organizationId: otherOrganizationId,
+          userId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/organizations/${organizationId}/memberships`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
       });
     });
   });
