@@ -16,6 +16,7 @@ export default class CertificationChallengesForAdministration extends Model {
   @attr() competenceName;
   @attr() validatedLiveAlert;
   @attr() skillName;
+  @attr() questionNumber;
   version = 3;
 
   isOk() {
