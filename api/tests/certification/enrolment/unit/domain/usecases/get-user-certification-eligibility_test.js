@@ -1,6 +1,6 @@
-import { getUserCertificationEligibility } from '../../../../lib/domain/usecases/get-user-certification-eligibility.js';
-import { config } from '../../../../src/shared/config.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { getUserCertificationEligibility } from '../../../../../../src/certification/enrolment/domain/usecases/get-user-certification-eligibility.js';
+import { config } from '../../../../../../src/shared/config.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-user-certification-eligibility', function () {
   let clock,
@@ -47,7 +47,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
       });
 
       // then
-      const expectedCertificationEligibility = domainBuilder.buildCertificationEligibility({
+      const expectedCertificationEligibility = domainBuilder.certification.enrolment.buildCertificationEligibility({
         id: 2,
         pixCertificationEligible: false,
       });

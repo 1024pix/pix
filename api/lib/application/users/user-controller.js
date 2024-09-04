@@ -9,7 +9,6 @@ import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as campaignParticipationOverviewSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
 import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
-import * as certificationEligibilitySerializer from '../../infrastructure/serializers/jsonapi/certification-eligibility-serializer.js';
 import * as participantResultSerializer from '../../infrastructure/serializers/jsonapi/participant-result-serializer.js';
 import * as profileSerializer from '../../infrastructure/serializers/jsonapi/profile-serializer.js';
 import * as sharedProfileForCampaignSerializer from '../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer.js';
@@ -126,13 +125,6 @@ const getCampaignParticipationOverviews = async function (
   return dependencies.campaignParticipationOverviewSerializer.serializeForPaginatedList(
     userCampaignParticipationOverviews,
   );
-};
-
-const isCertifiable = async function (request, h, dependencies = { certificationEligibilitySerializer }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-
-  const certificationEligibility = await usecases.getUserCertificationEligibility({ userId: authenticatedUserId });
-  return dependencies.certificationEligibilitySerializer.serialize(certificationEligibility);
 };
 
 const getProfile = function (request, h, dependencies = { profileSerializer, requestResponseUtils }) {
@@ -309,7 +301,6 @@ const userController = {
   getUserCampaignParticipationToCampaign,
   getUserDetailsForAdmin,
   getUserProfileSharedForCampaign,
-  isCertifiable,
   reassignAuthenticationMethods,
   rememberUserHasSeenAssessmentInstructions,
   rememberUserHasSeenChallengeTooltip,

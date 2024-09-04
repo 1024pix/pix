@@ -5,9 +5,9 @@ import {
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   mockLearningContent,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-describe('Acceptance | users-controller-is-certifiable', function () {
+describe('Certification | Enrolment | Acceptance | user routes', function () {
   let server;
   let options;
   let user;
@@ -232,7 +232,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
     return databaseBuilder.commit();
   });
 
-  describe('GET /users/:id/is-certifiable', function () {
+  describe('GET /api/users/{userId}/is-certifiable', function () {
     describe('Resource access management', function () {
       it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
@@ -243,18 +243,6 @@ describe('Acceptance | users-controller-is-certifiable', function () {
 
         // then
         expect(response.statusCode).to.equal(401);
-      });
-
-      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function () {
-        // given
-        const otherUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(403);
       });
     });
 
