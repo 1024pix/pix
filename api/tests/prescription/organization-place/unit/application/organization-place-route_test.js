@@ -33,9 +33,9 @@ describe('Unit | Router | organization-place-route', function () {
         .takeover();
     sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
     sinon.stub(usecases, 'findOrganizationPlacesLot');
-    sinon.stub(organizationPlaceController, 'createOrganizationPlacesLot');
     sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
     sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization');
+    sinon.stub(organizationPlaceController, 'createOrganizationPlacesLot');
     sinon.stub(organizationPlaceController, 'getOrganizationPlacesStatistics');
     httpTestServer = new HttpTestServer();
     httpTestServer.setupAuthentication();
