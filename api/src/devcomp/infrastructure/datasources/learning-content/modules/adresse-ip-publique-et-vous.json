@@ -283,7 +283,7 @@
           "element": {
             "id": "27fc867a-7258-4f85-b8cc-bdd1ab2d26a5",
             "type": "text",
-            "content": "<h3>Ce qu'il faut retenir&nbsp;<span aria-hidden=\"true\">🎓</span></h3><ul><li>L’adresse IP publique donne une information sur la zone géographique de connexion : le pays, voire la ville.</li><li>Votre adresse IP publique est celle de votre box internet.</li><li>Les personnes connectées à la même box internet ont la même adresse IP publique.</li></ul>"
+            "content": "<h3>Ce qu'il faut retenir&nbsp;<span aria-hidden=\"true\">📌</span></h3><ul><li>L’adresse IP publique donne une information sur la zone géographique de connexion : le pays, voire la ville.</li><li>Votre adresse IP publique est celle de votre box internet.</li><li>Les personnes connectées à la même box internet ont la même adresse IP publique.</li></ul>"
           }
         }
       ]
