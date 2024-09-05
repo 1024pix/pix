@@ -1,4 +1,3 @@
-import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { InvalidMembershipOrganizationRoleError } from '../../../../../src/shared/domain/errors.js';
 import { Membership } from '../../../../../src/shared/domain/models/index.js';
@@ -277,7 +276,7 @@ describe('Integration | Team | Application | Memberships | membership-controller
         // given
         const membership = domainBuilder.buildMembership();
         sinon
-          .stub(libUsecases, 'findPaginatedFilteredOrganizationMemberships')
+          .stub(usecases, 'findPaginatedFilteredOrganizationMemberships')
           .resolves({ models: [membership], pagination: {} });
 
         // when
@@ -291,7 +290,7 @@ describe('Integration | Team | Application | Memberships | membership-controller
         // given
         const membership = domainBuilder.buildMembership();
         sinon
-          .stub(libUsecases, 'findPaginatedFilteredOrganizationMemberships')
+          .stub(usecases, 'findPaginatedFilteredOrganizationMemberships')
           .resolves({ models: [membership], pagination: {} });
 
         // when
@@ -306,7 +305,7 @@ describe('Integration | Team | Application | Memberships | membership-controller
         // given
         const membership = domainBuilder.buildMembership();
         sinon
-          .stub(libUsecases, 'findPaginatedFilteredOrganizationMemberships')
+          .stub(usecases, 'findPaginatedFilteredOrganizationMemberships')
           .resolves({ models: [membership], pagination: {} });
 
         // when

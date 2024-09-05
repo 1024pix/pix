@@ -6,6 +6,7 @@ import {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
 } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
+import { usecases as teamUsecases } from '../../../src/team/domain/usecases/index.js';
 import { organizationInvitationSerializer } from '../../../src/team/infrastructure/serializers/jsonapi/organization-invitation.serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as organizationMemberIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
@@ -45,7 +46,7 @@ const findPaginatedFilteredMembershipsForAdmin = async function (request) {
   const organizationId = request.params.id;
   const options = request.query;
 
-  const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({
+  const { models: memberships, pagination } = await teamUsecases.findPaginatedFilteredOrganizationMemberships({
     organizationId,
     filter: options.filter,
     page: options.page,
