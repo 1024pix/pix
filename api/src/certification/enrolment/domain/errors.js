@@ -9,6 +9,7 @@ class CertificationCandidateForbiddenDeletionError extends DomainError {
 class SessionStartedDeletionError extends DomainError {
   constructor(message = 'La session a déjà commencé.') {
     super(message);
+    this.code = 'SESSION_STARTED_DELETION_ERROR';
   }
 }
 

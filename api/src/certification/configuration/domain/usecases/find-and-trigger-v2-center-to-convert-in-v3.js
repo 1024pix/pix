@@ -22,7 +22,7 @@ export const findAndTriggerV2CenterToConvertInV3 = async ({ centersRepository, c
     hasNext = !!centerIds.length;
     pageNumber++;
 
-    await _sendConversionOrders(centerIds, convertCenterToV3JobRepository);
+    await _sendConversionOrders({ centerIds, convertCenterToV3JobRepository });
   } while (hasNext);
 
   return numberOfCenters;
@@ -32,7 +32,7 @@ export const findAndTriggerV2CenterToConvertInV3 = async ({ centersRepository, c
  * @param {Object} params
  * @param {ConvertCenterToV3JobRepository} params.convertCenterToV3JobRepository
  */
-const _sendConversionOrders = async (centerIds, convertCenterToV3JobRepository) => {
+const _sendConversionOrders = async ({ centerIds, convertCenterToV3JobRepository }) => {
   for (const centerId of centerIds) {
     await convertCenterToV3JobRepository.performAsync(new ConvertCenterToV3Job({ centerId }));
   }

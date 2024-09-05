@@ -7,6 +7,7 @@ describe('Unit | Certification | Configuration | Application | Jobs | ConvertCen
   describe('handle', function () {
     it('should call usecase', async function () {
       // given
+      sinon.stub(usecases, 'deleteStaleSessions').resolves();
       sinon.stub(usecases, 'registerCenterPilotFeatures').resolves();
       const handler = new ConvertCenterToV3JobController();
       const data = new ConvertCenterToV3Job({ centerId: 12 });
@@ -15,10 +16,8 @@ describe('Unit | Certification | Configuration | Application | Jobs | ConvertCen
       await handler.handle({ data });
 
       // then
-      expect(usecases.registerCenterPilotFeatures).to.have.been.calledWithExactly({
-        centerId: 12,
-        isV3Pilot: true,
-      });
+      expect(usecases.deleteStaleSessions).to.have.been.calledWithExactly({ centerId: 12 });
+      expect(usecases.registerCenterPilotFeatures).to.have.been.calledWithExactly({ centerId: 12, isV3Pilot: true });
     });
   });
 });
