@@ -33,6 +33,7 @@ const createToken = async function (request, h, dependencies = { tokenService })
     refreshToken = request.payload.refresh_token;
 
     // TODO: we should pass the scope when ember-simple-auth will pass it
+    // see https://github.com/mainmatter/ember-simple-auth/pull/2813 for further details
     const tokensInfo = await usecases.createAccessTokenFromRefreshToken({ refreshToken });
 
     accessToken = tokensInfo.accessToken;

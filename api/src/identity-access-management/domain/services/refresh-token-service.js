@@ -12,7 +12,7 @@ const REFRESH_TOKEN_EXPIRATION_DELAY_ADDITION_SECONDS = 60 * 60; // 1 hour
 
 /**
  * @param refreshToken
- * @returns {Promise<{userId: string, source: string}>}
+ * @returns {Promise<{userId: string, source: string, scope: string}>}
  */
 async function findByRefreshToken(refreshToken) {
   return refreshTokenTemporaryStorage.get(refreshToken);
