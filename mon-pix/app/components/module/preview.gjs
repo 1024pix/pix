@@ -1,3 +1,4 @@
+import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -152,6 +153,15 @@ export default class ModulixPreview extends Component {
       </aside>
 
       <main class="module-preview__form">
+        <PixButtonLink
+          @variant="tertiary"
+          @href="https://1024pix.github.io/modulix-editor/"
+          @size="small"
+          target="_blank"
+        >
+          {{! template-lint-disable "no-bare-strings" }}
+          Modulix Editor
+        </PixButtonLink>
         <PixTextarea
           class="module-preview-form__textarea"
           @id="module"
