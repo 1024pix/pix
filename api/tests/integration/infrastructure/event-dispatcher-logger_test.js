@@ -17,18 +17,16 @@ describe('Integration | Infrastructure | EventHandlerLogger', function () {
       eventDispatcherLogger.onEventDispatchStarted(event, eventHandlerName);
 
       // then
-      expect(logger.info).to.have.been.calledWithExactly(
-        {
-          metrics: {
-            event_name: 'TestEvent',
-            event_content: event,
-            event_handler_name: "the event handler's name",
-            event_error: undefined,
-            event_handling_duration: undefined,
-          },
+      expect(logger.info).to.have.been.calledWithExactly({
+        metrics: {
+          event_name: 'TestEvent',
+          event_content: event,
+          event_handler_name: "the event handler's name",
+          event_error: undefined,
+          event_handling_duration: undefined,
         },
-        'EventDispatcher : Event dispatch started',
-      );
+        msg: 'EventDispatcher : Event dispatch started',
+      });
     });
   });
 
@@ -66,18 +64,16 @@ describe('Integration | Infrastructure | EventHandlerLogger', function () {
       eventDispatcherLogger.onEventDispatchSuccess(event, eventHandlerName);
 
       // then
-      expect(logger.info).to.have.been.calledWithExactly(
-        {
-          metrics: {
-            event_name: 'TestEvent',
-            event_content: event,
-            event_handler_name: "the event handler's name",
-            event_error: undefined,
-            event_handling_duration: undefined,
-          },
+      expect(logger.info).to.have.been.calledWithExactly({
+        metrics: {
+          event_name: 'TestEvent',
+          event_content: event,
+          event_handler_name: "the event handler's name",
+          event_error: undefined,
+          event_handling_duration: undefined,
         },
-        'EventDispatcher : Event dispatched successfully',
-      );
+        msg: 'EventDispatcher : Event dispatched successfully',
+      });
     });
 
     it('logs an event dispatch failure as info', function () {
@@ -95,18 +91,16 @@ describe('Integration | Infrastructure | EventHandlerLogger', function () {
       eventDispatcherLogger.onEventDispatchFailure(event, eventHandlerName, anError);
 
       // then
-      expect(logger.info).to.have.been.calledWithExactly(
-        {
-          metrics: {
-            event_name: 'TestEvent',
-            event_content: event,
-            event_handler_name: "the event handler's name",
-            event_error: 'an error (see dedicated log for more information)',
-            event_handling_duration: undefined,
-          },
+      expect(logger.info).to.have.been.calledWithExactly({
+        metrics: {
+          event_name: 'TestEvent',
+          event_content: event,
+          event_handler_name: "the event handler's name",
+          event_error: 'an error (see dedicated log for more information)',
+          event_handling_duration: undefined,
         },
-        'EventDispatcher : An error occurred while dispatching the event',
-      );
+        msg: 'EventDispatcher : An error occurred while dispatching the event',
+      });
     });
   });
 
@@ -165,18 +159,16 @@ describe('Integration | Infrastructure | EventHandlerLogger', function () {
       eventDispatcherLogger.onEventDispatchSuccess(event, eventHandlerName, context);
 
       // then
-      expect(logger.info).to.have.been.calledWithExactly(
-        {
-          metrics: {
-            event_name: 'TestEvent',
-            event_content: event,
-            event_handler_name: "the event handler's name",
-            event_error: undefined,
-            event_handling_duration: 4,
-          },
+      expect(logger.info).to.have.been.calledWithExactly({
+        metrics: {
+          event_name: 'TestEvent',
+          event_content: event,
+          event_handler_name: "the event handler's name",
+          event_error: undefined,
+          event_handling_duration: 4,
         },
-        'EventDispatcher : Event dispatched successfully',
-      );
+        msg: 'EventDispatcher : Event dispatched successfully',
+      });
     });
   });
 });

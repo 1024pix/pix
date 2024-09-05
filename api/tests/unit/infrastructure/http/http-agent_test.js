@@ -59,9 +59,8 @@ describe('Unit | Infrastructure | http | http-agent', function () {
 
         // then
         const expected = 'End POST request to someUrl error: 400 {"a":"1","b":"2"}';
-        const { metrics } = logger.error.firstCall.args[0];
-        const message = logger.error.firstCall.args[1];
-        expect(message).to.equal(expected);
+        const { metrics, msg } = logger.error.firstCall.args[0];
+        expect(msg).to.equal(expected);
         expect(metrics.responseTime).to.be.greaterThan(0);
       });
 
@@ -167,9 +166,8 @@ describe('Unit | Infrastructure | http | http-agent', function () {
 
         // then
         const expected = 'End GET request to someUrl error: 400 {"a":"1","b":"2"}';
-        const { metrics } = logger.error.firstCall.args[0];
-        const message = logger.error.firstCall.args[1];
-        expect(message).to.equal(expected);
+        const { metrics, msg } = logger.error.firstCall.args[0];
+        expect(msg).to.equal(expected);
         expect(metrics.responseTime).to.be.greaterThan(0);
       });
 

@@ -19,7 +19,7 @@ const seed = async function (knex) {
   const seedsContext = process.env.SEEDS_CONTEXT ? process.env.SEEDS_CONTEXT.split('|') : [];
 
   const hasToSeed = _buildContextToSeed(seedsContext);
-  logger.info({ seedsContext }, 'Seeds Context');
+  logger.info({ seedsContext, msg: 'Seeds Context' });
 
   const databaseBuilder = new DatabaseBuilder({ knex });
 

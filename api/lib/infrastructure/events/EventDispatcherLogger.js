@@ -7,12 +7,10 @@ class EventDispatcherLogger {
 
   onEventDispatchStarted(event, eventHandlerName) {
     if (this._settings?.logging?.enableLogStartingEventDispatch) {
-      this._logger.info(
-        {
-          ...buildLogBody({ event, eventHandlerName }),
-        },
-        'EventDispatcher : Event dispatch started',
-      );
+      this._logger.info({
+        ...buildLogBody({ event, eventHandlerName }),
+        msg: 'EventDispatcher : Event dispatch started',
+      });
     }
     return {
       startedAt: this._performance.now(),
@@ -21,23 +19,19 @@ class EventDispatcherLogger {
 
   onEventDispatchSuccess(event, eventHandlerName, loggingContext) {
     if (this._settings?.logging?.enableLogEndingEventDispatch) {
-      this._logger.info(
-        {
-          ...buildLogBody({ event, eventHandlerName, duration: this._duration(loggingContext) }),
-        },
-        'EventDispatcher : Event dispatched successfully',
-      );
+      this._logger.info({
+        ...buildLogBody({ event, eventHandlerName, duration: this._duration(loggingContext) }),
+        msg: 'EventDispatcher : Event dispatched successfully',
+      });
     }
   }
 
   onEventDispatchFailure(event, eventHandlerName, error) {
     if (this._settings?.logging?.enableLogEndingEventDispatch) {
-      this._logger.info(
-        {
-          ...buildLogBody({ event, eventHandlerName, error }),
-        },
-        'EventDispatcher : An error occurred while dispatching the event',
-      );
+      this._logger.info({
+        ...buildLogBody({ event, eventHandlerName, error }),
+        msg: 'EventDispatcher : An error occurred while dispatching the event',
+      });
     }
   }
 

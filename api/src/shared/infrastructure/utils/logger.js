@@ -35,6 +35,7 @@ if (logging.logForHumans) {
  *   data: { more: 'data', if: 'needed' },
  *   event: 'Event which trigger this error',
  *   team: 'My Team',
+ *   msg: 'My message related to the log',
  * };
  */
 const logger = pino(
@@ -45,12 +46,8 @@ const logger = pino(
     mixin() {
       return getCorrelationContext();
     },
-    mixinMergeStrategy(originalMessage, correlationContext) {
-      return {
-        ...correlationContext,
-        ...originalMessage,
-        message: undefined,
-      };
+    mixinMergeStrategy(mergeObject, mixinObject) {
+      return Object.assign(Object.create(mergeObject), mixinObject);
     },
   },
   prettyPrint,

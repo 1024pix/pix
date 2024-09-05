@@ -19,12 +19,10 @@ async function save({ certificationCourse }) {
     .insert(certificationCourseToSaveDTO)
     .returning('id')
     .on('query', function (data) {
-      logger.info(
-        {
-          event: 'save-certification-course',
-        },
-        `A certification course will be inserted with transaction ${data.__knexTxId}`,
-      );
+      logger.info({
+        event: 'save-certification-course',
+        msg: `A certification course will be inserted with transaction ${data.__knexTxId}`,
+      });
     })
     .on('query-error', function (data) {
       logger.error(

@@ -17,7 +17,7 @@ const assert = async function (request, h) {
   try {
     userAttributes = await saml.parsePostResponse(request.payload);
   } catch (e) {
-    logger.error({ e }, 'SAML: Error while parsing post response');
+    logger.error({ e, msg: 'SAML: Error while parsing post response' });
     return h.response(e.toString()).code(400);
   }
 
@@ -30,7 +30,7 @@ const assert = async function (request, h) {
 
     return h.redirect(redirectionUrl);
   } catch (e) {
-    logger.error({ e }, 'SAML: Error while get external authentication redirection url');
+    logger.error({ e, msg: 'SAML: Error while get external authentication redirection url' });
     return h.response(e.toString()).code(500);
   }
 };

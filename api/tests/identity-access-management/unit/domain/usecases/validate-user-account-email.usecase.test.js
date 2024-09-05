@@ -132,14 +132,12 @@ describe('Unit | Identity Access Management | Domain | UseCase | validate-user-a
       });
 
       // then
-      expect(logger.error).to.have.been.calledWith(
-        {
-          context: 'email-validation',
-          data: { token },
-          team: 'acces',
-        },
-        'error',
-      );
+      expect(logger.error).to.have.been.calledWith({
+        context: 'email-validation',
+        data: { token },
+        team: 'acces',
+        msg: 'error',
+      });
       expect(redirectionUrl).to.equal(defaultRedirectionUrl);
     });
   });
