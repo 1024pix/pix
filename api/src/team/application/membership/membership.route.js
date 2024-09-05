@@ -1,6 +1,5 @@
 import Joi from 'joi';
 
-import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { membershipController } from './membership.controller.js';
@@ -42,7 +41,7 @@ export const membershipRoutes = [
     config: {
       pre: [
         {
-          method: securityPreHandlers.checkUserBelongsToOrganization,
+          method: (request, h) => securityPreHandlers.checkUserBelongsToOrganization(request, h),
           assign: 'belongsToOrganization',
         },
       ],
@@ -63,7 +62,7 @@ export const membershipRoutes = [
           }).default({}),
         }),
       },
-      handler: organizationController.findPaginatedFilteredMemberships,
+      handler: (request, h) => membershipController.findPaginatedFilteredMemberships(request, h),
       tags: ['api', 'team', 'organizations'],
       notes: [
         "Cette route est restreinte aux membres authentifiés d'une organisation",
