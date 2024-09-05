@@ -1,5 +1,5 @@
 import { organizationAdminController } from '../../../../../src/organizational-entities/application/organization/organization.admin.controller.js';
-import { organizationalEntitiesRoutes } from '../../../../../src/organizational-entities/application/routes.js';
+import * as organizationAdminRoutes from '../../../../../src/organizational-entities/application/organization/organization.admin.route.js';
 import {
   AlreadyExistingOrganizationFeatureError,
   DpoEmailInvalid,
@@ -19,7 +19,7 @@ describe('Integration | Organizational Entities | Application | Route | Admin | 
 
   beforeEach(async function () {
     httpTestServer = new HttpTestServer();
-    await httpTestServer.register(organizationalEntitiesRoutes[0]);
+    await httpTestServer.register(organizationAdminRoutes);
   });
 
   afterEach(function () {

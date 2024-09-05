@@ -39,9 +39,10 @@ const usecasesWithoutInjectedDependencies = {
  * @typedef OrganizationalEntitiesUsecases
  * @property {addOrganizationFeatureInBatch} addOrganizationFeatureInBatch
  * @property {attachChildOrganizationToOrganization} attachChildOrganizationToOrganization
+ * @property {createTag} createTag
+ * @property {findPaginatedFilteredCertificationCenters} findPaginatedFilteredCertificationCenters
  * @property {getOrganizationDetails} getOrganizationDetails
  * @property {updateOrganizationsInBatch} updateOrganizationsInBatch
- * @property {findPaginatedFilteredCertificationCenters} findPaginatedFilteredCertificationCenters
  * @property {updateOrganizationInformation} updateOrganizationInformation
  */
 

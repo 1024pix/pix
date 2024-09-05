@@ -1,9 +1,9 @@
-import { createTag } from '../../../../lib/domain/usecases/create-tag.js';
-import { Tag } from '../../../../src/organizational-entities/domain/models/Tag.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { Tag } from '../../../../../src/organizational-entities/domain/models/Tag.js';
+import { createTag } from '../../../../../src/organizational-entities/domain/usecases/create-tag.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | create-tag', function () {
-  it('should allow to create a tag', async function () {
+describe('Unit | Organizational Entities | UseCase | create-tag', function () {
+  it('creates and returns the created tag', async function () {
     // given
     const tagName = 'New name';
     const tag = new Tag({ name: tagName });
