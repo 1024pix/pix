@@ -163,16 +163,17 @@
       "title": "Vrai-faux : traces de l'IP publique",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "3f4354a6-3243-4b5a-a459-58b3f3d1ecb8",
-            "type": "text",
-            "content": "<p>Pour chaque affirmation, répondez par vrai ou par faux.<br><span aria-hidden=\"true\">ℹ️</span> Toutes les adresses IP sont des adresses IPv4 et aucun VPN n'est utilisé.</p>"
-          }
-        },
-        {
           "type": "stepper",
           "steps": [
+                        {
+              "elements": [
+          {
+            "id": "3f4354a6-3243-4b5a-a459-58b3f3d1ecb8",
+            "type": "text",
+            "content": "<p>Pour chacune des affirmations suivantes, répondez par vrai ou par faux.<br><span aria-hidden=\"true\">ℹ️</span> Toutes les adresses IP sont des adresses IPv4 et aucun VPN n'est utilisé.</p>"
+          }
+              ]
+            },
             {
               "elements": [
                 {
