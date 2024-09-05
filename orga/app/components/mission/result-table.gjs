@@ -8,7 +8,7 @@ import PaginationControl from '../table/pagination-control';
     <div class="panel">
       <table class="table content-text content-text--small participation-list__table">
         <caption class="screen-reader-only">{{t
-            "pages.missions.mission.table.activities.caption"
+            "pages.missions.mission.table.result.caption"
             missionName=@mission.name
           }}</caption>
         <thead>
@@ -22,7 +22,7 @@ import PaginationControl from '../table/pagination-control';
         <tbody>
 
           {{#each @missionLearners as |missionLearner|}}
-            <tr aria-label={{t "pages.missions.mission.tabs.activities.aria-label"}}>
+            <tr aria-label={{t "pages.missions.mission.tabs.result.aria-label"}}>
               <td>
                 {{missionLearner.firstName}}
               </td>
@@ -41,7 +41,7 @@ import PaginationControl from '../table/pagination-control';
     <PaginationControl @pagination={{@missionLearners.meta}} />
   {{else}}
     <div class="table__empty content-text">
-      {{t "pages.missions.mission.table.activities.no-data"}}
+      {{t "pages.missions.mission.table.result.no-data"}}
     </div>
   {{/if}}
 </template>
