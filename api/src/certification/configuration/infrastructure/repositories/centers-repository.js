@@ -1,13 +1,18 @@
 import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { DEFAULT_PAGINATION, fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 
 /**
  * @param {Object} params
- * @param {number} params.batchSize
+ * @param {number} params.pageNumber - page number to fetch, default 1
  */
-export const fetchSCOV2Centers = async function () {
+export const fetchSCOV2Centers = async function ({ pageNumber = DEFAULT_PAGINATION.PAGE } = {}) {
   const knexConn = DomainTransaction.getConnection();
-  return knexConn('certification-centers')
-    .pluck('certification-centers.id')
+  const query = knexConn('certification-centers')
+    .select('certification-centers.id')
     .where({ isV3Pilot: false, type: CERTIFICATION_CENTER_TYPES.SCO });
+
+  const { results, pagination } = await fetchPage(query, { number: pageNumber });
+
+  return { centerIds: results.map(({ id }) => id), pagination };
 };

@@ -28,7 +28,15 @@ describe('Certification | Configuration | Integration | Repository | centers-rep
       const results = await centersRepository.fetchSCOV2Centers();
 
       // then
-      expect(results).to.deep.equal([centerId]);
+      expect(results).to.deep.equal({
+        centerIds: [centerId],
+        pagination: {
+          page: 1,
+          pageCount: 1,
+          pageSize: 10,
+          rowCount: 1,
+        },
+      });
     });
 
     context('when no remaining centers in V2', function () {
@@ -41,7 +49,15 @@ describe('Certification | Configuration | Integration | Repository | centers-rep
         const results = await centersRepository.fetchSCOV2Centers();
 
         // then
-        expect(results).to.deep.equal([]);
+        expect(results).to.deep.equal({
+          centerIds: [],
+          pagination: {
+            page: 1,
+            pageCount: 0,
+            pageSize: 10,
+            rowCount: 0,
+          },
+        });
       });
     });
   });

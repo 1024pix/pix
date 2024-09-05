@@ -12,18 +12,23 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
-  const centerIds = await usecases.findAndTriggerV2CenterToConvertInV3();
-  logger.info(`Conversion jobs sent for [${centerIds.length}] V2 centers`);
-  logger.info(`Centers IDS marked for conversion: [${centerIds}]`);
+  logger.info('Creating oders to convert V2 centers to V3 centers');
+  const numberOfCenterConversionOrders = await usecases.findAndTriggerV2CenterToConvertInV3();
+  logger.info(`Conversion jobs sent for [${numberOfCenterConversionOrders}] V2 centers`);
+  return 0;
 }
 
 (async () => {
   if (isLaunchedFromCommandLine) {
+    let exitCode = 1;
     try {
       await main();
     } catch (error) {
       logger.error(error);
-      process.exitCode = 1;
+      exitCode = 1;
+    } finally {
+      // eslint-disable-next-line n/no-process-exit
+      process.exit(exitCode);
     }
   }
 })();

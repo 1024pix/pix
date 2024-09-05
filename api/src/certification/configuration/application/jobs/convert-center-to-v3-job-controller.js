@@ -14,6 +14,6 @@ export class ConvertCenterToV3JobController extends JobController {
    */
   async handle({ data }) {
     const { centerId } = data;
-    usecases.registerCenterPilotFeatures({ centerId, isV3Pilot: true });
+    await usecases.registerCenterPilotFeatures({ centerId, isV3Pilot: true });
   }
 }
