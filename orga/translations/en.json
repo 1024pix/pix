@@ -918,7 +918,7 @@
             },
             "no-data": "There is not any participants"
           },
-          "results": {
+          "result": {
             "aria-label": "Student",
             "caption": "List of students with their result for the mission {missionName}",
             "filters": {

@@ -845,7 +845,7 @@
                 "started": "Bezig"
               }
             },
-            "results": {
+            "result": {
               "aria-label": "Student",
               "caption": "Tabel van studenten met de resultaten van hun deelname aan de opdracht {missionName}",
               "filters": {
