@@ -523,67 +523,6 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
-  describe('GET /api/admin/organizations/{id}/memberships', function () {
-    it('should return the matching membership as JSON API', async function () {
-      // given
-      const userSuperAdmin = databaseBuilder.factory.buildUser.withRole();
-      const organization = databaseBuilder.factory.buildOrganization();
-      const user = databaseBuilder.factory.buildUser();
-      const membershipId = databaseBuilder.factory.buildMembership({
-        userId: user.id,
-        organizationId: organization.id,
-      }).id;
-
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject({
-        method: 'GET',
-        url: `/api/admin/organizations/${organization.id}/memberships?filter[email]=&filter[firstName]=&filter[lastName]=&filter[organizationRole]=`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(userSuperAdmin.id) },
-      });
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result).to.deep.equal({
-        data: [
-          {
-            attributes: {
-              'organization-role': 'MEMBER',
-            },
-            id: membershipId.toString(),
-            relationships: {
-              user: {
-                data: {
-                  id: user.id.toString(),
-                  type: 'users',
-                },
-              },
-            },
-            type: 'organization-memberships',
-          },
-        ],
-        included: [
-          {
-            attributes: {
-              email: user.email,
-              'first-name': user.firstName,
-              'last-name': user.lastName,
-            },
-            id: user.id.toString(),
-            type: 'users',
-          },
-        ],
-        meta: {
-          page: 1,
-          pageCount: 1,
-          pageSize: 10,
-          rowCount: 1,
-        },
-      });
-    });
-  });
-
   describe('GET /api/organizations/{id}/member-identities', function () {
     it('should return the members identities as JSON API', async function () {
       // given
