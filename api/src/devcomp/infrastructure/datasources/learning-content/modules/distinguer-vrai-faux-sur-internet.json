@@ -442,15 +442,15 @@
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "L’auteur n'est pas neutre."
+                      "content": "L’auteur de la publication n'est pas neutre."
                     },
                     {
                       "id": "2",
-                      "content": "Les dates sont incohérentes."
+                      "content": "Les dates entre la publication et la source sont incohérentes."
                     },
                     {
                       "id": "3",
-                      "content": "La source d’information est absente."
+                      "content": "La source d’information est absente de la publication."
                     }
                   ],
                   "feedbacks": {
@@ -477,15 +477,15 @@
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "L’auteur n'est pas neutre."
+                      "content": "L’auteur de la publication n'est pas neutre."
                     },
                     {
                       "id": "2",
-                      "content": "Les dates sont incohérentes."
+                      "content": "Les dates entre la publication et la source sont incohérentes."
                     },
                     {
                       "id": "3",
-                      "content": "La source d’information est absente."
+                      "content": "La source d’information est absente de la publication."
                     }
                   ],
                   "feedbacks": {
@@ -517,15 +517,15 @@
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "L’auteur n'est pas neutre."
+                      "content": "L’auteur de la publication n'est pas neutre."
                     },
                     {
                       "id": "2",
-                      "content": "Les dates sont incohérentes."
+                      "content": "Les dates entre la publication et la source sont incohérentes."
                     },
                     {
                       "id": "3",
-                      "content": "La source d’information est absente."
+                      "content": "La source d’information est absente de la publication."
                     }
                   ],
                   "feedbacks": {
