@@ -53,18 +53,6 @@ const findPaginatedFilteredMembershipsForAdmin = async function (request) {
   return membershipSerializer.serializeForAdmin(memberships, pagination);
 };
 
-const findPaginatedFilteredMemberships = async function (request) {
-  const organizationId = request.params.id;
-  const options = request.query;
-
-  const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({
-    organizationId,
-    filter: options.filter,
-    page: options.page,
-  });
-  return membershipSerializer.serialize(memberships, pagination);
-};
-
 const getOrganizationMemberIdentities = async function (
   request,
   h,
@@ -118,7 +106,6 @@ const organizationController = {
   create,
   createInBatch,
   findChildrenOrganizationsForAdmin,
-  findPaginatedFilteredMemberships,
   findPaginatedFilteredMembershipsForAdmin,
   findPaginatedFilteredOrganizations,
   findTargetProfileSummariesForAdmin,
