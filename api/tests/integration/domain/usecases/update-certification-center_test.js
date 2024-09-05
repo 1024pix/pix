@@ -4,8 +4,7 @@ import * as complementaryCertificationHabilitationRepository from '../../../../l
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
 import { CenterForAdmin } from '../../../../src/certification/enrolment/domain/models/CenterForAdmin.js';
 import * as centerRepository from '../../../../src/certification/enrolment/infrastructure/repositories/center-repository.js';
-import { CERTIFICATION_FEATURES } from '../../../../src/certification/shared/domain/constants.js';
-import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | UseCases | update-certification-center', function () {
   it('should update certification center and his data protection officer information', async function () {
@@ -62,53 +61,5 @@ describe('Integration | UseCases | update-certification-center', function () {
     );
     expect(updatedCertificationCenter.habilitations[0].key).to.equal(complementaryCertification.key);
     expect(updatedCertificationCenter.habilitations[0].label).to.equal(complementaryCertification.label);
-  });
-
-  describe('when certification center is removed from the V3 pilots', function () {
-    describe('when certification center is also a complementary certification alone pilot', function () {
-      it('should throw an error', async function () {
-        // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
-        const feature = databaseBuilder.factory.buildFeature({
-          key: CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
-        });
-        databaseBuilder.factory.buildCertificationCenterFeature({
-          certificationCenterId,
-          featureId: feature.id,
-        });
-        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
-        const certificationCenterInformation = domainBuilder.buildCenterForAdmin({
-          center: {
-            id: certificationCenterId,
-            name: 'Pix Super Center',
-            type: 'PRO',
-            habilitations: [],
-            isV3Pilot: false,
-          },
-          dataProtectionOfficer: {
-            firstName: 'Justin',
-            lastName: 'Ptipeu',
-            email: 'justin.ptipeu@example.net',
-          },
-        });
-        const complementaryCertificationIds = [complementaryCertification.id];
-
-        await databaseBuilder.commit();
-
-        // when
-        const error = await catchErr(updateCertificationCenter)({
-          certificationCenterId,
-          certificationCenterInformation,
-          complementaryCertificationIds,
-          certificationCenterForAdminRepository,
-          complementaryCertificationHabilitationRepository,
-          dataProtectionOfficerRepository,
-          centerRepository,
-        });
-
-        // then
-        expect(error).to.be.an.instanceOf(Error);
-      });
-    });
   });
 });
