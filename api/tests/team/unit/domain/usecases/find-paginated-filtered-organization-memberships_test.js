@@ -1,8 +1,8 @@
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { Membership as Memberships } from '../../../../src/shared/domain/models/Membership.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { Membership as Memberships } from '../../../../../src/shared/domain/models/Membership.js';
+import { usecases } from '../../../../../src/team/domain/usecases/index.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | find-paginated-filtered-organizations-memberships', function () {
+describe('Unit | Team | UseCase | find-paginated-filtered-organizations-memberships', function () {
   it('should result organizations with filtering and pagination', async function () {
     // given
     const organizationId = 345;

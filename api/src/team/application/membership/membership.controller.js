@@ -1,4 +1,3 @@
-import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
 import { BadRequestError } from '../../../shared/application/http-errors.js';
 import * as membershipSerializer from '../../../shared/infrastructure/serializers/jsonapi/membership.serializer.js';
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
@@ -35,7 +34,7 @@ const findPaginatedFilteredMemberships = async function (request) {
   const organizationId = request.params.id;
   const options = request.query;
 
-  const { models: memberships, pagination } = await libUsecases.findPaginatedFilteredOrganizationMemberships({
+  const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({
     organizationId,
     filter: options.filter,
     page: options.page,
