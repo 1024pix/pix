@@ -27,21 +27,17 @@ const save = async function ({ certificationChallenge }) {
     .insert(certificationChallengeToSave)
     .returning('*')
     .on('query', function (data) {
-      logger.info(
-        {
-          event: 'save-certification-challenge',
-        },
-        `A certification challenge will be inserted with transaction ${data.__knexTxId}`,
-      );
+      logger.info({
+        event: 'save-certification-challenge',
+        msg: `A certification challenge will be inserted with transaction ${data.__knexTxId}`,
+      });
     })
     .on('query-error', function (data) {
-      logger.error(
-        {
-          event: 'save-certification-challenge',
-          data: _(data).pick(['code', 'constraint', 'detail']),
-        },
-        `A certification challenge could not be inserted`,
-      );
+      logger.error({
+        event: 'save-certification-challenge',
+        data: _(data).pick(['code', 'constraint', 'detail']),
+        msg: `A certification challenge could not be inserted`,
+      });
     });
 
   return new CertificationChallenge(savedCertificationChallenge);

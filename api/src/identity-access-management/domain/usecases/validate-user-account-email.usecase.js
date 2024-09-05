@@ -33,14 +33,12 @@ export const validateUserAccountEmail = async ({
     await userRepository.update(user.mapToDatabaseDto());
     await emailValidationDemandRepository.remove(token);
   } catch (error) {
-    logger.error(
-      {
-        context: 'email-validation',
-        data: { token },
-        team: 'acces',
-      },
-      error.message,
-    );
+    logger.error({
+      context: 'email-validation',
+      data: { token },
+      team: 'acces',
+      msg: error.message,
+    });
   }
 
   return _getRedirectionUrl(redirectUrl);

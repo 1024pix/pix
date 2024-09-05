@@ -309,6 +309,7 @@ function _monitorOidcError(message, { data, error, event }) {
     data,
     event,
     team: 'acces',
+    msg: message,
   };
 
   if (error) {
@@ -317,5 +318,5 @@ function _monitorOidcError(message, { data, error, event }) {
     error.response && Object.assign(monitoringData.error, { response: error.response });
   }
 
-  logger.error(monitoringData, message);
+  logger.error(monitoringData);
 }

@@ -52,12 +52,10 @@ const httpAgent = {
 
       const message = `End POST request to ${url} error: ${code || ''} ${JSON.stringify(data)}`;
 
-      logger.error(
-        {
-          metrics: { responseTime },
-        },
-        message,
-      );
+      logger.error({
+        metrics: { responseTime },
+        msg: message,
+      });
 
       return new HttpResponse({
         code,
@@ -106,12 +104,10 @@ const httpAgent = {
         data = null;
       }
 
-      logger.error(
-        {
-          metrics: { responseTime },
-        },
-        `End GET request to ${url} error: ${code || ''} ${JSON.stringify(data)}`,
-      );
+      logger.error({
+        metrics: { responseTime },
+        msg: `End GET request to ${url} error: ${code || ''} ${JSON.stringify(data)}`,
+      });
 
       return new HttpResponse({
         code,
