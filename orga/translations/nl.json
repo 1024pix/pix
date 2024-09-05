@@ -1005,28 +1005,6 @@
               "undefined": "-"
             },
             "no-data": "Er zijn geen deelnemers"
-          },
-          "results": {
-            "aria-label": "Student",
-            "caption": "Tabel van studenten met de resultaten van hun deelname aan de opdracht {missionName}",
-            "filters": {
-              "aria-label": "Filter studenten",
-              "learners-count": "{count, plural, =0 {Geen student} =1 {1 student} other {{count} studenten}}"
-            },
-            "headers": {
-              "division": "Klasse",
-              "first-name": "Voornaam",
-              "last-name": "Naam",
-              "result": "Positionering"
-            },
-            "mission-result": {
-              "exceeded": "Overtroffen",
-              "not-reached": "Niet bereikt",
-              "partially-reached": "Gedeeltelijk bereikt",
-              "reached": "Bereikt",
-              "undefined": "-"
-            },
-            "no-data": "Er zijn geen deelnemers"
           }
         },
         "tabs": {
