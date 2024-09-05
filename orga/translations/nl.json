@@ -22,7 +22,7 @@
       "bad-csv-format": "Het bestand moet in csv-formaat zijn met als scheidingsteken komma’s of puntkomma's.",
       "encoding-not-supported": "Bestandscodering niet ondersteund.",
       "field-bad-values": "Regel {line}: Het veld \"{field}\" moet zijn \"{valids}\".",
-      "field-date-format": "Regel {line}: Het veld \"{field}\" moet het format dd/mm/jjjj hebben.",
+      "field-date-format": "Regel {line}: Het veld \"{field}\" moet het format “{acceptedFormat}” hebben.",
       "field-email-format": "Regel {line}: Het veld \"{field}\" moet een geldig e-mailadres zijn.",
       "field-length": "Regel {line}: Het veld \"{field}\" moet {limit} karakters lang zijn.",
       "field-max-length": "Regel {line}: Het veld \"{field}\" moet minder dan {limit} tekens zijn.",
@@ -803,7 +803,7 @@
         }
       },
       "forgot-password": "Wachtwoord vergeten?",
-      "forgotten-password-url": "https://app.pix.fr/mot-de-passe-oublie",
+      "forgotten-password-url": "https://app.pix.org/mot-de-passe-oublie?lang=nl",
       "invitation-already-accepted": "Deze uitnodiging is al geaccepteerd. Log in of neem contact op met de beheerder van je Pix Orga-ruimte.",
       "invitation-was-cancelled": "Deze uitnodiging is niet langer geldig. Neem contact op met de beheerder van je Pix Orga-ruimte.",
       "is-only-accessible": "Toegang tot Pix Orga is beperkt tot uitgenodigde leden. Neem contact op met de Pix Orga-beheerder van je organisatie om je uit te nodigen.",
