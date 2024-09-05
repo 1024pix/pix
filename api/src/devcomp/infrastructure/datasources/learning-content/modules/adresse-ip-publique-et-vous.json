@@ -8,9 +8,9 @@
     "duration": 10,
     "level": "Intermédiaire",
     "objectives": [
-      "<p>Connaître les traces numériques portées par l'adresse IP publique</p>",
-      "Localiser une adresse IP publique",
-      "Comprendre les différences entre adresse IP publique et adresse IP privée"
+      "Comprendre le rôle des adresses IP publiques",
+      "Connaître les traces numériques portées par l'adresse IP publique",
+      "Localiser une adresse IP publique"
     ],
     "tabletSupport": "comfortable"
   },
