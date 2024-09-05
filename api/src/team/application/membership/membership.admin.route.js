@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
-import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { membershipAdminController } from './membership.admin.controller.js';
 import { membershipController } from './membership.controller.js';
 
 export const membershipAdminRoutes = [
@@ -103,7 +103,7 @@ export const membershipAdminRoutes = [
           }).default({}),
         }),
       },
-      handler: organizationController.findPaginatedFilteredMembershipsForAdmin,
+      handler: membershipAdminController.findPaginatedFilteredMembershipsForAdmin,
       tags: ['api', 'organizations'],
       notes: [
         'Cette route est restreinte aux utilisateurs de Pix Admin',
