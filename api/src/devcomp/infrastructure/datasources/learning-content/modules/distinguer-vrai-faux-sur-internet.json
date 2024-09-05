@@ -293,7 +293,7 @@
                 {
                   "id": "26b01131-fc75-4300-9ad3-fc19f718a88a",
                   "type": "qcu",
-                  "instruction": "<p>Diane a entendu à la radio que le site Wikipédia a été créé en 2001.</p>",
+                  "instruction": "<p>Diane a lu dans un magazine que le site Wikipédia a été créé en 2001.</p>",
                   "proposals": [
                     {
                       "id": "1",
