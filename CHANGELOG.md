@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v4.209.0 (05/09/2024)
+
+
+### :rocket: Amélioration
+- [#10027](https://github.com/1024pix/pix/pull/10027) [FEATURE] Ajouter un lien vers Modulix Editor dans la page de preview des modules (PIX-14095).
+- [#10066](https://github.com/1024pix/pix/pull/10066) [FEATURE] Updated translations from Phrase.
+
+### :building_construction: Tech
+- [#10063](https://github.com/1024pix/pix/pull/10063) [TECH] Mettre à jour le README et les versions en v4.208.1.
+
+### :bug: Correction
+- [#10033](https://github.com/1024pix/pix/pull/10033) [BUGFIX] Afficher les tubes sélectionnés lors de l'édition d'un Profil Cible sur PixAdmin (PIX-14092).
+
 ## v4.208.1 (04/09/2024)
 
 ### :bug: Correction
