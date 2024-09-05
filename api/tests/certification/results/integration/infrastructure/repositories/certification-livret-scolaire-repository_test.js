@@ -347,4 +347,74 @@ describe('Integration | Repository | Certification-ls ', function () {
       expect(certificationResult.competenceResults).to.deep.equal(expectedCompetenceResults);
     });
   });
+
+  context('when the organization exist but has also been archived in the past', function () {
+    it('should only return results from current organization', async function () {
+      // given
+
+      const organizationId = buildOrganization(uai).id;
+      const user = buildUser();
+      const organizationLearner = buildOrganizationLearner({
+        userId: user.id,
+        organizationId,
+      });
+      const { session, certificationCourse } = buildValidatedPublishedCertificationData({
+        user,
+        organizationLearner,
+        verificationCode,
+        pixScore,
+        competenceMarks,
+      });
+
+      const archivedOrganizationIdWithSameUai = databaseBuilder.factory.buildOrganization({
+        externalId: uai,
+        archivedAt: new Date('2024-08-31'),
+      }).id;
+      const anotherUser = buildUser();
+      const archivedOrganizationLearner = buildOrganizationLearner({
+        userId: anotherUser.id,
+        organizationId: archivedOrganizationIdWithSameUai,
+      });
+      buildValidatedPublishedCertificationData({
+        user: anotherUser,
+        organizationLearner: archivedOrganizationLearner,
+        pixScore: 48,
+        competenceMarks,
+      });
+
+      await databaseBuilder.commit();
+
+      const expected = {
+        id: certificationCourse.id,
+        firstName: organizationLearner.firstName,
+        middleName: organizationLearner.middleName,
+        thirdName: organizationLearner.thirdName,
+        lastName: organizationLearner.lastName,
+        nationalStudentId: organizationLearner.nationalStudentId,
+        birthdate: organizationLearner.birthdate,
+        date: certificationCourse.createdAt,
+        verificationCode: certificationCourse.verificationCode,
+        deliveredAt: session.publishedAt,
+        certificationCenter: session.certificationCenter,
+        status: status.VALIDATED,
+        pixScore,
+        competenceResults: [
+          {
+            competenceId: '1.1',
+            level: 6,
+          },
+          {
+            competenceId: '5.2',
+            level: 4,
+          },
+        ],
+      };
+
+      // when
+      const certificationResults = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
+
+      // then
+      expect(certificationResults).to.deep.equal([expected]);
+    });
+  });
 });

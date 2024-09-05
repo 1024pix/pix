@@ -30,6 +30,11 @@ const getCertificatesByOrganizationUAI = async function (uai) {
       'view-active-organization-learners.userId',
       'certification-courses.userId',
     )
+    .innerJoin('organizations', (builder) => {
+      return builder
+        .on('view-active-organization-learners.organizationId', '=', 'organizations.id')
+        .andOnNull('organizations.archivedAt');
+    })
     .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
     .innerJoin(
       'certification-courses-last-assessment-results',
@@ -54,12 +59,7 @@ const getCertificatesByOrganizationUAI = async function (uai) {
 
     .where({ 'certification-courses.isCancelled': false })
     .where({ 'view-active-organization-learners.isDisabled': false })
-    .where(
-      'view-active-organization-learners.organizationId',
-      '=',
-      knex.select('id').from('organizations').whereRaw('LOWER("externalId") = LOWER(?)', uai),
-    )
-
+    .whereRaw('LOWER("organizations"."externalId") = LOWER(?)', uai)
     .groupBy(
       'view-active-organization-learners.id',
       'view-active-organization-learners.firstName',
