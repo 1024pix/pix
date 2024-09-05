@@ -378,16 +378,17 @@
       "title": "IP publique ou IP privée",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "9bc62c21-dfd4-40a8-9497-680a7e1c13d9",
-            "type": "text",
-            "content": "<p>Pour chaque question, choisissez si elle correspond à une IP publique ou à une IP privée.</p>"
-          }
-        },
-        {
           "type": "stepper",
           "steps": [
+            {
+              "elements": [
+                {
+                  "id": "9bc62c21-dfd4-40a8-9497-680a7e1c13d9",
+                  "type": "text",
+                  "content": "<p>Pour chaque question qui suit, choisissez si elle correspond à une IP publique ou à une IP privée.</p>"
+                }
+              ]
+            },
             {
               "elements": [
                 {
