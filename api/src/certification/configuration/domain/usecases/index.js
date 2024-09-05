@@ -6,6 +6,8 @@ import { importNamedExportsFromDirectory } from '../../../../shared/infrastructu
 import * as complementaryCertificationRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as centerPilotFeaturesRepository from '../../infrastructure/repositories/center-pilot-features-repository.js';
+import * as centersRepository from '../../infrastructure/repositories/centers-repository.js';
+import { convertCenterToV3JobRepository } from '../../infrastructure/repositories/jobs/convert-center-to-v3-job-repository.js';
 
 /**
  *
@@ -14,11 +16,15 @@ import * as centerPilotFeaturesRepository from '../../infrastructure/repositorie
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {attachableTargetProfileRepository} AttachableTargetProfileRepository
  * @typedef {centerPilotFeaturesRepository} CenterPilotFeaturesRepository
+ * @typedef {centersRepository} CentersRepository
+ * @typedef {convertCenterToV3JobRepository} ConvertCenterToV3JobRepository
  **/
 const dependencies = {
   attachableTargetProfileRepository,
   complementaryCertificationRepository,
   centerPilotFeaturesRepository,
+  centersRepository,
+  convertCenterToV3JobRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
