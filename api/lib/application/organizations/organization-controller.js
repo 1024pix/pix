@@ -1,12 +1,10 @@
 import * as organizationSerializer from '../../../src/organizational-entities/infrastructure/serializers/jsonapi/organization-serializer.js';
 import { organizationForAdminSerializer } from '../../../src/organizational-entities/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin.serializer.js';
 import * as csvSerializer from '../../../src/shared/infrastructure/serializers/csv/csv-serializer.js';
-import * as membershipSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/membership.serializer.js';
 import {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
 } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
-import { usecases as teamUsecases } from '../../../src/team/domain/usecases/index.js';
 import { organizationInvitationSerializer } from '../../../src/team/infrastructure/serializers/jsonapi/organization-invitation.serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as organizationMemberIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
@@ -40,18 +38,6 @@ const findPaginatedFilteredOrganizations = async function (request, h, dependenc
     page: options.page,
   });
   return dependencies.organizationSerializer.serialize(organizations, pagination);
-};
-
-const findPaginatedFilteredMembershipsForAdmin = async function (request) {
-  const organizationId = request.params.id;
-  const options = request.query;
-
-  const { models: memberships, pagination } = await teamUsecases.findPaginatedFilteredOrganizationMemberships({
-    organizationId,
-    filter: options.filter,
-    page: options.page,
-  });
-  return membershipSerializer.serializeForAdmin(memberships, pagination);
 };
 
 const getOrganizationMemberIdentities = async function (
@@ -107,7 +93,6 @@ const organizationController = {
   create,
   createInBatch,
   findChildrenOrganizationsForAdmin,
-  findPaginatedFilteredMembershipsForAdmin,
   findPaginatedFilteredOrganizations,
   findTargetProfileSummariesForAdmin,
   getOrganizationMemberIdentities,
