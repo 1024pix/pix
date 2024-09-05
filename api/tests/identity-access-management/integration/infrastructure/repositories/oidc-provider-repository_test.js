@@ -9,6 +9,12 @@ describe('Integration | Identity Access Management | Infrastructure | Repositori
         // given
         const oidcProviderProperties = {
           accessTokenLifespan: '7d',
+          claimMapping: {
+            firstName: ['given_name'],
+            lastName: ['usual_name'],
+            externalIdentityId: ['sub'],
+          },
+          claimsToStore: 'email,employeeNumber',
           clientId: 'client',
           encryptedClientSecret: '#%@!!!!!!!!!!!!!',
           shouldCloseSession: true,
@@ -25,8 +31,9 @@ describe('Integration | Identity Access Management | Infrastructure | Repositori
         const savedOidcProvider = await oidcProviderRepository.create(oidcProviderProperties);
 
         // then
-        const oidcProvider = await knex('oidc-providers').where({ identityProvider: 'OIDC_EXAMPLE_NET' }).first('id');
+        const oidcProvider = await knex('oidc-providers').where({ identityProvider: 'OIDC_EXAMPLE_NET' }).first();
         expect(oidcProvider.id).to.equal(savedOidcProvider[0].id);
+        expect(oidcProvider).to.deep.contain(oidcProviderProperties);
       });
     });
 
@@ -101,7 +108,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repositori
       const oidcProviders = await oidcProviderRepository.findAllOidcProviders();
 
       // then
-      expect(oidcProviders.length).to.equal(2);
+      expect(oidcProviders).to.have.length(2);
       const oidcIdentityProviders = oidcProviders.map(({ identityProvider }) => identityProvider);
       expect(oidcIdentityProviders).to.deep.equal(['OIDC_EXAMPLE1', 'OIDC_EXAMPLE2']);
     });

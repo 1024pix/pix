@@ -2,6 +2,7 @@ export class OidcProvider {
   constructor({
     accessTokenLifespan,
     additionalRequiredProperties,
+    claimMapping,
     claimsToStore,
     clientId,
     enabled,
@@ -21,6 +22,7 @@ export class OidcProvider {
   } = {}) {
     this.accessTokenLifespan = accessTokenLifespan;
     this.additionalRequiredProperties = additionalRequiredProperties;
+    this.claimMapping = claimMapping;
     this.claimsToStore = claimsToStore;
     this.clientId = clientId;
     this.enabled = enabled;

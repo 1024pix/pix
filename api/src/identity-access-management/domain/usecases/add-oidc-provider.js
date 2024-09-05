@@ -6,6 +6,7 @@
  * @param {Object} params
  * @param {string} params.accessTokenLifespan
  * @param {Object} params.additionalRequiredProperties
+ * @param {Object} params.claimMapping
  * @param {string} params.claimsToStore
  * @param {string} params.clientId
  * @param {string} params.clientSecret
@@ -29,6 +30,7 @@
 const addOidcProvider = async function ({
   accessTokenLifespan,
   additionalRequiredProperties,
+  claimMapping,
   claimsToStore,
   clientId,
   clientSecret,
@@ -52,6 +54,7 @@ const addOidcProvider = async function ({
   addOidcProviderValidator.validate({
     accessTokenLifespan,
     additionalRequiredProperties,
+    claimMapping,
     claimsToStore,
     clientId,
     clientSecret,
@@ -75,6 +78,7 @@ const addOidcProvider = async function ({
   await oidcProviderRepository.create({
     accessTokenLifespan,
     additionalRequiredProperties,
+    claimMapping,
     claimsToStore,
     clientId,
     enabled,
