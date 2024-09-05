@@ -100,6 +100,11 @@ export const JobRetry = Object.freeze({
     retryDelay: 0,
     retryBackoff: false,
   },
+  FEW_RETRY: {
+    retryLimit: 2,
+    retryDelay: 30,
+    retryBackoff: true,
+  },
   STANDARD_RETRY: {
     retryLimit: 10,
     retryDelay: 30,

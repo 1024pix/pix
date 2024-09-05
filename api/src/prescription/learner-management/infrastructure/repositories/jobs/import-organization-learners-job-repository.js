@@ -10,7 +10,7 @@ class ImportOrganizationLearnersJobRepository extends JobRepository {
     super({
       name: ImportOrganizationLearnersJob.name,
       expireIn: JobExpireIn.HIGH,
-      retry: JobRetry.STANDARD_RETRY,
+      retry: JobRetry.FEW_RETRY,
     });
   }
 }
