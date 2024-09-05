@@ -14,7 +14,7 @@
     },
     "default": "De service is tijdelijk niet beschikbaar. Probeer het later nog eens.",
     "edit-student-number": {
-      "student-number-exists": "Het Lingevoerde studentnummer is al in gebruik door de student {firstName} {lastName}"
+      "student-number-exists": "Het ingevoerde studentnummer is al in gebruik door de student {firstName} {lastName}"
     },
     "global": "Er is een fout opgetreden. Probeer het later nog eens.",
     "or-separator": "of",
@@ -22,7 +22,7 @@
       "bad-csv-format": "Het bestand moet in csv-formaat zijn met als scheidingsteken komma’s of puntkomma's.",
       "encoding-not-supported": "Bestandscodering niet ondersteund.",
       "field-bad-values": "Regel {line}: Het veld \"{field}\" moet zijn \"{valids}\".",
-      "field-date-format": "Regel {line}: Het veld \"{field}\" moet het format \"{acceptedFormat}\" hebben.",
+      "field-date-format": "Regel {line}: Het veld \"{field}\" moet het format dd/mm/jjjj hebben.",
       "field-email-format": "Regel {line}: Het veld \"{field}\" moet een geldig e-mailadres zijn.",
       "field-length": "Regel {line}: Het veld \"{field}\" moet {limit} karakters lang zijn.",
       "field-max-length": "Regel {line}: Het veld \"{field}\" moet minder dan {limit} tekens zijn.",
@@ -56,18 +56,24 @@
       "uai-mismatched": "De UAI in het SIECLE-bestand komt niet overeen met die van jouw instelling."
     }
   },
+  "application": {
+    "description": "Het platform gewijd aan educatieve evaluatie en opvolging. Met je Pix Orga ruimte kun je een beoordelingscampagne starten of Pix-profielen verzamelen, de voortgang van je studenten of leerlingen in een campagne volgen of hun resultaten bekijken."
+  },
   "banners": {
     "certification": {
       "message": "'<strong>'Certificaten:'</strong>' Vergeet niet om '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'de sessies af te ronden in Pix Certif'</a>' en de certificaten hier te downloaden via het tabblad \"Certificaten\" voor de start van het schooljaar {year}."
     },
     "import": {
-      "message": "De beheerder kan certificeringsresultaten downloaden en de studentendatabase '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'importeren'</a>' om terug-naar-school campagnes per niveau te maken. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Meer info'</a>'"
+      "message": "De beheerder kan certificeringsresultaten downloaden en de studentendatabase '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'importeren'</a>' om terug-naar-school campagnes per niveau te maken.' <'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Meer info'</a>'"
     },
     "language-availability": {
       "message": "Jouw taal is nog niet beschikbaar op Pix Orga. Voor jouw gemak wordt de applicatie in het Engels weergegeven. Het Pix-team werkt eraan om jouw taal toe te voegen."
     },
     "over-capacity": {
       "message": "Houd er rekening mee dat je meer plaats inneemt dan je totale capaciteit."
+    },
+    "survey": {
+      "message": "Help Pix Orga te evolueren door deze korte enquête te beantwoorden over hoe jij campagnes gebruikt! '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Toegang tot de enquête'</a>'"
     }
   },
   "cards": {
@@ -76,6 +82,7 @@
       "value": "/{total} plaatsen"
     },
     "occupied-seats-count": {
+      "anonymous": "inclusief {count, plural, =1 {1 plaats} other {{count, number} plaatsen}} met toegang zonder account",
       "title": "Plaatsen bezet",
       "value": "/{total} plaatsen"
     },
@@ -95,7 +102,17 @@
     "place-info": {
       "details": "met minstens één deelname aan een campagne.",
       "link": "Een plaats vrijmaken op het tabblad ”Deelnemers”",
-      "message": "1 plaats bezet = 1 deelnemer"
+      "message": "1 plaats bezet = 1 deelnemer",
+      "with-account": {
+        "heading": "'<strong>'De deelnemer heeft een Pix-account:'</strong>'",
+        "message-description": "Je kunt plaatsen vrijmaken door deelnemers te verwijderen van het tabblad Deelnemers.",
+        "message-main": "1 deelnemer met ten minste één deelname aan een campagne = 1 plaats bezet."
+      },
+      "without-account": {
+        "heading": "'<strong>'De deelnemer heeft geen Pix-account'</strong>' (campagne met toegang zonder account):",
+        "message-description": "U kunt deze ruimten vrijmaken door items in de campagne zonder accounttoegang te verwijderen of door de campagne te verwijderen.",
+        "message-main": "1 deelname zonder account = 1 plaats bezet."
+      }
     },
     "submitted-count": {
       "information": "Hier vind je de resultaten die door je deelnemers zijn verzonden. Dit aantal omvat alle deelnemers die klaar zijn en op de knop \"Ik verstuur mijn resultaten\" of \"Ik verstuur mijn profiel\" hebben geklikt.",
@@ -193,6 +210,10 @@
         "label": "Zoeken op klas",
         "placeholder": "Klassen"
       },
+      "fullname": {
+        "label": "Zoeken op voor- en achternaam",
+        "placeholder": "Achternaam, voornaam"
+      },
       "loading": "Laden...",
       "title": "Filters"
     },
@@ -204,6 +225,12 @@
     "fullname": "{firstName} {lastName}",
     "help-form": "https://support.pix.fr/support/tickets/new",
     "home-page": "Startpagina van Pix Orga",
+    "import": {
+      "field": {
+        "birthdate": "Geboortedatum",
+        "division": "Klasse"
+      }
+    },
     "loading": "Bezig met laden",
     "pagination": {
       "action": {
@@ -277,6 +304,12 @@
       "STARTED-ASSESSMENT": "Bezig",
       "TO_SHARE-ASSESSMENT": "In afwachting van verzending",
       "TO_SHARE-PROFILES_COLLECTION": "In afwachting van verzending"
+    },
+    "ui": {
+      "deletion-modal": {
+        "confirm-deletion": "Ja, verwijderen",
+        "confirmation-checkbox": "Ik kan bevestigen dat ik de gevolgen van de {count} schrappingen volledig begrijp. "
+      }
     }
   },
   "navigation": {
@@ -308,7 +341,7 @@
       "places": "Plaatsen",
       "sco-organization-participants": "Leerlingen",
       "sup-organization-participants": "Studenten",
-      "support": "Hulpcentrum",
+      "support": "Helpcentrum",
       "team": "Team"
     },
     "pix-orga": "Pix Orga",
@@ -422,7 +455,7 @@
       "legal-warning": "* In overeenstemming met de Franse wet op gegevensbescherming en als verantwoordelijke voor de verwerking van de gegevens, vragen we niet naar bijzonder identificerende of belangrijke gegevens, tenzij dit absoluut noodzakelijk is. Het burgerservicenummer (BSN) moet worden vermeden, net als gevoelige gegevens.",
       "multiple-sendings": {
         "assessments": {
-          "info": "Als je ervoor kiest om meerdere inzendingen te verzenden, kan de deelnemer de campagne 4 dagen later opnieuw uitvoeren en zijn resultaten meerdere keren verzenden door de code opnieuw in te voeren.",
+          "info": "Als je ervoor kiest om meerdere inzendingen te verzenden, kan de deelnemer de campagne 4 dagen later opnieuw uitvoeren en zijn resultaten meerdere keren verzenden door de code opnieuw in te voeren. In Pix Orga zie je hun laatste inzending.",
           "question-label": "Wil je deelnemers toestaan hun resultaten meer dan één keer te versturen?"
         },
         "info-title": "Meervoudig verzenden",
@@ -453,6 +486,7 @@
       },
       "tags-title": "Filter zoekopdracht:",
       "tags": {
+        "BACK_TO_SCHOOL": "Terug naar school cursus / 6e",
         "COMPETENCES": "De 16 vaardigheden",
         "CUSTOM": "Cursus op maat",
         "DISCIPLINE": "Disciplines",
@@ -461,7 +495,8 @@
         },
         "PIX_PLUS": "Pix+",
         "PREDEFINED": "Vooraf gedefinieerde test",
-        "SUBJECT": "Thema's"
+        "SUBJECT": "Thema's",
+        "TARGETED": "Gerichte cursussen"
       },
       "target-profiles-category-label": "Filter tests op categorie",
       "target-profiles-category-placeholder": "Categorieën",
@@ -676,6 +711,12 @@
       }
     },
     "campaigns-list": {
+      "action-bar": {
+        "delete-button": "Verwijderen",
+        "error-message": "{count, plural, =1 {Er is een fout opgetreden, de campagne is niet verwijderd uit de lijst.} other {Er is een fout opgetreden, de{count} geselecteerde campagnes zijn niet verwijderd uit de lijst.}}",
+        "information": "{count, plural, =1 {{count} geselecteerde campagne} other {{count} geselecteerde campagnes}}",
+        "success-message": "{count, plural, =1 {De campagne is verwijderd uit de lijst.} other {De {count} geselecteerde campagnes zijn verwijderd uit de lijst.}}"
+      },
       "action": {
         "campaign": {
           "archived": "Gearchiveerd",
@@ -683,6 +724,15 @@
           "ongoing": "Actief"
         },
         "create": "Een campagne maken"
+      },
+      "deletion-modal": {
+        "confirmation-checkbox": "Ik kan bevestigen dat ik de gevolgen van de {count} schrappingen volledig begrijp. ",
+        "content": {
+          "footer": "Houd er rekening mee dat deze actie onomkeerbaar is.",
+          "header": "{count, plural, =1 {Deze campagne zal niet langer zichtbaar zijn} other {Deze campagnes zullen niet langer zichtbaar zijn}} in Pix Orga.",
+          "main-participation-prevent": "Alle deelnames voor {count, plural, =1 {deze campagne} other {deze campagnes}} en hun resultaten worden verwijderd."
+        },
+        "title": "{count, plural, =1 {Weet je zeker dat je de geselecteerde campagne wilt verwijderen?} other {Weet je zeker dat je de '<strong>'{count}'</strong>' geselecteerde campagnes ?}}"
       },
       "filter": {
         "by-name": "Een campagne zoeken",
@@ -697,6 +747,7 @@
           "code": "Code",
           "created-by": "Eigenaar",
           "created-on": "Gemaakt op",
+          "mainCheckbox": "Hele kolom selecteren/deselecteren",
           "name": "Naam Campagne",
           "participants": "Deelnemers",
           "results": "Ontvangen resultaten"
@@ -752,7 +803,7 @@
         }
       },
       "forgot-password": "Wachtwoord vergeten?",
-      "forgotten-password-url": "https://app.pix.org/mot-de-passe-oublie?lang=nl",
+      "forgotten-password-url": "https://app.pix.fr/mot-de-passe-oublie",
       "invitation-already-accepted": "Deze uitnodiging is al geaccepteerd. Log in of neem contact op met de beheerder van je Pix Orga-ruimte.",
       "invitation-was-cancelled": "Deze uitnodiging is niet langer geldig. Neem contact op met de beheerder van je Pix Orga-ruimte.",
       "is-only-accessible": "Toegang tot Pix Orga is beperkt tot uitgenodigde leden. Neem contact op met de Pix Orga-beheerder van je organisatie om je uit te nodigen.",
@@ -809,95 +860,87 @@
       "title": "Inloggen"
     },
     "missions": {
-      "mission": {
-        "title": "Details van een opdracht",
-        "details": {
-          "button-label": "Bekijk de missiedocumentatie",
-          "competence": {
-            "title": "Vaardigheid:"
+      "details": {
+        "competence": {
+          "title": "Vaardigheid:"
+        },
+        "learners": {
+          "list": {
+            "aria-label": "Student",
+            "caption": "Tabel van studenten met de resultaten van hun deelname aan de opdracht {missionName}",
+            "filters": {
+              "aria-label": "Filter studenten",
+              "learners-count": "{count, plural, =0 {geen student} =1 {1 student} other {{count} studenten}}"
+            },
+            "headers": {
+              "division": "Klas",
+              "first-name": "Voornaam",
+              "last-name": "Achternaam",
+              "result": "Positionering",
+              "status": "Status opdracht"
+            },
+            "mission-result": {
+              "exceeded": "Overtroffen",
+              "not-reached": "Niet bereikt",
+              "partially-reached": "Gedeeltelijk bereikt",
+              "reached": "Bereikt",
+              "undefined": "-"
+            },
+            "mission-status": {
+              "completed": "Voltooid",
+              "not-started": "Niet gestart",
+              "started": "Bezig"
+            }
           },
-          "objective": {
-            "title": "Doelstellingen:"
-          }
+          "no-data": "Er zijn geen deelnemers",
+          "title": "Lijst van studenten"
         },
-        "tabs": {
-          "aria-label": "Navigatie tussen de activiteit of resultaten van de missie",
-          "activities": "Activiteiten",
-          "results": "Resultaten"
+        "objective": {
+          "title": "Doelstellingen:"
         },
-        "table": {
-            "activities": {
-              "aria-label": "Student",
-              "caption": "Tabel van studenten met de resultaten van hun deelname aan de opdracht {missionName}",
-              "filters": {
-                "aria-label": "Filter studenten",
-                "learners-count": "{count, plural, =0 {geen student} =1 {1 student} other {{count} studenten}}"
-              },
-              "headers": {
-                "division": "Klas",
-                "first-name": "Voornaam",
-                "last-name": "Achternaam",
-                "status": "Status opdracht"
-              },
-              "mission-status": {
-                "completed": "Voltooid",
-                "not-started": "Niet gestart",
-                "started": "Bezig"
-              }
-            },
-            "results": {
-              "aria-label": "Student",
-              "caption": "Tabel van studenten met de resultaten van hun deelname aan de opdracht {missionName}",
-              "filters": {
-                "aria-label": "Filter studenten",
-                "learners-count": "{count, plural, =0 {geen student} =1 {1 student} other {{count} studenten}}"
-              },
-              "headers": {
-                "division": "Klas",
-                "first-name": "Voornaam",
-                "last-name": "Achternaam",
-                "result": "Positionering"
-              },
-              "mission-result": {
-                "exceeded": "Overtroffen",
-                "not-reached": "Niet bereikt",
-                "partially-reached": "Gedeeltelijk bereikt",
-                "reached": "Bereikt",
-                "undefined": "-"
-              }
-            },
-            "no-data": "Er zijn geen deelnemers"
-          }
+        "title": "Details van een opdracht"
       },
       "list": {
         "aria-label": "Opdracht",
-          "banner": {
-            "copypaste-container": {
-              "abstract": "Begin je missies met je leerlingen door een sessie te activeren met de bovenstaande knop en deze te gebruiken ",
-              "button": {
-                "success": "Gekopieerd !",
-                "tooltip": "Kopieercode"
-              }
-            },
-            "step1": {
-              "admin": {
-                "head": "Stap 1:",
-                "link": "Importeer de leerlingendatabase",
-                "tail": "<b>vanuit Onde</b> (exporteerbaar bestand in het menu Lijsten & documenten > Extracties > Schoolleerlingen of hun begeleiders)."
-              },
-              "non-admin": "Stap 1: <b>Vraag de Pix Orga beheerder </b>&nbsp in jouw ruimte om de studenten te importeren."
-            },
-            "step2": {
-              "title": "Stap 2: Om leerlingen toegang te geven tot de Pix Junior ruimte van jouw school, kun je :",
-              "option1": "de link&nbsp<a href=\"{pixJuniorUrl}\">junior.pix.fr</a>&nbspgebruiken. Elke keer dat je verbinding maakt, wordt de code van je school gevraagd.",
-              "option2": {
-                "body": "of gebruik de directe link &nbsp<a href=\"{pixJuniorUrl}\" target=_blank >junior.pix.fr/schools/{code}</a>",
-                "hint": "Je kunt deze bladwijzer op je computer opslaan."
-              }
-            },
-            "step3": "Stap 3: <b> Activeer de Pix Junior sessie </b> met de bovenstaande knop. <b>Doe dit voor elke sessie met je leerlingen</b>.",
-            "welcome": "Om Pix Junior te gebruiken :"
+        "banner": {
+          "admin": {
+            "abstract": "Om te beginnen, gelieve",
+            "import-text": "je studenten te importeren",
+            "info": "uit Onde (exporteerbaar bestand in het menu Lijsten & documenten > Extracties> Leerlingen of hun begeleider)."
           },
+          "copypaste-container": {
+            "abstract": "Start je eerste opdrachten met je studenten door de sessie te activeren via de knop hierboven en door de code te gebruiken",
+            "button": {
+              "success": "gekopieerd !",
+              "tooltip": "de link kopiëren"
+            },
+            "hint": "Aarzel niet om toe te voegen aan je favorieten.",
+            "import-text": "link school"
+          },
+          "hint": "Aarzel niet om toe te voegen aan je favorieten.",
+          "import-text": "link school",
+          "non-admin": {
+            "abstract": "Om te beginnen vraag je je beheerder om de studenten te importeren."
+          },
+          "step1": {
+            "admin": {
+              "head": "Stap 1: <b>Gelieve</b>.",
+              "link": "de studentendatabase importeren",
+              "tail": "<b>Van Onde</b> (exporteerbaar bestand in het menu Lijsten & documenten > Uittreksels > Schoolleerlingen of hun begeleiders)."
+            },
+            "non-admin": "Stap 1: <b>Vraag de beheerder</b> Pix Orga van je ruimte om de leerlingen te importeren."
+          },
+          "step2": {
+            "option1": "Gebruik&nbsp<b>de link</b>&nbsp'<'a href=\"{pixJuniorUrl}\"'>'junior.pix.fr'</a>'.&nbspDe code voor je school wordt elke keer gevraagd als je inlogt.",
+            "option2": {
+              "body": "of gebruik de directe link&nbsp'<'a href=\"{pixJuniorUrl}\" target=_blank >junior.pix.fr/schools/{code}'</a>",
+              "hint": "Je kunt deze favoriet opslaan op de computers."
+            },
+            "title": "Stap 2: Om leerlingen toegang te geven tot de Pix Junior-ruimte van je school, kun je :"
+          },
+          "step3": "Stap 3: <b>Activeer de Pix Junior sessie</b> via de knop hierboven. <b>Deze actie moet voor elke sessie met je leerlingen worden uitgevoerd</b>.",
+          "welcome": "Hallo en welkom bij Pix Orga!"
+        },
         "caption": "Lijst van opdrachten",
         "empty-state": "Er zijn geen opdrachten",
         "headers": {
@@ -905,7 +948,93 @@
           "name": "Opdracht",
           "started-by": "Gestart door"
         },
-        "no-division": "Geen klas"
+        "no-division": "Geen klas",
+        "non-admin": {
+          "abstract": "Om te beginnen vraag je je beheerder om de studenten te importeren."
+        }
+      },
+      "mission": {
+        "details": {
+          "button-label": "Bekijk de functieomschrijving",
+          "competence": {
+            "title": "Vaardigheid :"
+          },
+          "objective": {
+            "title": "Doelstellingen :"
+          }
+        },
+        "table": {
+          "activities": {
+            "aria-label": "Student",
+            "caption": "Tabel van studenten met hun deelname aan de missie {missionName}",
+            "filters": {
+              "aria-label": "Filter studenten",
+              "learners-count": "{count, plural, =0 {Geen student} =1 {1 student} other {{count} studenten}}"
+            },
+            "headers": {
+              "division": "Klasse",
+              "first-name": "Voornaam",
+              "last-name": "Achternaam",
+              "status": "Status opdracht"
+            },
+            "mission-status": {
+              "completed": "Voltooid",
+              "not-started": "Niet gestart",
+              "started": "Actief"
+            },
+            "no-data": "Er zijn geen deelnemers"
+          },
+          "result": {
+            "aria-label": "Student",
+            "caption": "Tabel van studenten met de resultaten van hun deelname aan de opdracht {missionName}",
+            "filters": {
+              "aria-label": "Filter studenten",
+              "learners-count": "{count, plural, =0 {Geen student} =1 {1 student} other {{count} studenten}}"
+            },
+            "headers": {
+              "division": "Klasse",
+              "first-name": "Voornaam",
+              "last-name": "Achternaam",
+              "result": "Positionering"
+            },
+            "mission-result": {
+              "exceeded": "Overtroffen",
+              "not-reached": "Niet bereikt",
+              "partially-reached": "Gedeeltelijk bereikt",
+              "reached": "Bereikt",
+              "undefined": "-"
+            },
+            "no-data": "Er zijn geen deelnemers"
+          },
+          "results": {
+            "aria-label": "Student",
+            "caption": "Tabel van studenten met de resultaten van hun deelname aan de opdracht {missionName}",
+            "filters": {
+              "aria-label": "Filter studenten",
+              "learners-count": "{count, plural, =0 {Geen student} =1 {1 student} other {{count} studenten}}"
+            },
+            "headers": {
+              "division": "Klasse",
+              "first-name": "Voornaam",
+              "last-name": "Naam",
+              "result": "Positionering"
+            },
+            "mission-result": {
+              "exceeded": "Overtroffen",
+              "not-reached": "Niet bereikt",
+              "partially-reached": "Gedeeltelijk bereikt",
+              "reached": "Bereikt",
+              "undefined": "-"
+            },
+            "no-data": "Er zijn geen deelnemers"
+          }
+        },
+        "tabs": {
+          "activities": "Activiteiten",
+          "aria-label": "Navigatie tussen de activiteit of resultaten van de missie",
+          "results": "Resultaten"
+        },
+        "title": "Details van een opdracht"
       },
       "title": "Opdrachten"
     },
@@ -1238,7 +1367,7 @@
       "no-participants-action": "De beheerder moet de studentendatabase importeren door op de knop importeren te klikken.",
       "page-title": "Leerlingen",
       "reset-password-modal": {
-        "content-message-1": "Voor {totalSelectedStudents, plural, =1 {<strong>{totalSelectedStudents} student</strong> geselecteerd} other {<strong>{totalSelectedStudents} studenten</strong> geselecteerd}}, {totalAffectedStudents, plural, =0 {<strong>zal het wachtwoord</strong> niet worden gereset} =1 {het wachtwoord van <strong>{totalAffectedStudents} student</strong> zal worden gereset} other {de wachtwoorden van <strong>{totalAffectedStudents} studenten</strong> zullen worden gereset}}.",
+        "content-message-1": "Voor {totalSelectedStudents, plural, =1 {<strong>{totalSelectedStudents} student</strong> geselecteerd} other {<strong>{totalSelectedStudents} studenten</strong> geselecteerd}}, {totalAffectedStudents, plural, =0 {<strong>zal het wachtwoord</strong> niet worden gereset} =1 {het wachtwoord van <strong>{totalAffectedStudents} student</strong> zal worden gereset} other {de wachtwoorden van <strong>{totalAffectedStudents} studenten</strong> zullen worden gereset}}.\n\n\n",
         "content-message-2": "Er wordt een CSV-bestand gegenereerd met de gebruikersnamen en eenmalige wachtwoorden.",
         "content-message-3": "Communiceer deze nieuwe eenmalige wachtwoorden aan de studenten. Wanneer ze inloggen met dit wachtwoord, zal Pix hen vragen een nieuw wachtwoord in te voeren.",
         "title": "<strong>Wachtwoorden</strong> van studenten opnieuw instellen met <strong>gebruikersnaam</strong>.",
@@ -1486,7 +1615,7 @@
         "multiple-invitations": "Er is een uitnodiging gestuurd naar de vermelde e-mailadressen."
       },
       "title": "Een lid uitnodigen",
-      "warning":"De leden die je hieronder toevoegt, krijgen toegang tot deelnemersresultaten en campagneanalyses. Zorg ervoor dat de mensen die u uitnodigt lid zijn van uw organisatie."
+      "warning": "De leden die je hieronder toevoegt, krijgen toegang tot deelnemersresultaten en campagneanalyses. Zorg ervoor dat de mensen die u uitnodigt lid zijn van uw organisatie."
     },
     "terms-of-service": {
       "accept": "Ik accepteer de gebruiksvoorwaarden",
