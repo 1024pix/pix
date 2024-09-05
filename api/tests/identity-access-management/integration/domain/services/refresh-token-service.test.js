@@ -1,7 +1,11 @@
 import { refreshTokenService } from '../../../../../src/identity-access-management/domain/services/refresh-token-service.js';
 import { UnauthorizedError } from '../../../../../src/shared/application/http-errors.js';
+import { config } from '../../../../../src/shared/config.js';
 import { temporaryStorage } from '../../../../../src/shared/infrastructure/temporary-storage/index.js';
-import { catchErr, expect } from '../../../../test-helper.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
+
+const refreshTokenTemporaryStorage = temporaryStorage.withPrefix('refresh-tokens:');
+const userRefreshTokensTemporaryStorage = temporaryStorage.withPrefix('user-refresh-tokens:');
 
 describe('Integration | Identity Access Management | Domain | Service | refresh-token-service', function () {
   afterEach(async function () {
@@ -33,6 +37,84 @@ describe('Integration | Identity Access Management | Domain | Service | refresh-
 
         const refreshTokensInDb = await refreshTokenService.findByUserId(userId);
         expect(refreshTokensInDb).to.deep.equal(['123:pix-orga:XXX-123-456']);
+      });
+
+      context('set refresh token expiration by scope', function () {
+        let userId, source, uuidGenerator;
+
+        beforeEach(async function () {
+          userId = '123';
+          source = 'APP';
+          uuidGenerator = () => 'XXX-123-456';
+          sinon.spy(refreshTokenTemporaryStorage, 'save');
+        });
+
+        it('sets a default refresh token lifespan when scope is not given', async function () {
+          // given
+          const refreshTokenLifespanMs = 3600000;
+          sinon.stub(config.authentication, 'refreshTokenLifespanMs').value(refreshTokenLifespanMs);
+
+          // when
+          await refreshTokenService.createRefreshTokenFromUserId({
+            userId,
+            source,
+            uuidGenerator,
+            refreshTokenTemporaryStorage,
+            userRefreshTokensTemporaryStorage,
+          });
+
+          // then
+          expect(refreshTokenTemporaryStorage.save.args[0][0].expirationDelaySeconds).to.be.equal(
+            refreshTokenLifespanMs / 1000,
+          );
+        });
+
+        it('sets the app refresh token lifespan when scope is given', async function () {
+          // given
+          const scope = 'mon-pix';
+
+          const refreshTokenLifespanMs = 1800000;
+          sinon.stub(config.authentication.refreshTokenLifespanMsByScope, 'mon-pix').value(refreshTokenLifespanMs);
+
+          // when
+          await refreshTokenService.createRefreshTokenFromUserId({
+            userId,
+            source,
+            scope,
+            uuidGenerator,
+            refreshTokenTemporaryStorage,
+            userRefreshTokensTemporaryStorage,
+          });
+
+          // then
+          expect(refreshTokenTemporaryStorage.save.args[0][0].expirationDelaySeconds).to.be.equal(
+            refreshTokenLifespanMs / 1000,
+          );
+        });
+
+        it('sets the default token lifespan when scope value is not defined in configuration', async function () {
+          // given
+          const scope = 'random';
+
+          const refreshTokenLifespanMs = 3600000;
+          sinon.stub(config.authentication, 'refreshTokenLifespanMs').value(refreshTokenLifespanMs);
+          sinon.stub(config.authentication, 'refreshTokenLifespanMsByScope').value({ 'mon-pix': 123 });
+
+          // when
+          await refreshTokenService.createRefreshTokenFromUserId({
+            userId,
+            source,
+            scope,
+            uuidGenerator,
+            refreshTokenTemporaryStorage,
+            userRefreshTokensTemporaryStorage,
+          });
+
+          // then
+          expect(refreshTokenTemporaryStorage.save.args[0][0].expirationDelaySeconds).to.be.equal(
+            refreshTokenLifespanMs / 1000,
+          );
+        });
       });
     });
 
