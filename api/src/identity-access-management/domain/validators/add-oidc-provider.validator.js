@@ -5,7 +5,6 @@ import { EntityValidationError } from '../../../shared/domain/errors.js';
 const schema = Joi.object({
   accessTokenLifespan: Joi.string().optional().default('7d'),
   additionalRequiredProperties: Joi.object().optional(),
-  claimMapping: Joi.object().optional(),
   claimsToStore: Joi.string().optional(),
   clientId: Joi.string().required(),
   clientSecret: Joi.string().required(),
