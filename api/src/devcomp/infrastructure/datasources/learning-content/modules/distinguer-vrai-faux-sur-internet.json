@@ -160,7 +160,7 @@
           "element": {
             "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
             "type": "text",
-            "content": "<p>À la fin de cette vidéo, des questions vous seront posées sur des mots de vocabulaire&nbsp;: \"une anecdote\", \"une rumeur\", \"une opinion\".</p>"
+            "content": "<p>À la fin de cette vidéo, des questions vous seront posées sur des mots de vocabulaire&nbsp;: \"une anecdote\", \"une rumeur\", \"une opinion\",\"une information\".</p>"
           }
         },
         {
@@ -171,7 +171,7 @@
             "title": "-",
             "url": "https://videos.pix.fr/modulix/distinguer-vrai-faux-sur-internet/vocabulaire.mp4",
             "subtitles": "",
-            "transcription": "<p>-</p>"
+            "transcription": "<p>à venir</p>"
           }
         }
       ]
@@ -179,14 +179,14 @@
     {
       "id": "550d2764-35fd-4cc2-b663-cfa4c5d4ab06",
       "type": "activity",
-      "title": "Vocabulaire opinion, rumeur, anecdote",
+      "title": "Vocabulaire opinion, rumeur, anecdote, information",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "5c6ec12a-f5b4-4683-ae7a-11b79fddd0a5",
             "type": "text",
-            "content": "Dans chacune des situations suivantes, choisissez s'il s'agit d'une opinion, d'une rumeur ou d'une anecdote."
+            "content": "Dans chacune des situations suivantes, choisissez s'il s'agit d'une opinion, d'une rumeur, d'une anecdote ou d'une information."
           }
         },
         {
@@ -210,11 +210,15 @@
                     {
                       "id": "3",
                       "content": "une anecdote"
+                    },
+                    {
+                      "id": "4",
+                      "content": "une information"
                     }
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est une opinion, c'est-à-dire un point de vue exprimé.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est une opinion, c'est-à-dire un point de vue exprimé.</p>"
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un point de vue qui est exprimé. Essayez à nouveau.</p>"
                   },
                   "solution": "1"
                 }
@@ -238,11 +242,15 @@
                     {
                       "id": "3",
                       "content": "une anecdote"
+                    },
+                    {
+                      "id": "4",
+                      "content": "une information"
                     }
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>"
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un détail, c'est un fait qui n'est pas intéressant pour les gens. Essayez à nouveau.</p>"
                   },
                   "solution": "3"
                 }
@@ -266,13 +274,49 @@
                     {
                       "id": "3",
                       "content": "une anecdote"
+                    },
+                    {
+                      "id": "4",
+                      "content": "une information"
                     }
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct.</span><p> Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>"
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Ce qu'a entendu Yann n'est soutenu par aucune source, mais cela semble concerner beaucoup de gens. Essayez à nouveau.</p>"
                   },
                   "solution": "2"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "26b01131-fc75-4300-9ad3-fc19f718a88a",
+                  "type": "qcu",
+                  "instruction": "<p>Diane a entendu à la radio que le site Wikipédia a été créé en 2001.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "une opinion"
+                    },
+                    {
+                      "id": "2",
+                      "content": "une rumeur"
+                    },
+                    {
+                      "id": "3",
+                      "content": "une anecdote"
+                    },
+                    {
+                      "id": "4",
+                      "content": "une information"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un fait qui est sourcé. C'est bien une information</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un fait qui est sourcé. Essayez à nouveau.</p>"
+                  },
+                  "solution": "4"
                 }
               ]
             }
