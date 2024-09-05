@@ -1,7 +1,12 @@
 # Pix Changelog
 
-## v4.208.0 (04/09/2024)
+## v4.208.1 (04/09/2024)
 
+### :bug: Correction
+- [#10062](https://github.com/1024pix/pix/pull/10062) Revert "[FEATURE] Utiliser les correspondances des claims en base de données (PIX-13766)"
+
+
+## v4.208.0 (04/09/2024)
 
 ### :rocket: Amélioration
 - [#10025](https://github.com/1024pix/pix/pull/10025) [FEATURE] Passer le nom de l'application (le scope) à l'authentification de manière standardisée (PIX-13910).
