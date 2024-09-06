@@ -1,18 +1,16 @@
-import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
-import ModuleElement from 'mon-pix/components/module/element/module-element';
-import ModulixFeedback from 'mon-pix/components/modulix/feedback';
-import { t } from 'ember-intl';
-import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
-import { eq } from 'ember-truth-helpers';
-
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixMessage from '@1024pix/pix-ui/components/pix-message';
+import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import { fn, get } from '@ember/helper';
 import { on } from '@ember/modifier';
-
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
+import { eq } from 'ember-truth-helpers';
+import ModuleElement from 'mon-pix/components/module/element/module-element';
+import ModulixFeedback from 'mon-pix/components/modulix/feedback';
+import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
 
 export default class ModuleQrocm extends ModuleElement {
   @tracked selectedValues;
@@ -143,7 +141,12 @@ export default class ModuleQrocm extends ModuleElement {
       {{/if}}
 
       {{#unless this.correction}}
-        <PixButton @variant="success" @type="submit" class="element-qrocm__verify-button" @triggerAction={{this.onAnswer}}>
+        <PixButton
+          @variant="success"
+          @type="submit"
+          class="element-qrocm__verify-button"
+          @triggerAction={{this.onAnswer}}
+        >
           {{t "pages.modulix.buttons.activity.verify"}}
         </PixButton>
       {{/unless}}

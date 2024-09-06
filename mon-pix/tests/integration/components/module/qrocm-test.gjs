@@ -1,15 +1,14 @@
-import {clickByName, render} from '@1024pix/ember-testing-library';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
-import {click, fillIn, find} from '@ember/test-helpers';
-import {hbs} from 'ember-cli-htmlbars';
-import {t} from 'ember-intl/test-support';
-import {module, test} from 'qunit';
-import sinon from 'sinon';
+import { click, fillIn, find } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import ModuleQrocm from 'mon-pix/components/module/element/qrocm';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module.only('Integration | Component | Module | QROCM', function (hooks) {
+module('Integration | Component | Module | QROCM', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('should display a block QROCM', async function (assert) {
@@ -50,9 +49,7 @@ module.only('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    const screen = await render(<template>
-      <ModuleQrocm @element={{qrocm}}/>
-    </template>)
+    const screen = await render(<template><ModuleQrocm @element={{qrocm}} /></template>);
     const direction = t('pages.modulix.qrocm.direction', {
       count: qrocm.proposals.filter(({ type }) => type !== 'text').length,
     });
@@ -112,9 +109,7 @@ module.only('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    const screen = await render(<template>
-      <ModuleQrocm @element={{qrocm}}/>
-    </template>)
+    const screen = await render(<template><ModuleQrocm @element={{qrocm}} /></template>);
 
     // then
     assert.ok(screen);
@@ -159,9 +154,7 @@ module.only('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    const screen = await render(<template>
-      <ModuleQrocm @element={{qrocm}}/>
-    </template>)
+    const screen = await render(<template><ModuleQrocm @element={{qrocm}} /></template>);
 
     // when
     await clickByName('select-aria');
@@ -204,9 +197,7 @@ module.only('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    const screen = await render(<template>
-      <ModuleQrocm @element={{qrocm}}/>
-    </template>)
+    const screen = await render(<template><ModuleQrocm @element={{qrocm}} /></template>);
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -241,12 +232,11 @@ module.only('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    const onAnswer = function (){}
+    const givenonElementAnswerStub = function () {};
 
-    const screen = await render(<template>
-      <ModuleQrocm @element={{qrocm}}
-                   @onAnswer={{onAnswer}}/>
-    </template>)
+    const screen = await render(
+      <template><ModuleQrocm @element={{qrocm}} @onAnswer={{givenonElementAnswerStub}} /></template>,
+    );
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -285,11 +275,12 @@ module.only('Integration | Component | Module | QROCM', function (hooks) {
         ],
         type: 'qrocm',
       };
-      this.set('el', qrocm);
       const userResponse = 'user-response';
       const givenonElementAnswerSpy = sinon.spy();
-      this.set('onAnswer', givenonElementAnswerSpy);
-      const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
+
+      const screen = await render(
+        <template><ModuleQrocm @element={{qrocm}} @onAnswer={{givenonElementAnswerSpy}} /></template>,
+      );
       const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
       // when
@@ -336,11 +327,11 @@ module.only('Integration | Component | Module | QROCM', function (hooks) {
         ],
         type: 'qrocm',
       };
-      this.set('el', qrocm);
       const userResponse = { input: 'premiere-partie', answer: '2' };
       const givenonElementAnswerSpy = sinon.spy();
-      this.set('onAnswer', givenonElementAnswerSpy);
-      const screen = await render(hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} />`);
+      const screen = await render(
+        <template><ModuleQrocm @element={{qrocm}} @onAnswer={{givenonElementAnswerSpy}} /></template>,
+      );
       const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
       // when
@@ -368,12 +359,14 @@ module.only('Integration | Component | Module | QROCM', function (hooks) {
       status: 'ok',
       solution: 'solution',
     });
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const { qrocm } = prepareContextRecords.call(this, store, correctionResponse);
+    const givenonElementAnswerStub = function () {};
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModuleQrocm @element={{qrocm}} @onAnswer={{givenonElementAnswerStub}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -390,12 +383,14 @@ module.only('Integration | Component | Module | QROCM', function (hooks) {
       status: 'ko',
       solution: 'solution',
     });
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const { qrocm } = prepareContextRecords.call(this, store, correctionResponse);
+    const givenonElementAnswerStub = function () {};
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModuleQrocm @element={{qrocm}} @onAnswer={{givenonElementAnswerStub}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -413,12 +408,14 @@ module.only('Integration | Component | Module | QROCM', function (hooks) {
       solution: 'solution',
     });
 
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const { qrocm } = prepareContextRecords.call(this, store, correctionResponse);
+    const givenonElementAnswerStub = function () {};
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModuleQrocm @element={{qrocm}} @onAnswer={{givenonElementAnswerStub}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -444,7 +441,6 @@ module.only('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    this.set('el', qrocm);
     const store = this.owner.lookup('service:store');
     const correctionResponse = store.createRecord('correction-response', {
       feedback: 'Too Bad!',
@@ -460,13 +456,13 @@ module.only('Integration | Component | Module | QROCM', function (hooks) {
       correction: correctionResponse,
       elementId: qrocm.id,
     });
-    this.set('el', qrocm);
-    this.set('correctionResponse', correctionResponse);
-    this.set('onAnswer', () => {});
+    const givenonElementAnswerStub = function () {};
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModuleQrocm @element={{qrocm}} @onAnswer={{givenonElementAnswerStub}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -484,12 +480,14 @@ module.only('Integration | Component | Module | QROCM', function (hooks) {
       solution: 'solution',
     });
 
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const { qrocm } = prepareContextRecords.call(this, store, correctionResponse);
+    const givenonElementAnswerStub = function () {};
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModuleQrocm @element={{qrocm}} @onAnswer={{givenonElementAnswerStub}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
@@ -507,12 +505,14 @@ module.only('Integration | Component | Module | QROCM', function (hooks) {
       solution: 'solution',
     });
 
-    prepareContextRecords.call(this, store, correctionResponse);
-    this.set('onAnswer', () => {});
+    const { qrocm } = prepareContextRecords.call(this, store, correctionResponse);
+    const givenonElementAnswerStub = function () {};
 
     // when
     const screen = await render(
-      hbs`<Module::Element::Qrocm @element={{this.el}} @onAnswer={{this.onAnswer}} @correction={{this.correctionResponse}} />`,
+      <template>
+        <ModuleQrocm @element={{qrocm}} @onAnswer={{givenonElementAnswerStub}} @correction={{correctionResponse}} />
+      </template>,
     );
 
     // then
