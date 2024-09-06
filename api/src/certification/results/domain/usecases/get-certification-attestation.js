@@ -1,8 +1,8 @@
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 
-const getCertificationAttestation = async function ({ userId, certificationId, certificateRepository }) {
+const getCertificationAttestation = async function ({ userId, certificationCourseId, certificateRepository }) {
   const certificationAttestation = await certificateRepository.getCertificationAttestation({
-    certificationCourseId: certificationId,
+    certificationCourseId,
   });
   if (certificationAttestation.userId !== userId) {
     throw new NotFoundError();

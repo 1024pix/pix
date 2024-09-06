@@ -110,7 +110,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
       .reply(200, () => readFile(`${__dirname}/sticker.pdf`));
   });
 
-  describe('GET /api/attestation/', function () {
+  describe('GET /api/attestation/{certificationCourseId}', function () {
     context('when user own the certification', function () {
       it('should return 200 HTTP status code and the certification', async function () {
         // given

@@ -5,13 +5,13 @@ import * as certificationAttestationPdf from '../infrastructure/utils/pdf/certif
 
 const getPDFAttestation = async function (request, h, dependencies = { certificationAttestationPdf }) {
   const userId = request.auth.credentials.userId;
-  const certificationId = request.params.id;
+  const certificationCourseId = request.params.certificationCourseId;
   const { i18n } = request;
   const { isFrenchDomainExtension } = request.query;
 
   const attestation = await usecases.getCertificationAttestation({
     userId,
-    certificationId,
+    certificationCourseId,
   });
 
   const { buffer, fileName } = await dependencies.certificationAttestationPdf.getCertificationAttestationsPdfBuffer({

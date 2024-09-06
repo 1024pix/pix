@@ -3,6 +3,7 @@ import { usecases } from '../../../../../src/certification/results/domain/usecas
 import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/language-service.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
+
 const { FRENCH } = LANGUAGES_CODE;
 
 describe('Certification | Results | Unit | Application | Controller | certification-attestation-controller', function () {
@@ -18,7 +19,7 @@ describe('Certification | Results | Unit | Application | Controller | certificat
       const request = {
         i18n,
         auth: { credentials: { userId } },
-        params: { id: certification.id },
+        params: { certificationCourseId: certification.id },
         query: { isFrenchDomainExtension: true, lang: FRENCH },
       };
 
@@ -26,7 +27,7 @@ describe('Certification | Results | Unit | Application | Controller | certificat
         .stub(usecases, 'getCertificationAttestation')
         .withArgs({
           userId,
-          certificationId: certification.id,
+          certificationCourseId: certification.id,
         })
         .resolves(certification);
       const certificationAttestationPdfStub = {

@@ -4,6 +4,7 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { LOCALE } from '../../../shared/domain/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificationAttestationController } from './certification-attestation-controller.js';
+
 const { FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 
 const register = async function (server) {
@@ -48,11 +49,11 @@ const register = async function (server) {
     ...adminRoutes,
     {
       method: 'GET',
-      path: '/api/attestation/{id}',
+      path: '/api/attestation/{certificationCourseId}',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationCourseId,
+            certificationCourseId: identifiersType.certificationCourseId,
           }),
           query: Joi.object({
             isFrenchDomainExtension: Joi.boolean().required(),
