@@ -3,7 +3,7 @@ import { SessionEnrolment } from '../../../../../src/certification/enrolment/dom
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Controller | session-controller', function () {
+describe('Certification | Enrolment | Unit | Application | Controller | session-controller', function () {
   describe('#createSession', function () {
     let request;
     let expectedSession;
@@ -158,7 +158,7 @@ describe('Unit | Controller | session-controller', function () {
       request = {
         auth: { credentials: { userId } },
         params: {
-          id: sessionId,
+          sessionId,
         },
       };
     });

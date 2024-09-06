@@ -34,7 +34,7 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/sessions/{id}',
+      path: '/api/sessions/{sessionId}',
       config: {
         pre: [
           {
@@ -44,7 +44,7 @@ const register = async function (server) {
         ],
         handler: sessionController.get,
         validate: {
-          params: Joi.object({ id: identifiersType.sessionId }),
+          params: Joi.object({ sessionId: identifiersType.sessionId }),
         },
         tags: ['api', 'sessions', 'session enrolment'],
         notes: [

@@ -10,7 +10,7 @@ import {
   knex,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | Session | session-route', function () {
+describe('Certification | Enrolment | Acceptance | Routes | session-route', function () {
   let server;
 
   beforeEach(async function () {
@@ -189,7 +189,7 @@ describe('Acceptance | Controller | Session | session-route', function () {
     });
   });
 
-  describe('GET /sessions/{id}', function () {
+  describe('GET /sessions/{sessionId}', function () {
     it('should respond with 200', async function () {
       // given
       const server = await createServer();
