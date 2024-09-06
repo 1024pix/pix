@@ -16,7 +16,7 @@ describe('Unit | Controller | attendance-sheet-controller', function () {
       sinon.stub(usecases, 'getAttendanceSheet');
       const request = {
         i18n,
-        params: { id: sessionId },
+        params: { sessionId },
         payload: {},
         auth: { credentials: { userId } },
       };
