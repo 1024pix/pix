@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 import { configurationRepositories } from '../../../../../../src/certification/configuration/infrastructure/repositories/index.js';
 import { databaseBuilder, expect, knex } from '../../../../../test-helper.js';
 
@@ -13,7 +11,6 @@ describe('Certification | Configuration | Integration | Repository | sessions-re
       const sessionId = databaseBuilder.factory.buildSession({
         version: 2,
         certificationCenterId,
-        date: dayjs().subtract(1, 'day').format('YYYY-MM-DD'),
       }).id;
       await databaseBuilder.commit();
 
@@ -42,13 +39,11 @@ describe('Certification | Configuration | Integration | Repository | sessions-re
       const activeSessionId = databaseBuilder.factory.buildSession({
         version: 2,
         certificationCenterId,
-        date: dayjs().subtract(1, 'day').format('YYYY-MM-DD'),
       }).id;
       databaseBuilder.factory.buildCertificationCourse({ sessionId: activeSessionId });
       const inactiveSessionId = databaseBuilder.factory.buildSession({
         version: 2,
         certificationCenterId,
-        date: dayjs().subtract(1, 'day').format('YYYY-MM-DD'),
       }).id;
       await databaseBuilder.commit();
 
@@ -65,35 +60,6 @@ describe('Certification | Configuration | Integration | Repository | sessions-re
           pageCount: 1,
           pageSize: 10,
           rowCount: 1,
-        },
-      });
-    });
-
-    it('should not return session not in the past', async function () {
-      // given
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-        isV3Pilot: false,
-      }).id;
-      databaseBuilder.factory.buildSession({
-        version: 2,
-        certificationCenterId,
-        date: dayjs().format('YYYY-MM-DD'),
-      }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const results = await configurationRepositories.sessionsRepository.findStaleV2Sessions({
-        centerId: certificationCenterId,
-      });
-
-      // then
-      expect(results).to.deep.equal({
-        sessionIds: [],
-        pagination: {
-          page: 1,
-          pageCount: 0,
-          pageSize: 10,
-          rowCount: 0,
         },
       });
     });
@@ -130,7 +96,6 @@ describe('Certification | Configuration | Integration | Repository | sessions-re
       const sessionId = databaseBuilder.factory.buildSession({
         version: 2,
         certificationCenterId,
-        date: dayjs().subtract(1, 'day').format('YYYY-MM-DD'),
       }).id;
       await databaseBuilder.commit();
 
@@ -151,7 +116,6 @@ describe('Certification | Configuration | Integration | Repository | sessions-re
         const sessionId = databaseBuilder.factory.buildSession({
           version: 2,
           certificationCenterId,
-          date: dayjs().subtract(1, 'day').format('YYYY-MM-DD'),
         }).id;
         databaseBuilder.factory.buildCertificationCourse({ sessionId });
         await databaseBuilder.commit();

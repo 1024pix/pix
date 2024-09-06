@@ -1,7 +1,6 @@
 /**
  * @typedef {import('./index.js').SessionsApi} SessionsApi
  */
-import dayjs from 'dayjs';
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { DEFAULT_PAGINATION, fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
@@ -23,7 +22,6 @@ export const findStaleV2Sessions = async function ({ centerId, pageNumber = DEFA
     })
     .leftJoin('certification-courses', 'sessions.id', 'certification-courses.sessionId')
     .where('sessions.version', '=', 2)
-    .where('date', '<', dayjs().format('YYYY-MM-DD'))
     .whereNull('certification-courses.sessionId');
 
   const { results, pagination } = await fetchPage(query, { number: pageNumber });
