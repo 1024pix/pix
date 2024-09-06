@@ -23,7 +23,7 @@ describe('Certification | Results | Unit | Domain | UseCases | getPrivateCertifi
 
       // when
       const error = await catchErr(getPrivateCertificate)({
-        certificationId: 123,
+        certificationCourseId: 123,
         userId: 456,
         locale,
         certificateRepository,
@@ -46,7 +46,7 @@ describe('Certification | Results | Unit | Domain | UseCases | getPrivateCertifi
 
       // when
       const actualPrivateCertificate = await getPrivateCertificate({
-        certificationId: 123,
+        certificationCourseId: 123,
         userId: 456,
         locale,
         certificateRepository,

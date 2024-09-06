@@ -13,13 +13,13 @@ const getCertificationByVerificationCode = async function (request, h, dependenc
 
 const getCertification = async function (request, h, dependencies = { requestResponseUtils }) {
   const userId = request.auth.credentials.userId;
-  const certificationId = request.params.id;
+  const certificationCourseId = request.params.certificationCourseId;
   const translate = request.i18n.__;
   const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
 
   const privateCertificate = await usecases.getPrivateCertificate({
     userId,
-    certificationId,
+    certificationCourseId,
     locale,
   });
   return privateCertificateSerializer.serialize(privateCertificate, { translate });

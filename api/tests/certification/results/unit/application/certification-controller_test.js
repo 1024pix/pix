@@ -67,16 +67,16 @@ describe('Certification | Results | Unit | Application | certifications-controll
     it('should return a serialized private certificate given by id', async function () {
       // given
       const userId = 1;
-      const certificationId = 2;
+      const certificationCourseId = 2;
       const request = {
         auth: { credentials: { userId } },
-        params: { id: certificationId },
+        params: { certificationCourseId },
         i18n: getI18n(),
       };
       const locale = 'fr-fr';
       const requestResponseUtilsStub = { extractLocaleFromRequest: sinon.stub() };
       const privateCertificate = domainBuilder.buildPrivateCertificate.validated({
-        id: certificationId,
+        id: certificationCourseId,
         firstName: 'Dorothé',
         lastName: '2Pac',
         birthdate: '2000-01-01',
@@ -92,7 +92,7 @@ describe('Certification | Results | Unit | Application | certifications-controll
         maxReachableLevelOnCertificationDate: 6,
       });
       sinon.stub(usecases, 'getPrivateCertificate');
-      usecases.getPrivateCertificate.withArgs({ userId, certificationId, locale }).resolves(privateCertificate);
+      usecases.getPrivateCertificate.withArgs({ userId, certificationCourseId, locale }).resolves(privateCertificate);
       requestResponseUtilsStub.extractLocaleFromRequest.withArgs(request).returns(locale);
 
       // when
