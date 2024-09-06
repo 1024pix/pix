@@ -56,7 +56,7 @@ const downloadCertificationAttestationsForDivision = async function (
   h,
   dependencies = { certificationAttestationPdf },
 ) {
-  const organizationId = request.params.id;
+  const organizationId = request.params.organizationId;
   const { i18n } = request;
   const { division, isFrenchDomainExtension } = request.query;
 

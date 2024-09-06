@@ -147,7 +147,7 @@ describe('Certification | Results | Unit | Application | Controller | certificat
       const request = {
         i18n,
         auth: { credentials: { userId } },
-        params: { id: organizationId },
+        params: { organizationId },
         query: { division, isFrenchDomainExtension: true, lang },
       };
 

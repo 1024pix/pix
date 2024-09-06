@@ -71,7 +71,7 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/organizations/{id}/certification-attestations',
+      path: '/api/organizations/{organizationId}/certification-attestations',
       config: {
         pre: [
           {
@@ -81,7 +81,7 @@ const register = async function (server) {
         ],
         validate: {
           params: Joi.object({
-            id: identifiersType.organizationId,
+            organizationId: identifiersType.organizationId,
           }),
           query: Joi.object({
             division: Joi.string().required(),

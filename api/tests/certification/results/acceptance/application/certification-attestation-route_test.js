@@ -160,7 +160,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
     });
   });
 
-  describe('GET /api/organizations/{id}/certification-attestations', function () {
+  describe('GET /api/organizations/{organizationId}/certification-attestations', function () {
     it('should return HTTP status 200', async function () {
       // given
       const adminIsManagingStudent = databaseBuilder.factory.buildUser.withRawPassword();
