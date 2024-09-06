@@ -12,7 +12,7 @@ describe('Acceptance | Route | Course | certification-reports-route', function (
     server = await createServer();
   });
 
-  describe('GET /sessions/{id}/certification-reports', function () {
+  describe('GET /sessions/{sessionId}/certification-reports', function () {
     let sessionId;
     let userId;
     let certificationCenterId;

@@ -11,7 +11,7 @@ describe('Unit | Controller | certification-reports-controller', function () {
       const certificationReports = Symbol('some certification reports');
 
       const request = {
-        params: { id: sessionId },
+        params: { sessionId },
       };
       sinon.stub(usecases, 'getSessionCertificationReports').withArgs({ sessionId }).resolves(certificationReports);
 
