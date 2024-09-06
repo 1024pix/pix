@@ -231,6 +231,40 @@ describe('Integration | Serializers | siecle-parser', function () {
         expect(errors.meta[0].meta).to.contains({ nationalStudentId: nationalStudentIdFromFile });
       });
 
+      it('should abort parsing and reject with missing last name', async function () {
+        // given
+        const nationalStudentIdFromFile = '12345';
+        const path = `${fixturesDirPath}/siecle-file/siecle-student-with-no-last-name.xml`;
+        const readableStream = fs.createReadStream(path);
+
+        // when
+        const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
+        const parser = SiecleParser.create(siecleFileStreamer);
+        const errors = await catchErr(() => parser.parse())();
+
+        //then
+        expect(errors.meta[0]).to.be.instanceof(SiecleXmlImportError);
+        expect(errors.meta[0].code).to.be.equal(SIECLE_ERRORS.LAST_NAME_REQUIRED);
+        expect(errors.meta[0].meta).to.contains({ nationalStudentId: nationalStudentIdFromFile });
+      });
+
+      it('should abort parsing and reject with missing first name', async function () {
+        // given
+        const nationalStudentIdFromFile = '12345';
+        const path = `${fixturesDirPath}/siecle-file/siecle-student-with-no-first-name.xml`;
+        const readableStream = fs.createReadStream(path);
+
+        // when
+        const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
+        const parser = SiecleParser.create(siecleFileStreamer);
+        const errors = await catchErr(() => parser.parse())();
+
+        //then
+        expect(errors.meta[0]).to.be.instanceof(SiecleXmlImportError);
+        expect(errors.meta[0].code).to.be.equal(SIECLE_ERRORS.FIRST_NAME_REQUIRED);
+        expect(errors.meta[0].meta).to.contains({ nationalStudentId: nationalStudentIdFromFile });
+      });
+
       it('should abort parsing and reject with missing birthdate ', async function () {
         // given
         const nationalStudentIdFromFile = '12345';
