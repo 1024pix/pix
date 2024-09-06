@@ -23,7 +23,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
         const request = {
           i18n,
           auth: { credentials: { userId } },
-          params: { id: sessionMainInfo.id },
+          params: { sessionId: sessionMainInfo.id },
         };
         i18n.setLocale(lang);
 
