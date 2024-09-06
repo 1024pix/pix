@@ -19,7 +19,7 @@ const addCandidate = async function (request, h, dependencies = { candidateSeria
 };
 
 const getEnrolledCandidates = async function (request, h, dependencies = { enrolledCandidateSerializer }) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const enrolledCandidates = await usecases.getEnrolledCandidatesInSession({ sessionId });
   return dependencies.enrolledCandidateSerializer.serialize(enrolledCandidates);
 };

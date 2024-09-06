@@ -116,7 +116,7 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('GET /api/sessions/{id}/certification-candidates', function () {
+  describe('GET /api/sessions/{sessionId}/certification-candidates', function () {
     it('should exist', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);

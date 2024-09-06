@@ -79,7 +79,7 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       const enrolledCandidates = ['enrolledCandidates'];
       const enrolledCandidatesJsonAPI = ['enrolledCandidatesJsonAPI'];
       const request = {
-        params: { id: sessionId },
+        params: { sessionId },
       };
       sinon.stub(usecases, 'getEnrolledCandidatesInSession');
       usecases.getEnrolledCandidatesInSession

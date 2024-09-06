@@ -72,11 +72,11 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/sessions/{id}/certification-candidates',
+      path: '/api/sessions/{sessionId}/certification-candidates',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         pre: [
