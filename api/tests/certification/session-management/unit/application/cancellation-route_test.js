@@ -3,8 +3,8 @@ import * as moduleUnderTest from '../../../../../src/certification/session-manag
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Certification | Session-management | Unit | Application | cancellation-route', function () {
-  describe('POST /api/admin/certification-courses/{id}/cancel', function () {
+describe('Certification | Session-management | Unit | Application | Routes | cancellation', function () {
+  describe('POST /api/admin/certification-courses/{certificationCourseId}/cancel', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
