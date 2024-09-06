@@ -38,7 +38,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
       // given
       const sessionId = 1;
       sinon.stub(usecases, 'deleteSessionJuryComment');
-      const request = { params: { id: sessionId } };
+      const request = { params: { sessionId } };
 
       // when
       const response = await juryCommentController.deleteJuryComment(request, hFake);

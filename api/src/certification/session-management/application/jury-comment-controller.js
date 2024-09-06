@@ -10,7 +10,7 @@ const commentAsJury = async function (request, h) {
 };
 
 const deleteJuryComment = async function (request, h) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   await usecases.deleteSessionJuryComment({ sessionId });
 
   return h.response().code(204);

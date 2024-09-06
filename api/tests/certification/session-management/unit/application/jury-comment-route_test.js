@@ -61,7 +61,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Jur
     });
   });
 
-  describe('DELETE /api/admin/sessions/{id}/comment', function () {
+  describe('DELETE /api/admin/sessions/{sessionId}/comment', function () {
     it('should call appropriate use case and ensure user has access to Pix Admin', async function () {
       // given
       sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
