@@ -19,7 +19,7 @@ const enrolStudentsToSession = async function (
 
 const getCandidatesImportSheet = async function (request, h, dependencies = { fillCandidatesImportSheet }) {
   const translate = request.i18n.__;
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const { userId } = request.auth.credentials;
   const filename = translate('candidate-list-template.filename');
 

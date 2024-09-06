@@ -58,7 +58,7 @@ describe('Certification | Enrolment | Unit | Application | Routes', function () 
     });
   });
 
-  describe('GET /api/sessions/{id}//candidates-import-sheet', function () {
+  describe('GET /api/sessions/{sessionId}/candidates-import-sheet', function () {
     it('should return 200', async function () {
       // when
       sinon.stub(authorization, 'verifySessionAuthorization').resolves(true);

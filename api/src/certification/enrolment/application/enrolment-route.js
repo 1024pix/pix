@@ -32,11 +32,11 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/sessions/{id}/candidates-import-sheet',
+      path: '/api/sessions/{sessionId}/candidates-import-sheet',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         pre: [

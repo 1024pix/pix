@@ -176,7 +176,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
     });
   });
 
-  describe('GET /api/sessions/{id}/candidates-import-sheet', function () {
+  describe('GET /api/sessions/{sessionId}/candidates-import-sheet', function () {
     it('should respond with a 200 when session can be found', async function () {
       // given
       server = await createServer();
