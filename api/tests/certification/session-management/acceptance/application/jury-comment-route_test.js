@@ -6,8 +6,8 @@ import {
   insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | Certification | session-management| jury-comment-controller', function () {
-  describe('PUT /sessions/{id}/comment', function () {
+describe('Certification | Session Management | Acceptance | Application | Routes| jury-comment', function () {
+  describe('PUT /api/admin/sessions/{sessionId}/comment', function () {
     it('should respond with 204', async function () {
       // given
       const server = await createServer();

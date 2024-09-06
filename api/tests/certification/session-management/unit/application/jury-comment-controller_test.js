@@ -10,7 +10,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
       const userId = 1;
       sinon.stub(usecases, 'commentSessionAsJury');
       const request = {
-        params: { id: sessionId },
+        params: { sessionId },
         auth: {
           credentials: {
             userId,
