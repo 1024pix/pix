@@ -2,7 +2,7 @@ import { usecases } from '../domain/usecases/index.js';
 import * as certificationCandidateSubscriptionSerializer from '../infrastructure/serializers/certification-candidate-subscription-serializer.js';
 
 const getSubscription = async function (request, _h, dependencies = { certificationCandidateSubscriptionSerializer }) {
-  const certificationCandidateId = request.params.id;
+  const certificationCandidateId = request.params.certificationCandidateId;
   const certificationCandidateSubscription = await usecases.getCertificationCandidateSubscription({
     certificationCandidateId,
   });
