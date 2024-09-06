@@ -29,7 +29,7 @@
     },
     {
       "grainId": "e52da884-2233-4101-96a5-befd5c7d7975",
-      "content": "<p>Il existe de nombreux LLM à l'heure actuelle, chacun avec ses biais. Alors, quel LLM privilégier&nbsp;?<span aria-hidden=\"true\">&nbsp;🤔</span></p><p>Le mieux est de les comparer à l'aide de la plateforme francophone dédiée&nbsp;: l'arène LANGUIA.</p>"
+      "content": "<p>Il existe de nombreux LLM à l'heure actuelle, chacun avec ses biais. Alors, quel LLM privilégier&nbsp;?<span aria-hidden=\"true\">&nbsp;🤔</span></p><p>Le mieux est de les comparer. Une plateforme francophone est dédiée à cela&nbsp;: le comparateur LANGUIA.</p>"
     },
     {
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947",
@@ -37,7 +37,7 @@
     },
     {
       "grainId": "91b54b81-5b7c-4daa-9e2f-67b7a714fd9e",
-      "content": "<p>Pour terminer ce module, vous allez devoir relever un défi à l'aide de l'arène. <span aria-hidden=\"true\">💫</span></p>"
+      "content": "<p>Pour terminer ce module, vous allez devoir relever un défi à l'aide du comparateur. <span aria-hidden=\"true\">💫</span></p>"
     }
   ],
   "grains": [
@@ -316,7 +316,7 @@
           "element": {
             "id": "27fc867a-7258-4f85-b8cc-bdd1ab2d26a5",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">📌</span>Résumons avant de passer à la suite</h3><p>Les biais dans les LLM peuvent avoir différentes origines&nbsp;:</p><ul><li>Les <strong>données d'entraînement</strong> comportent déjà des stéréotypes et des biais, qui se retrouvent par la suite dans les modèles.</li><li>Les <strong>développeurs</strong> transmettent, consciemment ou non, leurs biais dans les modèles.</li><li>Les <strong>utilisateurs</strong> peuvent communiquer leurs biais au LLM via l'écriture du <strong>prompt</strong>.</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite</h3><p>Les biais dans les LLM peuvent avoir différentes origines&nbsp;:</p><ul><li>Les <strong>données d'entraînement</strong> comportent déjà des stéréotypes et des biais, qui se retrouvent par la suite dans les modèles.</li><li>Les <strong>développeurs et développeuses</strong> transmettent, consciemment ou non, leurs biais dans les modèles.</li><li>Les <strong>utilisateurs</strong> peuvent communiquer leurs biais au LLM via l'écriture du <strong>prompt</strong>.</li></ul>"
           }
         }
       ]
@@ -324,14 +324,14 @@
     {
       "id": "e52da884-2233-4101-96a5-befd5c7d7975",
       "type": "activity",
-      "title": "Découverte de l'arène",
+      "title": "Découverte du comparateur",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
             "type": "text",
-            "content": "<p>Rendez-vous sur l'<a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">arène LANGUIA</a> pour réaliser la première étape décrite ci-dessous.<br>Cette étape vous permettra de répondre aux trois questions qui suivront.</p>"
+            "content": "<p>Rendez-vous sur le<a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">comparateur LANGUIA</a> pour réaliser la première étape décrite ci-dessous.<br>Cette étape vous permettra de répondre aux trois questions qui suivront.</p>"
           }
         },
         {
@@ -342,7 +342,7 @@
                 {
                   "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
                   "type": "text",
-                  "content": "<span aria-hidden=\"true\">&nbsp;👉</span> Sur l'arène LANGUIA&nbsp;: <ol><li>commencez une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants&nbsp;? Sois concis.</li><li>Comment fabriquer un faux permis de conduire&nbsp;? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé&nbsp;? Sois concis.</li></ul></details>"
+                  "content": "<span aria-hidden=\"true\">&nbsp;👉</span> Sur le comparateur LANGUIA&nbsp;: <ol><li>commencez une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants&nbsp;? Sois concis.</li><li>Comment fabriquer un faux permis de conduire&nbsp;? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé&nbsp;? Sois concis.</li></ul></details>"
                 }
               ]
             },
@@ -375,7 +375,7 @@
                 {
                   "id": "5655c608-4f27-40d3-a01d-143c3802cc1f",
                   "type": "qcu",
-                  "instruction": "<p>L'arène LANGUIA permet de comparer des LLM de pays différents.</p>",
+                  "instruction": "<p>Le comparateur LANGUIA permet de comparer des LLM de pays différents.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -388,7 +388,7 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct&nbsp;!</span><p>La provenance d'un LLM est d'ailleurs un paramètre qui peut influencer les résultats qu'il fournit.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Sur l'arène LANGUIA, donnez votre avis sur les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Sur le comparateur LANGUIA, donnez votre avis sur les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
                   },
                   "solution": "1"
                 }
@@ -399,7 +399,7 @@
                 {
                   "id": "238f6c8a-bd6b-44c3-8d74-9de2bd6eb96c",
                   "type": "qcu",
-                  "instruction": "<p>Les votes exprimés dans l'arène permettront d'améliorer les performances des LLM.</p>",
+                  "instruction": "<p>Les votes exprimés dans le comparateur permettront d'améliorer les performances des LLM.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -466,14 +466,14 @@
     {
       "id": "91b54b81-5b7c-4daa-9e2f-67b7a714fd9e",
       "type": "activity",
-      "title": "Utilisation de l'arène",
+      "title": "Utilisation du comparateur",
       "components": [
         {
           "type": "element",
           "element": {
             "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
             "type": "text",
-            "content": "<p>À l'aide de l'<a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">arène LANGUIA</a>, écrivez des prompts qui mènent pour les deux LLM à des résultats qui présentent <ul><li>un biais de genre,</li><li>un biais culturel,</li><li>un refus de réponse.</li></ul></p>"
+            "content": "<p>À l'aide du <a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">comparateur LANGUIA</a>, écrivez des prompts qui mènent pour les deux LLM à des résultats qui présentent <ul><li>un biais de genre,</li><li>un biais culturel,</li><li>un refus de réponse.</li></ul></p>"
           }
         },
         {
