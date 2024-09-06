@@ -1,4 +1,5 @@
 import { ORGANIZATION_FEATURE } from '../../../../shared/domain/constants.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 import { OrganizationLearnerImportFormat } from '../../domain/models/OrganizationLearnerImportFormat.js';
 
@@ -31,4 +32,21 @@ const get = async function (organizationId) {
   return _toDomain(result);
 };
 
-export { get };
+/**
+ * @type {function}
+ * @param {Object} params
+ * @param {Array|Object} params.organizationImports
+ * @return {Promise<void>}
+ */
+const updateAllByName = async function ({ organizationLearnerImportFormats }) {
+  const knexConn = DomainTransaction.getConnection();
+  const updatedAt = new Date();
+
+  for (const organizationLearnerImport of organizationLearnerImportFormats) {
+    await knexConn('organization-learner-import-formats')
+      .where({ name: organizationLearnerImport.name })
+      .update({ fileType: organizationLearnerImport.fileType, config: organizationLearnerImport.config, updatedAt });
+  }
+};
+
+export { get, updateAllByName };
