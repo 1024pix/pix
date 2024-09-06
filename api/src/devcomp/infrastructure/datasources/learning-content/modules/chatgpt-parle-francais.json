@@ -28,10 +28,6 @@
       "content": "<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span></p><p>Vérifiez que vous avez retenu l'essentiel avec cette question. <span aria-hidden=\"true\">&nbsp;🎯</span></p>"
     },
     {
-      "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5",
-      "content": "<p>Vous allez maintenant analyser trois situations avec des réponses de LLM visiblement biaisées. C'est parti&nbsp;!</p>"
-    },
-    {
       "grainId": "e52da884-2233-4101-96a5-befd5c7d7975",
       "content": "<p>Il existe de nombreux LLM à l'heure actuelle, chacun avec ses biais. Alors, quel LLM privilégier&nbsp;?<span aria-hidden=\"true\">&nbsp;🤔</span></p><p>Le mieux est de les comparer à l'aide de la plateforme francophone dédiée&nbsp;: l'arène LANGUIA.</p>"
     },
@@ -175,16 +171,17 @@
       "title": "Corriger la copie d'un LLM",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "be70c1be-d6d1-4b6e-bcee-de1ab8859ee0",
-            "type": "text",
-            "content": "<p>Pour chaque situation, choisissez la cause principale des résultats biaisés.</p>"
-          }
-        },
-        {
           "type": "stepper",
           "steps": [
+            {
+              "elements": [
+                {
+                  "id": "be70c1be-d6d1-4b6e-bcee-de1ab8859ee0",
+                  "type": "text",
+                  "content": "<p>Vous allez maintenant devoir analyser trois situations avec des réponses de LLM visiblement biaisées.<p>Pour chaque situation, choisissez la cause principale des résultats biaisés.</p>"
+                }
+              ]
+            },
             {
               "elements": [
                 {
