@@ -255,7 +255,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     });
   });
 
-  describe('POST /api/admin/certification-courses/{id}/unreject', function () {
+  describe('POST /api/admin/certification-courses/{certificationCourseId}/unreject', function () {
     it('should create a new unrejected AssessmentResult', async function () {
       // given
       const userId = (await insertUserWithRoleSuperAdmin()).id;

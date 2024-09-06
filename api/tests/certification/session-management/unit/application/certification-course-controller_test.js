@@ -45,7 +45,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
         .resolves(certificationCourseRejectedEvent);
 
       const request = {
-        params: { id: certificationCourseId },
+        params: { certificationCourseId },
         auth: {
           credentials: { userId: juryId },
         },
