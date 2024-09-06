@@ -49,7 +49,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     });
   });
 
-  describe('POST certification-candidates/{id}/authorize-to-resume', function () {
+  describe('POST certification-candidates/{certificationCandidateId}/authorize-to-resume', function () {
     it('should return 204 if the user is a supervisor of the session linked to the candidate', async function () {
       // given
       sinon

@@ -66,7 +66,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
     });
   });
 
-  describe('POST /api/certification-candidates/:id/authorize-to-resume', function () {
+  describe('POST /api/certification-candidates/{certificationCandidateId}/authorize-to-resume', function () {
     context('when user is authenticated', function () {
       context('when the user is the supervisor of the session', function () {
         it('should return a 204 status code', async function () {

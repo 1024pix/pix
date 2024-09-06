@@ -13,7 +13,7 @@ const authorizeToStart = async function (request, h) {
 };
 
 const authorizeToResume = async function (request, h) {
-  const certificationCandidateId = request.params.id;
+  const certificationCandidateId = request.params.certificationCandidateId;
 
   await usecases.authorizeCertificationCandidateToResume({
     certificationCandidateId,
