@@ -199,6 +199,7 @@ const configuration = (function () {
       isNeedToAdjustCertificationAccessibilityEnabled: toBoolean(
         process.env.FT_ENABLE_NEED_TO_ADJUST_CERTIFICATION_ACCESSIBILITY,
       ),
+      isNewAuthenticationDesignEnabled: toBoolean(process.env.FT_NEW_AUTHENTICATION_DESIGN_ENABLED),
       isPix1dEnabled: toBoolean(process.env.FT_PIX_1D_ENABLED),
       isPixPlusLowerLeverEnabled: toBoolean(process.env.FT_ENABLE_PIX_PLUS_LOWER_LEVEL),
       isTextToSpeechButtonEnabled: toBoolean(process.env.FT_ENABLE_TEXT_TO_SPEECH_BUTTON),

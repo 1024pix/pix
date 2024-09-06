@@ -1,6 +1,6 @@
 import { createServer, expect } from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | feature-toggle-controller', function () {
+describe('Acceptance | Shared | Application | Controller | feature-toggle', function () {
   let server;
 
   beforeEach(async function () {
@@ -23,11 +23,12 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
             'are-v3-info-screens-enabled': false,
             'deprecate-pole-emploi-push-notification': false,
             'is-always-ok-validate-next-challenge-endpoint-enabled': false,
+            'is-certification-token-scope-enabled': false,
+            'is-new-authentication-design-enabled': false,
             'is-pix1d-enabled': true,
             'is-pix-plus-lower-lever-enabled': false,
-            'is-certification-token-scope-enabled': false,
-            'is-text-to-speech-button-enabled': false,
             'is-need-to-adjust-certification-accessibility-enabled': false,
+            'is-text-to-speech-button-enabled': false,
             'show-new-result-page': false,
             'show-experimental-missions': false,
           },
