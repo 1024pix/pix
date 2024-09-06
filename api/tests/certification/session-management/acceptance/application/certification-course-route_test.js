@@ -122,7 +122,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     });
   });
 
-  describe('POST /api/admin/certification-courses/{id}/reject', function () {
+  describe('POST /api/admin/certification-courses/{certificationCourseId}/reject', function () {
     describe('when certification is V2', function () {
       it('should create a new rejected AssessmentResult', async function () {
         // given

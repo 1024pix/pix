@@ -46,7 +46,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     });
   });
 
-  describe('POST /api/admin/certification-courses/{id}/reject', function () {
+  describe('POST /api/admin/certification-courses/{certificationCourseId}/reject', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon

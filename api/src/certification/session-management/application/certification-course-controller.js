@@ -6,7 +6,7 @@ import * as juryCommentSerializer from '../infrastructure/serializers/jury-comme
 import * as v3CertificationDetailsForAdministrationSerializer from '../infrastructure/serializers/v3-certification-course-details-for-administration-serializer.js';
 
 const reject = async function (request, h, dependencies = { events }) {
-  const certificationCourseId = request.params.id;
+  const certificationCourseId = request.params.certificationCourseId;
   const juryId = request.auth.credentials.userId;
   const certificationCourseRejectedEvent = await usecases.rejectCertificationCourse({
     certificationCourseId,
