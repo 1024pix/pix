@@ -4,7 +4,7 @@ import { authorization } from '../../../../../src/certification/shared/applicati
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Certification | Results | Unit | Application | Certification Results Route', function () {
-  describe('GET /api/sessions/{id}/certified-clea-candidate-data', function () {
+  describe('GET /api/sessions/{sessionId}/certified-clea-candidate-data', function () {
     it('should exist', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
