@@ -428,6 +428,43 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
     });
   });
 
+  describe('#passwordHash', function () {
+    context('when there is a Pix authentication method', function () {
+      it('returns the password hash', function () {
+        // given
+        const hashedPassword = 'xxx';
+        const pixAuthenticationMethod =
+          domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ hashedPassword });
+
+        // when
+        const user = new User({
+          id: 1,
+          authenticationMethods: [pixAuthenticationMethod],
+        });
+
+        // then
+        expect(user.passwordHash).to.equal(hashedPassword);
+      });
+    });
+
+    context('when there is no Pix authentication method', function () {
+      it('returns null', function () {
+        // given
+        const poleEmploiAuthenticationMethod =
+          domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider();
+
+        // when
+        const user = new User({
+          id: 1,
+          authenticationMethods: [poleEmploiAuthenticationMethod],
+        });
+
+        // then
+        expect(user.passwordHash).to.be.null;
+      });
+    });
+  });
+
   describe('#shouldSeeDataProtectionPolicyInformationBanner', function () {
     context('when user has not seen data protection policy but data protection date is not setted', function () {
       it('should return false', function () {

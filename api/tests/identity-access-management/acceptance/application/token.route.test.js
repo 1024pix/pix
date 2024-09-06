@@ -117,7 +117,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
             grant_type: 'password',
             username: userEmailAddress,
             password: userPassword,
-            scope: 'pix',
+            scope: 'pix-orga',
           }),
         });
 
@@ -131,6 +131,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
           payload: querystring.stringify({
             grant_type: 'refresh_token',
             refresh_token: accessTokenResult.refresh_token,
+            scope: 'pix-orga',
           }),
         });
 

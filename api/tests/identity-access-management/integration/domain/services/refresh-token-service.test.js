@@ -9,50 +9,147 @@ describe('Integration | Identity Access Management | Domain | Service | refresh-
   });
 
   describe('#createRefreshTokenFromUserId', function () {
-    it('generates a refresh token', async function () {
-      // given
-      const userId = '123';
-      const source = 'APP';
-      const uuidGenerator = () => 'XXX-123-456';
+    context('when an application scope is given', function () {
+      it('generates a refresh token <user-id>:<scope>:<uuid>', async function () {
+        // given
+        const userId = '123';
+        const source = 'APP';
+        const scope = 'pix-orga';
+        const uuidGenerator = () => 'XXX-123-456';
 
-      // when
-      const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({ userId, source, uuidGenerator });
+        // when
+        const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({
+          userId,
+          source,
+          scope,
+          uuidGenerator,
+        });
 
-      // then
-      expect(refreshToken).to.equal('123:XXX-123-456');
+        // then
+        expect(refreshToken).to.equal('123:pix-orga:XXX-123-456');
 
-      const refreshTokenInDb = await refreshTokenService.findByRefreshToken(refreshToken);
-      expect(refreshTokenInDb).to.deep.equal({ type: 'refresh_token', source: 'APP', userId: '123' });
+        const refreshTokenInDb = await refreshTokenService.findByRefreshToken(refreshToken);
+        expect(refreshTokenInDb).to.deep.equal({ type: 'refresh_token', source, scope, userId });
 
-      const refreshTokensInDb = await refreshTokenService.findByUserId(userId);
-      expect(refreshTokensInDb).to.deep.equal(['123:XXX-123-456']);
+        const refreshTokensInDb = await refreshTokenService.findByUserId(userId);
+        expect(refreshTokensInDb).to.deep.equal(['123:pix-orga:XXX-123-456']);
+      });
+    });
+
+    context('when no application scope is given (legacy)', function () {
+      it('generates a refresh token <user-id>:<uuid>', async function () {
+        // given
+        const userId = '123';
+        const source = 'APP';
+        const uuidGenerator = () => 'XXX-123-456';
+
+        // when
+        const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({ userId, source, uuidGenerator });
+
+        // then
+        expect(refreshToken).to.equal('123:XXX-123-456');
+
+        const refreshTokenInDb = await refreshTokenService.findByRefreshToken(refreshToken);
+        expect(refreshTokenInDb).to.deep.equal({ type: 'refresh_token', source, userId });
+
+        const refreshTokensInDb = await refreshTokenService.findByUserId(userId);
+        expect(refreshTokensInDb).to.deep.equal(['123:XXX-123-456']);
+      });
     });
   });
 
   describe('#createAccessTokenFromRefreshToken', function () {
-    it('generates an access token from a valid refresh token', async function () {
-      // given
-      const userId = '123';
-      const source = 'APP';
-      const uuidGenerator = () => 'XXX-123-456';
-      const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({ userId, source, uuidGenerator });
+    context('with refresh token containing a scope', function () {
+      it('generates an access token from a valid legacy refresh token', async function () {
+        // given
+        const userId = '123';
+        const source = 'APP';
+        const scope = 'pix-orga';
+        const uuidGenerator = () => 'XXX-123-456';
+        const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({
+          userId,
+          source,
+          scope,
+          uuidGenerator,
+        });
 
-      // when
-      const { accessToken } = await refreshTokenService.createAccessTokenFromRefreshToken({ refreshToken });
-
-      // then
-      expect(accessToken).to.be.a.string;
-    });
-
-    context('when refresh token is invalid', function () {
-      it('throws an error', async function () {
         // when
-        const error = await catchErr(refreshTokenService.createAccessTokenFromRefreshToken)({ refreshToken: 'BLABLA' });
+        const { accessToken } = await refreshTokenService.createAccessTokenFromRefreshToken({ refreshToken, scope });
 
         // then
-        expect(error).to.be.instanceOf(UnauthorizedError);
-        expect(error.message).to.be.equal('Refresh token is invalid');
-        expect(error.code).to.be.equal('INVALID_REFRESH_TOKEN');
+        expect(accessToken).to.be.a.string;
+      });
+
+      context('when the scope is different from the refresh token scope', function () {
+        it('throws an error', async function () {
+          // given
+          const userId = '123';
+          const source = 'APP';
+          const scope = 'pix-orga';
+          const differentScope = 'pix-admin';
+          const uuidGenerator = () => 'XXX-123-456';
+          const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({
+            userId,
+            source,
+            scope,
+            uuidGenerator,
+          });
+
+          // when
+          const error = await catchErr(refreshTokenService.createAccessTokenFromRefreshToken)({
+            refreshToken,
+            scope: differentScope,
+          });
+
+          // then
+          expect(error).to.be.instanceOf(UnauthorizedError);
+          expect(error.message).to.be.equal('Refresh token is invalid');
+          expect(error.code).to.be.equal('INVALID_REFRESH_TOKEN');
+        });
+      });
+
+      context('when refresh token is invalid', function () {
+        it('throws an error', async function () {
+          // when
+          const error = await catchErr(refreshTokenService.createAccessTokenFromRefreshToken)({
+            refreshToken: 'BLABLA',
+          });
+
+          // then
+          expect(error).to.be.instanceOf(UnauthorizedError);
+          expect(error.message).to.be.equal('Refresh token is invalid');
+          expect(error.code).to.be.equal('INVALID_REFRESH_TOKEN');
+        });
+      });
+    });
+    context('with legacy refresh token (without scope)', function () {
+      it('generates an access token from a valid legacy refresh token', async function () {
+        // given
+        const userId = '123';
+        const source = 'APP';
+        const scope = 'pix-orga';
+        const uuidGenerator = () => 'XXX-123-456';
+        const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({ userId, source, uuidGenerator });
+
+        // when
+        const { accessToken } = await refreshTokenService.createAccessTokenFromRefreshToken({ refreshToken, scope });
+
+        // then
+        expect(accessToken).to.be.a.string;
+      });
+
+      context('when refresh token is invalid', function () {
+        it('throws an error', async function () {
+          // when
+          const error = await catchErr(refreshTokenService.createAccessTokenFromRefreshToken)({
+            refreshToken: 'BLABLA',
+          });
+
+          // then
+          expect(error).to.be.instanceOf(UnauthorizedError);
+          expect(error.message).to.be.equal('Refresh token is invalid');
+          expect(error.code).to.be.equal('INVALID_REFRESH_TOKEN');
+        });
       });
     });
   });

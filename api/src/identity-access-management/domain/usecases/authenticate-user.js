@@ -1,7 +1,3 @@
-import lodash from 'lodash';
-
-const { get } = lodash;
-
 import { PIX_ADMIN, PIX_ORGA } from '../../../authorization/domain/constants.js';
 import { ForbiddenAccess, LocaleFormatError, LocaleNotSupportedError } from '../../../shared/domain/errors.js';
 import { MissingOrInvalidCredentialsError, UserShouldChangePasswordError } from '../errors.js';
@@ -39,20 +35,20 @@ const authenticateUser = async function ({
       userRepository,
     });
 
-    const shouldChangePassword = get(
-      foundUser,
-      'authenticationMethods[0].authenticationComplement.shouldChangePassword',
-    );
-
-    if (shouldChangePassword) {
+    if (foundUser.shouldChangePassword) {
       const passwordResetToken = tokenService.createPasswordResetToken(foundUser.id);
       throw new UserShouldChangePasswordError(undefined, passwordResetToken);
     }
 
     await _checkUserAccessScope(scope, foundUser, adminMemberRepository);
-    const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({ userId: foundUser.id, source });
+    const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({
+      userId: foundUser.id,
+      source,
+      scope,
+    });
     const { accessToken, expirationDelaySeconds } = await refreshTokenService.createAccessTokenFromRefreshToken({
       refreshToken,
+      scope,
     });
 
     foundUser.setLocaleIfNotAlreadySet(localeFromCookie);
