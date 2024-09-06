@@ -59,6 +59,30 @@ export const certificationCenterInvitationRoutes = [
     },
   },
   {
+    method: 'POST',
+    path: '/api/certification-center-invitations/{id}/accept',
+    config: {
+      auth: false,
+      handler: (request, h) => certificationCenterInvitationController.acceptCertificationCenterInvitation(request, h),
+      validate: {
+        params: Joi.object({
+          id: identifiersType.certificationCenterInvitationId,
+        }),
+        payload: Joi.object({
+          data: {
+            id: Joi.string().required(),
+            type: Joi.string().required(),
+            attributes: {
+              code: Joi.string().required(),
+              email: Joi.string().email().required(),
+            },
+          },
+        }),
+      },
+      tags: ['api'],
+    },
+  },
+  {
     method: 'DELETE',
     path: '/api/certification-center-invitations/{certificationCenterInvitationId}',
     config: {
