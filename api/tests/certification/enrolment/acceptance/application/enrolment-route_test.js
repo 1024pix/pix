@@ -210,7 +210,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
     });
   });
 
-  describe('POST /api/sessions/{id}/certification-candidates/import', function () {
+  describe('POST /api/sessions/{sessionId}/certification-candidates/import', function () {
     let user, sessionIdAllowed;
 
     beforeEach(async function () {

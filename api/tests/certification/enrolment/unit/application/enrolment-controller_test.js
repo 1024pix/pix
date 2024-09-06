@@ -58,7 +58,7 @@ describe('Certification | Enrolment | Unit | Controller | enrolment-controller',
     beforeEach(function () {
       // given
       request = {
-        params: { id: sessionId },
+        params: { sessionId },
         payload: odsBuffer,
       };
 

@@ -43,7 +43,7 @@ const getCandidatesImportSheet = async function (request, h, dependencies = { fi
 };
 
 const importCertificationCandidatesFromCandidatesImportSheet = async function (request) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const odsBuffer = request.payload;
   const i18n = request.i18n;
   await usecases.importCertificationCandidatesFromCandidatesImportSheet({

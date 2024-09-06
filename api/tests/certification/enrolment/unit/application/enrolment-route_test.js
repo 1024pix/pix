@@ -89,7 +89,7 @@ describe('Certification | Enrolment | Unit | Application | Routes', function () 
     });
   });
 
-  describe('POST /api/sessions/{id}/certification-candidates/import', function () {
+  describe('POST /api/sessions/{sessionId}/certification-candidates/import', function () {
     const testFilePath = `${__dirname}/testFile_temp.ods`;
     const method = 'POST';
 
