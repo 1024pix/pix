@@ -7,7 +7,7 @@ class Image extends Element {
 
     assertNotNullOrUndefined(url, 'The URL is required for an image');
     assertNotNullOrUndefined(alt, 'The alt text is required for an image');
-    assertNotNullOrUndefined(alternativeText, 'The alternative instruction is required for an image');
+    assertNotNullOrUndefined(alternativeText, 'The alternative text is required for an image');
 
     this.url = url;
     this.alt = alt;

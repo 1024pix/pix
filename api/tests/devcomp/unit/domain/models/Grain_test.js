@@ -1,3 +1,4 @@
+import { ModuleInstantiationError } from '../../../../../src/devcomp/domain/errors.js';
 import { Grain } from '../../../../../src/devcomp/domain/models/Grain.js';
 import { DomainError } from '../../../../../src/shared/domain/errors.js';
 import { catchErrSync, expect } from '../../../../test-helper.js';
@@ -56,7 +57,7 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
           )();
 
           // then
-          expect(error).to.be.instanceOf(DomainError);
+          expect(error).to.be.instanceOf(ModuleInstantiationError);
           expect(error.message).to.equal('Grain components should be a list of components');
         });
       });

@@ -1,3 +1,4 @@
+import { ModuleInstantiationError } from '../../../../../../src/devcomp/domain/errors.js';
 import { QCM } from '../../../../../../src/devcomp/domain/models/element/QCM.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync, expect } from '../../../../../test-helper.js';
@@ -55,7 +56,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QCM', function () {
       const error = catchErrSync(() => new QCM({ id: '123', instruction: 'toto', proposals: [] }))();
 
       // then
-      expect(error).to.be.instanceOf(DomainError);
+      expect(error).to.be.instanceOf(ModuleInstantiationError);
       expect(error.message).to.equal('The proposals are required for a QCM');
     });
   });
@@ -66,7 +67,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QCM', function () {
       const error = catchErrSync(() => new QCM({ id: '123', instruction: 'toto', proposals: 'toto' }))();
 
       // then
-      expect(error).to.be.instanceOf(DomainError);
+      expect(error).to.be.instanceOf(ModuleInstantiationError);
       expect(error.message).to.equal('The proposals should be in a list');
     });
   });

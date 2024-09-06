@@ -50,14 +50,14 @@ describe('Unit | Devcomp | Domain | Models | Element | Image', function () {
     });
   });
 
-  describe('An image without an alternative Instruction', function () {
+  describe('An image without an alternative text', function () {
     it('should throw an error', function () {
       // when
       const error = catchErrSync(() => new Image({ id: 'id', url: 'url', alt: 'alt' }))();
 
       // then
       expect(error).to.be.instanceOf(DomainError);
-      expect(error.message).to.equal('The alternative instruction is required for an image');
+      expect(error.message).to.equal('The alternative text is required for an image');
     });
   });
 });

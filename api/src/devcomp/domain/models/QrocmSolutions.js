@@ -1,5 +1,5 @@
-import { DomainError } from '../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
+import { ModuleInstantiationError } from '../errors.js';
 
 class QrocmSolutions {
   constructor(proposals) {
@@ -15,10 +15,10 @@ class QrocmSolutions {
           'The tolerances are required for each QROCM proposal in QROCM solutions',
         );
         if (!Array.isArray(proposal.solutions)) {
-          throw new DomainError('Each proposal in QROCM solutions should have a list of solutions');
+          throw new ModuleInstantiationError('Each proposal in QROCM solutions should have a list of solutions');
         }
         if (!Array.isArray(proposal.tolerances)) {
-          throw new DomainError('A QROCM solution should have a list of tolerances');
+          throw new ModuleInstantiationError('A QROCM solution should have a list of tolerances');
         }
       });
 

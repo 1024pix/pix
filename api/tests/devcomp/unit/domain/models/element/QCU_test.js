@@ -1,3 +1,4 @@
+import { ModuleInstantiationError } from '../../../../../../src/devcomp/domain/errors.js';
 import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync, expect } from '../../../../../test-helper.js';
@@ -54,7 +55,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QCU', function () {
         const error = catchErrSync(() => new QCU({ id: '123', instruction: 'toto', proposals: [] }))();
 
         // then
-        expect(error).to.be.instanceOf(DomainError);
+        expect(error).to.be.instanceOf(ModuleInstantiationError);
         expect(error.message).to.equal('The proposals are required for a QCU');
       });
     });
@@ -65,7 +66,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QCU', function () {
         const error = catchErrSync(() => new QCU({ id: '123', instruction: 'toto', proposals: 'toto' }))();
 
         // then
-        expect(error).to.be.instanceOf(DomainError);
+        expect(error).to.be.instanceOf(ModuleInstantiationError);
         expect(error.message).to.equal('The QCU proposals should be a list');
       });
     });

@@ -1,5 +1,5 @@
-import { DomainError } from '../../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
+import { ModuleInstantiationError } from '../../errors.js';
 
 class ComponentStepper {
   constructor({ steps }) {
@@ -12,7 +12,7 @@ class ComponentStepper {
 
   #assertStepsAreAnArray(steps) {
     if (!Array.isArray(steps)) {
-      throw new DomainError('Steps should be an array');
+      throw new ModuleInstantiationError('Steps should be an array');
     }
   }
 }

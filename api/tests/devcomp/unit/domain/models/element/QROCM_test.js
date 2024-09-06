@@ -1,3 +1,4 @@
+import { ModuleInstantiationError } from '../../../../../../src/devcomp/domain/errors.js';
 import { QROCM } from '../../../../../../src/devcomp/domain/models/element/QROCM.js';
 import { DomainError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync, expect } from '../../../../../test-helper.js';
@@ -53,7 +54,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QROCM', function () {
       const error = catchErrSync(() => new QROCM({ id: '123', instruction: 'toto', proposals: [] }))();
 
       // then
-      expect(error).to.be.instanceOf(DomainError);
+      expect(error).to.be.instanceOf(ModuleInstantiationError);
       expect(error.message).to.equal('Les propositions sont obligatoires pour un QROCM');
     });
   });
@@ -64,7 +65,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QROCM', function () {
       const error = catchErrSync(() => new QROCM({ id: '123', instruction: 'toto', proposals: 'toto' }))();
 
       // then
-      expect(error).to.be.instanceOf(DomainError);
+      expect(error).to.be.instanceOf(ModuleInstantiationError);
       expect(error.message).to.equal('Les propositions doivent apparaître dans une liste');
     });
   });
