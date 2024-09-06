@@ -33,7 +33,7 @@
     },
     {
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947",
-      "content": "<p> Vous avez sûrement constaté des écarts de résultats entre différents LLM.<br>Cela s'explique en partie par le fait qu'ils sont développés par différents acteurs et de manière plus ou moins ouverte. Explications en image.<span aria-hidden=\"true\">&nbsp;🔍</span></p>"
+      "content": "<p> Les LLM peuvent donner des résultats différents selon les données avec lesquelles on les a entraînés et la façon dont on les a réglés. La nationalité des acteurs qui les développent et la langue des jeux de données d'entraînement entrent ainsi en jeu. Explications en image.<span aria-hidden=\"true\">&nbsp;🔍</span></p>"
     },
     {
       "grainId": "91b54b81-5b7c-4daa-9e2f-67b7a714fd9e",
@@ -450,7 +450,7 @@
           "element": {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<p>Seuls quelques acteurs ont les moyens financiers de développer des grands modèles de langage.<span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span></p><p>Selon la <strong>nationalité de ces acteurs</strong> et la <strong>provenance des données d'entraînement</strong> utilisées, les modèles vont avoir des <strong>biais différents</strong> et des écarts de résultats.</p>"
+            "content": "<p>Seuls quelques acteurs ont les moyens financiers de développer des grands modèles de langage.<span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span> Selon leur <strong>nationalité</strong>, ces acteurs peuvent être amenés à faire des paramétrages différents de leurs modèles, par exemple pour respecter leurs lois.</p>"
           }
         },
         {
@@ -458,7 +458,7 @@
           "element": {
             "id": "97e85ece-84d7-4b61-aa9f-58c063f0f900",
             "type": "text",
-            "content": "<p>Cette <strong>concentration</strong> entre un petit nombre d'acteurs explique le <strong>manque de diversité culturelle globale</strong> dans les textes produits par ces modèles.</p><p>Cependant, les nombreuses initiatives <strong>open source</strong> permettent d'améliorer la <strong>transparence</strong> des LLM, ce qui pourra <strong>favoriser la diversité</strong> des résultats.<span aria-hidden=\"true\">&nbsp;📖</span></p>"
+            "content": "<p>Par ailleurs, la <strong>surreprésentation de certaines langues</strong> dans les données d’entraînement favorisera des résultats qui <strong>manquent de diversité culturelle.</strong></p><p>Cependant, de nombreuses initiatives <strong>open source</strong> permettent de mieux comprendre comment ces modèles fonctionnent et sur quelles données ils ont été entraînés. Cette démarche peut aider à <strong>produire des résultats plus variés</strong>.</p>"
           }
         }
       ]
