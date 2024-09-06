@@ -1,5 +1,6 @@
 import { IMPORT_KEY_FIELD } from '../../../../../../src/prescription/learner-management/domain/constants.js';
 import { OrganizationLearnerImportFormat } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationLearnerImportFormat.js';
+import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Models | OrganizationLearnerImportFormat', function () {
@@ -62,6 +63,80 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
       createdAt: new Date('2024-01-01'),
       createdBy: 666,
     };
+  });
+
+  describe('#constructor', function () {
+    it('should initialize valid object', function () {
+      //when
+      const organizationLearnerImportFormat = new OrganizationLearnerImportFormat({
+        name: 'SAY_MY_NAME',
+        config: { basic_config: 'toto' },
+        fileType: 'csv',
+      });
+      // then
+      expect(organizationLearnerImportFormat).to.deep.equal({
+        name: 'SAY_MY_NAME',
+        config: { basic_config: 'toto' },
+        fileType: 'csv',
+      });
+    });
+
+    context('Validation Cases', function () {
+      it('returns an EntityValidator when missing fileType', function () {
+        //when
+        try {
+          new OrganizationLearnerImportFormat({
+            name: 'SAY_MY_NAME',
+            config: { basic_config: 'toto' },
+            fileType: 'incalif_file_type',
+          });
+        } catch (error) {
+          // then
+          expect(error).to.be.instanceOf(EntityValidationError);
+          expect(error.invalidAttributes[0].attribute).to.be.equal('fileType');
+        }
+      });
+
+      it('returns an EntityValidator when missing name', function () {
+        //when
+        try {
+          new OrganizationLearnerImportFormat({
+            config: { basic_config: 'toto' },
+            fileType: 'csv',
+          });
+        } catch (error) {
+          // then
+          expect(error).to.be.instanceOf(EntityValidationError);
+          expect(error.invalidAttributes[0].attribute).to.be.equal('name');
+        }
+      });
+
+      it('returns an EntityValidator when missing config', function () {
+        //when
+        try {
+          new OrganizationLearnerImportFormat({
+            name: 'SAY_MY_NAME',
+            fileType: 'csv',
+          });
+        } catch (error) {
+          // then
+          expect(error).to.be.instanceOf(EntityValidationError);
+          expect(error.invalidAttributes[0].attribute).to.be.equal('config');
+        }
+      });
+
+      it('returns multiple EntityValidator when missing multiple config', function () {
+        //when
+        try {
+          new OrganizationLearnerImportFormat({
+            fileType: 'csv',
+          });
+        } catch (error) {
+          // then
+          expect(error.invalidAttributes).to.be.lengthOf(2);
+        }
+      });
+    });
   });
 
   describe('#extraColumns', function () {
