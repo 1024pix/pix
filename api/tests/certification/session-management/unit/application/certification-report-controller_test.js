@@ -65,7 +65,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
       const certificationCourseId = 123;
       const request = {
         params: {
-          id: certificationCourseId,
+          certificationCourseId,
         },
         payload: {
           data: {

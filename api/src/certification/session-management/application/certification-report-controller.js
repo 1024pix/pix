@@ -9,7 +9,7 @@ const saveCertificationIssueReport = async function (request, h) {
 };
 
 const abort = async function (request, h) {
-  const certificationCourseId = request.params.id;
+  const certificationCourseId = request.params.certificationCourseId;
   const abortReason = request.payload.data.reason;
   await usecases.abortCertificationCourse({ certificationCourseId, abortReason });
   return h.response().code(200);

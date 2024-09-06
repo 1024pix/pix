@@ -63,7 +63,7 @@ describe('Acceptance | Controller | certification-report-controller', function (
     });
   });
 
-  describe('POST /api/certification-reports/${id}/abort', function () {
+  describe('POST /api/certification-reports/${certificationCourseId}/abort', function () {
     it('should return 200 HTTP status code if certification course is updated', async function () {
       // given
       const options = {

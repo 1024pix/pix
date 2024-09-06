@@ -19,7 +19,7 @@ const verifyCertificationSessionAuthorization = async (
   dependencies = { sessionRepository, certificationCourseRepository },
 ) => {
   const userId = request.auth.credentials.userId;
-  const certificationCourseId = request.params.id;
+  const certificationCourseId = request.params.certificationCourseId;
 
   const sessionId = await dependencies.certificationCourseRepository.getSessionId({ id: certificationCourseId });
 
