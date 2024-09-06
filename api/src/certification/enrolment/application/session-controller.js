@@ -19,7 +19,7 @@ const createSession = async function (request, _h, dependencies = { sessionSeria
 const update = async function (request, h, dependencies = { sessionSerializer }) {
   const userId = request.auth.credentials.userId;
   const session = dependencies.sessionSerializer.deserialize(request.payload);
-  session.id = request.params.id;
+  session.id = request.params.sessionId;
 
   const updatedSession = await usecases.updateSession({ userId, session });
 

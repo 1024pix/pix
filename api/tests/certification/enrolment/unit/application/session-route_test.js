@@ -55,7 +55,7 @@ describe('Certification | Enrolment | Unit | Router | session-route', function (
     });
   });
 
-  describe('PATCH /api/sessions/{id}', function () {
+  describe('PATCH /api/sessions/{sessionId}', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/sessions/salut' } },

@@ -70,7 +70,7 @@ describe('Acceptance | Controller | Session | session-route', function () {
     });
   });
 
-  describe('PATCH /api/sessions/{id}', function () {
+  describe('PATCH /api/sessions/{sessionId}', function () {
     let user, unauthorizedUser, certificationCenter, session, payload;
 
     beforeEach(async function () {
