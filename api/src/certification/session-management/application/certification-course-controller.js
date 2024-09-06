@@ -30,7 +30,7 @@ const unreject = async function (request, h, dependencies = { events }) {
 };
 
 const updateJuryComment = async function (request, h, dependencies = { juryCommentSerializer }) {
-  const certificationCourseId = request.params.id;
+  const certificationCourseId = request.params.certificationCourseId;
   const assessmentResultCommentByJury = await dependencies.juryCommentSerializer.deserialize(request.payload);
   const juryId = request.auth.credentials.userId;
 

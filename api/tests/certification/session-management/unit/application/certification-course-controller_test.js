@@ -73,7 +73,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
           },
         },
         params: {
-          id: 123,
+          certificationCourseId: 123,
         },
         payload: {
           data: {
