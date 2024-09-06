@@ -11,11 +11,11 @@ const register = async function (server) {
   server.route([
     {
       method: 'POST',
-      path: '/api/certification-candidates/{id}/authorize-to-start',
+      path: '/api/certification-candidates/{certificationCandidateId}/authorize-to-start',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationCandidateId,
+            certificationCandidateId: identifiersType.certificationCandidateId,
           }),
           payload: Joi.object({
             'authorized-to-start': Joi.boolean().required(),

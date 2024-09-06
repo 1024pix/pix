@@ -11,7 +11,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
           credentials: { userId: '111' },
         },
         params: {
-          id: 99,
+          certificationCandidateId: 99,
         },
         payload: { 'authorized-to-start': true },
       };

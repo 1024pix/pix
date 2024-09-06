@@ -6,14 +6,14 @@ import {
   mockLearningContent,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | Session | certification-candidate-route', function () {
+describe('Certification | Session Management | Acceptance | Application | Routes | certification-candidate', function () {
   let server;
 
   beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('POST /api/certification-candidates/:id/authorize-to-start', function () {
+  describe('POST /api/certification-candidates/{certificationCandidateId}/authorize-to-start', function () {
     context('when user is authenticated', function () {
       context('when the user is the supervisor of the session', function () {
         it('should return a 204 status code', async function () {

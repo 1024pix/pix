@@ -4,7 +4,7 @@ import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } f
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Certification Candidate', function () {
-  describe('POST certification-candidates/{id}/authorize-to-start', function () {
+  describe('POST certification-candidates/{certificationCandidateId}/authorize-to-start', function () {
     it('should return 200 if the user is a supervisor of the session linked to the candidate', async function () {
       //given
       sinon
