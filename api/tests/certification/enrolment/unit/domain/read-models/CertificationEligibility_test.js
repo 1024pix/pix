@@ -1,5 +1,5 @@
-import { CertificationEligibility } from '../../../../src/shared/domain/read-models/CertificationEligibility.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { CertificationEligibility } from '../../../../../../src/certification/enrolment/domain/read-models/CertificationEligibility.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | CertificationEligibility', function () {
   describe('static #notCertifiable', function () {
@@ -12,7 +12,10 @@ describe('Unit | Domain | Read-models | CertificationEligibility', function () {
 
       // then
       expect(notCertifiableCertificationEligibility).to.deep.equal(
-        domainBuilder.buildCertificationEligibility({ id: userId, pixCertificationEligible: false }),
+        domainBuilder.certification.enrolment.buildCertificationEligibility({
+          id: userId,
+          pixCertificationEligible: false,
+        }),
       );
     });
   });

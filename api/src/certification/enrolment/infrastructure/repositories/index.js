@@ -3,11 +3,13 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import * as complementaryCertificationApi from '../../../complementary-certification/application/api/complementary-certification-api.js';
 import * as sessionManagementRepository from '../../../session-management/infrastructure/repositories/session-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
+import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
 import * as candidateRepository from './candidate-repository.js';
 import * as centerRepository from './center-repository.js';
 import * as certificationCandidateRepository from './certification-candidate-repository.js';
 import * as certificationCpfCityRepository from './certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from './certification-cpf-country-repository.js';
+import * as complementaryCertificationCourseRepository from './complementary-certification-course-repository.js';
 import * as complementaryCertificationRepository from './complementary-certification-repository.js';
 import * as countryRepository from './country-repository.js';
 import * as enrolledCandidateRepository from './enrolled-candidate-repository.js';
@@ -34,6 +36,8 @@ import * as userRepository from './user-repository.js';
  * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {organizationLearnerRepository} OrganizationLearnerRepository
  * @typedef {userRepository} UserRepository
+ * @typedef {targetProfileHistoryRepository} TargetProfileHistoryRepository
+ * @typedef {complementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   candidateRepository,
@@ -51,6 +55,8 @@ const repositoriesWithoutInjectedDependencies = {
   sessionRepository,
   organizationLearnerRepository,
   userRepository,
+  targetProfileHistoryRepository,
+  complementaryCertificationCourseRepository,
 };
 
 /**

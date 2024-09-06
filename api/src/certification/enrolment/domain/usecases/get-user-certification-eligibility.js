@@ -17,13 +17,13 @@
 
 import _ from 'lodash';
 
-import { ComplementaryCertificationBadgesHistory } from '../../../src/certification/complementary-certification/application/api/models/ComplementaryCertificationBadgesHistory.js';
+import { config } from '../../../../shared/config.js';
+import { ComplementaryCertificationBadgesHistory } from '../../../complementary-certification/application/api/models/ComplementaryCertificationBadgesHistory.js';
 import {
   ComplementaryCertificationBadge,
   ComplementaryCertificationVersioning,
-} from '../../../src/certification/complementary-certification/domain/read-models/ComplementaryCertificationVersioning.js';
-import { config } from '../../../src/shared/config.js';
-import { CertificationEligibility } from '../../../src/shared/domain/read-models/CertificationEligibility.js';
+} from '../../../complementary-certification/domain/read-models/ComplementaryCertificationVersioning.js';
+import { CertificationEligibility } from '../read-models/CertificationEligibility.js';
 
 /**
  * @param {Object} params

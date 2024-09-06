@@ -1,8 +1,8 @@
-import { sources } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-import { ComplementaryCertificationCourseWithResults } from '../../../../src/shared/domain/models/ComplementaryCertificationCourseWithResults.js';
-import { expect } from '../../../test-helper.js';
+import { ComplementaryCertificationCourseWithResults } from '../../../../../../src/certification/enrolment/domain/models/ComplementaryCertificationCourseWithResults.js';
+import { sources } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | Models | ComplementaryCertificationCourseWithResults', function () {
+describe('Unit | Certification | Enrolment | Domain | Models | ComplementaryCertificationCourseWithResults', function () {
   describe('#isAcquired', function () {
     describe('when no external jury', function () {
       describe('when result is acquired', function () {

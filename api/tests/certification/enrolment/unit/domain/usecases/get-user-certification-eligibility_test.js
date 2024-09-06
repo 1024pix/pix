@@ -1,6 +1,6 @@
-import { getUserCertificationEligibility } from '../../../../lib/domain/usecases/get-user-certification-eligibility.js';
-import { config } from '../../../../src/shared/config.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { getUserCertificationEligibility } from '../../../../../../src/certification/enrolment/domain/usecases/get-user-certification-eligibility.js';
+import { config } from '../../../../../../src/shared/config.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-user-certification-eligibility', function () {
   let clock,
@@ -47,7 +47,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
       });
 
       // then
-      const expectedCertificationEligibility = domainBuilder.buildCertificationEligibility({
+      const expectedCertificationEligibility = domainBuilder.certification.enrolment.buildCertificationEligibility({
         id: 2,
         pixCertificationEligible: false,
       });
@@ -114,7 +114,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
           .resolves([detachedTargetProfileHistory]);
 
         complementaryCertificationCourseRepository.findByUserId.resolves([
-          domainBuilder.buildComplementaryCertificationCourseWithResults({
+          domainBuilder.certification.enrolment.buildComplementaryCertificationCourseWithResults({
             id: 1,
             hasExternalJury: false,
             complementaryCertificationBadgeId: 34,
@@ -158,7 +158,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
 
         complementaryCertificationCourseRepository.findByUserId.resolves([
-          domainBuilder.buildComplementaryCertificationCourseWithResults({
+          domainBuilder.certification.enrolment.buildComplementaryCertificationCourseWithResults({
             id: 1,
             hasExternalJury: false,
             complementaryCertificationBadgeId: 34,
@@ -238,7 +238,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
               certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
 
               complementaryCertificationCourseRepository.findByUserId.resolves([
-                domainBuilder.buildComplementaryCertificationCourseWithResults({
+                domainBuilder.certification.enrolment.buildComplementaryCertificationCourseWithResults({
                   id: 1,
                   hasExternalJury: false,
                   complementaryCertificationBadgeId: 36,
@@ -333,7 +333,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
                 certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
 
                 complementaryCertificationCourseRepository.findByUserId.resolves([
-                  domainBuilder.buildComplementaryCertificationCourseWithResults({
+                  domainBuilder.certification.enrolment.buildComplementaryCertificationCourseWithResults({
                     id: 1,
                     hasExternalJury: false,
                     complementaryCertificationBadgeId: 33,
@@ -420,7 +420,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
                 certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
 
                 complementaryCertificationCourseRepository.findByUserId.resolves([
-                  domainBuilder.buildComplementaryCertificationCourseWithResults({
+                  domainBuilder.certification.enrolment.buildComplementaryCertificationCourseWithResults({
                     id: 1,
                     hasExternalJury: false,
                     complementaryCertificationBadgeId: 33,
@@ -501,7 +501,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
             certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
 
             complementaryCertificationCourseRepository.findByUserId.resolves([
-              domainBuilder.buildComplementaryCertificationCourseWithResults({
+              domainBuilder.certification.enrolment.buildComplementaryCertificationCourseWithResults({
                 id: 1,
                 hasExternalJury: false,
                 complementaryCertificationBadgeId: 35,
@@ -559,7 +559,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
 
         complementaryCertificationCourseRepository.findByUserId.resolves([
-          domainBuilder.buildComplementaryCertificationCourseWithResults({
+          domainBuilder.certification.enrolment.buildComplementaryCertificationCourseWithResults({
             id: 1,
             hasExternalJury: false,
             complementaryCertificationBadgeId: 2,
@@ -620,7 +620,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
             certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
 
             complementaryCertificationCourseRepository.findByUserId.resolves([
-              domainBuilder.buildComplementaryCertificationCourseWithResults({
+              domainBuilder.certification.enrolment.buildComplementaryCertificationCourseWithResults({
                 id: 1,
                 hasExternalJury: true,
                 complementaryCertificationBadgeId: 33,

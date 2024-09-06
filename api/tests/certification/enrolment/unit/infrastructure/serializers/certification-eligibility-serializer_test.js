@@ -1,11 +1,11 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-eligibility-serializer.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../../src/certification/enrolment/infrastructure/serializers/certification-eligibility-serializer.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | certification-eligibility-serializer', function () {
+describe('Certification | Enrolment | Unit | Serializer | certification-eligibility-serializer', function () {
   describe('#serialize()', function () {
     it('should format certification eligibility model into into JSON API data', function () {
       // given
-      const certificationEligibility = domainBuilder.buildCertificationEligibility({
+      const certificationEligibility = domainBuilder.certification.enrolment.buildCertificationEligibility({
         id: 123,
         pixCertificationEligible: true,
         complementaryCertifications: ['CléA Numérique', 'Pix+ Droit Expert', 'Pix+ Édu 1er degré Avancé'],

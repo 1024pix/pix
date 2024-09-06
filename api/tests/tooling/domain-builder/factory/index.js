@@ -49,7 +49,6 @@ import { buildCertificationChallengeWithType } from './build-certification-chall
 import { buildCertificationCourse } from './build-certification-course.js';
 import { buildCertificationCpfCity } from './build-certification-cpf-city.js';
 import { buildCertificationCpfCountry } from './build-certification-cpf-country.js';
-import { buildCertificationEligibility } from './build-certification-eligibility.js';
 import { buildCertificationIssueReport } from './build-certification-issue-report.js';
 import { buildCertificationOfficer } from './build-certification-officer.js';
 import { buildCertificationPointOfContact } from './build-certification-point-of-contact.js';
@@ -77,7 +76,6 @@ import { buildComplementaryCertificationBadgeForAdmin } from './build-complement
 import { buildComplementaryCertificationCourseResult } from './build-complementary-certification-course-result.js';
 import { buildComplementaryCertificationCourseResultForJuryCertification } from './build-complementary-certification-course-result-for-certification.js';
 import { buildComplementaryCertificationCourseResultForJuryCertificationWithExternal } from './build-complementary-certification-course-result-for-certification-with-external.js';
-import { buildComplementaryCertificationCourseWithResults } from './build-complementary-certification-course-with-results.js';
 import { buildComplementaryCertificationForSupervising } from './build-complementary-certification-for-supervising.js';
 import { buildComplementaryCertificationForTargetProfileAttachment } from './build-complementary-certification-for-target-profile-attachment.js';
 import { buildComplementaryCertificationHabilitation } from './build-complementary-certification-habilitation.js';
@@ -173,6 +171,8 @@ import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-c
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
 import { buildCandidate } from './certification/enrolment/build-candidate.js';
+import { buildCertificationEligibilityEnrolment } from './certification/enrolment/build-certification-eligibility.js';
+import { buildComplementaryCertificationCourseWithResultsEnrolment } from './certification/enrolment/build-complementary-certification-course-with-results.js';
 import { buildEditedCandidate } from './certification/enrolment/build-edited-candidate.js';
 import { buildEnrolledCandidate } from './certification/enrolment/build-enrolled-candidate.js';
 import { buildSessionEnrolment } from './certification/enrolment/build-session.js';
@@ -219,6 +219,8 @@ const certification = {
     buildEditedCandidate,
     buildSubscription,
     buildUser: buildUserEnrolment,
+    buildCertificationEligibility: buildCertificationEligibilityEnrolment,
+    buildComplementaryCertificationCourseWithResults: buildComplementaryCertificationCourseWithResultsEnrolment,
   },
   sessionManagement: {
     buildCertificationSessionComplementaryCertification,
@@ -296,7 +298,6 @@ export {
   buildCertificationCpfCity,
   buildCertificationCpfCountry,
   buildCertificationDetails,
-  buildCertificationEligibility,
   buildCertificationIssueReport,
   buildCertificationOfficer,
   buildCertificationPointOfContact,
@@ -324,7 +325,6 @@ export {
   buildComplementaryCertificationCourseResult,
   buildComplementaryCertificationCourseResultForJuryCertification,
   buildComplementaryCertificationCourseResultForJuryCertificationWithExternal,
-  buildComplementaryCertificationCourseWithResults,
   buildComplementaryCertificationForSupervising,
   buildComplementaryCertificationForTargetProfileAttachment,
   buildComplementaryCertificationHabilitation,

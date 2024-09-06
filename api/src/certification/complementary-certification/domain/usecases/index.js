@@ -7,9 +7,9 @@ import { importNamedExportsFromDirectory } from '../../../../shared/infrastructu
 import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
 import * as organizationRepository from '../../../complementary-certification/infrastructure/repositories/organization-repository.js';
 import { mailService } from '../../../shared/domain/services/mail-service.js';
+import * as targetProfileHistoryRepository from '../../../shared/infrastructure/repositories/target-profile-history-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as complementaryCertificationRepository from '../../infrastructure/repositories/complementary-certification-repository.js';
-import * as targetProfileHistoryRepository from '../../infrastructure/repositories/target-profile-history-repository.js';
 
 /**
  *
