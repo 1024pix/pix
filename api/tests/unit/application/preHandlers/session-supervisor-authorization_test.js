@@ -18,7 +18,7 @@ describe('Unit | Pre-handler | Supervisor Authorization', function () {
   describe('#verifyByCertificationCandidateId', function () {
     const request = {
       params: {
-        id: 8,
+        certificationCandidateId: 8,
       },
     };
 
