@@ -22,7 +22,7 @@ describe('Unit | Pre-handler | Authorization', function () {
     const request = {
       auth: { credentials: { accessToken: 'valid.access.token', userId } },
       params: {
-        id: sessionId,
+        sessionId,
       },
     };
 

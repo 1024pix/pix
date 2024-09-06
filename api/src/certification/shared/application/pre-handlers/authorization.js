@@ -4,7 +4,7 @@ import * as certificationCourseRepository from '../../infrastructure/repositorie
 
 const verifySessionAuthorization = (request, h, dependencies = { sessionRepository }) => {
   const userId = request.auth.credentials.userId;
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
 
   return _isAuthorizedToAccessSession({
     userId,
