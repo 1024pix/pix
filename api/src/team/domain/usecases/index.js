@@ -12,6 +12,7 @@ import { adminMemberRepository } from '../../../shared/infrastructure/repositori
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as certificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
+import { certificationCenterInvitedUserRepository } from '../../infrastructure/repositories/certification-center-invited-user.repository.js';
 import { certificationCenterMembershipRepository } from '../../infrastructure/repositories/certification-center-membership.repository.js';
 import { organizationInvitationRepository } from '../../infrastructure/repositories/organization-invitation.repository.js';
 import { organizationInvitedUserRepository } from '../../infrastructure/repositories/organization-invited-user.repository.js';
@@ -25,6 +26,7 @@ const path = dirname(fileURLToPath(import.meta.url));
 const dependencies = {
   adminMemberRepository,
   certificationCenterMembershipRepository,
+  certificationCenterInvitedUserRepository,
   certificationCenterRepository,
   certificationCenterInvitationRepository,
   prescriberRepository,
