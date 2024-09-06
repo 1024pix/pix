@@ -7,14 +7,14 @@ import {
   knex,
 } from '../../../../test-helper.js';
 
-describe('Certification | Session | Acceptance | Controller | session-live-alert-controller', function () {
+describe('Certification | Session | Acceptance | Application | Routes | session-live-alert', function () {
   let server;
 
   beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('PATCH /sessions/{id}/candidates/{candidateId}/dismiss-live-alert', function () {
+  describe('PATCH /sessions/{sessionId}/candidates/{candidateId}/dismiss-live-alert', function () {
     describe('when user has supervisor authorization', function () {
       it('should return 204 when the alert is ongoing', async function () {
         // given
