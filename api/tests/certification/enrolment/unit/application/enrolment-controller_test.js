@@ -17,7 +17,7 @@ describe('Certification | Enrolment | Unit | Controller | enrolment-controller',
 
       // given
       request = {
-        params: { id: sessionId },
+        params: { sessionId },
         deserializedPayload: {
           'organization-learner-ids': [student1.id, student2.id],
         },

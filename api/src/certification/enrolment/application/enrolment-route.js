@@ -9,11 +9,11 @@ const register = async function (server) {
   server.route([
     {
       method: 'PUT',
-      path: '/api/sessions/{id}/enrol-students-to-session',
+      path: '/api/sessions/{sessionId}/enrol-students-to-session',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         pre: [

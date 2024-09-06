@@ -20,7 +20,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
   let userId;
   let resolveMx;
 
-  describe('PUT /api/sessions/{id}/enrol-students-to-session', function () {
+  describe('PUT /api/sessions/{sessionId}/enrol-students-to-session', function () {
     beforeEach(async function () {
       server = await createServer();
       userId = databaseBuilder.factory.buildUser().id;

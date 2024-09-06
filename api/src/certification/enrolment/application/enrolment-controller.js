@@ -8,7 +8,7 @@ const enrolStudentsToSession = async function (
   h,
   dependencies = { enrolledCandidateSerializer, requestResponseUtils },
 ) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const studentIds = request.deserializedPayload.organizationLearnerIds;
 
   await usecases.enrolStudentsToSession({ sessionId, studentIds });

@@ -14,7 +14,7 @@ import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Certification | Enrolment | Unit | Application | Routes', function () {
-  describe('PUT /api/session/{id}/enrol-students-to-session', function () {
+  describe('PUT /api/session/{sessionId}/enrol-students-to-session', function () {
     it('exists', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
