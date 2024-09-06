@@ -10,14 +10,14 @@ import {
   mockLearningContent,
 } from '../../../../test-helper.js';
 
-describe('Certification | Session-management | Acceptance | Application | certification-details-route', function () {
+describe('Certification | Session Management | Acceptance | Application | Routes | certification-details', function () {
   let server;
 
   beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/admin/certifications/{id}/details', function () {
+  describe('GET /api/admin/certifications/{certificationCourseId}/details', function () {
     context('when certification match an existing scoring rule', function () {
       it('Should respond with a status 200', async function () {
         // given

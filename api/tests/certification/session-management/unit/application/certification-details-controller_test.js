@@ -18,7 +18,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
       const certificationCourseId = 1234;
       const request = {
         params: {
-          id: certificationCourseId,
+          certificationCourseId,
         },
       };
 
