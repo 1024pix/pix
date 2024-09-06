@@ -3,8 +3,8 @@ import * as moduleUnderTest from '../../../../../src/certification/session-manag
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Certification | Session-management | Unit | Application | jury-certification-route', function () {
-  describe('GET /api/admin/certifications/id', function () {
+describe('Certification | Session Management | Unit | Application | Routes | jury-certification', function () {
+  describe('GET /api/admin/certifications/{certificationCourseId}', function () {
     it('should reject with 403 code when user is not Super Admin', async function () {
       // given
       sinon
