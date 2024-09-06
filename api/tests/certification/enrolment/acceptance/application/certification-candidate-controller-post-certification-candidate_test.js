@@ -77,7 +77,7 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
         sessionId = databaseBuilder.factory.buildSession({ certificationCenterId, certificationCenter }).id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
         databaseBuilder.factory.buildCertificationCpfCountry({
-          name: 'FRANCE',
+          originalName: 'FRANCE',
           code: '99100',
           matcher: 'ACEFNR',
         });
@@ -206,7 +206,7 @@ describe('Acceptance | Controller | Certification | Enrolment | session-controll
         sessionId = databaseBuilder.factory.buildSession({ certificationCenterId, certificationCenter }).id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
         databaseBuilder.factory.buildCertificationCpfCountry({
-          name: 'FRANCE',
+          originalName: 'FRANCE',
           code: '99100',
           matcher: 'ACEFNR',
         });

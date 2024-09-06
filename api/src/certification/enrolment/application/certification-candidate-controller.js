@@ -6,7 +6,7 @@ import * as candidateSerializer from '../infrastructure/serializers/candidate-se
 import * as enrolledCandidateSerializer from '../infrastructure/serializers/enrolled-candidate-serializer.js';
 
 const addCandidate = async function (request, h, dependencies = { candidateSerializer }) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const candidate = await dependencies.candidateSerializer.deserialize(request.payload);
   const candidateId = await usecases.addCandidateToSession({
     sessionId,

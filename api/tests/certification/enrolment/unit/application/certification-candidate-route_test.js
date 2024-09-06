@@ -7,7 +7,7 @@ import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Sessions | Routes', function () {
-  describe('POST /api/sessions/{id}/certification-candidates', function () {
+  describe('POST /api/sessions/{sessionId}/certification-candidates', function () {
     let correctAttributes;
 
     beforeEach(function () {

@@ -1,4 +1,5 @@
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
+import { SUBSCRIPTION_TYPES } from '../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { CertificationCandidate } from '../../../../../src/shared/domain/models/index.js';
 import {
@@ -18,7 +19,90 @@ describe('Acceptance | Controller | Session | certification-candidate-route', fu
     server = await createServer();
   });
 
-  describe('GET /api/sessions/{id}/certification-candidates', function () {
+  describe('POST /api/sessions/{sessionId}/certification-candidates', function () {
+    it('should respond with a 201', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const certificationCenterUserId = databaseBuilder.factory.buildUser.withRole({
+        id: 1234,
+        firstName: 'Super',
+        lastName: 'Papa',
+        email: 'super.papa@example.net',
+        password: 'Password123',
+        role: ROLES.CERTIF,
+      }).id;
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId: certificationCenterUserId,
+        certificationCenterId,
+      });
+      const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        id: 10000006,
+        key: ComplementaryCertificationKeys.CLEA,
+        label: 'CléA Numérique',
+      });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId,
+        complementaryCertificationId: cleaComplementaryCertification.id,
+      });
+      databaseBuilder.factory.buildCertificationCpfCountry({
+        code: '99100',
+        originalName: 'FRANCE',
+      });
+      databaseBuilder.factory.buildCertificationCpfCity({
+        name: 'PARIS 15',
+        INSEECode: '75015',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const options = {
+        method: 'POST',
+        url: `/api/sessions/${sessionId}/certification-candidates`,
+        payload: {
+          data: {
+            type: 'certification-candidates',
+            attributes: {
+              'first-name': 'Jean',
+              'last-name': 'Ris',
+              'birth-city': null,
+              'birth-province-code': null,
+              'birth-country': 'FRANCE',
+              'birth-postal-code': null,
+              'birth-insee-code': '75015',
+              'result-recipient-email': null,
+              'external-id': null,
+              'extra-time-percentage': null,
+              'billing-mode': CertificationCandidate.BILLING_MODES.FREE,
+              'prepayment-code': null,
+              sex: 'M',
+              email: null,
+              birthdate: '2000-10-10',
+              'organization-learner-id': null,
+              subscriptions: [
+                {
+                  type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+                  complementaryCertificationId: cleaComplementaryCertification.id,
+                },
+              ],
+            },
+          },
+        },
+        headers: { authorization: generateValidRequestAuthorizationHeader(certificationCenterUserId, 'pix-certif') },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      const createdCandidate = await knex.select('firstName', 'lastName').from('certification-candidates').first();
+
+      expect(response.statusCode).to.equal(201);
+      expect(createdCandidate).to.deep.equal({ firstName: 'Jean', lastName: 'Ris' });
+    });
+  });
+
+  describe('GET /api/sessions/{sessionId}/certification-candidates', function () {
     it('should respond with a 200', async function () {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;

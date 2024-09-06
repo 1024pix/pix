@@ -13,11 +13,11 @@ const register = async function (server) {
   server.route([
     {
       method: 'POST',
-      path: '/api/sessions/{id}/certification-candidates',
+      path: '/api/sessions/{sessionId}/certification-candidates',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
           payload: Joi.object({
             data: {

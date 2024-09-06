@@ -12,7 +12,7 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       const candidate = 'candidate';
       const addedCandidateId = 2;
       const request = {
-        params: { id: sessionId },
+        params: { sessionId },
         payload: {
           data: {
             attributes: {
