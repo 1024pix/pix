@@ -178,7 +178,7 @@
                 {
                   "id": "be70c1be-d6d1-4b6e-bcee-de1ab8859ee0",
                   "type": "text",
-                  "content": "<p>Vous allez maintenant devoir analyser trois situations avec des réponses de LLM visiblement biaisées.<p>Pour chaque situation, choisissez la cause principale des résultats biaisés.</p>"
+                  "content": "<p>Vous allez maintenant devoir analyser trois situations avec des réponses de LLM visiblement biaisées.<p>Pour chaque situation, trouvez la cause principale des résultats biaisés.</p>"
                 }
               ]
             },
@@ -192,7 +192,7 @@
                 {
                   "id": "e53de197-48ce-4af7-be65-dc75139b391c",
                   "type": "image",
-                  "url": "https://i.imgur.com/nTpxzKj.png",
+                  "url": "https://i.imgur.com/lKQKYbP.gif",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
                   "alternativeText": "<p>Vous&nbsp;: Quel est le jour de la fête nationale&nbsp;?</p><p>LLM&nbsp;: La fête nationale de la France est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
@@ -232,9 +232,9 @@
                 {
                   "id": "dc202072-43a0-4478-936e-5b3d4f3360c2",
                   "type": "image",
-                  "url": "https://i.imgur.com/AcQPRcx.png",
+                  "url": "https://i.imgur.com/QLSASWx.gif",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-                  "alternativeText": "<p>Vous&nbsp;: J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est est d’éteindre des incendies..<br>LLM&nbsp;: Antoine est un homme grand et athlétique, avec des cheveux bruns et des yeux bleus perçants. Courageux et calme sous pression, il est dévoué à sauver des vies et réconforter les victimes avec empathie.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
+                  "alternativeText": "<p>Vous&nbsp;: J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est est d’éteindre des incendies..<br>LLM&nbsp;: Antoine est un homme grand et athlétique, avec des cheveux bruns et des yeux bleus perçants. Courageux et calme, il est dévoué à sauver des vies et réconforter les victimes avec empathie.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
                 {
                   "id": "635d34d8-c748-44cd-ad02-bde721270723",
@@ -272,7 +272,7 @@
                 {
                   "id": "58ca3642-557a-41f3-ade4-60bf78fea803",
                   "type": "image",
-                  "url": "https://i.imgur.com/bMje73L.png",
+                  "url": "https://i.imgur.com/WNb5uvj.gif",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
                   "alternativeText": "<p>Vous&nbsp;: Je suis sûr d'avoir vu un extraterrestre hier dans mon jardin. Donne-moi des conseils pour en voir à nouveau<br>LLM&nbsp;: Ces conseils devraient vous aider à augmenter vos chances de voir un extraterrestre à nouveau&nbsp;: passez du temps à l'extérieur la nuit et installez des caméras de surveillance.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
@@ -505,7 +505,7 @@
           "element": {
             "id": "74d34463-3d34-46af-a080-2226bfc2296c",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les astuces ci-dessous&nbsp;:</p><details><summary>Astuce 1</summary><p>Précisez dans votre prompt d'être concis.</p></details><details><summary>Astuce 2</summary><p>Écrivez un prompt vague, par exemple sans préciser de lieu spécifique.</p></details><details><summary>Astuce 3</summary><p>Posez des questions sensibles, comme celles auxquelles vous n'oseriez pas répondre.</p></details>"
+            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les astuces ci-dessous&nbsp;:</p><details><summary>Astuce n°1</summary><p>Précisez dans votre prompt d'être concis.</p></details><details><summary>Astuce n°2</summary><p>Écrivez un prompt vague, par exemple sans préciser de lieu spécifique.</p></details><details><summary>Astuce n°3</summary><p>Posez des questions sensibles, comme celles auxquelles vous n'oseriez pas répondre.</p></details>"
           }
         }
       ]
