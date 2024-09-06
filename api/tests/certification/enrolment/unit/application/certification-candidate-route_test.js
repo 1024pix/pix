@@ -214,7 +214,7 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('PATCH /api/sessions/{id}/certification-candidates/{certificationCandidateId}', function () {
+  describe('PATCH /api/sessions/{sessionId}/certification-candidates/{certificationCandidateId}', function () {
     const method = 'PATCH';
 
     it('should return 204', async function () {

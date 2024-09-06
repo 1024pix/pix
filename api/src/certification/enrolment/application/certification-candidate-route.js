@@ -142,11 +142,11 @@ const register = async function (server) {
     },
     {
       method: 'PATCH',
-      path: '/api/sessions/{id}/certification-candidates/{certificationCandidateId}',
+      path: '/api/sessions/{sessionId}/certification-candidates/{certificationCandidateId}',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
             certificationCandidateId: identifiersType.certificationCandidateId,
           }),
           payload: Joi.object({

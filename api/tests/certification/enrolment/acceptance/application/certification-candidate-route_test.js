@@ -12,7 +12,7 @@ import {
 
 const { ROLES } = PIX_ADMIN;
 
-describe('Acceptance | Controller | Session | certification-candidate-route', function () {
+describe('Certification | Enrolment | Acceptance | Application | Routes | certification-candidate-route', function () {
   let server;
 
   beforeEach(async function () {
@@ -208,7 +208,7 @@ describe('Acceptance | Controller | Session | certification-candidate-route', fu
     });
   });
 
-  describe('PATCH /api/sessions/{id}/certification-candidates/{certificationCandidateId}', function () {
+  describe('PATCH /api/sessions/{sessionId}/certification-candidates/{certificationCandidateId}', function () {
     it('should respond with a 200', async function () {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
