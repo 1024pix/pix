@@ -28,7 +28,7 @@ describe('Certification | Session-management | Unit | Application | Controller |
       sinon.stub(usecases, 'uncancelCertificationCourse');
       const request = {
         params: {
-          id: 123,
+          certificationCourseId: 123,
         },
       };
       usecases.uncancelCertificationCourse.resolves();

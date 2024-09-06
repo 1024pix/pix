@@ -7,7 +7,7 @@ const cancel = async function (request, h) {
 };
 
 const uncancel = async function (request, h) {
-  const certificationCourseId = request.params.id;
+  const certificationCourseId = request.params.certificationCourseId;
   await usecases.uncancelCertificationCourse({ certificationCourseId });
   return h.response().code(200);
 };

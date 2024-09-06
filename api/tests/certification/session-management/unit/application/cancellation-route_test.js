@@ -46,7 +46,7 @@ describe('Certification | Session-management | Unit | Application | Routes | can
     });
   });
 
-  describe('POST /api/admin/certification-courses/{id}/uncancel', function () {
+  describe('POST /api/admin/certification-courses/{certificationCourseId}/uncancel', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon

@@ -33,7 +33,7 @@ describe('Certification | Session-management | Acceptance | Application | Routes
     });
   });
 
-  describe('POST /api/admin/certification-courses/{id}/uncancel', function () {
+  describe('POST /api/admin/certification-courses/{certificationCourseId}/uncancel', function () {
     it('should respond with a 200', async function () {
       // given
       databaseBuilder.factory.buildCertificationCourse({ id: 123 });
