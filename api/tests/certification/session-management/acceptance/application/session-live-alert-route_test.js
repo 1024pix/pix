@@ -98,7 +98,7 @@ describe('Certification | Session | Acceptance | Application | Routes | session-
     });
   });
 
-  describe('PATCH /sessions/{id}/candidates/{candidateId}/validate-live-alert', function () {
+  describe('PATCH /sessions/{sessionId}/candidates/{candidateId}/validate-live-alert', function () {
     describe('when user has supervisor authorization', function () {
       it('should return 204 when the alert is ongoing', async function () {
         // given
