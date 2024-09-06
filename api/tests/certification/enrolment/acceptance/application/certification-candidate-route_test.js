@@ -274,4 +274,64 @@ describe('Acceptance | Controller | Session | certification-candidate-route', fu
       expect(response.statusCode).to.equal(204);
     });
   });
+
+  describe('DELETE /api/sessions/{sessionId}/certification-candidates/{certificationCandidateId}', function () {
+    it('should respond with a 200', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
+      const certificationCenterUserId = databaseBuilder.factory.buildUser.withRole({
+        id: 1234,
+        password: 'Password123',
+        role: ROLES.CERTIF,
+      }).id;
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId: certificationCenterUserId,
+        certificationCenterId,
+      });
+      const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId, version: 3 }).id;
+      const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+        id: 1001,
+        sessionId,
+        userId: null,
+        billingMode: CertificationCandidate.BILLING_MODES.PREPAID,
+      }).id;
+      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        id: 10000006,
+        key: ComplementaryCertificationKeys.CLEA,
+        label: 'CléA Numérique',
+      });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId,
+        complementaryCertificationId: cleaComplementaryCertification.id,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        certificationCandidateId: candidateId,
+        complementaryCertificationId: cleaComplementaryCertification.id,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const options = {
+        method: 'DELETE',
+        url: `/api/sessions/${sessionId}/certification-candidates/${candidateId}`,
+        payload: {},
+        headers: { authorization: generateValidRequestAuthorizationHeader(certificationCenterUserId, 'pix-certif') },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      const candidate = await knex.from('certification-candidates').where({ id: candidateId }).first();
+      const candidateSubscription = await knex
+        .from('certification-subscriptions')
+        .where({ certificationCandidateId: candidateId })
+        .first();
+
+      expect(response.statusCode).to.equal(204);
+      expect(candidate).to.be.undefined;
+      expect(candidateSubscription).to.be.undefined;
+    });
+  });
 });

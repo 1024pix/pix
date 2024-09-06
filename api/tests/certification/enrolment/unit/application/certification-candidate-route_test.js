@@ -132,7 +132,7 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('DELETE /api/sessions/{id}/certification-candidates/{certificationCandidateId}', function () {
+  describe('DELETE /api/sessions/{sessionId}/certification-candidates/{certificationCandidateId}', function () {
     it('should return 404 if the user is not authorized on the session', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').throws(new NotFoundError());
