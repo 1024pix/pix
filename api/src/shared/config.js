@@ -191,19 +191,19 @@ const configuration = (function () {
     },
     featureToggles: {
       areV3InfoScreensEnabled: toBoolean(process.env.FT_ENABLE_V3_INFO_SCREENS),
+      deprecatePoleEmploiPushNotification: toBoolean(process.env.DEPRECATE_PE_PUSH_NOTIFICATION),
       isAlwaysOkValidateNextChallengeEndpointEnabled: toBoolean(
         process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT,
       ),
-      isPix1dEnabled: toBoolean(process.env.FT_PIX_1D_ENABLED),
-      isPixPlusLowerLeverEnabled: toBoolean(process.env.FT_ENABLE_PIX_PLUS_LOWER_LEVEL),
       isCertificationTokenScopeEnabled: toBoolean(process.env.FT_ENABLE_CERTIF_TOKEN_SCOPE),
-      deprecatePoleEmploiPushNotification: toBoolean(process.env.DEPRECATE_PE_PUSH_NOTIFICATION),
-      isTextToSpeechButtonEnabled: toBoolean(process.env.FT_ENABLE_TEXT_TO_SPEECH_BUTTON),
       isNeedToAdjustCertificationAccessibilityEnabled: toBoolean(
         process.env.FT_ENABLE_NEED_TO_ADJUST_CERTIFICATION_ACCESSIBILITY,
       ),
-      showNewResultPage: toBoolean(process.env.FT_SHOW_NEW_RESULT_PAGE),
+      isPix1dEnabled: toBoolean(process.env.FT_PIX_1D_ENABLED),
+      isPixPlusLowerLeverEnabled: toBoolean(process.env.FT_ENABLE_PIX_PLUS_LOWER_LEVEL),
+      isTextToSpeechButtonEnabled: toBoolean(process.env.FT_ENABLE_TEXT_TO_SPEECH_BUTTON),
       showExperimentalMissions: toBoolean(process.env.FT_SHOW_EXPERIMENTAL_MISSIONS),
+      showNewResultPage: toBoolean(process.env.FT_SHOW_NEW_RESULT_PAGE),
     },
     hapi: {
       options: {},
