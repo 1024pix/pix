@@ -3,7 +3,7 @@ import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
-describe('Unit | Application | SecurityPreHandlers', function () {
+describe('Shared | Unit | Application | SecurityPreHandlers', function () {
   describe('#checkAdminMemberHasRoleSuperAdmin', function () {
     let request;
 
@@ -1641,7 +1641,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
           await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId(
             {
               auth: { credentials: { accessToken: 'valid.access.token', userId: 123 } },
-              params: { id: 7 },
+              params: { certificationCourseId: 7 },
             },
             hFake,
             {
@@ -1665,7 +1665,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         // when
         const response =
           await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId(
-            { auth: { credentials: {} }, params: { id: 5678 } },
+            { auth: { credentials: {} }, params: { certificationCourseId: 5678 } },
             hFake,
             {
               checkUserIsMemberOfCertificationCenterSessionUsecase:
@@ -1687,7 +1687,10 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         // when
         const response =
           await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId(
-            { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 5678 } },
+            {
+              auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } },
+              params: { certificationCourseId: 5678 },
+            },
             hFake,
             {
               checkUserIsMemberOfCertificationCenterSessionUsecase:
@@ -1709,7 +1712,10 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         // when
         const response =
           await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId(
-            { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 5678 } },
+            {
+              auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } },
+              params: { certificationCourseId: 5678 },
+            },
             hFake,
             {
               checkUserIsMemberOfCertificationCenterSessionUsecase:

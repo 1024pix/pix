@@ -57,7 +57,7 @@ describe('Unit | Serializer | JSONAPI | certification-issue-report-serializer', 
         },
       };
       const request = {
-        params: { id: certificationCourseId },
+        params: { certificationCourseId },
         payload: json,
       };
 

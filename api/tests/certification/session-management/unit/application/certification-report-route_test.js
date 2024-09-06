@@ -6,7 +6,7 @@ import { securityPreHandlers } from '../../../../../src/shared/application/secur
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Certification Report', function () {
-  describe('POST /api/certification-reports/{id}/certification-issue-reports', function () {
+  describe('POST /api/certification-reports/{certificationCourseId}/certification-issue-reports', function () {
     it('should return a 200', async function () {
       // given
       sinon
