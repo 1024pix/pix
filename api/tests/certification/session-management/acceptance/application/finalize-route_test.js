@@ -22,7 +22,7 @@ describe('Certification | Session Management | Acceptance | Application | Route 
     server = await createServer();
   });
 
-  describe('PUT /sessions/{id}/finalization', function () {
+  describe('PUT api/sessions/{sessionId}/finalization', function () {
     let options;
     let session;
 

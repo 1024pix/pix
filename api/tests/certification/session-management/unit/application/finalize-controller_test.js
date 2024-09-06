@@ -25,7 +25,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
       ];
       const request = {
         params: {
-          id: sessionId,
+          sessionId,
         },
         payload: {
           data: {

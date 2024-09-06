@@ -8,14 +8,14 @@ const register = async function (server) {
   server.route([
     {
       method: 'PUT',
-      path: '/api/sessions/{id}/finalization',
+      path: '/api/sessions/{sessionId}/finalization',
       config: {
         validate: {
           options: {
             allowUnknown: true,
           },
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
           payload: Joi.object({
             data: {
