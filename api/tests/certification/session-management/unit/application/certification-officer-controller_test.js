@@ -11,7 +11,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
       const session = Symbol('session');
       const sessionJsonApi = Symbol('someSessionSerialized');
       const request = {
-        params: { id: sessionId },
+        params: { sessionId },
         auth: {
           credentials: {
             userId,
