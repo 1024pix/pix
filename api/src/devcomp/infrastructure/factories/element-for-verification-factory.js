@@ -23,13 +23,13 @@ export class ElementForVerificationFactory {
           }
           logger.warn({
             event: 'embed_without_required_completion_is_not_handled_for_verification',
-            message: `Embed without required completion is not handled: ${elementData.id}`,
+            msg: `Embed without required completion is not handled: ${elementData.id}`,
           });
           return undefined;
         default:
           logger.warn({
             event: 'module_element_type_not_handled_for_verification',
-            message: `Element type not handled for verification: ${elementData.type}`,
+            msg: `Element type not handled for verification: ${elementData.type}`,
           });
           return undefined;
       }

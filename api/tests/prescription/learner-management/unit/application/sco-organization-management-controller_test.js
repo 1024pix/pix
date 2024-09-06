@@ -38,7 +38,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       ApplicationTransaction.getTransactionAsDomainTransaction.returns(domainTransaction);
 
       usecases.uploadSiecleFile.resolves();
-      dependencies = { logErrorWithCorrelationIds: sinon.stub() };
+      dependencies = { logger: { error: sinon.stub() } };
     });
 
     it('should delete uploaded file', async function () {
@@ -67,7 +67,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       // then
       expect(fs.unlink).to.have.been.calledWithExactly(request.payload.path);
-      expect(dependencies.logErrorWithCorrelationIds).to.have.been.calledWith(error);
+      expect(dependencies.logger.error).to.have.been.calledWith(error);
     });
 
     it('should call usecases to import organizationLearners xml', async function () {

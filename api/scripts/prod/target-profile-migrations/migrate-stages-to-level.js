@@ -206,7 +206,7 @@ async function _writeReport(migrations) {
 async function main() {
   const startTime = performance.now();
   const dryRun = process.env.DRY_RUN !== 'false';
-  logger.info({ dryRun }, `Script ${modulePath} has started`);
+  logger.info({ dryRun, msg: `Script ${modulePath} has started` });
   const inputFile = resolve(process.cwd(), process.argv[2]);
   await migrateStagesToLevel(inputFile, dryRun);
   const endTime = performance.now();

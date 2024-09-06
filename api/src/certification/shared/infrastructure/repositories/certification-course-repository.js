@@ -1,14 +1,11 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import {
-  logErrorWithCorrelationIds,
-  logInfoWithCorrelationIds,
-} from '../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { config } from '../../../../shared/config.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/index.js';
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { ComplementaryCertificationCourse } from '../../../session-management/domain/models/ComplementaryCertificationCourse.js';
 import { CertificationCourse } from '../../domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
@@ -22,17 +19,19 @@ async function save({ certificationCourse }) {
     .insert(certificationCourseToSaveDTO)
     .returning('id')
     .on('query', function (data) {
-      logInfoWithCorrelationIds({
+      logger.info({
         event: 'save-certification-course',
-        message: `A certification course will be inserted with transaction ${data.__knexTxId}`,
+        msg: `A certification course will be inserted with transaction ${data.__knexTxId}`,
       });
     })
     .on('query-error', function (data) {
-      logErrorWithCorrelationIds({
-        event: 'save-certification-course',
-        message: `A certification course could not be inserted`,
-        data: _(data).pick(['code', 'constraint', 'detail']),
-      });
+      logger.error(
+        {
+          event: 'save-certification-course',
+          data: _(data).pick(['code', 'constraint', 'detail']),
+        },
+        `A certification course could not be inserted`,
+      );
     });
 
   const complementaryCertificationCourses = certificationCourse

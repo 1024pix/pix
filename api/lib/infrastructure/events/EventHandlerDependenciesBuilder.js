@@ -1,15 +1,15 @@
-import { monitoringTools } from '../../../src/shared/infrastructure/monitoring-tools.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 function build(classToInstanciate) {
   const dependencies = _buildDependencies();
 
   const instance = new classToInstanciate(dependencies);
-  return new EventErrorHandler(instance, monitoringTools);
+  return new EventErrorHandler(instance, logger);
 }
 
 function _buildDependencies() {
   return {
-    monitoringTools,
+    logger,
   };
 }
 
@@ -34,25 +34,21 @@ class EventErrorHandler {
   }
 
   logHandlerStarting(event) {
-    this.logger.logInfoWithCorrelationIds({
-      message: {
-        event,
-        handlerName: this.handler.name,
-        type: 'EVENT_LOG',
-        info: 'EventBus : Event dispatched',
-      },
+    this.logger.info({
+      event,
+      handlerName: this.handler.name,
+      type: 'EVENT_LOG',
+      info: 'EventBus : Event dispatched',
     });
   }
 
   logHandlerFailed(event, error) {
-    this.logger.logErrorWithCorrelationIds({
-      message: {
-        event,
-        handlerName: this.handler.name,
-        error: error?.message ? error.message + ' (see dedicated log for more information)' : undefined,
-        type: 'EVENT_LOG_ERROR',
-        info: 'EventBus : Event Handling Error',
-      },
+    this.logger.error({
+      event,
+      handlerName: this.handler.name,
+      error: error?.message ? error.message + ' (see dedicated log for more information)' : undefined,
+      type: 'EVENT_LOG_ERROR',
+      info: 'EventBus : Event Handling Error',
     });
   }
 }

@@ -17,13 +17,8 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     let httpErrorsHelper;
     let logger;
     let payload;
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const originPoleEmploiSendingUrl = settings.poleEmploi.sendingUrl;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const originPoleEmploiTokenUrl = settings.poleEmploi.tokenUrl;
+    let originPoleEmploiSendingUrl;
+    let originPoleEmploiTokenUrl;
 
     const userId = 123;
     const code = 'someCode';
@@ -39,6 +34,8 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
 
     beforeEach(function () {
+      originPoleEmploiSendingUrl = settings.poleEmploi.sendingUrl;
+      originPoleEmploiTokenUrl = settings.poleEmploi.tokenUrl;
       clock = sinon.useFakeTimers({ now: Date.now(), toFake: ['Date'] });
       httpAgent = {
         post: sinon.stub(),

@@ -11,9 +11,9 @@ class RedisClient {
 
     this._client = new Redis(redisUrl);
 
-    this._client.on('connect', () => logger.info({ redisClient: this._clientName }, 'Connected to server'));
-    this._client.on('end', () => logger.info({ redisClient: this._clientName }, 'Disconnected from server'));
-    this._client.on('error', (err) => logger.warn({ redisClient: this._clientName, err }, 'Error encountered'));
+    this._client.on('connect', () => logger.info({ redisClient: this._clientName, msg: 'Connected to server' }));
+    this._client.on('end', () => logger.info({ redisClient: this._clientName, msg: 'Disconnected from server' }));
+    this._client.on('error', (err) => logger.warn({ redisClient: this._clientName, err, msg: 'Error encountered' }));
 
     this._clientWithLock = new Redlock(
       [this._client],
@@ -46,13 +46,13 @@ class RedisClient {
 
   subscribe(channel) {
     this._client.subscribe(channel, () =>
-      logger.info({ redisClient: this._clientName }, `Subscribed to channel '${channel}'`),
+      logger.info({ redisClient: this._clientName, msg: `Subscribed to channel '${channel}'` }),
     );
   }
 
   publish(channel, message) {
     this._client.publish(channel, message, () =>
-      logger.info({ redisClient: this._clientName }, `Published on channel '${channel}'`),
+      logger.info({ redisClient: this._clientName, msg: `Published on channel '${channel}'` }),
     );
   }
 
@@ -67,7 +67,7 @@ class RedisClient {
       if (e.message === 'Connection is closed.') {
         return;
       }
-      logger.warn({ redisClient: this._clientName, err: e }, 'Error encountered while quitting');
+      logger.warn({ redisClient: this._clientName, err: e, msg: 'Error encountered while quitting' });
     }
   }
 }

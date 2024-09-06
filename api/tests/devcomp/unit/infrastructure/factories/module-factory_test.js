@@ -113,7 +113,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
           // then
           expect(logger.warn).to.have.been.calledWithExactly({
             event: 'module_component_type_unknown',
-            message: 'Component inconnu: unknown',
+            msg: 'Component inconnu: unknown',
           });
         });
       });
@@ -161,7 +161,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
           // then
           expect(logger.warn).to.have.been.calledWithExactly({
             event: 'module_element_type_unknown',
-            message: 'Element inconnu: unknown',
+            msg: 'Element inconnu: unknown',
           });
         });
       });

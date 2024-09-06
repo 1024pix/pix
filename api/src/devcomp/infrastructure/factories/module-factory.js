@@ -68,7 +68,7 @@ export class ModuleFactory {
                   default:
                     logger.warn({
                       event: 'module_component_type_unknown',
-                      message: `Component inconnu: ${component.type}`,
+                      msg: `Component inconnu: ${component.type}`,
                     });
                     return undefined;
                 }
@@ -105,7 +105,7 @@ export class ModuleFactory {
       default:
         logger.warn({
           event: 'module_element_type_unknown',
-          message: `Element inconnu: ${element.type}`,
+          msg: `Element inconnu: ${element.type}`,
         });
         return undefined;
     }
