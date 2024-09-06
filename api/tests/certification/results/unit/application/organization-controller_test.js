@@ -21,7 +21,7 @@ describe('Certification | Course | Unit | Application | Organizations | organiza
       const request = {
         i18n: getI18n(),
         params: {
-          id: 1,
+          organizationId: 1,
         },
         query: {
           division: '3èmeA',
