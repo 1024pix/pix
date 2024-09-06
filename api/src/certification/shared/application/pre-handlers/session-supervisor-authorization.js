@@ -26,7 +26,7 @@ const verifyBySessionId = async function (
   dependencies = { requestResponseUtils, supervisorAccessRepository },
 ) {
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
 
   const isSupervisorForSession = await dependencies.supervisorAccessRepository.isUserSupervisorForSession({
     sessionId,

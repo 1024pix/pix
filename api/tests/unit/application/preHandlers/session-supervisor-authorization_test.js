@@ -72,7 +72,7 @@ describe('Unit | Pre-handler | Supervisor Authorization', function () {
   describe('#verifyBySessionId', function () {
     const request = {
       params: {
-        id: 201,
+        sessionId: 201,
       },
     };
 
