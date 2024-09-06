@@ -10,11 +10,11 @@ const register = async function (server) {
   const adminRoutes = [
     {
       method: 'GET',
-      path: '/api/admin/sessions/{id}/attestations',
+      path: '/api/admin/sessions/{sessionId}/attestations',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         pre: [

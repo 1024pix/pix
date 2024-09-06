@@ -5,7 +5,7 @@ import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js'
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 const { FRENCH } = LANGUAGES_CODE;
 
-describe('Unit | Controller | certification-attestation-controller', function () {
+describe('Certification | Results | Unit | Application | Controller | certification-attestation-controller', function () {
   describe('#getPDFAttestation', function () {
     it('should return attestation in PDF binary format', async function () {
       // given
@@ -81,7 +81,7 @@ describe('Unit | Controller | certification-attestation-controller', function ()
 
       const request = {
         auth: { credentials: { userId } },
-        params: { id: session.id },
+        params: { sessionId: session.id },
         query: { isFrenchDomainExtension: true },
         i18n,
       };

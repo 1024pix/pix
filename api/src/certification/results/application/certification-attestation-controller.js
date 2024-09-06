@@ -31,7 +31,7 @@ const getCertificationPDFAttestationsForSession = async function (
   h,
   dependencies = { certificationAttestationPdf },
 ) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const isFrenchDomainExtension = request.query.isFrenchDomainExtension;
   const attestations = await usecases.getCertificationAttestationsForSession({
     sessionId,

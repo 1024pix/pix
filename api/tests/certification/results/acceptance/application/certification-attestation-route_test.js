@@ -15,7 +15,7 @@ import {
   nock,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Route | certification-attestation', function () {
+describe('Certification | Results | Acceptance | Application | Routes | certification-attestation', function () {
   beforeEach(async function () {
     const learningContent = [
       {
@@ -136,7 +136,7 @@ describe('Acceptance | Route | certification-attestation', function () {
     });
   });
 
-  describe('GET /api/admin/sessions/{id}/attestations', function () {
+  describe('GET /api/admin/sessions/{sessionId}/attestations', function () {
     it('should return 200 HTTP status code and the certification', async function () {
       // given
       const superAdmin = await insertUserWithRoleSuperAdmin();

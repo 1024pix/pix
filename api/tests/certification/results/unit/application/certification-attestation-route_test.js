@@ -1,8 +1,8 @@
 import * as moduleUnderTest from '../../../../../src/certification/results/application/certification-attestation-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
-describe('Unit | Route | certification-attestation-route', function () {
-  describe('GET /api/admin/sessions/{id}/attestations', function () {
+describe('Certification | Results | Unit | Application | Routes | certification-attestation', function () {
+  describe('GET /api/admin/sessions/{sessionId}/attestations', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
