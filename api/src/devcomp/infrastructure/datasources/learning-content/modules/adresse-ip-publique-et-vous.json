@@ -33,15 +33,15 @@
     },
     {
       "grainId": "09304128-193f-4ea8-bda7-edffd72b1bf2",
-      "content": "<p>Sur internet, tout le monde partage son adresse IP publique et donc sa zone géographique. Vous êtes localisé et vous pouvez localiser les autres en retour.<p>Ça peut donner envie d'essayer. À vous de jouer !&nbsp;<span aria-hidden=\"true\">🌍</span></p>"
+      "content": "<p>Sur internet, tout le monde partage son adresse IP publique et donc sa zone géographique. Vous êtes localisé et vous pouvez localiser les autres en retour.</p><p>Ça peut donner envie d'essayer. À vous de jouer !&nbsp;<span aria-hidden=\"true\">🌍</span></p>"
     },
     {
       "grainId": "45d507ce-f822-4a06-aa6e-f2a1b0aeada3",
-      "content": "<p>Vous l’avez sûrement remarqué, nous avons parlé jusqu'ici uniquement d’adresses IP publiques.<br>Il existe un autre type d’adresse IP&nbsp;: les adresses IP privées, aussi appelées IP locales.</p><p>Découvez leurs différences en image ! <span aria-hidden=\"true\">🔍</span><p>"
+      "content": "<p>Vous l’avez sûrement remarqué, nous avons parlé jusqu'ici uniquement d’adresses IP publiques.<br>Il existe un autre type d’adresse IP&nbsp;: les adresses IP privées, aussi appelées IP locales.</p><p>Découvez leurs différences en image ! <span aria-hidden=\"true\">🔍</span></p>"
     },
     {
       "grainId": "10cadfb9-9b4b-455e-9198-1fc11ab3356d",
-      "content": "<p>Pour finir ce module, vous allez relever un défi.<br>En ce moment-même, nous connaissons et utilisons votre adresse IP publique pour vous envoyez les contenus de ce module.<br>Mais connaissez vous votre propre IP publique<span aria-hidden=\"true\">❓</span></p>"
+      "content": "<p>Pour finir ce module, vous allez relever un défi.<br>En ce moment-même, nous connaissons et utilisons votre adresse IP publique pour vous envoyez les contenus de ce module.<br>Mais connaissez-vous votre propre IP publique ❓</p>"
     }
   ],
   "grains": [
@@ -323,7 +323,7 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span><p>Vous avez peut-être même trouvé la ville dans laquelle elle se trouve.</span>",
+              "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Vous avez peut-être même trouvé la ville dans laquelle elle se trouve.</p>",
               "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Pour réussir, utilisez un site internet dédié. Pour le trouver, faites une recherche sur internet avec les mots-clés \"localisation adresse IP\".</p>"
             }
           }
