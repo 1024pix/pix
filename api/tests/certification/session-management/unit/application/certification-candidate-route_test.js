@@ -84,7 +84,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     });
   });
 
-  describe('PATCH certification-candidates/{id}/end-assessment-by-supervisor', function () {
+  describe('PATCH certification-candidates/{certificationCandidateId}/end-assessment-by-supervisor', function () {
     it('should return 200 if the user is a supervisor of the session linked to the candidate', async function () {
       // given
       sinon

@@ -119,7 +119,7 @@ describe('Certification | Session Management | Acceptance | Application | Routes
     });
   });
 
-  describe('PATCH /api/certification-candidates/{id}/end-assessment-by-supervisor', function () {
+  describe('PATCH /api/certification-candidates/{certificationCandidateId}/end-assessment-by-supervisor', function () {
     context('when user is authenticated', function () {
       context('when the user is the supervisor of the session', function () {
         it('should return a 204 status code', async function () {

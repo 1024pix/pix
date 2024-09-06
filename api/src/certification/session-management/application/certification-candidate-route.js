@@ -60,7 +60,7 @@ const register = async function (server) {
     },
     {
       method: 'PATCH',
-      path: '/api/certification-candidates/{id}/end-assessment-by-supervisor',
+      path: '/api/certification-candidates/{certificationCandidateId}/end-assessment-by-supervisor',
       config: {
         pre: [
           {
@@ -70,7 +70,7 @@ const register = async function (server) {
         ],
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationCandidateId,
+            certificationCandidateId: identifiersType.certificationCandidateId,
           }),
         },
         handler: certificationCandidateController.endAssessmentBySupervisor,

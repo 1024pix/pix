@@ -62,16 +62,15 @@ describe('Certification | Session Management | Unit | Application | Controller |
   });
 
   describe('#endAssessmentBySupervisor', function () {
-    const certificationCandidateId = 2;
-
     it('should call the endAssessmentBySupervisor use case', async function () {
       // given
+      const certificationCandidateId = 2;
       sinon.stub(usecases, 'endAssessmentBySupervisor');
       usecases.endAssessmentBySupervisor.resolves();
 
       // when
       await certificationCandidateController.endAssessmentBySupervisor({
-        params: { id: certificationCandidateId },
+        params: { certificationCandidateId },
       });
 
       // then
