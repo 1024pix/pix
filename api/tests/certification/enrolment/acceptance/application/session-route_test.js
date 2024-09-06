@@ -153,7 +153,7 @@ describe('Acceptance | Controller | Session | session-route', function () {
     });
   });
 
-  describe('DELETE /sessions/{id}', function () {
+  describe('DELETE /sessions/{sessionId}', function () {
     it('should respond with 204', async function () {
       // given
       const server = await createServer();

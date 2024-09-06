@@ -79,11 +79,11 @@ const register = async function (server) {
     },
     {
       method: 'DELETE',
-      path: '/api/sessions/{id}',
+      path: '/api/sessions/{sessionId}',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         pre: [

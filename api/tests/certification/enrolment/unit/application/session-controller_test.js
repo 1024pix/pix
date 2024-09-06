@@ -129,7 +129,7 @@ describe('Unit | Controller | session-controller', function () {
       const userId = 1;
       sinon.stub(usecases, 'deleteSession');
       const request = {
-        params: { id: sessionId },
+        params: { sessionId },
         auth: {
           credentials: {
             userId,
