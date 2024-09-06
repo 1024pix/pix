@@ -4,44 +4,44 @@
   "title": "ChatGPT parle-t-il vraiment français ?",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "Les Large Language Model (LLM) sont des systèmes d'intelligence artificielle générative. Ils donnent l'impression de parler toutes les langues mais, du fait de leurs biais, leurs productions sont parfois stéréotypées ou discriminantes. Dans ce module, vous allez découvrir les origines de ces biais et interroger directement des LLM pour les repérer !",
+    "description": "<p>Les Large Language Model (LLM) sont des systèmes d'intelligence artificielle générative. Ils donnent l'impression de parler toutes les langues mais, du fait de leurs biais, leurs productions sont parfois stéréotypées ou discriminantes. Dans ce module, vous allez découvrir les origines de ces biais et interroger directement des LLM pour les repérer !</p>",
     "duration": 10,
     "level": "Avancé",
-    "tabletSupport": "inconvenient",
     "objectives": [
-      "Connaître les origines des biais des LLM",
+      "<p>Connaître les origines des biais des LLM</p>",
       "Générer et analyser des résultats biaisés de LLM",
       "Comparer les résultats de différents LLM"
-    ]
+    ],
+    "tabletSupport": "inconvenient"
   },
   "transitionTexts": [
     {
-      "content": "<p>Vous avez peut-être déjà utilisé des outils d'intelligence artificielle générative de texte, comme ChatGPT ou Copilot. Ces grands modèles de langage, <i>Large Language Model (LLM)</i> en anglais, peuvent être utiles pour produire des synthèses ou inventer des histoires.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, les textes produits contiennent parfois des maladresses ou des erreurs.<span aria-hidden=\"true\">&nbsp;❌</span> Commençons par un exemple concret&nbsp;!</p>",
-      "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926"
+      "grainId": "0bfa08bd-7052-49bb-89e8-150efa589926",
+      "content": "<p>Vous avez peut-être déjà utilisé des outils d'intelligence artificielle générative de texte, comme ChatGPT ou Copilot. Ces grands modèles de langage, <i>Large Language Model (LLM)</i> en anglais, peuvent être utiles pour produire des synthèses ou inventer des histoires.<span aria-hidden=\"true\">&nbsp;✒️ 💭</span></p><p>Pourtant, les textes produits contiennent parfois des maladresses ou des erreurs.<span aria-hidden=\"true\">&nbsp;❌</span> Commençons par un exemple concret&nbsp;!</p>"
     },
     {
-      "content": "<p>Cette réponse en français de ChatGPT est biaisée. En effet, elle est influencée par ses données d'entraînement.<br>Ces données, récoltées en grande partie sur internet, sont majoritairement en anglais.</p><p>Dans la vidéo suivante, vous allez découvrir d’où proviennent les différents biais des LLM.<span aria-hidden=\"true\">&nbsp;📺</span></p>",
-      "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f"
+      "grainId": "c8722f6e-7534-4fdc-9f2d-515c2a96641f",
+      "content": "<p>Cette réponse en français de ChatGPT est biaisée. En effet, elle est influencée par ses données d'entraînement.<br>Ces données, récoltées en grande partie sur internet, sont majoritairement en anglais.</p><p>Dans la vidéo suivante, vous allez découvrir d’où proviennent les différents biais des LLM.<span aria-hidden=\"true\">&nbsp;📺</span></p>"
     },
     {
-      "content": "<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span></p><p>Vérifiez que vous avez retenu l'essentiel avec cette question. <span aria-hidden=\"true\">&nbsp;🎯</span></p>",
-      "grainId": "89dbbcf3-7205-470a-baf0-4aa4aac1a87e"
+      "grainId": "89dbbcf3-7205-470a-baf0-4aa4aac1a87e",
+      "content": "<p>Vous en savez désormais plus sur les biais des LLM. <span aria-hidden=\"true\">👩‍💻️👨🏿‍💻️</span></p><p>Vérifiez que vous avez retenu l'essentiel avec cette question. <span aria-hidden=\"true\">&nbsp;🎯</span></p>"
     },
     {
-      "content": "<p>Vous allez maintenant analyser trois situations avec des réponses de LLM visiblement biaisées. C'est parti&nbsp;!</p>",
-      "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5"
+      "grainId": "e7ca9d7e-6d77-4705-83a5-a6864c77f4b5",
+      "content": "<p>Vous allez maintenant analyser trois situations avec des réponses de LLM visiblement biaisées. C'est parti&nbsp;!</p>"
     },
     {
-      "content": "<p>Il existe de nombreux LLM à l'heure actuelle, chacun avec ses biais. Alors, quel LLM privilégier&nbsp;?<span aria-hidden=\"true\">&nbsp;🤔</span></p><p>Le mieux est de les comparer à l'aide de la plateforme francophone dédiée&nbsp;: l'arène LANGUIA.</p>",
-      "grainId": "e52da884-2233-4101-96a5-befd5c7d7975"
+      "grainId": "e52da884-2233-4101-96a5-befd5c7d7975",
+      "content": "<p>Il existe de nombreux LLM à l'heure actuelle, chacun avec ses biais. Alors, quel LLM privilégier&nbsp;?<span aria-hidden=\"true\">&nbsp;🤔</span></p><p>Le mieux est de les comparer à l'aide de la plateforme francophone dédiée&nbsp;: l'arène LANGUIA.</p>"
     },
     {
-      "content": "<p> Vous avez sûrement constaté des écarts de résultats entre différents LLM.<br>Cela s'explique en partie par le fait qu'ils sont développés par différents acteurs et de manière plus ou moins ouverte. Explications en image.<span aria-hidden=\"true\">&nbsp;🔍</span></p>",
-      "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947"
+      "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947",
+      "content": "<p> Vous avez sûrement constaté des écarts de résultats entre différents LLM.<br>Cela s'explique en partie par le fait qu'ils sont développés par différents acteurs et de manière plus ou moins ouverte. Explications en image.<span aria-hidden=\"true\">&nbsp;🔍</span></p>"
     },
     {
-      "content": "<p>Pour terminer ce module, vous allez devoir relever quelques défis à l'aide de l'arène. <span aria-hidden=\"true\">💫</span></p>",
-      "grainId": "91b54b81-5b7c-4daa-9e2f-67b7a714fd9e"
+      "grainId": "91b54b81-5b7c-4daa-9e2f-67b7a714fd9e",
+      "content": "<p>Pour terminer ce module, vous allez devoir relever quelques défis à l'aide de l'arène. <span aria-hidden=\"true\">💫</span></p>"
     }
   ],
   "grains": [
@@ -89,8 +89,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&nbsp;!</span><p>Le mot \"net\" signifie \"filet\" en anglais, ce qui donne tout son sens à ce jeu de mots.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect&nbsp;!</span><p>Relisez cette conversation sachant que \"net\" signifie \"filet\" en anglais.</p>"
+              "valid": "<p><span class=\"feedback__state\">Correct&nbsp;!</span></p>\n<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter !</p>",
+              "invalid": "<p><span class=\"feedback__state\">Incorrect&nbsp;!</span></p>\n<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter !</p>"
             },
             "solution": "3"
           }
@@ -160,7 +160,11 @@
               "valid": "<span class=\"feedback__state\">Correct&nbsp;!</span><p>Parmi ces trois origines, les données d'entraînement sont la principale source des biais qui peuvent exister dans les résultats des LLM.</p>",
               "invalid": "<span class=\"feedback__state\">Incorrect&nbsp;!</span><p>Regardez bien la vidéo précédente et réessayez&nbsp;!</p>"
             },
-            "solutions": ["1", "3", "5"]
+            "solutions": [
+              "1",
+              "3",
+              "5"
+            ]
           }
         }
       ]
