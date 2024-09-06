@@ -92,7 +92,7 @@ describe('Certification | Enrolment | Unit | Application | Routes | session-rout
     });
   });
 
-  describe('POST /api/sessions/{id}/candidate-participation', function () {
+  describe('POST /api/sessions/{sessionId}/candidate-participation', function () {
     const correctAttributes = {
       'first-name': 'prenom',
       'last-name': 'nom',

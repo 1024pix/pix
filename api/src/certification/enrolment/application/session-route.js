@@ -102,11 +102,11 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/sessions/{id}/candidate-participation',
+      path: '/api/sessions/{sessionId}/candidate-participation',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
           options: {
             allowUnknown: true,

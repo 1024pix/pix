@@ -222,7 +222,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
     });
   });
 
-  describe('POST /api/sessions/{id}/candidate-participation', function () {
+  describe('POST /api/sessions/{sessionId}/candidate-participation', function () {
     let options;
     const firstName = 'Marie';
     const lastName = 'Antoinette';
