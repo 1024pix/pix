@@ -44,6 +44,8 @@ const XML_IMPORT_ERRORS = {
     'api-error-messages.student-xml-import.birth-city-code-required-for-french-student',
   BIRTHDATE_REQUIRED: 'api-error-messages.student-xml-import.birthdate-required',
   INVALID_BIRTHDATE_FORMAT: 'api-error-messages.student-xml-import.invalid-birthdate-format',
+  LAST_NAME_REQUIRED: 'api-error-messages.student-xml-import.last-name-required',
+  FIRST_NAME_REQUIRED: 'api-error-messages.student-xml-import.first-name-required',
 };
 
 const ERROR_MESSAGES = {
