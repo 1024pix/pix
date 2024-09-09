@@ -1,0 +1,10 @@
+.quit-results__first-paragraph {
+  margin-bottom: var(--pix-spacing-2x);
+}
+
+.quit-results__footer {
+  display: flex;
+  flex-direction: row;
+  gap: var(--pix-spacing-2x);
+  justify-content: right;
+}

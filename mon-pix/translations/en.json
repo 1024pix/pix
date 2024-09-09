@@ -1084,6 +1084,19 @@
       "content-text": "'<p>'Please refresh the page or return to homepage.'</p><p>'You can also contact us via '<a href=\"https://pix.org/en/contact-form\">'the help centre form'</a>'specifying the error code below in the description.'</p><p>'Please excuse any inconvenience caused.'</p><p>'The Pix team.'</p>'",
       "first-title": "Oops, an error occurred!"
     },
+    "evaluation-results": {
+      "quit-results": {
+        "modal": {
+          "title": "Oups, vous n’avez pas encore envoyé vos résultats !",
+          "content-information": "Envoyer vos résultats à l’organisateur du parcours est essentiel pour votre accompagnement. Restez sur cette page et cliquez sur ‘Envoyer mes résultats’ pour les transmettre.",
+          "content-instruction": "Voulez-vous vraiment quitter sans les envoyer ?",
+          "actions": {
+            "quit-without-sharing": "Quitter sans envoyer",
+            "cancel-to-share": "Rester pour envoyer"
+          }
+        }
+      }
+    },
     "fill-in-campaign-code": {
       "title": "I have a code",
       "description": "This code contains 9 letters and/or numbers. It is given by your school/organisation and can be used to start a customised test or to submit your profile",

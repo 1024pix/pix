@@ -1084,6 +1084,19 @@
       "content-text": "'<p>'Nous vous invitons à recharger cette page ou revenir à la page d’accueil.'</p><p>'Vous pouvez aussi nous contacter via '<a href=\"https://support.pix.fr/support/tickets/new\">'le formulaire du centre d'aide'</a>' en nous précisant le code d’erreur ci-dessous dans la description.'</p><p>'Nous vous prions de nous excuser pour la gêne occasionnée.'</p><p>'L’équipe Pix.'</p>'",
       "first-title": "Oups, une erreur est survenue !"
     },
+    "evaluation-results": {
+      "quit-results": {
+        "modal": {
+          "title": "Oups, vous n’avez pas encore envoyé vos résultats !",
+          "content-information": "Envoyer vos résultats à l’organisateur du parcours est essentiel pour votre accompagnement. Restez sur cette page et cliquez sur ‘Envoyer mes résultats’ pour les transmettre.",
+          "content-instruction": "Voulez-vous vraiment quitter sans les envoyer ?",
+          "actions": {
+            "quit-without-sharing": "Quitter sans envoyer",
+            "cancel-to-share": "Rester pour envoyer"
+          }
+        }
+      }
+    },
     "fill-in-campaign-code": {
       "title": "J'ai un code",
       "description": "Ce code est composé de 9 chiffres et/ou lettres. Il est transmis par votre établissement/organisation et permet de démarrer un parcours ou d’envoyer votre profil.",
