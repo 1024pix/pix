@@ -80,9 +80,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
 
       request = {
         auth: { credentials: { userId } },
-        params: {
-          id: sessionId,
-        },
+        params: { sessionId },
       };
     });
 
