@@ -8,7 +8,7 @@ const register = async function (server) {
   server.route([
     {
       method: 'PATCH',
-      path: '/api/admin/sessions/{id}/unfinalize',
+      path: '/api/admin/sessions/{sessionId}/unfinalize',
       config: {
         pre: [
           {
@@ -23,7 +23,7 @@ const register = async function (server) {
         ],
         handler: unfinalizeController.unfinalizeSession,
         validate: {
-          params: Joi.object({ id: identifiersType.sessionId }),
+          params: Joi.object({ sessionId: identifiersType.sessionId }),
         },
         tags: ['api', 'admin', 'sessions', 'unfinalization'],
         notes: [

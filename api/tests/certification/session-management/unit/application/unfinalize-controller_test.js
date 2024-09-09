@@ -7,7 +7,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
     it('should unfinalize the session', async function () {
       // given
       const request = {
-        params: { id: 123 },
+        params: { sessionId: 123 },
       };
       sinon.stub(usecases, 'unfinalizeSession');
 
