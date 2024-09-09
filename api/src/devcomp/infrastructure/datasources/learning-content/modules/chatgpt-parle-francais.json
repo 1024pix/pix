@@ -450,7 +450,7 @@
           "element": {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<p>Seuls quelques acteurs ont les moyens financiers de développer des grands modèles de langage.<span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span> Selon leur <strong>pays</strong>, ces acteurs peuvent être amenés à faire des paramétrages différents de leurs modèles, par exemple pour respecter leurs lois.</p>"
+            "content": "<p>Seuls quelques acteurs ont les moyens financiers de développer des grands modèles de langage.<span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span> Selon leur <strong>pays</strong>, ces acteurs peuvent être amenés à faire des <strong>paramétrages différents</strong> de leurs modèles, par exemple pour respecter leurs lois.</p>"
           }
         },
         {
