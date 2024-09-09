@@ -1,5 +1,4 @@
 import { anonymizeUser } from '../../../../../lib/domain/usecases/anonymize-user.js';
-import * as certificationCenterMembershipRepository from '../../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
 import { userAnonymizedEventLoggingJobRepository } from '../../../../../lib/infrastructure/repositories/jobs/user-anonymized-event-logging-job-repository.js';
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
@@ -14,6 +13,7 @@ import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransa
 import { UserNotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { adminMemberRepository } from '../../../../../src/shared/infrastructure/repositories/admin-member.repository.js';
 import * as userLoginRepository from '../../../../../src/shared/infrastructure/repositories/user-login-repository.js';
+import { certificationCenterMembershipRepository } from '../../../../../src/team/infrastructure/repositories/certification-center-membership.repository.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | anonymize-user', function () {

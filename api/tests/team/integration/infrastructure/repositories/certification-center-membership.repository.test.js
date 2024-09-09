@@ -1,22 +1,22 @@
 import lodash from 'lodash';
 const { omit, pick } = lodash;
 
-import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
-import { User } from '../../../../src/identity-access-management/domain/models/User.js';
+import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import {
   AlreadyExistingMembershipError,
   CertificationCenterMembershipDisableError,
   NotFoundError,
-} from '../../../../src/shared/domain/errors.js';
-import { CertificationCenter } from '../../../../src/shared/domain/models/CertificationCenter.js';
+} from '../../../../../src/shared/domain/errors.js';
+import { CertificationCenter } from '../../../../../src/shared/domain/models/CertificationCenter.js';
 import {
   CERTIFICATION_CENTER_MEMBERSHIP_ROLES,
   CertificationCenterMembership,
-} from '../../../../src/shared/domain/models/CertificationCenterMembership.js';
-import { BookshelfCertificationCenterMembership } from '../../../../src/shared/infrastructure/orm-models/CertificationCenterMembership.js';
-import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
+} from '../../../../../src/shared/domain/models/CertificationCenterMembership.js';
+import { BookshelfCertificationCenterMembership } from '../../../../../src/shared/infrastructure/orm-models/CertificationCenterMembership.js';
+import { certificationCenterMembershipRepository } from '../../../../../src/team/infrastructure/repositories/certification-center-membership.repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
-describe('Integration | Repository | Certification Center Membership', function () {
+describe('Integration | Team | Infrastructure | Repository | Certification Center Membership', function () {
   describe('#countActiveMembersForCertificationCenter', function () {
     it('returns the number of members', async function () {
       // given
@@ -146,7 +146,7 @@ describe('Integration | Repository | Certification Center Membership', function 
       );
     });
 
-    it('should return the certification center membership', async function () {
+    it('returns the certification center membership', async function () {
       // when
       const createdCertificationCenterMembership = await certificationCenterMembershipRepository.save({
         userId,
@@ -158,7 +158,7 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
 
     context('when there is already a disabled membership for the same user and certification center', function () {
-      it('should add a new membership in database', async function () {
+      it('adds a new membership in database', async function () {
         // given
         databaseBuilder.factory.buildMembership({ userId, certificationCenterId, disabledAt: new Date() });
         await databaseBuilder.commit();
@@ -181,7 +181,7 @@ describe('Integration | Repository | Certification Center Membership', function 
         await databaseBuilder.commit();
       });
 
-      it('should throw an error when a membership already exist for user + certificationCenter', async function () {
+      it('throws an error when a membership already exist for user + certificationCenter', async function () {
         // when
         const error = await catchErr(certificationCenterMembershipRepository.save)({ userId, certificationCenterId });
 
@@ -210,7 +210,7 @@ describe('Integration | Repository | Certification Center Membership', function 
       await databaseBuilder.commit();
     });
 
-    it('should return certification center membership associated to the user', async function () {
+    it('returns certification center membership associated to the user', async function () {
       // when
       const certificationCenterMemberships = await certificationCenterMembershipRepository.findByUserId(userAsked.id);
 
@@ -228,7 +228,7 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
 
     context('when the certification center membership is disabled', function () {
-      it('should return an empty array', async function () {
+      it('returns an empty array', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -248,7 +248,7 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
 
     context('when an user has a disabled membership and a not disabled one', function () {
-      it('should return the not disabled membership', async function () {
+      it('returns the not disabled membership', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -320,7 +320,7 @@ describe('Integration | Repository | Certification Center Membership', function 
   });
 
   describe('#findActiveByCertificationCenterIdSortedByRole', function () {
-    it('should return certification center membership associated to the certification center', async function () {
+    it('returns certification center membership associated to the certification center', async function () {
       // given
       const now = new Date('2021-01-02');
       const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
@@ -414,7 +414,7 @@ describe('Integration | Repository | Certification Center Membership', function 
       expect(foundCertificationCenterMemberships[3].user.lastName).to.equal('Zoldick');
     });
 
-    it('should only return active (not disabled) certification center memberships', async function () {
+    it('returns only active (not disabled) certification center memberships', async function () {
       // given
       const now = new Date();
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
@@ -563,7 +563,7 @@ describe('Integration | Repository | Certification Center Membership', function 
   });
 
   describe('#isMemberOfCertificationCenter', function () {
-    it('should return false if user has no membership in given certification center', async function () {
+    it('returns false if user has no membership in given certification center', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -586,7 +586,7 @@ describe('Integration | Repository | Certification Center Membership', function 
       expect(isMemberOfCertificationCenter).to.be.false;
     });
 
-    it('should return false if user has a disabled membership in given certification center', async function () {
+    it('returns false if user has a disabled membership in given certification center', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -609,7 +609,7 @@ describe('Integration | Repository | Certification Center Membership', function 
       expect(isMemberOfCertificationCenter).to.be.false;
     });
 
-    it('should return true if user has a not disabled membership in given certification center', async function () {
+    it('returns true if user has a not disabled membership in given certification center', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -646,7 +646,7 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
 
     context('When certification center membership exist', function () {
-      it('should return the disabled membership', async function () {
+      it('returns the disabled membership', async function () {
         // given
         const certificationCenterMembershipId = 7;
         const userId = databaseBuilder.factory.buildUser().id;
@@ -675,7 +675,7 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
 
     context('When certification center membership does not exist', function () {
-      it('should throw CertificationCenterMembershipDisableError', async function () {
+      it('throws CertificationCenterMembershipDisableError', async function () {
         // given
         const id = 7;
         const wrongId = id + 1;
@@ -701,7 +701,7 @@ describe('Integration | Repository | Certification Center Membership', function 
   });
 
   describe('#updateRefererStatusByUserIdAndCertificationCenterId', function () {
-    it('should update isReferer on certification center membership', async function () {
+    it('updates isReferer on certification center membership', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -735,7 +735,7 @@ describe('Integration | Repository | Certification Center Membership', function 
 
   describe('#getRefererByCertificationCenterId', function () {
     context('when there is a referer', function () {
-      it('should return the referer certification center membership', async function () {
+      it('returns the referer certification center membership', async function () {
         // given
         const user = databaseBuilder.factory.buildUser({ locale: 'fr-FR' });
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -788,7 +788,7 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
 
     context('when there is no referer', function () {
-      it('should return null', async function () {
+      it('returns null', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;

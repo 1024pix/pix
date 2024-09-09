@@ -1,11 +1,11 @@
-import { acceptCertificationCenterInvitation } from '../../../../lib/domain/usecases/accept-certification-center-invitation.js';
-import { AlreadyExistingMembershipError } from '../../../../src/shared/domain/errors.js';
-import { CertificationCenterInvitedUser } from '../../../../src/shared/domain/models/CertificationCenterInvitedUser.js';
-import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { AlreadyExistingMembershipError } from '../../../../../src/shared/domain/errors.js';
+import { CertificationCenterInvitedUser } from '../../../../../src/shared/domain/models/CertificationCenterInvitedUser.js';
+import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
+import { acceptCertificationCenterInvitation } from '../../../../../src/team/domain/usecases/accept-certification-center-invitation.usecase.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Domain | UseCases | accept-certification-center-invitation', function () {
-  it('should throw an error if user is already member of the certification center', async function () {
+describe('Unit | Team | Domain | UseCase | accept-certification-center-invitation', function () {
+  it('throws an error if user is already member of the certification center', async function () {
     const {
       certificationCenterInvitedUserRepository,
       certificationCenterMembershipRepository,

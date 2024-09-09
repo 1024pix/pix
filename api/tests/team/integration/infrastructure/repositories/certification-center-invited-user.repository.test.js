@@ -1,16 +1,16 @@
 import lodash from 'lodash';
 
-import * as certificationCenterInvitedUserRepository from '../../../../lib/infrastructure/repositories/certification-center-invited-user-repository.js';
-import { NotFoundError } from '../../../../src/shared/domain/errors.js';
-import { CertificationCenterInvitedUser } from '../../../../src/shared/domain/models/CertificationCenterInvitedUser.js';
-import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
-import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { CertificationCenterInvitedUser } from '../../../../../src/shared/domain/models/CertificationCenterInvitedUser.js';
+import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
+import { certificationCenterInvitedUserRepository } from '../../../../../src/team/infrastructure/repositories/certification-center-invited-user.repository.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 const { omit } = lodash;
 
-describe('Integration | Repository | CertificationCenterInvitedUserRepository', function () {
+describe('Integration | Team | Infrastructure | Repositories | CertificationCenterInvitedUserRepository', function () {
   describe('#get', function () {
-    it('should return the invitation of the invited user', async function () {
+    it('returns the invitation of the invited user', async function () {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ id: 123 }).id;
       const user = databaseBuilder.factory.buildUser({ email: 'user@example.net' });
@@ -58,7 +58,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
     });
 
     context('when there are no invitation with the certificationCenterInvitationId', function () {
-      it('should throw an error', async function () {
+      it('throws an error', async function () {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ id: 123 }).id;
         databaseBuilder.factory.buildCertificationCenterInvitation({
@@ -82,7 +82,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
     });
 
     context('when there are no user with the given email', function () {
-      it('should throw an error', async function () {
+      it('throws an error', async function () {
         // given
         const certificationCenterInvitationId = databaseBuilder.factory.buildCertificationCenterInvitation({
           id: 123,
@@ -107,7 +107,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
   describe('#save', function () {
     let clock;
 
-    it('should create membership', async function () {
+    it('creates membership', async function () {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ id: 123 }).id;
       const user = databaseBuilder.factory.buildUser({ id: 6789, email: 'user@example.net' });
@@ -136,7 +136,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
       expect(membershipCreated.certificationCenterId).to.equal(certificationCenterId);
     });
 
-    it('should mark certification center invitation as accepted', async function () {
+    it('marks certification center invitation as accepted', async function () {
       // given
       const now = new Date('2021-05-27');
       clock = sinon.useFakeTimers({ now, toFake: ['Date'] });

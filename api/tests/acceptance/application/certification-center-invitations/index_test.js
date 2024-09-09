@@ -17,56 +17,6 @@ describe('Acceptance | API | Certification center invitations', function () {
   });
 
   context('global routes', function () {
-    describe('POST /api/certification-center-invitations/{id}/accept', function () {
-      it('it should return an HTTP code 204', async function () {
-        // given
-        databaseBuilder.factory.buildUser({ id: 293, email: 'user@example.net' });
-        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-        const certificationCenterInvitation = databaseBuilder.factory.buildCertificationCenterInvitation({
-          id: 123,
-          code: 'AZERT123',
-          certificationCenterId: certificationCenter.id,
-          status: CertificationCenterInvitation.StatusType.PENDING,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const result = await server.inject({
-          headers: {
-            authorization: false,
-          },
-          method: 'POST',
-          url: `/api/certification-center-invitations/${certificationCenterInvitation.id}/accept`,
-          payload: {
-            data: {
-              id: '123_AZERT123',
-              type: 'certification-center-invitations-responses',
-              attributes: {
-                code: 'AZERT123',
-                email: 'user@example.net',
-              },
-            },
-          },
-        });
-
-        // then
-        expect(result.statusCode).to.equal(204);
-
-        const membership = await knex('certification-center-memberships')
-          .select('userId')
-          .where({ certificationCenterId: certificationCenter.id })
-          .first();
-        const invitation = await knex('certification-center-invitations')
-          .select('status')
-          .where({ certificationCenterId: certificationCenter.id })
-          .first();
-
-        expect(membership.userId).to.equal(293);
-        expect(invitation.status).to.equal(CertificationCenterInvitation.StatusType.ACCEPTED);
-      });
-    });
-
     describe('GET /api/certification-center-invitations/{id}', function () {
       it('should return the certification-center invitation and 200 status code', async function () {
         // given

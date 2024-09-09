@@ -1,5 +1,5 @@
-import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
 import * as certificationCenterInvitationRepository from '../../../team/infrastructure/repositories/certification-center-invitation-repository.js';
+import { certificationCenterMembershipRepository } from '../../../team/infrastructure/repositories/certification-center-membership.repository.js';
 
 async function execute({
   certificationCenterInvitationId,

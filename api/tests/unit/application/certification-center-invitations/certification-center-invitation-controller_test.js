@@ -5,39 +5,6 @@ import { certificationCenterInvitationSerializer } from '../../../../src/team/in
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Certification-center-Invitations | Certification-center-invitation-controller', function () {
-  describe('#acceptCertificationCenterInvitation', function () {
-    it('should accept invitation with certificationCenterInvitationId, email and code', async function () {
-      // given
-      const code = 'ABCDEFGH01';
-      const notValidEmail = '   RANDOM@email.com   ';
-      const certificationCenterInvitationId = '1234';
-      const request = {
-        params: { id: certificationCenterInvitationId },
-        deserializedPayload: {
-          code,
-          email: notValidEmail,
-        },
-      };
-
-      sinon.stub(usecases, 'acceptCertificationCenterInvitation').resolves();
-
-      // when
-      const response = await certificationCenterInvitationController.acceptCertificationCenterInvitation(
-        request,
-        hFake,
-      );
-
-      // then
-      expect(usecases.acceptCertificationCenterInvitation).to.have.been.calledWithExactly({
-        certificationCenterInvitationId,
-        code,
-        email: notValidEmail.trim().toLowerCase(),
-        localeFromCookie: undefined,
-      });
-      expect(response.statusCode).to.equal(204);
-    });
-  });
-
   describe('#resendCertificationCenterInvitation', function () {
     it('calls the resend certification center invitation usecase and returns an certification center invitation', async function () {
       // given
