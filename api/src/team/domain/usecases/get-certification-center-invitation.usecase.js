@@ -1,5 +1,12 @@
-import { AlreadyExistingInvitationError, CancelledInvitationError } from '../../../src/shared/domain/errors.js';
+import { AlreadyExistingInvitationError, CancelledInvitationError } from '../../../shared/domain/errors.js';
 
+/**
+ * @param {Object} params
+ * @param {string} params.certificationCenterInvitationId
+ * @param {string} params.certificationCenterInvitationCode
+ * @param {CertificationCenterInvitationRepository} params.certificationCenterInvitationRepository
+ * @returns {Promise<CertificationCenterInvitation>}
+ */
 const getCertificationCenterInvitation = async function ({
   certificationCenterInvitationId,
   certificationCenterInvitationCode,
