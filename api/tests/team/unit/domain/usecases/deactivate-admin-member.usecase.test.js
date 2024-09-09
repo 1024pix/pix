@@ -8,13 +8,13 @@ describe('Unit | Team | Domain | UseCase | deactivate-admin-member', function ()
     adminMemberRepository.deactivate.withArgs({ id: 7 }).resolves(undefined);
     adminMemberRepository.getById.withArgs(7).resolves({ userId: 2 });
 
-    const refreshTokenService = { revokeRefreshTokensForUserId: sinon.stub() };
+    const refreshTokenRepository = { revokeAllByUserId: sinon.stub() };
 
     // when
     const adminMember = await deactivateAdminMember({
       id: 7,
       adminMemberRepository,
-      refreshTokenService,
+      refreshTokenRepository,
     });
 
     // then
@@ -26,16 +26,16 @@ describe('Unit | Team | Domain | UseCase | deactivate-admin-member', function ()
     const adminMemberRepository = { deactivate: sinon.stub(), getById: sinon.stub() };
     adminMemberRepository.deactivate.withArgs({ id: 7 }).resolves(undefined);
     adminMemberRepository.getById.withArgs(7).resolves({ userId: 2 });
-    const refreshTokenService = { revokeRefreshTokensForUserId: sinon.stub() };
+    const refreshTokenRepository = { revokeAllByUserId: sinon.stub() };
 
     // when
     await deactivateAdminMember({
       id: 7,
       adminMemberRepository,
-      refreshTokenService,
+      refreshTokenRepository,
     });
 
     // then
-    expect(refreshTokenService.revokeRefreshTokensForUserId).to.have.been.calledWithExactly({ userId: 2 });
+    expect(refreshTokenRepository.revokeAllByUserId).to.have.been.calledWithExactly({ userId: 2 });
   });
 });
