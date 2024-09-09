@@ -6,7 +6,7 @@ import { importNamedExportsFromDirectory } from '../../../../shared/infrastructu
 import * as complementaryCertificationRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as centerPilotFeaturesRepository from '../../infrastructure/repositories/center-pilot-features-repository.js';
-import * as centersRepository from '../../infrastructure/repositories/centers-repository.js';
+import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').SessionsRepository} SessionsRepository
  */
@@ -20,7 +20,7 @@ import { convertCenterToV3JobRepository } from '../../infrastructure/repositorie
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {attachableTargetProfileRepository} AttachableTargetProfileRepository
  * @typedef {centerPilotFeaturesRepository} CenterPilotFeaturesRepository
- * @typedef {centersRepository} CentersRepository
+ * @typedef {centerRepository} CentersRepository
  * @typedef {convertCenterToV3JobRepository} ConvertCenterToV3JobRepository
  * @typedef {sessionsRepository} SessionsRepository
  **/
@@ -28,7 +28,7 @@ const dependencies = {
   attachableTargetProfileRepository,
   complementaryCertificationRepository,
   centerPilotFeaturesRepository,
-  centersRepository,
+  centerRepository,
   convertCenterToV3JobRepository,
   sessionsRepository: configurationRepositories.sessionsRepository,
 };

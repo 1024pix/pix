@@ -3,11 +3,11 @@ import { findAndTriggerV2CenterToConvertInV3 } from '../../../../../../src/certi
 import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-center-to-convert-in-v3', function () {
-  let centersRepository, convertCenterToV3JobRepository;
+  let centerRepository, convertCenterToV3JobRepository;
 
   beforeEach(function () {
-    centersRepository = {
-      fetchSCOV2Centers: sinon.stub(),
+    centerRepository = {
+      findSCOV2Centers: sinon.stub(),
     };
     convertCenterToV3JobRepository = {
       performAsync: sinon.stub(),
@@ -18,8 +18,8 @@ describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-c
     // given
     const centerId1 = 1;
     const centerId2 = 2;
-    centersRepository.fetchSCOV2Centers.resolves([centerId1]);
-    centersRepository.fetchSCOV2Centers.onCall(0).returns({
+    centerRepository.fetchSCOV2Centers.resolves([centerId1]);
+    centerRepository.fetchSCOV2Centers.onCall(0).returns({
       centerIds: [centerId1],
       pagination: {
         page: 1,
@@ -28,7 +28,7 @@ describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-c
         rowCount: 2,
       },
     });
-    centersRepository.fetchSCOV2Centers.onCall(1).returns({
+    centerRepository.findSCOV2Centers.onCall(1).returns({
       centerIds: [centerId2],
       pagination: {
         page: 2,
@@ -37,7 +37,7 @@ describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-c
         rowCount: 2,
       },
     });
-    centersRepository.fetchSCOV2Centers.onCall(2).returns({
+    centerRepository.findSCOV2Centers.onCall(2).returns({
       centerIds: [],
       pagination: {
         page: 3,
@@ -51,12 +51,12 @@ describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-c
 
     // when
     const numberOfCenters = await findAndTriggerV2CenterToConvertInV3({
-      centersRepository,
+      centerRepository,
       convertCenterToV3JobRepository,
     });
 
     // then
-    expect(centersRepository.fetchSCOV2Centers).to.have.been.calledThrice;
+    expect(centerRepository.findSCOV2Centers).to.have.been.calledThrice;
     expect(convertCenterToV3JobRepository.performAsync.getCall(0).args).to.deep.equal([
       new ConvertCenterToV3Job({ centerId: centerId1 }),
     ]);

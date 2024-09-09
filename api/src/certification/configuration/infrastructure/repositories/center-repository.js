@@ -7,13 +7,13 @@ import { DEFAULT_PAGINATION, fetchPage } from '../../../../shared/infrastructure
  * @param {Object} params
  * @param {number} params.pageNumber - page number to fetch, default 1
  */
-export const fetchSCOV2Centers = async function ({ pageNumber = DEFAULT_PAGINATION.PAGE } = {}) {
+export const findSCOV2Centers = async function ({ pageNumber = DEFAULT_PAGINATION.PAGE } = {}) {
   const knexConn = DomainTransaction.getConnection();
   const query = knexConn
     .from('certification-centers')
     .select('certification-centers.id')
     .where({ isV3Pilot: false, type: CERTIFICATION_CENTER_TYPES.SCO })
-    .whereNotIn('certification-centers.id', config.features.pixCertifScoBlockedAccessWhitelist);
+    .whereNotIn('certification-centers.externalId', config.features.pixCertifScoBlockedAccessWhitelist);
 
   const { results, pagination } = await fetchPage(query, { number: pageNumber });
 

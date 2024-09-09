@@ -1,10 +1,10 @@
-import * as centersRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/centers-repository.js';
+import * as centerRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/center-repository.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Certification | Configuration | Integration | Repository | centers-repository', function () {
-  describe('fetchSCOV2Centers', function () {
+describe('Certification | Configuration | Integration | Repository | center-repository', function () {
+  describe('findSCOV2Centers', function () {
     let originalEnvValueWhitelist;
 
     beforeEach(function () {
@@ -36,7 +36,7 @@ describe('Certification | Configuration | Integration | Repository | centers-rep
       await databaseBuilder.commit();
 
       // when
-      const results = await centersRepository.fetchSCOV2Centers();
+      const results = await centerRepository.findSCOV2Centers();
 
       // then
       expect(results).to.deep.equal({
@@ -57,7 +57,7 @@ describe('Certification | Configuration | Integration | Repository | centers-rep
         await databaseBuilder.commit();
 
         // when
-        const results = await centersRepository.fetchSCOV2Centers();
+        const results = await centerRepository.findSCOV2Centers();
 
         // then
         expect(results).to.deep.equal({
@@ -75,20 +75,22 @@ describe('Certification | Configuration | Integration | Repository | centers-rep
     context('when center is in whitelist', function () {
       it('should filter out center from whitelist', async function () {
         // given
+        const externalIdWhitelisted = 'UAI123';
         const notInWhitelistId = databaseBuilder.factory.buildCertificationCenter({
           isV3Pilot: false,
           type: CERTIFICATION_CENTER_TYPES.SCO,
         }).id;
-        const inWhitelistId = databaseBuilder.factory.buildCertificationCenter({
+        databaseBuilder.factory.buildCertificationCenter({
           isV3Pilot: false,
           type: CERTIFICATION_CENTER_TYPES.SCO,
+          externalId: externalIdWhitelisted,
         }).id;
         await databaseBuilder.commit();
 
-        config.features.pixCertifScoBlockedAccessWhitelist = [inWhitelistId];
+        config.features.pixCertifScoBlockedAccessWhitelist = [externalIdWhitelisted];
 
         // when
-        const results = await centersRepository.fetchSCOV2Centers();
+        const results = await centerRepository.findSCOV2Centers();
 
         // then
         expect(results).to.deep.equal({
