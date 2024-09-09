@@ -4,7 +4,7 @@
   "title": "L'adresse IP publique : ce qu'elle révèle sur vous !",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "<p>Quand vous naviguez sur internet, vous partagez des informations et laissez ainsi de nombreuses traces : adresse IP, cookies, historique, etc. Dans ce module, découvrez une partie de ces traces numériques avec l'adresse IP publique, la manière dont elle est partagée et ce qu'elle dévoile sur vous.</p>",
+    "description": "<p>Quand vous naviguez sur internet, vous partagez des informations et laissez ainsi de nombreuses traces : adresse IP, cookies, historique, etc. Dans ce module, découvrez une partie de ces traces numériques avec l'adresse IP publique et ce qu'elle dévoile sur vous.</p>",
     "duration": 10,
     "level": "Intermédiaire",
     "objectives": [
@@ -17,7 +17,7 @@
   "transitionTexts": [
     {
       "grainId": "1d516eb9-e7b7-48a3-a3b5-7971ad171d6f",
-      "content": "<p>En naviguant sur internet, un site peut savoir environ où vous vous trouvez alors que vous ne lui avez pas partagé votre localisation.<span aria-hidden=\"true\">📍</span><br>Mystère ? Pas vraiment. Commençons par un exemple.</p>"
+      "content": "<p>En naviguant sur internet, un site peut savoir où vous vous trouvez alors que vous ne lui avez pas partagé votre localisation.<span aria-hidden=\"true\">📍</span><br>Mystère ? Pas vraiment. Commençons par un exemple.</p>"
     },
     {
       "grainId": "4f4ada91-e239-4991-9fc8-ab491aabc424",
@@ -333,7 +333,7 @@
           "element": {
             "id": "0856af53-1060-478f-8416-ddbc5ed3940c",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><details><summary>Indice n°1&nbsp;:</summary><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p></details><details><summary>Indice n°2&nbsp;:</summary><p>Pour votre recherche, utilisez les mots-clés \"localisation\" et \"adresse IP\".</p></details>"
+            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><details><summary>Indice n°1&nbsp;:</summary><p>Vous pouvez faire une recherche en ligne : des sites internet existent pour cela.</p></details><details><summary>Indice n°2&nbsp;:</summary><p>Pour votre recherche, utilisez les mots-clés \"localisation\" et \"adresse IP\".</p></details>"
 
           }
         }
