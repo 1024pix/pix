@@ -12,7 +12,7 @@ describe('Integration | Scripts | Certification | convert-centers-to-v3', functi
     await databaseBuilder.commit();
 
     // when
-    await main();
+    await main({});
 
     // then
     const [job1] = await knex('pgboss.job').where({ name: 'ConvertCenterToV3Job' }).orderBy('createdon', 'asc');

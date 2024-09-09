@@ -1,6 +1,5 @@
-import { CenterPilotFeatures } from '../../../../../../src/certification/configuration/domain/models/CenterPilotFeatures.js';
 import { registerCenterPilotFeatures } from '../../../../../../src/certification/configuration/domain/usecases/register-pilot-features.js';
-import { expect, sinon } from '../../../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Certification | Configuration | Unit | UseCase | register-pilot-features', function () {
   let centerPilotFeaturesRepository;
@@ -14,10 +13,13 @@ describe('Certification | Configuration | Unit | UseCase | register-pilot-featur
 
   it('should enable the V3 pilot', async function () {
     // given
-    const actualFeatures = new CenterPilotFeatures({ centerId: 12 });
+    const actualFeatures = domainBuilder.certification.configuration.buildCenterPilotFeatures.v2({ centerId: 12 });
     centerPilotFeaturesRepository.getByCenterId.resolves(actualFeatures);
 
-    const newFeatures = new CenterPilotFeatures({ centerId: 12 }).enableV3Pilot();
+    const newFeatures = domainBuilder.certification.configuration.buildCenterPilotFeatures.v3({
+      centerId: 12,
+      isComplementaryAlonePilot: false,
+    });
     centerPilotFeaturesRepository.update.resolves();
 
     // when
@@ -32,10 +34,18 @@ describe('Certification | Configuration | Unit | UseCase | register-pilot-featur
 
   it('should disable the V3 pilot', async function () {
     // given
-    const actualFeatures = new CenterPilotFeatures({ centerId: 12 }).enableV3Pilot();
+    const actualFeatures = domainBuilder.certification.configuration.buildCenterPilotFeatures.v3({
+      centerId: 12,
+      isComplementaryAlonePilot: false,
+    });
     centerPilotFeaturesRepository.getByCenterId.resolves(actualFeatures);
 
-    const newFeatures = new CenterPilotFeatures({ centerId: 12 }).disableV3Pilot();
+    const newFeatures = domainBuilder.certification.configuration.buildCenterPilotFeatures
+      .v3({
+        centerId: 12,
+        isComplementaryAlonePilot: false,
+      })
+      .disableV3Pilot();
     centerPilotFeaturesRepository.update.resolves();
 
     // when

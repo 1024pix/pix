@@ -1,12 +1,11 @@
-import { CenterPilotFeatures } from '../../../../../../src/certification/configuration/domain/models/CenterPilotFeatures.js';
 import { CertificationCenterPilotFeaturesConflictError } from '../../../../../../src/shared/domain/errors.js';
-import { catchErrSync, expect } from '../../../../../test-helper.js';
+import { catchErrSync, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Configuration | Domain | Models | CenterPilotFeatures', function () {
   it('should create a CenterPilotFeatures object', function () {
     // given
     // when
-    const result = new CenterPilotFeatures({ centerId: 12 });
+    const result = domainBuilder.certification.configuration.buildCenterPilotFeatures.v2({ centerId: 12 });
     // then
     expect(result).to.deep.equal({
       centerId: 12,
@@ -18,7 +17,7 @@ describe('Unit | Certification | Configuration | Domain | Models | CenterPilotFe
   context('enableComplementaryAlonePilot', function () {
     it('should return an error if not already isV3Pilot', function () {
       // given
-      const features = new CenterPilotFeatures({ centerId: 12 });
+      const features = domainBuilder.certification.configuration.buildCenterPilotFeatures.v2({ centerId: 12 });
       // when
       const error = catchErrSync(() => features.enableComplementaryAlonePilot())();
       // then
@@ -27,7 +26,10 @@ describe('Unit | Certification | Configuration | Domain | Models | CenterPilotFe
 
     it('should enable the ComplementaryAlone Pilot feature', function () {
       // given
-      const features = new CenterPilotFeatures({ centerId: 12 }).enableV3Pilot();
+      const features = domainBuilder.certification.configuration.buildCenterPilotFeatures.v3({
+        centerId: 12,
+        isComplementaryAlonePilot: false,
+      });
       // when
       const result = features.enableComplementaryAlonePilot();
       // then
@@ -38,7 +40,7 @@ describe('Unit | Certification | Configuration | Domain | Models | CenterPilotFe
   context('enableV3Pilot', function () {
     it('should enable the V3 Pilot feature', function () {
       // given
-      const features = new CenterPilotFeatures({ centerId: 12 });
+      const features = domainBuilder.certification.configuration.buildCenterPilotFeatures.v2({ centerId: 12 });
       // when
       const result = features.enableV3Pilot();
       // then
@@ -49,16 +51,22 @@ describe('Unit | Certification | Configuration | Domain | Models | CenterPilotFe
   context('disableV3Pilot', function () {
     it('should return an error if isComplementaryAlonePilot is true', function () {
       // given
-      const features = new CenterPilotFeatures({ centerId: 12 }).enableV3Pilot().enableComplementaryAlonePilot();
+      const features = domainBuilder.certification.configuration.buildCenterPilotFeatures.v3({
+        centerId: 12,
+        isComplementaryAlonePilot: true,
+      });
       // when
       const error = catchErrSync(() => features.disableV3Pilot())();
       // then
       expect(error).to.be.instanceOf(CertificationCenterPilotFeaturesConflictError);
     });
 
-    it('should enable the ComplementaryAlone Pilot feature', function () {
+    it('should disable the v3 pilot feature', function () {
       // given
-      const features = new CenterPilotFeatures({ centerId: 12 }).enableV3Pilot();
+      const features = domainBuilder.certification.configuration.buildCenterPilotFeatures.v3({
+        centerId: 12,
+        isComplementaryAlonePilot: false,
+      });
       // when
       const result = features.disableV3Pilot();
       // then

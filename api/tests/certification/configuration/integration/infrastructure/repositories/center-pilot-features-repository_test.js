@@ -1,8 +1,7 @@
-import { CenterPilotFeatures } from '../../../../../../src/certification/configuration/domain/models/CenterPilotFeatures.js';
 import * as centerPilotFeaturesRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/center-pilot-features-repository.js';
 import { CERTIFICATION_FEATURES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { catchErr, databaseBuilder, expect, knex } from '../../../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Certification | Configuration | Integration | Repository | center-pilot-features', function () {
   describe('getByCenterId', function () {
@@ -22,8 +21,8 @@ describe('Certification | Configuration | Integration | Repository | center-pilo
       const result = await centerPilotFeaturesRepository.getByCenterId({ centerId });
 
       // then
-      const expectedResult = new CenterPilotFeatures({ centerId }).enableV3Pilot().enableComplementaryAlonePilot();
-      expect(results).to.deepEqualInstance(expectedResult);
+      const expectedResult = domainBuilder.certification.configuration.buildCenterPilotFeatures.v3({ centerId });
+      expect(result).to.deepEqualInstance(expectedResult);
     });
 
     context('when the certification center could not be found', function () {
@@ -46,7 +45,10 @@ describe('Certification | Configuration | Integration | Repository | center-pilo
       await databaseBuilder.commit();
 
       // when
-      const centerPilotFeatures = new CenterPilotFeatures({ centerId: centerData.id }).enableV3Pilot();
+      const centerPilotFeatures = domainBuilder.certification.configuration.buildCenterPilotFeatures.v3({
+        centerId: centerData.id,
+        isComplementaryAlonePilot: false,
+      });
       await centerPilotFeaturesRepository.update({ centerPilotFeatures });
 
       // then

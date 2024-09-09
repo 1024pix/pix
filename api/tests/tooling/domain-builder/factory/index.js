@@ -170,6 +170,7 @@ import { buildV3CertificationChallengeLiveAlertForAdministration } from './build
 import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-certification-course-details-for-administration.js';
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
+import { buildCenterPilotFeatures } from './certification/configuration/build-center-pilot-features.js';
 import { buildCandidate } from './certification/enrolment/build-candidate.js';
 import { buildCertificationEligibilityEnrolment } from './certification/enrolment/build-certification-eligibility.js';
 import { buildComplementaryCertificationCourseWithResultsEnrolment } from './certification/enrolment/build-complementary-certification-course-with-results.js';
@@ -201,6 +202,9 @@ import { buildStageCollection as buildStageCollectionForTargetProfileManagement 
 import { buildStageCollection as buildStageCollectionForUserCampaignResults } from './user-campaign-results/build-stage-collection.js';
 
 const certification = {
+  configuration: {
+    buildCenterPilotFeatures,
+  },
   complementary: {
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadge,
   },
