@@ -58,36 +58,36 @@ class Organization {
     this.archivedAt = archivedAt;
   }
 
-  get isSup() {
-    return this.type === types.SUP;
+  get isAgriculture() {
+    return Boolean(this.tags.find((tag) => this.isSco && tag.name === Tag.AGRICULTURE));
   }
 
-  get isSco() {
-    return this.type === types.SCO;
+  get isArchived() {
+    return this.archivedAt !== null;
   }
 
   get isPro() {
     return this.type === types.PRO;
   }
 
-  get isAgriculture() {
-    return Boolean(this.tags.find((tag) => this.isSco && tag.name === Tag.AGRICULTURE));
+  get isSco() {
+    return this.type === types.SCO;
+  }
+
+  get isSup() {
+    return this.type === types.SUP;
   }
 
   get isPoleEmploi() {
     return Boolean(this.tags.find((tag) => tag.name === Tag.POLE_EMPLOI));
   }
 
-  get isScoAndManagingStudents() {
-    return this.isSco && this.isManagingStudents;
-  }
-
   get isScoAndHasExternalId() {
     return this.isSco && Boolean(this.externalId);
   }
 
-  get isArchived() {
-    return this.archivedAt !== null;
+  get isScoAndManagingStudents() {
+    return this.isSco && this.isManagingStudents;
   }
 }
 
