@@ -1,3 +1,4 @@
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../identity-access-management/domain/constants/identity-providers.js';
 import { Tag } from './Tag.js';
 
 const types = {
@@ -64,6 +65,10 @@ class Organization {
 
   get isArchived() {
     return this.archivedAt !== null;
+  }
+
+  get hasGarIdentityProvider() {
+    return this.isScoAndManagingStudents && this.identityProviderForCampaigns === NON_OIDC_IDENTITY_PROVIDERS.GAR.code;
   }
 
   get isPro() {
