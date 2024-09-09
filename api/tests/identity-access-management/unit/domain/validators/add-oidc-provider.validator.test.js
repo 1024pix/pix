@@ -15,6 +15,11 @@ describe('Unit | Identity Access Management | Domain | Validator | AddOidcProvid
         clientId: '__CLIENT_ID__',
         clientSecret: '__CLIENT_SECRET__',
         accessTokenLifespan: '7d',
+        claimMapping: {
+          firstName: ['given_name'],
+          lastName: ['usual_name'],
+          externalIdentityId: ['sub'],
+        },
         claimsToStore: 'email',
         enabled: false,
         enabledForPixAdmin: true,

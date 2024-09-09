@@ -1,9 +1,6 @@
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { OidcProvider } from '../../../../../src/identity-access-management/domain/models/OidcProvider.js';
-import { AgentConnectOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/agent-connect-oidc-authentication-service.js';
-import { CnfptOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/cnfpt-oidc-authentication-service.js';
 import { FwbOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/fwb-oidc-authentication-service.js';
-import { GoogleOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/google-oidc-authentication-service.js';
 import { OidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service.js';
 import { OidcAuthenticationServiceRegistry } from '../../../../../src/identity-access-management/domain/services/oidc-authentication-service-registry.js';
 import { PoleEmploiOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/pole-emploi-oidc-authentication-service.js';
@@ -238,10 +235,7 @@ describe('Unit | Identity Access Management | Domain | Services | oidc-authentic
           .resolves([
             new OidcProvider({ identityProvider: 'GENERIC' }),
             new OidcProvider({ identityProvider: 'FWB' }),
-            new OidcProvider({ identityProvider: 'GOOGLE' }),
             new OidcProvider({ identityProvider: 'POLE_EMPLOI' }),
-            new OidcProvider({ identityProvider: 'CNFPT' }),
-            new OidcProvider({ identityProvider: 'AGENTCONNECT' }),
           ]);
 
         // when
@@ -249,7 +243,7 @@ describe('Unit | Identity Access Management | Domain | Services | oidc-authentic
         const services = oidcAuthenticationServiceRegistry.getAllOidcProviderServices();
 
         // then
-        expect(services.length).to.be.equal(6);
+        expect(services).to.have.length(3);
 
         const genericService = services.find((service) => service.identityProvider === 'GENERIC');
         expect(genericService).not.to.be.empty;
@@ -259,21 +253,9 @@ describe('Unit | Identity Access Management | Domain | Services | oidc-authentic
         expect(fwbService).not.to.be.empty;
         expect(fwbService).to.be.instanceOf(FwbOidcAuthenticationService);
 
-        const googleService = services.find((service) => service.identityProvider === 'GOOGLE');
-        expect(googleService).not.to.be.empty;
-        expect(googleService).to.be.instanceOf(GoogleOidcAuthenticationService);
-
         const poleEmploiService = services.find((service) => service.identityProvider === 'POLE_EMPLOI');
         expect(poleEmploiService).not.to.be.empty;
         expect(poleEmploiService).to.be.instanceOf(PoleEmploiOidcAuthenticationService);
-
-        const cnfptService = services.find((service) => service.identityProvider === 'CNFPT');
-        expect(cnfptService).not.to.be.empty;
-        expect(cnfptService).to.be.instanceOf(CnfptOidcAuthenticationService);
-
-        const agentConnectService = services.find((service) => service.identityProvider === 'AGENTCONNECT');
-        expect(agentConnectService).not.to.be.empty;
-        expect(agentConnectService).to.be.instanceOf(AgentConnectOidcAuthenticationService);
       });
     });
   });
