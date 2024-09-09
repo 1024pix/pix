@@ -234,6 +234,12 @@ const register = async function (server) {
           params: Joi.object({
             id: identifiersType.certificationCenterId,
           }),
+          query: Joi.object({
+            page: Joi.object({
+              number: Joi.number().integer().empty('').allow(null).optional(),
+              size: Joi.number().integer().empty('').allow(null).optional(),
+            }).default({}),
+          }),
         },
         handler: certificationCenterController.findPaginatedSessionSummaries,
         tags: ['api', 'certification-center'],
