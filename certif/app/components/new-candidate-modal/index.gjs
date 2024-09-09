@@ -111,8 +111,7 @@ export default class NewCandidateModal extends Component {
 
   closeModal = () => {
     this.args.closeModal();
-    document.getElementById('new-candidate-form').reset();
-    this.selectedBillingMode = undefined;
+    this._resetForm();
   };
 
   selectBirthGeoCodeOption = (option) => {
@@ -219,6 +218,7 @@ export default class NewCandidateModal extends Component {
     document.getElementById('new-candidate-form').reset();
     this.selectedCountryInseeCode = FRANCE_INSEE_CODE;
     this.selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
+    this.selectedBillingMode = undefined;
   }
 
   <template>
