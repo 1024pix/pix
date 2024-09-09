@@ -18,8 +18,7 @@ describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-c
     // given
     const centerId1 = 1;
     const centerId2 = 2;
-    centerRepository.fetchSCOV2Centers.resolves([centerId1]);
-    centerRepository.fetchSCOV2Centers.onCall(0).returns({
+    centerRepository.findSCOV2Centers.onCall(0).returns({
       centerIds: [centerId1],
       pagination: {
         page: 1,
@@ -64,5 +63,43 @@ describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-c
       new ConvertCenterToV3Job({ centerId: centerId2 }),
     ]);
     expect(numberOfCenters).to.equal(2);
+  });
+
+  describe('when is a dry run', function () {
+    it('should not trigger conversion orders', async function () {
+      // given
+      const centerId1 = 1;
+      centerRepository.findSCOV2Centers.onCall(0).returns({
+        centerIds: [centerId1],
+        pagination: {
+          page: 1,
+          pageCount: 0,
+          pageSize: 0,
+          rowCount: 1,
+        },
+      });
+
+      centerRepository.findSCOV2Centers.onCall(1).returns({
+        centerIds: [],
+        pagination: {
+          page: 2,
+          pageCount: 1,
+          pageSize: 0,
+          rowCount: 1,
+        },
+      });
+
+      // when
+      const numberOfCenters = await findAndTriggerV2CenterToConvertInV3({
+        isDryRun: true,
+        centerRepository,
+        convertCenterToV3JobRepository,
+      });
+
+      // then
+      expect(centerRepository.findSCOV2Centers).to.have.been.calledTwice;
+      expect(convertCenterToV3JobRepository.performAsync).to.not.have.been.called;
+      expect(numberOfCenters).to.equal(1);
+    });
   });
 });
