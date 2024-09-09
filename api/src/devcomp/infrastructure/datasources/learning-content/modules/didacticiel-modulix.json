@@ -110,21 +110,20 @@
             "proposals": [
               {
                 "id": "1",
-                "content": "Des recettes de lasagne"
+                "content": "Des recettes de lasagne",
+                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Erreur, ce ne sont pas des lasagnes</p>"
               },
               {
                 "id": "2",
-                "content": "Des recettes de paté en croute"
+                "content": "Des recettes de pâté en croûte",
+                "feedback": "<span class=\"feedback__state\">Incorrect.</span><p>Non, ce ne sont pas des recettes de pâté en croûte</p>"
               },
               {
                 "id": "3",
-                "content": "Des recettes végétariennes"
+                "content": "Des recettes végétariennes",
+                "feedback": "<span class=\"feedback__state\">Correct&#8239;!</span><p>Bonne réponse ! Ce sont bien des recettes végétariennes</p>"
               }
             ],
-            "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> L'image contient bien une recherche de recettes végétariennes.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Avez-vous téléchargé l'image jointe&nbsp;?</p>"
-            },
             "solution": "3"
           }
         }
