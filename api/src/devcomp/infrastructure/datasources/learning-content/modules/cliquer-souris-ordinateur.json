@@ -17,11 +17,11 @@
   "transitionTexts": [
     {
       "grainId": "96f8e83d-88df-44c0-951d-9b9e3a02cde0",
-      "content": "<p>Apprendre à cliquer, c'est un peu comme apprendre à marcher dans le monde numérique ! <span aria-hidden=\"\\&quot;true\\&quot;\"> 🖱️</span>️ Une fois qu’on y arrive, on le fait sans y penser.<span aria-hidden=\"\\&quot;true\\&quot;\"> 🚶 </span></p>"
+      "content": "<p>Apprendre à cliquer, c'est un peu comme apprendre à marcher dans le monde numérique ! <span aria-hidden=\"\true\"> 🖱️</span>️ Une fois qu’on y arrive, on le fait sans y penser.<span aria-hidden=\"\true\"> 🚶 </span></p>"
     },
     {
       "grainId": "4a80afba-d2ef-4f58-a328-a0fc9f204aca",
-      "content": "<p>Découvrez les boutons de la souris qui permettent de cliquer. <span aria-hidden=\"\\&quot;true\\&quot;\">🖱️️</span></p>"
+      "content": "<p>Découvrez les boutons de la souris qui permettent de cliquer. <span aria-hidden=\"\true\">🖱️️</span></p>"
     },
     {
       "grainId": "83f44f19-e8de-4248-bfc7-e38f19190138",
@@ -29,11 +29,11 @@
     },
     {
       "grainId": "b491a99e-2774-469e-a63e-e2d0fb1120f2",
-      "content": "<p>Vous allez maintenant passer à la pratique <span aria-hidden=\"\\&quot;true\\&quot;\">👇</span></p>"
+      "content": "<p>Vous allez maintenant passer à la pratique <span aria-hidden=\"\true\">👇</span></p>"
     },
     {
       "grainId": "efba1e45-54ca-4829-b203-1e74b9269045",
-      "content": "<p>À vous de jouer ! <span aria-hidden=\"\\&quot;true\\&quot;\">🕹</span>️<br>Découvrez maintenant comment utiliser le clic gauche pour naviguer, lancer des vidéos ou répondre à des questionnaires !</p>"
+      "content": "<p>À vous de jouer ! <span aria-hidden=\"\true\">🕹</span>️<br>Découvrez maintenant comment utiliser le clic gauche pour naviguer, lancer des vidéos ou répondre à des questionnaires !</p>"
     },
     {
       "grainId": "a1c193e4-50a7-4965-bcc7-82e9283d3c8e",
@@ -45,7 +45,7 @@
     },
     {
       "grainId": "b1cf70fe-411b-4c5d-b069-9b7a341bd5c3",
-      "content": "<p>Vous savez maintenant cliquer et double&#x002D;cliquer. C'est deux clics là sont les plus courants, c'est comme si vous saviez marcher.&nbsp;<span aria-hidden=\"\\&quot;true\\&quot;\"> 🚶 </span><br><br>En conclusion, voici un aperçu des 2 autres boutons de la souris, le bouton gauche et la molette, pour bientôt apprendre à courir et sauter. <span aria-hidden=\"\\true\\\"> 🏃🤸</span></p>"
+      "content": "<p>Vous savez maintenant cliquer et double&#x002D;cliquer. C'est deux clics là sont les plus courants, c'est comme si vous saviez marcher.&nbsp;<span aria-hidden=\"true\"> 🚶 </span><br><br>En conclusion, voici un aperçu des 2 autres boutons de la souris, le bouton droit et la molette, pour bientôt apprendre à courir et sauter. <span aria-hidden=\"true\"> 🏃🤸</span></p>"
     }
   ],
   "grains": [
@@ -59,7 +59,7 @@
           "element": {
             "id": "1cdab3f3-d431-47c7-9f73-35212186d651",
             "type": "text",
-            "content": "<p>On utilise la souris pour interagir avec l’ordinateur de plusieurs façons. </p><br>\n<p>La première façon d’interagir est de <strong>déplacer le pointeur</strong>. <br>On fait glisser la souris sur la table dans la bonne direction. À l'écran, le pointeur bouge dans la même direction. <span aria-hidden=\"\\&quot;true\\&quot;\">➡️</span></p>"
+            "content": "<p>On utilise la souris pour interagir avec l’ordinateur de plusieurs façons. </p><br>\n<p>La première façon d’interagir est de <strong>déplacer le pointeur</strong>. <br>On fait glisser la souris sur la table dans la bonne direction. À l'écran, le pointeur bouge dans la même direction. <span aria-hidden=\"true\">➡️</span></p>"
           }
         },
         {
@@ -118,7 +118,7 @@
           "element": {
             "id": "d9e4718d-a15a-4e62-a967-19971e1a611e",
             "type": "text",
-            "content": "<p>🤔 <strong>Bon à savoir :</strong><br>Certaines souris ne possèdent pas la molette.</p>"
+            "content": "<p><span aria-hidden=\"true\">🤔</span> <strong>Bon à savoir :</strong><br>Certaines souris ne possèdent pas la molette.</p>"
           }
         }
       ]
@@ -348,7 +348,7 @@
           "element": {
             "id": "626c6c46-e397-46bc-adb2-9894f96afc7e",
             "type": "text",
-            "content": "<p>Après cette vidéo, nous vous proposerons de vous entraîner à effectuer des doubles&#x002D;clics. <br>Découvrez dans la vidéo ci-dessous comment réaliser un double&#x002D;clic.&nbsp; </p><br>\n<p><strong>Pour démarrer la vidéo, faites un clic gauche sur le bouton Play ▶️</strong></p><br> <iframe width=\"100%\" height=\"410\" src=\"https://youtu.be/cDf-Q5tHwVM\" title=\"Première marche souris - Double-clic\"></iframe>"
+            "content": "<p>Après cette vidéo, nous vous proposerons de vous entraîner à effectuer des doubles&#x002D;clics. <br>Découvrez dans la vidéo ci-dessous comment réaliser un double&#x002D;clic.&nbsp; </p><br>\n<p><strong>Pour démarrer la vidéo, faites un clic gauche sur le bouton Play <span aria-hidden=\"true\">▶️</span></strong></p><br> <iframe width=\"100%\" height=\"410\" src=\"https://youtu.be/cDf-Q5tHwVM\" title=\"Première marche souris - Double-clic\"></iframe>"
           }
         }
       ]
@@ -418,7 +418,7 @@
             "proposals": [
               {
                 "type": "text",
-                "content": "<span>Nombre de photos#8239;: </span>"
+                "content": "<span>Nombre de photos : </span>"
               },
               {
                 "input": "nombre-photo",
@@ -512,7 +512,7 @@
                 {
                   "id": "301930f5-8b8c-4e16-a7fd-aa4ab37d3d3f",
                   "type": "text",
-                  "content": "<p>En résumé :&nbsp; </p><ul><li><strong>Le bouton gauche</strong> vous permet de faire des clics gauche et des double&#x002D;clics sur des éléments. C’est le plus utilisé. Il permet d'interagir avec des éléments.&nbsp;</li><li><strong>Le bouton droit</strong> vous permet de faire apparaître un menu, sous forme de liste d’action possible avec l'élément.</li><li><strong>La molette </strong>s’utilise pour une page entière, et permet de faire défiler le contenu de haut en bas.</li></ul>"
+                  "content": "<p><span aria-hidden=\"true\"> 📌 </span> En résumé&nbsp;:</p><ul><li><strong>Le bouton gauche</strong> vous permet de faire des clics gauche et des double&#x002D;clics sur des éléments. C’est le plus utilisé. Il permet d'interagir avec des éléments.&nbsp;</li><li><strong>Le bouton droit</strong> vous permet de faire apparaître un menu, sous forme de liste d’action possible avec l'élément.</li><li><strong>La molette </strong>s’utilise pour une page entière, et permet de faire défiler le contenu de haut en bas.</li></ul>"
                 },
                 {
                   "id": "6a7f19dd-ba4a-4696-9f46-2f31ac5461f0",
