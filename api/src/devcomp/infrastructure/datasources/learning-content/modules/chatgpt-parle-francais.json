@@ -178,7 +178,7 @@
                 {
                   "id": "be70c1be-d6d1-4b6e-bcee-de1ab8859ee0",
                   "type": "text",
-                  "content": "<p>Vous allez maintenant devoir analyser trois situations avec des réponses de LLM visiblement biaisées.<p>Pour chaque situation, trouvez la cause principale des résultats biaisés.</p>"
+                  "content": "<h3><span aria-hidden=\"true\">&nbsp;🕹️</span> À vous de jouer</h3><p>Vous allez maintenant devoir analyser trois situations avec des réponses de LLM visiblement biaisées.<p>Pour chaque situation, trouvez la cause principale des résultats biaisés.</p>"
                 }
               ]
             },
