@@ -96,8 +96,9 @@ export default class ModulePassage extends Component {
   }
 
   @action
-  onModuleTerminate({ grainId }) {
-    this.args.passage.terminate();
+  async onModuleTerminate({ grainId }) {
+    const adapter = this.store.adapterFor('passage');
+    await adapter.terminate({ passageId: this.args.passage.id });
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',

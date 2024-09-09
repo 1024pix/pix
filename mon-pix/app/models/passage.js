@@ -1,4 +1,3 @@
-import { memberAction } from '@1024pix/ember-api-actions';
 import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class Passage extends Model {
@@ -14,9 +13,4 @@ export default class Passage extends Model {
   hasAnswerAlreadyBeenVerified(element) {
     return this.elementAnswers.some((answer) => answer.elementId === element.id);
   }
-
-  terminate = memberAction({
-    path: 'terminate',
-    type: 'post',
-  });
 }

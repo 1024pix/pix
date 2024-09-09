@@ -147,8 +147,8 @@ export default class ModuleGrain extends Component {
   }
 
   @action
-  onModuleTerminate() {
-    this.args.onModuleTerminate({ grainId: this.args.grain.id });
+  async onModuleTerminate() {
+    await this.args.onModuleTerminate({ grainId: this.args.grain.id });
   }
 
   <template>
