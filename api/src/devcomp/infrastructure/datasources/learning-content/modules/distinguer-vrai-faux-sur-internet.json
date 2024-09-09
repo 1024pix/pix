@@ -16,31 +16,31 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Commençons par un jeu.&nbsp;<span aria-hidden=\"true\">🎮</span><br>Sans chercher sur internet, essayez de deviner si chaque information proposée dans ces articles de journaux est plutôt vraie ou plutôt fausse. Bonne chance&#8239;!</p>",
+      "content": "<p>De nombreuses informations circulent sur internet et les réseaux sociaux.&nbsp;<span aria-hidden=\"true\">🌐</span></p>Ces informations peuvent être exagérées, trompeuses ou fausses.<br>Dans ce module, découvrez des outils et des méthodes pour mieux apprendre à distinguer le vrai du faux&nbsp;!",
       "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
     },
     {
-      "content": "<p>Vous l'avez remarqué, en lisant seulement le titre d’un article, c’est presque impossible de savoir si une information est vraie ou fausse.&nbsp;<span aria-hidden=\"true\">🤔</span><br>Parfois, ce ne sont même pas des informations mais par exemple des opinions.&nbsp;<span aria-hidden=\"true\">📚</span> Vous allez découvrir la différence dans la vidéo suivante.</p>",
+      "content": "<p>Vous l'avez remarqué, en lisant seulement le titre d’un article, c’est presque impossible de savoir si une information est vraie ou fausse.&nbsp;<span aria-hidden=\"true\">🤔</span></p><p>Et parfois, ce ne sont même pas des informations ! On vous explique tout dans la vidéo suivante.<span aria-hidden=\"true\">&nbsp;📺</span></p></p>",
       "grainId": "eb83569f-2e37-49ed-aa6f-31c420b673b9"
     },
     {
-      "content": "<p>Vous savez maintenant mieux repérer une information. Mais une information peut être fausse ...<br>Voyons ensemble des questions à se poser pour vérifier une information.&nbsp;<span aria-hidden=\"true\">🗒️</span></p>",
+      "content": "<p>C'est une information et pas une anecdote, d'accord. Mais est-ce que cette information est vraie ? Pour le savoir, il faut souvent mener l'enquête.<span aria-hidden=\"true\">🕵🏽</span></p><p>Voyons ensemble des questions à se poser pour vérifier une information.</p>",
       "grainId": "ed22ab38-ec6d-47df-88ea-4894f1cd6c8a"
     },
     {
-      "content": "<p>Vérifiez que vous avez retenu l'essentiel en répondant à la question suivante.</p>",
+      "content": "<p>Vérifiez que vous avez retenu l'essentiel en répondant à la question suivante. <span aria-hidden=\"true\">🎯</span></p>",
       "grainId": "46309f55-22e6-4b0f-bfc4-2bad94f9cbd7"
     },
     {
-      "content": "<p>Maintenant, à vous de jouer sur des exemples concrets.</p>",
+      "content": "<p>Si l'un de ces éléments est manquant, il faut être très prudent et chercher à en savoir plus. Voyons cela en pratique.</p>",
       "grainId": "c624de0b-658a-47e7-b780-c579a1033aba"
     },
     {
-      "content": "<p>Même si on a vérifié le “qui&#8239;? quand&#8239;? d'où&#8239;?”, il faut rester vigilant.<br>D'autres indices peuvent aider à détecter de fausses informations.&nbsp;👣 <br>Plus ils s’accumulent, plus l’information a des chances d’être fausse.</p>",
+      "content": "<p>Même si on a vérifié le “qui&#8239;? quand&#8239;? d'où&#8239;?”, il faut rester vigilant.<br>D'autres indices peuvent aider à détecter de fausses informations.&nbsp;👣 <br>Plus il y en a, plus l’information a des chances d’être fausse.</p>",
       "grainId": "428ea826-6e21-4c56-a5a2-f97373f1e833"
     },
     {
-      "content": "<p>Maintenant, à vous d’étudier une nouvelle situation.&nbsp;<span aria-hidden=\"true\">🕵️</span><span aria-hidden=\"true\">🕵🏿‍♀️</span></p>",
+      "content": "<p>Pour finir, maintenant que vous en savez plus, vous allez pouvoir aider Stéphane.&nbsp;<span aria-hidden=\"true\">🕵️</span><span aria-hidden=\"true\">🕵🏿‍♀️</span></p>",
       "grainId": "9f56f75e-3e2d-4a6e-8623-9b74747b236d"
     }
   ],
@@ -53,6 +53,15 @@
         {
           "type": "stepper",
           "steps": [
+            {
+              "elements": [
+                {
+                  "id": "7254a4fe-b11d-492f-985c-20a94f454a4d",
+                  "type": "text",
+                  "content": "<h3><span aria-hidden=\"true\">🎮</span> Commençons par un jeu</h3><p>Sans chercher sur internet, essayez de deviner si chaque information proposée dans ces articles de journaux est <strong>plutôt vraie</strong> ou <strong>plutôt fausse</strong>.<br>Bonne chance&#8239;!</p>"
+                }
+              ]
+            },
             {
               "elements": [
                 {
@@ -160,7 +169,7 @@
           "element": {
             "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
             "type": "text",
-            "content": "<p>À la fin de cette vidéo, des questions vous seront posées sur des mots de vocabulaire&nbsp;: \"une anecdote\", \"une rumeur\", \"une opinion\",\"une information\".</p>"
+            "content": "<p>Après cette vidéo, vous devrez trouvez dans des exemples concrets le vocabulaire adapté parmi les mots <ul><li>opinion,</li> <li>rumeur,</li> <li>anecdote,</li><li>information.</li></ul></p>"
           }
         },
         {
@@ -182,16 +191,17 @@
       "title": "Vocabulaire opinion, rumeur, anecdote, information",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "5c6ec12a-f5b4-4683-ae7a-11b79fddd0a5",
-            "type": "text",
-            "content": "Dans chacune des situations suivantes, choisissez s'il s'agit d'une opinion, d'une rumeur, d'une anecdote ou d'une information."
-          }
-        },
-        {
           "type": "stepper",
           "steps": [
+                        {
+              "elements": [
+                {
+                  "id": "5c6ec12a-f5b4-4683-ae7a-11b79fddd0a5",
+                  "type": "text",
+                  "content": "<h3><span aria-hidden=\"true\">&nbsp;🕹️</span> À vous de jouer</h3>Dans chacune des situations suivantes, trouvez s'il s'agit d'une opinion, d'une rumeur, d'une anecdote ou d'une information."
+                }
+              ]
+            },
             {
               "elements": [
                 {
@@ -366,7 +376,7 @@
           "element": {
             "id": "36577421-d9d0-4f49-ac43-b4e804ba5635",
             "type": "text",
-            "content": "<h3>Question n°3&nbsp;: d’où provient cette information&#8239;?&nbsp;<span aria-hidden=\"true\">ℹ️</span></h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
+            "content": "<h3>Question n°3&nbsp;: d’où provient cette information&#8239;?&nbsp;<span aria-hidden=\"true\">📍</span></h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
           }
         }
       ]
@@ -424,21 +434,30 @@
             {
               "elements": [
                 {
+                  "id": "613bd45d-8e88-4ca5-bfa0-368be2336027",
+                  "type": "text",
+                  "content": "<h3><span aria-hidden=\"true\">🔎</span> C'est parti pour l'enquête !</h3><p>Dans les exemples suivants, les informations publiées sont sûrement fausses parce qu'il manque un élément (auteur, source, date). Trouvez dans chaque exemple où se situe le problème."
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
                   "id": "e9d9c6e3-4c08-40de-bb46-e73b6d02f1c5",
                   "type": "image",
-                  "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet6.jpg",
-                  "alt": "Publication de FanDuRealMadrid (@FanRealBoss) sur X (Twitter) détaillée dans l'alternative textuelle",
-                  "alternativeText": "Publication de FanDuRealMadrid(@FanRealBoss) sur X (Twitter) à 8h32 le 17 octobre 2023&nbsp;: &laquo;&nbsp;ENFIN&#8239;! Kylian Mbappé va quitter le PSG pour rejoindre le Real Madrid. Tu es un vrai 10&#8239;!! <a href=\"https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80\" target=\"_blank\">https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80</a>&nbsp;&raquo;"
+                  "url": "https://i.imgur.com/Hcw8CCw.png",
+                  "alt": "Publication de i<3datte (@datte4ever) sur X (Twitter) détaillée dans l'alternative textuelle",
+                  "alternativeText": "Publication de i<3datte (@datte4ever) sur X (Twitter) à 12h00 le 13 septembre 2024&nbsp;: MIAM ! achetez vos dattes en ligne sur notre site (code promo MIAM2024)<br>Et vous savez-quoi ? les dattes font guérir de toutes les maladies !!!  <a href=\"https://www.voici.fr/beaute/vieillissement-cutane-quels-sont-les-bienfaits-anti-age-des-dattes-dans-les-soins-cosmetiques-789471\" target=\"_blank\">https://www.voici.fr/beaute/vieillissement-cutane-quels-sont-les-bienfaits-anti-age-des-dattes-dans-les-soins-cosmetiques-789471</a>&nbsp;&raquo;"
                 },
                 {
                   "id": "7e2cda57-9383-4a9b-ab46-b6d96317d6ac",
                   "type": "text",
-                  "content": "<p><span aria-hidden=\"true\">👉</span>La publication de FanDuRealMadrid comporte un <a href=\"https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80\" target=\"_blank\">lien vers cet article.</a></p>"
+                  "content": "<p><span aria-hidden=\"true\">👉</span> La publication de i<3datte comporte un <a href=\"https://www.voici.fr/beaute/vieillissement-cutane-quels-sont-les-bienfaits-anti-age-des-dattes-dans-les-soins-cosmetiques-789471\" target=\"_blank\">lien vers cet article.</a></p>"
                 },
                 {
                   "id": "275ab2ee-feaa-4c5c-9372-116799077172",
                   "type": "qcu",
-                  "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
+                  "instruction": "<p>Quel est le problème dans cette pubication ?</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -446,7 +465,7 @@
                     },
                     {
                       "id": "2",
-                      "content": "Les dates entre la publication et la source sont incohérentes."
+                      "content": "Les dates de la publication et de la source sont incohérentes."
                     },
                     {
                       "id": "3",
@@ -454,8 +473,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p> FanDuRealMadrid annonce la venue de Mbappé dans son club favori alors que l’article utilisé comme source ne l’annonce pas du tout&#8239;!</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L’article utilisé comme source n’annonce pas du tout la venue de Mbappé. Ce fan a sûrement été influencé par ses envies.</p>"
+                    "valid": "<span class=\"feedback__state\">Correct.</span><p>Ce vendeur de datte exagère complétement la réalité pour augmenter ses ventes. </p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L’article utilisé comme source n’annonce pas du tout ce qui est écrit. Ce vendeur exagère pour essayer de vendre son produit à plus de personnes.</p>"
                   },
                   "solution": "1"
                 }
@@ -473,7 +492,7 @@
                 {
                   "id": "81943b07-ecf0-408b-877c-55e1943df1fc",
                   "type": "qcu",
-                  "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
+                  "instruction": "<p>Quel est le problème dans cette pubication ?</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -481,7 +500,7 @@
                     },
                     {
                       "id": "2",
-                      "content": "Les dates entre la publication et la source sont incohérentes."
+                      "content": "Les dates de la publication et de la source sont incohérentes."
                     },
                     {
                       "id": "3",
@@ -508,12 +527,12 @@
                 {
                   "id": "4f002984-f136-4962-8f9a-b5f69d2995af",
                   "type": "text",
-                  "content": "<p><span aria-hidden=\"true\">👉</span>La publication de Stéphanie Attelage comporte un <a href=\"https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires\" target=\"_blank\">lien vers cet article.</a></p>"
+                  "content": "<p><span aria-hidden=\"true\">👉</span> La publication de Stéphanie Attelage comporte un <a href=\"https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires\" target=\"_blank\">lien vers cet article.</a></p>"
                 },
                 {
                   "id": "ee7b67b7-0cb0-4bb7-a771-c2421a588643",
                   "type": "qcu",
-                  "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
+                  "instruction": "<p>Quel est le problème dans cette pubication ?</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -521,7 +540,7 @@
                     },
                     {
                       "id": "2",
-                      "content": "Les dates entre la publication et la source sont incohérentes."
+                      "content": "Les dates de la publication et de la source sont incohérentes."
                     },
                     {
                       "id": "3",
@@ -550,7 +569,7 @@
           "element": {
             "id": "ff55b19b-a35c-4f25-9e07-ce2e3d965784",
             "type": "text",
-            "content": "<p>Étudiez quelques-uns des indices présentés dans l'exemple ci-dessous. Ils vous aideront à identifier de fausses informations.</p>"
+            "content": "<p>Étudiez les indices présentés dans l'exemple ci-dessous. Ils vous aideront à identifier de fausses informations.</p>"
           }
         },
         {
@@ -575,7 +594,7 @@
           "element": {
             "id": "eb90d3ea-797f-4e4a-9675-e679b9f5bf3c",
             "type": "text",
-            "content": "<p>Stéphane n'arrive pas à faire pousser sa nouvelle plante verte d’intérieur&nbsp;<span aria-hidden=\"true\">🪴</span>. Il cherche des astuces sur les réseaux sociaux.<br>Il trouve les informations suivantes, publiées le 28 août 2023, par SuperJardinier&nbsp;:</p>"
+            "content": "<p>Stéphane essaye de faire pousser sa nouvelle plante verte d’intérieur&nbsp;<span aria-hidden=\"true\">🪴</span>.<br>Il cherche des astuces sur les réseaux sociaux, mais il est un peu perdu.<br>Il trouve les informations suivantes, publiées le 28 août 2023, par SuperJardinier&nbsp;<span aria-hidden=\"true\">👇</span></p>"
           }
         },
         {
