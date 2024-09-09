@@ -348,7 +348,7 @@
           "element": {
             "id": "626c6c46-e397-46bc-adb2-9894f96afc7e",
             "type": "text",
-            "content": "<p>Après cette vidéo, nous vous proposerons de vous entraîner à effectuer des doubles&#x002D;clics. <br>Découvrez dans la vidéo ci-dessous comment réaliser un double&#x002D;clic.&nbsp; </p><br>\n<p><strong>Pour démarrer la vidéo, faites un clic gauche sur le bouton Play ▶️</strong></p><br> <iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/cktRk8PySII\" title=\"Première marche souris - Déplacer la souris\"></iframe>"
+            "content": "<p>Après cette vidéo, nous vous proposerons de vous entraîner à effectuer des doubles&#x002D;clics. <br>Découvrez dans la vidéo ci-dessous comment réaliser un double&#x002D;clic.&nbsp; </p><br>\n<p><strong>Pour démarrer la vidéo, faites un clic gauche sur le bouton Play ▶️</strong></p><br> <iframe width=\"100%\" height=\"410\" src=\"https://youtu.be/cDf-Q5tHwVM\" title=\"Première marche souris - Double-clic\"></iframe>"
           }
         }
       ]
@@ -394,7 +394,7 @@
           "element": {
             "id": "be23697d-9393-405a-bb01-852e660e6818",
             "type": "text",
-            "content": "<p>Nous allons maintenant vous proposer des situations de double&#x002D;clic proche de cas que vous pourriez rencontrer.</p>"
+            "content": "<p>Nous allons maintenant vous proposer des situations de double&#x002D;clic proches de cas que vous pourriez rencontrer.</p>"
           }
         },
      {
@@ -406,7 +406,7 @@
             "title": "Simulateur de visioconférence",
             "url": "https://epreuves.pix.fr/filemanager-visu/filemanager-visu.html?mode=example&lang=fr",
             "instruction": "<p>Dans l'explorateur de fichier ci-dessous, double-cliquez sur les dossiers suivants&nbsp;:</p> <ul><li> Photos</li><li>Album</li><li>Famille</li><li>80 ans Mamie</li></ul>",
-            "height": 600
+            "height": 400
           }
         },
         {
@@ -454,7 +454,7 @@
                 {
                   "id": "e1e41835-97b5-4651-b8b7-447a269079d2",
                   "type": "text",
-                  "content": "<p>La souris est composée des 3 boutons.&nbsp; <br>Le bouton de gauche est celui qui vous permet d’effectuer des clics gauches et des doubles&#x002D;clics.<br><br></p>"
+                  "content": "<p>La souris est composée des 3 boutons.&nbsp; <br><strong>Le bouton de gauche</strong> est celui qui vous permet d’effectuer des clics gauches et des doubles&#x002D;clics.</p>"
                 },
                 {
                   "id": "be765345-0a61-43b2-8a40-395d6f12b9e2",
@@ -475,7 +475,7 @@
                 {
                   "id": "99ba8a02-fd1e-4827-a51b-32c14225a4e8",
                   "type": "text",
-                  "content": "<p>Le bouton droit, vous permet d’effectuer des clics droits.</p>\n<p>Sur l’écran, le clic droit vous permet de découvrir la liste des actions possibles sur cet élément. <br><strong>Le clic droit sert uniquement à afficher la liste.</strong> Voici un exemple de liste des actions possibles sur un dossier.<br><br></p>"
+                  "content": "<p><strong>Le bouton droit</strong>, vous permet d’effectuer des clics droits.</p>\n<p>Sur l’écran, le clic droit vous permet de découvrir la liste des actions possibles sur cet élément. <br><strong>Le clic droit sert uniquement à afficher la liste</strong>. <span aria-hidden=\"true\">📋</span> Voici un exemple de liste des actions possibles sur un dossier.<br><br></p>"
                 },
                 {
                   "id": "48218129-a5ac-4c43-8a4a-db3345400477",
@@ -491,7 +491,7 @@
                 {
                   "id": "cfb24bf8-75e9-40aa-950c-91a309bb4d4c",
                   "type": "text",
-                  "content": "<p>Le bouton du milieu est la molette, ou roulette. L’usage de la molette n’est pas de cliquer comme un bouton, mais de faire rouler celle-ci vers l’avant ou vers l’arrière avec votre index ou votre majeur.</p>"
+                  "content": "<p>Le bouton du milieu est <strong>la molette</strong>, ou roulette. L’usage de la molette n’est pas de cliquer comme un bouton, mais de faire rouler celle-ci vers l’avant ou vers l’arrière avec votre index ou votre majeur.</p>"
                 },
                 {
                   "id": "242c6637-6a37-43dc-a1f3-d0e46c5fb2de",
