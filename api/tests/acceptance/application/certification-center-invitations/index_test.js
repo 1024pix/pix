@@ -1,4 +1,3 @@
-import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import {
   createServer,
   databaseBuilder,
@@ -17,42 +16,6 @@ describe('Acceptance | API | Certification center invitations', function () {
   });
 
   context('global routes', function () {
-    describe('GET /api/certification-center-invitations/{id}', function () {
-      it('should return the certification-center invitation and 200 status code', async function () {
-        // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-          name: 'Centre des Pixous',
-        }).id;
-        const certificationCenterInvitationId = databaseBuilder.factory.buildCertificationCenterInvitation({
-          certificationCenterId,
-          status: CertificationCenterInvitation.StatusType.PENDING,
-          code: 'ABCDEFGH01',
-        }).id;
-
-        await databaseBuilder.commit();
-
-        // when
-        const response = await server.inject({
-          method: 'GET',
-          url: `/api/certification-center-invitations/${certificationCenterInvitationId}?code=ABCDEFGH01`,
-        });
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result).to.deep.equal({
-          data: {
-            type: 'certification-center-invitations',
-            id: certificationCenterInvitationId.toString(),
-            attributes: {
-              'certification-center-id': certificationCenterId,
-              'certification-center-name': 'Centre des Pixous',
-              status: CertificationCenterInvitation.StatusType.PENDING,
-            },
-          },
-        });
-      });
-    });
-
     describe(`PATCH /api/certification-center-invitations/{id}`, function () {
       context('when user is admin of the certification center', function () {
         let adminUser;

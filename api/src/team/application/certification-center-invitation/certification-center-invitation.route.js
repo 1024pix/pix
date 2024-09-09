@@ -59,6 +59,26 @@ export const certificationCenterInvitationRoutes = [
     },
   },
   {
+    method: 'GET',
+    path: '/api/certification-center-invitations/{id}',
+    config: {
+      auth: false,
+      handler: certificationCenterInvitationController.getCertificationCenterInvitation,
+      validate: {
+        params: Joi.object({
+          id: identifiersType.certificationCenterInvitationId.required(),
+        }),
+        query: Joi.object({
+          code: Joi.string().required(),
+        }),
+      },
+      notes: [
+        "- Cette route permet de récupérer les détails d'une invitation selon un **id d'invitation** et un **code**\n",
+      ],
+      tags: ['api', 'invitations'],
+    },
+  },
+  {
     method: 'POST',
     path: '/api/certification-center-invitations/{id}/accept',
     config: {
