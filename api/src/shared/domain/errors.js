@@ -1073,12 +1073,6 @@ class InvalidJuryLevelError extends DomainError {
   }
 }
 
-class InvalidStageError extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
 class AuditLoggerApiError extends DomainError {
   constructor(message) {
     super(message);
@@ -1166,7 +1160,6 @@ export {
   InvalidPasswordForUpdateEmailError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultTokenError,
-  InvalidStageError,
   InvalidTemporaryKeyError,
   InvalidVerificationCodeError,
   LanguageNotSupportedError,

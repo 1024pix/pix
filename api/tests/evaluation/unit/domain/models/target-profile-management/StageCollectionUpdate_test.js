@@ -1,5 +1,5 @@
-import { InvalidStageError } from '../../../../../../src/shared/domain/errors.js';
-import { StageCollectionUpdate } from '../../../../../../src/shared/domain/models/target-profile-management/StageCollectionUpdate.js';
+import { InvalidStageError } from '../../../../../../src/evaluation/domain/errors.js';
+import { StageCollectionUpdate } from '../../../../../../src/evaluation/domain/models/target-profile-management/StageCollectionUpdate.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | target-profile-management/StageCollectionUpdate', function () {
