@@ -1,10 +1,11 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import EnrolledCandidates from 'pix-certif/components/sessions/session-details/enrolled-candidates';
 import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
@@ -52,18 +53,19 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       subscriptions: [],
     });
 
-    const certificationCandidate = store.createRecord('certification-candidate', candidate);
-    const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-
-    this.set('certificationCandidates', [certificationCandidate]);
-    this.set('countries', [countries]);
+    const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
+    const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
     // when
-    const screen = await renderScreen(hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @countries={{this.countries}}
-/>`);
+    const screen = await renderScreen(
+      <template>
+        <EnrolledCandidates
+          @sessionId='1'
+          @certificationCandidates={{certificationCandidates}}
+          @countries={{countries}}
+        />
+      </template>,
+    );
 
     // then
     assert
@@ -91,40 +93,40 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       accessibilityAdjustmentNeeded: true,
       subscriptions: [coreSubscription, complementarySubscription],
     });
-    const complementaryCertification = {
-      id: complementaryCertificationId,
-      label: 'Pix+Droit',
-    };
+    const complementaryCertifications = [
+      {
+        id: complementaryCertificationId,
+        label: 'Pix+Droit',
+      },
+    ];
 
-    const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-    const certificationCandidate = store.createRecord('certification-candidate', candidate);
-
-    this.set('certificationCandidates', [certificationCandidate]);
-    this.set('complementaryCertifications', [complementaryCertification]);
-    this.set('countries', [countries]);
+    const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+    const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
 
     // when
     const screen = await renderScreen(
-      hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @countries={{this.countries}}
-  @complementaryCertifications={{this.complementaryCertifications}}
-/>`,
+      <template>
+        <EnrolledCandidates
+          @sessionId='1'
+          @certificationCandidates={{certificationCandidates}}
+          @countries={{countries}}
+          @complementaryCertifications={{complementaryCertifications}}
+        />
+      </template>,
     );
 
     // then
     assert.dom(screen.queryByRole('columnheader', { name: 'Accessibilité' })).doesNotExist();
-    assert.dom(screen.getByRole('cell', { name: certificationCandidate.externalId })).exists();
-    assert.dom(screen.getByRole('cell', { name: certificationCandidate.lastName })).exists();
-    assert.dom(screen.getByRole('cell', { name: certificationCandidate.firstName })).exists();
-    assert.dom(screen.getByRole('cell', { name: certificationCandidate.resultRecipientEmail })).exists();
+    assert.dom(screen.getByRole('cell', { name: certificationCandidates[0].externalId })).exists();
+    assert.dom(screen.getByRole('cell', { name: certificationCandidates[0].lastName })).exists();
+    assert.dom(screen.getByRole('cell', { name: certificationCandidates[0].firstName })).exists();
+    assert.dom(screen.getByRole('cell', { name: certificationCandidates[0].resultRecipientEmail })).exists();
     assert.dom(screen.getByRole('cell', { name: '30 %' })).exists();
     assert.dom(screen.getByRole('cell', { name: 'Certification Pix, Pix+Droit' })).exists();
-    assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCity })).doesNotExist();
-    assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthProvinceCode })).doesNotExist();
-    assert.dom(screen.queryByRole('cell', { name: certificationCandidate.birthCountry })).doesNotExist();
-    assert.dom(screen.queryByRole('cell', { name: certificationCandidate.email })).doesNotExist();
+    assert.dom(screen.queryByRole('cell', { name: certificationCandidates[0].birthCity })).doesNotExist();
+    assert.dom(screen.queryByRole('cell', { name: certificationCandidates[0].birthProvinceCode })).doesNotExist();
+    assert.dom(screen.queryByRole('cell', { name: certificationCandidates[0].birthCountry })).doesNotExist();
+    assert.dom(screen.queryByRole('cell', { name: certificationCandidates[0].email })).doesNotExist();
   });
 
   module('when center is v3 pilot', function (hooks) {
@@ -180,17 +182,18 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
             subscriptions: [],
           }),
         ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
-        const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-
-        this.set('countries', [countries]);
-        this.set('certificationCandidates', certificationCandidates);
+        const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
         // when
-        const screen = await renderScreen(hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @countries={{this.countries}}
-/>`);
+        const screen = await renderScreen(
+          <template>
+            <EnrolledCandidates
+              @sessionId='1'
+              @certificationCandidates={{certificationCandidates}}
+              @countries={{countries}}
+            />
+          </template>,
+        );
 
         // then
 
@@ -216,21 +219,18 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
             accessibilityAdjustmentNeeded: true,
           });
 
-          const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-          const certificationCandidate = store.createRecord('certification-candidate', candidate);
-
-          this.set('certificationCandidates', [certificationCandidate]);
-          this.set('countries', [countries]);
+          const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+          const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
 
           // when
           const screen = await renderScreen(
-            hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @displayComplementaryCertification={{this.displayComplementaryCertification}}
-  @countries={{this.countries}}
-  @complementaryCertifications={{this.complementaryCertifications}}
-/>`,
+            <template>
+              <EnrolledCandidates
+                @sessionId='1'
+                @certificationCandidates={{certificationCandidates}}
+                @countries={{countries}}
+              />
+            </template>,
           );
 
           // then
@@ -247,21 +247,18 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
             accessibilityAdjustmentNeeded: false,
           });
 
-          const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-          const certificationCandidate = store.createRecord('certification-candidate', candidate);
-
-          this.set('certificationCandidates', [certificationCandidate]);
-          this.set('countries', [countries]);
+          const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+          const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
 
           // when
           const screen = await renderScreen(
-            hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @displayComplementaryCertification={{this.displayComplementaryCertification}}
-  @countries={{this.countries}}
-  @complementaryCertifications={{this.complementaryCertifications}}
-/>`,
+            <template>
+              <EnrolledCandidates
+                @sessionId='1'
+                @certificationCandidates={{certificationCandidates}}
+                @countries={{countries}}
+              />
+            </template>,
           );
 
           // then
@@ -279,21 +276,22 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
           accessibilityAdjustmentNeeded: true,
         });
 
-        const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-        const certificationCandidate = store.createRecord('certification-candidate', candidate);
-
-        this.set('certificationCandidates', [certificationCandidate]);
-        this.set('countries', [countries]);
+        const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+        const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
+        const displayComplementaryCertification = sinon.stub();
+        const complementaryCertifications = [];
 
         // when
         const screen = await renderScreen(
-          hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @displayComplementaryCertification={{this.displayComplementaryCertification}}
-  @countries={{this.countries}}
-  @complementaryCertifications={{this.complementaryCertifications}}
-/>`,
+          <template>
+            <EnrolledCandidates
+              @sessionId='1'
+              @certificationCandidates={{certificationCandidates}}
+              @displayComplementaryCertification={{displayComplementaryCertification}}
+              @countries={{countries}}
+              @complementaryCertifications={{complementaryCertifications}}
+            />
+          </template>,
         );
 
         // then
@@ -319,17 +317,18 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
             subscriptions: [],
           }),
         ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
-        const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-
-        this.set('countries', [countries]);
-        this.set('certificationCandidates', certificationCandidates);
+        const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
         // when
-        const screen = await renderScreen(hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @countries={{this.countries}}
-/>`);
+        const screen = await renderScreen(
+          <template>
+            <EnrolledCandidates
+              @sessionId='1'
+              @certificationCandidates={{certificationCandidates}}
+              @countries={{countries}}
+            />
+          </template>,
+        );
 
         // then
         assert.dom(screen.queryByRole('button', { name: 'Editer le candidat Riri Duck' })).doesNotExist();
@@ -353,27 +352,27 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       birthdate: new Date('2019-04-28'),
       subscriptions: [coreSubscription, complementarySubscription],
     });
-    const complementaryCertification = {
-      id: cleaCertificationId,
-      label: 'cléa num',
-      key: COMPLEMENTARY_KEYS.CLEA,
-    };
+    const complementaryCertifications = [
+      {
+        id: cleaCertificationId,
+        label: 'cléa num',
+        key: COMPLEMENTARY_KEYS.CLEA,
+      },
+    ];
 
-    const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-    const certificationCandidate = store.createRecord('certification-candidate', candidate);
-
-    this.set('certificationCandidates', [certificationCandidate]);
-    this.set('complementaryCertifications', [complementaryCertification]);
-    this.set('countries', [countries]);
+    const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+    const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
 
     // when
     const screen = await renderScreen(
-      hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @countries={{this.countries}}
-  @complementaryCertifications={{this.complementaryCertifications}}
-/>`,
+      <template>
+        <EnrolledCandidates
+          @sessionId='1'
+          @certificationCandidates={{certificationCandidates}}
+          @countries={{countries}}
+          @complementaryCertifications={{complementaryCertifications}}
+        />
+      </template>,
     );
 
     // then
@@ -386,17 +385,18 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       subscriptions: [],
     });
     const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
-    const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-
-    this.set('certificationCandidates', certificationCandidates);
-    this.set('countries', [countries]);
+    const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
     // when
-    const screen = await renderScreen(hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @countries={{this.countries}}
-/>`);
+    const screen = await renderScreen(
+      <template>
+        <EnrolledCandidates
+          @sessionId='1'
+          @certificationCandidates={{certificationCandidates}}
+          @countries={{countries}}
+        />
+      </template>,
+    );
 
     // then
     assert
@@ -419,17 +419,18 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         subscriptions: [],
       }),
     ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
-    const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-
-    this.set('countries', [countries]);
-    this.set('certificationCandidates', certificationCandidates);
+    const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
     // when
-    const screen = await renderScreen(hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @countries={{this.countries}}
-/>`);
+    const screen = await renderScreen(
+      <template>
+        <EnrolledCandidates
+          @sessionId='1'
+          @certificationCandidates={{certificationCandidates}}
+          @countries={{countries}}
+        />
+      </template>,
+    );
 
     // then
     assert
@@ -446,26 +447,26 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
   module('when certification center is not SCO', function () {
     test('it displays candidate billing information', async function (assert) {
       // given
-      this.set('shouldDisplayPaymentOptions', true);
       const candidate = _buildCertificationCandidate({
         billingMode: 'PREPAID',
         prepaymentCode: 'CODE01',
         subscriptions: [],
       });
 
-      const certificationCandidate = store.createRecord('certification-candidate', candidate);
-      const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-
-      this.set('countries', [countries]);
-      this.set('certificationCandidates', [certificationCandidate]);
+      const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
+      const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
       // when
-      const screen = await renderScreen(hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
-  @countries={{this.countries}}
-/>`);
+      const screen = await renderScreen(
+        <template>
+          <EnrolledCandidates
+            @sessionId='1'
+            @certificationCandidates={{certificationCandidates}}
+            @shouldDisplayPaymentOptions={{true}}
+            @countries={{countries}}
+          />
+        </template>,
+      );
 
       // then
       assert.dom(screen.queryByRole('columnheader', { name: 'Tarification part Pix' })).exists();
@@ -489,22 +490,19 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       test(it, async function (assert) {
         // given
         const certificationCandidates = [];
-        const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-
-        this.set('countries', [countries]);
-        this.set('certificationCandidates', certificationCandidates);
-        this.set(
-          'shouldDisplayPrescriptionScoStudentRegistrationFeature',
-          shouldDisplayPrescriptionScoStudentRegistrationFeature,
-        );
+        const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
         // when
-        const screen = await renderScreen(hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-  @countries={{this.countries}}
-/>`);
+        const screen = await renderScreen(
+          <template>
+            <EnrolledCandidates
+              @sessionId='1'
+              @certificationCandidates={{certificationCandidates}}
+              @shouldDisplayPrescriptionScoStudentRegistrationFeature={{shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+              @countries={{countries}}
+            />
+          </template>,
+        );
 
         // then
         if (multipleButtonVisible) {
@@ -535,23 +533,20 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       const candidate = _buildCertificationCandidate({
         subscriptions: [],
       });
-      const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-      const certificationCandidate = store.createRecord('certification-candidate', candidate);
-
-      this.set('countries', [countries]);
-      this.set('certificationCandidates', [certificationCandidate]);
-      this.set(
-        'shouldDisplayPrescriptionScoStudentRegistrationFeature',
-        shouldDisplayPrescriptionScoStudentRegistrationFeature,
-      );
+      const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+      const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
 
       // when
-      const screen = await renderScreen(hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-  @countries={{this.countries}}
-/>`);
+      const screen = await renderScreen(
+        <template>
+          <EnrolledCandidates
+            @sessionId='1'
+            @certificationCandidates={{certificationCandidates}}
+            @shouldDisplayPrescriptionScoStudentRegistrationFeature={{shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+            @countries={{countries}}
+          />
+        </template>,
+      );
 
       // then
       if (shouldColumnsBeEmpty) {
@@ -571,18 +566,19 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         subscriptions: [],
       });
 
-      const certificationCandidate = store.createRecord('certification-candidate', candidate);
-      const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-
-      this.set('certificationCandidates', [certificationCandidate]);
-      this.set('countries', [countries]);
+      const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
+      const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
       // when
-      const screen = await renderScreen(hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @countries={{this.countries}}
-/>`);
+      const screen = await renderScreen(
+        <template>
+          <EnrolledCandidates
+            @sessionId='1'
+            @certificationCandidates={{certificationCandidates}}
+            @countries={{countries}}
+          />
+        </template>,
+      );
 
       // then
       assert.dom(screen.queryByLabelText("Informations concernant l'inscription en certification.")).doesNotExist();
@@ -606,18 +602,19 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         subscriptions: [],
       });
 
-      const certificationCandidate = store.createRecord('certification-candidate', candidate);
-      const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
-
-      this.set('certificationCandidates', [certificationCandidate]);
-      this.set('countries', [countries]);
+      const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
+      const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
       // when
-      const screen = await renderScreen(hbs`<EnrolledCandidates
-  @sessionId='1'
-  @certificationCandidates={{this.certificationCandidates}}
-  @countries={{this.countries}}
-/>`);
+      const screen = await renderScreen(
+        <template>
+          <EnrolledCandidates
+            @sessionId='1'
+            @certificationCandidates={{certificationCandidates}}
+            @countries={{countries}}
+          />
+        </template>,
+      );
       const tooltipLabel = screen.getByText(t('pages.sessions.detail.candidates.list.compatibility-tooltip'), {
         options: { exact: false },
       });
