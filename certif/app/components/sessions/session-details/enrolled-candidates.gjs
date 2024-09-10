@@ -45,6 +45,11 @@ export default class EnrolledCandidates extends Component {
   }
 
   @action
+  formattedCandidateExtratimePercentage(value) {
+    return value ? formatPercentage([value]) : '-';
+  }
+
+  @action
   async deleteCertificationCandidate(certificationCandidate) {
     this.notifications.clearAll();
     const sessionId = this.args.sessionId;
@@ -414,7 +419,7 @@ export default class EnrolledCandidates extends Component {
                   {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
                     <td>{{candidate.externalId}}</td>
                   {{/unless}}
-                  <td>{{formatPercentage candidate.extraTimePercentage}}</td>
+                  <td>{{this.formattedCandidateExtratimePercentage candidate.extraTimePercentage}}</td>
                   {{#if this.shouldDisplayAccessibilityAdjustmentNeededFeature}}
                     <td>{{candidate.accessibilityAdjustmentNeededLabel}}</td>
                   {{/if}}
