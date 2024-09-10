@@ -28,7 +28,7 @@ const resetOrganizationLearnersPassword = async function ({
   _assertAllUsersHasAnUsername({ errorMessage, users });
 
   const userIdWithPasswords = await _generateNewTemporaryPasswordForUsers({ users, passwordGenerator, cryptoService });
-  await authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged({
+  await authenticationMethodRepository.batchUpsertPasswordThatShouldBeChanged({
     usersToUpdateWithNewPassword: userIdWithPasswords,
   });
 

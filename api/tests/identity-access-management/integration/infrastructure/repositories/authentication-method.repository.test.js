@@ -1179,33 +1179,70 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     });
   });
 
-  describe('#batchUpdatePasswordThatShouldBeChanged', function () {
-    it('updates password for provided users list', async function () {
-      // given
-      const pierre = databaseBuilder.factory.buildUser.withRawPassword({ firstName: 'Pierre' });
-      const pierreNewHashedPassword = 'PierrePasswordHashed';
-      const paul = databaseBuilder.factory.buildUser.withRawPassword({ firstName: 'Paul' });
-      const paulNewHashedPassword = 'PaulPasswordHashed';
-      const usersToUpdateWithNewPassword = [
-        { userId: pierre.id, hashedPassword: pierreNewHashedPassword },
-        { userId: paul.id, hashedPassword: paulNewHashedPassword },
-      ];
+  describe('#batchUpsertPasswordThatShouldBeChanged', function () {
+    context('when user have an authentication method PIX', function () {
+      it('updates password for provided users list', async function () {
+        // given
+        const pierre = databaseBuilder.factory.buildUser.withRawPassword({ firstName: 'Pierre' });
+        const pierreNewHashedPassword = 'PierrePasswordHashed';
+        const paul = databaseBuilder.factory.buildUser.withRawPassword({ firstName: 'Paul' });
+        const paulNewHashedPassword = 'PaulPasswordHashed';
+        const usersToUpdateWithNewPassword = [
+          { userId: pierre.id, hashedPassword: pierreNewHashedPassword },
+          { userId: paul.id, hashedPassword: paulNewHashedPassword },
+        ];
 
-      await databaseBuilder.commit();
+        await databaseBuilder.commit();
 
-      // when
-      await authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged({ usersToUpdateWithNewPassword });
+        // when
+        await authenticationMethodRepository.batchUpsertPasswordThatShouldBeChanged({ usersToUpdateWithNewPassword });
 
-      // then
-      const authenticationMethods = await knex('authentication-methods')
-        .pluck('authenticationComplement')
-        .whereIn('userId', [pierre.id, paul.id]);
-      const expectedAuthenticationMethods = [
-        { password: pierreNewHashedPassword, shouldChangePassword: true },
-        { password: paulNewHashedPassword, shouldChangePassword: true },
-      ];
+        // then
+        const authenticationMethods = await knex('authentication-methods')
+          .pluck('authenticationComplement')
+          .whereIn('userId', [pierre.id, paul.id]);
+        const expectedAuthenticationMethods = [
+          { password: pierreNewHashedPassword, shouldChangePassword: true },
+          { password: paulNewHashedPassword, shouldChangePassword: true },
+        ];
 
-      expect(authenticationMethods).to.have.deep.members(expectedAuthenticationMethods);
+        expect(authenticationMethods).to.have.deep.members(expectedAuthenticationMethods);
+      });
+    });
+    context("when user doesn't have an authentication method PIX", function () {
+      it('create Pix authentication method with password for provided users list', async function () {
+        // given
+        const pierre = databaseBuilder.factory.buildUser({ firstName: 'Pierre' });
+        const pierreNewHashedPassword = 'PierrePasswordHashed';
+        const paul = databaseBuilder.factory.buildUser({ firstName: 'Paul' });
+        const paulNewHashedPassword = 'PaulPasswordHashed';
+        const usersToUpdateWithNewPassword = [
+          { userId: pierre.id, hashedPassword: pierreNewHashedPassword },
+          { userId: paul.id, hashedPassword: paulNewHashedPassword },
+        ];
+
+        await databaseBuilder.commit();
+
+        // when
+        await authenticationMethodRepository.batchUpsertPasswordThatShouldBeChanged({ usersToUpdateWithNewPassword });
+
+        // then
+        const authenticationMethods = await knex('authentication-methods')
+          .select('authenticationComplement', 'identityProvider')
+          .whereIn('userId', [pierre.id, paul.id]);
+        const expectedAuthenticationMethods = [
+          {
+            identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
+            authenticationComplement: { password: pierreNewHashedPassword, shouldChangePassword: true },
+          },
+          {
+            identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
+            authenticationComplement: { password: paulNewHashedPassword, shouldChangePassword: true },
+          },
+        ];
+
+        expect(authenticationMethods).to.have.deep.members(expectedAuthenticationMethods);
+      });
     });
 
     describe('when database transaction fails', function () {
@@ -1226,7 +1263,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         // when
         await catchErr(async function () {
           await DomainTransaction.execute(async () => {
-            await authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged({
+            await authenticationMethodRepository.batchUpsertPasswordThatShouldBeChanged({
               usersToUpdateWithNewPassword,
             });
             throw new Error('Error occurs in transaction');
