@@ -1,13 +1,13 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import CertificationCandidateDetailsModal from 'pix-certif/components/certification-candidate-details-modal';
+import CertificationCandidateDetailsModal from 'pix-certif/components/sessions/session-details/details-modal';
 import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | certification-candidate-details-modal', function (hooks) {
+module('Integration | Component | Sessions | SessionDetails | details-modal', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('it shows candidate details with complementary certification', async function (assert) {

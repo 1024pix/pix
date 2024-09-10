@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
-export default class PanelHeader extends Component {
+export default class SessionListHeader extends Component {
   @service currentUser;
   @service currentDomain;
   @service intl;

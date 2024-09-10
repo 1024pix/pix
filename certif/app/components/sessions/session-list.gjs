@@ -8,9 +8,9 @@ import { eq } from 'ember-truth-helpers';
 import get from 'lodash/get';
 
 import SessionDeleteConfirmModal from './session-delete-confirm-modal';
-import SessionSummaryRow from './session-summary-row';
+import SessionListRow from './session-list-row';
 
-export default class SessionSummaryList extends Component {
+export default class SessionList extends Component {
   @tracked shouldDisplaySessionDeletionModal = false;
   @tracked currentSessionToBeDeletedId = null;
   @tracked currentEnrolledCandidatesCount = null;
@@ -118,7 +118,7 @@ export default class SessionSummaryList extends Component {
 
             <tbody>
               {{#each @sessionSummaries as |sessionSummary|}}
-                <SessionSummaryRow
+                <SessionListRow
                   @sessionSummary={{sessionSummary}}
                   @goToSessionDetails={{@goToSessionDetails}}
                   @openSessionDeletionConfirmModal={{this.openSessionDeletionConfirmModal}}

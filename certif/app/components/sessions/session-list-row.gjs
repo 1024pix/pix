@@ -10,7 +10,7 @@ import { t } from 'ember-intl';
 
 import { CREATED, FINALIZED, PROCESSED } from '../../models/session-management';
 
-export default class SessionSummaryRow extends Component {
+export default class SessionListRow extends Component {
   @service intl;
 
   get statusLabel() {

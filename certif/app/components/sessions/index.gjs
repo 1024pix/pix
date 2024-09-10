@@ -4,8 +4,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 import NoSessionPanel from './no-session-panel';
-import PanelHeader from './panel-header';
-import SessionSummaryList from './session-summary-list';
+import SessionList from './session-list';
+import SessionListHeader from './session-list-header';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
@@ -29,9 +29,9 @@ export default class Sessions extends Component {
       {{#if this.displayNoSessionPanel}}
         <NoSessionPanel />
       {{else}}
-        <PanelHeader />
+        <SessionListHeader />
 
-        <SessionSummaryList @sessionSummaries={{@sessionSummaries}} @goToSessionDetails={{this.goToSessionDetails}} />
+        <SessionList @sessionSummaries={{@sessionSummaries}} @goToSessionDetails={{this.goToSessionDetails}} />
       {{/if}}
     </div>
   </template>
