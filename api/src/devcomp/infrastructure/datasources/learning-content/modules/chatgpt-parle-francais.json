@@ -450,15 +450,7 @@
           "element": {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<p>Seuls quelques acteurs ont les moyens financiers de développer des grands modèles de langage.<span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span> Selon leur <strong>pays</strong>, ces acteurs peuvent être amenés à faire des <strong>paramétrages différents</strong> de leurs modèles, par exemple pour respecter leurs lois.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "97e85ece-84d7-4b61-aa9f-58c063f0f900",
-            "type": "text",
-            "content": "<p>Par ailleurs, la <strong>surreprésentation de certaines langues</strong> dans les données d’entraînement favorisera des résultats qui <strong>manquent de diversité culturelle.</strong></p><p>Cependant, de nombreuses initiatives <strong>open source</strong> permettent de mieux comprendre comment ces modèles fonctionnent et sur quelles données ils ont été entraînés. Cette démarche peut aider à <strong>produire des résultats plus variés</strong>.</p>"
+            "content": "<p>Seuls <strong>quelques acteurs</strong> ont les <strong>moyens financiers</strong> de développer des grands modèles de langage.<span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span></p>Selon leur <strong>pays</strong>, ces acteurs peuvent être amenés à faire des <strong>paramétrages différents</strong> de leurs modèles, par exemple pour respecter leurs lois.<span aria-hidden=\"true\">&nbsp;⚖️</span><hr>La <strong>surreprésentation de certaines langues</strong> dans les données d’entraînement favorisera des résultats qui <strong>manquent de diversité culturelle.</strong><span aria-hidden=\"true\">&nbsp;🕳️&nbsp🗺️</span><br>Mais de nombreuses initiatives <strong>open source</strong> permettent de mieux comprendre comment ces modèles fonctionnent et sur quelles données ils ont été entraînés. Cette démarche peut aider à <strong>produire des résultats plus variés</strong>.<span aria-hidden=\"true\">&nbsp;🔵&nbsp;🔶&nbsp;🟪</span></p>"
           }
         }
       ]
