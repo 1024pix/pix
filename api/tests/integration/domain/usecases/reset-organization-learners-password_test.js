@@ -1,0 +1,229 @@
+import {
+  ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
+  ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE,
+} from '../../../../lib/domain/constants/reset-organization-learners-password-errors.js';
+import { resetOrganizationLearnersPassword } from '../../../../lib/domain/usecases/reset-organization-learners-password.js';
+import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
+import * as authenticationMethodRepository from '../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
+import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
+import { UserNotAuthorizedToUpdatePasswordError } from '../../../../src/shared/domain/errors.js';
+import { OrganizationLearnerPasswordResetDTO } from '../../../../src/shared/domain/models/OrganizationLearnerPasswordResetDTO.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, sinon } from '../../../test-helper.js';
+
+describe('Integration | UseCases | Reset organization learners password', function () {
+  const hashedPassword = '21fedcba';
+  const generatedPassword = 'abcdef12';
+  let cryptoService, passwordGenerator;
+
+  const allAuthenticationMethodUsername = 'laurent.bar';
+  const division = '3B';
+  const username = 'kay.lidiote';
+  let userId;
+
+  let organization;
+
+  let organizationLearnerWithEmail, organizationLearnerWithUsername;
+  let organizationLearnerWithGarIdentityProvider, organizationLearnerWithAllAuthenticationMethod;
+
+  let userWithEmail, userWithGarIdentityProvider, userWithUsername, userWithAllAuthenticationMethod;
+
+  beforeEach(function () {
+    organization = domainBuilder.buildOrganization({ id: undefined });
+    cryptoService = { hashPassword: sinon.stub().resolves(hashedPassword) };
+    passwordGenerator = { generateSimplePassword: sinon.stub().returns(generatedPassword) };
+
+    const userData = [
+      {
+        email: 'holly-garchie@example.net',
+        firstName: 'Holly',
+        lastName: 'Garchie',
+        username: undefined,
+      },
+      {
+        email: undefined,
+        firstName: 'Kay',
+        lastName: 'Lidiote',
+        username,
+      },
+      {
+        firstName: 'Laurent',
+        lastName: 'Bar',
+        email: 'laurent-bar@example.net',
+        username: allAuthenticationMethodUsername,
+      },
+    ];
+
+    [userWithEmail, userWithUsername, userWithAllAuthenticationMethod] = userData.map((user) =>
+      databaseBuilder.factory.buildUser.withRawPassword({ ...user }),
+    );
+
+    userWithGarIdentityProvider = databaseBuilder.factory.buildUser({
+      email: undefined,
+      firstName: 'Ray',
+      lastName: 'Nedesneiges',
+      username: undefined,
+    });
+
+    [userWithGarIdentityProvider, userWithAllAuthenticationMethod].forEach((user) => {
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+        userFirstName: user.firstName,
+        userLastName: user.lastName,
+        identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+        externalIdentifier: `external${user.firstName}`,
+        userId: user.id,
+      });
+    });
+
+    userId = databaseBuilder.factory.buildUser().id;
+  });
+  context('When organization is of type SCO and has isManagingStudents at true', function () {
+    beforeEach(function () {
+      organization.type = 'SCO';
+      organization.isManagingStudents = true;
+    });
+
+    context('When organization does not have GAR as identity provider', function () {
+      beforeEach(async function () {
+        organization.identityProviderForCampaigns = undefined;
+
+        [organizationLearnerWithUsername, organizationLearnerWithAllAuthenticationMethod] =
+          _buildOrganizationTestingData([userWithUsername, userWithAllAuthenticationMethod]);
+
+        await databaseBuilder.commit();
+      });
+
+      it('generates temporary password for organization learners in parameters', async function () {
+        // given
+        const organizationLearnersId = [
+          organizationLearnerWithUsername.id,
+          organizationLearnerWithAllAuthenticationMethod.id,
+        ];
+
+        // when
+        const result = await resetOrganizationLearnersPassword({
+          organizationId: organization.id,
+          organizationLearnersId,
+          userId,
+          authenticationMethodRepository,
+          organizationLearnerRepository,
+          userRepository,
+          cryptoService,
+          passwordGenerator,
+        });
+
+        // then
+        const expectedResult = [
+          new OrganizationLearnerPasswordResetDTO({
+            firstName: organizationLearnerWithUsername.firstName,
+            lastName: organizationLearnerWithUsername.lastName,
+            username,
+            password: generatedPassword,
+            division,
+          }),
+          new OrganizationLearnerPasswordResetDTO({
+            firstName: organizationLearnerWithAllAuthenticationMethod.firstName,
+            lastName: organizationLearnerWithAllAuthenticationMethod.lastName,
+            username: allAuthenticationMethodUsername,
+            password: generatedPassword,
+            division,
+          }),
+        ];
+
+        expect(result).to.deep.equal(expectedResult);
+      });
+    });
+  });
+  context('Error cases', function () {
+    context('when an organization learner does not belong to organization', function () {
+      beforeEach(async function () {
+        const otherOrganization = databaseBuilder.factory.buildOrganization();
+        organization = databaseBuilder.factory.buildOrganization({ ...organization });
+
+        [organizationLearnerWithUsername, organizationLearnerWithAllAuthenticationMethod] = [
+          userWithUsername,
+          userWithAllAuthenticationMethod,
+        ].map(({ firstName, id, lastName }) =>
+          databaseBuilder.factory.buildOrganizationLearner({
+            firstName,
+            lastName,
+            organizationId: otherOrganization.id,
+            userId: id,
+          }),
+        );
+
+        await databaseBuilder.commit();
+      });
+
+      it('throws an UserNotAuthorizedToUpdatePasswordError', async function () {
+        // given
+        const organizationLearnersId = [
+          organizationLearnerWithUsername.id,
+          organizationLearnerWithAllAuthenticationMethod.id,
+        ];
+
+        // when
+        const error = await catchErr(resetOrganizationLearnersPassword)({
+          organizationId: organization.id,
+          organizationLearnersId,
+          userId,
+          authenticationMethodRepository,
+          organizationLearnerRepository,
+          userRepository,
+          cryptoService,
+          passwordGenerator,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
+        expect(error.code).to.equal(ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE);
+      });
+    });
+
+    context('when organization learner does not have an username', function () {
+      beforeEach(async function () {
+        [organizationLearnerWithEmail, organizationLearnerWithGarIdentityProvider] = _buildOrganizationTestingData([
+          userWithEmail,
+          userWithGarIdentityProvider,
+        ]);
+
+        await databaseBuilder.commit();
+      });
+
+      it('throws an UserNotAuthorizedToUpdatePasswordError', async function () {
+        // given
+        const organizationLearnersId = [organizationLearnerWithEmail.id, organizationLearnerWithGarIdentityProvider.id];
+
+        // when
+        const error = await catchErr(resetOrganizationLearnersPassword)({
+          organizationId: organization.id,
+          organizationLearnersId,
+          userId,
+          authenticationMethodRepository,
+          organizationLearnerRepository,
+          userRepository,
+          cryptoService,
+          passwordGenerator,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
+        expect(error.code).to.equal(ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE);
+      });
+    });
+  });
+
+  function _buildOrganizationTestingData(users) {
+    databaseBuilder.factory.buildOrganization({ ...organization });
+
+    return users.map(({ firstName, id, lastName }) =>
+      databaseBuilder.factory.buildOrganizationLearner({
+        division,
+        firstName,
+        lastName,
+        organizationId: organization.id,
+        userId: id,
+      }),
+    );
+  }
+});
