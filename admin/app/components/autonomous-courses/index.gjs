@@ -1,7 +1,7 @@
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import { t } from 'ember-intl';
 
-import Breadcrumb from '../layout/breadcrumb/';
+import Breadcrumb from '../layout/breadcrumb';
 
 <template>
   <header>

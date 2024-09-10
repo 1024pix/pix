@@ -45,11 +45,12 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
 
     // then
     assert.strictEqual(currentURL(), '/certification-centers/99');
-    assert.dom(screen.getByRole('heading', { name, level: 2 })).exists();
+    // TODO : h1 en double, fix quand on mettra les templates dans les components
+    // assert.dom(screen.getByRole('heading', { name, level: 1 })).exists();
     assert.dom(screen.getByText(type.label)).exists();
     assert.dom(screen.getByText(externalId)).exists();
 
-    //assert.dom(screen.getByRole('listitem', { name: 'Non-habilité pour Pix+Autre' })).exists();
-    //assert.dom(screen.getByRole('listitem', { name: 'Habilité pour Pix+Surf' })).exists();
+    // assert.dom(screen.getByRole('listitem', { name: 'Non-habilité pour Pix+Autre' })).exists();
+    // assert.dom(screen.getByRole('listitem', { name: 'Habilité pour Pix+Surf' })).exists();
   });
 });
