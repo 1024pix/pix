@@ -8,7 +8,6 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
     sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport');
     sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
     sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier');
-    sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
   });
 
   describe('POST /api/admin/target-profiles/{id}/attach-organizations', function () {
@@ -16,6 +15,9 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
     const url = '/api/admin/target-profiles/3/attach-organizations';
     const payload = { 'organization-ids': [1, 2] };
 
+    beforeEach(function () {
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
+    });
     context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
       it('should return a response with an HTTP status code 204', async function () {
         // given
@@ -119,6 +121,9 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
     const url = '/api/admin/target-profiles/3/copy-organizations';
     const payload = { 'target-profile-id': 1 };
 
+    beforeEach(function () {
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
+    });
     context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
       it('should return a response with an HTTP status code 204', async function () {
         // given
@@ -211,6 +216,7 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
       httpTestServer = new HttpTestServer();
       method = 'GET';
       sinon.stub(targetProfileController, 'getLearningContentAsPdf');
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
     });
 
     it('should called controller when acces is granted by pre handler validation', async function () {
@@ -329,6 +335,7 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
       httpTestServer = new HttpTestServer();
       method = 'GET';
       sinon.stub(targetProfileController, 'getContentAsJsonFile');
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
     });
 
     it('should called controller when acces is granted by securiry pre handler validation', async function () {
@@ -404,6 +411,9 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
   });
 
   describe('POST /api/admin/organizations/{organizationId}/attach-target-profiles', function () {
+    beforeEach(function () {
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
+    });
     context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
       it('should return a response with an HTTP status code 204', async function () {
         // given
@@ -522,6 +532,9 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
     const url = '/api/admin/target-profiles/123/outdate';
     const payload = {};
 
+    beforeEach(function () {
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
+    });
     context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
       it('should return a response with an HTTP status code 204', async function () {
         // given
@@ -593,6 +606,9 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
     const url = '/api/admin/target-profiles/123/simplified-access';
     const payload = {};
 
+    beforeEach(function () {
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
+    });
     context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
       it('should return a response with an HTTP status code 200', async function () {
         // given
@@ -666,6 +682,9 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
     const method = 'GET';
     const url = '/api/admin/target-profiles/1/organizations';
 
+    beforeEach(function () {
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
+    });
     context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
       it('should return a response with an HTTP status code 200', async function () {
         // given
@@ -803,6 +822,10 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
   });
 
   describe('POST /api/admin/target-profiles/{targetProfileId}/copy', function () {
+    beforeEach(function () {
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
+    });
+
     describe('When user has role SUPER_ADMIN or METIER or SUPPORT', function () {
       it('Should return a response with 200 status code', async function () {
         // given
@@ -853,6 +876,111 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
         expect(targetProfileController.copyTargetProfile).not.to.have.been.called;
         expect(statusCode).to.equal(403);
       });
+    });
+  });
+
+  describe('GET /api/admin/organizations/{id}/target-profile-summaries', function () {
+    it('should allow to controller if user has role SUPER_ADMIN', async function () {
+      // given
+      sinon.stub(targetProfileController, 'findTargetProfileSummariesForAdmin').returns('ok');
+      securityPreHandlers.checkAdminMemberHasRoleSupport.callsFake((request, h) =>
+        h.response({ errors: new Error('forbidden') }).code(403),
+      );
+      securityPreHandlers.checkAdminMemberHasRoleMetier.callsFake((request, h) =>
+        h.response({ errors: new Error('forbidden') }).code(403),
+      );
+      securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('GET', '/api/admin/organizations/1/target-profile-summaries');
+
+      // then
+      sinon.assert.calledOnce(targetProfileController.findTargetProfileSummariesForAdmin);
+    });
+
+    it('should allow to controller if user has role SUPPORT', async function () {
+      // given
+      sinon.stub(targetProfileController, 'findTargetProfileSummariesForAdmin').returns('ok');
+      securityPreHandlers.checkAdminMemberHasRoleSupport.callsFake((request, h) =>
+        h.response({ errors: new Error('forbidden') }).code(403),
+      );
+      securityPreHandlers.checkAdminMemberHasRoleMetier.callsFake((request, h) =>
+        h.response({ errors: new Error('forbidden') }).code(403),
+      );
+      securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('GET', '/api/admin/organizations/1/target-profile-summaries');
+
+      // then
+      sinon.assert.calledOnce(targetProfileController.findTargetProfileSummariesForAdmin);
+    });
+
+    it('should allow to controller if user has role METIER', async function () {
+      // given
+      sinon.stub(targetProfileController, 'findTargetProfileSummariesForAdmin').returns('ok');
+      securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.callsFake((request, h) =>
+        h.response({ errors: new Error('forbidden') }).code(403),
+      );
+      securityPreHandlers.checkAdminMemberHasRoleSupport.callsFake((request, h) =>
+        h.response({ errors: new Error('forbidden') }).code(403),
+      );
+      securityPreHandlers.checkAdminMemberHasRoleMetier.callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('GET', '/api/admin/organizations/1/target-profile-summaries');
+
+      // then
+      sinon.assert.calledOnce(targetProfileController.findTargetProfileSummariesForAdmin);
+    });
+
+    it('should return 403 without reaching controller if user has not an allowed role', async function () {
+      // given
+      sinon.stub(targetProfileController, 'findTargetProfileSummariesForAdmin').returns('ok');
+      securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.callsFake((request, h) =>
+        h.response({ errors: new Error('forbidden') }).code(403),
+      );
+      securityPreHandlers.checkAdminMemberHasRoleSupport.callsFake((request, h) =>
+        h.response({ errors: new Error('forbidden') }).code(403),
+      );
+      securityPreHandlers.checkAdminMemberHasRoleMetier.callsFake((request, h) =>
+        h.response({ errors: new Error('forbidden') }).code(403),
+      );
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/organizations/1/target-profile-summaries');
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      sinon.assert.notCalled(targetProfileController.findTargetProfileSummariesForAdmin);
+    });
+
+    it('should return a 400 HTTP response when organization id is not valid', async function () {
+      // given
+      sinon.stub(targetProfileController, 'findTargetProfileSummariesForAdmin').returns('ok');
+      securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.callsFake((request, h) =>
+        h.response({ errors: new Error('forbidden') }).code(403),
+      );
+      securityPreHandlers.checkAdminMemberHasRoleSupport.callsFake((request, h) =>
+        h.response({ errors: new Error('forbidden') }).code(403),
+      );
+      securityPreHandlers.checkAdminMemberHasRoleMetier.callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/organizations/coucou/target-profile-summaries');
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
   });
 });

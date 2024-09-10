@@ -537,4 +537,50 @@ describe('Acceptance | TargetProfile | Application | Route | admin-target-profil
       expect(message).to.equal(stage.message);
     });
   });
+
+  describe('GET /api/admin/organizations/{id}/target-profile-summaries', function () {
+    let userId;
+    let organizationId;
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser.withRole().id;
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildTargetProfile({
+        id: 1,
+        name: 'Super profil cible',
+        isPublic: true,
+        outdated: false,
+      });
+      await databaseBuilder.commit();
+    });
+
+    it('should return serialized target profile summaries', async function () {
+      // given
+      const options = {
+        method: 'GET',
+        url: `/api/admin/organizations/${organizationId}/target-profile-summaries`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        data: [
+          {
+            type: 'target-profile-summaries',
+            id: '1',
+            attributes: {
+              name: 'Super profil cible',
+              outdated: false,
+              'created-at': undefined,
+              'can-detach': false,
+            },
+          },
+        ],
+      });
+    });
+  });
 });
