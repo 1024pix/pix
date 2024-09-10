@@ -5,13 +5,13 @@ import sinon from 'sinon';
 
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit | Component | sessions | panel-header', function (hooks) {
+module('Unit | Component | sessions | session-list-header', function (hooks) {
   setupTest(hooks);
 
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:sessions/panel-header');
+    component = createGlimmerComponent('component:sessions/session-list-header');
   });
 
   module('#shouldRenderImportTemplateButton', function () {

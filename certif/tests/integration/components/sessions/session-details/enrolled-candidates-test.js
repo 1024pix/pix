@@ -6,9 +6,9 @@ import { t } from 'ember-intl/test-support';
 import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | enrolled-candidates', function (hooks) {
+module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   const DELETE_BUTTON_SELECTOR = 'certification-candidates-actions__delete-button';

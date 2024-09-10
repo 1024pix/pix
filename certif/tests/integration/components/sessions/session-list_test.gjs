@@ -1,13 +1,13 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import SessionSummaryList from 'pix-certif/components/sessions/session-summary-list';
+import SessionList from 'pix-certif/components/sessions/session-list';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { waitForDialogClose } from '../../../helpers/wait-for';
 
-module('Integration | Component | session-summary-list', function (hooks) {
+module('Integration | Component | Sessions | SessionList', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('it should display an header', async function (assert) {
@@ -19,7 +19,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
     // when
     const screen = await render(
       <template>
-        <SessionSummaryList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
+        <SessionList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
       </template>,
     );
 
@@ -46,7 +46,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
       // when
       const screen = await render(
         <template>
-          <SessionSummaryList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
+          <SessionList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
         </template>,
       );
 
@@ -74,7 +74,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
       // when
       const screen = await render(
         <template>
-          <SessionSummaryList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
+          <SessionList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
         </template>,
       );
 
@@ -107,7 +107,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
       // when
       const screen = await render(
         <template>
-          <SessionSummaryList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
+          <SessionList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
         </template>,
       );
 
@@ -136,7 +136,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
 
       const screen = await render(
         <template>
-          <SessionSummaryList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
+          <SessionList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
         </template>,
       );
 
@@ -163,7 +163,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
       // when
       const screen = await render(
         <template>
-          <SessionSummaryList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
+          <SessionList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
         </template>,
       );
 
@@ -189,7 +189,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
         // when
         const screen = await render(
           <template>
-            <SessionSummaryList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
+            <SessionList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
           </template>,
         );
 
@@ -214,7 +214,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
         // when
         const screen = await render(
           <template>
-            <SessionSummaryList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
+            <SessionList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
           </template>,
         );
 
@@ -241,10 +241,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
 
           const screen = await render(
             <template>
-              <SessionSummaryList
-                @sessionSummaries={{sessionSummaries}}
-                @goToSessionDetails={{goToSessionDetailsSpy}}
-              />
+              <SessionList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
             </template>,
           );
 
@@ -279,10 +276,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
 
             const screen = await render(
               <template>
-                <SessionSummaryList
-                  @sessionSummaries={{sessionSummaries}}
-                  @goToSessionDetails={{goToSessionDetailsSpy}}
-                />
+                <SessionList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
               </template>,
             );
 
@@ -316,10 +310,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
 
             const screen = await render(
               <template>
-                <SessionSummaryList
-                  @sessionSummaries={{sessionSummaries}}
-                  @goToSessionDetails={{goToSessionDetailsSpy}}
-                />
+                <SessionList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
               </template>,
             );
 
@@ -355,10 +346,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
 
             const screen = await render(
               <template>
-                <SessionSummaryList
-                  @sessionSummaries={{sessionSummaries}}
-                  @goToSessionDetails={{goToSessionDetailsSpy}}
-                />
+                <SessionList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
               </template>,
             );
 
@@ -387,10 +375,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
 
             const screen = await render(
               <template>
-                <SessionSummaryList
-                  @sessionSummaries={{sessionSummaries}}
-                  @goToSessionDetails={{goToSessionDetailsSpy}}
-                />
+                <SessionList @sessionSummaries={{sessionSummaries}} @goToSessionDetails={{goToSessionDetailsSpy}} />
               </template>,
             );
             await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));

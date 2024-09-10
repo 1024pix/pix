@@ -5,13 +5,13 @@ import sinon from 'sinon';
 
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit | Component | session-summary', function (hooks) {
+module('Unit | Component | session-list', function (hooks) {
   setupTest(hooks);
 
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:sessions/session-summary-list');
+    component = createGlimmerComponent('component:sessions/session-list');
   });
 
   module('#openSessionDeletionConfirmModal', function () {
