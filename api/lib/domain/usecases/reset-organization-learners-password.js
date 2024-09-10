@@ -17,7 +17,25 @@ const resetOrganizationLearnersPassword = async function ({
 }) {
   const errorMessage = `User ${userId} cannot reset passwords of some students in organization ${organizationId}`;
   const organizationLearners = await organizationLearnerRepository.findByIds({ ids: organizationLearnersId });
+  const userIds = organizationLearners.map((organizationLearner) => organizationLearner.userId);
+  const users = await userRepository.getByIds(userIds);
 
+  _assertEachOrganizationLearnersBelongToOrganization({
+    errorMessage,
+    organizationId,
+    organizationLearners,
+  });
+  _assertAllUsersHasAnUsername({ errorMessage, users });
+
+  const userIdWithPasswords = await _generateNewTemporaryPasswordForUsers({ users, passwordGenerator, cryptoService });
+  await authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged({
+    usersToUpdateWithNewPassword: userIdWithPasswords,
+  });
+
+  return _buildOrganizationLearnerPasswordResetDTOs({ organizationLearners, users, userIdWithPasswords });
+};
+
+function _assertEachOrganizationLearnersBelongToOrganization({ errorMessage, organizationId, organizationLearners }) {
   const organizationLearnersBelongsToOrganization = organizationLearners.every(
     (organizationLearner) => organizationLearner.organizationId === organizationId,
   );
@@ -28,45 +46,46 @@ const resetOrganizationLearnersPassword = async function ({
       ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
     );
   }
+}
 
-  const organizationLearnersMap = new Map();
-  const studentIds = organizationLearners.map((organizationLearner) => {
-    organizationLearnersMap.set(organizationLearner.userId, organizationLearner);
-    return organizationLearner.userId;
-  });
-  const students = await userRepository.getByIds(studentIds);
-  const studentsHaveAuthenticationMethodWithUsername = students.every((student) => student.username);
+function _assertAllUsersHasAnUsername({ errorMessage, users }) {
+  const usersHaveAnUsername = users.every((student) => student.username);
 
-  if (!studentsHaveAuthenticationMethodWithUsername) {
+  if (!usersHaveAnUsername) {
     throw new UserNotAuthorizedToUpdatePasswordError(errorMessage, ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE);
   }
+}
 
-  const organizationLearnersPasswordResets = [];
-
-  const usersToUpdateWithNewPassword = await Promise.all(
-    students.map(async ({ id: userId, username, lastName, firstName }) => {
+async function _generateNewTemporaryPasswordForUsers({ users, passwordGenerator, cryptoService }) {
+  return await Promise.all(
+    users.map(async ({ id: userId }) => {
       const generatedPassword = passwordGenerator.generateSimplePassword();
       const hashedPassword = await cryptoService.hashPassword(generatedPassword);
 
-      organizationLearnersPasswordResets.push(
-        new OrganizationLearnerPasswordResetDTO({
-          division: organizationLearnersMap.get(userId).division,
-          lastName,
-          firstName,
-          username,
-          password: generatedPassword,
-        }),
-      );
-
-      return { userId, hashedPassword };
+      return { userId, hashedPassword, generatedPassword };
     }),
   );
+}
 
-  await authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged({
-    usersToUpdateWithNewPassword,
-  });
+function _buildOrganizationLearnerPasswordResetDTOs({ organizationLearners, users, userIdWithPasswords }) {
+  const userIdWithPasswordsMap = new Map(
+    userIdWithPasswords.map(({ userId, generatedPassword }) => [userId, generatedPassword]),
+  );
 
-  return organizationLearnersPasswordResets;
-};
+  const divisionByUserIdMap = new Map(
+    organizationLearners.map((organizationLearner) => [organizationLearner.userId, organizationLearner.division]),
+  );
+
+  return users.map(
+    ({ id, username, firstName, lastName }) =>
+      new OrganizationLearnerPasswordResetDTO({
+        division: divisionByUserIdMap.get(id),
+        lastName,
+        firstName,
+        username,
+        password: userIdWithPasswordsMap.get(id),
+      }),
+  );
+}
 
 export { resetOrganizationLearnersPassword };
