@@ -25,6 +25,7 @@ describe('Unit | Domain | ReadModels | DataOrganizationPlacesStatistics', functi
     const placeStatistics = new PlaceStatistics({
       placesLots: [
         new PlacesLot({
+          id: 1,
           count: 10,
           expirationDate: new Date('2022-05-02'),
           activationDate: new Date('2019-04-01'),

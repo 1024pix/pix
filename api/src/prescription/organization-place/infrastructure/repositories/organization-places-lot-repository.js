@@ -32,7 +32,7 @@ const findByOrganizationId = async function (organizationId) {
 const findAllByOrganizationId = async function (organizationId) {
   const knexConn = DomainTransaction.getConnection();
   const placesLots = await knexConn('organization-places')
-    .select('count', 'activationDate', 'expirationDate', 'deletedAt')
+    .select('id', 'count', 'activationDate', 'expirationDate', 'deletedAt')
     .where({ organizationId });
   return placesLots.map((e) => new PlacesLot(e));
 };
@@ -40,7 +40,7 @@ const findAllByOrganizationId = async function (organizationId) {
 const findAllByOrganizationIds = async function (organizationIds) {
   const knexConn = DomainTransaction.getConnection();
   const placesLots = await knexConn('organization-places')
-    .select('count', 'organizationId', 'activationDate', 'expirationDate', 'deletedAt')
+    .select('id', 'count', 'organizationId', 'activationDate', 'expirationDate', 'deletedAt')
     .whereIn('organizationId', organizationIds);
 
   return placesLots.map((e) => new PlacesLot(e));
@@ -51,7 +51,7 @@ const findAllByOrganizationIds = async function (organizationIds) {
 const findAllNotDeletedByOrganizationId = async function (organizationId) {
   const knexConn = DomainTransaction.getConnection();
   const placesLots = await knexConn('organization-places')
-    .select('count', 'activationDate', 'expirationDate', 'deletedAt')
+    .select('id', 'count', 'activationDate', 'expirationDate', 'deletedAt')
     .where({ organizationId })
     .whereNull('deletedAt')
     .orderBy(

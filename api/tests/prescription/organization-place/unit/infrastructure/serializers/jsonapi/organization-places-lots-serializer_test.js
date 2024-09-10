@@ -25,7 +25,7 @@ describe('Unit | Serializer | JSONAPI | organization-places-lot-management-seria
       const expectedJSON = {
         data: [
           {
-            type: 'organization-places',
+            type: 'organization-places-lots',
             id: organizationPlaces[0].id.toString(),
             attributes: {
               count: organizationPlaces[0].count,
@@ -35,7 +35,7 @@ describe('Unit | Serializer | JSONAPI | organization-places-lot-management-seria
             },
           },
           {
-            type: 'organization-places',
+            type: 'organization-places-lots',
             id: organizationPlaces[1].id.toString(),
             attributes: {
               count: organizationPlaces[1].count,

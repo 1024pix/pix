@@ -44,7 +44,7 @@ describe('Acceptance | Route | Get Organizations Places Lots', function () {
       const response = await server.inject(options);
 
       // then
-      expect(response.result.data[0].type).to.equal('organization-places');
+      expect(response.result.data[0].type).to.equal('organization-places-lots');
       expect(response.statusCode).to.equal(200);
     });
   });
