@@ -28,7 +28,7 @@
       "grainId": "ed22ab38-ec6d-47df-88ea-4894f1cd6c8a"
     },
     {
-      "content": "<p>Vérifiez que vous avez retenu l'essentiel en répondant à la question suivante. <span aria-hidden=\"true\">🎯</span></p>",
+      "content": "<p>Vérifiez que vous avez retenu l'essentiel en répondant à cette question. <span aria-hidden=\"true\">🎯</span></p>",
       "grainId": "46309f55-22e6-4b0f-bfc4-2bad94f9cbd7"
     },
     {
@@ -445,14 +445,14 @@
                 {
                   "id": "e9d9c6e3-4c08-40de-bb46-e73b6d02f1c5",
                   "type": "image",
-                  "url": "https://i.imgur.com/Hcw8CCw.png",
-                  "alt": "Publication de i<3datte (@datte4ever) sur X (Twitter) détaillée dans l'alternative textuelle",
-                  "alternativeText": "Publication de i<3datte (@datte4ever) sur X (Twitter) à 12h00 le 13 septembre 2024&nbsp;: MIAM ! achetez vos dattes en ligne sur notre site (code promo MIAM2024)<br>Et vous savez-quoi ? les dattes font guérir de toutes les maladies !!!  <a href=\"https://www.voici.fr/beaute/vieillissement-cutane-quels-sont-les-bienfaits-anti-age-des-dattes-dans-les-soins-cosmetiques-789471\" target=\"_blank\">https://www.voici.fr/beaute/vieillissement-cutane-quels-sont-les-bienfaits-anti-age-des-dattes-dans-les-soins-cosmetiques-789471</a>&nbsp;&raquo;"
+                  "url": "https://i.imgur.com/XE7eadt.png",
+                  "alt": "Publication de Légumes3000 (@legumes3000) sur X (Twitter) détaillée dans l'alternative textuelle",
+                  "alternativeText": "Publication de Légumes3000 (@legumes3000) sur X (Twitter) à 12h53 le 8 février 2023&nbsp;: MIAM ! achetez vos avocats en ligne sur notre site (code promo MIAM2024)<br>Et vous savez-quoi ? les avocats soignent plein de maladies!  <a href=\"https://www.santemagazine.fr/beaute-forme/soins-du-visage/peau-sensible/peau-tous-les-benefices-de-lhuile-davocat-325761\" target=\"_blank\">https://www.santemagazine.fr/beaute-forme/soins-du-visage/peau-sensible/peau-tous-les-benefices-de-lhuile-davocat-325761</a>&nbsp;&raquo;"
                 },
                 {
                   "id": "7e2cda57-9383-4a9b-ab46-b6d96317d6ac",
                   "type": "text",
-                  "content": "<p><span aria-hidden=\"true\">👉</span> La publication de i<3datte comporte un <a href=\"https://www.voici.fr/beaute/vieillissement-cutane-quels-sont-les-bienfaits-anti-age-des-dattes-dans-les-soins-cosmetiques-789471\" target=\"_blank\">lien vers cet article.</a></p>"
+                  "content": "<p><span aria-hidden=\"true\">👉</span> La publication de Légumes3000 comporte un <a href=\"https://www.santemagazine.fr/beaute-forme/soins-du-visage/peau-sensible/peau-tous-les-benefices-de-lhuile-davocat-325761\" target=\"_blank\">lien vers cet article.</a></p>"
                 },
                 {
                   "id": "275ab2ee-feaa-4c5c-9372-116799077172",
