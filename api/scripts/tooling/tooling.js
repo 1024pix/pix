@@ -63,6 +63,29 @@ async function makeUserCleaCertifiable({ userId, databaseBuilder }) {
   }
 }
 
+async function executeAndLogScript({ processArgvs, scriptFn }) {
+  const scriptName = processArgvs[1].split('scripts/')[1];
+  const command = `${scriptName} ${processArgvs.slice(2).join(' ')}`.trim();
+  const [{ id: scriptExecId }] = await knex('script-executions').insert({ scriptName, command }).returning(['id']);
+  let scriptRes;
+  let scriptErr;
+  try {
+    scriptRes = await scriptFn();
+  } catch (error) {
+    scriptErr = error;
+    logger.error(error);
+    throw error;
+  } finally {
+    await knex('script-executions')
+      .update({
+        endedAt: knex.fn.now(),
+        error: JSON.stringify(scriptErr) ?? null,
+      })
+      .where({ id: scriptExecId });
+  }
+  return scriptRes;
+}
+
 function _createComplementeCompetenceEvaluationAssessment({ databaseBuilder, userId }) {
   return databaseBuilder.factory.buildAssessment({
     userId,
@@ -156,4 +179,10 @@ function _findFirstChallengeValidatedBySkillId(skillId) {
   return _.find(allChallenges, { status: 'validé', skill: { id: skillId } });
 }
 
-export { makeUserCleaCertifiable, makeUserPixCertifiable, makeUserPixDroitCertifiable, makeUserPixEduCertifiable };
+export {
+  executeAndLogScript,
+  makeUserCleaCertifiable,
+  makeUserPixCertifiable,
+  makeUserPixDroitCertifiable,
+  makeUserPixEduCertifiable,
+};
