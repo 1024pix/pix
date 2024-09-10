@@ -301,9 +301,9 @@
             {
               "elements": [
                 {
-                  "id": "26b01131-fc75-4300-9ad3-fc19f718a88a",
+                  "id": "b0eac706-4444-45c6-bb9f-8e4449737742",
                   "type": "qcu",
-                  "instruction": "<p>Diane a lu dans un magazine que le site Wikipédia a été créé en 2001.</p>",
+                  "instruction": "<p>Kylian Mbappé a rejoint le Real Madrid en juin 2024.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -323,8 +323,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un fait qui est sourcé. C'est bien une information</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un fait qui est sourcé. Essayez à nouveau.</p>"
+                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un fait qui est sourcé et vérifiable. C'est bien une information</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un fait qui est sourcé et vérifiable. Essayez à nouveau.</p>"
                   },
                   "solution": "4"
                 }
