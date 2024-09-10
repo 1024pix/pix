@@ -27,8 +27,15 @@ export const findSCOV2Centers = async function ({ pageNumber = DEFAULT_PAGINATIO
  */
 export const addToWhitelistByExternalIds = async ({ externalIds }) => {
   const knexConn = DomainTransaction.getConnection();
-
-  await knexConn('certification-centers')
+  return knexConn('certification-centers')
     .update({ isScoBlockedAccessWhitelist: true })
     .whereIn('externalId', externalIds);
+};
+
+/**
+ * @returns {Promise<void>}
+ */
+export const resetWhitelist = async () => {
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn('certification-centers').update({ isScoBlockedAccessWhitelist: false });
 };

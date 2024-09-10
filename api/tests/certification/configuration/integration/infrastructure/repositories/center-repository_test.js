@@ -128,4 +128,22 @@ describe('Certification | Configuration | Integration | Repository | center-repo
       expect(updatedCenter.isScoBlockedAccessWhitelist).to.be.true;
     });
   });
+
+  describe('#resetWhitelist', function () {
+    it('should reset all isScoBlockedAccessWhitelist to false', async function () {
+      // given
+      const centerId = databaseBuilder.factory.buildCertificationCenter({
+        type: CenterTypes.SCO,
+        isScoBlockedAccessWhitelist: true,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      await centerRepository.resetWhitelist();
+
+      // then
+      const updatedCenter = await knex('certification-centers').where({ id: centerId }).first();
+      expect(updatedCenter.isScoBlockedAccessWhitelist).to.be.false;
+    });
+  });
 });

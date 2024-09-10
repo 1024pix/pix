@@ -2,10 +2,15 @@
  * @typedef {import ('../../domain/usecases/index.js').CenterRepository} CenterRepository
  */
 
-/**
- * @param {Object} params
- * @param {CenterRepository} params.centerRepository
- */
-export const importScoWhitelist = async ({ externalIds = [], centerRepository }) => {
-    return centerRepository.addToWhitelistByExternalIds({externalIds});
-};
+import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+
+export const importScoWhitelist = withTransaction(
+  /**
+   * @param {Object} params
+   * @param {CenterRepository} params.centerRepository
+   */
+  async ({ externalIds = [], centerRepository }) => {
+    await centerRepository.resetWhitelist();
+    return centerRepository.addToWhitelistByExternalIds({ externalIds });
+  },
+);
