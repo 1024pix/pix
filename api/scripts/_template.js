@@ -8,6 +8,7 @@ const { performance } = perf_hooks;
 import { disconnect, knex } from '../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../src/shared/infrastructure/caches/learning-content-cache.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
+import { executeAndLogScript } from './tooling/tooling.js';
 
 const doSomething = async ({ throwError }) => {
   if (throwError) {
@@ -21,9 +22,9 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 const __filename = modulePath;
 
-async function main() {
+async function main(myStrArg) {
   const startTime = performance.now();
-  logger.info(`Script ${__filename} has started`);
+  logger.info(`Script ${__filename} with arg ${myStrArg} has started`);
   await doSomething({ throwError: false });
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
@@ -33,9 +34,9 @@ async function main() {
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      const mainWithArgs = main.bind(null, 'someArg');
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
     } catch (error) {
-      logger.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
