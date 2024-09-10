@@ -82,4 +82,65 @@ describe('Unit | Domain | ReadModels | PlacesLot', function () {
       expect(placeLots.isActive).to.be.false;
     });
   });
+
+  describe('#activationDate', function () {
+    it('should return activation date', function () {
+      const placeLots = new PlacesLot({
+        count: 1,
+        activationDate: new Date('2021-04-01'),
+        expirationDate: new Date('2021-12-31'),
+        deletedAt: null,
+      });
+
+      expect(placeLots.activationDate).to.deep.equal(new Date('2021-04-01'));
+    });
+  });
+
+  describe('#expirationDate', function () {
+    it('should return activation date', function () {
+      const placeLots = new PlacesLot({
+        count: 1,
+        activationDate: new Date('2021-04-01'),
+        expirationDate: new Date('2021-12-31'),
+        deletedAt: null,
+      });
+
+      expect(placeLots.expirationDate).to.deep.equal(new Date('2021-12-31'));
+    });
+  });
+
+  describe('#status', function () {
+    it('should return Active status', function () {
+      const placeLots = new PlacesLot({
+        count: 1,
+        activationDate: new Date('2021-04-01'),
+        expirationDate: new Date('2021-12-31'),
+        deletedAt: null,
+      });
+
+      expect(placeLots.status).to.equal('ACTIVE');
+    });
+
+    it('should return Expired status', function () {
+      const placeLots = new PlacesLot({
+        count: 1,
+        activationDate: new Date('2021-04-01'),
+        expirationDate: new Date('2021-04-30'),
+        deletedAt: null,
+      });
+
+      expect(placeLots.status).to.equal('EXPIRED');
+    });
+
+    it('should return Pending status', function () {
+      const placeLots = new PlacesLot({
+        count: 1,
+        activationDate: new Date('2021-07-01'),
+        expirationDate: new Date('2021-09-30'),
+        deletedAt: null,
+      });
+
+      expect(placeLots.status).to.equal('PENDING');
+    });
+  });
 });

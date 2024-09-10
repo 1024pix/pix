@@ -36,7 +36,7 @@ import { CampaignCreator } from '../../../prescription/campaign/domain/models/Ca
 import { CampaignForCreation } from '../../../prescription/campaign/domain/models/CampaignForCreation.js';
 import { Group } from '../../../prescription/campaign/domain/models/Group.js';
 import { CampaignToStartParticipation } from '../../../prescription/campaign-participation/domain/models/CampaignToStartParticipation.js';
-import { OrganizationPlacesLot } from '../../../prescription/organization-place/domain/models/OrganizationPlacesLot.js';
+import { OrganizationPlacesLotForManagement } from '../../../prescription/organization-place/domain/models/OrganizationPlacesLotForManagement.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../prescription/shared/domain/constants.js';
 import { OrganizationsToAttachToTargetProfile } from '../../../prescription/target-profile/domain/models/OrganizationsToAttachToTargetProfile.js';
 import { TargetProfileForCreation } from '../../../prescription/target-profile/domain/models/TargetProfileForCreation.js';
@@ -196,7 +196,7 @@ export {
   OrganizationInvitation,
   OrganizationLearner,
   OrganizationMemberIdentity,
-  OrganizationPlacesLot,
+  OrganizationPlacesLotForManagement,
   OrganizationsToAttachToTargetProfile,
   OrganizationTag,
   ParticipantResultsShared,

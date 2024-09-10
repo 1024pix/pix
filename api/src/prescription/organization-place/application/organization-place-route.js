@@ -140,7 +140,7 @@ const register = async (server) => {
         handler: organizationPlaceController.getOrganizationPlacesStatistics,
         tags: ['api', 'organizations'],
         notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'administrateur de l'organisation**\n" +
+          "- **Cette route est restreinte aux utilisateurs authentifiés de l'organisation**\n" +
             "- Elle permet la récuperation des statistiques de places de l'organisation",
         ],
       },
@@ -155,6 +155,33 @@ const register = async (server) => {
         notes: [
           '- **Cette route est restreinte a la stack data**\n' +
             '- Elle permet la récuperation des statistiques de places de toutes les organisations',
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/places-lots',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.makeCheckOrganizationHasFeature(ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key),
+            assign: 'checkOrganizationHasPlacesFeature',
+          },
+          {
+            method: securityPreHandlers.checkUserIsAdminInOrganization,
+            assign: 'checkUserIsAdminInOrganization',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: organizationPlaceController.getOrganizationPlacesLots,
+        tags: ['api', 'organization-places'],
+        notes: [
+          "- **Cette route est restreinte aux administrateurs authentifiés de l'organisation**\n" +
+            "- Elle permet la récuperation des lots de places de l'organisation",
         ],
       },
     },

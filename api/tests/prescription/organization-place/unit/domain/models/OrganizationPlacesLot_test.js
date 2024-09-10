@@ -1,5 +1,5 @@
 import * as categories from '../../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
-import { OrganizationPlacesLot } from '../../../../../../src/prescription/organization-place/domain/models/OrganizationPlacesLot.js';
+import { OrganizationPlacesLotForManagement } from '../../../../../../src/prescription/organization-place/domain/models/OrganizationPlacesLotForManagement.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 
@@ -14,9 +14,9 @@ const CATEGORY_REDUCE_RATE = categories.REDUCE_RATE;
 const CATEGORY_SPECIAL_REDUCE_RATE = categories.SPECIAL_REDUCE_RATE;
 const CATEGORY_FULL_RATE = categories.FULL_RATE;
 
-describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
+describe('Unit | Domain | Models | OrganizationPlacesLotForManagement', function () {
   describe('#constructor', function () {
-    it('should create an organizationPlacesLot with correct attributes', function () {
+    it('should create an organizationPlacesLotForManagement with correct attributes', function () {
       //given
       const attributes = {
         organizationId: 1,
@@ -29,7 +29,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
       };
 
       //when
-      const organizationPlacesLot = new OrganizationPlacesLot(attributes);
+      const organizationPlacesLot = new OrganizationPlacesLotForManagement(attributes);
 
       //then
       expect(organizationPlacesLot.organizationId).to.equal(1);
@@ -66,7 +66,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -90,7 +90,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -116,7 +116,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -140,7 +140,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -164,7 +164,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -188,7 +188,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -214,7 +214,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -240,7 +240,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -268,7 +268,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -294,7 +294,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -319,7 +319,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -345,7 +345,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -369,7 +369,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -393,7 +393,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -419,7 +419,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -450,7 +450,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
               category: data.category,
             };
             //when
-            const organizationPlaces = new OrganizationPlacesLot(attributes);
+            const organizationPlaces = new OrganizationPlacesLotForManagement(attributes);
 
             expect(organizationPlaces.category).to.equal(data.code);
           });
@@ -468,7 +468,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }
@@ -492,7 +492,7 @@ describe('Unit | Domain | Models | OrganizationPlacesLot', function () {
           //when
           let error;
           try {
-            new OrganizationPlacesLot(attributes);
+            new OrganizationPlacesLotForManagement(attributes);
           } catch (e) {
             error = e;
           }

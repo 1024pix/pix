@@ -2,7 +2,7 @@ import * as url from 'node:url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import * as categories from '../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
-import { OrganizationPlacesLot } from '../../src/prescription/organization-place/domain/models/OrganizationPlacesLot.js';
+import { OrganizationPlacesLotForManagement } from '../../src/prescription/organization-place/domain/models/OrganizationPlacesLotForManagement.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
 
 const categoriesByCode = {
@@ -22,7 +22,7 @@ async function prepareOrganizationPlacesLot(organizationPlacesLotData, log = tru
       const activationDateInCorrectFormat = activationDate?.split('/').reverse().join('-');
       const expirationDateInCorrectFormat = expirationDate?.split('/').reverse().join('-');
 
-      const organizationPlaceLot = new OrganizationPlacesLot({
+      const organizationPlaceLot = new OrganizationPlacesLotForManagement({
         createdBy,
         organizationId,
         count,
