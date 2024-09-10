@@ -85,8 +85,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p><span class=\"feedback__state\">Correct&nbsp;!</span></p>\n<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter ! <span aria-hidden=\"true\">&nbsp;😉</span></p>",
-              "invalid": "<p><span class=\"feedback__state\">Incorrect&nbsp;!</span></p>\n<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter ! <span aria-hidden=\"true\">&nbsp;😉</span></p>"
+              "valid": "<p><span class=\"feedback__state\">Correct&nbsp;!</span></p>\n<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter !<span aria-hidden=\"true\">&nbsp;😉</span></p>",
+              "invalid": "<p><span class=\"feedback__state\">Incorrect&nbsp;!</span></p>\n<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter !<span aria-hidden=\"true\">&nbsp;😉</span></p>"
             },
             "solution": "3"
           }
