@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v4.210.0 (10/09/2024)
+
+
+### :rocket: Amélioration
+- [#10075](https://github.com/1024pix/pix/pull/10075) [FEATURE] Permettre de modifier une configuration d'import sans migration (PIX-14151).
+- [#10052](https://github.com/1024pix/pix/pull/10052) [FEATURE] Création d'un endpoint pour remonter les lots de places (PIX-14006).
+- [#10064](https://github.com/1024pix/pix/pull/10064) [FEATURE] Utiliser les correspondances des claims en base de données (PIX-13766).
+- [#10079](https://github.com/1024pix/pix/pull/10079) [FEATURE] Updated translations from Phrase (PIX-14182).
+- [#10039](https://github.com/1024pix/pix/pull/10039) [FEATURE] Utiliser le scope dans les refresh tokens (PIX-13911).
+
+### :building_construction: Tech
+- [#10073](https://github.com/1024pix/pix/pull/10073) [TECH] Ajout d'une variable d'environnement pour la gestion d'évènements asynchrones (PIX-14177).
+- [#10043](https://github.com/1024pix/pix/pull/10043) [TECH] Remplacer l'usage de `memberAction` par un appel à des adapters (PIX-14093).
+- [#10053](https://github.com/1024pix/pix/pull/10053) [TECH] Migrer la route GET /api/organizations/{id}/memberships dans src (PIX-14162).
+- [#10081](https://github.com/1024pix/pix/pull/10081) [TECH] Migrer la route POST /api/certification-center-invitations/{id}/accept vers src/team (PIX-14138).
+- [#10076](https://github.com/1024pix/pix/pull/10076) [TECH] Ajouter un feature toggle pour les nouvelles pages d'authentification (PIX-14001).
+- [#10049](https://github.com/1024pix/pix/pull/10049) [TECH] Migrer la route GET /api/admin/users dans src (PIX-14130).
+- [#10044](https://github.com/1024pix/pix/pull/10044) [TECH] Ajouter les infos de corrélation à chaque log via le logger.
+- [#9993](https://github.com/1024pix/pix/pull/9993) [TECH] Revue de la gestion des erreurs du domaine Modulix (PIX-14043).
+- [#10056](https://github.com/1024pix/pix/pull/10056) [TECH] Déplacement de la route is-certifiable vers le contexte enrolment de certification (PIX-13809).
+- [#10068](https://github.com/1024pix/pix/pull/10068) [TECH] Permettre l'ajout d'une configuration avec peu de retry sur les job (PIX-14169).
+
+### :bug: Correction
+- [#10074](https://github.com/1024pix/pix/pull/10074) [BUGFIX] La liste déroulante pour choisir la méthode facturation entre deux inscriptions de candidats n'est pas réinitialisée sur PixCertif (PIX-14178).
+- [#10072](https://github.com/1024pix/pix/pull/10072) [BUGFIX] Régression sur la pagination des sessions côté Pix Certif (PIX-13334).
+- [#10051](https://github.com/1024pix/pix/pull/10051) [BUGFIX] Corriger l'affichage de la durée d'une certification dans pix-admin  (PIX-14153).
+
 ## v4.209.0 (05/09/2024)
 
 
