@@ -1,8 +1,8 @@
 const findOrganizationTargetProfileSummariesForAdmin = function ({
   organizationId,
-  targetProfileSummaryForAdminRepository,
+  targetProfileAdministrationRepository,
 }) {
-  return targetProfileSummaryForAdminRepository.findByOrganization({ organizationId });
+  return targetProfileAdministrationRepository.findByOrganization({ organizationId });
 };
 
 export { findOrganizationTargetProfileSummariesForAdmin };
