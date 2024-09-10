@@ -1,7 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
-import { IMPORT_STATUSES } from '../../domain/constants.js';
 import { OrganizationImport } from '../../domain/models/OrganizationImport.js';
 import { OrganizationImportDetail } from '../../domain/read-models/OrganizationImportDetail.js';
 
@@ -50,18 +49,13 @@ function _stringifyErrors(errors) {
 }
 
 const save = async function (organizationImport) {
-  let knexConn = DomainTransaction.getConnection();
-
   const attributes = { ...organizationImport, errors: _stringifyErrors(organizationImport.errors) };
-  if (attributes.errors || attributes.status === IMPORT_STATUSES.UPLOADING) {
-    // if there is errors, we don't want to use the given transaction
-    knexConn = knex;
-  }
+
   if (organizationImport.id) {
-    const updatedRows = await knexConn('organization-imports').update(attributes).where({ id: organizationImport.id });
+    const updatedRows = await knex('organization-imports').update(attributes).where({ id: organizationImport.id });
     if (updatedRows === 0) throw new Error();
   } else {
-    await knexConn('organization-imports').insert(attributes);
+    await knex('organization-imports').insert(attributes);
   }
 };
 
