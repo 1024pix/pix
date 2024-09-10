@@ -4,7 +4,7 @@
   "title": "Les informations sur internet : distinguer le vrai du faux",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "Sur internet, de nombreuses informations circulent. Certaines sont vraies, d'autres sont fausses. Dans ce module, vous allez découvrir une méthode pour analyser l'information et aiguiser votre esprit critique !",
+    "description": "De nombreuses informations circulent sur internet et les réseaux sociaux. Ces informations sont parfois exagérées, trompeuses ou fausses. Dans ce module, vous allez découvrir une méthode pour analyser l'information et aiguiser votre esprit critique pour mieux distinguer le vrai du faux!",
     "duration": 15,
     "level": "Intermédiaire",
     "tabletSupport": "comfortable",
@@ -16,7 +16,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>De nombreuses informations circulent sur internet et les réseaux sociaux.&nbsp;<span aria-hidden=\"true\">🌐</span></p>Ces informations peuvent être exagérées, trompeuses ou fausses.<br>Dans ce module, découvrez des outils et des méthodes pour mieux apprendre à distinguer le vrai du faux&nbsp;!",
+      "content": "<p>Vous avez déjà sûrement croisé sur internet des informations douteuses. Vous avez peut-être même relayé, sans le savoir, de fausses informations !<br>Pour dêméler le vrai du faux, il existe heureusement certaines méthodes.<span aria-hidden=\"true\">🔍</span></p>",
       "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
     },
     {
@@ -169,7 +169,7 @@
           "element": {
             "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
             "type": "text",
-            "content": "<p>Après cette vidéo, vous devrez trouvez dans des exemples concrets le vocabulaire adapté parmi les mots <ul><li>opinion,</li> <li>rumeur,</li> <li>anecdote,</li><li>information.</li></ul></p>"
+            "content": "<p>Après cette vidéo, vous devrez déterminer dans des exemples concrets s'il s'agit d'une <strong>opinion</strong>, d'une <strong>rumeur</strong>, d'une <strong>anecdote</strong>, d'une <strong>information</strong>.</p>"
           }
         },
         {
@@ -198,7 +198,7 @@
                 {
                   "id": "5c6ec12a-f5b4-4683-ae7a-11b79fddd0a5",
                   "type": "text",
-                  "content": "<h3><span aria-hidden=\"true\">&nbsp;🕹️</span> À vous de jouer</h3>Dans chacune des situations suivantes, trouvez s'il s'agit d'une opinion, d'une rumeur, d'une anecdote ou d'une information."
+                  "content": "<h3><span aria-hidden=\"true\">&nbsp;🕹️</span> À vous de jouer !</h3>Dans chacune des situations suivantes, trouvez s'il s'agit d'une opinion, d'une rumeur, d'une anecdote ou d'une information."
                 }
               ]
             },
@@ -259,8 +259,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un détail, c'est un fait qui n'est pas intéressant pour les gens. Essayez à nouveau.</p>"
+                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un détail, c'est un fait qui n'est pas intéressant pour la plupart des gens.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un détail, c'est un fait qui n'est pas intéressant pour la plupart des gens. Essayez à nouveau.</p>"
                   },
                   "solution": "3"
                 }
@@ -303,7 +303,7 @@
                 {
                   "id": "b0eac706-4444-45c6-bb9f-8e4449737742",
                   "type": "qcu",
-                  "instruction": "<p>Kylian Mbappé a rejoint le Real Madrid en juin 2024.</p>",
+                  "instruction": "<p>Jimmy Wales a cofondé Wikipédia en janvier 2001.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -323,8 +323,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un fait qui est sourcé et vérifiable. C'est bien une information.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un fait qui est sourcé et vérifiable. Essayez à nouveau.</p>"
+                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un fait qui est vérifiable via plusieurs sources. C'est bien une information.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un fait qui est vérifiable via plusieurs sources. Essayez à nouveau.</p>"
                   },
                   "solution": "4"
                 }
@@ -344,7 +344,7 @@
           "element": {
             "id": "332d9e96-d12e-4809-9d25-173a57ed93be",
             "type": "text",
-            "content": "<h3>Question n°1&nbsp;: qui est l’auteur de cette information&#8239;?&nbsp;<span aria-hidden=\"true\">🖋️</span></h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple, si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
+            "content": "<h3>Question n°1&nbsp;: qui est l’auteur de cette information&#8239;?&nbsp;<span aria-hidden=\"true\">🖋️</span></h3><p>Demandez-vous si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
           }
         },
         {
@@ -445,19 +445,14 @@
                 {
                   "id": "e9d9c6e3-4c08-40de-bb46-e73b6d02f1c5",
                   "type": "image",
-                  "url": "https://i.imgur.com/XE7eadt.png",
-                  "alt": "Publication de Légumes3000 (@legumes3000) sur X (Twitter) détaillée dans l'alternative textuelle",
-                  "alternativeText": "Publication de Légumes3000 (@legumes3000) sur X (Twitter) à 12h53 le 8 février 2023&nbsp;: MIAM ! achetez vos avocats en ligne sur notre site (code promo MIAM2024)<br>Et vous savez-quoi ? les avocats soignent plein de maladies!  <a href=\"https://www.santemagazine.fr/beaute-forme/soins-du-visage/peau-sensible/peau-tous-les-benefices-de-lhuile-davocat-325761\" target=\"_blank\">https://www.santemagazine.fr/beaute-forme/soins-du-visage/peau-sensible/peau-tous-les-benefices-de-lhuile-davocat-325761</a>&nbsp;&raquo;"
-                },
-                {
-                  "id": "7e2cda57-9383-4a9b-ab46-b6d96317d6ac",
-                  "type": "text",
-                  "content": "<p><span aria-hidden=\"true\">👉</span> La publication de Légumes3000 comporte un <a href=\"https://www.santemagazine.fr/beaute-forme/soins-du-visage/peau-sensible/peau-tous-les-benefices-de-lhuile-davocat-325761\" target=\"_blank\">lien vers cet article.</a></p>"
+                  "url": "https://i.imgur.com/mzzrsBM.png",
+                  "alt": "Publication de VendeursdeLégume (@achetezlegume91) sur X (Twitter) détaillée dans l'alternative textuelle",
+                  "alternativeText": "Publication de VendeursdeLégume (@achetezlegume91) sur X (Twitter) à 12h52 le 12 septembre 2024&nbsp;: RAPPEL : l'avocat est le meilleur des légumes !! Il soigne presque toutes les maladies sur terre ❤️ Regardez ce schéma réalisé par vivelebio.com. Venez-vite en magasin 28 rue des Lilas pour profitez de notre promotion !"
                 },
                 {
                   "id": "275ab2ee-feaa-4c5c-9372-116799077172",
                   "type": "qcu",
-                  "instruction": "<p>Quel est le problème dans cette pubication ?</p>",
+                  "instruction": "<p>Quel est le problème dans cette publication ?</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -473,8 +468,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p>Ce vendeur de datte exagère complétement la réalité pour augmenter ses ventes. </p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L’article utilisé comme source n’annonce pas du tout ce qui est écrit. Ce vendeur exagère pour essayer de vendre son produit à plus de personnes.</p>"
+                    "valid": "<span class=\"feedback__state\">Correct.</span><p>Ce vendeur exagère complétement la réalité pour augmenter ses ventes. </p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Ce vendeur exagère pour essayer de vendre ses légumes produit à plus de personnes.</p>"
                   },
                   "solution": "1"
                 }
@@ -492,7 +487,7 @@
                 {
                   "id": "81943b07-ecf0-408b-877c-55e1943df1fc",
                   "type": "qcu",
-                  "instruction": "<p>Quel est le problème dans cette pubication ?</p>",
+                  "instruction": "<p>Quel est le problème dans cette publication ?</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -532,7 +527,7 @@
                 {
                   "id": "ee7b67b7-0cb0-4bb7-a771-c2421a588643",
                   "type": "qcu",
-                  "instruction": "<p>Quel est le problème dans cette pubication ?</p>",
+                  "instruction": "<p>Quel est le problème dans cette publication ?</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -594,7 +589,7 @@
           "element": {
             "id": "eb90d3ea-797f-4e4a-9675-e679b9f5bf3c",
             "type": "text",
-            "content": "<p>Stéphane essaye de faire pousser sa nouvelle plante verte d’intérieur&nbsp;<span aria-hidden=\"true\">🪴</span>.<br>Il cherche des astuces sur les réseaux sociaux, mais il est un peu perdu.<br>Il trouve les informations suivantes, publiées le 28 août 2023, par SuperJardinier&nbsp;<span aria-hidden=\"true\">👇</span></p>"
+            "content": "<p>Stéphane essaye de faire pousser sa nouvelle plante verte d’intérieur.&nbsp;<span aria-hidden=\"true\">🪴</span><br>Il cherche des astuces sur les réseaux sociaux, mais il est un peu perdu.<br>Il trouve les informations suivantes, publiées le 28 août 2023, par SuperJardinier&nbsp;<span aria-hidden=\"true\">👇</span></p>"
           }
         },
         {
