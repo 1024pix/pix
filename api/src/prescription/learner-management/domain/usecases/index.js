@@ -1,7 +1,6 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { eventBus } from '../../../../../lib/domain/events/index.js';
 import * as userReconciliationService from '../../../../../lib/domain/services/user-reconciliation-service.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
@@ -20,6 +19,21 @@ import * as organizationLearnerRepository from '../../infrastructure/repositorie
 import * as supOrganizationLearnerRepository from '../../infrastructure/repositories/sup-organization-learner-repository.js';
 import { importStorage } from '../../infrastructure/storage/import-storage.js';
 
+/**
+ * @typedef {import ('../../../../../lib/infrastructure/repositories/campaign-repository.js')} CampaignRepository
+ * @typedef {import ('../../infrastructure/repositories/organization-feature-repository.js')} CampaignParticipationRepository
+ * @typedef {import ('../../infrastructure/storage/import-storage.js')} ImportStorage
+ * @typedef {import ('../../../../../lib/infrastructure/repositories/membership-repository.js')} MembershipRepository
+ * @typedef {import ('../../infrastructure/repositories/organization-learner-repository.js')} OrganizationLearnerRepository
+ * @typedef {import ('../../infrastructure/repositories/organization-learner-import-format-repository.js')} OrganizationLearnerImportFormatRepository
+ * @typedef {import ('../../../../shared/infrastructure/repositories/organization-repository.js')} OrganizationRepository
+ * @typedef {import ('../../infrastructure/repositories/organization-import-repository.js')} OrganizationImportRepository
+ * @typedef {import ('../../infrastructure/repositories/sup-organization-learner-repository.js')} SupOrganizationLearnerRepository
+ * @typedef {import ('../../../../organizational-entities/application/api/organization-features-api.js')} OrganizationFeatureApi
+ * @typedef {import ('../../../../../src/shared/infrastructure/utils/logger.js')} logger
+ * @typedef {import ('../../../../../lib/domain/services/user-reconciliation-service.js')} UserReconciliationService
+ * @typedef {import ('../../infrastructure/repositories/organization-feature-repository.js')} OrganizationFeatureRepository
+ */
 const dependencies = {
   campaignRepository,
   campaignParticipationRepository,
@@ -33,7 +47,6 @@ const dependencies = {
   organizationImportRepository,
   supOrganizationLearnerRepository,
   organizationFeatureApi,
-  eventBus,
   logger,
   userReconciliationService,
   organizationFeatureRepository: repositories.organizationFeatureRepository,
@@ -52,6 +65,33 @@ const usecasesWithoutInjectedDependencies = {
   })),
 };
 
+/**
+ * @typedef PrescriptionLearnerManagementUsecases
+ * @property {saveOrganizationLearnersFile} saveOrganizationLearnersFile
+ * @property {sendOrganizationLearnersFile} sendOrganizationLearnersFile
+ * @property {validateOrganizationLearnersFile} validateOrganizationLearnersFile
+ * @property {addOrUpdateOrganizationLearners} addOrUpdateOrganizationLearners
+ * @property {deleteOrganizationLearners} deleteOrganizationLearners
+ * @property {dissociateUserFromOrganizationLearner} dissociateUserFromOrganizationLearner
+ * @property {getOrganizationImportStatus} getOrganizationImportStatus
+ * @property {getOrganizationLearnersCsvTemplate} getOrganizationLearnersCsvTemplate
+ * @property {handlePayloadTooLargeError} handlePayloadTooLargeError
+ * @property {importOrganizationLearnersFromSIECLECSVFormat} importOrganizationLearnersFromSIECLECSVFormat
+ * @property {importSupOrganizationLearners} importSupOrganizationLearners
+ * @property {reconcileCommonOrganizationLearner} reconcileCommonOrganizationLearner
+ * @property {reconcileScoOrganizationLearnerAutomatically} reconcileScoOrganizationLearnerAutomatically
+ * @property {replaceSupOrganizationLearners} replaceSupOrganizationLearners
+ * @property {updateOrganizationLearnerImportFormats} updateOrganizationLearnerImportFormats
+ * @property {updateStudentNumber} updateStudentNumber
+ * @property {uploadCsvFile} uploadCsvFile
+ * @property {uploadSiecleFile} uploadSiecleFile
+ * @property {validateCsvFile} validateCsvFile
+ * @property {validateSiecleXmlFile} validateSiecleXmlFile
+ */
+
+/**
+ * @type {PrescriptionLearnerManagementUsecases}
+ */
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 
 export { usecases };

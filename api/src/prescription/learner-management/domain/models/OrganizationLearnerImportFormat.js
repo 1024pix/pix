@@ -1,8 +1,33 @@
+import Joi from 'joi';
+
+import { EntityValidationError } from '../../../../shared/domain/errors.js';
+
+const organizationLearnerImportFormatSchame = Joi.object({
+  name: Joi.string().required(),
+  config: Joi.object().required(),
+  fileType: Joi.string().valid('csv', 'xml'),
+});
 class OrganizationLearnerImportFormat {
+  /**
+   * @param data
+   * @param {string} data.name
+   * @param {string} data.fileType
+   * @param {Object} data.config
+   */
   constructor({ name, fileType, config } = {}) {
     this.name = name;
     this.fileType = fileType;
     this.config = config;
+
+    this.#validate();
+  }
+
+  #validate() {
+    const { error } = organizationLearnerImportFormatSchame.validate(this, { abortEarly: false });
+
+    if (error) {
+      throw EntityValidationError.fromJoiErrors(error.details);
+    }
   }
 
   #sortObject = (columnA, columnB) => columnA.position - columnB.position;
