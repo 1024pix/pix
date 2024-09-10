@@ -442,7 +442,7 @@
             "type": "image",
             "url": "https://i.imgur.com/QLjk31K.png",
             "alt": "Image des différents LLM existants décrite dans l'alternative textuelle",
-            "alternativeText": "<p>-</p>"
+            "alternativeText": "<p>\n</p><table>\n    <tbody><tr>\n        <td>&nbsp;</td>\n        <td>LLM open source</td>\n        <td>LLM propriétaires</td>\n    </tr>\n    <tr>\n        <td>USA</td>\n        <td>LLAMA (Méta), Gemma (Google), Phi (Microsoft)</td>\n        <td>GPT (OpenAI), Gemini (Google), Claude (Anthropic)</td>\n    </tr>   \n    <tr>\n        <td>Europe</td>\n        <td>Mixtral (Mistral), Bloom (Big Science)</td>\n        <td>Mistral (Mistral), Luminous (Aleph Alpha)</td>\n    </tr>   \n    <tr>\n        <td>Chine</td>\n        <td>Yi (O1 AI), Qwen (Alibaba)</td>\n        <td>&nbsp;</td>\n    </tr>   \n    <tr>\n        <td>Canada</td>\n        <td>Aya (Cohere)</td>\n        <td>Command R (Cohere)</td>\n    </tr>   \n</tbody></table>\n<p></p>"
           }
         },
         {
