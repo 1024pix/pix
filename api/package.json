@@ -93,6 +93,7 @@
     "@babel/plugin-syntax-import-attributes": "^7.24.1",
     "@eslint/compat": "^1.0.1",
     "@ls-lint/ls-lint": "^2.0.0",
+    "@openfeature/server-sdk": "^1.15.1",
     "chai": "^5.0.0",
     "chai-as-promised": "^8.0.0",
     "chai-sorted": "^0.2.0",
