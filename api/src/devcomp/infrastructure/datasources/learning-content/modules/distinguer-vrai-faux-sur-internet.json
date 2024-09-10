@@ -4,7 +4,7 @@
   "title": "Les informations sur internet : distinguer le vrai du faux",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "De nombreuses informations circulent sur internet et les réseaux sociaux. Ces informations sont parfois exagérées, trompeuses ou fausses. Dans ce module, vous allez découvrir une méthode pour analyser l'information et aiguiser votre esprit critique pour mieux distinguer le vrai du faux!",
+    "description": "De nombreuses informations circulent sur internet et les réseaux sociaux. Ces informations sont parfois exagérées, trompeuses ou fausses. Dans ce module, vous allez découvrir une méthode pour analyser l'information et aiguiser votre esprit critique pour mieux distinguer le vrai du faux !",
     "duration": 15,
     "level": "Intermédiaire",
     "tabletSupport": "comfortable",
@@ -148,8 +148,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Oui, c'est une fake news&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>",
-                    "invalid": "<span class=\"feedback__state\">Attention, c'est une fake news&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!</span><p> C'est une fake news. C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse&#8239;!</span><p> Attention, c'est une fake news ! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
                   },
                   "solution": "2"
                 }
