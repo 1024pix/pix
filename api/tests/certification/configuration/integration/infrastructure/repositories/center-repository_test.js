@@ -1,7 +1,8 @@
 import * as centerRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/center-repository.js';
+import { CenterTypes } from '../../../../../../src/certification/enrolment/domain/models/CenterTypes.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/domain/constants.js';
-import { databaseBuilder, expect } from '../../../../../test-helper.js';
+import { databaseBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Certification | Configuration | Integration | Repository | center-repository', function () {
   describe('findSCOV2Centers', function () {
@@ -103,6 +104,28 @@ describe('Certification | Configuration | Integration | Repository | center-repo
           },
         });
       });
+    });
+  });
+
+  describe('#addToWhitelistByExternalIds', function () {
+    it('should set the centers as whitelisted', async function () {
+      // given
+      const whitelistedExternalId = '1234ABC';
+      const centerId = databaseBuilder.factory.buildCertificationCenter({
+        type: CenterTypes.SCO,
+        externalId: whitelistedExternalId2,
+        isScoBlockedAccessWhitelist: false,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      await centerRepository.addToWhitelistByExternalIds({
+        externalIds: [whitelistedExternalId1, whitelistedExternalId2],
+      });
+
+      // then
+      const updatedCenter = await knex('certification-centers').where({ id: centerId }).first();
+      expect(updatedCenter.isScoBlockedAccessWhitelist).to.be.true;
     });
   });
 });

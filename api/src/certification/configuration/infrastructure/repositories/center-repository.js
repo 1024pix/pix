@@ -19,3 +19,16 @@ export const findSCOV2Centers = async function ({ pageNumber = DEFAULT_PAGINATIO
 
   return { centerIds: results.map(({ id }) => id), pagination };
 };
+
+/**
+ * @param {Object} params
+ * @param {Array<number>} params.externalIds
+ * @returns {Promise<void>}
+ */
+export const addToWhitelistByExternalIds = async ({ externalIds }) => {
+  const knexConn = DomainTransaction.getConnection();
+
+  await knexConn('certification-centers')
+    .update({ isScoBlockedAccessWhitelist: true })
+    .whereIn('externalId', externalIds);
+};
