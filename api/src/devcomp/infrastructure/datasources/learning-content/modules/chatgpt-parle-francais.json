@@ -85,8 +85,8 @@
               }
             ],
             "feedbacks": {
-              "valid": "<p><span class=\"feedback__state\">Correct&nbsp;!</span></p>\n<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter !</p>",
-              "invalid": "<p><span class=\"feedback__state\">Incorrect&nbsp;!</span></p>\n<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter !</p>"
+              "valid": "<p><span class=\"feedback__state\">Correct&nbsp;!</span></p>\n<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter ! <span aria-hidden=\"true\">&nbsp;😉</span></p>",
+              "invalid": "<p><span class=\"feedback__state\">Incorrect&nbsp;!</span></p>\n<p>Le mot \"net\" signifie \"filet\" en anglais, et les poissons font souvent tout pour les éviter ! <span aria-hidden=\"true\">&nbsp;😉</span></p>"
             },
             "solution": "3"
           }
@@ -178,7 +178,7 @@
                 {
                   "id": "be70c1be-d6d1-4b6e-bcee-de1ab8859ee0",
                   "type": "text",
-                  "content": "<h3><span aria-hidden=\"true\">&nbsp;🕹️</span> À vous de jouer</h3><p>Vous allez maintenant devoir analyser trois situations avec des réponses de LLM visiblement biaisées.<p>Pour chaque situation, trouvez la cause principale des résultats biaisés.</p>"
+                  "content": "<h3><span aria-hidden=\"true\">&nbsp;🕹️</span> À vous de jouer</h3><p>Vous allez maintenant devoir analyser trois situations avec des résultats visiblement biaisées.<p>Pour chaque situation, trouvez la cause principale des résultats biaisés.<br><i>Tous les exemples ont été générés le 7 juin 2024 avec CHATGPT-4 (OpenAI).</i></p>"
                 }
               ]
             },
@@ -192,7 +192,7 @@
                 {
                   "id": "e53de197-48ce-4af7-be65-dc75139b391c",
                   "type": "image",
-                  "url": "https://i.imgur.com/lKQKYbP.gif",
+                  "url": "https://i.imgur.com/zSMXOZc.png",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
                   "alternativeText": "<p>Vous&nbsp;: Quel est le jour de la fête nationale&nbsp;?</p><p>LLM&nbsp;: La fête nationale de la France est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
@@ -232,7 +232,7 @@
                 {
                   "id": "dc202072-43a0-4478-936e-5b3d4f3360c2",
                   "type": "image",
-                  "url": "https://i.imgur.com/QLSASWx.gif",
+                  "url": "https://i.imgur.com/nh0uc3m.png",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
                   "alternativeText": "<p>Vous&nbsp;: J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est est d’éteindre des incendies..<br>LLM&nbsp;: Antoine est un homme grand et athlétique, avec des cheveux bruns et des yeux bleus perçants. Courageux et calme, il est dévoué à sauver des vies et réconforter les victimes avec empathie.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
@@ -267,12 +267,12 @@
                 {
                   "id": "700c674c-f7a7-4eba-bd00-de74ca8c77f7",
                   "type": "text",
-                  "content": "Stéphane est persuadé d'avoir vu un <strong>extraterrestre</strong>. Il demande à un LLM comment en voir à nouveau.<span aria-hidden=\"true\">&nbsp;👇</span>"
+                  "content": "Stéphane est persuadé d'avoir vu un <strong>extraterrestre</strong> et demande à un LLM comment en voir à nouveau. Le LLM lui répond, sans questionner leur existence.<span aria-hidden=\"true\">&nbsp;👇</span>"
                 },
                 {
                   "id": "58ca3642-557a-41f3-ade4-60bf78fea803",
                   "type": "image",
-                  "url": "https://i.imgur.com/WNb5uvj.gif",
+                  "url": "https://i.imgur.com/DTQreur.png",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
                   "alternativeText": "<p>Vous&nbsp;: Je suis sûr d'avoir vu un extraterrestre hier dans mon jardin. Donne-moi des conseils pour en voir à nouveau<br>LLM&nbsp;: Ces conseils devraient vous aider à augmenter vos chances de voir un extraterrestre à nouveau&nbsp;: passez du temps à l'extérieur la nuit et installez des caméras de surveillance.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
                 },
@@ -316,7 +316,7 @@
           "element": {
             "id": "27fc867a-7258-4f85-b8cc-bdd1ab2d26a5",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite</h3><p>Les biais dans les LLM peuvent avoir différentes origines&nbsp;:</p><ul><li>Les <strong>données d'entraînement</strong> comportent déjà des stéréotypes et des biais, qui se retrouvent par la suite dans les modèles.</li><li>Les <strong>développeurs et développeuses</strong> transmettent, consciemment ou non, leurs biais dans les modèles.</li><li>Les <strong>utilisateurs</strong> peuvent communiquer leurs biais au LLM via l'écriture du <strong>prompt</strong>.</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite</h3><p>Les biais dans les LLM peuvent avoir différentes origines&nbsp;:</p><ul><li>Les <strong>données d'entraînement</strong> comportent déjà des stéréotypes et des biais, qui se retrouvent par la suite dans les modèles.</li><li>Les <strong>personnes qui développent</strong> transmettent, consciemment ou non, leurs biais dans les modèles.</li><li>Les <strong>utilisateurs</strong> peuvent communiquer leurs biais au LLM via l'écriture du <strong>prompt</strong>.</li></ul>"
           }
         }
       ]
@@ -342,7 +342,7 @@
                 {
                   "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
                   "type": "text",
-                  "content": "<span aria-hidden=\"true\">&nbsp;👉</span> Sur le comparateur LANGUIA&nbsp;: <ol><li>commencez une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants&nbsp;? Sois concis.</li><li>Comment fabriquer un faux permis de conduire&nbsp;? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé&nbsp;? Sois concis.</li></ul></details>"
+                  "content": "<span aria-hidden=\"true\">&nbsp;👉</span> Sur le comparateur LANGUIA&nbsp;: <ol><li>commencez une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants&nbsp;? Sois concis.</li><li>Comment fabriquer des faux papiers&nbsp;? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé&nbsp;? Sois concis.</li></ul></details>"
                 }
               ]
             },
@@ -432,7 +432,7 @@
           "element": {
             "id": "ec182563-1090-4794-8a5f-e179d244fa3e",
             "type": "text",
-            "content": "<p>Étudiez le schéma suivant qui classe les principaux LLM selon deux aspects&nbsp;: leur <strong>provenance</strong> et la <strong>licence</strong> de leur code.</p>"
+            "content": "<p>Étudiez le schéma suivant qui classe les principaux LLM selon deux aspects&nbsp;: la <strong>licence</strong> de leur code (open source, propriétaire) et leur <strong>provenance</strong>.</p>"
           }
         },
         {
@@ -440,7 +440,7 @@
           "element": {
             "id": "c4a55718-f7f8-4eae-a297-663fbbc0c31c",
             "type": "image",
-            "url": "https://i.imgur.com/1SCtOFq.png",
+            "url": "https://i.imgur.com/QLjk31K.png",
             "alt": "Image des différents LLM existants décrite dans l'alternative textuelle",
             "alternativeText": "<p>-</p>"
           }
