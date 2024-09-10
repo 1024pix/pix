@@ -47,6 +47,7 @@ export class ElementForVerificationFactory {
         return new QcuProposal({
           id: proposal.id,
           content: proposal.content,
+          feedback: proposal.feedback,
         });
       }),
       feedbacks: element.feedbacks,
