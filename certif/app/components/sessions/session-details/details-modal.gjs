@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import { t } from 'ember-intl';
 import { formatPercentage } from 'pix-certif/helpers/format-percentage';
 
-import Row from './row';
+import Row from './details-modal-row';
 
 const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
 const FIELDS = [
@@ -63,7 +63,7 @@ const FIELDS = [
   },
 ];
 
-export default class CertificationCandidateDetailsModal extends Component {
+export default class EnrolledCandidateDetailsModal extends Component {
   @service intl;
 
   @action

@@ -1,6 +1,6 @@
 {{page-title (t "pages.sessions.detail.page-title" sessionId=this.model.session.id) replace=true}}
 
 <div class="session-details-page">
-  <SessionDetails @model={{this.model}} />
+  <Sessions::SessionDetails @model={{this.model}} />
   {{outlet}}
 </div>

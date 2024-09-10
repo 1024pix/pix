@@ -3,17 +3,17 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon/pkg/sinon-esm';
 
-import createGlimmerComponent from '../../helpers/create-glimmer-component';
-import setupIntl from '../../helpers/setup-intl';
+import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
+import setupIntl from '../../../../helpers/setup-intl';
 
-module('Unit | Component | session-details | clea-results-download', function (hooks) {
+module('Unit | Component | sessions | session-details | clea-results-download', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks, 'fr');
 
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:session-details/clea-results-download');
+    component = createGlimmerComponent('component:sessions:session-details/clea-results-download');
   });
 
   module('#downloadCleaCertifiedCandidateData', function () {
