@@ -1,5 +1,6 @@
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
+import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 
 export default class Breadcrumb extends Component {
@@ -45,6 +46,7 @@ export default class Breadcrumb extends Component {
             <li>
               <LinkTo @route={{crumb.path}}>{{crumb.label}}</LinkTo>
             </li>
+            <FaIcon @icon="chevron-right" />
           {{else}}
             <li>
               <h1>{{crumb.label}}</h1>

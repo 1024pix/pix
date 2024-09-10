@@ -1,4 +1,5 @@
 .breadcrumb > ol {
+  align-items: center;
   display: flex;
   font-weight: 500;
   font-size: 1rem;
@@ -9,9 +10,8 @@
     font-size: 1rem;
   }
 
-  > li:not(:last-child)::after {
-    margin: 0 0.5rem;
-    color: var(--pix-neutral-500);
-    content: ">";
+  > svg {
+    margin: 0 0.4rem;
+    width: 0.45rem;
   }
 }
