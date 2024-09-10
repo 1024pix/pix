@@ -191,8 +191,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct ! <span aria-hidden=\"true\">🎉</span></span><p>Les adresses IP sont réparties d'abord dans 5 grandes régions du monde puis dans chaque pays.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect</span><p>Les adresses IP sont réparties d'abord dans 5 grandes régions du monde puis dans chaque pays.Elles sont donc <strong>localisées</strong></p>"
+                    "valid": "<span class=\"feedback__state\">Correct ! <span aria-hidden=\"true\">🎉</span></span><p>Les adresses IP dont d’abord réparties dans 5 grandes régions du monde, puis auprès des opérateurs locaux dans chaque pays.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect</span><p>Les adresses IP dont d’abord réparties dans 5 grandes régions du monde, puis auprès des opérateurs locaux dans chaque pays. Elles sont donc <strong>localisées</strong></p>"
                   },
                   "solution": "1"
                 }
