@@ -4,10 +4,10 @@ import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/inde
 import { deserializer as badgeCreationDeserializer } from '../../../src/evaluation/infrastructure/serializers/jsonapi/badge-creation-serializer.js';
 import * as badgeSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/badge-serializer.js';
 import * as targetProfileSerializer from '../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-serializer.js';
+import * as targetProfileSummaryForAdminSerializer from '../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as targetProfileForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
-import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
 const findPaginatedFilteredTargetProfileSummariesForAdmin = async function (request) {
   const options = request.query;
