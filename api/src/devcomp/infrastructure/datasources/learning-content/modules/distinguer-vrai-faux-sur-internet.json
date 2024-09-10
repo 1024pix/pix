@@ -323,7 +323,7 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un fait qui est sourcé et vérifiable. C'est bien une information</p>",
+                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un fait qui est sourcé et vérifiable. C'est bien une information.</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un fait qui est sourcé et vérifiable. Essayez à nouveau.</p>"
                   },
                   "solution": "4"
