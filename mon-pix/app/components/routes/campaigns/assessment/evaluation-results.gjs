@@ -1,7 +1,7 @@
-import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';
 
 import EvaluationResultsTabs from '../../../campaigns/assessment/skill-review/evaluation-results-tabs';
+import QuitResults from '../../../campaigns/assessment/skill-review/quit-results';
 
 <template>
   <div class="evaluation-results">
@@ -10,9 +10,7 @@ import EvaluationResultsTabs from '../../../campaigns/assessment/skill-review/ev
       <h2 class="evaluation-results-header__title">
         <span>{{@model.campaign.title}}</span>
       </h2>
-      <LinkTo @route="authenticated" class="evaluation-results-header__back-link">
-        {{t "common.actions.quit"}}
-      </LinkTo>
+      <QuitResults @isCampaignShared={{@model.campaignParticipationResult.isShared}} />
     </header>
     <EvaluationResultsTabs
       @badges={{@model.campaignParticipationResult.campaignParticipationBadges}}

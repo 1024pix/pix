@@ -1,5 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { currentURL } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
@@ -74,6 +74,46 @@ module('Acceptance | Campaigns | Skill Review', function (hooks) {
           assert
             .dom(screen.getByRole('heading', { name: t('pages.skill-review.tabs.results-details.title') }))
             .isVisible();
+        });
+
+        module('when the evaluation results have been shared', function () {
+          test('should redirect to home page', async function (assert) {
+            // given
+            server.create('feature-toggle', { id: 0, showNewResultPage: true });
+            server.create('campaign-participation-result', {
+              id: campaignParticipation.id,
+              isShared: true,
+            });
+            const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+
+            // when
+            await click(await screen.findByRole('link', { name: 'Quitter' }));
+
+            // then
+            assert.strictEqual(currentURL(), '/accueil');
+          });
+        });
+
+        module('when the evaluation results have not been shared yet', function () {
+          test('should open a confirm modal', async function (assert) {
+            // given
+            server.create('feature-toggle', { id: 0, showNewResultPage: true });
+            server.create('campaign-participation-result', {
+              id: campaignParticipation.id,
+              isShared: false,
+            });
+            const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+
+            // when
+            await click(await screen.findByRole('button', { name: 'Quitter' }));
+
+            // then
+            const modalTitle = await screen.findByRole('heading', {
+              name: 'Oups, vous n’avez pas encore envoyé vos résultats !',
+            });
+            assert.ok(screen.findByRole('dialog'));
+            assert.ok(modalTitle);
+          });
         });
       });
 
