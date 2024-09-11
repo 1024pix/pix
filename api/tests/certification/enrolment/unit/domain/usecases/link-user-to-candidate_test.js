@@ -9,6 +9,7 @@ import {
   NotFoundError,
   UnexpectedUserAccountError,
   UserAlreadyLinkedToCandidateInSessionError,
+  UserNotAuthorizedToCertifyError,
 } from '../../../../../../src/shared/domain/errors.js';
 import { LANGUAGES_CODE } from '../../../../../../src/shared/domain/services/language-service.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
@@ -266,6 +267,7 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
             );
           });
         });
+
         context('when linkage is non-existent on all sides', function () {
           context('when it is a session sco / is managing students', function () {
             beforeEach(function () {
@@ -352,6 +354,59 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
               // then
               expect(res).to.deep.equal({ linkAlreadyDone: false, candidateId: matchingCandidate.id });
               expect(candidateRepository.update).to.have.been.calledWith(matchingCandidate);
+            });
+          });
+
+          context('when candidate has a CORE subscription', function () {
+            beforeEach(function () {
+              centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(
+                domainBuilder.certification.enrolment.buildCenter({
+                  id: certificationCenterId,
+                  matchingOrganization: null,
+                }),
+              );
+              candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
+                domainBuilder.certification.enrolment.buildCandidate({
+                  id: 789,
+                  firstName,
+                  lastName,
+                  birthdate,
+                  userId: null,
+                  organizationLearnerId: null,
+                  subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
+                }),
+              ]);
+            });
+            context('when user profile is not certifiable', function () {
+              it('should throw an error', async function () {
+                // given
+                // when
+                const error = await catchErr(linkUserToCandidate)({
+                  ...dependencies,
+                  firstName,
+                  lastName,
+                  birthdate,
+                });
+
+                //then
+                expect(error).to.be.instanceOf(UserNotAuthorizedToCertifyError);
+              });
+            });
+            context('when user profile is certifiable', function () {
+              it('should link user', async function () {
+                // given
+                // when
+                const result = await linkUserToCandidate({
+                  ...dependencies,
+                  firstName,
+                  lastName,
+                  birthdate,
+                });
+
+                //then
+                expect(result).to.deep.equal({ linkAlreadyDone: false, candidateId: 789 });
+                expect(candidateRepository.update).to.have.been.calledWith(matchingCandidate);
+              });
             });
           });
         });

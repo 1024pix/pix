@@ -3,6 +3,7 @@
  * @typedef {import ('./index.js').CenterRepository} CenterRepository
  * @typedef {import ('./index.js').SessionRepository} SessionRepository
  * @typedef {import ('./index.js').UserRepository} UserRepository
+ * @typedef {import ('../models/Candidate.js').Candidate} Candidate
  */
 
 import {
@@ -13,6 +14,7 @@ import {
   NotFoundError,
   UnexpectedUserAccountError,
   UserAlreadyLinkedToCandidateInSessionError,
+  UserNotAuthorizedToCertifyError,
 } from '../../../../shared/domain/errors.js';
 import * as languageService from '../../../../shared/domain/services/language-service.js';
 import { CertificationCourse } from '../../../shared/domain/models/CertificationCourse.js';
@@ -37,14 +39,13 @@ export async function linkUserToCandidate({
   userRepository,
   normalizeStringFnc,
 }) {
+  // step 1 : verify user
   const user = await userRepository.get({ id: userId });
   if (!user) {
     throw new NotFoundError(`User with id ${userId} does not exist.`);
   }
 
   const session = await sessionRepository.get({ id: sessionId });
-  const center = await centerRepository.getById({ id: session.certificationCenterId });
-
   await validateUserLanguage({
     languageService,
     user,
@@ -74,12 +75,21 @@ export async function linkUserToCandidate({
     );
   }
 
+  const center = await centerRepository.getById({ id: session.certificationCenterId });
   if (center.isMatchingOrganizationScoAndManagingStudents) {
     if (!user.has({ organizationLearnerId: enrolledCandidate.organizationLearnerId })) {
       throw new MatchingReconciledStudentNotFoundError();
     }
   }
 
+  // step 2 : check subscriptions
+  const hasCoreSubscription = enrolledCandidate.subscriptions.some((subscription) => subscription.isCore());
+  if (hasCoreSubscription) {
+    // check has minimum 5 comp niveau 1, if not throw
+    throw new UserNotAuthorizedToCertifyError();
+  }
+
+  // step 3 : link
   enrolledCandidate.link(userId);
   await candidateRepository.update(enrolledCandidate);
   return { linkAlreadyDone: false, candidateId: enrolledCandidate.id };
@@ -95,6 +105,10 @@ async function validateUserLanguage({ languageService, user, session }) {
   }
 }
 
+/**
+ * @param {Object} params
+ * @param {Array<Candidate>} params.candidatesInSession
+ */
 function findMatchingEnrolledCandidate({
   session,
   candidatesInSession,
