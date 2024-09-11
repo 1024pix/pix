@@ -16,11 +16,11 @@ const buildOrganizationLearnerWithUser = function ({
   birthCityCode = 'PERPICODE',
   birthCountryCode = '100',
   birthProvinceCode = '66',
-  MEFCode = '45612312345',
+  MEFCode = '10010012110',
   status = 'ST',
   studentNumber = null,
   nationalStudentId = null,
-  division = '3eme',
+  division = '6eme',
   organizationId,
   user,
   updatedAt = new Date('2021-01-01'), // for BEGINNING_OF_THE_2020_SCHOOL_YEAR, can outdate very fast! ;)
