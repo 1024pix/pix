@@ -619,10 +619,12 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
                       {
                         id: '1',
                         content: 'Vrai',
+                        feedback: 'Bonne réponse !',
                       },
                       {
                         id: '2',
                         content: 'Faux',
+                        feedback: "Faux n'est pas la bonne réponse.",
                       },
                     ],
                     feedbacks: {
@@ -1128,10 +1130,12 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
                             {
                               id: '1',
                               content: 'Vrai',
+                              feedback: 'Bonne réponse !',
                             },
                             {
                               id: '2',
                               content: 'Faux',
+                              feedback: "Faux n'est pas la bonne réponse.",
                             },
                           ],
                           feedbacks: {
