@@ -16,12 +16,16 @@ describe('Unit | Application| API | Models | OrganizationLearnerWithParticipatio
     const organizationLearnerWithParticipations = new OrganizationLearnerWithParticipations({
       organizationLearner,
       organization,
-      participations: participationsList,
+      campaignParticipations: participationsList,
       tagNames,
     });
 
     // then
-    expect(organizationLearnerWithParticipations).to.have.keys('organizationLearner', 'organization', 'participations');
+    expect(organizationLearnerWithParticipations).to.have.keys(
+      'organizationLearner',
+      'organization',
+      'campaignParticipations',
+    );
     expect(organizationLearnerWithParticipations.organizationLearner).to.deep.equal({
       id: organizationLearner.id,
       MEFCode: organizationLearner.MEFCode,
@@ -31,7 +35,7 @@ describe('Unit | Application| API | Models | OrganizationLearnerWithParticipatio
       tags: tagNames,
       type: organization.type,
     });
-    expect(organizationLearnerWithParticipations.participations).to.deep.have.members([
+    expect(organizationLearnerWithParticipations.campaignParticipations).to.deep.have.members([
       { targetProfileId: participationsList[0].targetProfileId },
       { targetProfileId: participationsList[1].targetProfileId },
     ]);

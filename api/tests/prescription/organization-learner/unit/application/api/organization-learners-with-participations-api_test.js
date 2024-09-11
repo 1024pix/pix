@@ -13,7 +13,7 @@ describe('Unit | API | Organization Learner With Participations', function () {
       const organizationLearner1 = domainBuilder.buildOrganizationLearner();
       const organization2 = domainBuilder.buildOrganization();
       const organizationLearner2 = domainBuilder.buildOrganizationLearner();
-      const participations = [
+      const campaignParticipations = [
         domainBuilder.buildCampaignParticipationOverview(),
         domainBuilder.buildCampaignParticipationOverview(),
       ];
@@ -21,8 +21,8 @@ describe('Unit | API | Organization Learner With Participations', function () {
 
       const useCaseStub = sinon.stub(usecases, 'findOrganizationLearnersWithParticipations');
       useCaseStub.withArgs({ userIds }).resolves([
-        { organizationLearner: organizationLearner1, organization: organization1, participations, tagNames },
-        { organizationLearner: organizationLearner2, organization: organization2, participations, tagNames },
+        { organizationLearner: organizationLearner1, organization: organization1, campaignParticipations, tagNames },
+        { organizationLearner: organizationLearner2, organization: organization2, campaignParticipations, tagNames },
       ]);
 
       // when
@@ -45,7 +45,7 @@ describe('Unit | API | Organization Learner With Participations', function () {
             tags: tagNames,
             type: organization1.type,
           },
-          participations: participations.map(({ targetProfileId }) => ({ targetProfileId })),
+          campaignParticipations: campaignParticipations.map(({ targetProfileId }) => ({ targetProfileId })),
         },
         {
           organizationLearner: {
@@ -57,7 +57,7 @@ describe('Unit | API | Organization Learner With Participations', function () {
             tags: tagNames,
             type: organization2.type,
           },
-          participations: participations.map(({ targetProfileId }) => ({ targetProfileId })),
+          campaignParticipations: campaignParticipations.map(({ targetProfileId }) => ({ targetProfileId })),
         },
       ]);
     });
