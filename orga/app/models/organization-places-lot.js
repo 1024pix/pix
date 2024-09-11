@@ -6,3 +6,9 @@ export default class PlacesLot extends Model {
   @attr('date') expirationDate;
   @attr('string') status;
 }
+
+export const STATUSES = {
+  PENDING: 'PENDING',
+  EXPIRED: 'EXPIRED',
+  ACTIVE: 'ACTIVE',
+};

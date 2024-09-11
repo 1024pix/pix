@@ -1131,7 +1131,25 @@
     },
     "places": {
       "title": "Places",
-      "before-date": "au"
+      "before-date": "au",
+      "places-lots": {
+        "statuses": {
+          "active": "Actif",
+          "expired": "Expiré",
+          "pending": "À venir"
+        },
+        "table": {
+          "title": "Historique d'achat de places",
+          "caption": "Tableau listant les achats de places de votre organisation. Pour chaque achat, il indique : le nombre de places, la date d’activation, la date d’expiration ainsi que le statut (actif, à venir ou expiré). Il est ordonné selon le statut des achats et leur date d’expiration.",
+          "empty-state":"Aucune place pour le moment !",
+          "headers": {
+            "activation-date": "Date d'activation",
+            "count": "Nombre de places",
+            "expiration-date": "Date d'expiration",
+            "status": "Statut"
+          }
+        }
+      }
     },
     "preselect-target-profile": {
       "title": "Sélection des sujets",
