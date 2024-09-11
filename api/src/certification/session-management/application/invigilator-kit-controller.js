@@ -2,7 +2,7 @@ import { usecases } from '../domain/usecases/index.js';
 import * as invigilatorKitPdf from '../infrastructure/utils/pdf/invigilator-kit-pdf.js';
 
 const getInvigilatorKitPdf = async function (request, h, dependencies = { invigilatorKitPdf }) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const { userId } = request.auth.credentials;
   const lang = request.i18n.getLocale();
   const sessionForInvigilatorKit = await usecases.getInvigilatorKitSessionInfo({ sessionId, userId });

@@ -27,7 +27,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
 
 function buildRequest(sessionId, userId, firstName, lastName, birthdate) {
   return {
-    params: { id: sessionId },
+    params: { sessionId },
     auth: {
       credentials: {
         userId,

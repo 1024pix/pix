@@ -6,7 +6,7 @@ import {
 } from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | session-controller-get-attendance-sheet', function () {
-  describe('GET /api/sessions/{id}/attendance-sheet', function () {
+  describe('GET /api/sessions/{sessionId}/attendance-sheet', function () {
     it('should respond with a 200 when session can be found', async function () {
       // given
       const user = databaseBuilder.factory.buildUser();

@@ -1,5 +1,3 @@
-import { assertNotNullOrUndefined } from '../../src/shared/domain/models/asserts.js';
-
 const MAXIMUM_NUMBER_OF_POINTS_THRESHOLD = 28;
 
 const PURGE_MIDDLE_POINT_INDEX = 10;
@@ -12,7 +10,7 @@ export class TimeSeries {
   #points;
 
   constructor(points) {
-    assertNotNullOrUndefined(points, NULL_OR_UNDEFINED_POINTS_ERROR_MESSAGE);
+    this.#assertPointsIsNotNullOrUndefined(points);
     points.sort((pointA, pointB) => new Date(pointA.x).getTime() - new Date(pointB.x).getTime());
     this.#points = points;
   }
@@ -38,6 +36,12 @@ export class TimeSeries {
       this.#purgeOnePoint();
     }
     return new TimeSeries(this.#points);
+  }
+
+  #assertPointsIsNotNullOrUndefined(points) {
+    if (points === null || points === undefined) {
+      throw new Error(NULL_OR_UNDEFINED_POINTS_ERROR_MESSAGE);
+    }
   }
 
   #purgeOnePoint() {

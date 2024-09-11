@@ -13,11 +13,11 @@ const register = async function (server) {
   server.route([
     {
       method: 'POST',
-      path: '/api/sessions/{id}/certification-candidates',
+      path: '/api/sessions/{sessionId}/certification-candidates',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
           payload: Joi.object({
             data: {
@@ -72,11 +72,11 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/sessions/{id}/certification-candidates',
+      path: '/api/sessions/{sessionId}/certification-candidates',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         pre: [
@@ -95,11 +95,11 @@ const register = async function (server) {
     },
     {
       method: 'DELETE',
-      path: '/api/sessions/{id}/certification-candidates/{certificationCandidateId}',
+      path: '/api/sessions/{sessionId}/certification-candidates/{certificationCandidateId}',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
             certificationCandidateId: identifiersType.certificationCandidateId,
           }),
         },
@@ -142,11 +142,11 @@ const register = async function (server) {
     },
     {
       method: 'PATCH',
-      path: '/api/sessions/{id}/certification-candidates/{certificationCandidateId}',
+      path: '/api/sessions/{sessionId}/certification-candidates/{certificationCandidateId}',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
             certificationCandidateId: identifiersType.certificationCandidateId,
           }),
           payload: Joi.object({

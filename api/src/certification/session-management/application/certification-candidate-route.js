@@ -11,11 +11,11 @@ const register = async function (server) {
   server.route([
     {
       method: 'POST',
-      path: '/api/certification-candidates/{id}/authorize-to-start',
+      path: '/api/certification-candidates/{certificationCandidateId}/authorize-to-start',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationCandidateId,
+            certificationCandidateId: identifiersType.certificationCandidateId,
           }),
           payload: Joi.object({
             'authorized-to-start': Joi.boolean().required(),
@@ -37,11 +37,11 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/certification-candidates/{id}/authorize-to-resume',
+      path: '/api/certification-candidates/{certificationCandidateId}/authorize-to-resume',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationCandidateId,
+            certificationCandidateId: identifiersType.certificationCandidateId,
           }),
         },
         pre: [
@@ -60,7 +60,7 @@ const register = async function (server) {
     },
     {
       method: 'PATCH',
-      path: '/api/certification-candidates/{id}/end-assessment-by-supervisor',
+      path: '/api/certification-candidates/{certificationCandidateId}/end-assessment-by-supervisor',
       config: {
         pre: [
           {
@@ -70,7 +70,7 @@ const register = async function (server) {
         ],
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationCandidateId,
+            certificationCandidateId: identifiersType.certificationCandidateId,
           }),
         },
         handler: certificationCandidateController.endAssessmentBySupervisor,

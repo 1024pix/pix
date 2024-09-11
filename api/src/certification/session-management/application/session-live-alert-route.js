@@ -9,7 +9,7 @@ const register = async function (server) {
   server.route([
     {
       method: 'PATCH',
-      path: '/api/sessions/{id}/candidates/{candidateId}/dismiss-live-alert',
+      path: '/api/sessions/{sessionId}/candidates/{candidateId}/dismiss-live-alert',
       config: {
         plugins: {
           'hapi-swagger': {
@@ -27,7 +27,8 @@ const register = async function (server) {
         },
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
+            // TODO: Remplacer dans la route candidates/{candidateId} par users/{userId} ?
             candidateId: identifiersType.userId,
           }),
         },
@@ -47,7 +48,7 @@ const register = async function (server) {
     },
     {
       method: 'PATCH',
-      path: '/api/sessions/{id}/candidates/{candidateId}/validate-live-alert',
+      path: '/api/sessions/{sessionId}/candidates/{candidateId}/validate-live-alert',
       config: {
         plugins: {
           'hapi-swagger': {
@@ -65,7 +66,8 @@ const register = async function (server) {
         },
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
+            // TODO: Remplacer dans la route candidates/{candidateId} par users/{userId} ?
             candidateId: identifiersType.userId,
           }),
         },

@@ -6,7 +6,7 @@ import { getCleaCertifiedCandidateCsv } from '../infrastructure/utils/csv/certif
 import { getSessionCertificationResultsCsv } from '../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 
 const getCleaCertifiedCandidateDataCsv = async function (request, h, dependencies = { getCleaCertifiedCandidateCsv }) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const { session, cleaCertifiedCandidateData } = await usecases.getCleaCertifiedCandidateBySession({ sessionId });
   const csvResult = await dependencies.getCleaCertifiedCandidateCsv({
     cleaCertifiedCandidates: cleaCertifiedCandidateData,

@@ -34,7 +34,7 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/sessions/{id}',
+      path: '/api/sessions/{sessionId}',
       config: {
         pre: [
           {
@@ -44,7 +44,7 @@ const register = async function (server) {
         ],
         handler: sessionController.get,
         validate: {
-          params: Joi.object({ id: identifiersType.sessionId }),
+          params: Joi.object({ sessionId: identifiersType.sessionId }),
         },
         tags: ['api', 'sessions', 'session enrolment'],
         notes: [
@@ -55,11 +55,11 @@ const register = async function (server) {
     },
     {
       method: 'PATCH',
-      path: '/api/sessions/{id}',
+      path: '/api/sessions/{sessionId}',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         pre: [
@@ -79,11 +79,11 @@ const register = async function (server) {
     },
     {
       method: 'DELETE',
-      path: '/api/sessions/{id}',
+      path: '/api/sessions/{sessionId}',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         pre: [

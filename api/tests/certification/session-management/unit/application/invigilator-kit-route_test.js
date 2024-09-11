@@ -5,7 +5,7 @@ import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Invigilator Kit', function () {
-  describe('GET /api/sessions/{id}/supervisor-kit', function () {
+  describe('GET /api/sessions/{sessionId}/supervisor-kit', function () {
     it('should return 200', async function () {
       // when
       sinon.stub(authorization, 'verifySessionAuthorization').resolves(true);

@@ -9,7 +9,7 @@ describe('Certification | Results | Unit | Controller | certification results', 
       // given
       const request = {
         params: {
-          id: 1,
+          sessionId: 1,
         },
       };
       const session = domainBuilder.certification.sessionManagement.buildSession({

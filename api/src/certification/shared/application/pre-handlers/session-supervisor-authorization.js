@@ -7,10 +7,10 @@ const verifyByCertificationCandidateId = async function (
   dependencies = { requestResponseUtils, supervisorAccessRepository },
 ) {
   const supervisorUserId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
-  const candidateId = request.params.id;
+  const certificationCandidateId = request.params.certificationCandidateId;
   const isSupervisorForSession = await dependencies.supervisorAccessRepository.isUserSupervisorForSessionCandidate({
     supervisorId: supervisorUserId,
-    certificationCandidateId: candidateId,
+    certificationCandidateId,
   });
 
   if (!isSupervisorForSession) {
@@ -26,7 +26,7 @@ const verifyBySessionId = async function (
   dependencies = { requestResponseUtils, supervisorAccessRepository },
 ) {
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
 
   const isSupervisorForSession = await dependencies.supervisorAccessRepository.isUserSupervisorForSession({
     sessionId,

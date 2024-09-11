@@ -32,11 +32,11 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/certification-reports/{id}/abort',
+      path: '/api/certification-reports/{certificationCourseId}/abort',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationCourseId,
+            certificationCourseId: identifiersType.certificationCourseId,
           }),
         },
         pre: [

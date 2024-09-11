@@ -2,6 +2,7 @@ import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { membershipAdminController } from './membership.admin.controller.js';
 import { membershipController } from './membership.controller.js';
 
 export const membershipAdminRoutes = [
@@ -67,6 +68,47 @@ export const membershipAdminRoutes = [
         },
       },
       tags: ['api', 'memberships'],
+    },
+  },
+  {
+    method: 'GET',
+    path: '/api/admin/organizations/{id}/memberships',
+    config: {
+      pre: [
+        {
+          method: (request, h) =>
+            securityPreHandlers.hasAtLeastOneAccessOf([
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+              securityPreHandlers.checkAdminMemberHasRoleCertif,
+              securityPreHandlers.checkAdminMemberHasRoleSupport,
+              securityPreHandlers.checkAdminMemberHasRoleMetier,
+            ])(request, h),
+          assign: 'belongsToOrganization',
+        },
+      ],
+      validate: {
+        params: Joi.object({
+          id: identifiersType.organizationId,
+        }),
+        query: Joi.object({
+          filter: Joi.object({
+            firstName: Joi.string().empty('').allow(null).optional(),
+            lastName: Joi.string().empty('').allow(null).optional(),
+            email: Joi.string().empty('').allow(null).optional(),
+            organizationRole: Joi.string().empty('').allow(null).optional(),
+          }).default({}),
+          page: Joi.object({
+            number: Joi.number().integer().empty('').allow(null).optional(),
+            size: Joi.number().integer().empty('').allow(null).optional(),
+          }).default({}),
+        }),
+      },
+      handler: membershipAdminController.findPaginatedFilteredMembershipsForAdmin,
+      tags: ['api', 'organizations'],
+      notes: [
+        'Cette route est restreinte aux utilisateurs de Pix Admin',
+        'Elle retourne les rôles des membres rattachés à l’organisation de manière paginée.',
+      ],
     },
   },
 ];

@@ -8,7 +8,7 @@ import {
   generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | membership-controller', function () {
+describe('Acceptance | Team | Admin | Route | membership', function () {
   let server;
 
   beforeEach(async function () {
@@ -56,7 +56,7 @@ describe('Acceptance | Controller | membership-controller', function () {
     });
 
     context('Success cases', function () {
-      it('should return the created membership', async function () {
+      it('returns the created membership', async function () {
         // when
         const response = await server.inject(options);
 
@@ -81,7 +81,7 @@ describe('Acceptance | Controller | membership-controller', function () {
       });
 
       context('When a membership is disabled', function () {
-        it('should be able to recreate it', async function () {
+        it('recreates it', async function () {
           // given
           databaseBuilder.factory.buildMembership({ userId, organizationId, disabledAt: new Date() });
           await databaseBuilder.commit();
@@ -95,7 +95,7 @@ describe('Acceptance | Controller | membership-controller', function () {
       });
 
       context('When a membership is not disabled', function () {
-        it('should not be able to recreate it', async function () {
+        it('does not recreate it', async function () {
           // given
           databaseBuilder.factory.buildMembership({ userId, organizationId });
           await databaseBuilder.commit();
@@ -166,7 +166,7 @@ describe('Acceptance | Controller | membership-controller', function () {
     });
 
     context('Success cases', function () {
-      it('should return the updated membership and add certification center membership', async function () {
+      it('returns the updated membership and add certification center membership', async function () {
         // given
         const expectedMembership = {
           data: {
@@ -202,7 +202,7 @@ describe('Acceptance | Controller | membership-controller', function () {
     });
 
     context('Error cases', function () {
-      it('should respond with a 403 if user is not admin of membership organization', async function () {
+      it('responds with a 403 if user is not admin of membership organization', async function () {
         // given
         const notAdminUserId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildMembership({
@@ -221,7 +221,7 @@ describe('Acceptance | Controller | membership-controller', function () {
         expect(response.statusCode).to.equal(403);
       });
 
-      it('should respond with a 400 if membership does not exist', async function () {
+      it('responds with a 400 if membership does not exist', async function () {
         // given
         options.url = '/api/memberships/NOT_NUMERIC';
 
@@ -232,6 +232,67 @@ describe('Acceptance | Controller | membership-controller', function () {
         expect(response.statusCode).to.equal(400);
         const firstError = response.result.errors[0];
         expect(firstError.detail).to.equal('"id" must be a number');
+      });
+    });
+  });
+
+  describe('GET /api/admin/organizations/{id}/memberships', function () {
+    it('returns the matching membership as JSON API', async function () {
+      // given
+      const userSuperAdmin = databaseBuilder.factory.buildUser.withRole();
+      const organization = databaseBuilder.factory.buildOrganization();
+      const user = databaseBuilder.factory.buildUser();
+      const membershipId = databaseBuilder.factory.buildMembership({
+        userId: user.id,
+        organizationId: organization.id,
+      }).id;
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/admin/organizations/${organization.id}/memberships?filter[email]=&filter[firstName]=&filter[lastName]=&filter[organizationRole]=`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userSuperAdmin.id) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        data: [
+          {
+            attributes: {
+              'organization-role': 'MEMBER',
+            },
+            id: membershipId.toString(),
+            relationships: {
+              user: {
+                data: {
+                  id: user.id.toString(),
+                  type: 'users',
+                },
+              },
+            },
+            type: 'organization-memberships',
+          },
+        ],
+        included: [
+          {
+            attributes: {
+              email: user.email,
+              'first-name': user.firstName,
+              'last-name': user.lastName,
+            },
+            id: user.id.toString(),
+            type: 'users',
+          },
+        ],
+        meta: {
+          page: 1,
+          pageCount: 1,
+          pageSize: 10,
+          rowCount: 1,
+        },
       });
     });
   });
