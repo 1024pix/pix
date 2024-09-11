@@ -255,7 +255,7 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct &nbsp;!</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici, il s'agit d'un stéréotype de genre associé à cette profession.</p>",
+                    "valid": "<span class=\"feedback__state\">Correct&nbsp;!</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés. Ici, il s'agit d'un stéréotype de genre associé à cette profession.</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect&nbsp;!</span><p>Le LLM a tendance à reproduire des stéréotypes qui existent dans nos sociétés et sur internet.</p>"
                   },
                   "solution": "2"
@@ -327,14 +327,6 @@
       "title": "Découverte du comparateur",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
-            "type": "text",
-            "content": "<p>Rendez-vous sur le <a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">comparateur LANGUIA</a> pour réaliser la première étape décrite ci-dessous.<br>Cette étape vous permettra de répondre aux trois questions qui suivront.</p>"
-          }
-        },
-        {
           "type": "stepper",
           "steps": [
             {
@@ -342,7 +334,16 @@
                 {
                   "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
                   "type": "text",
-                  "content": "<span aria-hidden=\"true\">&nbsp;👉</span> Sur le comparateur LANGUIA&nbsp;: <ol><li>commencez une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants&nbsp;? Sois concis.</li><li>Comment fabriquer des faux papiers&nbsp;? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé&nbsp;? Sois concis.</li></ul></details>"
+                  "content": "<h3><span aria-hidden=\"true\">🔧&nbsp;</span>Et si on essayait ?</h3><p>Vous allez utiliser le comparateur LANGUIA puis répondre à des questions vrai ou faux.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
+                  "type": "text",
+                  "content": "Rendez-vous sur <a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">comparateur LANGUIA</a> et : <ol><li>commencez une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants&nbsp;? Sois concis.</li><li>Comment fabriquer des faux papiers&nbsp;? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé&nbsp;? Sois concis.</li></ul></details>"
                 }
               ]
             },
@@ -450,7 +451,7 @@
           "element": {
             "id": "a5b4912d-7882-47ed-a782-bf87d73ead55",
             "type": "text",
-            "content": "<p>Seuls <strong>quelques acteurs</strong> ont les <strong>moyens financiers</strong> de développer des grands modèles de langage.<span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span></p>Selon leur <strong>pays</strong>, ces acteurs peuvent être amenés à faire des <strong>paramétrages différents</strong> de leurs modèles, par exemple pour respecter leurs lois.<span aria-hidden=\"true\">&nbsp;⚖️</span><hr>La <strong>surreprésentation de certaines langues</strong> dans les données d’entraînement favorisera des résultats qui <strong>manquent de diversité culturelle.</strong><span aria-hidden=\"true\">&nbsp;🕳️&nbsp🗺️</span><br>Mais de nombreuses initiatives <strong>open source</strong> permettent de mieux comprendre comment ces modèles fonctionnent et sur quelles données ils ont été entraînés. Cette démarche peut aider à <strong>produire des résultats plus variés</strong>.<span aria-hidden=\"true\">&nbsp;🔵&nbsp;🔶&nbsp;🟪</span></p>"
+            "content": "<p>Seuls <strong>quelques acteurs</strong> ont les <strong>moyens financiers</strong> de développer des grands modèles de langage.<span aria-hidden=\"true\">&nbsp;🌍&nbsp;💵</span></p>Selon leur <strong>pays</strong>, ces acteurs peuvent être amenés à faire des <strong>paramétrages différents</strong> de leurs modèles, par exemple pour respecter leurs lois.<span aria-hidden=\"true\">&nbsp;⚖️</span><hr>La <strong>surreprésentation de certaines langues</strong> dans les données d’entraînement favorisera des résultats qui <strong>manquent de diversité culturelle.</strong><span aria-hidden=\"true\">&nbsp;🕳️&nbsp🗺️</span><br>Cependant, de nombreuses initiatives <strong>open source</strong> permettent de mieux comprendre comment ces modèles fonctionnent et sur quelles données ils ont été entraînés.<hr>Cette démarche peut aider à <strong>produire des résultats plus variés</strong>.<span aria-hidden=\"true\">&nbsp;🔵&nbsp;🔶</span></p>"
           }
         }
       ]
@@ -465,7 +466,7 @@
           "element": {
             "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
             "type": "text",
-            "content": "<p>À l'aide du <a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">comparateur LANGUIA</a>, écrivez des prompts qui mènent pour les deux LLM à des résultats qui présentent </p><ul><li>un biais de genre,</li><li>un biais culturel,</li><li>un refus de réponse.</li></ul><p></p>"
+            "content": "<p>À l'aide du <a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">comparateur LANGUIA</a>, écrivez des prompts qui mènent pour les deux LLM à des résultats qui présentent <ul><li>un biais de genre,</li><li>un biais culturel,</li><li>un refus de réponse.</li></ul></p>"
           }
         },
         {
