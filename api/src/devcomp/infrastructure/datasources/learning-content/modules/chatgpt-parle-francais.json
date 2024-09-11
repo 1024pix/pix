@@ -466,7 +466,7 @@
           "element": {
             "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
             "type": "text",
-            "content": "<p>À l'aide du <a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">comparateur LANGUIA</a>, écrivez des prompts qui mènent pour les deux LLM à des résultats qui présentent <ul><li>un biais de genre,</li><li>un biais culturel,</li><li>un refus de réponse.</li></ul></p>"
+            "content": "<p>À l'aide du <a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">comparateur LANGUIA</a>, écrivez des prompts qui mènent pour les deux LLM à des résultats qui présentent :<ul><li>un biais de genre,</li><li>un biais culturel,</li><li>un refus de réponse.</li></ul></p>"
           }
         },
         {
