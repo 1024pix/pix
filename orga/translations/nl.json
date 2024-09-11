@@ -46,11 +46,13 @@
       "birthdate-required": "Bij de student met de ID {nationalStudentId} is het veld geboortedatum niet ingevuld. Dit is verplicht voor elke leerling.",
       "empty": "Studenten moeten een INE en een klas hebben.",
       "encoding-not-supported": "Bestandscodering niet ondersteund.",
+      "first-name-required": "Bij de student met de INE {nationalStudentId} is het veld voornaam niet ingevuld. Dit is verplicht voor elke student.",
       "ine-required": "Het INE-veld is verplicht voor elke student.",
       "ine-unique": "De INE {nationalStudentId} komt meerdere keren voor in het bestand voor verschillende studenten.",
       "invalid-birthdate-format": "De student met de INE {nationalStudentId} heeft niet het juiste format voor de geboortedatum. Deze moet in het format 'DD/MM/JJJJ' zijn.",
       "invalid-file": "Het bestand is niet conform.",
       "invalid-file-extension": "Uitbreiding {fileExtension} niet ondersteund.",
+      "last-name-required": "Bij de student met de INE {nationalStudentId} is het veld achternaam niet ingevuld. Dit is verplicht voor elke student.",
       "payload-too-large": "De bestandsgrootte moet kleiner zijn dan {maxSize} MB.",
       "sex-code-required": "Bij de student met de INE {nationalStudentId} is het veld geslacht niet ingevuld. Dit is verplicht voor elke student.",
       "uai-mismatched": "De UAI in het SIECLE-bestand komt niet overeen met die van jouw instelling."

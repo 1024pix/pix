@@ -48,6 +48,8 @@ class XMLOrganizationLearnersSet {
     const birthdate = _getValueFromParsedElement(xmlNode.DATE_NAISS);
     const birthCountryCode = _getValueFromParsedElement(xmlNode.CODE_PAYS);
     const birthCityCode = _getValueFromParsedElement(xmlNode.CODE_COMMUNE_INSEE_NAISS);
+    const lastName = _getValueFromParsedElement(xmlNode.NOM_DE_FAMILLE);
+    const firstName = _getValueFromParsedElement(xmlNode.PRENOM);
 
     if (_frenchBornHasEmptyCityCode({ birthCountryCode, birthCityCode })) {
       errors.push(
@@ -64,6 +66,12 @@ class XMLOrganizationLearnersSet {
     }
     if (isEmpty(nationalStudentId)) {
       errors.push(new SiecleXmlImportError(SIECLE_ERRORS.INE_REQUIRED));
+    }
+    if (isEmpty(lastName)) {
+      errors.push(new SiecleXmlImportError(SIECLE_ERRORS.LAST_NAME_REQUIRED, { nationalStudentId }));
+    }
+    if (isEmpty(firstName)) {
+      errors.push(new SiecleXmlImportError(SIECLE_ERRORS.FIRST_NAME_REQUIRED, { nationalStudentId }));
     }
     if (this.studentIds.includes(nationalStudentId)) {
       errors.push(new SiecleXmlImportError(SIECLE_ERRORS.INE_UNIQUE, { nationalStudentId }));
