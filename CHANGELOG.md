@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v4.210.1 (10/09/2024)
+
+### :bug: Correction
+- [#10098](https://github.com/1024pix/pix/pull/10098) Revert "[TECH] Ajouter les infos de corrélation à chaque log via le logger"
+
 ## v4.210.0 (10/09/2024)
 
 
