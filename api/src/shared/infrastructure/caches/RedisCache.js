@@ -39,11 +39,11 @@ class RedisCache extends Cache {
   async _manageValueNotFoundInCache(key, generator) {
     const keyToLock = REDIS_LOCK_PREFIX + key;
     const retrieveAndSetValue = async () => {
-      logger.info({ key, msg: 'Executing generator for Redis key' });
+      logger.info({ key }, 'Executing generator for Redis key');
       const value = await generator();
       return this.set(key, value);
     };
-    const unlockErrorHandler = (err) => logger.error({ key, msg: 'Error while trying to unlock Redis key', err });
+    const unlockErrorHandler = (err) => logger.error({ key }, 'Error while trying to unlock Redis key', err);
 
     try {
       const locker = this._client.lockDisposer(keyToLock, config.caching.redisCacheKeyLockTTL, unlockErrorHandler);
@@ -55,7 +55,7 @@ class RedisCache extends Cache {
         await new Promise((resolve) => setTimeout(resolve, config.caching.redisCacheLockedWaitBeforeRetry));
         return this.get(key, generator);
       }
-      logger.error({ err, msg: 'Error while trying to update value in Redis cache' });
+      logger.error({ err }, 'Error while trying to update value in Redis cache');
       throw err;
     }
   }
@@ -63,7 +63,7 @@ class RedisCache extends Cache {
   async set(key, object) {
     const objectAsString = JSON.stringify(object);
 
-    logger.info({ key, length: objectAsString.length, msg: 'Setting Redis key' });
+    logger.info({ key, length: objectAsString.length }, 'Setting Redis key');
 
     await this._client.set(key, objectAsString);
     await this._client.del(`${key}:${PATCHES_KEY}`);

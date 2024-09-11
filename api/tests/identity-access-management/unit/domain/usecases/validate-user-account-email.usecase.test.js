@@ -1,5 +1,5 @@
 import { validateUserAccountEmail } from '../../../../../src/identity-access-management/domain/usecases/validate-user-account-email.usecase.js';
-import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
+import { monitoringTools } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Identity Access Management | Domain | UseCase | validate-user-account-email', function () {
@@ -22,7 +22,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | validate-user-a
     now = new Date('2024-06-26');
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
-    sinon.stub(logger, 'error');
+    sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
   });
 
   afterEach(function () {
@@ -132,11 +132,11 @@ describe('Unit | Identity Access Management | Domain | UseCase | validate-user-a
       });
 
       // then
-      expect(logger.error).to.have.been.calledWith({
+      expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+        message: 'error',
         context: 'email-validation',
         data: { token },
         team: 'acces',
-        msg: 'error',
       });
       expect(redirectionUrl).to.equal(defaultRedirectionUrl);
     });

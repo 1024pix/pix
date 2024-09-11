@@ -1,7 +1,7 @@
 import { PoleEmploiPayload } from '../../../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import { ParticipationCompletedJobController } from '../../../../../../src/prescription/campaign-participation/application/jobs/participation-completed-job-controller.js';
 import { ParticipationCompletedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationCompletedJob.js';
-import { PoleEmploiSending } from '../../../../../../src/shared/domain/models/index.js';
+import { PoleEmploiSending } from '../../../../../../src/shared/domain/models/PoleEmploiSending.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Prescription | Application | Jobs | ParticipationCompletedJobController', function () {
