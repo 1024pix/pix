@@ -5,8 +5,8 @@ import { config } from '../../../shared/config.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { temporaryStorage } from '../../../shared/infrastructure/temporary-storage/index.js';
 
-const refreshTokenTemporaryStorage = temporaryStorage.withPrefix('refresh-tokens:');
-const userRefreshTokensTemporaryStorage = temporaryStorage.withPrefix('user-refresh-tokens:');
+const globalRefreshTokenTemporaryStorage = temporaryStorage.withPrefix('refresh-tokens:');
+const globalUserRefreshTokensTemporaryStorage = temporaryStorage.withPrefix('user-refresh-tokens:');
 
 const REFRESH_TOKEN_EXPIRATION_DELAY_ADDITION_SECONDS = 60 * 60; // 1 hour
 
@@ -15,7 +15,7 @@ const REFRESH_TOKEN_EXPIRATION_DELAY_ADDITION_SECONDS = 60 * 60; // 1 hour
  * @returns {Promise<{userId: string, source: string, scope: string}>}
  */
 async function findByRefreshToken(refreshToken) {
-  return refreshTokenTemporaryStorage.get(refreshToken);
+  return globalRefreshTokenTemporaryStorage.get(refreshToken);
 }
 
 /**
@@ -23,7 +23,7 @@ async function findByRefreshToken(refreshToken) {
  * @returns {Promise<Array<string>>}
  */
 async function findByUserId(userId) {
-  return userRefreshTokensTemporaryStorage.lrange(userId);
+  return globalUserRefreshTokensTemporaryStorage.lrange(userId);
 }
 
 /**
@@ -35,8 +35,19 @@ async function findByUserId(userId) {
  * @param {function} params.uuidGenerator
  * @return {Promise<string>}
  */
-async function createRefreshTokenFromUserId({ userId, scope, source, uuidGenerator = randomUUID }) {
-  const expirationDelaySeconds = config.authentication.refreshTokenLifespanMs / 1000;
+async function createRefreshTokenFromUserId({
+  userId,
+  scope,
+  source,
+  uuidGenerator = randomUUID,
+  refreshTokenTemporaryStorage,
+  userRefreshTokensTemporaryStorage,
+}) {
+  refreshTokenTemporaryStorage = refreshTokenTemporaryStorage || globalRefreshTokenTemporaryStorage;
+  userRefreshTokensTemporaryStorage = userRefreshTokensTemporaryStorage || globalUserRefreshTokensTemporaryStorage;
+
+  const expirationDelaySeconds =
+    (config.authentication.refreshTokenLifespanMsByScope[scope] || config.authentication.refreshTokenLifespanMs) / 1000;
   const refreshToken = [userId, scope, uuidGenerator()].filter(Boolean).join(':');
 
   await refreshTokenTemporaryStorage.save({
@@ -44,6 +55,7 @@ async function createRefreshTokenFromUserId({ userId, scope, source, uuidGenerat
     value: { type: 'refresh_token', userId, scope, source },
     expirationDelaySeconds,
   });
+
   await userRefreshTokensTemporaryStorage.lpush({ key: userId, value: refreshToken });
   await userRefreshTokensTemporaryStorage.expire({
     key: userId,
@@ -78,8 +90,8 @@ async function createAccessTokenFromRefreshToken({ refreshToken, scope: targetSc
 async function revokeRefreshToken({ refreshToken }) {
   const { userId } = (await findByRefreshToken(refreshToken)) || {};
   if (!userId) return;
-  await userRefreshTokensTemporaryStorage.lrem({ key: userId, valueToRemove: refreshToken });
-  await refreshTokenTemporaryStorage.delete(refreshToken);
+  await globalUserRefreshTokensTemporaryStorage.lrem({ key: userId, valueToRemove: refreshToken });
+  await globalRefreshTokenTemporaryStorage.delete(refreshToken);
 }
 
 /**
@@ -90,9 +102,9 @@ async function revokeRefreshToken({ refreshToken }) {
  */
 async function revokeRefreshTokensForUserId({ userId }) {
   const refreshTokens = await findByUserId(userId);
-  await userRefreshTokensTemporaryStorage.delete(userId);
+  await globalUserRefreshTokensTemporaryStorage.delete(userId);
   for (const refreshToken of refreshTokens) {
-    await refreshTokenTemporaryStorage.delete(refreshToken);
+    await globalRefreshTokenTemporaryStorage.delete(refreshToken);
   }
 }
 

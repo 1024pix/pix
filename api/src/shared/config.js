@@ -101,6 +101,12 @@ const configuration = (function () {
       secret: process.env.AUTH_SECRET,
       accessTokenLifespanMs: ms(process.env.ACCESS_TOKEN_LIFESPAN || '20m'),
       refreshTokenLifespanMs: ms(process.env.REFRESH_TOKEN_LIFESPAN || '7d'),
+      refreshTokenLifespanMsByScope: {
+        'mon-pix': ms(process.env.REFRESH_TOKEN_LIFESPAN_MON_PIX || '7d'),
+        'pix-orga': ms(process.env.REFRESH_TOKEN_LIFESPAN_PIX_ORGA || '7d'),
+        'pix-certif': ms(process.env.REFRESH_TOKEN_LIFESPAN_PIX_CERTIF || '7d'),
+        'pix-admin': ms(process.env.REFRESH_TOKEN_LIFESPAN_PIX_ADMIN || '7d'),
+      },
       tokenForCampaignResultLifespan: process.env.CAMPAIGN_RESULT_ACCESS_TOKEN_LIFESPAN || '1h',
       tokenForStudentReconciliationLifespan: '1h',
       passwordResetTokenLifespan: '1h',
