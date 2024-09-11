@@ -1,6 +1,6 @@
 import { CertificationEligibility } from '../../../../../../src/certification/enrolment/domain/read-models/UserCertificationEligibility.js';
 
-const buildV3UserCertificationEligibility = function ({
+const buildV3CertificationEligibility = function ({
   label = "Label d'éligibilité",
   imageUrl = "url d'image",
   isOutdated = false,
@@ -14,4 +14,4 @@ const buildV3UserCertificationEligibility = function ({
   });
 };
 
-export { buildV3UserCertificationEligibility };
+export { buildV3CertificationEligibility };
