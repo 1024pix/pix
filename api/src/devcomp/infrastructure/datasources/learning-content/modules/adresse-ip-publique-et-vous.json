@@ -4,13 +4,13 @@
   "title": "L'adresse IP publique : ce qu'elle révèle sur vous !",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "<p>Quand vous naviguez sur internet, vous partagez des informations et laissez ainsi de nombreuses traces : adresse IP, cookies, historique, etc. Dans ce module, découvrez une partie de ces traces numériques avec l'adresse IP publique et ce qu'elle dévoile sur vous.</p>",
+    "description": "<p>Quand vous naviguez sur internet, vous partagez des informations et laissez ainsi de nombreuses traces : adresse IP, cookies, historique, etc. Dans ce module, découvrez ce qu'est une adresse IP publique et ce qu’elle dévoile sur vous.</p>",
     "duration": 10,
     "level": "Intermédiaire",
     "objectives": [
-      "Comprendre le rôle des adresses IP publiques",
-      "Connaître les traces numériques portées par l'adresse IP publique",
-      "Localiser une adresse IP publique"
+      "Comprendre la fonction des adresses IP publiques",
+      "Connaître les informations personnelles dévoilées par l'adresse IP publique",
+      "Distinguer les adresses IP publiques des adresses IP privées"
     ],
     "tabletSupport": "comfortable"
   },
@@ -177,30 +177,6 @@
             {
               "elements": [
                 {
-                  "id": "a2db1a10-063c-4f72-b676-956bb3d0837b",
-                  "type": "qcu",
-                  "instruction": "<p>L’adresse IP publique donne une information sur la zone géographique de la connexion.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai"
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux"
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct ! <span aria-hidden=\"true\">🎉</span></span><p>Les adresses IP dont d’abord réparties dans 5 grandes régions du monde, puis auprès des opérateurs locaux dans chaque pays.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect</span><p>Les adresses IP dont d’abord réparties dans 5 grandes régions du monde, puis auprès des opérateurs locaux dans chaque pays. Elles sont donc <strong>localisées</strong></p>"
-                  },
-                  "solution": "1"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
                   "id": "74b6d2c6-a332-4f48-9896-e3bd52fb9bdc",
                   "type": "qcu",
                   "instruction": "<p>Une adresse IP publique est donnée par le point d’accès internet (box internet, 3G/4G, etc.).</p>",
@@ -215,8 +191,56 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct ! <span aria-hidden=\"true\">🎉</span></span><p>Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span><p>Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Il s’agit par exemple de l’adresse IP publique de votre box internet si vous êtes chez vous ou celle du réseau de votre employeur au travail.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "3c7f2197-4d60-452c-b7d4-e1d642a5f2c0",
+                  "type": "qcu",
+                  "instruction": "<p>Si vous êtes connecté à la même box internet que Mélanie, vous aurez la même adresse IP publique qu'elle.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span><p>Qui dit même point d'accès internet dit même adresse IP publique.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Qui dit même point d'accès internet dit même adresse IP publique.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "a2db1a10-063c-4f72-b676-956bb3d0837b",
+                  "type": "qcu",
+                  "instruction": "<p>L’adresse IP publique donne une information sur la zone géographique de la connexion.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span><p>Les adresses IP sont localisées. Elles sont attribuées selon 5 grandes régions du monde.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Les adresses IP sont localisées. Elles sont attribuées selon 5 grandes régions du monde.</p>"
                   },
                   "solution": "1"
                 }
@@ -239,34 +263,10 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct ! <span aria-hidden=\"true\">🎉</span></span><p> Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve. Par contre, les autorités peuvent accéder à plus d'informations, dans un cadre prévu par la loi.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve. Par contre, les autorités peuvent accéder à plus d'informations, dans un cadre prévu par la loi.</p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span><p> Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve. Par contre, les autorités peuvent accéder à plus d'informations, dans un cadre prévu par la loi.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve. Par contre, les autorités peuvent accéder à plus d'informations, dans un cadre prévu par la loi.</p>"
                   },
                   "solution": "2"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "3c7f2197-4d60-452c-b7d4-e1d642a5f2c0",
-                  "type": "qcu",
-                  "instruction": "<p>Si vous êtes connecté à la même box internet que Mélanie, vous aurez la même adresse IP publique qu'elle.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai"
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux"
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct ! <span aria-hidden=\"true\">🎉</span></span><p>Qui dit même point d'accès internet dit même adresse IP publique.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Qui dit même point d'accès internet dit même adresse IP publique.</p>"
-                  },
-                  "solution": "1"
                 }
               ]
             }
@@ -284,7 +284,7 @@
           "element": {
             "id": "27fc867a-7258-4f85-b8cc-bdd1ab2d26a5",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite</h3><ul><li>L’adresse IP publique donne une information sur la zone géographique de connexion : le pays, voire la ville.</li><li>Votre adresse IP publique est celle de votre box internet.</li><li>Les personnes connectées à la même box internet ont la même adresse IP publique.</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite</h3><ul><li>Votre adresse IP publique est celle de votre box internet.</li><li>Les personnes connectées à la même box internet ont la même adresse IP publique.</li><li>L’adresse IP publique donne une information sur la zone géographique de connexion : le pays, voire la ville.</li></ul>"
           }
         }
       ]
@@ -299,7 +299,7 @@
           "element": {
             "id": "21842978-ba1c-4e16-8c2a-c7d1db082c2a",
             "type": "qrocm",
-            "instruction": "<p>Mélanie est partie en vacances. Voici son adresse IP : <code>23.32.227.255</code></p><p>Dans quelle pays se trouve-t-elle&nbsp;?</p>",
+            "instruction": "<p>Mélanie est partie en vacances. Voici son adresse IP : <code>23.32.227.255</code></p><p>Dans quel pays se trouve-t-elle&nbsp;?</p>",
             "proposals": [
               {
                 "type": "text",
@@ -318,13 +318,13 @@
                   "t1"
                 ],
                 "solutions": [
-                  "Japon"
+                  "Japon", "Tokyo"
                 ]
               }
             ],
             "feedbacks": {
               "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Vous avez peut-être même trouvé la ville dans laquelle elle se trouve.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Pour réussir, utilisez un site internet dédié. Pour le trouver, faites une recherche sur internet avec les mots-clés \"localisation adresse IP\".</p>"
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Pour avoir de l'aide, utiliser les indices ci-dessous.</p>"
             }
           }
         },
@@ -367,7 +367,7 @@
           "element": {
             "id": "1b524302-7175-4923-8810-835201d3d443",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">🏠</span> Sur le <strong>réseau local</strong>, les appareils (ordinateur, imprimante, etc.) utilisent des adresses IP <strong>privées</strong> (ou locales) pour communiquer.</p><p><span aria-hidden=\"true\">🌐</span> Sur <strong>internet</strong>, ce sont des adresses IP <strong>publiques</strong> qui permettent aux sites et aux box internet de communiquer des informations.</p><p><span aria-hidden=\"true\">🛜</span> Une box internet a deux adresses IP : une privée et une publique.</p>"
+            "content": "<p><span aria-hidden=\"true\">🏠</span> Sur le <strong>réseau local</strong>, les appareils (ordinateur, imprimante, etc.) utilisent des adresses IP <strong>privées</strong> (ou locales) pour communiquer.</p><p><span aria-hidden=\"true\">🌐</span> Sur <strong>internet</strong>, ce sont des adresses IP <strong>publiques</strong> qui permettent aux sites et aux box internet de communiquer des informations.</p><p><span aria-hidden=\"true\">🛜</span> Une box internet a <strong>deux adresses IP</strong> : une privée et une publique.</p>"
           }
         }
       ]
@@ -378,37 +378,14 @@
       "title": "IP publique ou IP privée",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "9bc62c21-dfd4-40a8-9497-680a7e1c13d9",
-            "type": "text",
-            "content": "<p>Pour chaque question, trouvez si elle correspond à une IP publique ou à une IP privée.</p>"
-          }
-        },
-        {
           "type": "stepper",
           "steps": [
             {
               "elements": [
                 {
-                  "id": "01136211-72e8-47c3-a3d3-753edb2dfd09",
-                  "type": "qcu",
-                  "instruction": "<p>Quelle adresse est visible en ligne par les sites que visite Mélanie ?</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "l'adresse IP publique"
-                    },
-                    {
-                      "id": "2",
-                      "content": "l'adresse IP privée"
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Cette adresse est <strong>publique</strong> donc <strong>visible</strong>.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L'adresse IP <strong>privée</strong> (locale) de Mélanie est visible uniquement par les appareils de son réseau local.</p>"
-                  },
-                  "solution": "1"
+                  "id": "9bc62c21-dfd4-40a8-9497-680a7e1c13d9",
+                  "type": "text",
+                  "content": "<h3><span aria-hidden=\"true\">🕹️</span> À vous de jouer !</h3> À l'aide du schéma ci-dessus, trouvez pour chaque question si elle correspond à une IP publique ou à une IP privée.</p>"
                 }
               ]
             },
@@ -457,6 +434,30 @@
                     "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L'adresse IP publique est spécifique à la box internet. Chaque appareil qui y est connecté a sa propre adresse IP privée.</p>"
                   },
                   "solution": "2"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "01136211-72e8-47c3-a3d3-753edb2dfd09",
+                  "type": "qcu",
+                  "instruction": "<p>Quelle adresse est visible par les sites visités par Mélanie ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "l'adresse IP publique"
+                    },
+                    {
+                      "id": "2",
+                      "content": "l'adresse IP privée"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Cette adresse est <strong>publique</strong> donc <strong>visible</strong>.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L'adresse IP <strong>privée</strong> (locale) de Mélanie est visible uniquement par les appareils de son réseau local.</p>"
+                  },
+                  "solution": "1"
                 }
               ]
             }
