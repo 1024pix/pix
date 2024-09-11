@@ -1,7 +1,3 @@
-import bluebird from 'bluebird';
-
-const { using } = bluebird;
-
 import Redlock from 'redlock';
 
 import { config } from '../../config.js';
@@ -38,17 +34,14 @@ class RedisCache extends Cache {
 
   async _manageValueNotFoundInCache(key, generator) {
     const keyToLock = REDIS_LOCK_PREFIX + key;
-    const retrieveAndSetValue = async () => {
+
+    let lock;
+    try {
+      lock = await this._client.lock(keyToLock, config.caching.redisCacheKeyLockTTL);
+
       logger.info({ key }, 'Executing generator for Redis key');
       const value = await generator();
       return this.set(key, value);
-    };
-    const unlockErrorHandler = (err) => logger.error({ key }, 'Error while trying to unlock Redis key', err);
-
-    try {
-      const locker = this._client.lockDisposer(keyToLock, config.caching.redisCacheKeyLockTTL, unlockErrorHandler);
-      const value = await using(locker, retrieveAndSetValue);
-      return value;
     } catch (err) {
       if (err instanceof Redlock.LockError) {
         logger.trace({ keyToLock }, 'Could not lock Redis key, waiting');
@@ -57,6 +50,8 @@ class RedisCache extends Cache {
       }
       logger.error({ err }, 'Error while trying to update value in Redis cache');
       throw err;
+    } finally {
+      if (lock) await lock.unlock();
     }
   }
 

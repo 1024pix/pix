@@ -34,7 +34,7 @@ class RedisClient {
     this.keys = this._wrapWithPrefix(this._client.keys).bind(this._client);
     this.ping = this._client.ping.bind(this._client);
     this.flushall = this._client.flushall.bind(this._client);
-    this.lockDisposer = this._clientWithLock.disposer.bind(this._clientWithLock);
+    this.lock = this._clientWithLock.lock.bind(this._clientWithLock);
   }
 
   _wrapWithPrefix(fn) {
