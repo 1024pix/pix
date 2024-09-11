@@ -12,7 +12,14 @@ export default class AuthenticatedPlacesRoute extends Route {
     }
   }
 
-  model() {
-    return this.modelFor('authenticated');
+  async model() {
+    const placesLots = await this.store.query('organization-places-lot', {
+      filter: { organizationId: this.currentUser.organization.id },
+    });
+    const statistics = await this.modelFor('authenticated');
+    return {
+      statistics,
+      placesLots,
+    };
   }
 }
