@@ -107,7 +107,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         const correction = qcu.assess();
 
         // then
-        expect(correction).to.deep.equal(expectedCorrection);
         expect(correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedCorrection));
       });
 
@@ -149,7 +148,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         const correction = qcu.assess();
 
         // then
-        expect(correction).to.deep.equal(expectedCorrection);
         expect(correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedCorrection));
       });
     });
@@ -201,7 +199,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         const correction = qcu.assess();
 
         // then
-        expect(correction).to.deep.equal(expectedCorrection);
         expect(correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedCorrection));
       });
 
@@ -251,7 +248,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         const correction = qcu.assess();
 
         // then
-        expect(correction).to.deep.equal(expectedCorrection);
         expect(correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedCorrection));
       });
     });
@@ -304,7 +300,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         const correction = qcu.assess();
 
         // then
-        expect(correction).to.deep.equal(expectedCorrection);
         expect(correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedCorrection));
       });
 
@@ -355,7 +350,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         const correction = qcu.assess();
 
         // then
-        expect(correction).to.deep.equal(expectedCorrection);
         expect(correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedCorrection));
       });
     });
