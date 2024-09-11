@@ -216,40 +216,6 @@ describe('Integration | Repository | Certification Center', function () {
     });
   });
 
-  describe('#save', function () {
-    it('should save the given certification center', async function () {
-      // given
-      const certificationCenter = new CertificationCenter({
-        name: 'CertificationCenterName',
-        type: 'SCO',
-      });
-
-      // when
-      const savedCertificationCenter = await certificationCenterRepository.save({ certificationCenter });
-
-      // then
-      expect(savedCertificationCenter).to.be.instanceof(CertificationCenter);
-      expect(savedCertificationCenter.id).to.exist;
-      expect(savedCertificationCenter.name).to.equal('CertificationCenterName');
-      expect(savedCertificationCenter.type).to.equal('SCO');
-    });
-
-    it('should update the given certification center with the proper updated date', async function () {
-      // given
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
-        name: 'CertificationCenterName',
-        type: 'SCO',
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const savedCertificationCenter = await certificationCenterRepository.save({ certificationCenter });
-
-      // then
-      expect(savedCertificationCenter.updatedAt).to.deep.equal(now);
-    });
-  });
-
   describe('#findByExternalId', function () {
     context('the certification center is found', function () {
       it('should return the certification center', async function () {

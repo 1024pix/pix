@@ -1,97 +1,92 @@
-import _ from 'lodash';
-
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { BookshelfCertificationCenter } from '../../../../../src/shared/infrastructure/orm-models/CertificationCenter.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationCenter } from '../../../../shared/domain/models/CertificationCenter.js';
 import { ComplementaryCertification } from '../../../complementary-certification/domain/models/ComplementaryCertification.js';
 
-function _toDomain(bookshelfCertificationCenter) {
-  const dbCertificationCenter = bookshelfCertificationCenter.toJSON();
-  const habilitations = _.map(dbCertificationCenter.habilitations, (dbComplementaryCertification) => {
-    return new ComplementaryCertification({
-      id: dbComplementaryCertification.id,
-      key: dbComplementaryCertification.key,
-      label: dbComplementaryCertification.label,
-    });
+const toDomain = (certificationCenter) => {
+  const habilitations = certificationCenter.habilitations.map((dbComplementaryCertification) => {
+    return new ComplementaryCertification(dbComplementaryCertification);
   });
   return new CertificationCenter({
-    ..._.pick(dbCertificationCenter, ['id', 'name', 'type', 'externalId', 'createdAt', 'updatedAt', 'isV3Pilot']),
+    ...certificationCenter,
     habilitations,
   });
-}
+};
 
-/**
- *@deprecated implemented without bookshelf in {@link file://./../../../session-management/infrastructure/repositories/center-repository.js}
- * note that the new implementations does not provide the lazy loading on habilitations
- */
-const get = async function ({ id }) {
-  const certificationCenterBookshelf = await BookshelfCertificationCenter.query((q) => q.orderBy('id', 'desc'))
-    .where({ id })
-    .fetch({
-      require: false,
-      withRelated: [
-        {
-          habilitations: function (query) {
-            query.orderBy('id');
-          },
-        },
-      ],
-    });
+const getComplementaryCertifications = async (knexConnection, certificationCenter) =>
+  await knexConnection('complementary-certifications')
+    .select([
+      'complementary-certifications.id',
+      'complementary-certifications.key',
+      'complementary-certifications.label',
+    ])
+    .join(
+      'complementary-certification-habilitations',
+      'complementary-certification-habilitations.complementaryCertificationId',
+      'complementary-certifications.id',
+    )
+    .where('complementary-certification-habilitations.certificationCenterId', certificationCenter.id)
+    .orderBy('complementary-certifications.id');
 
-  if (certificationCenterBookshelf) {
-    return _toDomain(certificationCenterBookshelf);
+export const get = async function ({ id }) {
+  const knexConnection = DomainTransaction.getConnection();
+
+  const certificationCenter = await knexConnection('certification-centers').orderBy('id', 'desc').where({ id }).first();
+
+  if (!certificationCenter) {
+    throw new NotFoundError(`Certification center with id: ${id} not found`);
   }
-  throw new NotFoundError(`Certification center with id: ${id} not found`);
-};
-
-const getBySessionId = async function ({ sessionId }) {
-  const certificationCenterBookshelf = await BookshelfCertificationCenter.where({ 'sessions.id': sessionId })
-    .query((qb) => {
-      qb.innerJoin('sessions', 'sessions.certificationCenterId', 'certification-centers.id');
-    })
-    .fetch({
-      require: false,
-      withRelated: [
-        {
-          habilitations: function (query) {
-            query.orderBy('id');
-          },
-        },
-      ],
-    });
-
-  if (certificationCenterBookshelf) {
-    return _toDomain(certificationCenterBookshelf);
-  }
-  throw new NotFoundError(`Could not find certification center for sessionId ${sessionId}.`);
-};
-
-// @deprecated
-const save = async function ({ certificationCenter }) {
-  const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt', 'habilitations']);
-  const certificationCenterBookshelf = await new BookshelfCertificationCenter(cleanedCertificationCenter).save();
-  await certificationCenterBookshelf.related('habilitations').fetch();
-  return _toDomain(certificationCenterBookshelf);
-};
-
-const findByExternalId = async function ({ externalId }) {
-  const certificationCenterBookshelf = await BookshelfCertificationCenter.where({ externalId }).fetch({
-    require: false,
-    withRelated: [
-      {
-        habilitations: function (query) {
-          query.orderBy('id');
-        },
-      },
-    ],
+  const complementaryCertifications = await getComplementaryCertifications(knexConnection, certificationCenter);
+  return toDomain({
+    ...certificationCenter,
+    habilitations: complementaryCertifications,
   });
-
-  return certificationCenterBookshelf ? _toDomain(certificationCenterBookshelf) : null;
 };
 
-const getRefererEmails = async function ({ id }) {
-  const refererEmails = await knex('certification-centers')
+export const getBySessionId = async ({ sessionId }) => {
+  const knexConnection = DomainTransaction.getConnection();
+
+  const certificationCenter = await knexConnection('certification-centers')
+    .select(
+      'certification-centers.id',
+      'certification-centers.name',
+      'certification-centers.externalId',
+      'certification-centers.type',
+      'certification-centers.createdAt',
+      'certification-centers.updatedAt',
+    )
+    .where({ 'sessions.id': sessionId })
+    .innerJoin('sessions', 'sessions.certificationCenterId', 'certification-centers.id')
+    .first();
+
+  if (!certificationCenter) {
+    throw new NotFoundError(`Could not find certification center for sessionId ${sessionId}.`);
+  }
+  const complementaryCertifications = await getComplementaryCertifications(knexConnection, certificationCenter);
+  return toDomain({
+    ...certificationCenter,
+    habilitations: complementaryCertifications,
+  });
+};
+
+export const findByExternalId = async ({ externalId }) => {
+  const knexConnection = DomainTransaction.getConnection();
+
+  const certificationCenter = await knexConnection('certification-centers').where({ externalId }).first();
+  if (!certificationCenter) {
+    return null;
+  }
+
+  const complementaryCertifications = await getComplementaryCertifications(knexConnection, certificationCenter);
+  return toDomain({
+    ...certificationCenter,
+    habilitations: complementaryCertifications,
+  });
+};
+
+export const getRefererEmails = async ({ id }) =>
+  await knex('certification-centers')
     .select('users.email')
     .join(
       'certification-center-memberships',
@@ -101,8 +96,3 @@ const getRefererEmails = async function ({ id }) {
     .join('users', 'users.id', 'certification-center-memberships.userId')
     .where('certification-centers.id', id)
     .where('certification-center-memberships.isReferer', true);
-
-  return refererEmails;
-};
-
-export { findByExternalId, get, getBySessionId, getRefererEmails, save };
