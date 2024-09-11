@@ -3,40 +3,6 @@ import { sources } from '../../../../../../src/certification/shared/domain/model
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Enrolment | Domain | Models | ComplementaryCertificationCourseWithResults', function () {
-  describe('#isAcquiredByPixSource', function () {
-    describe('when the certification is acquired by PIX', function () {
-      it('should return true', function () {
-        // given
-        const complementaryCertificationCourseWithResults = new ComplementaryCertificationCourseWithResults({
-          complementaryCertificationBadgeId: 4,
-          results: [{ complementaryCertificationBadgeId: 3, source: sources.PIX, acquired: true }],
-        });
-
-        // when
-        const result = complementaryCertificationCourseWithResults.isAcquiredByPixSource();
-
-        // then
-        expect(result).to.be.true;
-      });
-    });
-
-    describe('when the certification is not acquired by PIX', function () {
-      it('should return false', function () {
-        // given
-        const complementaryCertificationCourseWithResults = new ComplementaryCertificationCourseWithResults({
-          complementaryCertificationBadgeId: 4,
-          results: [{ complementaryCertificationBadgeId: 3, source: sources.PIX, acquired: false }],
-        });
-
-        // when
-        const result = complementaryCertificationCourseWithResults.isAcquiredByPixSource();
-
-        // then
-        expect(result).to.be.false;
-      });
-    });
-  });
-
   describe('#isAcquiredExpectedLevelByPixSource', function () {
     context(' on expected level', function () {
       describe('when the certification is acquired by PIX', function () {

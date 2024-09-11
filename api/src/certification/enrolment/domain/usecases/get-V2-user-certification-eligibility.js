@@ -181,6 +181,18 @@ async function _getTargetProfileHistory({ targetProfileHistoryRepository, certif
   return targetProfileHistory;
 }
 
+function _hasAcquiredComplementaryCertificationForExpectedLevel(
+  complementaryCertificationsTakenByUser,
+  stillValidBadgeAcquisitionComplementaryCertificationBadgeId,
+) {
+  return complementaryCertificationsTakenByUser.some(
+    (certificationTakenByUser) =>
+      certificationTakenByUser.isAcquiredExpectedLevelByPixSource() &&
+      stillValidBadgeAcquisitionComplementaryCertificationBadgeId ===
+        certificationTakenByUser.complementaryCertificationBadgeId,
+  );
+}
+
 /**
  * @param {Object} params
  * @param {CertificationBadgesService} params.certificationBadgesService
@@ -206,18 +218,14 @@ async function _getComplementaryCertificationsEligibles({
     userId,
   });
 
-  const acquiredComplementaryCertifications = complementaryCertificationsTakenByUser.filter(
-    (complementaryCertification) => complementaryCertification.isAcquiredByPixSource(),
-  );
-
   const complementaryCertificationsEligibles = [];
   for (const stillValidBadgeAcquisition of stillValidBadgeAcquisitions) {
     const stillValidBadgeAcquisitionComplementaryCertificationBadgeId =
       stillValidBadgeAcquisition.complementaryCertificationBadgeId;
 
-    const stillValidAcquiredComplementaryCertification = acquiredComplementaryCertifications.find(
-      ({ complementaryCertificationBadgeId }) =>
-        complementaryCertificationBadgeId === stillValidBadgeAcquisition.complementaryCertificationBadgeId,
+    const isAcquiredExpectedLevel = _hasAcquiredComplementaryCertificationForExpectedLevel(
+      complementaryCertificationsTakenByUser,
+      stillValidBadgeAcquisitionComplementaryCertificationBadgeId,
     );
 
     const complementaryCertificationVersioning = await _getComplementaryCertificationVersioningForOutdatedBadge({
@@ -230,15 +238,11 @@ async function _getComplementaryCertificationsEligibles({
       _isAcquiredByPixSourceOrOutdatedByMoreThanOneVersion({
         stillValidBadgeAcquisitionComplementaryCertificationBadgeId,
         complementaryCertificationVersioning,
-        stillValidAcquiredComplementaryCertification,
+        isAcquiredExpectedLevel,
       })
     ) {
       continue;
     }
-
-    const isAcquiredExpectedLevel = Boolean(
-      stillValidAcquiredComplementaryCertification?.isAcquiredExpectedLevelByPixSource(),
-    );
 
     complementaryCertificationsEligibles.push({
       label: stillValidBadgeAcquisition.complementaryCertificationBadgeLabel,
@@ -253,7 +257,7 @@ async function _getComplementaryCertificationsEligibles({
 function _isAcquiredByPixSourceOrOutdatedByMoreThanOneVersion({
   stillValidBadgeAcquisitionComplementaryCertificationBadgeId,
   complementaryCertificationVersioning,
-  stillValidAcquiredComplementaryCertification,
+  isAcquiredExpectedLevel,
 }) {
   return (
     // TODO: Remove check on isPixPlusLowerLeverEnabled if enabled in PROD
@@ -262,6 +266,6 @@ function _isAcquiredByPixSourceOrOutdatedByMoreThanOneVersion({
         stillValidBadgeAcquisitionComplementaryCertificationBadgeId,
         outdatedVersions: complementaryCertificationVersioning,
       })) ||
-    stillValidAcquiredComplementaryCertification?.isAcquiredExpectedLevelByPixSource()
+    isAcquiredExpectedLevel
   );
 }

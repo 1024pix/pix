@@ -26,10 +26,6 @@ class ComplementaryCertificationCourseWithResults {
     this.complementaryCertificationBadgeId = complementaryCertificationBadgeId;
   }
 
-  isAcquiredByPixSource() {
-    return this.results.some(({ source, acquired }) => source === sources.PIX && acquired);
-  }
-
   isAcquiredExpectedLevelByPixSource() {
     return _.some(this.results, {
       source: sources.PIX,
