@@ -9,15 +9,15 @@ import {
   NotFoundError,
   UnexpectedUserAccountError,
   UserAlreadyLinkedToCandidateInSessionError,
+  UserNotAuthorizedToCertifyError,
 } from '../../../../../../src/shared/domain/errors.js';
 import { LANGUAGES_CODE } from '../../../../../../src/shared/domain/services/language-service.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', function () {
-  let candidateRepository;
-  let centerRepository;
-  let sessionRepository;
-  let userRepository;
+describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-candidate', function () {
+  let candidateRepository, centerRepository, sessionRepository, userRepository;
+  let placementProfileService;
+  let now, clock;
   let normalizeStringFnc;
   let dependencies;
   const sessionId = 1;
@@ -39,6 +39,9 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
     userRepository = {
       get: sinon.stub(),
     };
+    placementProfileService = {
+      getPlacementProfile: sinon.stub(),
+    };
     normalizeStringFnc = (str) => str;
     dependencies = {
       sessionId,
@@ -46,12 +49,19 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
       candidateRepository,
       centerRepository,
       sessionRepository,
+      placementProfileService,
       userRepository,
       normalizeStringFnc,
     };
     firstName = 'Charles';
     lastName = 'Neuf';
     birthdate = '2010-01-01';
+    now = new Date('2019-01-01T05:06:07Z');
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+  });
+
+  afterEach(function () {
+    clock.restore();
   });
 
   context('when userId does not exist', function () {
@@ -131,11 +141,13 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
               firstName: 'Louis',
               lastName: 'Seize',
               birthdate: '1990-05-06',
+              subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
             }),
             domainBuilder.certification.enrolment.buildCandidate({
               firstName: 'Henri',
               lastName: 'Quatre',
               birthdate: '2005-05-01',
+              subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
             }),
           ]);
         });
@@ -164,11 +176,13 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
                 firstName: firstName,
                 lastName: lastName,
                 birthdate: birthdate,
+                subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
               }),
               domainBuilder.certification.enrolment.buildCandidate({
                 firstName: firstName,
                 lastName: lastName,
                 birthdate: birthdate,
+                subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
               }),
             ]);
           });
@@ -201,6 +215,7 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
             birthdate,
             userId: null,
             organizationLearnerId: null,
+            subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
           });
           anotherCandidate = domainBuilder.certification.enrolment.buildCandidate({
             id: 951,
@@ -209,8 +224,13 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
             birthdate: '1990-05-06',
             userId: null,
             organizationLearnerId: null,
+            subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
           });
           candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([anotherCandidate, matchingCandidate]);
+          const placementProfile = { isCertifiable: sinon.stub().returns(true) };
+          placementProfileService.getPlacementProfile
+            .withArgs({ userId, limitDate: now, version: CERTIFICATION_VERSIONS.V3 })
+            .resolves(placementProfile);
         });
         context('when matching candidate is already linked to another user', function () {
           it('should throw a UnexpectedUserAccountError', async function () {
@@ -266,6 +286,7 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
             );
           });
         });
+
         context('when linkage is non-existent on all sides', function () {
           context('when it is a session sco / is managing students', function () {
             beforeEach(function () {
@@ -352,6 +373,66 @@ describe('Certification | Enrolment | Unit | UseCase | link-user-to-candidate', 
               // then
               expect(res).to.deep.equal({ linkAlreadyDone: false, candidateId: matchingCandidate.id });
               expect(candidateRepository.update).to.have.been.calledWith(matchingCandidate);
+            });
+          });
+
+          context('when candidate has a CORE subscription', function () {
+            beforeEach(function () {
+              centerRepository.getById.withArgs({ id: certificationCenterId }).resolves(
+                domainBuilder.certification.enrolment.buildCenter({
+                  id: certificationCenterId,
+                  matchingOrganization: null,
+                }),
+              );
+              candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([
+                domainBuilder.certification.enrolment.buildCandidate({
+                  id: 789,
+                  firstName,
+                  lastName,
+                  birthdate,
+                  userId: null,
+                  organizationLearnerId: null,
+                  subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
+                }),
+              ]);
+            });
+            context('when user profile is not certifiable', function () {
+              it('should throw an error', async function () {
+                // given
+                const placementProfile = { isCertifiable: sinon.stub().returns(false) };
+                placementProfileService.getPlacementProfile
+                  .withArgs({ userId, limitDate: now, version: CERTIFICATION_VERSIONS.V3 })
+                  .resolves(placementProfile);
+
+                // when
+                const error = await catchErr(linkUserToCandidate)({
+                  ...dependencies,
+                  firstName,
+                  lastName,
+                  birthdate,
+                });
+
+                //then
+                expect(error).to.be.instanceOf(UserNotAuthorizedToCertifyError);
+              });
+            });
+            context('when user profile is certifiable', function () {
+              it('should link user', async function () {
+                // given
+                matchingCandidate.userId = userId;
+
+                // when
+                const result = await linkUserToCandidate({
+                  ...dependencies,
+                  firstName,
+                  lastName,
+                  birthdate,
+                });
+
+                //then
+                expect(result).to.deep.equal({ linkAlreadyDone: false, candidateId: 789 });
+                expect(candidateRepository.update).to.have.been.calledWith(matchingCandidate);
+              });
             });
           });
         });
