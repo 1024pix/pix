@@ -1,15 +1,15 @@
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import {
   AlreadyExistingInvitationError,
   CancelledInvitationError,
   NotFoundError,
-} from '../../../../src/shared/domain/errors.js';
-import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
-import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
+} from '../../../../../src/shared/domain/errors.js';
+import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
+import { usecases } from '../../../../../src/team/domain/usecases/index.js';
+import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
 
-describe('Integration | API | getCertificationCenterInvitation', function () {
+describe('Integration | Team | Domain | UseCase | getCertificationCenterInvitation', function () {
   describe('when an invitation exists', function () {
-    it('should return an invitation information', async function () {
+    it('returns an invitation information', async function () {
       // given
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ name: 'Konoha' });
 
@@ -48,7 +48,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
   });
 
   describe('when an invitation does not exist', function () {
-    it('should throw a not found error', async function () {
+    it('throws a not found error', async function () {
       // given
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ name: 'Konoha' });
 
@@ -74,7 +74,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
   });
 
   describe('when an invitation is already accepted', function () {
-    it('should throw an already existing invitation error', async function () {
+    it('throws an already existing invitation error', async function () {
       // given
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ name: 'HunterxHunter' });
 
@@ -100,7 +100,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
   });
 
   describe('when an invitation is cancelled', function () {
-    it('should throw a cancelled invitation error', async function () {
+    it('throws a cancelled invitation error', async function () {
       // given
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ name: 'MyHeroAcademia' });
 

@@ -2,17 +2,6 @@ import { requestResponseUtils } from '../../../src/shared/infrastructure/utils/r
 import { certificationCenterInvitationSerializer } from '../../../src/team/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 
-const getCertificationCenterInvitation = async function (request) {
-  const certificationCenterInvitationId = request.params.id;
-  const certificationCenterInvitationCode = request.query.code;
-
-  const certificationCenterInvitation = await usecases.getCertificationCenterInvitation({
-    certificationCenterInvitationId,
-    certificationCenterInvitationCode,
-  });
-  return certificationCenterInvitationSerializer.serialize(certificationCenterInvitation);
-};
-
 const resendCertificationCenterInvitation = async function (request, h) {
   const certificationCenterInvitationId = request.params.certificationCenterInvitationId;
   const locale = requestResponseUtils.extractLocaleFromRequest(request);
@@ -26,7 +15,6 @@ const resendCertificationCenterInvitation = async function (request, h) {
 };
 
 const certificationCenterInvitationController = {
-  getCertificationCenterInvitation,
   resendCertificationCenterInvitation,
 };
 

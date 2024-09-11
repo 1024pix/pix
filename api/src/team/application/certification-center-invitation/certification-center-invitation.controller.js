@@ -23,6 +23,17 @@ const acceptCertificationCenterInvitation = async function (request, h) {
   return h.response({}).code(204);
 };
 
+const getCertificationCenterInvitation = async function (request) {
+  const certificationCenterInvitationId = request.params.id;
+  const certificationCenterInvitationCode = request.query.code;
+
+  const certificationCenterInvitation = await usecases.getCertificationCenterInvitation({
+    certificationCenterInvitationId,
+    certificationCenterInvitationCode,
+  });
+  return certificationCenterInvitationSerializer.serialize(certificationCenterInvitation);
+};
+
 /**
  * @callback sendInvitations
  * @param request
@@ -57,6 +68,7 @@ const findPendingInvitations = async function (request, h) {
 export const certificationCenterInvitationController = {
   acceptCertificationCenterInvitation,
   cancelCertificationCenterInvitation,
+  getCertificationCenterInvitation,
   findPendingInvitations,
   sendInvitations,
 };
