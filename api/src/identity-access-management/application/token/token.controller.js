@@ -32,9 +32,7 @@ const createToken = async function (request, h, dependencies = { tokenService })
   if (grantType === 'refresh_token') {
     refreshToken = request.payload.refresh_token;
 
-    // TODO: we should pass the scope when ember-simple-auth will pass it
-    // see https://github.com/mainmatter/ember-simple-auth/pull/2813 for further details
-    const tokensInfo = await usecases.createAccessTokenFromRefreshToken({ refreshToken });
+    const tokensInfo = await usecases.createAccessTokenFromRefreshToken({ refreshToken, scope });
 
     accessToken = tokensInfo.accessToken;
     expirationDelaySeconds = tokensInfo.expirationDelaySeconds;
