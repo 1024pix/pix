@@ -18,12 +18,20 @@ export default class Organization extends Model {
   @hasMany('group', { async: true, inverse: null }) groups;
   @hasMany('division', { async: true, inverse: null }) divisions;
 
+  get hasGarIdentityProvider() {
+    return this.isScoAndManagingStudents && this.identityProviderForCampaigns === 'GAR';
+  }
+
   get isPro() {
     return this.type === 'PRO';
   }
 
   get isSco() {
     return this.type === 'SCO';
+  }
+
+  get isScoAndManagingStudents() {
+    return this.isSco && this.isManagingStudents;
   }
 
   get isSco1d() {
