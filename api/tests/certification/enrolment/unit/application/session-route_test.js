@@ -4,7 +4,7 @@ import { authorization } from '../../../../../src/certification/shared/applicati
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
-describe('Certification | Enrolment | Unit | Router | session-route', function () {
+describe('Certification | Enrolment | Unit | Application | Routes | session-route', function () {
   describe('POST /api/certification-centers/{certificationCenterId}/session', function () {
     it('should return CREATED (200) when everything does as expected', async function () {
       // given
@@ -55,7 +55,7 @@ describe('Certification | Enrolment | Unit | Router | session-route', function (
     });
   });
 
-  describe('PATCH /api/sessions/{id}', function () {
+  describe('PATCH /api/sessions/{sessionId}', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/sessions/salut' } },

@@ -4,7 +4,7 @@ import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } f
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Certification Candidate', function () {
-  describe('POST certification-candidates/{id}/authorize-to-start', function () {
+  describe('POST certification-candidates/{certificationCandidateId}/authorize-to-start', function () {
     it('should return 200 if the user is a supervisor of the session linked to the candidate', async function () {
       //given
       sinon
@@ -49,7 +49,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     });
   });
 
-  describe('POST certification-candidates/{id}/authorize-to-resume', function () {
+  describe('POST certification-candidates/{certificationCandidateId}/authorize-to-resume', function () {
     it('should return 204 if the user is a supervisor of the session linked to the candidate', async function () {
       // given
       sinon
@@ -84,7 +84,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     });
   });
 
-  describe('PATCH certification-candidates/{id}/end-assessment-by-supervisor', function () {
+  describe('PATCH certification-candidates/{certificationCandidateId}/end-assessment-by-supervisor', function () {
     it('should return 200 if the user is a supervisor of the session linked to the candidate', async function () {
       // given
       sinon

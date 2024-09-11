@@ -8,7 +8,7 @@ const enrolStudentsToSession = async function (
   h,
   dependencies = { enrolledCandidateSerializer, requestResponseUtils },
 ) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const studentIds = request.deserializedPayload.organizationLearnerIds;
 
   await usecases.enrolStudentsToSession({ sessionId, studentIds });
@@ -19,7 +19,7 @@ const enrolStudentsToSession = async function (
 
 const getCandidatesImportSheet = async function (request, h, dependencies = { fillCandidatesImportSheet }) {
   const translate = request.i18n.__;
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const { userId } = request.auth.credentials;
   const filename = translate('candidate-list-template.filename');
 
@@ -43,7 +43,7 @@ const getCandidatesImportSheet = async function (request, h, dependencies = { fi
 };
 
 const importCertificationCandidatesFromCandidatesImportSheet = async function (request) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const odsBuffer = request.payload;
   const i18n = request.i18n;
   await usecases.importCertificationCandidatesFromCandidatesImportSheet({

@@ -4,7 +4,7 @@ import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } f
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Session For Supervising', function () {
-  describe('GET /api/sessions/{id}/supervising', function () {
+  describe('GET /api/sessions/{sessionId}/supervising', function () {
     it('should return 200 if the user is a supervisor of the session', async function () {
       //given
       sinon.stub(sessionSupervisorAuthorization, 'verifyBySessionId').callsFake((request, h) => h.response(true));

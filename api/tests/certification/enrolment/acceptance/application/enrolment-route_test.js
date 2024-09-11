@@ -20,7 +20,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
   let userId;
   let resolveMx;
 
-  describe('PUT /api/sessions/{id}/enrol-students-to-session', function () {
+  describe('PUT /api/sessions/{sessionId}/enrol-students-to-session', function () {
     beforeEach(async function () {
       server = await createServer();
       userId = databaseBuilder.factory.buildUser().id;
@@ -176,7 +176,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
     });
   });
 
-  describe('GET /api/sessions/{id}/candidates-import-sheet', function () {
+  describe('GET /api/sessions/{sessionId}/candidates-import-sheet', function () {
     it('should respond with a 200 when session can be found', async function () {
       // given
       server = await createServer();
@@ -210,7 +210,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
     });
   });
 
-  describe('POST /api/sessions/{id}/certification-candidates/import', function () {
+  describe('POST /api/sessions/{sessionId}/certification-candidates/import', function () {
     let user, sessionIdAllowed;
 
     beforeEach(async function () {

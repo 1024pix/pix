@@ -14,7 +14,7 @@ import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Certification | Enrolment | Unit | Application | Routes', function () {
-  describe('PUT /api/session/{id}/enrol-students-to-session', function () {
+  describe('PUT /api/session/{sessionId}/enrol-students-to-session', function () {
     it('exists', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
@@ -58,7 +58,7 @@ describe('Certification | Enrolment | Unit | Application | Routes', function () 
     });
   });
 
-  describe('GET /api/sessions/{id}//candidates-import-sheet', function () {
+  describe('GET /api/sessions/{sessionId}/candidates-import-sheet', function () {
     it('should return 200', async function () {
       // when
       sinon.stub(authorization, 'verifySessionAuthorization').resolves(true);
@@ -89,7 +89,7 @@ describe('Certification | Enrolment | Unit | Application | Routes', function () 
     });
   });
 
-  describe('POST /api/sessions/{id}/certification-candidates/import', function () {
+  describe('POST /api/sessions/{sessionId}/certification-candidates/import', function () {
     const testFilePath = `${__dirname}/testFile_temp.ods`;
     const method = 'POST';
 

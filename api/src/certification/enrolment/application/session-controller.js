@@ -19,7 +19,7 @@ const createSession = async function (request, _h, dependencies = { sessionSeria
 const update = async function (request, h, dependencies = { sessionSerializer }) {
   const userId = request.auth.credentials.userId;
   const session = dependencies.sessionSerializer.deserialize(request.payload);
-  session.id = request.params.id;
+  session.id = request.params.sessionId;
 
   const updatedSession = await usecases.updateSession({ userId, session });
 
@@ -27,7 +27,7 @@ const update = async function (request, h, dependencies = { sessionSerializer })
 };
 
 const remove = async function (request, h) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
 
   await usecases.deleteSession({ sessionId });
 
@@ -35,7 +35,7 @@ const remove = async function (request, h) {
 };
 
 const get = async function (request, h, dependencies = { sessionSerializer }) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const session = await usecases.getSession({ sessionId });
   return dependencies.sessionSerializer.serialize(session);
 };

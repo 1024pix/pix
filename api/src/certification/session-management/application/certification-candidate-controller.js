@@ -1,7 +1,7 @@
 import { usecases } from '../domain/usecases/index.js';
 
 const authorizeToStart = async function (request, h) {
-  const certificationCandidateForSupervisingId = request.params.id;
+  const certificationCandidateForSupervisingId = request.params.certificationCandidateId;
 
   const authorizedToStart = request.payload['authorized-to-start'];
   await usecases.authorizeCertificationCandidateToStart({
@@ -13,7 +13,7 @@ const authorizeToStart = async function (request, h) {
 };
 
 const authorizeToResume = async function (request, h) {
-  const certificationCandidateId = request.params.id;
+  const certificationCandidateId = request.params.certificationCandidateId;
 
   await usecases.authorizeCertificationCandidateToResume({
     certificationCandidateId,
@@ -23,7 +23,7 @@ const authorizeToResume = async function (request, h) {
 };
 
 const endAssessmentBySupervisor = async function (request) {
-  const certificationCandidateId = request.params.id;
+  const certificationCandidateId = request.params.certificationCandidateId;
 
   await usecases.endAssessmentBySupervisor({ certificationCandidateId });
 

@@ -4,7 +4,7 @@ import * as certificationReportSerializer from '../../shared/infrastructure/seri
 import { usecases } from '../domain/usecases/index.js';
 
 const finalize = async function (request, h, dependencies = { certificationReportSerializer, events }) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const examinerGlobalComment = request.payload.data.attributes['examiner-global-comment'];
   const hasIncident = request.payload.data.attributes['has-incident'];
   const hasJoiningIssue = request.payload.data.attributes['has-joining-issue'];

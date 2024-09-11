@@ -1,7 +1,7 @@
 import { usecases } from '../domain/usecases/index.js';
 
 const getAttendanceSheet = async function (request, h) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const { userId } = request.auth.credentials;
   const i18n = request.i18n;
 

@@ -9,7 +9,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
       // given
       const request = {
         params: {
-          id: 123,
+          sessionId: 123,
         },
         auth: {
           credentials: {

@@ -22,7 +22,7 @@ describe('Unit | Pre-handler | Authorization', function () {
     const request = {
       auth: { credentials: { accessToken: 'valid.access.token', userId } },
       params: {
-        id: sessionId,
+        sessionId,
       },
     };
 
@@ -67,7 +67,7 @@ describe('Unit | Pre-handler | Authorization', function () {
         const request = {
           auth: { credentials: { accessToken: 'valid.access.token', userId } },
           params: {
-            id: 77,
+            certificationCourseId: 77,
           },
         };
         certificationCourseRepository.getSessionId.withArgs({ id: 77 }).resolves(99);
@@ -91,7 +91,7 @@ describe('Unit | Pre-handler | Authorization', function () {
         const request = {
           auth: { credentials: { accessToken: 'valid.access.token', userId } },
           params: {
-            id: 77,
+            certificationCourseId: 77,
           },
         };
         certificationCourseRepository.getSessionId.withArgs({ id: 77 }).resolves(99);

@@ -5,7 +5,7 @@ import * as jurySessionSerializer from '../infrastructure/serializers/jury-sessi
 import * as sessionSerializer from '../infrastructure/serializers/session-serializer.js';
 
 const get = async function (request, h, dependencies = { sessionSerializer }) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const { session, hasSupervisorAccess, hasSomeCleaAcquired } = await usecases.getSession({ sessionId });
   return dependencies.sessionSerializer.serialize({ session, hasSupervisorAccess, hasSomeCleaAcquired });
 };

@@ -8,11 +8,11 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/sessions/{id}/certified-clea-candidate-data',
+      path: '/api/sessions/{sessionId}/certified-clea-candidate-data',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         pre: [

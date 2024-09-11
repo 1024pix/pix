@@ -12,7 +12,7 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       const candidate = 'candidate';
       const addedCandidateId = 2;
       const request = {
-        params: { id: sessionId },
+        params: { sessionId },
         payload: {
           data: {
             attributes: {
@@ -79,7 +79,7 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       const enrolledCandidates = ['enrolledCandidates'];
       const enrolledCandidatesJsonAPI = ['enrolledCandidatesJsonAPI'];
       const request = {
-        params: { id: sessionId },
+        params: { sessionId },
       };
       sinon.stub(usecases, 'getEnrolledCandidatesInSession');
       usecases.getEnrolledCandidatesInSession

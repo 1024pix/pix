@@ -11,7 +11,7 @@ import {
 } from '../../../../test-helper.js';
 
 describe('Certification | Results | Acceptance | Application | Routes | certification results', function () {
-  describe('GET /api/sessions/{id}/certified-clea-candidate-data', function () {
+  describe('GET /api/sessions/{sessionId}/certified-clea-candidate-data', function () {
     it('should return 200 HTTP status code', async function () {
       // given
       const server = await createServer();

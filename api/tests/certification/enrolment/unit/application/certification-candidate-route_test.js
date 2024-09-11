@@ -7,7 +7,7 @@ import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Sessions | Routes', function () {
-  describe('POST /api/sessions/{id}/certification-candidates', function () {
+  describe('POST /api/sessions/{sessionId}/certification-candidates', function () {
     let correctAttributes;
 
     beforeEach(function () {
@@ -116,7 +116,7 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('GET /api/sessions/{id}/certification-candidates', function () {
+  describe('GET /api/sessions/{sessionId}/certification-candidates', function () {
     it('should exist', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
@@ -132,7 +132,7 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('DELETE /api/sessions/{id}/certification-candidates/{certificationCandidateId}', function () {
+  describe('DELETE /api/sessions/{sessionId}/certification-candidates/{certificationCandidateId}', function () {
     it('should return 404 if the user is not authorized on the session', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').throws(new NotFoundError());
@@ -214,7 +214,7 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('PATCH /api/sessions/{id}/certification-candidates/{certificationCandidateId}', function () {
+  describe('PATCH /api/sessions/{sessionId}/certification-candidates/{certificationCandidateId}', function () {
     const method = 'PATCH';
 
     it('should return 204', async function () {

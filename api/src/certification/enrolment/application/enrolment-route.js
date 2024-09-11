@@ -9,11 +9,11 @@ const register = async function (server) {
   server.route([
     {
       method: 'PUT',
-      path: '/api/sessions/{id}/enrol-students-to-session',
+      path: '/api/sessions/{sessionId}/enrol-students-to-session',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         pre: [
@@ -32,11 +32,11 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/sessions/{id}/candidates-import-sheet',
+      path: '/api/sessions/{sessionId}/candidates-import-sheet',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         pre: [
@@ -55,11 +55,11 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/sessions/{id}/certification-candidates/import',
+      path: '/api/sessions/{sessionId}/certification-candidates/import',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         payload: {

@@ -53,7 +53,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     );
   });
 
-  describe('POST /api/certification-reports/{id}/abort', function () {
+  describe('POST /api/certification-reports/{certificationCourseId}/abort', function () {
     it('Returns HTTP 200 if the logged user has access to the session', async function () {
       // given
       sinon.stub(authorization, 'verifyCertificationSessionAuthorization').returns('ok');

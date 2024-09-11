@@ -3,7 +3,7 @@ import { SessionEnrolment } from '../../../../../src/certification/enrolment/dom
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Controller | session-controller', function () {
+describe('Certification | Enrolment | Unit | Application | Controller | session-controller', function () {
   describe('#createSession', function () {
     let request;
     let expectedSession;
@@ -89,22 +89,17 @@ describe('Unit | Controller | session-controller', function () {
   });
 
   describe('#update', function () {
-    let request, updatedSession, updateSessionArgs;
+    let request, updatedSession;
 
     beforeEach(function () {
       request = {
         auth: { credentials: { userId: 1 } },
-        params: { id: 1 },
+        params: { sessionId: 345 },
         payload: {},
       };
 
       updatedSession = {
-        id: request.params.id,
-      };
-
-      updateSessionArgs = {
-        userId: request.auth.credentials.userId,
-        session: updatedSession,
+        id: request.params.sessionId,
       };
 
       sinon.stub(usecases, 'updateSession');
@@ -114,7 +109,9 @@ describe('Unit | Controller | session-controller', function () {
       // given
       const sessionSerializer = { serialize: sinon.stub(), deserialize: sinon.stub() };
       sessionSerializer.deserialize.withArgs(request.payload).returns({});
-      usecases.updateSession.withArgs(updateSessionArgs).resolves(updatedSession);
+      usecases.updateSession
+        .withArgs({ userId: request.auth.credentials.userId, session: updatedSession })
+        .resolves(updatedSession);
       sessionSerializer.serialize.withArgs(updatedSession).returns(updatedSession);
 
       // when
@@ -132,7 +129,7 @@ describe('Unit | Controller | session-controller', function () {
       const userId = 1;
       sinon.stub(usecases, 'deleteSession');
       const request = {
-        params: { id: sessionId },
+        params: { sessionId },
         auth: {
           credentials: {
             userId,
@@ -161,7 +158,7 @@ describe('Unit | Controller | session-controller', function () {
       request = {
         auth: { credentials: { userId } },
         params: {
-          id: sessionId,
+          sessionId,
         },
       };
     });
