@@ -1,9 +1,9 @@
 import {
   ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
   ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE,
-} from '../../../../lib/domain/constants/reset-organization-learners-password-errors.js';
-import { resetOrganizationLearnersPassword } from '../../../../lib/domain/usecases/reset-organization-learners-password.js';
+} from '../../../../lib/domain/constants/generate-organization-learners-username-and-temporary-password-errors.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
+import { generateOrganizationLearnersUsernameAndTemporaryPassword } from '../../../../lib/domain/usecases/generate-organization-learners-username-and-temporary-password.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import * as authenticationMethodRepository from '../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
@@ -13,7 +13,7 @@ import { OrganizationLearnerPasswordResetDTO } from '../../../../src/shared/doma
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
-describe('Integration | UseCases | Reset organization learners password', function () {
+describe('Integration | UseCases | generate organization learners username and temporary password', function () {
   const hashedPassword = '21fedcba';
   const generatedPassword = 'abcdef12';
   let cryptoService, passwordGenerator;
@@ -120,7 +120,7 @@ describe('Integration | UseCases | Reset organization learners password', functi
         };
 
         // when
-        const result = await resetOrganizationLearnersPassword({
+        const result = await generateOrganizationLearnersUsernameAndTemporaryPassword({
           organizationId: organization.id,
           organizationLearnersId,
           userId,
@@ -172,7 +172,7 @@ describe('Integration | UseCases | Reset organization learners password', functi
         ];
 
         // when
-        const result = await resetOrganizationLearnersPassword({
+        const result = await generateOrganizationLearnersUsernameAndTemporaryPassword({
           organizationId: organization.id,
           organizationLearnersId,
           userId,
@@ -236,7 +236,7 @@ describe('Integration | UseCases | Reset organization learners password', functi
         ];
 
         // when
-        const error = await catchErr(resetOrganizationLearnersPassword)({
+        const error = await catchErr(generateOrganizationLearnersUsernameAndTemporaryPassword)({
           organizationId: organization.id,
           organizationLearnersId,
           userId,
@@ -278,7 +278,7 @@ describe('Integration | UseCases | Reset organization learners password', functi
           ];
 
           // when
-          const error = await catchErr(resetOrganizationLearnersPassword)({
+          const error = await catchErr(generateOrganizationLearnersUsernameAndTemporaryPassword)({
             organizationId: organization.id,
             organizationLearnersId,
             userId,

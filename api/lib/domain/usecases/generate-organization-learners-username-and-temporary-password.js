@@ -4,9 +4,9 @@ import { OrganizationLearnerPasswordResetDTO } from '../../../src/shared/domain/
 import {
   ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
   ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE,
-} from '../constants/reset-organization-learners-password-errors.js';
+} from '../constants/generate-organization-learners-username-and-temporary-password-errors.js';
 
-const resetOrganizationLearnersPassword = async function ({
+const generateOrganizationLearnersUsernameAndTemporaryPassword = async function ({
   organizationId,
   organizationLearnersId,
   userId,
@@ -161,4 +161,4 @@ function _buildOrganizationLearnerPasswordResetDTOs({ organizationLearnerIdentit
   );
 }
 
-export { resetOrganizationLearnersPassword };
+export { generateOrganizationLearnersUsernameAndTemporaryPassword };

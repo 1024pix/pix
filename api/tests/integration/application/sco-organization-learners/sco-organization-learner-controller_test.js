@@ -1,5 +1,5 @@
 import * as moduleUnderTest from '../../../../lib/application/sco-organization-learners/index.js';
-import { ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE } from '../../../../lib/domain/constants/reset-organization-learners-password-errors.js';
+import { ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE } from '../../../../lib/domain/constants/generate-organization-learners-username-and-temporary-password-errors.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import {
@@ -270,7 +270,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
           };
 
           sinon
-            .stub(usecases, 'resetOrganizationLearnersPassword')
+            .stub(usecases, 'generateOrganizationLearnersUsernameAndTemporaryPassword')
             .rejects(new UserNotAuthorizedToUpdatePasswordError(message, code));
 
           // when
