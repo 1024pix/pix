@@ -2,6 +2,7 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import * as languageService from '../../../../shared/domain/services/language-service.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -39,6 +40,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../../shared/domain/services/certification-badges-service.js')} CertificationBadgesService
  * @typedef {import('../services/certification-candidates-ods-service.js')} CertificationCandidatesOdsService
  * @typedef {import('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
+ * @typedef {import('../../../../shared/domain/services/language-service.js')} languageService
  **/
 
 /**
@@ -68,6 +70,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {CertificationBadgesService} CertificationBadgesService
  * @typedef {CertificationCandidatesOdsService} CertificationCandidatesOdsService
  * @typedef {PlacementProfileService} PlacementProfileService
+ * @typedef {LanguageService} LanguageService
  **/
 const dependencies = {
   certificationBadgesService,
@@ -81,6 +84,7 @@ const dependencies = {
   temporaryCompanionStorageService,
   certificationCandidatesOdsService,
   placementProfileService,
+  languageService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

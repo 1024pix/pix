@@ -315,7 +315,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(200);
+        expect(response.statusCode).to.equal(201);
         expect(response.result.data).to.deep.equal({
           type: 'certification-candidates',
           id: certificationCandidateId.toString(),
@@ -430,7 +430,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(200);
+        expect(response.statusCode).to.equal(201);
         expect(response.result.data).to.deep.equal({
           type: 'certification-candidates',
           id: certificationCandidateId.toString(),

@@ -1,8 +1,8 @@
 import lodash from 'lodash';
 
 import { normalize } from '../../../shared/infrastructure/utils/string-utils.js';
+import { services } from '../domain/services/index.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as enrolledCandidateRepository from '../infrastructure/repositories/enrolled-candidate-repository.js';
 import * as enrolledCandidateSerializer from '../infrastructure/serializers/enrolled-candidate-serializer.js';
 import * as sessionSerializer from '../infrastructure/serializers/session-serializer.js';
 const { trim } = lodash;
@@ -47,7 +47,7 @@ const createCandidateParticipation = async function (request, h) {
   const lastName = trim(request.payload.data.attributes['last-name']);
   const birthdate = request.payload.data.attributes['birthdate'];
 
-  const { linkAlreadyDone, candidateId } = await usecases.linkUserToCandidate({
+  const enrolledCandidate = await services.registerCandidateParticipation({
     userId,
     sessionId,
     firstName,
@@ -56,9 +56,8 @@ const createCandidateParticipation = async function (request, h) {
     normalizeStringFnc: normalize,
   });
 
-  const candidate = await enrolledCandidateRepository.get({ id: candidateId });
-  const serialized = await enrolledCandidateSerializer.serializeForParticipation(candidate);
-  return linkAlreadyDone ? serialized : h.response(serialized).created();
+  const serialized = await enrolledCandidateSerializer.serializeForParticipation(enrolledCandidate);
+  return h.response(serialized).created();
 };
 
 const sessionController = {

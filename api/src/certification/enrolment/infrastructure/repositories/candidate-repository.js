@@ -43,6 +43,7 @@ export async function findBySessionId({ sessionId }) {
  */
 export async function update(candidate) {
   const candidateDataToSave = adaptModelToDb(candidate);
+  // TODO: (refactor) use existing transaction
   await knex.transaction(async (trx) => {
     const [updatedCertificationCandidate] = await trx('certification-candidates')
       .where({
