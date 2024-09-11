@@ -1,41 +1,68 @@
 import { userController } from '../../../../../src/certification/enrolment/application/user-controller.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
+import { config } from '../../../../../src/shared/config.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Certification | Enrolment | Unit | Application | Controller | user-controller', function () {
   describe('#isCertifiable', function () {
-    it('should return user certification eligibility', async function () {
-      // given
-      const certificationEligibility = domainBuilder.certification.enrolment.buildCertificationEligibility({
-        id: 123,
-        pixCertificationEligible: true,
-        complementaryCertifications: ['Pix+ Droit Maître', 'Pix+ Édu 1er degré Avancé'],
+    describe('if V3 certification feature toggle is activated', function () {
+      it('should call v3 usecase', async function () {
+        // given
+        sinon.stub(config.featureToggles, 'isV3EligibilityCheckEnabled').value(true);
+
+        const getUserCertificationEligibilityStub = sinon.stub(usecases, 'getUserCertificationEligibility');
+
+        const request = {
+          auth: {
+            credentials: {
+              userId: 123,
+            },
+          },
+        };
+
+        // when
+        await userController.isCertifiable(request);
+
+        // then
+        expect(getUserCertificationEligibilityStub).to.have.been.calledOnce;
       });
-      sinon
-        .stub(usecases, 'getUserCertificationEligibility')
-        .withArgs({ userId: 123 })
-        .resolves(certificationEligibility);
-      const request = {
-        auth: {
-          credentials: {
-            userId: 123,
-          },
-        },
-      };
+    });
 
-      // when
-      const serializedEligibility = await userController.isCertifiable(request);
-
-      // then
-      expect(serializedEligibility).to.deep.equal({
-        data: {
-          id: '123',
-          type: 'isCertifiables',
-          attributes: {
-            'is-certifiable': true,
-            'complementary-certifications': ['Pix+ Droit Maître', 'Pix+ Édu 1er degré Avancé'],
+    describe('if V3 certification feature toggle is not activated', function () {
+      it('should return user certification eligibility', async function () {
+        // given
+        sinon.stub(config.featureToggles, 'isV3EligibilityCheckEnabled').value(false);
+        const certificationEligibility = domainBuilder.certification.enrolment.buildCertificationEligibility({
+          id: 123,
+          pixCertificationEligible: true,
+          complementaryCertifications: ['Pix+ Droit Maître', 'Pix+ Édu 1er degré Avancé'],
+        });
+        sinon
+          .stub(usecases, 'getV2UserCertificationEligibility')
+          .withArgs({ userId: 123 })
+          .resolves(certificationEligibility);
+        const request = {
+          auth: {
+            credentials: {
+              userId: 123,
+            },
           },
-        },
+        };
+
+        // when
+        const serializedEligibility = await userController.isCertifiable(request);
+
+        // then
+        expect(serializedEligibility).to.deep.equal({
+          data: {
+            id: '123',
+            type: 'isCertifiables',
+            attributes: {
+              'is-certifiable': true,
+              'complementary-certifications': ['Pix+ Droit Maître', 'Pix+ Édu 1er degré Avancé'],
+            },
+          },
+        });
       });
     });
   });

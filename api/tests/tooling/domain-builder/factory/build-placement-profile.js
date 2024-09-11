@@ -33,4 +33,17 @@ buildPlacementProfile.buildForCompetences = function buildForCompetences({ profi
   });
 };
 
+buildPlacementProfile.buildCertifiable = function buildCertifiable({ profileDate, userId }) {
+  const userCompetences = Array(5).map((_, index) => {
+    return buildUserCompetence({
+      id: index,
+      index,
+      name: `competence_${index}`,
+      pixScore: 10_000,
+      estimatedLevel: 7,
+    });
+  });
+  return new PlacementProfile(profileDate, userId, userCompetences);
+};
+
 export { buildPlacementProfile };
