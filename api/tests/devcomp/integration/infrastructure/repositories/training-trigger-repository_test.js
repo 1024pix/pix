@@ -469,7 +469,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
         // then
         expect(logger.warn).to.have.been.calledWithExactly({
           event: 'training_trigger_tubes_not_found',
-          msg: `Les sujets notExistTubeId du déclencheur ${trainingTrigger.id} n'existent pas dans le référentiel.`,
+          message: `Les sujets notExistTubeId du déclencheur ${trainingTrigger.id} n'existent pas dans le référentiel.`,
           notFoundTubeIds: ['notExistTubeId'],
           trainingTriggerId: trainingTrigger.id,
         });

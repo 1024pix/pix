@@ -1,15 +1,15 @@
 class EventDispatcherLogger {
-  constructor(logger, settings, performance) {
-    this._logger = logger;
+  constructor(monitoringTools, settings, performance) {
+    this._monitoringTools = monitoringTools;
     this._settings = settings;
     this._performance = performance;
   }
 
   onEventDispatchStarted(event, eventHandlerName) {
     if (this._settings?.logging?.enableLogStartingEventDispatch) {
-      this._logger.info({
+      this._monitoringTools.logInfoWithCorrelationIds({
         ...buildLogBody({ event, eventHandlerName }),
-        msg: 'EventDispatcher : Event dispatch started',
+        message: 'EventDispatcher : Event dispatch started',
       });
     }
     return {
@@ -19,18 +19,18 @@ class EventDispatcherLogger {
 
   onEventDispatchSuccess(event, eventHandlerName, loggingContext) {
     if (this._settings?.logging?.enableLogEndingEventDispatch) {
-      this._logger.info({
+      this._monitoringTools.logInfoWithCorrelationIds({
         ...buildLogBody({ event, eventHandlerName, duration: this._duration(loggingContext) }),
-        msg: 'EventDispatcher : Event dispatched successfully',
+        message: 'EventDispatcher : Event dispatched successfully',
       });
     }
   }
 
   onEventDispatchFailure(event, eventHandlerName, error) {
     if (this._settings?.logging?.enableLogEndingEventDispatch) {
-      this._logger.info({
+      this._monitoringTools.logInfoWithCorrelationIds({
         ...buildLogBody({ event, eventHandlerName, error }),
-        msg: 'EventDispatcher : An error occurred while dispatching the event',
+        message: 'EventDispatcher : An error occurred while dispatching the event',
       });
     }
   }

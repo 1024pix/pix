@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 
+import { logErrorWithCorrelationIds } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { detectEncoding } from '../../infrastructure/utils/xml/detect-encoding.js';
 import * as zip from '../../infrastructure/utils/xml/zip.js';
 import { OrganizationImport } from '../models/OrganizationImport.js';
@@ -18,7 +18,7 @@ const uploadSiecleFile = async function ({
     unzip: zip.unzip,
     detectEncoding,
   },
-  dependencies = { logger },
+  dependencies = { logErrorWithCorrelationIds },
 }) {
   await DomainTransaction.execute(async () => {
     let organizationImport = OrganizationImport.create({ organizationId, createdBy: userId });
@@ -38,7 +38,7 @@ const uploadSiecleFile = async function ({
         try {
           await fs.rm(directory, { recursive: true });
         } catch (rmError) {
-          dependencies.logger.error(rmError);
+          dependencies.logErrorWithCorrelationIds(rmError);
         }
       }
       await validateOrganizationImportFileJobRepository.performAsync(

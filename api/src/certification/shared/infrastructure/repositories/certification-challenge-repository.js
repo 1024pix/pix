@@ -1,9 +1,13 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import {
+  logErrorWithCorrelationIds,
+  logInfoWithCorrelationIds,
+} from '../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { AssessmentEndedError } from '../../../../shared/domain/errors.js';
-import { CertificationChallenge } from '../../../../shared/domain/models/index.js';
+import { CertificationChallenge } from '../../../../shared/domain/models/CertificationChallenge.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 
 const logContext = {
@@ -27,16 +31,16 @@ const save = async function ({ certificationChallenge }) {
     .insert(certificationChallengeToSave)
     .returning('*')
     .on('query', function (data) {
-      logger.info({
+      logInfoWithCorrelationIds({
         event: 'save-certification-challenge',
-        msg: `A certification challenge will be inserted with transaction ${data.__knexTxId}`,
+        message: `A certification challenge will be inserted with transaction ${data.__knexTxId}`,
       });
     })
     .on('query-error', function (data) {
-      logger.error({
+      logErrorWithCorrelationIds({
         event: 'save-certification-challenge',
+        message: `A certification challenge could not be inserted`,
         data: _(data).pick(['code', 'constraint', 'detail']),
-        msg: `A certification challenge could not be inserted`,
       });
     });
 

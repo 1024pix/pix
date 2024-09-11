@@ -97,7 +97,7 @@ async function _toDomain({ trainingTrigger, triggerTubes }) {
   if (notFoundTubeIds.length > 0) {
     logger.warn({
       event: 'training_trigger_tubes_not_found',
-      msg: `Les sujets ${notFoundTubeIds.join(', ')} du déclencheur ${
+      message: `Les sujets ${notFoundTubeIds.join(', ')} du déclencheur ${
         trainingTrigger.id
       } n'existent pas dans le référentiel.`,
       notFoundTubeIds,

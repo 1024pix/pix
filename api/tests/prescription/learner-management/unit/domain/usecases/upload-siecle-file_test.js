@@ -103,9 +103,7 @@ describe('Unit | UseCase | upload-siecle-file', function () {
         siecleServiceStub.unzip.withArgs(payload.path).resolves({ directory: 'tmp', file: filepath });
         const rmError = new Error('rm');
         rmStub.rejects(rmError);
-        const loggerStub = {
-          error: sinon.stub(),
-        };
+        const logErrorWithCorrelationIdsStub = sinon.stub();
         // when
         await uploadSiecleFile({
           userId,
@@ -115,11 +113,11 @@ describe('Unit | UseCase | upload-siecle-file', function () {
           siecleService: siecleServiceStub,
           importStorage: importStorageStub,
           validateOrganizationImportFileJobRepository: validateOrganizationImportFileJobRepositoryStub,
-          dependencies: { logger: loggerStub },
+          dependencies: { logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub },
         });
 
         // then
-        expect(loggerStub.error).to.have.been.calledWithExactly(rmError);
+        expect(logErrorWithCorrelationIdsStub).to.have.been.calledWithExactly(rmError);
         expect(organizationImportSavedStub.upload).to.have.been.calledWithExactly({
           filename: s3filename,
           encoding,
