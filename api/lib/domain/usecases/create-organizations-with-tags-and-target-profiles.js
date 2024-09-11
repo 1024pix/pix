@@ -10,7 +10,7 @@ import {
 } from '../../../src/shared/domain/errors.js';
 import { Organization, OrganizationForAdmin, OrganizationTag } from '../../../src/shared/domain/models/index.js';
 import * as codeGenerator from '../../../src/shared/domain/services/code-generator.js';
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
+import { monitoringTools } from '../../../src/shared/infrastructure/monitoring-tools.js';
 import { PromiseUtils } from '../../../src/shared/infrastructure/utils/promise-utils.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../infrastructure/constants.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
@@ -293,6 +293,7 @@ async function _sendInvitationEmails({
 
 function _monitorError(message, { data, error, event } = {}) {
   const monitoringData = {
+    message,
     context: 'create-organizations-with-tags-and-target-profiles',
     event,
     team: 'acces',
@@ -306,5 +307,5 @@ function _monitorError(message, { data, error, event } = {}) {
     monitoringData.error = { name: error.constructor.name };
   }
 
-  logger.error(monitoringData, message);
+  monitoringTools.logErrorWithCorrelationIds(monitoringData);
 }

@@ -10,7 +10,7 @@ import { fileTypeFromFile } from 'file-type';
 import StreamZip from 'node-stream-zip';
 
 import { FileValidationError } from '../../../../../shared/domain/errors.js';
-import { logger } from '../../../../../shared/infrastructure/utils/logger.js';
+import { logErrorWithCorrelationIds } from '../../../../../shared/infrastructure/monitoring-tools.js';
 
 const VALID_FILE_NAME_REGEX = /^([^.][^/]*\/)*[^./][^/]*\.xml$/;
 const ZIP = 'application/zip';
@@ -57,7 +57,7 @@ async function _getFileToExtractName(zipStream) {
   const validFiles = fileNames.filter((name) => VALID_FILE_NAME_REGEX.test(name));
   if (validFiles.length != 1) {
     zipStream.close();
-    logger.error({ ERROR: ERRORS.INVALID_FILE, entries });
+    logErrorWithCorrelationIds({ ERROR: ERRORS.INVALID_FILE, entries });
     throw new FileValidationError(ERRORS.INVALID_FILE);
   }
   return validFiles[0];

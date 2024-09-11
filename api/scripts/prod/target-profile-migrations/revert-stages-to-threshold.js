@@ -40,7 +40,7 @@ async function _computeReverts(inputFile, sample) {
 
   if (sample) {
     targetProfileIds = fp.sampleSize(10, targetProfileIds);
-    logger.info({ targetProfileIds, msg: `Using sample target profiles` });
+    logger.info({ targetProfileIds }, `Using sample target profiles`);
   }
 
   const targetProfiles = await Promise.all(targetProfileIds.map((id) => targetProfileForAdminRepository.get({ id })));
@@ -118,7 +118,7 @@ async function main() {
   const dryRun = process.env.DRY_RUN !== 'false';
   const sample = process.env.SAMPLE === 'true';
   if (!dryRun && sample) throw new Error('SAMPLE=true is not allowed when DRY_RUN=false');
-  logger.info({ dryRun, sample, msg: `Script ${modulePath} has started` });
+  logger.info({ dryRun, sample }, `Script ${modulePath} has started`);
   const inputFile = resolve(process.cwd(), process.argv[2]);
   await revertStagesToThreshold(inputFile, dryRun, sample);
   const endTime = performance.now();

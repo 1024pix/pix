@@ -29,14 +29,14 @@ async function startPgBoss() {
   pgBoss.on('monitor-states', (state) => {
     logger.info({ event: 'pg-boss-state', name: 'global' }, { ...state, queues: undefined });
     _.each(state.queues, (queueState, queueName) => {
-      logger.info({ event: 'pg-boss-state', name: queueName, msg: queueState });
+      logger.info({ event: 'pg-boss-state', name: queueName }, queueState);
     });
   });
   pgBoss.on('error', (err) => {
-    logger.error({ event: 'pg-boss-error', msg: err });
+    logger.error({ event: 'pg-boss-error' }, err);
   });
   pgBoss.on('wip', (data) => {
-    logger.info({ event: 'pg-boss-wip', msg: data });
+    logger.info({ event: 'pg-boss-wip' }, data);
   });
   await pgBoss.start();
   return pgBoss;

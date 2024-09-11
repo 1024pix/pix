@@ -21,10 +21,10 @@ class DistributedCache extends Cache {
   clientSubscriberCallback(_channel, rawMessage) {
     const message = JSON.parse(rawMessage);
     if (message.type === 'flushAll') {
-      logger.info({ event: 'cache-event', msg: 'Flushing the local cache' });
+      logger.info({ event: 'cache-event' }, 'Flushing the local cache');
       return this._underlyingCache.flushAll();
     } else if (message.type === 'patch') {
-      logger.info({ event: 'cache-event', msg: 'Patching the local cache' });
+      logger.info({ event: 'cache-event' }, 'Patching the local cache');
       this._underlyingCache.patch(message.cacheKey, message.patch);
     }
   }
