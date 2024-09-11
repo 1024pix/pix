@@ -37,14 +37,14 @@ class Mailer {
     try {
       await this.dependencies.mailCheck.checkDomainIsValid(options.to);
     } catch (err) {
-      logger.warn({ err, msg: `Email is not valid '${options.to}'` });
+      logger.warn({ err }, `Email is not valid '${options.to}'`);
       return EmailingAttempt.failure(options.to, EmailingAttempt.errorCode.INVALID_DOMAIN);
     }
 
     try {
       await this._provider.sendEmail(options);
     } catch (err) {
-      logger.warn({ err, msg: `Could not send email to '${options.to}'` });
+      logger.warn({ err }, `Could not send email to '${options.to}'`);
 
       if (err instanceof MailingProviderInvalidEmailError) {
         return EmailingAttempt.failure(options.to, EmailingAttempt.errorCode.INVALID_EMAIL, err.message);

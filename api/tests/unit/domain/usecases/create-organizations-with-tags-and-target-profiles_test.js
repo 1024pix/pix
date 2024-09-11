@@ -6,9 +6,9 @@ import { DomainTransaction as domainTransaction } from '../../../../lib/infrastr
 import { ObjectValidationError, OrganizationTagNotFound } from '../../../../src/shared/domain/errors.js';
 import { InvalidInputDataError } from '../../../../src/shared/domain/errors.js';
 import { OrganizationForAdmin } from '../../../../src/shared/domain/models/index.js';
-import { Membership } from '../../../../src/shared/domain/models/index.js';
-import { OrganizationTag } from '../../../../src/shared/domain/models/index.js';
-import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
+import { Membership } from '../../../../src/shared/domain/models/Membership.js';
+import { OrganizationTag } from '../../../../src/shared/domain/models/OrganizationTag.js';
+import { monitoringTools } from '../../../../src/shared/infrastructure/monitoring-tools.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', function () {
@@ -61,7 +61,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     };
 
     organizationInvitationService.createProOrganizationInvitation.resolves();
-    sinon.stub(logger, 'error');
+    sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
   });
 
   context('#errors', function () {
@@ -126,15 +126,13 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
         // then
         expect(error).to.be.instanceOf(OrganizationTagNotFound);
         expect(error.message).to.be.equal("Le tag TagNotFound de l'organisation organization A n'existe pas.");
-        expect(logger.error).to.have.been.calledWith(
-          {
-            context: 'create-organizations-with-tags-and-target-profiles',
-            error: { name: 'OrganizationTagNotFound' },
-            event: 'add-organizations-tags',
-            team: 'acces',
-          },
-          `Le tag TagNotFound de l'organisation organization A n'existe pas.`,
-        );
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+          message: `Le tag TagNotFound de l'organisation organization A n'existe pas.`,
+          context: 'create-organizations-with-tags-and-target-profiles',
+          error: { name: 'OrganizationTagNotFound' },
+          event: 'add-organizations-tags',
+          team: 'acces',
+        });
       });
     });
 
@@ -175,15 +173,13 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
         // then
         expect(error).to.be.instanceOf(InvalidInputDataError);
         expect(error.message).to.be.equal('User with ID "990000" does not exist');
-        expect(logger.error).to.have.been.calledWith(
-          {
-            context: 'create-organizations-with-tags-and-target-profiles',
-            error: { name: 'Error' },
-            event: 'create-organizations',
-            team: 'acces',
-          },
-          errorThrownMessage,
-        );
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+          message: errorThrownMessage,
+          context: 'create-organizations-with-tags-and-target-profiles',
+          error: { name: 'Error' },
+          event: 'create-organizations',
+          team: 'acces',
+        });
       });
     });
   });

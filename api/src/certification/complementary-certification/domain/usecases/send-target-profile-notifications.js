@@ -27,7 +27,7 @@ async function sendTargetProfileNotifications({
         if (result.hasFailed()) {
           logger.error({
             event: EVENT_NAME,
-            msg: `Failed to send email to notify organisation user "${email}" of ${complementaryCertificationName}'s target profile change`,
+            message: `Failed to send email to notify organisation user "${email}" of ${complementaryCertificationName}'s target profile change`,
           });
 
           return;
@@ -39,7 +39,7 @@ async function sendTargetProfileNotifications({
 
     logger.info({
       event: EVENT_NAME,
-      msg: `${sucessCounter} email(s) sent to notify organisation users of ${complementaryCertificationName}'s target profile change`,
+      message: `${sucessCounter} email(s) sent to notify organisation users of ${complementaryCertificationName}'s target profile change`,
     });
   }
 }

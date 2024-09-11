@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { logErrorWithCorrelationIds } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
 import { config } from '../../../../shared/config.js';
 import { DomainError, FileValidationError } from '../../../../shared/domain/errors.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
@@ -37,7 +38,7 @@ class ImportStorage {
         throw error;
       });
     } catch (error) {
-      logger.error(error);
+      logErrorWithCorrelationIds(error);
       throw new FileValidationError('INVALID_FILE');
     }
     try {

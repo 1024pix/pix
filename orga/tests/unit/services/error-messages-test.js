@@ -47,6 +47,33 @@ module('Unit | Service | Error messages', function (hooks) {
     });
   });
 
+  module('LAST_NAME_REQUIRED', function () {
+    test('should return the message when error code is found', function (assert) {
+      // Given
+      const errorMessages = this.owner.lookup('service:errorMessages');
+      const nationalStudentId = '1234';
+      // When
+      const message = errorMessages.getErrorMessage('LAST_NAME_REQUIRED', { nationalStudentId });
+      // Then
+      assert.strictEqual(message, t('api-error-messages.student-xml-import.last-name-required', { nationalStudentId }));
+    });
+  });
+
+  module('FIRST_NAME_REQUIRED', function () {
+    test('should return the message when error code is found', function (assert) {
+      // Given
+      const errorMessages = this.owner.lookup('service:errorMessages');
+      const nationalStudentId = '1234';
+      // When
+      const message = errorMessages.getErrorMessage('FIRST_NAME_REQUIRED', { nationalStudentId });
+      // Then
+      assert.strictEqual(
+        message,
+        t('api-error-messages.student-xml-import.first-name-required', { nationalStudentId }),
+      );
+    });
+  });
+
   module('BIRTHDATE_REQUIRED', function () {
     test('should return the message when error code is found', function (assert) {
       // Given

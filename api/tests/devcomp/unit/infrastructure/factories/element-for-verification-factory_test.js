@@ -58,7 +58,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | ElementForVerification',
           // then
           expect(logger.warn).to.have.been.calledWithExactly({
             event: 'module_element_type_not_handled_for_verification',
-            msg: `Element type not handled for verification: unknown`,
+            message: `Element type not handled for verification: unknown`,
           });
         });
       });
@@ -110,7 +110,7 @@ describe('Unit | Devcomp | Infrastructure | Factories | ElementForVerification',
           // then
           expect(logger.warn).to.have.been.calledWithExactly({
             event: 'embed_without_required_completion_is_not_handled_for_verification',
-            msg: `Embed without required completion is not handled: ${elementData.id}`,
+            message: `Embed without required completion is not handled: ${elementData.id}`,
           });
         });
       });

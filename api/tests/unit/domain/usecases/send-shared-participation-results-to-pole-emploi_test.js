@@ -4,7 +4,6 @@ import { PoleEmploiSending } from '../../../../src/shared/domain/models/PoleEmpl
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-emploi', function () {
-  let httpAgent, httpErrorsHelper, logger;
   let dependencies, expectedResults;
   let campaignRepository,
     badgeRepository,
@@ -16,6 +15,7 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
     userRepository,
     poleEmploiNotifier,
     poleEmploiSendingRepository;
+  let httpAgent, httpErrorsHelper, logger;
   let campaignId, campaignParticipationId, userId, organizationId, badges, badgeAcquiredIds;
   let authenticationMethodRepository;
 

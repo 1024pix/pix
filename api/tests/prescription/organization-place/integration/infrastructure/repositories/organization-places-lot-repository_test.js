@@ -227,7 +227,7 @@ describe('Integration | Repository | Organization Places Lot', function () {
       expect(places[0]).to.be.instanceOf(PlacesLot);
     });
 
-    it('should return empty array if there is no places', async function () {
+    it('should return empty array if there is no placelots', async function () {
       await databaseBuilder.commit();
 
       const places = await organizationPlacesLotRepository.findAllByOrganizationId(organizationId);
@@ -235,7 +235,7 @@ describe('Integration | Repository | Organization Places Lot', function () {
       expect(places).to.be.empty;
     });
 
-    it('should return places if there are places for given organizationId', async function () {
+    it('should return placelots if there are places for given organizationId', async function () {
       databaseBuilder.factory.buildOrganizationPlace({
         organizationId,
         count: 7,

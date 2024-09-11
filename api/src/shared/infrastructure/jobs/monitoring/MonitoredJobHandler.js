@@ -21,7 +21,7 @@ class MonitoredJobHandler {
       data,
       handlerName: jobName,
       type: 'JOB_LOG',
-      msg: 'Job Started',
+      message: 'Job Started',
       jobId,
     });
   }
@@ -32,7 +32,7 @@ class MonitoredJobHandler {
       handlerName: jobName,
       error: error?.message ? error.message + ' (see dedicated log for more information)' : undefined,
       type: 'JOB_LOG_ERROR',
-      msg: 'Job failed',
+      message: 'Job failed',
       jobId,
     });
   }
