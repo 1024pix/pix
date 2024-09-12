@@ -3,6 +3,7 @@ import * as url from 'node:url';
 import { disconnect } from '../../db/knex-database-connection.js';
 import { usecases } from '../../src/certification/session-management/domain/usecases/index.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { executeAndLogScript } from '../tooling/tooling.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
@@ -16,9 +17,8 @@ async function main() {
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
-      console.error('An error occured', error);
       process.exitCode = 1;
     } finally {
       await disconnect();
