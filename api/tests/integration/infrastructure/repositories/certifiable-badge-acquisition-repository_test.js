@@ -49,6 +49,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           complementaryCertificationBadgeLabel: complementaryCertificationBadge.label,
           complementaryCertificationBadgeImageUrl: complementaryCertificationBadge.imageUrl,
           isOutdated: false,
+          offsetVersion: 0,
         });
         expect(certifiableBadgesAcquiredByUser).to.deepEqualArray([expectedCertifiableBadgeAcquisition]);
       });
@@ -91,6 +92,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
             complementaryCertificationBadgeLabel: complementaryCertificationBadge.label,
             complementaryCertificationBadgeImageUrl: complementaryCertificationBadge.imageUrl,
             isOutdated: false,
+            offsetVersion: 0,
           });
           expect(certifiableBadgesAcquiredByUser).to.deepEqualArray([expectedCertifiableBadgeAcquisition]);
         });
@@ -150,6 +152,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           complementaryCertificationBadgeLabel: complementaryCertificationBadge.label,
           complementaryCertificationBadgeImageUrl: complementaryCertificationBadge.imageUrl,
           isOutdated: false,
+          offsetVersion: 0,
         });
         expect(certifiableBadgesAcquiredByUser).to.deepEqualArray([expectedCertifiableBadgeAcquisition]);
       });
@@ -250,6 +253,24 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
               detachedAt: new Date('2022-09-30'),
             });
 
+            buildComplementaryCertificationWithMultipleCertifiableBadges({
+              keyLevelList: [
+                { key: 6, level: 1 },
+                { key: 7, level: 2 },
+              ],
+              complementaryCertificationId,
+              detachedAt: new Date('2023-09-30'),
+            });
+
+            buildComplementaryCertificationWithMultipleCertifiableBadges({
+              keyLevelList: [
+                { key: 3, level: 1 },
+                { key: 4, level: 2 },
+              ],
+              complementaryCertificationId,
+              detachedAt: null,
+            });
+
             const latestCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
             databaseBuilder.factory.buildBadgeAcquisition({
               badgeId: latestComplementaryBadges[0].id,
@@ -285,6 +306,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
             expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
             expect(certifiableBadgesAcquiredByUser[0].badgeKey).to.equal('level-2');
             expect(certifiableBadgesAcquiredByUser[0].isOutdated).to.equal(true);
+            expect(certifiableBadgesAcquiredByUser[0].offsetVersion).to.equal(2);
           });
         });
 
@@ -343,6 +365,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
             expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
             expect(certifiableBadgesAcquiredByUser[0].badgeKey).to.equal('level-2');
             expect(certifiableBadgesAcquiredByUser[0].isOutdated).to.equal(false);
+            expect(certifiableBadgesAcquiredByUser[0].offsetVersion).to.equal(0);
           });
         });
       });
