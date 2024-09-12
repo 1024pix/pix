@@ -128,5 +128,63 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
         assert.dom(screen.queryByText(t('pages.challenge.embed-simulator.actions.reset'))).doesNotExist();
       });
     });
+
+    module('when embed initializes', function () {
+      module('and does not ask for autoLaunch', () => {
+        test('should display launch button', async function (assert) {
+          const event = new MessageEvent('message', {
+            data: { from: 'pix', type: 'init', autoLaunch: false, rebootable: true },
+            origin: 'https://epreuves.pix.fr',
+          });
+          window.dispatchEvent(event);
+
+          await new Promise((resolve) => setTimeout(resolve, 0));
+
+          assert.dom(screen.queryByText(t('pages.challenge.embed-simulator.actions.launch'))).exists();
+        });
+      });
+
+      module('and asks for autoLaunch', () => {
+        test('should not display launch button', async function (assert) {
+          const event = new MessageEvent('message', {
+            data: { from: 'pix', type: 'init', autoLaunch: true, rebootable: true },
+            origin: 'https://epreuves.pix.fr',
+          });
+          window.dispatchEvent(event);
+
+          await new Promise((resolve) => setTimeout(resolve, 0));
+
+          assert.dom(screen.queryByText(t('pages.challenge.embed-simulator.actions.launch'))).doesNotExist();
+        });
+      });
+
+      module('and is rebootable', () => {
+        test('should display reboot button', async function (assert) {
+          const event = new MessageEvent('message', {
+            data: { from: 'pix', type: 'init', autoLaunch: false, rebootable: true },
+            origin: 'https://epreuves.pix.fr',
+          });
+          window.dispatchEvent(event);
+
+          await new Promise((resolve) => setTimeout(resolve, 0));
+
+          assert.dom(screen.queryByText(t('pages.challenge.embed-simulator.actions.reset'))).exists();
+        });
+      });
+
+      module('and is not rebootable', () => {
+        test('should not display reboot button', async function (assert) {
+          const event = new MessageEvent('message', {
+            data: { from: 'pix', type: 'init', autoLaunch: false, rebootable: false },
+            origin: 'https://epreuves.pix.fr',
+          });
+          window.dispatchEvent(event);
+
+          await new Promise((resolve) => setTimeout(resolve, 0));
+
+          assert.dom(screen.queryByText(t('pages.challenge.embed-simulator.actions.reset'))).doesNotExist();
+        });
+      });
+    });
   });
 });
