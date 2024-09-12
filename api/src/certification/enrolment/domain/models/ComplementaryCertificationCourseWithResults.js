@@ -26,17 +26,6 @@ class ComplementaryCertificationCourseWithResults {
     this.complementaryCertificationBadgeId = complementaryCertificationBadgeId;
   }
 
-  isAcquired() {
-    if (this.#isUncompleted()) {
-      return false;
-    }
-    return this.results.every(({ acquired }) => acquired);
-  }
-
-  isAcquiredByPixSource() {
-    return this.results.some(({ source, acquired }) => source === sources.PIX && acquired);
-  }
-
   isAcquiredExpectedLevelByPixSource() {
     return _.some(this.results, {
       source: sources.PIX,
@@ -59,10 +48,6 @@ class ComplementaryCertificationCourseWithResults {
       results,
       complementaryCertificationBadgeId,
     });
-  }
-
-  #isUncompleted() {
-    return this.results.length === 0 || (this.hasExternalJury && this.results.length < 2);
   }
 }
 
