@@ -5,7 +5,7 @@ import { expect, sinon } from '../../../../../test-helper.js';
 describe('Unit | Application | Controller | Jobs | participation-started-controller', function () {
   describe('#handle', function () {
     it('should call usecase', async function () {
-      sinon.stub(usecases, 'sendSharedParticipationResultsToPoleEmploi');
+      sinon.stub(usecases, 'sendStartedParticipationResultsToPoleEmploi');
       // given
       const handler = new ParticipationStartedJobController();
       const data = {
@@ -16,8 +16,8 @@ describe('Unit | Application | Controller | Jobs | participation-started-control
       await handler.handle({ data });
 
       // then
-      expect(usecases.sendSharedParticipationResultsToPoleEmploi).to.have.been.calledOnce;
-      expect(usecases.sendSharedParticipationResultsToPoleEmploi).to.have.been.calledWithExactly({
+      expect(usecases.sendStartedParticipationResultsToPoleEmploi).to.have.been.calledOnce;
+      expect(usecases.sendStartedParticipationResultsToPoleEmploi).to.have.been.calledWithExactly({
         campaignParticipationId: data.campaignParticipationId,
       });
     });
