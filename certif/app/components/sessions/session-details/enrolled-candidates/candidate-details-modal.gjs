@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import { t } from 'ember-intl';
 import { formatPercentage } from 'pix-certif/helpers/format-percentage';
 
-import Row from './details-modal-row';
+import CandidateDetailsModalRow from './candidate-details-modal-row';
 
 const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
 const FIELDS = [
@@ -63,7 +63,7 @@ const FIELDS = [
   },
 ];
 
-export default class EnrolledCandidateDetailsModal extends Component {
+export default class CandidateDetailsModal extends Component {
   @service intl;
 
   @action
@@ -109,19 +109,22 @@ export default class EnrolledCandidateDetailsModal extends Component {
       <:content>
         <ul class='certification-candidate-details-modal__list'>
           {{#each FIELDS as |field|}}
-            <Row @label={{this.getRowLabel field.label}} @value={{this.getRowValue field.value field.transform}} />
+            <CandidateDetailsModalRow
+              @label={{this.getRowLabel field.label}}
+              @value={{this.getRowValue field.value field.transform}}
+            />
           {{/each}}
           {{#if @shouldDisplayPaymentOptions}}
-            <Row
+            <CandidateDetailsModalRow
               @label={{this.getRowLabel 'forms.certification-labels.pricing'}}
               @value={{this.getRowValue 'billingModeLabel'}}
             />
-            <Row
+            <CandidateDetailsModalRow
               @label={{this.getRowLabel 'forms.certification-labels.prepayment-code'}}
               @value={{this.getRowValue 'prepaymentCode'}}
             />
           {{/if}}
-          <Row
+          <CandidateDetailsModalRow
             @label={{t 'common.forms.certification-labels.selected-subscriptions'}}
             @value={{this.computeSubscriptionsText @candidate}}
           />

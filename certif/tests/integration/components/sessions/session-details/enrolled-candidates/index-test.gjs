@@ -7,7 +7,7 @@ import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscr
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates', function (hooks) {
   setupIntlRenderingTest(hooks);
