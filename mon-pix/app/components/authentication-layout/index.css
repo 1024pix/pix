@@ -1,0 +1,21 @@
+.authentication-layout {
+    display: flex;
+    align-self: stretch;
+    justify-content: space-around;
+    min-height: 100vh;
+    padding: var(--pix-spacing-6x);
+
+    .authentication-layout__image {
+        width: 31rem;
+        background: var(--pix-primary-500);
+        border-radius: 24px;
+    }
+
+    .authentication-layout__main {
+        display: flex;
+        flex-direction: column;
+        width: 31rem;
+    }
+}
+
+
