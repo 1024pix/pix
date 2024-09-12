@@ -16,10 +16,10 @@ import get from 'lodash/get';
 import toNumber from 'lodash/toNumber';
 import { SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 
-import { formatPercentage } from '../../../helpers/format-percentage';
-import EditCandidateModal from '../../edit-candidate-modal/index';
-import NewCandidateModal from '../../new-candidate-modal/index';
-import EnrolledCandidateDetailsModal from './details-modal';
+import { formatPercentage } from '../../../../helpers/format-percentage';
+import CandidateCreationModal from './candidate-creation-modal';
+import CandidateDetailsModal from './candidate-details-modal';
+import CandidateEditionModal from './candidate-edition-modal';
 
 const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
 
@@ -523,7 +523,7 @@ export default class EnrolledCandidates extends Component {
     </div>
 
     {{#if this.shouldDisplayCertificationCandidateModal}}
-      <EnrolledCandidateDetailsModal
+      <CandidateDetailsModal
         @showModal={{this.shouldDisplayCertificationCandidateModal}}
         @closeModal={{this.closeCertificationCandidateDetailsModal}}
         @candidate={{this.certificationCandidateInDetailsModal}}
@@ -532,7 +532,7 @@ export default class EnrolledCandidates extends Component {
       />
     {{/if}}
 
-    <NewCandidateModal
+    <CandidateCreationModal
       @showModal={{this.showNewCandidateModal}}
       @closeModal={{this.closeNewCandidateModal}}
       @countries={{@countries}}
@@ -543,7 +543,7 @@ export default class EnrolledCandidates extends Component {
       @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
     />
 
-    <EditCandidateModal
+    <CandidateEditionModal
       @showModal={{this.shouldDisplayEditCertificationCandidateModal}}
       @closeModal={{this.closeEditCandidateModal}}
       @candidate={{this.certificationCandidateInEditModal}}

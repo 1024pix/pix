@@ -15,13 +15,13 @@ import inputmask from 'ember-inputmask5/modifiers/inputmask';
 import { t } from 'ember-intl';
 import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 
-import ComplementaryList from './complementary-list';
+import CandidateCreationModalComplementaryList from './candidate-creation-modal-complementary-list';
 
 const FRANCE_INSEE_CODE = '99100';
 const INSEE_CODE_OPTION = 'insee';
 const POSTAL_CODE_OPTION = 'postal';
 
-export default class NewCandidateModal extends Component {
+export default class CandidateCreationModal extends Component {
   @service currentUser;
   @service intl;
 
@@ -488,7 +488,7 @@ export default class NewCandidateModal extends Component {
           {{/if}}
 
           {{#if this.complementaryCertificationsHabilitations.length}}
-            <ComplementaryList
+            <CandidateCreationModalComplementaryList
               @complementaryCertificationsHabilitations={{this.complementaryCertificationsHabilitations}}
               @updateComplementaryCertification={{this.updateComplementaryCertification}}
             />
