@@ -1,3 +1,4 @@
+import { executeAndLogScript } from '../tooling/tooling.js';
 import { parseTimeSeriesMetrics } from './add-metrics-to-gist.js';
 import { getDoughnutChartUrl } from './quickcharts/doughnut.js';
 import { getSankeyChartUrl } from './quickcharts/sankey.js';
@@ -43,4 +44,4 @@ async function _getTimeSeries({ metricsFilepath }) {
   return { url, altText };
 }
 
-await main();
+await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
