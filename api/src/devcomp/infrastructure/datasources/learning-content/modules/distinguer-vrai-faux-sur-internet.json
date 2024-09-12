@@ -20,11 +20,11 @@
       "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
     },
     {
-      "content": "<p>Vous l'avez remarqué, en lisant seulement le titre d’un article, c’est presque impossible de savoir si une information est vraie ou fausse.&nbsp;<span aria-hidden=\"true\">🤔</span></p><p>Et parfois, ce ne sont même pas des informations ! On vous explique tout dans la vidéo suivante.<span aria-hidden=\"true\">&nbsp;📺</span></p></p>",
+      "content": "<p>Vous l'avez remarqué, en lisant seulement le titre d’un article, c’est très difficile de savoir si une information est vraie ou fausse.&nbsp;<span aria-hidden=\"true\">🤔</span></p><p>Et parfois, ce ne sont même pas des informations ! On vous explique tout dans la vidéo suivante.<span aria-hidden=\"true\">&nbsp;📺</span></p></p>",
       "grainId": "eb83569f-2e37-49ed-aa6f-31c420b673b9"
     },
     {
-      "content": "<p>C'est une information et pas une anecdote, d'accord. Mais est-ce que cette information est vraie ? Pour le savoir, il faut souvent mener l'enquête.<span aria-hidden=\"true\">🕵🏽</span></p><p>Voyons ensemble des questions à se poser pour vérifier une information.</p>",
+      "content": "<p>C'est une information et pas une anecdote, d'accord. Mais est-ce que cette information est vraie ? Pour le savoir, il faut souvent mener l'enquête.<span aria-hidden=\"true\">🕵🏽</span></p><p>Voyons ensemble la méthode <i>qui ?, quand ?, d'où ?</i>. Trois questions à se poser pour vérifier une information.<span aria-hidden=\"true\">👇</span></p>",
       "grainId": "ed22ab38-ec6d-47df-88ea-4894f1cd6c8a"
     },
     {
@@ -32,7 +32,7 @@
       "grainId": "46309f55-22e6-4b0f-bfc4-2bad94f9cbd7"
     },
     {
-      "content": "<p>Si l'un de ces éléments est manquant, il faut être très prudent et chercher à en savoir plus. Voyons cela en pratique.</p>",
+      "content": "<p>Si l'un de ces éléments est manquant ou partiel, il faut être prudent et chercher à en savoir plus. Voyons cela en pratique.</p>",
       "grainId": "c624de0b-658a-47e7-b780-c579a1033aba"
     },
     {
@@ -259,8 +259,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un détail, c'est un fait qui n'est pas intéressant pour la plupart des gens.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un détail, c'est un fait qui n'est pas intéressant pour la plupart des gens. Essayez à nouveau.</p>"
+                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt la plupart des gens.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt la plupart des gens. Essayez à nouveau.</p>"
                   },
                   "solution": "3"
                 }
@@ -344,7 +344,7 @@
           "element": {
             "id": "332d9e96-d12e-4809-9d25-173a57ed93be",
             "type": "text",
-            "content": "<h3>Question n°1&nbsp;: qui est l’auteur de cette information&#8239;?&nbsp;<span aria-hidden=\"true\">🖋️</span></h3><p>Demandez-vous si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
+            "content": "<h3>Question n°1&nbsp;: qui est la personne qui partage cette information&#8239;?&nbsp;<span aria-hidden=\"true\">🖋️</span></h3><p>Demandez-vous si vous connaissez cette personne, si elle est reconnue ou encore si elle a un intérêt particulier à ce que cette information circule.</p>"
           }
         },
         {
@@ -376,7 +376,7 @@
           "element": {
             "id": "36577421-d9d0-4f49-ac43-b4e804ba5635",
             "type": "text",
-            "content": "<h3>Question n°3&nbsp;: d’où provient cette information&#8239;?&nbsp;<span aria-hidden=\"true\">📍</span></h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
+            "content": "<h3>Question n°3&nbsp;: d’où provient cette information&#8239;?&nbsp;<span aria-hidden=\"true\">📍</span></h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est un témoignage direct, le résultat d'expérience scientifique, l'enquête d'un journal, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
           }
         }
       ]
@@ -436,7 +436,7 @@
                 {
                   "id": "613bd45d-8e88-4ca5-bfa0-368be2336027",
                   "type": "text",
-                  "content": "<h3><span aria-hidden=\"true\">🔎</span> C'est parti pour l'enquête !</h3><p>Dans les exemples suivants, les informations publiées sont sûrement fausses parce qu'il manque un élément (auteur, source, date). Trouvez dans chaque exemple où se situe le problème."
+                  "content": "<h3><span aria-hidden=\"true\">🔎</span> C'est l'heure d'utiliser le <i>qui ? quand ? d'où ?</i></h3><p>Dans les exemples suivants, les informations publiées sont sûrement fausses.<br>En effet, une des réponses au <i>qui ? quand ? d'où ?</i> présente un problème.<br>Trouvez dans chaque exemple où se situe ce problème."
                 }
               ]
             },
@@ -572,7 +572,7 @@
           "element": {
             "id": "c6cd87ae-13a2-4ff1-aa09-26f4aca4dddc",
             "type": "image",
-            "url": "https://i.imgur.com/QS0xFIn.png",
+            "url": "https://i.imgur.com/9j2xh4U.png",
             "alt": "Publication de Alain Bacri (@AlainBacri) sur X (Twitter) détaillée dans l'alternative textuelle",
             "alternativeText": "Publication de Alain Bacri (@AlainBacri) sur X (Twitter) à 9h22 le 6 août 2022&nbsp;: &laquo;&nbsp;Arrêtez TOUS le DOLIPRANE&#8239;!!! (2 émojis tête de mort) Le paracétamol TUE les gens&#8239;!!!! mais personne en parle ! (2 emojis tête de mort) Il y a plusieurs PREUVES SCIENTIFIQUE qui le PROUVE, comme cet étude américaine&nbsp;: <a href=\"https://pubmed.ncbi.nlm.nih.gov/37436926/\" target=\"_blank\">https://pubmed.ncbi.nlm.nih.gov/37436926/</a> PARTAGER à un MAXIMUM de personnes. Il faut que ça se sache&#8239;!!!&nbsp;&raquo;<br>40,3 K Republications, 11,3 K Citations, 196,9 K Likes.<ul><li>Indice 1&nbsp;: <strong>Les majuscules et les émojis angoissants</strong> sont utilisés pour interpeller, créer un ton alarmiste et un sentiment d'urgence.</li><li>Indice 2&nbsp;:<strong>Les fautes d'orthographe</strong> à plusieurs endroits indiquent que le contenu a été rédigé sans attention particulière.</li><li>Indice 3&nbsp;:<strong>En demandant de partager l'information,</strong> l'auteur veut être lu à tout prix. Il cherche à rendre son contenu viral et à \"faire le buzz\".</li></ul>"
           }
@@ -597,7 +597,7 @@
           "element": {
             "id": "2c525ab3-23bf-4b43-867d-ea1fac54efad",
             "type": "image",
-            "url": "https://i.imgur.com/A8LcXQ9.gif",
+            "url": "https://i.imgur.com/QItEyyJ.png",
             "alt": "Informations sur la pousse des plantes vertes détaillées dans l'alternative textuelle",
             "alternativeText": "Vos plantes vertes ne poussent pas&nbsp;? Voici 2 super astuces dont vous ne pourrez plus vous passer&nbsp;!<br>Astuce 1&nbsp;: Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien&#8239;! Votre plante va adorer.<br>Astuce 2&nbsp;: Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
           }
