@@ -6,6 +6,7 @@ import { disconnect } from '../../db/knex-database-connection.js';
 import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/domain/models/CertificationRescoringByScriptJob.js';
 import { certificationRescoringByScriptJobRepository } from '../../src/certification/session-management/infrastructure/repositories/jobs/certification-rescoring-by-script-job-repository.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { executeAndLogScript } from '../tooling/tooling.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
@@ -44,10 +45,9 @@ const _scheduleRescoringJobs = async (certificationCourseIds) => {
         .split(',')
         .map((str) => parseInt(str, 10))
         .filter(Number.isInteger);
-      const exitCode = await main(certificationCourseIds);
-      return exitCode;
+      const mainWithArgs = main.bind(this, certificationCourseIds);
+      return executeAndLogScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
     } catch (error) {
-      logger.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
