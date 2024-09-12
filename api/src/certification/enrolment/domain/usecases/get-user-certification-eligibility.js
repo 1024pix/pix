@@ -2,7 +2,7 @@ import { CertificationEligibility, UserCertificationEligibility } from '../read-
 
 const getUserCertificationEligibility = async function ({
   userId,
-  limitDate,
+  limitDate = new Date(),
   placementProfileService,
   certificationBadgesService,
   complementaryCertificationCourseRepository,

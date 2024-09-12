@@ -6,11 +6,24 @@ import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 describe('Certification | Enrolment | Unit | Application | Controller | user-controller', function () {
   describe('#isCertifiable', function () {
     describe('if V3 certification feature toggle is activated', function () {
-      it('should call v3 usecase', async function () {
+      it('should return user certification eligibility', async function () {
         // given
         sinon.stub(config.featureToggles, 'isV3EligibilityCheckEnabled').value(true);
 
-        const getUserCertificationEligibilityStub = sinon.stub(usecases, 'getUserCertificationEligibility');
+        sinon.stub(usecases, 'getUserCertificationEligibility').resolves(
+          domainBuilder.certification.enrolment.buildUserCertificationEligibility({
+            id: 123,
+            isCertifiable: true,
+            certificationEligibilities: [
+              domainBuilder.certification.enrolment.buildV3CertificationEligibility({
+                label: 'Un super label',
+                imageUrl: 'Une super image',
+                isOutdated: false,
+                isAcquiredExpectedLevel: false,
+              }),
+            ],
+          }),
+        );
 
         const request = {
           auth: {
@@ -21,10 +34,26 @@ describe('Certification | Enrolment | Unit | Application | Controller | user-con
         };
 
         // when
-        await userController.isCertifiable(request);
+        const serializedEligibility = await userController.isCertifiable(request);
 
         // then
-        expect(getUserCertificationEligibilityStub).to.have.been.calledOnce;
+        expect(serializedEligibility).to.deep.equal({
+          data: {
+            id: '123',
+            type: 'isCertifiables',
+            attributes: {
+              'is-certifiable': true,
+              'complementary-certifications': [
+                {
+                  label: 'Un super label',
+                  imageUrl: 'Une super image',
+                  isOutdated: false,
+                  isAcquiredExpectedLevel: false,
+                },
+              ],
+            },
+          },
+        });
       });
     });
 
