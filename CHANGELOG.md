@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v4.212.0 (12/09/2024)
+
+
+### :coffee: Autre
+- [#10110](https://github.com/1024pix/pix/pull/10110) Revert "[BUMP] Lock file maintenance".
+
 ## v4.211.0 (12/09/2024)
 
 
