@@ -31,7 +31,7 @@ export class PlacesLot {
   }
 
   get isActive() {
-    return this.status == statuses.ACTIVE && !this.#deletedAt;
+    return this.status === statuses.ACTIVE && !this.#deletedAt;
   }
 
   get activationDate() {
