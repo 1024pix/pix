@@ -12,6 +12,7 @@ import * as placementProfileService from '../../src/shared/domain/services/place
 import { learningContentCache as cache } from '../../src/shared/infrastructure/caches/learning-content-cache.js';
 import { temporaryStorage } from '../../src/shared/infrastructure/temporary-storage/index.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { executeAndLogScript } from '../tooling/tooling.js';
 
 /**
  * DESCRIPTION
@@ -74,9 +75,8 @@ async function main() {
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
-      logger.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
