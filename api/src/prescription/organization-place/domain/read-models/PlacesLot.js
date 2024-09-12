@@ -23,7 +23,7 @@ export class PlacesLot {
   #deletedAt;
   constructor(params = {}) {
     validateEntity(validationSchema, params);
-    this.count = params.count === null ? 0 : params.count;
+    this.count = params.count;
     this.organizationId = params.organizationId;
     this.#activationDate = params.activationDate;
     this.#expirationDate = params.expirationDate;

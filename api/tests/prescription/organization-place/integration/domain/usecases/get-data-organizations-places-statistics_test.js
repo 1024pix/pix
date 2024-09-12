@@ -36,7 +36,7 @@ describe('Integration | UseCases | get-data-organizations-places-statistics', fu
     });
     const secondOrganization = databaseBuilder.factory.buildOrganization({ id: 2, name: 'Pole Emploi', type: 'PRO' });
     databaseBuilder.factory.buildOrganizationPlace({
-      count: 5,
+      count: null,
       organizationId: secondOrganization.id,
       activationDate: new Date('2021-04-01'),
       expirationDate: new Date('2021-05-15'),
@@ -60,7 +60,7 @@ describe('Integration | UseCases | get-data-organizations-places-statistics', fu
 
     expect(dataOrganizationsPlacesStatistics[1].organizationId).to.equal(secondOrganization.id);
     expect(dataOrganizationsPlacesStatistics[1].organizationActivePlacesLotCount).to.equal(1);
-    expect(dataOrganizationsPlacesStatistics[1].organizationPlacesCount).to.equal(5);
+    expect(dataOrganizationsPlacesStatistics[1].organizationPlacesCount).to.equal(null);
     expect(dataOrganizationsPlacesStatistics[1].organizationName).to.equal('Pole Emploi');
     expect(dataOrganizationsPlacesStatistics[1].organizationType).to.equal('PRO');
     expect(dataOrganizationsPlacesStatistics[1].organizationOccupiedPlacesCount).to.equal(0);

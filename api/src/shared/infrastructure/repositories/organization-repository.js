@@ -189,7 +189,6 @@ const getOrganizationsWithPlaces = async function () {
   const organizations = await knexConn('organizations')
     .select('organizations.id', 'name', 'type')
     .innerJoin('organization-places', 'organizations.id', 'organization-places.organizationId')
-    .whereNotNull('organization-places.count')
     .whereNull('archivedAt')
     .distinct();
 
