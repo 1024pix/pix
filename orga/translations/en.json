@@ -71,6 +71,9 @@
     "language-availability": {
       "message": "Your language is not yet available on Pix Orga. For your convenience, the application will be presented in English. The entire Pix team is working to add your language."
     },
+    "last-places-lot-available": {
+      "message": "Please note that your seats will expire in {days, number} days."
+    },
     "over-capacity": {
       "message": "Please note that you are using more seats than your total capacity."
     }

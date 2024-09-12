@@ -71,6 +71,9 @@
     "language-availability": {
       "message": "Jouw taal is nog niet beschikbaar op Pix Orga. Voor jouw gemak wordt de applicatie in het Engels weergegeven. Het Pix-team werkt eraan om jouw taal toe te voegen."
     },
+    "last-places-lot-available": {
+      "message": "Houd er rekening mee dat je seats over {days, number} dagen verlopen."
+    },
     "over-capacity": {
       "message": "Houd er rekening mee dat je meer plaats inneemt dan je totale capaciteit."
     },
