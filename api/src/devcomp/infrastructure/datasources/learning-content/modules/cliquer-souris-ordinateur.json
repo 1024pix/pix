@@ -17,15 +17,15 @@
   "transitionTexts": [
     {
       "grainId": "96f8e83d-88df-44c0-951d-9b9e3a02cde0",
-      "content": "<p>Apprendre à cliquer, c'est un peu comme apprendre à marcher dans le monde numérique ! <span aria-hidden=\"\true\"> 💻 </span>️ Une fois qu’on y arrive, on le fait sans y penser.</p>"
+      "content": "<p>Apprendre à cliquer, c'est un peu comme apprendre à marcher dans le monde numérique&#8239;! <span aria-hidden=\"\true\"> 💻 </span>️ Une fois qu’on y arrive, on le fait sans y penser.</p>"
     },
     {
       "grainId": "4a80afba-d2ef-4f58-a328-a0fc9f204aca",
-      "content": "<p>Découvrez les boutons de la souris qui permettent de cliquer. <span aria-hidden=\"\true\">🖱️️</span></p>"
+      "content": "<p>Avant tout, découvrez les différents boutons de la souris&#8239;! <span aria-hidden=\"\true\">🖱️️</span></p>"
     },
     {
       "grainId": "83f44f19-e8de-4248-bfc7-e38f19190138",
-      "content": "<p>Maintenant que vous connaissez les différents boutons de la souris, découvrez comment cliquer.</p>"
+      "content": "<p>Maintenant, place au clic&#8239;! Découvrez comment cliquer sur votre souris.</p>"
     },
     {
       "grainId": "b491a99e-2774-469e-a63e-e2d0fb1120f2",
@@ -33,19 +33,23 @@
     },
     {
       "grainId": "efba1e45-54ca-4829-b203-1e74b9269045",
-      "content": "<p>Bravo ! <span aria-hidden=\"\true\">🎉</span>️<br>Après cet entraînement, découvrez maintenant comment utiliser le clic gauche pour naviguer, lancer des vidéos ou répondre à des questionnaires !</p>"
+      "content": "<p>Bravo ! <span aria-hidden=\"\true\">🎉</span>️<br>Après cet entraînement, découvrez maintenant comment utiliser le clic gauche pour naviguer, lancer des vidéos ou répondre à des questionnaires&#8239;!</p>"
     },
     {
       "grainId": "a1c193e4-50a7-4965-bcc7-82e9283d3c8e",
-      "content": "<p>Vous savez désormais faire un clic gauche. C’est le plus utile de tous, il est utilisé dans la grande majorité des cas. Mais il existe d’autres clics!<br><br>Découvrez le double&#x002D;clic.</p>"
+      "content": "<p>Vous savez désormais faire un clic gauche. C’est le plus utile de tous, il est utilisé dans la grande majorité des cas. Mais il existe d’autres clics&#8239;!<br><br>Découvrez le double&#x002D;clic.</p>"
     },
     {
       "grainId": "c5fff715-80d4-4fba-ac57-80fae9a7d279",
-      "content": "<p>Vous savez à quoi ressemble un double-clic. Avant d’ouvrir des dossiers, entraînez-vous avec votre souris dans l’activité suivante.</p>"
+      "content": "<p>Place à la pratique&#8239;! Entraînez-vous au double-clic dans l’activité suivante.</p>"
+    },
+ {
+      "grainId": "c3d7b3b9-49f4-48c4-913e-354b0e2e301b",
+      "content": "<p>On utilise souvent le double-clic pour ouvrir des dossiers sur son ordinateur. À vous de jouer ici !</p>"
     },
     {
       "grainId": "b1cf70fe-411b-4c5d-b069-9b7a341bd5c3",
-      "content": "<p>Vous savez maintenant cliquer et double&#x002D;cliquer. C'est deux clics sont les plus courants, c'est comme si vous saviez marcher.&nbsp;<span aria-hidden=\"true\"> 🚶 </span><br><br>En conclusion, voici un aperçu des 2 autres boutons de la souris, le bouton droit et la molette, pour bientôt apprendre à courir et sauter. <span aria-hidden=\"true\"> 🏃🤸</span></p>"
+      "content": "<p>Bravo, vous savez maintenant cliquer et double&#x002D;cliquer&#8239;! Ces deux clics sont les plus courants. L'usage de la souris n'a bientôt plus de secrets pour vous.<br><br>En conclusion, voici un aperçu des 2 autres boutons de la souris, le bouton droit et la molette.</p>"
     }
   ],
   "grains": [
@@ -59,17 +63,7 @@
           "element": {
             "id": "1cdab3f3-d431-47c7-9f73-35212186d651",
             "type": "text",
-            "content": "<p>On utilise la souris pour interagir avec l’ordinateur de plusieurs façons. </p><br>\n<p>La première façon d’interagir est de <strong>déplacer le pointeur</strong>. <br>On fait glisser la souris sur la table dans la bonne direction. À l'écran, le pointeur bouge dans la même direction.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "d2f506e9-ef96-47d1-a717-86ea38512a15",
-            "type": "image",
-            "url": "https://i.imgur.com/oLKqqUS.gif",
-            "alt": "",
-            "alternativeText": "<p>Gif animé. <br> la main déplace la souris sur le bureau. La souris à l'écran se déplace en même temps.</p>"
+            "content": "<p>On utilise la souris de plusieurs façons. </p><br>\n<p>La première façon est de <strong>déplacer le pointeur</strong>. <br>On fait glisser la souris sur la table dans une direction. À l'écran, le pointeur bouge dans la même direction.</p>"
           }
         },
         {
@@ -77,7 +71,7 @@
           "element": {
             "id": "e45a32cf-2ab9-4464-85d0-ae4f0ca897cb",
             "type": "text",
-            "content": "<p>La seconde façon d’interagir est d’<strong>appuyer sur un bouton de la souris</strong>. Quand on appuie sur un bouton de la souris, on dit qu’on “clique”.<br><br>Pourquoi appelle-t-on cela un «&nbsp;<strong>clic&nbsp;</strong>»&nbsp;? Car cela correspond au bruit que fait le bouton quand on appuie dessus.</p>"
+            "content": "<p>La seconde façon est d’<strong>appuyer sur un bouton de la souris</strong>. Quand on appuie sur un bouton de la souris, on dit qu’on «&nbsp;clique&nbsp;».<br><br>Pourquoi appelle-t-on cela un «&nbsp;<strong>clic&nbsp;</strong>»&nbsp;? Car cela correspond au bruit que fait le bouton quand on appuie dessus.</p>"
           }
         },
         {
@@ -156,7 +150,7 @@
           "element": {
             "id": "a510f893-7d93-4e4f-b8a4-0dd978324c70",
             "type": "text",
-            "content": "<p><strong>Étape 1&nbsp;: Déplacez le pointeur sur l’élément</strong> </p>\n<p>Posez votre main sur votre souris. Faites-la glisser sur la table jusqu’à ce que votre pointeur soit sur l’élément.</p>"
+            "content": "<h3>Étape 1&nbsp;: Déplacez le pointeur sur l’élément</strong> </h3>\n<p>Posez votre main sur votre souris. Faites-la glisser sur la table jusqu’à ce que votre pointeur soit sur l’élément.</p>"
           }
         },
         {
@@ -181,7 +175,7 @@
           "element": {
             "id": "11a9d578-a409-4de5-b20a-c38c932fd534",
             "type": "text",
-            "content": "<p><strong>Étape 2 : Appuyez sur le bouton de gauche de votre souris</strong></p>\n<p> <br>Sans bouger la souris, appuyez sur le bouton gauche avec votre index, puis relâchez immédiatement. Vous devriez entendre un petit «&nbsp;clic&nbsp;» .<br><br> Pas besoin d’appuyer fort, ni de rester appuyé. Vous appuyez une fois, et vous relâchez. Comme pour un bouton de télécommande!</p>"
+            "content": "<h3>Étape 2 : Appuyez sur le bouton de gauche de votre souris</strong></h3>\n<p> <br>Sans bouger la souris, appuyez sur le bouton gauche avec votre index, puis relâchez immédiatement. Vous devriez entendre un petit «&nbsp;clic&nbsp;» .<br><br> Pas besoin d’appuyer fort, ni de rester appuyé. Vous appuyez une fois, et vous relâchez. Comme pour un bouton de télécommande!</p>"
           }
         },
         {
@@ -250,29 +244,42 @@
         {
           "type": "stepper",
           "steps": [
+           {
+              "elements": [
+                {
+                  "id": "734ef21d-3850-40db-840e-e16253d8817b",
+                  "type": "text",
+                  "content": "<h3><strong>Lancez la vidéo ci-dessous en appuyant sur le bouton «&nbsp;Play&nbsp;» <span aria-hidden=\"true\">▶️</span></strong></h3><br><iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/czfvEpLfCV0?si=2Q1MBBnh2-c-0CmD\" title=\"Bravo\"></iframe><p><br>Pour accéder à la suite, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+                }
+              ]
+            },             
             {
               "elements": [
                 {
-                  "id": "f4a91faa-595b-46ef-8b37-e2950101bba6",
+                  "id": "35e0ae32-980e-45fc-bb69-b94da529d6fb",
                   "type": "text",
-                  "content": "<h3>Dans le questionnaire suivant, faites un clic gauche sur la case de la bonne réponse, puis faites un clic gauche sur «&nbsp;Vérifier&nbsp;»</h3>"
-                },
-                {
+                  "content": "<h3>Dans le questionnaire suivant, faites un clic gauche sur la case de la bonne réponse, puis faites un clic gauche sur «&nbsp;Vérifier&nbsp;»</h3><p><br>Pour accéder au questionnaire, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                 {
                   "id": "7253ded2-df17-4926-930d-0b0947f7de82",
                   "type": "qcu",
-                  "instruction": "À quoi sert le clic gauche de la souris ?",
+                  "instruction": "Que dit la vidéo précédente ?",
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "Interagir avec l’ordinateur"
+                      "content": "Bravo, vous êtes sur internet !"
                     },
                     {
                       "id": "2",
-                      "content": "Remplacer la télécommande"
+                      "content": "Bienvenue sur internet !"
                     },
                     {
                       "id": "3",
-                      "content": "Allumer le clavier"
+                      "content": "Bingo, vous avez internet !"
                     }
                   ],
                   "feedbacks": {
@@ -287,25 +294,7 @@
                   "content": "<p>Si vous avez terminé, faites un clic gauche sur le bouton «&nbsp;Suivant&nbsp;» ci-dessous.</p>"
                 }
               ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "35e0ae32-980e-45fc-bb69-b94da529d6fb",
-                  "type": "text",
-                  "content": "<h3>Faites un clic gauche sur «&nbsp;Bon à savoir&nbsp;» ci-dessous pour faire apparaître du texte supplémentaire.</h3><br><details><summary>Le saviez-vous ?</summary><p>Quand on dit cliquer, on veut dire faire un clic gauche, car c'est le type de clic le plus courant</p></details><br><p>Faites un clic gauche sur le bouton «&nbsp;Suivant&nbsp;» ci-dessous.</p>"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "734ef21d-3850-40db-840e-e16253d8817b",
-                  "type": "text",
-                  "content": "<h3><strong>Lancez la vidéo ci-dessous en appuyant sur le bouton «&nbsp;Play&nbsp;» <span aria-hidden=\"true\">▶️</span></strong></h3><br><iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/czfvEpLfCV0?si=2Q1MBBnh2-c-0CmD\" title=\"Bravo\"></iframe><p><br>Pour accéder à la suite, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
-                }
-              ]
-            }
+            } 
           ]
         }
       ]
@@ -353,7 +342,7 @@
           "element": {
             "id": "1ba7575f-d1c6-4acd-9312-7a2dc6f3345e",
             "type": "text",
-            "content": "<p><strong>Dans l’espace ci-dessous, effectuez un double&#x002D;clic sur chaque élément qui apparaît.</strong></p>"
+            "content": "<p><strong>Effectuez un double-clic sur chaque élément qui apparaît ci-dessous.</strong></p>"
           }
         },
         {
@@ -369,7 +358,7 @@
           "element": {
             "id": "3ebfd2ef-9614-4791-9668-68f56ed1fe32",
             "type": "text",
-            "content": "<p>Si vous avez terminé cette activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+            "content": "<p>Quand vous avez terminé cette activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
           }
         }
       ]
@@ -384,7 +373,7 @@
           "element": {
             "id": "be23697d-9393-405a-bb01-852e660e6818",
             "type": "text",
-            "content": "<p>On utilise souvent le double-clic pour ouvrir des dossiers sur son ordinateur. À vous de jouer ici !</p>"
+            "content": "<p>Vous souhaitez-savoir combien de photos il y a dans le dossier «&nbsp;80 ans de Mamie&nbsp;».</p>"
           }
         },
      {
@@ -395,7 +384,7 @@
             "isCompletionRequired": false,
             "title": "Simulateur de visioconférence",
             "url": "https://epreuves.pix.fr/filemanager-visu/filemanager-visu.html?mode=example&lang=fr",
-            "instruction": "<p>Dans l'explorateur de fichier ci-dessous, double-cliquez sur les dossiers suivants&nbsp;:</p> <ul><li> Photos</li><li>Album</li><li>Famille</li><li>80 ans Mamie</li></ul>",
+            "instruction": "<p>L'espace ci-dessous est un explorateur de fichier. Dans cet espace, double-cliquez sur des dossiers pour les ouvrir et trouver le contenu du dossier «&nbsp;80 ans Mamie&nbsp;».</p> <ul><li>Double-cliquez sur «&nbsp;Photos&nbsp;» </li><li>Puis double-cliquez sur «&nbsp;Album&nbsp;» </li><li>Puis double-cliquez sur «&nbsp;Famille&nbsp;» </li><li>Puis double-cliquez sur «&nbsp;80 ans Mamie&nbsp;» </li></ul>",
             "height": 400
           }
         },
@@ -412,7 +401,7 @@
                 },
                 {
                   "id": "2",
-                  "content": "8"
+                  "content": "5"
                 },
                 {
                   "id": "3",
@@ -420,8 +409,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<span class=\"feedback__state\">Correct.</span>",
-                "invalid": "<span class=\"feedback__state\">Incorrect.</span>"
+                "valid": "<span class=\"feedback__state\">Correct.</span> <p>Il y a bien 4 photos dans le dossier «&nbsp;80 ans Mamie&nbsp;». Bravo ! Vous avez fait 4 doubles-clics et réussi à naviguer dans un explorateur de fichiers.</p>",
+                "invalid": "<span class=\"feedback__state\">Incorrect.</span> Vous avez bien répondu au questionnaire, mais vous n'avez pas cliqué sur la bonne réponse. Si vous n'avez pas trouvé le dossier «&nbsp;80 ans Mamie&nbsp;» cliquez sur «&nbsp;Réinitialiser&nbsp;» ci-dessus et suivez les étapes qui vous sont données. Vous devriez effectuer 4 doubles-clics. Comptez ensuite le nombre de fichiers qui s'appellent «&nbsp;Photo&nbsp;»."
               },
               "solution": "1"
             }
@@ -443,14 +432,7 @@
                   "type": "text",
                   "content": "<p>La souris est composée des 3 boutons.&nbsp; <br><strong>Le bouton gauche</strong> est celui qui vous permet d’effectuer des clics gauches et des doubles&#x002D;clics.</p>"
                 },
-                {
-                  "id": "be765345-0a61-43b2-8a40-395d6f12b9e2",
-                  "type": "image",
-                  "url": "https://i.imgur.com/1GCK4q0.gif",
-                  "alt": "",
-                  "alternativeText": "<p>Gif animé. <br> Illustration des deux utilisations du bouton gauche de la souris&nbsp;: le clic gauche, et le double&#x002D;clic.</p>"
-                },
-                {
+                                {
                   "id": "3c8b388b-a8ca-41ad-bc89-ff9e8cd3e613",
                   "type": "text",
                   "content": "<p>Découvrez maintenant à quoi servent les autres boutons.</p>"
@@ -500,13 +482,6 @@
                   "id": "301930f5-8b8c-4e16-a7fd-aa4ab37d3d3f",
                   "type": "text",
                   "content": "<p><span aria-hidden=\"true\"> 📌 </span> En résumé&nbsp;:</p><ul><li><strong>Le bouton gauche</strong> vous permet de faire des clics gauche et des doubles&#x002D;clics sur des éléments. C’est le plus utilisé. Il permet d'interagir avec des éléments.&nbsp;</li><li><strong>Le bouton droit</strong> vous permet de faire apparaître un menu, sous forme de liste d’actions possibles avec l'élément.</li><li><strong>La molette </strong>s’utilise pour une page entière, et permet de faire défiler la page de haut en bas.</li></ul>"
-                },
-                {
-                  "id": "6a7f19dd-ba4a-4696-9f46-2f31ac5461f0",
-                  "type": "image",
-                  "url": "https://i.imgur.com/lnHqKEk.png",
-                  "alt": "",
-                  "alternativeText": "<p>A voir si ici on met une image, un gif animé, ou bien un gdevelop</p>"
                 }
               ]
             }
