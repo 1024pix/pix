@@ -6,7 +6,7 @@ const downloadCertificationResults = async function (
   h,
   dependencies = { getDivisionCertificationResultsCsv },
 ) {
-  const organizationId = request.params.id;
+  const organizationId = request.params.organizationId;
   const { division } = request.query;
 
   const certificationResults = await usecases.getScoCertificationResultsByDivision({ organizationId, division });

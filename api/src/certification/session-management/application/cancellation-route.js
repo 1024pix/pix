@@ -8,11 +8,11 @@ const register = async function (server) {
   server.route([
     {
       method: 'POST',
-      path: '/api/admin/certification-courses/{id}/cancel',
+      path: '/api/admin/certification-courses/{certificationCourseId}/cancel',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationCourseId,
+            certificationCourseId: identifiersType.certificationCourseId,
           }),
         },
         pre: [
@@ -32,11 +32,11 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/admin/certification-courses/{id}/uncancel',
+      path: '/api/admin/certification-courses/{certificationCourseId}/uncancel',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationCourseId,
+            certificationCourseId: identifiersType.certificationCourseId,
           }),
         },
         pre: [

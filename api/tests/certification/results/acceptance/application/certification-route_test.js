@@ -15,7 +15,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
   let userId;
   let session, certificationCourse, assessment, assessmentResult, badge;
 
-  describe('GET /api/certifications/:id', function () {
+  describe('GET /api/certifications/{certificationCourseId}', function () {
     beforeEach(async function () {
       server = await createServer();
 

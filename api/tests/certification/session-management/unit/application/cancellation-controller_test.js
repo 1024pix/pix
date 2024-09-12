@@ -2,14 +2,14 @@ import { cancellationController } from '../../../../../src/certification/session
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Certification | Session-management | Unit | Application | cancellation-controller', function () {
-  describe('#cancelCertificationCourse', function () {
+describe('Certification | Session-management | Unit | Application | Controller | cancellation', function () {
+  describe('#cancel', function () {
     it('should call cancel-certification-course usecase', async function () {
       // given
       sinon.stub(usecases, 'cancelCertificationCourse');
       const request = {
         params: {
-          id: 123,
+          certificationCourseId: 123,
         },
       };
       usecases.cancelCertificationCourse.resolves();
@@ -28,7 +28,7 @@ describe('Certification | Session-management | Unit | Application | cancellation
       sinon.stub(usecases, 'uncancelCertificationCourse');
       const request = {
         params: {
-          id: 123,
+          certificationCourseId: 123,
         },
       };
       usecases.uncancelCertificationCourse.resolves();

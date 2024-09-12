@@ -8,7 +8,7 @@ describe('Certification | Enrolment | Unit | Application | Controller | subscrip
       // given
       const certificationCandidateId = 123;
       const request = {
-        params: { id: certificationCandidateId },
+        params: { certificationCandidateId },
       };
       const certificationCandidateSubscription = Symbol('certificationCandidateSubscription');
       sinon.stub(usecases, 'getCertificationCandidateSubscription');

@@ -7,7 +7,7 @@ import {
 } from '../../../../test-helper.js';
 
 describe('Certification | Enrolment | Acceptance | Application | Routes | subscription', function () {
-  describe('GET /api/certification-candidates/:id/subscriptions', function () {
+  describe('GET /api/certification-candidates/{certificationCandidateId}/subscriptions', function () {
     it('should return the certification candidate subscriptions', async function () {
       // given
       const server = await createServer();

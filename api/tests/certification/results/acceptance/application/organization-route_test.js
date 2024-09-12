@@ -9,7 +9,7 @@ import {
   insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
 
-describe('Certification | Course | Acceptance | Application | organization-controller', function () {
+describe('Certification | Results | Acceptance | Application | Routes | organization', function () {
   const BOM_CHAR = '\ufeff';
   let server;
 
@@ -18,7 +18,7 @@ describe('Certification | Course | Acceptance | Application | organization-contr
     await insertUserWithRoleSuperAdmin();
   });
 
-  describe('GET /api/organizations/{id}/certification-results', function () {
+  describe('GET /api/organizations/{organizationId}/certification-results', function () {
     it('should return HTTP status 200', async function () {
       // given
       const user = databaseBuilder.factory.buildUser.withRawPassword();

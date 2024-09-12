@@ -13,7 +13,7 @@ describe('Certification | Session-management | Unit | Application | jury-certifi
       const certificationCourseId = 1;
       const request = {
         params: {
-          id: certificationCourseId,
+          certificationCourseId,
         },
         i18n: getI18n(),
       };

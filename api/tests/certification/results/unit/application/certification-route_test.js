@@ -15,7 +15,7 @@ describe('Certification | Results | Unit | Application | Certification Route', f
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('GET /api/certifications/:id', function () {
+  describe('GET /api/certifications/{certificationCourseId}', function () {
     it('should exist', async function () {
       // when
       const response = await httpTestServer.request('GET', '/api/certifications/1');

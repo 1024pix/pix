@@ -5,8 +5,8 @@ import {
   generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | Session | unfinalize-session', function () {
-  describe('PATCH /api/admin/sessions/{id}/unfinalize', function () {
+describe('Certification | Session Management | Acceptance | Application | Controller | unfinalize', function () {
+  describe('PATCH /api/admin/sessions/{sessionId}/unfinalize', function () {
     it('should return status 204', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser.withRole().id;

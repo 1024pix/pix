@@ -5,8 +5,8 @@ import {
   generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | certification-officer-controller', function () {
-  describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', function () {
+describe('Certification | Session Management | Acceptance | Application | Routes | certification-officer', function () {
+  describe('PATCH /api/admin/sessions/{sessionId}/certification-officer-assignment', function () {
     let server;
 
     beforeEach(async function () {

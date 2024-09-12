@@ -15,7 +15,7 @@ import {
   nock,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Route | certification-attestation', function () {
+describe('Certification | Results | Acceptance | Application | Routes | certification-attestation', function () {
   beforeEach(async function () {
     const learningContent = [
       {
@@ -110,7 +110,7 @@ describe('Acceptance | Route | certification-attestation', function () {
       .reply(200, () => readFile(`${__dirname}/sticker.pdf`));
   });
 
-  describe('GET /api/attestation/', function () {
+  describe('GET /api/attestation/{certificationCourseId}', function () {
     context('when user own the certification', function () {
       it('should return 200 HTTP status code and the certification', async function () {
         // given
@@ -136,7 +136,7 @@ describe('Acceptance | Route | certification-attestation', function () {
     });
   });
 
-  describe('GET /api/admin/sessions/{id}/attestations', function () {
+  describe('GET /api/admin/sessions/{sessionId}/attestations', function () {
     it('should return 200 HTTP status code and the certification', async function () {
       // given
       const superAdmin = await insertUserWithRoleSuperAdmin();
@@ -160,7 +160,7 @@ describe('Acceptance | Route | certification-attestation', function () {
     });
   });
 
-  describe('GET /api/organizations/{id}/certification-attestations', function () {
+  describe('GET /api/organizations/{organizationId}/certification-attestations', function () {
     it('should return HTTP status 200', async function () {
       // given
       const adminIsManagingStudent = databaseBuilder.factory.buildUser.withRawPassword();

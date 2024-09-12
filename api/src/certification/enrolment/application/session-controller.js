@@ -42,7 +42,7 @@ const get = async function (request, h, dependencies = { sessionSerializer }) {
 
 const createCandidateParticipation = async function (request, h) {
   const userId = request.auth.credentials.userId;
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const firstName = trim(request.payload.data.attributes['first-name']);
   const lastName = trim(request.payload.data.attributes['last-name']);
   const birthdate = request.payload.data.attributes['birthdate'];

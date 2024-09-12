@@ -12,7 +12,7 @@ const serialize = function (certificationIssueReports) {
 };
 
 const deserialize = function (request) {
-  const certificationCourseId = parseInt(request.params.id);
+  const certificationCourseId = parseInt(request.params.certificationCourseId);
   const attributes = request.payload.data.attributes;
 
   return {

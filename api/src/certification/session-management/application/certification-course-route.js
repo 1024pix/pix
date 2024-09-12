@@ -36,11 +36,11 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/admin/certification-courses/{id}/reject',
+      path: '/api/admin/certification-courses/{certificationCourseId}/reject',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationCourseId,
+            certificationCourseId: identifiersType.certificationCourseId,
           }),
         },
         pre: [
@@ -60,11 +60,11 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/admin/certification-courses/{id}/unreject',
+      path: '/api/admin/certification-courses/{certificationCourseId}/unreject',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationCourseId,
+            certificationCourseId: identifiersType.certificationCourseId,
           }),
         },
         pre: [
@@ -84,11 +84,11 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/admin/certification-courses/{id}/assessment-results',
+      path: '/api/admin/certification-courses/{certificationCourseId}/assessment-results',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationCourseId,
+            certificationCourseId: identifiersType.certificationCourseId,
           }),
           payload: Joi.object({
             data: {

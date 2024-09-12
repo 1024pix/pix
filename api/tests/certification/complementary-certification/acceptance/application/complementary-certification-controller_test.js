@@ -7,7 +7,7 @@ import {
 } from '../../../../test-helper.js';
 
 describe('Acceptance | API | complementary-certification-controller', function () {
-  describe('GET /api/admin/complementary-certifications/{id}/target-profiles', function () {
+  describe('GET /api/admin/complementary-certifications/{complementaryCertificationId}/target-profiles', function () {
     it('should return 200 HTTP status code', async function () {
       // given
       const server = await createServer();

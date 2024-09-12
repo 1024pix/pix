@@ -3,9 +3,10 @@ import { usecases } from '../../../../../src/certification/results/domain/usecas
 import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/language-service.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
+
 const { FRENCH } = LANGUAGES_CODE;
 
-describe('Unit | Controller | certification-attestation-controller', function () {
+describe('Certification | Results | Unit | Application | Controller | certification-attestation-controller', function () {
   describe('#getPDFAttestation', function () {
     it('should return attestation in PDF binary format', async function () {
       // given
@@ -18,7 +19,7 @@ describe('Unit | Controller | certification-attestation-controller', function ()
       const request = {
         i18n,
         auth: { credentials: { userId } },
-        params: { id: certification.id },
+        params: { certificationCourseId: certification.id },
         query: { isFrenchDomainExtension: true, lang: FRENCH },
       };
 
@@ -26,7 +27,7 @@ describe('Unit | Controller | certification-attestation-controller', function ()
         .stub(usecases, 'getCertificationAttestation')
         .withArgs({
           userId,
-          certificationId: certification.id,
+          certificationCourseId: certification.id,
         })
         .resolves(certification);
       const certificationAttestationPdfStub = {
@@ -81,7 +82,7 @@ describe('Unit | Controller | certification-attestation-controller', function ()
 
       const request = {
         auth: { credentials: { userId } },
-        params: { id: session.id },
+        params: { sessionId: session.id },
         query: { isFrenchDomainExtension: true },
         i18n,
       };
@@ -146,7 +147,7 @@ describe('Unit | Controller | certification-attestation-controller', function ()
       const request = {
         i18n,
         auth: { credentials: { userId } },
-        params: { id: organizationId },
+        params: { organizationId },
         query: { division, isFrenchDomainExtension: true, lang },
       };
 

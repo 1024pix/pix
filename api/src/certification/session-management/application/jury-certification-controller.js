@@ -2,7 +2,7 @@ import { usecases } from '../domain/usecases/index.js';
 import * as juryCertificationSerializer from '../infrastructure/serializers/jury-certification-serializer.js';
 
 const getJuryCertification = async function (request, h, dependencies = { juryCertificationSerializer }) {
-  const certificationCourseId = request.params.id;
+  const certificationCourseId = request.params.certificationCourseId;
   const translate = request.i18n.__;
   const juryCertification = await usecases.getJuryCertification({ certificationCourseId });
 

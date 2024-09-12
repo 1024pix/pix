@@ -1,7 +1,7 @@
 import { usecases } from '../domain/usecases/index.js';
 
 const commentAsJury = async function (request, h) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const juryCommentAuthorId = request.auth.credentials.userId;
   const juryComment = request.payload['jury-comment'];
   await usecases.commentSessionAsJury({ sessionId, juryCommentAuthorId, juryComment });
@@ -10,7 +10,7 @@ const commentAsJury = async function (request, h) {
 };
 
 const deleteJuryComment = async function (request, h) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   await usecases.deleteSessionJuryComment({ sessionId });
 
   return h.response().code(204);

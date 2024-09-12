@@ -8,7 +8,7 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/admin/certifications/{id}/details',
+      path: '/api/admin/certifications/{certificationCourseId}/details',
       config: {
         pre: [
           {
@@ -24,7 +24,7 @@ const register = async function (server) {
         ],
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationCourseId,
+            certificationCourseId: identifiersType.certificationCourseId,
           }),
         },
         handler: certificationDetailsController.getCertificationDetails,

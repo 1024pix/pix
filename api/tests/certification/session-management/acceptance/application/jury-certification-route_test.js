@@ -8,8 +8,8 @@ import {
   insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
 
-describe('Certification | Session-management | Acceptance | Application | jury-certification-route', function () {
-  describe('GET /api/admin/certifications/{id}', function () {
+describe('Certification | Session Management | Acceptance | Application | Routes | jury-certification', function () {
+  describe('GET /api/admin/certifications/{certificationCourseId}', function () {
     it('should return 200 HTTP status code along with serialized certification', async function () {
       // given
       const server = await createServer();

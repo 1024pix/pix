@@ -2,7 +2,7 @@ import { usecases } from '../domain/usecases/index.js';
 import * as complementaryCertificationSerializer from '../infrastructure/serializers/jsonapi/complementary-certification-serializer.js';
 
 const getComplementaryCertificationTargetProfileHistory = async function (request) {
-  const complementaryCertificationId = request.params.id;
+  const complementaryCertificationId = request.params.complementaryCertificationId;
   const complementaryCertification = await usecases.getComplementaryCertificationTargetProfileHistory({
     complementaryCertificationId,
   });

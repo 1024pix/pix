@@ -10,11 +10,11 @@ const register = async function (server) {
   server.route([
     {
       method: 'PUT',
-      path: '/api/admin/sessions/{id}/comment',
+      path: '/api/admin/sessions/{sessionId}/comment',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         pre: [
@@ -38,11 +38,11 @@ const register = async function (server) {
     },
     {
       method: 'DELETE',
-      path: '/api/admin/sessions/{id}/comment',
+      path: '/api/admin/sessions/{sessionId}/comment',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         pre: [

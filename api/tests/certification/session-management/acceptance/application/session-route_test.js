@@ -130,7 +130,7 @@ describe('Certification | Session Management | Acceptance | Application | Route 
     });
   });
 
-  describe('GET /api/admin/sessions/{id}', function () {
+  describe('GET /api/admin/sessions/{sessionId}', function () {
     let expectedJurySession;
     let certificationCenter;
 

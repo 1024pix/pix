@@ -6,8 +6,8 @@ import {
   insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | Certification | session-management| jury-comment-controller', function () {
-  describe('PUT /sessions/{id}/comment', function () {
+describe('Certification | Session Management | Acceptance | Application | Routes| jury-comment', function () {
+  describe('PUT /api/admin/sessions/{sessionId}/comment', function () {
     it('should respond with 204', async function () {
       // given
       const server = await createServer();
@@ -28,6 +28,29 @@ describe('Acceptance | Controller | Certification | session-management| jury-com
         url: `/api/admin/sessions/${session.id}/comment`,
       };
       await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
+
+  describe('DELETE /api/admin/sessions/{sessionId}/comment', function () {
+    it('should respond with 204', async function () {
+      // given
+      const server = await createServer();
+      await insertUserWithRoleSuperAdmin();
+      const session = databaseBuilder.factory.buildSession();
+      await databaseBuilder.commit();
+      const options = {
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(),
+        },
+        method: 'DELETE',
+        url: `/api/admin/sessions/${session.id}/comment`,
+      };
 
       // when
       const response = await server.inject(options);

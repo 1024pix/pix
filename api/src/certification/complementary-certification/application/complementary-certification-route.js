@@ -1,12 +1,20 @@
+import Joi from 'joi';
+
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { complementaryCertificationController } from './complementary-certification-controller.js';
 
 const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/admin/complementary-certifications/{id}/target-profiles',
+      path: '/api/admin/complementary-certifications/{complementaryCertificationId}/target-profiles',
       config: {
+        validate: {
+          params: Joi.object({
+            complementaryCertificationId: identifiersType.complementaryCertificationId,
+          }),
+        },
         pre: [
           {
             method: (request, h) =>

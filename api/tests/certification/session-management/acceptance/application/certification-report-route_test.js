@@ -5,7 +5,7 @@ import {
   generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Controller | certification-report-controller', function () {
+describe('Certification | Session Management | Acceptance | Application | Routes | certification-report', function () {
   let server, certificationCourseId, userId, sessionId, certificationCenterId;
 
   beforeEach(async function () {
@@ -23,7 +23,7 @@ describe('Acceptance | Controller | certification-report-controller', function (
     return databaseBuilder.commit();
   });
 
-  describe('POST /api/certification-reports/{id}/certification-issue-reports', function () {
+  describe('POST /api/certification-reports/{certificationCourseId}/certification-issue-reports', function () {
     it('should return 201 HTTP status code', async function () {
       // given
       const request = {

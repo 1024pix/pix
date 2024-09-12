@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../../../src/shared/application/secur
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Certification | Session Management | Unit | Application | Routes | Certification Officer', function () {
-  describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', function () {
+  describe('PATCH /api/admin/sessions/{sessionId}/certification-officer-assignment', function () {
     it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);

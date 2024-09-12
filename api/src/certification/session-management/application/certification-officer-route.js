@@ -10,11 +10,11 @@ const register = async function (server) {
   server.route([
     {
       method: 'PATCH',
-      path: '/api/admin/sessions/{id}/certification-officer-assignment',
+      path: '/api/admin/sessions/{sessionId}/certification-officer-assignment',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.sessionId,
+            sessionId: identifiersType.sessionId,
           }),
         },
         pre: [

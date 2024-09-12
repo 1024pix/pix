@@ -5,13 +5,13 @@ import * as certificationAttestationPdf from '../infrastructure/utils/pdf/certif
 
 const getPDFAttestation = async function (request, h, dependencies = { certificationAttestationPdf }) {
   const userId = request.auth.credentials.userId;
-  const certificationId = request.params.id;
+  const certificationCourseId = request.params.certificationCourseId;
   const { i18n } = request;
   const { isFrenchDomainExtension } = request.query;
 
   const attestation = await usecases.getCertificationAttestation({
     userId,
-    certificationId,
+    certificationCourseId,
   });
 
   const { buffer, fileName } = await dependencies.certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
@@ -31,7 +31,7 @@ const getCertificationPDFAttestationsForSession = async function (
   h,
   dependencies = { certificationAttestationPdf },
 ) {
-  const sessionId = request.params.id;
+  const sessionId = request.params.sessionId;
   const isFrenchDomainExtension = request.query.isFrenchDomainExtension;
   const attestations = await usecases.getCertificationAttestationsForSession({
     sessionId,
@@ -56,7 +56,7 @@ const downloadCertificationAttestationsForDivision = async function (
   h,
   dependencies = { certificationAttestationPdf },
 ) {
-  const organizationId = request.params.id;
+  const organizationId = request.params.organizationId;
   const { i18n } = request;
   const { division, isFrenchDomainExtension } = request.query;
 

@@ -22,7 +22,7 @@ describe('Unit | UseCase | get-certification-attestation', function () {
 
       // when
       const error = await catchErr(getCertificationAttestation)({
-        certificationId: 123,
+        certificationCourseId: 123,
         userId: 789,
         certificateRepository,
       });
@@ -47,7 +47,7 @@ describe('Unit | UseCase | get-certification-attestation', function () {
 
       // when
       const actualCertificationAttestation = await getCertificationAttestation({
-        certificationId: 123,
+        certificationCourseId: 123,
         userId: 456,
         certificateRepository,
       });
