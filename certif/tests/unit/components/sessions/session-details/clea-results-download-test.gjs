@@ -13,7 +13,7 @@ module('Unit | Component | sessions | session-details | clea-results-download', 
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:sessions:session-details/clea-results-download');
+    component = createGlimmerComponent('component:sessions:session-details:clea-results-download');
   });
 
   module('#downloadCleaCertifiedCandidateData', function () {

@@ -6,7 +6,7 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { COMPLEMENTARY_KEYS } from 'pix-certif/models/subscription';
 
-export default class ComplementaryList extends Component {
+export default class CandidateCreationModalComplementaryList extends Component {
   @service currentUser;
   @service intl;
 

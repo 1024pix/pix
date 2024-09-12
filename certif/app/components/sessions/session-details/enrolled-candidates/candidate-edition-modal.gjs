@@ -7,7 +7,7 @@ import { on } from '@ember/modifier';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
-export default class EditCandidateModal extends Component {
+export default class CandidateEditionModal extends Component {
   closeModal = () => {
     this.args.candidate.rollbackAttributes();
     this.args.closeModal();

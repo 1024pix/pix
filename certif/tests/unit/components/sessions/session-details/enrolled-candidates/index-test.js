@@ -2,7 +2,7 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
+import createGlimmerComponent from '../../../../../helpers/create-glimmer-component';
 import setupIntl from '../../../../helpers/setup-intl';
 
 module('Unit | Component | sessions | session-details | enrolled-candidates', function (hooks) {
@@ -12,7 +12,7 @@ module('Unit | Component | sessions | session-details | enrolled-candidates', fu
   let component;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:sessions:session-details:enrolled-candidates');
+    component = createGlimmerComponent('component:sessions:session-details:enrolled-candidates:index');
   });
 
   module('#deleteCertificationCandidate', function () {
