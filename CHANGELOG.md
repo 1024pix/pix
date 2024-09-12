@@ -1,5 +1,35 @@
 # Pix Changelog
 
+## v4.212.0 (12/09/2024)
+
+
+### :coffee: Autre
+- [#10110](https://github.com/1024pix/pix/pull/10110) Revert "[BUMP] Lock file maintenance".
+
+## v4.211.0 (12/09/2024)
+
+
+### :rocket: Amélioration
+- [#10006](https://github.com/1024pix/pix/pull/10006) [FEATURE] Pouvoir consulter les informations prescrits plus facilement sur Pix Admin (PIX-12646).
+- [#10071](https://github.com/1024pix/pix/pull/10071) [FEATURE] Expliciter le nom des paramètres présents dans l'URL des routes du contexte certification (PIX-14176).
+
+### :building_construction: Tech
+- [#10102](https://github.com/1024pix/pix/pull/10102) [TECH] Uniformiser le nom de la propriété des participations aux campagnes dans l'API interne (PIX-14239).
+- [#9900](https://github.com/1024pix/pix/pull/9900) [TECH] Retirer les member actions de Pix Admin (PIX-13946).
+- [#10092](https://github.com/1024pix/pix/pull/10092) [TECH] :recycle: Déplace `ResultCompetence` vers son domain d'utilisation.
+- [#9890](https://github.com/1024pix/pix/pull/9890) [TECH] Ajouter les nouvelles tables Quests, Attestations et ProfileRewards(PIX-13818).
+
+### :bug: Correction
+- [#10090](https://github.com/1024pix/pix/pull/10090) [BUGFIX] Désactiver complètement le push FT.
+- [#10086](https://github.com/1024pix/pix/pull/10086) [BUGFIX] supprime la validation du model PlaceStatistics (Pix-14195).
+- [#10069](https://github.com/1024pix/pix/pull/10069) [BUGFIX] Verifier les noms de famille et prénoms dans le fichier d'import siecle pendant la validation de celui ci (PIX-14147).
+
+### :arrow_up: Montée de version
+- [#10107](https://github.com/1024pix/pix/pull/10107) [BUMP] Lock file maintenance.
+
+### :coffee: Autre
+- [#10098](https://github.com/1024pix/pix/pull/10098) Revert "[TECH] Ajouter les infos de corrélation à chaque log via le logger".
+
 ## v4.210.1 (10/09/2024)
 
 ### :bug: Correction

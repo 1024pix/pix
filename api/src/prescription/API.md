@@ -5,6 +5,8 @@
 <dd></dd>
 <dt><a href="#module_OrganizationLearnerApi">OrganizationLearnerApi</a></dt>
 <dd></dd>
+<dt><a href="#module_OrganizationLearnerWithParticipationsApi">OrganizationLearnerWithParticipationsApi</a></dt>
+<dd></dd>
 <dt><a href="#module_TargetProfileApi">TargetProfileApi</a></dt>
 <dd></dd>
 </dl>
@@ -257,6 +259,84 @@ Si le params 'filter' est présent, les organization-learners seront filtrés
 | --- | --- |
 | organizationLearners | <code>Array.&lt;OrganizationLearner&gt;</code> | 
 | pagination | <code>Pagination</code> \| <code>undefined</code> | 
+
+<a name="module_OrganizationLearnerWithParticipationsApi"></a>
+
+## OrganizationLearnerWithParticipationsApi
+
+* [OrganizationLearnerWithParticipationsApi](#module_OrganizationLearnerWithParticipationsApi)
+    * [~find(payload)](#module_OrganizationLearnerWithParticipationsApi..find) ⇒ <code>Promise.&lt;Array.&lt;OrganizationLearnerWithParticipations&gt;&gt;</code>
+    * [~FindPayload](#module_OrganizationLearnerWithParticipationsApi..FindPayload) : <code>object</code>
+    * [~OrganizationLearner](#module_OrganizationLearnerWithParticipationsApi..OrganizationLearner) : <code>object</code>
+    * [~Organization](#module_OrganizationLearnerWithParticipationsApi..Organization) : <code>object</code>
+    * [~CampaignParticipation](#module_OrganizationLearnerWithParticipationsApi..CampaignParticipation) : <code>object</code>
+    * [~OrganizationLearnerWithParticipations](#module_OrganizationLearnerWithParticipationsApi..OrganizationLearnerWithParticipations) : <code>object</code>
+
+<a name="module_OrganizationLearnerWithParticipationsApi..find"></a>
+
+### OrganizationLearnerWithParticipationsApi~find(payload) ⇒ <code>Promise.&lt;Array.&lt;OrganizationLearnerWithParticipations&gt;&gt;</code>
+Récupère les organizations-learners avec leurs participations à partir d'une liste d'ids d'utilisateurs
+
+**Kind**: inner method of [<code>OrganizationLearnerWithParticipationsApi</code>](#module_OrganizationLearnerWithParticipationsApi)  
+
+| Param | Type |
+| --- | --- |
+| payload | <code>FindPayload</code> | 
+
+<a name="module_OrganizationLearnerWithParticipationsApi..FindPayload"></a>
+
+### OrganizationLearnerWithParticipationsApi~FindPayload : <code>object</code>
+**Kind**: inner typedef of [<code>OrganizationLearnerWithParticipationsApi</code>](#module_OrganizationLearnerWithParticipationsApi)  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| userIds | <code>Array.&lt;number&gt;</code> | 
+
+<a name="module_OrganizationLearnerWithParticipationsApi..OrganizationLearner"></a>
+
+### OrganizationLearnerWithParticipationsApi~OrganizationLearner : <code>object</code>
+**Kind**: inner typedef of [<code>OrganizationLearnerWithParticipationsApi</code>](#module_OrganizationLearnerWithParticipationsApi)  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| id | <code>number</code> | 
+| MEFCode | <code>string</code> | 
+
+<a name="module_OrganizationLearnerWithParticipationsApi..Organization"></a>
+
+### OrganizationLearnerWithParticipationsApi~Organization : <code>object</code>
+**Kind**: inner typedef of [<code>OrganizationLearnerWithParticipationsApi</code>](#module_OrganizationLearnerWithParticipationsApi)  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| isManagingStudents | <code>boolean</code> | 
+| tags | <code>Array.&lt;string&gt;</code> | 
+| type | <code>string</code> | 
+
+<a name="module_OrganizationLearnerWithParticipationsApi..CampaignParticipation"></a>
+
+### OrganizationLearnerWithParticipationsApi~CampaignParticipation : <code>object</code>
+**Kind**: inner typedef of [<code>OrganizationLearnerWithParticipationsApi</code>](#module_OrganizationLearnerWithParticipationsApi)  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| targetProfileId | <code>number</code> | 
+
+<a name="module_OrganizationLearnerWithParticipationsApi..OrganizationLearnerWithParticipations"></a>
+
+### OrganizationLearnerWithParticipationsApi~OrganizationLearnerWithParticipations : <code>object</code>
+**Kind**: inner typedef of [<code>OrganizationLearnerWithParticipationsApi</code>](#module_OrganizationLearnerWithParticipationsApi)  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| organizationLearner | <code>OrganizationLearner</code> | 
+| organization | <code>Organization</code> | 
+| campaignParticipations | <code>Array.&lt;CampaignParticipation&gt;</code> | 
 
 <a name="module_TargetProfileApi"></a>
 

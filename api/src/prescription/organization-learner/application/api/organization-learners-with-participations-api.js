@@ -27,7 +27,7 @@ import { OrganizationLearnerWithParticipations } from './read-models/Organizatio
  */
 
 /**
- * @typedef Participations
+ * @typedef CampaignParticipation
  * @type {object}
  * @property {number} targetProfileId
  */
@@ -37,7 +37,7 @@ import { OrganizationLearnerWithParticipations } from './read-models/Organizatio
  * @type {object}
  * @property {OrganizationLearner} organizationLearner
  * @property {Organization} organization
- * @property {Array<Participations>} participations
+ * @property {Array<CampaignParticipation>} campaignParticipations
  */
 
 /**
@@ -54,11 +54,11 @@ export async function find({ userIds }) {
   });
 
   return organizationLearnersWithParticipations.map(
-    ({ organizationLearner, organization, participations, tagNames }) => {
+    ({ organizationLearner, organization, campaignParticipations, tagNames }) => {
       return new OrganizationLearnerWithParticipations({
         organizationLearner,
         organization,
-        participations,
+        campaignParticipations,
         tagNames,
       });
     },

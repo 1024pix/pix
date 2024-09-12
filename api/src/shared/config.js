@@ -197,6 +197,7 @@ const configuration = (function () {
     },
     featureToggles: {
       areV3InfoScreensEnabled: toBoolean(process.env.FT_ENABLE_V3_INFO_SCREENS),
+      isV3EligibilityCheckEnabled: toBoolean(process.env.FT_ENABLE_V3_ELIGIBILITY_CHECK),
       deprecatePoleEmploiPushNotification: toBoolean(process.env.DEPRECATE_PE_PUSH_NOTIFICATION),
       isAlwaysOkValidateNextChallengeEndpointEnabled: toBoolean(
         process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT,
@@ -400,6 +401,7 @@ const configuration = (function () {
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
     config.featureToggles.areV3InfoScreensEnabled = false;
+    config.featureToggles.isV3EligibilityCheckEnabled = false;
     config.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = false;
     config.featureToggles.isPix1dEnabled = true;
     config.featureToggles.isCertificationTokenScopeEnabled = false;

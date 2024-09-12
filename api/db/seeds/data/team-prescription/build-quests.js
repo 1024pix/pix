@@ -25,13 +25,13 @@ async function createAttestationQuest(databasebuilder) {
       comparison: 'one-of',
     },
     {
-      type: 'organization-learner',
+      type: 'organizationLearner',
       data: {
         MEFCode: '10010012110',
       },
     },
     {
-      type: 'campaign-participation',
+      type: 'campaignParticipations',
       data: {
         targetProfileIds: [TARGET_PROFILE_BADGES_STAGES_ID],
       },

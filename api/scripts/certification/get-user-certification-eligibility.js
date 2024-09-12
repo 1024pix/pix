@@ -36,7 +36,7 @@ import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 async function getUserCertificationEligibility({ userId, limitDate }) {
   logger.info('Starting script get-user-certification-eligibility');
 
-  const { pixCertificationEligible, complementaryCertifications } = await usecases.getUserCertificationEligibility({
+  const { pixCertificationEligible, complementaryCertifications } = await usecases.getV2UserCertificationEligibility({
     userId,
     placementProfileService,
     certificationBadgesService,

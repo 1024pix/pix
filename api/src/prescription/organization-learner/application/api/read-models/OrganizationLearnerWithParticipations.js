@@ -1,5 +1,5 @@
 export class OrganizationLearnerWithParticipations {
-  constructor({ organizationLearner, organization, participations, tagNames }) {
+  constructor({ organizationLearner, organization, campaignParticipations, tagNames }) {
     this.organizationLearner = {
       id: organizationLearner.id,
       MEFCode: organizationLearner.MEFCode,
@@ -9,6 +9,6 @@ export class OrganizationLearnerWithParticipations {
       tags: tagNames,
       type: organization.type,
     };
-    this.participations = participations.map(({ targetProfileId }) => ({ targetProfileId }));
+    this.campaignParticipations = campaignParticipations.map(({ targetProfileId }) => ({ targetProfileId }));
   }
 }
