@@ -1,3 +1,4 @@
+import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { CertificationEligibility, UserCertificationEligibility } from '../read-models/UserCertificationEligibility.js';
 
 const getUserCertificationEligibility = async function ({
@@ -19,6 +20,7 @@ const getUserCertificationEligibility = async function ({
     userId,
   });
   for (const acquiredBadge of userAcquiredBadges) {
+    const isClea = acquiredBadge.complementaryCertificationKey === ComplementaryCertificationKeys.CLEA;
     const isAcquiredExpectedLevel = _hasAcquiredComplementaryCertificationForExpectedLevel(
       complementaryCertificationAcquiredByUser,
       acquiredBadge,
@@ -27,8 +29,12 @@ const getUserCertificationEligibility = async function ({
     const badgeIsNotOutdated = acquiredBadge.offsetVersion === 0;
     const badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt =
       acquiredBadge.offsetVersion === 1 && !isAcquiredExpectedLevel;
+    const areOtherEligibilityConditionsFulfilled = isClea ? isCertifiable : true;
 
-    if (badgeIsNotOutdated || badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt) {
+    if (
+      (badgeIsNotOutdated || badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt) &&
+      areOtherEligibilityConditionsFulfilled
+    ) {
       certificationEligibilities.push(
         new CertificationEligibility({
           label: acquiredBadge.complementaryCertificationBadgeLabel,
