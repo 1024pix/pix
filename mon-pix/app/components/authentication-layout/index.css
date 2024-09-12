@@ -18,4 +18,18 @@
     }
 }
 
+.authentication-layout-header {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    justify-content: space-between;
+
+    .authentication-layout-header__pix-logo {
+        width: 5rem;
+    }
+}
+
+.authentication-layout-footer {
+    margin-top: auto;
+}
 
