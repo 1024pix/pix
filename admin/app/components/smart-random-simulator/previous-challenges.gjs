@@ -1,8 +1,11 @@
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 
 import Card from '../card';
 
 export default class PreviousChallenges extends Component {
+  @service intl;
+
   displayBooleanState = (bool) => {
     const yes = this.intl.t('common.words.yes');
     const no = this.intl.t('common.words.no');

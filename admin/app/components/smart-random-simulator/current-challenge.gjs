@@ -1,10 +1,13 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 
 import Card from '../card';
 
 export default class CurrentChallenge extends Component {
+  @service intl;
+
   displayBooleanState = (bool) => {
     const yes = this.intl.t('common.words.yes');
     const no = this.intl.t('common.words.no');
