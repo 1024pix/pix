@@ -1,7 +1,5 @@
 import { setupTest } from 'ember-qunit';
-import ENV from 'pix-admin/config/environment';
 import { module, test } from 'qunit';
-import sinon from 'sinon';
 
 module('Unit | Model | certification details', function (hooks) {
   setupTest(hooks);
@@ -94,76 +92,6 @@ module('Unit | Model | certification details', function (hooks) {
           { index: '1.2', answers: [{ id: 'answerId3', competence: '1.2', order: 3 }] },
         ]);
       });
-    });
-  });
-
-  module('#neutralizeChallenge', function () {
-    test('neutralizes a challenge', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const adapter = store.adapterFor('certification-details');
-      sinon.stub(adapter, 'ajax');
-
-      const url = `${ENV.APP.API_HOST}/api/admin/certification/neutralize-challenge`;
-      const payload = {
-        data: {
-          data: {
-            attributes: {
-              certificationCourseId: 123,
-              challengeRecId: 'rec123',
-            },
-          },
-        },
-      };
-      adapter.ajax.resolves({});
-
-      const certification = store.createRecord('certification-details', {
-        listChallengesAndAnswers: [],
-      });
-
-      // when
-      await certification.neutralizeChallenge({
-        certificationCourseId: 123,
-        challengeRecId: 'rec123',
-      });
-
-      // then
-      assert.ok(adapter.ajax.calledWithExactly(url, 'POST', payload));
-    });
-  });
-
-  module('#deneutralizeChallenge', function () {
-    test('deneutralizes a challenge', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const adapter = store.adapterFor('certification-details');
-      sinon.stub(adapter, 'ajax');
-
-      const url = `${ENV.APP.API_HOST}/api/admin/certification/deneutralize-challenge`;
-      const payload = {
-        data: {
-          data: {
-            attributes: {
-              certificationCourseId: 123,
-              challengeRecId: 'rec123',
-            },
-          },
-        },
-      };
-      adapter.ajax.resolves({});
-
-      const certification = store.createRecord('certification-details', {
-        listChallengesAndAnswers: [],
-      });
-
-      // when
-      await certification.deneutralizeChallenge({
-        certificationCourseId: 123,
-        challengeRecId: 'rec123',
-      });
-
-      // then
-      assert.ok(adapter.ajax.calledWithExactly(url, 'POST', payload));
     });
   });
 });

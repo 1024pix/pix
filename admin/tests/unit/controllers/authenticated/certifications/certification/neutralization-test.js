@@ -11,19 +11,22 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/neutralization');
       controller.certificationDetails = {
         id: 'certificationCourseId',
-        neutralizeChallenge: sinon.stub(),
+        save: sinon.stub(),
         listChallengesAndAnswers: [{ challengeId: 'challengeRecId123', isNeutralized: false }],
       };
-      controller.certificationDetails.neutralizeChallenge.resolves({});
+      controller.certificationDetails.save.resolves({});
 
       // when
       await controller.neutralize('challengeRecId123', 2);
 
       // then
       assert.ok(
-        controller.certificationDetails.neutralizeChallenge.calledOnceWithExactly({
-          certificationCourseId: 'certificationCourseId',
-          challengeRecId: 'challengeRecId123',
+        controller.certificationDetails.save.calledOnceWithExactly({
+          adapterOptions: {
+            isNeutralizeChallenge: true,
+            certificationCourseId: 'certificationCourseId',
+            challengeRecId: 'challengeRecId123',
+          },
         }),
       );
     });
@@ -33,10 +36,18 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/neutralization');
       controller.certificationDetails = {
         id: 'certificationCourseId',
-        neutralizeChallenge: sinon.stub(),
+        save: sinon.stub(),
         listChallengesAndAnswers: [{ challengeId: 'challengeRecId123', isNeutralized: false }],
       };
-      controller.certificationDetails.neutralizeChallenge.resolves({});
+      controller.certificationDetails.save
+        .withArgs({
+          adapterOptions: {
+            isNeutralizeChallenge: true,
+            certificationCourseId: 'certificationCourseId',
+            challengeRecId: 'challengeRecId123',
+          },
+        })
+        .resolves({});
       const notifications = {
         success: sinon.stub(),
       };
@@ -57,10 +68,18 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/neutralization');
       controller.certificationDetails = {
         id: 'certificationCourseId',
-        neutralizeChallenge: sinon.stub(),
+        save: sinon.stub(),
         listChallengesAndAnswers: [{ challengeId: 'challengeRecId123', isNeutralized: false }],
       };
-      controller.certificationDetails.neutralizeChallenge.rejects({});
+      controller.certificationDetails.save
+        .withArgs({
+          adapterOptions: {
+            isNeutralizeChallenge: true,
+            certificationCourseId: 'certificationCourseId',
+            challengeRecId: 'challengeRecId123',
+          },
+        })
+        .rejects({});
       const notifications = {
         error: sinon.stub(),
       };
@@ -84,19 +103,22 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/neutralization');
       controller.certificationDetails = {
         id: 'certificationCourseId',
-        deneutralizeChallenge: sinon.stub(),
+        save: sinon.stub(),
         listChallengesAndAnswers: [{ challengeId: 'challengeRecId123', isNeutralized: false }],
       };
-      controller.certificationDetails.deneutralizeChallenge.resolves({});
+      controller.certificationDetails.save.resolves({});
 
       // when
       await controller.deneutralize('challengeRecId123', 2);
 
       // then
       assert.ok(
-        controller.certificationDetails.deneutralizeChallenge.calledOnceWithExactly({
-          certificationCourseId: 'certificationCourseId',
-          challengeRecId: 'challengeRecId123',
+        controller.certificationDetails.save.calledOnceWithExactly({
+          adapterOptions: {
+            isDeneutralizeChallenge: true,
+            certificationCourseId: 'certificationCourseId',
+            challengeRecId: 'challengeRecId123',
+          },
         }),
       );
     });
@@ -106,10 +128,10 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/neutralization');
       controller.certificationDetails = {
         id: 'certificationCourseId',
-        deneutralizeChallenge: sinon.stub(),
+        save: sinon.stub(),
         listChallengesAndAnswers: [{ challengeId: 'challengeRecId123', isNeutralized: false }],
       };
-      controller.certificationDetails.deneutralizeChallenge.resolves({});
+      controller.certificationDetails.save.resolves({});
       const notifications = {
         success: sinon.stub(),
       };
@@ -130,10 +152,10 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/neutralization');
       controller.certificationDetails = {
         id: 'certificationCourseId',
-        deneutralizeChallenge: sinon.stub(),
+        save: sinon.stub(),
         listChallengesAndAnswers: [{ challengeId: 'challengeRecId123', isNeutralized: false }],
       };
-      controller.certificationDetails.deneutralizeChallenge.rejects({});
+      controller.certificationDetails.save.rejects({});
       const notifications = {
         error: sinon.stub(),
       };

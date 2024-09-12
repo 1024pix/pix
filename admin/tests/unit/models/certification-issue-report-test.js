@@ -1,6 +1,5 @@
 import { setupTest } from 'ember-qunit';
 import map from 'lodash/map';
-import ENV from 'pix-admin/config/environment';
 import {
   categoryToLabel,
   certificationIssueReportCategories,
@@ -8,7 +7,6 @@ import {
   subcategoryToLabel,
 } from 'pix-admin/models/certification-issue-report';
 import { module, test } from 'qunit';
-import sinon from 'sinon';
 
 module('Unit | Model | certification issue report', function (hooks) {
   setupTest(hooks);
@@ -140,31 +138,6 @@ module('Unit | Model | certification issue report', function (hooks) {
           assert.false(model.canBeModified);
         });
       });
-    });
-  });
-
-  module('#resolve', function () {
-    test('it should call API with resolution label', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const adapter = store.adapterFor('certification-issue-reports');
-      sinon.stub(adapter, 'ajax');
-      adapter.ajax.resolves({});
-
-      const model = store.createRecord('certification-issue-report', {
-        id: 1,
-        isImpactful: true,
-        resolvedAt: null,
-      });
-      // when
-      model.resolve('resolved!');
-
-      // then
-      const url = `${ENV.APP.API_HOST}/api/certification-issue-reports/${model.id}`;
-      const payload = { data: { data: { resolution: 'resolved!' } } };
-
-      sinon.assert.calledWith(adapter.ajax, url, 'PATCH', payload);
-      assert.ok(true);
     });
   });
 });

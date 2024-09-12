@@ -49,8 +49,11 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
     try {
       const targetProfileIdsBefore = targetProfileSummaries.map(({ id }) => id);
       const targetProfileIdsToAttach = this._getUniqueTargetProfileIds();
-      await organization.attachTargetProfiles({
-        'target-profile-ids': targetProfileIdsToAttach,
+      const adapter = this.store.adapterFor('organization');
+
+      await adapter.attachTargetProfile({
+        organizationId: organization.id,
+        targetProfileIds: targetProfileIdsToAttach,
       });
       await targetProfileSummaries.reload();
       const targetProfileIdsAfter = targetProfileSummaries.map(({ id }) => id);

@@ -170,7 +170,6 @@ module('Acceptance | Session pages', function (hooks) {
 
             sinon.stub(navigator, 'clipboard').value({ writeText: writeTextStub.returns() });
             // when
-
             await clickByName('Lien de téléchargement des résultats');
             await screen.findByText('Copié');
 

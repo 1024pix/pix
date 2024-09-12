@@ -100,7 +100,12 @@ function routes() {
     const adminMember = schema.adminMembers.findBy({ id });
     return adminMember.update({ role });
   });
-  this.put('/admin/admin-members/:id/deactivate', () => {});
+
+  this.put('/admin/admin-members/:id/deactivate', (schema, request) => {
+    const adminMemberId = request.params.id;
+    const adminMember = schema.adminMembers.find(adminMemberId);
+    adminMember.destroy();
+  });
 
   this.get('/admin/flash-assessment-configuration', (schema, _) => {
     return schema.create('flash-algorithm-configuration');
@@ -397,6 +402,16 @@ function routes() {
     const id = request.params.id;
     return schema.certificationDetails.find(id);
   });
+  this.post('/admin/complementary-certification-course-results', (schema) => {
+    const complementaryCertificationCourseResultWithExternal =
+      schema.complementaryCertificationCourseResultWithExternals.first();
+
+    complementaryCertificationCourseResultWithExternal.update({
+      externalResult: 'Pix+ Édu Initiale 1er degré Confirmé',
+      finalResult: 'Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)',
+    });
+    return schema.certifications.first();
+  });
   this.get('/admin/certification-courses-v3/:certificationCourseId/details', (schema, request) => {
     const certificationCourseId = request.params.certificationCourseId;
     return schema.v3CertificationCourseDetailsForAdministrations.find(certificationCourseId);
@@ -541,36 +556,36 @@ function routes() {
     return new Response(204);
   });
 
-  this.post('/admin/certification-courses/:id/cancel', (schema, request) => {
+  this.patch('/admin/certification-courses/:id/cancel', (schema, request) => {
     const certificationId = request.params.id;
     const certificationToUpdate = schema.certifications.find(certificationId);
     certificationToUpdate.update({ isCancelled: true });
 
-    return new Response(200);
+    return new Response(204);
   });
 
-  this.post('/admin/certification-courses/:id/uncancel', (schema, request) => {
+  this.patch('/admin/certification-courses/:id/uncancel', (schema, request) => {
     const certificationId = request.params.id;
     const certificationToUpdate = schema.certifications.find(certificationId);
     certificationToUpdate.update({ isCancelled: false });
 
-    return new Response(200);
+    return new Response(204);
   });
 
-  this.post('/admin/certification-courses/:id/reject', (schema, request) => {
+  this.patch('/admin/certification-courses/:id/reject', (schema, request) => {
     const certificationId = request.params.id;
     const certificationToUpdate = schema.certifications.find(certificationId);
     certificationToUpdate.update({ status: 'rejected', isRejectedForFraud: true });
 
-    return new Response(200);
+    return new Response(204);
   });
 
-  this.post('/admin/certification-courses/:id/unreject', (schema, request) => {
+  this.patch('/admin/certification-courses/:id/unreject', (schema, request) => {
     const certificationId = request.params.id;
     const certificationToUpdate = schema.certifications.find(certificationId);
     certificationToUpdate.update({ status: 'validated', isRejectedForFraud: false });
 
-    return new Response(200);
+    return new Response(204);
   });
 
   this.post('/admin/certification-courses/:id/assessment-results', () => {

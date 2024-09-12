@@ -1,4 +1,3 @@
-import { memberAction } from '@1024pix/ember-api-actions';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
@@ -100,6 +99,7 @@ export default class Certification extends Model {
         return result;
       }, []);
   }
+
   get isV3() {
     return this.version === 3;
   }
@@ -140,39 +140,4 @@ export default class Certification extends Model {
     this.birthPostalCode = birthPostalCode;
     this.birthCountry = birthCountry;
   }
-
-  cancel = memberAction({
-    type: 'post',
-    urlType: 'cancel',
-  });
-
-  uncancel = memberAction({
-    type: 'post',
-    urlType: 'uncancel',
-  });
-
-  reject = memberAction({
-    type: 'post',
-    urlType: 'reject',
-  });
-
-  unreject = memberAction({
-    type: 'post',
-    urlType: 'unreject',
-  });
-
-  editJuryLevel = memberAction({
-    type: 'post',
-    urlType: 'edit-jury-level',
-    before(attributes) {
-      return {
-        data: {
-          attributes,
-        },
-      };
-    },
-    after() {
-      this.reload();
-    },
-  });
 }

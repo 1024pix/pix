@@ -7,7 +7,7 @@ import { cancellationController } from './cancellation-controller.js';
 const register = async function (server) {
   server.route([
     {
-      method: 'POST',
+      method: 'PATCH',
       path: '/api/admin/certification-courses/{certificationCourseId}/cancel',
       config: {
         validate: {
@@ -31,7 +31,7 @@ const register = async function (server) {
       },
     },
     {
-      method: 'POST',
+      method: 'PATCH',
       path: '/api/admin/certification-courses/{certificationCourseId}/uncancel',
       config: {
         validate: {

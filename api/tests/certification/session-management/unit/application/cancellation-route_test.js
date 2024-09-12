@@ -4,7 +4,7 @@ import { securityPreHandlers } from '../../../../../src/shared/application/secur
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Certification | Session-management | Unit | Application | Routes | cancellation', function () {
-  describe('POST /api/admin/certification-courses/{certificationCourseId}/cancel', function () {
+  describe('PATCH /api/admin/certification-courses/{certificationCourseId}/cancel', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
@@ -25,7 +25,7 @@ describe('Certification | Session-management | Unit | Application | Routes | can
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('POST', '/api/admin/certification-courses/1/cancel');
+      const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1/cancel');
 
       // then
       expect(response.statusCode).to.equal(403);
@@ -39,14 +39,14 @@ describe('Certification | Session-management | Unit | Application | Routes | can
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      await httpTestServer.request('POST', '/api/admin/certification-courses/1/cancel');
+      await httpTestServer.request('PATCH', '/api/admin/certification-courses/1/cancel');
 
       // then
       expect(cancellationController.cancel).to.have.been.calledOnce;
     });
   });
 
-  describe('POST /api/admin/certification-courses/{certificationCourseId}/uncancel', function () {
+  describe('PATCH /api/admin/certification-courses/{certificationCourseId}/uncancel', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
@@ -68,7 +68,7 @@ describe('Certification | Session-management | Unit | Application | Routes | can
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('POST', '/api/admin/certification-courses/1/uncancel');
+      const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1/uncancel');
 
       // then
       expect(response.statusCode).to.equal(403);
@@ -82,7 +82,7 @@ describe('Certification | Session-management | Unit | Application | Routes | can
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      await httpTestServer.request('POST', '/api/admin/certification-courses/1/uncancel');
+      await httpTestServer.request('PATCH', '/api/admin/certification-courses/1/uncancel');
 
       // then
       expect(cancellationController.uncancel).to.have.been.calledOnce;

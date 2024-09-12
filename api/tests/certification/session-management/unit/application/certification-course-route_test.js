@@ -46,7 +46,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     });
   });
 
-  describe('POST /api/admin/certification-courses/{certificationCourseId}/reject', function () {
+  describe('PATCH /api/admin/certification-courses/{certificationCourseId}/reject', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
@@ -67,14 +67,14 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('POST', '/api/admin/certification-courses/1/reject');
+      const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1/reject');
 
       // then
       expect(response.statusCode).to.equal(403);
     });
   });
 
-  describe('POST /api/admin/certification-courses/{certificationCourseId}/unreject', function () {
+  describe('PATCH /api/admin/certification-courses/{certificationCourseId}/unreject', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
@@ -95,7 +95,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('POST', '/api/admin/certification-courses/1/unreject');
+      const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1/unreject');
 
       // then
       expect(response.statusCode).to.equal(403);

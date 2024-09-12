@@ -10,38 +10,39 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
   module('#publishSession', function () {
     test('should publish session', async function (assert) {
       // given
+      const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');
-      const publishMock = sinon.stub();
-      publishMock.resolves();
-      const toBePublishedSession = {
-        publish: publishMock,
-      };
+      const publishSessionStub = sinon.stub().resolves();
+      store.adapterFor = sinon.stub().returns({
+        publishSession: publishSessionStub,
+      });
 
       // when
-      await controller.send('publishSession', toBePublishedSession);
-
+      await controller.send('publishSession', { id: 1 });
       // then
-      sinon.assert.called(publishMock);
+      sinon.assert.called(publishSessionStub);
       assert.ok(true);
     });
 
     test('it should notify error on notifications service when publication fails', async function (assert) {
       // given
+      const store = this.owner.lookup('service:store');
       const errorMock = sinon.stub();
+
       class NotificationsStub extends Service {
         error = errorMock;
       }
+
       this.owner.register('service:notifications', NotificationsStub);
       const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');
-      const publishMock = sinon.stub();
       const publishError = new Error('someError');
-      publishMock.rejects(publishError);
-      const toBePublishedSession = {
-        publish: publishMock,
-      };
+      const publishSessionStub = sinon.stub().rejects(publishError);
+      store.adapterFor = sinon.stub().returns({
+        publishSession: publishSessionStub,
+      });
 
       // when
-      await controller.send('publishSession', toBePublishedSession);
+      await controller.send('publishSession', { id: 1 });
 
       // then
       sinon.assert.calledWith(errorMock, publishError);
@@ -79,6 +80,7 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
     test('should publish several sessions', async function (assert) {
       // given
       const successMock = sinon.stub();
+
       class NotificationsStub extends Service {
         success = successMock;
       }
@@ -107,9 +109,11 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
     test('should notify error on notifications service when publication fails', async function (assert) {
       // given
       const errorMock = sinon.stub();
+
       class NotificationsStub extends Service {
         error = errorMock;
       }
+
       this.owner.register('service:notifications', NotificationsStub);
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');

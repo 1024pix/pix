@@ -122,7 +122,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     });
   });
 
-  describe('POST /api/admin/certification-courses/{certificationCourseId}/reject', function () {
+  describe('PATCH /api/admin/certification-courses/{certificationCourseId}/reject', function () {
     describe('when certification is V2', function () {
       it('should create a new rejected AssessmentResult', async function () {
         // given
@@ -146,13 +146,13 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
 
         // when
         const response = await server.inject({
-          method: 'POST',
+          method: 'PATCH',
           url: `/api/admin/certification-courses/${certificationCourse.id}/reject`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         });
 
         // then
-        expect(response.statusCode).to.equal(200);
+        expect(response.statusCode).to.equal(204);
         const rejectedCertificationCourse = await knex('certification-courses').first();
         const assessmentResults = await knex('assessment-results')
           .where({
@@ -226,13 +226,13 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
 
         // when
         const response = await server.inject({
-          method: 'POST',
+          method: 'PATCH',
           url: `/api/admin/certification-courses/${certificationCourse.id}/reject`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         });
 
         // then
-        expect(response.statusCode).to.equal(200);
+        expect(response.statusCode).to.equal(204);
         const rejectedCertificationCourse = await knex('certification-courses').first();
         const assessmentResults = await knex('assessment-results')
           .where({
@@ -255,7 +255,7 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
     });
   });
 
-  describe('POST /api/admin/certification-courses/{certificationCourseId}/unreject', function () {
+  describe('PATCH /api/admin/certification-courses/{certificationCourseId}/unreject', function () {
     it('should create a new unrejected AssessmentResult', async function () {
       // given
       const userId = (await insertUserWithRoleSuperAdmin()).id;
@@ -279,13 +279,13 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
 
       // when
       const response = await server.inject({
-        method: 'POST',
+        method: 'PATCH',
         url: `/api/admin/certification-courses/${certificationCourse.id}/unreject`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       });
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(204);
       const unrejectedCertificationCourse = await knex('certification-courses').first();
       const assessmentResults = await knex('assessment-results')
         .where({

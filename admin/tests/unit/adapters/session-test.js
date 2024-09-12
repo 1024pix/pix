@@ -8,6 +8,7 @@ module('Unit | Adapter | session', function (hooks) {
 
   hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:session');
+    sinon.stub(adapter, 'ajax').resolves();
   });
 
   module('#urlForQueryRecord', function () {
@@ -40,6 +41,18 @@ module('Unit | Adapter | session', function (hooks) {
     });
   });
 
+  module('#getDownloadLink', function () {
+    test('should get the download link', function (assert) {
+      // when
+      const expectedLink = 'http://localhost:3000/api/admin/sessions/123/generate-results-download-link?lang=fr';
+      adapter.getDownloadLink({ id: 123, lang: 'fr' });
+
+      // then
+      sinon.assert.calledWith(adapter.ajax, expectedLink, 'GET');
+      assert.ok(adapter);
+    });
+  });
+
   module('#updateRecord', function () {
     module('when updatePublishedCertification adapterOption is passed', function () {
       test('should send a patch request to /publish', function (assert) {
@@ -67,15 +80,7 @@ module('Unit | Adapter | session', function (hooks) {
       });
     });
 
-    module('when certificationOfficerAssignment adapterOption passed', function (hooks) {
-      hooks.beforeEach(function () {
-        sinon.stub(adapter, 'ajax');
-      });
-
-      hooks.afterEach(function () {
-        adapter.ajax.restore();
-      });
-
+    module('when certificationOfficerAssignment adapterOption passed', function () {
       test('should send a patch request to user assignment endpoint', async function (assert) {
         // given
         adapter.ajax.resolves();
@@ -97,15 +102,7 @@ module('Unit | Adapter | session', function (hooks) {
       });
     });
 
-    module('when unfinalize adapterOption passed', function (hooks) {
-      hooks.beforeEach(function () {
-        sinon.stub(adapter, 'ajax');
-      });
-
-      hooks.afterEach(function () {
-        adapter.ajax.restore();
-      });
-
+    module('when unfinalize adapterOption passed', function () {
       test('should send a patch request to unfinalize a session', async function (assert) {
         // given
         adapter.ajax.resolves();
@@ -116,6 +113,27 @@ module('Unit | Adapter | session', function (hooks) {
         // then
         sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/admin/sessions/123/unfinalize', 'PATCH');
         assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
+      });
+    });
+
+    module('when comment adapterOption passed', function () {
+      test('should send a put request to comment a session', async function (assert) {
+        // given
+        adapter.ajax.resolves();
+
+        // when
+        await adapter.updateRecord(
+          null,
+          { modelName: 'session' },
+          {
+            id: 123,
+            adapterOptions: { isComment: true, comment: 'je suis un commentaire' },
+          },
+        );
+
+        // then
+        sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/admin/sessions/123/comment', 'PUT');
+        assert.ok(adapter);
       });
     });
   });

@@ -79,7 +79,7 @@ export default class CertificationInformationsController extends Controller {
   @action
   async resolveIssueReport(issueReport, resolutionLabel) {
     try {
-      await issueReport.resolve(resolutionLabel);
+      await issueReport.save({ adapterOptions: { resolutionLabel } });
       this.notifications.success('Le signalement a été résolu.');
     } catch (error) {
       this.notifications.error('Une erreur est survenue :\n' + error?.errors[0]?.detail);
@@ -161,7 +161,7 @@ export default class CertificationInformationsController extends Controller {
   @action
   async onCancelCertificationConfirmation() {
     try {
-      await this.certification.cancel();
+      await this.certification.save({ adapterOptions: { isCertificationCancel: true } });
       await this.certification.reload();
     } catch (error) {
       this.notifications.error('Une erreur est survenue.');
@@ -173,7 +173,7 @@ export default class CertificationInformationsController extends Controller {
   @action
   async onUncancelCertificationConfirmation() {
     try {
-      await this.certification.uncancel();
+      await this.certification.save({ adapterOptions: { isCertificationUncancel: true } });
       await this.certification.reload();
     } catch (error) {
       this.notifications.error('Une erreur est survenue.');
@@ -185,7 +185,7 @@ export default class CertificationInformationsController extends Controller {
   @action
   async onRejectCertificationConfirmation() {
     try {
-      await this.certification.reject();
+      await this.certification.save({ adapterOptions: { isCertificationReject: true } });
       await this.certification.reload();
     } catch (error) {
       this.notifications.error('Une erreur est survenue.');
@@ -197,7 +197,7 @@ export default class CertificationInformationsController extends Controller {
   @action
   async onUnrejectCertificationConfirmation() {
     try {
-      await this.certification.unreject();
+      await this.certification.save({ adapterOptions: { isCertificationUnreject: true } });
       await this.certification.reload();
     } catch (error) {
       this.notifications.error('Une erreur est survenue.');
@@ -254,16 +254,18 @@ export default class CertificationInformationsController extends Controller {
   @action
   async onEditJuryLevelSave() {
     if (!this.selectedJuryLevel) return;
-    this.certification.editJuryLevel({
-      juryLevel: this.selectedJuryLevel,
-      complementaryCertificationCourseId: this.certification.complementaryCertificationCourseResultWithExternal.get(
-        'complementaryCertificationCourseId',
-      ),
+    await this.certification.save({
+      adapterOptions: {
+        isJuryLevelEdit: true,
+        juryLevel: this.selectedJuryLevel,
+        complementaryCertificationCourseId: this.certification.complementaryCertificationCourseResultWithExternal.get(
+          'complementaryCertificationCourseId',
+        ),
+      },
     });
+    await this.certification.reload();
 
     this.displayJuryLevelSelect = false;
-
-    await this.certification.reload();
   }
 
   get shouldDisplayJuryLevelEditButton() {

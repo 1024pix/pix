@@ -344,16 +344,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             complementaryCertificationCourseResultWithExternal,
           });
 
-          this.server.post('/admin/complementary-certification-course-results', (schema) => {
-            const complementaryCertificationCourseResultWithExternal =
-              schema.complementaryCertificationCourseResultWithExternals.first();
-
-            complementaryCertificationCourseResultWithExternal.update({
-              externalResult: 'Pix+ Édu Initiale 1er degré Confirmé',
-              finalResult: 'Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)',
-            });
-          });
-
           const screen = await visit(`/certifications/${certification.id}`);
 
           // when
@@ -379,6 +369,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           const complementaryCertificationCourseResultWithExternal = server.create(
             'complementary-certification-course-result-with-external',
             {
+              id: 456,
               complementaryCertificationCourseId: 1234,
               pixResult: 'Pix+ Édu Initiale 1er degré Confirmé',
               externalResult: 'Pix+ Édu Initiale 1er degré Confirmé',
@@ -396,12 +387,14 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
           this.server.post('/admin/complementary-certification-course-results', (schema) => {
             const complementaryCertificationCourseResultWithExternal =
-              schema.complementaryCertificationCourseResultWithExternals.first();
+              schema.complementaryCertificationCourseResultWithExternals.find(456);
 
             complementaryCertificationCourseResultWithExternal.update({
               externalResult: 'En attente',
               finalResult: 'En attente volet Jury',
             });
+
+            return schema.certifications.first();
           });
 
           const screen = await visit(`/certifications/${certification.id}`);
@@ -818,7 +811,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Annuler la certification');
-
           await screen.findByRole('dialog');
 
           // when
@@ -972,7 +964,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         await screen.findByRole('dialog');
 
-        this.server.post('/admin/certification-courses/:id/reject', () => {
+        this.server.patch('/admin/certification-courses/:id/reject', () => {
           return new Response(400);
         });
 
@@ -1101,7 +1093,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         await screen.findByRole('dialog');
 
-        this.server.post('/admin/certification-courses/:id/unreject', () => {
+        this.server.patch('/admin/certification-courses/:id/unreject', () => {
           return new Response(400);
         });
 

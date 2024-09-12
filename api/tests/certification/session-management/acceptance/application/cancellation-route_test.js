@@ -13,12 +13,12 @@ describe('Certification | Session-management | Acceptance | Application | Routes
     server = await createServer();
   });
 
-  describe('POST /api/admin/certification-courses/{certificationCourseId}/cancel', function () {
-    it('should respond with a 200', async function () {
+  describe('PATCH /api/admin/certification-courses/{certificationCourseId}/cancel', function () {
+    it('should respond with a 204', async function () {
       // given
       databaseBuilder.factory.buildCertificationCourse({ id: 123 });
       const options = {
-        method: 'POST',
+        method: 'PATCH',
         url: '/api/admin/certification-courses/123/cancel',
         headers: { authorization: generateValidRequestAuthorizationHeader() },
       };
@@ -29,16 +29,16 @@ describe('Certification | Session-management | Acceptance | Application | Routes
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(204);
     });
   });
 
-  describe('POST /api/admin/certification-courses/{certificationCourseId}/uncancel', function () {
-    it('should respond with a 200', async function () {
+  describe('PATCH /api/admin/certification-courses/{certificationCourseId}/uncancel', function () {
+    it('should respond with a 204', async function () {
       // given
       databaseBuilder.factory.buildCertificationCourse({ id: 123 });
       const options = {
-        method: 'POST',
+        method: 'PATCH',
         url: '/api/admin/certification-courses/123/uncancel',
         headers: { authorization: generateValidRequestAuthorizationHeader() },
       };
@@ -49,7 +49,7 @@ describe('Certification | Session-management | Acceptance | Application | Routes
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(204);
     });
   });
 });

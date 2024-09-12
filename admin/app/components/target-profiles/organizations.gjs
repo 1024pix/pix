@@ -40,8 +40,12 @@ export default class Organizations extends Component {
     if (this.isDisabledAttachOrganizations) return;
 
     const targetProfile = this.args.targetProfile;
+    const adapter = this.store.adapterFor('target-profile');
     try {
-      const response = await targetProfile.attachOrganizations({ 'organization-ids': this._getUniqueOrganizations() });
+      const response = await adapter.attachOrganizations({
+        organizationIds: this._getUniqueOrganizations(),
+        targetProfileId: targetProfile.id,
+      });
 
       const { 'attached-ids': attachedIds, 'duplicated-ids': duplicatedIds } = response.data.attributes;
 
@@ -73,14 +77,16 @@ export default class Organizations extends Component {
   }
 
   @action
-  async attachOrganizationsFromExistingTargetProfile(e) {
+  async organizationsFromExistingTargetProfileToAttach(e) {
     e.preventDefault();
     if (this.isDisabledAttachOrganizationsFromExistingTargetProfile) return;
 
     const targetProfile = this.args.targetProfile;
+    const adapter = this.store.adapterFor('target-profile');
     try {
-      await targetProfile.attachOrganizationsFromExistingTargetProfile({
-        'target-profile-id': this.existingTargetProfile,
+      await adapter.attachOrganizationsFromExistingTargetProfile({
+        targetProfileId: targetProfile.id,
+        targetProfileIdToCopy: this.existingTargetProfile,
       });
       this.existingTargetProfile = '';
       await this.notifications.success('Organisation(s) rattaché(es) avec succès.');
@@ -137,7 +143,7 @@ export default class Organizations extends Component {
           </div>
         </form>
 
-        <form class="organization__form" {{on "submit" this.attachOrganizationsFromExistingTargetProfile}}>
+        <form class="organization__form" {{on "submit" this.organizationsFromExistingTargetProfileToAttach}}>
           <label for="attach-organizations-from-existing-target-profile">Rattacher les organisations d'un profil cible
             existant</label>
           <div class="organization__sub-form">

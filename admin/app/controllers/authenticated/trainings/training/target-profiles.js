@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import uniq from 'lodash/uniq';
 
 export default class TrainingDetailsTargetProfilesController extends Controller {
+  @service('store') store;
   @tracked targetProfilesToAttach = '';
 
   @service accessControl;
@@ -28,8 +29,10 @@ export default class TrainingDetailsTargetProfilesController extends Controller 
     try {
       const targetProfileIdsBefore = targetProfileSummaries.map(({ id }) => id);
       const targetProfileIdsToAttach = this._getUniqueTargetProfileIds();
-      await training.attachTargetProfiles({
-        'target-profile-ids': targetProfileIdsToAttach,
+      const adapter = this.store.adapterFor('training');
+      await adapter.attachTargetProfile({
+        trainingId: training.id,
+        targetProfileIds: targetProfileIdsToAttach,
       });
       await targetProfileSummaries.reload();
       const targetProfileIdsAfter = targetProfileSummaries.map(({ id }) => id);

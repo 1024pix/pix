@@ -1,4 +1,3 @@
-import { memberAction } from '@1024pix/ember-api-actions';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
@@ -57,32 +56,6 @@ export default class CertificationDetails extends Model {
   get completionDate() {
     return dayjs(this.completedAt).format('DD/MM/YYYY, HH:mm:ss');
   }
-
-  neutralizeChallenge = memberAction({
-    path: 'neutralize-challenge',
-    type: 'post',
-    urlType: 'challenge-neutralization',
-    before(attributes) {
-      return {
-        data: {
-          attributes,
-        },
-      };
-    },
-  });
-
-  deneutralizeChallenge = memberAction({
-    path: 'deneutralize-challenge',
-    type: 'post',
-    urlType: 'challenge-neutralization',
-    before(attributes) {
-      return {
-        data: {
-          attributes,
-        },
-      };
-    },
-  });
 
   #includePixPlusCompetences(answersByCompetence) {
     return answersByCompetence[PIX_PLUS_INDEX];

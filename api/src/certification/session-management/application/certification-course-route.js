@@ -35,7 +35,7 @@ const register = async function (server) {
       },
     },
     {
-      method: 'POST',
+      method: 'PATCH',
       path: '/api/admin/certification-courses/{certificationCourseId}/reject',
       config: {
         validate: {
@@ -59,7 +59,7 @@ const register = async function (server) {
       },
     },
     {
-      method: 'POST',
+      method: 'PATCH',
       path: '/api/admin/certification-courses/{certificationCourseId}/unreject',
       config: {
         validate: {

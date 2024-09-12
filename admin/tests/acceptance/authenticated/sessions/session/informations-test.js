@@ -1,11 +1,4 @@
-import {
-  clickByName,
-  fillByLabel,
-  getByTextWithHtml,
-  visit,
-  waitForElementToBeRemoved,
-  within,
-} from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, getByTextWithHtml, visit, within } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
@@ -302,10 +295,9 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
             await clickByName('Confirmer');
 
             // then
-            await waitForElementToBeRemoved(() =>
-              screen.queryByText("Le surveillant prétend qu'une météorite est tombée sur le centre."),
-            );
-            assert.ok(true);
+            assert
+              .dom(screen.queryByText("Le surveillant prétend qu'une météorite est tombée sur le centre."))
+              .isNotVisible();
           });
         });
 

@@ -1,4 +1,4 @@
-import { clickByName, visit, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
@@ -100,9 +100,11 @@ module('Acceptance | Team | List', function (hooks) {
       await screen.findByRole('dialog');
 
       await clickByName('Confirmer');
+      // await this.pauseTest();
 
       // then
-      await waitForElementToBeRemoved(screen.queryByRole('cell', { name: 'Anne' }));
+
+      assert.dom(screen.queryByRole('cell', { name: 'Anne' })).doesNotExist();
       assert.ok(true);
     });
 

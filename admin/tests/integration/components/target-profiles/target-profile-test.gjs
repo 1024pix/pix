@@ -54,7 +54,7 @@ module('Integration | Component | TargetProfile', function (hooks) {
     });
 
     module('when an autonomous course is linked', function () {
-      test('it should display specific informations', async function (assert) {
+      test('it should display specific information', async function (assert) {
         // given
         const model = {
           ...targetProfileSampleData,

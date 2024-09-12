@@ -1,4 +1,3 @@
-import { memberAction } from '@1024pix/ember-api-actions';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
@@ -132,31 +131,4 @@ export default class Session extends Model {
   get displayHasSeenEndTestScreenColumn() {
     return !this.hasSupervisorAccess;
   }
-
-  getDownloadLink = memberAction({
-    path: 'generate-results-download-link',
-    type: 'get',
-    urlType: 'findRecord',
-    before(attributes) {
-      return { lang: attributes.lang };
-    },
-    after(response) {
-      return response.sessionResultsLink;
-    },
-  });
-
-  comment = memberAction({
-    path: 'comment',
-    type: 'put',
-    urlType: 'updateRecord',
-    after() {
-      this.reload();
-    },
-  });
-
-  deleteComment = memberAction({
-    path: 'comment',
-    type: 'delete',
-    urlType: 'updateRecord',
-  });
 }
