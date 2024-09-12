@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 
-export default class UserInformationController extends Controller {
+export default class UserAuthenticationMethodsController extends Controller {
   @service notifications;
   @service oidcIdentityProviders;
 

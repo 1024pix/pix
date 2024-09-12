@@ -669,8 +669,9 @@
     },
     "user-details": {
       "navbar": {
+        "authentication-methods": "Méthodes de connexion",
         "certification-centers-list": "Pix Certif",
-        "details": "Détails",
+        "details": "Informations prescrit",
         "organizations-list": "Pix Orga",
         "participations-list": "Participations",
         "profile": "Profil"

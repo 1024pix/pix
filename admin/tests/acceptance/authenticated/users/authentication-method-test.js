@@ -24,7 +24,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       });
 
       // when
-      const screen = await visit(`/users/${userToAddNewEmail.id}`);
+      const screen = await visit(`/users/${userToAddNewEmail.id}/authentication-methods`);
       await clickByName('Ajouter une adresse e-mail');
 
       await screen.findByRole('dialog');
@@ -54,7 +54,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       server.create('user', { email: 'nouvel-email@example.net' });
 
       // when
-      const screen = await visit(`/users/${userToAddNewEmail.id}`);
+      const screen = await visit(`/users/${userToAddNewEmail.id}/authentication-methods`);
       await clickByName('Ajouter une adresse e-mail');
 
       await screen.findByRole('dialog');
@@ -83,7 +83,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       });
 
       // when
-      const screen = await visit(`/users/${user.id}`);
+      const screen = await visit(`/users/${user.id}/authentication-methods`);
       await clickByName('Déplacer cette méthode de connexion');
       await fillByLabel("Id de l'utilisateur à qui vous souhaitez ajouter la méthode de connexion", 1);
 
@@ -116,7 +116,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       });
 
       // when
-      const screen = await visit(`/users/${user.id}`);
+      const screen = await visit(`/users/${user.id}/authentication-methods`);
 
       await click(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' }));
 
