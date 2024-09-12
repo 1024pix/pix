@@ -1274,6 +1274,13 @@
         },
         "students-count": "{count, plural, =0 {0 élève} =1 {1 élève} other {{count} élèves}}"
       },
+      "generate-username-password-modal": {
+        "title": "Générer les identifiants et/ou les mots de passe des élèves sélectionnés",
+        "content-message-1": "Les élèves qui ne disposent pas encore d’une méthode de connexion doivent passer par une campagne de votre établissement pour créer leur compte PIX.",
+        "content-message-2": "Un fichier CSV contenant les identifiants ainsi que les mots de passe à usage unique sera généré.",
+        "content-message-3": "Communiquez ces nouveaux mots de passe à usage unique aux élèves. Lorsqu'ils se connecteront avec ce mot de passe, Pix leur demandera d'en saisir un nouveau",
+        "warning-message": "Un identifiant et un mot de passe seront générés pour les élèves ayant un accès au Médiacentre et/ou une adresse e-mail. Les élèves possédant déjà un identifiant verront leur mot de passe réinitialisé."
+      },
       "manage-authentication-method-modal": {
         "title": "Gestion du compte Pix de l’élève",
         "authentication-methods": "Méthodes de connexion",
