@@ -19,11 +19,16 @@ const getUserCertificationEligibility = async function ({
     userId,
   });
   for (const acquiredBadge of userAcquiredBadges) {
-    if (!acquiredBadge.isOutdated) {
-      const isAcquiredExpectedLevel = _hasAcquiredComplementaryCertificationForExpectedLevel(
-        complementaryCertificationAcquiredByUser,
-        acquiredBadge,
-      );
+    const isAcquiredExpectedLevel = _hasAcquiredComplementaryCertificationForExpectedLevel(
+      complementaryCertificationAcquiredByUser,
+      acquiredBadge,
+    );
+
+    const badgeIsNotOutdated = acquiredBadge.offsetVersion === 0;
+    const badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt =
+      acquiredBadge.offsetVersion === 1 && !isAcquiredExpectedLevel;
+
+    if (badgeIsNotOutdated || badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt) {
       certificationEligibilities.push(
         new CertificationEligibility({
           label: acquiredBadge.complementaryCertificationBadgeLabel,
@@ -34,6 +39,7 @@ const getUserCertificationEligibility = async function ({
       );
     }
   }
+
   return new UserCertificationEligibility({
     id: userId,
     isCertifiable,
