@@ -13,6 +13,7 @@ import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
  * certification_center_id
  **/
 import { checkCsvHeader, parseCsv } from '../../helpers/csvHelpers.js';
+import { executeAndLogScript } from '../../tooling/tooling.js';
 
 const { values } = lodash;
 
@@ -110,9 +111,9 @@ async function main(filePath) {
   if (isLaunchedFromCommandLine) {
     try {
       const filePath = process.argv[2];
-      await main(filePath);
+      const mainWithArgs = main.bind(this, filePath);
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
     } catch (error) {
-      logger.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
