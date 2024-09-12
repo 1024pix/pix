@@ -25,7 +25,7 @@
     {
       "plan": "postgresql:postgresql-sandbox",
       "options": {
-        "version": "15.7"
+        "version": "15.8"
       }
     },
     {
