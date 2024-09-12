@@ -14,10 +14,10 @@ export default class ViewAutonomousCourse extends Component {
 
   autonomousCourse = this.args.autonomousCourse;
 
-  translatedLabel = (label) => this.intl.t(`components.autonomous-course.view.labels.${label}`);
+  translatedLabel = (label) => this.intl.t(`components.autonomous-courses.view.labels.${label}`);
 
   displayedAttributes = [
-    { label: 'Id', value: this.args.autonomousCourse.id },
+    { label: this.translatedLabel('id'), value: this.args.autonomousCourse.id },
     { label: this.translatedLabel('internal-title'), value: this.args.autonomousCourse.internalTitle },
     { label: this.translatedLabel('public-title'), value: this.args.autonomousCourse.publicTitle },
     { label: this.translatedLabel('custom-landing-page'), value: this.args.autonomousCourse.customLandingPageText },
@@ -32,8 +32,8 @@ export default class ViewAutonomousCourse extends Component {
   }
 
   get tooltipLabel() {
-    const linkCopyAction = this.intl.t('components.autonomous-course.view.link-copy-action');
-    const linkCopyValidation = this.intl.t('components.autonomous-course.view.link-copy-validation');
+    const linkCopyAction = this.intl.t('components.autonomous-courses.view.link-copy-action');
+    const linkCopyValidation = this.intl.t('components.autonomous-courses.view.link-copy-validation');
 
     return this.linkHasJustBeenCopied ? linkCopyValidation : linkCopyAction;
   }
@@ -61,14 +61,14 @@ export default class ViewAutonomousCourse extends Component {
       {{/each}}
 
       <dt class="autonomous-course-card__details-label">{{t
-          "components.autonomous-course.view.link-title"
+          "components.autonomous-courses.view.link-title"
         }}&nbsp;:&nbsp;</dt>
       <dd class="autonomous-course-card__details-value">
         <a
           href={{this.campaignLink}}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={{t "components.autonomous-course.view.link-label" code=@autonomousCourse.code}}
+          aria-label={{t "components.autonomous-courses.view.link-label" code=@autonomousCourse.code}}
           class="autonomous-course-card-details-value__link"
         >
           {{this.campaignLink}}

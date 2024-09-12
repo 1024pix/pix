@@ -14,7 +14,7 @@ export default class NewController extends Controller {
 
   @action
   goToAutonomousCourseDetails(autonomousCourseId) {
-    this.router.transitionTo('authenticated.autonomous-courses.autonomous-course', autonomousCourseId);
+    this.router.transitionTo('authenticated.autonomous-courses.details', autonomousCourseId);
   }
 
   @action

@@ -7,6 +7,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { pageTitle } from 'ember-page-title';
 
+import Breadcrumb from '../../layout/breadcrumb';
 import TechnicalInformations from './technical-informations';
 import UserInformations from './user-informations';
 
@@ -19,7 +20,7 @@ export default class NewAutonomousCourse extends Component {
   }
 
   get translatedTitle() {
-    return this.intl.t('components.autonomous-course.new.title');
+    return this.intl.t('components.autonomous-courses.new.title');
   }
 
   @action
@@ -72,10 +73,8 @@ export default class NewAutonomousCourse extends Component {
   <template>
     {{pageTitle this.translatedTitle}}
 
-    <header class="page-header">
-      <div class="page-title">
-        <h1>{{this.translatedTitle}}</h1>
-      </div>
+    <header>
+      <Breadcrumb />
     </header>
 
     <main class="main-admin-form">
@@ -104,7 +103,7 @@ export default class NewAutonomousCourse extends Component {
             @isLoading={{this.submitting}}
             @triggerAction={{this.noop}}
           >
-            {{t "components.autonomous-course.new.create-autonomous-course"}}
+            {{t "components.autonomous-courses.new.create-autonomous-course"}}
           </PixButton>
         </section>
       </form>

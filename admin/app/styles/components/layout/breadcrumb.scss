@@ -1,0 +1,17 @@
+.breadcrumb > ol {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 1rem;
+
+  h1 {
+    display: inline;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  > svg {
+    width: 0.45rem;
+    margin: 0 0.4rem;
+  }
+}

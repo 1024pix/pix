@@ -1,21 +1,19 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import { action } from '@ember/object';
-import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
+import Breadcrumb from '../layout/breadcrumb';
 import UpdateAutonomousCourseForm from './update-autonomous-course-form';
 import ViewAutonomousCourse from './view-autonomous-course';
 
 export default class Details extends Component {
   @tracked isEditMode = false;
+  @service intl;
   @service notifications;
-
-  constructor() {
-    super(...arguments);
-  }
+  @service router;
 
   @action
   toggleEditMode() {
@@ -41,17 +39,13 @@ export default class Details extends Component {
   }
 
   <template>
-    <header class="page-header">
-      <div class="page-title">
-        <LinkTo @route="authenticated.autonomous-courses">{{t "components.autonomous-course.title"}}</LinkTo>
-        <span class="wire">&nbsp;>&nbsp;</span>
-        <h1>{{@autonomousCourse.internalTitle}}</h1>
-      </div>
+    <header>
+      <Breadcrumb @title={{@autonomousCourse.internalTitle}} />
     </header>
 
     <main class="page-body">
       <section class="page-section">
-        <h2 class="page-section__title">{{@autonomousCourse.internalTitle}}</h2>
+        <h2>{{@autonomousCourse.internalTitle}}</h2>
 
         {{#if this.isEditMode}}
           <UpdateAutonomousCourseForm

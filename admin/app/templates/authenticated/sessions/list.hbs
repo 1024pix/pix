@@ -1,9 +1,12 @@
 {{page-title "Toutes les sessions"}}
-<header class="session-list">
-  <div class="page-header">
-    <h1 class="page-title">Toutes les sessions de certifications</h1>
-  </div>
-  <nav class="navbar session-list__navbar">
+<div class="page">
+  <header>
+    <h1 class="page-title">Toutes les sessions</h1>
+    <div class="page-actions">
+    </div>
+  </header>
+
+  <nav class="navbar">
     <LinkTo @route="authenticated.sessions.list.with-required-action" @query={{hash version=2}} class="navbar-item">
       Sessions à traiter ({{this.sessionsWithRequiredActionCount}})
     </LinkTo>
@@ -25,10 +28,10 @@
       {{t "pages.sessions.list.v3-to-be-published"}}
     </LinkTo>
   </nav>
-</header>
 
-<main class="page-body">
-  <section class="page-section">
-    {{outlet}}
-  </section>
-</main>
+  <main class="page-body">
+    <section class="page-section">
+      {{outlet}}
+    </section>
+  </main>
+</div>
