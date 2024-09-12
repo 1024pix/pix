@@ -22,7 +22,7 @@ async function prepareOrganizationPlacesLot(organizationPlacesLotData, log = tru
       const activationDateInCorrectFormat = activationDate?.split('/').reverse().join('-');
       const expirationDateInCorrectFormat = expirationDate?.split('/').reverse().join('-');
 
-      const organizationPlaceLot = new OrganizationPlacesLotForManagement({
+      const organizationPlacesLot = new OrganizationPlacesLotForManagement({
         createdBy,
         organizationId,
         count,
@@ -33,9 +33,9 @@ async function prepareOrganizationPlacesLot(organizationPlacesLotData, log = tru
       });
 
       _log(
-        `Lot de ${organizationPlaceLot.count} places ${organizationPlaceLot.category} pour l'organisation ${organizationPlaceLot.organizationId} ===> ✔\n`,
+        `Lot de ${organizationPlacesLot.count} places ${organizationPlacesLot.category} pour l'organisation ${organizationPlacesLot.organizationId} ===> ✔\n`,
       );
-      return organizationPlaceLot;
+      return organizationPlacesLot;
     },
   );
 

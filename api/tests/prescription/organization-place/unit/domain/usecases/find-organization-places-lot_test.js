@@ -1,4 +1,4 @@
-import { findOrganizationPlacesLot as findOrganizationPlaceLot } from '../../../../../../src/prescription/organization-place/domain/usecases/find-organization-places-lot.js';
+import { findOrganizationPlacesLot } from '../../../../../../src/prescription/organization-place/domain/usecases/find-organization-places-lot.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | find-organization-places', function () {
@@ -12,7 +12,7 @@ describe('Unit | Domain | Use Cases | find-organization-places', function () {
     organizationPlacesLotRepository.findByOrganizationId.withArgs(organizationId).resolves(expectedOrganizationPlaces);
 
     // when
-    const organizationPlace = await findOrganizationPlaceLot({
+    const organizationPlace = await findOrganizationPlacesLot({
       organizationId,
       organizationPlacesLotRepository,
     });

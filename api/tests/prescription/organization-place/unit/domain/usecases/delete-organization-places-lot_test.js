@@ -1,8 +1,8 @@
-import { deleteOrganizationPlaceLot } from '../../../../../../src/prescription/organization-place/domain/usecases/delete-organization-place-lot.js';
+import { deleteOrganizationPlacesLot } from '../../../../../../src/prescription/organization-place/domain/usecases/delete-organization-places-lot.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | delete-organization-place-lot', function () {
+describe('Unit | UseCase | delete-organization-places-lot', function () {
   it('should delete the organization place lot', async function () {
     // given
     const organizationPlacesLotRepository = {
@@ -11,7 +11,7 @@ describe('Unit | UseCase | delete-organization-place-lot', function () {
     };
 
     // when
-    await deleteOrganizationPlaceLot({
+    await deleteOrganizationPlacesLot({
       organizationPlaceId: 999,
       userId: 666,
       organizationPlacesLotRepository,
@@ -31,7 +31,7 @@ describe('Unit | UseCase | delete-organization-place-lot', function () {
     organizationPlacesLotRepository.get.withArgs(999).rejects(new NotFoundError());
 
     // when
-    const response = await catchErr(deleteOrganizationPlaceLot)({
+    const response = await catchErr(deleteOrganizationPlacesLot)({
       organizationPlaceId: 999,
       userId: 666,
       organizationPlacesLotRepository,

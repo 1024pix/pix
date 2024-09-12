@@ -9,13 +9,13 @@ const createOrganizationPlacesLot = async function ({
 }) {
   await organizationRepository.get(organizationId);
 
-  const organizationPlaceLot = new OrganizationPlacesLotForManagement({
+  const organizationPlacesLot = new OrganizationPlacesLotForManagement({
     ...organizationPlacesLotData,
     organizationId,
     createdBy,
   });
 
-  const id = await organizationPlacesLotRepository.create(organizationPlaceLot);
+  const id = await organizationPlacesLotRepository.create(organizationPlacesLot);
   return await organizationPlacesLotRepository.get(id);
 };
 

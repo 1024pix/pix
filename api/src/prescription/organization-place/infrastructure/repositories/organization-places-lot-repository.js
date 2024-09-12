@@ -64,7 +64,7 @@ const findAllNotDeletedByOrganizationId = async function (organizationId) {
     .orderBy('activationDate', 'desc')
     .orderBy('createdAt', 'desc');
 
-  return placesLots.map((placeLot) => new PlacesLot(placeLot));
+  return placesLots.map((placesLot) => new PlacesLot(placesLot));
 };
 
 const get = async function (id) {

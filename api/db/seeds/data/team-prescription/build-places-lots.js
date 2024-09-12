@@ -7,7 +7,7 @@ import {
 import { REAL_PIX_SUPER_ADMIN_ID } from '../common/constants.js';
 import { PRO_ORGANIZATION_ID } from '../common/constants.js';
 
-function _buildPlaceLotsForProOrganization(databaseBuilder) {
+function _buildPlacesLotsForProOrganization(databaseBuilder) {
   databaseBuilder.factory.buildOrganizationPlace({
     organizationId: PRO_ORGANIZATION_ID,
     category: T3,
@@ -57,7 +57,7 @@ function _buildPlaceLotsForProOrganization(databaseBuilder) {
   });
 }
 
-export function buildPlaceLots(databaseBuilder) {
-  _buildPlaceLotsForProOrganization(databaseBuilder);
+export function buildPlacesLots(databaseBuilder) {
+  _buildPlacesLotsForProOrganization(databaseBuilder);
   return databaseBuilder.commit();
 }

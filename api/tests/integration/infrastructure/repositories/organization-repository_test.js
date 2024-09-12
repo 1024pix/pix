@@ -1096,7 +1096,7 @@ describe('Integration | Repository | Organization', function () {
       expect(organizationsWithPlaces[0].type).to.equal(firstOrganization.type);
     });
 
-    it('should return only once an organization with many placeLots', async function () {
+    it('should return only once an organization with many placesLots', async function () {
       // given
       const superAdminUserId = databaseBuilder.factory.buildUser().id;
 

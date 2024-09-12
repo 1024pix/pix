@@ -32,7 +32,7 @@ describe('Unit | UseCase | create-organization-places-lot', function () {
       reference: 'ABC123',
     };
 
-    const organizationPlaceLotId = 12;
+    const organizationPlacesLotId = 12;
 
     const expectedOrganizationPlacesLotData = new OrganizationPlacesLotForManagement({
       ...organizationPlacesLotData,
@@ -44,10 +44,12 @@ describe('Unit | UseCase | create-organization-places-lot', function () {
       expectedOrganizationPlacesLotData,
     );
 
-    organizationPlacesLotRepository.create.withArgs(expectedOrganizationPlacesLotData).resolves(organizationPlaceLotId);
+    organizationPlacesLotRepository.create
+      .withArgs(expectedOrganizationPlacesLotData)
+      .resolves(organizationPlacesLotId);
     organizationRepository.get.withArgs(organizationId).resolves(organization);
     organizationPlacesLotRepository.get
-      .withArgs(organizationPlaceLotId)
+      .withArgs(organizationPlacesLotId)
       .resolves(expectedOrganizatonPlacesLotManagement);
 
     //when
