@@ -8,7 +8,6 @@ import {
 import { organizationInvitationSerializer } from '../../../src/team/infrastructure/serializers/jsonapi/organization-invitation.serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as organizationMemberIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
-import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
 const create = async function (request) {
   const superAdminUserId = extractUserIdFromRequest(request);
@@ -70,14 +69,6 @@ const archiveOrganization = async function (request, h, dependencies = { organiz
   return dependencies.organizationForAdminSerializer.serialize(archivedOrganization);
 };
 
-const findTargetProfileSummariesForAdmin = async function (request) {
-  const organizationId = request.params.id;
-  const targetProfileSummaries = await usecases.findOrganizationTargetProfileSummariesForAdmin({
-    organizationId,
-  });
-  return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
-};
-
 const findChildrenOrganizationsForAdmin = async function (
   request,
   h,
@@ -94,7 +85,6 @@ const organizationController = {
   createInBatch,
   findChildrenOrganizationsForAdmin,
   findPaginatedFilteredOrganizations,
-  findTargetProfileSummariesForAdmin,
   getOrganizationMemberIdentities,
   resendInvitation,
 };

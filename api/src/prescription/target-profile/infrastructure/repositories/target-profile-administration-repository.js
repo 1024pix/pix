@@ -4,6 +4,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError, ObjectValidationError } from '../../../../shared/domain/errors.js';
 import { TargetProfile } from '../../../../shared/domain/models/index.js';
+import { TargetProfileSummaryForAdmin } from '../../domain/models/TargetProfileSummaryForAdmin.js';
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
 
@@ -56,4 +57,33 @@ const getTubesByTargetProfileId = async (targetProfileId) => {
   return knexConn('target-profile_tubes').select('tubeId', 'level').where('targetProfileId', targetProfileId);
 };
 
-export { create, getTubesByTargetProfileId, update };
+const findByOrganization = async function ({ organizationId }) {
+  const results = await knex('target-profiles')
+    .select({
+      id: 'target-profiles.id',
+      name: 'target-profiles.name',
+      outdated: 'target-profiles.outdated',
+      isPublic: 'target-profiles.isPublic',
+      ownerOrganizationId: 'target-profiles.ownerOrganizationId',
+      sharedOrganizationId: 'target-profile-shares.organizationId',
+    })
+    .leftJoin('target-profile-shares', function () {
+      this.on('target-profile-shares.targetProfileId', 'target-profiles.id').on(
+        'target-profile-shares.organizationId',
+        organizationId,
+      );
+    })
+    .where({ outdated: false })
+    .where((qb) => {
+      qb.orWhere({ isPublic: true });
+      qb.orWhere({ ownerOrganizationId: organizationId });
+      qb.orWhere((subQb) => {
+        subQb.whereNotNull('target-profile-shares.id');
+      });
+    })
+    .orderBy('id', 'ASC');
+
+  return results.map((attributes) => new TargetProfileSummaryForAdmin(attributes));
+};
+
+export { create, findByOrganization, getTubesByTargetProfileId, update };

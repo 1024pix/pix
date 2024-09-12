@@ -1,4 +1,4 @@
-import { TargetProfileSummaryForAdmin } from '../../../../src/shared/domain/models/TargetProfileSummaryForAdmin.js';
+import { TargetProfileSummaryForAdmin } from '../../../../src/prescription/target-profile/domain/models/TargetProfileSummaryForAdmin.js';
 
 const buildTargetProfileSummaryForAdmin = function ({
   id = 123,

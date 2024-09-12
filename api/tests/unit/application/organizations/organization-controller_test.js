@@ -1,7 +1,7 @@
 import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { Organization } from '../../../../src/shared/domain/models/index.js';
-import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
+import { expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Organizations | organization-controller', function () {
   describe('#findPaginatedFilteredOrganizations', function () {
@@ -98,43 +98,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       // then
       expect(usecases.findPaginatedFilteredOrganizations).to.have.been.calledWithMatch(query);
-    });
-  });
-
-  describe('#findTargetProfileSummariesForAdmin', function () {
-    it('should return serialized summaries', async function () {
-      // given
-      sinon.stub(usecases, 'findOrganizationTargetProfileSummariesForAdmin');
-      const request = {
-        params: { id: 123 },
-      };
-      const targetProfileSummary = domainBuilder.buildTargetProfileSummaryForAdmin({
-        id: 456,
-        name: 'Super profil cible',
-        outdated: false,
-      });
-      usecases.findOrganizationTargetProfileSummariesForAdmin
-        .withArgs({ organizationId: 123 })
-        .resolves([targetProfileSummary]);
-
-      // when
-      const response = await organizationController.findTargetProfileSummariesForAdmin(request);
-
-      // then
-      expect(response).to.deep.equal({
-        data: [
-          {
-            type: 'target-profile-summaries',
-            id: '456',
-            attributes: {
-              name: 'Super profil cible',
-              outdated: false,
-              'can-detach': false,
-              'created-at': undefined,
-            },
-          },
-        ],
-      });
     });
   });
 

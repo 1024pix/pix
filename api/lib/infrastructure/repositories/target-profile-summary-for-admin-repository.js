@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { TargetProfileSummaryForAdmin } from '../../../src/shared/domain/models/TargetProfileSummaryForAdmin.js';
+import { TargetProfileSummaryForAdmin } from '../../../src/prescription/target-profile/domain/models/TargetProfileSummaryForAdmin.js';
 import { fetchPage } from '../../../src/shared/infrastructure/utils/knex-utils.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
@@ -14,35 +14,6 @@ const findPaginatedFiltered = async function ({ filter, page }) {
 
   const targetProfileSummaries = results.map((attributes) => new TargetProfileSummaryForAdmin(attributes));
   return { models: targetProfileSummaries, meta: { ...pagination } };
-};
-
-const findByOrganization = async function ({ organizationId }) {
-  const results = await knex('target-profiles')
-    .select({
-      id: 'target-profiles.id',
-      name: 'target-profiles.name',
-      outdated: 'target-profiles.outdated',
-      isPublic: 'target-profiles.isPublic',
-      ownerOrganizationId: 'target-profiles.ownerOrganizationId',
-      sharedOrganizationId: 'target-profile-shares.organizationId',
-    })
-    .leftJoin('target-profile-shares', function () {
-      this.on('target-profile-shares.targetProfileId', 'target-profiles.id').on(
-        'target-profile-shares.organizationId',
-        organizationId,
-      );
-    })
-    .where({ outdated: false })
-    .where((qb) => {
-      qb.orWhere({ isPublic: true });
-      qb.orWhere({ ownerOrganizationId: organizationId });
-      qb.orWhere((subQb) => {
-        subQb.whereNotNull('target-profile-shares.id');
-      });
-    })
-    .orderBy('id', 'ASC');
-
-  return results.map((attributes) => new TargetProfileSummaryForAdmin(attributes));
 };
 
 const findByTraining = async function ({ trainingId }) {
@@ -62,7 +33,7 @@ const findByTraining = async function ({ trainingId }) {
   return results.map((attributes) => new TargetProfileSummaryForAdmin(attributes));
 };
 
-export { findByOrganization, findByTraining, findPaginatedFiltered };
+export { findByTraining, findPaginatedFiltered };
 
 function _applyFilters(qb, filter) {
   const { name, id } = filter;

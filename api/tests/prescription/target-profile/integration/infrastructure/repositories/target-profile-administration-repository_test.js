@@ -230,4 +230,270 @@ describe('Integration | Repository | Target-profile', function () {
       expect(tubes[1].tubeId).to.equal(targetProfileTube2.tubeId);
     });
   });
+
+  describe('#findByOrganization', function () {
+    context('when organization does not exist', function () {
+      it('should return an empty array', async function () {
+        // given
+        databaseBuilder.factory.buildOrganization({ id: 1 });
+        databaseBuilder.factory.buildTargetProfile({
+          id: 10,
+          ownerOrganizationId: 1,
+          outdated: false,
+          isPublic: false,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const actualTargetProfileSummaries = await targetProfileAdministrationRepository.findByOrganization({
+          organizationId: 55,
+        });
+
+        // then
+        expect(actualTargetProfileSummaries).to.deepEqualArray([]);
+      });
+    });
+
+    context('when organization exists', function () {
+      context('when organization has no target profiles attached', function () {
+        it('should return an empty array', async function () {
+          // given
+          databaseBuilder.factory.buildOrganization({ id: 1 });
+          databaseBuilder.factory.buildOrganization({ id: 2 });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 10,
+            ownerOrganizationId: 1,
+            outdated: false,
+            isPublic: false,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const actualTargetProfileSummaries = await targetProfileAdministrationRepository.findByOrganization({
+            organizationId: 2,
+          });
+
+          // then
+          expect(actualTargetProfileSummaries).to.deepEqualArray([]);
+        });
+      });
+
+      context('when organization has some target profiles attached', function () {
+        it('should return summaries for owned target profiles', async function () {
+          // given
+          databaseBuilder.factory.buildOrganization({ id: 1 });
+          databaseBuilder.factory.buildOrganization({ id: 2 });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 11,
+            name: 'A_tp',
+            ownerOrganizationId: 1,
+            outdated: false,
+            isPublic: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 10,
+            name: 'B_tp',
+            ownerOrganizationId: 1,
+            outdated: false,
+            isPublic: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 12,
+            name: 'Not_Mine',
+            ownerOrganizationId: 2,
+            outdated: false,
+            isPublic: false,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const actualTargetProfileSummaries = await targetProfileAdministrationRepository.findByOrganization({
+            organizationId: 1,
+          });
+
+          // then
+          const expectedTargetProfileSummaries = [
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, name: 'B_tp', outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', outdated: false }),
+          ];
+          expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
+        });
+
+        it('should return once if target profile is owned and shared', async function () {
+          // given
+          databaseBuilder.factory.buildOrganization({ id: 1 });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 11,
+            name: 'A_tp',
+            ownerOrganizationId: 1,
+            outdated: false,
+            isPublic: false,
+          });
+          databaseBuilder.factory.buildOrganization({ id: 2 });
+          databaseBuilder.factory.buildOrganization({ id: 3 });
+          databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 11, organizationId: 2 });
+          databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 11, organizationId: 3 });
+          await databaseBuilder.commit();
+
+          // when
+          const actualTargetProfileSummaries = await targetProfileAdministrationRepository.findByOrganization({
+            organizationId: 1,
+          });
+
+          // then
+          const expectedTargetProfileSummaries = [
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', outdated: false }),
+          ];
+          expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
+        });
+
+        it('should return summaries for attached target profiles', async function () {
+          // given
+          databaseBuilder.factory.buildOrganization({ id: 1 });
+          databaseBuilder.factory.buildOrganization({ id: 2 });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 11,
+            name: 'A_tp',
+            outdated: false,
+            isPublic: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 10,
+            name: 'B_tp',
+            outdated: false,
+            isPublic: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 12,
+            name: 'Not_Mine',
+            outdated: false,
+            isPublic: false,
+          });
+          databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 10, organizationId: 1 });
+          databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 11, organizationId: 1 });
+          databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 12, organizationId: 2 });
+          await databaseBuilder.commit();
+
+          // when
+          const actualTargetProfileSummaries = await targetProfileAdministrationRepository.findByOrganization({
+            organizationId: 1,
+          });
+
+          // then
+          const expectedTargetProfileSummaries = [
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, name: 'B_tp', outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', outdated: false }),
+          ];
+          expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
+        });
+        it('should return summaries for public target profiles', async function () {
+          // given
+          databaseBuilder.factory.buildOrganization({ id: 1 });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 11,
+            name: 'A_tp',
+            outdated: false,
+            isPublic: true,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 10,
+            name: 'B_tp',
+            outdated: false,
+            isPublic: true,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 12,
+            name: 'Not_Mine',
+            outdated: false,
+            isPublic: false,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const actualTargetProfileSummaries = await targetProfileAdministrationRepository.findByOrganization({
+            organizationId: 1,
+          });
+
+          // then
+          const expectedTargetProfileSummaries = [
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, name: 'B_tp', outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', outdated: false }),
+          ];
+          expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
+        });
+        it('should ignore outdated target profiles', async function () {
+          // given
+          databaseBuilder.factory.buildOrganization({ id: 1 });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 11,
+            name: 'A_tp',
+            outdated: false,
+            isPublic: true,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 10,
+            name: 'B_tp',
+            outdated: true,
+            isPublic: true,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const actualTargetProfileSummaries = await targetProfileAdministrationRepository.findByOrganization({
+            organizationId: 1,
+          });
+
+          // then
+          const expectedTargetProfileSummaries = [
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', outdated: false }),
+          ];
+          expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
+        });
+        it('should return summaries within constraints (mix)', async function () {
+          // given
+          databaseBuilder.factory.buildOrganization({ id: 1 });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 10,
+            name: 'A_tp',
+            outdated: false,
+            isPublic: true,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 11,
+            name: 'B_tp',
+            ownerOrganizationId: 1,
+            outdated: false,
+            isPublic: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 12,
+            name: 'C_tp',
+            outdated: false,
+            isPublic: false,
+          });
+          databaseBuilder.factory.buildTargetProfile({
+            id: 13,
+            name: 'D_tp',
+            outdated: true,
+            isPublic: true,
+          });
+          databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 12, organizationId: 1 });
+          await databaseBuilder.commit();
+
+          // when
+          const actualTargetProfileSummaries = await targetProfileAdministrationRepository.findByOrganization({
+            organizationId: 1,
+          });
+
+          // then
+          const expectedTargetProfileSummaries = [
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, name: 'A_tp', outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'B_tp', outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 12, name: 'C_tp', outdated: false }),
+          ];
+          expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
+        });
+      });
+    });
+  });
 });
