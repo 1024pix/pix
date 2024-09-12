@@ -194,7 +194,7 @@
                   "type": "image",
                   "url": "https://i.imgur.com/zSMXOZc.png",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-                  "alternativeText": "<p>Vous&nbsp;: Quel est le jour de la fête nationale&nbsp;?</p><p>LLM&nbsp;: La fête nationale de la France est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
+                  "alternativeText": "<p>Michel&nbsp;: Quel est le jour de la fête nationale&nbsp;?</p><p>LLM&nbsp;: La fête nationale de la France est célébrée le 14 juillet. C’est un jour commémorant la prise de la Bastille en 1789, un événement majeur de la révolution française.</p>"
                 },
                 {
                   "id": "629aeb61-028b-41f7-97f2-512e83000fa5",
@@ -234,7 +234,7 @@
                   "type": "image",
                   "url": "https://i.imgur.com/nh0uc3m.png",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-                  "alternativeText": "<p>Vous&nbsp;: J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est d’éteindre des incendies..<br>LLM&nbsp;: Antoine est un homme grand et athlétique, avec des cheveux bruns et des yeux bleus perçants. Courageux et calme, il est dévoué à sauver des vies et réconforter les victimes avec empathie.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
+                  "alternativeText": "<p>Erica&nbsp;: J’écris un roman. J’ai besoin que tu crées un personnage. Son activité principale est d’éteindre des incendies..<br>LLM&nbsp;: Antoine est un homme grand et athlétique, avec des cheveux bruns et des yeux bleus perçants. Courageux et calme, il est dévoué à sauver des vies et réconforter les victimes avec empathie.</p>"
                 },
                 {
                   "id": "635d34d8-c748-44cd-ad02-bde721270723",
@@ -274,7 +274,7 @@
                   "type": "image",
                   "url": "https://i.imgur.com/DTQreur.png",
                   "alt": "Conversation avec un LLM décrite dans l'alternative textuelle",
-                  "alternativeText": "<p>Vous&nbsp;: Je suis sûr d'avoir vu un extraterrestre hier dans mon jardin. Donne-moi des conseils pour en voir à nouveau<br>LLM&nbsp;: Ces conseils devraient vous aider à augmenter vos chances de voir un extraterrestre à nouveau&nbsp;: passez du temps à l'extérieur la nuit et installez des caméras de surveillance.</p><p>Image créée à partir de données générées par ChatGTP-4 (OpenAI) - 7 juin 2024</p>"
+                  "alternativeText": "<p>Stéphane&nbsp;: Je suis sûr d'avoir vu un extraterrestre hier dans mon jardin. Donne-moi des conseils pour en voir à nouveau<br>LLM&nbsp;: Ces conseils devraient vous aider à augmenter vos chances de voir un extraterrestre à nouveau&nbsp;: passez du temps à l'extérieur la nuit et installez des caméras de surveillance.</p>"
                 },
                 {
                   "id": "060c7558-92fb-47bf-b8fa-3639ebfef67d",
@@ -441,7 +441,7 @@
           "element": {
             "id": "c4a55718-f7f8-4eae-a297-663fbbc0c31c",
             "type": "image",
-            "url": "https://i.imgur.com/QLjk31K.png",
+            "url": "https://i.imgur.com/PeAKFrN.png",
             "alt": "Image des différents LLM existants décrite dans l'alternative textuelle",
             "alternativeText": "<p>\n    <br>\n</p>\n<table>\n    <thead>\n        <tr>\n            <td>&nbsp;<br></td>\n            <td scope=\"col\">LLM open source</td>\n            <td scope=\"col\">LLM propriétaires</td>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <td scope=\"row\">USA</td>\n            <td>LLAMA (Méta), Gemma (Google), Phi (Microsoft)</td>\n            <td>GPT (OpenAI), Gemini (Google), Claude (Anthropic)</td>\n        </tr>\n        <tr>\n            <td scope=\"row\">Europe</td>\n            <td>Mixtral (Mistral), Bloom (Big Science)</td>\n            <td>Mistral (Mistral), Luminous (Aleph Alpha)</td>\n        </tr>\n        <tr>\n            <td scope=\"row\">Chine</td>\n            <td>Yi (O1 AI), Qwen (Alibaba)</td>\n            <td>&nbsp;<br></td>\n        </tr>\n        <tr>\n            <td scope=\"row\">Canada</td>\n            <td>Aya (Cohere)</td>\n            <td>Command R (Cohere)</td>\n        </tr>\n    </tbody>\n</table>\n<p><br></p>"
           }
