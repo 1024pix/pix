@@ -36,36 +36,36 @@ export default class UpdateAutonomousCourseForm extends Component {
         @value={{@autonomousCourse.internalTitle}}
         {{on "change" (fn this.updateAutonomousCourseValue "internalTitle")}}
       >
-        <:label>{{t "components.autonomous-course.update.internal-title.label"}} :</:label>
+        <:label>{{t "components.autonomous-courses.update.internal-title.label"}} :</:label>
       </PixInput>
       <PixInput
         @id="nom-public"
         class="form-field"
-        placeholder={{t "components.autonomous-course.update.public-title.placeholder" htmlSafe=true}}
+        placeholder={{t "components.autonomous-courses.update.public-title.placeholder" htmlSafe=true}}
         required={{true}}
         maxlength="50"
         @value={{@autonomousCourse.publicTitle}}
         @requiredLabel={{t "common.forms.mandatory"}}
-        @subLabel={{t "components.autonomous-course.update.public-title.sublabel"}}
+        @subLabel={{t "components.autonomous-courses.update.public-title.sublabel"}}
         {{on "change" (fn this.updateAutonomousCourseValue "publicTitle")}}
       >
-        <:label>{{t "components.autonomous-course.update.public-title.label" htmlSafe=true}}:</:label>
+        <:label>{{t "components.autonomous-courses.update.public-title.label" htmlSafe=true}}:</:label>
       </PixInput>
       <PixTextarea
         @id="text-page-accueil"
         @maxlength="5000"
         @value={{@autonomousCourse.customLandingPageText}}
-        placeholder={{t "components.autonomous-course.update.custom-landing-page.placeholder"}}
+        placeholder={{t "components.autonomous-courses.update.custom-landing-page.placeholder"}}
         {{on "change" (fn this.updateAutonomousCourseValue "customLandingPageText")}}
       >
-        <:label>{{t "components.autonomous-course.update.custom-landing-page.label"}} :</:label>
+        <:label>{{t "components.autonomous-courses.update.custom-landing-page.label"}} :</:label>
       </PixTextarea>
       <div class="form-actions">
         <PixButton type="reset" @variant="secondary" @size="small" @triggerAction={{@cancel}}>
           {{t "common.actions.cancel"}}
         </PixButton>
         <PixButton @variant="success" @size="small" @type="submit">
-          {{t "components.autonomous-course.update.save"}}
+          {{t "components.autonomous-courses.update.save"}}
         </PixButton>
       </div>
     </form>

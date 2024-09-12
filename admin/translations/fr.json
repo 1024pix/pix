@@ -143,7 +143,7 @@
         "upload-button": "Importer un fichier CSV"
       }
     },
-    "autonomous-course": {
+    "autonomous-courses": {
       "title": "Tous les parcours autonomes",
       "actions": {
         "new": "Nouveau parcours autonome"
@@ -152,6 +152,7 @@
         "title": "Liste des parcours autonomes",
         "headers": {
           "createdAt": "Date de création",
+          "id": "Id",
           "name": "Nom",
           "status": "Statut"
         },
@@ -207,6 +208,7 @@
         "labels": {
           "created-date": "Date de création",
           "custom-landing-page": "Texte de la page d'accueil",
+          "id": "Id",
           "internal-title": "Nom interne",
           "public-title": "Nom public"
         },

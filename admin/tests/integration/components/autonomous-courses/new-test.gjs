@@ -14,6 +14,14 @@ module('Integration | Component | AutonomousCourses | NewAutonomousCourse', func
   const onSubmit = sinon.stub();
   const onCancel = sinon.stub();
 
+  hooks.beforeEach(async function () {
+    const serviceRouter = this.owner.lookup('service:router');
+    sinon.stub(serviceRouter, 'currentRouteName').value('authenticated.autonomous-courses.details');
+    sinon
+      .stub(serviceRouter, 'currentRoute')
+      .value({ localName: 'details', parent: { name: 'authenticated.autonomous-courses' } });
+  });
+
   test('it renders the autonomous-courses creation form component', async function (assert) {
     // when
     const screen = await render(
