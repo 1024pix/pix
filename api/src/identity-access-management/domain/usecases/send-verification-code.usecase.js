@@ -16,6 +16,7 @@ const { get } = lodash;
  * @param {string} params.newEmail
  * @param {string} params.password
  * @param {string} params.userId
+ * @param {number} params.pixScore
  * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
  * @param {UserEmailRepository} params.userEmailRepository
  * @param {UserRepository} params.userRepository
@@ -30,6 +31,7 @@ const sendVerificationCode = async function ({
   newEmail,
   password,
   userId,
+  pixScore,
   authenticationMethodRepository,
   userEmailRepository,
   userRepository,
@@ -63,7 +65,12 @@ const sendVerificationCode = async function ({
   const code = codeUtils.generateNumericalString(6);
 
   await userEmailRepository.saveEmailModificationDemand({ userId, code, newEmail });
-  await mailService.sendVerificationCodeEmail({ code, locale, translate: i18n.__, email: newEmail });
+
+  if (pixScore > 150) {
+    await mailService.sendVerificationCodeEmail({ code, locale, translate: i18n.__, email: user.email });
+  } else {
+    await mailService.sendVerificationCodeEmail({ code, locale, translate: i18n.__, email: newEmail });
+  }
 };
 
 export { sendVerificationCode };

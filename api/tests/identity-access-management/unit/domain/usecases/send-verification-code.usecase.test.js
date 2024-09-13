@@ -133,6 +133,61 @@ describe('Unit | Identity Access Management | Domain | UseCase | send-verificati
     });
   });
 
+  context('when user has a confirmed profile', function () {
+    it('sends verification code to original email', async function () {
+      // given
+      const userId = 1;
+      const originalEmail = 'originalEmail@example.net';
+      const newEmail = 'new_email@example.net';
+      const password = 'pix123';
+      const passwordHash = 'ABCD';
+      const code = '999999';
+      const locale = 'fr';
+      const pixScore = 200;
+      const i18n = getI18n();
+      const translate = i18n.__;
+
+      userRepository.get.withArgs(userId).resolves({ email: originalEmail });
+      userRepository.checkIfEmailIsAvailable.withArgs(newEmail).resolves(newEmail);
+      authenticationMethodRepository.findOneByUserIdAndIdentityProvider
+        .withArgs({
+          userId,
+          identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
+        })
+        .resolves(
+          domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+            hashedPassword: passwordHash,
+          }),
+        );
+      cryptoService.checkPassword.withArgs({ password, passwordHash }).resolves();
+      codeUtilsStub.generateNumericalString.withArgs(6).returns(code);
+
+      // when
+      await usecases.sendVerificationCode({
+        i18n,
+        locale,
+        newEmail,
+        password,
+        userId,
+        pixScore,
+        authenticationMethodRepository,
+        userEmailRepository,
+        userRepository,
+        cryptoService,
+        mailService,
+        codeUtils: codeUtilsStub,
+      });
+
+      // then
+      expect(mailService.sendVerificationCodeEmail).to.have.been.calledWithExactly({
+        code,
+        locale,
+        email: originalEmail,
+        translate,
+      });
+    });
+  });
+
   it('should throw AlreadyRegisteredEmailError if email already exists', async function () {
     // given
     const userId = 1;

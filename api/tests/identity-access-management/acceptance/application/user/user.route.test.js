@@ -12,6 +12,8 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
+  learningContentBuilder,
+  mockLearningContent,
   nock,
   sinon,
 } from '../../../../test-helper.js';
@@ -666,6 +668,33 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
   });
 
   describe('PUT /api/users/{id}/email/verification-code', function () {
+    beforeEach(function () {
+      const learningContent = [
+        {
+          id: 'recArea1',
+          competences: [
+            {
+              id: 'recCompetence1',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  skills: [
+                    {
+                      id: 'recSkill1',
+                      challenges: ['recChallenge1'],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
+
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
+      mockLearningContent(learningContentObjects);
+    });
+
     it('should return 204 HTTP status code', async function () {
       // given
       const server = await createServer();

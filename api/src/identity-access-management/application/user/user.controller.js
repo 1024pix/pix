@@ -1,3 +1,4 @@
+import { usecases as usecasesLib } from '../../../../lib/domain/usecases/index.js';
 import * as localeService from '../../../shared/domain/services/locale-service.js';
 import * as userSerializer from '../../../shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import { requestResponseUtils } from '../../../shared/infrastructure/utils/request-response-utils.js';
@@ -196,7 +197,10 @@ const sendVerificationCode = async function (
   const userId = request.params.id;
   const { newEmail, password } = await dependencies.emailVerificationSerializer.deserialize(request.payload);
 
-  await usecases.sendVerificationCode({ i18n, locale, newEmail, password, userId });
+  const { pixScore } = await usecasesLib.getUserProfile({ userId });
+
+  await usecases.sendVerificationCode({ i18n, locale, newEmail, password, userId, pixScore });
+
   return h.response().code(204);
 };
 

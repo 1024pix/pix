@@ -1,3 +1,4 @@
+import { usecases as usecasesLib } from '../../../../../lib/domain/usecases/index.js';
 import { userController } from '../../../../../src/identity-access-management/application/user/user.controller.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
@@ -317,6 +318,7 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
     it('should call the usecase to send verification code with code, email and locale', async function () {
       // given
       sinon.stub(usecases, 'sendVerificationCode');
+      sinon.stub(usecasesLib, 'getUserProfile').resolves({ pixScore: 100 });
       usecases.sendVerificationCode.resolves();
       const i18n = getI18n();
       const userId = 1;
@@ -356,6 +358,7 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
         newEmail,
         password,
         userId,
+        pixScore: 100,
       });
     });
   });
