@@ -629,7 +629,7 @@
             ],
             "feedbacks": {
               "valid": "<span class=\"feedback__state\">Correct.</span><p> Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>"
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Essayez à nouveau, en appliquant la méthode <i>qui ?, quand ?; d'où ?</i>. Si vous avez un doute sur ces informations, il faut être prudent.</p>"
             },
             "solutions": ["2", "3"]
           }
