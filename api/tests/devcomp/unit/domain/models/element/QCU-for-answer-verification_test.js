@@ -68,88 +68,290 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
   });
 
   describe('#assess', function () {
-    it('should return a QcuCorrectionResponse for a valid answer', function () {
-      // given
-      const stubedIsOk = sinon.stub().returns(true);
-      const assessResult = { result: { isOK: stubedIsOk } };
-      const qcuSolution = Symbol('correctSolution');
-      const userResponse = qcuSolution;
+    describe('when we have only global feedback for proposals', function () {
+      it('should return a QcuCorrectionResponse for a valid answer', function () {
+        // given
+        const stubedIsOk = sinon.stub().returns(true);
+        const assessResult = { result: { isOK: stubedIsOk } };
+        const qcuSolution = Symbol('correctSolution');
+        const userResponse = qcuSolution;
 
-      const validator = {
-        assess: sinon.stub(),
-      };
-      const qcu = new QCUForAnswerVerification({
-        id: 'qcu-id',
-        instruction: '',
-        proposals: [{ id: qcuSolution }],
-        feedbacks: { valid: 'OK', invalid: 'KO' },
-        solution: qcuSolution,
-        validator,
+        const validator = {
+          assess: sinon.stub(),
+        };
+        const qcu = new QCUForAnswerVerification({
+          id: 'qcu-id',
+          instruction: '',
+          proposals: [{ id: qcuSolution }],
+          feedbacks: { valid: 'OK', invalid: 'KO' },
+          solution: qcuSolution,
+          validator,
+        });
+        qcu.userResponse = userResponse;
+
+        validator.assess
+          .withArgs({
+            answer: {
+              value: userResponse,
+            },
+          })
+          .returns(assessResult);
+
+        const expectedCorrection = {
+          status: assessResult.result,
+          feedback: qcu.feedbacks.valid,
+          solution: qcuSolution,
+        };
+
+        // when
+        const correction = qcu.assess();
+
+        // then
+        expect(correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedCorrection));
       });
-      qcu.userResponse = userResponse;
 
-      validator.assess
-        .withArgs({
-          answer: {
-            value: userResponse,
-          },
-        })
-        .returns(assessResult);
+      it('should return a QcuCorrectionResponse for a invalid answer', function () {
+        // given
+        const stubedIsOk = sinon.stub().returns(false);
+        const assessResult = { result: { isOK: stubedIsOk } };
+        const qcuSolution = Symbol('correctSolution');
+        const userResponse = 'wrongAnswer';
 
-      const expectedCorrection = {
-        status: assessResult.result,
-        feedback: qcu.feedbacks.valid,
-        solution: qcuSolution,
-      };
+        const validator = {
+          assess: sinon.stub(),
+        };
+        const qcu = new QCUForAnswerVerification({
+          id: 'qcu-id',
+          instruction: '',
+          proposals: [{ id: qcuSolution }],
+          feedbacks: { valid: 'OK', invalid: 'KO' },
+          solution: qcuSolution,
+          validator,
+        });
+        qcu.userResponse = userResponse;
 
-      // when
-      const correction = qcu.assess();
+        validator.assess
+          .withArgs({
+            answer: {
+              value: userResponse,
+            },
+          })
+          .returns(assessResult);
 
-      // then
-      expect(correction).to.deep.equal(expectedCorrection);
-      expect(correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedCorrection));
+        const expectedCorrection = {
+          status: assessResult.result,
+          feedback: qcu.feedbacks.invalid,
+          solution: qcuSolution,
+        };
+
+        // when
+        const correction = qcu.assess();
+
+        // then
+        expect(correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedCorrection));
+      });
     });
 
-    it('should return a QcuCorrectionResponse for a invalid answer', function () {
-      // given
-      const stubedIsOk = sinon.stub().returns(false);
-      const assessResult = { result: { isOK: stubedIsOk } };
-      const qcuSolution = Symbol('correctSolution');
-      const userResponse = 'wrongAnswer';
+    describe('when there are specific feedbacks for proposals', function () {
+      it('should return a QcuCorrectionResponse for a valid answer', function () {
+        // given
+        const stubedIsOk = sinon.stub().returns(true);
+        const assessResult = { result: { isOK: stubedIsOk } };
+        const qcuSolution = Symbol('correctSolution');
+        const userResponse = qcuSolution;
 
-      const validator = {
-        assess: sinon.stub(),
-      };
-      const qcu = new QCUForAnswerVerification({
-        id: 'qcu-id',
-        instruction: '',
-        proposals: [{ id: qcuSolution }],
-        feedbacks: { valid: 'OK', invalid: 'KO' },
-        solution: qcuSolution,
-        validator,
+        const validator = {
+          assess: sinon.stub(),
+        };
+        const qcu = new QCUForAnswerVerification({
+          id: 'qcu-id',
+          instruction: '',
+          proposals: [
+            {
+              id: qcuSolution,
+              feedback: 'Answer 1 is correct',
+            },
+            {
+              id: 'wrongSolution',
+              feedback: 'Answer 2 is wrong',
+            },
+          ],
+          solution: qcuSolution,
+          validator,
+        });
+        qcu.userResponse = userResponse;
+
+        validator.assess
+          .withArgs({
+            answer: {
+              value: userResponse,
+            },
+          })
+          .returns(assessResult);
+
+        const expectedCorrection = {
+          status: assessResult.result,
+          feedback: qcu.proposals[0].feedback,
+          solution: qcuSolution,
+        };
+
+        // when
+        const correction = qcu.assess();
+
+        // then
+        expect(correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedCorrection));
       });
-      qcu.userResponse = userResponse;
 
-      validator.assess
-        .withArgs({
-          answer: {
-            value: userResponse,
-          },
-        })
-        .returns(assessResult);
+      it('should return a QcuCorrectionResponse for a invalid answer', function () {
+        // given
+        const stubedIsOk = sinon.stub().returns(false);
+        const assessResult = { result: { isOK: stubedIsOk } };
+        const qcuSolution = Symbol('correctSolution');
+        const userResponse = 'wrongAnswer';
 
-      const expectedCorrection = {
-        status: assessResult.result,
-        feedback: qcu.feedbacks.invalid,
-        solution: qcuSolution,
-      };
+        const validator = {
+          assess: sinon.stub(),
+        };
+        const qcu = new QCUForAnswerVerification({
+          id: 'qcu-id',
+          instruction: '',
+          proposals: [
+            {
+              id: qcuSolution,
+              feedback: 'Answer 1 is correct',
+            },
+            {
+              id: 'wrongAnswer',
+              feedback: 'Answer 2 is wrong',
+            },
+          ],
+          solution: qcuSolution,
+          validator,
+        });
+        qcu.userResponse = userResponse;
 
-      // when
-      const correction = qcu.assess();
+        validator.assess
+          .withArgs({
+            answer: {
+              value: userResponse,
+            },
+          })
+          .returns(assessResult);
 
-      // then
-      expect(correction).to.deep.equal(expectedCorrection);
-      expect(correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedCorrection));
+        const expectedCorrection = {
+          status: assessResult.result,
+          feedback: qcu.proposals[1].feedback,
+          solution: qcuSolution,
+        };
+
+        // when
+        const correction = qcu.assess();
+
+        // then
+        expect(correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedCorrection));
+      });
+    });
+
+    describe('when there are both specific feedbacks and global feedbacks for proposals', function () {
+      it('should return a QcuCorrectionResponse for a valid answer', function () {
+        // given
+        const stubedIsOk = sinon.stub().returns(true);
+        const assessResult = { result: { isOK: stubedIsOk } };
+        const qcuSolution = Symbol('correctSolution');
+        const userResponse = qcuSolution;
+
+        const validator = {
+          assess: sinon.stub(),
+        };
+        const qcu = new QCUForAnswerVerification({
+          id: 'qcu-id',
+          instruction: '',
+          proposals: [
+            {
+              id: qcuSolution,
+              feedback: 'Answer 1 is correct',
+            },
+            {
+              id: 'wrongSolution',
+              feedback: 'Answer 2 is wrong',
+            },
+          ],
+          feedbacks: { valid: 'OK', invalid: 'KO' },
+          solution: qcuSolution,
+          validator,
+        });
+        qcu.userResponse = userResponse;
+
+        validator.assess
+          .withArgs({
+            answer: {
+              value: userResponse,
+            },
+          })
+          .returns(assessResult);
+
+        const expectedCorrection = {
+          status: assessResult.result,
+          feedback: qcu.proposals[0].feedback,
+          solution: qcuSolution,
+        };
+
+        // when
+        const correction = qcu.assess();
+
+        // then
+        expect(correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedCorrection));
+      });
+
+      it('should return a QcuCorrectionResponse for a invalid answer', function () {
+        // given
+        const stubedIsOk = sinon.stub().returns(false);
+        const assessResult = { result: { isOK: stubedIsOk } };
+        const qcuSolution = Symbol('correctSolution');
+        const userResponse = 'wrongAnswer';
+
+        const validator = {
+          assess: sinon.stub(),
+        };
+        const qcu = new QCUForAnswerVerification({
+          id: 'qcu-id',
+          instruction: '',
+          proposals: [
+            {
+              id: qcuSolution,
+              feedback: 'Answer 1 is correct',
+            },
+            {
+              id: 'wrongAnswer',
+              feedback: 'Answer 2 is wrong',
+            },
+          ],
+          feedbacks: { valid: 'OK', invalid: 'KO' },
+          solution: qcuSolution,
+          validator,
+        });
+        qcu.userResponse = userResponse;
+
+        validator.assess
+          .withArgs({
+            answer: {
+              value: userResponse,
+            },
+          })
+          .returns(assessResult);
+
+        const expectedCorrection = {
+          status: assessResult.result,
+          feedback: qcu.proposals[1].feedback,
+          solution: qcuSolution,
+        };
+
+        // when
+        const correction = qcu.assess();
+
+        // then
+        expect(correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedCorrection));
+      });
     });
   });
 

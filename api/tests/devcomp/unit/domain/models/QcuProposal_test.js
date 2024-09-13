@@ -8,14 +8,16 @@ describe('Unit | Devcomp | Domain | Models | QcuProposal', function () {
       // given
       const id = '1';
       const content = 'vrai';
+      const feedback = 'Correct !';
 
       // when
-      const proposal = new QcuProposal({ id, content });
+      const proposal = new QcuProposal({ id, content, feedback });
 
       // then
       expect(proposal).not.to.be.undefined;
       expect(proposal.id).to.equal(id);
       expect(proposal.content).to.equal(content);
+      expect(proposal.feedback).to.equal(feedback);
     });
   });
 
