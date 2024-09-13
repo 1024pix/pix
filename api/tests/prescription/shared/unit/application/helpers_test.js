@@ -2,6 +2,17 @@ import { mapCertificabilityByLabel } from '../../../../../src/prescription/share
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Application | helpers', function () {
+  it('return empty while certificabilityFilter unexisting', async function () {
+    // given
+    const certificabilityFilter = 'toto';
+
+    // when
+    const result = mapCertificabilityByLabel(certificabilityFilter);
+
+    // then
+    expect(result).to.deep.equal([]);
+  });
+
   it('map the certificability eligible value', async function () {
     // given
     const certificabilityFilter = 'eligible';
