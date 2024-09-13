@@ -126,10 +126,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
           const link = screen.getByRole('link', { name: 'finaliser les sessions dans Pix Certif' });
 
           // then
-          assert.strictEqual(
-            link.href,
-            'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=0f1b3413-7fef-4c97-b890-675c5bafbe93',
-          );
+          assert.strictEqual(link.href, 'https://cloud.pix.fr/s/DEarDXyxFxM78ps');
         });
       });
 
