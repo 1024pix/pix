@@ -18,7 +18,7 @@ export const registerCandidateParticipation = async ({
   normalizeStringFnc,
   enrolledCandidateRepository,
 }) => {
-  const { sessionVersion, candidate } = await usecases.verifyCandidateIdentity({
+  const candidate = await usecases.verifyCandidateIdentity({
     userId,
     sessionId,
     firstName,
@@ -30,7 +30,6 @@ export const registerCandidateParticipation = async ({
   if (!candidate.isLinkedToAUser()) {
     await usecases.linkUserToCandidate({
       userId,
-      sessionVersion,
       candidate,
     });
   }

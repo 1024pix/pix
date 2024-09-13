@@ -104,7 +104,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
     });
 
     // then
-    expect(result).to.deep.equal({ sessionVersion: session.version, candidate: matchingCandidate });
+    expect(result).to.deep.equal(matchingCandidate);
   });
 
   context('when certification is V3', function () {
@@ -319,10 +319,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         });
 
         // then
-        expect(result).to.deep.equal({
-          sessionVersion: CERTIFICATION_VERSIONS.V2,
-          candidate: matchingCandidateAlreadyLinked,
-        });
+        expect(result).to.deep.equal(matchingCandidateAlreadyLinked);
       });
     });
 

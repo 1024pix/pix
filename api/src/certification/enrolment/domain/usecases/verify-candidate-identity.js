@@ -19,7 +19,7 @@ import { CertificationCourse } from '../../../shared/domain/models/Certification
 import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
 
 /**
- * @returns {Promise<Object>} { candidate, sessionVersion }
+ * @returns {Promise<Candidate>}
  */
 export const verifyCandidateIdentity = async ({
   userId,
@@ -57,7 +57,7 @@ export const verifyCandidateIdentity = async ({
 
   if (candidate.isLinkedToAUser()) {
     if (candidate.isLinkedTo(userId)) {
-      return { candidate, sessionVersion: session.version };
+      return candidate;
     }
     throw new UnexpectedUserAccountError({});
   }
@@ -76,7 +76,7 @@ export const verifyCandidateIdentity = async ({
     }
   }
 
-  return { candidate, sessionVersion: session.version };
+  return candidate;
 };
 
 async function validateUserLanguage({ languageService, user, session }) {

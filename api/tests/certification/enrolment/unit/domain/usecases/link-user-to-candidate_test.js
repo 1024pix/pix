@@ -1,5 +1,4 @@
 import { linkUserToCandidate } from '../../../../../../src/certification/enrolment/domain/usecases/link-user-to-candidate.js';
-import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { UserNotAuthorizedToCertifyError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -37,9 +36,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-can
       it('should throw an error', async function () {
         // given
         const placementProfile = { isCertifiable: sinon.stub().returns(false) };
-        placementProfileService.getPlacementProfile
-          .withArgs({ userId, limitDate: now, version: CERTIFICATION_VERSIONS.V3 })
-          .resolves(placementProfile);
+        placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
 
         const candidate = domainBuilder.certification.enrolment.buildCandidate({
           userId: null,
@@ -49,7 +46,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-can
         // when
         const error = await catchErr(linkUserToCandidate)({
           candidate,
-          sessionVersion: CERTIFICATION_VERSIONS.V3,
           ...dependencies,
         });
 
@@ -62,9 +58,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-can
       it('should link user', async function () {
         // given
         const placementProfile = { isCertifiable: sinon.stub().returns(true) };
-        placementProfileService.getPlacementProfile
-          .withArgs({ userId, limitDate: now, version: CERTIFICATION_VERSIONS.V3 })
-          .resolves(placementProfile);
+        placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
 
         const candidate = domainBuilder.certification.enrolment.buildCandidate({
           userId: null,
@@ -76,7 +70,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-can
         // when
         await linkUserToCandidate({
           candidate,
-          sessionVersion: CERTIFICATION_VERSIONS.V3,
           ...dependencies,
         });
 

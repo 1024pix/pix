@@ -27,7 +27,7 @@ describe('Unit | Domain | Service | register-candidate-participation', function 
         ...candidateData,
         userId,
       });
-      sinon.stub(usecases, 'verifyCandidateIdentity').returns({ sessionVersion: 3, candidate: alreadyLinkedCandidate });
+      sinon.stub(usecases, 'verifyCandidateIdentity').returns(alreadyLinkedCandidate);
 
       // when
       await registerCandidateParticipation({
@@ -59,7 +59,7 @@ describe('Unit | Domain | Service | register-candidate-participation', function 
         ...candidateData,
         userId: null,
       });
-      sinon.stub(usecases, 'verifyCandidateIdentity').returns({ sessionVersion: 3, candidate: unlinkedCandidate });
+      sinon.stub(usecases, 'verifyCandidateIdentity').returns(unlinkedCandidate);
 
       // when
       await registerCandidateParticipation({
@@ -80,7 +80,6 @@ describe('Unit | Domain | Service | register-candidate-participation', function 
       expect(usecases.linkUserToCandidate).to.have.been.calledWithExactly({
         candidate: unlinkedCandidate,
         userId,
-        sessionVersion: 3,
       });
       expect(enrolledCandidateRepository.get).to.have.been.calledWithExactly({
         id: unlinkedCandidate.id,
