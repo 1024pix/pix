@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 
+import FooterLinks from '../footer/footer-links';
 import LanguageSwitcher from '../language-switcher';
 
 export default class Footer extends Component {
@@ -29,6 +30,7 @@ export default class Footer extends Component {
       {{#if this.isInternationalDomain}}
         <LanguageSwitcher @selectedLanguage={{this.selectedLanguage}} @onLanguageChange={{this.onLanguageChange}} />
       {{/if}}
+      <FooterLinks />
     </footer>
   </template>
 }
