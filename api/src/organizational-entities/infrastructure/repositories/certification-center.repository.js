@@ -1,58 +1,74 @@
-import _ from 'lodash';
-
-import { BookshelfCertificationCenter } from '../../../../src/shared/infrastructure/orm-models/CertificationCenter.js';
 import { ComplementaryCertification } from '../../../certification/complementary-certification/domain/models/ComplementaryCertification.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { CertificationCenter } from '../../../shared/domain/models/index.js';
+import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
 
-function _toDomain(bookshelfCertificationCenter) {
-  const dbCertificationCenter = bookshelfCertificationCenter.toJSON();
-  const habilitations = _.map(dbCertificationCenter.habilitations, (dbComplementaryCertification) => {
-    return new ComplementaryCertification({
-      id: dbComplementaryCertification.id,
-      key: dbComplementaryCertification.key,
-      label: dbComplementaryCertification.label,
-    });
-  });
+const toDomain = (certificationCenter) => {
+  const habilitations = certificationCenter.habilitations.map(
+    (dbComplementaryCertification) => new ComplementaryCertification(dbComplementaryCertification),
+  );
   return new CertificationCenter({
-    ..._.pick(dbCertificationCenter, ['id', 'name', 'type', 'externalId', 'createdAt', 'updatedAt', 'isV3Pilot']),
+    ...certificationCenter,
     habilitations,
   });
-}
+};
 
-function _setSearchFiltersForQueryBuilder(filters, qb) {
+const setSearchFiltersForQueryBuilder = (filters, queryBuilder) => {
   const { id, name, type, externalId } = filters;
 
   if (id) {
-    qb.whereRaw('CAST(id as TEXT) LIKE ?', `%${id.toString().toLowerCase()}%`);
+    queryBuilder.whereRaw('CAST(id as TEXT) LIKE ?', `%${id.toString().toLowerCase()}%`);
   }
   if (name) {
-    qb.whereILike('name', `%${name}%`);
+    queryBuilder.whereILike('name', `%${name}%`);
   }
   if (type) {
-    qb.whereILike('type', `%${type}%`);
+    queryBuilder.whereILike('type', `%${type}%`);
   }
   if (externalId) {
-    qb.whereILike('externalId', `%${externalId}%`);
+    queryBuilder.whereILike('externalId', `%${externalId}%`);
   }
-}
-
-const findPaginatedFiltered = async function ({ filter, page }) {
-  const certificationCenterBookshelf = await BookshelfCertificationCenter.query((qb) => {
-    _setSearchFiltersForQueryBuilder(filter, qb);
-    qb.orderBy('id');
-  }).fetchPage({
-    page: page.number,
-    pageSize: page.size,
-    withRelated: [
-      {
-        habilitations: function (query) {
-          query.orderBy('id');
-        },
-      },
-    ],
-  });
-  const { models, pagination } = certificationCenterBookshelf;
-  return { models: models.map(_toDomain), pagination };
 };
 
-export { findPaginatedFiltered };
+export const findPaginatedFiltered = async ({ filter, page }) => {
+  const knexConnection = DomainTransaction.getConnection();
+  const query = knexConnection('certification-centers')
+    .select('*')
+    .where((queryBuilder) => {
+      setSearchFiltersForQueryBuilder(filter, queryBuilder);
+    })
+    .orderBy('id');
+
+  const { results: certificationCenters, pagination } = await fetchPage(query, page);
+
+  const certificationCenterIds = certificationCenters.map(({ id }) => id);
+  const habilitations = await knexConnection('complementary-certification-habilitations')
+    .select('*')
+    .whereIn('certificationCenterId', certificationCenterIds);
+  const complementaryCertificationsIds = habilitations.map(
+    ({ complementaryCertificationId }) => complementaryCertificationId,
+  );
+  const complementaryCertifications = await knexConnection('complementary-certifications')
+    .select('*')
+    .orderBy('id')
+    .whereIn('id', complementaryCertificationsIds);
+
+  const certificationCentersWithComplementaryCertification = certificationCenters.map((certificationCenter) => {
+    const certificationCenterHabilitations = habilitations.filter(
+      (habilitation) => habilitation.certificationCenterId === certificationCenter.id,
+    );
+    const certificationCenterComplementaryCertificationsIds = certificationCenterHabilitations.map(
+      ({ complementaryCertificationId }) => complementaryCertificationId,
+    );
+    const certificationCenterComplementaryCertifications = complementaryCertifications.filter(({ id }) =>
+      certificationCenterComplementaryCertificationsIds.includes(id),
+    );
+
+    return {
+      ...certificationCenter,
+      habilitations: certificationCenterComplementaryCertifications,
+    };
+  });
+
+  return { models: certificationCentersWithComplementaryCertification.map(toDomain), pagination };
+};
