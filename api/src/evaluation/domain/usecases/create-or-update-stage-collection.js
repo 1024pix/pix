@@ -1,4 +1,4 @@
-import { StageCollectionUpdate } from '../../../shared/domain/models/target-profile-management/StageCollectionUpdate.js';
+import { StageCollectionUpdate } from '../../../evaluation/domain/models/target-profile-management/StageCollectionUpdate.js';
 import { StageModificationForbiddenForLinkedTargetProfileError } from '../errors.js';
 
 const createOrUpdateStageCollection = async function ({
