@@ -6,6 +6,8 @@
     />
   {{else}}
     <UserAccount::EmailVerificationCode
+      @currentEmail={{@currentEmail}}
+      @shouldSendEmailToOriginal={{@shouldSendEmailToOriginal}}
       @disableEmailEditionMode={{@disableEmailEditionMode}}
       @displayEmailUpdateMessage={{@displayEmailUpdateMessage}}
       @email={{this.newEmail}}

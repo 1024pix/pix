@@ -10,6 +10,10 @@ export default class ConnectionMethodsController extends Controller {
   @tracked isEmailEditionMode = false;
   @tracked showEmailUpdatedMessage = false;
 
+  get shouldSendEmailToOriginal() {
+    return this.model.user.profile.get('pixScore') > 150;
+  }
+
   get shouldShowEmailConfirmedBanner() {
     return !!this.model.user.emailConfirmed;
   }

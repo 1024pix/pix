@@ -1,6 +1,8 @@
 <div class="user-account__connection-methods">
   {{#if this.isEmailEditionMode}}
     <UserAccount::UpdateEmailWithValidation
+      @currentEmail={{@model.user.email}}
+      @shouldSendEmailToOriginal={{this.shouldSendEmailToOriginal}}
       @disableEmailEditionMode={{this.disableEmailEditionMode}}
       @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
     />

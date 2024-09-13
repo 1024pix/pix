@@ -22,6 +22,13 @@ export default class EmailVerificationCode extends Component {
     }, ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND);
   }
 
+  get verificationCodeEmail() {
+    if (this.args.shouldSendEmailToOriginal) {
+      return this.args.currentEmail;
+    }
+    return this.args.email;
+  }
+
   @action
   async resendVerificationCodeByEmail() {
     this.isResending = true;
