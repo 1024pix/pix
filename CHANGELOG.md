@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v4.213.0 (13/09/2024)
+
+
+### :rocket: Amélioration
+- [#10105](https://github.com/1024pix/pix/pull/10105) [FEATURE] Adapter le bandeau des éligibilités aux nouvelles conditions V3 (PIX-14235).
+- [#10037](https://github.com/1024pix/pix/pull/10037) [FEATURE] Support du message d’initialisation d’embed (PIX-14116).
+
+### :building_construction: Tech
+- [#10078](https://github.com/1024pix/pix/pull/10078) [TECH] Migration fichiers js vers gjs (PIX-14145).
+- [#10094](https://github.com/1024pix/pix/pull/10094) [TECH] migre la route `/api/admin/organizations/{id}/target-profile-summaries` (PIX-14223).
+- [#10109](https://github.com/1024pix/pix/pull/10109) [TECH] Ajouter l'import du service manquant.
+- [#10004](https://github.com/1024pix/pix/pull/10004) [TECH] Ajout d'un composant Breadcrumb sur pix-admin (PIX-14070).
+
+### :bug: Correction
+- [#10111](https://github.com/1024pix/pix/pull/10111) [BUGFIX] Utiliser le bon usecase pour l'envoi d'information lors du démarrage d'une campagne (PIX-14279).
+
+### :arrow_up: Montée de version
+- [#10112](https://github.com/1024pix/pix/pull/10112) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.27 (admin).
+- [#10030](https://github.com/1024pix/pix/pull/10030) [BUMP] Update dependency postgres to v15.8.
+
 ## v4.212.0 (12/09/2024)
 
 
