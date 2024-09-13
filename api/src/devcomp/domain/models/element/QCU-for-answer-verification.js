@@ -46,7 +46,7 @@ class QCUForAnswerVerification extends QCU {
 
     return new QcuCorrectionResponse({
       status: validation.result,
-      feedback: validation.result.isOK() ? this.feedbacks.valid : this.feedbacks.invalid,
+      feedback: this.#getFeedback(validation),
       solution: this.solution.value,
     });
   }
@@ -62,6 +62,22 @@ class QCUForAnswerVerification extends QCU {
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
+  }
+
+  #getSpecificFeedbackByProposalId(proposalId) {
+    const proposalFound = this.proposals.find((proposal) => proposal.id === proposalId);
+    if (proposalFound) {
+      return proposalFound.feedback;
+    }
+  }
+
+  #getFeedback(validation) {
+    const specificFeedback = this.#getSpecificFeedbackByProposalId(this.userResponse);
+    if (specificFeedback) {
+      return specificFeedback;
+    }
+
+    return validation.result.isOK() ? this.feedbacks.valid : this.feedbacks.invalid;
   }
 }
 
