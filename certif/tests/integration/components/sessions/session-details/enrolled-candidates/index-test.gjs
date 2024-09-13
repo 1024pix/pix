@@ -1,4 +1,4 @@
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
@@ -57,7 +57,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
     const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
     // when
-    const screen = await renderScreen(
+    const screen = await render(
       <template>
         <EnrolledCandidates
           @sessionId='1'
@@ -77,7 +77,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       .exists();
   });
 
-  test('it displays candidate information', async function (assert) {
+  test('it should display candidate information', async function (assert) {
     // given
     const complementaryCertificationId = 2;
     const coreSubscription = store.createRecord('subscription', {
@@ -104,7 +104,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
     const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
 
     // when
-    const screen = await renderScreen(
+    const screen = await render(
       <template>
         <EnrolledCandidates
           @sessionId='1'
@@ -127,6 +127,154 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
     assert.dom(screen.queryByRole('cell', { name: certificationCandidates[0].birthProvinceCode })).doesNotExist();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidates[0].birthCountry })).doesNotExist();
     assert.dom(screen.queryByRole('cell', { name: certificationCandidates[0].email })).doesNotExist();
+  });
+
+  test('it should display details button', async function (assert) {
+    // given
+    const candidate = _buildCertificationCandidate({
+      subscriptions: [],
+    });
+    const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
+    const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+
+    // when
+    const screen = await render(
+      <template>
+        <EnrolledCandidates
+          @sessionId='1'
+          @certificationCandidates={{certificationCandidates}}
+          @countries={{countries}}
+        />
+      </template>,
+    );
+
+    // then
+    assert
+      .dom(
+        screen.getByRole('button', { name: `Voir le détail du candidat ${candidate.firstName} ${candidate.lastName}` }),
+      )
+      .isVisible();
+  });
+
+  test('it should display details modal', async function (assert) {
+    // given
+    const candidate = _buildCertificationCandidate({
+      subscriptions: [],
+    });
+    const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
+    const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+
+    // when
+    const screen = await render(
+      <template>
+        <EnrolledCandidates
+          @sessionId='1'
+          @certificationCandidates={{certificationCandidates}}
+          @countries={{countries}}
+        />
+      </template>,
+    );
+
+    await click(
+      screen.getByRole('button', {
+        name: `Voir le détail du candidat ${candidate.firstName} ${candidate.lastName}`,
+      }),
+    );
+
+    // then
+    const modalTitle = await screen.getByRole('heading', { name: 'Détail du candidat' });
+    assert.dom(modalTitle).exists();
+  });
+
+  module('when candidate has NOT started a certification session', function () {
+    test('it should be possible to delete the candidate', async function (assert) {
+      // given
+      const certificationCandidates = [
+        _buildCertificationCandidate({
+          id: 1,
+          firstName: 'Riri',
+          lastName: 'Duck',
+          subscriptions: [],
+        }),
+        _buildCertificationCandidate({ id: 2, firstName: 'Fifi', lastName: 'Duck', subscriptions: [] }),
+        _buildCertificationCandidate({
+          id: 3,
+          firstName: 'Loulou',
+          lastName: 'Duck',
+          subscriptions: [],
+        }),
+      ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
+      const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+
+      certificationCandidates[0].destroyRecord = sinon.stub();
+      certificationCandidates[1].destroyRecord = sinon.stub();
+      certificationCandidates[2].destroyRecord = sinon.stub();
+
+      // when
+      const screen = await render(
+        <template>
+          <EnrolledCandidates
+            @sessionId='1'
+            @certificationCandidates={{certificationCandidates}}
+            @countries={{countries}}
+          />
+        </template>,
+      );
+
+      await click(screen.getByRole('button', { name: 'Supprimer le candidat Riri Duck' }));
+
+      // then
+      sinon.assert.calledOnce(certificationCandidates[0].destroyRecord);
+      sinon.assert.notCalled(certificationCandidates[1].destroyRecord);
+      sinon.assert.notCalled(certificationCandidates[2].destroyRecord);
+      assert.ok(true);
+    });
+  });
+
+  module('when candidate has started a certification session', function () {
+    test('it display candidates with delete button disabled', async function (assert) {
+      // given
+      const certificationCandidates = [
+        _buildCertificationCandidate({
+          id: 1,
+          firstName: 'Riri',
+          lastName: 'Duck',
+          isLinked: false,
+          subscriptions: [],
+        }),
+        _buildCertificationCandidate({ id: 2, firstName: 'Fifi', lastName: 'Duck', isLinked: true, subscriptions: [] }),
+        _buildCertificationCandidate({
+          id: 3,
+          firstName: 'Loulou',
+          lastName: 'Duck',
+          isLinked: false,
+          subscriptions: [],
+        }),
+      ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
+      const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+
+      // when
+      const screen = await render(
+        <template>
+          <EnrolledCandidates
+            @sessionId='1'
+            @certificationCandidates={{certificationCandidates}}
+            @countries={{countries}}
+          />
+        </template>,
+      );
+
+      // then
+      assert
+        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Riri Duck' }))
+        .hasClass(DELETE_BUTTON_SELECTOR);
+      assert
+        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Fifi Duck' }))
+        .hasClass(DELETE_BUTTON_DISABLED_SELECTOR);
+      assert
+        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Loulou Duck' }))
+        .hasClass(DELETE_BUTTON_SELECTOR);
+    });
   });
 
   module('when center is v3 pilot', function (hooks) {
@@ -185,7 +333,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
         // when
-        const screen = await renderScreen(
+        const screen = await render(
           <template>
             <EnrolledCandidates
               @sessionId='1'
@@ -223,7 +371,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
           const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
 
           // when
-          const screen = await renderScreen(
+          const screen = await render(
             <template>
               <EnrolledCandidates
                 @sessionId='1'
@@ -251,7 +399,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
           const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
 
           // when
-          const screen = await renderScreen(
+          const screen = await render(
             <template>
               <EnrolledCandidates
                 @sessionId='1'
@@ -282,7 +430,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         const complementaryCertifications = [];
 
         // when
-        const screen = await renderScreen(
+        const screen = await render(
           <template>
             <EnrolledCandidates
               @sessionId='1'
@@ -320,7 +468,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
         // when
-        const screen = await renderScreen(
+        const screen = await render(
           <template>
             <EnrolledCandidates
               @sessionId='1'
@@ -337,111 +485,48 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
     });
   });
 
-  test('it displays specific subscription text when candidate subscribed to dual certification core/clea', async function (assert) {
-    // given
-    const cleaCertificationId = 2;
-    const coreSubscription = store.createRecord('subscription', {
-      type: SUBSCRIPTION_TYPES.CORE,
-      complementaryCertificationId: null,
+  module('When candidate subscribed to dual certification core/clea', function () {
+    test('it displays specific subscription text', async function (assert) {
+      // given
+      const cleaCertificationId = 2;
+      const coreSubscription = store.createRecord('subscription', {
+        type: SUBSCRIPTION_TYPES.CORE,
+        complementaryCertificationId: null,
+      });
+      const complementarySubscription = store.createRecord('subscription', {
+        type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
+        complementaryCertificationId: cleaCertificationId,
+      });
+      const candidate = _buildCertificationCandidate({
+        birthdate: new Date('2019-04-28'),
+        subscriptions: [coreSubscription, complementarySubscription],
+      });
+      const complementaryCertifications = [
+        {
+          id: cleaCertificationId,
+          label: 'cléa num',
+          key: COMPLEMENTARY_KEYS.CLEA,
+        },
+      ];
+
+      const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+      const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
+
+      // when
+      const screen = await render(
+        <template>
+          <EnrolledCandidates
+            @sessionId='1'
+            @certificationCandidates={{certificationCandidates}}
+            @countries={{countries}}
+            @complementaryCertifications={{complementaryCertifications}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByRole('cell', { name: 'Double Certification Pix-CléA Numérique' })).exists();
     });
-    const complementarySubscription = store.createRecord('subscription', {
-      type: SUBSCRIPTION_TYPES.COMPLEMENTARY,
-      complementaryCertificationId: cleaCertificationId,
-    });
-    const candidate = _buildCertificationCandidate({
-      birthdate: new Date('2019-04-28'),
-      subscriptions: [coreSubscription, complementarySubscription],
-    });
-    const complementaryCertifications = [
-      {
-        id: cleaCertificationId,
-        label: 'cléa num',
-        key: COMPLEMENTARY_KEYS.CLEA,
-      },
-    ];
-
-    const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
-    const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
-
-    // when
-    const screen = await renderScreen(
-      <template>
-        <EnrolledCandidates
-          @sessionId='1'
-          @certificationCandidates={{certificationCandidates}}
-          @countries={{countries}}
-          @complementaryCertifications={{complementaryCertifications}}
-        />
-      </template>,
-    );
-
-    // then
-    assert.dom(screen.getByRole('cell', { name: 'Double Certification Pix-CléA Numérique' })).exists();
-  });
-
-  test('it should display details button', async function (assert) {
-    // given
-    const candidate = _buildCertificationCandidate({
-      subscriptions: [],
-    });
-    const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
-    const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
-
-    // when
-    const screen = await renderScreen(
-      <template>
-        <EnrolledCandidates
-          @sessionId='1'
-          @certificationCandidates={{certificationCandidates}}
-          @countries={{countries}}
-        />
-      </template>,
-    );
-
-    // then
-    assert
-      .dom(
-        screen.getByRole('button', { name: `Voir le détail du candidat ${candidate.firstName} ${candidate.lastName}` }),
-      )
-      .isVisible();
-  });
-
-  test('it display candidates with delete disabled button if linked', async function (assert) {
-    // given
-    const certificationCandidates = [
-      _buildCertificationCandidate({ id: 1, firstName: 'Riri', lastName: 'Duck', isLinked: false, subscriptions: [] }),
-      _buildCertificationCandidate({ id: 2, firstName: 'Fifi', lastName: 'Duck', isLinked: true, subscriptions: [] }),
-      _buildCertificationCandidate({
-        id: 3,
-        firstName: 'Loulou',
-        lastName: 'Duck',
-        isLinked: false,
-        subscriptions: [],
-      }),
-    ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
-    const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
-
-    // when
-    const screen = await renderScreen(
-      <template>
-        <EnrolledCandidates
-          @sessionId='1'
-          @certificationCandidates={{certificationCandidates}}
-          @countries={{countries}}
-        />
-      </template>,
-    );
-
-    // then
-    assert
-      .dom(screen.getByRole('button', { name: 'Supprimer le candidat Riri Duck' }))
-      .hasClass(DELETE_BUTTON_SELECTOR);
-    assert
-      .dom(screen.getByRole('button', { name: 'Supprimer le candidat Fifi Duck' }))
-      .hasClass(DELETE_BUTTON_DISABLED_SELECTOR);
-    assert
-      .dom(screen.getByRole('button', { name: 'Supprimer le candidat Loulou Duck' }))
-      .hasClass(DELETE_BUTTON_SELECTOR);
   });
 
   module('when certification center is not SCO', function () {
@@ -457,7 +542,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         <template>
           <EnrolledCandidates
             @sessionId='1'
@@ -474,117 +559,106 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
     });
   });
 
-  module('add student(s) button', () => {
-    [
-      {
-        shouldDisplayPrescriptionScoStudentRegistrationFeature: true,
-        multipleButtonVisible: true,
-        it: 'it does display button to add multiple candidates if prescription sco feature is allowed',
-      },
-      {
-        shouldDisplayPrescriptionScoStudentRegistrationFeature: false,
-        multipleButtonVisible: false,
-        it: 'it does not display button to add multiple candidates if prescription sco feature is not allowed',
-      },
-    ].forEach(({ shouldDisplayPrescriptionScoStudentRegistrationFeature, multipleButtonVisible, it }) =>
-      test(it, async function (assert) {
-        // given
-        const certificationCandidates = [];
-        const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+  module('when prescription SCO is allowed', function () {
+    test('it should display button to add multiple candidates', async function (assert) {
+      // given
+      const certificationCandidates = [];
+      const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
-        // when
-        const screen = await renderScreen(
-          <template>
-            <EnrolledCandidates
-              @sessionId='1'
-              @certificationCandidates={{certificationCandidates}}
-              @shouldDisplayPrescriptionScoStudentRegistrationFeature={{shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-              @countries={{countries}}
-            />
-          </template>,
-        );
+      // when
+      const screen = await render(
+        <template>
+          <EnrolledCandidates
+            @sessionId='1'
+            @certificationCandidates={{certificationCandidates}}
+            @shouldDisplayPrescriptionScoStudentRegistrationFeature={{true}}
+            @countries={{countries}}
+          />
+        </template>,
+      );
 
-        // then
-        if (multipleButtonVisible) {
-          assert.dom(screen.getByRole('link', { name: 'Inscrire des candidats' })).isVisible();
-          assert.dom(screen.queryByRole('button', { name: 'Inscrire un candidat' })).isNotVisible();
-        } else {
-          assert.dom(screen.queryByRole('link', { name: 'Inscrire des candidats' })).isNotVisible();
-          assert.dom(screen.getByRole('button', { name: 'Inscrire un candidat' })).isVisible();
-        }
-      }),
-    );
-  });
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Inscrire des candidats' })).isVisible();
+      assert.dom(screen.queryByRole('button', { name: 'Inscrire un candidat' })).isNotVisible();
+    });
 
-  [
-    {
-      shouldDisplayPrescriptionScoStudentRegistrationFeature: true,
-      shouldColumnsBeEmpty: true,
-      it: 'it hides externalId and email columns if prescription sco feature allowed',
-    },
-    {
-      shouldDisplayPrescriptionScoStudentRegistrationFeature: false,
-      shouldColumnsBeEmpty: false,
-      it: 'it shows externalId and email columns if prescription sco feature not allowed',
-    },
-  ].forEach(({ shouldDisplayPrescriptionScoStudentRegistrationFeature, shouldColumnsBeEmpty, it }) =>
-    test(it, async function (assert) {
+    test('it hides externalId and email column', async function (assert) {
       // given
       const candidate = _buildCertificationCandidate({
         subscriptions: [],
       });
-      const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
       const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
+      const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         <template>
           <EnrolledCandidates
             @sessionId='1'
             @certificationCandidates={{certificationCandidates}}
-            @shouldDisplayPrescriptionScoStudentRegistrationFeature={{shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+            @shouldDisplayPrescriptionScoStudentRegistrationFeature={{true}}
             @countries={{countries}}
           />
         </template>,
       );
 
       // then
-      if (shouldColumnsBeEmpty) {
-        assert.dom(screen.queryByRole('cell', { name: candidate.externalId })).doesNotExist();
-        assert.dom(screen.queryByRole('cell', { name: candidate.resultRecipientEmail })).doesNotExist();
-      } else {
-        assert.dom(screen.getByRole('cell', { name: candidate.externalId })).exists();
-        assert.dom(screen.getByRole('cell', { name: candidate.resultRecipientEmail })).exists();
-      }
-    }),
-  );
+      assert.dom(screen.queryByRole('cell', { name: candidate.externalId })).doesNotExist();
+      assert.dom(screen.queryByRole('cell', { name: candidate.resultRecipientEmail })).doesNotExist();
+    });
+  });
 
-  module('Core complementary compatibility tooltip', function () {
-    test('it should not display tooltip in the header of selected certification column when certif center has not compatibility enabled ', async function (assert) {
-      //given
+  module('when prescription SCO is NOT allowed', function () {
+    test('it should NOT display button to add multiple candidates', async function (assert) {
+      // given
+      const certificationCandidates = [];
+      const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+
+      // when
+      const screen = await render(
+        <template>
+          <EnrolledCandidates
+            @sessionId='1'
+            @certificationCandidates={{certificationCandidates}}
+            @shouldDisplayPrescriptionScoStudentRegistrationFeature={{false}}
+            @countries={{countries}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.queryByRole('link', { name: 'Inscrire des candidats' })).isNotVisible();
+      assert.dom(screen.getByRole('button', { name: 'Inscrire un candidat' })).isVisible();
+    });
+
+    test('it shows externalId and email columns', async function (assert) {
+      // given
       const candidate = _buildCertificationCandidate({
         subscriptions: [],
       });
-
       const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
       const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         <template>
           <EnrolledCandidates
             @sessionId='1'
             @certificationCandidates={{certificationCandidates}}
+            @shouldDisplayPrescriptionScoStudentRegistrationFeature={{false}}
             @countries={{countries}}
           />
         </template>,
       );
 
       // then
-      assert.dom(screen.queryByLabelText("Informations concernant l'inscription en certification.")).doesNotExist();
+      assert.dom(screen.getByRole('cell', { name: candidate.externalId })).exists();
+      assert.dom(screen.getByRole('cell', { name: candidate.resultRecipientEmail })).exists();
     });
+  });
 
-    test('it should display tooltip in the header of selected certification column when certif center has compatibility enabled', async function (assert) {
+  module('when certification center has core complementary compatibility enabled', function () {
+    test('it should display tooltip in the header of selected certification column', async function (assert) {
       //given
       const store = this.owner.lookup('service:store');
       class CurrentUserStub extends Service {
@@ -606,7 +680,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         <template>
           <EnrolledCandidates
             @sessionId='1'
@@ -622,6 +696,32 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
       // then
       assert.dom(tooltipLabel).isVisible();
+    });
+  });
+
+  module('when certification center has NOT core complementary compatibility enabled', function () {
+    test('it should NOT display tooltip in the header of selected certification column', async function (assert) {
+      //given
+      const candidate = _buildCertificationCandidate({
+        subscriptions: [],
+      });
+
+      const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
+      const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
+
+      // when
+      const screen = await render(
+        <template>
+          <EnrolledCandidates
+            @sessionId='1'
+            @certificationCandidates={{certificationCandidates}}
+            @countries={{countries}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.queryByLabelText("Informations concernant l'inscription en certification.")).doesNotExist();
     });
   });
 });
