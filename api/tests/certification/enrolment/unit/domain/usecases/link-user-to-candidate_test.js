@@ -1,3 +1,4 @@
+import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { linkUserToCandidate } from '../../../../../../src/certification/enrolment/domain/usecases/link-user-to-candidate.js';
 import { UserNotAuthorizedToCertifyError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
@@ -11,6 +12,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-can
   const userId = 2;
 
   beforeEach(function () {
+    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
     candidateRepository = {
       update: sinon.stub(),
     };

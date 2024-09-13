@@ -5,6 +5,7 @@
  * @typedef {import ('../models/SessionEnrolment.js').SessionEnrolment} SessionEnrolment
  */
 
+import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/errors.js';
 
 /**
@@ -30,6 +31,18 @@ export async function linkUserToCandidate({ userId, candidate, candidateReposito
     }
   }
 
-  candidate.link(userId);
-  await candidateRepository.update(candidate);
+  return _linkUser({ userId, candidate, candidateRepository });
 }
+
+const _linkUser = withTransaction(
+  /**
+   * @param {Object} params
+   * @param {number} params.userId
+   * @param {Candidate} params.candidate
+   * @param {CandidateRepository} params.candidateRepository
+   */
+  async ({ userId, candidate, candidateRepository }) => {
+    candidate.link(userId);
+    return candidateRepository.update(candidate);
+  },
+);

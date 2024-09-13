@@ -43,28 +43,27 @@ export async function findBySessionId({ sessionId }) {
  */
 export async function update(candidate) {
   const candidateDataToSave = adaptModelToDb(candidate);
-  // TODO: (refactor) use existing transaction
-  await knex.transaction(async (trx) => {
-    const [updatedCertificationCandidate] = await trx('certification-candidates')
-      .where({
-        id: candidate.id,
-      })
-      .update(candidateDataToSave)
-      .returning('*');
+  const knexConn = DomainTransaction.getConnection();
 
-    if (!updatedCertificationCandidate) {
-      throw new CertificationCandidateNotFoundError();
-    }
+  const [updatedCertificationCandidate] = await knexConn('certification-candidates')
+    .where({
+      id: candidate.id,
+    })
+    .update(candidateDataToSave)
+    .returning('*');
 
-    await trx('certification-subscriptions').where({ certificationCandidateId: candidate.id }).del();
-    for (const subscription of candidate.subscriptions) {
-      await trx('certification-subscriptions').insert({
-        certificationCandidateId: candidate.id,
-        type: subscription.type,
-        complementaryCertificationId: subscription.complementaryCertificationId,
-      });
-    }
-  });
+  if (!updatedCertificationCandidate) {
+    throw new CertificationCandidateNotFoundError();
+  }
+
+  await knexConn('certification-subscriptions').where({ certificationCandidateId: candidate.id }).del();
+  for (const subscription of candidate.subscriptions) {
+    await knexConn('certification-subscriptions').insert({
+      certificationCandidateId: candidate.id,
+      type: subscription.type,
+      complementaryCertificationId: subscription.complementaryCertificationId,
+    });
+  }
 }
 
 /**
