@@ -223,6 +223,114 @@ describe('Unit | Repository | correction-repository', function () {
           expect(correction.answersEvaluation).to.equal(answersEvaluation);
         });
       });
+
+      context('when hint is not available for the provided locale', function () {
+        context('but there is a fallback available (ex: fr available for locale fr-fr)', function () {
+          it('should return fallback hint', async function () {
+            // given
+            const userId = 1;
+            const providedLocale = 'fr-fr';
+            const challengeId = 'recTuto1';
+            const challengeId3 = 'recTuto3';
+            challengeDataObject = ChallengeLearningContentDataObjectFixture({
+              skillId: 'recIdSkill003',
+            });
+            challengeDatasource.get.resolves(challengeDataObject);
+            const getCorrectionStub = sinon.stub();
+            tutorialRepository.findByRecordIdsForCurrentUser
+              .withArgs({ ids: [challengeId], userId, locale: providedLocale })
+              .resolves(expectedTutorials);
+            tutorialRepository.findByRecordIdsForCurrentUser
+              .withArgs({ ids: [challengeId3], userId, locale: providedLocale })
+              .resolves(expectedLearningMoreTutorials);
+
+            // when
+            const result = await correctionRepository.getByChallengeId({
+              challengeId,
+              userId,
+              locale: providedLocale,
+              tutorialRepository,
+              fromDatasourceObject,
+              getCorrection: getCorrectionStub,
+            });
+
+            // then
+            expectedHint = domainBuilder.buildHint({
+              skillName: '@web1',
+              value: 'Peut-on géo-localiser un lapin sur la banquise ?',
+            });
+            expect(result.hint).to.deep.equal(expectedHint);
+          });
+        });
+
+        context('when there is no fallback available ', function () {
+          it('should return null value as hint', async function () {
+            // given
+            const userId = 1;
+            const locale = 'jp';
+            const challengeId = 'recTuto1';
+            const challengeId3 = 'recTuto3';
+            challengeDataObject = ChallengeLearningContentDataObjectFixture({
+              skillId: 'recIdSkill003',
+            });
+            challengeDatasource.get.resolves(challengeDataObject);
+            const getCorrectionStub = sinon.stub();
+            tutorialRepository.findByRecordIdsForCurrentUser
+              .withArgs({ ids: [challengeId], userId, locale })
+              .resolves(expectedTutorials);
+            tutorialRepository.findByRecordIdsForCurrentUser
+              .withArgs({ ids: [challengeId3], userId, locale })
+              .resolves(expectedLearningMoreTutorials);
+
+            // when
+            const result = await correctionRepository.getByChallengeId({
+              challengeId,
+              userId,
+              locale,
+              tutorialRepository,
+              fromDatasourceObject,
+              getCorrection: getCorrectionStub,
+            });
+
+            // then
+            expect(result.hint).to.be.null;
+          });
+        });
+
+        context('when provided locale is invalid ', function () {
+          it('should return null value as hint', async function () {
+            // given
+            const userId = 1;
+            const providedLocale = 'frop-fr';
+            const challengeId = 'recTuto1';
+            const challengeId3 = 'recTuto3';
+            challengeDataObject = ChallengeLearningContentDataObjectFixture({
+              skillId: 'recIdSkill003',
+            });
+            challengeDatasource.get.resolves(challengeDataObject);
+            const getCorrectionStub = sinon.stub();
+            tutorialRepository.findByRecordIdsForCurrentUser
+              .withArgs({ ids: [challengeId], userId, locale: providedLocale })
+              .resolves(expectedTutorials);
+            tutorialRepository.findByRecordIdsForCurrentUser
+              .withArgs({ ids: [challengeId3], userId, locale: providedLocale })
+              .resolves(expectedLearningMoreTutorials);
+
+            // when
+            const result = await correctionRepository.getByChallengeId({
+              challengeId,
+              userId,
+              locale: providedLocale,
+              tutorialRepository,
+              fromDatasourceObject,
+              getCorrection: getCorrectionStub,
+            });
+
+            // then
+            expect(result.hint).to.be.null;
+          });
+        });
+      });
     });
   });
 });
