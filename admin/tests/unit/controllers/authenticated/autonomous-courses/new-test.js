@@ -33,7 +33,7 @@ module('Unit | Controller | authenticated/autonomous-courses/new', function (hoo
       controller.goToAutonomousCourseDetails();
 
       // then
-      assert.ok(controller.router.transitionTo.calledWith('authenticated.autonomous-courses.autonomous-course'));
+      assert.ok(controller.router.transitionTo.calledWith('authenticated.autonomous-courses.details'));
     });
   });
 
@@ -72,10 +72,7 @@ module('Unit | Controller | authenticated/autonomous-courses/new', function (hoo
       assert.ok(saveStub.called);
       assert.ok(controller.notifications.success.calledWith('Le parcours autonome a été créé avec succès.'));
       assert.ok(
-        controller.router.transitionTo.calledWith(
-          'authenticated.autonomous-courses.autonomous-course',
-          autonomousCourse.id,
-        ),
+        controller.router.transitionTo.calledWith('authenticated.autonomous-courses.details', autonomousCourse.id),
       );
     });
 

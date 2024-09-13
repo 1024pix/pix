@@ -6,16 +6,18 @@ import ListItem from './item';
   <div class="content-text content-text--small">
     <div class="table-admin">
       <table>
-        <caption class="screen-reader-only">{{t "components.autonomous-course.list.title"}}</caption>
+        <caption class="screen-reader-only">{{t "components.autonomous-courses.list.title"}}</caption>
         <thead>
           <tr>
-            <th scope="col" class="table__column table__column--id">Id</th>
-            <th scope="col">{{t "components.autonomous-course.list.headers.name"}}</th>
+            <th scope="col" class="table__column table__column--id">{{t
+                "components.autonomous-courses.list.headers.id"
+              }}</th>
+            <th scope="col">{{t "components.autonomous-courses.list.headers.name"}}</th>
             <th scope="col" class="table__column table__medium">{{t
-                "components.autonomous-course.list.headers.createdAt"
+                "components.autonomous-courses.list.headers.createdAt"
               }}</th>
             <th scope="col" class="table__column table__medium">{{t
-                "components.autonomous-course.list.headers.status"
+                "components.autonomous-courses.list.headers.status"
               }}</th>
           </tr>
         </thead>
@@ -30,7 +32,7 @@ import ListItem from './item';
       </table>
 
       {{#unless @items}}
-        <div class="table__empty">{{t "components.autonomous-course.list.no-result"}}</div>
+        <div class="table__empty">{{t "components.autonomous-courses.list.no-result"}}</div>
       {{/unless}}
     </div>
   </div>

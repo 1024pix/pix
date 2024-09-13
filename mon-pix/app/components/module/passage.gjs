@@ -2,7 +2,10 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { pageTitle } from 'ember-page-title';
 
+import didInsert from '../../modifiers/modifier-did-insert';
+import BetaBanner from './beta-banner';
 import ModuleGrain from './grain.js';
 
 export default class ModulePassage extends Component {
@@ -177,4 +180,42 @@ export default class ModulePassage extends Component {
       'pix-event-name': `Click sur le bouton Télécharger au format ${downloadedFormat} de ${elementId}`,
     });
   }
+
+  <template>
+    {{pageTitle @module.title}}
+    <BetaBanner />
+
+    <main class="module-passage">
+      <div class="module-passage__title">
+        <h1>{{@module.title}}</h1>
+      </div>
+
+      <div
+        class="module-passage__content"
+        aria-live="assertive"
+        {{didInsert this.modulixAutoScroll.setHTMLElementScrollOffsetCssProperty}}
+      >
+        {{#each this.grainsToDisplay as |grain index|}}
+          <ModuleGrain
+            @grain={{grain}}
+            @onElementRetry={{this.onElementRetry}}
+            @passage={{@passage}}
+            @transition={{this.grainTransition grain.id}}
+            @onImageAlternativeTextOpen={{this.onImageAlternativeTextOpen}}
+            @onVideoTranscriptionOpen={{this.onVideoTranscriptionOpen}}
+            @onElementAnswer={{this.onElementAnswer}}
+            @onStepperNextStep={{this.onStepperNextStep}}
+            @canMoveToNextGrain={{this.grainCanMoveToNextGrain index}}
+            @onGrainContinue={{this.onGrainContinue}}
+            @onGrainSkip={{this.onGrainSkip}}
+            @shouldDisplayTerminateButton={{this.grainShouldDisplayTerminateButton index}}
+            @onModuleTerminate={{this.onModuleTerminate}}
+            @hasJustAppeared={{this.hasGrainJustAppeared index}}
+            @onVideoPlay={{this.onVideoPlay}}
+            @onFileDownload={{this.onFileDownload}}
+          />
+        {{/each}}
+      </div>
+    </main>
+  </template>
 }

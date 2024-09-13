@@ -124,9 +124,7 @@ Router.map(function () {
 
     this.route('autonomous-courses', function () {
       this.route('new');
-      this.route('autonomous-course', { path: '/:autonomous_course_id' }, function () {
-        this.route('details');
-      });
+      this.route('details', { path: '/:autonomous_course_id' });
     });
 
     this.route('trainings', function () {

@@ -10,6 +10,7 @@ const buildCertifiableBadgeAcquisition = function ({
   complementaryCertificationBadgeImageUrl = 'image/droit.svg',
   complementaryCertificationBadgeLabel = 'Pix+ droit avance',
   isOutdated = false,
+  offsetVersion = 0,
 } = {}) {
   return new CertifiableBadgeAcquisition({
     badgeId,
@@ -21,6 +22,7 @@ const buildCertifiableBadgeAcquisition = function ({
     complementaryCertificationBadgeImageUrl,
     complementaryCertificationBadgeLabel,
     isOutdated,
+    offsetVersion,
   });
 };
 

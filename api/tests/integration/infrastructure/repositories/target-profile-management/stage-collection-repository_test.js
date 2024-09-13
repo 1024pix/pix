@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
+import { StageCollectionUpdate } from '../../../../../src/evaluation/domain/models/target-profile-management/StageCollectionUpdate.js';
 import * as stageCollectionRepository from '../../../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
-import { StageCollectionUpdate } from '../../../../../src/shared/domain/models/target-profile-management/StageCollectionUpdate.js';
 import { databaseBuilder, domainBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | target-profile-management | stage-collection-repository', function () {

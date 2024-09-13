@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { findAll } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
+import ModuleElementText from 'mon-pix/components/module/element/text';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -12,10 +12,8 @@ module('Integration | Component | Module | Text', function (hooks) {
     // given
     const textElement = { content: 'toto', type: 'text' };
 
-    this.set('text', textElement);
-
     //  when
-    const screen = await render(hbs`<Module::Element::Text @text={{this.text}} />`);
+    const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
 
     // then
     assert.ok(screen);

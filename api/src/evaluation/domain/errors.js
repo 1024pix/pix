@@ -1,5 +1,11 @@
 import { DomainError } from '../../shared/domain/errors.js';
 
+class InvalidStageError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class StageWithLinkedCampaignError extends DomainError {
   constructor() {
     super('The stage is part of a target profile linked to a campaign');
@@ -46,6 +52,7 @@ export {
   CompetenceResetError,
   EmptyAnswerError,
   ImproveCompetenceEvaluationForbiddenError,
+  InvalidStageError,
   StageModificationForbiddenForLinkedTargetProfileError,
   StageWithLinkedCampaignError,
 };

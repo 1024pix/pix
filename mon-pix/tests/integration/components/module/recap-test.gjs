@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import ModuleRecap from 'mon-pix/components/module/recap';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -19,10 +19,9 @@ module('Integration | Component | Module | Recap', function (hooks) {
       objectives: ['Objectif 1'],
     };
     const module = store.createRecord('module', { title: 'Module title', details });
-    this.set('module', module);
 
     // when
-    const screen = await render(hbs`<Module::Recap @module={{this.module}} />`);
+    const screen = await render(<template><ModuleRecap @module={{module}} /></template>);
 
     // then
     assert.dom(screen.getByRole('alert')).exists();
@@ -39,10 +38,9 @@ module('Integration | Component | Module | Recap', function (hooks) {
       objectives: ['Objectif 1'],
     };
     const module = store.createRecord('module', { title: 'Module title', details });
-    this.set('module', module);
 
     // when
-    const screen = await render(hbs`<Module::Recap @module={{this.module}} />`);
+    const screen = await render(<template><ModuleRecap @module={{module}} /></template>);
 
     // then
     assert.ok(screen.getByRole('heading', { level: 1, name: t('pages.modulix.recap.title') }));
