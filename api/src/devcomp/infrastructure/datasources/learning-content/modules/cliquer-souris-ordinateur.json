@@ -21,11 +21,11 @@
     },
     {
       "grainId": "4a80afba-d2ef-4f58-a328-a0fc9f204aca",
-      "content": "<p>Avant tout, découvrez les différents boutons de la souris&#8239;! <span aria-hidden=\"\true\">🖱️️</span></p>"
+      "content": "<p>Avant tout, découvrez les différents boutons de la souris ! <span aria-hidden=\"\true\">🖱️️</span></p>"
     },
     {
       "grainId": "83f44f19-e8de-4248-bfc7-e38f19190138",
-      "content": "<p>Maintenant, place au clic&#8239;! Découvrez comment cliquer sur votre souris.</p>"
+      "content": "<p>Maintenant, place au clic ! Découvrez comment cliquer sur votre souris.</p>"
     },
     {
       "grainId": "b491a99e-2774-469e-a63e-e2d0fb1120f2",
@@ -37,15 +37,15 @@
     },
     {
       "grainId": "a1c193e4-50a7-4965-bcc7-82e9283d3c8e",
-      "content": "<p>Vous savez désormais faire un clic gauche. C’est le plus utile de tous, il est utilisé dans la grande majorité des cas. Mais il existe d’autres clics&#8239;!<br><br>Découvrez le double&#x002D;clic.</p>"
+      "content": "<p>Vous savez désormais faire un clic gauche. C’est le plus utile de tous, il est utilisé dans la grande majorité des cas. Mais il existe d’autres clics !<br><br>Découvrez le double&#x002D;clic.</p>"
     },
     {
       "grainId": "c5fff715-80d4-4fba-ac57-80fae9a7d279",
-      "content": "<p>Place à la pratique&#8239;! Entraînez-vous au double-clic dans l’activité suivante.</p>"
+      "content": "<p>Place à la pratique ! Entraînez-vous au double-clic dans l’activité suivante.<span aria-hidden=\"\true\">👇</span></p>"
     },
  {
       "grainId": "c3d7b3b9-49f4-48c4-913e-354b0e2e301b",
-      "content": "<p>On utilise souvent le double-clic pour ouvrir des dossiers sur son ordinateur. À vous de jouer ici !</p>"
+      "content": "<p>On utilise souvent le double-clic pour ouvrir des dossiers sur son ordinateur. <br>À vous de jouer ici !</p>"
     },
     {
       "grainId": "b1cf70fe-411b-4c5d-b069-9b7a341bd5c3",
@@ -71,7 +71,7 @@
           "element": {
             "id": "e45a32cf-2ab9-4464-85d0-ae4f0ca897cb",
             "type": "text",
-            "content": "<p>La seconde façon est d’<strong>appuyer sur un bouton de la souris</strong>. Quand on appuie sur un bouton de la souris, on dit qu’on «&nbsp;clique&nbsp;».<br><br>Pourquoi appelle-t-on cela un «&nbsp;<strong>clic&nbsp;</strong>»&nbsp;? Car cela correspond au bruit que fait le bouton quand on appuie dessus.</p>"
+            "content": "<p>La seconde façon est d’<strong>appuyer sur un bouton de la souris</strong>. Quand on appuie sur un bouton de la souris, on dit qu’on «&nbsp;clique&nbsp;».<br><br>Pourquoi appelle-t-on cela un «&nbsp;<strong>clic&nbsp;</strong>»&nbsp;?<br> Car cela correspond au bruit que fait le bouton quand on appuie dessus.</p>"
           }
         },
         {
@@ -175,7 +175,7 @@
           "element": {
             "id": "11a9d578-a409-4de5-b20a-c38c932fd534",
             "type": "text",
-            "content": "<h3>Étape 2&nbsp;: Appuyez sur le bouton de gauche de votre souris</strong></h3>\n<p> <br>Sans bouger la souris, appuyez sur le bouton gauche avec votre index, puis relâchez immédiatement. Vous devriez entendre un petit «&nbsp;clic&nbsp;» .<br><br> Pas besoin d’appuyer fort, ni de rester appuyé. Vous appuyez une fois, et vous relâchez. Comme pour un bouton de télécommande!</p>"
+            "content": "<h3>Étape 2&nbsp;: Appuyez sur le bouton de gauche de votre souris</h3>\n<p> <br>Sans bouger la souris, appuyez sur le bouton gauche avec votre index, puis relâchez immédiatement. Vous devriez entendre un petit «&nbsp;clic&nbsp;» .<br><br> Pas besoin d’appuyer fort, ni de rester appuyé. Vous appuyez une fois, et vous relâchez. Comme pour un bouton de télécommande!</p>"
           }
         },
         {
@@ -283,8 +283,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct&#8239;!</span> <p><strong>Bravo ! Vous avez bien cliqué sur vérifier.</strong> Le clic gauche sert bien à interagir avec l’ordinateur.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p><strong>Vous avez bien cliqué sur vérifier.Mais ce n’était pas la bonne réponse.<br></strong>Vous pouvez retenter votre chance en cliquant sur «&nbsp;Réessayer&nbsp;».</p>"
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!</span> <p><strong>Bravo ! Vous avez bien cliqué sur vérifier.</strong><br>Le clic gauche sert bien à interagir avec l’ordinateur.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p><strong>Vous avez bien cliqué sur vérifier. Mais ce n’était pas la bonne réponse.<br></strong>Vous pouvez retenter votre chance en cliquant sur «&nbsp;Réessayer&nbsp;».</p>"
                   },
                   "solution": "1"
                 },
@@ -410,7 +410,7 @@
               ],
               "feedbacks": {
                 "valid": "<span class=\"feedback__state\">Correct.</span> <p>Il y a bien 4 photos dans le dossier «&nbsp;80 ans Mamie&nbsp;». Bravo ! Vous avez fait 4 doubles-clics et réussi à naviguer dans un explorateur de fichiers.</p>",
-                "invalid": "<span class=\"feedback__state\">Incorrect.</span> Vous avez bien répondu au questionnaire, mais vous n'avez pas cliqué sur la bonne réponse. Si vous n'avez pas trouvé le dossier «&nbsp;80 ans Mamie&nbsp;» cliquez sur «&nbsp;Réinitialiser&nbsp;» ci-dessus et suivez les étapes qui vous sont données. Vous devriez effectuer 4 doubles-clics. Comptez ensuite le nombre de fichiers qui s'appellent «&nbsp;Photo&nbsp;»."
+                "invalid": "<span class=\"feedback__state\">Incorrect.</span> <p><strong>Vous avez répondu au questionnaire, mais vous n'avez pas cliqué sur la bonne réponse.</strong><br>Si vous n'avez pas trouvé le dossier «&nbsp;80 ans Mamie&nbsp;» :</p> <ul><li>Cliquez sur «&nbsp;Réinitialiser&nbsp;» ci-dessus</li> <li>Suivez les étapes qui vous sont données. Vous devriez effectuer 4 doubles-clics.</li> <li>Comptez ensuite le nombre de fichiers qui s'appellent «&nbsp;Photo&nbsp;».</li></ul>"
               },
               "solution": "1"
             }
@@ -444,7 +444,7 @@
                 {
                   "id": "99ba8a02-fd1e-4827-a51b-32c14225a4e8",
                   "type": "text",
-                  "content": "<p><strong>Le bouton droit</strong>, vous permet d’effectuer des clics droits.</p>\n<p>Sur l’écran, le clic droit vous permet de découvrir la liste des actions possibles sur cet élément : le supprimer, l'ouvrir, etc. <br> Voici un exemple de liste des actions possibles sur un dossier.<br><br></p>"
+                  "content": "<p><strong>Le bouton droit</strong>, vous permet d’effectuer des clics droits.</p>\n<p>Sur l’écran, le clic droit vous permet de découvrir la liste des actions possibles sur cet élément : le supprimer, l'ouvrir, etc. <br> Voici un exemple de liste des actions possibles sur un dossier.</p>"
                 },
                 {
                   "id": "48218129-a5ac-4c43-8a4a-db3345400477",
@@ -460,7 +460,7 @@
                 {
                   "id": "cfb24bf8-75e9-40aa-950c-91a309bb4d4c",
                   "type": "text",
-                  "content": "<p>Le bouton du milieu est <strong>la molette</strong>, ou roulette. Pour utiliser la molette il ne faut pas cliquer dessus comme un bouton, mais la faire rouler vers l'avant ou vers l’arrière avec votre index ou votre majeur.</p>"
+                  "content": "<p>Le bouton du milieu est <strong>la molette</strong>, ou roulette. Pour utiliser la molette il ne faut pas cliquer dessus comme un bouton, mais la faire rouler vers l'avant ou vers l’arrière avec votre index ou votre majeur.</p><p><br>La molette sert à se déplacer de haut en bas dans une page.</p>"
                 },
                 {
                   "id": "242c6637-6a37-43dc-a1f3-d0e46c5fb2de",
@@ -468,11 +468,6 @@
                   "url": "https://i.imgur.com/dfyChwE.gif",
                   "alt": "",
                   "alternativeText": "<p>Gif d'un doigt qui fait rouler la molette de la souris de haut en bas</p>"
-                },
-                {
-                  "id": "c272c795-ab00-4dd9-97de-54bb3539b0c0",
-                  "type": "text",
-                  "content": "<p>La molette sert à se déplacer de haut en bas dans une page.</p>"
                 }
               ]
             },
