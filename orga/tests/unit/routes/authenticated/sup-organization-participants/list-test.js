@@ -1,7 +1,7 @@
 import { setupTest } from 'ember-qunit';
+import paramsValidator from 'pix-orga/utils/params-validator.js';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-
 module('Unit | Route | authenticated/sup-organization-participants/list', function (hooks) {
   setupTest(hooks);
   let route;
@@ -11,7 +11,7 @@ module('Unit | Route | authenticated/sup-organization-participants/list', functi
   const searchSymbol = Symbol('search');
   const studentNumberSymbol = Symbol('studentNumber');
   const groupsSymbol = Symbol('groups');
-  const certificabilitySymbol = Symbol('certificability');
+  const certificabilitySymbol = [Symbol('certificability')];
   const pageNumberSymbol = Symbol('pageNumber');
   const pageSizeSymbol = Symbol('pageSize');
   const participationCountSymbol = Symbol('participationCountOrder');
@@ -27,6 +27,10 @@ module('Unit | Route | authenticated/sup-organization-participants/list', functi
     lastnameSort: lastnameSortSymbol,
   };
 
+  hooks.afterEach(function () {
+    sinon.restore();
+  });
+
   hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/sup-organization-participants/list');
     store = this.owner.lookup('service:store');
@@ -37,7 +41,7 @@ module('Unit | Route | authenticated/sup-organization-participants/list', functi
         organizationId: route.currentUser.organization.id,
       })
       .resolves(importDetailSymbol);
-
+    sinon.stub(paramsValidator, 'validateCertificabilityParams').withArgs(params).returns(params);
     sinon
       .stub(store, 'query')
       .withArgs('sup-organization-participant', {

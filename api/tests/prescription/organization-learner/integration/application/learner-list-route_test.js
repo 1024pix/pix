@@ -51,5 +51,38 @@ describe('Integration | Application | Routes | Learner List', function () {
 
       expect(response.statusCode).to.equal(400);
     });
+
+    describe('certificability filter', function () {
+      it('should throw an error on single invalid parameter', async function () {
+        // given
+        const method = 'GET';
+        const url = '/api/organizations/1/participants?filter[certificability]=blabla';
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should throw an error on multiple parameter with invalid param', async function () {
+        // given
+        const method = 'GET';
+        const url =
+          '/api/organizations/1/participants?filter[certificability][]=eligible&filter[certificability][]=blabla';
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
   });
 });
