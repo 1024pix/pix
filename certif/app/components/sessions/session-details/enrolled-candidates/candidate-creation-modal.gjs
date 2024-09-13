@@ -223,7 +223,7 @@ export default class CandidateCreationModal extends Component {
 
   <template>
     <PixModal
-      @title={{t 'pages.sessions.detail.candidates.detail-modal.title'}}
+      @title={{t 'pages.sessions.detail.candidates.add-modal.title'}}
       @onCloseButtonClick={{this.closeModal}}
       class='new-candidate-modal'
       @showModal={{@showModal}}
