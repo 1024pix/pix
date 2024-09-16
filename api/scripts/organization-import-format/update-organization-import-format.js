@@ -4,7 +4,7 @@ import * as url from 'node:url';
 import { disconnect } from '../../db/knex-database-connection.js';
 import { usecases } from '../../src/prescription/learner-management/domain/usecases/index.js';
 import { DomainTransaction } from '../../src/shared/domain/DomainTransaction.js';
-
+import { executeAndLogScript } from '../tooling/tooling.js';
 // Usage: node scripts/organization-import-format/update-organization-import-format.js path/data.json
 // data.json
 // [{
@@ -41,9 +41,8 @@ async function main() {
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
-      console.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
