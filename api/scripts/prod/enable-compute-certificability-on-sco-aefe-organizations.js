@@ -2,6 +2,8 @@ import * as url from 'node:url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { ORGANIZATION_FEATURE } from '../../src/shared/domain/constants.js';
+import { main } from '../fill-campaign-participation-id-in-badge-acquisitions.js';
+import { executeAndLogScript } from '../tooling/tooling.js';
 
 async function enableComputeCertificabilityOnScoAefeOrganizations() {
   const organizationIds = (
@@ -34,9 +36,11 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await enableComputeCertificabilityOnScoAefeOrganizations();
+      await executeAndLogScript({
+        processArgvs: process.argv,
+        scriptFn: enableComputeCertificabilityOnScoAefeOrganizations,
+      });
     } catch (error) {
-      console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
       process.exitCode = 1;
     } finally {
       await disconnect();
