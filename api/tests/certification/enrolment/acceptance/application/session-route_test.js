@@ -8,6 +8,8 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../../test-helper.js';
 
 describe('Certification | Enrolment | Acceptance | Routes | session-route', function () {
@@ -223,15 +225,143 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
   });
 
   describe('POST /api/sessions/{sessionId}/candidate-participation', function () {
-    let options;
+    let options, learningContent;
     const firstName = 'Marie';
     const lastName = 'Antoinette';
     const birthdate = '2004-12-25';
 
+    beforeEach(async function () {
+      learningContent = [
+        {
+          id: 'recArea0',
+          competences: [
+            {
+              id: 'recCompetence0',
+              tubes: [
+                {
+                  id: 'recTube0_0',
+                  skills: [
+                    {
+                      id: 'recSkill0_0',
+                      nom: '@recSkill0_0',
+                      challenges: [{ id: 'recChallenge0_0_0' }],
+                      level: 0,
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: 'recCompetence1',
+              tubes: [
+                {
+                  id: 'recTube1_0',
+                  skills: [
+                    {
+                      id: 'recSkill1_0',
+                      nom: '@recSkill1_0',
+                      challenges: [{ id: 'recChallenge1_0_0' }],
+                      level: 0,
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: 'recCompetence2',
+              tubes: [
+                {
+                  id: 'recTube2_0',
+                  skills: [
+                    {
+                      id: 'recSkill2_0',
+                      nom: '@recSkill2_0',
+                      challenges: [{ id: 'recChallenge2_0_0' }],
+                      level: 0,
+                    },
+                    {
+                      id: 'recSkill2_1',
+                      nom: '@recSkill2_1',
+                      challenges: [{ id: 'recChallenge2_1_0' }],
+                      level: 1,
+                    },
+                    {
+                      id: 'recSkill2_2',
+                      nom: '@recSkill2_2',
+                      challenges: [{ id: 'recChallenge2_2_0' }],
+                      level: 2,
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: 'recCompetence3',
+              tubes: [
+                {
+                  id: 'recTube3_0',
+                  skills: [
+                    {
+                      id: 'recSkill3_0',
+                      nom: '@recSkill3_0',
+                      challenges: [{ id: 'recChallenge3_0_0' }],
+                      level: 0,
+                    },
+                    {
+                      id: 'recSkill3_1',
+                      nom: '@recSkill3_1',
+                      challenges: [{ id: 'recChallenge3_1_0' }],
+                      level: 1,
+                    },
+                    {
+                      id: 'recSkill3_2',
+                      nom: '@recSkill3_2',
+                      challenges: [{ id: 'recChallenge3_2_0' }],
+                      level: 2,
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: 'recCompetence4',
+              tubes: [
+                {
+                  id: 'recTube4_0',
+                  skills: [
+                    {
+                      id: 'recSkill4_0',
+                      nom: '@recSkill4_0',
+                      challenges: [{ id: 'recChallenge4_0_0' }],
+                      level: 0,
+                    },
+                    {
+                      id: 'recSkill4_1',
+                      nom: '@recSkill4_1',
+                      challenges: [{ id: 'recChallenge4_1_0' }],
+                      level: 1,
+                    },
+                    {
+                      id: 'recSkill4_2',
+                      nom: '@recSkill4_2',
+                      challenges: [{ id: 'recChallenge4_2_0' }],
+                      level: 2,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
+      mockLearningContent(learningContentObjects);
+    });
+
     context('not SCO / isManagingStudents', function () {
       let sessionId, userId;
 
-      beforeEach(function () {
+      beforeEach(async function () {
         userId = databaseBuilder.factory.buildUser({
           lang: LANGUAGES_CODE.FRENCH,
         }).id;
@@ -243,6 +373,12 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
           version: CERTIFICATION_VERSIONS.V3,
           certificationCenterId,
         }).id;
+        databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
+          learningContent,
+          userId,
+          earnedPix: 48,
+        });
+
         options = {
           method: 'POST',
           url: `/api/sessions/${sessionId}/candidate-participation`,
@@ -258,6 +394,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
           },
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
+
         return databaseBuilder.commit();
       });
 
@@ -358,6 +495,12 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
           version: CERTIFICATION_VERSIONS.V3,
           certificationCenterId,
         }).id;
+        databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
+          learningContent,
+          userId,
+          earnedPix: 48,
+        });
+
         options = {
           method: 'POST',
           url: `/api/sessions/${sessionId}/candidate-participation`,
@@ -373,6 +516,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
           },
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
+
         return databaseBuilder.commit();
       });
 
