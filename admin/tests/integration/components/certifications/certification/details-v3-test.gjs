@@ -162,8 +162,20 @@ module('Integration | Component | Certifications | certification > details v3', 
 
           // then
           const endedAtLabel = t('pages.certifications.certification.details.v3.general-informations.labels.ended-at');
+          assert.dom(screen.getByLabelText(`${endedAtLabel} :`)).containsText('13/01/2023 09:05:00');
+        });
 
-          assert.dom(screen.getByText(`${endedAtLabel} :`)).exists();
+        test('should display the certification duration', async function (assert) {
+          // given
+          const model = createCertificationCourseDetailsRecord(certificationCourseDetailsRecord);
+
+          // when
+          const screen = await render(<template><DetailsV3 @details={{model}} /></template>);
+
+          // then
+          const endedAtLabel = t('pages.certifications.certification.details.v3.general-informations.labels.ended-at');
+
+          assert.dom(screen.getByLabelText(`${endedAtLabel} :`)).containsText('1h05');
         });
 
         test('should NOT display the ended by info or the abort reason', async function (assert) {
@@ -602,7 +614,8 @@ module('Integration | Component | Certifications | certification > details v3', 
 function createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store, params }) {
   return store.createRecord('v3-certification-course-details-for-administration', {
     assessmentState: 'completed',
-    completedAt: new Date(),
+    // eslint-disable-next-line no-restricted-syntax
+    completedAt: new Date('2023-01-13T09:05:00'),
     assessmentResultStatus: 'validated',
     numberOfChallenges: 15,
     certificationChallengesForAdministration,
