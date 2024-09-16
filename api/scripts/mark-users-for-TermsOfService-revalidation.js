@@ -1,6 +1,7 @@
 import * as url from 'node:url';
 
 import { disconnect, knex } from '../db/knex-database-connection.js';
+import { executeAndLogScript } from './tooling/tooling.js';
 
 async function markUsersRequiringTermsOfServiceValidationForRevalidation() {
   const subquery = knex.select('users.id').from('users').where({
@@ -32,9 +33,8 @@ async function main() {
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
-      console.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
