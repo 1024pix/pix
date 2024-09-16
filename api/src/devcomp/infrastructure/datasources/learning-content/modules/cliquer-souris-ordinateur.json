@@ -8,8 +8,8 @@
     "duration": 10,
     "level": "Débutant",
     "objectives": [
-      "Effectuer ses premiers clics",
-      "Effectuer ses premiers doubles clics ",
+      "Faire ses premiers clics gauche",
+      "Faire ses premiers doubles clics ",
       "Comprendre la différence entre cliquer et double-cliquer"
     ],
     "tabletSupport": "obstructed"
@@ -135,7 +135,7 @@
           "element": {
             "id": "5f930f45-4eb3-4650-b59b-ca52cf2c092c",
             "type": "text",
-            "content": "<p>Découvrez étape par étape comment réaliser un clic gauche. <span aria-hidden=\"true\">👇</span></p>"
+            "content": "<p>Découvrez étape par étape comment faire un clic gauche. <span aria-hidden=\"true\">👇</span></p>"
           }
         },
         {
@@ -144,7 +144,7 @@
             "id": "d96505a1-c5c0-4dbf-af9d-900453586d45",
             "type": "separator"
           }
-        },  
+        },
         {
           "type": "element",
           "element": {
@@ -169,7 +169,7 @@
             "id": "681755b0-98b0-49fc-bddf-acfa6987a8da",
             "type": "separator"
           }
-        }, 
+        },
         {
           "type": "element",
           "element": {
@@ -215,7 +215,7 @@
           "element": {
             "id": "80070528-b2ca-4e93-99a6-bc495a6029ef",
             "type": "text",
-            "content": "<p>Voici un rappel des étapes pour réaliser un clic gauche&nbsp;:</p><ul><li>🖱️ Déplacer le pointeur sur l’élément&nbsp;</li><li>👇 Appuyer sur le bouton gauche de votre souris</li><li>🖥️ Observer la réaction déclenchée par le clic</li></ul><p><br><strong>Dans la zone ci-dessous, effectuez un clic sur chaque élément lorsqu'il apparait.</strong><br></p>"
+            "content": "<p>Voici un rappel des étapes pour faire un clic gauche&nbsp;:</p><ul><li>🖱️ Déplacer le pointeur sur l’élément&nbsp;</li><li>👇 Appuyer sur le bouton de gauche de votre souris</li><li>🖥️ Observer la réaction créée par le clic</li></ul><p><br>Dans la zone ci-dessous, des éléments vont vous être présentés.&nbsp;</p><p><strong>Effectuez un clic gauche sur chacun des éléments</strong><br><br></p>"
           }
         },
         {
@@ -252,7 +252,7 @@
                   "content": "<h3><strong>Lancez la vidéo ci-dessous en appuyant sur le bouton «&nbsp;Play&nbsp;» <span aria-hidden=\"true\">▶️</span></strong></h3><br><iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/czfvEpLfCV0?si=2Q1MBBnh2-c-0CmD\" title=\"Bravo\"></iframe><p><br>Pour accéder à la suite, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
                 }
               ]
-            },             
+            },
             {
               "elements": [
                 {
@@ -294,7 +294,7 @@
                   "content": "<p>Si vous avez terminé, faites un clic gauche sur le bouton «&nbsp;Suivant&nbsp;» ci-dessous.</p>"
                 }
               ]
-            } 
+            }
           ]
         }
       ]
@@ -327,7 +327,7 @@
           "element": {
             "id": "626c6c46-e397-46bc-adb2-9894f96afc7e",
             "type": "text",
-            "content": "<p>Après cette vidéo, vous pourrez vous entraîner à effectuer des doubles-clics. <br>Découvrez dans la vidéo ci-dessous comment réaliser un double&#x002D;clic.&nbsp; </p><br>\n<p><strong>Pour démarrer la vidéo, faites un clic gauche sur le bouton «&nbsp;Play&nbsp;»  <span aria-hidden=\"true\">▶️</span></strong></p><br> <iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/cDf-Q5tHwVM\" title=\"Première marche souris - Double-clic\"></iframe>"
+            "content": "<p>Après cette vidéo, nous vous proposerons de vous entraîner à effectuer des doubles&#x002D;clics. <br>Découvrez dans la vidéo ci-dessous comment faire un double&#x002D;clic.&nbsp; </p><br>\n<p><strong>Pour démarrer la vidéo, faites un clic gauche sur le bouton Play ▶️</strong></p><br> <iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/cktRk8PySII\" title=\"Première marche souris - Déplacer la souris\"></iframe>"
           }
         }
       ]
