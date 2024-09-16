@@ -2,6 +2,7 @@ import 'dotenv/config';
 
 import { knex } from '../db/knex-database-connection.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
+import { executeAndLogScript } from './tooling/tooling.js';
 
 async function fillInAssessmentMethod() {
   const chunkSize = 50000;
@@ -30,5 +31,5 @@ async function fillInAssessmentMethod() {
 }
 
 (async () => {
-  await fillInAssessmentMethod();
+  await executeAndLogScript({ processArgvs: process.argv, scriptFn: fillInAssessmentMethod });
 })();
