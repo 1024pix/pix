@@ -38,7 +38,7 @@ export default class Sidebar extends Component {
           {{#if this.showLinkToSessions}}
             <li>
               <LinkTo
-                @route='authenticated.sessions.list'
+                @route='authenticated.sessions'
                 class='sidebar-menu__item'
                 type='button'
                 aria-label={{t 'navigation.main.sessions-label'}}

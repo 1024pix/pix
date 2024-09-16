@@ -16,7 +16,7 @@ export default class ImportRoute extends Route {
       this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents ||
       isOrgTldAndEnglishCurrentLanguage
     ) {
-      return this.router.replaceWith('authenticated.sessions.list');
+      return this.router.replaceWith('authenticated.sessions');
     }
   }
 
