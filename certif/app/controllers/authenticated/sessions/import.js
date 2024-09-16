@@ -112,7 +112,7 @@ export default class ImportController extends Controller {
       this.isImportStepOne = true;
       this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
     }
-    this.router.transitionTo('authenticated.sessions.list');
+    this.router.transitionTo('authenticated.sessions');
   }
 
   @action
