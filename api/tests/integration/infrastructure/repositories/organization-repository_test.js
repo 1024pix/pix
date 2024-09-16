@@ -1138,22 +1138,22 @@ describe('Integration | Repository | Organization', function () {
       expect(organizationsWithPlaces.length).to.equal(1);
     });
 
-    it('should not return organization with null place count', async function () {
+    it('should return organization instead if they have unlimited places', async function () {
       // given
       const superAdminUserId = databaseBuilder.factory.buildUser().id;
 
-      const firstOrganization = databaseBuilder.factory.buildOrganization({
+      const organizationId = databaseBuilder.factory.buildOrganization({
         type: 'SCO',
-        name: 'Organization of the dark side',
+        name: 'Organization du sud de la France avec le plus beau stade de France',
         archivedAt: null,
         isArchived: false,
-      });
+      }).id;
 
       databaseBuilder.factory.buildOrganizationPlace({
         count: null,
-        organizationId: firstOrganization.id,
-        activationDate: new Date(),
-        expirationDate: new Date(),
+        organizationId,
+        activationDate: new Date('2024-01-01'),
+        expirationDate: new Date('2025-12-31'),
         createdBy: superAdminUserId,
         createdAt: new Date(),
         deletedAt: null,
@@ -1166,7 +1166,7 @@ describe('Integration | Repository | Organization', function () {
       const organizationsWithPlaces = await organizationRepository.getOrganizationsWithPlaces();
 
       // then
-      expect(organizationsWithPlaces.length).to.equal(0);
+      expect(organizationsWithPlaces.length).to.equal(1);
     });
   });
 });

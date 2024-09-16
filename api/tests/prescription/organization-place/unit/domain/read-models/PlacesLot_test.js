@@ -14,17 +14,6 @@ describe('Unit | Domain | ReadModels | PlacesLot', function () {
   });
 
   describe('#count', function () {
-    it('should return 0 if count is null', function () {
-      const placeLot = new PlacesLot({
-        count: null,
-        activationDate: new Date(),
-        expirationDate: new Date(),
-        deletedAt: null,
-      });
-
-      expect(placeLot.count).to.equal(0);
-    });
-
     it('should return count', function () {
       const placeLot = new PlacesLot({
         count: 10,

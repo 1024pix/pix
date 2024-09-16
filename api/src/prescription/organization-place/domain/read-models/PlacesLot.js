@@ -23,7 +23,7 @@ export class PlacesLot {
   #deletedAt;
   constructor(params = {}) {
     validateEntity(validationSchema, params);
-    this.count = params.count === null ? 0 : params.count;
+    this.count = params.count;
     this.organizationId = params.organizationId;
     this.#activationDate = params.activationDate;
     this.#expirationDate = params.expirationDate;
@@ -31,7 +31,7 @@ export class PlacesLot {
   }
 
   get isActive() {
-    return this.status == statuses.ACTIVE && !this.#deletedAt;
+    return this.status === statuses.ACTIVE && !this.#deletedAt;
   }
 
   get activationDate() {
