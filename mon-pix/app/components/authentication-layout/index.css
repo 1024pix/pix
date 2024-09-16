@@ -16,6 +16,22 @@
     }
 }
 
+@media (max-width: 768px) {
+    .authentication-layout {
+        height: 100vh;
+
+        .authentication-layout__image {
+            display: none;
+
+        }
+
+        .authentication-layout__main {
+            width: 100%;
+            margin: var(--pix-spacing-6x) var(--pix-spacing-4x);
+        }
+    }
+}
+
 .authentication-layout-header {
     display: flex;
     align-items: center;
