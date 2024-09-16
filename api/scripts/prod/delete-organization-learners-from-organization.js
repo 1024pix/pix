@@ -3,6 +3,7 @@ import * as url from 'node:url';
 import { disconnect } from '../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
 import { usecases } from '../../src/prescription/learner-management/domain/usecases/index.js';
+import { executeAndLogScript } from '../tooling/tooling.js';
 
 async function deleteOrganizationLearnersFromOrganization(organizationId, date) {
   if (date && isNaN(Date.parse(date))) {
@@ -111,10 +112,10 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await deleteOrganizationLearnersFromOrganization(process.argv[2], process.argv[3]);
+      const fnWithArgs = deleteOrganizationLearnersFromOrganization.bind(this, process.argv[2], process.argv[3]);
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: fnWithArgs });
       console.log('done');
     } catch (error) {
-      console.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
