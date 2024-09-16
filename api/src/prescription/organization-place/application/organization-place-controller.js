@@ -30,7 +30,7 @@ const deleteOrganizationPlacesLot = async function (request, h) {
   const organizationPlaceId = request.params.placeId;
   const userId = request.auth.credentials.userId;
 
-  await usecases.deleteOrganizationPlaceLot({ organizationPlaceId, userId });
+  await usecases.deleteOrganizationPlacesLot({ organizationPlaceId, userId });
 
   return h.response(null).code(204);
 };

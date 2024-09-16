@@ -1,0 +1,11 @@
+.places-lots{
+  &_title {
+  @extend %pix-title-xs;
+
+  margin: var(--pix-spacing-8x) 0 var(--pix-spacing-4x);
+  }
+
+  &_empty-state {
+    margin-top:var(--pix-spacing-8x);
+  }
+}

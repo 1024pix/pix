@@ -52,6 +52,7 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
       const statistics = new PlaceStatistics({
         placesLots: [
           new PlacesLot({
+            id: 1,
             count: 1,
             expirationDate: new Date('2021-05-02'),
             activationDate: new Date('2021-04-01'),
@@ -68,12 +69,14 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
       const statistics = new PlaceStatistics({
         placesLots: [
           new PlacesLot({
+            id: 1,
             count: 1,
             expirationDate: new Date('2021-05-02'),
             activationDate: new Date('2021-04-01'),
             deletedAt: null,
           }),
           new PlacesLot({
+            id: 2,
             count: 1,
             expirationDate: new Date('2021-05-02'),
             activationDate: new Date('2021-04-01'),
@@ -118,6 +121,7 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
       const statistics = new PlaceStatistics({
         placesLots: [
           new PlacesLot({
+            id: 1,
             count: 1,
             expirationDate: new Date('2021-05-02'),
             activationDate: new Date('2021-04-01'),
@@ -134,6 +138,7 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
       const statistics = new PlaceStatistics({
         placesLots: [
           new PlacesLot({
+            id: 1,
             count: 2,
             expirationDate: new Date('2021-05-02'),
             activationDate: new Date('2021-04-01'),
@@ -149,7 +154,13 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
     it('should return 0 when there are more participant than total places', function () {
       const statistics = new PlaceStatistics({
         placesLots: [
-          { count: 2, expirationDate: new Date('2021-05-02'), activationDate: new Date('2021-04-01'), deletedAt: null },
+          {
+            id: 1,
+            count: 2,
+            expirationDate: new Date('2021-05-02'),
+            activationDate: new Date('2021-04-01'),
+            deletedAt: null,
+          },
         ],
         placeRepartition: { totalUnRegisteredParticipant: 0, totalRegisteredParticipant: 3 },
       });
@@ -169,6 +180,7 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
       const statistics = new PlaceStatistics({
         placesLots: [
           new PlacesLot({
+            id: 1,
             count: 3,
             expirationDate: new Date('2021-05-02'),
             activationDate: new Date('2021-04-01'),
@@ -184,18 +196,21 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
       const statistics = new PlaceStatistics({
         placesLots: [
           new PlacesLot({
+            id: 1,
             count: 1,
             expirationDate: new Date('2021-05-02'),
             activationDate: new Date('2021-04-01'),
             deletedAt: null,
           }),
           new PlacesLot({
+            id: 2,
             count: 10,
             expirationDate: new Date('2021-05-02'),
             activationDate: new Date('2021-04-01'),
             deletedAt: null,
           }),
           new PlacesLot({
+            id: 3,
             count: 10,
             expirationDate: new Date('2020-05-02'),
             activationDate: new Date('2019-04-01'),

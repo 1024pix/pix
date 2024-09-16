@@ -4,6 +4,7 @@ const Joi = BaseJoi.extend(JoiDate);
 import { validateEntity } from '../../../../shared/domain/validators/entity-validator.js';
 
 const validationSchema = Joi.object({
+  id: Joi.number().required(),
   count: Joi.number().required().allow(null),
   organizationId: Joi.number(),
   activationDate: Joi.date().required(),
@@ -18,16 +19,22 @@ const statuses = {
 };
 
 export class PlacesLot {
+  #id;
   #activationDate;
   #expirationDate;
   #deletedAt;
   constructor(params = {}) {
     validateEntity(validationSchema, params);
+    this.#id = params.id;
     this.count = params.count;
     this.organizationId = params.organizationId;
     this.#activationDate = params.activationDate;
     this.#expirationDate = params.expirationDate;
     this.#deletedAt = params.deletedAt;
+  }
+
+  get id() {
+    return this.#id;
   }
 
   get isActive() {

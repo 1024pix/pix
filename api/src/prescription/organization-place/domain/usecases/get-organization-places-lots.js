@@ -4,7 +4,7 @@
  * @typedef {object} payload
  * @property {number} organizationId
  * @property {organizationPlacesLotRepository} organizationPlacesLotRepository
- * @returns {Promise<Array<PlaceLots>>}
+ * @returns {Promise<Array<PlacesLots>>}
  */
 
 /**
