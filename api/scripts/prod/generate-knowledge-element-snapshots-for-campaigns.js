@@ -7,6 +7,7 @@ import * as knowledgeElementRepository from '../../lib/infrastructure/repositori
 import * as knowledgeElementSnapshotRepository from '../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { AlreadyExistingEntityError } from '../../src/shared/domain/errors.js';
 import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
+import { executeAndLogScript } from '../tooling/tooling.js';
 
 const DEFAULT_MAX_SNAPSHOT_COUNT = 5000;
 const DEFAULT_CONCURRENCY = 3;
@@ -114,9 +115,8 @@ async function main() {
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
-      console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
       yargs.showHelp();
       process.exitCode = 1;
     } finally {
