@@ -9,6 +9,7 @@ import { CampaignTypes } from '../../src/prescription/shared/domain/constants.js
 import * as codeGenerator from '../../src/shared/domain/services/code-generator.js';
 import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
+import { executeAndLogScript } from '../tooling/tooling.js';
 
 function checkData(csvData) {
   return csvData.map(({ targetProfileId, name, externalId, title, customLandingPageText, creatorId }) => {
@@ -97,9 +98,8 @@ async function main() {
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
-      console.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
