@@ -182,7 +182,7 @@ module('Acceptance | Session creation', function (hooks) {
 
       // then
       const actualSessionsCount = server.schema.sessionEnrolments.all().length;
-      assert.strictEqual(currentURL(), '/sessions/liste');
+      assert.strictEqual(currentURL(), '/sessions');
       assert.strictEqual(previousSessionsCount, actualSessionsCount);
     });
   });

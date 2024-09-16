@@ -48,7 +48,7 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
         const screen = await visit(`/sessions/import`);
 
         // then
-        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.strictEqual(currentURL(), '/sessions');
         assert.dom(screen.getByText('Sessions de certification')).exists();
       });
     });
@@ -343,7 +343,7 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
                 await settled();
 
                 // then
-                assert.strictEqual(currentURL(), '/sessions/liste');
+                assert.strictEqual(currentURL(), '/sessions');
               });
 
               module('when there is one session', function () {
