@@ -11,6 +11,7 @@ import * as tubeRepository from '../lib/infrastructure/repositories/tube-reposit
 import { calculateScoringInformationForCompetence } from '../src/evaluation/domain/services/scoring/scoring-service.js';
 import { learningContentCache as cache } from '../src/shared/infrastructure/caches/learning-content-cache.js';
 import * as skillRepository from '../src/shared/infrastructure/repositories/skill-repository.js';
+import { executeAndLogScript } from './tooling/tooling.js';
 
 async function getUserSkillsGroupedByTubeId(elements) {
   const ids = _.map(elements, (current) => current.skillId);
@@ -133,6 +134,7 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 async () => {
   if (isLaunchedFromCommandLine) {
-    await main(parseInt(process.argv[2]));
+    const mainWithArgs = main.bind(this, parseInt(process.argv[2]));
+    await executeAndLogScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
   }
 };
