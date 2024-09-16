@@ -41,21 +41,25 @@ describe('Certification | Enrolment | Integration | Repository | ComplementaryCe
           id: 1,
           requiredPixScore: 150,
           offsetVersion: 1,
-        }),
-        domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
-          id: 4,
-          requiredPixScore: 150,
-          offsetVersion: 0,
+          currentAttachedComplementaryCertificationBadgeId: 4,
         }),
         domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
           id: 2,
           requiredPixScore: 0,
           offsetVersion: 0,
+          currentAttachedComplementaryCertificationBadgeId: 2,
         }),
         domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
           id: 3,
           requiredPixScore: 350,
           offsetVersion: 0,
+          currentAttachedComplementaryCertificationBadgeId: 3,
+        }),
+        domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+          id: 4,
+          requiredPixScore: 150,
+          offsetVersion: 0,
+          currentAttachedComplementaryCertificationBadgeId: 4,
         }),
       ];
       expect(actualComplementaryCertificationBadges).to.have.deep.members(expectedResult);

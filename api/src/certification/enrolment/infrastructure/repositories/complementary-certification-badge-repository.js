@@ -9,6 +9,9 @@ export async function findAll() {
       knex.raw(
         '(rank() over (partition by "complementaryCertificationId", "level" ORDER BY "detachedAt" DESC NULLS FIRST)) - 1 as "offsetVersion"',
       ),
+      knex.raw(
+        ' (first_value("id") over (partition by "complementaryCertificationId", "level" ORDER BY "detachedAt" DESC NULLS FIRST)) as "currentAttachedComplementaryCertificationBadgeId"',
+      ),
     )
 
     .orderBy('id');
@@ -20,5 +23,6 @@ function _toDomain(data) {
     id: data.id,
     requiredPixScore: data.minimumEarnedPix,
     offsetVersion: data.offsetVersion,
+    currentAttachedComplementaryCertificationBadgeId: data.currentAttachedComplementaryCertificationBadgeId,
   });
 }
