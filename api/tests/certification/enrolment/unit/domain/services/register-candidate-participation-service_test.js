@@ -1,8 +1,8 @@
-import { registerCandidateParticipation } from '../../../../../../src/certification/enrolment/domain/services/register-candidate-participation-service.js';
+import { registerCandidateParticipation } from '../../../../../../src/certification/enrolment/application/services/register-candidate-participation-service.js';
 import { usecases } from '../../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | Service | register-candidate-participation', function () {
+describe('Unit | Application | Service | register-candidate-participation', function () {
   let enrolledCandidateRepository, normalizeStringFnc;
   const candidateData = {
     firstName: 'Brice',

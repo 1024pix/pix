@@ -1,10 +1,10 @@
 import lodash from 'lodash';
 
 import { normalize } from '../../../shared/infrastructure/utils/string-utils.js';
-import { services } from '../domain/services/index.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as enrolledCandidateSerializer from '../infrastructure/serializers/enrolled-candidate-serializer.js';
 import * as sessionSerializer from '../infrastructure/serializers/session-serializer.js';
+import { services } from './services/index.js';
 const { trim } = lodash;
 
 const createSession = async function (request, _h, dependencies = { sessionSerializer }) {

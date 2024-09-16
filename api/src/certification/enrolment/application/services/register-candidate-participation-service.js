@@ -1,7 +1,8 @@
 /**
  * @typedef {import ('./index.js').EnrolledCandidateRepository} EnrolledCandidateRepository
  */
-import { usecases } from '../usecases/index.js';
+
+import { usecases } from '../../domain/usecases/index.js';
 
 /**
  * Candidate entry to a certification is a multi step process
