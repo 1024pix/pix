@@ -9,6 +9,8 @@ import * as badgeCriteriaRepository from '../src/evaluation/infrastructure/repos
 import * as badgeRepository from '../src/evaluation/infrastructure/repositories/badge-repository.js';
 import { NotFoundError } from '../src/shared/domain/errors.js';
 import { SCOPES } from '../src/shared/domain/models/BadgeDetails.js';
+import { logger } from '../src/shared/infrastructure/utils/logger.js';
+import { executeAndLogScript } from './tooling/tooling.js';
 
 // Usage: node scripts/create-badge-criteria-for-specified-badge path/data.json
 // data.json
@@ -80,9 +82,8 @@ async function main() {
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
-      console.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
