@@ -49,15 +49,15 @@ describe('Unit | Prescription | Application | Jobs | validateOrganizationLearner
       sinon.stub(usecases, 'validateSiecleXmlFile').rejects(error);
 
       // given
-      const errorStub = sinon.stub();
-      const handler = new ValidateOrganizationLearnersImportFileJobController({ logger: { error: errorStub } });
+      const warnStub = sinon.stub();
+      const handler = new ValidateOrganizationLearnersImportFileJobController({ logger: { warn: warnStub } });
       const data = { organizationImportId: Symbol('organizationImportId') };
 
       // when
       await handler.handle({ data });
 
       // then
-      expect(errorStub).to.have.been.calledWithExactly(error);
+      expect(warnStub).to.have.been.calledWithExactly(error);
     });
 
     it('should throw when error is not from domain', async function () {

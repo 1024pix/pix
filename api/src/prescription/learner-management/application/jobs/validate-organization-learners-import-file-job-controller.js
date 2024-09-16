@@ -25,7 +25,7 @@ class ValidateOrganizationLearnersImportFileJobController extends JobController 
       if (!(err instanceof DomainError)) {
         throw err;
       }
-      this.#logger.error(err);
+      this.#logger.warn(err);
     }
   }
 }
