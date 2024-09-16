@@ -17,7 +17,7 @@
   "transitionTexts": [
     {
       "grainId": "96f8e83d-88df-44c0-951d-9b9e3a02cde0",
-      "content": "<p>Savoir cliquer, c'est un peu comme savoir à marcher dans le monde numérique&#8239;! <span aria-hidden=\"\true\">💻 🚶🏼</span>️<br>Une fois qu’on y arrive, on le fait sans y penser.</p><p>Voyons cela ensemble dans ce module !</p>"
+      "content": "<p>Savoir cliquer, c'est comme savoir marcher dans le monde numérique&#8239;! <span aria-hidden=\"\true\">💻 🚶🏼</span>️</p><p>Il y a plusieurs façons de faire des clics avec une souris.<br>Voyons cela ensemble dans ce module !</p>"
     },
     {
       "grainId": "4a80afba-d2ef-4f58-a328-a0fc9f204aca",
@@ -25,15 +25,15 @@
     },
     {
       "grainId": "83f44f19-e8de-4248-bfc7-e38f19190138",
-      "content": "<p>Maintenant, place au clic ! Découvrez comment cliquer sur votre souris.</p>"
+      "content": "<p>Vous connaissez le nom des boutons d'une souris.<br>Maintenant, découvrez comment cliquer sur votre souris !</p>"
     },
     {
       "grainId": "b491a99e-2774-469e-a63e-e2d0fb1120f2",
-      "content": "<p>Vous allez maintenant passer à la pratique <span aria-hidden=\"\true\">👇</span></p>"
+      "content": "<p>Vous allez maintenant passer à la pratique. <span aria-hidden=\"\true\">👇</span></p>"
     },
     {
       "grainId": "efba1e45-54ca-4829-b203-1e74b9269045",
-      "content": "<p>Bravo ! <span aria-hidden=\"\true\">🎉</span>️<br>Après cet entraînement, découvrez maintenant comment utiliser le clic gauche pour naviguer, lancer des vidéos ou répondre à des questionnaires&#8239;!</p>"
+      "content": "<p>Après cet entraînement, découvrez maintenant comment utiliser le clic gauche lancer des vidéos et répondre à un questionnaire&#8239;!</p>"
     },
     {
       "grainId": "a1c193e4-50a7-4965-bcc7-82e9283d3c8e",
@@ -63,7 +63,7 @@
           "element": {
             "id": "e45a32cf-2ab9-4464-85d0-ae4f0ca897cb",
             "type": "text",
-            "content": "<h3>D'abord, pourquoi est-ce que l'on dit «&nbsp;<strong>clic&nbsp;</strong>»&nbsp;?</h3><p>C'est le bruit que fait le bouton d'une souris d'ordinateur quand on appuie dessus.</p>"
+            "content": "<h3>D'abord, pourquoi est-ce que l'on dit «&nbsp;<strong>clic&nbsp;</strong>»&nbsp;?</h3><p>C'est le bruit que fait une souris d'ordinateur quand on appuie dessus.</p>"
           }
         },
         {
@@ -88,7 +88,7 @@
           "element": {
             "id": "88dfe182-930b-4066-a9bb-7b6eba9cd9ae",
             "type": "text",
-            "content": "<p>Sur la souris, on trouve généralement 3 boutons.</p><p><br><strong>Déplacez votre pointeur dans l'image ci-dessous pour découvrir les noms de ces 3 boutons.</strong></p>"
+            "content": "<p><strong>Dans l'image ci-dessous, déplacez votre pointeur sur le dessin de la souris.</strong><br>Trois mots vont apparaître. Ce sont le nom des boutons de la souris.</p>"
           }
         },
         {
@@ -104,7 +104,22 @@
           "element": {
             "id": "d9e4718d-a15a-4e62-a967-19971e1a611e",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">🤔</span> <strong>Bon à savoir :</strong><br>Certaines souris ne possèdent pas de molette.</p>"
+            "content": "<p><p>Sur la souris, on trouve toujours deux boutons : un bouton gauche et un bouton droit.<br>Parfois, il y a une molette.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "f964d3c9-cb68-4cda-97ef-9677c1897c94",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "98a59942-5506-4c18-b16a-97ce2010103b",
+            "type": "text",
+            "content": "<h3><span aria-hidden=\"\true\">👉</span>️ À vous de jouer !</h3><p>Trouvez le nombre de boutons de votre souris d'ordinateur.</p>"
           }
         }
       ]
@@ -119,15 +134,7 @@
           "element": {
             "id": "a17877d3-b88a-4670-a618-3e97c16c1f1b",
             "type": "text",
-            "content": "<p>Le bouton de gauche est celui qu’on utilise le plus. Il permet de faire ce qu’on appelle un <strong>clic gauche</strong>.</p>"
-          }
-        },
-         {
-          "type": "element",
-          "element": {
-            "id": "5f930f45-4eb3-4650-b59b-ca52cf2c092c",
-            "type": "text",
-            "content": "<p>Découvrez étape par étape comment réaliser un clic gauche. <span aria-hidden=\"true\">👇</span></p>"
+            "content": "<p>Le bouton gauche est le plus important. Il permet de faire un <strong>clic gauche</strong>.</p><p>Découvrez étape par étape comment faire un clic gauche. <span aria-hidden=\"true\">👇</span></p>"
           }
         },
         {
@@ -142,7 +149,7 @@
           "element": {
             "id": "a510f893-7d93-4e4f-b8a4-0dd978324c70",
             "type": "text",
-            "content": "<h3>Étape 1&nbsp;: Déplacez le pointeur sur l’élément</h3><p>Posez votre main sur votre souris. Faites-la glisser sur la table jusqu’à ce que votre pointeur soit sur l’élément.</p>"
+            "content": "<h3>Étape 1&nbsp;: déplacer le pointeur à l'écran</h3><p>Poser la main sur votre souris. Faire glisser la main sur la table jusqu’à ce que le pointeur soit à l'endroit où vous voulez.</p>"
           }
         },
         {
@@ -167,7 +174,7 @@
           "element": {
             "id": "11a9d578-a409-4de5-b20a-c38c932fd534",
             "type": "text",
-            "content": "<h3>Étape 2&nbsp;: Appuyez sur le bouton de gauche de votre souris</h3>\n<p> <br>Sans bouger la souris, appuyez sur le bouton gauche avec votre index, puis relâchez immédiatement. Vous devriez entendre un petit «&nbsp;clic&nbsp;» .<br><br> Pas besoin d’appuyer fort, ni de rester appuyé. Vous appuyez une fois, et vous relâchez. Comme pour un bouton de télécommande!</p>"
+            "content": "<h3>Étape 2&nbsp;: appuyer sur le bouton gauche de votre souris</h3><p>Sans bouger la souris, appuyer sur le bouton gauche avec l'index et relâchez immédiatement. C'est comme pour un bouton de télécommande. On doit entendre le son «&nbsp;clic&nbsp;».</p>"
           }
         },
         {
@@ -192,7 +199,7 @@
           "element": {
             "id": "0f2d9e91-8da7-4ca6-80aa-815a4146597c",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">🤔</span> <strong> Bon à savoir :&nbsp;</strong> </p><p>Le doigt de la main qui effectue le clic gauche&nbsp;peut être positionné de différentes façons. À vous de trouver le plus confortable pour vous. Le doigt peut être allongé et détendu sur la souris. Le doigt peut aussi être recourbé.</p>"
+            "content": "<h3><span aria-hidden=\"true\">💡</span> <strong>Astuce</strong></h3><p>Le doigt qui fait le clic gauche&nbsp;peut être positionné de différentes façons. L'important est d'être à l'aise et détendu.</p>"
           }
         }
       ]
@@ -207,7 +214,7 @@
           "element": {
             "id": "80070528-b2ca-4e93-99a6-bc495a6029ef",
             "type": "text",
-            "content": "<p>Voici un rappel des étapes pour réaliser un clic gauche&nbsp;:</p><ul><li>🖱️ Déplacer le pointeur sur l’élément&nbsp;</li><li>👇 Appuyer sur le bouton gauche de votre souris</li><li>🖥️ Observer la réaction déclenchée par le clic</li></ul><p><br><strong>Dans la zone ci-dessous, effectuez un clic sur chaque élément lorsqu'il apparait.</strong><br></p>"
+            "content": "<p>Voici un rappel des étapes pour faire un clic gauche&nbsp;:</p><ol><li>déplacer le pointeur où il faut,</li><li>appuyer sur le bouton gauche de la souris,</li><li>observer l'effet à l'écran.</li></ol><p><br><strong>Dans la zone ci-dessous, faites un clic sur chaque élément lorsqu'il apparait.</strong><br></p>"
           }
         },
         {
@@ -223,7 +230,7 @@
           "element": {
             "id": "930a995c-2b29-474a-97a3-c90d5e03ad80",
             "type": "text",
-            "content": "<p>Pour accéder à la suite, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+            "content": "<p>Quand vous avez terminé l'activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
           }
         }
       ]
@@ -241,7 +248,7 @@
                 {
                   "id": "734ef21d-3850-40db-840e-e16253d8817b",
                   "type": "text",
-                  "content": "<h3><strong>Lancez la vidéo ci-dessous en appuyant sur le bouton «&nbsp;Play&nbsp;» <span aria-hidden=\"true\">▶️</span></strong></h3><br><iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/czfvEpLfCV0?si=2Q1MBBnh2-c-0CmD\" title=\"Bravo\"></iframe><p><br>Pour accéder à la suite, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+                  "content": "<h3><strong>Lancez la vidéo ci-dessous en appuyant sur le bouton «&nbsp;Play&nbsp;» <span aria-hidden=\"true\">▶️</span></strong></h3><br><iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/czfvEpLfCV0?si=2Q1MBBnh2-c-0CmD\" title=\"Bravo\"></iframe><p><br>Pour accéder à la suite, faites un clic gauche sur le bouton «&nbsp;Suivant&nbsp;» ci-dessous.</p>"
                 }
               ]
             },
@@ -250,13 +257,9 @@
                 {
                   "id": "35e0ae32-980e-45fc-bb69-b94da529d6fb",
                   "type": "text",
-                  "content": "<h3>Dans le questionnaire suivant, faites un clic gauche sur la case de la bonne réponse, puis faites un clic gauche sur «&nbsp;Vérifier&nbsp;»</h3><p><br>Pour accéder au questionnaire, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
-                }
-              ]
-            },
-            {
-              "elements": [
-                 {
+                  "content": "Dans le questionnaire ci-dessous : <ul><li>lisez la question<li>faites un clic gauche sur la réponse que vous voulez,</li><li>puis faites un clic gauche sur «&nbsp;Vérifier&nbsp;»</li></ul>"
+                },
+                {
                   "id": "7253ded2-df17-4926-930d-0b0947f7de82",
                   "type": "qcu",
                   "instruction": "Que dit la vidéo précédente ?",
@@ -283,7 +286,7 @@
                 {
                   "id": "4c2ce336-aa9a-49b5-ba4f-84530e21b52d",
                   "type": "text",
-                  "content": "<p>Si vous avez terminé, faites un clic gauche sur le bouton «&nbsp;Suivant&nbsp;» ci-dessous.</p>"
+                  "content": "<p>Quand vous avez terminé l'activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
                 }
               ]
             }
@@ -319,7 +322,7 @@
           "element": {
             "id": "626c6c46-e397-46bc-adb2-9894f96afc7e",
             "type": "text",
-            "content": "<p>Après cette vidéo, vous pourrez vous entraîner à effectuer des doubles-clics. <br>Découvrez dans la vidéo ci-dessous comment réaliser un double&#x002D;clic.&nbsp; </p><br>\n<p><strong>Pour démarrer la vidéo, faites un clic gauche sur le bouton «&nbsp;Play&nbsp;»  <span aria-hidden=\"true\">▶️</span></strong></p><br> <iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/cDf-Q5tHwVM\" title=\"Première marche souris - Double-clic\"></iframe>"
+            "content": "<p>Après cette vidéo, vous pourrez vous entraîner à faire des doubles-clics. <br>Découvrez dans la vidéo ci-dessous comment faire un double&#x002D;clic.&nbsp; </p><br>\n<p><strong>Pour démarrer la vidéo, faites un clic gauche sur le bouton «&nbsp;Play&nbsp;»  <span aria-hidden=\"true\">▶️</span></strong></p><br> <iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/cDf-Q5tHwVM\" title=\"Première marche souris - Double-clic\"></iframe>"
           }
         }
       ]
@@ -334,7 +337,7 @@
           "element": {
             "id": "1ba7575f-d1c6-4acd-9312-7a2dc6f3345e",
             "type": "text",
-            "content": "<p><strong>Effectuez un double-clic sur chaque élément qui apparaît ci-dessous.</strong></p>"
+            "content": "<p><strong>Faites un double-clic sur chaque élément qui apparaît ci-dessous.</strong></p>"
           }
         },
         {
@@ -422,7 +425,7 @@
                 {
                   "id": "e1e41835-97b5-4651-b8b7-447a269079d2",
                   "type": "text",
-                  "content": "<p>La souris est composée des 3 boutons.&nbsp; <br><strong>Le bouton gauche</strong> est celui qui vous permet d’effectuer des clics gauches et des doubles&#x002D;clics.</p>"
+                  "content": "<p>La souris est composée des 3 boutons.&nbsp; <br><strong>Le bouton gauche</strong> est celui qui vous permet de faire des clics gauches et des doubles&#x002D;clics.</p>"
                 },
                                 {
                   "id": "3c8b388b-a8ca-41ad-bc89-ff9e8cd3e613",
@@ -436,7 +439,7 @@
                 {
                   "id": "99ba8a02-fd1e-4827-a51b-32c14225a4e8",
                   "type": "text",
-                  "content": "<p><strong>Le bouton droit</strong>, vous permet d’effectuer des clics droits.</p>\n<p>Sur l’écran, le clic droit vous permet de découvrir la liste des actions possibles sur cet élément : le supprimer, l'ouvrir, etc. <br> Voici un exemple de liste des actions possibles sur un dossier.</p>"
+                  "content": "<p><strong>Le bouton droit</strong>, vous permet de faire des clics droits.</p>\n<p>Sur l’écran, le clic droit vous permet de découvrir la liste des actions possibles sur cet élément : le supprimer, l'ouvrir, etc. <br> Voici un exemple de liste des actions possibles sur un dossier.</p>"
                 },
                 {
                   "id": "48218129-a5ac-4c43-8a4a-db3345400477",
