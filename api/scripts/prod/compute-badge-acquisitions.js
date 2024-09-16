@@ -19,6 +19,7 @@ import { CampaignParticipation } from '../../src/prescription/campaign-participa
 import { learningContentCache as cache } from '../../src/shared/infrastructure/caches/learning-content-cache.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
+import { executeAndLogScript } from '../tooling/tooling.js';
 
 const MAX_RANGE_SIZE = 100_000;
 
@@ -145,9 +146,8 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
-      logger.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
