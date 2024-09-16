@@ -16,6 +16,7 @@ import * as organizationRepository from '../src/shared/infrastructure/repositori
 import { temporaryStorage } from '../src/shared/infrastructure/temporary-storage/index.js';
 import { organizationInvitationRepository } from '../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers.js';
+import { executeAndLogScript } from './tooling/tooling.js';
 
 const { isEmpty } = lodash;
 
@@ -127,10 +128,9 @@ async function main() {
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
       console.log('\nOrganizations created with success !');
     } catch (error) {
-      console.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
