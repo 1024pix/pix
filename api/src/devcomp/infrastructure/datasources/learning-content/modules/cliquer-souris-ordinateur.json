@@ -17,11 +17,11 @@
   "transitionTexts": [
     {
       "grainId": "96f8e83d-88df-44c0-951d-9b9e3a02cde0",
-      "content": "<p>Apprendre à cliquer, c'est un peu comme apprendre à marcher dans le monde numérique&#8239;! <span aria-hidden=\"\true\"> 💻 </span>️ Une fois qu’on y arrive, on le fait sans y penser.</p>"
+      "content": "<p>Savoir cliquer, c'est un peu comme savoir à marcher dans le monde numérique&#8239;! <span aria-hidden=\"\true\">💻 🚶🏼</span>️<br>Une fois qu’on y arrive, on le fait sans y penser.</p><p>Voyons cela ensemble dans ce module !</p>"
     },
     {
       "grainId": "4a80afba-d2ef-4f58-a328-a0fc9f204aca",
-      "content": "<p>Avant tout, découvrez les différents boutons de la souris ! <span aria-hidden=\"\true\">🖱️️</span></p>"
+      "content": "<p>Découvrez maintenant les différents boutons de la souris ! <span aria-hidden=\"\true\">🖱️️</span></p>"
     },
     {
       "grainId": "83f44f19-e8de-4248-bfc7-e38f19190138",
@@ -61,17 +61,9 @@
         {
           "type": "element",
           "element": {
-            "id": "1cdab3f3-d431-47c7-9f73-35212186d651",
-            "type": "text",
-            "content": "<p>On utilise la souris de plusieurs façons. </p><br>\n<p>La première façon est de <strong>déplacer le pointeur</strong>. <br>On fait glisser la souris sur la table dans une direction. À l'écran, le pointeur bouge dans la même direction.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
             "id": "e45a32cf-2ab9-4464-85d0-ae4f0ca897cb",
             "type": "text",
-            "content": "<p>La seconde façon est d’<strong>appuyer sur un bouton de la souris</strong>. Quand on appuie sur un bouton de la souris, on dit qu’on «&nbsp;clique&nbsp;».<br><br>Pourquoi appelle-t-on cela un «&nbsp;<strong>clic&nbsp;</strong>»&nbsp;?<br> Car cela correspond au bruit que fait le bouton quand on appuie dessus.</p>"
+            "content": "<h3>D'abord, pourquoi est-ce que l'on dit «&nbsp;<strong>clic&nbsp;</strong>»&nbsp;?</h3><p>C'est le bruit que fait le bouton d'une souris d'ordinateur quand on appuie dessus.</p>"
           }
         },
         {
