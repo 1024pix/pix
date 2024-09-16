@@ -9,6 +9,7 @@ import * as campaignRepository from '../../lib/infrastructure/repositories/campa
 import * as knowlegeElementSnapshotRepository from '../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { CampaignParticipationStatuses } from '../../src/prescription/shared/domain/constants.js';
 import { ParticipantResultsShared } from '../../src/shared/domain/models/ParticipantResultsShared.js';
+import { executeAndLogScript } from '../tooling/tooling.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 import _ from 'lodash';
@@ -159,9 +160,8 @@ async function main() {
   if (isLaunchedFromCommandLine) {
     logEnable = true;
     try {
-      await main();
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
-      console.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
