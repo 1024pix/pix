@@ -81,7 +81,7 @@ module('Acceptance | Session Details', function (hooks) {
       await click(screen.getByRole('link', { name: 'Revenir à la liste des sessions' }));
 
       // then
-      assert.deepEqual(currentURL(), '/sessions/liste');
+      assert.deepEqual(currentURL(), '/sessions');
     });
 
     test('it should show the number of candidates on tab', async function (assert) {

@@ -33,7 +33,7 @@ module('Acceptance | authenticated', function (hooks) {
       await click(screen.getByRole('link', { name: "Page d'accueil de Pix Certif" }));
 
       // then
-      assert.strictEqual(currentURL(), '/sessions/liste');
+      assert.strictEqual(currentURL(), '/sessions');
     });
   });
 
@@ -54,7 +54,7 @@ module('Acceptance | authenticated', function (hooks) {
       await click(screen.getByRole('link', { name: 'Sessions de certification' }));
 
       // then
-      assert.strictEqual(currentURL(), '/sessions/liste');
+      assert.strictEqual(currentURL(), '/sessions');
     });
 
     test('it should show the invigilator portal button', async function (assert) {
@@ -72,7 +72,7 @@ module('Acceptance | authenticated', function (hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      const screen = await visit('/sessions/liste');
+      const screen = await visit('/sessions');
 
       // then
       assert.dom(screen.getByRole('link', { name: 'Espace surveillant' })).exists();
@@ -93,7 +93,7 @@ module('Acceptance | authenticated', function (hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      const screen = await visit('/sessions/liste');
+      const screen = await visit('/sessions');
       const invigilatorSpaceLink = screen.getByRole('link', { name: 'Espace surveillant' });
       await click(invigilatorSpaceLink);
 
@@ -112,7 +112,7 @@ module('Acceptance | authenticated', function (hooks) {
           await authenticateSession(certificationPointOfContact.id);
 
           // when
-          const screen = await visit('/sessions/liste');
+          const screen = await visit('/sessions');
 
           // then
           assert
@@ -133,7 +133,7 @@ module('Acceptance | authenticated', function (hooks) {
           await authenticateSession(certificationPointOfContact.id);
 
           // when
-          const screen = await visit('/sessions/liste');
+          const screen = await visit('/sessions');
 
           // then
           const certificationBannerMessage = screen.queryByText(
@@ -257,7 +257,7 @@ module('Acceptance | authenticated', function (hooks) {
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
-      assert.strictEqual(currentURL(), '/sessions/liste');
+      assert.strictEqual(currentURL(), '/sessions');
     });
 
     test('should redirect to espace-ferme URL when changing the current certification center to a blocked one', async function (assert) {
@@ -337,7 +337,7 @@ module('Acceptance | authenticated', function (hooks) {
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
-      assert.strictEqual(currentURL(), '/sessions/liste');
+      assert.strictEqual(currentURL(), '/sessions');
     });
   });
 });

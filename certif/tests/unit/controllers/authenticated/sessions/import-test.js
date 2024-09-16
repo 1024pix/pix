@@ -148,7 +148,7 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       await controller.createSessions();
 
       // then
-      assert.ok(controller.router.transitionTo.calledWith('authenticated.sessions.list'));
+      assert.ok(controller.router.transitionTo.calledWith('authenticated.sessions'));
     });
   });
 });

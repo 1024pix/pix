@@ -72,7 +72,7 @@ module('Acceptance | authentication', function (hooks) {
 
         // then
 
-        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.strictEqual(currentURL(), '/sessions');
         assert.ok(
           currentSession(this.application).get('isAuthenticated'),
           'The certificationPointOfContact is authenticated',
@@ -89,10 +89,10 @@ module('Acceptance | authentication', function (hooks) {
         await authenticateSession(certificationPointOfContact.id);
 
         // when
-        await visit('/sessions/liste');
+        await visit('/sessions');
 
         // then
-        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.strictEqual(currentURL(), '/sessions');
         assert.ok(
           currentSession(this.application).get('isAuthenticated'),
           'The certificationPointOfContact is authenticated',
@@ -105,7 +105,7 @@ module('Acceptance | authentication', function (hooks) {
         await authenticateSession(certificationPointOfContact.id);
 
         // when
-        const screen = await visit('/sessions/liste');
+        const screen = await visit('/sessions');
 
         // then
         assert
@@ -126,7 +126,7 @@ module('Acceptance | authentication', function (hooks) {
         await visit('/');
 
         // then
-        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.strictEqual(currentURL(), '/sessions');
       });
     });
 

@@ -75,7 +75,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
       await click(screen.getByRole('link', { name: 'Revenir à la liste des sessions' }));
 
       // then
-      assert.deepEqual(currentURL(), '/sessions/liste');
+      assert.deepEqual(currentURL(), '/sessions');
     });
 
     module('when current certification center is blocked', function () {
