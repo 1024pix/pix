@@ -6,6 +6,7 @@ import { disconnect, knex } from '../db/knex-database-connection.js';
 import { Membership } from '../src/shared/domain/models/Membership.js';
 import { PromiseUtils } from '../src/shared/infrastructure/utils/promise-utils.js';
 import { parseCsvWithHeader } from './helpers/csvHelpers.js';
+import { executeAndLogScript } from './tooling/tooling.js';
 
 async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externalId) {
   const certificationCenterIdWithMemberships = await knex('certification-centers')
@@ -95,9 +96,8 @@ async function main() {
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
-      console.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
