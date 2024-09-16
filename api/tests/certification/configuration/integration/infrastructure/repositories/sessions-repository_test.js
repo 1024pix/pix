@@ -87,7 +87,7 @@ describe('Certification | Configuration | Integration | Repository | sessions-re
     });
   });
 
-  describe('deleteStaleSession', function () {
+  describe('deleteUnstartedSession', function () {
     it('should delete session', async function () {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
@@ -100,7 +100,7 @@ describe('Certification | Configuration | Integration | Repository | sessions-re
       await databaseBuilder.commit();
 
       // when
-      await configurationRepositories.sessionsRepository.deleteStaleSession({ sessionId });
+      await configurationRepositories.sessionsRepository.deleteUnstartedSession({ sessionId });
 
       // then
       const result = await knex('sessions').where({ id: sessionId }).first();
@@ -121,7 +121,7 @@ describe('Certification | Configuration | Integration | Repository | sessions-re
         await databaseBuilder.commit();
 
         // when
-        await configurationRepositories.sessionsRepository.deleteStaleSession({ sessionId });
+        await configurationRepositories.sessionsRepository.deleteUnstartedSession({ sessionId });
 
         // then
         const result = await knex('sessions').where({ id: sessionId }).first();

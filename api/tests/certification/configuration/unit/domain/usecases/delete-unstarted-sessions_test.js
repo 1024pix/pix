@@ -1,13 +1,13 @@
-import { deleteStaleSessions } from '../../../../../../src/certification/configuration/domain/usecases/delete-stale-sessions.js';
+import { deleteUnstartedSessions } from '../../../../../../src/certification/configuration/domain/usecases/delete-unstarted-sessions.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
-describe('Certification | Configuration | Unit | UseCase | delete-stale-sessions', function () {
+describe('Certification | Configuration | Unit | UseCase | delete-unstarted-sessions', function () {
   let sessionsRepository;
 
   beforeEach(function () {
     sessionsRepository = {
       findStaleV2Sessions: sinon.stub(),
-      deleteStaleSession: sinon.stub(),
+      deleteUnstartedSession: sinon.stub(),
     };
   });
 
@@ -43,16 +43,16 @@ describe('Certification | Configuration | Unit | UseCase | delete-stale-sessions
         rowCount: 2,
       },
     });
-    sessionsRepository.deleteStaleSession.resolves();
+    sessionsRepository.deleteUnstartedSession.resolves();
 
     // when
-    const numberOfSessions = await deleteStaleSessions({
+    const numberOfSessions = await deleteUnstartedSessions({
       sessionsRepository,
     });
 
     // then
     expect(sessionsRepository.findStaleV2Sessions).to.have.been.calledThrice;
-    expect(sessionsRepository.deleteStaleSession).to.have.been.calledTwice;
+    expect(sessionsRepository.deleteUnstartedSession).to.have.been.calledTwice;
     expect(numberOfSessions).to.equal(2);
   });
 });

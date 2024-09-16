@@ -14,7 +14,7 @@ export class ConvertCenterToV3JobController extends JobController {
    */
   async handle({ data }) {
     const { centerId } = data;
-    await usecases.deleteStaleSessions({ centerId });
+    await usecases.deleteUnstartedSessions({ centerId });
     await usecases.registerCenterPilotFeatures({ centerId, isV3Pilot: true });
   }
 }

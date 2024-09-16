@@ -7,7 +7,7 @@
  * @param {number} params.centerId
  * @param {SessionsRepository} params.sessionsRepository
  */
-export const deleteStaleSessions = async ({ centerId, sessionsRepository }) => {
+export const deleteUnstartedSessions = async ({ centerId, sessionsRepository }) => {
   let numberOfSessions = 0;
   let hasNext = false;
   let pageNumber = 1;
@@ -30,6 +30,6 @@ export const deleteStaleSessions = async ({ centerId, sessionsRepository }) => {
  */
 const _deleteSessions = async ({ sessionIds, sessionsRepository }) => {
   for (const sessionId of sessionIds) {
-    await sessionsRepository.deleteStaleSession({ sessionId });
+    await sessionsRepository.deleteUnstartedSession({ sessionId });
   }
 };

@@ -35,7 +35,7 @@ export const findStaleV2Sessions = async function ({ centerId, pageNumber = DEFA
  * @param {number} params.pageNumber - page number to fetch, default 1
  * @param {SessionsApi} params.sessionsApi
  */
-export const deleteStaleSession = async function ({ sessionId, sessionsApi } = {}) {
+export const deleteUnstartedSession = async function ({ sessionId, sessionsApi } = {}) {
   try {
     await sessionsApi.deleteSession({ sessionId });
   } catch (error) {
