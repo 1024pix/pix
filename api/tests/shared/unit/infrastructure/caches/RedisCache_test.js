@@ -14,9 +14,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
 
   beforeEach(function () {
     stubbedClient = {
-      lockDisposer: sinon.stub().resolves(() => {
-        return;
-      }),
+      lock: sinon.stub().resolves({ unlock: sinon.stub().resolves() }),
     };
     sinon.stub(RedisCache, 'createClient').withArgs(REDIS_URL).returns(stubbedClient);
     redisCache = new RedisCache(REDIS_URL);
@@ -30,22 +28,21 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
     });
 
     context('when the value is already in cache', function () {
-      it('should resolve with the existing value', function () {
+      it('should resolve with the existing value', async function () {
         // given
         const cachedData = { foo: 'bar' };
         const redisCachedData = JSON.stringify(cachedData);
         stubbedClient.get.withArgs(CACHE_KEY).resolves(redisCachedData);
         stubbedClient.lrange.withArgs(`${CACHE_KEY}:${PATCHES_KEY}`, 0, -1).resolves([]);
+
         // when
-        const promise = redisCache.get(CACHE_KEY);
+        const result = await redisCache.get(CACHE_KEY);
 
         // then
-        return expect(promise).to.have.been.fulfilled.then((result) => {
-          expect(result).to.deep.equal(cachedData);
-        });
+        expect(result).to.deep.equal(cachedData);
       });
 
-      it('should resolve with the existing value and apply the patche if any', function () {
+      it('should resolve with the existing value and apply the patche if any', async function () {
         // given
         const redisCachedData = JSON.stringify({ foo: 'bar' });
         const cachedPatchesData = [JSON.stringify({ operation: 'assign', path: 'foo', value: 'roger' })];
@@ -54,15 +51,13 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
         const finalResult = { foo: 'roger' };
 
         // when
-        const promise = redisCache.get(CACHE_KEY);
+        const result = await redisCache.get(CACHE_KEY);
 
         // then
-        return expect(promise).to.have.been.fulfilled.then((result) => {
-          expect(result).to.deep.equal(finalResult);
-        });
+        expect(result).to.deep.equal(finalResult);
       });
 
-      it('should resolve with the existing value and apply the patches if any', function () {
+      it('should resolve with the existing value and apply the patches if any', async function () {
         // given
         const redisCachedData = JSON.stringify({ foo: 'bar', fibonnaci: [1] });
         const cachedPatchesData = [
@@ -76,12 +71,10 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
         const finalResult = { foo: 'roger', fibonnaci: [1, 2, 5] };
 
         // when
-        const promise = redisCache.get(CACHE_KEY);
+        const result = await redisCache.get(CACHE_KEY);
 
         // then
-        return expect(promise).to.have.been.fulfilled.then((result) => {
-          expect(result).to.deep.equal(finalResult);
-        });
+        expect(result).to.deep.equal(finalResult);
       });
     });
 
@@ -94,69 +87,57 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
         redisCache.set.resolves();
       });
 
-      it('should try to lock the cache key', function () {
+      it('should try to lock the cache key', async function () {
         // given
         const expectedLockedKey = 'locks:' + CACHE_KEY;
         const handler = sinon.stub().resolves();
 
         // when
-        const promise = redisCache.get(CACHE_KEY, handler);
+        await redisCache.get(CACHE_KEY, handler);
 
         // then
-        return promise.then(() => {
-          return expect(stubbedClient.lockDisposer).to.have.been.calledWith(
-            expectedLockedKey,
-            settings.caching.redisCacheKeyLockTTL,
-          );
-        });
+        expect(stubbedClient.lock).to.have.been.calledWith(expectedLockedKey, settings.caching.redisCacheKeyLockTTL);
       });
 
       context('and the cache key is not already locked', function () {
-        it('should add into the cache the value returned by the handler', function () {
+        it('should add into the cache the value returned by the handler', async function () {
           // given
           const dataFromHandler = { name: 'data from learning content' };
-          const handler = () => Promise.resolve(dataFromHandler);
+          const handler = sinon.stub().resolves(dataFromHandler);
 
           // when
-          const promise = redisCache.get(CACHE_KEY, handler);
+          await redisCache.get(CACHE_KEY, handler);
 
           // then
-          return promise.then(() => {
-            return expect(redisCache.set).to.have.been.calledWithExactly(CACHE_KEY, dataFromHandler);
-          });
+          expect(redisCache.set).to.have.been.calledWithExactly(CACHE_KEY, dataFromHandler);
         });
 
-        it('should return the value', function () {
+        it('should return the value', async function () {
           // given
           const dataFromHandler = { name: 'data from learning content' };
-          const handler = () => Promise.resolve(dataFromHandler);
+          const handler = sinon.stub().resolves(dataFromHandler);
           redisCache.set.resolves(dataFromHandler);
 
           // when
-          const promise = redisCache.get(CACHE_KEY, handler);
+          const value = await redisCache.get(CACHE_KEY, handler);
 
           // then
-          return promise.then((value) => {
-            return expect(value).to.equal(dataFromHandler);
-          });
+          expect(value).to.equal(dataFromHandler);
         });
       });
 
       context('and the cache key is already locked', function () {
-        it('should wait and retry to get the value from the cache', function () {
+        it('should wait and retry to get the value from the cache', async function () {
           // given
-          stubbedClient.lockDisposer.rejects(new Redlock.LockError());
-          const handler = () => {
-            return;
-          };
+          const dataFromHandler = { name: 'data from learning content' };
+          const handler = sinon.stub().resolves(dataFromHandler);
+          stubbedClient.lock.rejects(new Redlock.LockError());
 
           // when
-          const promise = redisCache.get(CACHE_KEY, handler);
+          await redisCache.get(CACHE_KEY, handler);
 
           // then
-          return promise.then(() => {
-            expect(stubbedClient.get).to.have.been.calledTwice;
-          });
+          expect(stubbedClient.get).to.have.been.calledTwice;
         });
       });
     });
@@ -194,18 +175,16 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
       stubbedClient.del = sinon.stub();
     });
 
-    it('should resolve with the object to cache', function () {
+    it('should resolve with the object to cache', async function () {
       // given
       stubbedClient.set.resolves();
 
       // when
-      const promise = redisCache.set(CACHE_KEY, objectToCache);
+      const result = await redisCache.set(CACHE_KEY, objectToCache);
 
       // then
-      return expect(promise).to.have.been.fulfilled.then((result) => {
-        expect(result).to.deep.equal(objectToCache);
-        expect(stubbedClient.set).to.have.been.calledWithExactly(CACHE_KEY, JSON.stringify(objectToCache));
-      });
+      expect(result).to.deep.equal(objectToCache);
+      expect(stubbedClient.set).to.have.been.calledWithExactly(CACHE_KEY, JSON.stringify(objectToCache));
     });
 
     it('should reject when the Redis cache client throws an error', function () {
@@ -225,12 +204,10 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
       stubbedClient.del.resolves();
 
       // when
-      const promise = redisCache.set(CACHE_KEY, objectToCache);
+      await redisCache.set(CACHE_KEY, objectToCache);
 
       // then
-      return expect(promise).to.have.been.fulfilled.then(() => {
-        expect(stubbedClient.del).to.have.been.calledWithExactly(`${CACHE_KEY}:patches`);
-      });
+      expect(stubbedClient.del).to.have.been.calledWithExactly(`${CACHE_KEY}:patches`);
     });
   });
 

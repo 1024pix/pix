@@ -1,15 +1,18 @@
 import { randomUUID } from 'node:crypto';
 
-import bluebird from 'bluebird';
 import Redis from 'ioredis';
+import Redlock from 'redlock';
 
 import { config } from '../../../../../src/shared/config.js';
 import { RedisClient } from '../../../../../src/shared/infrastructure/utils/RedisClient.js';
-import { expect } from '../../../../test-helper.js';
-
-const { using } = bluebird;
+import { catchErr, expect } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Utils | RedisClient', function () {
+  beforeEach(async function () {
+    const redisClient = new RedisClient(config.redis.url);
+    await redisClient.flushall();
+  });
+
   it('stores and retrieve a value for a key', async function () {
     // given
     const key = new Date().toISOString();
@@ -105,21 +108,44 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
     expect(result).to.equal('PONG');
   });
 
-  describe('lock disposer', function () {
-    it('should provide a lock disposer that grants a lock', async function () {
+  describe('lock', function () {
+    it('locks a key', async function () {
       // given
       const client = new RedisClient(config.redis.url);
-      const clientWithAllFunctions = new Redis(config.redis.url);
-
-      const locker = client.lockDisposer('locks:toto', 1000);
+      const otherClient = new Redis(config.redis.url);
 
       // when
-      const result = await using(locker, async () => {
-        return clientWithAllFunctions.exists('locks:toto');
-      });
+      await client.lock('locks:toto', 10000);
 
       // then
-      expect(result).to.equal(1);
+      const count = await otherClient.exists('locks:toto');
+      expect(count).to.equal(1);
+    });
+
+    it('unlocks a key', async function () {
+      // given
+      const client = new RedisClient(config.redis.url);
+      const otherClient = new Redis(config.redis.url);
+      const lock = await client.lock('locks:toto', 10000);
+
+      // when
+      await lock.unlock();
+
+      // then
+      const count = await otherClient.exists('locks:toto');
+      expect(count).to.equal(0);
+    });
+
+    it('throws a LockError when locking a locked resource', async function () {
+      // given
+      const client = new RedisClient(config.redis.url);
+      await client.lock('locks:toto', 10000);
+
+      // when
+      const error = await catchErr(client.lock)('locks:toto', 10000);
+
+      // then
+      expect(error).to.be.instanceOf(Redlock.LockError);
     });
   });
 
