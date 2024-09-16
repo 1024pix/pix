@@ -134,4 +134,8 @@ export class Candidate {
   convertExtraTimePercentageToDecimal() {
     this.extraTimePercentage = this.extraTimePercentage / 100;
   }
+
+  hasCoreSubscription() {
+    return this.subscriptions.some((subscription) => subscription.isCore());
+  }
 }

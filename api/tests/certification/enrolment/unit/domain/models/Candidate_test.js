@@ -1196,4 +1196,34 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       expect(candidate.extraTimePercentage).to.equal(0.2);
     });
   });
+
+  describe('hasCoreSubscription', function () {
+    it('should return true', function () {
+      // given
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        ...candidateData,
+        subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
+      });
+
+      // when
+      const hasCoreSubscription = candidate.hasCoreSubscription();
+
+      // when / then
+      expect(hasCoreSubscription).to.be.true;
+    });
+
+    it('should return false', function () {
+      // given
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        ...candidateData,
+        subscriptions: [domainBuilder.buildComplementarySubscription({ certificationCandidateId: null })],
+      });
+
+      // when
+      const hasCoreSubscription = candidate.hasCoreSubscription();
+
+      // when / then
+      expect(hasCoreSubscription).to.be.false;
+    });
+  });
 });

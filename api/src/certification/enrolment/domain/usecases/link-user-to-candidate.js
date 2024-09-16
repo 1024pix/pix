@@ -19,8 +19,7 @@ import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/error
  * @returns {Promise<void>}
  */
 export async function linkUserToCandidate({ userId, candidate, candidateRepository, placementProfileService }) {
-  const hasCoreSubscription = candidate.subscriptions.some((subscription) => subscription.isCore());
-  if (hasCoreSubscription) {
+  if (candidate.hasCoreSubscription()) {
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId,
       limitDate: new Date(),
