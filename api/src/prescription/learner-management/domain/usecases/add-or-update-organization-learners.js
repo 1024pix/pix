@@ -13,6 +13,7 @@ async function addOrUpdateOrganizationLearners({
   organizationLearnerRepository,
   organizationImportRepository,
   importStorage,
+  logger,
   chunkSize = ORGANIZATION_LEARNER_CHUNK_SIZE,
 }) {
   const errors = [];
@@ -64,8 +65,11 @@ async function addOrUpdateOrganizationLearners({
       organizationImport.process({ errors });
       await organizationImportRepository.save(organizationImport);
       loggerForImport("IMPORT_LOG -> <<addOrUpdateOrganizationLearners>> Aprés le save de l'organizationImport");
-
-      await importStorage.deleteFile({ filename: organizationImport.filename });
+      try {
+        await importStorage.deleteFile({ filename: organizationImport.filename });
+      } catch (error) {
+        logger.error(error);
+      }
 
       loggerForImport('IMPORT_LOG -> <<addOrUpdateOrganizationLearners>> Fin du usecase');
     }

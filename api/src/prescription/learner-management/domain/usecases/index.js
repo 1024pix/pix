@@ -5,6 +5,7 @@ import * as userReconciliationService from '../../../../../lib/domain/services/u
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import { logErrorWithCorrelationIds } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
+import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
@@ -50,6 +51,7 @@ const dependencies = {
   logErrorWithCorrelationIds,
   userReconciliationService,
   organizationFeatureRepository: repositories.organizationFeatureRepository,
+  logger,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
