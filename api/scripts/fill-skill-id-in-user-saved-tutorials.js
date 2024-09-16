@@ -13,6 +13,7 @@ import {
   skillDatasource,
   tutorialDatasource,
 } from '../src/shared/infrastructure/datasources/learning-content/index.js';
+import { executeAndLogScript } from './tooling/tooling.js';
 
 async function getAllUserSavedTutorialsWithoutSkillId() {
   const userSavedTutorials = await knex('user-saved-tutorials').whereNull('skillId');
@@ -163,9 +164,8 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
-      console.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
