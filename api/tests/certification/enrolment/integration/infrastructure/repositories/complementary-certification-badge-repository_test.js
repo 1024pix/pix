@@ -11,6 +11,12 @@ describe('Certification | Enrolment | Integration | Repository | ComplementaryCe
         id: 1,
         minimumEarnedPix: 150,
         complementaryCertificationId: complementaryCertificationId1,
+        detachedAt: '2020-01-01',
+      });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 4,
+        minimumEarnedPix: 150,
+        complementaryCertificationId: complementaryCertificationId1,
       });
       const complementaryCertificationId2 = databaseBuilder.factory.buildComplementaryCertification({ key: 'key2' }).id;
       databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -34,14 +40,22 @@ describe('Certification | Enrolment | Integration | Repository | ComplementaryCe
         domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
           id: 1,
           requiredPixScore: 150,
+          offsetVersion: 1,
+        }),
+        domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+          id: 4,
+          requiredPixScore: 150,
+          offsetVersion: 0,
         }),
         domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
           id: 2,
           requiredPixScore: 0,
+          offsetVersion: 0,
         }),
         domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
           id: 3,
           requiredPixScore: 350,
+          offsetVersion: 0,
         }),
       ];
       expect(actualComplementaryCertificationBadges).to.have.deep.members(expectedResult);
