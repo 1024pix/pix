@@ -1,6 +1,7 @@
 import * as url from 'node:url';
 
 import { PgClient } from './PgClient.js';
+import { executeAndLogScript } from './tooling/tooling.js';
 
 async function initialize() {
   const client = await PgClient.getClient(process.env.DATABASE_URL);
@@ -90,7 +91,7 @@ class ScriptQueryBuilder {
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 if (isLaunchedFromCommandLine) {
-  main();
+  await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
 }
 
 export { AssessmentEraser, ScriptQueryBuilder };
