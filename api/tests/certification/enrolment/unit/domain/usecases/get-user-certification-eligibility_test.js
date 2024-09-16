@@ -117,15 +117,23 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
       context('CLEA', function () {
         beforeEach(function () {
           complementaryCertificationKey = ComplementaryCertificationKeys.CLEA;
-          complementaryCertificationBadgeRepository.findAll.resolves([
-            domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
-              id: complementaryCertificationBadgeId,
-              requiredPixScore,
-            }),
-          ]);
         });
         context('when acquired badge is outdated', function () {
           const isOutdated = true;
+          beforeEach(function () {
+            complementaryCertificationBadgeRepository.findAll.resolves([
+              domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                id: '1234',
+                requiredPixScore,
+                offsetVersion: 0,
+              }),
+              domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                id: complementaryCertificationBadgeId,
+                requiredPixScore,
+                offsetVersion: 1,
+              }),
+            ]);
+          });
           context('when user is certifiable', function () {
             const isCertifiable = true;
             beforeEach(function () {
@@ -164,7 +172,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                       complementaryCertificationBadgeImageUrl: 'monImageUrl',
                       complementaryCertificationBadgeLabel: 'monLabel',
                       isOutdated,
-                      offsetVersion: 1,
                     }),
                   ]);
 
@@ -187,7 +194,25 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
               });
 
               context('when badge is outdated by more than one version', function () {
-                const offsetVersion = 2;
+                beforeEach(function () {
+                  complementaryCertificationBadgeRepository.findAll.resolves([
+                    domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                      id: '1234',
+                      requiredPixScore,
+                      offsetVersion: 0,
+                    }),
+                    domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                      id: '5678',
+                      requiredPixScore,
+                      offsetVersion: 1,
+                    }),
+                    domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                      id: complementaryCertificationBadgeId,
+                      requiredPixScore,
+                      offsetVersion: 2,
+                    }),
+                  ]);
+                });
                 it('should not be added in the eligibilities of the model', async function () {
                   // given
                   certificationBadgesService.findLatestBadgeAcquisitions
@@ -202,7 +227,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                         complementaryCertificationBadgeImageUrl: 'monImageUrl',
                         complementaryCertificationBadgeLabel: 'monLabel',
                         isOutdated,
-                        offsetVersion,
                       }),
                     ]);
 
@@ -393,7 +417,15 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
         });
         context('when acquired badge is not outdated', function () {
           const isOutdated = false;
-          const offsetVersion = 0;
+          beforeEach(function () {
+            complementaryCertificationBadgeRepository.findAll.resolves([
+              domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                id: complementaryCertificationBadgeId,
+                requiredPixScore,
+                offsetVersion: 0,
+              }),
+            ]);
+          });
           context('when user is certifiable', function () {
             const isCertifiable = true;
             beforeEach(function () {
@@ -432,7 +464,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                       complementaryCertificationBadgeImageUrl: 'monImageUrl',
                       complementaryCertificationBadgeLabel: 'monLabel',
                       isOutdated,
-                      offsetVersion,
                     }),
                   ]);
 
@@ -474,7 +505,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                       complementaryCertificationBadgeImageUrl: 'monImageUrl',
                       complementaryCertificationBadgeLabel: 'monLabel',
                       isOutdated,
-                      offsetVersion,
                     }),
                   ]);
 
@@ -538,7 +568,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                       complementaryCertificationBadgeImageUrl: 'monImageUrl',
                       complementaryCertificationBadgeLabel: 'monLabel',
                       isOutdated,
-                      offsetVersion,
                     }),
                   ]);
 
@@ -587,7 +616,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                       complementaryCertificationBadgeImageUrl: 'monImageUrl',
                       complementaryCertificationBadgeLabel: 'monLabel',
                       isOutdated,
-                      offsetVersion,
                     }),
                   ]);
 
@@ -621,13 +649,13 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
             domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
               id: complementaryCertificationBadgeId,
               requiredPixScore,
+              offsetVersion: 0,
             }),
           ]);
         });
 
         context('when user has no pix certification', function () {
           const isOutdated = false;
-          const offsetVersion = 0;
           beforeEach(function () {
             pixCertificationRepository.findByUserId.withArgs({ userId }).resolves([]);
           });
@@ -645,7 +673,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                   complementaryCertificationBadgeImageUrl: 'monImageUrl',
                   complementaryCertificationBadgeLabel: 'monLabel',
                   isOutdated,
-                  offsetVersion,
                 }),
               ]);
 
@@ -664,7 +691,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
           'when user has a validated certification that is not cancelled not rejected and without the required pixscore',
           function () {
             const isOutdated = false;
-            const offsetVersion = 0;
             beforeEach(function () {
               pixCertificationRepository.findByUserId.withArgs({ userId }).resolves([
                 domainBuilder.certification.enrolment.buildPixCertification({
@@ -689,7 +715,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                     complementaryCertificationBadgeImageUrl: 'monImageUrl',
                     complementaryCertificationBadgeLabel: 'monLabel',
                     isOutdated,
-                    offsetVersion,
                   }),
                 ]);
 
@@ -709,7 +734,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
           'when user has a validated and cancelled certification that is not rejected for fraud and with the required pixscore',
           function () {
             const isOutdated = false;
-            const offsetVersion = 0;
             beforeEach(function () {
               pixCertificationRepository.findByUserId.withArgs({ userId }).resolves([
                 domainBuilder.certification.enrolment.buildPixCertification({
@@ -734,7 +758,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                     complementaryCertificationBadgeImageUrl: 'monImageUrl',
                     complementaryCertificationBadgeLabel: 'monLabel',
                     isOutdated,
-                    offsetVersion,
                   }),
                 ]);
 
@@ -754,7 +777,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
           'when user has not cancelled but rejected for fraud validated pix certification with the required pix score',
           function () {
             const isOutdated = false;
-            const offsetVersion = 0;
             beforeEach(function () {
               pixCertificationRepository.findByUserId.withArgs({ userId }).resolves([
                 domainBuilder.certification.enrolment.buildPixCertification({
@@ -779,7 +801,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                     complementaryCertificationBadgeImageUrl: 'monImageUrl',
                     complementaryCertificationBadgeLabel: 'monLabel',
                     isOutdated,
-                    offsetVersion,
                   }),
                 ]);
 
@@ -797,7 +818,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
         );
         context('when user has not cancelled not rejected for fraud but not validated pix certification', function () {
           const isOutdated = false;
-          const offsetVersion = 0;
           beforeEach(function () {
             pixCertificationRepository.findByUserId.withArgs({ userId }).resolves([
               domainBuilder.certification.enrolment.buildPixCertification({
@@ -822,7 +842,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                   complementaryCertificationBadgeImageUrl: 'monImageUrl',
                   complementaryCertificationBadgeLabel: 'monLabel',
                   isOutdated,
-                  offsetVersion,
                 }),
               ]);
 
@@ -850,7 +869,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
           });
           context('when acquired badge is not outdated', function () {
             const isOutdated = false;
-            const offsetVersion = 0;
             context('when user has an acquired certification for this badge', function () {
               it('returns a UserCertificationEligibility model with the outdated eligibility inside', async function () {
                 // given
@@ -878,7 +896,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                       complementaryCertificationBadgeImageUrl: 'monImageUrl',
                       complementaryCertificationBadgeLabel: 'monLabel',
                       isOutdated,
-                      offsetVersion,
                     }),
                   ]);
 
@@ -920,7 +937,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                       complementaryCertificationBadgeImageUrl: 'monImageUrl',
                       complementaryCertificationBadgeLabel: 'monLabel',
                       isOutdated,
-                      offsetVersion,
                     }),
                   ]);
 
@@ -947,10 +963,22 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
           });
           context('when acquired badge is outdated by one version', function () {
             const isOutdated = true;
-            const offsetVersion = 1;
             context('when user has an acquired certification for this badge', function () {
               it('should not be added in the eligibilities of the model', async function () {
                 // given
+                complementaryCertificationBadgeRepository.findAll.resolves([
+                  domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                    id: '1234',
+                    requiredPixScore,
+                    offsetVersion: 0,
+                  }),
+                  domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                    id: complementaryCertificationBadgeId,
+                    requiredPixScore,
+                    offsetVersion: 1,
+                  }),
+                ]);
+
                 complementaryCertificationCourseRepository.findByUserId.withArgs({ userId }).resolves([
                   domainBuilder.certification.enrolment.buildComplementaryCertificationCourseWithResults({
                     complementaryCertificationBadgeId,
@@ -975,7 +1003,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                       complementaryCertificationBadgeImageUrl: 'monImageUrl',
                       complementaryCertificationBadgeLabel: 'monLabel',
                       isOutdated,
-                      offsetVersion,
                     }),
                   ]);
 
@@ -1010,7 +1037,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                       complementaryCertificationBadgeImageUrl: 'monImageUrl',
                       complementaryCertificationBadgeLabel: 'monLabel',
                       isOutdated,
-                      offsetVersion,
                     }),
                   ]);
 
@@ -1037,9 +1063,26 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
           });
           context('when acquired badge is outdated by more than one version', function () {
             const isOutdated = true;
-            const offsetVersion = 2;
             it('should not be added in the eligibilities of the model', async function () {
               // given
+              complementaryCertificationBadgeRepository.findAll.resolves([
+                domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                  id: '1234',
+                  requiredPixScore,
+                  offsetVersion: 0,
+                }),
+                domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                  id: '5678',
+                  requiredPixScore,
+                  offsetVersion: 1,
+                }),
+                domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                  id: complementaryCertificationBadgeId,
+                  requiredPixScore,
+                  offsetVersion: 2,
+                }),
+              ]);
+
               complementaryCertificationCourseRepository.findByUserId.withArgs({ userId }).resolves([
                 domainBuilder.certification.enrolment.buildComplementaryCertificationCourseWithResults({
                   complementaryCertificationBadgeId,
@@ -1064,7 +1107,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                     complementaryCertificationBadgeImageUrl: 'monImageUrl',
                     complementaryCertificationBadgeLabel: 'monLabel',
                     isOutdated,
-                    offsetVersion,
                   }),
                 ]);
 

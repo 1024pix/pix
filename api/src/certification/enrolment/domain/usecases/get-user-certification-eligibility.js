@@ -20,14 +20,18 @@ const getUserCertificationEligibility = async function ({
     userId,
     limitDate,
   });
-  const complementaryCertificationAcquiredByUser = await complementaryCertificationCourseRepository.findByUserId({
-    userId,
-  });
+  const complementaryCertificationCourseWithResultsAcquiredByUser =
+    await complementaryCertificationCourseRepository.findByUserId({
+      userId,
+    });
   const userPixCertifications = await pixCertificationRepository.findByUserId({ userId });
   const allComplementaryCertificationBadges = await complementaryCertificationBadgeRepository.findAll();
 
   const certificationEligibilities = [];
   for (const acquiredBadge of userAcquiredBadges) {
+    const acquiredComplementaryCertificationBadge = allComplementaryCertificationBadges.find(
+      ({ id }) => id === acquiredBadge.complementaryCertificationBadgeId,
+    );
     let areEligibilityConditionsFulfilled = false;
     const isClea = acquiredBadge.complementaryCertificationKey === ComplementaryCertificationKeys.CLEA;
     if (isClea) {
@@ -36,17 +40,17 @@ const getUserCertificationEligibility = async function ({
       areEligibilityConditionsFulfilled = _checkComplementaryEligibilityConditions(
         allComplementaryCertificationBadges,
         userPixCertifications,
-        acquiredBadge.complementaryCertificationBadgeId,
+        acquiredComplementaryCertificationBadge.id,
       );
     }
 
     const isAcquiredExpectedLevel = _hasAcquiredComplementaryCertificationForExpectedLevel(
-      complementaryCertificationAcquiredByUser,
-      acquiredBadge,
+      complementaryCertificationCourseWithResultsAcquiredByUser,
+      acquiredComplementaryCertificationBadge,
     );
-    const badgeIsNotOutdated = acquiredBadge.offsetVersion === 0;
     const badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt =
-      acquiredBadge.offsetVersion === 1 && !isAcquiredExpectedLevel;
+      acquiredComplementaryCertificationBadge?.offsetVersion === 1 && !isAcquiredExpectedLevel;
+    const badgeIsNotOutdated = acquiredComplementaryCertificationBadge?.offsetVersion === 0;
 
     if (
       (badgeIsNotOutdated || badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt) &&
@@ -93,13 +97,13 @@ function _checkComplementaryEligibilityConditions(
 }
 
 function _hasAcquiredComplementaryCertificationForExpectedLevel(
-  complementaryCertificationAcquiredByUser,
-  acquiredBadge,
+  complementaryCertificationCourseWithResultsAcquiredByUser,
+  acquiredComplementaryCertificationBadge,
 ) {
-  return complementaryCertificationAcquiredByUser.some(
+  return complementaryCertificationCourseWithResultsAcquiredByUser.some(
     (certificationTakenByUser) =>
       certificationTakenByUser.isAcquiredExpectedLevelByPixSource() &&
-      acquiredBadge.complementaryCertificationBadgeId === certificationTakenByUser.complementaryCertificationBadgeId,
+      acquiredComplementaryCertificationBadge?.id === certificationTakenByUser.complementaryCertificationBadgeId,
   );
 }
 
