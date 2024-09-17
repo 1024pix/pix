@@ -1,6 +1,5 @@
 import * as url from 'node:url';
 
-import { disconnect } from '../../db/knex-database-connection.js';
 import { usecases } from '../../src/certification/session-management/domain/usecases/index.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { executeScript } from '../tooling/tooling.js';
@@ -16,13 +15,7 @@ async function main() {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await executeScript({ processArgvs: process.argv, scriptFn: main });
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

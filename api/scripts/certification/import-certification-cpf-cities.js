@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 import lodash from 'lodash';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../db/knex-database-connection.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 /**
  * Usage: node scripts/certification/import-certification-cpf-cities.js path/file.csv
@@ -395,8 +395,6 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main(filePath) {
-  logger.info('Starting script import-certification-cpf-cities');
-
   let trx;
   try {
     logger.info(`Checking ${filePath} data file...`);
@@ -430,15 +428,9 @@ async function main(filePath) {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      const filePath = process.argv[2];
-      const mainWithArgs = main.bind(this, filePath);
-      await executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    const filePath = process.argv[2];
+    const mainWithArgs = main.bind(this, filePath);
+    await executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
   }
 })();
 

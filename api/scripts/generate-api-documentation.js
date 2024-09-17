@@ -4,7 +4,6 @@ import * as url from 'node:url';
 
 import jsdocToMarkdown from 'jsdoc-to-markdown';
 
-import { logger } from '../src/shared/infrastructure/utils/logger.js';
 import { executeScript } from './tooling/tooling.js';
 
 async function main(baseFolder) {
@@ -18,11 +17,7 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      const mainWithArgs = main.bind(this, process.argv[2]);
-      await executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
-    } catch (error) {
-      process.exitCode = 1;
-    }
+    const mainWithArgs = main.bind(this, process.argv[2]);
+    await executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
   }
 })();
