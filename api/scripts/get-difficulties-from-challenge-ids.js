@@ -8,7 +8,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 import { disconnect } from '../db/knex-database-connection.js';
-import { executeAndLogScript } from './tooling/tooling.js';
+import { executeScript } from './tooling/tooling.js';
 
 async function main() {
   const { challengeIdsFile, redisUrl } = yargs(hideBin(process.argv)).argv;
@@ -32,7 +32,7 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
+      await executeScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
       process.exitCode = 1;
     } finally {

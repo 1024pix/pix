@@ -4,7 +4,7 @@ import { disconnect, knex } from '../../db/knex-database-connection.js';
 import * as categories from '../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import { OrganizationPlacesLotForManagement } from '../../src/prescription/organization-place/domain/models/OrganizationPlacesLotForManagement.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
-import { executeAndLogScript } from '../tooling/tooling.js';
+import { executeScript } from '../tooling/tooling.js';
 
 const categoriesByCode = {
   [categories.T0]: categories.FREE_RATE,
@@ -68,7 +68,7 @@ async function main() {
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
+      await executeScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
       console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
       if (error.invalidAttributes) {

@@ -63,7 +63,7 @@ async function makeUserCleaCertifiable({ userId, databaseBuilder }) {
   }
 }
 
-async function executeAndLogScript({ processArgvs, scriptFn }) {
+async function executeScript({ processArgvs, scriptFn }) {
   const scriptName = processArgvs[1].split('scripts/')[1];
   const command = `${scriptName} ${processArgvs.slice(2).join(' ')}`.trim();
   const [{ id: scriptExecId }] = await knex('script-executions').insert({ scriptName, command }).returning(['id']);
@@ -180,7 +180,7 @@ function _findFirstChallengeValidatedBySkillId(skillId) {
 }
 
 export {
-  executeAndLogScript,
+  executeScript,
   makeUserCleaCertifiable,
   makeUserPixCertifiable,
   makeUserPixDroitCertifiable,
