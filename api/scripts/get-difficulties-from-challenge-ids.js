@@ -7,7 +7,6 @@ import Redis from 'ioredis';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
-import { disconnect } from '../db/knex-database-connection.js';
 import { executeScript } from './tooling/tooling.js';
 
 async function main() {
@@ -31,12 +30,6 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await executeScript({ processArgvs: process.argv, scriptFn: main });
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();

@@ -3,13 +3,11 @@ import * as url from 'node:url';
 
 import Joi from 'joi';
 
-import { disconnect } from '../db/knex-database-connection.js';
 import { DomainTransaction } from '../lib/infrastructure/DomainTransaction.js';
 import * as badgeCriteriaRepository from '../src/evaluation/infrastructure/repositories/badge-criteria-repository.js';
 import * as badgeRepository from '../src/evaluation/infrastructure/repositories/badge-repository.js';
 import { NotFoundError } from '../src/shared/domain/errors.js';
 import { SCOPES } from '../src/shared/domain/models/BadgeDetails.js';
-import { logger } from '../src/shared/infrastructure/utils/logger.js';
 import { executeScript } from './tooling/tooling.js';
 
 // Usage: node scripts/create-badge-criteria-for-specified-badge path/data.json
@@ -81,13 +79,7 @@ async function main() {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await executeScript({ processArgvs: process.argv, scriptFn: main });
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

@@ -2,7 +2,7 @@ import * as url from 'node:url';
 
 import _ from 'lodash';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../db/knex-database-connection.js';
 import * as campaignUpdateValidator from '../../src/prescription/campaign/domain/validators/campaign-update-validator.js';
 import * as campaignRepository from '../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import { CampaignTypes } from '../../src/prescription/shared/domain/constants.js';
@@ -97,13 +97,7 @@ async function main() {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await executeScript({ processArgvs: process.argv, scriptFn: main });
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

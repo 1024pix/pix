@@ -4,7 +4,7 @@ import lodash from 'lodash';
 const { groupBy } = lodash;
 import * as url from 'node:url';
 
-import { disconnect, knex } from '../db/knex-database-connection.js';
+import { knex } from '../db/knex-database-connection.js';
 import * as knowledgeElementRepository from '../lib/infrastructure/repositories/knowledge-element-repository.js';
 import { UserSavedTutorial } from '../src/devcomp/domain/models/UserSavedTutorial.js';
 import { KnowledgeElement } from '../src/shared/domain/models/KnowledgeElement.js';
@@ -163,13 +163,7 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await executeScript({ processArgvs: process.argv, scriptFn: main });
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

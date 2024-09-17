@@ -5,7 +5,6 @@ import * as url from 'node:url';
 
 import i18n from 'i18n';
 
-import { disconnect } from '../../db/knex-database-connection.js';
 import * as mailService from '../../lib/domain/services/mail-service.js';
 import { manageEmails } from '../../lib/domain/services/session-publication-service.js';
 import * as certificationCenterRepository from '../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
@@ -81,12 +80,6 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await executeScript({ processArgvs: process.argv, scriptFn: main });
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();

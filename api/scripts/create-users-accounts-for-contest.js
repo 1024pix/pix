@@ -1,6 +1,5 @@
 import * as url from 'node:url';
 
-import { disconnect } from '../db/knex-database-connection.js';
 import * as authenticationMethodRepository from '../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { userToCreateRepository } from '../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
 import { cryptoService } from '../src/shared/domain/services/crypto-service.js';
@@ -66,13 +65,7 @@ async function main() {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await executeScript({ processArgvs: process.argv, scriptFn: main });
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

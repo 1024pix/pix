@@ -13,7 +13,7 @@ import 'dotenv/config';
 
 import * as url from 'node:url';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../db/knex-database-connection.js';
 import { CertificationRescoringCompleted } from '../../lib/domain/events/CertificationRescoringCompleted.js';
 import { eventDispatcher } from '../../lib/domain/events/index.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
@@ -210,22 +210,12 @@ async function main({ certificationCourseIds = [], knex, eventDispatcher, logger
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    let exitCode = 1;
-    try {
-      const certificationCourseIds = process.argv[2]
-        .split(',')
-        .map((str) => parseInt(str, 10))
-        .filter(Number.isInteger);
-      const mainWithArgs = main.bind(this, { certificationCourseIds, knex, eventDispatcher, logger });
-      exitCode = await executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
-    } catch (error) {
-      exitCode = 1;
-    } finally {
-      await disconnect();
-      // EventDispatcher makes the process hang, but at this point we know our job is finished
-      // eslint-disable-next-line n/no-process-exit
-      process.exit(exitCode);
-    }
+    const certificationCourseIds = process.argv[2]
+      .split(',')
+      .map((str) => parseInt(str, 10))
+      .filter(Number.isInteger);
+    const mainWithArgs = main.bind(this, { certificationCourseIds, knex, eventDispatcher, logger });
+    await executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
   }
 })();
 

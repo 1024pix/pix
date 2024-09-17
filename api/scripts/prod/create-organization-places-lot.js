@@ -1,6 +1,6 @@
 import * as url from 'node:url';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../db/knex-database-connection.js';
 import * as categories from '../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import { OrganizationPlacesLotForManagement } from '../../src/prescription/organization-place/domain/models/OrganizationPlacesLotForManagement.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
@@ -52,34 +52,30 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const filePath = process.argv[2];
+  try {
+    console.log('Lecture et parsing du fichier csv... ');
+    const csvData = await parseCsvWithHeader(filePath);
 
-  console.log('Lecture et parsing du fichier csv... ');
-  const csvData = await parseCsvWithHeader(filePath);
+    console.log('Création des modèles et vérification de la cohérence...');
+    const organizationPlacesLot = await prepareOrganizationPlacesLot(csvData);
 
-  console.log('Création des modèles et vérification de la cohérence...');
-  const organizationPlacesLot = await prepareOrganizationPlacesLot(csvData);
+    console.log('Insertion en base...');
+    await createOrganizationPlacesLots(organizationPlacesLot);
 
-  console.log('Insertion en base...');
-  await createOrganizationPlacesLots(organizationPlacesLot);
-
-  console.log('FIN');
+    console.log('FIN');
+  } catch (err) {
+    if (err.invalidAttributes) {
+      err.invalidAttributes.map((invalidAttribute) => {
+        console.error(invalidAttribute.message);
+      });
+    }
+    throw err;
+  }
 }
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await executeScript({ processArgvs: process.argv, scriptFn: main });
-    } catch (error) {
-      console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
-      if (error.invalidAttributes) {
-        error.invalidAttributes.map((invalidAttribute) => {
-          console.error(invalidAttribute.message);
-        });
-      }
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

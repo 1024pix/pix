@@ -5,7 +5,7 @@ const { groupBy, sum, has, partition, negate } = lodash;
 
 import * as url from 'node:url';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../db/knex-database-connection.js';
 import { categories } from '../../src/shared/domain/models/TargetProfile.js';
 import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
 import { parseCsvData, readCsvFile } from '../helpers/csvHelpers.js';
@@ -81,16 +81,7 @@ async function main() {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await executeScript({ processArgvs: process.argv, scriptFn: main });
-      console.log('🎉 Everything went fine !');
-      process.exitCode = 0;
-    } catch (error) {
-      console.error('❌ Something went wrong...');
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

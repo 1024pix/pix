@@ -2,7 +2,6 @@ import 'dotenv/config';
 
 import * as url from 'node:url';
 
-import { disconnect } from '../../db/knex-database-connection.js';
 import { CertificationRescoringByScriptJob } from '../../src/certification/session-management/domain/models/CertificationRescoringByScriptJob.js';
 import { certificationRescoringByScriptJobRepository } from '../../src/certification/session-management/infrastructure/repositories/jobs/certification-rescoring-by-script-job-repository.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
@@ -40,18 +39,12 @@ const _scheduleRescoringJobs = async (certificationCourseIds) => {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      const certificationCourseIds = process.argv[2]
-        .split(',')
-        .map((str) => parseInt(str, 10))
-        .filter(Number.isInteger);
-      const mainWithArgs = main.bind(this, certificationCourseIds);
-      return executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    const certificationCourseIds = process.argv[2]
+      .split(',')
+      .map((str) => parseInt(str, 10))
+      .filter(Number.isInteger);
+    const mainWithArgs = main.bind(this, certificationCourseIds);
+    return executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
   }
 })();
 

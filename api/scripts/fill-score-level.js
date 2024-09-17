@@ -51,6 +51,5 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 if (isLaunchedFromCommandLine) {
-  console.log('Start script : ');
   await executeScript({ processArgvs: process.argv, scriptFn: main });
 }

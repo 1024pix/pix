@@ -4,7 +4,7 @@ import * as url from 'node:url';
 
 import lodash from 'lodash';
 
-import { disconnect, knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../db/knex-database-connection.js';
 import { CERTIFICATION_FEATURES } from '../../../src/certification/shared/domain/constants.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 /**
@@ -60,8 +60,6 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main(filePath) {
-  logger.info('Starting script import-pilot-certification-centers-from-csv');
-
   let trx;
   try {
     logger.info(`Checking ${filePath} data file...`);
@@ -109,15 +107,9 @@ async function main(filePath) {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      const filePath = process.argv[2];
-      const mainWithArgs = main.bind(this, filePath);
-      await executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    const filePath = process.argv[2];
+    const mainWithArgs = main.bind(this, filePath);
+    await executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
   }
 })();
 

@@ -1,11 +1,16 @@
+import perf_hooks from 'node:perf_hooks';
+const { performance } = perf_hooks;
+
 import _ from 'lodash';
 
-import { knex } from '../../db/knex-database-connection.js';
+import { disconnect, knex } from '../../db/knex-database-connection.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 import { ComplementaryCertificationKeys } from '../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { learningContentCache as cache } from '../../src/shared/infrastructure/caches/learning-content-cache.js';
 import * as challengeRepository from '../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as skillRepository from '../../src/shared/infrastructure/repositories/skill-repository.js';
+import { temporaryStorage } from '../../src/shared/infrastructure/temporary-storage/index.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 let allChallenges = [];
@@ -63,27 +68,40 @@ async function makeUserCleaCertifiable({ userId, databaseBuilder }) {
   }
 }
 
-async function executeScript({ processArgvs, scriptFn }) {
-  const scriptName = processArgvs[1].split('scripts/')[1];
+async function executeScript({ processArgvs, scriptFn, disconnectAndExit = true }) {
+  const startTime = performance.now();
+  const scriptName = processArgvs[1].split('scripts/')?.[1] ?? processArgvs[1];
   const command = `${scriptName} ${processArgvs.slice(2).join(' ')}`.trim();
   const [{ id: scriptExecId }] = await knex('script-executions').insert({ scriptName, command }).returning(['id']);
-  let scriptRes;
   let scriptErr;
+  let processExitCode;
   try {
-    scriptRes = await scriptFn();
+    logger.info(`Script "${command}" has started.`);
+    await scriptFn();
+    logger.info('Script executed successfully !');
+    processExitCode = 0;
   } catch (error) {
-    scriptErr = error;
-    logger.error(error);
-    throw error;
+    scriptErr = JSON.stringify(error);
+    logger.error(`Script encountered an error : \n${scriptErr}.`);
+    processExitCode = 1;
   } finally {
     await knex('script-executions')
       .update({
         endedAt: knex.fn.now(),
-        error: JSON.stringify(scriptErr) ?? null,
+        error: scriptErr ?? null,
       })
       .where({ id: scriptExecId });
+    const endTime = performance.now();
+    const duration = Math.round(endTime - startTime);
+    logger.info(`Script has ended: took ${duration} milliseconds.`);
+    if (disconnectAndExit) {
+      await disconnect();
+      await cache.quit();
+      await temporaryStorage.quit();
+      // eslint-disable-next-line n/no-process-exit
+      process.exit(processExitCode);
+    }
   }
-  return scriptRes;
 }
 
 function _createComplementeCompetenceEvaluationAssessment({ databaseBuilder, userId }) {

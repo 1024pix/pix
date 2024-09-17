@@ -5,12 +5,9 @@ import * as dotenv from 'dotenv';
 
 dotenv.config({ path: `${__dirname}/../.env` });
 
-import { disconnect } from '../../db/knex-database-connection.js';
 import { usecases } from '../../lib/domain/usecases/index.js';
 import * as certificationBadgesService from '../../src/certification/shared/domain/services/certification-badges-service.js';
 import * as placementProfileService from '../../src/shared/domain/services/placement-profile-service.js';
-import { learningContentCache as cache } from '../../src/shared/infrastructure/caches/learning-content-cache.js';
-import { temporaryStorage } from '../../src/shared/infrastructure/temporary-storage/index.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { executeScript } from '../tooling/tooling.js';
 
@@ -74,15 +71,7 @@ async function main() {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await executeScript({ processArgvs: process.argv, scriptFn: main });
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-      await cache.quit();
-      await temporaryStorage.quit();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

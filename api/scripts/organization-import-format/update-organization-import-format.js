@@ -1,7 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import * as url from 'node:url';
 
-import { disconnect } from '../../db/knex-database-connection.js';
 import { usecases } from '../../src/prescription/learner-management/domain/usecases/index.js';
 import { DomainTransaction } from '../../src/shared/domain/DomainTransaction.js';
 import { executeScript } from '../tooling/tooling.js';
@@ -27,25 +26,13 @@ async function main() {
   const jsonFile = await readFile(filePath);
   const rawImportFormats = JSON.parse(jsonFile);
   console.log(`Import Format to update : ${rawImportFormats.length}`);
-
-  try {
-    await DomainTransaction.execute(async () => {
-      await usecases.updateOrganizationLearnerImportFormats({ rawImportFormats });
-    });
-    console.log('ok');
-  } catch (error) {
-    console.log(error);
-  }
+  await DomainTransaction.execute(async () => {
+    await usecases.updateOrganizationLearnerImportFormats({ rawImportFormats });
+  });
 }
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await executeScript({ processArgvs: process.argv, scriptFn: main });
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();

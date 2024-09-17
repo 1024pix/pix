@@ -1,6 +1,5 @@
 import * as url from 'node:url';
 
-import { disconnect } from '../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
 import { usecases } from '../../src/prescription/learner-management/domain/usecases/index.js';
 import { executeScript } from '../tooling/tooling.js';
@@ -111,15 +110,8 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      const fnWithArgs = deleteOrganizationLearnersFromOrganization.bind(this, process.argv[2], process.argv[3]);
-      await executeScript({ processArgvs: process.argv, scriptFn: fnWithArgs });
-      console.log('done');
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    const fnWithArgs = deleteOrganizationLearnersFromOrganization.bind(this, process.argv[2], process.argv[3]);
+    await executeScript({ processArgvs: process.argv, scriptFn: fnWithArgs });
   }
 })();
 

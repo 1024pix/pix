@@ -4,7 +4,6 @@ import 'dotenv/config';
 
 import lodash from 'lodash';
 
-import { disconnect } from '../db/knex-database-connection.js';
 import { createOrganizationsWithTagsAndTargetProfiles } from '../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import * as organizationValidator from '../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
 import { DomainTransaction as domainTransaction } from '../lib/infrastructure/DomainTransaction.js';
@@ -13,7 +12,6 @@ import * as organizationTagRepository from '../lib/infrastructure/repositories/o
 import * as targetProfileShareRepository from '../lib/infrastructure/repositories/target-profile-share-repository.js';
 import { tagRepository } from '../src/organizational-entities/infrastructure/repositories/tag.repository.js';
 import * as organizationRepository from '../src/shared/infrastructure/repositories/organization-repository.js';
-import { temporaryStorage } from '../src/shared/infrastructure/temporary-storage/index.js';
 import { organizationInvitationRepository } from '../src/team/infrastructure/repositories/organization-invitation.repository.js';
 import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers.js';
 import { executeScript } from './tooling/tooling.js';
@@ -123,21 +121,15 @@ async function main() {
   console.log('Starting creating PRO organizations with tags and target profiles.');
   const filePath = process.argv[2];
   await createOrganizationWithTagsAndTargetProfiles(filePath);
+  console.log('\nOrganizations created with success !');
 }
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await executeScript({ processArgvs: process.argv, scriptFn: main });
-      console.log('\nOrganizations created with success !');
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-      // l'import de OidcIdentityProviders dans les validateurs démarre le service redis
-      // il faut donc stopper le process pour que celui ci s'arrête, il suffit d'avoir l'import du storage pour y avoir accès
-      temporaryStorage.quit();
-    }
+    // l'import de OidcIdentityProviders dans les validateurs démarre le service redis
+    // il faut donc stopper le process pour que celui ci s'arrête, il suffit d'avoir l'import du storage pour y avoir accès
+    // EDIT: executeScript() s'en charge ;)
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

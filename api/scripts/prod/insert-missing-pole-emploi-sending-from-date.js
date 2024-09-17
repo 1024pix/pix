@@ -2,7 +2,7 @@ import * as url from 'node:url';
 
 import dayjs from 'dayjs';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../db/knex-database-connection.js';
 import { PoleEmploiPayload } from '../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import * as badgeAcquisitionRepository from '../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import { campaignParticipationResultRepository } from '../../lib/infrastructure/repositories/campaign-participation-result-repository.js';
@@ -102,20 +102,13 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      const fnWithArgs = insertMissingPoleEmploiSendingFromDate.bind(
-        this,
-        process.argv[2],
-        process.argv[3],
-        process.argv[4],
-      );
-      await executeScript({ processArgvs: process.argv, scriptFn: fnWithArgs });
-      console.log('done');
-    } catch (error) {
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    const fnWithArgs = insertMissingPoleEmploiSendingFromDate.bind(
+      this,
+      process.argv[2],
+      process.argv[3],
+      process.argv[4],
+    );
+    await executeScript({ processArgvs: process.argv, scriptFn: fnWithArgs });
   }
 })();
 
