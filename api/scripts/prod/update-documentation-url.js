@@ -1,6 +1,7 @@
 import * as url from 'node:url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { executeAndLogScript } from '../tooling/tooling.js';
 
 const URL = {
   AEFE: 'https://view.genial.ly/5ffb6eed1ac90d0d0daf65d8',
@@ -166,9 +167,8 @@ async function main() {
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
-      console.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
