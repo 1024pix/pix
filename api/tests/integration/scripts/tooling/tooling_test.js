@@ -1,4 +1,4 @@
-import { executeAndLogScript } from '../../../../scripts/tooling/tooling.js';
+import { executeScript } from '../../../../scripts/tooling/tooling.js';
 import { catchErr, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Scripts | Tooling', function () {
@@ -20,7 +20,7 @@ describe('Integration | Scripts | Tooling', function () {
         const scriptFnWithArgs = scriptFn.bind(this, 'Laura', 'vegetables');
 
         // when
-        const res = await executeAndLogScript({ processArgvs, scriptFn: scriptFnWithArgs });
+        const res = await executeScript({ processArgvs, scriptFn: scriptFnWithArgs });
 
         // then
         const datas = await knex('script-executions').select('*');
@@ -53,7 +53,7 @@ describe('Integration | Scripts | Tooling', function () {
         const scriptFnWithArgs = scriptFn.bind(this, 'value for some', 'value for error');
 
         // when
-        const err = await catchErr(executeAndLogScript)({ processArgvs, scriptFn: scriptFnWithArgs });
+        const err = await catchErr(executeScript)({ processArgvs, scriptFn: scriptFnWithArgs });
 
         // then
         const datas = await knex('script-executions').select('*');

@@ -18,7 +18,7 @@ import { PoleEmploiSending } from '../../src/shared/domain/models/PoleEmploiSend
 import * as assessmentRepository from '../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as organizationRepository from '../../src/shared/infrastructure/repositories/organization-repository.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-import { executeAndLogScript } from '../tooling/tooling.js';
+import { executeScript } from '../tooling/tooling.js';
 
 async function insertMissingPoleEmploiSendingFromDate(startDate, endDate = new Date(), campaignCode = 'YOURCODE') {
   const start = dayjs(startDate, 'YYYY-MM-DD');
@@ -109,7 +109,7 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
         process.argv[3],
         process.argv[4],
       );
-      await executeAndLogScript({ processArgvs: process.argv, scriptFn: fnWithArgs });
+      await executeScript({ processArgvs: process.argv, scriptFn: fnWithArgs });
       console.log('done');
     } catch (error) {
       process.exitCode = 1;

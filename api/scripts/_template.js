@@ -8,7 +8,7 @@ const { performance } = perf_hooks;
 import { disconnect, knex } from '../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../src/shared/infrastructure/caches/learning-content-cache.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
-import { executeAndLogScript } from './tooling/tooling.js';
+import { executeScript } from './tooling/tooling.js';
 
 const doSomething = async ({ throwError }) => {
   if (throwError) {
@@ -35,7 +35,7 @@ async function main(myStrArg) {
   if (isLaunchedFromCommandLine) {
     try {
       const mainWithArgs = main.bind(null, 'someArg');
-      await executeAndLogScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
+      await executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
     } catch (error) {
       process.exitCode = 1;
     } finally {

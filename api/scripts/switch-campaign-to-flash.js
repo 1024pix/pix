@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import { knex } from '../db/knex-database-connection.js';
 import { Assessment } from '../src/shared/domain/models/Assessment.js';
-import { executeAndLogScript } from './tooling/tooling.js';
+import { executeScript } from './tooling/tooling.js';
 
 async function switchCampaignToFlash(id) {
   await knex('campaigns').update({ assessmentMethod: Assessment.methods.FLASH }).where({ id });
@@ -25,7 +25,7 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 if (isLaunchedFromCommandLine) {
   const fnWithArgs = main.bind(this, parseInt(process.argv[2]));
   try {
-    await executeAndLogScript({ processArgvs: process.argv, scriptFn: fnWithArgs });
+    await executeScript({ processArgvs: process.argv, scriptFn: fnWithArgs });
   } catch (err) {
     process.exitCode = 1;
   }

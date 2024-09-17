@@ -9,7 +9,7 @@ import _ from 'lodash';
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { normalizeAndSortChars } from '../../src/shared/infrastructure/utils/string-utils.js';
 import { parseCsv } from '../helpers/csvHelpers.js';
-import { executeAndLogScript } from '../tooling/tooling.js';
+import { executeScript } from '../tooling/tooling.js';
 
 const CURRENT_NAME_COLUMN = 'LIBCOG';
 const ALTERNATIVE_NAME_COLUMN = 'LIBENR';
@@ -116,7 +116,7 @@ async function main(filePath) {
     try {
       const filePath = process.argv[2];
       const mainWithArgs = main.bind(this, filePath);
-      await executeAndLogScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
+      await executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
     } catch (error) {
       process.exitCode = 1;
     } finally {

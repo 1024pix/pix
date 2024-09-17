@@ -1,14 +1,14 @@
 import url from 'node:url';
 
 import { parseCsvWithHeader } from '../src/shared/infrastructure/helpers/csv.js';
-import { executeAndLogScript } from './tooling/tooling.js';
+import { executeScript } from './tooling/tooling.js';
 
 const swaggerUrl = `https://app.pix.fr/api/swagger.json`;
 
 /**
  * Helpers Functions
  */
-const replaceId = (url) => url.replace(/\{\w+\}/g, '{id}');
+const replaceId = (url) => url.replace(/\{\w+}/g, '{id}');
 
 const toCsv = (data) => {
   const headers = Object.keys(data[0]);
@@ -77,7 +77,7 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 if (isLaunchedFromCommandLine) {
-  await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
+  await executeScript({ processArgvs: process.argv, scriptFn: main });
 }
 function help() {
   console.info(`

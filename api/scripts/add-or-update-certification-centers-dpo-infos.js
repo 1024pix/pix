@@ -8,7 +8,7 @@ import { disconnect } from '../db/knex-database-connection.js';
 import { updateCertificationCenterDataProtectionOfficerInformation } from '../lib/domain/usecases/update-certification-center-data-protection-officer-information.js';
 import * as dataProtectionOfficerRepository from '../lib/infrastructure/repositories/data-protection-officer-repository.js';
 import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers.js';
-import { executeAndLogScript } from './tooling/tooling.js';
+import { executeScript } from './tooling/tooling.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const IS_LAUNCHED_FROM_CLI = process.argv[1] === modulePath;
@@ -85,7 +85,7 @@ async function main() {
 (async function () {
   if (IS_LAUNCHED_FROM_CLI) {
     try {
-      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
+      await executeScript({ processArgvs: process.argv, scriptFn: main });
       console.log('\nCertification centers DPO information updated with success!');
     } catch (error) {
       process.exitCode = 1;

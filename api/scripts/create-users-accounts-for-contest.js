@@ -6,7 +6,7 @@ import { userToCreateRepository } from '../src/identity-access-management/infras
 import { cryptoService } from '../src/shared/domain/services/crypto-service.js';
 import * as userService from '../src/shared/domain/services/user-service.js';
 import { parseCsvWithHeader } from './helpers/csvHelpers.js';
-import { executeAndLogScript } from './tooling/tooling.js';
+import { executeScript } from './tooling/tooling.js';
 
 function prepareDataForInsert(rawUsers) {
   return rawUsers.map(({ firstName, lastName, email, password }) => {
@@ -67,7 +67,7 @@ async function main() {
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
+      await executeScript({ processArgvs: process.argv, scriptFn: main });
     } catch (error) {
       process.exitCode = 1;
     } finally {

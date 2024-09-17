@@ -3,7 +3,7 @@ import * as url from 'node:url';
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { ORGANIZATION_FEATURE } from '../../src/shared/domain/constants.js';
 import { main } from '../fill-campaign-participation-id-in-badge-acquisitions.js';
-import { executeAndLogScript } from '../tooling/tooling.js';
+import { executeScript } from '../tooling/tooling.js';
 
 async function enableComputeCertificabilityOnScoAefeOrganizations() {
   const organizationIds = (
@@ -36,7 +36,7 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await executeAndLogScript({
+      await executeScript({
         processArgvs: process.argv,
         scriptFn: enableComputeCertificabilityOnScoAefeOrganizations,
       });

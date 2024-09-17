@@ -17,7 +17,7 @@ import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { CertificationRescoringCompleted } from '../../lib/domain/events/CertificationRescoringCompleted.js';
 import { eventDispatcher } from '../../lib/domain/events/index.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-import { executeAndLogScript } from '../tooling/tooling.js';
+import { executeScript } from '../tooling/tooling.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
@@ -217,7 +217,7 @@ async function main({ certificationCourseIds = [], knex, eventDispatcher, logger
         .map((str) => parseInt(str, 10))
         .filter(Number.isInteger);
       const mainWithArgs = main.bind(this, { certificationCourseIds, knex, eventDispatcher, logger });
-      exitCode = await executeAndLogScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
+      exitCode = await executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
     } catch (error) {
       exitCode = 1;
     } finally {

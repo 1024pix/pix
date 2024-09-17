@@ -13,7 +13,7 @@ import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
  * certification_center_id
  **/
 import { checkCsvHeader, parseCsv } from '../../helpers/csvHelpers.js';
-import { executeAndLogScript } from '../../tooling/tooling.js';
+import { executeScript } from '../../tooling/tooling.js';
 
 const { values } = lodash;
 
@@ -112,7 +112,7 @@ async function main(filePath) {
     try {
       const filePath = process.argv[2];
       const mainWithArgs = main.bind(this, filePath);
-      await executeAndLogScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
+      await executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
     } catch (error) {
       process.exitCode = 1;
     } finally {
