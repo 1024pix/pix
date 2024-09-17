@@ -1,7 +1,8 @@
 import url from 'node:url';
 
 import { parseCsvWithHeader } from '../src/shared/infrastructure/helpers/csv.js';
-import { logger } from '../src/shared/infrastructure/utils/logger.js';
+import { executeAndLogScript } from './tooling/tooling.js';
+
 const swaggerUrl = `https://app.pix.fr/api/swagger.json`;
 
 /**
@@ -76,12 +77,7 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 if (isLaunchedFromCommandLine) {
-  try {
-    await main();
-  } catch (error) {
-    logger.error(error);
-    throw error;
-  }
+  await executeAndLogScript({ processArgvs: process.argv, scriptFn: main });
 }
 function help() {
   console.info(`
