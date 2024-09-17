@@ -49,7 +49,7 @@
     },
     {
       "grainId": "b1cf70fe-411b-4c5d-b069-9b7a341bd5c3",
-      "content": "<p>Bravo, vous savez maintenant cliquer et double&#x002D;cliquer&#8239;! <span aria-hidden=\"\true\">🎉</span><p>Pour finir, découvrez le bouton droit et la molette.</p>"
+      "content": "<p>Bravo, vous savez maintenant cliquer et double&#x002D;cliquer&#8239;! <span aria-hidden=\"\true\">🎉</span></p><p>Pour finir, découvrez le bouton droit et la molette.</p>"
     }
   ],
   "grains": [
@@ -104,7 +104,7 @@
           "element": {
             "id": "d9e4718d-a15a-4e62-a967-19971e1a611e",
             "type": "text",
-            "content": "<p><p>Sur la souris, on trouve toujours deux boutons : un bouton gauche et un bouton droit.<br>Parfois, il y a une molette.</p>"
+            "content": "<p>Sur la souris, on trouve toujours deux boutons : un bouton gauche et un bouton droit.<br>Parfois, il y a une molette.</p>"
           }
         },
         {
@@ -228,9 +228,16 @@
         {
           "type": "element",
           "element": {
+            "id": "a6254fc0-1405-4c5a-bbec-3df43bdca573",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
             "id": "930a995c-2b29-474a-97a3-c90d5e03ad80",
             "type": "text",
-            "content": "<p><hr>Quand vous avez terminé l'activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+            "content": "<p>Quand vous avez terminé l'activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
           }
         }
       ]
@@ -257,7 +264,7 @@
                 {
                   "id": "35e0ae32-980e-45fc-bb69-b94da529d6fb",
                   "type": "text",
-                  "content": "Suivez ces étapes dans l'ordre : <ol><li>lisez la question ci-dessous,<li>faites un clic gauche pour sélectionner votre réponse,</li><li>faites un clic gauche sur «&nbsp;Vérifier&nbsp;»</li></ol>"
+                  "content": "Suivez ces étapes dans l'ordre : <ol><li>lisez la question ci-dessous,<li><li>faites un clic gauche pour sélectionner votre réponse,</li><li>faites un clic gauche sur «&nbsp;Vérifier&nbsp;»</li></ol>"
                 },
                 {
                   "id": "7253ded2-df17-4926-930d-0b0947f7de82",
@@ -278,15 +285,22 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct&#8239;!</span> <p><strong>Bravo ! Vous avez bien lancé la vidéo et trouvé la bonne réponse</p>",
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!</span> <p>Vous avez lancé la vidéo et trouvé la bonne réponse</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Vous avez bien cliqué sur vérifier. Mais ce n’était pas la bonne réponse.<br>Vous pouvez retenter votre chance en cliquant sur «&nbsp;Réessayer&nbsp;».</p>"
                   },
                   "solution": "1"
                 },
                 {
+                  "type": "element",
+                  "element": {
+                    "id": "146de43f-5248-4e70-996a-bc430b0cb60b",
+                    "type": "separator"
+                  }
+                },
+                {
                   "id": "4c2ce336-aa9a-49b5-ba4f-84530e21b52d",
                   "type": "text",
-                  "content": "<p><hr>Quand vous avez terminé l'activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+                  "content": "<p>Quand vous avez terminé l'activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
                 }
               ]
             }
@@ -358,9 +372,16 @@
         {
           "type": "element",
           "element": {
+            "id": "dbab40a2-483c-41f2-944d-85e73220ed98",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
             "id": "3ebfd2ef-9614-4791-9668-68f56ed1fe32",
             "type": "text",
-            "content": "<p><hr>Quand vous avez terminé cette activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+            "content": "<p>Quand vous avez terminé cette activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
           }
         }
       ]
