@@ -191,7 +191,7 @@ const register = async function (server) {
             assign: 'belongsToScoOrganizationAndManageStudents',
           },
         ],
-        handler: scoOrganizationLearnerController.updateOrganizationLearnersPassword,
+        handler: scoOrganizationLearnerController.batchGenerateOrganizationLearnersUsernameWithTemporaryPassword,
         validate: {
           options: {
             allowUnknown: true,

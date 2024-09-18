@@ -164,7 +164,7 @@ const checkScoAccountRecovery = async function (
   );
 };
 
-const updateOrganizationLearnersPassword = async function (request, h) {
+const batchGenerateOrganizationLearnersUsernameWithTemporaryPassword = async function (request, h) {
   const payload = request.payload.data.attributes;
   const userId = request.auth.credentials.userId;
   const organizationId = payload['organization-id'];
@@ -198,7 +198,7 @@ const scoOrganizationLearnerController = {
   updatePassword,
   generateUsernameWithTemporaryPassword,
   checkScoAccountRecovery,
-  updateOrganizationLearnersPassword,
+  batchGenerateOrganizationLearnersUsernameWithTemporaryPassword,
 };
 
 export { scoOrganizationLearnerController };

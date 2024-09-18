@@ -234,7 +234,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
     });
   });
 
-  describe('#updateOrganizationLearnersPassword', function () {
+  describe('#batchGenerateOrganizationLearnersUsernameWithTemporaryPassword', function () {
     context('Error cases', function () {
       context('when an UserNotAuthorizedToUpdatePasswordError error is thrown ', function () {
         it('resolves a 403 Http Response with code and message in payload', async function () {
