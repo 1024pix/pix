@@ -1258,6 +1258,7 @@
     "sco-organization-participants": {
       "action-bar": {
         "information": "{count, plural, =1 {{count} geselecteerde student} other {{count} geselecteerde studenten}}",
+        "generate-username-password-button": "Generate logins and/or passwords for selected students",
         "reset-password-button": "Reset de wachtwoorden van geselecteerde studenten"
       },
       "actions": {
