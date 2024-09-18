@@ -27,7 +27,7 @@ const deserialize = function ({ data }) {
   });
 };
 
-const serialize = function (certificationCenters, meta) {
+const serialize = function (certificationCenter, certificationCenterPilotFeatures) {
   return new Serializer('certification-centers', {
     attributes: [
       'name',
@@ -60,8 +60,7 @@ const serialize = function (certificationCenters, meta) {
       ref: 'complementaryCertificationId',
       attributes: ['key', 'label'],
     },
-    meta,
-  }).serialize(certificationCenters);
+  }).serialize({ ...certificationCenter, ...certificationCenterPilotFeatures });
 };
 
 export { deserialize, serialize };

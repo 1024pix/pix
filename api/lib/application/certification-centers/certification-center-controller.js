@@ -1,7 +1,9 @@
 import lodash from 'lodash';
 
+import { usecases as certificationConfigurationUsecases } from '../../../src/certification/configuration/domain/usecases/index.js';
 import * as divisionSerializer from '../../../src/prescription/campaign/infrastructure/serializers/jsonapi/division-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js';
 import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
 import * as sessionSummarySerializer from '../../infrastructure/serializers/jsonapi/session-summary-serializer.js';
@@ -23,12 +25,26 @@ const update = async function (request) {
   const certificationCenterId = request.params.id;
   const certificationCenterInformation = certificationCenterForAdminSerializer.deserialize(request.payload);
   const complementaryCertificationIds = map(request.payload.data.relationships?.habilitations?.data, 'id');
-  const updatedCertificationCenter = await usecases.updateCertificationCenter({
-    certificationCenterId,
-    certificationCenterInformation,
-    complementaryCertificationIds,
-  });
-  return certificationCenterForAdminSerializer.serialize(updatedCertificationCenter);
+
+  const { updatedCertificationCenter, certificationCenterPilotFeatures } = await DomainTransaction.execute(
+    async () => {
+      const updatedCertificationCenter = await usecases.updateCertificationCenter({
+        certificationCenterId,
+        certificationCenterInformation,
+        complementaryCertificationIds,
+      });
+
+      const certificationCenterPilotFeatures = await certificationConfigurationUsecases.registerCenterPilotFeatures({
+        centerId: updatedCertificationCenter.id,
+        isV3Pilot: certificationCenterInformation.isV3Pilot,
+      });
+
+      return { updatedCertificationCenter, certificationCenterPilotFeatures };
+    },
+    { isolationLevel: 'repeatable read' },
+  );
+
+  return certificationCenterForAdminSerializer.serialize(updatedCertificationCenter, certificationCenterPilotFeatures);
 };
 
 const getCertificationCenterDetails = async function (request) {
