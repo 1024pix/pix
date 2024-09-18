@@ -50,6 +50,14 @@
   font-size: 1.125rem;
   font-family: $font-open-sans;
 
+  ul,
+  ol {
+    margin: var(--pix-spacing-1x) 0;
+    padding: revert;
+    list-style: revert;
+  }
+
+
   & p {
     padding: 12px 12px 0;
   }
