@@ -13,6 +13,7 @@ const serialize = function (missions) {
       'introductionMediaType',
       'introductionMediaAlt',
       'documentationUrl',
+      'content',
     ],
   }).serialize(missions);
 };

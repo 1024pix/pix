@@ -30,6 +30,14 @@ describe('Integration | UseCases | find-all-active-missions', function () {
         status: 'VALIDATED',
         learningObjectives_i18n: { fr: 'Il était une fois' },
         validatedObjectives_i18n: { fr: 'Bravo ! tu as réussi !' },
+        content: {
+          steps: [
+            {
+              name_i18n: { fr: 'truc' },
+            },
+          ],
+          dareChallenges: [],
+        },
       });
 
       const experimentalMission = learningContentBuilder.buildMission({
@@ -84,6 +92,14 @@ describe('Integration | UseCases | find-all-active-missions', function () {
         learningObjectives: 'Il était une fois',
         validatedObjectives: 'Bravo ! tu as réussi !',
         startedBy: '',
+        content: {
+          steps: [
+            {
+              name: 'truc',
+            },
+          ],
+          dareChallenges: [],
+        },
       });
       const expectedMissions = [expectedMission];
       const returnedMissions = await usecases.findAllActiveMissions({ organizationId });

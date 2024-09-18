@@ -34,7 +34,7 @@ import PaginationControl from '../table/pagination-control';
                 {{missionLearner.division}}
               </td>
               <td>
-                <PixTag @color={{this.statusColor missionLearner.status}}>{{t
+                <PixTag @color={{this.statusColor missionLearner.missionStatus}}>{{t
                     missionLearner.displayableStatus
                   }}</PixTag>
               </td>

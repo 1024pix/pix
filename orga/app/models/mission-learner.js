@@ -5,14 +5,18 @@ export default class MissionLearner extends Model {
   @attr('string') firstName;
   @attr('string') lastName;
   @attr('string') organizationId;
-  @attr('string') status;
-  @attr('string') result;
+  @attr('string') missionStatus;
+  @attr result;
 
   get displayableStatus() {
-    return `pages.missions.mission.table.activities.mission-status.${this.status}`;
+    return `pages.missions.mission.table.activities.mission-status.${this.missionStatus}`;
   }
 
-  get displayableResult() {
-    return `pages.missions.mission.table.result.mission-result.${this.result}`;
+  get displayableGlobalResult() {
+    return `pages.missions.mission.table.result.mission-result.${this.result?.global}`;
+  }
+
+  get displayableDareResult() {
+    return `pages.missions.mission.table.result.mission-dare-result.${this.result?.dare}`;
   }
 }

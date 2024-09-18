@@ -1,9 +1,9 @@
 import { SchoolLearner } from './SchoolLearner.js';
 
 class MissionLearner extends SchoolLearner {
-  constructor({ status, result } = {}) {
+  constructor({ missionStatus, result = null } = {}) {
     super(...arguments);
-    this.status = status;
+    this.missionStatus = missionStatus;
     this.result = result;
   }
 }

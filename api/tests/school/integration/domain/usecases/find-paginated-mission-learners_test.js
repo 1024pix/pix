@@ -39,6 +39,7 @@ describe('Integration | Usecase | find-paginated-mission-learners', function () 
         missionId,
         organizationLearnerId: organizationLearnerWithCompletedAssessment.id,
         assessmentId: completedAssessment.id,
+        result: { global: 'reached', steps: ['reached'], dare: 'not-reached' },
       });
       databaseBuilder.factory.buildActivity({
         assessmentId: completedAssessment.id,
@@ -71,20 +72,20 @@ describe('Integration | Usecase | find-paginated-mission-learners', function () 
           new MissionLearner({
             ...organizationLearnerWithoutAssessment,
             division: 'CM2A',
-            status: 'not-started',
-            result: undefined,
+            missionStatus: 'not-started',
+            result: null,
           }),
           new MissionLearner({
             ...organizationLearnerWithStartedAssessment,
             division: 'CM2A',
-            status: 'started',
-            result: undefined,
+            missionStatus: 'started',
+            result: null,
           }),
           new MissionLearner({
             ...organizationLearnerWithCompletedAssessment,
             division: 'CM2A',
-            status: 'completed',
-            result: 'reached',
+            missionStatus: 'completed',
+            result: { global: 'reached', steps: ['reached'], dare: 'not-reached' },
           }),
         ],
         pagination: {

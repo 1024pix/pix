@@ -19,6 +19,13 @@ describe('Integration | Repository | mission-repository', function () {
           introductionMediaType: 'image',
           introductionMediaAlt: "Alt à l'image",
           documentationUrl: 'http://madoc.pix.fr',
+          content: {
+            steps: [
+              {
+                name: 'step_name_1',
+              },
+            ],
+          },
         });
 
         mockLearningContent({
@@ -34,6 +41,13 @@ describe('Integration | Repository | mission-repository', function () {
               introductionMediaType: 'image',
               introductionMediaAlt: "Alt à l'image",
               documentationUrl: 'http://madoc.pix.fr',
+              content: {
+                steps: [
+                  {
+                    name_i18n: { fr: 'step_name_1' },
+                  },
+                ],
+              },
             },
           ],
         });

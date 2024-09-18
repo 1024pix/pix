@@ -96,6 +96,11 @@ describe('Acceptance | Controller | assessment-controller', function () {
             'mission-id': mission.id,
             'organization-learner-id': learner.id,
             state: 'started',
+            result: {
+              dare: undefined,
+              global: undefined,
+              steps: undefined,
+            },
           },
           id: `${lastMissionAssessment.assessmentId}`,
           type: 'assessments',
@@ -138,6 +143,11 @@ describe('Acceptance | Controller | assessment-controller', function () {
             'mission-id': mission.id,
             'organization-learner-id': learner.id,
             state: 'started',
+            result: {
+              dare: undefined,
+              global: undefined,
+              steps: undefined,
+            },
           },
           id: `${missionAssessment.assessmentId}`,
           type: 'assessments',

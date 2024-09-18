@@ -4,5 +4,5 @@ export default class Assessment extends Model {
   @attr('string') state;
   @attr('string') missionId;
   @attr('string') organizationLearnerId;
-  @attr('string') result;
+  @attr result;
 }

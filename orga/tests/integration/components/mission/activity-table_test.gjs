@@ -21,7 +21,7 @@ module('Integration | Component | Mission | ActivityTable', function (hooks) {
       lastName: 'Micheline',
       division: 'CM1',
       organizationId: 1,
-      status: 'completed',
+      missionStatus: 'completed',
     });
 
     const missionLearners = [learner];
@@ -61,7 +61,7 @@ module('Integration | Component | Mission | ActivityTable', function (hooks) {
       lastName: 'Micheline',
       division: 'CM1',
       organizationId: 1,
-      status: 'completed',
+      missionStatus: 'completed',
     });
     const learner2 = store.createRecord('mission-learner', {
       id: 2,
@@ -69,7 +69,7 @@ module('Integration | Component | Mission | ActivityTable', function (hooks) {
       lastName: 'Michel',
       division: 'CM2',
       organizationId: 1,
-      status: 'not-started',
+      missionStatus: 'not-started',
     });
 
     const missionLearners = [learner, learner2];
@@ -89,14 +89,14 @@ module('Integration | Component | Mission | ActivityTable', function (hooks) {
     assert.dom(screen.getByRole('cell', { name: learner.lastName })).exists();
     assert.dom(screen.getByRole('cell', { name: learner.division })).exists();
     assert
-      .dom(screen.getByText(t(`pages.missions.mission.table.activities.mission-status.${learner.status}`)))
+      .dom(screen.getByText(t(`pages.missions.mission.table.activities.mission-status.${learner.missionStatus}`)))
       .exists();
 
     assert.dom(screen.getByRole('cell', { name: learner2.firstName })).exists();
     assert.dom(screen.getByRole('cell', { name: learner2.lastName })).exists();
     assert.dom(screen.getByRole('cell', { name: learner2.division })).exists();
     assert
-      .dom(screen.getByText(t(`pages.missions.mission.table.activities.mission-status.${learner2.status}`)))
+      .dom(screen.getByText(t(`pages.missions.mission.table.activities.mission-status.${learner2.missionStatus}`)))
       .exists();
   });
 

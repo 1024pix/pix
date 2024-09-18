@@ -3,7 +3,8 @@ import _ from 'lodash';
 import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
-import { MissionAssessment } from '../models/mission-assessment.js';
+import { MissionLearner } from '../../domain/models/MissionLearner.js';
+import { MissionAssessment, MissionAssessmentResult } from '../models/mission-assessment.js';
 
 const save = async function ({ missionAssessment }) {
   const knexConn = DomainTransaction.getConnection();
@@ -12,7 +13,8 @@ const save = async function ({ missionAssessment }) {
 
 async function updateResult(assessmentId, result) {
   const knexConn = DomainTransaction.getConnection();
-  await knexConn('mission-assessments').update('result', result).where({ assessmentId });
+  const missionAssessmentResult = new MissionAssessmentResult(result);
+  await knexConn('mission-assessments').update('result', missionAssessmentResult).where({ assessmentId });
 }
 
 const getByAssessmentId = async function (assessmentId) {
@@ -44,6 +46,7 @@ async function _getMissionAssessmentsByLearnerId(missionId, organizationLearnerI
       'assessments.state as status',
       'assessments.id as assessmentId',
       'assessments.createdAt as createdAt',
+      'mission-assessments.result',
     )
     .from('mission-assessments')
     .join('assessments', 'assessments.id', 'mission-assessments.assessmentId')
@@ -55,7 +58,7 @@ async function _getMissionAssessmentsByLearnerId(missionId, organizationLearnerI
 
 const _byDescendingCreatedAt = (assessmentA, assessmentB) => assessmentB.createdAt - assessmentA.createdAt;
 
-const getStatusesForLearners = async function (missionId, organizationLearners, decorateMissionLearnerWithStatus) {
+const getStatusesForLearners = async function (missionId, organizationLearners) {
   const organizationLearnerIds = organizationLearners.map((learner) => learner.id);
   const missionAssessmentsByLearnerId = await _getMissionAssessmentsByLearnerId(missionId, organizationLearnerIds);
 
@@ -68,13 +71,14 @@ const getStatusesForLearners = async function (missionId, organizationLearners, 
 
   const decoratedMissionLearners = [];
   const lastRelevantAssessmentByLearnerId = _.groupBy(lastRelevantAssessments, 'organizationLearnerId');
+
   for (const organizationLearner of organizationLearners) {
     const [organizationLearnerInfo] = lastRelevantAssessmentByLearnerId[`${organizationLearner.id}`] ?? [];
-    const learner = await decorateMissionLearnerWithStatus(
-      organizationLearner,
-      organizationLearnerInfo?.status,
-      organizationLearnerInfo?.assessmentId,
-    );
+    const learner = new MissionLearner({
+      ...organizationLearner,
+      missionStatus: organizationLearnerInfo?.status ?? 'not-started',
+      result: organizationLearnerInfo?.result,
+    });
     decoratedMissionLearners.push(learner);
   }
   return decoratedMissionLearners;

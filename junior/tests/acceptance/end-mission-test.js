@@ -11,7 +11,14 @@ module('Acceptance | End mission', function (hooks) {
   test('displays mission validated objectives', async function (assert) {
     // given
     const mission = this.server.create('mission');
-    const assessment = this.server.create('assessment', { missionId: mission.id });
+    const assessment = this.server.create('assessment', {
+      missionId: mission.id,
+      result: {
+        global: 'exceeded',
+        steps: ['reached'],
+        dare: 'reached',
+      },
+    });
     identifyLearner(this.owner);
 
     // when
@@ -25,7 +32,7 @@ module('Acceptance | End mission', function (hooks) {
 
   test('when mission goal has been exceeded', async function (assert) {
     const mission = this.server.create('mission');
-    const assessment = this.server.create('assessment', { missionId: mission.id, result: 'exceeded' });
+    const assessment = this.server.create('assessment', { missionId: mission.id, result: { global: 'exceeded' } });
     identifyLearner(this.owner);
     const screen = await visit(`/assessments/${assessment.id}/results`);
     assert.dom(screen.getByText(t('pages.missions.end-page.result.exceeded'))).exists();
@@ -35,7 +42,7 @@ module('Acceptance | End mission', function (hooks) {
     const mission = this.server.create('mission');
     const assessment = this.server.create('assessment', {
       missionId: mission.id,
-      result: 'reached',
+      result: { global: 'reached' },
     });
     identifyLearner(this.owner);
     const screen = await visit(`/assessments/${assessment.id}/results`);
@@ -46,7 +53,7 @@ module('Acceptance | End mission', function (hooks) {
     const mission = this.server.create('mission');
     const assessment = this.server.create('assessment', {
       missionId: mission.id,
-      result: 'partially-reached',
+      result: { global: 'partially-reached' },
     });
     identifyLearner(this.owner);
     const screen = await visit(`/assessments/${assessment.id}/results`);
@@ -57,7 +64,7 @@ module('Acceptance | End mission', function (hooks) {
     const mission = this.server.create('mission');
     const assessment = this.server.create('assessment', {
       missionId: mission.id,
-      result: 'not-reached',
+      result: { global: 'not-reached' },
     });
     identifyLearner(this.owner);
     const screen = await visit(`/assessments/${assessment.id}/results`);
@@ -67,7 +74,12 @@ module('Acceptance | End mission', function (hooks) {
   test('redirect to home page after clicking on return button', async function (assert) {
     // given
     const mission = this.server.create('mission');
-    const assessment = this.server.create('assessment', { missionId: mission.id });
+    const assessment = this.server.create('assessment', {
+      missionId: mission.id,
+      result: {
+        global: 'reached',
+      },
+    });
     identifyLearner(this.owner);
 
     // when
