@@ -24,6 +24,7 @@ import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/
 import { accountRecoveryDemandRepository } from '../../infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../infrastructure/repositories/email-validation-demand.repository.js';
+import { eventLoggingJobRepository } from '../../infrastructure/repositories/jobs/event-logging-job.repository.js';
 import { garAnonymizedBatchEventsLoggingJobRepository } from '../../infrastructure/repositories/jobs/gar-anonymized-batch-events-logging-job-repository.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import { refreshTokenRepository } from '../../infrastructure/repositories/refresh-token.repository.js';
@@ -45,8 +46,9 @@ const repositories = {
   authenticationMethodRepository,
   campaignParticipationRepository,
   campaignRepository,
-  emailValidationDemandRepository,
   campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
+  emailValidationDemandRepository,
+  eventLoggingJobRepository,
   oidcProviderRepository,
   organizationLearnerRepository,
   refreshTokenRepository,
