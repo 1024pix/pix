@@ -1,7 +1,10 @@
 import fs from 'node:fs/promises';
 
 import { FileValidationError } from '../../../../src/shared/domain/errors.js';
-import { logErrorWithCorrelationIds } from '../../../../src/shared/infrastructure/monitoring-tools.js';
+import {
+  logErrorWithCorrelationIds,
+  logWarnWithCorrelationIds,
+} from '../../../../src/shared/infrastructure/monitoring-tools.js';
 import { usecases } from '../domain/usecases/index.js';
 import { OrganizationLearnerParser } from '../infrastructure/serializers/csv/organization-learner-parser.js';
 
@@ -10,13 +13,16 @@ const INVALID_FILE_EXTENSION_ERROR = 'INVALID_FILE_EXTENSION';
 const importOrganizationLearnersFromSIECLE = async function (
   request,
   h,
-  dependencies = { logErrorWithCorrelationIds },
+  dependencies = { logErrorWithCorrelationIds, logWarnWithCorrelationIds },
 ) {
   const authenticatedUserId = request.auth.credentials.userId;
   const organizationId = request.params.id;
   const userId = request.auth.credentials.userId;
   const { format } = request.query;
   try {
+    if (!['xml', 'csv'].includes(format))
+      throw new FileValidationError(INVALID_FILE_EXTENSION_ERROR, { fileExtension: format });
+
     if (format === 'xml') {
       await usecases.uploadSiecleFile({
         userId: authenticatedUserId,
@@ -42,16 +48,18 @@ const importOrganizationLearnersFromSIECLE = async function (
         payload: request.payload,
         i18n: request.i18n,
       });
-    } else {
-      throw new FileValidationError(INVALID_FILE_EXTENSION_ERROR, { fileExtension: format });
     }
+  } catch (error) {
+    dependencies.logWarnWithCorrelationIds(error);
+
+    throw error;
   } finally {
     // see https://hapi.dev/api/?v=21.3.3#-routeoptionspayloadoutput
     // add a catch to avoid an error if unlink fails
     try {
       await fs.unlink(request.payload.path);
-    } catch (err) {
-      dependencies.logErrorWithCorrelationIds(err);
+    } catch (error) {
+      dependencies.logErrorWithCorrelationIds(error);
     }
   }
 

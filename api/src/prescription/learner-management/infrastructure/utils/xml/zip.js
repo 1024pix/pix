@@ -40,25 +40,33 @@ function _createTempDir() {
 
 async function _unzipFile(directory, path) {
   const extractedFileName = Path.join(directory, `organization-learners-${randomUUID()}.xml`);
-  const zip = new StreamZip.async({ file: path });
-  const fileName = await _getFileToExtractName(zip);
+  let fileNames;
   try {
-    await zip.extract(fileName, extractedFileName);
+    const zip = new StreamZip.async({ file: path });
+    fileNames = await _getFilesToExtractName(zip);
+
+    if (fileNames.length != 1) {
+      await zip.close();
+      logErrorWithCorrelationIds({ ERROR: ERRORS.INVALID_FILE });
+      throw new FileValidationError(ERRORS.INVALID_FILE);
+    }
+
+    await zip.extract(fileNames[0], extractedFileName);
+    await zip.close();
   } catch (error) {
+    if (error instanceof FileValidationError) {
+      throw error;
+    }
+
     throw new FileValidationError(ERRORS.INVALID_FILE);
   }
-  await zip.close();
+
   return extractedFileName;
 }
 
-async function _getFileToExtractName(zipStream) {
+async function _getFilesToExtractName(zipStream) {
   const entries = await zipStream.entries();
   const fileNames = values(entries).map((entry) => entry.name);
   const validFiles = fileNames.filter((name) => VALID_FILE_NAME_REGEX.test(name));
-  if (validFiles.length != 1) {
-    zipStream.close();
-    logErrorWithCorrelationIds({ ERROR: ERRORS.INVALID_FILE, entries });
-    throw new FileValidationError(ERRORS.INVALID_FILE);
-  }
-  return validFiles[0];
+  return validFiles;
 }
