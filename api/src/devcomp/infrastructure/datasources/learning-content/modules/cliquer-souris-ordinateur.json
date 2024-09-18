@@ -17,7 +17,7 @@
   "transitionTexts": [
     {
       "grainId": "96f8e83d-88df-44c0-951d-9b9e3a02cde0",
-      "content": "<p>Savoir cliquer, c'est comme savoir marcher dans le monde numérique&#8239;! <span aria-hidden=\"\true\">💻 🚶🏼</span>️</p><p>Il y a plusieurs façons de faire des clics avec une souris.<br>Voyons cela ensemble dans ce module !</p>"
+      "content": "<p>Savoir cliquer, c'est comme savoir marcher dans le monde numérique&#8239;! <span aria-hidden=\"\true\">💻 🚶🏼</span>️</p><p>Cliquer, c'est appuyer sur un bouton de la souris. On dit aussi faire des clics.<br>Il y a plusieurs façons de faire des clics.<br>Voyons cela ensemble dans ce module !</p>"
     },
     {
       "grainId": "4a80afba-d2ef-4f58-a328-a0fc9f204aca",
@@ -63,7 +63,7 @@
           "element": {
             "id": "e45a32cf-2ab9-4464-85d0-ae4f0ca897cb",
             "type": "text",
-            "content": "<h3>D'abord, pourquoi est-ce que l'on dit «&nbsp;<strong>clic&nbsp;</strong>»&nbsp;?</h3><p>C'est le bruit que fait une souris d'ordinateur quand on appuie dessus.</p>"
+            "content": "<h3>D'abord, pourquoi est-ce qu'on dit «&nbsp;<strong>clic&nbsp;</strong>»&nbsp;?</h3><p>C'est le bruit que fait une souris d'ordinateur quand on appuie dessus.</p>"
           }
         },
         {
@@ -88,7 +88,7 @@
           "element": {
             "id": "88dfe182-930b-4066-a9bb-7b6eba9cd9ae",
             "type": "text",
-            "content": "<p><strong>Dans l'image ci-dessous, déplacez votre pointeur sur le dessin de la souris.</strong><br>Trois mots vont apparaître. Ce sont le nom des boutons de la souris.</p>"
+            "content": "<p><strong>Dans l'image ci-dessous, déplacez votre pointeur sur le dessin de la souris.</strong><br>Trois mots vont apparaître. Ce sont les noms des boutons de la souris.</p>"
           }
         },
         {
@@ -104,7 +104,7 @@
           "element": {
             "id": "d9e4718d-a15a-4e62-a967-19971e1a611e",
             "type": "text",
-            "content": "<p>Sur la souris, on trouve toujours deux boutons : un bouton gauche et un bouton droit.<br>Parfois, il y a une molette.</p>"
+            "content": "<p>Sur la souris, on trouve toujours deux boutons : un bouton gauche et un bouton droit.<br>En général, il y a une molette.</p>"
           }
         },
         {
@@ -214,7 +214,7 @@
           "element": {
             "id": "80070528-b2ca-4e93-99a6-bc495a6029ef",
             "type": "text",
-            "content": "<p>Voici un rappel des étapes pour faire un clic gauche&nbsp;:</p><ol><li>déplacer le pointeur où il faut,</li><li>appuyer sur le bouton gauche de la souris,</li><li>observer l'effet à l'écran.</li></ol><p><br><strong>Dans la zone ci-dessous, faites un clic sur chaque élément lorsqu'il apparait.</strong><br></p>"
+            "content": "<p>Voici un rappel des étapes pour faire un clic gauche&nbsp;:</p><ol><li>déplacer le pointeur à l'endroit souhaité,</li><li>appuyer sur le bouton gauche de la souris,</li><li>observer l'effet à l'écran.</li></ol><p><br><strong>Dans la zone ci-dessous, faites un clic sur chaque élément lorsqu'il apparait.</strong><br></p>"
           }
         },
         {
@@ -264,7 +264,7 @@
                 {
                   "id": "35e0ae32-980e-45fc-bb69-b94da529d6fb",
                   "type": "text",
-                  "content": "Suivez ces étapes dans l'ordre : <ol><li>lisez la question ci-dessous,<li><li>faites un clic gauche pour sélectionner votre réponse,</li><li>faites un clic gauche sur «&nbsp;Vérifier&nbsp;»</li></ol>"
+                  "content": "Suivez ces étapes dans l'ordre : <ol><li>lisez la question ci-dessous,</li><li>faites un clic gauche pour sélectionner votre réponse,</li><li>faites un clic gauche sur «&nbsp;Vérifier&nbsp;»</li></ol>"
                 },
                 {
                   "id": "7253ded2-df17-4926-930d-0b0947f7de82",
@@ -396,7 +396,7 @@
           "element": {
             "id": "be23697d-9393-405a-bb01-852e660e6818",
             "type": "text",
-            "content": "<p>Pour <strong>ouvrir un dossier</strong>, il faut <strong>faire un double-clique dessus.</strong><br>Dans l'espace ci-dessous, ouvrez les dossiers en suivant cet ordre :</p><ol><li>Photos,</li><li>Album,</li><li>Famille,</li><li>80 ans Mamie</li></ol>"
+            "content": "<p>Pour <strong>ouvrir un dossier</strong>, il faut <strong>faire un double-clic dessus.</strong><br>Dans l'espace ci-dessous, ouvrez les dossiers en suivant cet ordre :</p><ol><li>Photos,</li><li>Album,</li><li>Famille,</li><li>80 ans Mamie</li></ol>"
           }
         },
      {
