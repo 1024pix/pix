@@ -1,5 +1,33 @@
 # Pix Changelog
 
+## v4.214.0 (18/09/2024)
+
+
+### :rocket: Amélioration
+- [#10103](https://github.com/1024pix/pix/pull/10103) [FEATURE] affiche les lots de place dans orga (PIX-14009).
+- [#10097](https://github.com/1024pix/pix/pull/10097) [FEATURE] Afficher des feedback spécifiques aux QCU (PIX-14202) (PIX-13405).
+
+### :building_construction: Tech
+- [#10080](https://github.com/1024pix/pix/pull/10080) [TECH] Passage en v3 des centres de certif de type SCO (hors whitelist) (PIX-14098).
+- [#10099](https://github.com/1024pix/pix/pull/10099) [TECH] Changer le system de Redis lock et supprimer Bluebird.
+- [#10114](https://github.com/1024pix/pix/pull/10114) [TECH] Remonter les organisations ayant des lots de places illimités pour data (PIX-14247).
+- [#10120](https://github.com/1024pix/pix/pull/10120) [TECH] Remplacer le logger error par juste un warn dans le cas des erreurs connues (PIX-14314).
+- [#10088](https://github.com/1024pix/pix/pull/10088) [TECH] Sauvegarder l'état de l'import dans tous les cas (PIX-14200).
+- [#10104](https://github.com/1024pix/pix/pull/10104) [TECH] Retirer l'étagère à bouquins du répertoire des centres de certification.
+- [#10091](https://github.com/1024pix/pix/pull/10091) [TECH] :recycle: Déplacement d'un modèle de domaine évaluation de `src/shared` vers `src/evaluation`.
+
+### :bug: Correction
+- [#10116](https://github.com/1024pix/pix/pull/10116) [BUGFIX] Corriger l'affichage des listes à puces dans les indices (PIX-9987).
+- [#10122](https://github.com/1024pix/pix/pull/10122) [BUGFIX] Corriger l'affichage des onglets sessions V3 sur la barre de navigation de Pix Admin (PIX-14349).
+- [#10117](https://github.com/1024pix/pix/pull/10117) [BUGFIX] Correction de l'affichage du temps de certification (PIX-14318).
+
+### :arrow_up: Montée de version
+- [#10127](https://github.com/1024pix/pix/pull/10127) [BUMP] Update dependency sinon-chai to v4 (api).
+- [#10126](https://github.com/1024pix/pix/pull/10126) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.27 (orga).
+- [#10125](https://github.com/1024pix/pix/pull/10125) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.27 (mon-pix).
+- [#10124](https://github.com/1024pix/pix/pull/10124) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.27 (junior).
+- [#10113](https://github.com/1024pix/pix/pull/10113) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.27 (certif).
+
 ## v4.213.0 (13/09/2024)
 
 
