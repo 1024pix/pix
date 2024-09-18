@@ -1,5 +1,5 @@
 import { Card } from '../../../../../../../src/devcomp/domain/models/element/flashcards/Card.js';
-import { expect } from '../../../../../../test-helper.js';
+import { validateCard } from '../../../../../shared/validateFlashcards.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | Flashcards | Card', function () {
   describe('#constructor', function () {
@@ -25,11 +25,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Flashcards | Card', funct
       const card = new Card(attributes);
 
       // then
-      expect(card.id).deep.equal(attributes.id);
-      expect(card.recto.image.url).deep.equal(attributes.recto.image.url);
-      expect(card.recto.text).deep.equal(attributes.recto.text);
-      expect(card.verso.image.url).deep.equal(attributes.verso.image.url);
-      expect(card.verso.text).deep.equal(attributes.verso.text);
+      validateCard(card, attributes);
     });
   });
 });

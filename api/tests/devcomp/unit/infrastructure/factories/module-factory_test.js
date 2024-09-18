@@ -3,7 +3,6 @@ import { ComponentStepper } from '../../../../../src/devcomp/domain/models/compo
 import { Step } from '../../../../../src/devcomp/domain/models/component/Step.js';
 import { Download } from '../../../../../src/devcomp/domain/models/element/Download.js';
 import { Embed } from '../../../../../src/devcomp/domain/models/element/Embed.js';
-import { Flashcards } from '../../../../../src/devcomp/domain/models/element/flashcards/Flashcards.js';
 import { Image } from '../../../../../src/devcomp/domain/models/element/Image.js';
 import { QCM } from '../../../../../src/devcomp/domain/models/element/QCM.js';
 import { QCU } from '../../../../../src/devcomp/domain/models/element/QCU.js';
@@ -17,6 +16,7 @@ import { TransitionText } from '../../../../../src/devcomp/domain/models/Transit
 import { ModuleFactory } from '../../../../../src/devcomp/infrastructure/factories/module-factory.js';
 import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import { catchErrSync, expect, sinon } from '../../../../test-helper.js';
+import { validateFlashcards } from '../../../shared/validateFlashcards.js';
 
 describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
   describe('#toDomain', function () {
@@ -857,7 +857,9 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         const module = ModuleFactory.build(moduleData);
 
         // then
-        expect(module.grains[0].components[0].element).to.be.an.instanceOf(Flashcards);
+        const flashcards = module.grains[0].components[0].element;
+        const expectedFlashcards = moduleData.grains[0].components[0].element;
+        validateFlashcards(flashcards, expectedFlashcards);
       });
     });
 
@@ -1452,7 +1454,9 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         const module = ModuleFactory.build(moduleData);
 
         // then
-        expect(module.grains[0].components[0].steps[0].elements[0]).to.be.an.instanceOf(Flashcards);
+        const flashcards = module.grains[0].components[0].steps[0].elements[0];
+        const expectedFlashcards = moduleData.grains[0].components[0].steps[0].elements[0];
+        validateFlashcards(flashcards, expectedFlashcards);
       });
 
       it('should filter out unknown element type', function () {
