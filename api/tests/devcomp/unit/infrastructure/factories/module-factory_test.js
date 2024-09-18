@@ -3,6 +3,7 @@ import { ComponentStepper } from '../../../../../src/devcomp/domain/models/compo
 import { Step } from '../../../../../src/devcomp/domain/models/component/Step.js';
 import { Download } from '../../../../../src/devcomp/domain/models/element/Download.js';
 import { Embed } from '../../../../../src/devcomp/domain/models/element/Embed.js';
+import { Flashcards } from '../../../../../src/devcomp/domain/models/element/flashcards/Flashcards.js';
 import { Image } from '../../../../../src/devcomp/domain/models/element/Image.js';
 import { QCM } from '../../../../../src/devcomp/domain/models/element/QCM.js';
 import { QCU } from '../../../../../src/devcomp/domain/models/element/QCU.js';
@@ -797,6 +798,67 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         // then
         expect(module.grains[0].components[0].element).to.be.an.instanceOf(QROCM);
       });
+
+      it('should instantiate a Module with a ComponentElement which contains a Flashcard Element', function () {
+        // given
+        const moduleData = {
+          id: '6282925d-4775-4bca-b513-4c3009ec5886',
+          slug: 'title',
+          title: 'title',
+          details: {
+            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+            description: 'Description',
+            duration: 5,
+            level: 'Débutant',
+            tabletSupport: 'comfortable',
+            objectives: ['Objective 1'],
+          },
+          grains: [
+            {
+              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+              type: 'lesson',
+              title: 'title',
+              components: [
+                {
+                  type: 'element',
+                  element: {
+                    id: '71de6394-ff88-4de3-8834-a40057a50ff4',
+                    type: 'flashcards',
+                    title: "Introduction à l'adresse e-mail",
+                    instruction: '<p>...</p>',
+                    introImage: {
+                      url: 'https://example.org/image.jpeg',
+                    },
+                    cards: [
+                      {
+                        id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+                        recto: {
+                          image: {
+                            url: 'https://example.org/image.jpeg',
+                          },
+                          text: "A quoi sert l'arobase dans mon adresse email ?",
+                        },
+                        verso: {
+                          image: {
+                            url: 'https://example.org/image.jpeg',
+                          },
+                          text: "Parce que c'est joli",
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          ],
+        };
+
+        // when
+        const module = ModuleFactory.build(moduleData);
+
+        // then
+        expect(module.grains[0].components[0].element).to.be.an.instanceOf(Flashcards);
+      });
     });
 
     describe('With ComponentStepper', function () {
@@ -1324,6 +1386,73 @@ describe('Unit | Devcomp | Infrastructure | Factories | Module ', function () {
         expect(module.grains[0].components[0]).to.be.an.instanceOf(ComponentStepper);
         expect(module.grains[0].components[0].steps[0]).to.be.an.instanceOf(Step);
         expect(module.grains[0].components[0].steps[0].elements[0]).to.be.an.instanceOf(QROCM);
+      });
+
+      it('should instantiate a Module with a ComponentElement which contains a Flashcard Element', function () {
+        // given
+        const moduleData = {
+          id: '6282925d-4775-4bca-b513-4c3009ec5886',
+          slug: 'title',
+          title: 'title',
+          details: {
+            image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+            description: 'Description',
+            duration: 5,
+            level: 'Débutant',
+            tabletSupport: 'comfortable',
+            objectives: ['Objective 1'],
+          },
+          grains: [
+            {
+              id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+              type: 'lesson',
+              title: 'title',
+              components: [
+                {
+                  type: 'stepper',
+                  steps: [
+                    {
+                      elements: [
+                        {
+                          id: '71de6394-ff88-4de3-8834-a40057a50ff4',
+                          type: 'flashcards',
+                          title: "Introduction à l'adresse e-mail",
+                          instruction: '<p>...</p>',
+                          introImage: {
+                            url: 'https://example.org/image.jpeg',
+                          },
+                          cards: [
+                            {
+                              id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+                              recto: {
+                                image: {
+                                  url: 'https://example.org/image.jpeg',
+                                },
+                                text: "A quoi sert l'arobase dans mon adresse email ?",
+                              },
+                              verso: {
+                                image: {
+                                  url: 'https://example.org/image.jpeg',
+                                },
+                                text: "Parce que c'est joli",
+                              },
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        };
+
+        // when
+        const module = ModuleFactory.build(moduleData);
+
+        // then
+        expect(module.grains[0].components[0].steps[0].elements[0]).to.be.an.instanceOf(Flashcards);
       });
 
       it('should filter out unknown element type', function () {

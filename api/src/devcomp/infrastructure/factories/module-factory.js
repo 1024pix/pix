@@ -9,6 +9,7 @@ import { ComponentStepper } from '../../domain/models/component/ComponentStepper
 import { Step } from '../../domain/models/component/Step.js';
 import { Download } from '../../domain/models/element/Download.js';
 import { Embed } from '../../domain/models/element/Embed.js';
+import { Flashcards } from '../../domain/models/element/flashcards/Flashcards.js';
 import { Image } from '../../domain/models/element/Image.js';
 import { QCM } from '../../domain/models/element/QCM.js';
 import { QCU } from '../../domain/models/element/QCU.js';
@@ -102,6 +103,8 @@ export class ModuleFactory {
         return ModuleFactory.#buildQCU(element);
       case 'qrocm':
         return ModuleFactory.#buildQROCM(element);
+      case 'flashcards':
+        return ModuleFactory.#buildFlashcards(element);
       default:
         logger.warn({
           event: 'module_element_type_unknown',
@@ -210,5 +213,9 @@ export class ModuleFactory {
         }
       }),
     });
+  }
+
+  static #buildFlashcards(element) {
+    return new Flashcards({ id: element.id });
   }
 }
