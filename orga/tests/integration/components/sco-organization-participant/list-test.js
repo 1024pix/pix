@@ -1212,8 +1212,9 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         organization = store.createRecord('organization', {
           id: '1',
           divisions: [store.createRecord('division', { id: '3Z', name: '3Z' })],
-          type: 'SCO',
+          identityProviderForCampaigns: 'GAR',
           isManagingStudents: true,
+          type: 'SCO',
         });
       }
 

@@ -42,9 +42,11 @@
           </InElement>
           {{#if someSelected}}
             <InElement @destinationId={{this.actionBarId}}>
-              <ScoOrganizationParticipant::ActionBar
+              <ScoOrganizationParticipant::ListActionBar
                 @count={{selectedStudents.length}}
+                @openGenerateUsernamePasswordModal={{fn this.openGenerateUsernamePasswordModal selectedStudents}}
                 @openResetPasswordModal={{fn this.openResetPasswordModal selectedStudents}}
+                @hasGarIdentityProvider={{this.hasGarIdentityProvider}}
               />
               <ScoOrganizationParticipant::ResetPasswordModal
                 @showModal={{this.showResetPasswordModal}}
@@ -52,6 +54,12 @@
                 @totalAffectedStudents={{this.affectedStudents.length}}
                 @onTriggerAction={{fn this.resetPasswordForStudents this.affectedStudents reset}}
                 @onCloseModal={{this.closeResetPasswordModal}}
+              />
+              <ScoOrganizationParticipant::GenerateUsernamePasswordModal
+                @showModal={{this.showGenerateUsernamePasswordModal}}
+                @totalAffectedStudents={{this.affectedStudents.length}}
+                @onTriggerAction={{fn this.resetPasswordForStudents this.affectedStudents reset}}
+                @onCloseModal={{this.closeGenerateUsernamePasswordModal}}
               />
             </InElement>
           {{/if}}

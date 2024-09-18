@@ -376,12 +376,12 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
             });
           });
 
-          module('when resetting students password', function () {
-            test('resets students password and displays a success notification', async function (assert) {
+          module('when generating students username and password', function () {
+            test('works correctly and displays a success notification', async function (assert) {
               // given
               const screen = await visit('/eleves');
               await clickByName(t('pages.sco-organization-participants.table.column.mainCheckbox'));
-              await clickByName(t('pages.sco-organization-participants.action-bar.reset-password-button'));
+              await clickByName(t('pages.sco-organization-participants.action-bar.generate-username-password-button'));
               await screen.findByRole('dialog');
 
               // when
