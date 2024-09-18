@@ -2,6 +2,7 @@
 
 <Places::Title />
 
+<Places::PlacesLotAlert @placesLots={{@model.placesLots}} />
 <Places::CapacityAlert @occupied={{@model.statistics.occupied}} @total={{@model.statistics.total}} />
 <Places::Statistics @model={{@model.statistics}} />
 <Places::PlaceInfo @hasAnonymousSeat={{@model.statistics.hasAnonymousSeat}} />
