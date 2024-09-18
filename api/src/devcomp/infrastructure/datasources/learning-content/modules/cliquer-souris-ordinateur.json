@@ -149,7 +149,7 @@
           "element": {
             "id": "a510f893-7d93-4e4f-b8a4-0dd978324c70",
             "type": "text",
-            "content": "<h3>Étape 1&nbsp;: déplacer le pointeur à l'écran</h3><p>Poser la main sur votre souris. Faire glisser la main sur la table jusqu’à ce que le pointeur soit à l'endroit où vous voulez.</p>"
+            "content": "<h3>Étape 1&nbsp;: déplacer le pointeur à l'écran</h3><p>Poser la main sur la souris. Faire glisser la main sur la table jusqu’à ce que le pointeur soit à l'endroit souhaité.</p>"
           }
         },
         {
@@ -174,7 +174,7 @@
           "element": {
             "id": "11a9d578-a409-4de5-b20a-c38c932fd534",
             "type": "text",
-            "content": "<h3>Étape 2&nbsp;: appuyer sur le bouton gauche de votre souris</h3><p>Sans bouger la souris, appuyer sur le bouton gauche avec l'index et relâchez immédiatement. C'est comme pour un bouton de télécommande. On doit entendre le son «&nbsp;clic&nbsp;».</p>"
+            "content": "<h3>Étape 2&nbsp;: appuyer sur le bouton gauche de la souris</h3><p>Sans bouger la souris, appuyer sur le bouton gauche avec l'index et relâcher immédiatement. C'est comme pour un bouton de télécommande.<br>On doit entendre le son «&nbsp;clic&nbsp;».</p>"
           }
         },
         {
@@ -199,7 +199,7 @@
           "element": {
             "id": "0f2d9e91-8da7-4ca6-80aa-815a4146597c",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">💡</span> <strong>Astuce</strong></h3><p>Le doigt qui fait le clic gauche&nbsp;peut être positionné de différentes façons. L'important est d'être à l'aise et détendu.</p>"
+            "content": "<h3><span aria-hidden=\"true\">💡</span> <strong>Astuce</strong></h3><p>Le doigt qui fait le clic gauche&nbsp;peut être positionné de différentes façons.<br>L'important est d'être à l'aise et détendu.</p>"
           }
         }
       ]
@@ -293,7 +293,7 @@
                 {
                   "type": "element",
                   "element": {
-                    "id": "146de43f-5248-4e70-996a-bc430b0cb60b",
+                    "id": "2e9d6046-33d5-46d8-be10-dc7b75ad18f5",
                     "type": "separator"
                   }
                 },
