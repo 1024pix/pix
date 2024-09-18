@@ -113,10 +113,10 @@ export default class ScoList extends Component {
   }
 
   @action
-  async resetPasswordForStudents(affectedStudents, resetSelectedStudents) {
+  async generateUsernamePasswordForStudents(affectedStudents, resetSelectedStudents) {
     const affectedStudentsIds = affectedStudents.map((affectedStudents) => affectedStudents.id);
     try {
-      await this.store.adapterFor('sco-organization-participant').resetOrganizationLearnersPassword({
+      await this.store.adapterFor('sco-organization-participant').generateOrganizationLearnersUsernamePassword({
         fetch,
         fileSaver: this.fileSaver,
         organizationId: this.currentUser.organization.id,

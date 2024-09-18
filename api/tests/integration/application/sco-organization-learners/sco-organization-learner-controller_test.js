@@ -276,7 +276,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
           // when
           const response = await httpTestServer.request(
             'POST',
-            '/api/sco-organization-learners/password-reset',
+            '/api/sco-organization-learners/batch-username-password-generate',
             payload,
             auth,
           );
