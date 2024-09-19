@@ -229,7 +229,7 @@ describe('Unit | UseCase | upload-siecle-file', function () {
         expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportSavedStub);
       });
 
-      it('should save organization import with error when job fails', async function () {
+      it('should save organization import with error when save job fails', async function () {
         //given
         const expectedError = new Error('jobFails');
         validateOrganizationImportFileJobRepositoryStub.performAsync.rejects(expectedError);

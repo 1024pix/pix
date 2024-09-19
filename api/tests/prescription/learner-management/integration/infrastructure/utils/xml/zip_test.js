@@ -68,9 +68,21 @@ describe('unzip', function () {
       expect(error.code).to.equal('INVALID_FILE');
     });
   });
+
   context('when there are several files in the zip', function () {
     it('throws an error', async function () {
       const path = `${__dirname}/files/zip/several-files.zip`;
+
+      const error = await catchErr(unzip)(path);
+
+      expect(error).to.be.an.instanceof(FileValidationError);
+      expect(error.code).to.equal('INVALID_FILE');
+    });
+  });
+
+  context('when there are evil zip 666', function () {
+    it('throws an error', async function () {
+      const path = `${__dirname}/files/zip/evil.zip`;
 
       const error = await catchErr(unzip)(path);
 
