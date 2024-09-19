@@ -6,6 +6,8 @@ import { ComponentElement } from '../../../../../../src/devcomp/domain/models/co
 import { ComponentStepper } from '../../../../../../src/devcomp/domain/models/component/ComponentStepper.js';
 import { Download } from '../../../../../../src/devcomp/domain/models/element/Download.js';
 import { Embed } from '../../../../../../src/devcomp/domain/models/element/Embed.js';
+import { Card } from '../../../../../../src/devcomp/domain/models/element/flashcards/Card.js';
+import { Flashcards } from '../../../../../../src/devcomp/domain/models/element/flashcards/Flashcards.js';
 import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
 import { QCM } from '../../../../../../src/devcomp/domain/models/element/QCM.js';
 import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
@@ -245,6 +247,27 @@ function getComponents() {
         id: '6',
       }),
     }),
+    new ComponentElement({
+      element: new Flashcards({
+        id: '7',
+        title: 'title',
+        instruction: 'instruction',
+        introImage: {
+          url: 'https://...',
+        },
+        cards: [
+          new Card({
+            id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+            recto: { image: { url: 'https://...' } },
+            verso: {
+              image: {
+                url: 'https://...',
+              },
+            },
+          }),
+        ],
+      }),
+    }),
   ];
 }
 
@@ -408,6 +431,30 @@ function getAttributesComponents() {
         id: '6',
         isAnswerable: false,
         type: 'separator',
+      },
+    },
+    {
+      type: 'element',
+      element: {
+        id: '7',
+        isAnswerable: false,
+        title: 'title',
+        instruction: 'instruction',
+        introImage: {
+          url: 'https://...',
+        },
+        type: 'flashcards',
+        cards: [
+          {
+            id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+            recto: { image: { url: 'https://...' } },
+            verso: {
+              image: {
+                url: 'https://...',
+              },
+            },
+          },
+        ],
       },
     },
   ];
