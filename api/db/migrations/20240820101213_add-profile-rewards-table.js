@@ -7,20 +7,21 @@
 // If your migrations target `answers` or `knowledge-elements`
 // contact @team-captains, because automatic migrations are not active on `pix-datawarehouse-production`
 // this may prevent data replication to succeed the day after your migration is deployed on `pix-api-production`
-const TABLE_NAME = 'profile-rewards';
+import { REWARD_TYPES } from '../../src/quest/domain/constants.js';
+export const PROFILE_REWARDS_TABLE_NAME = 'profile-rewards';
 
 const up = async function (knex) {
-  await knex.schema.createTable(TABLE_NAME, function (table) {
+  await knex.schema.createTable(PROFILE_REWARDS_TABLE_NAME, function (table) {
     table.increments('id').primary();
     table.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
     table.bigInteger('userId').index().references('users.id');
-    table.string('rewardType').notNullable();
-    table.string('rewardId').notNullable();
+    table.enum('rewardType', [REWARD_TYPES.ATTESTATION]).defaultTo(REWARD_TYPES.ATTESTATION);
+    table.bigInteger('rewardId').notNullable();
   });
 };
 
 const down = async function (knex) {
-  return knex.schema.dropTable(TABLE_NAME);
+  return knex.schema.dropTable(PROFILE_REWARDS_TABLE_NAME);
 };
 
 export { down, up };
