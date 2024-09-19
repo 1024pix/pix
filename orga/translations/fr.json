@@ -66,7 +66,12 @@
       "message": "'<strong>'Certifications :'</strong>' n’oubliez pas de '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finaliser les sessions dans Pix Certif'</a>' puis de télécharger les attestations ici via l'onglet “Certifications” avant la rentrée {year}."
     },
     "import": {
-      "message": "L'administrateur peut télécharger les résultats de certification et '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'importer'</a>' la base élèves, afin de créer les campagnes de rentrée par niveau. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Plus d’info'</a>'"
+      "message": "Les grandes étapes de l’année dans l’enseignement scolaire :",
+      "step1a": "Mettre en place&nbsp;: '<'a href='https://cloud.pix.fr/s/WjTnkSbFs9TDcSC' title='Guide télécharger les résultats' class='link link--banner link--bold link--underlined' '>'télécharger les résultats'</a>' de certification et",
+      "step1b": "importer",
+      "step1c": "la base élèves (admin)",
+      "step2": "'<'a href='https://cloud.pix.fr/s/RaPpKjFHNX2kSR4' title='Guide Lancer les parcours de rentrée' class='link link--banner link--bold link--underlined' '>'Créer les campagnes'</a>' (parcours rentrée, 6e, thématiques, disciplinaires, ciblés…).",
+      "step3": "'<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Guide Préparer et organiser la certification des élèves' class='link link--banner link--bold link--underlined' '>'Certifier les apprenants'</a>'."
     },
     "language-availability": {
       "message": "Votre langue n'est pas encore disponible sur Pix Orga. Pour votre confort, l'application sera présentée en anglais. Toute l'équipe de Pix travaille à l'ajout de votre langue."
@@ -1144,7 +1149,7 @@
         "table": {
           "title": "Historique d'achat de places",
           "caption": "Tableau listant les achats de places de votre organisation. Pour chaque achat, il indique : le nombre de places, la date d’activation, la date d’expiration ainsi que le statut (actif, à venir ou expiré). Il est ordonné selon le statut des achats et leur date d’expiration.",
-          "empty-state":"Aucune place pour le moment !",
+          "empty-state": "Aucune place pour le moment !",
           "headers": {
             "activation-date": "Date d'activation",
             "count": "Nombre de places",
