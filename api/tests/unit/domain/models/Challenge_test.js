@@ -4,7 +4,7 @@ import { ValidatorQCU } from '../../../../src/evaluation/domain/models/Validator
 import { ValidatorQROC } from '../../../../src/evaluation/domain/models/ValidatorQROC.js';
 import { ValidatorQROCMDep } from '../../../../src/evaluation/domain/models/ValidatorQROCMDep.js';
 import { ValidatorQROCMInd } from '../../../../src/evaluation/domain/models/ValidatorQROCMInd.js';
-import { Challenge } from '../../../../src/shared/domain/models/Challenge.js';
+import { Accessibility, Challenge } from '../../../../src/shared/domain/models/Challenge.js';
 import { Skill } from '../../../../src/shared/domain/models/Skill.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 
@@ -44,6 +44,8 @@ describe('Unit | Domain | Models | Challenge', function () {
         responsive: 'Smartphone',
         shuffled: false,
         alternativeVersion: 1,
+        accessibility1: 'OK',
+        accessibility2: 'KO',
       };
 
       const expectedChallengeDataObject = {
@@ -78,6 +80,8 @@ describe('Unit | Domain | Models | Challenge', function () {
         responsive: 'Smartphone',
         shuffled: false,
         alternativeVersion: 1,
+        accessibility1: 'OK',
+        accessibility2: 'KO',
       };
 
       // when
@@ -122,6 +126,8 @@ describe('Unit | Domain | Models | Challenge', function () {
         responsive: 'Smartphone',
         shuffled: false,
         alternativeVersion: 1,
+        accessibility1: 'OK',
+        accessibility2: 'KO',
       };
 
       const expectedChallengeDataObject = {
@@ -156,6 +162,8 @@ describe('Unit | Domain | Models | Challenge', function () {
         responsive: 'Smartphone',
         shuffled: false,
         alternativeVersion: 1,
+        accessibility1: 'OK',
+        accessibility2: 'KO',
       };
 
       // when
@@ -328,6 +336,31 @@ describe('Unit | Domain | Models | Challenge', function () {
 
       // when then
       expect(challenge.isFocused()).to.be.false;
+    });
+  });
+
+  describe('#isAccessible', function () {
+    /* eslint-disable mocha/no-setup-in-describe */
+    [
+      { accessibility1: Accessibility.OK, accessibility2: Accessibility.OK, isAccessible: true },
+      { accessibility1: Accessibility.OK, accessibility2: Accessibility.RAS, isAccessible: true },
+      { accessibility1: Accessibility.RAS, accessibility2: Accessibility.OK, isAccessible: true },
+      { accessibility1: Accessibility.RAS, accessibility2: Accessibility.RAS, isAccessible: true },
+      { accessibility1: Accessibility.OK, accessibility2: 'KO', isAccessible: false },
+      { accessibility1: Accessibility.OK, accessibility2: 'autre chose', isAccessible: false },
+      { accessibility1: 'autre chose', accessibility2: Accessibility.OK, isAccessible: false },
+      { accessibility1: 'KO', accessibility2: Accessibility.RAS, isAccessible: false },
+      /* eslint-enable mocha/no-setup-in-describe */
+    ].forEach(({ accessibility1, accessibility2, isAccessible }) => {
+      context(`when accessibility1 is ${accessibility1} and accessibility2 is ${accessibility2}`, function () {
+        it(`returns ${isAccessible}`, function () {
+          // given
+          const challenge = domainBuilder.buildChallenge({ accessibility1, accessibility2 });
+
+          // when then
+          expect(challenge.isAccessible).to.equal(isAccessible);
+        });
+      });
     });
   });
 });

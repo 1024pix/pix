@@ -91,12 +91,7 @@ const getNextChallengeForV3Certification = async function ({
 
   const candidate = await certificationCandidateForSupervisingRepository.get({ certificationCandidateId });
   const challengesForCandidate = candidate.accessibilityAdjustmentNeeded
-    ? challengesWithoutSkillsWithAValidatedLiveAlert.filter((challenge) => {
-        return (
-          (challenge.accessibility1 === 'OK' || challenge.accessibility1 === 'RAS') &&
-          (challenge.accessibility2 === 'OK' || challenge.accessibility2 === 'RAS')
-        );
-      })
+    ? challengesWithoutSkillsWithAValidatedLiveAlert.filter((challenge) => challenge.isAccessible)
     : challengesWithoutSkillsWithAValidatedLiveAlert;
 
   const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
