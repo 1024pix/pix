@@ -1,4 +1,5 @@
 import { config } from '../../../../../src/shared/config.js';
+import { AssessmentResult } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
   databaseBuilder,
@@ -221,6 +222,20 @@ describe('Certification | Enrolment | Acceptance | user routes', function () {
       badgeId: cleaBadgeId,
       complementaryCertificationId,
       label: 'PARTNER_LABEL',
+      minimumEarnedPix: 120,
+    });
+
+    const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+      userId: user.id,
+      isPublished: true,
+    }).id;
+    const lastAssessmentResultId = databaseBuilder.factory.buildAssessmentResult({
+      pixScore: 999,
+      status: AssessmentResult.status.VALIDATED,
+    }).id;
+    databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+      certificationCourseId,
+      lastAssessmentResultId,
     });
 
     options = {

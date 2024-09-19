@@ -173,9 +173,11 @@ import { buildValidator } from './build-validator.js';
 import { buildCenterPilotFeatures } from './certification/configuration/build-center-pilot-features.js';
 import { buildCandidate } from './certification/enrolment/build-candidate.js';
 import { buildCertificationEligibilityEnrolment } from './certification/enrolment/build-certification-eligibility.js';
+import { buildComplementaryCertificationBadge as buildComplementaryCertificationBadgeForEnrolment } from './certification/enrolment/build-complementary-certification-badge.js';
 import { buildComplementaryCertificationCourseWithResultsEnrolment } from './certification/enrolment/build-complementary-certification-course-with-results.js';
 import { buildEditedCandidate } from './certification/enrolment/build-edited-candidate.js';
 import { buildEnrolledCandidate } from './certification/enrolment/build-enrolled-candidate.js';
+import { buildPixCertification } from './certification/enrolment/build-pix-certification.js';
 import { buildSessionEnrolment } from './certification/enrolment/build-session.js';
 import {
   buildComplementarySubscription,
@@ -229,6 +231,8 @@ const certification = {
     buildComplementaryCertificationCourseWithResults: buildComplementaryCertificationCourseWithResultsEnrolment,
     buildUserCertificationEligibility,
     buildV3CertificationEligibility,
+    buildPixCertification,
+    buildComplementaryCertificationBadge: buildComplementaryCertificationBadgeForEnrolment,
   },
   sessionManagement: {
     buildCertificationSessionComplementaryCertification,
