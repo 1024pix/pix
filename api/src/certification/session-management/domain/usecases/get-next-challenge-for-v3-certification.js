@@ -7,6 +7,15 @@
  * @typedef {import('./index.js').FlashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
  * @typedef {import('./index.js').PickChallengeService} PickChallengeService
  * @typedef {import('./index.js').FlashAlgorithmService} FlashAlgorithmService
+ * @typedef {import('../../../session-management/domain/usecases/index.js').AnswerRepository} AnswerRepository
+ * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationChallengeRepository} CertificationChallengeRepository
+ * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
+ * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationCourseRepository} CertificationCourseRepository
+ * @typedef {import('../../../session-management/domain/usecases/index.js').ChallengeRepository} ChallengeRepository
+ * @typedef {import('../../../session-management/domain/usecases/index.js').FlashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
+ * @typedef {import('../../../session-management/domain/usecases/index.js').PickChallengeService} PickChallengeService
+ * @typedef {import('../../../session-management/domain/usecases/index.js').FlashAlgorithmService} FlashAlgorithmService
+ * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationCandidateRepository} CertificationCandidateRepository
  */
 
 import { AssessmentEndedError } from '../../../../shared/domain/errors.js';
@@ -22,6 +31,7 @@ import { CertificationChallenge, FlashAssessmentAlgorithm } from '../../../../sh
  * @param {FlashAlgorithmConfigurationRepository} params.flashAlgorithmConfigurationRepository
  * @param {FlashAlgorithmService} params.flashAlgorithmService
  * @param {PickChallengeService} params.pickChallengeService
+ * @param {CertificationCandidateRepository} params.certificationCandidateRepository
  */
 const getNextChallengeForV3Certification = async function ({
   assessment,
@@ -34,6 +44,8 @@ const getNextChallengeForV3Certification = async function ({
   flashAlgorithmService,
   locale,
   pickChallengeService,
+  certificationCandidateForSupervisingRepository,
+  certificationCandidateId,
 }) {
   const certificationCourse = await certificationCourseRepository.get({ id: assessment.certificationCourseId });
 
@@ -77,9 +89,19 @@ const getNextChallengeForV3Certification = async function ({
     challenges,
   });
 
+  const candidate = await certificationCandidateForSupervisingRepository.get({ certificationCandidateId });
+  const challengesForCandidate = candidate.accessibilityAdjustmentNeeded
+    ? challengesWithoutSkillsWithAValidatedLiveAlert.filter((challenge) => {
+        return (
+          (challenge.accessibility1 === 'OK' || challenge.accessibility1 === 'RAS') &&
+          (challenge.accessibility2 === 'OK' || challenge.accessibility2 === 'RAS')
+        );
+      })
+    : challengesWithoutSkillsWithAValidatedLiveAlert;
+
   const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
     assessmentAnswers: allAnswers,
-    challenges: challengesWithoutSkillsWithAValidatedLiveAlert,
+    challenges: challengesForCandidate,
   });
 
   if (_hasAnsweredToAllChallenges({ possibleChallenges })) {
