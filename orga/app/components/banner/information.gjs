@@ -52,10 +52,10 @@ const NewYearBanner = <template>
 </template>;
 
 const CertificationBanner = <template>
-  <PixBanner @type="information">
+  <PixBanner @type="warning">
     {{t
       "banners.certification.message"
-      documentationLink="https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=0f1b3413-7fef-4c97-b890-675c5bafbe93"
+      documentationLink="https://cloud.pix.fr/s/DEarDXyxFxM78ps"
       linkClasses="link link--banner link--bold link--underlined"
       htmlSafe=true
       year=@year
