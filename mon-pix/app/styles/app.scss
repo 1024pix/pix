@@ -45,7 +45,6 @@
 
 /* we need this to be before competence-card-default because of a mix
 of an adaptative/mobile-first approach — refactoring is welcome here */
-@import '../components/authentication-layout/index';
 @import 'components/common/responsive-list-wide-wrap';
 @import 'components/competence-card-mobile';
 @import 'components/competence-card-default';
@@ -129,6 +128,9 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'components/skip-link';
 @import 'components/campaigns';
 @import 'components/modulix/feedback';
+
+/* Styles for colocated components */
+@import 'authentication-layout';
 
 /* pages */
 @import 'pages/assessment-results';
