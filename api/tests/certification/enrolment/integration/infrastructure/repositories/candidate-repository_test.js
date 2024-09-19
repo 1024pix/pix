@@ -279,6 +279,7 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
             complementaryCertificationKey: 'Chose',
           },
         ],
+        reconciliatedAt: null,
       };
       databaseBuilder.factory.buildSession({ id: candidateData.sessionId });
       databaseBuilder.factory.buildComplementaryCertification({ id: 22, label: 'Quelque', key: 'Chose' });
