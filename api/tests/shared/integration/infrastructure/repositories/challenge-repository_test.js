@@ -908,5 +908,7 @@ function _buildChallenge({
     skill,
     shuffled: false,
     alternativeVersion: alternativeVersion || 1,
+    accessibility1: 'OK',
+    accessibility2: 'RAS',
   };
 }

@@ -26,6 +26,8 @@ const ChallengeLearningContentDataObjectFixture = function ({
   locales = ['fr'],
   autoReply = false,
   alternativeInstruction = '',
+  accessibility1 = 'OK',
+  accessibility2 = 'RAS',
 } = {}) {
   return {
     id,
@@ -52,6 +54,8 @@ const ChallengeLearningContentDataObjectFixture = function ({
     locales,
     autoReply,
     alternativeInstruction,
+    accessibility1,
+    accessibility2,
   };
 };
 
