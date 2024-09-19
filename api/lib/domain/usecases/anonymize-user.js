@@ -11,7 +11,7 @@ const anonymizeUser = async function ({
   membershipRepository,
   certificationCenterMembershipRepository,
   organizationLearnerRepository,
-  refreshTokenService,
+  refreshTokenRepository,
   resetPasswordDemandRepository,
   userLoginRepository,
   adminMemberRepository,
@@ -26,7 +26,7 @@ const anonymizeUser = async function ({
 
   await authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({ userId });
 
-  await refreshTokenService.revokeRefreshTokensForUserId({ userId });
+  await refreshTokenRepository.revokeAllByUserId({ userId });
 
   if (user.email) {
     await resetPasswordDemandRepository.removeAllByEmail(user.email);

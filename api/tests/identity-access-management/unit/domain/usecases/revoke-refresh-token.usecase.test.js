@@ -5,13 +5,12 @@ describe('Unit | Identity Access Management | Domain | UseCase | revoke-refresh-
   it('revokes refresh token', async function () {
     // given
     const refreshToken = 'valid refresh token';
-    const refreshTokenService = { revokeRefreshToken: sinon.stub() };
-    refreshTokenService.revokeRefreshToken.withArgs({ refreshToken }).returns();
+    const refreshTokenRepository = { revokeByToken: sinon.stub() };
 
     // when
-    await revokeRefreshToken({ refreshToken, refreshTokenService });
+    await revokeRefreshToken({ refreshToken, refreshTokenRepository });
 
     // then
-    expect(refreshTokenService.revokeRefreshToken).to.have.been.calledWithExactly({ refreshToken });
+    expect(refreshTokenRepository.revokeByToken).to.have.been.calledWithExactly({ token: refreshToken });
   });
 });

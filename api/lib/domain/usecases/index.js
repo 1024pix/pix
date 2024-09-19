@@ -47,13 +47,13 @@ import * as stageRepository from '../../../src/evaluation/infrastructure/reposit
 import { authenticationSessionService } from '../../../src/identity-access-management/domain/services/authentication-session.service.js';
 import { OidcAuthenticationServiceRegistry } from '../../../src/identity-access-management/domain/services/oidc-authentication-service-registry.js';
 import { pixAuthenticationService } from '../../../src/identity-access-management/domain/services/pix-authentication-service.js';
-import { refreshTokenService } from '../../../src/identity-access-management/domain/services/refresh-token-service.js';
 import * as resetPasswordService from '../../../src/identity-access-management/domain/services/reset-password.service.js';
 import { scoAccountRecoveryService } from '../../../src/identity-access-management/domain/services/sco-account-recovery.service.js';
 import { accountRecoveryDemandRepository } from '../../../src/identity-access-management/infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../../src/identity-access-management/infrastructure/repositories/email-validation-demand.repository.js';
 import * as oidcProviderRepository from '../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
+import { refreshTokenRepository } from '../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { resetPasswordDemandRepository } from '../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { userEmailRepository } from '../../../src/identity-access-management/infrastructure/repositories/user-email.repository.js';
@@ -294,7 +294,7 @@ const dependencies = {
   placementProfileService,
   poleEmploiNotifier: requirePoleEmploiNotifier(),
   poleEmploiSendingRepository,
-  refreshTokenService,
+  refreshTokenRepository,
   registrationOrganizationLearnerRepository,
   resetPasswordDemandRepository,
   resetPasswordService,

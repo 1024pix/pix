@@ -1,10 +1,10 @@
 /**
  * @param {{
  *   refreshToken: string,
- *   refreshTokenService: RefreshTokenService
+ *   refreshTokenRepository: RefreshTokenRepository
  * }} params
  * @return {Promise<void>}
  */
-export const revokeRefreshToken = async function ({ refreshToken, refreshTokenService }) {
-  await refreshTokenService.revokeRefreshToken({ refreshToken });
+export const revokeRefreshToken = async function ({ refreshToken, refreshTokenRepository }) {
+  await refreshTokenRepository.revokeByToken({ token: refreshToken });
 };
