@@ -66,7 +66,12 @@
       "message": "'<strong>'Certifications :'</strong>' n’oubliez pas de '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finaliser les sessions dans Pix Certif'</a>' puis de télécharger les attestations ici via l'onglet “Certifications” avant la rentrée {year}."
     },
     "import": {
-      "message": "The administrator can download certification results and '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'import'</a>' the students database to create back-to-school campaigns by year level. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Learn more'</a>'"
+      "message": "The main stages of the school year :",
+      "step1a": " Setting up&nbsp;: '<'a href='https://cloud.pix.fr/s/WjTnkSbFs9TDcSC' title='Downloading results how-to' class='link link--banner link--bold link--underlined' '>'downloading certification results'</a>' and",
+      "step1b": "importing",
+      "step1c": "the student database (admin)",
+      "step2": "'<'a href='https://cloud.pix.fr/s/RaPpKjFHNX2kSR4' title='Back-to-school how-to' class='link link--banner link--bold link--underlined' '>'Create campaigns'</a>' (back-to-school, 6th grade, thematic, subject-based, targeted courses, etc.).",
+      "step3": "'<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Preparing and organising student certification how-to' class='link link--banner link--bold link--underlined' '>'Certify learners'</a>'."
     },
     "language-availability": {
       "message": "Your language is not yet available on Pix Orga. For your convenience, the application will be presented in English. The entire Pix team is working to add your language."
@@ -1136,7 +1141,7 @@
         "table": {
           "title": "Seats purchase history",
           "caption": "Table listing your organisation's seat purchases. For each purchase, it shows: the number of tickets, the activation date, the expiry date and the status (active, coming soon or expired). It is ordered according to the status of the purchases and their expiry date.",
-          "empty-state":"No seats yet!",
+          "empty-state": "No seats yet!",
           "headers": {
             "activationDate": "Activation date",
             "count": "Seats count",
