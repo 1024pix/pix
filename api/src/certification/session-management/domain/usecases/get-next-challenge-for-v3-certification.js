@@ -18,8 +18,12 @@
  * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationCandidateRepository} CertificationCandidateRepository
  */
 
+import Debug from 'debug';
+
 import { AssessmentEndedError } from '../../../../shared/domain/errors.js';
 import { CertificationChallenge, FlashAssessmentAlgorithm } from '../../../../shared/domain/models/index.js';
+
+const debugGetNextChallengeForV3Certification = Debug('pix:certif:v3:get-next-challenge');
 
 /**
  * @param {Object} params
@@ -93,6 +97,11 @@ const getNextChallengeForV3Certification = async function ({
   const challengesForCandidate = candidate.accessibilityAdjustmentNeeded
     ? challengesWithoutSkillsWithAValidatedLiveAlert.filter((challenge) => challenge.isAccessible)
     : challengesWithoutSkillsWithAValidatedLiveAlert;
+  debugGetNextChallengeForV3Certification(
+    candidate.accessibilityAdjustmentNeeded
+      ? `Candidate needs accessibility adjustment, possible challenges have been filtered (${challengesForCandidate.length} out of ${challengesWithoutSkillsWithAValidatedLiveAlert.length} selected`
+      : `Candidate does need any adjustment, all ${challengesWithoutSkillsWithAValidatedLiveAlert.length} have been selected`,
+  );
 
   const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
     assessmentAnswers: allAnswers,
