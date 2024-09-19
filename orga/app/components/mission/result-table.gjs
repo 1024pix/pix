@@ -1,11 +1,10 @@
+import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip.js';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
-import {t} from 'ember-intl';
+import { t } from 'ember-intl';
 
 import Header from '../table/header';
 import PaginationControl from '../table/pagination-control';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
-
 
 function indexNumber(index) {
   return { number: index + 1 };
@@ -19,11 +18,11 @@ function displayableStepResult(missionLearner, missionStepIndex) {
 
 function getMissionResultColor(result) {
   return {
-      'reached': 'success',
-      'not-reached': 'error',
-      'partially-reach': 'secondary',
-      'exceeded': 'orga',
-    }[result];
+    reached: 'success',
+    'not-reached': 'error',
+    'partially-reach': 'secondary',
+    exceeded: 'orga',
+  }[result];
 }
 
 <template>
@@ -82,7 +81,9 @@ function getMissionResultColor(result) {
               <td>{{t missionLearner.displayableDareResult}}</td>
               <td>
                 {{#if missionLearner.result.global}}
-                  <PixTag @color={{getMissionResultColor missionLearner.result.global}}>{{t missionLearner.displayableGlobalResult}}</PixTag>
+                  <PixTag @color={{getMissionResultColor missionLearner.result.global}}>{{t
+                      missionLearner.displayableGlobalResult
+                    }}</PixTag>
                 {{else}}
                   {{t missionLearner.displayableGlobalResult}}
                 {{/if}}

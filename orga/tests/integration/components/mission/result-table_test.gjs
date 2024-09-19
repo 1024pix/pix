@@ -259,25 +259,25 @@ module('Integration | Component | Mission | ResultTable', function (hooks) {
         generalInfoColQuantity + globalResultColQuantity + stepsResultColQuantity + dareResultColQuantity;
       assert.strictEqual(row.cells.length, allColQuantity);
 
-      const resultStepOneIndex = 4;
+      const resultStepOneIndex = 3;
       assert.strictEqual(
         row.cells[resultStepOneIndex].innerHTML,
         t('pages.missions.mission.table.result.step-result.reached'),
       );
 
-      const resultStepoDoseIndex = 5;
+      const resultStepoDoseIndex = 4;
       assert.strictEqual(
         row.cells[resultStepoDoseIndex].innerHTML,
         t('pages.missions.mission.table.result.step-result.not-reached'),
       );
 
-      const resultStepThreeIndex = 6;
+      const resultStepThreeIndex = 5;
       assert.strictEqual(
         row.cells[resultStepThreeIndex].innerHTML,
         t('pages.missions.mission.table.result.step-result.partially-reached'),
       );
 
-      const resultStepFourIndex = 7;
+      const resultStepFourIndex = 6;
       assert.strictEqual(
         row.cells[resultStepFourIndex].innerHTML,
         t('pages.missions.mission.table.result.step-result.undefined'),
