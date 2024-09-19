@@ -1,126 +1,47 @@
 /**
  * @typedef {import ('./index.js').CandidateRepository} CandidateRepository
- * @typedef {import ('./index.js').CenterRepository} CenterRepository
- * @typedef {import ('./index.js').SessionRepository} SessionRepository
- * @typedef {import ('./index.js').UserRepository} UserRepository
+ * @typedef {import ('./index.js').PlacementProfileService} PlacementProfileService
+ * @typedef {import ('../models/Candidate.js').Candidate} Candidate
+ * @typedef {import ('../models/SessionEnrolment.js').SessionEnrolment} SessionEnrolment
  */
 
-import {
-  CertificationCandidateByPersonalInfoNotFoundError,
-  CertificationCandidateByPersonalInfoTooManyMatchesError,
-  LanguageNotSupportedError,
-  MatchingReconciledStudentNotFoundError,
-  NotFoundError,
-  UnexpectedUserAccountError,
-  UserAlreadyLinkedToCandidateInSessionError,
-} from '../../../../shared/domain/errors.js';
-import * as languageService from '../../../../shared/domain/services/language-service.js';
-import { CertificationCourse } from '../../../shared/domain/models/CertificationCourse.js';
-import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
+import { withTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/errors.js';
 
 /**
  * @param {Object} params
+ * @param {Candidate} params.candidate
+ * @param {SessionEnrolment} params.session
+ * @param {number} params.userId
  * @param {CandidateRepository} params.candidateRepository
- * @param {CenterRepository} params.centerRepository
- * @param {SessionRepository} params.sessionRepository
- * @param {UserRepository} params.userRepository
+ * @param {PlacementProfileService} params.placementProfileService
+ *
+ * @returns {Promise<void>}
  */
-export async function linkUserToCandidate({
-  sessionId,
-  userId,
-  firstName,
-  lastName,
-  birthdate,
-  candidateRepository,
-  centerRepository,
-  sessionRepository,
-  userRepository,
-  normalizeStringFnc,
-}) {
-  const user = await userRepository.get({ id: userId });
-  if (!user) {
-    throw new NotFoundError(`User with id ${userId} does not exist.`);
-  }
+export async function linkUserToCandidate({ userId, candidate, candidateRepository, placementProfileService }) {
+  if (candidate.hasCoreSubscription()) {
+    const placementProfile = await placementProfileService.getPlacementProfile({
+      userId,
+      limitDate: new Date(),
+    });
 
-  const session = await sessionRepository.get({ id: sessionId });
-  const center = await centerRepository.getById({ id: session.certificationCenterId });
-
-  await validateUserLanguage({
-    languageService,
-    user,
-    session,
-  });
-
-  const candidatesInSession = await candidateRepository.findBySessionId({ sessionId: session.id });
-  const enrolledCandidate = findMatchingEnrolledCandidate({
-    session,
-    candidatesInSession,
-    firstName,
-    lastName,
-    birthdate,
-    normalizeStringFnc,
-  });
-
-  if (enrolledCandidate.isLinkedToAUser()) {
-    if (enrolledCandidate.isLinkedTo(userId)) {
-      return { linkAlreadyDone: true, candidateId: enrolledCandidate.id };
-    }
-    throw new UnexpectedUserAccountError({});
-  }
-
-  if (session.hasLinkedCandidateTo({ candidates: candidatesInSession, userId })) {
-    throw new UserAlreadyLinkedToCandidateInSessionError(
-      'The user is already linked to a candidate with different personal info in the given session',
-    );
-  }
-
-  if (center.isMatchingOrganizationScoAndManagingStudents) {
-    if (!user.has({ organizationLearnerId: enrolledCandidate.organizationLearnerId })) {
-      throw new MatchingReconciledStudentNotFoundError();
+    if (!placementProfile.isCertifiable()) {
+      throw new UserNotAuthorizedToCertifyError();
     }
   }
 
-  enrolledCandidate.link(userId);
-  await candidateRepository.update(enrolledCandidate);
-  return { linkAlreadyDone: false, candidateId: enrolledCandidate.id };
+  return _linkUser({ userId, candidate, candidateRepository });
 }
 
-async function validateUserLanguage({ languageService, user, session }) {
-  if (CertificationVersion.isV3(session.version)) {
-    const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(languageService, user.lang);
-
-    if (!isUserLanguageValid) {
-      throw new LanguageNotSupportedError(user.lang);
-    }
-  }
-}
-
-function findMatchingEnrolledCandidate({
-  session,
-  candidatesInSession,
-  firstName,
-  lastName,
-  birthdate,
-  normalizeStringFnc,
-}) {
-  const matchingEnrolledCandidates = session.findCandidatesByPersonalInfo({
-    candidates: candidatesInSession,
-    candidatePersonalInfo: {
-      firstName,
-      lastName,
-      birthdate,
-    },
-    normalizeStringFnc,
-  });
-  if (matchingEnrolledCandidates.length === 0) {
-    throw new CertificationCandidateByPersonalInfoNotFoundError(
-      'No certification candidate matches with the provided personal info',
-    );
-  }
-  if (matchingEnrolledCandidates.length > 1) {
-    throw new CertificationCandidateByPersonalInfoTooManyMatchesError(
-      'More than one candidate match with the provided personal info',
-    );
-  }
-  return matchingEnrolledCandidates[0];
-}
+const _linkUser = withTransaction(
+  /**
+   * @param {Object} params
+   * @param {number} params.userId
+   * @param {Candidate} params.candidate
+   * @param {CandidateRepository} params.candidateRepository
+   */
+  async ({ userId, candidate, candidateRepository }) => {
+    candidate.link(userId);
+    return candidateRepository.update(candidate);
+  },
+);
