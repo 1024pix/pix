@@ -1353,7 +1353,9 @@
           }
         },
         "flashcards": {
-          "seeAnswer" : "See the answer"
+          "seeAnswer" : "See the answer",
+          "seeAgain": "Review the question",
+          "nextCard": "Next"
         },
         "grain": {
           "continue": "Continue",

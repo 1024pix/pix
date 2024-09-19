@@ -1335,7 +1335,9 @@
           }
         },
         "flashcards": {
-          "seeAnswer" : "Zie het antwoord"
+          "seeAnswer" : "Zie het antwoord",
+          "seeAgain": "Bekijk de vraag",
+          "nextCard": "Volgende"
         },
         "grain": {
           "continue": "Ga verder met",
