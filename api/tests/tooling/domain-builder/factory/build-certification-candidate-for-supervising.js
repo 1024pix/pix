@@ -13,6 +13,7 @@ const buildCertificationCandidateForSupervising = function ({
   theoricalEndDateTime,
   enrolledComplementaryCertification,
   stillValidBadgeAcquisitions = [],
+  accessibilityAdjustmentNeeded = false,
 } = {}) {
   return new CertificationCandidateForSupervising({
     id,
@@ -27,6 +28,7 @@ const buildCertificationCandidateForSupervising = function ({
     theoricalEndDateTime,
     enrolledComplementaryCertification,
     stillValidBadgeAcquisitions,
+    accessibilityAdjustmentNeeded,
   });
 };
 
