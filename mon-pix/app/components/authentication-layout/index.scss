@@ -1,33 +1,36 @@
 .authentication-layout {
   display: flex;
   gap: 8rem;
+  height: 100vh;
 
   .authentication-layout__image {
-      width: 31rem;
-      padding: var(--pix-spacing-6x);
-      background: var(--pix-primary-500);
-      border-radius: 24px;
+    display: none;
   }
 
   .authentication-layout__main {
-      display: flex;
-      flex-direction: column;
-      width: 31rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: var(--pix-spacing-4x);
   }
 }
 
-@media (max-width: 768px) {
+@include device-is('desktop') {
   .authentication-layout {
-      height: 100vh;
+      height: auto;
+      margin: var(--pix-spacing-6x) var(--pix-spacing-4x);
 
       .authentication-layout__image {
-          display: none;
-
+        display: block;
+        width: 31rem;
+        padding: var(--pix-spacing-6x);
+        background: var(--pix-primary-500);
+        border-radius: 24px;
       }
 
       .authentication-layout__main {
-          width: 100%;
-          margin: var(--pix-spacing-6x) var(--pix-spacing-4x);
+        width: 31rem;
+        margin: 0;
       }
   }
 }
