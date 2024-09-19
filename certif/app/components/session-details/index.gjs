@@ -56,7 +56,7 @@ export default class SessionDetails extends Component {
   }
 
   get urlToDownloadSessionIssueReportSheet() {
-    if (this.args.model.session.version === 3) {
+    if (this.args.model.sessionManagement.version === 3) {
       return this.url.urlToDownloadSessionV3IssueReportSheet;
     }
     return this.url.urlToDownloadSessionIssueReportSheet;

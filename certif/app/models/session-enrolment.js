@@ -18,7 +18,6 @@ export default class Session extends Model {
   @attr('string') status;
   @attr('string') supervisorPassword;
   @attr() certificationCenterId;
-  @attr('number') version;
 
   get urlToDownloadAttendanceSheet() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.id}/attendance-sheet`;
