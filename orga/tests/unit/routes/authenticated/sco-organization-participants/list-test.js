@@ -1,7 +1,7 @@
 import { setupTest } from 'ember-qunit';
+import paramsValidator from 'pix-orga/utils/params-validator.js';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-
 module('Unit | Route | authenticated/sco-organization-participants/list', function (hooks) {
   setupTest(hooks);
   let route;
@@ -11,7 +11,7 @@ module('Unit | Route | authenticated/sco-organization-participants/list', functi
   const searchSymbol = Symbol('search');
   const divisionsSymbol = Symbol('divisions');
   const connectionTypesSymbol = Symbol('connectionTypes');
-  const certificabilitySymbol = Symbol('certificability');
+  const certificabilitySymbol = [Symbol('certificability')];
   const pageNumberSymbol = Symbol('pageNumber');
   const pageSizeSymbol = Symbol('pageSize');
   const participationCountOrderSymbol = Symbol('participationCountOrder');
@@ -29,11 +29,15 @@ module('Unit | Route | authenticated/sco-organization-participants/list', functi
     divisionSort: divisionSortSymbol,
   };
 
+  hooks.afterEach(function () {
+    sinon.restore();
+  });
+
   hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/sco-organization-participants/list');
     store = this.owner.lookup('service:store');
     route.currentUser = { organization: { id: Symbol('organization-id') } };
-
+    sinon.stub(paramsValidator, 'validateCertificabilityParams').withArgs(params).returns(params);
     sinon
       .stub(store, 'query')
       .withArgs('sco-organization-participant', {

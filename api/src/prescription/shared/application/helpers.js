@@ -9,7 +9,10 @@ function mapCertificabilityByLabel(certificabilityFilter) {
   if (!Array.isArray(certificabilityFilter)) {
     result = [certificabilityFilter];
   }
-  return result.map((value) => certificabilityByLabel[value]);
+
+  return result
+    .filter((value) => certificabilityByLabel[value] !== undefined)
+    .map((value) => certificabilityByLabel[value]);
 }
 
 export { certificabilityByLabel, mapCertificabilityByLabel };
