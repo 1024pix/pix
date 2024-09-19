@@ -100,7 +100,7 @@ describe('Unit | Identity Access Management | Application | Controller | Token',
 
         sinon
           .stub(usecases, 'createAccessTokenFromRefreshToken')
-          .withArgs({ refreshToken })
+          .withArgs({ refreshToken, scope })
           .resolves({ accessToken, expirationDelaySeconds });
 
         const tokenServiceStub = { extractUserId: sinon.stub() };

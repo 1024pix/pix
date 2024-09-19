@@ -99,7 +99,7 @@
     "ember-qunit": "^8.0.0",
     "ember-resolver": "^11.0.0",
     "ember-responsive": "^5.0.0",
-    "ember-simple-auth": "^6.0.0",
+    "ember-simple-auth": "^6.1.0",
     "ember-source": "^5.9.0",
     "ember-template-imports": "^4.1.1",
     "ember-template-lint": "^5.13.0",
