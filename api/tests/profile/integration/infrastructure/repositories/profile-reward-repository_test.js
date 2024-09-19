@@ -1,9 +1,9 @@
 import { PROFILE_REWARDS_TABLE_NAME } from '../../../../../db/migrations/20240820101213_add-profile-rewards-table.js';
+import { save } from '../../../../../src/profile/infrastructure/repositories/profile-reward-repository.js';
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { save } from '../../../../../src/quest/infrastructure/repositories/profile-reward-repository.js';
 import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
-describe('Quest | Integration | Repository | profile-reward', function () {
+describe('Profile | Integration | Repository | profile-reward', function () {
   describe('#save', function () {
     it('should give a reward to the user', async function () {
       // given

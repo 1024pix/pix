@@ -10,7 +10,7 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
  */
 export const save = async ({ userId, rewardId, rewardType = REWARD_TYPES.ATTESTATION }) => {
   const knexConnection = await DomainTransaction.getConnection();
-  return knexConnection(PROFILE_REWARDS_TABLE_NAME).insert({
+  await knexConnection(PROFILE_REWARDS_TABLE_NAME).insert({
     userId,
     rewardId,
     rewardType,

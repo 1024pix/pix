@@ -1,10 +1,9 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import * as profileRewardRepository from '../../../profile/infrastructure/repositories/profile-reward-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
-import { repositories } from '../../infrastructure/repositories/index.js';
-import * as questRepository from '../../infrastructure/repositories/quest-repository.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
 
@@ -13,10 +12,7 @@ const usecasesWithoutInjectedDependencies = {
 };
 
 const dependencies = {
-  eligibilityRepository: repositories.eligibilityRepository,
-  rewardRepository: repositories.rewardRepository,
-  successRepository: repositories.successRepository,
-  questRepository,
+  profileRewardRepository,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);

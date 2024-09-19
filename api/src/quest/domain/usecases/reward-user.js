@@ -3,7 +3,7 @@ export const rewardUser = async ({
   questRepository,
   eligibilityRepository,
   successRepository,
-  profileRewardRepository,
+  rewardRepository,
 }) => {
   const quests = await questRepository.findAll();
 
@@ -24,7 +24,7 @@ export const rewardUser = async ({
     const userHasSucceedQuest = quest.isSuccessful(success);
 
     if (userHasSucceedQuest) {
-      await profileRewardRepository.save({ userId, rewardId: quest.rewardId });
+      await rewardRepository.reward({ userId, rewardId: quest.rewardId });
     }
   }
 };
