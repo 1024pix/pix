@@ -1334,6 +1334,9 @@
             "name": "Start"
           }
         },
+        "flashcards": {
+          "seeAnswer" : "Zie het antwoord"
+        },
         "grain": {
           "continue": "Ga verder met",
           "skip": "Overslaan",
@@ -1370,6 +1373,10 @@
         "format": "Formaat {format}",
         "intro": "Kies het bestandsformaat dat je wilt gebruiken.",
         "label": "Download het bestand in {format}"
+      },
+      "flashcards": {
+        "direction": "Zoek het antwoord en draai de kaart om",
+        "position": "Kaart {currentCardPosition}/{totalCards}"
       },
       "grain": {
         "tag": {
