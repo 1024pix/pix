@@ -49,6 +49,8 @@ class Challenge {
    * @param successProbabilityThreshold
    * @param shuffled
    * @param alternativeVersion
+   * @param accessibility1
+   * @param accessibility2
    */
   constructor({
     id,
@@ -80,6 +82,8 @@ class Challenge {
     responsive,
     shuffled,
     alternativeVersion,
+    accessibility1,
+    accessibility2,
   } = {}) {
     this.id = id;
     this.answer = answer;
@@ -110,6 +114,8 @@ class Challenge {
     this.successProbabilityThreshold = successProbabilityThreshold;
     this.shuffled = shuffled;
     this.alternativeVersion = alternativeVersion;
+    this.accessibility1 = accessibility1;
+    this.accessibility2 = accessibility2;
   }
 
   isTimed() {

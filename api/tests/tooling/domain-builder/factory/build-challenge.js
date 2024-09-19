@@ -27,6 +27,8 @@ const buildChallenge = function ({
   focused = false,
   shuffled = false,
   alternativeVersion = undefined,
+  accessibility1 = 'OK',
+  accessibility2 = 'RAS',
   // includes
   answer,
   validator = new Validator(),
@@ -56,15 +58,17 @@ const buildChallenge = function ({
     alternativeInstruction,
     responsive,
     focused,
+    illustrationAlt,
+    shuffled,
+    alternativeVersion,
+    accessibility1,
+    accessibility2,
     // includes
     answer,
     validator,
     skill,
     // references
     competenceId,
-    illustrationAlt,
-    shuffled,
-    alternativeVersion,
   });
 };
 
@@ -93,6 +97,8 @@ const buildChallengeWithWebComponent = function ({
   focused = false,
   shuffled = false,
   alternativeVersion = undefined,
+  accessibility1,
+  accessibility2,
   // includes
   answer,
   validator = new Validator(),
@@ -122,15 +128,17 @@ const buildChallengeWithWebComponent = function ({
     alternativeInstruction,
     responsive,
     focused,
+    illustrationAlt,
+    shuffled,
+    alternativeVersion,
+    accessibility1,
+    accessibility2,
     // includes
     answer,
     validator,
     skill,
     // references
     competenceId,
-    illustrationAlt,
-    shuffled,
-    alternativeVersion,
   });
 };
 
