@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v4.215.0 (19/09/2024)
+
+
+### :rocket: Amélioration
+- [#10100](https://github.com/1024pix/pix/pull/10100) [FEATURE] Faire la vérification d'éligibilité Coeur lors de la réconciliation sur Pix App (PIX-14204).
+- [#10139](https://github.com/1024pix/pix/pull/10139) [FEATURE] simplifie les bannière d'info sur orga (PIX-13968).
+- [#10115](https://github.com/1024pix/pix/pull/10115) [FEATURE] Tenir compte de la condition sur l'obligation d'avoir une certification pix délivrée et validée avec un score minimum requis dans le bandeau V3 (PIX-14236).
+- [#10121](https://github.com/1024pix/pix/pull/10121) [FEATURE] Mettre à jour la bannière de certification sur PixOrga (PIX-13969).
+- [#10130](https://github.com/1024pix/pix/pull/10130) [FEATURE] Ajout de données l'audit logger pour le changement d'email (PIX-14362).
+- [#10101](https://github.com/1024pix/pix/pull/10101) [FEATURE] Déconnecter l'utilisateur s'il utilise un refresh token avec un scope incorrect.
+- [#10106](https://github.com/1024pix/pix/pull/10106) [FEATURE] affiche une alerte d'expiration des lots de places (PIX-14008).
+
+### :building_construction: Tech
+- [#10128](https://github.com/1024pix/pix/pull/10128) [TECH] Rediriger les routes de sessions "list" vers "index".
+- [#10087](https://github.com/1024pix/pix/pull/10087) [TECH] Refactorer le RefreshToken service (PIX-13913).
+- [#9963](https://github.com/1024pix/pix/pull/9963) [TECH] Migration de la route de la mise à jour du bandeau niveau 7 dans le contexte évaluation (PIX-13671).
+
+### :bug: Correction
+- [#10118](https://github.com/1024pix/pix/pull/10118) [BUGFIX] Ne pas retourner de 500 dans le cas d'un filtre sur la certificabilité mal défini (PIX-14300).
+- [#10135](https://github.com/1024pix/pix/pull/10135) [BUGFIX] Eviter de remonter une 500 lors de l'erreur sur l'upload du fichier (PIX-14384).
+- [#10138](https://github.com/1024pix/pix/pull/10138) [BUGFIX] Mise à jour du lien de téléchargement de PV d'incident (PIX-14406).
+
 ## v4.214.0 (18/09/2024)
 
 
