@@ -61,7 +61,7 @@ module('Acceptance | terms-of-service', function (hooks) {
         await click(screen.getByRole('button', { name: 'J’accepte les conditions d’utilisation' }));
 
         // then
-        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.strictEqual(currentURL(), '/sessions');
       });
 
       test('it should not be possible to visit another page if cgu are not accepted', async function (assert) {
@@ -108,7 +108,7 @@ module('Acceptance | terms-of-service', function (hooks) {
       await visit('/cgu');
 
       // then
-      assert.strictEqual(currentURL(), '/sessions/liste');
+      assert.strictEqual(currentURL(), '/sessions');
     });
   });
 });

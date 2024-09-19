@@ -6,7 +6,7 @@ import sinon from 'sinon';
 module('Unit | Route | authenticated/sessions', function (hooks) {
   setupTest(hooks);
 
-  test('it should redirects to authenticated.sessions.list', async function (assert) {
+  test('it should redirects to authenticated.sessions', async function (assert) {
     // given
     class RouterStub extends Service {
       replaceWith = sinon.stub().resolves();
@@ -22,6 +22,6 @@ module('Unit | Route | authenticated/sessions', function (hooks) {
     await route.beforeModel();
 
     // then
-    assert.ok(route.router.replaceWith.calledWith('authenticated.sessions.list'));
+    assert.ok(route.router.replaceWith.calledWith('authenticated.sessions'));
   });
 });

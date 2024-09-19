@@ -7,6 +7,6 @@ export default class IndexRoute extends Route {
 
   beforeModel() {
     this.currentUser.checkRestrictedAccess();
-    return this.router.replaceWith('authenticated.sessions.list');
+    return this.router.replaceWith('authenticated.sessions');
   }
 }
