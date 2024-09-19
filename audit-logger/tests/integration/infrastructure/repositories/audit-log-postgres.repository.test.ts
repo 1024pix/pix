@@ -39,9 +39,32 @@ describe('Integration | Infrastructure | Repositories | AuditLogPostgresReposito
         targetUserId: '2',
         client: 'PIX_ADMIN',
         role: 'SUPER_ADMIN',
+        data: null,
         createdAt: result.createdAt,
       });
       expect(result).toEqual(expectedResult);
+    });
+  });
+
+  describe('when data is specified', () => {
+    test('creates new audit log', async () => {
+      // given
+      const auditLog = new AuditLog({
+        occurredAt: new Date(),
+        action: 'ANONYMIZATION',
+        userId: '1',
+        targetUserId: '2',
+        client: 'PIX_ADMIN',
+        role: 'SUPER_ADMIN',
+        data: { hello: 'world' },
+      });
+
+      // when
+      await auditLogPostgresRepository.create(auditLog);
+
+      // then
+      const result = await knex('audit-log').first();
+      expect(result.data).toEqual({ hello: 'world' });
     });
   });
 });
