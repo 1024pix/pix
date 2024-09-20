@@ -16,7 +16,7 @@ const buildCandidate = function ({
   birthdate = '1990-05-06',
   extraTimePercentage = 0.3,
   externalId = 'externalId',
-  userId = 789,
+  userId,
   reconciledAt,
   sessionId = 456,
   organizationLearnerId = null,

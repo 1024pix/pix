@@ -24,6 +24,7 @@ export class Candidate {
     authorizedToStart = false,
     sessionId,
     userId,
+    reconciledAt,
     organizationLearnerId,
     billingMode,
     prepaymentCode,
@@ -55,6 +56,7 @@ export class Candidate {
     this.hasSeenCertificationInstructions = hasSeenCertificationInstructions;
     this.subscriptions = subscriptions;
     this.accessibilityAdjustmentNeeded = accessibilityAdjustmentNeeded;
+    this.reconciledAt = reconciledAt;
   }
 
   isLinkedToAUser() {
@@ -65,8 +67,9 @@ export class Candidate {
     return this.userId === userId;
   }
 
-  link(userId) {
+  reconcile(userId) {
     this.userId = userId;
+    this.reconciledAt = new Date();
   }
 
   updateAccessibilityAdjustmentNeededStatus(newAdjustmentStatus) {

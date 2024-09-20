@@ -53,6 +53,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-can
 
         //then
         expect(error).to.be.instanceOf(UserNotAuthorizedToCertifyError);
+        expect(candidateRepository.update).to.not.have.been.calledWith(candidate);
       });
     });
 
@@ -64,6 +65,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-can
 
         const candidate = domainBuilder.certification.enrolment.buildCandidate({
           userId: null,
+          reconciledAt: null,
           subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
 
@@ -77,6 +79,8 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-can
 
         //then
         expect(candidateRepository.update).to.have.been.calledWith(candidate);
+        expect(candidate.userId).to.equal(userId);
+        expect(candidate.reconciledAt).to.deep.equal(now);
       });
     });
   });

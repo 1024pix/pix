@@ -19,10 +19,12 @@ import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/error
  * @returns {Promise<void>}
  */
 export async function linkUserToCandidate({ userId, candidate, candidateRepository, placementProfileService }) {
+  candidate.reconcile(userId);
+
   if (candidate.hasCoreSubscription()) {
     const placementProfile = await placementProfileService.getPlacementProfile({
-      userId,
-      limitDate: new Date(),
+      userId: candidate.userId,
+      limitDate: candidate.reconciledAt,
     });
 
     if (!placementProfile.isCertifiable()) {
@@ -30,18 +32,17 @@ export async function linkUserToCandidate({ userId, candidate, candidateReposito
     }
   }
 
-  return _linkUser({ userId, candidate, candidateRepository });
+  return _saveReconcilement({ candidate, candidateRepository });
 }
 
-const _linkUser = withTransaction(
+const _saveReconcilement = withTransaction(
   /**
    * @param {Object} params
    * @param {number} params.userId
    * @param {Candidate} params.candidate
    * @param {CandidateRepository} params.candidateRepository
    */
-  async ({ userId, candidate, candidateRepository }) => {
-    candidate.link(userId);
+  async ({ candidate, candidateRepository }) => {
     return candidateRepository.update(candidate);
   },
 );
