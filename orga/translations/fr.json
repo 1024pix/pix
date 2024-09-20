@@ -895,7 +895,7 @@
         "caption": "Liste des missions",
         "empty-state": "Il n'y a pas de missions",
         "headers": {
-          "competences": "Compétences travaillées",
+          "competences": "Compétences du CRCN travaillées",
           "name": "Mission",
           "started-by": "Commencé par"
         },
@@ -944,10 +944,17 @@
               "learners-count": "{count, plural, =0 {Aucun élève} =1 {1 élève} other {{count} élèves}}"
             },
             "headers": {
+              "dare-challenge": "Défi",
               "division": "Classe",
               "first-name": "Prénom",
               "last-name": "Nom",
-              "result": "Positionnement"
+              "result": "Evaluation de la mission",
+              "step": "Etape {number}"
+            },
+            "mission-dare-result": {
+              "not-reached": "NA",
+              "reached": "A",
+              "undefined": "-"
             },
             "mission-result": {
               "exceeded": "Dépassé",
@@ -956,7 +963,13 @@
               "reached": "Atteint",
               "undefined": "-"
             },
-            "no-data": "Il n'y a aucun participant"
+            "no-data": "Il n'y a aucun participant",
+            "step-result": {
+              "not-reached": "NA",
+              "partially-reached": "PA",
+              "reached": "A",
+              "undefined": "-"
+            }
           }
         },
         "tabs": {

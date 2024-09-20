@@ -1,5 +1,9 @@
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
-import { MissionAssessment } from '../../../../../src/school/infrastructure/models/mission-assessment.js';
+import { MissionLearner } from '../../../../../src/school/domain/models/MissionLearner.js';
+import {
+  MissionAssessment,
+  MissionAssessmentResult,
+} from '../../../../../src/school/infrastructure/models/mission-assessment.js';
 import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
 import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
@@ -14,14 +18,19 @@ describe('Integration | Repository | mission-assessment-repository', function ()
         assessmentId,
         organizationLearnerId,
         status: Assessment.states.COMPLETED,
-        result: Assessment.results.REACHED,
+        result: new MissionAssessmentResult({ global: Assessment.results.REACHED }),
       });
       await databaseBuilder.commit();
 
       const result = await missionAssessmentRepository.getByAssessmentId(assessmentId);
 
       expect(result).to.deep.equal(
-        new MissionAssessment({ missionId, assessmentId, organizationLearnerId, result: Assessment.results.REACHED }),
+        new MissionAssessment({
+          missionId,
+          assessmentId,
+          organizationLearnerId,
+          result: new MissionAssessmentResult({ global: Assessment.results.REACHED }),
+        }),
       );
     });
   });
@@ -40,11 +49,11 @@ describe('Integration | Repository | mission-assessment-repository', function ()
       });
       await databaseBuilder.commit();
 
-      await missionAssessmentRepository.updateResult(assessmentId, Assessment.results.REACHED);
+      await missionAssessmentRepository.updateResult(assessmentId, { global: Assessment.results.REACHED });
 
       const { result } = await knex('mission-assessments').select('result').where({ assessmentId }).first();
 
-      expect(result).to.deep.equal(Assessment.results.REACHED);
+      expect(result.global).to.deep.equal(Assessment.results.REACHED);
     });
   });
 
@@ -84,7 +93,11 @@ describe('Integration | Repository | mission-assessment-repository', function ()
       const result = await missionAssessmentRepository.getCurrent(missionId, organizationLearnerId);
 
       expect(result).to.deep.equal(
-        new MissionAssessment({ missionId, assessmentId, organizationLearnerId, result: null }),
+        new MissionAssessment({
+          missionId,
+          assessmentId,
+          organizationLearnerId,
+        }),
       );
     });
 
@@ -198,6 +211,7 @@ describe('Integration | Repository | mission-assessment-repository', function ()
         organizationLearnerId: organizationLearnerWithStartedAssessment.id,
         state: Assessment.states.STARTED,
         createdAt: new Date('2023-10-10'),
+        result: null,
       });
 
       const completedMissionAssessment = databaseBuilder.factory.buildMissionAssessment({
@@ -205,6 +219,11 @@ describe('Integration | Repository | mission-assessment-repository', function ()
         organizationLearnerId: organizationLearnerWithCompletedAssessment.id,
         state: Assessment.states.COMPLETED,
         createdAt: new Date('2024-10-10'),
+        result: {
+          global: Assessment.results.REACHED,
+          steps: [Assessment.results.REACHED],
+          dare: Assessment.results.NOT_REACHED,
+        },
       });
 
       const firstMissionAssessmentCompleted = databaseBuilder.factory.buildMissionAssessment({
@@ -212,6 +231,11 @@ describe('Integration | Repository | mission-assessment-repository', function ()
         organizationLearnerId: organizationLearnerWhoRetriedMission.id,
         state: Assessment.states.COMPLETED,
         createdAt: new Date('2023-10-10'),
+        result: {
+          global: Assessment.results.NOT_REACHED,
+          steps: [Assessment.results.NOT_REACHED],
+          dare: Assessment.results.NOT_REACHED,
+        },
       });
 
       databaseBuilder.factory.buildMissionAssessment({
@@ -233,6 +257,11 @@ describe('Integration | Repository | mission-assessment-repository', function ()
         organizationLearnerId: organizationLearnerWhoRetriedAndCompletedMissions.id,
         state: Assessment.states.COMPLETED,
         createdAt: new Date('2024-10-11'),
+        result: {
+          global: Assessment.results.EXCEEDED,
+          steps: [Assessment.results.REACHED],
+          dare: Assessment.results.REACHED,
+        },
       });
 
       await databaseBuilder.commit();
@@ -244,36 +273,36 @@ describe('Integration | Repository | mission-assessment-repository', function ()
         organizationLearnerWhoRetriedMission,
         organizationLearnerWhoRetriedAndCompletedMissions,
       ];
-      const results = await missionAssessmentRepository.getStatusesForLearners(
-        missionId,
-        organizationLearners,
-        (learner, status, assessmentId) => {
-          return [learner.id, status, assessmentId];
-        },
-      );
+      const results = await missionAssessmentRepository.getStatusesForLearners(missionId, organizationLearners);
 
       expect(results).to.deep.equal([
-        [organizationLearnerWithCompletedAssessment.id, 'completed', completedMissionAssessment.assessmentId],
-        [organizationLearnerWithoutAssessment.id, undefined, undefined],
-        [organizationLearnerWithStartedAssessment.id, 'started', startedMissionAssessment.assessmentId],
-        [organizationLearnerWhoRetriedMission.id, 'completed', firstMissionAssessmentCompleted.assessmentId],
-        [
-          organizationLearnerWhoRetriedAndCompletedMissions.id,
-          'completed',
-          secondMissionAssessmentCompleted.assessmentId,
-        ],
+        new MissionLearner({
+          ...organizationLearnerWithCompletedAssessment,
+          missionStatus: 'completed',
+          result: completedMissionAssessment.result,
+        }),
+        new MissionLearner({ ...organizationLearnerWithoutAssessment, missionStatus: 'not-started' }),
+        new MissionLearner({
+          ...organizationLearnerWithStartedAssessment,
+          missionStatus: 'started',
+          result: startedMissionAssessment.result,
+        }),
+        new MissionLearner({
+          ...organizationLearnerWhoRetriedMission,
+          missionStatus: 'completed',
+          result: firstMissionAssessmentCompleted.result,
+        }),
+        new MissionLearner({
+          ...organizationLearnerWhoRetriedAndCompletedMissions,
+          missionStatus: 'completed',
+          result: secondMissionAssessmentCompleted.result,
+        }),
       ]);
     });
 
     it('should return empty array when there is no learners', async function () {
       const missionId = 1;
-      const results = await missionAssessmentRepository.getStatusesForLearners(
-        missionId,
-        [],
-        (learner, status, assessmentId) => {
-          return [learner.id, status, assessmentId];
-        },
-      );
+      const results = await missionAssessmentRepository.getStatusesForLearners(missionId, []);
 
       expect(results).to.deep.equal([]);
     });

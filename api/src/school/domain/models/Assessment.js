@@ -3,8 +3,8 @@ import { Assessment as SharedAssessment } from '../../../shared/domain/models/As
 const results = {
   EXCEEDED: 'exceeded',
   REACHED: 'reached',
-  PARTIALLY_REACHED: 'partially_reached',
-  NOT_REACHED: 'not_reached',
+  PARTIALLY_REACHED: 'partially-reached',
+  NOT_REACHED: 'not-reached',
 };
 
 class Assessment extends SharedAssessment {

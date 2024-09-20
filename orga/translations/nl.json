@@ -960,13 +960,27 @@
               "division": "Klasse",
               "first-name": "Voornaam",
               "last-name": "Achternaam",
-              "result": "Positionering"
+              "result": "Algemene resultaten",
+              "step": "Stap {number}",
+              "dare-challenge": "Uitdaging"
             },
             "mission-result": {
-              "exceeded": "Overtroffen",
-              "not-reached": "Niet bereikt",
-              "partially-reached": "Gedeeltelijk bereikt",
-              "reached": "Bereikt",
+              "exceeded": "Overtroffen (O)",
+              "not-reached": "Niet bereikt (NB)",
+              "partially-reached": "Gedeeltelijk bereikt (GB)",
+              "reached": "Bereikt (B)",
+              "undefined": "-"
+            },
+            "step-result": {
+              "not-reached": "NB",
+              "partially-reached": "GB",
+              "reached": "B",
+              "undefined": "-"
+            },
+            "mission-dare-result": {
+              "not-reached": "NB",
+              "partially-reached": "GB",
+              "reached": "B",
               "undefined": "-"
             },
             "no-data": "Er zijn geen deelnemers"

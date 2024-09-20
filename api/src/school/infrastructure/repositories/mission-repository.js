@@ -1,7 +1,7 @@
 import { config } from '../../../shared/config.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
 import { getTranslatedKey } from '../../../shared/domain/services/get-translated-text.js';
-import { Mission } from '../../domain/models/Mission.js';
+import { Mission, MissionContent, MissionStep } from '../../domain/models/Mission.js';
 import { MissionNotFoundError } from '../../domain/school-errors.js';
 import { missionDatasource } from '../datasources/learning-content/mission-datasource.js';
 
@@ -11,6 +11,7 @@ function _toDomain(data, locale) {
   const translatedName = getTranslatedKey(data.name_i18n, locale);
   const translatedLearningObjectives = getTranslatedKey(data.learningObjectives_i18n, locale);
   const translatedValidatedObjectives = getTranslatedKey(data.validatedObjectives_i18n, locale);
+  const translatedContent = getTranslatedContent(data.content, locale);
   return new Mission({
     id: data.id,
     name: translatedName,
@@ -22,7 +23,7 @@ function _toDomain(data, locale) {
     introductionMediaType: data.introductionMediaType,
     introductionMediaAlt: data.introductionMediaAlt,
     documentationUrl: data.documentationUrl,
-    content: data.content,
+    content: translatedContent,
   });
 }
 
@@ -47,3 +48,9 @@ async function findAllActiveMissions(locale = { locale: FRENCH_FRANCE }) {
 }
 
 export { findAllActiveMissions, get };
+
+function getTranslatedContent(content, locale) {
+  const contentWithTranslatedSteps =
+    content?.steps?.map((step) => new MissionStep({ ...step, name: getTranslatedKey(step.name_i18n, locale) })) || [];
+  return new MissionContent({ ...content, steps: contentWithTranslatedSteps });
+}

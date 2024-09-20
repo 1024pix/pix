@@ -45,6 +45,17 @@ describe('Integration | Controller | mission-controller', function () {
           'introduction-media-alt': mission.introductionMediaAlt,
           'documentation-url': mission.documentationUrl,
           'started-by': '',
+          content: {
+            dareChallenges: [],
+            steps: [
+              {
+                name: undefined,
+                trainingChallenges: [],
+                tutorialChallenges: [],
+                validationChallenges: [],
+              },
+            ],
+          },
         },
         id: `${mission.id}`,
         type: 'missions',
@@ -85,6 +96,17 @@ describe('Integration | Controller | mission-controller', function () {
             'introduction-media-alt': mission.introductionMediaAlt,
             'documentation-url': mission.documentationUrl,
             'started-by': mission.startedBy,
+            content: {
+              dareChallenges: [],
+              steps: [
+                {
+                  name: undefined,
+                  trainingChallenges: [],
+                  tutorialChallenges: [],
+                  validationChallenges: [],
+                },
+              ],
+            },
           },
           id: `${mission.id}`,
           type: 'missions',

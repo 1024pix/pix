@@ -890,7 +890,7 @@
         "caption": "List of missions",
         "empty-state": "There is not any mission",
         "headers": {
-          "competences": "Targeted competence",
+          "competences": "Targeted DigComp competence",
           "name": "Mission",
           "started-by": "Started by"
         },
@@ -936,10 +936,18 @@
               "learners-count": "{count, plural, =0 {No student} =1 {1 student} other {{count} students}}"
             },
             "headers": {
+              "dare-challenge": "Dare challenge",
               "division": "Division",
               "first-name": "First name",
               "last-name": "Last name",
-              "result": "Positioning"
+              "result": "Mission assessment",
+              "step": "Step {number}"
+            },
+            "mission-dare-result": {
+              "not-reached": "NR",
+              "partially-reached": "PR",
+              "reached": "R",
+              "undefined": "-"
             },
             "mission-result": {
               "exceeded": "Exceeded",
@@ -948,7 +956,13 @@
               "reached": "Reached",
               "undefined": "-"
             },
-            "no-data": "There is not any participants"
+            "no-data": "There is not any participants",
+            "step-result": {
+              "not-reached": "NR",
+              "partially-reached": "PR",
+              "reached": "R",
+              "undefined": "-"
+            }
           }
         },
         "tabs": {

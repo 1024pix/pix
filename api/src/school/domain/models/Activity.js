@@ -61,6 +61,10 @@ class Activity {
     return this.isFailed || this.isSkipped;
   }
 
+  get isInStep() {
+    return this.stepIndex >= 0;
+  }
+
   /**
    * Returns higher order level of activity level
    * @returns ({levels | END_OF_STEP})

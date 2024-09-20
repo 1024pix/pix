@@ -12,7 +12,11 @@ describe('Integration | UseCase | getAssessmentById', function () {
     const missionAssessment = databaseBuilder.factory.buildMissionAssessment({
       assessmentId,
       status: Assessment.states.COMPLETED,
-      result: Assessment.results.NOT_REACHED,
+      result: {
+        global: Assessment.results.NOT_REACHED,
+        dare: undefined,
+        steps: ['not-reached'],
+      },
     });
 
     await databaseBuilder.commit();
@@ -28,7 +32,11 @@ describe('Integration | UseCase | getAssessmentById', function () {
       organizationLearnerId: missionAssessment.organizationLearnerId,
       missionId: missionAssessment.missionId,
       state: Assessment.states.STARTED,
-      result: Assessment.results.NOT_REACHED,
+      result: {
+        global: Assessment.results.NOT_REACHED,
+        dare: undefined,
+        steps: ['not-reached'],
+      },
     };
 
     expect(_.pick(result, Object.keys(expectedMissionAssessment))).to.deep.equal(expectedMissionAssessment);

@@ -14,8 +14,8 @@ describe('Integration | Controller | mission-learner-controller', function () {
         lastName: 'Musk',
         organizationId,
         division: 'CP',
-        status: 'not-started',
-        result: undefined,
+        missionStatus: 'not-started',
+        result: { global: 'reached', steps: ['reached'] },
       });
       const pagination = {
         page: 1,
@@ -51,8 +51,8 @@ describe('Integration | Controller | mission-learner-controller', function () {
             'last-name': missionLearner.lastName,
             division: missionLearner.division,
             'organization-id': missionLearner.organizationId,
-            status: missionLearner.status,
-            result: undefined,
+            'mission-status': missionLearner.missionStatus,
+            result: missionLearner.result,
           },
           id: missionLearner.id.toString(),
           type: 'mission-learners',

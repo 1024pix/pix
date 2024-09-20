@@ -68,6 +68,21 @@ describe('Unit | domain | Activity', function () {
     });
   });
 
+  describe('isInStep', function () {
+    context('when stepIndex is empty', function () {
+      it('return false', function () {
+        const activity = new Activity();
+        expect(activity.isInStep).to.be.false;
+      });
+    });
+    context('when stepIndex is not empty', function () {
+      it('return true', function () {
+        const activity = new Activity({ stepIndex: 1 });
+        expect(activity.isInStep).to.be.true;
+      });
+    });
+  });
+
   describe('higherLevel', function () {
     it('returns TRAINING when activity is TUTORIAL level', function () {
       const activity = new Activity({ level: Activity.levels.TUTORIAL });
