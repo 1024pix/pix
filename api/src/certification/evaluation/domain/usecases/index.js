@@ -17,9 +17,11 @@ import {
   sessionRepositories,
   sharedCompetenceMarkRepository,
 } from '../../../session-management/infrastructure/repositories/index.js';
+import * as certificationCandidateRepository from '../../infrastructure/repositories/certification-candidate-repository.js';
 
 const dependencies = {
   ...sessionRepositories,
+  certificationCandidateRepository,
   assessmentRepository,
   assessmentResultRepository,
   answerRepository,

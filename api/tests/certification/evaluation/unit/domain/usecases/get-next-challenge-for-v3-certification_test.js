@@ -14,10 +14,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
       pickChallengeService,
       flashAlgorithmService,
       flashAlgorithmConfigurationRepository,
-      certificationCandidateForSupervisingRepository;
+      certificationCandidateRepository;
 
     let flashAlgorithmConfiguration;
     let certificationCandidateId;
+    let assessment;
 
     beforeEach(function () {
       flashAlgorithmConfigurationRepository = {
@@ -47,15 +48,16 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         getPossibleNextChallenges: sinon.stub(),
         getCapacityAndErrorRate: sinon.stub(),
       };
-      certificationCandidateForSupervisingRepository = {
-        get: sinon.stub(),
+      certificationCandidateRepository = {
+        findByAssessmentId: sinon.stub(),
       };
+      assessment = domainBuilder.buildAssessment();
       const candidate = domainBuilder.buildCertificationCandidateForSupervising({
         accessibilityAdjustmentNeeded: false,
       });
       certificationCandidateId = candidate.id;
 
-      certificationCandidateForSupervisingRepository.get.withArgs({ certificationCandidateId }).resolves(candidate);
+      certificationCandidateRepository.findByAssessmentId.withArgs({ assessmentId: assessment.id }).resolves(candidate);
 
       flashAlgorithmConfiguration = domainBuilder.buildFlashAlgorithmConfiguration();
     });
@@ -69,7 +71,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         const v3CertificationCourse = domainBuilder.buildCertificationCourse({
           version: CERTIFICATION_VERSIONS.V3,
         });
-        const assessment = domainBuilder.buildAssessment();
         const locale = 'fr-FR';
 
         flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
@@ -131,8 +132,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
           flashAlgorithmService,
           locale,
           pickChallengeService,
-          certificationCandidateForSupervisingRepository,
-          certificationCandidateId,
+          certificationCandidateRepository,
         });
 
         // then
@@ -215,8 +215,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
             accessibilityAdjustmentNeeded: true,
           });
 
-          certificationCandidateForSupervisingRepository.get
-            .withArgs({ certificationCandidateId: candidateNeedingAccessibilityAdjustment.id })
+          certificationCandidateRepository.findByAssessmentId
+            .withArgs({ assessmentId: assessment.id })
             .resolves(candidateNeedingAccessibilityAdjustment);
 
           // when
@@ -231,8 +231,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
             flashAlgorithmService,
             locale,
             pickChallengeService,
-            certificationCandidateId: candidateNeedingAccessibilityAdjustment.id,
-            certificationCandidateForSupervisingRepository,
+            certificationCandidateRepository,
           });
 
           // then
@@ -283,8 +282,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
             flashAlgorithmService,
             locale,
             pickChallengeService,
-            certificationCandidateForSupervisingRepository,
-            certificationCandidateId,
+            certificationCandidateRepository,
           });
 
           // then
@@ -376,8 +374,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
           flashAlgorithmService,
           locale,
           pickChallengeService,
-          certificationCandidateForSupervisingRepository,
-          certificationCandidateId,
+          certificationCandidateRepository,
         });
 
         // then
@@ -475,8 +472,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
           flashAlgorithmService,
           locale,
           pickChallengeService,
-          certificationCandidateForSupervisingRepository,
-          certificationCandidateId,
+          certificationCandidateRepository,
         });
 
         // then
@@ -534,7 +530,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
           flashAlgorithmService,
           locale,
           pickChallengeService,
-          certificationCandidateForSupervisingRepository,
+          certificationCandidateRepository,
           certificationCandidateId,
         });
 
@@ -640,8 +636,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
               flashAlgorithmService,
               locale,
               pickChallengeService,
-              certificationCandidateForSupervisingRepository,
-              certificationCandidateId,
+              certificationCandidateRepository,
             });
 
             // then

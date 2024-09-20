@@ -83,7 +83,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
         let clock;
 
         beforeEach(async function () {
-          databaseBuilder.factory.buildUser({ id: userId });
+          const user = databaseBuilder.factory.buildUser({ id: userId });
           const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
           const sessionId = databaseBuilder.factory.buildSession({
             certificationCenterId,
@@ -96,6 +96,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
             userId,
             sessionId,
           }).id;
+          databaseBuilder.factory.buildCertificationCandidate({ ...user, userId: user.id, sessionId });
           databaseBuilder.factory.buildAssessment({
             id: assessmentId,
             type: Assessment.types.CERTIFICATION,

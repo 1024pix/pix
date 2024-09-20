@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { CertificationCandidateNotFoundError } from '../../../../shared/domain/errors.js';
-import { CertificationCandidate } from '../../../../shared/domain/models/CertificationCandidate.js';
+import { Candidate } from '../../../enrolment/domain/models/Candidate.js';
 
 const findByAssessmentId = async function ({ assessmentId }) {
   const result = await knex('certification-candidates')
@@ -14,7 +14,7 @@ const findByAssessmentId = async function ({ assessmentId }) {
     throw new CertificationCandidateNotFoundError();
   }
 
-  return new CertificationCandidate(result);
+  return new Candidate(result);
 };
 
 export { findByAssessmentId };
