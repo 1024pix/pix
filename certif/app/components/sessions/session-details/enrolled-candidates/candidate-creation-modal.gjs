@@ -13,7 +13,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import inputmask from 'ember-inputmask5/modifiers/inputmask';
 import { t } from 'ember-intl';
-import { eq } from 'ember-truth-helpers';
 import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 
 import CandidateCreationModalComplementaryList from './candidate-creation-modal-complementary-list';
@@ -90,6 +89,10 @@ export default class CandidateCreationModal extends Component {
     }
 
     return false;
+  }
+
+  get isPrepaidBillingMode() {
+    return this.selectedBillingMode === 'PREPAID';
   }
 
   get countryOptions() {
@@ -460,7 +463,7 @@ export default class CandidateCreationModal extends Component {
                 <:label>{{t 'common.forms.certification-labels.pricing'}}</:label>
               </PixSelect>
 
-              {{#if (eq this.selectedBillingMode 'PREPAID')}}
+              {{#if this.isPrepaidBillingMode}}
 
                 <div class='new-candidate-modal-form__tooltip'>
                   <label for='prepayment-code' class='label'>

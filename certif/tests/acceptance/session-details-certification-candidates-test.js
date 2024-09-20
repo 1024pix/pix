@@ -491,7 +491,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           assert.strictEqual(screen.getByLabelText('* Code INSEE de naissance').value, '');
           assert.strictEqual(screen.getByLabelText('Temps majoré (%)').value, '');
           assert.strictEqual(screen.getByLabelText('* Tarification part Pix').value, '');
-          assert.strictEqual(screen.getByLabelText('Code de prépaiement').value, '');
+          assert.dom(screen.queryByLabelText('Code de prépaiement')).doesNotExist();
           assert.strictEqual(
             screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)').value,
             '',
