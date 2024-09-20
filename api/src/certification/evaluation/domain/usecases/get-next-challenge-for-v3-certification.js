@@ -1,12 +1,4 @@
 /**
- * @typedef {import('./index.js').AnswerRepository} AnswerRepository
- * @typedef {import('./index.js').CertificationChallengeRepository} CertificationChallengeRepository
- * @typedef {import('./index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
- * @typedef {import('./index.js').CertificationCourseRepository} CertificationCourseRepository
- * @typedef {import('./index.js').ChallengeRepository} ChallengeRepository
- * @typedef {import('./index.js').FlashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
- * @typedef {import('./index.js').PickChallengeService} PickChallengeService
- * @typedef {import('./index.js').FlashAlgorithmService} FlashAlgorithmService
  * @typedef {import('../../../session-management/domain/usecases/index.js').AnswerRepository} AnswerRepository
  * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationChallengeRepository} CertificationChallengeRepository
  * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
