@@ -13,6 +13,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import inputmask from 'ember-inputmask5/modifiers/inputmask';
 import { t } from 'ember-intl';
+import { eq } from 'ember-truth-helpers';
 import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
 
 import CandidateCreationModalComplementaryList from './candidate-creation-modal-complementary-list';
@@ -459,31 +460,34 @@ export default class CandidateCreationModal extends Component {
                 <:label>{{t 'common.forms.certification-labels.pricing'}}</:label>
               </PixSelect>
 
-              <div class='new-candidate-modal-form__tooltip'>
-                <label for='prepayment-code' class='label'>
-                  {{t 'common.forms.certification-labels.prepayment-code'}}
-                </label>
-                <PixTooltip @id='tooltip-prepayment-code' @position='left'>
-                  <:triggerElement>
-                    <FaIcon
-                      @icon='info-circle'
-                      tabindex='0'
-                      aria-describedby='tooltip-prepayment-code'
-                      aria-label={{t 'pages.sessions.detail.candidates.add-modal.prepayment-information'}}
-                    />
-                  </:triggerElement>
-                  <:tooltip>
-                    {{t 'pages.sessions.detail.candidates.add-modal.prepayment-tooltip' htmlSafe=true}}
-                  </:tooltip>
-                </PixTooltip>
+              {{#if (eq this.selectedBillingMode 'PREPAID')}}
 
-                <PixInput
-                  @id='prepayment-code'
-                  type='text'
-                  {{on 'input' (fn @updateCandidateData @candidateData 'prepaymentCode')}}
-                  autocomplete='off'
-                />
-              </div>
+                <div class='new-candidate-modal-form__tooltip'>
+                  <label for='prepayment-code' class='label'>
+                    {{t 'common.forms.certification-labels.prepayment-code'}}
+                  </label>
+                  <PixTooltip @id='tooltip-prepayment-code' @position='left'>
+                    <:triggerElement>
+                      <FaIcon
+                        @icon='info-circle'
+                        tabindex='0'
+                        aria-describedby='tooltip-prepayment-code'
+                        aria-label={{t 'pages.sessions.detail.candidates.add-modal.prepayment-information'}}
+                      />
+                    </:triggerElement>
+                    <:tooltip>
+                      {{t 'pages.sessions.detail.candidates.add-modal.prepayment-tooltip' htmlSafe=true}}
+                    </:tooltip>
+                  </PixTooltip>
+
+                  <PixInput
+                    @id='prepayment-code'
+                    type='text'
+                    {{on 'input' (fn @updateCandidateData @candidateData 'prepaymentCode')}}
+                    autocomplete='off'
+                  />
+                </div>
+              {{/if}}
             </div>
           {{/if}}
 
