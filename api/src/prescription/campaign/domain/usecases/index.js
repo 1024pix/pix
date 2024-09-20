@@ -3,14 +3,15 @@ import { fileURLToPath } from 'node:url';
 
 import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
-import { repositories as libRepositories } from '../../../../../lib/infrastructure/repositories/index.js';
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
+import * as tutorialRepository from '../../../../devcomp/infrastructure/repositories/tutorial-repository.js';
 import * as badgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import * as organizationFeatureApi from '../../../../organizational-entities/application/api/organization-features-api.js';
 import * as codeGenerator from '../../../../shared/domain/services/code-generator.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
@@ -19,7 +20,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as campaignAnalysisRepository from '../../../campaign-participation/infrastructure/repositories/campaign-analysis-repository.js';
 import * as campaignParticipationRepository from '../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
-import * as organizationLearnerImportFormat from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
+import * as organizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 import * as campaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
 import * as campaignAssessmentParticipationResultListRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
 import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
@@ -38,41 +39,79 @@ import * as targetProfileRepository from '../../infrastructure/repositories/targ
 import * as campaignCsvExportService from '../services/campaign-csv-export-service.js';
 import * as campaignUpdateValidator from '../validators/campaign-update-validator.js';
 
+/**
+ * @typedef { import ('../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js')} BadgeAcquisitionRepository
+ * @typedef { import ('../../../../../lib/infrastructure/repositories/campaign-repository.js')} CampaignRepository
+ * @typedef { import ('../../../../devcomp/infrastructure/repositories/tutorial-repository.js')} TutorialRepository
+ * @typedef { import ('../../../../../lib/infrastructure/repositories/knowledge-element-repository.js')} KnowledgeElementRepository
+ * @typedef { import ('../../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js')} KnowledgeElementSnapshotRepository
+ * @typedef { import ('../../../../../lib/infrastructure/repositories/learning-content-repository.js')} LearningContentRepository
+ * @typedef { import ('../../../../../lib/infrastructure/repositories/membership-repository.js')} MembershipRepository
+ * @typedef { import ('../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js')} StageCollectionRepository
+ * @typedef { import ('../../../../evaluation/infrastructure/repositories/badge-repository.js')} BadgeRepository
+ * @typedef { import ('../../../../identity-access-management/infrastructure/repositories/user.repository.js')} UserRepository
+ * @typedef { import ('../../../../organizational-entities/application/api/organization-features-api.js')} OrganizationFeatureApi
+ * @typedef { import ('../../../../shared/domain/services/code-generator.js')} CodeGenerator
+ * @typedef { import ('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
+ * @typedef { import ('../../../../shared/infrastructure/repositories/competence-repository.js')} CompetenceRepository
+ * @typedef { import ('../../../../shared/infrastructure/repositories/organization-repository.js')} OrganizationRepository
+ * @typedef { import ('../../../campaign-participation/infrastructure/repositories/campaign-analysis-repository.js')} CampaignAnalysisRepository
+ * @typedef { import ('../../../campaign-participation/infrastructure/repositories/campaign-participation-repository.js')} CampaignParticipationRepository
+ * @typedef { import ('../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js')} OrganizationLearnerImportFormat
+ * @typedef { import ('../../infrastructure/repositories/campaign-administration-repository.js')} CampaignAdministrationRepository
+ * @typedef { import ('../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js')} CampaignAssessmentParticipationResultListRepository
+ * @typedef { import ('../../infrastructure/repositories/campaign-collective-result-repository.js')} CampaignCollectiveResultRepository
+ * @typedef { import ('../../infrastructure/repositories/campaign-creator-repository.js')} CampaignCreatorRepository
+ * @typedef { import ('../../infrastructure/repositories/campaign-management-repository.js')} CampaignManagementRepository
+ * @typedef { import ('../../infrastructure/repositories/campaign-participant-activity-repository.js')} CampaignParticipantActivityRepository
+ * @typedef { import ('../../infrastructure/repositories/campaign-participation-info-repository.js')} CampaignParticipationInfoRepository
+ * @typedef { import ('../../infrastructure/repositories/campaign-participations-stats-repository.js')} CampaignParticipationsStatsRepository
+ * @typedef { import ('../../infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js')} CampaignProfilesCollectionParticipationSummaryRepository
+ * @typedef { import ('../../infrastructure/repositories/campaign-report-repository.js')} CampaignReportRepository
+ * @typedef { import ('../../infrastructure/repositories/division-repository.js')} DivisionRepository
+ * @typedef { import ('../../infrastructure/repositories/group-repository.js')} GroupRepository
+ * @typedef { import ('../../infrastructure/repositories/index.js').CampaignToJoinRepository} CampaignToJoinRepository
+ * @typedef { import ('../../infrastructure/repositories/index.js').OrganizationMembershipRepository} OrganizationMembershipRepository
+ * @typedef { import ('../../infrastructure/repositories/target-profile-repository.js')} TargetProfileRepository
+ * @typedef { import ('../services/campaign-csv-export-service.js')} CampaignCsvExportService
+ * @typedef { import ('../validators/campaign-update-validator.js')} CampaignUpdateValidator
+ */
 const dependencies = {
   badgeAcquisitionRepository,
   badgeRepository,
-  campaignRepository,
   campaignAdministrationRepository,
   campaignAnalysisRepository,
-  campaignManagementRepository,
+  campaignAssessmentParticipationResultListRepository,
+  campaignCollectiveResultRepository,
   campaignCreatorRepository,
   campaignCsvExportService,
+  campaignManagementRepository,
   campaignParticipantActivityRepository,
-  campaignParticipationRepository,
-  campaignProfilesCollectionParticipationSummaryRepository,
   campaignParticipationInfoRepository,
+  campaignParticipationRepository,
+  campaignParticipationsStatsRepository,
+  campaignProfilesCollectionParticipationSummaryRepository,
   campaignReportRepository,
-  organizationMembershipRepository: campaignRepositories.organizationMembershipRepository,
-  campaignAssessmentParticipationResultListRepository,
-  codeGenerator,
+  campaignRepository,
+  campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
   campaignUpdateValidator,
+  codeGenerator,
   competenceRepository,
   divisionRepository,
   groupRepository,
-  knowledgeElementSnapshotRepository,
   knowledgeElementRepository,
+  knowledgeElementSnapshotRepository,
   learningContentRepository,
   membershipRepository,
+  organizationFeatureApi,
+  organizationLearnerImportFormatRepository,
+  organizationMembershipRepository: campaignRepositories.organizationMembershipRepository,
   organizationRepository,
   placementProfileService,
   stageCollectionRepository,
   targetProfileRepository, // TODO
+  tutorialRepository,
   userRepository,
-  campaignCollectiveResultRepository,
-  campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
-  campaignParticipationsStatsRepository,
-  tutorialRepository: libRepositories.tutorialRepository,
-  organizationLearnerImportFormat,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

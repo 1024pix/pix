@@ -2,7 +2,11 @@ import { usecases } from '../../../../../../src/prescription/campaign/domain/use
 import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-campaign-by-code', function () {
-  let code, organizationId, campaignToJoinRepositoryStub, campaignToJoinModelStub, organizationLearnerImportFormatStub;
+  let code,
+    organizationId,
+    campaignToJoinRepositoryStub,
+    campaignToJoinModelStub,
+    organizationLearnerImportFormatRepositoryStub;
 
   beforeEach(function () {
     code = Symbol('CODE');
@@ -15,7 +19,7 @@ describe('Unit | UseCase | get-campaign-by-code', function () {
       setReconciliationFields: sinon.stub(),
     };
 
-    organizationLearnerImportFormatStub = {
+    organizationLearnerImportFormatRepositoryStub = {
       get: sinon.stub(),
     };
   });
@@ -28,12 +32,12 @@ describe('Unit | UseCase | get-campaign-by-code', function () {
     const actualCampaignToJoin = await usecases.getCampaignByCode({
       code,
       campaignToJoinRepository: campaignToJoinRepositoryStub,
-      organizationLearnerImportFormat: organizationLearnerImportFormatStub,
+      organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
     });
 
     // then
     expect(actualCampaignToJoin).to.deep.equal(campaignToJoinModelStub);
-    expect(organizationLearnerImportFormatStub.get.notCalled).to.be.true;
+    expect(organizationLearnerImportFormatRepositoryStub.get.notCalled).to.be.true;
   });
 
   it('should call import format when isRestricted Campaign', async function () {
@@ -42,17 +46,17 @@ describe('Unit | UseCase | get-campaign-by-code', function () {
     campaignToJoinModelStub.organizationId = organizationId;
 
     campaignToJoinRepositoryStub.getByCode.withArgs({ code }).resolves(campaignToJoinModelStub);
-    organizationLearnerImportFormatStub.get.withArgs(organizationId).resolves(null);
+    organizationLearnerImportFormatRepositoryStub.get.withArgs(organizationId).resolves(null);
 
     // when
     await usecases.getCampaignByCode({
       code,
       campaignToJoinRepository: campaignToJoinRepositoryStub,
-      organizationLearnerImportFormat: organizationLearnerImportFormatStub,
+      organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
     });
 
     // then
-    expect(organizationLearnerImportFormatStub.get.called).to.be.true;
+    expect(organizationLearnerImportFormatRepositoryStub.get.called).to.be.true;
     expect(campaignToJoinModelStub.setReconciliationFields.notCalled).to.be.true;
   });
 
@@ -63,14 +67,14 @@ describe('Unit | UseCase | get-campaign-by-code', function () {
     campaignToJoinModelStub.organizationId = organizationId;
 
     campaignToJoinRepositoryStub.getByCode.withArgs({ code }).resolves(campaignToJoinModelStub);
-    organizationLearnerImportFormatStub.get.withArgs(organizationId).resolves({ reconciliationFields });
+    organizationLearnerImportFormatRepositoryStub.get.withArgs(organizationId).resolves({ reconciliationFields });
     campaignToJoinModelStub.setReconciliationFields.withArgs(reconciliationFields);
 
     // when
     await usecases.getCampaignByCode({
       code,
       campaignToJoinRepository: campaignToJoinRepositoryStub,
-      organizationLearnerImportFormat: organizationLearnerImportFormatStub,
+      organizationLearnerImportFormatRepository: organizationLearnerImportFormatRepositoryStub,
     });
 
     // then
