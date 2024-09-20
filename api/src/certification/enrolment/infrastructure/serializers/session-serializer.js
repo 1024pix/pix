@@ -5,21 +5,23 @@ import { SessionEnrolment } from '../../domain/models/SessionEnrolment.js';
 const { Serializer } = jsonapiSerializer;
 
 const serialize = function (session) {
-  const attributes = [
-    'address',
-    'room',
-    'examiner',
-    'date',
-    'time',
-    'status',
-    'description',
-    'accessCode',
-    'certificationCenterId',
-    'certificationCandidates',
-    'supervisorPassword',
-  ];
   return new Serializer('session-enrolment', {
-    attributes,
+    transform: function (session) {
+      return { ...session, status: session.status, supervisorPassword: session.invigilatorPassword };
+    },
+    attributes: [
+      'address',
+      'room',
+      'examiner',
+      'date',
+      'time',
+      'status',
+      'description',
+      'accessCode',
+      'certificationCenterId',
+      'certificationCandidates',
+      'supervisorPassword',
+    ],
     certificationCandidates: {
       ref: 'id',
       ignoreRelationshipData: true,
@@ -35,7 +37,7 @@ const serialize = function (session) {
 const deserialize = function (json) {
   const attributes = json.data.attributes;
 
-  const result = new SessionEnrolment({
+  return new SessionEnrolment({
     id: json.data.id,
     certificationCenterId: attributes['certification-center-id'],
     address: attributes.address,
@@ -46,8 +48,6 @@ const deserialize = function (json) {
     status: attributes.status,
     description: attributes.description,
   });
-
-  return result;
 };
 
 export { deserialize, serialize };

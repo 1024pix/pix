@@ -44,7 +44,7 @@ describe('Unit | Certification | enrolment | Serializer | session-serializer', f
         time: '14:30',
         description: '',
         accessCode: '',
-        supervisorPassword: 'SOWHAT',
+        invigilatorPassword: 'SOWHAT',
       });
     });
 

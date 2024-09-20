@@ -23,7 +23,7 @@ class SessionEnrolment {
     time,
     certificationCandidates,
     certificationCenterId,
-    supervisorPassword = SessionEnrolment.generateSupervisorPassword(),
+    invigilatorPassword,
     version = CERTIFICATION_VERSIONS.V2,
     createdBy,
     finalizedAt,
@@ -40,7 +40,7 @@ class SessionEnrolment {
     this.time = time;
     this.certificationCandidates = certificationCandidates;
     this.certificationCenterId = certificationCenterId;
-    this.supervisorPassword = supervisorPassword;
+    this.invigilatorPassword = invigilatorPassword ?? this.#generateInvigilatorPassword();
     this.version = version;
     this.createdBy = createdBy;
     this.canEnrolCandidate = !finalizedAt;
@@ -54,7 +54,7 @@ class SessionEnrolment {
     return this.certificationCenterType === CERTIFICATION_CENTER_TYPES.SCO;
   }
 
-  static generateSupervisorPassword() {
+  static generateInvigilatorPassword() {
     return _.times(NB_CHAR, _randomCharacter).join('');
   }
 

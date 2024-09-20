@@ -2,14 +2,14 @@ import { InvalidSessionSupervisingLoginError, SessionNotAccessible } from '../..
 
 const superviseSession = async function ({
   sessionId,
-  supervisorPassword,
+  invigilatorPassword,
   userId,
   sessionRepository,
   supervisorAccessRepository,
 }) {
   // should use a specific get from sessionRepository instead
   const session = await sessionRepository.get({ id: sessionId });
-  if (!session.isSupervisable(supervisorPassword)) {
+  if (!session.isSupervisable(invigilatorPassword)) {
     throw new InvalidSessionSupervisingLoginError();
   }
   if (!session.isAccessible()) {

@@ -27,7 +27,7 @@ describe('Integration | Repository | certification | enrolment | SessionEnrolmen
         resultsSentToPrescriberAt: new Date('2017-12-07'),
         assignedCertificationOfficerId: null,
         accessCode: 'XXXX',
-        supervisorPassword: 'AB2C7',
+        invigilatorPassword: 'AB2C7A',
         version: 2,
         createdBy: sessionCreator.id,
       });

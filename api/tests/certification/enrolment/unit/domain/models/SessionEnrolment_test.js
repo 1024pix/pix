@@ -17,7 +17,7 @@ const SESSION_PROPS = [
   'time',
   'certificationCandidates',
   'certificationCenterId',
-  'supervisorPassword',
+  'invigilatorPassword',
   'version',
   'createdBy',
   'canEnrolCandidate',
@@ -113,8 +113,8 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
     });
   });
 
-  context('static #generateSupervisorPassword', function () {
-    it('should return a supervisor password containing 5 digits/letters except 0, 1 and vowels', async function () {
+  context('static #generateInvigilatorPassword', function () {
+    it('should return a supervisor password containing 6 characters', async function () {
       // given
       // when
       const supervisorPassword = SessionEnrolment.generateSupervisorPassword();
@@ -420,7 +420,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
         resultsSentToPrescriberAt: new Date('2021-01-01'),
         publishedAt: new Date('2021-01-01'),
         assignedCertificationOfficerId: 789,
-        supervisorPassword: 'ORIGINAL_PASSWORD',
+        invigilatorPassword: 'ORIGINAL_PASSWORD',
         certificationCandidates: [],
         version: 2,
         createdBy: new Date('2021-01-01'),
