@@ -82,4 +82,29 @@ describe('Quest | Unit | Domain | Usecases | RewardUser', function () {
       expect(rewardRepository.save).to.have.not.been.called;
     });
   });
+
+  context('when the user is eligible but already got the reward', function () {
+    it('should not call success repository', async function () {
+      // given
+      const questRewardId = Symbol('questRewardId');
+      const quest = { isEligible: () => true, rewardId: questRewardId };
+      questRepository.findAll.resolves([quest]);
+      eligibilityRepository.find.resolves([Symbol('eligibility')]);
+      rewardRepository.getByUserId.resolves([
+        {
+          rewardId: questRewardId,
+        },
+      ]);
+
+      // when
+      await rewardUser({
+        userId,
+        questRepository,
+        eligibilityRepository,
+        successRepository,
+        rewardRepository,
+      });
+      expect(successRepository.find).to.not.have.been.called;
+    });
+  });
 });

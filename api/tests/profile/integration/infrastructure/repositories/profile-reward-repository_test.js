@@ -30,7 +30,6 @@ describe('Profile | Integration | Repository | profile-reward', function () {
   });
 
   describe('#getByUserId', function () {
-
     it('should return all profile rewards for the user', async function () {
       // given
       const { id: userId } = databaseBuilder.factory.buildUser();

@@ -13,10 +13,17 @@ export const rewardUser = async ({
 
   const eligibilities = await eligibilityRepository.find({ userId });
 
+  const rewards = await rewardRepository.getByUserId({ userId });
+  const rewardIds = rewards.map((reward) => reward.rewardId);
+
   for (const quest of quests) {
     const isEligibleForQuest = eligibilities.some((eligibility) => quest.isEligible(eligibility));
 
     if (!isEligibleForQuest) {
+      continue;
+    }
+
+    if (rewardIds.includes(quest.rewardId)) {
       continue;
     }
 
