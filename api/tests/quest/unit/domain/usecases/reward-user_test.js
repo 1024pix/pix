@@ -6,7 +6,7 @@ describe('Quest | Unit | Domain | Usecases | RewardUser', function () {
   let questRepository;
   let eligibilityRepository;
   let successRepository;
-  let profileRewardRepository;
+  let rewardRepository;
 
   beforeEach(function () {
     userId = 1;
@@ -21,7 +21,7 @@ describe('Quest | Unit | Domain | Usecases | RewardUser', function () {
 
     successRepository = { find: sinon.stub() };
 
-    profileRewardRepository = { save: sinon.stub() };
+    rewardRepository = { save: sinon.stub(), getByUserId: sinon.stub() };
   });
 
   context('when there are no quests available', function () {
@@ -41,9 +41,16 @@ describe('Quest | Unit | Domain | Usecases | RewardUser', function () {
       const quest = { isEligible: () => false };
       questRepository.findAll.resolves([quest]);
       eligibilityRepository.find.resolves([Symbol('eligibility')]);
+      rewardRepository.getByUserId.resolves([]);
 
       // when
-      await rewardUser({ userId, questRepository, eligibilityRepository, successRepository });
+      await rewardUser({
+        userId,
+        questRepository,
+        eligibilityRepository,
+        successRepository,
+        rewardRepository,
+      });
       expect(successRepository.find).to.not.have.been.called;
     });
   });
@@ -60,12 +67,19 @@ describe('Quest | Unit | Domain | Usecases | RewardUser', function () {
       questRepository.findAll.resolves([quest]);
       eligibilityRepository.find.resolves([Symbol('eligibility')]);
       successRepository.find.resolves([Symbol('success')]);
+      rewardRepository.getByUserId.resolves([]);
 
       // when
-      await rewardUser({ userId, questRepository, eligibilityRepository, successRepository, profileRewardRepository });
+      await rewardUser({
+        userId,
+        questRepository,
+        eligibilityRepository,
+        successRepository,
+        rewardRepository,
+      });
 
       // then
-      expect(profileRewardRepository.save).to.have.not.been.called;
+      expect(rewardRepository.save).to.have.not.been.called;
     });
   });
 });

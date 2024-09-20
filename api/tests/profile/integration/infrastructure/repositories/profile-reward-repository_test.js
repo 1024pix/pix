@@ -11,8 +11,8 @@ describe('Profile | Integration | Repository | profile-reward', function () {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { rewardId } = databaseBuilder.factory.buildQuest({
         rewardType: REWARD_TYPES.ATTESTATION,
-        eligibilityRequirements: { toto: 'tata' },
-        successRequirements: { titi: 'tutu' },
+        eligibilityRequirements: {},
+        successRequirements: {},
       });
       await databaseBuilder.commit();
 
@@ -30,18 +30,21 @@ describe('Profile | Integration | Repository | profile-reward', function () {
   });
 
   describe('#getByUserId', function () {
+
     it('should return all profile rewards for the user', async function () {
       // given
       const { id: userId } = databaseBuilder.factory.buildUser();
+      const { id: secondUserId } = databaseBuilder.factory.buildUser();
+
       const { rewardId: firstRewardId } = databaseBuilder.factory.buildQuest({
         rewardType: REWARD_TYPES.ATTESTATION,
-        eligibilityRequirements: { toto: 'tata' },
-        successRequirements: { titi: 'tutu' },
+        eligibilityRequirements: {},
+        successRequirements: {},
       });
       const { rewardId: secondRewardId } = databaseBuilder.factory.buildQuest({
         rewardType: REWARD_TYPES.ATTESTATION,
-        eligibilityRequirements: { toto: 'titi' },
-        successRequirements: { titi: 'mimi' },
+        eligibilityRequirements: {},
+        successRequirements: {},
       });
       databaseBuilder.factory.buildProfileReward({
         rewardId: firstRewardId,
@@ -50,6 +53,10 @@ describe('Profile | Integration | Repository | profile-reward', function () {
       databaseBuilder.factory.buildProfileReward({
         rewardId: secondRewardId,
         userId,
+      });
+      databaseBuilder.factory.buildProfileReward({
+        rewardId: secondRewardId,
+        userId: secondUserId,
       });
       await databaseBuilder.commit();
 
@@ -62,6 +69,19 @@ describe('Profile | Integration | Repository | profile-reward', function () {
       expect(result[0]).to.be.an.instanceof(ProfileReward);
       expect(result[1].rewardId).to.equal(secondRewardId);
       expect(result[1]).to.be.an.instanceof(ProfileReward);
+    });
+
+    it('should return empty array if there are no rewards', async function () {
+      // given
+      const { id: userId } = databaseBuilder.factory.buildUser();
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await getByUserId({ userId });
+
+      // then
+      expect(result).to.be.empty;
     });
   });
 });

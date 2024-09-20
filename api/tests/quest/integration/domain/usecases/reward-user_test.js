@@ -10,7 +10,7 @@ const setupContext = async (
   userId,
   isEligible = true,
   hasValidatedKnowledgeElements = true,
-  hasAlreadySucceededTheQuest = true,
+  hasAlreadySucceededTheQuest = false,
 ) => {
   databaseBuilder.factory.buildUser({ id: userId });
   const questOrganization = 'PRO';
