@@ -6,13 +6,15 @@ import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
 const { INVALIDATED, VALIDATED } = KnowledgeElement.StatusType;
 
 const userId = 1234;
-const buildDatabase = async (
+const setupContext = async (
   userId,
-  userOrganization = 'PRO',
-  questOrganization = 'PRO',
+  isEligible = true,
   hasValidatedKnowledgeElements = true,
+  hasAlreadySucceededTheQuest = true,
 ) => {
   databaseBuilder.factory.buildUser({ id: userId });
+  const questOrganization = 'PRO';
+  const userOrganization = isEligible ? questOrganization : 'SCO';
 
   const userKnowledgeElements = [
     {
@@ -49,7 +51,7 @@ const buildDatabase = async (
     userId,
   });
 
-  databaseBuilder.factory.buildQuest({
+  const quest = databaseBuilder.factory.buildQuest({
     eligibilityRequirements: [
       {
         type: 'organization',
@@ -70,13 +72,20 @@ const buildDatabase = async (
     ],
   });
 
+  if (hasAlreadySucceededTheQuest) {
+    databaseBuilder.factory.buildProfileReward({
+      rewardId: quest.rewardId,
+      userId,
+    });
+  }
+
   await databaseBuilder.commit();
 };
 
 describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
   context('when user is eligible and meets success requirements', function () {
     before(async function () {
-      await buildDatabase(userId);
+      await setupContext(userId);
     });
 
     it('should reward the user', async function () {
@@ -92,7 +101,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
 
   context('when user is not eligible', function () {
     before(async function () {
-      await buildDatabase(userId, 'PRO', 'SCO');
+      await setupContext(userId, false);
     });
 
     it('should not reward the user', async function () {
@@ -107,7 +116,7 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
 
   context('when user is eligible but does not meet success requirements', function () {
     before(async function () {
-      await buildDatabase(userId, 'SCO', 'SCO', false);
+      await setupContext(userId, true, false);
     });
 
     it('should not reward the user', async function () {
@@ -117,6 +126,22 @@ describe('Quest | Integration | Domain | Usecases | RewardUser', function () {
       // then
       const profileRewards = await knex(PROFILE_REWARDS_TABLE_NAME).where({ userId });
       expect(profileRewards).to.have.lengthOf(0);
+    });
+  });
+
+  context('when user has already earned a reward for the quest', function () {
+    before(async function () {
+      await setupContext(userId, true, true, true);
+    });
+
+    it('should not reward the user a second time', async function () {
+      //when
+      await usecases.rewardUser({ userId });
+
+      // then
+      const profileRewards = await knex(PROFILE_REWARDS_TABLE_NAME).where({ userId });
+      expect(profileRewards).to.have.lengthOf(1);
+      expect(profileRewards[0].userId).to.equal(userId);
     });
   });
 });
