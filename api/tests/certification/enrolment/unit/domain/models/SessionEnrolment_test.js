@@ -113,14 +113,28 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
     });
   });
 
-  context('static #generateInvigilatorPassword', function () {
-    it('should return a supervisor password containing 6 characters', async function () {
+  context('#generateInvigilatorPassword', function () {
+    it('should return a invigilator password containing 6 characters', async function () {
       // given
       // when
-      const supervisorPassword = SessionEnrolment.generateSupervisorPassword();
+      const sessionEnrolment = new SessionEnrolment();
 
       // then
-      expect(supervisorPassword).to.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/);
+      expect(sessionEnrolment.invigilatorPassword).to.have.lengthOf(6);
+    });
+
+    it('should return a invigilator password containing only allowed characters', async function () {
+      // given
+      // when
+      const randomPasswords = _.times(100, () => {
+        const aSession = new SessionEnrolment();
+        return aSession.invigilatorPassword;
+      });
+
+      // then
+      randomPasswords.forEach((password) => {
+        expect(password).to.match(/^[bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY2-9!*?]+$/);
+      });
     });
   });
 
