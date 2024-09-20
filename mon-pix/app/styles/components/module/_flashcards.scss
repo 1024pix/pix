@@ -1,0 +1,70 @@
+.element-flashcards {
+  &__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 345px;
+    height: 440px;
+    margin: auto auto var(--pix-spacing-4x);
+    padding: var(--pix-spacing-6x);
+    background: var(--pix-neutral-0);
+    border: 5px solid var(--pix-neutral-100);
+    border-radius: var(--modulix-radius-l);
+    box-shadow: 0 12px 24px 0 rgb(7 20 46 / 12%);
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+    color: var(--pix-neutral-500);
+  }
+}
+
+.element-flashcards-card {
+  &__image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      height: auto;
+      max-height: 250px;
+      border-radius: var(--modulix-radius-s);
+    }
+  }
+
+  &__text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pix-neutral-900);
+    text-align: center;
+
+    &--recto {
+      font-weight: bold;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+
+    &--recto {
+      flex-direction: column;
+    }
+
+    &--verso {
+      justify-content: flex-end;
+    }
+  }
+}
+
+.element-flashcards-footer {
+  &__position {
+    @extend %pix-body-m;
+
+    font-weight: 700;
+  }
+}

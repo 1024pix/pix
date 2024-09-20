@@ -21,7 +21,9 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
         {
           id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
           recto: {
-            image: { url: 'https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet6.jpg' },
+            image: {
+              url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
+            },
             text: "A quoi sert l'arobase dans mon adresse email ?",
           },
           verso: {
@@ -39,7 +41,7 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
     assert.ok(screen.getByText("A quoi sert l'arobase dans mon adresse email ?"));
     assert.strictEqual(
       screen.getByRole('presentation').getAttribute('src'),
-      'https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet6.jpg',
+      'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
     );
     assert.dom(screen.getByRole('button', { name: t('pages.modulix.buttons.flashcards.seeAnswer') })).exists();
     assert.ok(screen.getByText(t('pages.modulix.flashcards.direction')));
@@ -58,7 +60,7 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
         {
           id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
           recto: {
-            text: 'A quoi shttps://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet6.jpg?',
+            text: "A quoi sert l'arobase dans mon adresse email ?",
           },
           verso: {
             image: { url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg' },
@@ -87,7 +89,9 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
         {
           id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
           recto: {
-            image: { url: 'https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet6.jpg' },
+            image: {
+              url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
+            },
             text: "A quoi sert l'arobase dans mon adresse email ?",
           },
           verso: {
@@ -119,7 +123,9 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
         {
           id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
           recto: {
-            image: { url: 'https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet6.jpg' },
+            image: {
+              url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
+            },
             text: "A quoi sert l'arobase dans mon adresse email ?",
           },
           verso: {
@@ -150,7 +156,9 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
           {
             id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
             recto: {
-              image: { url: 'https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet6.jpg' },
+              image: {
+                url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
+              },
               text: "A quoi sert l'arobase dans mon adresse email ?",
             },
             verso: {
