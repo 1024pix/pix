@@ -4,9 +4,21 @@
 </RobotDialog>
 <div class="list">
   {{#each @model.divisions as |division|}}
-    <LinkTo @route="school.students" @query={{hash division=division}} class="divisions__item">
-      <p class="item__title">{{division}}</p>
+    <LinkTo @route="school.students" @query={{hash division=division}}>
+      <PixTooltip @isInline={{true}}>
+        <:triggerElement>
+          <div class="divisions__item">
+            <p class="item__title">{{division}}</p>
+
+          </div>
+        </:triggerElement>
+
+        <:tooltip>
+          {{division}}
+        </:tooltip>
+      </PixTooltip>
     </LinkTo>
+
   {{/each}}
 </div>
 <Footer />
