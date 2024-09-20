@@ -1,3 +1,4 @@
+import { usecases as certificationEvaluationUsecases } from '../../../../../src/certification/evaluation/domain/usecases/index.js';
 import { usecases as certificationUsecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { assessmentController } from '../../../../../src/shared/application/assessments/assessment-controller.js';
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
@@ -63,7 +64,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
       };
 
       sinon.stub(certificationUsecases, 'getNextChallengeForV2Certification');
-      sinon.stub(certificationUsecases, 'getNextChallengeForV3Certification');
+      sinon.stub(certificationEvaluationUsecases, 'getNextChallengeForV3Certification');
     });
 
     describe('when the assessment is a preview', function () {
@@ -246,7 +247,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
 
         it('should reply null data when unable to find the next challenge', async function () {
           // given
-          certificationUsecases.getNextChallengeForV3Certification.rejects(new AssessmentEndedError());
+          certificationEvaluationUsecases.getNextChallengeForV3Certification.rejects(new AssessmentEndedError());
 
           // when
           const response = await assessmentController.getNextChallenge({ params: { id: 12 } }, null, dependencies);
