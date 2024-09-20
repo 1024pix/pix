@@ -9,6 +9,8 @@ import { ComponentStepper } from '../../domain/models/component/ComponentStepper
 import { Step } from '../../domain/models/component/Step.js';
 import { Download } from '../../domain/models/element/Download.js';
 import { Embed } from '../../domain/models/element/Embed.js';
+import { Card } from '../../domain/models/element/flashcards/Card.js';
+import { Flashcards } from '../../domain/models/element/flashcards/Flashcards.js';
 import { Image } from '../../domain/models/element/Image.js';
 import { QCM } from '../../domain/models/element/QCM.js';
 import { QCU } from '../../domain/models/element/QCU.js';
@@ -102,6 +104,8 @@ export class ModuleFactory {
         return ModuleFactory.#buildQCU(element);
       case 'qrocm':
         return ModuleFactory.#buildQROCM(element);
+      case 'flashcards':
+        return ModuleFactory.#buildFlashcards(element);
       default:
         logger.warn({
           event: 'module_element_type_unknown',
@@ -209,6 +213,23 @@ export class ModuleFactory {
             logger.warn(`Type de proposal inconnu: ${proposal.type}`);
         }
       }),
+    });
+  }
+
+  static #buildFlashcards(element) {
+    return new Flashcards({
+      id: element.id,
+      title: element.title,
+      instruction: element.instruction,
+      introImage: element.introImage,
+      cards: element.cards.map(
+        (card) =>
+          new Card({
+            id: card.id,
+            recto: card.recto,
+            verso: card.verso,
+          }),
+      ),
     });
   }
 }
