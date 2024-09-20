@@ -36,7 +36,7 @@ describe('Integration | Repository | certification candidate', function () {
 
         // then
         expect(result).to.deep.equal(
-          domainBuilder.buildCertificationCandidate({
+          domainBuilder.certification.enrolment.buildCandidate({
             ...candidate,
             subscriptions: [],
           }),

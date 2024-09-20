@@ -40,8 +40,7 @@ const getNextChallengeForV3Certification = async function ({
   flashAlgorithmService,
   locale,
   pickChallengeService,
-  certificationCandidateForSupervisingRepository,
-  certificationCandidateId,
+  certificationCandidateRepository,
 }) {
   const certificationCourse = await certificationCourseRepository.get({ id: assessment.certificationCourseId });
 
@@ -85,7 +84,7 @@ const getNextChallengeForV3Certification = async function ({
     challenges,
   });
 
-  const candidate = await certificationCandidateForSupervisingRepository.get({ certificationCandidateId });
+  const candidate = await certificationCandidateRepository.findByAssessmentId({ assessmentId: assessment.id });
   const challengesForCandidate = candidate.accessibilityAdjustmentNeeded
     ? challengesWithoutSkillsWithAValidatedLiveAlert.filter((challenge) => challenge.isAccessible)
     : challengesWithoutSkillsWithAValidatedLiveAlert;
