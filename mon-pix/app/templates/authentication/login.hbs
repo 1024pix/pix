@@ -2,14 +2,17 @@
 
 {{#if this.isNewAuthenticationDesignEnabled}}
 
-  <main class="authentication" role="main">
+  <main class="authentication">
     <AuthenticationLayout>
-      {{outlet}}
+      <:header><PixButtonLink @variant="secondary" @route="inscription">{{t
+            "pages.authentication.login.signup-button"
+          }}</PixButtonLink></:header>
+      <:content><Authentication::LoginForm /></:content>
     </AuthenticationLayout>
   </main>
 {{else}}
 
-  <main class="sign-form-page" role="main">
+  <main class="sign-form-page">
     <section class="sign-form-page__container">
       <SigninForm />
 

@@ -323,6 +323,11 @@
         "header": "Vos réponses"
       }
     },
+    "authentication": {
+      "login": {
+        "signup-button": "S'inscrire sur Pix"
+      }
+    },
     "autonomous-course": {
       "landing-page": {
         "actions": {
