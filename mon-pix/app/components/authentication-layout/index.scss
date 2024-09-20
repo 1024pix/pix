@@ -48,5 +48,13 @@
 
 .authentication-layout-footer {
   margin-top: auto;
+
+  .footer-container-content__navigation {
+    margin-left: 0;
+  }
+
+  .footer-navigation__item{
+    margin: 0 var(--pix-spacing-3x) 0 0;
+  }
 }
 
