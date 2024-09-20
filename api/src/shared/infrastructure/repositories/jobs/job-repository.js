@@ -27,9 +27,10 @@ export class JobRepository {
 
   /**
    * @param {Object} config
-   * @param {valueOf<JobPriority>} config.priority
-   * @param {valueOf<JobRetry>} config.retry
-   * @param {valueOf<JobExpireIn>} config.expireIn
+   * @param {string} config.name Job name
+   * @param {valueOf<JobPriority>} config.priority Job prority
+   * @param {valueOf<JobRetry>} config.retry Job retry strategy
+   * @param {valueOf<JobExpireIn>} config.expireIn Job retention duration
    */
   constructor(config) {
     this.name = config.name;
