@@ -7,6 +7,7 @@ export { createOneCsvLine };
 function createOneCsvLine({
   organization,
   campaign,
+  additionalHeaders,
   campaignParticipationInfo,
   targetProfile,
   learningContent,
@@ -20,6 +21,7 @@ function createOneCsvLine({
     campaign,
     campaignParticipationInfo,
     targetProfile,
+    additionalHeaders,
     learningContent,
     stageCollection,
     participantKnowledgeElementsByCompetenceId,

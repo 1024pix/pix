@@ -15,15 +15,17 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     organizationRepository,
     knowledgeElementRepository,
     knowledgeElementSnapshotRepository,
+    organizationFeatureApi,
     badgeAcquisitionRepository,
     stageCollectionRepository,
     targetProfileRepository,
     learningContentRepository;
 
-  let writableStream, csvPromise, i18n;
+  let writableStream, csvPromise, i18n, dependencies;
 
   beforeEach(function () {
     campaignRepository = { get: sinon.stub() };
+    organizationFeatureApi = { getAllFeaturesFromOrganization: sinon.stub() };
     campaignParticipationInfoRepository = { findByCampaignId: sinon.stub() };
     organizationRepository = { get: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserIds: sinon.stub() };
@@ -33,9 +35,25 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     targetProfileRepository = { getByCampaignId: sinon.stub() };
     learningContentRepository = { findByCampaignId: sinon.stub() };
 
+    organizationFeatureApi.getAllFeaturesFromOrganization.resolves({ hasLearnersImportFeature: false });
+
     i18n = getI18n();
     writableStream = new PassThrough();
     csvPromise = streamToPromise(writableStream);
+
+    dependencies = {
+      campaignRepository,
+      targetProfileRepository,
+      learningContentRepository,
+      organizationRepository,
+      campaignParticipationInfoRepository,
+      knowledgeElementSnapshotRepository,
+      badgeAcquisitionRepository,
+      organizationFeatureApi,
+      campaignCsvExportService,
+      stageCollectionRepository,
+      knowledgeElementRepository,
+    };
   });
 
   it('should throw a CampaignTypeError when campaign is not ASSESSMENT type', async function () {
@@ -50,14 +68,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignId: campaign.id,
       writableStream,
       i18n,
-      campaignRepository,
-      targetProfileRepository,
-      learningContentRepository,
-      organizationRepository,
-      campaignParticipationInfoRepository,
-      knowledgeElementSnapshotRepository,
-      campaignCsvExportService,
-      stageCollectionRepository,
+      ...dependencies,
     });
 
     // then
@@ -120,14 +131,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignId: campaign.id,
       writableStream,
       i18n,
-      campaignRepository,
-      targetProfileRepository,
-      learningContentRepository,
-      organizationRepository,
-      campaignParticipationInfoRepository,
-      knowledgeElementSnapshotRepository,
-      campaignCsvExportService,
-      stageCollectionRepository,
+      ...dependencies,
     });
     const csv = await csvPromise;
 
@@ -181,14 +185,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignId: campaign.id,
       writableStream,
       i18n,
-      campaignRepository,
-      targetProfileRepository,
-      learningContentRepository,
-      organizationRepository,
-      campaignParticipationInfoRepository,
-      knowledgeElementSnapshotRepository,
-      campaignCsvExportService,
-      stageCollectionRepository,
+      ...dependencies,
     });
     const csv = await csvPromise;
 
@@ -244,14 +241,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignId: campaign.id,
       writableStream,
       i18n,
-      campaignRepository,
-      targetProfileRepository,
-      learningContentRepository,
-      organizationRepository,
-      campaignParticipationInfoRepository,
-      knowledgeElementSnapshotRepository,
-      campaignCsvExportService,
-      stageCollectionRepository,
+      ...dependencies,
     });
     const csv = await csvPromise;
 
@@ -303,14 +293,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignId: campaign.id,
       writableStream,
       i18n,
-      campaignRepository,
-      targetProfileRepository,
-      learningContentRepository,
-      organizationRepository,
-      campaignParticipationInfoRepository,
-      knowledgeElementSnapshotRepository,
-      campaignCsvExportService,
-      stageCollectionRepository,
+      ...dependencies,
     });
     const csv = await csvPromise;
 
@@ -381,14 +364,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignId: campaign.id,
       writableStream,
       i18n,
-      campaignRepository,
-      targetProfileRepository,
-      learningContentRepository,
-      organizationRepository,
-      campaignParticipationInfoRepository,
-      knowledgeElementSnapshotRepository,
-      campaignCsvExportService,
-      stageCollectionRepository,
+      ...dependencies,
     });
     const csv = await csvPromise;
 
@@ -442,14 +418,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignId: campaign.id,
       writableStream,
       i18n,
-      campaignRepository,
-      targetProfileRepository,
-      learningContentRepository,
-      organizationRepository,
-      campaignParticipationInfoRepository,
-      knowledgeElementSnapshotRepository,
-      campaignCsvExportService,
-      stageCollectionRepository,
+      ...dependencies,
     });
     const csv = await csvPromise;
 
@@ -508,13 +477,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
         campaignRepository,
 
         i18n,
-        targetProfileRepository,
-        learningContentRepository,
-        organizationRepository,
-        campaignParticipationInfoRepository,
-        knowledgeElementSnapshotRepository,
-        campaignCsvExportService,
-        stageCollectionRepository,
+        ...dependencies,
       });
       const csv = await csvPromise;
 
@@ -569,15 +532,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
         campaignId: campaign.id,
         writableStream,
         i18n,
-        campaignRepository,
-
-        targetProfileRepository,
-        learningContentRepository,
-        organizationRepository,
-        campaignParticipationInfoRepository,
-        knowledgeElementSnapshotRepository,
-        campaignCsvExportService,
-        stageCollectionRepository,
+        ...dependencies,
       });
       const csv = await csvPromise;
 
@@ -674,16 +629,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       campaignId: campaign.id,
       writableStream,
       i18n,
-      campaignRepository,
-      targetProfileRepository,
-      learningContentRepository,
-      organizationRepository,
-      campaignParticipationInfoRepository,
-      knowledgeElementRepository,
-      knowledgeElementSnapshotRepository,
-      badgeAcquisitionRepository,
-      campaignCsvExportService,
-      stageCollectionRepository,
+      ...dependencies,
     });
 
     const csv = await csvPromise;

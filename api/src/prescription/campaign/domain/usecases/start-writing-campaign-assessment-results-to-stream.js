@@ -14,6 +14,35 @@ import {
 import * as csvSerializer from '../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 
+/**
+ * @typedef {import ('./index.js').CampaignRepository} CampaignRepository
+ * @typedef {import ('./index.js').CampaignParticipationInfoRepository} CampaignParticipationInfoRepository
+ * @typedef {import ('./index.js').OrganizationRepository} OrganizationRepository
+ * @typedef {import ('./index.js').KnowledgeElementSnapshotRepository} KnowledgeElementSnapshotRepository
+ * @typedef {import ('./index.js').CampaignCsvExportService} CampaignCsvExportService
+ * @typedef {import ('./index.js').TargetProfileRepository} TargetProfileRepository
+ * @typedef {import ('./index.js').LearningContentRepository} LearningContentRepository
+ * @typedef {import ('./index.js').StageCollectionRepository} StageCollectionRepository
+ * @typedef {import ('./index.js').OrganizationFeatureApi} OrganizationFeatureApi
+ * @typedef {import ('./index.js').OrganizationLearnerImportFormat} OrganizationLearnerImportFormat
+ */
+
+/**
+ * @param {Object} params
+ * @param {Number} params.campaignId
+ * @param {Object} params.writableStream
+ * @param {Object} params.i18n
+ * @param {CampaignRepository} params.campaignRepository
+ * @param {CampaignParticipationInfoRepository} params.campaignParticipationInfoRepository
+ * @param {OrganizationRepository} params.organizationRepository
+ * @param {KnowledgeElementSnapshotRepository} params.knowledgeElementSnapshotRepository
+ * @param {CampaignCsvExportService} params.campaignCsvExportService
+ * @param {TargetProfileRepository} params.targetProfileRepository
+ * @param {LearningContentRepository} params.learningContentRepository
+ * @param {StageCollectionRepository} params.stageCollectionRepository
+ * @param {OrganizationFeatureApi} params.organizationFeatureApi
+ * @param {OrganizationLearnerImportFormat} params.organizationLearnerImportFormatRepository
+ */
 const startWritingCampaignAssessmentResultsToStream = async function ({
   campaignId,
   writableStream,
@@ -28,7 +57,10 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   targetProfileRepository,
   learningContentRepository,
   stageCollectionRepository,
+  organizationFeatureApi,
+  organizationLearnerImportFormatRepository,
 }) {
+  let additionalHeaders = [];
   const campaign = await campaignRepository.get(campaignId);
   const translate = i18n.__;
 
@@ -44,15 +76,22 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   const organization = await organizationRepository.get(campaign.organizationId);
   const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 
+  const organizationFeatures = await organizationFeatureApi.getAllFeaturesFromOrganization(campaign.organizationId);
+  if (organizationFeatures.hasLearnersImportFeature) {
+    const importFormat = await organizationLearnerImportFormatRepository.get(campaign.organizationId);
+    additionalHeaders = importFormat.exportableColumns;
+  }
+
   // Create HEADER of CSV
-  const headers = _createHeaderOfCSV(
+  const headers = _createHeaderOfCSV({
     targetProfile,
-    campaign.idPixLabel,
+    idPixLabel: campaign.idPixLabel,
     organization,
     translate,
-    campaignLearningContent,
+    learningContent: campaignLearningContent,
     stageCollection,
-  );
+    additionalHeaders,
+  });
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -134,6 +173,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
           organization,
           campaign,
           campaignParticipationInfo,
+          additionalHeaders,
           targetProfile,
           learningContent: campaignLearningContent,
           stageCollection,
@@ -165,9 +205,19 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
 
 export { startWritingCampaignAssessmentResultsToStream };
 
-function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate, learningContent, stageCollection) {
+function _createHeaderOfCSV({
+  targetProfile,
+  idPixLabel,
+  organization,
+  translate,
+  learningContent,
+  stageCollection,
+  additionalHeaders,
+}) {
   const forSupStudents = organization.isSup && organization.isManagingStudents;
   const displayDivision = organization.isSco && organization.isManagingStudents;
+
+  const extraHeaders = additionalHeaders.map((header) => header.columnName);
 
   return [
     translate('campaign-export.common.organization-name'),
@@ -177,6 +227,7 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate, 
     translate('campaign-export.assessment.target-profile-name'),
     translate('campaign-export.common.participant-lastname'),
     translate('campaign-export.common.participant-firstname'),
+    ...extraHeaders,
     ...(displayDivision ? [translate('campaign-export.common.participant-division')] : []),
     ...(forSupStudents ? [translate('campaign-export.common.participant-group')] : []),
     ...(forSupStudents ? [translate('campaign-export.common.participant-student-number')] : []),
