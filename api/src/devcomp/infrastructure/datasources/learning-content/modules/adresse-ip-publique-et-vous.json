@@ -17,7 +17,7 @@
   "transitionTexts": [
     {
       "grainId": "1d516eb9-e7b7-48a3-a3b5-7971ad171d6f",
-      "content": "<p>En naviguant sur internet, un site peut savoir où vous vous trouvez alors que vous ne lui avez pas partagé votre localisation.<span aria-hidden=\"true\">📍</span><br>Mystère ? Pas vraiment. Commençons par un exemple.</p>"
+      "content": "<p>Lorsque vous naviguez sur internet, un site peut savoir environ où vous vous trouvez même si vous ne lui avez pas partagé votre localisation.<span aria-hidden=\"true\">📍</span><br>Mystère ? Pas vraiment. Commençons par un exemple.</p>"
     },
     {
       "grainId": "4f4ada91-e239-4991-9fc8-ab491aabc424",
@@ -55,7 +55,7 @@
           "element": {
             "id": "67b68f2a-349d-4df7-90a5-c9f5dc930a1a",
             "type": "text",
-            "content": "<p> Voici la page de résultats d'une recherche en ligne de Mélanie, qui adore cuisiner. <span aria-hidden=\"true\">🥗</span><br>Son moteur de recherche indique qu'elle se trouve vers Toulouse.</p>"
+            "content": "<p> Voici la page de résultats d'une recherche en ligne de Mélanie, qui adore cuisiner. <span aria-hidden=\"true\">🥗</span><br>Observez cette image pour répondre aux questions suivantes.</p>"
           }
         },
         {
@@ -69,31 +69,65 @@
           }
         },
         {
-          "type": "element",
-          "element": {
-            "id": "ff75255c-18e0-4cd9-8fd1-83a9ab6994fb",
-            "type": "qcu",
-            "instruction": "<p>Quelle est l'information utilisée par le moteur de recherche pour déterminer la localisation de Mélanie ?</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "la marque de son ordinateur"
-              },
-              {
-                "id": "2",
-                "content": "son adresse IP"
-              },
-              {
-                "id": "3",
-                "content": "son historique de navigation"
-              }
-            ],
-            "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Bonne réponse !<span aria-hidden=\"true\">✨</span></span>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>En bas de page, il est écrit que la localisation est déterminée <strong>d'après l'adresse IP.</strong></p>"
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "e939579a-c185-481b-8f78-e9fbb6d7363e",
+                  "type": "qcu",
+                  "instruction": "<p>D'après le moteur de recherche, où se trouve environ Mélanie ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Brest"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Marseille"
+                    },
+                    {
+                      "id": "3",
+                      "content": "Toulouse"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Bonne réponse !<span aria-hidden=\"true\">✨</span></span>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Avez-vous regardé <strong>en bas de l'image</strong> ?.</strong></p>"
+                  },
+                  "solution": "2"
+                }
+              ]
             },
-            "solution": "2"
-          }
+            {
+              "elements": [
+                {
+                  "id": "ff75255c-18e0-4cd9-8fd1-83a9ab6994fb",
+                  "type": "qcu",
+                  "instruction": "<p>Quelle information est utilisée par le moteur de recherche pour déterminer la localisation de Mélanie ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "la marque de son ordinateur"
+                    },
+                    {
+                      "id": "2",
+                      "content": "son adresse IP"
+                    },
+                    {
+                      "id": "3",
+                      "content": "son historique de navigation"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Bonne réponse !<span aria-hidden=\"true\">✨</span></span>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>En bas de page, il est écrit que Mélanie est à Toulouse <strong>d'après son adresse IP.</strong></p>"
+                  },
+                  "solution": "2"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -168,7 +202,7 @@
           "element": {
             "id": "3f4354a6-3243-4b5a-a459-58b3f3d1ecb8",
             "type": "text",
-            "content": "<p>Pour chaque affirmation, répondez par vrai ou par faux.<br><i>Dans les exemples, les adresses IP sont des adresses IPv4 et aucun VPN n'est utilisé.</i></p>"
+            "content": "<p>Pour chaque affirmation, répondez par vrai ou par faux.<br><i>Remarque : si vous connaissez les VPN, partez du principe qu'aucun VPN n'est utilisé dans les exemples suivants.</i></p>"
           }
         },
         {
@@ -263,8 +297,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span><p> Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve. Par contre, les autorités peuvent accéder à plus d'informations, dans un cadre prévu par la loi.</p>",
-                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve. Par contre, les autorités peuvent accéder à plus d'informations, dans un cadre prévu par la loi.</p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span><p> On peut connaître au mieux le pays ou la ville où elle se trouve.<br>Par contre, la police par exemple peut accéder si besoin à cette information.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>On peut connaître au mieux le pays ou la ville où elle se trouve.<br>Par contre, la police par exemple peut accéder si besoin à cette information.</p>"
                   },
                   "solution": "2"
                 }
@@ -355,11 +389,8 @@
         {
           "type": "element",
           "element": {
-            "id": "f42fa86c-3936-485a-8ea3-cabed25153f9",
-            "type": "image",
-            "url": "https://i.imgur.com/8IUOpoz.png",
-            "alt": "Image décrite dans l'alternative textuelle",
-            "alternativeText": "Schéma en deux blocs : le premier bloc représente un réseau local avec des illustrations d'appareils (ordinateurs, imprimante) et leurs adresses IP privées, le second bloc représente Internet avec des illustrations de pages web et leurs adresses IP publiques. La box Internet se situe au centre et appartient aux deux blocs. Elle a deux adresses IP, une adresse IP privée et une adresse IP publique."
+            "id": "a06beddf-5a22-4c18-8774-b75db2c46a43",
+            "type": "separator"
           }
         },
         {
@@ -368,6 +399,16 @@
             "id": "1b524302-7175-4923-8810-835201d3d443",
             "type": "text",
             "content": "<p><span aria-hidden=\"true\">🏠</span> Sur le <strong>réseau local</strong>, les appareils (ordinateur, imprimante, etc.) utilisent des adresses IP <strong>privées</strong> (ou locales) pour communiquer.</p><p><span aria-hidden=\"true\">🌐</span> Sur <strong>internet</strong>, ce sont des adresses IP <strong>publiques</strong> qui permettent aux sites et aux box internet de communiquer des informations.</p><p><span aria-hidden=\"true\">🛜</span> Une box internet a <strong>deux adresses IP</strong> : une privée et une publique.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "f42fa86c-3936-485a-8ea3-cabed25153f9",
+            "type": "image",
+            "url": "https://i.imgur.com/8IUOpoz.png",
+            "alt": "Image décrite dans l'alternative textuelle",
+            "alternativeText": "Schéma en deux blocs : le premier bloc représente un réseau local avec des illustrations d'appareils (ordinateurs, imprimante) et leurs adresses IP privées, le second bloc représente Internet avec des illustrations de pages web et leurs adresses IP publiques. La box Internet se situe au centre et appartient aux deux blocs. Elle a deux adresses IP, une adresse IP privée et une adresse IP publique."
           }
         }
       ]
@@ -418,7 +459,7 @@
                 {
                   "id": "952234bc-4ec1-4ebd-9208-6cc261a1efd8",
                   "type": "qcu",
-                  "instruction": "<p>Quelle adresse est différente pour l'ordinateur et pour l'imprimante de Mélanie quand ils sont connectés à sa box internet ?</p>",
+                  "instruction": "<p>Quelle adresse est différente pour l'ordinateur et pour l'imprimante de Mélanie ?</p>",
                   "proposals": [
                     {
                       "id": "1",
