@@ -11,6 +11,7 @@ class CampaignAssessmentCsvLine {
     campaign,
     campaignParticipationInfo,
     targetProfile,
+    additionalHeaders,
     learningContent,
     stageCollection,
     participantKnowledgeElementsByCompetenceId,
@@ -19,6 +20,7 @@ class CampaignAssessmentCsvLine {
     translate,
   }) {
     this.organization = organization;
+    this.additionalHeaders = additionalHeaders;
     this.campaign = campaign;
     this.campaignParticipationInfo = campaignParticipationInfo;
     this.targetProfile = targetProfile;
@@ -99,6 +101,7 @@ class CampaignAssessmentCsvLine {
       this.targetProfile.name,
       this.campaignParticipationInfo.participantLastName,
       this.campaignParticipationInfo.participantFirstName,
+      ...this.#makeAdditionalInfos(),
       ...this._division,
       ...this._group,
       ...this._studentNumber,
@@ -119,6 +122,12 @@ class CampaignAssessmentCsvLine {
         : this._makeEmptyColumns(this.targetProfile.badges.length)),
       this.campaignParticipationInfo.isShared ? this.campaignParticipationInfo.masteryRate : this.emptyContent,
     ];
+  }
+
+  #makeAdditionalInfos() {
+    if (!this.additionalHeaders) return [];
+
+    return this.additionalHeaders.map((header) => this.campaignParticipationInfo.additionalInfos[header.columnName]);
   }
 
   _makeSharedColumns() {
