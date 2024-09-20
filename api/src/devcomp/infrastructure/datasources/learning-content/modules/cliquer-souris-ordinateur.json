@@ -17,11 +17,11 @@
   "transitionTexts": [
     {
       "grainId": "96f8e83d-88df-44c0-951d-9b9e3a02cde0",
-      "content": "<p>Savoir cliquer, c'est comme savoir marcher dans le monde numérique&#8239;! <span aria-hidden=\"\true\">💻 🚶🏼</span>️</p><p>Cliquer, c'est appuyer sur un bouton de la souris. On dit aussi faire des clics.<br>Il y a plusieurs façons de faire des clics.<br>Voyons cela ensemble dans ce module !</p>"
+      "content": "<p>Savoir cliquer, c'est comme savoir marcher dans le monde numérique&#8239;! <span aria-hidden=\"\true\">💻 🚶🏼</span>️</p><p>Cliquer, c'est appuyer sur un bouton de la souris. On dit aussi «&nbsp;faire des clics&nbsp;».<br>Il y a plusieurs façons de faire des clics.<br>Voyons cela ensemble dans ce module !</p>"
     },
     {
       "grainId": "4a80afba-d2ef-4f58-a328-a0fc9f204aca",
-      "content": "<p>Découvrez maintenant les différents boutons de la souris ! <span aria-hidden=\"\true\">🖱️️</span></p>"
+      "content": "<p>Découvrez maintenant les différents boutons de la souris ! <span aria-hidden=\"\true\">🖱️️</span></p><p>Ce sont les parties de la souris qui permettent de cliquer.</p>"
     },
     {
       "grainId": "83f44f19-e8de-4248-bfc7-e38f19190138",
@@ -134,7 +134,7 @@
           "element": {
             "id": "a17877d3-b88a-4670-a618-3e97c16c1f1b",
             "type": "text",
-            "content": "<p>Le bouton gauche est le plus important. Il permet de faire un <strong>clic gauche</strong>.</p><p>Découvrez les deux étapes pour faire un clic gauche. <span aria-hidden=\"true\">👇</span></p>"
+            "content": "<p>Le bouton gauche est le plus important. Il permet de faire un <strong>clic gauche</strong>.</p><p>Lisez les deux étapes pour faire un clic gauche. <span aria-hidden=\"true\">👇</span></p><p>Par la suite, ce sera à vous de le faire.</p> "
           }
         },
         {
@@ -149,7 +149,7 @@
           "element": {
             "id": "a510f893-7d93-4e4f-b8a4-0dd978324c70",
             "type": "text",
-            "content": "<h3>Étape 1&nbsp;: déplacer le pointeur à l'écran</h3><p>Poser la main sur la souris. Faire glisser la main sur la table jusqu’à ce que le pointeur soit à l'endroit souhaité.</p>"
+            "content": "<h3>Étape 1&nbsp;: déplacer le pointeur à l'écran</h3><p>Poser la main sur la souris. Faire glisser la main sur la table jusqu’à ce que le pointeur soit à l'endroit voulu.</p>"
           }
         },
         {
@@ -214,7 +214,7 @@
           "element": {
             "id": "80070528-b2ca-4e93-99a6-bc495a6029ef",
             "type": "text",
-            "content": "<p>Voici un rappel des étapes pour faire un clic gauche&nbsp;:</p><ol><li>déplacer le pointeur à l'endroit souhaité,</li><li>appuyer sur le bouton gauche de la souris,</li><li>observer l'effet à l'écran.</li></ol><p><br><strong>Dans la zone ci-dessous, faites un clic sur chaque élément lorsqu'il apparait.</strong><br></p>"
+            "content": "<p>Voici un rappel des étapes pour faire un clic gauche&nbsp;:</p><ol><li>déplacer le pointeur à l'endroit voulu,</li><li>appuyer sur le bouton gauche de la souris,</li><li>observer l'effet à l'écran.</li></ol><p><br><strong>Dans la zone ci-dessous, faites un clic sur chaque élément lorsqu'il apparait.</strong><br></p>"
           }
         },
         {
@@ -264,7 +264,7 @@
                 {
                   "id": "35e0ae32-980e-45fc-bb69-b94da529d6fb",
                   "type": "text",
-                  "content": "Suivez ces étapes dans l'ordre : <ol><li>lisez la question ci-dessous,</li><li>faites un clic gauche pour sélectionner votre réponse,</li><li>faites un clic gauche sur «&nbsp;Vérifier&nbsp;»</li></ol>"
+                  "content": "Dans le quiz ci-dessous, cliquez sur une réponse puis cliquez sur «&nbsp;Vérifier&nbsp;»."
                 },
                 {
                   "id": "7253ded2-df17-4926-930d-0b0947f7de82",
@@ -293,7 +293,7 @@
                 {
                   "type": "element",
                   "element": {
-                    "id": "2e9d6046-33d5-46d8-be10-dc7b75ad18f5",
+                    "id": "4b559769-3f0d-43ee-8b7d-c1aa3e0927c6",
                     "type": "separator"
                   }
                 },
@@ -343,7 +343,7 @@
           "element": {
             "id": "626c6c46-e397-46bc-adb2-9894f96afc7e",
             "type": "text",
-            "content": "<p>Dans la vidéo ci-dessous, vous allez voir comment faire un double&#x002D;clic.</p><p><strong>Pour démarrer la vidéo, faites un clic gauche sur le bouton «&nbsp;Play&nbsp;»  <span aria-hidden=\"true\">▶️</span></strong></p><br><iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/cDf-Q5tHwVM\" title=\"Première marche souris - Double-clic\"></iframe>"
+            "content": "<p>Dans la vidéo ci-dessous, vous allez voir comment faire un double&#x002D;clic.</p><p>Après la vidéo, ce sera à vous de le faire.<p><strong>Pour démarrer la vidéo, faites un clic gauche sur le bouton «&nbsp;Play&nbsp;»  <span aria-hidden=\"true\">▶️</span></strong></p><br><iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/cDf-Q5tHwVM\" title=\"Première marche souris - Double-clic\"></iframe>"
           }
         }
       ]
@@ -396,7 +396,15 @@
           "element": {
             "id": "be23697d-9393-405a-bb01-852e660e6818",
             "type": "text",
-            "content": "<p>Pour <strong>ouvrir un dossier</strong>, il faut <strong>faire un double-clic dessus.</strong><br>Dans l'espace ci-dessous, ouvrez les dossiers en suivant cet ordre :</p><ol><li>Photos,</li><li>Album,</li><li>Famille,</li><li>80 ans Mamie</li></ol>"
+            "content": "Dans l'espace ci-dessous, ouvrez les dossiers en suivant cet ordre :</p><ol><li>Photos,</li><li>Album,</li><li>Famille,</li><li>80 ans Mamie</li></ol>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "99aee0c9-d5ed-40da-aad9-6c58414c8f62",
+            "type": "text",
+            "content": "<p>Pour démarrer, faites un clic gauche sur Commencer.<br>Quand vous avez terminé, répondez à la question qui suit.</p>"
           }
         },
      {
@@ -407,7 +415,7 @@
             "isCompletionRequired": false,
             "title": "Simulateur gestionnaire de fichier",
             "url": "https://epreuves.pix.fr/filemanager-visu/filemanager-visu.html?mode=example&lang=fr",
-            "instruction": "Pour démarrer, faites un clic gauche sur Commencer.<br>Quand vous avez terminé, répondez à la question qui suit.",
+            "instruction": "",
             "height": 400
           }
         },
@@ -428,7 +436,7 @@
                 },
                 {
                   "id": "3",
-                  "content": "80"
+                  "content": "6"
                 }
               ],
               "feedbacks": {
@@ -487,6 +495,15 @@
                   "id": "301930f5-8b8c-4e16-a7fd-aa4ab37d3d3f",
                   "type": "text",
                   "content": "<h3><span aria-hidden=\"true\"> 📌 </span>Résumons&nbsp;:</h3><ul><li><strong>Le bouton gauche</strong> vous permet de faire des clics gauche et des doubles&#x002D;clics sur des éléments.</li><li><strong>Le bouton droit</strong> vous permet de faire apparaître une liste d’actions possibles avec l'élément.</li><li><strong>La molette </strong> permet de monter ou de descendre dans une page.</li></ul>"
+                },
+                {
+                  "id": "97d0c1ee-8e9b-474e-893b-896b2d008213",
+                  "type": "separator"
+                },
+                {
+                  "id": "e9dd5e57-b6ca-4309-8471-b5f2ab646f28",
+                  "type": "text",
+                  "content": "<span aria-hidden=\"true\">👉</span> Vous pouvez maintenant <a href=\"https://drive.google.com/file/d/1M46koCUezpjjT6F_I3-L3gMrlkzO4oxN/view\">ouvrir votre fiche de révision en cliquant ici.</a> "
                 }
               ]
             }
