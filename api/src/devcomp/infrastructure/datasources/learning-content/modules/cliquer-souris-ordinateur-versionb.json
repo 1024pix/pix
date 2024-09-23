@@ -90,7 +90,7 @@
           "element": {
             "id": "a17877d3-b88a-4670-a618-3e97c16c1f1b",
             "type": "text",
-            "content": "<p>Le bouton gauche est le plus important. Il permet de faire un <strong>clic gauche</strong>.</p><p>Voici la démonstration des deux étapes pour faire un clic gauche. <span aria-hidden=\"true\">👇</span><br>Vous pourrez vous entraîner ensuite.</p>"
+            "content": "<p>Le bouton gauche est le plus important. Il permet de faire un <strong>clic gauche</strong>.</p><p>Voici la démonstration du clic gauche. <span aria-hidden=\"true\">👇</span> Vous pourrez vous entraîner ensuite.</p>"
           }
         },
         {
@@ -103,34 +103,9 @@
         {
           "type": "element",
           "element": {
-            "id": "a510f893-7d93-4e4f-b8a4-0dd978324c70",
-            "type": "text",
-            "content": "<h3>Étape 1&nbsp;: déplacer le pointeur à l'écran</h3><p>Glisser la souris sur la table jusqu’à ce que le pointeur soit à l'endroit voulu.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "4cd1c225-f5da-43c2-af29-7d2bfa340b07",
-            "type": "image",
-            "url": "https://i.imgur.com/7xBrmyd.gif",
-            "alt": "",
-            "alternativeText": ""
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "681755b0-98b0-49fc-bddf-acfa6987a8da",
-            "type": "separator"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
             "id": "11a9d578-a409-4de5-b20a-c38c932fd534",
             "type": "text",
-            "content": "<h3>Étape 2&nbsp;: appuyer sur le bouton gauche de la souris</h3><p>Sans faire bouger la souris, appuyer sur le bouton gauche avec l'index et relâcher immédiatement. C'est comme pour un bouton de télécommande.<br>On doit entendre le son «&nbsp;clic&nbsp;».</p>"
+            "content": "<h3>Étape 1&nbsp;: On déplace le pointeur à l'écran</h3><h3>Étape 2&nbsp;: On appuie sur le bouton gauche de la souris</h3><p>Il faut appuyer avec l'index sans faire bouger la souris.<br> Relâcher immédiatement, comme pour un bouton de télécommande.<br>On doit entendre le son «&nbsp;clic&nbsp;».</p>"
           }
         },
         {
@@ -157,32 +132,7 @@
             "type": "text",
             "content": "<h3><span aria-hidden=\"true\">💡</span> <strong>Astuce</strong></h3><p>Le doigt qui fait le clic gauche&nbsp;peut être positionné de différentes façons.<br>L'important est d'être à l'aise et détendu.</p>"
           }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "7a9a75a3-2dbc-46d4-9d36-a34a8a771519",
-            "type": "separator"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "e45a32cf-2ab9-4464-85d0-ae4f0ca897cb",
-            "type": "text",
-            "content": "<h3>Mais pourquoi est-ce qu'on dit «&nbsp;<strong>clic&nbsp;</strong>»&nbsp;?</h3><p>Car c'est le bruit que fait une souris d'ordinateur quand on appuie dessus.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "4ec66bb9-f016-48c3-9653-56d7ae04d1b9",
-            "type": "image",
-            "url": "https://i.imgur.com/yUbbQ56.gif",
-            "alt": "",
-            "alternativeText": ""
-          }
-        }
+        } 
       ]
     },
       {
@@ -272,9 +222,7 @@
                   "solution": "1"
                 },
                 {
-                  "type": "element",
-                  "element": {
-                    "id": "2e9d6046-33d5-46d8-be10-dc7b75ad18f5",
+                   "id": "2e9d6046-33d5-46d8-be10-dc7b75ad18f5",
                     "type": "separator"
                   }
                 },
