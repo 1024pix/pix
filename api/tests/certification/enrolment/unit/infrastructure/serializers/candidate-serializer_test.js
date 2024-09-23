@@ -116,4 +116,52 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
       );
     });
   });
+
+  describe('#serializeForParticipation()', function () {
+    it('should convert a EnrolledCandidate model object into JSON API data', function () {
+      // given
+      const enrolledCandidate = domainBuilder.certification.enrolment.buildEnrolledCandidate({
+        id: 123,
+        firstName: 'Michel',
+        lastName: 'Jacques',
+        sex: 'M',
+        birthPostalCode: 'somePostalCode1',
+        birthINSEECode: 'someInseeCode1',
+        birthCity: 'someBirthCity1',
+        birthProvinceCode: 'someProvinceCode1',
+        birthCountry: 'someBirthCountry1',
+        email: 'michel.jacques@example.net',
+        resultRecipientEmail: 'jeanette.jacques@example.net',
+        externalId: 'MICHELJACQUES',
+        birthdate: '1990-01-01',
+        sessionId: 555,
+        extraTimePercentage: null,
+        userId: null,
+        organizationLearnerId: null,
+        billingMode: CertificationCandidate.BILLING_MODES.PAID,
+        prepaymentCode: 'somePrepaymentCode1',
+        subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription({ certificationCandidateId: 123 })],
+        hasSeenCertificationInstructions: true,
+      });
+      const expectedJsonApiData = {
+        data: {
+          type: 'certification-candidates',
+          id: enrolledCandidate.id.toString(),
+          attributes: {
+            'first-name': enrolledCandidate.firstName,
+            'last-name': enrolledCandidate.lastName,
+            birthdate: enrolledCandidate.birthdate,
+            'has-seen-certification-instructions': true,
+            'session-id': enrolledCandidate.sessionId,
+          },
+        },
+      };
+
+      // when
+      const jsonApi = serializer.serializeForParticipation(enrolledCandidate);
+
+      // then
+      expect(jsonApi).to.deep.equal(expectedJsonApiData);
+    });
+  });
 });

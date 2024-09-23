@@ -16,7 +16,7 @@ import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/error
  * @param {CandidateRepository} params.candidateRepository
  * @param {PlacementProfileService} params.placementProfileService
  *
- * @returns {Promise<void>}
+ * @returns {Promise<Candidate>}
  */
 export async function linkUserToCandidate({ userId, candidate, candidateRepository, placementProfileService }) {
   candidate.reconcile(userId);
@@ -32,7 +32,8 @@ export async function linkUserToCandidate({ userId, candidate, candidateReposito
     }
   }
 
-  return _saveReconcilement({ candidate, candidateRepository });
+  await _saveReconcilement({ candidate, candidateRepository });
+  return candidate;
 }
 
 const _saveReconcilement = withTransaction(

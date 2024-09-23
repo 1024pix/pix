@@ -7,7 +7,12 @@ import { usecases } from '../../domain/usecases/index.js';
 /**
  * Candidate entry to a certification is a multi step process
  * @param {Object} params
- * @param {EnrolledCandidateRepository} params.enrolledCandidateRepository
+ * @param {number} params.userId
+ * @param {number} params.sessionId
+ * @param {string} params.firstName
+ * @param {string} params.lastName
+ * @param {Date} params.birthdate
+ * @param {Function} params.normalizeStringFnc
  * @returns {Promise<EnrolledCandidate>}
  */
 export const registerCandidateParticipation = async ({
@@ -17,7 +22,6 @@ export const registerCandidateParticipation = async ({
   lastName,
   birthdate,
   normalizeStringFnc,
-  enrolledCandidateRepository,
 }) => {
   const candidate = await usecases.verifyCandidateIdentity({
     userId,
@@ -28,12 +32,12 @@ export const registerCandidateParticipation = async ({
     normalizeStringFnc,
   });
 
-  if (!candidate.isLinkedToAUser()) {
-    await usecases.linkUserToCandidate({
-      userId,
-      candidate,
-    });
+  if (candidate.isLinkedToAUser()) {
+    return candidate;
   }
 
-  return enrolledCandidateRepository.get({ id: candidate.id });
+  return usecases.linkUserToCandidate({
+    userId,
+    candidate,
+  });
 };
