@@ -63,7 +63,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
       };
 
       sinon.stub(certificationEvaluationUsecases, 'getNextChallengeForV2Certification');
-      sinon.stub(certificationEvaluationUsecases, 'getNextChallengeForV3Certification');
+      sinon.stub(certificationEvaluationUsecases, 'getNextChallenge');
     });
 
     describe('when the assessment is a preview', function () {
@@ -222,7 +222,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
         it('should call getNextChallengeForCertificationCourse in assessmentService', async function () {
           // given
           const locale = FRENCH_SPOKEN;
-          certificationUsecases.getNextChallengeForV3Certification.resolves();
+          certificationEvaluationUsecases.getNextChallenge.resolves();
 
           // when
           await assessmentController.getNextChallenge(
@@ -237,8 +237,8 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
           );
 
           // then
-          expect(certificationEvaluationUsecases.getNextChallengeForV3Certification).to.have.been.calledOnce;
-          expect(certificationEvaluationUsecases.getNextChallengeForV3Certification).to.have.been.calledWithExactly({
+          expect(certificationEvaluationUsecases.getNextChallenge).to.have.been.calledOnce;
+          expect(certificationEvaluationUsecases.getNextChallenge).to.have.been.calledWithExactly({
             assessment: certificationAssessment,
             locale,
           });
@@ -246,7 +246,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
 
         it('should reply null data when unable to find the next challenge', async function () {
           // given
-          certificationEvaluationUsecases.getNextChallengeForV3Certification.rejects(new AssessmentEndedError());
+          certificationEvaluationUsecases.getNextChallenge.rejects(new AssessmentEndedError());
 
           // when
           const response = await assessmentController.getNextChallenge({ params: { id: 12 } }, null, dependencies);

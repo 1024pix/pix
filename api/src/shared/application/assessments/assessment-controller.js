@@ -199,7 +199,7 @@ async function _getChallengeByAssessmentType({ assessment, request, dependencies
     });
 
     if (CertificationVersion.isV3(certificationCourseVersion)) {
-      return certificationUsecases.getNextChallengeForV3Certification({ assessment, locale });
+      return certificationEvaluationUsecases.getNextChallenge({ assessment, locale });
     } else {
       return certificationEvaluationUsecases.getNextChallengeForV2Certification({ assessment, locale });
     }
