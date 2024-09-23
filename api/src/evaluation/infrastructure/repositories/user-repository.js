@@ -7,8 +7,8 @@
  * @param {Object} params
  * @param {UserApi} params.userApi
  */
-const update = async function ({ userId, userApi }) {
+const updateMarkLevelSevenInfoAsSeen = async function ({ userId, userApi }) {
   return userApi.markLevelSevenInfoAsSeen({ userId });
 };
 
-export { update };
+export { updateMarkLevelSevenInfoAsSeen };

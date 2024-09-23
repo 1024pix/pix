@@ -4,9 +4,9 @@ import { expect, sinon } from '../../../../test-helper.js';
 describe('Unit | UseCase | remember-user-has-seen-level-seven-info', function () {
   it('should return user information', async function () {
     // given
-    const userRepository = { update: sinon.stub() };
+    const userRepository = { updateMarkLevelSevenInfoAsSeen: sinon.stub() };
     const userId = 1;
-    userRepository.update.withArgs({ userId }).resolves();
+    userRepository.updateMarkLevelSevenInfoAsSeen.withArgs({ userId }).resolves();
 
     // when
     await rememberUserHasSeenLevelSevenInfo({
@@ -15,6 +15,6 @@ describe('Unit | UseCase | remember-user-has-seen-level-seven-info', function ()
     });
 
     // then
-    expect(userRepository.update).to.have.been.calledOnce;
+    expect(userRepository.updateMarkLevelSevenInfoAsSeen).to.have.been.calledOnce;
   });
 });
