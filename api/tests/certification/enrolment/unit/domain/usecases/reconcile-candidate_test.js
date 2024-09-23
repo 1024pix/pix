@@ -1,9 +1,9 @@
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
-import { linkUserToCandidate } from '../../../../../../src/certification/enrolment/domain/usecases/link-user-to-candidate.js';
+import { reconcileCandidate } from '../../../../../../src/certification/enrolment/domain/usecases/reconcile-candidate.js';
 import { UserNotAuthorizedToCertifyError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-candidate', function () {
+describe('Certification | Enrolment | Unit | Domain | UseCase | reconcile-candidate', function () {
   let candidateRepository;
   let placementProfileService;
   let dependencies;
@@ -46,7 +46,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-can
         });
 
         // when
-        const error = await catchErr(linkUserToCandidate)({
+        const error = await catchErr(reconcileCandidate)({
           candidate,
           ...dependencies,
         });
@@ -72,7 +72,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-can
         candidateRepository.update.withArgs(candidate).resolves();
 
         // when
-        await linkUserToCandidate({
+        await reconcileCandidate({
           candidate,
           ...dependencies,
         });

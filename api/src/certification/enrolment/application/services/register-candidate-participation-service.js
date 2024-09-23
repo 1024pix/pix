@@ -1,5 +1,5 @@
 /**
- * @typedef {import ('./index.js').EnrolledCandidateRepository} EnrolledCandidateRepository
+ * @typedef {import ('../../domain/models/Candidate.js').Candidate} Candidate
  */
 
 import { usecases } from '../../domain/usecases/index.js';
@@ -13,7 +13,7 @@ import { usecases } from '../../domain/usecases/index.js';
  * @param {string} params.lastName
  * @param {Date} params.birthdate
  * @param {Function} params.normalizeStringFnc
- * @returns {Promise<EnrolledCandidate>}
+ * @returns {Promise<Candidate>}
  */
 export const registerCandidateParticipation = async ({
   userId,
@@ -36,7 +36,7 @@ export const registerCandidateParticipation = async ({
     return candidate;
   }
 
-  return usecases.linkUserToCandidate({
+  return usecases.reconcileCandidate({
     userId,
     candidate,
   });
