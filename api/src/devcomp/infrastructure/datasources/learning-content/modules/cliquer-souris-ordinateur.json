@@ -499,7 +499,7 @@
                 {
                   "id": "e9dd5e57-b6ca-4309-8471-b5f2ab646f28",
                   "type": "text",
-                  "content": "<span aria-hidden=\"true\">👉</span> Vous pouvez maintenant <a href=\"https://drive.google.com/file/d/1M46koCUezpjjT6F_I3-L3gMrlkzO4oxN/view\">ouvrir votre fiche de révision en cliquant ici.</a> "
+                  "content": "<span aria-hidden=\"true\">👉</span> Vous pouvez maintenant <a href=\"https://drive.google.com/file/d/1M46koCUezpjjT6F_I3-L3gMrlkzO4oxN/view\" target=\"_blank\">ouvrir votre fiche de révision en cliquant ici.</a> "
                 }
               ]
             }
