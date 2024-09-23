@@ -69,10 +69,15 @@
           <PixTag class="members-list-item__tag" @color="primary">
             {{t "pages.team.pix-referer"}}
           </PixTag>
-          <PixTooltip class="members-list-item__tool-tip" @isWide="true" @position="left">
+          <PixTooltip class="members-list-item__tooltip" @isWide="true" @position="left">
             <:triggerElement>
               <span tabindex="0">
-                <FaIcon @icon="info-circle" aria-label={{t "pages.team.pix-referer-tooltip"}} />
+                <PixIcon
+                  @name="info"
+                  @plainIcon={{true}}
+                  class="members-list-item__tooltip-icon"
+                  @alternativeText={{t "pages.team.pix-referer-tooltip"}}
+                />
               </span>
             </:triggerElement>
             <:tooltip>
