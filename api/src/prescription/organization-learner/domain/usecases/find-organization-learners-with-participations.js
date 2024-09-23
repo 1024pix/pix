@@ -27,7 +27,7 @@ const findOrganizationLearnersWithParticipations = withTransaction(async functio
       return {
         organizationLearner,
         organization,
-        participations: campaignParticipationOverviews,
+        campaignParticipations: campaignParticipationOverviews,
         tagNames: tags.map((tag) => tag.name),
       };
     }),

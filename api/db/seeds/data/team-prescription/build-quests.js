@@ -1,3 +1,5 @@
+import { REWARD_TYPES } from '../../../../src/quest/domain/constants.js';
+import { COMPARISON } from '../../../../src/quest/domain/models/Quest.js';
 import { TARGET_PROFILE_BADGES_STAGES_ID } from './constants.js';
 
 async function createAttestationQuest(databasebuilder) {
@@ -15,26 +17,29 @@ async function createAttestationQuest(databasebuilder) {
       data: {
         type: 'SCO',
       },
+      comparison: COMPARISON.ALL,
     },
     {
       type: 'organization',
       data: {
         isManagingStudents: true,
-        tagNames: ['AEFE'],
+        tags: ['AEFE'],
       },
-      comparison: 'one-of',
+      comparison: COMPARISON.ONE_OF,
     },
     {
       type: 'organizationLearner',
       data: {
         MEFCode: '10010012110',
       },
+      comparison: COMPARISON.ALL,
     },
     {
       type: 'campaignParticipations',
       data: {
         targetProfileIds: [TARGET_PROFILE_BADGES_STAGES_ID],
       },
+      comparison: COMPARISON.ALL,
     },
   ];
   const questSuccessRequirements = [
@@ -48,7 +53,7 @@ async function createAttestationQuest(databasebuilder) {
   ];
 
   await databasebuilder.factory.buildQuest({
-    rewardType: 'attestation',
+    rewardType: REWARD_TYPES.ATTESTATION,
     rewardId,
     eligibilityRequirements: questEligibilityRequirements,
     successRequirements: questSuccessRequirements,
@@ -58,7 +63,7 @@ async function createAttestationQuest(databasebuilder) {
     successfulUsers.map(({ userId }) => {
       return databasebuilder.factory.buildProfileReward({
         userId,
-        rewardType: 'attestation',
+        rewardType: REWARD_TYPES.ATTESTATION,
         rewardId,
       });
     }),

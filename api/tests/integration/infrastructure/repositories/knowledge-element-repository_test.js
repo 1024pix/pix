@@ -136,6 +136,29 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
         expect(knowledgeElementsFound).have.lengthOf(2);
       });
     });
+
+    context('when there are skill IDs', function () {
+      it('should find the knowledge elements associated with a user id filtered by skill IDs', async function () {
+        // when
+        const skillIds = ['1', '3'];
+        const knowledgeElementsFound = await knowledgeElementRepository.findUniqByUserId({ userId, skillIds });
+
+        // then
+        expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWantedWithLimitDate);
+        expect(knowledgeElementsFound).have.lengthOf(2);
+      });
+    });
+
+    context('when there are no skill IDs', function () {
+      it('should find the knowledge elements associated with a user id', async function () {
+        // when
+        const knowledgeElementsFound = await knowledgeElementRepository.findUniqByUserId({ userId });
+
+        // then
+        expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWanted);
+        expect(knowledgeElementsFound).have.lengthOf(3);
+      });
+    });
   });
 
   describe('#findUniqByUserIdAndAssessmentId', function () {
