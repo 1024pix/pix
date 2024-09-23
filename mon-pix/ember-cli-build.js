@@ -50,9 +50,9 @@ module.exports = function (defaults) {
   return require('@embroider/compat').compatBuild(app, Webpack, {
     staticAddonTestSupportTrees: true,
     staticAddonTrees: true,
-    staticHelpers: true,
     staticModifiers: true,
-    staticComponents: true,
+    staticHelpers: app.env === 'production',
+    staticComponents: app.env === 'production',
     packagerOptions: {
       webpackConfig: {
         devtool: sourceMapConfig[process.env.CI ? 'test' : (process.env.NODE_ENV ?? 'default')],
