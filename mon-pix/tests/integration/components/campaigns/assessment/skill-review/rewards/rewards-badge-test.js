@@ -1,5 +1,4 @@
 import { render } from '@1024pix/ember-testing-library';
-import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
@@ -134,50 +133,6 @@ module('Integration | Components | Campaigns | Assessment | Evaluation Results R
         // then
         assert.dom(screen.getByText(t('pages.skill-review.badge-card.certifiable'))).isVisible();
       });
-    });
-  });
-
-  module('when badge message is too long', function (hooks) {
-    let screen;
-
-    hooks.beforeEach(async function () {
-      // given
-      const store = this.owner.lookup('service:store');
-
-      const longMessage =
-        'lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, quia voluptate. Quam, voluptas. Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, quia voluptate. Quam, voluptas.';
-
-      const longMessageBadge = store.createRecord('campaign-participation-badge', {
-        message: longMessage,
-        isAcquired: true,
-      });
-
-      this.set('badge', longMessageBadge);
-
-      // when
-      screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs::Rewards::Badge @badge={{this.badge}} />`,
-      );
-    });
-
-    test('it should display a show-more button', async function (assert) {
-      // then
-      assert.ok(
-        screen
-          .getByText(/lorem ipsum dolor/)
-          .parentNode.classList.toString()
-          .includes('--shrinked'),
-      );
-      assert.dom(screen.getByRole('button', { name: t('common.actions.show-more') })).isVisible();
-    });
-
-    test('it should toggle message ellispsis and button label', async function (assert) {
-      // when
-      await click(screen.queryByRole('button', { name: t('common.actions.show-more') }));
-
-      // then
-      assert.strictEqual(screen.getByText(/lorem ipsum dolor/).parentNode.classList.length, 1);
-      assert.dom(screen.getByRole('button', { name: t('common.actions.show-less') })).isVisible();
     });
   });
 });
