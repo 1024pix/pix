@@ -1,4 +1,3 @@
-import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
 import { userController } from '../../../../../src/evaluation/application/users/user-controller.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
@@ -40,9 +39,9 @@ describe('Unit | Controller | user-controller', function () {
       const userSerializer = {
         serialize: sinon.stub(),
       };
-      sinon.stub(libUsecases, 'rememberUserHasSeenNewDashboardInfo');
+      sinon.stub(evaluationUsecases, 'rememberUserHasSeenNewDashboardInfo');
 
-      libUsecases.rememberUserHasSeenNewDashboardInfo.withArgs({ userId }).resolves({});
+      evaluationUsecases.rememberUserHasSeenNewDashboardInfo.withArgs({ userId }).resolves({});
       userSerializer.serialize.withArgs({}).returns('ok');
 
       // when
