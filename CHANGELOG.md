@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v4.216.0 (23/09/2024)
+
+
+### :rocket: Amélioration
+- [#10153](https://github.com/1024pix/pix/pull/10153) [FEATURE] Ajout d'une bulle info lors de la selection des classes (pix-13987).
+- [#10146](https://github.com/1024pix/pix/pull/10146) [FEATURE] Changement du logo PixJunior / blob / label Béta (pix-13628).
+- [#10136](https://github.com/1024pix/pix/pull/10136) [FEATURE] :sparkles: Affiche le détail de résultat par mission et par élève pour les enseignants dans pixOrga (PIX-13848).
+- [#10131](https://github.com/1024pix/pix/pull/10131) [FEATURE] Retourner un élément de type Flashcards dans l'API (PIX-14305).
+
+### :building_construction: Tech
+- [#10141](https://github.com/1024pix/pix/pull/10141) [TECH] Ajout d'une colonne pour enregistrer la reconciliation candidat (PIX-14391).
+
+### :bug: Correction
+- [#10123](https://github.com/1024pix/pix/pull/10123) [BUGFIX] Ne pas afficher un indice lorsque la traduction n'est pas dispo (PIX-14227).
+
 ## v4.215.0 (19/09/2024)
 
 
