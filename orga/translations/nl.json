@@ -1178,11 +1178,11 @@
         "table": {
           "title": "Seats purchase history",
           "caption": "Table listing your organisation's seat purchases. For each purchase, it shows: the number of tickets, the activation date, the expiry date and the status (active, coming soon or expired). It is ordered according to the status of the purchases and their expiry date.",
-          "empty-state":"No seats yet!",
+          "empty-state": "No seats yet!",
           "headers": {
             "count": "Seats count",
-            "activationDate": "Activation date",
-            "expirationDate": "Expiration date",
+            "activation-date": "Activation date",
+            "expiration-date": "Expiration date",
             "status": "Status"
           }
         },
