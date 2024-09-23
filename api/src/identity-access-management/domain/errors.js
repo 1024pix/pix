@@ -14,6 +14,12 @@ class DifferentExternalIdentifierError extends DomainError {
   }
 }
 
+class OrganizationLearnerIdentityNotFoundError extends DomainError {
+  constructor(message = 'Organization Learner Identity not found.') {
+    super(message);
+  }
+}
+
 class MissingOrInvalidCredentialsError extends DomainError {
   constructor(message = 'Missing or invalid credentials') {
     super(message);
@@ -64,6 +70,7 @@ export {
   DifferentExternalIdentifierError,
   MissingOrInvalidCredentialsError,
   MissingUserAccountError,
+  OrganizationLearnerIdentityNotFoundError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   UserCantBeCreatedError,
