@@ -291,11 +291,8 @@
                   "solution": "1"
                 },
                 {
-                  "type": "element",
-                  "element": {
-                    "id": "4b559769-3f0d-43ee-8b7d-c1aa3e0927c6",
-                    "type": "separator"
-                  }
+                  "id": "4b559769-3f0d-43ee-8b7d-c1aa3e0927c6",
+                  "type": "separator"
                 },
                 {
                   "id": "4c2ce336-aa9a-49b5-ba4f-84530e21b52d",
@@ -343,7 +340,7 @@
           "element": {
             "id": "626c6c46-e397-46bc-adb2-9894f96afc7e",
             "type": "text",
-            "content": "<p>Dans la vidéo ci-dessous, vous allez voir comment faire un double&#x002D;clic.</p><p>Après la vidéo, ce sera à vous de le faire.<p><strong>Pour démarrer la vidéo, faites un clic gauche sur le bouton «&nbsp;Play&nbsp;»  <span aria-hidden=\"true\">▶️</span></strong></p><br><iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/cDf-Q5tHwVM\" title=\"Première marche souris - Double-clic\"></iframe>"
+            "content": "<p>Dans la vidéo ci-dessous, vous allez voir comment faire un double&#x002D;clic.</p><p>Après la vidéo, ce sera à vous de le faire.</p><p><strong>Pour démarrer la vidéo, faites un clic gauche sur le bouton «&nbsp;Play&nbsp;»  <span aria-hidden=\"true\">▶️</span></strong></p><br><iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/cDf-Q5tHwVM\" title=\"Première marche souris - Double-clic\"></iframe>"
           }
         }
       ]
@@ -396,7 +393,7 @@
           "element": {
             "id": "be23697d-9393-405a-bb01-852e660e6818",
             "type": "text",
-            "content": "Dans l'espace ci-dessous, ouvrez les dossiers en suivant cet ordre :</p><ol><li>Photos,</li><li>Album,</li><li>Famille,</li><li>80 ans Mamie</li></ol>"
+            "content": "<p>Dans l'espace ci-dessous, ouvrez les dossiers en suivant cet ordre :</p><ol><li>Photos,</li><li>Album,</li><li>Famille,</li><li>80 ans Mamie</li></ol>"
           }
         },
         {
@@ -415,7 +412,6 @@
             "isCompletionRequired": false,
             "title": "Simulateur gestionnaire de fichier",
             "url": "https://epreuves.pix.fr/filemanager-visu/filemanager-visu.html?mode=example&lang=fr",
-            "instruction": "   ",
             "height": 400
           }
         },
