@@ -23,6 +23,10 @@
       font-size: 18px;
       border-radius: 100px;
 
+      &__icon {
+        margin-left: 10px;
+      }
+
       @include device-is('tablet') {
         margin: 32px 60px 0 auto;
       }
