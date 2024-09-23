@@ -6,7 +6,7 @@
   color: var(--pix-neutral-500);
   background-color: transparent;
   border-width: 0;
-  border-left: 1px solid var(--pix-neutral-20);
+  border-left: 1px solid var(--pix-neutral-100);
   cursor: pointer;
 
   &:hover,
@@ -14,6 +14,16 @@
   &:focus {
     color: var(--pix-neutral-800);
     text-decoration: none;
+  }
+
+  &__chevron {
+    width: 2rem;
+    height: 2rem;
+    fill: var(--pix-neutral-500);
+  }
+
+  &:hover > &__chevron {
+    fill: var(--pix-neutral-800);
   }
 
   &:focus {
@@ -29,24 +39,15 @@
     height: 100%;
     padding-right: var(--pix-spacing-2x);
     font-weight: 700;
-    font-size: 0.875rem;
     line-height: 1.1rem;
     letter-spacing: .0313rem;
     text-align: right;
+
+    @extend %pix-body-s;
   }
 
   &__text > *:last-child {
     font-weight: normal;
-  }
-
-  &__chevron {
-    align-self: center;
-    margin-left: 18px;
-    vertical-align: middle;
-
-    &--up {
-      color: var(--pix-primary-500);
-    }
   }
 }
 
@@ -60,6 +61,8 @@
   overscroll-behavior: contain;
 
   &-item {
+    display: flex;
+    align-items: center;
     text-decoration: none;
 
     &:hover,
@@ -70,11 +73,10 @@
     }
 
     &__icon {
+      width: 1rem;
+      height: 1rem;
       margin-right: 8px;
-    }
-
-    &__last:not(:first-child) {
-      border-top: 1px solid var(--pix-neutral-20);
+      fill: var(--pix-neutral-500);
     }
 
     &__certification-center-name {
