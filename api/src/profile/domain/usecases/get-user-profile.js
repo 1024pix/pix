@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import { Scorecard } from '../../../src/evaluation/domain/models/Scorecard.js';
-import { constants } from '../../../src/shared/domain/constants.js';
+import { Scorecard } from '../../../evaluation/domain/models/Scorecard.js';
+import { constants } from '../../../shared/domain/constants.js';
 
 const getUserProfile = async function ({
   userId,

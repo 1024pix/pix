@@ -10,27 +10,6 @@ const CODE_IDENTITY_PROVIDER_POLE_EMPLOI = OidcIdentityProviders.POLE_EMPLOI.cod
 const oidcProviderCode = 'genericOidcProviderCode';
 
 describe('Unit | Router | user-router', function () {
-  describe('GET /api/users/{id}/profile', function () {
-    const method = 'GET';
-    const url = '/api/users/42/profile';
-
-    it('exists', async function () {
-      // given
-      sinon.stub(userController, 'getProfile').returns('ok');
-      sinon
-        .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
-        .callsFake((request, h) => h.response(true));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      await httpTestServer.request(method, url);
-
-      // then
-      sinon.assert.calledOnce(userController.getProfile);
-    });
-  });
-
   describe('GET /api/users/{userId}/campaigns/{campaignId}/profile', function () {
     const method = 'GET';
 
