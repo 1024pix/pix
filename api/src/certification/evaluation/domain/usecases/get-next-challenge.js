@@ -29,7 +29,7 @@ const debugGetNextChallengeForV3Certification = Debug('pix:certif:v3:get-next-ch
  * @param {PickChallengeService} params.pickChallengeService
  * @param {CertificationCandidateRepository} params.certificationCandidateRepository
  */
-const getNextChallengeForV3Certification = async function ({
+const getNextChallenge = async function ({
   assessment,
   answerRepository,
   certificationChallengeRepository,
@@ -151,4 +151,4 @@ const _getValidatedLiveAlertChallengeIds = async ({ assessmentId, certificationC
   return certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId({ assessmentId });
 };
 
-export { getNextChallengeForV3Certification };
+export { getNextChallenge };

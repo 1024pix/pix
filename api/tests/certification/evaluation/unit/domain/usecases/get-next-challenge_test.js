@@ -1,11 +1,11 @@
-import { getNextChallengeForV3Certification } from '../../../../../../src/certification/evaluation/domain/usecases/get-next-challenge-for-v3-certification.js';
+import { getNextChallenge } from '../../../../../../src/certification/evaluation/domain/usecases/get-next-challenge.js';
 import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { AssessmentEndedError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', function () {
-  describe('#getNextChallengeForV3Certification', function () {
+describe('Unit | Domain | Use Cases | get-next-challenge', function () {
+  describe('#getNextChallenge', function () {
     let answerRepository,
       challengeRepository,
       certificationCourseRepository,
@@ -121,7 +121,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         pickChallengeService.chooseNextChallenge.withArgs().returns(chooseNextChallengeImpl);
 
         // when
-        const challenge = await getNextChallengeForV3Certification({
+        const challenge = await getNextChallenge({
           answerRepository,
           assessment,
           certificationChallengeRepository,
@@ -220,7 +220,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
             .resolves(candidateNeedingAccessibilityAdjustment);
 
           // when
-          const challenge = await getNextChallengeForV3Certification({
+          const challenge = await getNextChallenge({
             answerRepository,
             assessment,
             certificationChallengeRepository,
@@ -271,7 +271,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
           challengeRepository.get.withArgs(nonAnsweredCertificationChallenge.challengeId).resolves(lastSeenChallenge);
 
           // when
-          const challenge = await getNextChallengeForV3Certification({
+          const challenge = await getNextChallenge({
             answerRepository,
             assessment,
             certificationChallengeRepository,
@@ -363,7 +363,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         pickChallengeService.chooseNextChallenge.withArgs().returns(chooseNextChallengeImpl);
 
         // when
-        const challenge = await getNextChallengeForV3Certification({
+        const challenge = await getNextChallenge({
           answerRepository,
           assessment,
           certificationChallengeRepository,
@@ -461,7 +461,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         pickChallengeService.chooseNextChallenge.withArgs().returns(chooseNextChallengeImpl);
 
         // when
-        const challenge = await getNextChallengeForV3Certification({
+        const challenge = await getNextChallenge({
           answerRepository,
           assessment,
           certificationChallengeRepository,
@@ -519,7 +519,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([answeredChallenge]);
 
         // when
-        const error = await catchErr(getNextChallengeForV3Certification)({
+        const error = await catchErr(getNextChallenge)({
           answerRepository,
           assessment,
           certificationChallengeRepository,
@@ -625,7 +625,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
             pickChallengeService.chooseNextChallenge.withArgs().returns(chooseNextChallengeImpl);
 
             // when
-            const challenge = await getNextChallengeForV3Certification({
+            const challenge = await getNextChallenge({
               answerRepository,
               assessment,
               certificationChallengeRepository,
