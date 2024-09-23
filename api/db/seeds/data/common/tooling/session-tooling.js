@@ -36,7 +36,7 @@ export {
  * @param {string} room
  * @param {string} time
  * @param {Date} createdAt
- * @param {string} supervisorPassword
+ * @param {string} invigilatorPassword
  * @param {learnersToRegisterCount: number, maxLevel: number } configSession
  * @param {number} version
 
@@ -57,7 +57,7 @@ async function createDraftScoSession({
   time,
   createdAt,
   configSession,
-  supervisorPassword,
+  invigilatorPassword,
   version,
 }) {
   _buildSession({
@@ -83,7 +83,7 @@ async function createDraftScoSession({
     juryComment: null,
     juryCommentAuthorId: null,
     juryCommentedAt: null,
-    supervisorPassword,
+    invigilatorPassword,
     version,
   });
 
@@ -116,7 +116,7 @@ async function createDraftScoSession({
  * @param {string} room
  * @param {string} time
  * @param {Date} createdAt
- * @param {string} supervisorPassword
+ * @param {string} invigilatorPassword
  * @param {number} version
  * @param {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean } configSession
 
@@ -136,7 +136,7 @@ async function createDraftSession({
   time,
   createdAt,
   configSession,
-  supervisorPassword,
+  invigilatorPassword,
   version,
 }) {
   _buildSession({
@@ -162,7 +162,7 @@ async function createDraftSession({
     juryComment: null,
     juryCommentAuthorId: null,
     juryCommentedAt: null,
-    supervisorPassword,
+    invigilatorPassword,
     version,
   });
 
@@ -195,7 +195,7 @@ async function createDraftSession({
  * @param {string} room
  * @param {string} time
  * @param {Date} createdAt
- * @param {string} supervisorPassword
+ * @param {string} invigilatorPassword
  * @param {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean, maxLevel: number } configSession
 
  * @returns {Promise<{sessionId: number}>} sessionId
@@ -214,7 +214,7 @@ async function createStartedSession({
   time,
   createdAt,
   configSession,
-  supervisorPassword,
+  invigilatorPassword,
 }) {
   _buildSession({
     databaseBuilder,
@@ -239,7 +239,7 @@ async function createStartedSession({
     juryComment: null,
     juryCommentAuthorId: null,
     juryCommentedAt: null,
-    supervisorPassword,
+    invigilatorPassword,
   });
 
   _buildSupervisorAccess({ databaseBuilder, sessionId });
@@ -325,7 +325,7 @@ async function createStartedSession({
  * @param {number} juryCommentAuthorId
  * @param {Date} juryCommentedAt
  * @param {number} organizationId
- * @param {string} supervisorPassword
+ * @param {string} invigilatorPassword
  * @param {learnersToRegisterCount: number, maxLevel: number, sessionDate: Date } configSession
  * @returns {sessionId: number} sessionId
  */
@@ -353,7 +353,7 @@ async function createPublishedScoSession({
   juryCommentAuthorId,
   juryCommentedAt,
   organizationId,
-  supervisorPassword,
+  invigilatorPassword,
   configSession,
 }) {
   _buildSession({
@@ -379,7 +379,7 @@ async function createPublishedScoSession({
     juryComment,
     juryCommentAuthorId,
     juryCommentedAt,
-    supervisorPassword,
+    invigilatorPassword,
   });
   databaseBuilder.factory.buildFinalizedSession({
     sessionId,
@@ -446,7 +446,7 @@ async function createPublishedScoSession({
  * @param {number} juryCommentAuthorId
  * @param {Date} juryCommentedAt
  * @param {boolean} makeCandidatesPassCertification
- * @param {string} supervisorPassword
+ * @param {string} invigilatorPassword
  * @param {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean, maxLevel: number, sessionDate: Date } configSession
  * @param {number} version
  * @returns {sessionId: number} sessionId
@@ -475,7 +475,7 @@ async function createPublishedSession({
   juryCommentAuthorId,
   juryCommentedAt,
   makeCandidatesPassCertification = true,
-  supervisorPassword,
+  invigilatorPassword,
   configSession,
   version,
 }) {
@@ -502,7 +502,7 @@ async function createPublishedSession({
     juryComment,
     juryCommentAuthorId,
     juryCommentedAt,
-    supervisorPassword,
+    invigilatorPassword,
     version,
   });
   databaseBuilder.factory.buildFinalizedSession({
@@ -839,7 +839,7 @@ function _buildSession({
   juryComment,
   juryCommentAuthorId,
   juryCommentedAt,
-  supervisorPassword,
+  invigilatorPassword,
   version,
 }) {
   databaseBuilder.factory.buildSession({
@@ -865,7 +865,7 @@ function _buildSession({
     juryComment,
     juryCommentAuthorId,
     juryCommentedAt,
-    supervisorPassword,
+    invigilatorPassword,
     version,
   });
 }
