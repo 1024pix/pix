@@ -15,6 +15,11 @@ const ChallengeType = Object.freeze({
   QROCM_DEP: 'QROCM-dep',
 });
 
+const Accessibility = Object.freeze({
+  RAS: 'RAS',
+  OK: 'OK',
+});
+
 /**
  * Traduction: Épreuve
  */
@@ -49,6 +54,8 @@ class Challenge {
    * @param successProbabilityThreshold
    * @param shuffled
    * @param alternativeVersion
+   * @param blindnessCompatibility
+   * @param colorBlindnessCompatibility
    */
   constructor({
     id,
@@ -80,6 +87,8 @@ class Challenge {
     responsive,
     shuffled,
     alternativeVersion,
+    blindnessCompatibility,
+    colorBlindnessCompatibility,
   } = {}) {
     this.id = id;
     this.answer = answer;
@@ -110,6 +119,8 @@ class Challenge {
     this.successProbabilityThreshold = successProbabilityThreshold;
     this.shuffled = shuffled;
     this.alternativeVersion = alternativeVersion;
+    this.blindnessCompatibility = blindnessCompatibility;
+    this.colorBlindnessCompatibility = colorBlindnessCompatibility;
   }
 
   isTimed() {
@@ -146,6 +157,13 @@ class Challenge {
 
   get isTabletCompliant() {
     return this._isCompliant('Tablet');
+  }
+
+  get isAccessible() {
+    return (
+      (this.blindnessCompatibility === Accessibility.OK || this.blindnessCompatibility === Accessibility.RAS) &&
+      (this.colorBlindnessCompatibility === Accessibility.OK || this.colorBlindnessCompatibility === Accessibility.RAS)
+    );
   }
 
   set successProbabilityThreshold(successProbabilityThreshold) {
@@ -186,4 +204,4 @@ class Challenge {
 
 Challenge.Type = ChallengeType;
 
-export { Challenge, ChallengeType as Type };
+export { Accessibility, Challenge, ChallengeType as Type };

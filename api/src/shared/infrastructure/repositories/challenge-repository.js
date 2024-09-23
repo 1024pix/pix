@@ -205,5 +205,7 @@ function _toDomain({ challengeDataObject, skillDataObject, successProbabilityThr
     shuffled: challengeDataObject.shuffled,
     successProbabilityThreshold,
     alternativeVersion: challengeDataObject.alternativeVersion,
+    blindnessCompatibility: challengeDataObject.accessibility1,
+    colorBlindnessCompatibility: challengeDataObject.accessibility2,
   });
 }

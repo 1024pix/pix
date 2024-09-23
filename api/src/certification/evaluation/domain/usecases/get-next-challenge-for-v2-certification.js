@@ -1,6 +1,6 @@
 /**
- * @typedef {import('./index.js').CertificationChallengeRepository} CertificationChallengeRepository
- * @typedef {import('./index.js').ChallengeRepository} ChallengeRepository
+ * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationChallengeRepository} CertificationChallengeRepository
+ * @typedef {import('../../../session-management/domain/usecases/index.js').ChallengeRepository} ChallengeRepository
  */
 
 /**

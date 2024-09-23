@@ -1,16 +1,21 @@
 /**
- * @typedef {import('./index.js').AnswerRepository} AnswerRepository
- * @typedef {import('./index.js').CertificationChallengeRepository} CertificationChallengeRepository
- * @typedef {import('./index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
- * @typedef {import('./index.js').CertificationCourseRepository} CertificationCourseRepository
- * @typedef {import('./index.js').ChallengeRepository} ChallengeRepository
- * @typedef {import('./index.js').FlashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
- * @typedef {import('./index.js').PickChallengeService} PickChallengeService
- * @typedef {import('./index.js').FlashAlgorithmService} FlashAlgorithmService
+ * @typedef {import('../../../session-management/domain/usecases/index.js').AnswerRepository} AnswerRepository
+ * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationChallengeRepository} CertificationChallengeRepository
+ * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
+ * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationCourseRepository} CertificationCourseRepository
+ * @typedef {import('../../../session-management/domain/usecases/index.js').ChallengeRepository} ChallengeRepository
+ * @typedef {import('../../../session-management/domain/usecases/index.js').FlashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
+ * @typedef {import('../../../session-management/domain/usecases/index.js').PickChallengeService} PickChallengeService
+ * @typedef {import('../../../session-management/domain/usecases/index.js').FlashAlgorithmService} FlashAlgorithmService
+ * @typedef {import('../../../session-management/domain/usecases/index.js').CertificationCandidateRepository} CertificationCandidateRepository
  */
+
+import Debug from 'debug';
 
 import { AssessmentEndedError } from '../../../../shared/domain/errors.js';
 import { CertificationChallenge, FlashAssessmentAlgorithm } from '../../../../shared/domain/models/index.js';
+
+const debugGetNextChallengeForV3Certification = Debug('pix:certif:v3:get-next-challenge');
 
 /**
  * @param {Object} params
@@ -22,8 +27,9 @@ import { CertificationChallenge, FlashAssessmentAlgorithm } from '../../../../sh
  * @param {FlashAlgorithmConfigurationRepository} params.flashAlgorithmConfigurationRepository
  * @param {FlashAlgorithmService} params.flashAlgorithmService
  * @param {PickChallengeService} params.pickChallengeService
+ * @param {CertificationCandidateRepository} params.certificationCandidateRepository
  */
-const getNextChallengeForV3Certification = async function ({
+const getNextChallenge = async function ({
   assessment,
   answerRepository,
   certificationChallengeRepository,
@@ -34,6 +40,7 @@ const getNextChallengeForV3Certification = async function ({
   flashAlgorithmService,
   locale,
   pickChallengeService,
+  certificationCandidateRepository,
 }) {
   const certificationCourse = await certificationCourseRepository.get({ id: assessment.certificationCourseId });
 
@@ -77,9 +84,19 @@ const getNextChallengeForV3Certification = async function ({
     challenges,
   });
 
+  const candidate = await certificationCandidateRepository.findByAssessmentId({ assessmentId: assessment.id });
+  const challengesForCandidate = candidate.accessibilityAdjustmentNeeded
+    ? challengesWithoutSkillsWithAValidatedLiveAlert.filter((challenge) => challenge.isAccessible)
+    : challengesWithoutSkillsWithAValidatedLiveAlert;
+  debugGetNextChallengeForV3Certification(
+    candidate.accessibilityAdjustmentNeeded
+      ? `Candidate needs accessibility adjustment, possible challenges have been filtered (${challengesForCandidate.length} out of ${challengesWithoutSkillsWithAValidatedLiveAlert.length} selected`
+      : `Candidate does need any adjustment, all ${challengesWithoutSkillsWithAValidatedLiveAlert.length} have been selected`,
+  );
+
   const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
     assessmentAnswers: allAnswers,
-    challenges: challengesWithoutSkillsWithAValidatedLiveAlert,
+    challenges: challengesForCandidate,
   });
 
   if (_hasAnsweredToAllChallenges({ possibleChallenges })) {
@@ -134,4 +151,4 @@ const _getValidatedLiveAlertChallengeIds = async ({ assessmentId, certificationC
   return certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId({ assessmentId });
 };
 
-export { getNextChallengeForV3Certification };
+export { getNextChallenge };

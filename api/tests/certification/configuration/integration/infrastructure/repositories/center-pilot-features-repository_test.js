@@ -41,7 +41,10 @@ describe('Certification | Configuration | Integration | Repository | center-pilo
   describe('update', function () {
     it('should update the center pilot features', async function () {
       // given
-      const centerData = databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: false, updatedAt: new Date() });
+      const centerData = databaseBuilder.factory.buildCertificationCenter({
+        isV3Pilot: false,
+        updatedAt: new Date('2020-01-01'),
+      });
       await databaseBuilder.commit();
 
       // when

@@ -1,6 +1,7 @@
 import { Serializer as JSONAPISerializer } from 'jsonapi-serializer';
 
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases as certificationEvaluationUsecases } from '../../../certification/evaluation/domain/usecases/index.js';
 import * as certificationVersionRepository from '../../../certification/results/infrastructure/repositories/certification-version-repository.js';
 import { usecases as certificationUsecases } from '../../../certification/session-management/domain/usecases/index.js';
 import { CertificationVersion } from '../../../certification/shared/domain/models/CertificationVersion.js';
@@ -198,9 +199,9 @@ async function _getChallengeByAssessmentType({ assessment, request, dependencies
     });
 
     if (CertificationVersion.isV3(certificationCourseVersion)) {
-      return certificationUsecases.getNextChallengeForV3Certification({ assessment, locale });
+      return certificationEvaluationUsecases.getNextChallenge({ assessment, locale });
     } else {
-      return certificationUsecases.getNextChallengeForV2Certification({ assessment, locale });
+      return certificationEvaluationUsecases.getNextChallengeForV2Certification({ assessment, locale });
     }
   }
 

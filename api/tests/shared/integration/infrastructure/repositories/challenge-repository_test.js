@@ -27,6 +27,8 @@ describe('Integration | Repository | challenge-repository', function () {
         ...challenge,
         focused: challenge.focusable,
         skill: domainBuilder.buildSkill({ ...skill, difficulty: skill.level }),
+        blindnessCompatibility: challenge.accessibility1,
+        colorBlindnessCompatibility: challenge.accessibility2,
       });
 
       // when
@@ -89,6 +91,8 @@ describe('Integration | Repository | challenge-repository', function () {
           webComponentProps: { prop1: 'value1', prop2: 'value2' },
           focused: challenge.focusable,
           skill: domainBuilder.buildSkill({ ...skill, difficulty: skill.level }),
+          blindnessCompatibility: challenge.accessibility1,
+          colorBlindnessCompatibility: challenge.accessibility2,
         });
 
         // when
@@ -113,7 +117,16 @@ describe('Integration | Repository | challenge-repository', function () {
 
           const learningContent = {
             skills: [{ ...skill, status: 'actif' }],
-            challenges: [{ ...challenge, skillId: 'recSkill1', alpha: 1, delta: 0 }],
+            challenges: [
+              {
+                ...challenge,
+                skillId: 'recSkill1',
+                alpha: 1,
+                delta: 0,
+                blindnessCompatibility: challenge.accessibility1,
+                colorBlindnessCompatibility: challenge.accessibility2,
+              },
+            ],
           };
 
           mockLearningContent(learningContent);
@@ -908,5 +921,7 @@ function _buildChallenge({
     skill,
     shuffled: false,
     alternativeVersion: alternativeVersion || 1,
+    accessibility1: 'OK',
+    accessibility2: 'RAS',
   };
 }
