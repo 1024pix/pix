@@ -27,8 +27,8 @@ const buildChallenge = function ({
   focused = false,
   shuffled = false,
   alternativeVersion = undefined,
-  accessibility1 = 'OK',
-  accessibility2 = 'RAS',
+  blindnessCompatibility = 'OK',
+  colorBlindnessCompatibility = 'RAS',
   // includes
   answer,
   validator = new Validator(),
@@ -61,8 +61,8 @@ const buildChallenge = function ({
     illustrationAlt,
     shuffled,
     alternativeVersion,
-    accessibility1,
-    accessibility2,
+    blindnessCompatibility,
+    colorBlindnessCompatibility,
     // includes
     answer,
     validator,
@@ -97,8 +97,8 @@ const buildChallengeWithWebComponent = function ({
   focused = false,
   shuffled = false,
   alternativeVersion = undefined,
-  accessibility1,
-  accessibility2,
+  blindnessCompatibility,
+  colorBlindnessCompatibility,
   // includes
   answer,
   validator = new Validator(),
@@ -131,8 +131,8 @@ const buildChallengeWithWebComponent = function ({
     illustrationAlt,
     shuffled,
     alternativeVersion,
-    accessibility1,
-    accessibility2,
+    blindnessCompatibility,
+    colorBlindnessCompatibility,
     // includes
     answer,
     validator,
