@@ -16,7 +16,18 @@ export default class ModuleGrain extends Component {
 
   grain = this.args.grain;
 
-  static AVAILABLE_ELEMENT_TYPES = ['download', 'embed', 'image', 'qcu', 'qcm', 'qrocm', 'separator', 'text', 'video'];
+  static AVAILABLE_ELEMENT_TYPES = [
+    'download',
+    'embed',
+    'flashcards',
+    'image',
+    'qcu',
+    'qcm',
+    'qrocm',
+    'separator',
+    'text',
+    'video',
+  ];
   static AVAILABLE_GRAIN_TYPES = ['lesson', 'activity'];
 
   @tracked isStepperFinished = this.hasStepper === false;
