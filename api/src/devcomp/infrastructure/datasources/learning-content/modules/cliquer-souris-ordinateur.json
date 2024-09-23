@@ -415,7 +415,7 @@
             "isCompletionRequired": false,
             "title": "Simulateur gestionnaire de fichier",
             "url": "https://epreuves.pix.fr/filemanager-visu/filemanager-visu.html?mode=example&lang=fr",
-            "instruction": "",
+            "instruction": "   ",
             "height": 400
           }
         },
