@@ -1,11 +1,28 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import CandidateCreationModal from 'pix-certif/components/sessions/session-details/enrolled-candidates/candidate-creation-modal';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
+
+const emptyCandidateData = {
+  firstName: '',
+  lastName: '',
+  birthdate: '',
+  birthCity: '',
+  birthCountry: '',
+  email: '',
+  externalId: '',
+  resultRecipientEmail: '',
+  birthPostalCode: '',
+  birthInseeCode: '',
+  sex: '',
+  extraTimePercentage: '',
+  subscriptions: [],
+};
 
 module(
   'Integration | Component | Sessions | SessionDetails | EnrolledCandidates | candidate-creation-modal',
@@ -35,21 +52,6 @@ module(
       const updateCandidateStub = sinon.stub();
       const updateCandidateWithEventStub = sinon.stub();
       const countries = [];
-      const candidateData = {
-        firstName: '',
-        lastName: '',
-        birthdate: '',
-        birthCity: '',
-        birthCountry: '',
-        email: '',
-        externalId: '',
-        resultRecipientEmail: '',
-        birthPostalCode: '',
-        birthInseeCode: '',
-        sex: '',
-        extraTimePercentage: '',
-        subscriptions: [],
-      };
 
       // when
       const screen = await render(
@@ -60,7 +62,7 @@ module(
             @countries={{countries}}
             @updateCandidateData={{updateCandidateStub}}
             @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
-            @candidateData={{candidateData}}
+            @candidateData={{emptyCandidateData}}
           />
         </template>,
       );
@@ -120,6 +122,22 @@ module(
 
     module('when the form is filled', () => {
       test('it should submit a student', async function (assert) {
+        const candidateData = {
+          firstName: 'Lara',
+          lastName: 'Pafromage',
+          birthdate: '1985-08-23',
+          birthCity: '',
+          birthCountry: 'France',
+          birthInseeCode: '59386',
+          birthPostalCode: '',
+          email: 'lara.pafromage@example.com',
+          resultRecipientEmail: 'eddy.thaurial@example.com',
+          externalId: '11AA2233',
+          extraTimePercentage: '20',
+          sex: 'F',
+          subscriptions: [],
+        };
+
         const closeModalStub = sinon.stub();
         const updateCandidateFromValueStub = sinon.stub();
         updateCandidateFromValueStub.callsFake((object, key, value) => (object[key] = value));
@@ -134,21 +152,6 @@ module(
           { id: 2, code: '99100', name: 'France' },
           { id: 3, code: '99345', name: 'Botswana' },
         ];
-        const candidateData = {
-          firstName: '',
-          lastName: '',
-          birthdate: '',
-          birthCity: '',
-          birthCountry: '',
-          email: '',
-          externalId: '',
-          resultRecipientEmail: '',
-          birthPostalCode: '',
-          birthInseeCode: '',
-          sex: '',
-          extraTimePercentage: '',
-          subscriptions: [],
-        };
 
         // when
         const screen = await render(
@@ -159,16 +162,16 @@ module(
               @countries={{countries}}
               @updateCandidateData={{updateCandidateFromEventStub}}
               @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
-              @candidateData={{candidateData}}
+              @candidateData={{emptyCandidateData}}
               @saveCandidate={{saveCandidateStub}}
             />
           </template>,
         );
 
-        await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
-        await fillIn(screen.getByLabelText('* Nom de naissance'), 'Threepwood');
-        await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
-        await click(screen.getByRole('radio', { name: 'Homme' }));
+        await fillIn(screen.getByLabelText('* Prénom'), candidateData.firstName);
+        await fillIn(screen.getByLabelText('* Nom de naissance'), candidateData.lastName);
+        await fillIn(screen.getByLabelText('* Date de naissance'), '23/08/1985');
+        await click(screen.getByRole('radio', { name: 'Femme' }));
         await click(screen.getByLabelText('* Pays de naissance'));
         await click(
           await screen.findByRole('option', {
@@ -176,34 +179,20 @@ module(
           }),
         );
         await click(screen.getByRole('radio', { name: 'Code INSEE' }));
-        await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
-        await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
-        await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
+        await fillIn(screen.getByLabelText('Identifiant externe'), candidateData.externalId);
+        await fillIn(screen.getByLabelText('* Code INSEE de naissance'), candidateData.birthInseeCode);
+        await fillIn(screen.getByLabelText('Temps majoré (%)'), candidateData.extraTimePercentage);
         await fillIn(
           screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
-          'email.destinataire@example.net',
+          candidateData.resultRecipientEmail,
         );
-        await fillIn(screen.getByLabelText('E-mail de convocation'), 'email.convocation@example.net');
+        await fillIn(screen.getByLabelText('E-mail de convocation'), candidateData.email);
         await click(screen.getByRole('radio', { name: 'Aucune' }));
 
         await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
         // then
-        sinon.assert.calledOnceWithExactly(saveCandidateStub, {
-          firstName: 'Guybrush',
-          lastName: 'Threepwood',
-          birthdate: '2019-04-28',
-          birthCity: '',
-          birthCountry: 'France',
-          email: 'email.convocation@example.net',
-          externalId: '44AA3355',
-          resultRecipientEmail: 'email.destinataire@example.net',
-          birthPostalCode: '',
-          birthInseeCode: '75100',
-          sex: 'M',
-          extraTimePercentage: '20',
-          subscriptions: [],
-        });
+        sinon.assert.calledOnceWithExactly(saveCandidateStub, candidateData);
         assert.ok(true);
       });
     });
@@ -217,21 +206,6 @@ module(
         const updateCandidateFromValueStub = sinon.stub();
         const updateCandidateWithEventStub = sinon.stub();
         const countries = [];
-        const candidateData = {
-          firstName: '',
-          lastName: '',
-          birthdate: '',
-          birthCity: '',
-          birthCountry: '',
-          email: '',
-          externalId: '',
-          resultRecipientEmail: '',
-          birthPostalCode: '',
-          birthInseeCode: '',
-          sex: '',
-          extraTimePercentage: '',
-          subscriptions: [],
-        };
 
         // when
         const screen = await render(
@@ -242,7 +216,7 @@ module(
               @countries={{countries}}
               @updateCandidateData={{updateCandidateStub}}
               @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
-              @candidateData={{candidateData}}
+              @candidateData={{emptyCandidateData}}
               @shouldDisplayPaymentOptions={{shouldDisplayPaymentOptions}}
               @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
             />
@@ -250,9 +224,87 @@ module(
         );
 
         // then
-        assert.dom(screen.getByRole('button', { name: '* Tarification part Pix' })).exists();
-        assert.dom(screen.getByRole('textbox', { name: 'Code de prépaiement' })).exists();
-        assert.dom(screen.getByLabelText('Information du code de prépaiement')).exists();
+        assert.dom(screen.getByRole('button', { name: '* Tarification part Pix' })).isVisible();
+      });
+
+      module('when the selected billing mode is PREPAID', function () {
+        test('it should display prepaid code field', async function (assert) {
+          // given
+          const closeModalStub = sinon.stub();
+          const updateCandidateStub = sinon.stub();
+          const updateCandidateFromValueStub = sinon.stub();
+          const updateCandidateWithEventStub = sinon.stub();
+          const countries = [];
+
+          // when
+          const screen = await render(
+            <template>
+              <CandidateCreationModal
+                @showModal={{true}}
+                @closeModal={{closeModalStub}}
+                @countries={{countries}}
+                @updateCandidateData={{updateCandidateStub}}
+                @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
+                @candidateData={{emptyCandidateData}}
+                @shouldDisplayPaymentOptions={{true}}
+                @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
+              />
+            </template>,
+          );
+          // debugger
+
+          await click(screen.getByRole('button', { name: `* ${t('common.forms.certification-labels.pricing')}` }));
+          await screen.findByRole('listbox');
+          await click(screen.getByRole('option', { name: t('common.labels.billing-mode.prepaid') }));
+
+          // then
+          assert
+            .dom(screen.getByRole('textbox', { name: t('common.forms.certification-labels.prepayment-code') }))
+            .isVisible();
+          assert
+            .dom(screen.getByLabelText(t('pages.sessions.detail.candidates.add-modal.prepayment-information')))
+            .isVisible();
+        });
+      });
+
+      module('when the selected billing mode is NOT PREPAID', function () {
+        test('it should NOT display prepaid code field', async function (assert) {
+          // given
+          const shouldDisplayPaymentOptions = true;
+          const closeModalStub = sinon.stub();
+          const updateCandidateStub = sinon.stub();
+          const updateCandidateFromValueStub = sinon.stub();
+          const updateCandidateWithEventStub = sinon.stub();
+          const countries = [];
+
+          // when
+          const screen = await render(
+            <template>
+              <CandidateCreationModal
+                @showModal={{true}}
+                @closeModal={{closeModalStub}}
+                @countries={{countries}}
+                @updateCandidateData={{updateCandidateStub}}
+                @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
+                @candidateData={{emptyCandidateData}}
+                @shouldDisplayPaymentOptions={{shouldDisplayPaymentOptions}}
+                @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
+              />
+            </template>,
+          );
+
+          await click(screen.getByRole('button', { name: `* ${t('common.forms.certification-labels.pricing')}` }));
+          await screen.findByRole('listbox');
+          await click(screen.getByRole('option', { name: t('common.labels.billing-mode.paid') }));
+
+          // then
+          assert
+            .dom(screen.queryByRole('textbox', { name: t('common.forms.certification-labels.prepayment-code') }))
+            .doesNotExist();
+          assert
+            .dom(screen.queryByLabelText(t('pages.sessions.detail.candidates.add-modal.prepayment-information')))
+            .doesNotExist();
+        });
       });
     });
 
@@ -266,21 +318,6 @@ module(
         { id: '2', code: '99100', name: 'France' },
         { id: '3', code: '99345', name: 'Botswana' },
       ];
-      const candidateData = {
-        firstName: '',
-        lastName: '',
-        birthdate: '',
-        birthCity: '',
-        birthCountry: '',
-        email: '',
-        externalId: '',
-        resultRecipientEmail: '',
-        birthPostalCode: '',
-        birthInseeCode: '',
-        sex: '',
-        extraTimePercentage: '',
-        subscriptions: [],
-      };
 
       // when
       const screen = await render(
@@ -291,7 +328,7 @@ module(
             @countries={{countries}}
             @updateCandidateData={{updateCandidateStub}}
             @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
-            @candidateData={{candidateData}}
+            @candidateData={{emptyCandidateData}}
           />
         </template>,
       );
@@ -307,21 +344,6 @@ module(
         const updateCandidateStub = sinon.stub();
         const updateCandidateWithEventStub = sinon.stub();
         const countries = [];
-        const candidateData = {
-          firstName: '',
-          lastName: '',
-          birthdate: '',
-          birthCity: '',
-          birthCountry: '',
-          email: '',
-          externalId: '',
-          resultRecipientEmail: '',
-          birthPostalCode: '',
-          birthInseeCode: '',
-          sex: '',
-          extraTimePercentage: '',
-          subscriptions: [],
-        };
 
         // when
         const screen = await render(
@@ -332,7 +354,7 @@ module(
               @countries={{countries}}
               @updateCandidateData={{updateCandidateStub}}
               @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
-              @candidateData={{candidateData}}
+              @candidateData={{emptyCandidateData}}
             />
           </template>,
         );
@@ -352,21 +374,6 @@ module(
         const updateCandidateStub = sinon.stub();
         const updateCandidateWithEventStub = sinon.stub();
         const countries = [];
-        const candidateData = {
-          firstName: '',
-          lastName: '',
-          birthdate: '',
-          birthCity: '',
-          birthCountry: '',
-          email: '',
-          externalId: '',
-          resultRecipientEmail: '',
-          birthPostalCode: '',
-          birthInseeCode: '',
-          sex: '',
-          extraTimePercentage: '',
-          subscriptions: [],
-        };
 
         // when
         const screen = await render(
@@ -377,7 +384,7 @@ module(
               @countries={{countries}}
               @updateCandidateData={{updateCandidateStub}}
               @updateCandidateDataWithEvent={{updateCandidateWithEventStub}}
-              @candidateData={{candidateData}}
+              @candidateData={{emptyCandidateData}}
             />
           </template>,
         );
@@ -397,21 +404,6 @@ module(
         const updateCandidateWithEventStub = sinon.stub();
         const updateCandidateDataFromValue = sinon.stub();
         const countries = [{ code: '99123', name: 'Borduristan' }];
-        const candidateData = {
-          firstName: '',
-          lastName: '',
-          birthdate: '',
-          birthCity: '',
-          birthCountry: '',
-          email: '',
-          externalId: '',
-          resultRecipientEmail: '',
-          birthPostalCode: '',
-          birthInseeCode: '',
-          sex: '',
-          extraTimePercentage: '',
-          subscriptions: [],
-        };
 
         // when
         const screen = await render(
@@ -422,7 +414,7 @@ module(
               @countries={{countries}}
               @updateCandidateData={{updateCandidateWithEventStub}}
               @updateCandidateDataFromValue={{updateCandidateDataFromValue}}
-              @candidateData={{candidateData}}
+              @candidateData={{emptyCandidateData}}
             />
           </template>,
         );
@@ -448,20 +440,6 @@ module(
         const updateCandidateFromValueStub = sinon.stub();
         const updateCandidateFromEventStub = sinon.stub();
         const countries = [{ code: '99123', name: 'Borduristan' }];
-        const candidateData = {
-          firstName: '',
-          lastName: '',
-          birthdate: '',
-          birthCity: '',
-          birthCountry: '',
-          email: '',
-          externalId: '',
-          resultRecipientEmail: '',
-          birthPostalCode: '',
-          birthInseeCode: '',
-          sex: '',
-          extraTimePercentage: '',
-        };
 
         // when
         const screen = await render(
@@ -472,7 +450,7 @@ module(
               @countries={{countries}}
               @updateCandidateData={{updateCandidateFromEventStub}}
               @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
-              @candidateData={{candidateData}}
+              @candidateData={{emptyCandidateData}}
             />
           </template>,
         );
@@ -493,20 +471,6 @@ module(
         const updateCandidateFromValueStub = sinon.stub();
         const updateCandidateFromEventStub = sinon.stub();
         const countries = [{ code: '99123', name: 'Borduristan' }];
-        const candidateData = {
-          firstName: '',
-          lastName: '',
-          birthdate: '',
-          birthCity: '',
-          birthCountry: '',
-          email: '',
-          externalId: '',
-          resultRecipientEmail: '',
-          birthPostalCode: '',
-          birthInseeCode: '',
-          sex: '',
-          extraTimePercentage: '',
-        };
 
         // when
         const screen = await render(
@@ -517,7 +481,7 @@ module(
               @countries={{countries}}
               @updateCandidateData={{updateCandidateFromEventStub}}
               @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
-              @candidateData={{candidateData}}
+              @candidateData={{emptyCandidateData}}
             />
           </template>,
         );
@@ -593,20 +557,6 @@ module(
         test('it not display complementary alone options', async function (assert) {
           const updateCandidateFromEventStub = sinon.stub();
           const countries = [{ code: '99123', name: 'Borduristan' }];
-          const candidateData = {
-            firstName: '',
-            lastName: '',
-            birthdate: '',
-            birthCity: '',
-            birthCountry: '',
-            email: '',
-            externalId: '',
-            resultRecipientEmail: '',
-            birthPostalCode: '',
-            birthInseeCode: '',
-            sex: '',
-            extraTimePercentage: '',
-          };
 
           // when
           const screen = await render(
@@ -615,7 +565,7 @@ module(
                 @showModal={{true}}
                 @countries={{countries}}
                 @updateCandidateData={{updateCandidateFromEventStub}}
-                @candidateData={{candidateData}}
+                @candidateData={{emptyCandidateData}}
               />
             </template>,
           );

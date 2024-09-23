@@ -91,6 +91,10 @@ export default class CandidateCreationModal extends Component {
     return false;
   }
 
+  get isPrepaidBillingMode() {
+    return this.selectedBillingMode === 'PREPAID';
+  }
+
   get countryOptions() {
     return this.args.countries?.map((country) => {
       return { label: country.name, value: country.code };
@@ -459,31 +463,34 @@ export default class CandidateCreationModal extends Component {
                 <:label>{{t 'common.forms.certification-labels.pricing'}}</:label>
               </PixSelect>
 
-              <div class='new-candidate-modal-form__tooltip'>
-                <label for='prepayment-code' class='label'>
-                  {{t 'common.forms.certification-labels.prepayment-code'}}
-                </label>
-                <PixTooltip @id='tooltip-prepayment-code' @position='left'>
-                  <:triggerElement>
-                    <FaIcon
-                      @icon='info-circle'
-                      tabindex='0'
-                      aria-describedby='tooltip-prepayment-code'
-                      aria-label={{t 'pages.sessions.detail.candidates.add-modal.prepayment-information'}}
-                    />
-                  </:triggerElement>
-                  <:tooltip>
-                    {{t 'pages.sessions.detail.candidates.add-modal.prepayment-tooltip' htmlSafe=true}}
-                  </:tooltip>
-                </PixTooltip>
+              {{#if this.isPrepaidBillingMode}}
 
-                <PixInput
-                  @id='prepayment-code'
-                  type='text'
-                  {{on 'input' (fn @updateCandidateData @candidateData 'prepaymentCode')}}
-                  autocomplete='off'
-                />
-              </div>
+                <div class='new-candidate-modal-form__tooltip'>
+                  <label for='prepayment-code' class='label'>
+                    {{t 'common.forms.certification-labels.prepayment-code'}}
+                  </label>
+                  <PixTooltip @id='tooltip-prepayment-code' @position='left'>
+                    <:triggerElement>
+                      <FaIcon
+                        @icon='info-circle'
+                        tabindex='0'
+                        aria-describedby='tooltip-prepayment-code'
+                        aria-label={{t 'pages.sessions.detail.candidates.add-modal.prepayment-information'}}
+                      />
+                    </:triggerElement>
+                    <:tooltip>
+                      {{t 'pages.sessions.detail.candidates.add-modal.prepayment-tooltip' htmlSafe=true}}
+                    </:tooltip>
+                  </PixTooltip>
+
+                  <PixInput
+                    @id='prepayment-code'
+                    type='text'
+                    {{on 'input' (fn @updateCandidateData @candidateData 'prepaymentCode')}}
+                    autocomplete='off'
+                  />
+                </div>
+              {{/if}}
             </div>
           {{/if}}
 
