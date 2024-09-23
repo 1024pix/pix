@@ -380,8 +380,22 @@
           "type": "text",
           "content": "<ul><li><span aria-hidden=\"true\">🖐️</span> La souris glisse sur la table grâce à votre main</li><li> <span aria-hidden=\"true\">🖥️</span> À l'écran, le pointeur suit le mouvement de la souris</li> <li><span aria-hidden=\"true\">⌛</span> Le pointeur change de forme selon l'action disponible</li></ul>"
         }
+      },
+      {
+          "type": "element",
+          "element": {
+            "id": "5fb7bb57-aa01-4427-80cb-4e2bc5c0434a",
+            "type": "separator"
+          }
+        },
+        {
+        "type": "element",
+        "element": {
+          "id": "85ac9805-09f8-456b-8b5f-f26fe19ca618",
+          "type": "text",
+          "content": "<p><br><span aria-hidden=\"true\">👉</span> Vous pouvez maintenant <a href=\"https://drive.google.com/file/d/1VdnGxbkHsWG66N13s2WVQT8IYf5OWGDb/view?usp=drive_link">Ouvrir votre fiche de synthèse en cliquant ici.</a></p>"
+        }
       }
-      
     ]
   }
     ]
