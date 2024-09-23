@@ -91,7 +91,7 @@ async function createDraftScoSession({
     databaseBuilder,
     sessionId,
     organizationId,
-    hasJoinSession: false,
+    hasJoinedSession: false,
     configSession,
     version,
   });
@@ -169,7 +169,7 @@ async function createDraftSession({
   const certificationCandidates = await _registerCandidatesToSession({
     databaseBuilder,
     sessionId,
-    hasJoinSession: false,
+    hasJoinedSession: false,
     configSession,
     certificationCenterId,
     version,
@@ -398,7 +398,7 @@ async function createPublishedScoSession({
     databaseBuilder,
     sessionId,
     organizationId,
-    hasJoinSession: true,
+    hasJoinedSession: true,
     configSession,
   });
 
@@ -521,7 +521,7 @@ async function createPublishedSession({
   const certificationCandidates = await _registerCandidatesToSession({
     databaseBuilder,
     sessionId,
-    hasJoinSession: true,
+    hasJoinedSession: true,
     configSession,
     certificationCenterId,
     version,
@@ -551,7 +551,7 @@ async function _registerOrganizationLearnersToSession({
   databaseBuilder,
   sessionId,
   organizationId,
-  hasJoinSession,
+  hasJoinedSession,
   configSession,
   version,
 }) {
@@ -566,7 +566,7 @@ async function _registerOrganizationLearnersToSession({
       databaseBuilder,
       sessionId,
       extraTimePercentages,
-      hasJoinSession,
+      hasJoinedSession,
       version,
     );
   }
@@ -579,7 +579,7 @@ function _addCertificationCandidatesToScoSession(
   databaseBuilder,
   sessionId,
   extraTimePercentages,
-  hasJoinSession,
+  hasJoinedSession,
   version,
 ) {
   organizationLearners.forEach((organizationLearner, index) => {
@@ -597,7 +597,8 @@ function _addCertificationCandidatesToScoSession(
       sessionId,
       createdAt: new Date(),
       extraTimePercentage: extraTimePercentages[index % extraTimePercentages.length],
-      userId: hasJoinSession ? organizationLearner.userId : null,
+      userId: hasJoinedSession ? organizationLearner.userId : null,
+      reconciledAt: hasJoinedSession ? new Date() : null,
       organizationLearnerId: organizationLearner.id,
       authorizedToStart: false,
       billingMode: null,
@@ -623,7 +624,7 @@ function _hasLearnersToRegister(configSession) {
 async function _registerCandidatesToSession({
   databaseBuilder,
   sessionId,
-  hasJoinSession,
+  hasJoinedSession,
   configSession,
   certificationCenterId,
   version,
@@ -657,7 +658,7 @@ async function _registerCandidatesToSession({
 
     for (let i = 0; i < configSession.candidatesToRegisterCount; i++) {
       let userId = null;
-      if (hasJoinSession) {
+      if (hasJoinedSession) {
         userId = databaseBuilder.factory.buildUser.withRawPassword({
           firstName: `firstname${i}-${sessionId}`,
           lastName: `lastname${i}-${sessionId}`,
@@ -685,6 +686,7 @@ async function _registerCandidatesToSession({
         createdAt: configSession.sessionDate,
         extraTimePercentage: randomExtraTimePercentage,
         userId,
+        reconciledAt: hasJoinedSession ? new Date() : null,
         organizationLearnerId: null,
         authorizedToStart: false,
         billingMode: randomBillingMode,
@@ -770,6 +772,7 @@ async function _registerSomeCandidatesToSession({ databaseBuilder, sessionId, co
         createdAt: new Date(),
         extraTimePercentage: randomExtraTimePercentage,
         userId: hasJoinedSession ? userId : null,
+        reconciledAt: hasJoinedSession ? new Date() : null,
         organizationLearnerId: null,
         authorizedToStart: false,
         billingMode: randomBillingMode,
