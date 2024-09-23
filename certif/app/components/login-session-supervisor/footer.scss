@@ -15,24 +15,33 @@
 
   @extend %pix-body-s;
 
-  svg {
-    margin-right: 8px;
-  }
-
-  > .logout {
-    margin-top: 4px;
-    color: var(--pix-neutral-500);
-
-    &:hover {
-      color: var(--pix-primary-500);
+  .footer {
+    &__item {
+    display: flex;
     }
 
-    &:focus,
-    &:focus-visible {
-      padding: 0 2px;
-      border-radius: var(--pix-spacing-1x);
-      outline: none;
-      box-shadow: inset 0 0 0 1.6px var(--pix-primary-500);
+    &-item__icon {
+      width: 1.2rem;
+      height: 1.2rem;
+      fill: var(--pix-neutral-500);
+      margin-right: 8px;
+    }
+
+    &__logout {
+      margin-top: 4px;
+      color: var(--pix-neutral-500);
+
+      &:hover {
+        color: var(--pix-primary-500);
+      }
+
+      &:focus,
+      &:focus-visible {
+        padding: 0 2px;
+        border-radius: var(--pix-spacing-1x);
+        outline: none;
+        box-shadow: inset 0 0 0 1.6px var(--pix-primary-500);
+      }
     }
   }
 }
