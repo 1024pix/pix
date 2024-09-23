@@ -18,7 +18,7 @@ import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/error
  *
  * @returns {Promise<Candidate>}
  */
-export async function linkUserToCandidate({ userId, candidate, candidateRepository, placementProfileService }) {
+export async function reconcileCandidate({ userId, candidate, candidateRepository, placementProfileService }) {
   candidate.reconcile(userId);
 
   if (candidate.hasCoreSubscription()) {
