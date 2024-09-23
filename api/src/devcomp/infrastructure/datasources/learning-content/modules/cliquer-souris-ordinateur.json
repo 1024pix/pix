@@ -134,7 +134,7 @@
           "element": {
             "id": "a17877d3-b88a-4670-a618-3e97c16c1f1b",
             "type": "text",
-            "content": "<p>Le bouton gauche est le plus important. Il permet de faire un <strong>clic gauche</strong>.</p><p>Lisez les deux étapes pour faire un clic gauche. <span aria-hidden=\"true\">👇</span></p><p>Par la suite, ce sera à vous de le faire.</p> "
+            "content": "<p>Le bouton gauche est le plus important. Il permet de faire un <strong>clic gauche</strong>.</p><p>Lisez les deux étapes pour faire un clic gauche. <span aria-hidden=\"true\">👇</span></p><p>Ensuite, ce sera à vous de faire des clics gauche.</p>"
           }
         },
         {
@@ -237,7 +237,7 @@
           "element": {
             "id": "930a995c-2b29-474a-97a3-c90d5e03ad80",
             "type": "text",
-            "content": "<p>Quand vous avez terminé l'activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+            "content": "<p>Quand vous avez terminé l'activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;».</p>"
           }
         }
       ]
@@ -255,7 +255,7 @@
                 {
                   "id": "734ef21d-3850-40db-840e-e16253d8817b",
                   "type": "text",
-                  "content": "<h3>Faites un clic gauche sur «&nbsp;Play&nbsp;» <span aria-hidden=\"true\">▶️</span> au centre de l'image ci-dessous.</h3> Ce clic gauche va faire démarrer la vidéo.<br><br><iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/czfvEpLfCV0?si=2Q1MBBnh2-c-0CmD\" title=\"Bravo\"></iframe><p><br>Pour accéder à la suite, faites un clic gauche sur le bouton «&nbsp;Suivant&nbsp;» ci-dessous.</p>"
+                  "content": "<h3>Faites un clic gauche sur «&nbsp;Play&nbsp;» <span aria-hidden=\"true\">▶️</span> au centre de l'image ci-dessous.</h3> Ce clic gauche va faire démarrer la vidéo.<br><br><iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/czfvEpLfCV0?si=2Q1MBBnh2-c-0CmD\" title=\"Bravo\"></iframe><p><br>Pour accéder à la suite, faites un clic gauche sur le bouton «&nbsp;Suivant&nbsp;».</p>"
                 }
               ]
             },
@@ -273,15 +273,15 @@
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "Bravo, vous êtes sur internet !"
+                      "content": "Vous allez voir, c'est facile !"
                     },
                     {
                       "id": "2",
-                      "content": "Bienvenue sur internet !"
+                      "content": "Vous verrez, c'est plié !"
                     },
                     {
                       "id": "3",
-                      "content": "Bingo, vous avez internet !"
+                      "content": "Vous pensiez que c'était simple ?"
                     }
                   ],
                   "feedbacks": {
@@ -297,7 +297,7 @@
                 {
                   "id": "4c2ce336-aa9a-49b5-ba4f-84530e21b52d",
                   "type": "text",
-                  "content": "<p>Quand vous avez terminé l'activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+                  "content": "<p>Quand vous avez terminé l'activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;».</p>"
                 }
               ]
             }
@@ -378,7 +378,7 @@
           "element": {
             "id": "3ebfd2ef-9614-4791-9668-68f56ed1fe32",
             "type": "text",
-            "content": "<p>Quand vous avez terminé cette activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+            "content": "<p>Quand vous avez terminé cette activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;».</p>"
           }
         }
       ]
