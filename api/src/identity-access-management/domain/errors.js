@@ -14,6 +14,12 @@ class DifferentExternalIdentifierError extends DomainError {
   }
 }
 
+class OrganizationLearnerNotBelongToOrganizationIdentityError extends DomainError {
+  constructor(message = 'Organization Learner identity does not belong to Organization Identity') {
+    super(message);
+  }
+}
+
 class OrganizationLearnerIdentityNotFoundError extends DomainError {
   constructor(message = 'Organization Learner Identity not found.') {
     super(message);
@@ -71,6 +77,7 @@ export {
   MissingOrInvalidCredentialsError,
   MissingUserAccountError,
   OrganizationLearnerIdentityNotFoundError,
+  OrganizationLearnerNotBelongToOrganizationIdentityError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   UserCantBeCreatedError,
