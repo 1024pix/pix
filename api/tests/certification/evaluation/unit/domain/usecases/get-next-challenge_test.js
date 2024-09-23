@@ -66,7 +66,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
       it('should save the returned next challenge', async function () {
         // given
         const nextChallengeToAnswer = domainBuilder.buildChallenge({
-          accessibility1: 'KO',
+          blindnessCompatibility: 'KO',
         });
         const v3CertificationCourse = domainBuilder.buildCertificationCourse({
           version: CERTIFICATION_VERSIONS.V3,
@@ -143,19 +143,19 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         it('should only pick among challenges with no accessibilities issues', async function () {
           // given
           const nextChallengeToAnswer = domainBuilder.buildChallenge({
-            accessibility1: 'RAS',
-            accessibility2: 'OK',
+            blindnessCompatibility: 'RAS',
+            colorBlindnessCompatibility: 'OK',
           });
           const accessibleChallenge = domainBuilder.buildChallenge({
-            accessibility1: 'OK',
-            accessibility2: 'RAS',
+            blindnessCompatibility: 'OK',
+            colorBlindnessCompatibility: 'RAS',
           });
           const allChallenges = [
             nextChallengeToAnswer,
             accessibleChallenge,
             domainBuilder.buildChallenge({
-              accessibility1: 'autre chose',
-              accessibility2: 'OK',
+              blindnessCompatibility: 'autre chose',
+              colorBlindnessCompatibility: 'OK',
             }),
           ];
           const v3CertificationCourse = domainBuilder.buildCertificationCourse({
