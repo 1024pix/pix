@@ -46,9 +46,6 @@ describe('Unit | Application | Service | register-candidate-participation', func
         normalizeStringFnc,
       });
       expect(usecases.linkUserToCandidate).to.not.have.been.called;
-      expect(enrolledCandidateRepository.get).to.have.been.calledWithExactly({
-        id: alreadyLinkedCandidate.id,
-      });
     });
   });
 
@@ -80,9 +77,6 @@ describe('Unit | Application | Service | register-candidate-participation', func
       expect(usecases.linkUserToCandidate).to.have.been.calledWithExactly({
         candidate: unlinkedCandidate,
         userId,
-      });
-      expect(enrolledCandidateRepository.get).to.have.been.calledWithExactly({
-        id: unlinkedCandidate.id,
       });
     });
   });
