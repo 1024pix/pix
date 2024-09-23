@@ -6,13 +6,22 @@ import * as csvSerializer from '../../../../../shared/infrastructure/serializers
 const EMPTY_ARRAY = [];
 
 class CampaignProfilesCollectionResultLine {
-  constructor(campaign, organization, campaignParticipationResult, competences, placementProfile, translate) {
+  constructor({
+    campaign,
+    organization,
+    campaignParticipationResult,
+    competences,
+    placementProfile,
+    translate,
+    additionalHeaders,
+  }) {
     this.organization = organization;
     this.campaign = campaign;
     this.campaignParticipationResult = campaignParticipationResult;
     this.competences = competences;
     this.placementProfile = placementProfile;
     this.translate = translate;
+    this.additionalHeaders = additionalHeaders;
 
     this.notShared = translate('campaign-export.common.not-available');
   }
@@ -25,6 +34,7 @@ class CampaignProfilesCollectionResultLine {
       this.campaign.name,
       this.campaignParticipationResult.participantLastName,
       this.campaignParticipationResult.participantFirstName,
+      ...this.#makeAdditionalInfos(),
       ...this._getGroupColumn(),
       ...this._getDivisionColumn(),
       ...this._getStudentNumberColumn(),
@@ -38,6 +48,12 @@ class CampaignProfilesCollectionResultLine {
     ];
 
     return csvSerializer.serializeLine(line);
+  }
+
+  #makeAdditionalInfos() {
+    if (!this.additionalHeaders) return [];
+
+    return this.additionalHeaders.map((header) => this.campaignParticipationResult.additionalInfos[header.columnName]);
   }
 
   _getDivisionColumn() {
