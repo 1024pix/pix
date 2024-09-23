@@ -1,6 +1,6 @@
 <section class="import-page__section--download panel">
   <div class="import-page__title">
-    <FaIcon @icon="cloud-arrow-up" class="fa-lg" />
+    <PixIcon @name="upload" @ariaHidden={{true}} />
     <h2>{{t "pages.sessions.import.step-one.title"}}</h2>
   </div>
   <div class="import-page__section--download__instruction">
@@ -21,7 +21,7 @@
     </PixMessage>
   </div>
   <div class="import-download-block">
-    <FaIcon @icon="file-arrow-down" class="import-download-block__icon" />
+    <PixIcon @name="download" @ariaHidden={{true}} class="import-download-block__icon" />
     <div class="import-download-section">
       <div>
         <h3 class="import-download-section__title">{{t
