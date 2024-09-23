@@ -11,7 +11,8 @@
         "Reconnaître une souris et connaître son utilité",
         "Prendre en main une souris et la déplacer",
         "Déplacer le pointeur de sa souris avec précision"
-      ]
+      ],
+ "tabletSupport": "obstructed"
     },
     "transitionTexts": [
       {
