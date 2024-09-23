@@ -6,9 +6,10 @@ import * as url from 'node:url';
 
 import _ from 'lodash';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../db/knex-database-connection.js';
 import { normalizeAndSortChars } from '../../src/shared/infrastructure/utils/string-utils.js';
 import { parseCsv } from '../helpers/csvHelpers.js';
+import { executeScript } from '../tooling/tooling.js';
 
 const CURRENT_NAME_COLUMN = 'LIBCOG';
 const ALTERNATIVE_NAME_COLUMN = 'LIBENR';
@@ -112,15 +113,9 @@ async function main(filePath) {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      const filePath = process.argv[2];
-      await main(filePath);
-    } catch (error) {
-      console.error(error);
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    const filePath = process.argv[2];
+    const mainWithArgs = main.bind(this, filePath);
+    await executeScript({ processArgvs: process.argv, scriptFn: mainWithArgs });
   }
 })();
 

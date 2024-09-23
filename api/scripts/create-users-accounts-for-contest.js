@@ -1,11 +1,11 @@
 import * as url from 'node:url';
 
-import { disconnect } from '../db/knex-database-connection.js';
 import * as authenticationMethodRepository from '../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { userToCreateRepository } from '../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
 import { cryptoService } from '../src/shared/domain/services/crypto-service.js';
 import * as userService from '../src/shared/domain/services/user-service.js';
 import { parseCsvWithHeader } from './helpers/csvHelpers.js';
+import { executeScript } from './tooling/tooling.js';
 
 function prepareDataForInsert(rawUsers) {
   return rawUsers.map(({ firstName, lastName, email, password }) => {
@@ -65,14 +65,7 @@ async function main() {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await main();
-    } catch (error) {
-      console.error(error);
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

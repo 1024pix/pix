@@ -6,6 +6,7 @@ import _ from 'lodash';
 
 import { knex } from '../db/knex-database-connection.js';
 import { Assessment } from '../src/shared/domain/models/Assessment.js';
+import { executeScript } from './tooling/tooling.js';
 
 async function switchCampaignToFlash(id) {
   await knex('campaigns').update({ assessmentMethod: Assessment.methods.FLASH }).where({ id });
@@ -22,12 +23,8 @@ async function main(id) {
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 if (isLaunchedFromCommandLine) {
-  const id = parseInt(process.argv[2]);
-
-  main(id).catch((err) => {
-    console.error(err);
-    process.exitCode = 1; // ou throw err
-  });
+  const fnWithArgs = main.bind(this, parseInt(process.argv[2]));
+  await executeScript({ processArgvs: process.argv, scriptFn: fnWithArgs });
 }
 
 export { switchCampaignToFlash };

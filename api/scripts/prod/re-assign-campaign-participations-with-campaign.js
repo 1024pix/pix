@@ -1,8 +1,9 @@
 import { readFile } from 'node:fs/promises';
 import * as url from 'node:url';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../db/knex-database-connection.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { executeScript } from '../tooling/tooling.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
@@ -46,13 +47,6 @@ async function main() {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await main();
-    } catch (error) {
-      console.error(error);
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();

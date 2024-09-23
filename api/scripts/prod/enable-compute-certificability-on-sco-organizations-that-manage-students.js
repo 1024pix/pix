@@ -1,7 +1,8 @@
 import * as url from 'node:url';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../db/knex-database-connection.js';
 import { ORGANIZATION_FEATURE } from '../../src/shared/domain/constants.js';
+import { executeScript } from '../tooling/tooling.js';
 
 async function enableComputeCertificabilityOnScoOrganizationsThatManageStudents() {
   const organizationIds = (
@@ -27,14 +28,10 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await enableComputeCertificabilityOnScoOrganizationsThatManageStudents();
-    } catch (error) {
-      console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({
+      processArgvs: process.argv,
+      scriptFn: enableComputeCertificabilityOnScoOrganizationsThatManageStudents,
+    });
   }
 })();
 

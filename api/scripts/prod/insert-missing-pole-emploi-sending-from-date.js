@@ -2,7 +2,7 @@ import * as url from 'node:url';
 
 import dayjs from 'dayjs';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../db/knex-database-connection.js';
 import { PoleEmploiPayload } from '../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import * as badgeAcquisitionRepository from '../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import { campaignParticipationResultRepository } from '../../lib/infrastructure/repositories/campaign-participation-result-repository.js';
@@ -18,6 +18,7 @@ import { PoleEmploiSending } from '../../src/shared/domain/models/PoleEmploiSend
 import * as assessmentRepository from '../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as organizationRepository from '../../src/shared/infrastructure/repositories/organization-repository.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { executeScript } from '../tooling/tooling.js';
 
 async function insertMissingPoleEmploiSendingFromDate(startDate, endDate = new Date(), campaignCode = 'YOURCODE') {
   const start = dayjs(startDate, 'YYYY-MM-DD');
@@ -101,15 +102,13 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await insertMissingPoleEmploiSendingFromDate(process.argv[2], process.argv[3], process.argv[4]);
-      console.log('done');
-    } catch (error) {
-      console.error(error);
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    const fnWithArgs = insertMissingPoleEmploiSendingFromDate.bind(
+      this,
+      process.argv[2],
+      process.argv[3],
+      process.argv[4],
+    );
+    await executeScript({ processArgvs: process.argv, scriptFn: fnWithArgs });
   }
 })();
 

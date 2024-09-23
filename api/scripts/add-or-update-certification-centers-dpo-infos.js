@@ -4,10 +4,10 @@ import * as url from 'node:url';
 
 import _ from 'lodash';
 
-import { disconnect } from '../db/knex-database-connection.js';
 import { updateCertificationCenterDataProtectionOfficerInformation } from '../lib/domain/usecases/update-certification-center-data-protection-officer-information.js';
 import * as dataProtectionOfficerRepository from '../lib/infrastructure/repositories/data-protection-officer-repository.js';
 import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers.js';
+import { executeScript } from './tooling/tooling.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const IS_LAUNCHED_FROM_CLI = process.argv[1] === modulePath;
@@ -79,18 +79,11 @@ async function main() {
   await _updateCertificationCentersDataProtectionOfficerInformation(filePath);
 
   console.timeEnd('Certification centers DPO updated');
+  console.log('\nCertification centers DPO information updated with success!');
 }
 
 (async function () {
   if (IS_LAUNCHED_FROM_CLI) {
-    try {
-      await main();
-      console.log('\nCertification centers DPO information updated with success!');
-    } catch (error) {
-      console.error(error?.message);
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();

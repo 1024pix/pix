@@ -2,6 +2,8 @@ import * as url from 'node:url';
 
 import axios from 'axios';
 
+import { executeScript } from './tooling/tooling.js';
+
 function parseArgs(argv) {
   return argv.slice(3);
 }
@@ -49,6 +51,5 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 if (isLaunchedFromCommandLine) {
-  console.log('Start script : ');
-  main();
+  await executeScript({ processArgvs: process.argv, scriptFn: main });
 }

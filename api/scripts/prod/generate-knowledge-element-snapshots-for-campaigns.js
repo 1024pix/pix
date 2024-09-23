@@ -2,11 +2,12 @@ import * as url from 'node:url';
 
 import yargs from 'yargs';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../db/knex-database-connection.js';
 import * as knowledgeElementRepository from '../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { AlreadyExistingEntityError } from '../../src/shared/domain/errors.js';
 import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
+import { executeScript } from '../tooling/tooling.js';
 
 const DEFAULT_MAX_SNAPSHOT_COUNT = 5000;
 const DEFAULT_CONCURRENCY = 3;
@@ -104,24 +105,20 @@ async function main() {
       default: DEFAULT_CONCURRENCY,
     })
     .help().argv;
-  const { maxSnapshotCount, concurrency } = _validateAndNormalizeArgs(commandLineArgs);
+  try {
+    const { maxSnapshotCount, concurrency } = _validateAndNormalizeArgs(commandLineArgs);
 
-  const campaignParticipationData = await getEligibleCampaignParticipations(maxSnapshotCount);
+    const campaignParticipationData = await getEligibleCampaignParticipations(maxSnapshotCount);
 
-  await generateKnowledgeElementSnapshots(campaignParticipationData, concurrency);
+    await generateKnowledgeElementSnapshots(campaignParticipationData, concurrency);
+  } catch (_err) {
+    yargs.showHelp();
+  }
 }
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await main();
-    } catch (error) {
-      console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
-      yargs.showHelp();
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

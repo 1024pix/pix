@@ -1,6 +1,7 @@
 import * as url from 'node:url';
 
-import { disconnect, knex } from '../db/knex-database-connection.js';
+import { knex } from '../db/knex-database-connection.js';
+import { executeScript } from './tooling/tooling.js';
 
 async function getAllBadgeAcquistionsWithoutCampaignParticipationId() {
   return knex('badge-acquisitions').select().where({ campaignParticipationId: null });
@@ -76,14 +77,7 @@ async function main() {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await main();
-    } catch (error) {
-      console.error(error);
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

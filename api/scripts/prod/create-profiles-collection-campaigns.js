@@ -1,12 +1,13 @@
 import * as url from 'node:url';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../db/knex-database-connection.js';
 import * as campaignUpdateValidator from '../../src/prescription/campaign/domain/validators/campaign-update-validator.js';
 import * as campaignRepository from '../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import { CampaignTypes } from '../../src/prescription/shared/domain/constants.js';
 import * as codeGenerator from '../../src/shared/domain/services/code-generator.js';
 import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
+import { executeScript } from '../tooling/tooling.js';
 
 function checkData(campaignData) {
   return campaignData.map(({ name, organizationId, customLandingPageText, creatorId }, index) => {
@@ -83,14 +84,7 @@ async function main() {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await main();
-    } catch (error) {
-      console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

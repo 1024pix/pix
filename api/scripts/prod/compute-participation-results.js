@@ -9,11 +9,12 @@ import * as campaignRepository from '../../lib/infrastructure/repositories/campa
 import * as knowlegeElementSnapshotRepository from '../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { CampaignParticipationStatuses } from '../../src/prescription/shared/domain/constants.js';
 import { ParticipantResultsShared } from '../../src/shared/domain/models/ParticipantResultsShared.js';
+import { executeScript } from '../tooling/tooling.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 import _ from 'lodash';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../db/knex-database-connection.js';
 import { constants } from '../../lib/infrastructure/constants.js';
 import * as placementProfileService from '../../src/shared/domain/services/placement-profile-service.js';
 import * as competenceRepository from '../../src/shared/infrastructure/repositories/competence-repository.js';
@@ -158,14 +159,7 @@ async function main() {
 (async () => {
   if (isLaunchedFromCommandLine) {
     logEnable = true;
-    try {
-      await main();
-    } catch (error) {
-      console.error(error);
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

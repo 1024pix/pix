@@ -1,37 +1,27 @@
 import 'dotenv/config';
 
-import perf_hooks from 'node:perf_hooks';
-
-import _ from 'lodash';
-
-const { performance } = perf_hooks;
-
 import * as url from 'node:url';
 
+import _ from 'lodash';
 import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
 
-import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { knex } from '../../db/knex-database-connection.js';
 import * as badgeAcquisitionRepository from '../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as knowledgeElementRepository from '../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import { CampaignParticipation } from '../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
-import { learningContentCache as cache } from '../../src/shared/infrastructure/caches/learning-content-cache.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { PromiseUtils } from '../../src/shared/infrastructure/utils/promise-utils.js';
+import { executeScript } from '../tooling/tooling.js';
 
 const MAX_RANGE_SIZE = 100_000;
 
 async function main() {
-  const startTime = performance.now();
-  logger.info(`Script compute badge acquisitions has started`);
   const { idMin, idMax, dryRun } = _getAllArgs();
   const range = normalizeRange({ idMin, idMax });
   const numberOfCreatedBadges = await computeAllBadgeAcquisitions({ ...range, dryRun });
   logger.info(`${numberOfCreatedBadges} badges created`);
-  const endTime = performance.now();
-  const duration = Math.round(endTime - startTime);
-  logger.info(`Script has ended: took ${duration} milliseconds`);
 }
 
 function _getAllArgs() {
@@ -144,15 +134,7 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 (async () => {
   if (isLaunchedFromCommandLine) {
-    try {
-      await main();
-    } catch (error) {
-      logger.error(error);
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-      await cache.quit();
-    }
+    await executeScript({ processArgvs: process.argv, scriptFn: main });
   }
 })();
 

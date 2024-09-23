@@ -1,5 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 
+import { executeScript } from '../tooling/tooling.js';
 import { countFilesInPath } from './stats.js';
 import { TimeSeries } from './time-series.js';
 
@@ -25,6 +26,6 @@ async function _addOrUpdateTodayValue(timeSeries) {
   });
 }
 
-await main();
+await executeScript({ processArgvs: process.argv, scriptFn: main });
 
 export { parseTimeSeriesMetrics };
