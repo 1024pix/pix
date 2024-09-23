@@ -22,6 +22,7 @@ const findByCampaignParticipationId = async function ({ campaignParticipationId 
     .select(['id', 'threshold', 'badgeId', 'scope', 'cappedTubes'])
     .whereIn('badgeId', badgeIds)
     .orderBy('badge-criteria.id');
+
   const badgeCriteriaDTOByBadge = _.groupBy(badgeCriteriaDTO, 'badgeId');
 
   const campaignSkills = await campaignRepository.findSkillsByCampaignParticipationId({
