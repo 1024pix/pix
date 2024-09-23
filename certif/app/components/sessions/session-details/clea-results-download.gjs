@@ -1,7 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
@@ -25,9 +25,12 @@ export default class SessionDetailsCleaResultsDownload extends Component {
   <template>
     <div class='panel session-details__clea-results-download'>
       <div class='session-details__clea-results-download-grey'>
-        <div class='session-details__clea-results-download-icon'>
-          <FaIcon @icon='award' />
-        </div>
+        <PixIcon
+          @name='awards'
+          @plainIcon={{true}}
+          class='session-details__clea-results-download-icon'
+          @ariaHidden={{true}}
+        />
         <div>
           <h1 class='session-details__clea-results-download-title'>
             {{t 'pages.sessions.detail.panel-clea.title'}}
@@ -36,7 +39,8 @@ export default class SessionDetailsCleaResultsDownload extends Component {
             {{t 'pages.sessions.detail.panel-clea.description'}}
             <a class='link' href='https://cleanumerique.org/' target='_blank' rel='noopener noreferrer'>
               {{t 'pages.sessions.detail.panel-clea.link-text'}}
-              <FaIcon @icon='link' /></a>
+              <PixIcon @name='link' @ariaHidden={{true}} class='session-details__clea-results-link-icon' />
+            </a>
           </p>
 
           <PixButton @triggerAction={{this.downloadCleaCertifiedCandidateData}}>

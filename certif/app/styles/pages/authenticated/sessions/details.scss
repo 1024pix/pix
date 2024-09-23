@@ -147,6 +147,7 @@
 
   &__clea-results-download-grey {
     display: flex;
+    align-items: center;
     padding: 16px;
     background: var(--pix-neutral-20);
   }
@@ -165,17 +166,16 @@
   }
 
   &__clea-results-download-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 80px;
+    width: 5rem;
+    height: 3rem;
     margin-right: 16px;
-    padding: 2px;
+    fill: var(--pix-neutral-500);
+  }
 
-    svg {
-      color: var(--pix-neutral-500);
-      font-size: 40px;
-    }
+  &__clea-results-link-icon {
+    width: 1.3rem;
+    height: 1.3rem;
+    fill: var(--pix-primary-500);
   }
 
   &__controls {

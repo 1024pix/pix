@@ -26,6 +26,7 @@
 }
 
 .link {
+  display: inline-flex;
   color: var(--pix-primary-500);
   font-size: 0.875rem;
   text-decoration: underline;
@@ -37,6 +38,12 @@
   &:focus,
   &:active {
     color: var(--pix-primary-700);
+  }
+
+  &:hover > svg,
+  &:focus > svg,
+  &:active > svg {
+    fill: var(--pix-primary-700);
   }
 
   &:focus, &:focus-visible {
