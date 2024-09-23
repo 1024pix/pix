@@ -44,13 +44,6 @@ const rememberUserHasSeenAssessmentInstructions = async function (request, h, de
   return dependencies.userSerializer.serialize(updatedUser);
 };
 
-const rememberUserHasSeenNewDashboardInfo = async function (request, h, dependencies = { userSerializer }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-
-  const updatedUser = await usecases.rememberUserHasSeenNewDashboardInfo({ userId: authenticatedUserId });
-  return dependencies.userSerializer.serialize(updatedUser);
-};
-
 const rememberUserHasSeenChallengeTooltip = async function (request, h, dependencies = { userSerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
   const challengeType = request.params.challengeType;
@@ -269,7 +262,6 @@ const userController = {
   reassignAuthenticationMethods,
   rememberUserHasSeenAssessmentInstructions,
   rememberUserHasSeenChallengeTooltip,
-  rememberUserHasSeenNewDashboardInfo,
   removeAuthenticationMethod,
   resetScorecard,
   updateUserDetailsForAdministration,

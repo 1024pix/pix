@@ -1,3 +1,4 @@
+import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
 import { userController } from '../../../../../src/evaluation/application/users/user-controller.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
@@ -29,6 +30,33 @@ describe('Unit | Controller | user-controller', function () {
 
       // then
       expect(response).to.be.equal(userInformationSerialized);
+    });
+  });
+
+  describe('#rememberUserHasSeenNewDashboardInfo', function () {
+    it('should remember user has seen new dashboard info', async function () {
+      // given
+      const userId = 1;
+      const userSerializer = {
+        serialize: sinon.stub(),
+      };
+      sinon.stub(libUsecases, 'rememberUserHasSeenNewDashboardInfo');
+
+      libUsecases.rememberUserHasSeenNewDashboardInfo.withArgs({ userId }).resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await userController.rememberUserHasSeenNewDashboardInfo(
+        {
+          auth: { credentials: { userId } },
+          params: { id: userId },
+        },
+        hFake,
+        { userSerializer },
+      );
+
+      // then
+      expect(response).to.be.equal('ok');
     });
   });
 });

@@ -122,32 +122,6 @@ describe('Unit | Controller | user-controller', function () {
     });
   });
 
-  describe('#rememberUserHasSeenNewDashboardInfo', function () {
-    let request;
-    const userId = 1;
-
-    beforeEach(function () {
-      request = {
-        auth: { credentials: { userId } },
-        params: { id: userId },
-      };
-
-      sinon.stub(usecases, 'rememberUserHasSeenNewDashboardInfo');
-    });
-
-    it('should remember user has seen new dashboard info', async function () {
-      // given
-      usecases.rememberUserHasSeenNewDashboardInfo.withArgs({ userId }).resolves({});
-      userSerializer.serialize.withArgs({}).returns('ok');
-
-      // when
-      const response = await userController.rememberUserHasSeenNewDashboardInfo(request, hFake, { userSerializer });
-
-      // then
-      expect(response).to.be.equal('ok');
-    });
-  });
-
   describe('#rememberUserHasSeenChallengeTooltip', function () {
     let request;
     const userId = 1;
