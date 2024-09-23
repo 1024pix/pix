@@ -11,7 +11,7 @@ import { computeCertificabilityJobRepository } from '../../../learner-management
 
 class ScheduleComputeOrganizationLearnersCertificabilityJobController extends JobScheduleController {
   constructor() {
-    super('ComputeOrganizationLearnersCertificabilityJob', {
+    super('ScheduleComputeOrganizationLearnersCertificabilityJob', {
       jobCron: config.features.scheduleComputeOrganizationLearnersCertificability.cron,
     });
   }
