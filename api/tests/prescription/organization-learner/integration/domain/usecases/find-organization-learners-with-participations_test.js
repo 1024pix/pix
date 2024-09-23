@@ -100,14 +100,14 @@ describe('Integration | UseCases | find-organization-learners-with-participation
     expect(organizationLearnersWithParticipations[0].organization).to.be.an.instanceOf(Organization);
     expect(organizationLearnersWithParticipations[0].organization.id).to.equal(organization.id);
 
-    expect(organizationLearnersWithParticipations[0].participations).to.have.lengthOf(2);
-    expect(organizationLearnersWithParticipations[0].participations[0]).to.be.an.instanceOf(
+    expect(organizationLearnersWithParticipations[0].campaignParticipations).to.have.lengthOf(2);
+    expect(organizationLearnersWithParticipations[0].campaignParticipations[0]).to.be.an.instanceOf(
       CampaignParticipationOverview,
     );
-    expect(organizationLearnersWithParticipations[0].participations[1]).to.be.an.instanceOf(
+    expect(organizationLearnersWithParticipations[0].campaignParticipations[1]).to.be.an.instanceOf(
       CampaignParticipationOverview,
     );
-    const participationOverviewIds = organizationLearnersWithParticipations[0].participations.map(
+    const participationOverviewIds = organizationLearnersWithParticipations[0].campaignParticipations.map(
       (participation) => participation.id,
     );
     expect(participationOverviewIds).to.have.members([campaignParticipation1.id, campaignParticipation2.id]);

@@ -5,6 +5,7 @@ import { EntityValidationError } from '../../domain/errors.js';
 
 export const JobGroup = {
   DEFAULT: 'default',
+  FAST: 'fast',
 };
 
 export class JobController {

@@ -20,18 +20,21 @@ function _applyFilters(knowledgeElements) {
   return _dropResetKnowledgeElements(uniqsMostRecentPerSkill);
 }
 
-function _findByUserIdAndLimitDateQuery({ userId, limitDate }) {
+function _findByUserIdAndLimitDateQuery({ userId, limitDate, skillIds = [] }) {
   const knexConn = DomainTransaction.getConnection();
   return knexConn(tableName).where((qb) => {
     qb.where({ userId });
     if (limitDate) {
       qb.where('createdAt', '<', limitDate);
     }
+    if (skillIds.length) {
+      qb.whereIn('skillId', skillIds);
+    }
   });
 }
 
-async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate }) {
-  const knowledgeElementRows = await _findByUserIdAndLimitDateQuery({ userId, limitDate });
+async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, skillIds }) {
+  const knowledgeElementRows = await _findByUserIdAndLimitDateQuery({ userId, limitDate, skillIds });
 
   const knowledgeElements = _.map(
     knowledgeElementRows,
@@ -84,8 +87,8 @@ const batchSave = async function ({ knowledgeElements }) {
   return savedKnowledgeElements.map((ke) => new KnowledgeElement(ke));
 };
 
-const findUniqByUserId = function ({ userId, limitDate }) {
-  return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate });
+const findUniqByUserId = function ({ userId, limitDate, skillIds }) {
+  return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, skillIds });
 };
 
 const findUniqByUserIdAndAssessmentId = async function ({ userId, assessmentId }) {
