@@ -1,6 +1,6 @@
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
@@ -43,13 +43,7 @@ export default class Sidebar extends Component {
                 type='button'
                 aria-label={{t 'navigation.main.sessions-label'}}
               >
-                {{! template-lint-disable no-redundant-role }}
-                <img
-                  src='{{this.rootURL}}/icons/chevron-square-right.svg'
-                  alt=''
-                  role='presentation'
-                  class='sidebar-menu__item-icon sidebar-menu__item-icon-chevron'
-                />
+                <PixIcon @name='session' @plainIcon={{true}} class='sidebar-menu__item-icon' @ariaHidden={{true}} />
                 {{t 'navigation.main.sessions'}}
               </LinkTo>
             </li>
@@ -61,20 +55,20 @@ export default class Sidebar extends Component {
                 target='_blank'
                 rel='noopener noreferrer'
               >
-                <FaIcon @icon='eye' class='sidebar-menu__item-icon' />
+                <PixIcon @name='eye' @plainIcon={{true}} class='sidebar-menu__item-icon' @ariaHidden={{true}} />
                 {{t 'navigation.main.supervisor'}}
               </LinkTo>
             </li>
           {{/if}}
           <li>
             <LinkTo @route='authenticated.team' class='sidebar-menu__item' type='button'>
-              <FaIcon @icon='users' class='sidebar-menu__item-icon' />
+              <PixIcon @name='users' @plainIcon={{true}} class='sidebar-menu__item-icon' @ariaHidden={{true}} />
               {{t 'navigation.main.team'}}
             </LinkTo>
           </li>
           <li>
             <a class='sidebar-menu__item' href='{{this.documentationLink}}' target='_blank' rel='noopener noreferrer'>
-              <FaIcon @icon='book' class='sidebar-menu__item-icon' />
+              <PixIcon @name='book' @plainIcon={{true}} class='sidebar-menu__item-icon' @ariaHidden={{true}} />
               {{t 'navigation.main.documentation'}}
             </a>
           </li>
