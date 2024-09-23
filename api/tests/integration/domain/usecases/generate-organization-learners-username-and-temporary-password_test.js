@@ -4,9 +4,9 @@ import {
 } from '../../../../lib/domain/constants/generate-organization-learners-username-and-temporary-password-errors.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import { generateOrganizationLearnersUsernameAndTemporaryPassword } from '../../../../lib/domain/usecases/generate-organization-learners-username-and-temporary-password.js';
-import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import * as authenticationMethodRepository from '../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
+import { organizationLearnerIdentityRepository } from '../../../../src/identity-access-management/infrastructure/repositories/organization-learner-identity.repository.js';
 import * as userRepository from '../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../../src/shared/domain/errors.js';
 import { OrganizationLearnerPasswordResetDTO } from '../../../../src/shared/domain/models/OrganizationLearnerPasswordResetDTO.js';
@@ -126,7 +126,7 @@ describe('Integration | UseCases | generate organization learners username and t
           userId,
           authenticationMethodRepository,
           organizationRepository,
-          organizationLearnerRepository,
+          organizationLearnerIdentityRepository,
           userRepository,
           cryptoService,
           passwordGenerator,
@@ -178,7 +178,7 @@ describe('Integration | UseCases | generate organization learners username and t
           userId,
           authenticationMethodRepository,
           organizationRepository,
-          organizationLearnerRepository,
+          organizationLearnerIdentityRepository,
           userRepository,
           cryptoService,
           passwordGenerator,
@@ -242,7 +242,7 @@ describe('Integration | UseCases | generate organization learners username and t
           userId,
           authenticationMethodRepository,
           organizationRepository,
-          organizationLearnerRepository,
+          organizationLearnerIdentityRepository,
           userRepository,
           cryptoService,
           passwordGenerator,
@@ -284,7 +284,7 @@ describe('Integration | UseCases | generate organization learners username and t
             userId,
             authenticationMethodRepository,
             organizationRepository,
-            organizationLearnerRepository,
+            organizationLearnerIdentityRepository,
             userRepository,
             cryptoService,
             passwordGenerator,

@@ -1,4 +1,4 @@
-import { OrganizationLearnerIdentity } from '../../../src/identity-access-management/domain/models/OrganizationLearnerIdentity.js';
+import { OrganizationLearnerIdentities } from '../../../src/identity-access-management/domain/models/OrganizationLearnerIdentities.js';
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../src/shared/domain/errors.js';
 import { OrganizationLearnerPasswordResetDTO } from '../../../src/shared/domain/models/OrganizationLearnerPasswordResetDTO.js';
 import {
@@ -15,25 +15,22 @@ const generateOrganizationLearnersUsernameAndTemporaryPassword = async function 
   userReconciliationService,
   authenticationMethodRepository,
   organizationRepository,
-  organizationLearnerRepository,
+  organizationLearnerIdentityRepository,
   userRepository,
 }) {
   const errorMessage = `User ${userId} cannot reset passwords of some students in organization ${organizationId}`;
   const organization = await organizationRepository.get(organizationId);
-  const organizationLearners = await organizationLearnerRepository.findByIds({ ids: organizationLearnersId });
-  const userIds = organizationLearners.map((organizationLearner) => organizationLearner.userId);
-  const users = await userRepository.getByIds(userIds);
-  let organizationLearnerIdentities = _buildOrganizationLearnerIdentities({ organizationLearners, users });
-
-  _assertEachOrganizationLearnersBelongToOrganization({
+  const organizationLearnerIdentities = await _buildOrganizationLearnerIdentities({
     errorMessage,
-    organizationId,
-    organizationLearners,
+    organization,
+    organizationLearnersId,
+    organizationLearnerIdentityRepository,
   });
+  let organizationLearnerIdentitiesValues = organizationLearnerIdentities.values;
 
-  if (!organization.isGarIdentityProvider) {
-    organizationLearnerIdentities = await _generateAndUpdateUsernameForOrganizationLearnerIdentities({
-      organizationLearnerIdentities,
+  if (!organizationLearnerIdentities.hasScoGarIdentityProvider) {
+    organizationLearnerIdentitiesValues = await _generateAndUpdateUsernameForOrganizationLearnerIdentities({
+      organizationLearnerIdentities: organizationLearnerIdentitiesValues,
       userReconciliationService,
       userRepository,
     });
@@ -41,40 +38,38 @@ const generateOrganizationLearnersUsernameAndTemporaryPassword = async function 
 
   const userIdWithPasswords = await _generateAndUpdateUsersWithTemporaryPassword({
     errorMessage,
-    organizationLearnerIdentities,
+    organizationLearnerIdentities: organizationLearnerIdentitiesValues,
     authenticationMethodRepository,
     cryptoService,
     passwordGenerator,
   });
 
-  return _buildOrganizationLearnerPasswordResetDTOs({ organizationLearnerIdentities, userIdWithPasswords });
+  return _buildOrganizationLearnerPasswordResetDTOs({
+    organizationLearnerIdentities: organizationLearnerIdentitiesValues,
+    userIdWithPasswords,
+  });
 };
 
-function _assertEachOrganizationLearnersBelongToOrganization({ errorMessage, organizationId, organizationLearners }) {
-  const organizationLearnersBelongsToOrganization = organizationLearners.every(
-    (organizationLearner) => organizationLearner.organizationId === organizationId,
-  );
+async function _buildOrganizationLearnerIdentities({
+  errorMessage,
+  organization,
+  organizationLearnersId,
+  organizationLearnerIdentityRepository,
+}) {
+  try {
+    const organizationLearnerIdentities = await organizationLearnerIdentityRepository.getByIds(organizationLearnersId);
 
-  if (!organizationLearnersBelongsToOrganization) {
+    return new OrganizationLearnerIdentities({
+      id: organization.id,
+      hasScoGarIdentityProvider: organization.hasGarIdentityProvider,
+      values: organizationLearnerIdentities,
+    });
+  } catch (error) {
     throw new UserNotAuthorizedToUpdatePasswordError(
       errorMessage,
       ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
     );
   }
-}
-
-function _buildOrganizationLearnerIdentities({ organizationLearners, users }) {
-  return organizationLearners.map(({ division, firstName, lastName, birthdate, userId }) => {
-    const user = users.find((user) => user.id === userId);
-    return new OrganizationLearnerIdentity({
-      division,
-      firstName,
-      lastName,
-      birthdate,
-      userId,
-      username: user.username,
-    });
-  });
 }
 
 async function _generateAndUpdateUsernameForOrganizationLearnerIdentities({
