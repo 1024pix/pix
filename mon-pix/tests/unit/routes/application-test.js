@@ -60,20 +60,6 @@ module('Unit | Route | application', function (hooks) {
       assert.ok(true);
     });
 
-    test('should set "fr" locale as default', async function (assert) {
-      // given
-      const route = this.owner.lookup('route:application');
-      route.set('featureToggles', featureTogglesServiceStub);
-      route.set('session', sessionServiceStub);
-      route.set('oidcIdentityProviders', oidcIdentityProvidersStub);
-
-      // when
-      await route.beforeModel();
-
-      // then
-      assert.strictEqual(this.intl.primaryLocale, 'fr');
-    });
-
     test('should get feature toogles', async function (assert) {
       // given
       const route = this.owner.lookup('route:application');

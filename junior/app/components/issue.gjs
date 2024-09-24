@@ -16,11 +16,29 @@ export default class Issue extends Component {
     this.router.transitionTo('identified.missions');
   }
 
+  get hasMultipleMessages() {
+    return Array.isArray(this.args.message);
+  }
+
+  get blobBackground() {
+    return `/images/background-blob-${this.args.blobType || 'error'}.svg`;
+  }
+
+  get robotMood() {
+    return `${this.args.class || 'default'}`;
+  }
+
   <template>
     <div class="issue">
-      <img src="/images/background-blob-error.svg" alt="error_background_image" class="blob" />
-      <RobotDialog @class="sad">
-        <Bubble @message={{@message}} />
+      <img src={{this.blobBackground}} alt="robot-speaker" class="blob" />
+      <RobotDialog @class={{this.robotMood}}>
+        {{#if this.hasMultipleMessages}}
+          {{#each @message as |text|}}
+            <Bubble @message={{text}} />
+          {{/each}}
+        {{else}}
+          <Bubble @message={{@message}} />
+        {{/if}}
       </RobotDialog>
       <PixButton class="pix1d-button" @triggerAction={{this.goToHome}} @iconBefore="arrow-left">{{t
           "pages.error.backHome"
