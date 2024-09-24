@@ -26,6 +26,7 @@ import { learnerManagementRoutes } from './src/prescription/learner-management/r
 import { organizationLearnerRoutes } from './src/prescription/organization-learner/routes.js';
 import { organizationPlaceRoutes } from './src/prescription/organization-place/routes.js';
 import { targetProfileRoutes } from './src/prescription/target-profile/routes.js';
+import { profileRoutes } from './src/profile/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
 import { config } from './src/shared/config.js';
 import { monitoringTools } from './src/shared/infrastructure/monitoring-tools.js';
@@ -150,6 +151,7 @@ const setupRoutesAndPlugins = async function (server) {
     identityAccessManagementRoutes,
     organizationalEntitiesRoutes,
     sharedRoutes,
+    profileRoutes,
     evaluationRoutes,
     flashCertificationRoutes,
     devcompRoutes,
