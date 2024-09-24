@@ -21,7 +21,6 @@ import {
   CandidateNotAuthorizedToResumeCertificationTestError,
   NotFoundError,
   UnexpectedUserAccountError,
-  UserNotAuthorizedToCertifyError,
 } from '../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
@@ -195,10 +194,6 @@ async function _startNewCertification({
     limitDate: new Date(),
     version,
   });
-
-  if (!placementProfile.isCertifiable()) {
-    throw new UserNotAuthorizedToCertifyError();
-  }
 
   const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
 
