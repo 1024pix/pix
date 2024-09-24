@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {
   CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
   CONCURRENCY_HEAVY_OPERATIONS,
-} from '../../../../../../lib/infrastructure/constants.js';
+} from '../../../../../shared/infrastructure/constants.js';
 import * as csvSerializer from '../../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 import { PromiseUtils } from '../../../../../shared/infrastructure/utils/promise-utils.js';
 import { CampaignProfilesCollectionResultLine } from '../../exports/campaigns/campaign-profiles-collection-result-line.js';
