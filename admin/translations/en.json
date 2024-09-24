@@ -373,6 +373,14 @@
             "warmUpLength": "Nombre de questions d'entraînement"
           }
         },
+        "sco-whitelist": {
+          "title": "SCO whitelist",
+          "import": {
+            "button": "Import new CSV file as whitelist",
+            "error": "Could not save SCO whitelist",
+            "success": "SCO whitelist saved"
+          }
+        },
         "scoring-simulator": {
           "title": "Scoring simulator",
           "actions": {
