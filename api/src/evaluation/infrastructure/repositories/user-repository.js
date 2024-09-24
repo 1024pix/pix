@@ -11,4 +11,13 @@ const updateMarkLevelSevenInfoAsSeen = async function ({ userId, userApi }) {
   return userApi.markLevelSevenInfoAsSeen({ userId });
 };
 
-export { updateMarkLevelSevenInfoAsSeen };
+/**
+ * @function
+ * @param {Object} params
+ * @param {UserApi} params.userApi
+ */
+const updateHasSeenNewDashboardInfo = async function ({ userId, userApi }) {
+  return userApi.updateHasSeenNewDashboardInfo({ userId });
+};
+
+export { updateHasSeenNewDashboardInfo, updateMarkLevelSevenInfoAsSeen };

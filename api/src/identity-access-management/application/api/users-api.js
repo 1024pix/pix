@@ -6,3 +6,7 @@ import { usecases } from '../../domain/usecases/index.js';
 export const markLevelSevenInfoAsSeen = async ({ userId }) => {
   return usecases.rememberUserHasSeenLevelSevenInformation({ userId });
 };
+
+export const updateHasSeenNewDashboardInfo = async ({ userId }) => {
+  return usecases.updateUserHasSeenNewDashboardInfo({ userId });
+};
