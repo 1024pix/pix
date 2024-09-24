@@ -4,7 +4,6 @@
  * @typedef {import ('./index.js').SessionRepository} SessionRepository
  * @typedef {import ('./index.js').UserRepository} UserRepository
  * @typedef {import ('../models/Candidate.js').Candidate} Candidate
- * @typedef {import ('../read-models/EnrolledCandidate.js').EnrolledCandidate} EnrolledCandidate
  */
 
 import {

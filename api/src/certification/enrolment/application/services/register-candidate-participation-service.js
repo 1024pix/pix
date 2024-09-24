@@ -1,5 +1,5 @@
 /**
- * @typedef {import ('./index.js').EnrolledCandidateRepository} EnrolledCandidateRepository
+ * @typedef {import ('../../domain/models/Candidate.js').Candidate} Candidate
  */
 
 import { usecases } from '../../domain/usecases/index.js';
@@ -7,8 +7,13 @@ import { usecases } from '../../domain/usecases/index.js';
 /**
  * Candidate entry to a certification is a multi step process
  * @param {Object} params
- * @param {EnrolledCandidateRepository} params.enrolledCandidateRepository
- * @returns {Promise<EnrolledCandidate>}
+ * @param {number} params.userId
+ * @param {number} params.sessionId
+ * @param {string} params.firstName
+ * @param {string} params.lastName
+ * @param {Date} params.birthdate
+ * @param {Function} params.normalizeStringFnc
+ * @returns {Promise<Candidate>}
  */
 export const registerCandidateParticipation = async ({
   userId,
@@ -17,7 +22,6 @@ export const registerCandidateParticipation = async ({
   lastName,
   birthdate,
   normalizeStringFnc,
-  enrolledCandidateRepository,
 }) => {
   const candidate = await usecases.verifyCandidateIdentity({
     userId,
@@ -28,12 +32,12 @@ export const registerCandidateParticipation = async ({
     normalizeStringFnc,
   });
 
-  if (!candidate.isLinkedToAUser()) {
-    await usecases.linkUserToCandidate({
-      userId,
-      candidate,
-    });
+  if (candidate.isLinkedToAUser()) {
+    return candidate;
   }
 
-  return enrolledCandidateRepository.get({ id: candidate.id });
+  return usecases.reconcileCandidate({
+    userId,
+    candidate,
+  });
 };

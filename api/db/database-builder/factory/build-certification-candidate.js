@@ -28,10 +28,11 @@ const buildCertificationCandidate = function ({
   prepaymentCode = null,
   hasSeenCertificationInstructions = false,
   accessibilityAdjustmentNeeded = false,
-  reconciliatedAt = null,
+  reconciledAt = null,
 } = {}) {
   sessionId = _.isUndefined(sessionId) ? buildSession().id : sessionId;
   userId = _.isUndefined(userId) ? buildUser().id : userId;
+  reconciledAt = userId ? new Date('2020-01-02') : undefined;
 
   const values = {
     id,
@@ -57,7 +58,7 @@ const buildCertificationCandidate = function ({
     prepaymentCode,
     hasSeenCertificationInstructions,
     accessibilityAdjustmentNeeded,
-    reconciliatedAt,
+    reconciledAt,
   };
 
   databaseBuffer.pushInsertable({
@@ -89,7 +90,7 @@ const buildCertificationCandidate = function ({
     prepaymentCode,
     hasSeenCertificationInstructions,
     accessibilityAdjustmentNeeded,
-    reconciliatedAt,
+    reconciledAt,
   };
 };
 

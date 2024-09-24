@@ -17,7 +17,7 @@ describe('Unit | Application | Service | register-candidate-participation', func
       get: sinon.stub(),
     };
     normalizeStringFnc = sinon.stub();
-    sinon.stub(usecases, 'linkUserToCandidate');
+    sinon.stub(usecases, 'reconcileCandidate');
   });
 
   context('when the candidate is already link to a user', function () {
@@ -45,10 +45,7 @@ describe('Unit | Application | Service | register-candidate-participation', func
         sessionId,
         normalizeStringFnc,
       });
-      expect(usecases.linkUserToCandidate).to.not.have.been.called;
-      expect(enrolledCandidateRepository.get).to.have.been.calledWithExactly({
-        id: alreadyLinkedCandidate.id,
-      });
+      expect(usecases.reconcileCandidate).to.not.have.been.called;
     });
   });
 
@@ -77,12 +74,9 @@ describe('Unit | Application | Service | register-candidate-participation', func
         sessionId,
         normalizeStringFnc,
       });
-      expect(usecases.linkUserToCandidate).to.have.been.calledWithExactly({
+      expect(usecases.reconcileCandidate).to.have.been.calledWithExactly({
         candidate: unlinkedCandidate,
         userId,
-      });
-      expect(enrolledCandidateRepository.get).to.have.been.calledWithExactly({
-        id: unlinkedCandidate.id,
       });
     });
   });

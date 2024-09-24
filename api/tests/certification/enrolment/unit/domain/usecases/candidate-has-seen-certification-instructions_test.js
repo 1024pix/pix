@@ -24,7 +24,7 @@ describe('Unit | UseCase | candidate-has-seen-certification-instructions', funct
       candidateRepository.update.resolves();
 
       // when
-      await candidateHasSeenCertificationInstructions({
+      const result = await candidateHasSeenCertificationInstructions({
         certificationCandidateId: 187,
         candidateRepository,
       });
@@ -36,14 +36,17 @@ describe('Unit | UseCase | candidate-has-seen-certification-instructions', funct
         hasSeenCertificationInstructions: true,
       });
       expect(candidateRepository.update).to.have.been.calledOnceWithExactly(expectedCandidateUpdated);
+      expect(result.hasSeenCertificationInstructions).to.be.true;
     });
 
     context('when no candidate is found', function () {
       it('should throw an CertificationCandidateNotFoundError', async function () {
         // given
+        const certificationCandidateId = 1;
+
         // when
         const error = await catchErr(candidateHasSeenCertificationInstructions)({
-          certificationCandidateId: 1,
+          certificationCandidateId,
           candidateRepository,
         });
 

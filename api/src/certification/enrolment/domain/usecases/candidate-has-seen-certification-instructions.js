@@ -1,11 +1,14 @@
 /**
  * @typedef {import ('./index.js').CandidateRepository} CandidateRepository
+ * @typedef {import ('../models/Candidate.js').Candidate} Candidate
  */
 import { CertificationCandidateNotFoundError } from '../errors.js';
 
 /**
  * @param {Object} params
+ * @param {number} params.certificationCandidateId
  * @param {CandidateRepository} params.candidateRepository
+ * @returns {Candidate}
  */
 const candidateHasSeenCertificationInstructions = async function ({ certificationCandidateId, candidateRepository }) {
   const candidate = await candidateRepository.get({ certificationCandidateId });
@@ -15,8 +18,8 @@ const candidateHasSeenCertificationInstructions = async function ({ certificatio
   }
 
   candidate.validateCertificationInstructions();
-
   await candidateRepository.update(candidate);
+  return candidate;
 };
 
 export { candidateHasSeenCertificationInstructions };

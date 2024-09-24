@@ -1,9 +1,9 @@
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
-import { linkUserToCandidate } from '../../../../../../src/certification/enrolment/domain/usecases/link-user-to-candidate.js';
+import { reconcileCandidate } from '../../../../../../src/certification/enrolment/domain/usecases/reconcile-candidate.js';
 import { UserNotAuthorizedToCertifyError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-candidate', function () {
+describe('Certification | Enrolment | Unit | Domain | UseCase | reconcile-candidate', function () {
   let candidateRepository;
   let placementProfileService;
   let dependencies;
@@ -46,13 +46,14 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-can
         });
 
         // when
-        const error = await catchErr(linkUserToCandidate)({
+        const error = await catchErr(reconcileCandidate)({
           candidate,
           ...dependencies,
         });
 
         //then
         expect(error).to.be.instanceOf(UserNotAuthorizedToCertifyError);
+        expect(candidateRepository.update).to.not.have.been.calledWith(candidate);
       });
     });
 
@@ -64,19 +65,22 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | link-user-to-can
 
         const candidate = domainBuilder.certification.enrolment.buildCandidate({
           userId: null,
+          reconciledAt: null,
           subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
 
         candidateRepository.update.withArgs(candidate).resolves();
 
         // when
-        await linkUserToCandidate({
+        await reconcileCandidate({
           candidate,
           ...dependencies,
         });
 
         //then
         expect(candidateRepository.update).to.have.been.calledWith(candidate);
+        expect(candidate.userId).to.equal(userId);
+        expect(candidate.reconciledAt).to.deep.equal(now);
       });
     });
   });

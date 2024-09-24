@@ -16,13 +16,15 @@ import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/error
  * @param {CandidateRepository} params.candidateRepository
  * @param {PlacementProfileService} params.placementProfileService
  *
- * @returns {Promise<void>}
+ * @returns {Promise<Candidate>}
  */
-export async function linkUserToCandidate({ userId, candidate, candidateRepository, placementProfileService }) {
+export async function reconcileCandidate({ userId, candidate, candidateRepository, placementProfileService }) {
+  candidate.reconcile(userId);
+
   if (candidate.hasCoreSubscription()) {
     const placementProfile = await placementProfileService.getPlacementProfile({
-      userId,
-      limitDate: new Date(),
+      userId: candidate.userId,
+      limitDate: candidate.reconciledAt,
     });
 
     if (!placementProfile.isCertifiable()) {
@@ -30,18 +32,18 @@ export async function linkUserToCandidate({ userId, candidate, candidateReposito
     }
   }
 
-  return _linkUser({ userId, candidate, candidateRepository });
+  await _saveReconcilement({ candidate, candidateRepository });
+  return candidate;
 }
 
-const _linkUser = withTransaction(
+const _saveReconcilement = withTransaction(
   /**
    * @param {Object} params
    * @param {number} params.userId
    * @param {Candidate} params.candidate
    * @param {CandidateRepository} params.candidateRepository
    */
-  async ({ userId, candidate, candidateRepository }) => {
-    candidate.link(userId);
+  async ({ candidate, candidateRepository }) => {
     return candidateRepository.update(candidate);
   },
 );

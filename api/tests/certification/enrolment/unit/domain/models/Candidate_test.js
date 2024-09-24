@@ -76,25 +76,18 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     });
   });
 
-  context('link', function () {
-    it('should link candidate to user', function () {
+  context('reconcile', function () {
+    it('should link candidate to a user', function () {
       // given
-      const createdAt = new Date();
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        userId: null,
-        createdAt,
-      });
+      const userId = 123;
+      const candidate = domainBuilder.certification.enrolment.buildCandidate();
 
       // when
-      candidate.link(123);
+      candidate.reconcile(userId);
 
       // then
-      expect(candidate).to.deepEqualInstance(
-        domainBuilder.certification.enrolment.buildCandidate({
-          userId: 123,
-          createdAt,
-        }),
-      );
+      expect(candidate.userId).to.equal(userId);
+      expect(candidate.reconciledAt).to.be.instanceOf(Date);
     });
   });
 

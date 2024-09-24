@@ -53,10 +53,4 @@ const serialize = function (enrolledCandidates) {
   }).serialize(enrolledCandidates);
 };
 
-const serializeForParticipation = function (enrolledCandidate) {
-  return new Serializer('certification-candidate', {
-    attributes: ['firstName', 'lastName', 'birthdate', 'sessionId', 'hasSeenCertificationInstructions'],
-  }).serialize(enrolledCandidate);
-};
-
-export { deserialize, serialize, serializeForParticipation };
+export { deserialize, serialize };

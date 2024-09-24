@@ -130,6 +130,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         id: null,
         createdAt: null,
         userId: null,
+        reconciledAt: null,
         billingMode: CertificationCandidate.BILLING_MODES.FREE,
         subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
       });
@@ -139,6 +140,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         id: null,
         createdAt: null,
         userId: null,
+        reconciledAt: null,
         billingMode: CertificationCandidate.BILLING_MODES.FREE,
         subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
       });
@@ -232,6 +234,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           id: null,
           createdAt: null,
           userId: null,
+          reconciledAt: null,
           billingMode: CertificationCandidate.BILLING_MODES.FREE,
           subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
@@ -241,6 +244,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           id: null,
           createdAt: null,
           userId: null,
+          reconciledAt: null,
           billingMode: CertificationCandidate.BILLING_MODES.FREE,
           subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
@@ -250,6 +254,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           id: null,
           createdAt: null,
           userId: null,
+          reconciledAt: null,
           billingMode: CertificationCandidate.BILLING_MODES.FREE,
           subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });

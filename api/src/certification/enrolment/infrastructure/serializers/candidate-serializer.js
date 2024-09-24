@@ -28,6 +28,12 @@ export async function deserialize(json) {
   });
 }
 
+export const serializeForParticipation = function (candidate) {
+  return new Serializer('certification-candidate', {
+    attributes: ['firstName', 'lastName', 'birthdate', 'sessionId', 'hasSeenCertificationInstructions'],
+  }).serialize(candidate);
+};
+
 export function serializeId(candidateId) {
   return new Serializer('certification-candidate', {}).serialize({ id: candidateId });
 }

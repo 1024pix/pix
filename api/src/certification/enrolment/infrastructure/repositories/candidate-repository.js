@@ -185,6 +185,7 @@ function adaptModelToDb(candidate) {
     authorizedToStart: candidate.authorizedToStart,
     sessionId: candidate.sessionId,
     userId: candidate.userId,
+    reconciledAt: candidate.reconciledAt,
     organizationLearnerId: candidate.organizationLearnerId,
     billingMode: candidate.billingMode,
     prepaymentCode: candidate.prepaymentCode,
