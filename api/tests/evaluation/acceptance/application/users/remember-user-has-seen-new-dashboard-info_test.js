@@ -3,7 +3,7 @@ import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | users-controller-has-seen-new-dashboard-info', function () {
   let server;
