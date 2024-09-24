@@ -1,7 +1,7 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { TargetProfileSummaryForAdmin } from '../../../src/prescription/target-profile/domain/models/TargetProfileSummaryForAdmin.js';
-import { fetchPage } from '../../../src/shared/infrastructure/utils/knex-utils.js';
-import { DomainTransaction } from '../DomainTransaction.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
+import { TargetProfileSummaryForAdmin } from '../../domain/models/TargetProfileSummaryForAdmin.js';
 
 const findPaginatedFiltered = async function ({ filter, page }) {
   const query = knex('target-profiles')
