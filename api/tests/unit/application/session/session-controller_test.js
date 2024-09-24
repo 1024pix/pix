@@ -52,43 +52,6 @@ describe('Unit | Controller | sessionController', function () {
   });
 
   describe('#publish / #unpublish', function () {
-    context('when publishing', function () {
-      it('should return the serialized session', async function () {
-        // given
-        const sessionId = 123;
-        const session = Symbol('session');
-        const serializedSession = Symbol('serializedSession');
-        const i18n = getI18n();
-        const sessionManagementSerializer = { serialize: sinon.stub() };
-        sinon
-          .stub(usecases, 'publishSession')
-          .withArgs({
-            sessionId,
-            i18n,
-          })
-          .resolves(session);
-        sessionManagementSerializer.serialize.withArgs({ session }).resolves(serializedSession);
-
-        // when
-        const response = await sessionController.publish(
-          {
-            i18n,
-            params: {
-              id: sessionId,
-            },
-            payload: {
-              data: { attributes: { toPublish: true } },
-            },
-          },
-          hFake,
-          { sessionManagementSerializer },
-        );
-
-        // then
-        expect(response).to.equal(serializedSession);
-      });
-    });
-
     context('when unpublishing', function () {
       it('should return the serialized session', async function () {
         // given

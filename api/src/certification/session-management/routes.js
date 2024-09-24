@@ -12,6 +12,7 @@ import * as juryCertification from './application/jury-certification-route.js';
 import * as juryComment from './application/jury-comment-route.js';
 import * as sessionForSupervising from './application/session-for-supervising-route.js';
 import * as sessionLiveAlert from './application/session-live-alert-route.js';
+import * as sessionPublication from './application/session-publication-route.js';
 import * as session from './application/session-route.js';
 import * as supervise from './application/supervise-route.js';
 import * as unfinalize from './application/unfinalize-route.js';
@@ -30,9 +31,10 @@ const certificationSessionRoutes = [
   invigilatorKit,
   juryCertification,
   juryComment,
+  session,
   sessionForSupervising,
   sessionLiveAlert,
-  session,
+  sessionPublication,
   supervise,
   unfinalize,
   updateCpfImportStatus,

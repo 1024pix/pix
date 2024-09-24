@@ -33,15 +33,6 @@ const generateSessionResultsDownloadLink = async function (request, h, dependenc
   return h.response({ sessionResultsLink });
 };
 
-const publish = async function (request, h, dependencies = { sessionManagementSerializer }) {
-  const sessionId = request.params.id;
-  const i18n = request.i18n;
-
-  const session = await usecases.publishSession({ sessionId, i18n });
-
-  return dependencies.sessionManagementSerializer.serialize({ session });
-};
-
 const publishInBatch = async function (request, h) {
   const sessionIds = request.payload.data.attributes.ids;
   const i18n = request.i18n;
@@ -75,7 +66,6 @@ const flagResultsAsSentToPrescriber = async function (request, h, dependencies =
 const sessionController = {
   getJuryCertificationSummaries,
   generateSessionResultsDownloadLink,
-  publish,
   publishInBatch,
   unpublish,
   flagResultsAsSentToPrescriber,
