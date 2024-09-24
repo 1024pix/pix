@@ -53,6 +53,28 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     assert.dom('#login-form-error-message').doesNotExist();
   });
 
+  module('When there are spaces in email', function (hooks) {
+    hooks.beforeEach(function () {
+      sinon.stub(sessionService, 'authenticate');
+      sessionService.authenticate.resolves();
+    });
+
+    test('it should should get rid of spaces', async function (assert) {
+      // given
+      await renderScreen(hbs`<Auth::LoginForm @organizationInvitationId='1' @organizationInvitationCode='C0D3' />`);
+      await fillByLabel(emailInputLabel, ' pix@example.net ');
+      await fillByLabel(passwordInputLabel, 'JeMeLoggue1024');
+
+      // when
+      await clickByName(loginLabel);
+
+      // then
+      assert.ok(
+        sessionService.authenticate.calledWith('authenticator:oauth2', 'pix@example.net', 'JeMeLoggue1024', 'pix-orga'),
+      );
+    });
+  });
+
   module('When there is no invitation', function (hooks) {
     hooks.beforeEach(function () {
       sinon.stub(sessionService, 'authenticate');
@@ -73,15 +95,30 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
         sessionService.authenticate.calledWith('authenticator:oauth2', 'pix@example.net', 'JeMeLoggue1024', 'pix-orga'),
       );
     });
+
+    test('should not call authenticate session when form is invalid', async function (assert) {
+      // given
+      await renderScreen(hbs`<Auth::LoginForm @organizationInvitationId='1' @organizationInvitationCode='C0D3' />`);
+      await fillByLabel(emailInputLabel, '');
+      await fillByLabel(passwordInputLabel, 'pix123');
+
+      // when
+      await clickByName(loginLabel);
+
+      // then
+      assert.ok(sessionService.authenticate.notCalled);
+    });
   });
 
   module('When there is an invitation', function (hooks) {
+    let saveStub;
     hooks.beforeEach(function () {
       sinon.stub(storeService, 'peekRecord');
       storeService.peekRecord.returns(null);
       const createRecordStub = sinon.stub(storeService, 'createRecord');
+      saveStub = sinon.stub().resolves();
       createRecordStub.returns({
-        save: sinon.stub().resolves(),
+        save: saveStub,
       });
       sinon.stub(sessionService, 'authenticate');
       sessionService.authenticate.resolves();
@@ -102,6 +139,36 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
       assert.ok(
         sessionService.authenticate.calledWith('authenticator:oauth2', 'pix@example.net', 'JeMeLoggue1024', 'pix-orga'),
       );
+    });
+
+    test('should accept organization invitation when form is valid', async function (assert) {
+      // given
+      await renderScreen(
+        hbs`<Auth::LoginForm @isWithInvitation='true' @organizationInvitationId='1' @organizationInvitationCode='C0D3' />`,
+      );
+      await fillByLabel(emailInputLabel, 'pix@example.net');
+      await fillByLabel(passwordInputLabel, 'JeMeLoggue1024');
+
+      //  when
+      await clickByName(loginLabel);
+
+      // then
+      assert.ok(saveStub.calledWithMatch({ adapterOptions: { organizationInvitationId: '1' } }));
+    });
+
+    test('should not accept organization invitation when form is invalid', async function (assert) {
+      // given
+      await renderScreen(
+        hbs`<Auth::LoginForm @isWithInvitation='true' @organizationInvitationId='1' @organizationInvitationCode='C0D3' />`,
+      );
+      await fillByLabel(emailInputLabel, '');
+      await fillByLabel(passwordInputLabel, 'pix123');
+
+      //  when
+      await clickByName(loginLabel);
+
+      // then
+      assert.ok(saveStub.notCalled);
     });
   });
 
