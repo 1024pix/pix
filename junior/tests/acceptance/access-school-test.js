@@ -114,7 +114,8 @@ module('Acceptance | School', function (hooks) {
         // when
         const screen = await visit('/schools/INVALID00');
         // then
-        assert.dom(screen.getByText(t('pages.school.not-found'))).exists();
+        assert.dom(screen.getByText(t('pages.school.not-found.sentence-1'))).exists();
+        assert.dom(screen.getByText(t('pages.school.not-found.sentence-2'))).exists();
       });
     });
 
