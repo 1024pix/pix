@@ -10,4 +10,5 @@ const learnerManagementRoutes = [
   organizationImport,
 ];
 
+// test ownershop
 export { learnerManagementRoutes };
