@@ -82,6 +82,32 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
       await click(screen.getByRole('option', { name: 'English' }));
       assert.dom(screen.getByText('You have been invited to join the organisation Organization Aztec')).exists();
     });
+
+    test('saves selected locale and remove lang from query params', async function (assert) {
+      // given
+      class CurrentDomainServiceStub extends Service {
+        get isFranceDomain() {
+          return false;
+        }
+      }
+
+      this.owner.register('service:currentDomain', CurrentDomainServiceStub);
+      const routerService = this.owner.lookup('service:router');
+      const localeService = this.owner.lookup('service:locale');
+
+      sinon.stub(routerService, 'replaceWith');
+      sinon.stub(localeService, 'setLocale');
+
+      // when
+      const screen = await render(hbs`<Auth::LoginOrRegister @organizationName='Organization Aztec' />`);
+      await click(screen.getByRole('button', { name: t('pages.login.choose-language-aria-label') }));
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'English' }));
+
+      // then
+      assert.ok(localeService.setLocale.calledWithMatch('en'));
+      assert.ok(routerService.replaceWith.calledWithMatch('join', { queryParams: { lang: null } }));
+    });
   });
 
   module('when domain is .fr', function () {
