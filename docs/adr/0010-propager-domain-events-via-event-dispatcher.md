@@ -6,9 +6,10 @@ Cet ADR étend l'ADR [#8](./0008-découplage-fonctionnel-via-evenements.md)
 
 ## État
 
-Amendé par [0023-précision-sur-les-transactions-et-les-événements-métier.md][0023].
+Obsolète : l’`EventDispatcher` est déprécié.
 
-[0023]: ./0023-précision-sur-les-transactions-et-les-événements-métier.md
+Remplacé par [0025-précision-sur-les-transactions-et-les-événements-métier.md][0025].
+[0025]: ./0025-précision-sur-les-transactions-et-les-événements-métier.md
 
 ## Contexte
 
