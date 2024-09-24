@@ -128,6 +128,11 @@
   "charts": {
     "participants-by-day": {
       "title": "Participant's activity",
+      "captions": {
+        "shared": "Submitted results by day",
+        "shared-profile": "Submitted profiles by day",
+        "started": "Total participants by day"
+      },
       "labels-a11y": {
         "date": "Date",
         "shared": "Submitted results",

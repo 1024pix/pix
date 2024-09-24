@@ -131,6 +131,11 @@
   "charts": {
     "participants-by-day": {
       "title": "Activité des participants",
+      "captions": {
+        "shared": "Total de participants par jour ayant envoyé leurs résultats par jour",
+        "shared-profile": "Total de participants ayant envoyé leurs profils par jour",
+        "started": "Total de participants par jour"
+      },
       "labels-a11y": {
         "date": "Date",
         "shared": "Total des participants ayant envoyé leurs résultats",
