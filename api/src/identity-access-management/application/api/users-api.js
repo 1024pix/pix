@@ -7,6 +7,6 @@ export const markLevelSevenInfoAsSeen = async ({ userId }) => {
   return usecases.rememberUserHasSeenLevelSevenInformation({ userId });
 };
 
-export const updateHasSeenNewDashboardInfo = async ({ userId }) => {
-  return usecases.updateUserHasSeenNewDashboardInfo({ userId });
+export const markNewDashboardInfoAsSeen = async ({ userId }) => {
+  return usecases.markUserHasSeenNewDashboardInfo({ userId });
 };
