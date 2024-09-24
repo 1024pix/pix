@@ -5,4 +5,5 @@ async function findLegacyAnonymizedIds() {
   return knexConn('users').where({ hasBeenAnonymised: true }).whereNot({ lastName: '(anonymised)' }).pluck('id');
 }
 
+// Test ownership
 export const anonymizedUserRepository = { findLegacyAnonymizedIds };
