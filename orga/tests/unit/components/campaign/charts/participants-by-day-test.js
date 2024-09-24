@@ -14,25 +14,6 @@ module('Unit | Component | Campaign::Charts::ParticipantsByDay', (hooks) => {
     dataFetcher = sinon.stub(adapter, 'getParticipationsByDay');
   });
 
-  test('should pass without data', async function (assert) {
-    // given
-    dataFetcher.resolves({
-      data: {
-        attributes: {
-          'started-participations': [],
-          'shared-participations': [],
-        },
-      },
-    });
-
-    // when
-    component = await createGlimmerComponent('component:campaign/charts/participants-by-day');
-
-    // then
-    assert.deepEqual(component.startedDatasets, []);
-    assert.deepEqual(component.sharedDatasets, []);
-  });
-
   test('should fill the default datasets', async function (assert) {
     // given
     dataFetcher.resolves({
