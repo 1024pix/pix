@@ -1,16 +1,16 @@
 {
   "id": "f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d",
   "slug": "bien-ecrire-son-adresse-mail",
-  "title": "Bien écrire son adresse mail",
+  "title": "Bien écrire une adresse mail",
   "details": {
     "image": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg",
-    "description": "Bien écrire son adresse mail est important. Dans ce module, vous allez apprendre à écrire correctement une adresse e-mail pour mieux communiquer et éviter les erreurs courantes.",
+    "description": "Écrire une adresse mail, c'est la première étape pour communiquer avec vos proches par mail. Dans ce module, découvrez les différentes partie de l'adresse mail et des erreurs à éviter.",
     "duration": 12,
     "level": "Débutant",
     "tabletSupport": "comfortable",
     "objectives": [
-      "Connaître les différentes parties d’une adresse mail et les identifier sur des exemples",
-      "Comprendre les fonctions de chaque partie d’une adresse mail",
+      "Reconnaître les différentes parties d’une adresse mail et les identifier sur des exemples",
+      "Associer chaque partie d'une adresse mail à sa fonction",
       "Écrire une adresse mail correctement, en évitant les erreurs courantes"
     ]
   },
@@ -20,7 +20,7 @@
       "grainId": "34d225e8-5d52-4ebd-9acd-8bde8438cfc9"
     },
     {
-      "content": "<p>Et oui&#8239;! Naomi le sait&nbsp;: les adresses mails ont une forme particulière.</p><p>Étudions en détails l’adresse mail de Mickaël.&nbsp;<span aria-hidden=\"true\">👨‍🏫👩‍🏫</span></p>",
+      "content": "<p>Et oui&#8239;! Naomi le sait&nbsp;: les adresses mails ont une forme particulière.</p><p>Étudions en détails l’adresse mail de Mickaël.&nbsp;<span aria-hidden=\"true\">🔎</span></p>",
       "grainId": "af860b1e-0566-4b06-bcb4-a68a5151d621"
     },
     {
@@ -87,7 +87,7 @@
                 {
                   "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
                   "type": "text",
-                  "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>Partie 1&nbsp;: l’identifiant choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque, même avec des majuscules&#8239;!</p><p><span aria-hidden=\"true\">✅</span> Par exemple&nbsp;: mika671 ou G3oDu671</p><p class=\"pix-list-inline\"><span aria-hidden=\"true\">❌</span> Mais certains caractères sont interdits&nbsp;:</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
+                  "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>Partie 1&nbsp;: l’identifiant.Cette partie est choisie par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque, même avec des majuscules&#8239;!</p><p><span aria-hidden=\"true\">✅</span> Par exemple&nbsp;: mika.aubert123 ; mika671 ou G3oDu671</p><p class=\"pix-list-inline\"><span aria-hidden=\"true\">❌</span> Mais certains caractères sont interdits&nbsp;:</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
                 }
               ]
             },
@@ -103,7 +103,7 @@
                 {
                   "id": "ad8ad08a-3ff7-4228-8233-6cd5ce0f4812",
                   "type": "text",
-                  "content": "<h3 class=\"screen-reader-only\">L'arobase</h3><h4>Au centre&nbsp;: l’arobase qui sépare l’identifiant du fournisseur d’adresse mail.</h4><p><span aria-hidden=\"true\">🇬🇧</span> En anglais, ce symbole se lit <i lang=\"en\">“at”</i> et veut dire “chez”.</p><p><span aria-hidden=\"true\">🤔</span> Le saviez-vous&nbsp;? L'arobase est un symbole qui était utilisé bien avant l’informatique, pour compter des quantités par exemple.</p>"
+                  "content": "<h3 class=\"screen-reader-only\">L'arobase</h3><h4>Au centre&nbsp;: l’arobase qui sépare l’identifiant du fournisseur d’adresse mail.</h4><p><span aria-hidden=\"true\">🇬🇧</span> En anglais, ce symbole se lit <i lang=\"en\">“at”</i> et veut dire “chez”.</p><p><span aria-hidden=\"true\">💡</span> L'arobase est un symbole qui était utilisé avant l’informatique. Il a été choisi pour l'adresse mail car il était très peu utilisé à l'époque.</p>"
                 }
               ]
             },
@@ -119,7 +119,7 @@
                 {
                   "id": "1fd829f8-1799-4779-a28d-5d26fba31b8b",
                   "type": "text",
-                  "content": "<h3 class=\"screen-reader-only\">Le fournisseur d’adresse mail</h3><h4>Partie 2&nbsp;: le fournisseur d’adresse mail. Cette partie de l’adresse est donnée par le fournisseur.</h4><p><span aria-hidden=\"true\">✅</span> Voici des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com, yahoo.fr)</li><li>Microsoft (hotmail.com, live.fr)</li></ul>"
+                  "content": "<h3 class=\"screen-reader-only\">Le fournisseur d’adresse mail</h3><h4>Partie 2&nbsp;: le fournisseur d’adresse mail. Cette partie de l’adresse est donnée par le fournisseur.</h4><p><span aria-hidden=\"true\">✅</span> Voici des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com, yahoo.fr)</li><li>Microsoft (hotmail.com, live.fr)</li></ul><p>Soyez attentifs à l'extension (<i>.fr</i>, <i>.com</i>, etc.) quand vous écrivez une adresse mail pour qu'il soit envoyé à la bonne adresse. <span aria-hidden=\"true\">🧐</span></p>"
                 }
               ]
             }
@@ -148,7 +148,7 @@
                 "type": "input",
                 "inputType": "text",
                 "size": 3,
-                "display": "block",
+                "display": "inline",
                 "placeholder": "",
                 "ariaLabel": "Réponse 1 sur 1",
                 "defaultValue": "",
@@ -184,7 +184,7 @@
               {
                 "input": "premiere-partie",
                 "type": "select",
-                "display": "block",
+                "display": "inline",
                 "placeholder": "- Sélectionner -",
                 "ariaLabel": "Réponse 1 sur 2",
                 "defaultValue": "",
@@ -203,12 +203,12 @@
               },
               {
                 "type": "text",
-                "content": "<span>Partie 2&nbsp;:</span>"
+                "content": "<br><span>Partie 2&nbsp;:</span>"
               },
               {
                 "input": "seconde-partie",
                 "type": "select",
-                "display": "block",
+                "display": "inline",
                 "placeholder": "- Sélectionner -",
                 "ariaLabel": "Réponse 2 sur 2",
                 "defaultValue": "",
@@ -248,128 +248,105 @@
           }
         },
         {
-          "type": "element",
-          "element": {
-            "id": "71482f12-b439-43ca-8c9c-d26928895829",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "29195dde-b603-488f-a554-f391fbdf3b24",
-            "type": "qcu",
-            "instruction": "<p>On peut avoir des chiffres dans l’identifiant de son adresse mail.</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Vrai"
-              },
-              {
-                "id": "2",
-                "content": "Faux"
-              }
-            ],
-            "feedbacks": {
-              "valid": "<p class=\"feedback__state\">Oui, aucun problème&#8239;!</p><p class=\"pix-list-inline\">Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>",
-              "invalid": "<p class=\"feedback__state\">Et si&#8239;!</p><p class=\"pix-list-inline\">Les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "ba78dead-a806-4954-b408-e8ef28d28fab",
+                  "type": "qcu",
+                  "instruction": "<p>L’adresse mail M3g4Cool1415@gmail.com est correctement écrite.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Et oui&#8239;!</span><p>Cette adresse est correctement écrite. On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>",
+                    "invalid": "<span class=\"feedback__state\">Et si&#8239;!</span><p>Cette adresse est correctement écrite. On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
             },
-            "solution": "1"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "9ebba6bc-f7f7-437e-9a88-b15d45a50a1c",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "ba78dead-a806-4954-b408-e8ef28d28fab",
-            "type": "qcu",
-            "instruction": "<p>L’adresse mail M3g4Cool1415@gmail.com est correctement écrite.</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Vrai"
-              },
-              {
-                "id": "2",
-                "content": "Faux"
-              }
-            ],
-            "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Et oui&#8239;!</span><p>Cette adresse est correctement écrite. On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>",
-              "invalid": "<span class=\"feedback__state\">Et si&#8239;!</span><p>Cette adresse est correctement écrite. On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>"
+            {
+              "elements": [
+                {
+                  "id": "4231af7b-dca5-4d79-acfe-b485e0127ae1",
+                  "type": "qcu",
+                  "instruction": "<p>Il y a toujours un symbole @ dans une adresse mail.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @ entre les deux.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @ entre les deux.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
             },
-            "solution": "1"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "502092ae-adbc-4c0f-bb4c-a8576accb6d7",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "4231af7b-dca5-4d79-acfe-b485e0127ae1",
-            "type": "qcu",
-            "instruction": "<p>Il faut toujours un symbole @ dans une adresse mail.</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Vrai"
-              },
-              {
-                "id": "2",
-                "content": "Faux"
-              }
-            ],
-            "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @ entre les deux.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @ entre les deux.</p>"
+            {
+              "elements": [
+                {
+                  "id": "9bd65c37-ea5d-49a9-a59c-4e07ab3f1049",
+                  "type": "qcu",
+                  "instruction": "<p>Toutes les adresses mails se terminent par gmail.com. </p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Bien vu&#8239;!</span><p>Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y en énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Il y a d’autres fournisseurs d’adresses mails que Google (gmail.com).</p><p>Il y en a énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>"
+                  },
+                  "solution": "2"
+                }
+              ]
             },
-            "solution": "1"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "20738498-66d5-48b0-b8b6-d5ccaf8077df",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "9bd65c37-ea5d-49a9-a59c-4e07ab3f1049",
-            "type": "qcu",
-            "instruction": "<p>Toutes les adresses mails se terminent par gmail.com. </p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Vrai"
-              },
-              {
-                "id": "2",
-                "content": "Faux"
-              }
-            ],
-            "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Bien vu&#8239;!</span><p>Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y en énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>",
-              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Il y a d’autres fournisseurs d’adresses mails que Google (gmail.com).</p><p>Il y en a énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>"
-            },
-            "solution": "2"
-          }
+            {
+              "elements": [
+                {
+                  "id": "29195dde-b603-488f-a554-f391fbdf3b24",
+                  "type": "qcu",
+                  "instruction": "<p>Il peut y avoir deux adresses mails identiques</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<p class=\"feedback__state\">Correct&#8239;!</p><p>Une adresse mail est <strong>unique</strong>.<br>Si une personne s'apelle comme vous, vous devez prendre un autre identifiant ou un autre fournisseur.</p>",
+                    "invalid": "<p class=\"feedback__state\">Incorrect.</p><p>Une adresse mail est <strong>unique</strong>.<br>Si une personne s'apelle comme vous, vous devez prendre un autre identifiant ou un autre fournisseur.</p>"
+                  },
+                  "solution": "2"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -383,7 +360,7 @@
           "element": {
             "id": "b0fcb950-b5b1-4384-886e-79fb852d5bb7",
             "type": "text",
-            "content": "<h3>Ce qu’il faut retenir&nbsp;:</h3><ul><li>Il peut y avoir des chiffres dans l’identifiant d’une adresse mail. Ils peuvent être n’importe où dans l’identifiant. <br></li><li>Il y a une seule @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite</h3><ul><li>L'utilisateur .</li><li>Il y a une seule @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
           }
         }
       ]
@@ -409,7 +386,7 @@
                 "type": "input",
                 "inputType": "text",
                 "size": 20,
-                "display": "block",
+                "display": "inline",
                 "placeholder": "",
                 "ariaLabel": "Adresse mail de Naomi",
                 "defaultValue": "",
