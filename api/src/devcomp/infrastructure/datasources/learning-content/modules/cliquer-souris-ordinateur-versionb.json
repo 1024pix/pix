@@ -224,8 +224,7 @@
                 {
                    "id": "2e9d6046-33d5-46d8-be10-dc7b75ad18f5",
                     "type": "separator"
-                  }
-                },
+                  },
                 {
                   "id": "4c2ce336-aa9a-49b5-ba4f-84530e21b52d",
                   "type": "text",
@@ -415,7 +414,7 @@
                 {
                   "id": "301930f5-8b8c-4e16-a7fd-aa4ab37d3d3f",
                   "type": "text",
-                  "content": "<h3><span aria-hidden=\"true\"> 📌 </span>Résumons&nbsp;:</h3><ul><li><strong>Le bouton gauche</strong> vous permet de faire des clics gauche et des doubles&#x002D;clics sur des éléments.</li><li><strong>Le bouton droit</strong> vous permet de faire apparaître une liste d’actions possibles avec l'élément.</li><li><strong>La molette </strong> permet de monter ou de descendre dans une page.</li></ul> <p><br><span aria-hidden=\"true\">👉</span> Vous pouvez maintenant <a href=\"https://drive.google.com/file/d/1M46koCUezpjjT6F_I3-L3gMrlkzO4oxN/view\">Ouvrir votre fiche de synthèse en cliquant ici.</a></p>"
+                  "content": "<h3><span aria-hidden=\"true\"> 📌 </span>Résumons&nbsp;:</h3><ul><li><strong>Le bouton gauche</strong> vous permet de faire des clics gauche et des doubles&#x002D;clics sur des éléments.</li><li><strong>Le bouton droit</strong> vous permet de faire apparaître une liste d’actions possibles avec l'élément.</li><li><strong>La molette </strong> permet de monter ou de descendre dans une page.</li></ul> <p><br><span aria-hidden=\"true\">👉</span> Vous pouvez maintenant <a href=\"https://drive.google.com/file/d/1M46koCUezpjjT6F_I3-L3gMrlkzO4oxN/view\" target=\"_blank\">ouvrir votre fiche de révision en cliquant ici.</a>"
                 }
               ]
             }
