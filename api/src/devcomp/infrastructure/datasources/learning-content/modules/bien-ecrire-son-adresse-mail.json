@@ -360,7 +360,7 @@
           "element": {
             "id": "b0fcb950-b5b1-4384-886e-79fb852d5bb7",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite</h3><ul><li>L'utilisateur .</li><li>Il y a une seule @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite</h3><ul><li>C'est l'utilisateur qui choisi son identifiant d'adresse mail. Il peut utiliser des chiffres ou des majuscules.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: mika.aubert123 ; M3g4Cool1415, etc.</li><li>Il y a une @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
           }
         }
       ]
