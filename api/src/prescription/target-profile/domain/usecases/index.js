@@ -13,6 +13,7 @@ import * as organizationsToAttachToTargetProfileRepository from '../../infrastru
 import * as targetProfileAdministrationRepository from '../../infrastructure/repositories/target-profile-administration-repository.js';
 import * as targetProfileBondRepository from '../../infrastructure/repositories/target-profile-bond-repository.js';
 import * as targetProfileForSpecifierRepository from '../../infrastructure/repositories/target-profile-for-specifier-repository.js';
+import * as targetProfileSummaryForAdminRepository from '../../infrastructure/repositories/target-profile-summary-for-admin-repository.js';
 
 const dependencies = {
   targetProfileForAdminRepository,
@@ -25,6 +26,7 @@ const dependencies = {
   targetProfileRepository,
   targetProfileBondRepository,
   targetProfileAdministrationRepository,
+  targetProfileSummaryForAdminRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
