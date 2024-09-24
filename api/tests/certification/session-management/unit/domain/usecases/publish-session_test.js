@@ -1,7 +1,7 @@
-import { publishSession } from '../../../../lib/domain/usecases/publish-session.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { publishSession } from '../../../../../../src/certification/session-management/domain/usecases/publish-session.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | publish-session', function () {
+describe('Certification | Session-Management | Unit | Domain | Use Cases | Publish-Session', function () {
   it('delegates the action to the session-publication-service and return the session', async function () {
     // given
     const i18n = Symbol('i18n');

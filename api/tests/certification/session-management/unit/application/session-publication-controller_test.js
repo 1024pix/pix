@@ -1,5 +1,5 @@
-import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { sessionPublicationController } from '../../../../../src/certification/session-management/application/session-publication-controller.js';
+import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
