@@ -1,5 +1,5 @@
 /**
- * @typedef {import ('../../../../../lib/domain/usecases/index.js').CertificationRepository} CertificationRepository
+ * @typedef {import ('../../../../../src/certification/session-management/domain/usecases/index.js').CertificationRepository} CertificationRepository
  * @typedef {import ('../../../../../lib/domain/usecases/index.js').FinalizedSessionRepository} FinalizedSessionRepository
  * @typedef {import ('../../../../../lib/domain/usecases/index.js').SharedSessionRepository} SharedSessionRepository
  * @typedef {import ('../../../../../lib/domain/usecases/index.js').SessionRepository} SessionRepository

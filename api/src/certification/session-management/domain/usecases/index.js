@@ -15,6 +15,7 @@ import {
   assessmentRepository,
   assessmentResultRepository,
   certificationChallengeRepository,
+  certificationRepository,
   challengeRepository,
   competenceMarkRepository,
   cpfExportRepository,
@@ -39,6 +40,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {import('../../infrastructure/repositories/index.js').AssessmentResultRepository} AssessmentResultRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CompetenceMarkRepository} CompetenceMarkRepository
  * @typedef {import('../../infrastructure/repositories/index.js').ChallengeRepository} ChallengeRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CertificationRepository} CertificationRepository
  * @typedef {import('../../infrastructure/repositories/index.js').AnswerRepository} AnswerRepository
  * @typedef {import('../../infrastructure/repositories/index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
@@ -76,6 +78,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
  * @typedef {certificationChallengeRepository} CertificationChallengeRepository
  * @typedef {challengeRepository} ChallengeRepository
+ * @typedef {certificationRepository} CertificationRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {juryCertificationRepository} JuryCertificationRepository
  * @typedef {jurySessionRepository} JurySessionRepository
@@ -107,6 +110,7 @@ const dependencies = {
   answerRepository,
   sharedCompetenceMarkRepository,
   challengeRepository,
+  certificationRepository,
   competenceMarkRepository,
   cpfReceiptsStorage,
   cpfExportsStorage,

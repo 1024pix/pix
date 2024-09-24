@@ -19,6 +19,7 @@ import * as flashAlgorithmConfigurationRepository from '../../../shared/infrastr
 import * as certificationCandidateForSupervisingRepository from './certification-candidate-for-supervising-repository.js';
 import * as certificationCandidateRepository from './certification-candidate-repository.js';
 import * as certificationOfficerRepository from './certification-officer-repository.js';
+import * as certificationRepository from './certification-repository.js';
 import * as competenceMarkRepository from './competence-mark-repository.js';
 import * as courseAssessmentResultRepository from './course-assessment-result-repository.js';
 import * as cpfExportRepository from './cpf-export-repository.js';
@@ -54,6 +55,7 @@ import * as v3CertificationCourseDetailsForAdministrationRepository from './v3-c
  * @typedef {sessionRepository} SessionRepository
  * @typedef {supervisorAccessRepository} SupervisorAccessRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
+ * @typedef {certificationRepository} CertificationRepository
  * @typedef {v3CertificationCourseDetailsForAdministrationRepository} V3CertificationCourseDetailsForAdministrationRepository
  * @typedef {competenceRepository} CompetenceRepository
  * @typedef {challengeRepository} ChallengeRepository
@@ -113,6 +115,7 @@ export {
   assessmentRepository,
   assessmentResultRepository,
   certificationChallengeRepository,
+  certificationRepository,
   challengeRepository,
   competenceMarkRepository,
   cpfExportRepository,
