@@ -393,7 +393,7 @@
         "element": {
           "id": "85ac9805-09f8-456b-8b5f-f26fe19ca618",
           "type": "text",
-          "content":"<p><br><span aria-hidden=\"true\">👉</span> Vous pouvez maintenant <a href="https://drive.google.com/file/d/1VdnGxbkHsWG66N13s2WVQT8IYf5OWGDb/view?usp=drive_link\" target="_blank">Ouvrir votre fiche de synthèse en cliquant ici</a>.</p>"
+          "content":"<span aria-hidden=\"true\">👉</span> <p>Vous pouvez maintenant <a href=\"https://drive.google.com/file/d/1VdnGxbkHsWG66N13s2WVQT8IYf5OWGDb/view?usp=sharing\" target=\"_blank\">Ouvrir votre fiche de synthèse</a>.</p>"
         }
       }
     ]
