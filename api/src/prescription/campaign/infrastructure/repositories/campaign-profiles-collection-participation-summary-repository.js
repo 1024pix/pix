@@ -2,8 +2,8 @@ import chunk from 'lodash/chunk.js';
 import isBoolean from 'lodash/isBoolean.js';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { constants } from '../../../../../lib/infrastructure/constants.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
+import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../../../shared/infrastructure/constants.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
@@ -82,7 +82,7 @@ async function _makeMemoizedGetPlacementProfileForUser(results) {
   const sharedResults = results.filter(({ sharedAt }) => sharedAt);
 
   const sharedResultsChunks = await PromiseUtils.mapSeries(
-    chunk(sharedResults, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING),
+    chunk(sharedResults, CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING),
     (sharedResultsChunk) => {
       const userIdsAndDates = sharedResultsChunk.map(({ userId, sharedAt }) => {
         return { userId, sharedAt };
