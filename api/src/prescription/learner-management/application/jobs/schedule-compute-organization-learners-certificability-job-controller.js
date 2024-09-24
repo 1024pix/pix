@@ -16,6 +16,10 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobController extends Jo
     });
   }
 
+  get legacyName() {
+    return 'ComputeOrganizationLearnersCertificabilityJob';
+  }
+
   async handle({
     data = {},
     dependencies = { organizationLearnerRepository, computeCertificabilityJobRepository, config, logger },
