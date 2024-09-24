@@ -29,11 +29,11 @@ describe('Certification | Configuration | Integration | Repository | center-repo
       databaseBuilder.factory.buildCertificationCenter({
         isV3Pilot: false,
         type: CERTIFICATION_CENTER_TYPES.PRO,
-      }).id;
+      });
       databaseBuilder.factory.buildCertificationCenter({
         isV3Pilot: true,
         type: CERTIFICATION_CENTER_TYPES.SUP,
-      }).id;
+      });
       await databaseBuilder.commit();
 
       // when
@@ -55,6 +55,10 @@ describe('Certification | Configuration | Integration | Repository | center-repo
       it('should return an empty array', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({ isV3Pilot: true }).id;
+        databaseBuilder.factory.buildCertificationCenter({
+          isV3Pilot: true,
+          type: CERTIFICATION_CENTER_TYPES.PRO,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -110,12 +114,20 @@ describe('Certification | Configuration | Integration | Repository | center-repo
   describe('#addToWhitelistByExternalIds', function () {
     it('should set the centers as whitelisted', async function () {
       // given
-      const whitelistedExternalId = '1234ABC';
-      const centerId = databaseBuilder.factory.buildCertificationCenter({
+      const whitelistedExternalId1 = '1234ABC';
+      const center1BeforeUpdate = databaseBuilder.factory.buildCertificationCenter({
+        type: CenterTypes.SCO,
+        externalId: whitelistedExternalId1,
+        isScoBlockedAccessWhitelist: false,
+        updatedAt: new Date('2024-09-24'),
+      });
+      const whitelistedExternalId2 = 'SCOUAI';
+      const center2BeforeUpdate = databaseBuilder.factory.buildCertificationCenter({
         type: CenterTypes.SCO,
         externalId: whitelistedExternalId2,
         isScoBlockedAccessWhitelist: false,
-      }).id;
+        updatedAt: new Date('2024-09-24'),
+      });
       await databaseBuilder.commit();
 
       // when
@@ -124,26 +136,71 @@ describe('Certification | Configuration | Integration | Repository | center-repo
       });
 
       // then
-      const updatedCenter = await knex('certification-centers').where({ id: centerId }).first();
-      expect(updatedCenter.isScoBlockedAccessWhitelist).to.be.true;
+      const updatedCenter1 = await knex('certification-centers').where({ id: center1BeforeUpdate.id }).first();
+      expect(updatedCenter1.isScoBlockedAccessWhitelist).to.be.true;
+      expect(updatedCenter1.updatedAt).to.be.above(center1BeforeUpdate.updatedAt);
+
+      const updatedCenter2 = await knex('certification-centers').where({ id: center2BeforeUpdate.id }).first();
+      expect(updatedCenter2.isScoBlockedAccessWhitelist).to.be.true;
+      expect(updatedCenter2.updatedAt).to.be.above(center2BeforeUpdate.updatedAt);
+    });
+
+    it('should not whitelist centers other than SCO', async function () {
+      // given
+      const whitelistedExternalId1 = '1234ABC';
+      const nonSCOCenterBeforeUpdate = databaseBuilder.factory.buildCertificationCenter({
+        type: CenterTypes.PRO,
+        externalId: whitelistedExternalId1,
+        isScoBlockedAccessWhitelist: false,
+        updatedAt: new Date('2024-09-24'),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await centerRepository.addToWhitelistByExternalIds({
+        externalIds: [whitelistedExternalId1],
+      });
+
+      // then
+      const updatedCenter1 = await knex('certification-centers').where({ id: nonSCOCenterBeforeUpdate.id }).first();
+      expect(updatedCenter1.isScoBlockedAccessWhitelist).to.be.false;
     });
   });
 
   describe('#resetWhitelist', function () {
     it('should reset all isScoBlockedAccessWhitelist to false', async function () {
       // given
-      const centerId = databaseBuilder.factory.buildCertificationCenter({
+      const centerBeforeUpdate = databaseBuilder.factory.buildCertificationCenter({
         type: CenterTypes.SCO,
         isScoBlockedAccessWhitelist: true,
-      }).id;
+        updatedAt: new Date('2024-09-24'),
+      });
       await databaseBuilder.commit();
 
       // when
       await centerRepository.resetWhitelist();
 
       // then
-      const updatedCenter = await knex('certification-centers').where({ id: centerId }).first();
+      const updatedCenter = await knex('certification-centers').where({ id: centerBeforeUpdate.id }).first();
       expect(updatedCenter.isScoBlockedAccessWhitelist).to.be.false;
+      expect(updatedCenter.updatedAt).to.be.above(centerBeforeUpdate.updatedAt);
+    });
+
+    it('should not reset centers other than SCO', async function () {
+      // given
+      const centerBeforeUpdate = databaseBuilder.factory.buildCertificationCenter({
+        type: CenterTypes.PRO,
+        isScoBlockedAccessWhitelist: true,
+        updatedAt: new Date('2024-09-24'),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await centerRepository.resetWhitelist();
+
+      // then
+      const updatedCenter = await knex('certification-centers').where({ id: centerBeforeUpdate.id }).first();
+      expect(updatedCenter.isScoBlockedAccessWhitelist).to.be.true;
     });
   });
 });
