@@ -54,8 +54,8 @@ export const verifyCandidateIdentity = async ({
     normalizeStringFnc,
   });
 
-  if (candidate.isLinkedToAUser()) {
-    if (candidate.isLinkedTo(userId)) {
+  if (candidate.isReconciled()) {
+    if (candidate.isReconciledTo(userId)) {
       return candidate;
     }
     throw new UnexpectedUserAccountError({});

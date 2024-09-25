@@ -221,7 +221,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
   });
 
   context('when there are one matching candidate in session with provided personal info', function () {
-    context('when matching candidate is already linked to another user', function () {
+    context('when matching candidate is already reconciled to another user', function () {
       it('should throw a UnexpectedUserAccountError', async function () {
         // given
         userRepository.get.withArgs({ id: userId }).resolves(
@@ -248,6 +248,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           firstName,
           lastName,
           userId: userId + 10,
+          reconciledAt: new Date('2024-09-25'),
           birthdate,
           subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
@@ -272,8 +273,8 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       });
     });
 
-    context('when matching candidate is already linked given user', function () {
-      it('should return a succes indicating no linkage done', async function () {
+    context('when matching candidate is already reconciled to given user', function () {
+      it('should return a succes indicating no reconciliation done', async function () {
         // given
         userRepository.get.withArgs({ id: userId }).resolves(
           domainBuilder.certification.enrolment.buildUser({
@@ -299,6 +300,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           firstName,
           lastName,
           userId,
+          reconciledAt: new Date('2024-09-25'),
           birthdate,
           subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
