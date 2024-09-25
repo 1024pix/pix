@@ -6,6 +6,7 @@ import * as OidcIdentityProviders from '../../../../../src/identity-access-manag
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
+import { IMPORT_KEY_FIELD } from '../../../../../src/prescription/learner-management/domain/constants.js';
 import { OrganizationLearnerForAdmin } from '../../../../../src/prescription/learner-management/domain/read-models/OrganizationLearnerForAdmin.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import {
@@ -1139,23 +1140,50 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           const randomUser = databaseBuilder.factory.buildUser();
           const userInDB = databaseBuilder.factory.buildUser(userToInsert);
           const firstOrganizationInDB = databaseBuilder.factory.buildOrganization();
-          const firstOrganizationLearnerInDB = databaseBuilder.factory.buildOrganizationLearner({
-            id: 1,
-            userId: userInDB.id,
-            organizationId: firstOrganizationInDB.id,
-          });
+          const firstOrganizationLearnerInDB =
+            databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+              id: 1,
+              userId: userInDB.id,
+              organizationId: firstOrganizationInDB.id,
+            });
           const secondOrganizationInDB = databaseBuilder.factory.buildOrganization();
-          const secondOrganizationLearnerInDB = databaseBuilder.factory.buildOrganizationLearner({
-            id: 2,
-            userId: userInDB.id,
-            organizationId: secondOrganizationInDB.id,
-          });
+          const secondOrganizationLearnerInDB =
+            databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+              id: 2,
+              userId: userInDB.id,
+              organizationId: secondOrganizationInDB.id,
+              attributes: { Classe: 'CP', 'Date de naissance': '2012-01-13' },
+            });
           const importFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT);
           const otherFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.PLACES_MANAGEMENT);
-
+          const importFormat = databaseBuilder.factory.buildOrganizationLearnerImportFormat({
+            name: 'test',
+            fileType: 'csv',
+            config: {
+              displayableColumns: [
+                {
+                  key: 4,
+                  position: 2,
+                  name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE,
+                },
+                {
+                  key: 3,
+                  position: 1,
+                  name: IMPORT_KEY_FIELD.COMMON_DIVISION,
+                },
+              ],
+              headers: [
+                { key: 1, name: 'Nom apprenant', property: 'lastName', required: true },
+                { key: 2, name: 'Prénom apprenant', property: 'firstName', required: true },
+                { key: 3, name: 'Classe', required: true },
+                { key: 4, name: 'Date de naissance', required: true },
+              ],
+            },
+          });
           databaseBuilder.factory.buildOrganizationFeature({
             featureId: importFeature.id,
             organizationId: secondOrganizationInDB.id,
+            params: { organizationLearnerImportFormatId: importFormat.id },
           });
           databaseBuilder.factory.buildOrganizationFeature({
             featureId: otherFeature.id,
@@ -1187,9 +1215,13 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
               ...secondOrganizationLearnerInDB,
               organizationName: secondOrganizationInDB.name,
               canBeDissociated: true,
+              birthdate: '2012-01-13',
+              division: 'CP',
             },
           ].map((organizationLearner) => pick(organizationLearner, expectedUserDetailsForAdminAttributes));
-          expect(organizationLearners).to.deep.equal(expectedOrganizationLearners);
+          organizationLearners.forEach((organizationLearner, index) => {
+            expect(organizationLearner).to.deep.contains(expectedOrganizationLearners[index]);
+          });
         });
       });
 

@@ -3,6 +3,7 @@ import { BookshelfUser } from '../../../../src/shared/infrastructure/orm-models/
 import * as organizationFeaturesApi from '../../../organizational-entities/application/api/organization-features-api.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { OrganizationLearnerForAdmin } from '../../../prescription/learner-management/domain/read-models/OrganizationLearnerForAdmin.js';
+import * as organizationLearnerImportFormatRepository from '../../../prescription/learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import {
   AlreadyExistingEntityError,
@@ -145,6 +146,10 @@ const getUserDetailsForAdmin = async function (userId) {
   for (const learner of organizationLearnersDTO) {
     const features = await organizationFeaturesApi.getAllFeaturesFromOrganization(learner.organizationId);
     learner.hasImportFeature = features.hasLearnersImportFeature;
+    if (learner.hasImportFeature) {
+      const importFormat = await organizationLearnerImportFormatRepository.get(learner.organizationId);
+      learner.additionalColumns = importFormat.extraColumns;
+    }
   }
 
   const pixAdminRolesDTO = await knex('pix-admin-roles').where({ userId });
@@ -507,6 +512,8 @@ function _fromKnexDTOToUserDetailsForAdmin({
         isDisabled: organizationLearnerDTO.isDisabled,
         organizationIsManagingStudents:
           organizationLearnerDTO.organizationIsManagingStudents || organizationLearnerDTO.hasImportFeature,
+        additionalInformations: organizationLearnerDTO.attributes,
+        additionalColumns: organizationLearnerDTO.additionalColumns,
       }),
   );
   const userLogin = new UserLogin({
