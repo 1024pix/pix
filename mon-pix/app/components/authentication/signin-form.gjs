@@ -38,6 +38,10 @@ export default class SigninForm extends Component {
     }
   }
 
+  get isFormDisabled() {
+    return !this.login || !this.password;
+  }
+
   @action
   updateLogin(event) {
     this.login = event.target.value?.trim();
@@ -148,7 +152,7 @@ export default class SigninForm extends Component {
         </div>
       </fieldset>
 
-      <PixButton @type="submit" @isLoading={{this.isLoading}} @size="large">
+      <PixButton @type="submit" @isLoading={{this.isLoading}} @isDisabled={{this.isFormDisabled}} @size="large">
         {{t "pages.sign-in.actions.submit"}}
       </PixButton>
     </form>
