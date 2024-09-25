@@ -1,5 +1,37 @@
 # Pix Changelog
 
+## v4.217.0 (25/09/2024)
+
+
+### :rocket: Amélioration
+- [#10142](https://github.com/1024pix/pix/pull/10142) [FEATURE] Supprimer le support des anciens messages d’embed (PIX-14118).
+- [#10096](https://github.com/1024pix/pix/pull/10096) [FEATURE] Générer les identifiants en masse pour les élèves (PIX-12975).
+- [#10163](https://github.com/1024pix/pix/pull/10163) [FEATURE] Séparation bulle message sur la page error (Pix-13558).
+- [#10162](https://github.com/1024pix/pix/pull/10162) [FEATURE] Suppression du check de certificabilité à la création de la certification (PIX-14206).
+- [#10137](https://github.com/1024pix/pix/pull/10137) [FEATURE] Journaliser le changement d'adresse email (PIX-14360).
+- [#10165](https://github.com/1024pix/pix/pull/10165) [FEATURE] Sauvegarder la date de reconciliation (PIX-14392).
+- [#10155](https://github.com/1024pix/pix/pull/10155) [FEATURE] Masquer le champ "Code de prépaiement" tant que l'option "Prépayée" n'est pas cochée (PIX-13932).
+- [#10144](https://github.com/1024pix/pix/pull/10144) [FEATURE] Sélection des acquis accessibles pour proposer un test aménagé (PIX-14241).
+- [#10108](https://github.com/1024pix/pix/pull/10108) [FEATURE] Ecoute les évènements questions répondue et détermine si une quête est validée (PIX-13819).
+- [#10077](https://github.com/1024pix/pix/pull/10077) [FEATURE] Amélioration continue chatgpt-parle-francais (MODC-100).
+- [#9926](https://github.com/1024pix/pix/pull/9926) [FEATURE] Ajouter le contenu de l'onglet Détails des résultats (PIX-12985).
+
+### :building_construction: Tech
+- [#10166](https://github.com/1024pix/pix/pull/10166) [TECH] Migration de la route /api/users/{id}/profile (PIX-14454).
+- [#10093](https://github.com/1024pix/pix/pull/10093) [TECH] Ajout de OpenFeature et PixEnvVarProvider.
+- [#10167](https://github.com/1024pix/pix/pull/10167) [TECH] Suppression d'un script de rescoring N-1 (PIX-13544).
+- [#10133](https://github.com/1024pix/pix/pull/10133) [TECH] Essai de déclenchement de la CI via une Github Action, uniquement pour les Pull Requests.
+- [#10147](https://github.com/1024pix/pix/pull/10147) [TECH] Migrer le composant enrolled-candidates.hbs présent dans Pix Certif au format gjs (PIX-13810).
+
+### :bug: Correction
+- [#10157](https://github.com/1024pix/pix/pull/10157) [BUGFIX]  Ajout d'espace dans le bouton de la page de fin de mission (Pix-14165).
+- [#10143](https://github.com/1024pix/pix/pull/10143) [BUGFIX] Supprimer l'initialisation en lang fr par défaut de l'application (PIX-14387).
+- [#10158](https://github.com/1024pix/pix/pull/10158) [BUGFIX] Correction de l'alignement des titres dans les cartes mission (Pix-14420).
+- [#10159](https://github.com/1024pix/pix/pull/10159) [BUGFIX] renomme les clés de traduction dans les fichier nl / en sur la table des lots de places (PIX-14452).
+
+### :arrow_up: Montée de version
+- [#10160](https://github.com/1024pix/pix/pull/10160) [BUMP] Update dependency @1024pix/pix-ui to ^46.13.2 (orga).
+
 ## v4.216.0 (23/09/2024)
 
 
