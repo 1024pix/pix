@@ -87,7 +87,7 @@
                 {
                   "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
                   "type": "text",
-                  "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>Partie 1&nbsp;: l’identifiant.Cette partie est choisie par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque, même avec des majuscules&#8239;!</p><p><span aria-hidden=\"true\">✅</span> Par exemple&nbsp;: mika.aubert123 ; mika671 ou G3oDu671</p><p class=\"pix-list-inline\"><span aria-hidden=\"true\">❌</span> Mais certains caractères sont interdits&nbsp;:</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
+                  "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>Partie 1&nbsp;: l’identifiant. Cette partie est choisie par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque, même avec des majuscules&#8239;!</p><p><span aria-hidden=\"true\">✅</span> Par exemple&nbsp;: mika.aubert123 ; mika671 ou G3oDu671</p><p class=\"pix-list-inline\"><span aria-hidden=\"true\">❌</span> Mais certains caractères sont interdits&nbsp;:</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
                 }
               ]
             },
@@ -103,7 +103,7 @@
                 {
                   "id": "ad8ad08a-3ff7-4228-8233-6cd5ce0f4812",
                   "type": "text",
-                  "content": "<h3 class=\"screen-reader-only\">L'arobase</h3><h4>Au centre&nbsp;: l’arobase qui sépare l’identifiant du fournisseur d’adresse mail.</h4><p><span aria-hidden=\"true\">🇬🇧</span> En anglais, ce symbole se lit <i lang=\"en\">“at”</i> et veut dire “chez”.</p><p><span aria-hidden=\"true\">💡</span> L'arobase est un symbole qui était utilisé avant l’informatique. Il a été choisi pour l'adresse mail car il était très peu utilisé à l'époque.</p>"
+                  "content": "<h3 class=\"screen-reader-only\">L'arobase</h3><h4>Au centre, l’arobase sépare l’identifiant du fournisseur d’adresse mail.</h4><p><span aria-hidden=\"true\">🇬🇧</span> En anglais, ce symbole se lit <i lang=\"en\">“at”</i> et veut dire “chez”.</p><p><span aria-hidden=\"true\">💡</span> L'arobase est un symbole qui était utilisé avant l’informatique. Il a été choisi pour l'adresse mail car il était très peu utilisé à l'époque.</p>"
                 }
               ]
             },
@@ -226,7 +226,7 @@
                     "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Vous avez retrouvé le bon format d’une adresse mail.</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Pour avoir de l’aide, revenez en arrière.&nbsp;<span aria-hidden=\"true\">👆</span></p>"
                   }
-                }   
+                }
               ]
             }
           ]
@@ -326,7 +326,7 @@
                 {
                   "id": "29195dde-b603-488f-a554-f391fbdf3b24",
                   "type": "qcu",
-                  "instruction": "<p>Mickaël et Naomi peuvent avoir le même identifiant et le même fournisseur d'adresse mail.</p>",
+                  "instruction": "<p>Mickaël et Naomi peuvent avoir exactement le même identifiant et le même fournisseur d'adresse mail.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -374,7 +374,7 @@
           "element": {
             "id": "8709ad92-093e-447a-a7b6-3223e6171196",
             "type": "qrocm",
-            "instruction": "<p>Écrivez l'adresse mail de Naomi à partir des informations suivantes&nbsp;:</p><ul><li>Son identifiant est <code>naomizao457</code></li><li>Son fournisseur d’adresse mail est Yahoo</li></ul>",
+            "instruction": "<p>Écrivez l'adresse mail de Naomi à partir des informations suivantes&nbsp;:</p><ul><li>son identifiant est <code>naomizao457</code></li><li>son fournisseur d’adresse mail est Yahoo</li></ul>",
             "proposals": [
               {
                 "type": "text",
