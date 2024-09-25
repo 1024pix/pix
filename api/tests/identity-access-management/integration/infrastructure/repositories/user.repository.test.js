@@ -1151,8 +1151,14 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
             organizationId: secondOrganizationInDB.id,
           });
           const importFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT);
+          const otherFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.PLACES_MANAGEMENT);
+
           databaseBuilder.factory.buildOrganizationFeature({
             featureId: importFeature.id,
+            organizationId: secondOrganizationInDB.id,
+          });
+          databaseBuilder.factory.buildOrganizationFeature({
+            featureId: otherFeature.id,
             organizationId: secondOrganizationInDB.id,
           });
 
