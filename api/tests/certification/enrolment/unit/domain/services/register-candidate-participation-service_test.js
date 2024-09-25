@@ -56,6 +56,7 @@ describe('Unit | Application | Service | register-candidate-participation', func
       const unlinkedCandidate = domainBuilder.certification.enrolment.buildCandidate({
         ...candidateData,
         userId: null,
+        reconciledAt: null,
       });
       sinon.stub(usecases, 'verifyCandidateIdentity').returns(unlinkedCandidate);
 
