@@ -169,6 +169,12 @@
   gap: 0.5rem;
   width: 100px;
   box-sizing: content-box;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    fill: var(--pix-neutral-800);
+  }
 }
 
 .certification-candidates-actions {
