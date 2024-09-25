@@ -1,3 +1,6 @@
+/**
+ * @typedef {import('./Candidate.js').Candidate} Candidate
+ */
 import _ from 'lodash';
 
 import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
@@ -66,12 +69,21 @@ class SessionEnrolment {
     return matchingCandidates.length > 0;
   }
 
-  hasLinkedCandidate({ candidates }) {
-    return candidates.some((candidate) => candidate.isLinkedToAUser());
+  /**
+   * @param {Object} params
+   * @param {Array<Candidate>} params.candidates
+   */
+  hasReconciledCandidate({ candidates }) {
+    return candidates.some((candidate) => candidate.isReconciled());
   }
 
-  hasLinkedCandidateTo({ candidates, userId }) {
-    return candidates.some((candidate) => candidate.isLinkedTo(userId));
+  /**
+   * @param {Object} params
+   * @param {Array<Candidate>} params.candidates
+   * @param {number} params.user
+   */
+  hasReconciledCandidateTo({ candidates, userId }) {
+    return candidates.some((candidate) => candidate.isReconciledTo(userId));
   }
 
   updateInfo(sessionData) {

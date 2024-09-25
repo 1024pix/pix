@@ -318,7 +318,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
     });
   });
 
-  context('#hasLinkedCandidate', function () {
+  context('#hasReconciledCandidate', function () {
     it('should return true when at least one candidate is linked', function () {
       // given
       const session = domainBuilder.certification.enrolment.buildSession();
@@ -328,16 +328,17 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
         }),
         domainBuilder.certification.enrolment.buildCandidate({
           userId: 123,
+          reconciledAt: new Date('2024-09-25'),
         }),
       ];
 
       // when
-      const hasLinkedCandidate = session.hasLinkedCandidate({
+      const hasReconciledCandidate = session.hasReconciledCandidate({
         candidates,
       });
 
       // then
-      expect(hasLinkedCandidate).to.be.true;
+      expect(hasReconciledCandidate).to.be.true;
     });
 
     it('should return false when no candidate is linked', function () {
@@ -353,12 +354,12 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       ];
 
       // when
-      const hasLinkedCandidate = session.hasLinkedCandidate({
+      const hasReconciledCandidate = session.hasReconciledCandidate({
         candidates,
       });
 
       // then
-      expect(hasLinkedCandidate).to.be.false;
+      expect(hasReconciledCandidate).to.be.false;
     });
   });
 

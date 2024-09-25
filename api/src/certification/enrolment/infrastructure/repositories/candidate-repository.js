@@ -25,7 +25,7 @@ export async function get({ certificationCandidateId }) {
  * @param {Object} params
  * @param {number} params.sessionId
  *
- * @return [Candidate]
+ * @return {Array<Candidate>}
  */
 export async function findBySessionId({ sessionId }) {
   const candidatesData = await buildBaseReadQuery(knex)

@@ -50,7 +50,9 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
 
         candidateRepository.findBySessionId
           .withArgs({ sessionId })
-          .resolves([domainBuilder.certification.enrolment.buildCandidate({ userId: 123 })]);
+          .resolves([
+            domainBuilder.certification.enrolment.buildCandidate({ userId: 123, reconciledAt: new Date('2024-09-25') }),
+          ]);
         sessionRepository.get.withArgs({ id: sessionId }).resolves(session);
 
         // when

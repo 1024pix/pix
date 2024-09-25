@@ -1143,34 +1143,6 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     });
   });
 
-  context('isLinkedToAUser', function () {
-    it('should return false when candidate is not linked', function () {
-      // given
-      const unlinkedCandidate = domainBuilder.certification.enrolment.buildCandidate({
-        userId: null,
-      });
-
-      // when
-      const isLinked = unlinkedCandidate.isLinkedToAUser();
-
-      // then
-      expect(isLinked).to.be.false;
-    });
-
-    it('should return true when candidate is linked', function () {
-      // given
-      const unlinkedCandidate = domainBuilder.certification.enrolment.buildCandidate({
-        userId: 123,
-      });
-
-      // when
-      const isLinked = unlinkedCandidate.isLinkedToAUser();
-
-      // then
-      expect(isLinked).to.be.true;
-    });
-  });
-
   context('isReconciledTo', function () {
     it('should return true when candidate is reconciled to given userId', function () {
       // given

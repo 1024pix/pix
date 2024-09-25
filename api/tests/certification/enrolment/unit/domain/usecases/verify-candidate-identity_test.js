@@ -325,7 +325,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       });
     });
 
-    context('when user is already linked to another matching candidate within the same session', function () {
+    context('when user is already reconciled to another matching candidate within the same session', function () {
       it('should throw a UserAlreadyLinkedToCandidateInSessionError', async function () {
         // given
         userRepository.get.withArgs({ id: userId }).resolves(
@@ -352,6 +352,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           firstName: 'Louis',
           lastName: 'Michel',
           userId,
+          reconciledAt: new Date('2024-09-25'),
           birthdate: '2005-05-01',
           subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
         });
@@ -380,7 +381,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       });
     });
 
-    context('when linkage is non-existent on all sides', function () {
+    context('when reconciliation is non-existent on all sides', function () {
       context('when it is a session sco / is managing students', function () {
         context('when matching candidate is not related to a reconcilied learner', function () {
           it('should throw a MatchingReconciledStudentNotFoundError', async function () {

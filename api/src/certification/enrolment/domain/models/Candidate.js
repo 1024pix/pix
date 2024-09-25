@@ -68,13 +68,6 @@ export class Candidate {
   }
 
   /**
-   * @deprecated please use isReconciled function
-   */
-  isLinkedToAUser() {
-    return !_.isNil(this.userId);
-  }
-
-  /**
    * @deprecated please use isReconciledTo function
    */
   isLinkedTo(userId) {
