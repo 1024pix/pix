@@ -77,5 +77,60 @@ describe('Integration | Repository | certification candidate', function () {
         expect(error).to.be.an.instanceOf(CertificationCandidateNotFoundError);
       });
     });
+
+    describe('when candidate has passed several certification sessions while being reconciled with the same user account', function () {
+      describe('when certification candidate is found', function () {
+        it('should return the certification candidate', async function () {
+          // given
+          const user = databaseBuilder.factory.buildUser();
+          const otherSession = databaseBuilder.factory.buildSession();
+          databaseBuilder.factory.buildCertificationCandidate({
+            lastName: 'Joplin',
+            firstName: 'Janis',
+            sessionId: otherSession.id,
+            userId: user.id,
+            authorizedToStart: false,
+          });
+          databaseBuilder.factory.buildCertificationCourse({
+            userId: user.id,
+            sessionId: otherSession.id,
+            createdAt: new Date('2022-10-01T14:00:00Z'),
+          });
+
+          const session = databaseBuilder.factory.buildSession();
+          const candidate = databaseBuilder.factory.buildCertificationCandidate({
+            lastName: 'Joplin',
+            firstName: 'Janis',
+            sessionId: session.id,
+            userId: user.id,
+            authorizedToStart: false,
+          });
+          const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+            userId: user.id,
+            sessionId: session.id,
+            createdAt: new Date('2022-10-01T14:00:00Z'),
+          });
+          const assessmentId = databaseBuilder.factory.buildAssessment({
+            certificationCourseId: certificationCourse.id,
+            state: Assessment.states.STARTED,
+          }).id;
+
+          await databaseBuilder.commit();
+
+          // when
+          const result = await certificationCandidateRepository.findByAssessmentId({
+            assessmentId,
+          });
+
+          // then
+          expect(result).to.deep.equal(
+            domainBuilder.certification.enrolment.buildCandidate({
+              ...candidate,
+              subscriptions: [],
+            }),
+          );
+        });
+      });
+    });
   });
 });

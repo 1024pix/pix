@@ -5,7 +5,13 @@ import { Candidate } from '../../../enrolment/domain/models/Candidate.js';
 const findByAssessmentId = async function ({ assessmentId }) {
   const result = await knex('certification-candidates')
     .select('certification-candidates.*')
-    .join('certification-courses', 'certification-courses.userId', 'certification-candidates.userId')
+    .join('certification-courses', function () {
+      this.on('certification-courses.userId', '=', 'certification-candidates.userId').andOn(
+        'certification-courses.sessionId',
+        '=',
+        'certification-candidates.sessionId',
+      );
+    })
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .where('assessments.id', assessmentId)
     .first();
