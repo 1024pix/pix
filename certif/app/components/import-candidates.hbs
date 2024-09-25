@@ -1,15 +1,11 @@
 <div class="panel panel-actions">
   <div class="content-text">
     <div class="panel-actions__header">
-      <div class="panel-actions__header-icon">
-        <FaIcon @icon="info" />
-      </div>
+      <PixIcon @name="info" @plainIcon={{true}} @ariaHidden={{true}} class="panel-actions__header-icon" />
       <h3 class="panel-actions__header-title">{{t "pages.sessions.detail.candidates.panel-actions.title"}}</h3>
     </div>
     <div class="panel-actions__action-row">
-      <div class="panel-actions__action-icon">
-        <FaIcon @icon="file-download" />
-      </div>
+      <PixIcon @name="download" @ariaHidden={{true}} class="panel-actions__action-icon" />
       <div class="panel-actions__description">
         <h4 class="panel-actions__title">{{t
             "pages.sessions.detail.candidates.panel-actions.actions.download.extra-information"
@@ -29,7 +25,7 @@
     <div class="panel-actions__action-row">
       {{#if @importAllowed}}
         <div class="panel-actions__action-icon">
-          <FaIcon @icon="cloud-upload-alt" />
+          <PixIcon @name="upload" @ariaHidden={{true}} class="panel-actions__action-icon" />
         </div>
         <div class="panel-actions__description">
           <h4 class="panel-actions__title">{{t
@@ -45,9 +41,7 @@
           </PixButtonUpload>
         </div>
       {{else}}
-        <div class="panel-actions__action-icon">
-          <FaIcon @icon="exclamation-circle" class="panel-actions__warning-icon" />
-        </div>
+        <PixIcon @name="error" @plainIcon={{true}} @ariaHidden={{true}} class="panel-actions__warning-icon" />
         <div class="panel-actions__description">
           <strong class="panel-actions__warning">
             {{t "pages.sessions.detail.candidates.panel-actions.warning" htmlSafe=true}}
