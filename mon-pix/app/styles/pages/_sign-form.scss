@@ -1,3 +1,11 @@
+.signin-page-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: var(--pix-spacing-6x);
+}
+
+// Legacy signin page styles
 .sign-form-page {
   display: flex;
   align-items: center;

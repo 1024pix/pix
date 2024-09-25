@@ -3,11 +3,17 @@
 {{#if this.isNewAuthenticationDesignEnabled}}
 
   <main class="authentication">
-    <AuthenticationLayout>
-      <:header><PixButtonLink @variant="secondary" @route="inscription">{{t
-            "pages.authentication.login.signup-button"
-          }}</PixButtonLink></:header>
-      <:content><Authentication::LoginForm /></:content>
+    <AuthenticationLayout class="signin-page-layout">
+      <:header>
+        <PixButtonLink @variant="secondary" @route="inscription">
+          {{t "pages.authentication.login.signup-button"}}
+        </PixButtonLink>
+      </:header>
+
+      <:content>
+        <h1 class="pix-title-m">{{t "pages.sign-in.first-title"}}</h1>
+        <Authentication::SigninForm />
+      </:content>
     </AuthenticationLayout>
   </main>
 {{else}}
