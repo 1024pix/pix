@@ -9,8 +9,7 @@
   <SessionFinalizationStepContainer
     @title={{t "pages.session-finalization.reporting.title"}}
     @subtitle={{t "pages.session-finalization.reporting.description"}}
-    @icon="/icons/session-finalization-user.svg"
-    @iconAlt=""
+    @iconName="userCircle"
   >
     {{#if (gt this.session.uncompletedCertificationReports.length 0)}}
       <SessionFinalization::UncompletedReportsInformationStep
@@ -37,8 +36,7 @@
   <SessionFinalizationStepContainer
     @title={{t "pages.session-finalization.complementary-information.title"}}
     @subtitle={{t "pages.session-finalization.complementary-information.description"}}
-    @icon="/icons/edit-file.svg"
-    @iconAlt=""
+    @iconName="edit"
   >
     <SessionFinalization::ComplementaryInformationStep
       @toggleIncidentDuringCertificationSession={{this.toggleIncidentDuringCertificationSession}}

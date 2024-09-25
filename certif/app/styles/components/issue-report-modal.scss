@@ -21,14 +21,15 @@
     button {
       font-weight: 500;
     }
-
-    svg {
-      margin-right: 8px;
-    }
   }
 
   &__add-button {
-    margin-right: 8px;
+    svg {
+      width: 1rem;
+      height: 1rem;
+      margin-right: var(--pix-spacing-2x);
+      fill: var(--pix-neutral-0);
+    }
   }
 
   &__category-label {

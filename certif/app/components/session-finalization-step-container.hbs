@@ -1,11 +1,9 @@
 <div class="panel session-finalization-step-container">
   <div class="session-finalization-step-container__header">
-    <img src={{@icon}} alt={{@iconAlt}} />
-    <div class="session-finalization-step-container__titles">
-      <div class="session-finalization-step-container__page-title">{{@title}}</div>
-      {{#if @subtitle}}
-        <p>{{@subtitle}}</p>
-      {{/if}}
+    <PixIcon @name={{@iconName}} @ariaHidden={{true}} class="session-finalization-step-header__icon" />
+    <div>
+      <h2 class="session-finalization-step-container__page-title">{{@title}}</h2>
+      <p>{{@subtitle}}</p>
     </div>
   </div>
   <div class="session-finalization-step-container__border">

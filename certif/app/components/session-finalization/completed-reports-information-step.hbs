@@ -51,7 +51,7 @@
                   class="button--showed-as-link add-button"
                   {{on "click" (fn this.openIssueReportsModal report)}}
                 >
-                  <FaIcon @icon="plus-circle" />
+                  <PixIcon @name="add" @plainIcon={{true}} @ariaHidden={{true}} />
                   {{t "common.actions.add"}}
                   /
                   {{t "common.actions.delete"}}
@@ -68,7 +68,7 @@
                   class="button--showed-as-link add-button"
                   {{on "click" (fn this.openAddIssueReportModal report)}}
                 >
-                  <FaIcon @icon="plus-circle" />
+                  <PixIcon @name="add" @plainIcon={{true}} @ariaHidden={{true}} />
                   {{t "common.actions.add"}}
                 </button>
               {{/if}}

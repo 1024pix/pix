@@ -45,7 +45,9 @@
       align-items: center;
 
       svg {
-        font-size: 1.125rem;
+        fill: var(--pix-neutral-800);
+        width: 1rem;
+        height: 1rem;
       }
     }
 
@@ -55,8 +57,14 @@
     }
   }
 
-  &__header_cancel {
+  &__header-cancel {
     display: flex;
+
+    svg {
+      fill: var(--pix-neutral-800);
+      width: 1rem;
+      height: 1rem;
+    }
 
     .pix-tooltip {
       padding-left: 5px;
