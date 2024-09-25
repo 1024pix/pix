@@ -92,6 +92,8 @@
 
 .session-supervising-candidate-in-list-details {
   &__enrolment {
+    display: flex;
+    align-items: center;
     color: var(--pix-neutral-0);
     font-size: 0.875rem;
     font-weight: normal;
@@ -105,7 +107,10 @@
 
 .session-supervising-candidate-in-list-details-enrolment {
   &__icon {
-    margin-right: 5px;
+    margin-right: var(--pix-spacing-1x);
+    width: 1rem;
+    height: 1rem;
+    fill: var(--pix-neutral-0);
   }
 }
 
@@ -131,6 +136,9 @@
     border-radius: 8px;
     color: var(--pix-neutral-0);
     flex-grow: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--pix-spacing-1x);
 
     &__end-date-time::before {
       content: '|';
@@ -143,6 +151,8 @@
   }
 
   &__clock {
-    padding-right: 3px;
+    width: 1rem;
+    height: 1rem;
+    fill: var(--pix-neutral-0);
   }
 }

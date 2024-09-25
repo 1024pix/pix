@@ -32,7 +32,11 @@
       {{dayjs-format @candidate.birthdate "DD/MM/YYYY"}}
       {{#if this.shouldDisplayEnrolledComplementaryCertification}}
         <p class="session-supervising-candidate-in-list-details__enrolment">
-          <span class="session-supervising-candidate-in-list-details-enrolment__icon"><FaIcon @icon="award" /></span>
+          <PixIcon
+            @name="awards"
+            @ariaHidden={{true}}
+            class="session-supervising-candidate-in-list-details-enrolment__icon"
+          />
           {{t
             "pages.session-supervising.candidate-in-list.complementary-certification-enrolment"
             complementaryCertification=@candidate.enrolledComplementaryCertificationLabel
@@ -52,8 +56,12 @@
       {{#if @candidate.hasStarted}}
         <p class="session-supervising-candidate-in-list-details-time">
           <div class="session-supervising-candidate-in-list-details-time__text">
-            <FaIcon @icon="clock" @prefix="far" class="session-supervising-candidate-in-list-details-time__clock" />
-            <span class="session-supervising-candidate-in-list-details-time__text__startdatetime">
+            <PixIcon
+              @name="clock"
+              @plainIcon={{true}}
+              class="session-supervising-candidate-in-list-details-time__clock"
+            />
+            <span>
               {{t "pages.session-supervising.candidate-in-list.start-date-time"}}
               <time>{{this.candidateStartTime}}</time>
             </span>

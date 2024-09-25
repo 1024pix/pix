@@ -66,7 +66,7 @@
       display: flex;
       flex-direction: row;
       height: 44px;
-      padding-left: 15px;
+      padding: 0 var(--pix-spacing-4x);
       width: 100%;
     }
 
@@ -82,7 +82,9 @@
     }
 
     .search-icon {
-      color: var(--pix-neutral-100);
+      width: 1.5rem;
+      height: 1.5rem;
+      fill: var(--pix-neutral-100);
     }
 
     .search-input {
@@ -94,9 +96,9 @@
       width: 100%;
     }
 
-    .empty-button {
-      margin-left: auto;
-      margin-right: 4px;
+    .clear-button {
+      width: 30px;
+      padding: 5px;
     }
 
     .pix-input {
