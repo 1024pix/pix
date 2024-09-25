@@ -12,7 +12,9 @@ import Header from './header';
 
     <div class="authentication-layout__main">
       <Header>{{yield to="header"}}</Header>
-      {{yield to="content"}}
+      <div ...attributes>
+        {{yield to="content"}}
+      </div>
       <Footer />
     </div>
   </section>
