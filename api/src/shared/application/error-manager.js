@@ -10,6 +10,7 @@ import { ArchivedCampaignError, DeletedCampaignError } from '../../prescription/
 import { CampaignParticipationDeletedError } from '../../prescription/campaign-participation/domain/errors.js';
 import { AggregateImportError, SiecleXmlImportError } from '../../prescription/learner-management/domain/errors.js';
 import { OrganizationCantGetPlacesStatisticsError } from '../../prescription/organization-place/domain/errors.js';
+import { AlreadyAcceptedOrCancelledInvitationError } from '../../team/domain/errors.js';
 import * as DomainErrors from '../domain/errors.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
@@ -345,7 +346,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.AlreadyExistingInvitationError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
-  if (error instanceof DomainErrors.AlreadyAcceptedOrCancelledInvitationError) {
+  if (error instanceof AlreadyAcceptedOrCancelledInvitationError) {
     return new HttpErrors.ConflictError(error.message);
   }
   if (error instanceof DomainErrors.AlreadyExistingCampaignParticipationError) {

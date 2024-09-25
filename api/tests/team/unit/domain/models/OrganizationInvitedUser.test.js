@@ -1,9 +1,6 @@
-import {
-  AlreadyAcceptedOrCancelledInvitationError,
-  AlreadyExistingMembershipError,
-  NotFoundError,
-} from '../../../../../src/shared/domain/errors.js';
+import { AlreadyExistingMembershipError, NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { OrganizationInvitedUser } from '../../../../../src/shared/domain/models/OrganizationInvitedUser.js';
+import { AlreadyAcceptedOrCancelledInvitationError } from '../../../../../src/team/domain/errors.js';
 import { catchErr, domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Team | Domain | Model | OrganizationInvitedUser', function () {

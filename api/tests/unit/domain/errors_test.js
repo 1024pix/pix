@@ -246,10 +246,6 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.OrganizationLearnerCannotBeDissociatedError).to.exist;
   });
 
-  it('should export an AlreadyAcceptedOrCancelledInvitationError', function () {
-    expect(errors.AlreadyAcceptedOrCancelledInvitationError).to.exist;
-  });
-
   it('should export an MissingAttributesError', function () {
     expect(errors.MissingAttributesError).to.exist;
   });
