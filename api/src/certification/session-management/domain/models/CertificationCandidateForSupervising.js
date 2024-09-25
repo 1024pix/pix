@@ -15,7 +15,6 @@ class CertificationCandidateForSupervising {
     theoricalEndDateTime,
     enrolledComplementaryCertification,
     stillValidBadgeAcquisitions = [],
-    isCompanionActive = false,
     accessibilityAdjustmentNeeded,
   } = {}) {
     this.id = id;
@@ -30,7 +29,6 @@ class CertificationCandidateForSupervising {
     this.theoricalEndDateTime = theoricalEndDateTime;
     this.enrolledComplementaryCertification = enrolledComplementaryCertification;
     this.stillValidBadgeAcquisitions = stillValidBadgeAcquisitions;
-    this.isCompanionActive = isCompanionActive;
     this.accessibilityAdjustmentNeeded = accessibilityAdjustmentNeeded;
   }
 
