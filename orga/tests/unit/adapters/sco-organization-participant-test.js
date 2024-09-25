@@ -24,8 +24,8 @@ module('Unit | Adapters | sco-organization-participant', function (hooks) {
     });
   });
 
-  module('#resetOrganizationLearnersPassword', function () {
-    test('resets organization learners password and saves a CSV file', async function (assert) {
+  module('#generateOrganizationLearnersUsernamePassword', function () {
+    test('generates organization learners username with password and saves a CSV file', async function (assert) {
       // given
       const fetch = sinon.stub().resolves();
       const fileSaver = { save: sinon.stub().resolves() };
@@ -36,7 +36,7 @@ module('Unit | Adapters | sco-organization-participant', function (hooks) {
       adapter.namespace = 'api';
 
       // when
-      await adapter.resetOrganizationLearnersPassword({
+      await adapter.generateOrganizationLearnersUsernamePassword({
         fetch,
         fileSaver,
         organizationId,
@@ -45,7 +45,7 @@ module('Unit | Adapters | sco-organization-participant', function (hooks) {
       });
 
       // then
-      const expectedUrl = `${adapter.host}/${adapter.namespace}/sco-organization-learners/password-reset`;
+      const expectedUrl = `${adapter.host}/${adapter.namespace}/sco-organization-learners/batch-username-password-generate`;
       const expectedOptions = {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },

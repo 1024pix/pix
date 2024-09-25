@@ -1212,8 +1212,9 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         organization = store.createRecord('organization', {
           id: '1',
           divisions: [store.createRecord('division', { id: '3Z', name: '3Z' })],
-          type: 'SCO',
+          identityProviderForCampaigns: 'GAR',
           isManagingStudents: true,
+          type: 'SCO',
         });
       }
 
@@ -1419,7 +1420,9 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         test('closes dialog', async function (assert) {
           // given
           const store = this.owner.lookup('service:store');
-          sinon.stub(store, 'adapterFor').returns({ resetOrganizationLearnersPassword: sinon.stub().resolves() });
+          sinon
+            .stub(store, 'adapterFor')
+            .returns({ generateOrganizationLearnersUsernamePassword: sinon.stub().resolves() });
 
           const students = [
             { id: '1', firstName: 'Spider', lastName: 'Man', authenticationMethods: ['mediacentre'] },
@@ -1469,7 +1472,9 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         test('displays a successful notification', async function (assert) {
           // given
           const store = this.owner.lookup('service:store');
-          sinon.stub(store, 'adapterFor').returns({ resetOrganizationLearnersPassword: sinon.stub().resolves() });
+          sinon
+            .stub(store, 'adapterFor')
+            .returns({ generateOrganizationLearnersUsernamePassword: sinon.stub().resolves() });
           notificationsStub = this.owner.lookup('service:notifications');
           sinon.stub(notificationsStub, 'sendSuccess');
 
@@ -1524,7 +1529,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               // given
               const store = this.owner.lookup('service:store');
               sinon.stub(store, 'adapterFor').returns({
-                resetOrganizationLearnersPassword: sinon
+                generateOrganizationLearnersUsernamePassword: sinon
                   .stub()
                   .rejects([{ code: 'USER_DOES_NOT_BELONG_TO_ORGANIZATION' }]),
               });
@@ -1585,7 +1590,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               // given
               const store = this.owner.lookup('service:store');
               sinon.stub(store, 'adapterFor').returns({
-                resetOrganizationLearnersPassword: sinon
+                generateOrganizationLearnersUsernamePassword: sinon
                   .stub()
                   .rejects([{ code: 'ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION' }]),
               });
@@ -1648,7 +1653,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               // given
               const store = this.owner.lookup('service:store');
               sinon.stub(store, 'adapterFor').returns({
-                resetOrganizationLearnersPassword: sinon.stub().rejects([
+                generateOrganizationLearnersUsernamePassword: sinon.stub().rejects([
                   {
                     code: 'ORGANIZATION_LEARNER_WITHOUT_USERNAME',
                   },
@@ -1711,7 +1716,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
               // given
               const store = this.owner.lookup('service:store');
               sinon.stub(store, 'adapterFor').returns({
-                resetOrganizationLearnersPassword: sinon.stub().rejects([{ status: 500 }]),
+                generateOrganizationLearnersUsernamePassword: sinon.stub().rejects([{ status: 500 }]),
               });
               notificationsStub = this.owner.lookup('service:notifications');
               sinon.stub(notificationsStub, 'sendError');

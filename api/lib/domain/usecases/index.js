@@ -53,6 +53,7 @@ import { accountRecoveryDemandRepository } from '../../../src/identity-access-ma
 import * as authenticationMethodRepository from '../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../../src/identity-access-management/infrastructure/repositories/email-validation-demand.repository.js';
 import * as oidcProviderRepository from '../../../src/identity-access-management/infrastructure/repositories/oidc-provider-repository.js';
+import { organizationLearnerIdentityRepository } from '../../../src/identity-access-management/infrastructure/repositories/organization-learner-identity.repository.js';
 import { refreshTokenRepository } from '../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { resetPasswordDemandRepository } from '../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
@@ -280,6 +281,7 @@ const dependencies = {
   organizationInvitationRepository,
   organizationInvitationService,
   organizationLearnerActivityRepository,
+  organizationLearnerIdentityRepository,
   organizationLearnerRepository,
   organizationMemberIdentityRepository,
   organizationRepository,

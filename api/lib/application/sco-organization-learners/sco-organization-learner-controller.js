@@ -164,14 +164,14 @@ const checkScoAccountRecovery = async function (
   );
 };
 
-const updateOrganizationLearnersPassword = async function (request, h) {
+const batchGenerateOrganizationLearnersUsernameWithTemporaryPassword = async function (request, h) {
   const payload = request.payload.data.attributes;
   const userId = request.auth.credentials.userId;
   const organizationId = payload['organization-id'];
   const organizationLearnersId = payload['organization-learners-id'];
 
   const generatedCsvContent = await DomainTransaction.execute(async () => {
-    const organizationLearnersPasswordResets = await usecases.resetOrganizationLearnersPassword({
+    const organizationLearnersPasswordResets = await usecases.generateOrganizationLearnersUsernameAndTemporaryPassword({
       userId,
       organizationId,
       organizationLearnersId,
@@ -198,7 +198,7 @@ const scoOrganizationLearnerController = {
   updatePassword,
   generateUsernameWithTemporaryPassword,
   checkScoAccountRecovery,
-  updateOrganizationLearnersPassword,
+  batchGenerateOrganizationLearnersUsernameWithTemporaryPassword,
 };
 
 export { scoOrganizationLearnerController };
