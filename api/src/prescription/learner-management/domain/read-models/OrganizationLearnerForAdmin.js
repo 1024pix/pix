@@ -7,7 +7,7 @@ const validationSchema = Joi.object({
   id: Joi.number().integer().required(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
-  birthdate: Joi.date().required().allow(null),
+  birthdate: Joi.string().required().allow(null),
   division: Joi.string().required().allow(null),
   group: Joi.string().required().allow(null),
   organizationId: Joi.number().integer().required(),

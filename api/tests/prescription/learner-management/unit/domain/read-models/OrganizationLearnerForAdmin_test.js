@@ -11,7 +11,7 @@ describe('Unit | Domain | Read-models | OrganizationLearnerForAdmin', function (
         id: 1,
         firstName: 'John',
         lastName: 'Doe',
-        birthdate: new Date('2000-10-15'),
+        birthdate: '2000-10-15',
         division: '3A',
         group: 'L1',
         organizationId: 1,
@@ -60,9 +60,7 @@ describe('Unit | Domain | Read-models | OrganizationLearnerForAdmin', function (
 
     it('should throw an ObjectValidationError when birthdate is not valid', function () {
       // when
-      expect(() => new OrganizationLearnerForAdmin({ ...validArguments, birthdate: 'not_valid' })).to.throw(
-        ObjectValidationError,
-      );
+
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, birthdate: undefined })).to.throw(
         ObjectValidationError,
       );
@@ -70,7 +68,7 @@ describe('Unit | Domain | Read-models | OrganizationLearnerForAdmin', function (
 
     it('should not throw an ObjectValidationError when birthdate is null', function () {
       // when
-      expect(() => new OrganizationLearnerForAdmin({ ...validArguments, birthdate: 'null' })).to.throw(
+      expect(() => new OrganizationLearnerForAdmin({ ...validArguments, birthdate: null })).not.to.throw(
         ObjectValidationError,
       );
     });
