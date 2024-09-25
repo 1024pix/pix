@@ -195,8 +195,8 @@ describe('Integration | Repository | Campaign', function () {
 
     beforeEach(function () {
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ id: 2 });
-      const bookshelfCampaign = databaseBuilder.factory.buildCampaign({ id: 1, name: 'My campaign', targetProfile });
-      campaign = domainBuilder.buildCampaign(bookshelfCampaign);
+      const campaignData = databaseBuilder.factory.buildCampaign({ id: 1, name: 'My campaign', targetProfile });
+      campaign = domainBuilder.buildCampaign(campaignData);
 
       return databaseBuilder.commit();
     });

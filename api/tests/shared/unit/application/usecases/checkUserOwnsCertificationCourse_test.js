@@ -7,18 +7,13 @@ describe('Unit | Application | Use Case | checkUserOwnsCertificationCourse', fun
       // given
       const userId = 7;
       const certificationCourseId = 1;
-      const doesBelongToStub = sinon.stub();
-      const certificationCourseBookshelfStub = {
-        doesBelongTo: doesBelongToStub.withArgs(userId).returns(true),
-      };
+      const certificationCourse = { getUserId: () => userId };
 
       const certificationCourseRepositoryStub = {
         get: sinon.stub(),
       };
 
-      certificationCourseRepositoryStub.get
-        .withArgs({ id: certificationCourseId })
-        .resolves(certificationCourseBookshelfStub);
+      certificationCourseRepositoryStub.get.withArgs({ id: certificationCourseId }).resolves(certificationCourse);
 
       // when
       const response = await usecase.execute({

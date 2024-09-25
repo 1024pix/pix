@@ -1,6 +1,5 @@
 import { addManyStudentsToScoCertificationCenter } from '../../../scripts/data-generation/add-many-students-to-sco-certification-center.js';
-import { BookshelfOrganizationLearner } from '../../../src/shared/infrastructure/orm-models/OrganizationLearner.js';
-import { databaseBuilder, expect } from '../../test-helper.js';
+import { databaseBuilder, expect, knex } from '../../test-helper.js';
 
 describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.js', function () {
   const organizationId = 123;
@@ -30,6 +29,7 @@ describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.
   });
 });
 
-function _getNumberOfOrganizationLearners() {
-  return BookshelfOrganizationLearner.count().then((number) => parseInt(number, 10));
+async function _getNumberOfOrganizationLearners() {
+  const [{ count }] = await knex('organization-learners').count();
+  return count;
 }

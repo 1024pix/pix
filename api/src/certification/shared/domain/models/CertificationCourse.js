@@ -246,6 +246,10 @@ class CertificationCourse {
     return this._id;
   }
 
+  getUserId() {
+    return this._userId;
+  }
+
   getSessionId() {
     return this._sessionId;
   }

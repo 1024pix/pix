@@ -1,9 +1,9 @@
-import { BookshelfAssessment } from '../../../../../src/shared/infrastructure/orm-models/Assessment.js';
 import {
   createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
+  knex,
 } from '../../../../test-helper.js';
 
 describe('Acceptance | API | Assessments POST', function () {
@@ -84,33 +84,25 @@ describe('Acceptance | API | Assessments POST', function () {
     });
 
     describe('when the user is authenticated', function () {
-      it('should save user_id in the database', function () {
+      it('should save user_id in the database', async function () {
         // given
         options.payload.data.relationships.user.id = userId;
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise
-          .then((response) => {
-            return new BookshelfAssessment({ id: response.result.data.id }).fetch();
-          })
-          .then((model) => {
-            expect(parseInt(model.get('userId'))).to.deep.equal(userId);
-          });
+        const assessment = await knex('assessments').where({ id: response.result.data.id }).first();
+        expect(assessment.userId).to.deep.equal(userId);
       });
 
-      it('should add a new assessment into the database', function () {
+      it('should add a new assessment into the database', async function () {
         // when
-        const promise = server.inject(options);
+        await server.inject(options);
 
         // then
-        return promise.then(() => {
-          return BookshelfAssessment.count().then((afterAssessmentsNumber) => {
-            expect(parseInt(afterAssessmentsNumber, 10)).to.equal(1);
-          });
-        });
+        const [{ count }] = await knex('assessments').count();
+        expect(count).to.equal(1);
       });
 
       it('should return persisted Assessment', function () {
@@ -127,18 +119,13 @@ describe('Acceptance | API | Assessments POST', function () {
       });
 
       describe('when the user is not authenticated', function () {
-        it('should persist the given course ID', function () {
+        it('should persist the given course ID', async function () {
           // when
-          const promise = server.inject(options);
+          const response = await server.inject(options);
 
           // then
-          return promise
-            .then((response) => {
-              return new BookshelfAssessment({ id: response.result.data.id }).fetch();
-            })
-            .then((model) => {
-              expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.data.id);
-            });
+          const assessment = await knex('assessments').where({ id: response.result.data.id }).first();
+          expect(assessment.courseId).to.equal(options.payload.data.relationships.course.data.id);
         });
       });
     });

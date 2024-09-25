@@ -22,9 +22,9 @@ deal with a 'YYYY-MM-DD' string.
 types.setTypeParser(types.builtins.DATE, (value) => value);
 
 /*
-The method Bookshelf.Model.count(), used with PostgreSQL, can sometimes returns a BIGINT.
+The knex method count(), used with PostgreSQL, can sometimes return a BIGINT.
 This is not the common case (maybe in several years).
-Even though, Bookshelf/Knex have decided to return String.
+Even though, Knex have decided to return String.
 We decided to parse the result of #count() method to force a resulting INTEGER.
 
 Links :

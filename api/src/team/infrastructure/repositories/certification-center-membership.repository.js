@@ -11,8 +11,6 @@ import {
 } from '../../../shared/domain/errors.js';
 import { CertificationCenter } from '../../../shared/domain/models/CertificationCenter.js';
 import { CertificationCenterMembership } from '../../../shared/domain/models/CertificationCenterMembership.js';
-import { BookshelfCertificationCenterMembership } from '../../../shared/infrastructure/orm-models/CertificationCenterMembership.js';
-import * as bookshelfToDomainConverter from '../../../shared/infrastructure/utils/bookshelf-to-domain-converter.js';
 import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
 
 const CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME = 'certification-center-memberships';
@@ -132,17 +130,35 @@ const findActiveByCertificationCenterIdSortedByRole = async function ({ certific
  */
 const save = async function ({ userId, certificationCenterId }) {
   try {
-    const newCertificationCenterMembership = await new BookshelfCertificationCenterMembership({
-      userId,
-      certificationCenterId,
-    })
-      .save()
-      .then((model) => model.fetch({ withRelated: ['user', 'certificationCenter'] }));
+    const [{ id: newCertificationMembershipId }] = await knex('certification-center-memberships')
+      .insert({
+        userId,
+        certificationCenterId,
+      })
+      .returning('id');
 
-    return bookshelfToDomainConverter.buildDomainObject(
-      BookshelfCertificationCenterMembership,
-      newCertificationCenterMembership,
-    );
+    const data = await knex('certification-center-memberships')
+      .select(
+        'certification-center-memberships.*',
+        'users.lastName',
+        'users.firstName',
+        'users.email',
+        'certification-centers.name',
+        'certification-centers.type',
+        'certification-centers.externalId',
+        'certification-centers.createdAt AS certificationCenterCreatedAt',
+        'certification-centers.updatedAt AS certificationCenterUpdatedAt',
+      )
+      .join('users', 'users.id', 'certification-center-memberships.userId')
+      .join(
+        'certification-centers',
+        'certification-centers.id',
+        'certification-center-memberships.certificationCenterId',
+      )
+      .where('certification-center-memberships.id', newCertificationMembershipId)
+      .first();
+
+    return _toDomain(data);
   } catch (err) {
     if (knexUtils.isUniqConstraintViolated(err)) {
       throw new AlreadyExistingMembershipError(

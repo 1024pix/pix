@@ -12,7 +12,6 @@ import {
   CERTIFICATION_CENTER_MEMBERSHIP_ROLES,
   CertificationCenterMembership,
 } from '../../../../../src/shared/domain/models/CertificationCenterMembership.js';
-import { BookshelfCertificationCenterMembership } from '../../../../../src/shared/infrastructure/orm-models/CertificationCenterMembership.js';
 import { certificationCenterMembershipRepository } from '../../../../../src/team/infrastructure/repositories/certification-center-membership.repository.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
@@ -134,13 +133,18 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
 
     it('should add a new membership in database', async function () {
       // given
-      const countCertificationCenterMembershipsBeforeCreate = await BookshelfCertificationCenterMembership.count();
+      const [{ count: countCertificationCenterMembershipsBeforeCreate }] = await knex(
+        'certification-center-memberships',
+      ).count();
 
       // when
       await certificationCenterMembershipRepository.save({ userId, certificationCenterId });
 
       // then
-      const countCertificationCenterMembershipsAfterCreate = await BookshelfCertificationCenterMembership.count();
+      const [{ count: countCertificationCenterMembershipsAfterCreate }] = await knex(
+        'certification-center-memberships',
+      ).count();
+
       expect(countCertificationCenterMembershipsAfterCreate).to.equal(
         countCertificationCenterMembershipsBeforeCreate + 1,
       );
@@ -162,13 +166,17 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
         // given
         databaseBuilder.factory.buildMembership({ userId, certificationCenterId, disabledAt: new Date() });
         await databaseBuilder.commit();
-        const countCertificationCenterMembershipsBeforeCreate = await BookshelfCertificationCenterMembership.count();
+        const [{ count: countCertificationCenterMembershipsBeforeCreate }] = await knex(
+          'certification-center-memberships',
+        ).count();
 
         // when
-        await certificationCenterMembershipRepository.save({ userId, certificationCenterId });
+        await certificationCenterMembershipRepository.create({ userId, certificationCenterId });
 
         // then
-        const countCertificationCenterMembershipsAfterCreate = await BookshelfCertificationCenterMembership.count();
+        const [{ count: countCertificationCenterMembershipsAfterCreate }] = await knex(
+          'certification-center-memberships',
+        ).count();
         expect(countCertificationCenterMembershipsAfterCreate).to.equal(
           countCertificationCenterMembershipsBeforeCreate + 1,
         );
