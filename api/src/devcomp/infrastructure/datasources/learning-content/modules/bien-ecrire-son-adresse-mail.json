@@ -24,11 +24,11 @@
       "grainId": "af860b1e-0566-4b06-bcb4-a68a5151d621"
     },
     {
-      "content": "<p>Récapitulons ensemble avec quelques questions.</p>",
+      "content": "<p>Récapitulons ensemble avec quelques questions. <span aria-hidden=\"true\">🎯</span></p>",
       "grainId": "edd7fec3-a649-425b-b8e3-65b13c6c47ea"
     },
     {
-      "content": "<p>Maintenant, à vous de jouer pour trouver l'adresse mail de Naomi.</p>",
+      "content": "<p>Pour finir, à vous de jouer : vous allez devoir trouver l'adresse mail de Naomi.</p>",
       "grainId": "b7ea7630-824a-4a49-83d1-abb9b8d0d120"
     }
   ],
@@ -119,7 +119,7 @@
                 {
                   "id": "1fd829f8-1799-4779-a28d-5d26fba31b8b",
                   "type": "text",
-                  "content": "<h3 class=\"screen-reader-only\">Le fournisseur d’adresse mail</h3><h4>Partie 2&nbsp;: le fournisseur d’adresse mail. Cette partie de l’adresse est donnée par le fournisseur.</h4><p><span aria-hidden=\"true\">✅</span> Voici des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com, yahoo.fr)</li><li>Microsoft (hotmail.com, live.fr)</li></ul><p>Soyez attentifs à l'extension (<i>.fr</i>, <i>.com</i>, etc.) quand vous écrivez une adresse mail pour qu'il soit envoyé à la bonne adresse. <span aria-hidden=\"true\">🧐</span></p>"
+                  "content": "<h3 class=\"screen-reader-only\">Le fournisseur d’adresse mail</h3><h4>Partie 2&nbsp;: le fournisseur d’adresse mail. Cette partie de l’adresse est donnée par le fournisseur.</h4><p><span aria-hidden=\"true\">✅</span> Voici des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com, yahoo.fr)</li><li>Microsoft (hotmail.com, live.fr)</li></ul><p>Quand vous écrivez une adresse mail, soyez attentifs à l'extension (<i>.fr</i>, <i>.com</i>, etc.). C'est important pour que le mail soit envoyé à la bonne adresse. <span aria-hidden=\"true\">🧐</span></p>"
                 }
               ]
             }
@@ -133,104 +133,103 @@
       "title": "Les parties d’une adresse mail : applications",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "fd702cb8-9ad2-41aa-b21d-449f1342ef03",
-            "type": "qrocm",
-            "instruction": "<p>Quel symbole permet de séparer les deux parties d'une adresse mail&#8239;?</p>",
-            "proposals": [
-              {
-                "type": "text",
-                "content": "<span>Symbole&nbsp;:</span>"
-              },
-              {
-                "input": "symbole",
-                "type": "input",
-                "inputType": "text",
-                "size": 3,
-                "display": "inline",
-                "placeholder": "",
-                "ariaLabel": "Réponse 1 sur 1",
-                "defaultValue": "",
-                "tolerances": ["t1"],
-                "solutions": ["@"]
-              }
-            ],
-            "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Cherchez le symbole @ sur votre clavier pour pouvoir l'écrire.</p>"
-            }
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "1d8f5308-4d40-452d-8bf4-5d2c820734f6",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "98c51fa7-03b7-49b1-8c5e-49341d35909c",
-            "type": "qrocm",
-            "instruction": "<p>Quelles sont les deux parties d'une adresse mail&nbsp;?</p>",
-            "proposals": [
-              {
-                "type": "text",
-                "content": "<span>Partie 1&nbsp;:</span>"
-              },
-              {
-                "input": "premiere-partie",
-                "type": "select",
-                "display": "inline",
-                "placeholder": "- Sélectionner -",
-                "ariaLabel": "Réponse 1 sur 2",
-                "defaultValue": "",
-                "tolerances": [],
-                "options": [
-                  {
-                    "id": "1",
-                    "content": "l'identifiant"
-                  },
-                  {
-                    "id": "2",
-                    "content": "le fournisseur d'adresse mail"
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "fd702cb8-9ad2-41aa-b21d-449f1342ef03",
+                  "type": "qrocm",
+                  "instruction": "<p>Quel symbole permet de séparer les deux parties d'une adresse mail&#8239;?</p>",
+                  "proposals": [
+                    {
+                      "type": "text",
+                      "content": "<span>Symbole&nbsp;:</span>"
+                    },
+                    {
+                      "input": "symbole",
+                      "type": "input",
+                      "inputType": "text",
+                      "size": 3,
+                      "display": "inline",
+                      "placeholder": "",
+                      "ariaLabel": "Réponse 1 sur 1",
+                      "defaultValue": "",
+                      "tolerances": ["t1"],
+                      "solutions": ["@"]
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Cherchez le symbole @ sur votre clavier pour pouvoir l'écrire.</p>"
                   }
-                ],
-                "solutions": ["1"]
-              },
-              {
-                "type": "text",
-                "content": "<br><span>Partie 2&nbsp;:</span>"
-              },
-              {
-                "input": "seconde-partie",
-                "type": "select",
-                "display": "inline",
-                "placeholder": "- Sélectionner -",
-                "ariaLabel": "Réponse 2 sur 2",
-                "defaultValue": "",
-                "tolerances": [],
-                "options": [
-                  {
-                    "id": "1",
-                    "content": "l'identifiant"
-                  },
-                  {
-                    "id": "2",
-                    "content": "le fournisseur d'adresse mail"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "98c51fa7-03b7-49b1-8c5e-49341d35909c",
+                  "type": "qrocm",
+                  "instruction": "<p>Quelles sont les deux parties d'une adresse mail&nbsp;?</p>",
+                  "proposals": [
+                    {
+                      "type": "text",
+                      "content": "<span>Partie 1&nbsp;:</span>"
+                    },
+                    {
+                      "input": "premiere-partie",
+                      "type": "select",
+                      "display": "inline",
+                      "placeholder": "- Sélectionner -",
+                      "ariaLabel": "Réponse 1 sur 2",
+                      "defaultValue": "",
+                      "tolerances": [],
+                      "options": [
+                        {
+                          "id": "1",
+                          "content": "l'identifiant"
+                        },
+                        {
+                          "id": "2",
+                          "content": "le fournisseur d'adresse mail"
+                        }
+                      ],
+                      "solutions": ["1"]
+                    },
+                    {
+                      "type": "text",
+                      "content": "<br><span>Partie 2&nbsp;:</span>"
+                    },
+                    {
+                      "input": "seconde-partie",
+                      "type": "select",
+                      "display": "inline",
+                      "placeholder": "- Sélectionner -",
+                      "ariaLabel": "Réponse 2 sur 2",
+                      "defaultValue": "",
+                      "tolerances": [],
+                      "options": [
+                        {
+                          "id": "1",
+                          "content": "l'identifiant"
+                        },
+                        {
+                          "id": "2",
+                          "content": "le fournisseur d'adresse mail"
+                        }
+                      ],
+                      "solutions": ["2"]
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Vous avez retrouvé le bon format d’une adresse mail.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Pour avoir de l’aide, revenez en arrière.&nbsp;<span aria-hidden=\"true\">👆</span></p>"
                   }
-                ],
-                "solutions": ["2"]
-              }
-            ],
-            "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Vous avez retrouvé le bon format d’une adresse mail.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Pour avoir de l’aide, revenez en arrière.&nbsp;<span aria-hidden=\"true\">👆</span></p>"
+                }   
+              ]
             }
-          }
+          ]
         }
       ]
     },
@@ -327,7 +326,7 @@
                 {
                   "id": "29195dde-b603-488f-a554-f391fbdf3b24",
                   "type": "qcu",
-                  "instruction": "<p>Il peut y avoir deux adresses mails identiques</p>",
+                  "instruction": "<p>Mickaël et Naomi peuvent avoir le même identifiant et le même fournisseur d'adresse mail.</p>",
                   "proposals": [
                     {
                       "id": "1",
