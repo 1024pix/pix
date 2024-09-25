@@ -19,7 +19,7 @@ const updateEnrolledCandidate = async function ({ editedCandidate, candidateRepo
     throw new CertificationCandidateNotFoundError();
   }
 
-  if (foundCandidate.isLinkedToAUser()) {
+  if (foundCandidate.isReconciled()) {
     throw new CandidateAlreadyLinkedToUserError();
   }
 
