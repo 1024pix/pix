@@ -51,11 +51,13 @@ describe('Unit | UseCase | delete-unlinked-certification-candidate', function ()
     });
   });
 
-  context('When the certification candidate is linked to a user ', function () {
+  context('When the certification candidate is reconciled', function () {
     beforeEach(function () {
       candidateRepository.get
         .withArgs({ certificationCandidateId: candidateId })
-        .resolves(domainBuilder.certification.enrolment.buildCandidate({ userId: 123 }));
+        .resolves(
+          domainBuilder.certification.enrolment.buildCandidate({ userId: 123, reconciledAt: new Date('2024-09-25') }),
+        );
     });
 
     it('should throw a forbidden deletion error', async function () {
