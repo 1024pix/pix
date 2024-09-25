@@ -1740,7 +1740,11 @@
         "trainings": {
           "title": "Want to learn more?",
           "description": "Get personalized training recommendations to continue progressing and feed your curiosity to help you achieve your full potential.",
-          "tab-label": "Trainings"
+          "tab-label": "Trainings",
+          "modal": {
+            "content": "Send us your results to enable the course organizer to support you.'<br />'After sharing, you'll have access to these training courses!",
+            "share-error": "There was an error sending your results. Please try again."
+          }
         }
       },
       "trainings": {
