@@ -86,6 +86,9 @@
 @import 'pages/authenticated/team/new';
 @import 'pages/authenticated/terms-of-service';
 
+/* App/Components */
+@import 'sco-organization-participant/generate-username-password-modal';
+
 body,
 html {
   height: 100%;

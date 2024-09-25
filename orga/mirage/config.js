@@ -408,7 +408,7 @@ function routes() {
     });
   });
 
-  this.post('/sco-organization-learners/password-reset', () => {
+  this.post('/sco-organization-learners/batch-username-password-generate', () => {
     const headers = {
       'Content-Type': 'text/csv;charset=utf-8',
       'Content-Disposition': 'attachment; filename=content.csv',

@@ -20,6 +20,7 @@ export default class ScoList extends Component {
   @tracked student = null;
   @tracked isShowingAuthenticationMethodModal = false;
   @tracked showResetPasswordModal = false;
+  @tracked showGenerateUsernamePasswordModal = false;
   @tracked divisions;
 
   @tracked affectedStudents = [];
@@ -71,6 +72,10 @@ export default class ScoList extends Component {
     return Boolean(this.args.students.length);
   }
 
+  get hasGarIdentityProvider() {
+    return this.currentUser.organization.hasGarIdentityProvider;
+  }
+
   @action
   openAuthenticationMethodModal(student, event) {
     event.stopPropagation();
@@ -96,10 +101,22 @@ export default class ScoList extends Component {
   }
 
   @action
-  async resetPasswordForStudents(affectedStudents, resetSelectedStudents) {
+  openGenerateUsernamePasswordModal(students, event) {
+    event.stopPropagation();
+    this.affectedStudents = students.filter((student) => student.isAssociated);
+    this.showGenerateUsernamePasswordModal = true;
+  }
+
+  @action
+  closeGenerateUsernamePasswordModal() {
+    this.showGenerateUsernamePasswordModal = false;
+  }
+
+  @action
+  async generateUsernamePasswordForStudents(affectedStudents, resetSelectedStudents) {
     const affectedStudentsIds = affectedStudents.map((affectedStudents) => affectedStudents.id);
     try {
-      await this.store.adapterFor('sco-organization-participant').resetOrganizationLearnersPassword({
+      await this.store.adapterFor('sco-organization-participant').generateOrganizationLearnersUsernamePassword({
         fetch,
         fileSaver: this.fileSaver,
         organizationId: this.currentUser.organization.id,
@@ -111,6 +128,7 @@ export default class ScoList extends Component {
       this.notifications.sendSuccess(
         this.intl.t('pages.sco-organization-participants.messages.password-reset-success'),
       );
+      await this.args.refreshValues();
     } catch (fetchErrors) {
       const error = Array.isArray(fetchErrors) && fetchErrors.length > 0 && fetchErrors[0];
       let errorMessage;

@@ -1230,6 +1230,7 @@
     "sco-organization-participants": {
       "title": "{count, plural, =0 {Students} =1 {Student ({count})} other {Students ({count})}}",
       "action-bar": {
+        "generate-username-password-button": "Generate logins and/or passwords for selected students",
         "information": "{count, plural, =1 {{count} student selected} other {{count} students selected}}",
         "reset-password-button": "Reset passwords for selected students"
       },
@@ -1266,6 +1267,13 @@
           "label": "Search by log in method"
         },
         "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}"
+      },
+      "generate-username-password-modal": {
+        "title": "Generate logins and/or passwords for selected students",
+        "content-message-1": "Students who do not yet have a login method must go through a campaign at your school to create their PIX account.",
+        "content-message-2": "A CSV file containing login details and one-time passwords will be generated.",
+        "content-message-3": "Give these new one-time passwords to the students. When they log in with this password, Pix will ask them to enter a new one.",
+        "warning-message": "A login and password will be generated for students who have access to the Mediacentre and/or an e-mail address. Students who already have a login will have their password reset."
       },
       "manage-authentication-method-modal": {
         "title": "Managing the student's Pix account",

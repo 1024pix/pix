@@ -1,5 +1,5 @@
 import * as moduleUnderTest from '../../../../lib/application/sco-organization-learners/index.js';
-import { ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE } from '../../../../lib/domain/constants/reset-organization-learners-password-errors.js';
+import { ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE } from '../../../../lib/domain/constants/generate-organization-learners-username-and-temporary-password-errors.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import {
@@ -234,7 +234,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
     });
   });
 
-  describe('#updateOrganizationLearnersPassword', function () {
+  describe('#batchGenerateOrganizationLearnersUsernameWithTemporaryPassword', function () {
     context('Error cases', function () {
       context('when an UserNotAuthorizedToUpdatePasswordError error is thrown ', function () {
         it('resolves a 403 Http Response with code and message in payload', async function () {
@@ -270,13 +270,13 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
           };
 
           sinon
-            .stub(usecases, 'resetOrganizationLearnersPassword')
+            .stub(usecases, 'generateOrganizationLearnersUsernameAndTemporaryPassword')
             .rejects(new UserNotAuthorizedToUpdatePasswordError(message, code));
 
           // when
           const response = await httpTestServer.request(
             'POST',
-            '/api/sco-organization-learners/password-reset',
+            '/api/sco-organization-learners/batch-username-password-generate',
             payload,
             auth,
           );
