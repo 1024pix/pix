@@ -363,8 +363,8 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
     });
   });
 
-  context('#hasLinkedCandidateTo', function () {
-    it('should return true when at least one candidate is linked to given user', function () {
+  context('#hasReconciledCandidateTo', function () {
+    it('should return true when at least one candidate is reconciled to given user', function () {
       // given
       const userId = 123;
       const session = domainBuilder.certification.enrolment.buildSession();
@@ -374,23 +374,25 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
         }),
         domainBuilder.certification.enrolment.buildCandidate({
           userId: 123,
+          reconciledAt: new Date('2024-09-25'),
         }),
         domainBuilder.certification.enrolment.buildCandidate({
           userId: 456,
+          reconciledAt: new Date('2024-09-25'),
         }),
       ];
 
       // when
-      const hasLinkedCandidateTo = session.hasLinkedCandidateTo({
+      const hasReconciledCandidateTo = session.hasReconciledCandidateTo({
         candidates,
         userId,
       });
 
       // then
-      expect(hasLinkedCandidateTo).to.be.true;
+      expect(hasReconciledCandidateTo).to.be.true;
     });
 
-    it('should return false when no candidate is linked to user', function () {
+    it('should return false when no candidate is reconciled to user', function () {
       // given
       const userId = 123;
       const session = domainBuilder.certification.enrolment.buildSession();
@@ -404,13 +406,13 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
       ];
 
       // when
-      const hasLinkedCandidateTo = session.hasLinkedCandidateTo({
+      const hasReconciledCandidateTo = session.hasReconciledCandidateTo({
         candidates,
         userId,
       });
 
       // then
-      expect(hasLinkedCandidateTo).to.be.false;
+      expect(hasReconciledCandidateTo).to.be.false;
     });
   });
 

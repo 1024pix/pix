@@ -2,7 +2,7 @@ import * as candidateRepository from '../../infrastructure/repositories/candidat
 
 const execute = async ({ userId, certificationCandidateId, dependencies = { candidateRepository } }) => {
   const candidate = await dependencies.candidateRepository.get({ certificationCandidateId });
-  return candidate?.isLinkedTo(userId);
+  return candidate?.isReconciledTo(userId);
 };
 
 export { execute };

@@ -67,13 +67,6 @@ export class Candidate {
     return this.isReconciled() && this.userId === userId;
   }
 
-  /**
-   * @deprecated please use isReconciledTo function
-   */
-  isLinkedTo(userId) {
-    return this.userId === userId;
-  }
-
   reconcile(userId) {
     this.userId = userId;
     this.reconciledAt = new Date();

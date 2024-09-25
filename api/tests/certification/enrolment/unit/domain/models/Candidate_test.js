@@ -1185,7 +1185,7 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       });
     });
 
-    it('should return false when candidate is not linked to anyone', function () {
+    it('should return false when candidate is not reconciled to anyone', function () {
       // given
       const userId = 123;
       const candidate = domainBuilder.certification.enrolment.buildCandidate({
@@ -1193,54 +1193,10 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       });
 
       // when
-      const isLinkedTo = candidate.isLinkedTo(userId);
+      const isReconciledTo = candidate.isReconciledTo(userId);
 
       // then
-      expect(isLinkedTo).to.be.false;
-    });
-  });
-
-  context('isLinkedTo', function () {
-    it('should return true when candidate is linked to given userId', function () {
-      // given
-      const userId = 123;
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        userId,
-      });
-
-      // when
-      const isLinkedTo = candidate.isLinkedTo(userId);
-
-      // then
-      expect(isLinkedTo).to.be.true;
-    });
-
-    it('should return false when candidate is not linked to given userId', function () {
-      // given
-      const userId = 123;
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        userId: 456,
-      });
-
-      // when
-      const isLinkedTo = candidate.isLinkedTo(userId);
-
-      // then
-      expect(isLinkedTo).to.be.false;
-    });
-
-    it('should return false when candidate is not linked to anyone', function () {
-      // given
-      const userId = 123;
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        userId: null,
-      });
-
-      // when
-      const isLinkedTo = candidate.isLinkedTo(userId);
-
-      // then
-      expect(isLinkedTo).to.be.false;
+      expect(isReconciledTo).to.be.false;
     });
   });
 
