@@ -31,8 +31,8 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
         headers: [
           { key: 1, name: 'Nom apprenant', property: 'lastName', required: true },
           { key: 2, name: 'Prénom apprenant', property: 'firstName', required: true },
-          { key: 3, name: 'catégorie', required: true },
-          { key: 4, name: 'Date de naissance', required: true },
+          { key: 3, name: 'catégorie', required: true, config: { exportable: true } },
+          { key: 4, name: 'Date de naissance', required: true, config: { exportable: true } },
           { key: 5, name: 'unicity key', required: true },
         ],
         filterableColumns: [
@@ -256,8 +256,8 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
       expect(organizationLearnerImportFormat.headersFields).to.deep.equal([
         { key: 1, name: 'Nom apprenant', property: 'lastName', required: true },
         { key: 2, name: 'Prénom apprenant', property: 'firstName', required: true },
-        { key: 3, name: 'catégorie', required: true },
-        { key: 4, name: 'Date de naissance', required: true },
+        { key: 3, name: 'catégorie', required: true, config: { exportable: true } },
+        { key: 4, name: 'Date de naissance', required: true, config: { exportable: true } },
         { key: 5, name: 'unicity key', required: true },
       ]);
     });
@@ -281,6 +281,29 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
           'Date de naissance': 'value3',
         },
       });
+    });
+  });
+
+  describe('#exportableColumns', function () {
+    it('should return exportable columns', function () {
+      const organizationLearnerImportFormat = new OrganizationLearnerImportFormat(
+        organizationLearnerImportFormatPayload,
+      );
+      expect(organizationLearnerImportFormat.exportableColumns).to.deep.equals([
+        { columnName: 'catégorie' },
+        { columnName: 'Date de naissance' },
+      ]);
+    });
+
+    it('should return empty when there is no exportable columns', function () {
+      organizationLearnerImportFormatPayload.config.headers = [
+        { key: 1, name: 'Nom apprenant', property: 'lastName', required: true },
+      ];
+
+      const organizationLearnerImportFormat = new OrganizationLearnerImportFormat(
+        organizationLearnerImportFormatPayload,
+      );
+      expect(organizationLearnerImportFormat.exportableColumns).lengthOf(0);
     });
   });
 });

@@ -16,12 +16,21 @@ const startWritingCampaignProfilesCollectionResultsToStream = async function ({
   campaignParticipationRepository,
   organizationRepository,
   placementProfileService,
+  organizationFeatureApi,
+  organizationLearnerImportFormatRepository,
 }) {
   const campaign = await campaignRepository.get(campaignId);
   const translate = i18n.__;
+  let additionalHeaders = [];
 
   if (!campaign.isProfilesCollection()) {
     throw new CampaignTypeError();
+  }
+
+  const organizationFeatures = await organizationFeatureApi.getAllFeaturesFromOrganization(campaign.organizationId);
+  if (organizationFeatures.hasLearnersImportFeature) {
+    const importFormat = await organizationLearnerImportFormatRepository.get(campaign.organizationId);
+    additionalHeaders = importFormat.exportableColumns;
   }
 
   const [allPixCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
@@ -30,13 +39,14 @@ const startWritingCampaignProfilesCollectionResultsToStream = async function ({
     campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id),
   ]);
 
-  const campaignProfilesCollectionExport = new CampaignProfilesCollectionExport(
-    writableStream,
+  const campaignProfilesCollectionExport = new CampaignProfilesCollectionExport({
+    outputStream: writableStream,
     organization,
     campaign,
-    allPixCompetences,
+    competences: allPixCompetences,
     translate,
-  );
+    additionalHeaders,
+  });
 
   // No return/await here, we need the writing to continue in the background
   // after this function's returned promise resolves. If we await the map

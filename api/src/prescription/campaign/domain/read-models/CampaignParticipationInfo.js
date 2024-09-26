@@ -3,12 +3,13 @@ import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import _ from 'lodash';
 
-import { validateEntity } from '../validators/entity-validator.js';
+import { validateEntity } from '../../../../shared/domain/validators/entity-validator.js';
 
 const validationSchema = Joi.object({
   participantFirstName: Joi.string().required().allow(''),
   participantLastName: Joi.string().required().allow(''),
   participantExternalId: Joi.string().optional().allow(null),
+  additionalInfos: Joi.object().allow(null),
   studentNumber: Joi.string().optional().allow(null),
   userId: Joi.number().integer().required(),
   campaignParticipationId: Joi.number().integer().required(),
@@ -28,6 +29,7 @@ class CampaignParticipationInfo {
     participantExternalId = null,
     studentNumber = null,
     userId,
+    additionalInfos,
     campaignParticipationId,
     isCompleted,
     createdAt,
@@ -42,6 +44,7 @@ class CampaignParticipationInfo {
     this.participantExternalId = participantExternalId;
     this.studentNumber = studentNumber;
     this.userId = userId;
+    this.additionalInfos = additionalInfos;
     this.campaignParticipationId = campaignParticipationId;
     this.isCompleted = isCompleted;
     this.createdAt = createdAt;

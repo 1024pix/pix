@@ -4,10 +4,16 @@ const { PassThrough } = stream;
 
 import * as campaignRepository from '../../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as userRepository from '../../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
+import * as organizationFeatureApi from '../../../../../../src/organizational-entities/application/api/organization-features-api.js';
 import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../../../src/prescription/campaign/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
 import * as campaignParticipationRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
+import * as organizationLearnerImportFormatRepository from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../../src/shared/domain/constants.js';
+import {
+  MAX_REACHABLE_LEVEL,
+  MAX_REACHABLE_PIX_BY_COMPETENCE,
+  ORGANIZATION_FEATURE,
+} from '../../../../../../src/shared/domain/constants.js';
 import * as placementProfileService from '../../../../../../src/shared/domain/services/placement-profile-service.js';
 import * as competenceRepository from '../../../../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
@@ -163,7 +169,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
       });
 
       it('should return all participation for one learner', async function () {
-        startWritingCampaignProfilesCollectionResultsToStream({
+        await startWritingCampaignProfilesCollectionResultsToStream({
           campaignId: campaign.id,
           writableStream,
           i18n,
@@ -173,6 +179,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           organizationRepository,
           campaignParticipationRepository,
           placementProfileService,
+          organizationFeatureApi,
         });
 
         const csv = await csvPromise;
@@ -187,6 +194,95 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         expect(cells[2]).to.be.equals(
           `"Observatoire de Pix";${campaign.id};"QWERTY456";"'@Campagne de Test N°2";"'=Bono";"'@Jean";"'+Mon mail pro";"Non";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA"`,
         );
+      });
+    });
+
+    context('extra columns', function () {
+      beforeEach(async function () {
+        // Import Configuration
+        const importConfig = {
+          name: 'MY_TEST_EXPORT',
+          fileType: 'csv',
+          config: {
+            acceptedEncoding: ['utf-8'],
+            unicityColumns: ['my_column1'],
+            validationRules: {
+              formats: [
+                { name: 'my_column1', type: 'string' },
+                { name: 'my_column2', type: 'string' },
+              ],
+            },
+            headers: [
+              { name: 'my_column1', required: true, property: 'lastName' },
+              { name: 'my_column2', required: true, property: 'firstName' },
+              { name: 'hobby', required: true, config: { exportable: true } },
+            ],
+          },
+        };
+        const feature = databaseBuilder.factory.buildFeature({
+          key: ORGANIZATION_FEATURE.LEARNER_IMPORT.key,
+        });
+        const organizationLearnerImportFormatId =
+          databaseBuilder.factory.buildOrganizationLearnerImportFormat(importConfig).id;
+
+        organization = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+
+        campaign = databaseBuilder.factory.buildCampaign({
+          name: '@Campagne de Test N°2',
+          code: 'QWERTY456',
+          organizationId: organization.id,
+          idPixLabel: 'Mail Perso',
+          targetProfileId: null,
+          type: 'PROFILES_COLLECTION',
+          title: null,
+        });
+
+        databaseBuilder.factory.buildOrganizationFeature({
+          featureId: feature.id,
+          organizationId: organization.id,
+          params: { organizationLearnerImportFormatId },
+        });
+
+        organizationLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          firstName: '@Jean',
+          lastName: '=Bono',
+          organizationId: organization.id,
+          userId: participant.id,
+          attributes: { hobby: 'genky', sleep: '8h' },
+        });
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          organizationLearnerId: organizationLearner.id,
+          userId: participant.id,
+          participantExternalId: '+Mon mail pro',
+          createdAt,
+          sharedAt,
+          status: CampaignParticipationStatuses.SHARED,
+          pixScore: 52,
+          isImproved: false,
+        });
+        await databaseBuilder.commit();
+      });
+      it('should return extra columns', async function () {
+        await startWritingCampaignProfilesCollectionResultsToStream({
+          campaignId: campaign.id,
+          writableStream,
+          i18n,
+          campaignRepository,
+          userRepository,
+          competenceRepository,
+          organizationRepository,
+          campaignParticipationRepository,
+          placementProfileService,
+          organizationFeatureApi,
+          organizationLearnerImportFormatRepository,
+        });
+
+        const csv = await csvPromise;
+        const cells = csv.split('\n');
+
+        expect(cells[0], 'hobby header').to.be.include('"hobby"');
+        expect(cells[1], 'hobby').to.be.include('"genky"');
       });
     });
 
@@ -242,7 +338,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           `${MAX_REACHABLE_PIX_BY_COMPETENCE}`;
 
         // when
-        startWritingCampaignProfilesCollectionResultsToStream({
+        await startWritingCampaignProfilesCollectionResultsToStream({
           campaignId: campaign.id,
           writableStream,
           i18n,
@@ -252,6 +348,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           organizationRepository,
           campaignParticipationRepository,
           placementProfileService,
+          organizationFeatureApi,
         });
 
         const csv = await csvPromise;
@@ -322,7 +419,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           `${MAX_REACHABLE_PIX_BY_COMPETENCE}`;
 
         // when
-        startWritingCampaignProfilesCollectionResultsToStream({
+        await startWritingCampaignProfilesCollectionResultsToStream({
           campaignId: campaign.id,
           writableStream,
           i18n,
@@ -332,6 +429,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           organizationRepository,
           campaignParticipationRepository,
           placementProfileService,
+          organizationFeatureApi,
         });
 
         const csv = await csvPromise;
@@ -404,7 +502,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           `${MAX_REACHABLE_PIX_BY_COMPETENCE}`;
 
         // when
-        startWritingCampaignProfilesCollectionResultsToStream({
+        await startWritingCampaignProfilesCollectionResultsToStream({
           campaignId: campaign.id,
           writableStream,
           i18n,
@@ -414,6 +512,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           organizationRepository,
           campaignParticipationRepository,
           placementProfileService,
+          organizationFeatureApi,
         });
 
         const csv = await csvPromise;

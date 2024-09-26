@@ -75,6 +75,9 @@ class OrganizationLearnerImportFormat {
       };
     });
   }
+  get exportableColumns() {
+    return this.config.headers.flatMap(({ name, config }) => (config?.exportable ? { columnName: name } : []));
+  }
 
   /**
    * @function

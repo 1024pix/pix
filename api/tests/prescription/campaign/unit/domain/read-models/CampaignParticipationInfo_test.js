@@ -1,6 +1,6 @@
-import { ObjectValidationError } from '../../../../src/shared/domain/errors.js';
-import { CampaignParticipationInfo } from '../../../../src/shared/domain/read-models/CampaignParticipationInfo.js';
-import { expect } from '../../../test-helper.js';
+import { CampaignParticipationInfo } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignParticipationInfo.js';
+import { ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | CampaignParticipationInfo', function () {
   describe('#constructor', function () {
@@ -18,6 +18,7 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', function () 
         createdAt: new Date('2019-04-01'),
         sharedAt: new Date('2019-05-01'),
         masteryPercentage: 1,
+        additionalInfos: null,
       };
     });
 
@@ -32,6 +33,13 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', function () 
         ObjectValidationError,
       );
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantFirstName: undefined })).to.throw(
+        ObjectValidationError,
+      );
+    });
+
+    it('should throw an ObjectValidationError when additionalInfos is not valid', function () {
+      // when
+      expect(() => new CampaignParticipationInfo({ ...validArguments, additionalInfos: 123456 })).to.throw(
         ObjectValidationError,
       );
     });

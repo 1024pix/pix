@@ -14,6 +14,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection
   const competenceRepository = { listPixCompetencesOnly: () => undefined };
   const organizationRepository = { get: () => undefined };
   const campaignParticipationRepository = { findProfilesCollectionResultDataByCampaignId: () => undefined };
+  let organizationFeatureApi;
   let writableStream;
   let csvPromise;
   let placementProfileService;
@@ -36,6 +37,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection
       .rejects('CampaignProfilesCollectionExport.prototype.export');
     writableStream = new PassThrough();
     csvPromise = streamToPromise(writableStream);
+    organizationFeatureApi = { getAllFeaturesFromOrganization: sinon.stub() };
+    organizationFeatureApi.getAllFeaturesFromOrganization.resolves({ hasLearnersImportFeature: false });
   });
 
   it('should throw a CampaignTypeError when campaign is not PROFILES_COLLECTION type', async function () {
@@ -58,6 +61,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection
       competenceRepository,
       campaignParticipationRepository,
       organizationRepository,
+      organizationFeatureApi,
       placementProfileService,
     });
 
@@ -98,6 +102,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection
       competenceRepository,
       campaignParticipationRepository,
       organizationRepository,
+      organizationFeatureApi,
       placementProfileService,
     });
     const csv = await csvPromise;

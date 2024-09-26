@@ -77,7 +77,7 @@ export const organizationLearnerImportFormat = async function ({ databaseBuilder
       headers: [
         { key: 1, name: 'Nom apprenant', property: 'lastName', required: true },
         { key: 2, name: 'Prénom apprenant', property: 'firstName', required: true },
-        { key: 3, name: 'Classe', required: true },
+        { key: 3, name: 'Classe', required: true, config: { exportable: true } },
         { key: 4, name: 'Date de naissance', required: true },
       ],
     },
