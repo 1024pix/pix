@@ -36,9 +36,8 @@ describe('Integration | Repository | certification candidate', function () {
 
         // then
         expect(result).to.deep.equal(
-          domainBuilder.certification.enrolment.buildCandidate({
+          domainBuilder.certification.evaluation.buildCandidate({
             ...candidate,
-            subscriptions: [],
           }),
         );
       });
@@ -124,9 +123,8 @@ describe('Integration | Repository | certification candidate', function () {
 
           // then
           expect(result).to.deep.equal(
-            domainBuilder.certification.enrolment.buildCandidate({
+            domainBuilder.certification.evaluation.buildCandidate({
               ...candidate,
-              subscriptions: [],
             }),
           );
         });
