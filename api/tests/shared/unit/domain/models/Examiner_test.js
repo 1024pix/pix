@@ -91,35 +91,64 @@ describe('Unit | Domain | Models | Examiner', function () {
       });
 
       context('and is a focused challenge', function () {
-        beforeEach(function () {
-          // given
-          isFocusedChallenge = true;
-        });
-
         context('when the assessment is a certification', function () {
-          it('should return an answer with FOCUSEDOUT as result and the correct resultDetails', function () {
-            // given
-            const expectedAnswer = new Answer(uncorrectedAnswer);
-            expectedAnswer.result = AnswerStatus.FOCUSEDOUT;
-            expectedAnswer.resultDetails = validation.resultDetails;
+          context('when the candidate needs an accessibility adjustment', function () {
+            it('should return an answer with OK as result, and the correct resultDetails', function () {
+              // given
+              const isFocusedChallenge = true;
+              const certificationCandidate = domainBuilder.certification.evaluation.buildCandidate({
+                accessibilityAdjustmentNeeded: true,
+              });
+              const expectedAnswer = new Answer(uncorrectedAnswer);
+              expectedAnswer.result = AnswerStatus.OK;
+              expectedAnswer.resultDetails = validation.resultDetails;
 
-            // when
-            correctedAnswer = examiner.evaluate({
-              answer: uncorrectedAnswer,
-              challengeFormat,
-              isFocusedChallenge,
-              isCertificationEvaluation: true,
+              // when
+              correctedAnswer = examiner.evaluate({
+                answer: uncorrectedAnswer,
+                challengeFormat,
+                isFocusedChallenge,
+                isCertificationEvaluation: true,
+                accessibilityAdjustmentNeeded: certificationCandidate.accessibilityAdjustmentNeeded,
+              });
+
+              // then
+              expect(correctedAnswer).to.be.an.instanceOf(Answer);
+              expect(correctedAnswer).to.deep.equal(expectedAnswer);
             });
+          });
 
-            // then
-            expect(correctedAnswer).to.be.an.instanceOf(Answer);
-            expect(correctedAnswer).to.deep.equal(expectedAnswer);
+          context('when the candidate does not need an accessibility adjustment', function () {
+            it('should return an answer with FOCUSEDOUT as a result, and the correct resultDetails', function () {
+              // given
+              const isFocusedChallenge = true;
+              const certificationCandidate = domainBuilder.certification.evaluation.buildCandidate({
+                accessibilityAdjustmentNeeded: false,
+              });
+              const expectedAnswer = new Answer(uncorrectedAnswer);
+              expectedAnswer.result = AnswerStatus.FOCUSEDOUT;
+              expectedAnswer.resultDetails = validation.resultDetails;
+
+              // when
+              correctedAnswer = examiner.evaluate({
+                answer: uncorrectedAnswer,
+                challengeFormat,
+                isFocusedChallenge,
+                isCertificationEvaluation: true,
+                accessibilityAdjustmentNeeded: certificationCandidate.accessibilityAdjustmentNeeded,
+              });
+
+              // then
+              expect(correctedAnswer).to.be.an.instanceOf(Answer);
+              expect(correctedAnswer).to.deep.equal(expectedAnswer);
+            });
           });
         });
 
         context('when the assessment is not a certification', function () {
           it('should return an answer with OK as result, and the correct resultDetails', function () {
             // given
+            const isFocusedChallenge = true;
             const expectedAnswer = new Answer(uncorrectedAnswer);
             expectedAnswer.result = AnswerStatus.OK;
             expectedAnswer.resultDetails = validation.resultDetails;
@@ -139,6 +168,9 @@ describe('Unit | Domain | Models | Examiner', function () {
         });
 
         it('should call validator.assess with answer to assess validity of answer', function () {
+          // given
+          const isFocusedChallenge = true;
+
           // when
           examiner.evaluate({
             answer: uncorrectedAnswer,

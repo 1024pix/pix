@@ -10,7 +10,14 @@ class Examiner {
     this.validator = validator;
   }
 
-  evaluate({ answer, challengeFormat, isFocusedChallenge, isCertificationEvaluation, hasLastQuestionBeenFocusedOut }) {
+  evaluate({
+    answer,
+    challengeFormat,
+    isFocusedChallenge,
+    isCertificationEvaluation,
+    hasLastQuestionBeenFocusedOut,
+    accessibilityAdjustmentNeeded,
+  }) {
     const correctedAnswer = new Answer(answer);
 
     if (answer.value === Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS) {
@@ -68,7 +75,7 @@ class Examiner {
     }
 
     if (isCorrectAnswer && isFocusedChallenge && answer.isFocusedOut && isCertificationEvaluation) {
-      correctedAnswer.result = AnswerStatus.FOCUSEDOUT;
+      correctedAnswer.result = accessibilityAdjustmentNeeded ? AnswerStatus.OK : AnswerStatus.FOCUSEDOUT;
       correctedAnswer.isFocusedOut = true;
     }
 

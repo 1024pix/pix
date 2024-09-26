@@ -35,6 +35,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     scorecardService,
     knowledgeElementRepository,
     certificationChallengeLiveAlertRepository,
+    certificationEvaluationCandidateRepository,
     flashAlgorithmService,
     algorithmDataFetcherService;
   const competenceEvaluationRepository = {};
@@ -56,6 +57,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     scorecardService = { computeScorecard: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserIdAndAssessmentId: sinon.stub() };
     certificationChallengeLiveAlertRepository = { getOngoingByChallengeIdAndAssessmentId: sinon.stub() };
+    certificationEvaluationCandidateRepository = { findByAssessmentId: sinon.stub() };
     flashAlgorithmService = { getCapacityAndErrorRate: sinon.stub() };
     algorithmDataFetcherService = { fetchForFlashLevelEstimation: sinon.stub() };
     dateUtils = {
@@ -86,6 +88,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       knowledgeElementRepository,
       flashAssessmentResultRepository,
       certificationChallengeLiveAlertRepository,
+      certificationEvaluationCandidateRepository,
       scorecardService,
       flashAlgorithmService,
       algorithmDataFetcherService,
@@ -718,6 +721,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       let savedAnswer;
       let solution;
       let validator;
+      let candidate;
 
       beforeEach(function () {
         // given
@@ -731,6 +735,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         solution = domainBuilder.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
         validator = domainBuilder.buildValidator.ofTypeQCU({ solution });
         challenge = domainBuilder.buildChallenge({ id: answer.challengeId, validator });
+        candidate = domainBuilder.certification.evaluation.buildCandidate({
+          accessibilityAdjustmentNeeded: true,
+        });
 
         completedAnswer = domainBuilder.buildAnswer(answer);
         completedAnswer.timeSpent = 0;
@@ -749,6 +756,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         assessmentRepository.get.resolves(assessment);
         challengeRepository.get.resolves(challenge);
         answerRepository.saveWithKnowledgeElements.resolves(savedAnswer);
+        certificationEvaluationCandidateRepository.findByAssessmentId
+          .withArgs({ assessmentId: assessment.id })
+          .resolves(candidate);
       });
 
       it('should call the answer repository to save the answer', async function () {
@@ -929,65 +939,143 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
   context('when the challenge is focused in certification', function () {
     let answer;
     let assessment;
+    let candidate;
 
-    beforeEach(function () {
-      // Given
-      answer = domainBuilder.buildAnswer({});
-      const nonFocusedChallenge = domainBuilder.buildChallenge({
-        id: answer.challengeId,
-        validator,
-        focused: true,
+    context('when the candidate does not need an accessibility adjustment', function () {
+      beforeEach(function () {
+        // Given
+        answer = domainBuilder.buildAnswer({});
+        candidate = domainBuilder.certification.evaluation.buildCandidate({
+          accessibilityAdjustmentNeeded: false,
+        });
+        const nonFocusedChallenge = domainBuilder.buildChallenge({
+          id: answer.challengeId,
+          validator,
+          focused: true,
+        });
+        challengeRepository.get.resolves(nonFocusedChallenge);
+        assessment = domainBuilder.buildAssessment({
+          userId,
+          lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
+          type: Assessment.types.CERTIFICATION,
+        });
+        assessmentRepository.get.resolves(assessment);
+        certificationEvaluationCandidateRepository.findByAssessmentId
+          .withArgs({ assessmentId: assessment.id })
+          .resolves(candidate);
       });
-      challengeRepository.get.resolves(nonFocusedChallenge);
-      assessment = domainBuilder.buildAssessment({
-        userId,
-        lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
-        type: Assessment.types.CERTIFICATION,
+
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      [
+        {
+          isFocusedOut: true,
+          lastQuestionState: 'focusedout',
+          expected: { result: ANSWER_STATUS_FOCUSEDOUT, isFocusedOut: true },
+        },
+        {
+          isFocusedOut: false,
+          lastQuestionState: 'asked',
+          expected: { result: ANSWER_STATUS_OK, isFocusedOut: false },
+        },
+        {
+          isFocusedOut: false,
+          lastQuestionState: 'focusedout',
+          expected: { result: ANSWER_STATUS_FOCUSEDOUT, isFocusedOut: true },
+        },
+        {
+          isFocusedOut: true,
+          lastQuestionState: 'asked',
+          expected: { result: ANSWER_STATUS_FOCUSEDOUT, isFocusedOut: true },
+        },
+      ].forEach(({ isFocusedOut, lastQuestionState, expected }) => {
+        context(`when answer.isFocusedOut=${isFocusedOut} and lastQuestionState=${lastQuestionState}`, function () {
+          it(`should return result=${expected.result.status} and isFocusedOut=${expected.isFocusedOut}`, async function () {
+            // Given
+            answer.isFocusedOut = isFocusedOut;
+            assessment.lastQuestionState = lastQuestionState;
+            answerRepository.saveWithKnowledgeElements = (_) => _;
+
+            // When
+            const correctedAnswer = await correctAnswerThenUpdateAssessment({
+              answer: answer,
+              userId,
+              locale,
+              ...dependencies,
+            });
+
+            // Then
+            expect(correctedAnswer).to.deep.contain(expected);
+          });
+        });
       });
-      assessmentRepository.get.resolves(assessment);
     });
 
-    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    [
-      {
-        isFocusedOut: true,
-        lastQuestionState: 'focusedout',
-        expected: { result: ANSWER_STATUS_FOCUSEDOUT, isFocusedOut: true },
-      },
-      {
-        isFocusedOut: false,
-        lastQuestionState: 'asked',
-        expected: { result: ANSWER_STATUS_OK, isFocusedOut: false },
-      },
-      {
-        isFocusedOut: false,
-        lastQuestionState: 'focusedout',
-        expected: { result: ANSWER_STATUS_FOCUSEDOUT, isFocusedOut: true },
-      },
-      {
-        isFocusedOut: true,
-        lastQuestionState: 'asked',
-        expected: { result: ANSWER_STATUS_FOCUSEDOUT, isFocusedOut: true },
-      },
-    ].forEach(({ isFocusedOut, lastQuestionState, expected }) => {
-      context(`when answer.isFocusedOut=${isFocusedOut} and lastQuestionState=${lastQuestionState}`, function () {
-        it(`should return result=${expected.result.status} and isFocusedOut=${expected.isFocusedOut}`, async function () {
-          // Given
-          answer.isFocusedOut = isFocusedOut;
-          assessment.lastQuestionState = lastQuestionState;
-          answerRepository.saveWithKnowledgeElements = (_) => _;
+    context('when the candidate needs an accessibility adjustment', function () {
+      beforeEach(function () {
+        // Given
+        answer = domainBuilder.buildAnswer({});
+        candidate = domainBuilder.certification.evaluation.buildCandidate({
+          accessibilityAdjustmentNeeded: true,
+        });
+        const nonFocusedChallenge = domainBuilder.buildChallenge({
+          id: answer.challengeId,
+          validator,
+          focused: true,
+        });
+        challengeRepository.get.resolves(nonFocusedChallenge);
+        assessment = domainBuilder.buildAssessment({
+          userId,
+          lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
+          type: Assessment.types.CERTIFICATION,
+        });
+        assessmentRepository.get.resolves(assessment);
+        certificationEvaluationCandidateRepository.findByAssessmentId
+          .withArgs({ assessmentId: assessment.id })
+          .resolves(candidate);
+      });
 
-          // When
-          const correctedAnswer = await correctAnswerThenUpdateAssessment({
-            answer: answer,
-            userId,
-            locale,
-            ...dependencies,
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      [
+        {
+          isFocusedOut: true,
+          lastQuestionState: 'focusedout',
+          expected: { result: ANSWER_STATUS_OK, isFocusedOut: true },
+        },
+        {
+          isFocusedOut: false,
+          lastQuestionState: 'asked',
+          expected: { result: ANSWER_STATUS_OK, isFocusedOut: false },
+        },
+        {
+          isFocusedOut: false,
+          lastQuestionState: 'focusedout',
+          expected: { result: ANSWER_STATUS_OK, isFocusedOut: true },
+        },
+        {
+          isFocusedOut: true,
+          lastQuestionState: 'asked',
+          expected: { result: ANSWER_STATUS_OK, isFocusedOut: true },
+        },
+      ].forEach(({ isFocusedOut, lastQuestionState, expected }) => {
+        context(`when answer.isFocusedOut=${isFocusedOut} and lastQuestionState=${lastQuestionState}`, function () {
+          it(`should return result=${expected.result.status} and isFocusedOut=${expected.isFocusedOut}`, async function () {
+            // Given
+            answer.isFocusedOut = isFocusedOut;
+            assessment.lastQuestionState = lastQuestionState;
+            answerRepository.saveWithKnowledgeElements = (_) => _;
+
+            // When
+            const correctedAnswer = await correctAnswerThenUpdateAssessment({
+              answer: answer,
+              userId,
+              locale,
+              ...dependencies,
+            });
+
+            // Then
+            expect(correctedAnswer).to.deep.contain(expected);
           });
-
-          // Then
-          expect(correctedAnswer).to.deep.contain(expected);
         });
       });
     });
