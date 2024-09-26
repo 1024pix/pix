@@ -24,6 +24,7 @@
 
       .authentication-layout__side {
         position: fixed;
+        top: var(--pix-spacing-6x);
         z-index: 0;
         display: grid;
         grid-template-columns: repeat(12, minmax(0, 1fr));
