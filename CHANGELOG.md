@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v4.218.0 (26/09/2024)
+
+
+### :rocket: Amélioration
+- [#10187](https://github.com/1024pix/pix/pull/10187) [FEATURE] affiche la date de naissance et la classe pour les prescrits venant d'un import à format (Pix-13984).
+- [#10145](https://github.com/1024pix/pix/pull/10145) [FEATURE] exporte les champs supplémentaires fourni lors de l'import (PIX-13695).
+- [#10140](https://github.com/1024pix/pix/pull/10140) [FEATURE] Préparer le template de layout pour la nouvelle mire d'authentification (PIX-13996).
+- [#10180](https://github.com/1024pix/pix/pull/10180) [FEATURE] Supprimer l’info companion actif sur la page de supervision (PIX-14479).
+- [#10174](https://github.com/1024pix/pix/pull/10174) [FEATURE] Supprimer le endpoint de ping Companion dans l’API (PIX-14478).
+- [#10007](https://github.com/1024pix/pix/pull/10007) [FEATURE] Ajouter le contenu de l'onglet Formations (PIX-12986).
+
+### :building_construction: Tech
+- [#10175](https://github.com/1024pix/pix/pull/10175) [TECH] Replace des tests unitaires de composants par des tests d'intégration (PIX-14496).
+- [#10161](https://github.com/1024pix/pix/pull/10161) [TECH] Permettre la suppression de cronJob lorsque l'on change son nom (PIX-14453).
+- [#10188](https://github.com/1024pix/pix/pull/10188) [TECH] Prendre en compte la date de réconciliation dans les cas qui vérifie la réconciliation (PIX-14515).
+- [#10179](https://github.com/1024pix/pix/pull/10179) [TECH] Migration du endpoint target-profile-summaries (PIX-14475).
+- [#10190](https://github.com/1024pix/pix/pull/10190) [TECH] Remplit la colonne `reconciledAt` pour les anciennes certifications (PIX-14403).
+- [#10154](https://github.com/1024pix/pix/pull/10154) [TECH] Améliorer le mot de passe surveillant (PIX-13007).
+- [#10172](https://github.com/1024pix/pix/pull/10172) [TECH] migrate /api/admin/target-profiles/{id}/badges route (PIX-14465).
+
+### :bug: Correction
+- [#10185](https://github.com/1024pix/pix/pull/10185) [BUGFIX] Passer la bonne information en paramètre de la Pagination sur PixAdmin (Pix-14499).
+- [#10186](https://github.com/1024pix/pix/pull/10186) [BUGFIX] Ne pas proposer d'épreuves inaccessibles à un candidat de certification nécessitant un test aménagé (PIX-14517).
+
 ## v4.217.0 (25/09/2024)
 
 
