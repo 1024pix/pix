@@ -1,13 +1,11 @@
 import _ from 'lodash';
 
-import { config } from '../../../../shared/config.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
 import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
 import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
 
-const availableCharactersForPasswordGeneration =
-  `${config.availableCharacterForCode.numbers}${config.availableCharacterForCode.letters}`.split('');
-const NB_CHAR = 5;
+const INVIGILATOR_PASSWORD_LENGTH = 6;
+const INVIGILATOR_PASSWORD_CHARS = '23456789bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY!*?'.split('');
 
 class SessionEnrolment {
   constructor({
@@ -23,7 +21,7 @@ class SessionEnrolment {
     time,
     certificationCandidates,
     certificationCenterId,
-    supervisorPassword = SessionEnrolment.generateSupervisorPassword(),
+    invigilatorPassword,
     version = CERTIFICATION_VERSIONS.V2,
     createdBy,
     finalizedAt,
@@ -40,7 +38,7 @@ class SessionEnrolment {
     this.time = time;
     this.certificationCandidates = certificationCandidates;
     this.certificationCenterId = certificationCenterId;
-    this.supervisorPassword = supervisorPassword;
+    this.invigilatorPassword = invigilatorPassword ?? this.#generateInvigilatorPassword();
     this.version = version;
     this.createdBy = createdBy;
     this.canEnrolCandidate = !finalizedAt;
@@ -54,8 +52,8 @@ class SessionEnrolment {
     return this.certificationCenterType === CERTIFICATION_CENTER_TYPES.SCO;
   }
 
-  static generateSupervisorPassword() {
-    return _.times(NB_CHAR, _randomCharacter).join('');
+  #generateInvigilatorPassword() {
+    return _.sampleSize(INVIGILATOR_PASSWORD_CHARS, INVIGILATOR_PASSWORD_LENGTH).join('');
   }
 
   isSessionScheduledInThePast() {
@@ -112,7 +110,3 @@ function findMatchingCandidates({
 }
 
 export { SessionEnrolment };
-
-function _randomCharacter() {
-  return _.sample(availableCharactersForPasswordGeneration);
-}

@@ -17,7 +17,7 @@ const SESSION_PROPS = [
   'time',
   'certificationCandidates',
   'certificationCenterId',
-  'supervisorPassword',
+  'invigilatorPassword',
   'version',
   'createdBy',
   'canEnrolCandidate',
@@ -113,14 +113,28 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
     });
   });
 
-  context('static #generateSupervisorPassword', function () {
-    it('should return a supervisor password containing 5 digits/letters except 0, 1 and vowels', async function () {
+  context('#generateInvigilatorPassword', function () {
+    it('should return a invigilator password containing 6 characters', async function () {
       // given
       // when
-      const supervisorPassword = SessionEnrolment.generateSupervisorPassword();
+      const sessionEnrolment = new SessionEnrolment();
 
       // then
-      expect(supervisorPassword).to.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/);
+      expect(sessionEnrolment.invigilatorPassword).to.have.lengthOf(6);
+    });
+
+    it('should return a invigilator password containing only allowed characters', async function () {
+      // given
+      // when
+      const randomPasswords = _.times(100, () => {
+        const aSession = new SessionEnrolment();
+        return aSession.invigilatorPassword;
+      });
+
+      // then
+      randomPasswords.forEach((password) => {
+        expect(password).to.match(/^[bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY2-9!*?]+$/);
+      });
     });
   });
 
@@ -420,7 +434,7 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
         resultsSentToPrescriberAt: new Date('2021-01-01'),
         publishedAt: new Date('2021-01-01'),
         assignedCertificationOfficerId: 789,
-        supervisorPassword: 'ORIGINAL_PASSWORD',
+        invigilatorPassword: 'ORIGINAL_PASSWORD',
         certificationCandidates: [],
         version: 2,
         createdBy: new Date('2021-01-01'),

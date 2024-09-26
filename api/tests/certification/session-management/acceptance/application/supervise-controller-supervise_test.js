@@ -38,7 +38,7 @@ describe('Acceptance | Controller | Certification | Session management | session
           type: 'supervisor-authentications',
           attributes: {
             'session-id': '121',
-            'supervisor-password': session.supervisorPassword,
+            'supervisor-password': session.invigilatorPassword,
           },
         },
       },

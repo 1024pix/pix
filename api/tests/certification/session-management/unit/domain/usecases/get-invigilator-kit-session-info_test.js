@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-invigilator-kit-info', function () {
         room: '54',
         date: '2021-01-01',
         time: '10:53',
-        invigilatorPassword: '12AB5',
+        invigilatorPassword: '12AB5E',
         accessCode: '1B3DE6',
       });
       sessionForInvigilatorKitRepository.get.withArgs({ id: sessionId }).resolves(sessionForInvigilatorKit);
@@ -40,7 +40,7 @@ describe('Unit | UseCase | get-invigilator-kit-info', function () {
           room: '54',
           date: '2021-01-01',
           time: '10:53',
-          invigilatorPassword: '12AB5',
+          invigilatorPassword: '12AB5E',
           accessCode: '1B3DE6',
           version: 2,
         }),

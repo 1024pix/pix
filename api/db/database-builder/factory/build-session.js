@@ -26,7 +26,7 @@ const buildSession = function ({
   juryComment = null,
   juryCommentAuthorId = null,
   juryCommentedAt = null,
-  supervisorPassword = 'PIX12',
+  invigilatorPassword = 'PIX123',
   version = 2,
   createdBy = null,
 } = {}) {
@@ -60,7 +60,7 @@ const buildSession = function ({
     juryComment,
     juryCommentAuthorId,
     juryCommentedAt,
-    supervisorPassword,
+    invigilatorPassword,
     version,
     createdBy,
   };

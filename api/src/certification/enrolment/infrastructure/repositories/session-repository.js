@@ -18,7 +18,7 @@ export async function save({ session }) {
       room: session.room,
       time: session.time,
       certificationCenterId: session.certificationCenterId,
-      supervisorPassword: session.supervisorPassword,
+      invigilatorPassword: session.invigilatorPassword,
       version: session.version,
       createdBy: session.createdBy,
     })

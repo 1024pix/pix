@@ -24,7 +24,7 @@ describe('Integration | Repository | Session-for-invigilator-kit', function () {
           date: '2018-02-23',
           time: '12:00:00',
           accessCode: 'X23SR71',
-          supervisorPassword: 'NYX34',
+          invigilatorPassword: 'NYX34A',
         });
 
         await databaseBuilder.commit();
@@ -38,7 +38,7 @@ describe('Integration | Repository | Session-for-invigilator-kit', function () {
           date: '2018-02-23',
           time: '12:00:00',
           accessCode: 'X23SR71',
-          invigilatorPassword: 'NYX34',
+          invigilatorPassword: 'NYX34A',
           version: 2,
         });
 
