@@ -1594,7 +1594,8 @@
         "submit": "Log in"
       },
       "error": {
-        "message": "There was an error in the email address or username/password entered."
+        "message": "There was an error in the email address or username/password entered.",
+        "unexpected": "Unable to connect. Please try again in a few moments. If the problem persists, '<'a href=\"https://pix.org/en/support\" target=\"blank\"'>'please contact us'</a>'."
       },
       "fields": {
         "legend": "Information required for sign in.",

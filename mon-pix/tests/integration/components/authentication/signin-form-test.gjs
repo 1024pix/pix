@@ -139,13 +139,8 @@ module('Integration | Component | Authentication | SigninForm', function (hooks)
       await clickByName(t(I18N_KEYS.submitButton));
 
       // then
-      const errorMessage = screen.getByText(
-        (content) =>
-          content.startsWith(
-            'Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur',
-          ) && content.endsWith('pour le réinitialiser.'),
-      );
-      assert.dom(errorMessage).exists();
+      const errorMessage = 'Vous avez effectué trop de tentatives de connexion.';
+      assert.dom(screen.getByText(errorMessage, { exact: false })).exists();
 
       const errorMessageLink = screen.getByRole('link', { name: 'mot de passe oublié' });
       assert.dom(errorMessageLink).hasAttribute('href', '/mot-de-passe-oublie');
@@ -159,12 +154,8 @@ module('Integration | Component | Authentication | SigninForm', function (hooks)
       await clickByName(t(I18N_KEYS.submitButton));
 
       // then
-      const errorMessage = screen.getByText((content) =>
-        content.startsWith(
-          'Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer,',
-        ),
-      );
-      assert.dom(errorMessage).exists();
+      const errorMessage = 'Votre compte est bloqué car vous avez effectué trop de tentatives de connexion.';
+      assert.dom(screen.getByText(errorMessage, { exact: false })).exists();
 
       const errorMessageLink = screen.getByRole('link', { name: 'contactez-nous' });
       assert.dom(errorMessageLink).hasAttribute('href', 'https://support.pix.org/support/tickets/new');
@@ -233,8 +224,11 @@ module('Integration | Component | Authentication | SigninForm', function (hooks)
       await clickByName(t(I18N_KEYS.submitButton));
 
       // then
-      const errorMessage = t('common.api-error-messages.internal-server-error');
-      assert.dom(screen.getByText(errorMessage)).exists();
+      const errorMessage = 'Impossible de se connecter. Merci de réessayer dans quelques instants.';
+      assert.dom(screen.getByText(errorMessage, { exact: false })).exists();
+
+      const errorMessageLink = screen.getByRole('link', { name: 'merci de nous contacter' });
+      assert.dom(errorMessageLink).hasAttribute('href', 'https://pix.fr/support');
     });
   });
 });

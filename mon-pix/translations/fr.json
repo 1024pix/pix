@@ -1594,7 +1594,8 @@
         "submit": "Je me connecte"
       },
       "error": {
-        "message": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects"
+        "message": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects",
+        "unexpected": "Impossible de se connecter. Merci de réessayer dans quelques instants. Si le problème persiste, '<'a href=\"https://pix.fr/support\" target=\"blank\"'>'merci de nous contacter'</a>'."
       },
       "fields": {
         "legend": "Informations nécessaires pour se connecter.",
