@@ -153,14 +153,16 @@ const correctAnswerThenUpdateAssessment = async function ({
 
   const challenge = await challengeRepository.get(answer.challengeId);
 
-  const onGoingCertificationChallengeLiveAlert =
-    await certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId({
-      challengeId: challenge.id,
-      assessmentId: assessment.id,
-    });
+  if (assessment.isCertification()) {
+    const onGoingCertificationChallengeLiveAlert =
+      await certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId({
+        challengeId: challenge.id,
+        assessmentId: assessment.id,
+      });
 
-  if (onGoingCertificationChallengeLiveAlert) {
-    throw new ForbiddenAccess('An alert has been set.');
+    if (onGoingCertificationChallengeLiveAlert) {
+      throw new ForbiddenAccess('An alert has been set.');
+    }
   }
 
   const correctedAnswer = evaluateAnswer({ challenge, answer, assessment, examiner });
