@@ -165,11 +165,11 @@ module('Integration | Component | certification-starter', function (hooks) {
             'service:focused-certification-challenge-warning-manager',
             FocusedCertificationChallengeWarningManagerStub,
           );
-          const postMessageStub = sinon.stub();
-          class WindowPostMessageServiceStub extends Service {
-            startCertification = postMessageStub;
+          const startCertificationStub = sinon.stub();
+          class PixCompanionServiceStub extends Service {
+            startCertification = startCertificationStub;
           }
-          this.owner.register('service:window-post-message', WindowPostMessageServiceStub);
+          this.owner.register('service:pix-companion', PixCompanionServiceStub);
 
           const routerObserver = this.owner.lookup('service:router');
           routerObserver.replaceWith = sinon.stub();
@@ -192,7 +192,7 @@ module('Integration | Component | certification-starter', function (hooks) {
 
           sinon.assert.calledOnce(certificationCourse.save);
           sinon.assert.calledOnce(resetStub);
-          sinon.assert.calledOnce(postMessageStub);
+          sinon.assert.calledOnce(startCertificationStub);
           sinon.assert.calledWithExactly(routerObserver.replaceWith, 'authenticated.certifications.resume', 456);
 
           assert.ok(true);
@@ -200,14 +200,14 @@ module('Integration | Component | certification-starter', function (hooks) {
       });
 
       module('when the creation of certification course is in error', function () {
-        test('should not send a postMessage', async function (assert) {
+        test('should not notify pix companion', async function (assert) {
           // given
           const replaceWithStub = sinon.stub();
-          const postMessageStub = sinon.stub();
-          class WindowPostMessageServiceStub extends Service {
-            startCertification = postMessageStub;
+          const startCertificationStub = sinon.stub();
+          class PixCompanionServiceStub extends Service {
+            startCertification = startCertificationStub;
           }
-          this.owner.register('service:window-post-message', WindowPostMessageServiceStub);
+          this.owner.register('service:pix-companion', PixCompanionServiceStub);
 
           class RouterServiceStub extends Service {
             replaceWith = replaceWithStub;
@@ -229,12 +229,8 @@ module('Integration | Component | certification-starter', function (hooks) {
           };
           createRecordStub.returns(certificationCourse);
           this.set('certificationCandidateSubscription', { sessionId: 123 });
-          this.set('postMessageStub', postMessageStub);
           const screen = await render(
-            hbs`<CertificationStarter
-  @certificationCandidateSubscription={{this.certificationCandidateSubscription}}
-  @postMessage={{this.postMessageStub}}
-/>`,
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
           );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           certificationCourse.save.rejects({ errors: [{ status: '404' }] });
@@ -244,7 +240,7 @@ module('Integration | Component | certification-starter', function (hooks) {
 
           // then
           assert.ok(screen.getByText('Ce code n’existe pas ou n’est plus valide.'));
-          sinon.assert.notCalled(postMessageStub);
+          sinon.assert.notCalled(startCertificationStub);
         });
 
         test('should display the appropriate error message when error status is 404', async function (assert) {

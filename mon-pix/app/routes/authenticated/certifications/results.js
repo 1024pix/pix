@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 
 export default class ResultsRoute extends Route {
   @service store;
-  @service windowPostMessage;
+  @service pixCompanion;
 
   async model(params) {
     const certificationCourse = await this.store.findRecord('certification-course', params.certification_id);
@@ -12,6 +12,6 @@ export default class ResultsRoute extends Route {
   }
 
   afterModel() {
-    return this.windowPostMessage.stopCertification();
+    return this.pixCompanion.stopCertification();
   }
 }

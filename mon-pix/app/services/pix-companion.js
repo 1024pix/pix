@@ -1,6 +1,6 @@
 import Service from '@ember/service';
 
-export default class WindowPostMessage extends Service {
+export default class PixCompanion extends Service {
   #postMessage(...args) {
     return window.postMessage(...args);
   }
