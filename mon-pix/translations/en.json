@@ -145,6 +145,7 @@
       "help-center": "Help center",
       "label": "Footer menu",
       "legal-notice": "Legal notice",
+      "server-status": "Status service",
       "sitemap": "Site map",
       "student-data-protection-policy": "Student data protection policy",
       "student-data-protection-policy-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39"
@@ -320,6 +321,11 @@
       },
       "answers": {
         "header": "Your answers"
+      }
+    },
+    "authentication": {
+      "login": {
+        "signup-button": "Sign up to Pix"
       }
     },
     "autonomous-course": {
@@ -1740,7 +1746,11 @@
         "trainings": {
           "title": "Want to learn more?",
           "description": "Get personalized training recommendations to continue progressing and feed your curiosity to help you achieve your full potential.",
-          "tab-label": "Trainings"
+          "tab-label": "Trainings",
+          "modal": {
+            "content": "Send us your results to enable the course organizer to support you.'<br />'After sharing, you'll have access to these training courses!",
+            "share-error": "There was an error sending your results. Please try again."
+          }
         }
       },
       "trainings": {

@@ -114,21 +114,6 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
       });
     });
 
-    module('when embed auto launches', function () {
-      test('should not display launch button and reboot button', async function (assert) {
-        const event = new MessageEvent('message', {
-          data: { from: 'pix', type: 'auto-launch' },
-          origin: 'https://epreuves.pix.fr',
-        });
-        window.dispatchEvent(event);
-
-        await new Promise((resolve) => setTimeout(resolve, 0));
-
-        assert.dom(screen.queryByText(t('pages.challenge.embed-simulator.actions.launch'))).doesNotExist();
-        assert.dom(screen.queryByText(t('pages.challenge.embed-simulator.actions.reset'))).doesNotExist();
-      });
-    });
-
     module('when embed initializes', function () {
       module('and does not ask for autoLaunch', () => {
         test('should display launch button', async function (assert) {

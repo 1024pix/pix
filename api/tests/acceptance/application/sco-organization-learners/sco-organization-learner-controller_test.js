@@ -598,7 +598,7 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
     });
   });
 
-  describe('POST /api/sco-organization-learners/password-reset', function () {
+  describe('POST /api/sco-organization-learners/batch-username-password-generate', function () {
     context('when successfully update organization learners passwords', function () {
       it('returns an HTTP status code 200 with generated CSV file', async function () {
         // given
@@ -631,7 +631,7 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
         // when
         const { headers, payload, statusCode } = await server.inject({
           method: 'POST',
-          url: '/api/sco-organization-learners/password-reset',
+          url: '/api/sco-organization-learners/batch-username-password-generate',
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
           payload: {
             data: {

@@ -59,6 +59,38 @@ describe('Unit | Organizational Entities | Domain | Model | Organization', funct
     });
   });
 
+  describe('get#hasGarIdentityProvider', function () {
+    context(
+      "when organization has an 'identityProviderForCampaigns' field with Gar value and isScoAndManagingStudents",
+      function () {
+        it('returns true', function () {
+          // given
+          const organization = domainBuilder.buildOrganization({
+            identityProviderForCampaigns: 'GAR',
+            isManagingStudents: true,
+            type: 'SCO',
+          });
+
+          // when & then
+          expect(organization.hasGarIdentityProvider).to.be.true;
+        });
+      },
+    );
+    context("when organization has not an 'identityProviderForCampaigns' field with Gar value", function () {
+      it('returns false', function () {
+        // given
+        const organization = domainBuilder.buildOrganization({
+          identityProviderForCampaigns: undefined,
+          isManagingStudents: true,
+          type: 'SCO',
+        });
+
+        // when & then
+        expect(organization.hasGarIdentityProvider).to.be.false;
+      });
+    });
+  });
+
   describe('get#isSco', function () {
     it('should return true when organization is of type SCO', function () {
       // given

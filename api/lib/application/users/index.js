@@ -42,33 +42,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/admin/users/{id}/profile',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        handler: userController.getProfileForAdmin,
-        notes: [
-          "- Permet à un administrateur de récupérer le nombre total de Pix d'un utilisateur\n et de ses scorecards",
-        ],
-        tags: ['api', 'user', 'profile'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/admin/users/{id}/organizations',
       config: {
         pre: [
@@ -349,30 +322,6 @@ const register = async function (server) {
           '- Cette liste est paginée et filtrée selon des **states** qui peuvent avoir comme valeurs: ONGOING, TO_SHARE, ENDED et ARCHIVED',
         ],
         tags: ['api'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/users/{id}/profile',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        handler: userController.getProfile,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Récupération du nombre total de Pix de l'utilisateur\n et de ses scorecards" +
-            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'user', 'profile'],
       },
     },
     {

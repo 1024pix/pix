@@ -18,7 +18,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       const acquiredBadge = store.createRecord('badge', { isAcquired: true });
       this.set('badges', [acquiredBadge]);
 
-      const training = store.createRecord('training');
+      const training = store.createRecord('training', { duration: { days: 2 } });
       this.set('trainings', [training]);
 
       // when
@@ -79,7 +79,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       this.set('badges', []);
       this.set('competenceResults', []);
 
-      const training = store.createRecord('training');
+      const training = store.createRecord('training', { duration: { days: 2 } });
       this.set('trainings', [training]);
 
       // when
