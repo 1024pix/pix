@@ -10,7 +10,6 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
-import * as temporaryCompanionStorageService from '../../../shared/domain/services/temporary-companion-storage-service.js';
 import {
   answerRepository,
   assessmentRepository,
@@ -56,7 +55,6 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {import('../../infrastructure/storage/cpf-receipts-storage.js').cpfReceiptsStorage} CpfReceiptsStorage
  * @typedef {import('../../infrastructure/storage/cpf-exports-storage.js').cpfExportsStorage} CpfExportsStorage
  * @typedef {import('../../../shared/domain/services/certification-badges-service.js')} CertificationBadgesService
- * @typedef {import('../../../shared/domain/services/temporary-companion-storage-service.js')} TemporaryCompanionStorageService
  * @typedef {import('../../../shared/domain/services/scoring-certification-service.js')} ScoringCertificationService
  * @typedef {import('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
  * @typedef {import('../../../shared/domain/services/certification-cpf-service.js')} CertificationCpfService
@@ -91,7 +89,6 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {cpfReceiptsStorage} CpfReceiptsStorage
  * @typedef {cpfExportsStorage} CpfExportsStorage
- * @typedef {TemporaryCompanionStorageService} TemporaryCompanionStorageService
  * @typedef {placementProfileService} PlacementProfileService
  * @typedef {scoringCertificationService} ScoringCertificationService
  * @typedef {certificationCpfService} CertificationCpfService
@@ -112,7 +109,6 @@ const dependencies = {
   cpfExportsStorage,
   cpfExportRepository,
   certificationBadgesService,
-  temporaryCompanionStorageService,
   placementProfileService,
   scoringCertificationService,
   certificationCpfService,
