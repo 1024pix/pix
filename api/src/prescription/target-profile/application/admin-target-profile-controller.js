@@ -153,6 +153,18 @@ const findTargetProfileSummariesForAdmin = async function (request) {
   return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
 };
 
+const findPaginatedFilteredTargetProfileSummariesForAdmin = async function (request) {
+  const options = request.query;
+
+  const { models: targetProfileSummaries, meta } =
+    await prescriptionTargetProfileUsecases.findPaginatedFilteredTargetProfileSummariesForAdmin({
+      filter: options.filter,
+      page: options.page,
+    });
+
+  return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries, meta);
+};
+
 const targetProfileController = {
   outdateTargetProfile,
   markTargetProfileAsSimplifiedAccess,
@@ -163,6 +175,7 @@ const targetProfileController = {
   getContentAsJsonFile,
   getLearningContentAsPdf,
   findPaginatedFilteredTargetProfileOrganizations,
+  findPaginatedFilteredTargetProfileSummariesForAdmin,
   copyTargetProfile,
   findTargetProfileSummariesForAdmin,
 };

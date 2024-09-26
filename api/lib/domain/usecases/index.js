@@ -72,6 +72,7 @@ import * as supOrganizationLearnerRepository from '../../../src/prescription/lea
 import * as organizationLearnerActivityRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-activity-repository.js';
 import * as registrationOrganizationLearnerRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/registration-organization-learner-repository.js';
 import * as targetProfileAdministrationRepository from '../../../src/prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
+import * as targetProfileSummaryForAdminRepository from '../../../src/prescription/target-profile/infrastructure/repositories/target-profile-summary-for-admin-repository.js';
 import * as activityAnswerRepository from '../../../src/school/infrastructure/repositories/activity-answer-repository.js';
 import * as missionRepository from '../../../src/school/infrastructure/repositories/mission-repository.js';
 import * as schoolRepository from '../../../src/school/infrastructure/repositories/school-repository.js';
@@ -148,7 +149,6 @@ import * as studentRepository from '../../infrastructure/repositories/student-re
 import * as targetProfileForUpdateRepository from '../../infrastructure/repositories/target-profile-for-update-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import * as targetProfileShareRepository from '../../infrastructure/repositories/target-profile-share-repository.js';
-import * as targetProfileSummaryForAdminRepository from '../../infrastructure/repositories/target-profile-summary-for-admin-repository.js';
 import * as targetProfileTrainingRepository from '../../infrastructure/repositories/target-profile-training-repository.js';
 import * as thematicRepository from '../../infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../infrastructure/repositories/tube-repository.js';

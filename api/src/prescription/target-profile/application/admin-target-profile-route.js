@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { NotFoundError, sendJsonApiError } from '../../../shared/application/http-errors.js';
+import { BadRequestError, NotFoundError, sendJsonApiError } from '../../../shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType, optionalIdentifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { targetProfileController } from './admin-target-profile-controller.js';
@@ -348,6 +348,48 @@ const register = async function (server) {
         tags: ['api', 'organizations', 'target-profiles'],
         notes: [
           `- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n- Elle retourne la liste des profil cibles d'une organisation`,
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/target-profile-summaries',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          options: {
+            allowUnknown: true,
+          },
+          query: Joi.object({
+            filter: Joi.object({
+              id: Joi.number().integer().empty('').allow(null).optional(),
+              name: Joi.string().empty('').allow(null).optional(),
+            }).default({}),
+            page: Joi.object({
+              number: Joi.number().integer().empty('').allow(null).optional(),
+              size: Joi.number().integer().empty('').allow(null).optional(),
+            }).default(),
+          }),
+          failAction: (request, h) => {
+            return sendJsonApiError(new BadRequestError('Un des champs de recherche saisis est invalide.'), h);
+          },
+        },
+        handler: targetProfileController.findPaginatedFilteredTargetProfileSummariesForAdmin,
+        tags: ['api', 'admin', 'target-profiles'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de récupérer & chercher une liste de profils cible\n' +
+            '- Cette liste est paginée et filtrée selon un **id** et/ou un **name** donnés',
         ],
       },
     },
