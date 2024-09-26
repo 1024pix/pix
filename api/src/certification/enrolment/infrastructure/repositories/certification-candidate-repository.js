@@ -1,8 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationCandidate } from '../../../../shared/domain/models/index.js';
-import { CompanionPingInfo } from '../../domain/models/CompanionPingInfo.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 import { Subscription } from '../../domain/models/Subscription.js';
 
@@ -39,37 +37,7 @@ const getWithComplementaryCertification = async function ({ id }) {
   return _toDomain(candidateData);
 };
 
-const findCompanionPingInfoByUserId = async function ({ userId }) {
-  const knexConn = DomainTransaction.getConnection();
-
-  const latestCertificationCourse = await knexConn
-    .select('sessionId', 'completedAt', 'endedAt')
-    .from('certification-courses')
-    .where({ userId })
-    .orderBy('createdAt', 'desc')
-    .first();
-
-  if (latestCertificationCourse && !latestCertificationCourse.completedAt && !latestCertificationCourse.endedAt) {
-    const { sessionId } = latestCertificationCourse;
-    const { id: certificationCandidateId } = await knexConn
-      .select('id')
-      .from('certification-candidates')
-      .where({ sessionId, userId })
-      .first();
-
-    return new CompanionPingInfo({ sessionId, certificationCandidateId });
-  }
-
-  throw new NotFoundError(`User ${userId} is not in a certification’s session`);
-};
-
-export {
-  findBySessionId,
-  findCompanionPingInfoByUserId,
-  getBySessionIdAndUserId,
-  getWithComplementaryCertification,
-  update,
-};
+export { findBySessionId, getBySessionIdAndUserId, getWithComplementaryCertification, update };
 
 /**
  * @deprecated migration: new ComplementaryCertification(...) should not be done here
