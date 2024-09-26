@@ -38,6 +38,7 @@ class CertificationCandidate {
     subscriptions = [],
     hasSeenCertificationInstructions = false,
     accessibilityAdjustmentNeeded = false,
+    reconciledAt,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -63,6 +64,7 @@ class CertificationCandidate {
     this.prepaymentCode = prepaymentCode;
     this.hasSeenCertificationInstructions = hasSeenCertificationInstructions;
     this.accessibilityAdjustmentNeeded = accessibilityAdjustmentNeeded;
+    this.reconciledAt = reconciledAt;
 
     Object.defineProperty(this, 'complementaryCertification', {
       enumerable: true,

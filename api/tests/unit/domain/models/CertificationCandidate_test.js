@@ -12,6 +12,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
   beforeEach(function () {
     coreSubscription = domainBuilder.buildCoreSubscription();
+    const date = new Date();
 
     rawData = {
       firstName: 'Jean-Pierre',
@@ -28,6 +29,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       sex: 'M',
       subscriptions: [coreSubscription],
       billingMode: 'FREE',
+      reconciledAt: date,
     };
 
     expectedData = {
@@ -45,6 +47,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       subscriptions: [coreSubscription],
       hasSeenCertificationInstructions: false,
       accessibilityAdjustmentNeeded: false,
+      reconciledAt: date,
     };
   });
 

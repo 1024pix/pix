@@ -32,7 +32,7 @@ const buildCertificationCandidate = function ({
 } = {}) {
   sessionId = _.isUndefined(sessionId) ? buildSession().id : sessionId;
   userId = _.isUndefined(userId) ? buildUser().id : userId;
-  reconciledAt = userId ? new Date('2020-01-02') : undefined;
+  reconciledAt = userId && !reconciledAt ? new Date('2020-01-02') : reconciledAt;
 
   const values = {
     id,
