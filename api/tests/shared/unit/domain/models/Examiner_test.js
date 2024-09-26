@@ -96,42 +96,46 @@ describe('Unit | Domain | Models | Examiner', function () {
           isFocusedChallenge = true;
         });
 
-        it('should return an answer with FOCUSEDOUT as result when the assessment is a certification, and the correct resultDetails', function () {
-          // given
-          const expectedAnswer = new Answer(uncorrectedAnswer);
-          expectedAnswer.result = AnswerStatus.FOCUSEDOUT;
-          expectedAnswer.resultDetails = validation.resultDetails;
+        context('when the assessment is a certification', function () {
+          it('should return an answer with FOCUSEDOUT as result and the correct resultDetails', function () {
+            // given
+            const expectedAnswer = new Answer(uncorrectedAnswer);
+            expectedAnswer.result = AnswerStatus.FOCUSEDOUT;
+            expectedAnswer.resultDetails = validation.resultDetails;
 
-          // when
-          correctedAnswer = examiner.evaluate({
-            answer: uncorrectedAnswer,
-            challengeFormat,
-            isFocusedChallenge,
-            isCertificationEvaluation: true,
+            // when
+            correctedAnswer = examiner.evaluate({
+              answer: uncorrectedAnswer,
+              challengeFormat,
+              isFocusedChallenge,
+              isCertificationEvaluation: true,
+            });
+
+            // then
+            expect(correctedAnswer).to.be.an.instanceOf(Answer);
+            expect(correctedAnswer).to.deep.equal(expectedAnswer);
           });
-
-          // then
-          expect(correctedAnswer).to.be.an.instanceOf(Answer);
-          expect(correctedAnswer).to.deep.equal(expectedAnswer);
         });
 
-        it('should return an answer with OK as result when the assessment is not a certification, and the correct resultDetails', function () {
-          // given
-          const expectedAnswer = new Answer(uncorrectedAnswer);
-          expectedAnswer.result = AnswerStatus.OK;
-          expectedAnswer.resultDetails = validation.resultDetails;
+        context('when the assessment is not a certification', function () {
+          it('should return an answer with OK as result, and the correct resultDetails', function () {
+            // given
+            const expectedAnswer = new Answer(uncorrectedAnswer);
+            expectedAnswer.result = AnswerStatus.OK;
+            expectedAnswer.resultDetails = validation.resultDetails;
 
-          // when
-          correctedAnswer = examiner.evaluate({
-            answer: uncorrectedAnswer,
-            challengeFormat,
-            isFocusedChallenge,
-            isCertificationEvaluation: false,
+            // when
+            correctedAnswer = examiner.evaluate({
+              answer: uncorrectedAnswer,
+              challengeFormat,
+              isFocusedChallenge,
+              isCertificationEvaluation: false,
+            });
+
+            // then
+            expect(correctedAnswer).to.be.an.instanceOf(Answer);
+            expect(correctedAnswer).to.deep.equal(expectedAnswer);
           });
-
-          // then
-          expect(correctedAnswer).to.be.an.instanceOf(Answer);
-          expect(correctedAnswer).to.deep.equal(expectedAnswer);
         });
 
         it('should call validator.assess with answer to assess validity of answer', function () {
