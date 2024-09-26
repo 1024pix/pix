@@ -5,7 +5,11 @@
 
   input {
     width: 100%;
-    padding: var(--pix-spacing-3x) var(--pix-spacing-3x);
+    padding: var(--pix-spacing-3x);
+  }
+
+  a {
+    text-decoration: underline;
   }
 
   fieldset {

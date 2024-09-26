@@ -1,23 +1,19 @@
 {{page-title (t "pages.sign-in.title")}}
 
 {{#if this.isNewAuthenticationDesignEnabled}}
+  <AuthenticationLayout class="signin-page-layout">
+    <:header>
+      <PixButtonLink @variant="secondary" @route="inscription">
+        {{t "pages.authentication.login.signup-button"}}
+      </PixButtonLink>
+    </:header>
 
-  <main class="authentication">
-    <AuthenticationLayout class="signin-page-layout">
-      <:header>
-        <PixButtonLink @variant="secondary" @route="inscription">
-          {{t "pages.authentication.login.signup-button"}}
-        </PixButtonLink>
-      </:header>
-
-      <:content>
-        <h1 class="pix-title-m">{{t "pages.sign-in.first-title"}}</h1>
-        <Authentication::SigninForm />
-      </:content>
-    </AuthenticationLayout>
-  </main>
+    <:content>
+      <h1 class="pix-title-m">{{t "pages.sign-in.first-title"}}</h1>
+      <Authentication::SigninForm />
+    </:content>
+  </AuthenticationLayout>
 {{else}}
-
   <main class="sign-form-page">
     <section class="sign-form-page__container">
       <SigninForm />
