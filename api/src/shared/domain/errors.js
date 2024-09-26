@@ -583,12 +583,6 @@ class YamlParsingError extends DomainError {
   }
 }
 
-class AnswerEvaluationError extends DomainError {
-  constructor(challenge) {
-    super(`Problème lors de l'évaluation de la réponse du challenge: "${challenge.id}"`, '', challenge);
-  }
-}
-
 class TargetProfileCannotBeCreated extends DomainError {
   constructor(message = 'Erreur lors de la création du profil cible.') {
     super(message);
@@ -1099,7 +1093,6 @@ export {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   AlreadySharedCampaignParticipationError,
-  AnswerEvaluationError,
   ApplicationScopeNotAllowedError,
   ApplicationWithInvalidClientIdError,
   ApplicationWithInvalidClientSecretError,
