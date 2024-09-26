@@ -1,6 +1,8 @@
-import { JobRepository } from '../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
-import { catchErr, expect, knex } from '../../test-helper.js';
+import PgBoss from 'pg-boss';
 
+import { JobQueue } from '../../../../src/shared/infrastructure/jobs/JobQueue.js';
+import { JobRepository } from '../../../../src/shared/infrastructure/repositories/jobs/job-repository.js';
+import { catchErr, expect, knex } from '../../../test-helper.js';
 describe('Integration | Tooling | Expect Job', function () {
   describe('#withJobsCount', function () {
     it('succeeds when count of executed jobs is correct', async function () {
@@ -48,9 +50,9 @@ describe('Integration | Tooling | Expect Job', function () {
       await expect('JobTest').to.have.been.performed.withJob({
         name: 'JobTest',
         data: { foo: 'bar' },
-        retrylimit: job.retryLimit,
-        retrydelay: job.retryDelay,
-        retrybackoff: job.retryBackoff,
+        retrylimit: job.retry.retryLimit,
+        retrydelay: job.retry.retryDelay,
+        retrybackoff: job.retry.retryBackoff,
         expirein: job.expireIn,
       });
     });
@@ -178,6 +180,60 @@ describe('Integration | Tooling | Expect Job', function () {
       expect(error.message).to.equal(
         'expected JobTest to have been performed 1 times, but it was performed 2 times: expected 2 to equal 1',
       );
+    });
+  });
+
+  describe('cronJob helper', function () {
+    let pgBoss, jobQueue;
+
+    beforeEach(async function () {
+      const pgBossInstance = new PgBoss(process.env.TEST_DATABASE_URL);
+      pgBoss = await pgBossInstance.start();
+
+      jobQueue = new JobQueue(pgBoss);
+    });
+
+    afterEach(async function () {
+      await jobQueue.stop();
+    });
+
+    describe('#withCronJobsCount', function () {
+      it('succeeds when count of executed jobs is correct', async function () {
+        // given
+        const jobName = 'My_Job';
+        // when
+        await jobQueue.scheduleCronJob({
+          name: jobName,
+          cron: '*/5 * * * *',
+          data: { my_data: 'awesome_data' },
+          options: { tz: 'Europe/Paris' },
+        });
+
+        // then
+        await expect(jobName).to.have.been.schedule.withCronJobsCount(1);
+      });
+    });
+
+    describe('#withCronJob', function () {
+      it('succeeds when count of executed jobs is correct', async function () {
+        // given
+        const jobName = 'My_Job';
+        // when
+        await jobQueue.scheduleCronJob({
+          name: jobName,
+          cron: '*/5 * * * *',
+          data: { my_data: 'awesome_data' },
+          options: { tz: 'Europe/Paris' },
+        });
+
+        // then
+        await expect(jobName).to.have.been.schedule.withCronJob({
+          name: jobName,
+          cron: '*/5 * * * *',
+          data: { my_data: 'awesome_data' },
+          options: { tz: 'Europe/Paris' },
+        });
+      });
     });
   });
 });

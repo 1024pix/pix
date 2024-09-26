@@ -7,10 +7,6 @@ export class ParticipationStartedJobController extends JobController {
     super(ParticipationStartedJob.name);
   }
 
-  get legacyName() {
-    return 'PoleEmploiParticipationStartedJob';
-  }
-
   async handle({ data }) {
     const { campaignParticipationId } = data;
 

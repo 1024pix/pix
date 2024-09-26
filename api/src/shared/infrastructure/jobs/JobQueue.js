@@ -21,6 +21,14 @@ class JobQueue {
     });
   }
 
+  scheduleCronJob({ name, cron, data, options }) {
+    return this.pgBoss.schedule(name, cron, data, options);
+  }
+
+  unscheduleCronJob(name) {
+    return this.pgBoss.unschedule(name);
+  }
+
   async stop() {
     await this.pgBoss.stop({ graceful: false, timeout: 1000, destroy: true });
   }
