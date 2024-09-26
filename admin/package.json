@@ -50,9 +50,9 @@
     "@babel/eslint-parser": "^7.19.1",
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.1.1",
-    "@ember/test-helpers": "^4.0.0",
+    "@ember/test-helpers": "^4.0.4",
     "@embroider/compat": "^3.2.0",
-    "@embroider/core": "^3.2.0",
+    "@embroider/core": "^3.4.15",
     "@embroider/webpack": "^4.0.0",
     "@formatjs/intl": "^2.10.4",
     "@fortawesome/ember-fontawesome": "^2.0.0",
@@ -132,6 +132,12 @@
     },
     "ember-dayjs": {
       "ember-source": "^5.8.0"
+    },
+    "ember-file-upload": {
+      "@ember/test-helpers": "^4.0.0"
+    },
+    "ember-data": {
+      "@ember/test-helpers": "^4.0.0"
     }
   }
 }
