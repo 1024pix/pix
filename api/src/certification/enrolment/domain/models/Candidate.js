@@ -59,12 +59,12 @@ export class Candidate {
     this.reconciledAt = reconciledAt;
   }
 
-  isLinkedToAUser() {
-    return !_.isNil(this.userId);
+  isReconciled() {
+    return !!this.userId && !!this.reconciledAt;
   }
 
-  isLinkedTo(userId) {
-    return this.userId === userId;
+  isReconciledTo(userId) {
+    return this.isReconciled() && this.userId === userId;
   }
 
   reconcile(userId) {

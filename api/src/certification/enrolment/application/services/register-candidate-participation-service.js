@@ -32,7 +32,7 @@ export const registerCandidateParticipation = async ({
     normalizeStringFnc,
   });
 
-  if (candidate.isLinkedToAUser()) {
+  if (candidate.isReconciled()) {
     return candidate;
   }
 

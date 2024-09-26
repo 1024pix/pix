@@ -18,6 +18,11 @@ import { CertificationCourse } from '../../../shared/domain/models/Certification
 import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
 
 /**
+ * @param {Object} params
+ * @param {CandidateRepository} params.candidateRepository
+ * @param {CenterRepository} params.centerRepository
+ * @param {SessionRepository} params.sessionRepository
+ * @param {UserRepository} params.userRepository
  * @returns {Promise<Candidate>}
  */
 export const verifyCandidateIdentity = async ({
@@ -54,14 +59,14 @@ export const verifyCandidateIdentity = async ({
     normalizeStringFnc,
   });
 
-  if (candidate.isLinkedToAUser()) {
-    if (candidate.isLinkedTo(userId)) {
+  if (candidate.isReconciled()) {
+    if (candidate.isReconciledTo(userId)) {
       return candidate;
     }
     throw new UnexpectedUserAccountError({});
   }
 
-  if (session.hasLinkedCandidateTo({ candidates: candidatesInSession, userId })) {
+  if (session.hasReconciledCandidateTo({ candidates: candidatesInSession, userId })) {
     throw new UserAlreadyLinkedToCandidateInSessionError(
       'The user is already linked to a candidate with different personal info in the given session',
     );

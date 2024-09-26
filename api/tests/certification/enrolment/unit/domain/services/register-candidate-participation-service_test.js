@@ -23,9 +23,10 @@ describe('Unit | Application | Service | register-candidate-participation', func
   context('when the candidate is already link to a user', function () {
     it('should not link the candidate to the given user', async function () {
       // given
-      const alreadyLinkedCandidate = domainBuilder.certification.enrolment.buildEnrolledCandidate({
+      const alreadyLinkedCandidate = domainBuilder.certification.enrolment.buildCandidate({
         ...candidateData,
         userId,
+        reconciledAt: new Date('2024-09-25'),
       });
       sinon.stub(usecases, 'verifyCandidateIdentity').returns(alreadyLinkedCandidate);
 
@@ -52,9 +53,10 @@ describe('Unit | Application | Service | register-candidate-participation', func
   context('when the candidate is not yet linked to a user', function () {
     it('should link the candidate to the given user', async function () {
       // given
-      const unlinkedCandidate = domainBuilder.certification.enrolment.buildEnrolledCandidate({
+      const unlinkedCandidate = domainBuilder.certification.enrolment.buildCandidate({
         ...candidateData,
         userId: null,
+        reconciledAt: null,
       });
       sinon.stub(usecases, 'verifyCandidateIdentity').returns(unlinkedCandidate);
 

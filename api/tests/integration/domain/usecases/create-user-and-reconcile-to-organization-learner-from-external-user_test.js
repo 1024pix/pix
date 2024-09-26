@@ -208,7 +208,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
       });
     });
 
-    context('When the external user is already linked to another account', function () {
+    context('When the external user is already reconciled to another account', function () {
       context('without samlId authentication method', function () {
         it('throws an OrganizationLearnerAlreadyLinkedToUserError', async function () {
           // given
