@@ -1,15 +1,13 @@
 import Service from '@ember/service';
 
 export default class PixCompanion extends Service {
-  #postMessage(...args) {
-    return window.postMessage(...args);
+  startCertification(windowRef = window) {
+    windowRef.dispatchEvent(new CustomEvent('pix:certification:start'));
+    windowRef.postMessage({ event: 'pix:certification:start' }, windowRef.location.origin);
   }
 
-  startCertification(postMessage = this.#postMessage) {
-    postMessage({ event: 'pix:certification:start' }, window.location.origin);
-  }
-
-  stopCertification(postMessage = this.#postMessage) {
-    postMessage({ event: 'pix:certification:stop' }, window.location.origin);
+  stopCertification(windowRef = window) {
+    windowRef.dispatchEvent(new CustomEvent('pix:certification:stop'));
+    windowRef.postMessage({ event: 'pix:certification:stop' }, windowRef.location.origin);
   }
 }
