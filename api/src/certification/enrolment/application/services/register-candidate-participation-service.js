@@ -32,7 +32,12 @@ export const registerCandidateParticipation = async ({
     normalizeStringFnc,
   });
 
-  usecases.verifyCandidateEligibility({ userId, limitDate: candidate.reconciledAt ?? Date.now() });
+  await usecases.verifyCandidateEligibility({
+    candidate,
+    userId,
+    limitDate: candidate.reconciledAt ?? Date.now(),
+    sessionId,
+  });
 
   if (candidate.isReconciled()) {
     return candidate;
