@@ -20,6 +20,13 @@ function _assignValueToExport(array, implementationType) {
   });
 }
 
+const queriesType = {
+  paginationType: Joi.object({
+    number: Joi.number().integer().empty('').allow(null).optional(),
+    size: Joi.number().integer().empty('').allow(null).optional(),
+  }).default({}),
+};
+
 const typesPositiveInteger32bits = [
   'adminMemberId',
   'answerId',
@@ -73,4 +80,4 @@ paramsToExport.positiveInteger32bits = {
   max: postgreSQLSequenceEnd,
 };
 
-export { paramsToExport as identifiersType, queryToExport as optionalIdentifiersType };
+export { paramsToExport as identifiersType, queryToExport as optionalIdentifiersType, queriesType };

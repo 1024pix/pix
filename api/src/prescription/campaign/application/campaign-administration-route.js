@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { PayloadTooLargeError, sendJsonApiError } from '../../../shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { identifiersType, queriesType } from '../../../shared/domain/types/identifiers-type.js';
 import { campaignAdministrationController } from './campaign-adminstration-controller.js';
 const TWENTY_MEGABYTES = 1048576 * 20;
 
@@ -281,6 +281,9 @@ const register = async function (server) {
         validate: {
           params: Joi.object({
             organizationId: identifiersType.organizationId,
+          }),
+          query: Joi.object({
+            page: queriesType.paginationType,
           }),
         },
         handler: campaignAdministrationController.findPaginatedCampaignManagements,
