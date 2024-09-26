@@ -45,7 +45,9 @@ describe('Unit | Application | Service | register-candidate-participation', func
       // then
       expect(usecases.verifyCandidateEligibility).to.have.been.calledWithExactly({
         userId,
+        candidate: alreadyLinkedCandidate,
         limitDate: alreadyLinkedCandidate.reconciledAt,
+        sessionId,
       });
     });
 
@@ -104,7 +106,9 @@ describe('Unit | Application | Service | register-candidate-participation', func
       // then
       expect(usecases.verifyCandidateEligibility).to.have.been.calledWithExactly({
         userId,
+        candidate: unlinkedCandidate,
         limitDate: Date.now(),
+        sessionId,
       });
     });
 

@@ -90,7 +90,15 @@ class InvalidCertificationCandidate extends DomainError {
   }
 }
 
+class CertificationCandidateEligibilityError extends DomainError {
+  constructor(message = "Le candidat n'est pas éligible") {
+    super(message);
+    this.code = 'CERTIFICATION_CANDIDATE_ELIGIBILITY_ERROR';
+  }
+}
+
 export {
+  CertificationCandidateEligibilityError,
   CertificationCandidateForbiddenDeletionError,
   CertificationCandidateNotFoundError,
   InvalidCertificationCandidate,

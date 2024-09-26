@@ -465,6 +465,68 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
           },
         });
       });
+
+      context('when eligibility checks fail for a v3 certification', function () {
+        it('should throw a CERTIFICATION_CANDIDATE_ELIGIBILITY_ERROR', async function () {
+          // given
+          const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+            type: CERTIFICATION_CENTER_TYPES.SUP,
+            isV3Pilot: true,
+          }).id;
+
+          const onlyComplmentarySubscritpionUserId = databaseBuilder.factory.buildUser({
+            lang: LANGUAGES_CODE.FRENCH,
+          }).id;
+
+          const sessionId2 = databaseBuilder.factory.buildSession({
+            id: 1234,
+            finalizedAt: null,
+            version: CERTIFICATION_VERSIONS.V3,
+            certificationCenterId,
+          }).id;
+          const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+            firstName,
+            lastName,
+            birthdate,
+            sessionId: sessionId2,
+            userId: onlyComplmentarySubscritpionUserId,
+            organizationLearnerId: null,
+            hasSeenCertificationInstructions: false,
+          }).id;
+
+          const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+
+          databaseBuilder.factory.buildComplementaryCertificationSubscription({
+            certificationCandidateId,
+            complementaryCertificationId,
+          });
+
+          await databaseBuilder.commit();
+
+          const options = {
+            method: 'POST',
+            url: `/api/sessions/${sessionId2}/candidate-participation`,
+            payload: {
+              data: {
+                type: 'certification-candidates',
+                attributes: {
+                  'first-name': firstName,
+                  'last-name': lastName,
+                  birthdate,
+                },
+              },
+            },
+            headers: { authorization: generateValidRequestAuthorizationHeader(onlyComplmentarySubscritpionUserId) },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(422);
+          expect(response.result.errors[0].code).to.equal('CERTIFICATION_CANDIDATE_ELIGIBILITY_ERROR');
+        });
+      });
     });
 
     context('SCO / isManagingStudents', function () {
