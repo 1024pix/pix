@@ -23,5 +23,23 @@ Amusez-vous bien :)
  */
 
 export const employeeReport = (employeeList) => {
-  return;
+  // return employeeList
+  //   .filter((employee) => employee.age >= 18)
+  //   .sort((a, b) => a.name.localeCompare(b.name))
+  //   .map((employee) => {
+  //     return {
+  //       ...employee,
+  //       name: employee.name.toUpperCase(),
+  //     };
+  //   });
+
+  const overEighteenEmployees = employeeList.filter((employee) => employee.age >= 18);
+  const sortedEmployeeList = overEighteenEmployees.sort((a, b) => a.name.localeCompare(b.name));
+  const upperCaseEmployeeList = sortedEmployeeList.map((employee) => {
+    return {
+      ...employee,
+      name: employee.name.toUpperCase(),
+    };
+  });
+  return upperCaseEmployeeList;
 };
