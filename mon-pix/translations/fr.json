@@ -1600,7 +1600,8 @@
       "fields": {
         "legend": "Informations nécessaires pour se connecter.",
         "login": {
-          "label": "Adresse e-mail ou identifiant"
+          "label": "Adresse e-mail ou identifiant",
+          "placeholder": "ex: jean.dupont@email.com"
         },
         "password": {
           "label": "Mot de passe"

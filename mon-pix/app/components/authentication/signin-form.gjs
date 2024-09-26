@@ -136,6 +136,7 @@ export default class SigninForm extends Component {
           name="login"
           {{on "input" this.updateLogin}}
           @validationStatus="default"
+          placeholder={{t "pages.sign-in.fields.login.placeholder"}}
           autocomplete="email"
           required
         >

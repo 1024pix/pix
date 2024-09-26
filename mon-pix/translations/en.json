@@ -1600,7 +1600,8 @@
       "fields": {
         "legend": "Information required for sign in.",
         "login": {
-          "label": "Email address or username"
+          "label": "Email address or username",
+          "placeholder": "ex: jean.dupont@email.com"
         },
         "password": {
           "label": "Password"
