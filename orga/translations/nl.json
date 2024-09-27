@@ -954,6 +954,16 @@
             "caption": "Tabel van studenten met de resultaten van hun deelname aan de opdracht {missionName}",
             "filters": {
               "aria-label": "Filter studenten",
+              "global-result": {
+                "options": {
+                  "exceeded": "Overtroffen",
+                  "no-result": "Geen beoordeling",
+                  "not-reached": "Niet bereikt",
+                  "partially-reached": "Gedeeltelijk bereikt",
+                  "reached": "Bereikt"
+                },
+                "label": "Évaluation de la mission"
+              },
               "learners-count": "{count, plural, =0 {Geen student} =1 {1 student} other {{count} studenten}}"
             },
             "headers": {
@@ -965,10 +975,10 @@
               "dare-challenge": "Uitdaging"
             },
             "mission-result": {
-              "exceeded": "Overtroffen (O)",
-              "not-reached": "Niet bereikt (NB)",
-              "partially-reached": "Gedeeltelijk bereikt (GB)",
-              "reached": "Bereikt (B)",
+              "exceeded": "Overtroffen",
+              "not-reached": "Niet bereikt",
+              "partially-reached": "Gedeeltelijk bereikt",
+              "reached": "Bereikt",
               "undefined": "-"
             },
             "step-result": {

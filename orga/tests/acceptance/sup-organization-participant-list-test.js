@@ -78,9 +78,7 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
         const screen = await visit('/etudiants');
 
         // when
-        const select = screen.getByRole('textbox', {
-          name: t('pages.sup-organization-participants.filter.certificability.label'),
-        });
+        const select = screen.getByText(t('pages.sup-organization-participants.filter.certificability.label'));
         await click(select);
         await clickByText(t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
 

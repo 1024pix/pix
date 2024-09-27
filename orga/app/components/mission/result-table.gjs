@@ -1,7 +1,7 @@
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip.js';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
-import { t } from 'ember-intl';
+import {t} from 'ember-intl';
 
 import Header from '../table/header';
 import PaginationControl from '../table/pagination-control';
@@ -40,12 +40,12 @@ function getMissionResultColor(result) {
             <Header scope="col">{{t "pages.missions.mission.table.result.headers.division"}}</Header>
             {{#each @mission.content.steps as |step index|}}
               <Header scope="col">
-                <div class="result-header-cell">
+                <div class="mission-result-table__header-cell">
                   {{t "pages.missions.mission.table.result.headers.step" (indexNumber index)}}
 
                   <PixTooltip @id="tooltip-{{index}}" @isInline={{true}}>
                     <:triggerElement>
-                      <FaIcon @icon="circle-info" class="form__field-info-icon" aria-describedby="tooltip-{{index}}" />
+                      <FaIcon @icon="circle-info" class="mission-result-table__info-icon" aria-describedby="tooltip-{{index}}" />
                     </:triggerElement>
 
                     <:tooltip>

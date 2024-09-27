@@ -938,6 +938,16 @@
             "caption": "List of students with their result for the mission {missionName}",
             "filters": {
               "aria-label": "Filter on students",
+              "global-result": {
+                "label": "Mission assessment",
+                "options": {
+                  "exceeded": "Exceeded",
+                  "no-result": "No assessment",
+                  "not-reached": "Not reached",
+                  "partially-reached": "Partially reached",
+                  "reached": "Reached"
+                }
+              },
               "learners-count": "{count, plural, =0 {No student} =1 {1 student} other {{count} students}}"
             },
             "headers": {

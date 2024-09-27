@@ -21,8 +21,8 @@ const register = async function (server) {
           }),
           query: Joi.object({
             page: {
-              number: Joi.number().integer().empty(''),
-              size: Joi.number().integer().empty(''),
+              number: Joi.number().integer().empty('').required(),
+              size: Joi.number().integer().empty('').required(),
             },
             filter: Joi.object({
               divisions: [Joi.string(), Joi.array().items(Joi.string())],

@@ -10,6 +10,7 @@ export default class MissionResultsRoute extends Route {
   queryParams = {
     divisions: { refreshModel: true },
     name: { refreshModel: true },
+    results: { refreshModel: true },
     pageNumber: {
       refreshModel: true,
     },
@@ -24,6 +25,7 @@ export default class MissionResultsRoute extends Route {
       controller.pageSize = 25;
       controller.divisions = undefined;
       controller.name = undefined;
+      controller.results = undefined;
     }
   }
 
@@ -38,6 +40,7 @@ export default class MissionResultsRoute extends Route {
         filter: {
           divisions: params.divisions,
           name: params.name,
+          results: params.results,
         },
         page: {
           number: params.pageNumber,

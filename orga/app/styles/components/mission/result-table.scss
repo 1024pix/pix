@@ -1,7 +1,10 @@
-.result-header-cell {
-  display: flex;
-}
+.mission-result-table {
+  &__header-cell {
+    display: flex;
+  }
 
-.form__field-info-icon {
-  margin-left: var(--pix-spacing-2x);
+  &__info-icon {
+    margin-left: var(--pix-spacing-2x);
+    color: var(--pix-neutral-500);
+  }
 }
