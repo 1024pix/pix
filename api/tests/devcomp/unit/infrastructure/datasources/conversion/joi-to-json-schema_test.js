@@ -279,15 +279,15 @@ describe('Unit | Infrastructure | Datasources | Conversion | joi-to-json-schema'
 
     it('should convert Joi.object with nested Joi.array to nested JSON Schema', function () {
       const joiSchema = Joi.object({
-        addresses: Joi.array().items(Joi.string()),
+        proposals: Joi.array().items(Joi.string()),
       });
       const jsonSchema = convertJoiToJsonSchema(joiSchema);
       expect(jsonSchema).to.deep.equal({
         type: 'object',
         properties: {
-          addresses: {
+          proposals: {
             type: 'array',
-            items: { type: 'string' },
+            items: { title: 'proposal', type: 'string' },
           },
         },
         additionalProperties: false,
