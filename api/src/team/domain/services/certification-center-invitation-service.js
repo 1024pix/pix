@@ -65,7 +65,7 @@ async function _sendInvitationEmail(
   locale,
   certificationCenterInvitationRepository,
 ) {
-  const mailerResponse = await mailService.sendCertificationCenterInvitationEmail({
+  const emailingAttempt = await mailService.sendCertificationCenterInvitationEmail({
     certificationCenterInvitationId: certificationCenterInvitation.id,
     certificationCenterName: certificationCenter.name,
     code: certificationCenterInvitation.code,
@@ -73,13 +73,13 @@ async function _sendInvitationEmail(
     locale,
   });
 
-  if (mailerResponse.status !== 'SUCCESS') {
-    if (mailerResponse.hasFailedBecauseDomainWasInvalid()) {
+  if (emailingAttempt.status !== 'SUCCESS') {
+    if (emailingAttempt.hasFailedBecauseDomainWasInvalid()) {
       throw new SendingEmailToInvalidDomainError(email);
     }
 
-    if (mailerResponse.hasFailedBecauseEmailWasInvalid()) {
-      throw new SendingEmailToInvalidEmailAddressError(email, mailerResponse.errorMessage);
+    if (emailingAttempt.hasFailedBecauseEmailWasInvalid()) {
+      throw new SendingEmailToInvalidEmailAddressError(email, emailingAttempt.errorMessage);
     }
 
     throw new SendingEmailError();
