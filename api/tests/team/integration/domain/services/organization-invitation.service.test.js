@@ -85,9 +85,9 @@ describe('Integration | Team | Domain | Service | organization-invitation', func
       });
       await databaseBuilder.commit();
 
-      const mailerResponse = EmailingAttempt.failure(email);
+      const emailingAttempt = EmailingAttempt.failure(email);
       sinon.stub(mailService, 'sendOrganizationInvitationEmail');
-      mailService.sendOrganizationInvitationEmail.resolves(mailerResponse);
+      mailService.sendOrganizationInvitationEmail.resolves(emailingAttempt);
 
       // when
       const result = await catchErr(organizationInvitationService.createOrUpdateOrganizationInvitation)({

@@ -29,15 +29,15 @@ const createOrUpdateCertificationCenterInvitationForAdmin = async function ({
     isInvitationCreated = false;
   }
 
-  const mailerResponse = await mailService.sendCertificationCenterInvitationEmail({
+  const emailingAttempt = await mailService.sendCertificationCenterInvitationEmail({
     email,
     locale,
     certificationCenterName: certificationCenterInvitation.certificationCenterName,
     certificationCenterInvitationId: certificationCenterInvitation.id,
     code: certificationCenterInvitation.code,
   });
-  if (mailerResponse?.status === 'FAILURE') {
-    if (mailerResponse.hasFailedBecauseDomainWasInvalid()) {
+  if (emailingAttempt?.status === 'FAILURE') {
+    if (emailingAttempt.hasFailedBecauseDomainWasInvalid()) {
       throw new SendingEmailToInvalidDomainError(email);
     }
 

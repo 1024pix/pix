@@ -152,8 +152,8 @@ describe('Integration | Team | UseCase | create-or-update-certification-center-i
     }).id;
     await databaseBuilder.commit();
 
-    const mailerResponse = EmailingAttempt.failure(email);
-    mailService.sendCertificationCenterInvitationEmail.resolves(mailerResponse);
+    const emailingAttempt = EmailingAttempt.failure(email);
+    mailService.sendCertificationCenterInvitationEmail.resolves(emailingAttempt);
 
     // when
     const result = await catchErr(usecases.createOrUpdateCertificationCenterInvitationForAdmin)({
@@ -180,8 +180,9 @@ describe('Integration | Team | UseCase | create-or-update-certification-center-i
         status: CertificationCenterInvitation.StatusType.PENDING,
       });
       await databaseBuilder.commit();
-      const emailAttemptFailure = EmailingAttempt.failure(email, EmailingAttempt.errorCode.INVALID_DOMAIN);
-      mailService.sendCertificationCenterInvitationEmail.resolves(emailAttemptFailure);
+
+      const emailingAttempt = EmailingAttempt.failure(email, EmailingAttempt.errorCode.INVALID_DOMAIN);
+      mailService.sendCertificationCenterInvitationEmail.resolves(emailingAttempt);
 
       // when
       const error = await catchErr(usecases.createOrUpdateCertificationCenterInvitationForAdmin)({
