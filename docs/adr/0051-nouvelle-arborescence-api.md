@@ -9,12 +9,12 @@ Accepté
 ## Contexte
 
 ### Constat
-- Les répertoires contiennent beaucoup de fichier (ex: 306 fichier dans le dossier usecases), ce qui oblige le développeur à chercher
+- Les répertoires contiennent beaucoup de fichiers (ex: 306 fichiers dans le dossier usecases), ce qui oblige le développeur à chercher
 - les répertoires sont parfois nommés d'après le domaine fonctionnel (ex: `certification`) et parfois d'après le domaine technique (ex: `serializers`)
 - Le domaine fonctionnel n'est porté que par le nom des fichiers (ex : certification)
-- Les noms de fichiers sont trop long et pas significatifs (ex: `create-user-and-reconcile-to-organization-learner-from-external-user`)
+- Les noms de fichiers sont trop longs et pas significatifs (ex: `create-user-and-reconcile-to-organization-learner-from-external-user`)
 - certains dossiers contiennent des éléments disparates (ex: `utils` ou `helpers`)
-A cause de cela, il est difficile  de naviger dans l’arborescence, aussi bien pour les nouveaux que pour les anciens
+A cause de cela, il est difficile de naviguer dans l’arborescence, aussi bien pour les nouveaux que pour les anciens
 
 ### En chiffres
 - 157 fichiers à plat dans le répertoire /api/lib/domain/models
@@ -56,7 +56,7 @@ Avantages :
 
 Inconvénients :
 - Verbeux
-- Impact sur la clean archi actuelle => ne respecte pas les contraintes 
+- Impact sur la Clean Archi actuelle => ne respecte pas les contraintes 
 
 ### Solution 2 : Contexte fonctionnel en répertoire visible en premier + sous domaine en sous répertoire du domaine et d'application
 ![Représentation arborescence solution 2](../assets/tree-organization/proposition_2.png "Proposition 2")
@@ -87,12 +87,12 @@ Inconvénients :
 La solution 3 sera mise en place, car elle est proche de l'existante tout en mettant en place la distinction par contexte fonctionnel.
 
 ## Remarque
-L'arborescence ne doit pas correspondre à un découpage par équipe mais doit refléter les différents contextes métiers.
+L'arborescence ne doit pas correspondre à un découpage par équipe, mais doit refléter les différents contextes métiers.
 
-Du fait du découpage historique des équipes sur la base de critères métiers, on retrouve des contexte fonctionnels avec le nom "très proche" de celui des équipes (ex: certification, 
+Du fait du découpage historique des équipes sur la base de critères métiers, on retrouve des contextes fonctionnels avec le nom "très proche" de celui des équipes (ex: certification, 
 prescription, evaluation, access).
 
-Les bounded contexts de l' "Event storming", indiqué dans les contraintes, nous servent de base pour le premier refactoring mais il ne s'agit pas d'une "spécification". 
+Les bounded contexts de l' "Event storming", indiqués dans les contraintes, nous servent de base pour le premier refactoring mais il ne s'agit pas d'une "spécification". 
 Ils pourront/devront être revus au cours du temps par les équipes pour s'adapter au métier.
 
 ## Conséquences
