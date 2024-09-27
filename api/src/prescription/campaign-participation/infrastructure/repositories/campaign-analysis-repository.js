@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { constants } from '../../../../../lib/infrastructure/constants.js';
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../../../../src/shared/infrastructure/constants.js';
 import { CampaignAnalysis } from '../../../campaign/domain/read-models/CampaignAnalysis.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 
@@ -10,7 +10,7 @@ const { SHARED } = CampaignParticipationStatuses;
 
 const getCampaignAnalysis = async function (campaignId, campaignLearningContent, tutorials) {
   const userIdsAndSharedDates = await _getSharedParticipationsWithUserIdsAndDates(campaignId);
-  const userIdsAndSharedDatesChunks = _.chunk(userIdsAndSharedDates, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
+  const userIdsAndSharedDatesChunks = _.chunk(userIdsAndSharedDates, CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
   const participantCount = userIdsAndSharedDates.length;
 
   const campaignAnalysis = new CampaignAnalysis({

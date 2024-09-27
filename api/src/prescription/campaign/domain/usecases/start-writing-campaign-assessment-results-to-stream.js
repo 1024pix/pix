@@ -5,12 +5,12 @@ import _ from 'lodash';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+import { CampaignTypeError } from '../../../../shared/domain/errors.js';
+import { CampaignLearningContent } from '../../../../shared/domain/models/index.js';
 import {
   CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
   CONCURRENCY_HEAVY_OPERATIONS,
-} from '../../../../../lib/infrastructure/constants.js';
-import { CampaignTypeError } from '../../../../shared/domain/errors.js';
-import { CampaignLearningContent } from '../../../../shared/domain/models/CampaignLearningContent.js';
+} from '../../../../shared/infrastructure/constants.js';
 import * as csvSerializer from '../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 
