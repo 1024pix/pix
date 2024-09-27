@@ -1,5 +1,6 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { t } from 'ember-intl';
 
 export default class CompanionBlocker extends Component {
   @service pixCompanion;
@@ -18,7 +19,12 @@ export default class CompanionBlocker extends Component {
     {{#if this.pixCompanion.isExtensionEnabled}}
       {{yield}}
     {{else}}
-      La page de blocage
+      <section class="companion-blocker">
+        <h1>
+          {{t "common.companion.not-detected.title" htmlSafe=true}}
+        </h1>
+        <p>{{t "common.companion.not-detected.description"}}</p>
+      </section>
     {{/if}}
   </template>
 }

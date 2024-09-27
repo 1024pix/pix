@@ -63,6 +63,12 @@
       "label": "J'accepte les conditions d'utilisation et la politique de confidentialité de Pix",
       "message": "J'accepte les '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'conditions d'utilisation'</a>' et la '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'politique de confidentialité'</a>' de Pix"
     },
+    "companion": {
+      "not-detected": {
+        "title": "L’extension Pix Companion<br /> n’est pas détectée",
+        "description": "L’extension n’est peut-être pas installée ou activée. Consultez le document suivant afin de reprendre votre session de certification. Si besoin contactez le surveillant."
+      }
+    },
     "data-protection-policy-information-banner": {
       "title": "Notre politique de confidentialité a évolué. Nous vous invitons à en prendre connaissance : ",
       "url-label": "Politique de protection des données."
