@@ -36,7 +36,7 @@ const createOrUpdateCertificationCenterInvitationForAdmin = async function ({
     certificationCenterInvitationId: certificationCenterInvitation.id,
     code: certificationCenterInvitation.code,
   });
-  if (emailingAttempt?.status === 'FAILURE') {
+  if (emailingAttempt.hasFailed()) {
     if (emailingAttempt.hasFailedBecauseDomainWasInvalid()) {
       throw new SendingEmailToInvalidDomainError(email);
     }

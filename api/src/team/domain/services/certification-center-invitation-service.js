@@ -73,7 +73,7 @@ async function _sendInvitationEmail(
     locale,
   });
 
-  if (emailingAttempt.status !== 'SUCCESS') {
+  if (emailingAttempt.hasFailed()) {
     if (emailingAttempt.hasFailedBecauseDomainWasInvalid()) {
       throw new SendingEmailToInvalidDomainError(email);
     }

@@ -55,7 +55,7 @@ const createOrUpdateOrganizationInvitation = async ({
     locale,
     tags,
   });
-  if (emailingAttempt?.status === 'FAILURE') {
+  if (emailingAttempt.hasFailed()) {
     if (emailingAttempt.hasFailedBecauseDomainWasInvalid()) {
       throw new SendingEmailToInvalidDomainError(email);
     }

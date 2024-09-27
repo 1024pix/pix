@@ -11,7 +11,9 @@ describe('Integration | Team | UseCase | create-or-update-certification-center-i
 
   beforeEach(function () {
     clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
-    sinon.stub(mailService, 'sendCertificationCenterInvitationEmail');
+    sinon
+      .stub(mailService, 'sendCertificationCenterInvitationEmail')
+      .resolves(EmailingAttempt.success('stub@example.net'));
   });
 
   afterEach(async function () {

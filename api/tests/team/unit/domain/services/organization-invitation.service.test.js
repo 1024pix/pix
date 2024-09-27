@@ -25,8 +25,8 @@ describe('Unit | Team | Domain | Service | organization-invitation', function ()
       get: sinon.stub(),
     };
     mailService = {
-      sendOrganizationInvitationEmail: sinon.stub().resolves(),
-      sendScoOrganizationInvitationEmail: sinon.stub().resolves(),
+      sendOrganizationInvitationEmail: sinon.stub().resolves(EmailingAttempt.success('stub@example.net')),
+      sendScoOrganizationInvitationEmail: sinon.stub().resolves(EmailingAttempt.success('stub@example.net')),
     };
   });
 
