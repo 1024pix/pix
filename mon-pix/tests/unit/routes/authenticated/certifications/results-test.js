@@ -30,13 +30,13 @@ module('Unit | Route | Certifications | Results', function (hooks) {
   });
 
   module('afterModel', function () {
-    test('should send a stop certification postMessage', async function (assert) {
+    test('should send a notify Pix Companion', async function (assert) {
       // given
-      const postMessageStub = sinon.stub();
-      class WindowPostMessageServiceStub extends Service {
-        stopCertification = postMessageStub;
+      const stopCertificationStub = sinon.stub();
+      class PixCompanionServiceStub extends Service {
+        stopCertification = stopCertificationStub;
       }
-      this.owner.register('service:window-post-message', WindowPostMessageServiceStub);
+      this.owner.register('service:pix-companion', PixCompanionServiceStub);
 
       const route = this.owner.lookup('route:authenticated/certifications.results');
 
@@ -44,7 +44,7 @@ module('Unit | Route | Certifications | Results', function (hooks) {
       route.afterModel();
 
       // then
-      sinon.assert.calledOnce(postMessageStub);
+      sinon.assert.calledOnce(stopCertificationStub);
       assert.ok(true);
     });
   });

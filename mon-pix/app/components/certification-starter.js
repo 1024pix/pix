@@ -9,7 +9,7 @@ export default class CertificationJoiner extends Component {
   @service currentUser;
   @service intl;
   @service focusedCertificationChallengeWarningManager;
-  @service windowPostMessage;
+  @service pixCompanion;
 
   @tracked inputAccessCode = '';
   @tracked errorMessage = null;
@@ -38,7 +38,7 @@ export default class CertificationJoiner extends Component {
       await newCertificationCourse.save();
       this.focusedCertificationChallengeWarningManager.reset();
       this.router.replaceWith('authenticated.certifications.resume', newCertificationCourse.id);
-      this.windowPostMessage.startCertification();
+      this.pixCompanion.startCertification();
     } catch (error) {
       newCertificationCourse.deleteRecord();
       const statusCode = error.errors?.[0]?.status;
