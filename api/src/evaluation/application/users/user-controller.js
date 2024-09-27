@@ -8,6 +8,13 @@ const rememberUserHasSeenLevelSevenInfo = async function (request, h, dependenci
   return dependencies.userSerializer.serialize(updatedUser);
 };
 
-const userController = { rememberUserHasSeenLevelSevenInfo };
+const rememberUserHasSeenNewDashboardInfo = async function (request, h, dependencies = { userSerializer }) {
+  const authenticatedUserId = request.auth.credentials.userId;
+
+  const updatedUser = await usecases.rememberUserHasSeenNewDashboardInfo({ userId: authenticatedUserId });
+  return dependencies.userSerializer.serialize(updatedUser);
+};
+
+const userController = { rememberUserHasSeenLevelSevenInfo, rememberUserHasSeenNewDashboardInfo };
 
 export { userController };
