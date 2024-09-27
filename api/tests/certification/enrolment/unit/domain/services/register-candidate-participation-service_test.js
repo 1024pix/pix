@@ -29,26 +29,6 @@ describe('Unit | Application | Service | register-candidate-participation', func
         reconciledAt: new Date('2024-09-25'),
       });
       sinon.stub(usecases, 'verifyCandidateIdentity').resolves(alreadyLinkedCandidate);
-      sinon.stub(usecases, 'verifyCandidateEligibility').resolves();
-    });
-
-    it('should verify candidate eligibility', async function () {
-      // when
-      await registerCandidateParticipation({
-        ...candidateData,
-        userId,
-        sessionId,
-        normalizeStringFnc,
-        enrolledCandidateRepository,
-      });
-
-      // then
-      expect(usecases.verifyCandidateEligibility).to.have.been.calledWithExactly({
-        userId,
-        candidate: alreadyLinkedCandidate,
-        limitDate: alreadyLinkedCandidate.reconciledAt,
-        sessionId,
-      });
     });
 
     it('should not link the candidate to the given user', async function () {
@@ -86,7 +66,7 @@ describe('Unit | Application | Service | register-candidate-participation', func
         reconciledAt: null,
       });
       sinon.stub(usecases, 'verifyCandidateIdentity').resolves(unlinkedCandidate);
-      sinon.stub(usecases, 'verifyCandidateEligibility').resolves();
+      sinon.stub(usecases, 'verifyCandidateSubscriptions').resolves();
     });
 
     afterEach(function () {
@@ -104,10 +84,9 @@ describe('Unit | Application | Service | register-candidate-participation', func
       });
 
       // then
-      expect(usecases.verifyCandidateEligibility).to.have.been.calledWithExactly({
+      expect(usecases.verifyCandidateSubscriptions).to.have.been.calledWithExactly({
         userId,
         candidate: unlinkedCandidate,
-        limitDate: Date.now(),
         sessionId,
       });
     });
