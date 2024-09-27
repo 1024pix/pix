@@ -35,7 +35,7 @@ const get = async function (organizationId) {
 /**
  * @type {function}
  * @param {Object} params
- * @param {Array|Object} params.organizationImports
+ * @param {Array|Object} params.organizationLearnerImportFormats
  * @return {Promise<void>}
  */
 const updateAllByName = async function ({ organizationLearnerImportFormats }) {

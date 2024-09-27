@@ -99,8 +99,16 @@ describe('Integration | Repository | Organization Learner Management | Organizat
     it('update several learner import format given', async function () {
       // given
       const organizationLearnerImportFormats = [
-        { name: 'FIRST_FORMAT', fileType: 'csv', config: { new_config: 'awesome' } },
-        { name: 'SECOND_FORMAT', fileType: 'csv', config: { new_config: 'not_bad' } },
+        new OrganizationLearnerImportFormat({
+          name: 'FIRST_FORMAT',
+          fileType: 'csv',
+          config: { new_config: 'awesome' },
+        }),
+        new OrganizationLearnerImportFormat({
+          name: 'SECOND_FORMAT',
+          fileType: 'csv',
+          config: { new_config: 'not_bad' },
+        }),
       ];
       // when
       await organizationLearnerImportFormatRepository.updateAllByName({ organizationLearnerImportFormats });
@@ -128,7 +136,11 @@ describe('Integration | Repository | Organization Learner Management | Organizat
     it('set updatedAt field to today', async function () {
       // given
       const organizationLearnerImportFormats = [
-        { name: 'FIRST_FORMAT', fileType: 'csv', config: { new_config: 'awesome' } },
+        new OrganizationLearnerImportFormat({
+          name: 'FIRST_FORMAT',
+          fileType: 'csv',
+          config: { new_config: 'awesome' },
+        }),
       ];
       // when
       await organizationLearnerImportFormatRepository.updateAllByName({ organizationLearnerImportFormats });
@@ -146,7 +158,11 @@ describe('Integration | Repository | Organization Learner Management | Organizat
     it('should not update other import format', async function () {
       // given
       const organizationLearnerImportFormats = [
-        { name: 'FIRST_FORMAT', fileType: 'csv', config: { new_config: 'awesome' } },
+        new OrganizationLearnerImportFormat({
+          name: 'FIRST_FORMAT',
+          fileType: 'csv',
+          config: { new_config: 'awesome' },
+        }),
       ];
       // when
       await organizationLearnerImportFormatRepository.updateAllByName({ organizationLearnerImportFormats });
