@@ -88,6 +88,14 @@ class ForbiddenError extends BaseHttpError {
   }
 }
 
+class InternalServerError extends BaseHttpError {
+  constructor(message) {
+    super(message);
+    this.title = 'Internal server error';
+    this.status = 500;
+  }
+}
+
 class ServiceUnavailableError extends BaseHttpError {
   constructor(message) {
     super(message);
@@ -168,6 +176,7 @@ const HttpErrors = {
   UnauthorizedError,
   UnprocessableEntityError,
   TooManyRequestsError,
+  InternalServerError,
 };
 
 export {

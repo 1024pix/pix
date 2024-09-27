@@ -1,6 +1,6 @@
 import { InvalidCertificationReportForFinalization } from '../../../src/certification/shared/domain/errors.js';
 import * as EvaluationDomainErrors from '../../../src/evaluation/domain/errors.js';
-import { CompetenceResetError } from '../../../src/evaluation/domain/errors.js';
+import { AnswerEvaluationError, CompetenceResetError } from '../../../src/evaluation/domain/errors.js';
 import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
@@ -727,6 +727,18 @@ describe('Integration | API | Controller Error', function () {
       const payload = JSON.parse(response.payload);
       expect(response.statusCode).to.equal(INTERNAL_SERVER_ERROR);
       expect(payload.message).to.equal('An internal server error occurred');
+    });
+
+    it('responds InternalServerError when a AnswerEvaluationError error occurs', async function () {
+      const challenge = {
+        id: 123456,
+      };
+      routeHandler.throws(new AnswerEvaluationError(challenge));
+
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(INTERNAL_SERVER_ERROR);
+      expect(responseDetail(response)).to.equal('Problème lors de l\'évaluation de la réponse du challenge: "123456"');
     });
   });
 

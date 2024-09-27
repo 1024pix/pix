@@ -2,6 +2,7 @@ import { HttpErrors } from '../../shared/application/http-errors.js';
 import { DomainErrorMappingConfiguration } from '../../shared/application/models/domain-error-mapping-configuration.js';
 import {
   AcquiredBadgeForbiddenUpdateError,
+  AnswerEvaluationError,
   CompetenceResetError,
   EmptyAnswerError,
   ImproveCompetenceEvaluationForbiddenError,
@@ -37,6 +38,12 @@ const evaluationDomainErrorMappingConfiguration = [
     name: AcquiredBadgeForbiddenUpdateError.name,
     httpErrorFn: (error) => {
       return new HttpErrors.ForbiddenError(error.message);
+    },
+  },
+  {
+    name: AnswerEvaluationError.name,
+    httpErrorFn: (error) => {
+      return new HttpErrors.InternalServerError(error.message);
     },
   },
 ].map((domainErrorMappingConfiguration) => new DomainErrorMappingConfiguration(domainErrorMappingConfiguration));

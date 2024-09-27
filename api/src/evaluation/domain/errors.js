@@ -47,8 +47,15 @@ class StageModificationForbiddenForLinkedTargetProfileError extends DomainError 
   }
 }
 
+class AnswerEvaluationError extends DomainError {
+  constructor(challenge) {
+    super(`Problème lors de l'évaluation de la réponse du challenge: "${challenge.id}"`, '', challenge);
+  }
+}
+
 export {
   AcquiredBadgeForbiddenUpdateError,
+  AnswerEvaluationError,
   CompetenceResetError,
   EmptyAnswerError,
   ImproveCompetenceEvaluationForbiddenError,

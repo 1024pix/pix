@@ -1,13 +1,12 @@
-import { EmptyAnswerError } from '../../../src/evaluation/domain/errors.js';
+import { AnswerEvaluationError, EmptyAnswerError } from '../../../src/evaluation/domain/errors.js';
 import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 import {
-  AnswerEvaluationError,
   CertificationEndedByFinalizationError,
   CertificationEndedBySupervisorError,
   ChallengeNotAskedError,
 } from '../../../src/shared/domain/errors.js';
 import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
-import { KnowledgeElement } from '../../../src/shared/domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../../src/shared/domain/models/index.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 const evaluateAnswer = function ({ challenge, answer, assessment, examiner: injectedExaminer }) {
