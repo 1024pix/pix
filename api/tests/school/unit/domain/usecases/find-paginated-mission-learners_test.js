@@ -1,53 +1,50 @@
-import { findPaginatedMissionLearners } from '../../../../../src/school/domain/usecases/find-paginated-mission-learners.js';
-import { expect, sinon } from '../../../../test-helper.js';
+import { MissionLearner } from '../../../../../src/school/domain/models/MissionLearner.js';
+import { filterByGlobalResult } from '../../../../../src/school/domain/usecases/find-paginated-mission-learners.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | find-paginated-mission-learners', function () {
-  let missionLearnerRepository,
-    missionAssessmentRepository,
-    activityRepository,
-    organizationId,
-    missionId,
-    page,
-    learner,
-    pagination,
-    filter;
+  context('filterByGlobalResult', function () {
+    it('with empty mission learners, returns empty filtered array', function () {
+      const filterGlobalResults = [];
+      const missionLearners = [];
+      const filteredMissionLearners = filterByGlobalResult(missionLearners, filterGlobalResults);
 
-  beforeEach(function () {
-    missionLearnerRepository = { findPaginatedMissionLearners: sinon.stub() };
-    missionAssessmentRepository = { getStatusesForLearners: sinon.stub() };
-    activityRepository = { getAllByAssessmentId: sinon.stub() };
-    organizationId = 1234567;
-    missionId = 3;
-    page = { size: 4, number: 2 };
-    learner = {
-      id: 34,
-    };
-    pagination = { page: 2, pageCount: 1, pageSize: 4, rowCount: 8 };
-    filter = { divisions: ['CP'] };
-  });
-
-  it('should call missionLearnerRepository with good args', async function () {
-    missionLearnerRepository.findPaginatedMissionLearners.resolves({ pagination, missionLearners: [learner] });
-    missionAssessmentRepository.getStatusesForLearners
-      .withArgs(missionId, [learner], function () {
-        return;
-      })
-      .resolves([learner]);
-
-    await findPaginatedMissionLearners({
-      organizationId,
-      page,
-      missionId,
-      missionLearnerRepository,
-      missionAssessmentRepository,
-      activityRepository,
-      filter,
+      expect(filteredMissionLearners).to.deep.equals([]);
     });
 
-    expect(missionLearnerRepository.findPaginatedMissionLearners).to.have.been.calledWithExactly({
-      organizationId,
-      page,
-      filter,
+    it('should returns mission learner corresponding to the filter', function () {
+      const missionLearnerExceeded = new MissionLearner({
+        result: { global: 'exceeded' },
+      });
+      const missionLearnerReached = new MissionLearner({
+        result: { global: 'reached' },
+      });
+      const missionLearnerNull = new MissionLearner({
+        result: null,
+      });
+
+      const missionLearners = [missionLearnerExceeded, missionLearnerReached, missionLearnerNull];
+      const filterGlobalResults = ['exceeded'];
+      const filteredMissionLearners = filterByGlobalResult(missionLearners, filterGlobalResults);
+
+      expect(filteredMissionLearners).to.deep.equals([missionLearnerExceeded]);
+    });
+    it('mission learner should be filter when they have no result', function () {
+      const missionLearnerGlobalReached = new MissionLearner({
+        result: { global: 'reached' },
+      });
+      const missionLearnerGlobalUndefined = new MissionLearner({
+        result: { global: undefined },
+      });
+      const missionLearnerNull = new MissionLearner({
+        result: null,
+      });
+
+      const missionLearners = [missionLearnerGlobalReached, missionLearnerGlobalUndefined, missionLearnerNull];
+      const filterGlobalResults = ['no-result'];
+      const filteredMissionLearners = filterByGlobalResult(missionLearners, filterGlobalResults);
+
+      expect(filteredMissionLearners).to.deep.equals([missionLearnerGlobalUndefined, missionLearnerNull]);
     });
   });
 });

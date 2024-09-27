@@ -1,4 +1,3 @@
-import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { MissionLearner } from '../../../../../src/school/domain/models/MissionLearner.js';
 import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import { Assessment } from '../../../../../src/shared/domain/models/index.js';
@@ -40,17 +39,6 @@ describe('Integration | Usecase | find-paginated-mission-learners', function () 
         organizationLearnerId: organizationLearnerWithCompletedAssessment.id,
         assessmentId: completedAssessment.id,
         result: { global: 'reached', steps: ['reached'], dare: 'not-reached' },
-      });
-      databaseBuilder.factory.buildActivity({
-        assessmentId: completedAssessment.id,
-        level: Activity.levels.VALIDATION,
-        status: Activity.status.SUCCEEDED,
-        stepIndex: 0,
-      });
-      databaseBuilder.factory.buildActivity({
-        assessmentId: completedAssessment.id,
-        level: Activity.levels.CHALLENGE,
-        status: Activity.status.SKIPPED,
       });
       await databaseBuilder.commit();
 
@@ -129,17 +117,6 @@ describe('Integration | Usecase | find-paginated-mission-learners', function () 
         assessmentId: completedAssessment.id,
         result: { global: 'reached', steps: ['reached'], dare: 'not-reached' },
       });
-      databaseBuilder.factory.buildActivity({
-        assessmentId: completedAssessment.id,
-        level: Activity.levels.VALIDATION,
-        status: Activity.status.SUCCEEDED,
-        stepIndex: 0,
-      });
-      databaseBuilder.factory.buildActivity({
-        assessmentId: completedAssessment.id,
-        level: Activity.levels.CHALLENGE,
-        status: Activity.status.SKIPPED,
-      });
       await databaseBuilder.commit();
 
       const page = {
@@ -167,6 +144,59 @@ describe('Integration | Usecase | find-paginated-mission-learners', function () 
           pageCount: 3,
           pageSize: 1,
           rowCount: 3,
+        },
+      });
+    });
+
+    it('should filter on global result', async function () {
+      const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO-1D' });
+
+      databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+        organizationId: organization.id,
+      });
+      const organizationLearnerWithAssessment =
+        databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+          organizationId: organization.id,
+        });
+
+      const assessment = databaseBuilder.factory.buildPix1dAssessment({
+        state: Assessment.states.COMPLETED,
+      });
+
+      const missionId = 1;
+      databaseBuilder.factory.buildMissionAssessment({
+        missionId,
+        organizationLearnerId: organizationLearnerWithAssessment.id,
+        assessmentId: assessment.id,
+        result: { global: 'reached' },
+      });
+      await databaseBuilder.commit();
+
+      const page = {
+        number: 1,
+        size: 10,
+      };
+      const result = await usecases.findPaginatedMissionLearners({
+        organizationId: organization.id,
+        missionId,
+        page,
+        filter: { results: ['reached'] },
+      });
+
+      expect(result).to.deep.equal({
+        missionLearners: [
+          new MissionLearner({
+            ...organizationLearnerWithAssessment,
+            division: 'CM2A',
+            missionStatus: 'completed',
+            result: { global: 'reached' },
+          }),
+        ],
+        pagination: {
+          page: 1,
+          pageCount: 1,
+          pageSize: 10,
+          rowCount: 1,
         },
       });
     });
