@@ -7,32 +7,32 @@ import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Router | organization-import-router', function () {
-  let checkOrganizationHasLearnerImportFeature, respondWithError;
-
-  beforeEach(function () {
-    sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
-    sinon.stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents');
-    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
-    checkOrganizationHasLearnerImportFeature = sinon.stub();
-    sinon
-      .stub(securityPreHandlers, 'makeCheckOrganizationHasFeature')
-      .withArgs(ORGANIZATION_FEATURE.LEARNER_IMPORT.key)
-      .returns(checkOrganizationHasLearnerImportFeature);
-
-    respondWithError = (_, h) =>
-      h
-        .response(
-          new jsonapiSerializer.Error({
-            code: 403,
-            title: 'Forbidden access',
-            detail: 'Missing or insufficient permissions.',
-          }),
-        )
-        .code(403)
-        .takeover();
-  });
-
   describe('GET /api/organizations/{organizationId}/import-information', function () {
+    let checkOrganizationHasLearnerImportFeature, respondWithError;
+
+    beforeEach(function () {
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents');
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
+      checkOrganizationHasLearnerImportFeature = sinon.stub();
+      sinon
+        .stub(securityPreHandlers, 'makeCheckOrganizationHasFeature')
+        .withArgs(ORGANIZATION_FEATURE.LEARNER_IMPORT.key)
+        .returns(checkOrganizationHasLearnerImportFeature);
+
+      respondWithError = (_, h) =>
+        h
+          .response(
+            new jsonapiSerializer.Error({
+              code: 403,
+              title: 'Forbidden access',
+              detail: 'Missing or insufficient permissions.',
+            }),
+          )
+          .code(403)
+          .takeover();
+    });
+
     it('should throw an error when id is invalid', async function () {
       // given
       const method = 'GET';
@@ -158,26 +158,73 @@ describe('Unit | Router | organization-import-router', function () {
         });
       });
     });
+
+    context(
+      'when the user is not admin for the SUP organization nor SCO organizations nor has learner import feature',
+      function () {
+        it('responds 403', async function () {
+          checkOrganizationHasLearnerImportFeature.callsFake(respondWithError);
+          securityPreHandlers.checkUserIsAdminInOrganization.callsFake(respondWithError);
+          securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.callsFake(respondWithError);
+          securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents.callsFake(respondWithError);
+
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          const method = 'GET';
+          const url = '/api/organizations/1/import-information';
+
+          const response = await httpTestServer.request(method, url);
+
+          expect(response.statusCode).to.equal(403);
+        });
+      },
+    );
   });
-  context(
-    'when the user is not admin for the SUP organization nor SCO organizations nor has learner import feature',
-    function () {
-      it('responds 403', async function () {
-        checkOrganizationHasLearnerImportFeature.callsFake(respondWithError);
-        securityPreHandlers.checkUserIsAdminInOrganization.callsFake(respondWithError);
-        securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.callsFake(respondWithError);
-        securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents.callsFake(respondWithError);
 
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
+  describe('POST /api/admin/import-organization-learners-format', function () {
+    let hasAtLeastOneAccessOfStub, updateOrganizationLearnerImportFormatsStub;
 
-        const method = 'GET';
-        const url = '/api/organizations/1/import-information';
+    beforeEach(function () {
+      hasAtLeastOneAccessOfStub = sinon
+        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+        .withArgs([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin]);
 
-        const response = await httpTestServer.request(method, url);
+      updateOrganizationLearnerImportFormatsStub = sinon
+        .stub(organizationImportController, 'updateOrganizationLearnerImportFormats')
+        .resolves(null);
+    });
 
-        expect(response.statusCode).to.equal(403);
-      });
-    },
-  );
+    it('should not called controller when user is not super admin', async function () {
+      hasAtLeastOneAccessOfStub.callsFake(
+        () => (request, h) =>
+          h
+            .response({ errors: new Error('forbidden') })
+            .code(403)
+            .takeover(),
+      );
+      const method = 'POST';
+      const url = '/api/admin/import-organization-learners-format';
+
+      const httpTestServer = new HttpTestServer(moduleUnderTest);
+      await httpTestServer.register(moduleUnderTest);
+
+      await httpTestServer.request(method, url);
+
+      expect(updateOrganizationLearnerImportFormatsStub.notCalled).to.be.true;
+    });
+
+    it('should called controller when user is super admin', async function () {
+      hasAtLeastOneAccessOfStub.returns(() => true);
+      const method = 'POST';
+      const url = '/api/admin/import-organization-learners-format';
+
+      const httpTestServer = new HttpTestServer(moduleUnderTest);
+      await httpTestServer.register(moduleUnderTest);
+
+      await httpTestServer.request(method, url);
+
+      expect(updateOrganizationLearnerImportFormatsStub.called).to.be.true;
+    });
+  });
 });
