@@ -1,10 +1,15 @@
 /**
  * @typedef {import('../models/Subscription.js').Subscription} Subscription
+ * @typedef {import('../models/Candidate.js').Candidate} Candidate
  */
 import _ from 'lodash';
 
 import { SUBSCRIPTION_TYPES } from '../../../shared/domain/constants.js';
 
+/**
+ * @deprecated please use Candidate model that has no differences with this model
+ * @see {Candidate} domain model
+ */
 export class EnrolledCandidate {
   /**
    * @param {Object} params
@@ -59,10 +64,6 @@ export class EnrolledCandidate {
     this.hasSeenCertificationInstructions = hasSeenCertificationInstructions;
     this.subscriptions = subscriptions;
     this.accessibilityAdjustmentNeeded = accessibilityAdjustmentNeeded;
-  }
-
-  isLinkedToAUser() {
-    return !_.isNil(this.userId);
   }
 
   findComplementarySubscriptionInfo() {

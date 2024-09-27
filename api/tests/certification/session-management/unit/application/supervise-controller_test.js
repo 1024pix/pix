@@ -26,7 +26,9 @@ describe('Certification | Session Management | Unit | Application | Controller |
       };
 
       sinon.stub(usecases, 'superviseSession');
-      usecases.superviseSession.withArgs({ sessionId: '123', userId: 274939274, supervisorPassword: '567' }).resolves();
+      usecases.superviseSession
+        .withArgs({ sessionId: '123', userId: 274939274, invigilatorPassword: 'AB64A2' })
+        .resolves();
 
       // when
       const response = await superviseController.supervise(request, hFake);

@@ -34,7 +34,7 @@ module('Acceptance | Routes | join', function (hooks) {
       await clickByName(`J’accepte les conditions d’utilisation`);
 
       // then
-      assert.strictEqual(currentURL(), '/sessions/liste');
+      assert.strictEqual(currentURL(), '/sessions');
       assert.dom(screen.getByText('Collège Truffaut', { exact: false })).exists();
     });
   });

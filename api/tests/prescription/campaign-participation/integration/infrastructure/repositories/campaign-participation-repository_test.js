@@ -629,15 +629,23 @@ describe('Integration | Repository | Campaign Participation', function () {
     let campaign1;
     let campaign2;
     let campaignParticipation1;
+    let organizationLearner1;
     let organizationId;
 
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       campaign1 = databaseBuilder.factory.buildCampaign({ organizationId, type: CampaignTypes.PROFILES_COLLECTION });
       campaign2 = databaseBuilder.factory.buildCampaign({ organizationId, type: CampaignTypes.PROFILES_COLLECTION });
-
+      organizationLearner1 = {
+        organizationId,
+        firstName: 'Hubert',
+        lastName: 'Parterre',
+        division: '6emeD',
+        group: null,
+        attributes: { hobby: 'Genky' },
+      };
       campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
-        { organizationId, firstName: 'Hubert', lastName: 'Parterre', division: '6emeD' },
+        organizationLearner1,
         {
           campaignId: campaign1.id,
           createdAt: new Date('2017-03-15T14:59:35Z'),
@@ -658,18 +666,18 @@ describe('Integration | Repository | Campaign Participation', function () {
         await campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaignId);
 
       // then
-      const attributes = participationResultDatas.map((participationResultData) =>
-        _.pick(participationResultData, ['id', 'isShared', 'sharedAt', 'participantExternalId', 'userId']),
-      );
-      expect(attributes).to.deep.equal([
-        {
-          id: campaignParticipation1.id,
-          isShared: true,
-          sharedAt: campaignParticipation1.sharedAt,
-          participantExternalId: campaignParticipation1.participantExternalId,
-          userId: campaignParticipation1.userId,
-        },
-      ]);
+      expect(participationResultDatas).lengthOf(1);
+      expect(participationResultDatas[0]).to.deep.include({
+        id: campaignParticipation1.id,
+        isShared: true,
+        sharedAt: campaignParticipation1.sharedAt,
+        participantExternalId: campaignParticipation1.participantExternalId,
+        userId: campaignParticipation1.userId,
+        participantFirstName: organizationLearner1.firstName,
+        participantLastName: organizationLearner1.lastName,
+        division: organizationLearner1.division,
+        additionalInfos: organizationLearner1.attributes,
+      });
     });
 
     it('should not return the deleted campaign-participation linked to the given campaign', async function () {

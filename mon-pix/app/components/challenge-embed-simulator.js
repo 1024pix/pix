@@ -57,15 +57,8 @@ export default class ChallengeEmbedSimulator extends Component {
           thisComponent.isSimulatorRebootable = false;
         }
       }
-      if (isReadyMessage(data) && thisComponent.isSimulatorLaunched) {
-        thisComponent.launchSimulator();
-      }
       if (isHeightMessage(data)) {
         thisComponent.embedHeight = data.height;
-      }
-      if (isAutoLaunchMessage(data)) {
-        thisComponent.launchSimulator();
-        thisComponent.isSimulatorRebootable = false;
       }
     };
 
@@ -112,15 +105,6 @@ export default class ChallengeEmbedSimulator extends Component {
 }
 
 /**
- * Checks if event is a "ready" message.
- * @param {unknown} data
- * @returns {boolean}
- */
-function isReadyMessage(data) {
-  return isMessageType(data, 'ready');
-}
-
-/**
  * Checks if event is an "init" message.
  * @param {unknown} data
  * @returns {data is {
@@ -139,15 +123,6 @@ function isInitMessage(data) {
  */
 function isHeightMessage(data) {
   return isMessageType(data, 'height');
-}
-
-/**
- * Checks if event is a "auto-launch" message.
- * @param {unknown} data
- * @returns {boolean}
- */
-function isAutoLaunchMessage(data) {
-  return isMessageType(data, 'auto-launch');
 }
 
 function isMessageType(data, type) {

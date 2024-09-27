@@ -37,6 +37,17 @@ function logInfoWithCorrelationIds(data) {
   );
 }
 
+function logWarnWithCorrelationIds(data) {
+  const context = getCorrelationContext();
+  logger.warn(
+    {
+      ...context,
+      ...omit(data, 'message'),
+    },
+    get(data, 'message', '-'),
+  );
+}
+
 /**
  * In order to be displayed properly in Datadog,
  * the parameter "data" should contain
@@ -144,6 +155,7 @@ export {
   installHapiHook,
   logErrorWithCorrelationIds,
   logInfoWithCorrelationIds,
+  logWarnWithCorrelationIds,
   monitoringTools,
   pushInContext,
   setInContext,

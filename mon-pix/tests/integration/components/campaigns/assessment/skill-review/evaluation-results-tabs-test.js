@@ -18,7 +18,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       const acquiredBadge = store.createRecord('badge', { isAcquired: true });
       this.set('badges', [acquiredBadge]);
 
-      const training = store.createRecord('training');
+      const training = store.createRecord('training', { duration: { days: 2 } });
       this.set('trainings', [training]);
 
       // when
@@ -49,10 +49,15 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       const acquiredBadge = store.createRecord('badge', { isAcquired: true });
       this.set('badges', [acquiredBadge]);
       this.set('trainings', []);
+      this.set('competenceResults', []);
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs @badges={{this.badges}} @trainings={{this.trainings}} />`,
+        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs
+  @badges={{this.badges}}
+  @trainings={{this.trainings}}
+  @competenceResults={{this.competenceResults}}
+/>`,
       );
 
       // then
@@ -72,13 +77,18 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       const store = this.owner.lookup('service:store');
 
       this.set('badges', []);
+      this.set('competenceResults', []);
 
-      const training = store.createRecord('training');
+      const training = store.createRecord('training', { duration: { days: 2 } });
       this.set('trainings', [training]);
 
       // when
       screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs @badges={{this.badges}} @trainings={{this.trainings}} />`,
+        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs
+  @badges={{this.badges}}
+  @trainings={{this.trainings}}
+  @competenceResults={{this.competenceResults}}
+/>`,
       );
     });
 
@@ -102,10 +112,15 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       // given
       this.set('badges', []);
       this.set('trainings', []);
+      this.set('competenceResults', []);
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs @badges={{this.badges}} @trainings={{this.trainings}} />`,
+        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsTabs
+  @badges={{this.badges}}
+  @trainings={{this.trainings}}
+  @competenceResults={{this.competenceResults}}
+/>`,
       );
 
       // then

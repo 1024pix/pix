@@ -1,5 +1,5 @@
 /**
- * @typedef {import('./index.js').CandidateRepository} candidateRepository
+ * @typedef {import('./index.js').CandidateRepository} CandidateRepository
  */
 
 import { NotFoundError } from '../../../../shared/domain/errors.js';
@@ -16,7 +16,7 @@ const deleteUnlinkedCertificationCandidate = async function ({ candidateId, cand
     throw new NotFoundError();
   }
 
-  if (!candidate.isLinkedToAUser()) {
+  if (!candidate.isReconciled()) {
     return candidateRepository.remove({ id: candidateId });
   }
 

@@ -8,13 +8,6 @@ export async function findBySessionId({ sessionId }) {
   return candidatesData.map(toDomain).sort(sortAlphabeticallyByLastNameThenFirstName);
 }
 
-export async function get({ id }) {
-  const candidateData = await buildBaseReadQuery(knex).where({ 'certification-candidates.id': id }).first();
-
-  if (!candidateData) return null;
-  return toDomain(candidateData);
-}
-
 function sortAlphabeticallyByLastNameThenFirstName(
   { firstName: firstName1, lastName: lastName1 },
   { firstName: firstName2, lastName: lastName2 },

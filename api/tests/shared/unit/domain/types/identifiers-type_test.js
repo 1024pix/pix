@@ -1,4 +1,8 @@
-import { identifiersType, optionalIdentifiersType } from '../../../../../src/shared/domain/types/identifiers-type.js';
+import {
+  identifiersType,
+  optionalIdentifiersType,
+  queriesType,
+} from '../../../../../src/shared/domain/types/identifiers-type.js';
 import { expect } from '../../../../test-helper.js';
 const { userId, competenceId } = identifiersType;
 const { organizationId } = optionalIdentifiersType;
@@ -84,7 +88,7 @@ describe('Unit | Domain | Type | identifier-types', function () {
     });
   });
 
-  context('queryIdentifiersType', function () {
+  context('optionalIdentifiersType', function () {
     describe('#organizationId', function () {
       context('when organizationId is null', function () {
         it('should not throw', function () {
@@ -144,6 +148,106 @@ describe('Unit | Domain | Type | identifier-types', function () {
 
           // then
           expect(error.message).to.equal('"value" must be less than or equal to 2147483647');
+        });
+      });
+    });
+  });
+
+  context('queriesType', function () {
+    describe('#paginationType', function () {
+      context('when number is valid', function () {
+        it('should not reject', function () {
+          // given
+          const validNumber = 1;
+
+          // when
+          const { error } = queriesType.paginationType.validate({ number: validNumber });
+
+          // then
+          expect(error).to.be.undefined;
+        });
+
+        it('should not reject when string is number', function () {
+          // given
+          const validNumber = '18';
+
+          // when
+          const { error } = queriesType.paginationType.validate({ number: validNumber });
+
+          // then
+          expect(error).to.be.undefined;
+        });
+
+        it('should not reject when is null', async function () {
+          // given
+          const validNumber = null;
+
+          // when
+          const { error } = queriesType.paginationType.validate({ number: validNumber });
+
+          // then
+          expect(error).to.be.undefined;
+        });
+      });
+
+      context('when number is invalid', function () {
+        it('should reject when is string', async function () {
+          // given
+          const invalidNumber = 'toto';
+
+          // when
+          const { error } = queriesType.paginationType.validate({ number: invalidNumber });
+
+          // then
+          expect(error.message).to.equal('"number" must be a number');
+        });
+      });
+
+      context('when size is valid', function () {
+        it('should not reject', function () {
+          // given
+          const validNumber = 1;
+
+          // when
+          const { error } = queriesType.paginationType.validate({ size: validNumber });
+
+          // then
+          expect(error).to.be.undefined;
+        });
+
+        it('should not reject when string is number', function () {
+          // given
+          const validNumber = '18';
+
+          // when
+          const { error } = queriesType.paginationType.validate({ size: validNumber });
+
+          // then
+          expect(error).to.be.undefined;
+        });
+
+        it('should not reject when is null', async function () {
+          // given
+          const validNumber = null;
+
+          // when
+          const { error } = queriesType.paginationType.validate({ size: validNumber });
+
+          // then
+          expect(error).to.be.undefined;
+        });
+      });
+
+      context('when size is invalid', function () {
+        it('should reject when is string', async function () {
+          // given
+          const invalidNumber = 'toto';
+
+          // when
+          const { error } = queriesType.paginationType.validate({ size: invalidNumber });
+
+          // then
+          expect(error.message).to.equal('"size" must be a number');
         });
       });
     });

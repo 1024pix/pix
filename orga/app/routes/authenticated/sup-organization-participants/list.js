@@ -3,6 +3,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import RSVP from 'rsvp';
 
+import paramsValidator from '../../../utils/params-validator';
 export default class ListRoute extends Route {
   queryParams = {
     search: { refreshModel: true },
@@ -19,6 +20,8 @@ export default class ListRoute extends Route {
   @service store;
 
   async model(params) {
+    paramsValidator.validateCertificabilityParams(params);
+
     const organizationId = this.currentUser.organization.id;
     return RSVP.hash({
       importDetail: this.currentUser.canAccessImportPage

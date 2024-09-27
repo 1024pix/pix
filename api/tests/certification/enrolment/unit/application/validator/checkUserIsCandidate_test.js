@@ -14,6 +14,7 @@ describe('Unit | Application | Validator | checkUserIsCandidateUseCase', functio
       candidateRepositoryStub.get.withArgs({ certificationCandidateId }).resolves(
         domainBuilder.certification.enrolment.buildCandidate({
           userId,
+          reconciledAt: new Date('2024-09-25'),
         }),
       );
 

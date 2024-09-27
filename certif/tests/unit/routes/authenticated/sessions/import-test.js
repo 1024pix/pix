@@ -39,7 +39,7 @@ module('Unit | Route | authenticated/sessions/import', function (hooks) {
         route.beforeModel();
 
         // then
-        assert.notOk(route.router.replaceWith.calledWith('authenticated.sessions.list'));
+        assert.notOk(route.router.replaceWith.calledWith('authenticated.sessions'));
       });
     });
 
@@ -75,7 +75,7 @@ module('Unit | Route | authenticated/sessions/import', function (hooks) {
         route.beforeModel();
 
         // then
-        assert.ok(route.router.replaceWith.calledWith('authenticated.sessions.list'));
+        assert.ok(route.router.replaceWith.calledWith('authenticated.sessions'));
       });
     });
   });
@@ -112,7 +112,7 @@ module('Unit | Route | authenticated/sessions/import', function (hooks) {
       route.beforeModel();
 
       // then
-      assert.notOk(route.router.replaceWith.calledWith('authenticated.sessions.list'));
+      assert.notOk(route.router.replaceWith.calledWith('authenticated.sessions'));
     });
   });
 });

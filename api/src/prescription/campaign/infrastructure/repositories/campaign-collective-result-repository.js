@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { constants } from '../../../../../lib/infrastructure/constants.js';
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../../../shared/infrastructure/constants.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 import { CampaignCollectiveResult } from '../../domain/read-models/CampaignCollectiveResult.js';
 import { getLatestParticipationSharedForOneLearner } from './helpers/get-latest-participation-shared-for-one-learner.js';
@@ -47,5 +47,5 @@ async function _getChunksSharedParticipationsWithUserIdsAndDates(campaignId) {
 
   const userIdsAndDates = results.map((result) => [result.userId, result.sharedAt]);
 
-  return _.chunk(userIdsAndDates, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
+  return _.chunk(userIdsAndDates, CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
 }

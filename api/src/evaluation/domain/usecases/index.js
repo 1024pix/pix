@@ -38,6 +38,7 @@ const dependencies = {
   answerRepository,
   areaRepository,
   assessmentRepository,
+  userRepository: repositories.userRepository,
   autonomousCourseRepository: repositories.autonomousCourseRepository,
   autonomousCourseTargetProfileRepository: repositories.autonomousCourseTargetProfileRepository,
   badgeRepository,

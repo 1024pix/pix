@@ -46,6 +46,7 @@ const uploadSiecleFile = async function ({
       );
     } catch (error) {
       errors.push(error);
+
       throw error;
     } finally {
       organizationImport.upload({ filename, encoding, errors });

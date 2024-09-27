@@ -16,6 +16,9 @@ class DomainTransaction {
     }, transactionConfig);
   }
 
+  /**
+   * @returns {knex}
+   */
   static getConnection() {
     const store = asyncLocalStorage.getStore();
 

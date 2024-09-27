@@ -23,7 +23,7 @@ const SESSION_PROPS = [
   'certificationCandidates',
   'certificationCenterId',
   'assignedCertificationOfficerId',
-  'supervisorPassword',
+  'invigilatorPassword',
   'version',
   'createdBy',
 ];
@@ -217,18 +217,18 @@ describe('Unit | Certification | Session | Domain | Models | SessionManagement',
   });
 
   context('#isSupervisable', function () {
-    it('should return true when the supervisor password match', function () {
+    it('should return true when the invigilator password match', function () {
       // given
       const session = domainBuilder.certification.sessionManagement.buildSession.created();
 
       // when
-      const isSupervisable = session.isSupervisable(session.supervisorPassword);
+      const isSupervisable = session.isSupervisable(session.invigilatorPassword);
 
       // then
       expect(isSupervisable).to.be.true;
     });
 
-    it('should return false when the supervisor password does not match', function () {
+    it('should return false when the invigilator password does not match', function () {
       // given
       const session = domainBuilder.certification.sessionManagement.buildSession.created();
 

@@ -1,3 +1,7 @@
+import _ from 'lodash';
+
+import { AssessmentResult } from '../../../../shared/domain/models/index.js';
+import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { CertificationEligibility, UserCertificationEligibility } from '../read-models/UserCertificationEligibility.js';
 
 const getUserCertificationEligibility = async function ({
@@ -6,6 +10,8 @@ const getUserCertificationEligibility = async function ({
   placementProfileService,
   certificationBadgesService,
   complementaryCertificationCourseRepository,
+  pixCertificationRepository,
+  complementaryCertificationBadgeRepository,
 }) {
   const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate });
   const isCertifiable = placementProfile.isCertifiable();
@@ -14,21 +20,42 @@ const getUserCertificationEligibility = async function ({
     userId,
     limitDate,
   });
+  const complementaryCertificationCourseWithResultsAcquiredByUser =
+    await complementaryCertificationCourseRepository.findByUserId({
+      userId,
+    });
+  const userPixCertifications = await pixCertificationRepository.findByUserId({ userId });
+  const allComplementaryCertificationBadges = await complementaryCertificationBadgeRepository.findAll();
+
   const certificationEligibilities = [];
-  const complementaryCertificationAcquiredByUser = await complementaryCertificationCourseRepository.findByUserId({
-    userId,
-  });
   for (const acquiredBadge of userAcquiredBadges) {
-    const isAcquiredExpectedLevel = _hasAcquiredComplementaryCertificationForExpectedLevel(
-      complementaryCertificationAcquiredByUser,
-      acquiredBadge,
+    const acquiredComplementaryCertificationBadge = allComplementaryCertificationBadges.find(
+      ({ id }) => id === acquiredBadge.complementaryCertificationBadgeId,
     );
+    let areEligibilityConditionsFulfilled = false;
+    const isClea = acquiredBadge.complementaryCertificationKey === ComplementaryCertificationKeys.CLEA;
+    if (isClea) {
+      areEligibilityConditionsFulfilled = isCertifiable;
+    } else {
+      areEligibilityConditionsFulfilled = _checkComplementaryEligibilityConditions(
+        allComplementaryCertificationBadges,
+        userPixCertifications,
+        acquiredComplementaryCertificationBadge.id,
+      );
+    }
 
-    const badgeIsNotOutdated = acquiredBadge.offsetVersion === 0;
+    const isAcquiredExpectedLevel = _hasAcquiredComplementaryCertificationForExpectedLevel(
+      complementaryCertificationCourseWithResultsAcquiredByUser,
+      acquiredComplementaryCertificationBadge,
+    );
     const badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt =
-      acquiredBadge.offsetVersion === 1 && !isAcquiredExpectedLevel;
+      acquiredComplementaryCertificationBadge?.offsetVersion === 1 && !isAcquiredExpectedLevel;
+    const badgeIsNotOutdated = acquiredComplementaryCertificationBadge?.offsetVersion === 0;
 
-    if (badgeIsNotOutdated || badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt) {
+    if (
+      (badgeIsNotOutdated || badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt) &&
+      areEligibilityConditionsFulfilled
+    ) {
       certificationEligibilities.push(
         new CertificationEligibility({
           label: acquiredBadge.complementaryCertificationBadgeLabel,
@@ -47,14 +74,36 @@ const getUserCertificationEligibility = async function ({
   });
 };
 
-function _hasAcquiredComplementaryCertificationForExpectedLevel(
-  complementaryCertificationAcquiredByUser,
-  acquiredBadge,
+function _checkComplementaryEligibilityConditions(
+  allComplementaryCertificationBadges,
+  userPixCertifications,
+  complementaryCertificationBadgeId,
 ) {
-  return complementaryCertificationAcquiredByUser.some(
+  const scoreRequired = allComplementaryCertificationBadges.find(
+    (complementaryCertificationBadge) => complementaryCertificationBadge.id === complementaryCertificationBadgeId,
+  ).requiredPixScore;
+  const validatedUserPixCertifications = userPixCertifications.filter(
+    (pixCertification) =>
+      !pixCertification.isCancelled &&
+      !pixCertification.isRejectedForFraud &&
+      pixCertification.status === AssessmentResult.status.VALIDATED,
+  );
+  if (validatedUserPixCertifications.length === 0) {
+    return false;
+  } else {
+    const highestObtainedScore = _.maxBy(validatedUserPixCertifications, 'pixScore').pixScore;
+    return highestObtainedScore >= scoreRequired;
+  }
+}
+
+function _hasAcquiredComplementaryCertificationForExpectedLevel(
+  complementaryCertificationCourseWithResultsAcquiredByUser,
+  acquiredComplementaryCertificationBadge,
+) {
+  return complementaryCertificationCourseWithResultsAcquiredByUser.some(
     (certificationTakenByUser) =>
       certificationTakenByUser.isAcquiredExpectedLevelByPixSource() &&
-      acquiredBadge.complementaryCertificationBadgeId === certificationTakenByUser.complementaryCertificationBadgeId,
+      acquiredComplementaryCertificationBadge?.id === certificationTakenByUser.complementaryCertificationBadgeId,
   );
 }
 

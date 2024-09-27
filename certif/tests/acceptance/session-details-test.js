@@ -81,7 +81,7 @@ module('Acceptance | Session Details', function (hooks) {
       await click(screen.getByRole('link', { name: 'Revenir à la liste des sessions' }));
 
       // then
-      assert.deepEqual(currentURL(), '/sessions/liste');
+      assert.deepEqual(currentURL(), '/sessions');
     });
 
     test('it should show the number of candidates on tab', async function (assert) {
@@ -126,26 +126,47 @@ module('Acceptance | Session Details', function (hooks) {
 
         assert.dom(screen.getByRole('heading', { name: 'Date', level: 2 })).exists();
         assert.dom(screen.getByText('14:00')).exists();
-
-        assert
-          .dom(screen.getByRole('link', { name: "Télécharger le PV d'incident" }))
-          .hasAttribute('href', 'https://cloud.pix.fr/s/B76yA8ip9Radej9/download');
         assert.dom(screen.getByRole('button', { name: 'Télécharger le kit surveillant' })).exists();
       });
 
-      test('it should show issue report sheet download button', async function (assert) {
-        // given
-        const sessionWithCandidates = server.create('session-enrolment');
-        server.createList('certification-candidate', 3, { isLinked: true, sessionId: 1234321 });
-        server.create('session-management', {
-          id: sessionWithCandidates.id,
+      module('when session is V2', function () {
+        test('it should show the V2 issue report sheet download button', async function (assert) {
+          // given
+          const sessionWithCandidates = server.create('session-enrolment');
+          server.createList('certification-candidate', 3, { isLinked: true, sessionId: 1234321 });
+          server.create('session-management', {
+            id: sessionWithCandidates.id,
+            version: 2,
+          });
+
+          // when
+          const screen = await visit(`/sessions/${sessionWithCandidates.id}`);
+
+          // then
+          assert
+            .dom(screen.getByRole('link', { name: "Télécharger le PV d'incident" }))
+            .hasAttribute('href', 'https://cloud.pix.fr/s/B76yA8ip9Radej9/download');
         });
+      });
 
-        // when
-        const screen = await visit(`/sessions/${sessionWithCandidates.id}`);
+      module('when session is V3', function () {
+        test('it should show the V3 issue report sheet download button', async function (assert) {
+          // given
+          const sessionWithCandidates = server.create('session-enrolment');
+          server.createList('certification-candidate', 3, { isLinked: true, sessionId: 1234321 });
+          server.create('session-management', {
+            id: sessionWithCandidates.id,
+            version: 3,
+          });
 
-        // then
-        assert.dom(screen.getByRole('link', { name: "Télécharger le PV d'incident" })).exists();
+          // when
+          const screen = await visit(`/sessions/${sessionWithCandidates.id}`);
+
+          // then
+          assert
+            .dom(screen.getByRole('link', { name: "Télécharger le PV d'incident" }))
+            .hasAttribute('href', 'https://cloud.pix.fr/s/wJc6N3sZNZRC4MZ/download');
+        });
       });
 
       test('it should show attendance sheet download button when there is one or more candidate', async function (assert) {

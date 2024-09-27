@@ -125,6 +125,7 @@ const findProfilesCollectionResultDataByCampaignId = async function (campaignId)
       'view-active-organization-learners.group',
       'view-active-organization-learners.firstName',
       'view-active-organization-learners.lastName',
+      'view-active-organization-learners.attributes',
     ])
     .join(
       'view-active-organization-learners',
@@ -152,6 +153,7 @@ function _rowToResult(row) {
     participantFirstName: row.firstName,
     participantLastName: row.lastName,
     division: row.division,
+    additionalInfos: row.attributes,
     pixScore: row.pixScore,
     group: row.group,
   };

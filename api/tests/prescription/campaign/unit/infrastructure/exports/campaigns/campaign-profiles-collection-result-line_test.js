@@ -48,6 +48,103 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
       ];
     });
 
+    context('additional infos context', function () {
+      it('should return additional infos when available', async function () {
+        //given
+        sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
+        sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
+
+        campaign.id = 123;
+        campaign.code = 'ABCDEF';
+        campaign.name = 'test';
+        organization.name = 'Umbrella';
+
+        const campaignParticipationResultData = {
+          id: 1,
+          isShared: true,
+          isCompleted: true,
+          createdAt: new Date('2019-02-25T10:00:00Z'),
+          sharedAt: new Date('2019-03-01T23:04:05Z'),
+          userId: 123,
+          participantFirstName: 'Juan',
+          participantLastName: 'Carlitos',
+          pixScore: 13,
+          additionalInfos: { hobby: 'genky' },
+        };
+
+        const csvExcpectedLine =
+          `"${organization.name}";` +
+          `${campaign.id};` +
+          `"${campaign.code}";` +
+          `"${campaign.name}";` +
+          `"${campaignParticipationResultData.participantLastName}";` +
+          `"${campaignParticipationResultData.participantFirstName}";` +
+          `"${campaignParticipationResultData.additionalInfos.hobby}";` +
+          '"Oui";' +
+          '2019-03-01;' +
+          '13;' +
+          '"Non";' +
+          '0;' +
+          '1;' +
+          '9;' +
+          '0;' +
+          '4' +
+          '\n';
+
+        //when
+        const line = new CampaignProfilesCollectionResultLine({
+          campaign,
+          organization,
+          campaignParticipationResult: campaignParticipationResultData,
+          competences,
+          placementProfile,
+          translate,
+          additionalHeaders: [{ columnName: 'hobby' }],
+        });
+
+        //then
+        expect(line.toCsvLine()).to.equal(csvExcpectedLine);
+      });
+
+      it('should not return additional infos when nothing given', async function () {
+        //given
+        sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
+        sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
+
+        campaign.id = 123;
+        campaign.code = 'ABCDEF';
+        campaign.name = 'test';
+        organization.name = 'Umbrella';
+
+        const campaignParticipationResultData = {
+          id: 1,
+          isShared: true,
+          isCompleted: true,
+          createdAt: new Date('2019-02-25T10:00:00Z'),
+          sharedAt: new Date('2019-03-01T23:04:05Z'),
+          userId: 123,
+          participantFirstName: 'Juan',
+          participantLastName: 'Carlitos',
+          pixScore: 13,
+          additionalInfos: { hobby: 'genky' },
+        };
+
+        //when
+        const line = new CampaignProfilesCollectionResultLine({
+          campaign,
+          organization,
+          campaignParticipationResult: campaignParticipationResultData,
+          competences,
+          placementProfile,
+          translate,
+          additionalHeaders: [],
+        });
+
+        //then
+        expect(line.toCsvLine()).to.not.include('"genky"');
+      });
+    });
+
     context('when user share his result', function () {
       it('should return the complete line with 0 certifiable competence and non certifiable', async function () {
         //given
@@ -90,14 +187,15 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           '\n';
 
         //when
-        const line = new CampaignProfilesCollectionResultLine(
+        const line = new CampaignProfilesCollectionResultLine({
           campaign,
           organization,
-          campaignParticipationResultData,
+          campaignParticipationResult: campaignParticipationResultData,
           competences,
           placementProfile,
           translate,
-        );
+          additionalHeaders: [],
+        });
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -144,14 +242,15 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           '\n';
 
         //when
-        const line = new CampaignProfilesCollectionResultLine(
+        const line = new CampaignProfilesCollectionResultLine({
           campaign,
           organization,
-          campaignParticipationResultData,
+          campaignParticipationResult: campaignParticipationResultData,
           competences,
           placementProfile,
           translate,
-        );
+          additionalHeaders: [],
+        });
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -200,14 +299,15 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           '\n';
 
         //when
-        const line = new CampaignProfilesCollectionResultLine(
+        const line = new CampaignProfilesCollectionResultLine({
           campaign,
           organization,
-          campaignParticipationResultData,
+          campaignParticipationResult: campaignParticipationResultData,
           competences,
           placementProfile,
           translate,
-        );
+          additionalHeaders: [],
+        });
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -261,14 +361,15 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           '\n';
 
         //when
-        const line = new CampaignProfilesCollectionResultLine(
+        const line = new CampaignProfilesCollectionResultLine({
           campaign,
           organization,
-          campaignParticipationResultData,
+          campaignParticipationResult: campaignParticipationResultData,
           competences,
           placementProfile,
           translate,
-        );
+          additionalHeaders: [],
+        });
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -324,14 +425,15 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           '\n';
 
         //when
-        const line = new CampaignProfilesCollectionResultLine(
+        const line = new CampaignProfilesCollectionResultLine({
           campaign,
           organization,
-          campaignParticipationResultData,
+          campaignParticipationResult: campaignParticipationResultData,
           competences,
           placementProfile,
           translate,
-        );
+          additionalHeaders: [],
+        });
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -388,14 +490,15 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             '\n';
 
           //when
-          const line = new CampaignProfilesCollectionResultLine(
+          const line = new CampaignProfilesCollectionResultLine({
             campaign,
             organization,
-            campaignParticipationResultData,
+            campaignParticipationResult: campaignParticipationResultData,
             competences,
             placementProfile,
             translate,
-          );
+            additionalHeaders: [],
+          });
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -446,14 +549,15 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             '\n';
 
           //when
-          const line = new CampaignProfilesCollectionResultLine(
+          const line = new CampaignProfilesCollectionResultLine({
             campaign,
             organization,
-            campaignParticipationResultData,
+            campaignParticipationResult: campaignParticipationResultData,
             competences,
             placementProfile,
             translate,
-          );
+            additionalHeaders: [],
+          });
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -510,14 +614,15 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             '\n';
 
           //when
-          const line = new CampaignProfilesCollectionResultLine(
+          const line = new CampaignProfilesCollectionResultLine({
             campaign,
             organization,
-            campaignParticipationResultData,
+            campaignParticipationResult: campaignParticipationResultData,
             competences,
             placementProfile,
             translate,
-          );
+            additionalHeaders: [],
+          });
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -577,14 +682,15 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             '\n';
 
           //when
-          const line = new CampaignProfilesCollectionResultLine(
+          const line = new CampaignProfilesCollectionResultLine({
             campaign,
             organization,
-            campaignParticipationResultData,
+            campaignParticipationResult: campaignParticipationResultData,
             competences,
             placementProfile,
             translate,
-          );
+            additionalHeaders: [],
+          });
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -637,14 +743,15 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             '\n';
 
           //when
-          const line = new CampaignProfilesCollectionResultLine(
+          const line = new CampaignProfilesCollectionResultLine({
             campaign,
             organization,
-            campaignParticipationResultData,
+            campaignParticipationResult: campaignParticipationResultData,
             competences,
             placementProfile,
             translate,
-          );
+            additionalHeaders: [],
+          });
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -697,14 +804,15 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             '\n';
 
           //when
-          const line = new CampaignProfilesCollectionResultLine(
+          const line = new CampaignProfilesCollectionResultLine({
             campaign,
             organization,
-            campaignParticipationResultData,
+            campaignParticipationResult: campaignParticipationResultData,
             competences,
             placementProfile,
             translate,
-          );
+            additionalHeaders: [],
+          });
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -761,14 +869,15 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             '\n';
 
           //when
-          const line = new CampaignProfilesCollectionResultLine(
+          const line = new CampaignProfilesCollectionResultLine({
             campaign,
             organization,
-            campaignParticipationResultData,
+            campaignParticipationResult: campaignParticipationResultData,
             competences,
             placementProfile,
             translate,
-          );
+            additionalHeaders: [],
+          });
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);

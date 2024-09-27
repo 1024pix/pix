@@ -8,7 +8,7 @@ const buildSessionForInvigilatorKit = function ({
   room = '28D',
   time = '14:30',
   accessCode = 'C3H6KL',
-  invigilatorPassword = '3LME8',
+  invigilatorPassword = '3LME8A',
   version = 2,
 } = {}) {
   return new SessionForInvigilatorKit({

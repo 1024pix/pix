@@ -3,6 +3,7 @@ import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { filterType } from '../../shared/domain/types/identifiers-type.js';
 import { supLearnerListController } from './sup-learner-list-controller.js';
 
 const register = async function (server) {
@@ -27,7 +28,7 @@ const register = async function (server) {
               number: Joi.number().integer().empty(''),
             }),
             filter: Joi.object({
-              certificability: [Joi.string(), Joi.array().items(Joi.string())],
+              certificability: [filterType.certificability, Joi.array().items(filterType.certificability)],
               groups: [Joi.string(), Joi.array().items(Joi.string())],
               search: Joi.string().empty(''),
               studentNumber: Joi.string().empty(''),

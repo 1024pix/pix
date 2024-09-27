@@ -1,6 +1,8 @@
+import { services } from '../../../../../src/certification/enrolment/application/services/index.js';
 import { sessionController } from '../../../../../src/certification/enrolment/application/session-controller.js';
 import { SessionEnrolment } from '../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { usecases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
+import { normalize } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Certification | Enrolment | Unit | Application | Controller | session-controller', function () {
@@ -179,6 +181,67 @@ describe('Certification | Enrolment | Unit | Application | Controller | session-
 
         // then
         expect(response).to.deep.equal(serializedSession);
+      });
+    });
+  });
+
+  describe('#createCandidateParticipation', function () {
+    it('should return candidate information', async function () {
+      // given
+      const sessionId = 123;
+      const userId = 274939274;
+      const firstName = 'Jeanne';
+      const lastName = 'Serge';
+      const birthdate = '2020-10-10';
+
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              'first-name': firstName,
+              'last-name': lastName,
+              birthdate,
+            },
+          },
+        },
+        auth: { credentials: { userId } },
+        params: { sessionId },
+      };
+      const candidate = {
+        firstName,
+        lastName,
+        birthdate,
+        sessionId,
+        hasSeenCertificationInstructions: false,
+      };
+
+      sinon.stub(services, 'registerCandidateParticipation');
+      services.registerCandidateParticipation
+        .withArgs({
+          userId,
+          sessionId,
+          firstName,
+          lastName,
+          birthdate,
+          normalizeStringFnc: normalize,
+        })
+        .resolves(candidate);
+
+      // when
+      const response = await sessionController.createCandidateParticipation(request, hFake);
+
+      // then
+      expect(response.source).to.deep.equal({
+        data: {
+          attributes: {
+            birthdate,
+            'first-name': firstName,
+            'has-seen-certification-instructions': false,
+            'last-name': lastName,
+            'session-id': sessionId,
+          },
+          type: 'certification-candidates',
+        },
       });
     });
   });

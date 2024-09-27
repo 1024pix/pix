@@ -1,8 +1,9 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { BookshelfUser } from '../../../../src/shared/infrastructure/orm-models/User.js';
+import * as organizationFeaturesApi from '../../../organizational-entities/application/api/organization-features-api.js';
 import { Organization } from '../../../organizational-entities/domain/models/Organization.js';
 import { OrganizationLearnerForAdmin } from '../../../prescription/learner-management/domain/read-models/OrganizationLearnerForAdmin.js';
-import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
+import * as organizationLearnerImportFormatRepository from '../../../prescription/learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import {
   AlreadyExistingEntityError,
@@ -137,18 +138,19 @@ const getUserDetailsForAdmin = async function (userId) {
       'view-active-organization-learners.*',
       'organizations.name AS organizationName',
       'organizations.isManagingStudents AS organizationIsManagingStudents',
-      knex.raw('CASE WHEN features.key IS NULL THEN False ELSE True END AS "hasImportFeature"'),
     ])
     .join('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
-    .leftJoin('organization-features', 'organization-features.organizationId', 'organizations.id')
-    .leftJoin('features', function () {
-      this.on('features.id', 'organization-features.featureId').andOnVal(
-        'features.key',
-        ORGANIZATION_FEATURE.LEARNER_IMPORT.key,
-      );
-    })
     .where({ userId })
     .orderBy('id');
+
+  for (const learner of organizationLearnersDTO) {
+    const features = await organizationFeaturesApi.getAllFeaturesFromOrganization(learner.organizationId);
+    learner.hasImportFeature = features.hasLearnersImportFeature;
+    if (learner.hasImportFeature) {
+      const importFormat = await organizationLearnerImportFormatRepository.get(learner.organizationId);
+      learner.additionalColumns = importFormat.extraColumns;
+    }
+  }
 
   const pixAdminRolesDTO = await knex('pix-admin-roles').where({ userId });
 
@@ -510,6 +512,8 @@ function _fromKnexDTOToUserDetailsForAdmin({
         isDisabled: organizationLearnerDTO.isDisabled,
         organizationIsManagingStudents:
           organizationLearnerDTO.organizationIsManagingStudents || organizationLearnerDTO.hasImportFeature,
+        additionalInformations: organizationLearnerDTO.attributes,
+        additionalColumns: organizationLearnerDTO.additionalColumns,
       }),
   );
   const userLogin = new UserLogin({

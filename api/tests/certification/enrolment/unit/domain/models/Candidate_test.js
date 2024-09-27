@@ -76,25 +76,18 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     });
   });
 
-  context('link', function () {
-    it('should link candidate to user', function () {
+  context('reconcile', function () {
+    it('should link candidate to a user', function () {
       // given
-      const createdAt = new Date();
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        userId: null,
-        createdAt,
-      });
+      const userId = 123;
+      const candidate = domainBuilder.certification.enrolment.buildCandidate();
 
       // when
-      candidate.link(123);
+      candidate.reconcile(userId);
 
       // then
-      expect(candidate).to.deepEqualInstance(
-        domainBuilder.certification.enrolment.buildCandidate({
-          userId: 123,
-          createdAt,
-        }),
-      );
+      expect(candidate.userId).to.equal(userId);
+      expect(candidate.reconciledAt).to.be.instanceOf(Date);
     });
   });
 
@@ -1109,64 +1102,90 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
     });
   });
 
-  context('isLinkedToAUser', function () {
-    it('should return false when candidate is not linked', function () {
+  context('isReconciled', function () {
+    it('should return false when candidate is not reconciled', function () {
       // given
-      const unlinkedCandidate = domainBuilder.certification.enrolment.buildCandidate({
-        userId: null,
+      const notReconciledCandidates = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+          reconciledAt: null,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: 123,
+          reconciledAt: null,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+          reconciledAt: new Date(),
+        }),
+      ];
+
+      notReconciledCandidates.forEach((candidate) => {
+        // when
+        const isReconciled = candidate.isReconciled();
+        // then
+        expect(isReconciled).to.be.false;
       });
-
-      // when
-      const isLinked = unlinkedCandidate.isLinkedToAUser();
-
-      // then
-      expect(isLinked).to.be.false;
     });
 
-    it('should return true when candidate is linked', function () {
+    it('should return true when candidate is reconciled', function () {
       // given
-      const unlinkedCandidate = domainBuilder.certification.enrolment.buildCandidate({
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
         userId: 123,
+        reconciledAt: new Date(),
       });
 
       // when
-      const isLinked = unlinkedCandidate.isLinkedToAUser();
+      const isReconciled = candidate.isReconciled();
 
       // then
-      expect(isLinked).to.be.true;
+      expect(isReconciled).to.be.true;
     });
   });
 
-  context('isLinkedTo', function () {
-    it('should return true when candidate is linked to given userId', function () {
+  context('isReconciledTo', function () {
+    it('should return true when candidate is reconciled to given userId', function () {
       // given
       const userId = 123;
       const candidate = domainBuilder.certification.enrolment.buildCandidate({
         userId,
+        reconciledAt: new Date(),
       });
 
       // when
-      const isLinkedTo = candidate.isLinkedTo(userId);
+      const isReconciledTo = candidate.isReconciledTo(userId);
 
       // then
-      expect(isLinkedTo).to.be.true;
+      expect(isReconciledTo).to.be.true;
     });
 
     it('should return false when candidate is not linked to given userId', function () {
       // given
       const userId = 123;
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        userId: 456,
+      const notReconciledToUser123 = [
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: 456,
+          reconciledAt: new Date(),
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId,
+          reconciledAt: null,
+        }),
+        domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+          reconciledAt: new Date(),
+        }),
+      ];
+
+      notReconciledToUser123.forEach((candidate) => {
+        // when
+        const isReconciledTo = candidate.isReconciledTo(userId);
+        // then
+        expect(isReconciledTo).to.be.false;
       });
-
-      // when
-      const isLinkedTo = candidate.isLinkedTo(userId);
-
-      // then
-      expect(isLinkedTo).to.be.false;
     });
 
-    it('should return false when candidate is not linked to anyone', function () {
+    it('should return false when candidate is not reconciled to anyone', function () {
       // given
       const userId = 123;
       const candidate = domainBuilder.certification.enrolment.buildCandidate({
@@ -1174,10 +1193,10 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
       });
 
       // when
-      const isLinkedTo = candidate.isLinkedTo(userId);
+      const isReconciledTo = candidate.isReconciledTo(userId);
 
       // then
-      expect(isLinkedTo).to.be.false;
+      expect(isReconciledTo).to.be.false;
     });
   });
 
@@ -1194,6 +1213,36 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
 
       // when / then
       expect(candidate.extraTimePercentage).to.equal(0.2);
+    });
+  });
+
+  describe('hasCoreSubscription', function () {
+    it('should return true', function () {
+      // given
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        ...candidateData,
+        subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
+      });
+
+      // when
+      const hasCoreSubscription = candidate.hasCoreSubscription();
+
+      // when / then
+      expect(hasCoreSubscription).to.be.true;
+    });
+
+    it('should return false', function () {
+      // given
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        ...candidateData,
+        subscriptions: [domainBuilder.buildComplementarySubscription({ certificationCandidateId: null })],
+      });
+
+      // when
+      const hasCoreSubscription = candidate.hasCoreSubscription();
+
+      // when / then
+      expect(hasCoreSubscription).to.be.false;
     });
   });
 });

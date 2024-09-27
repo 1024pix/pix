@@ -99,7 +99,10 @@
       "backHome": "Retour à l'accueil"
     },
     "school": {
-      "not-found": "Session inactive ou école non trouvée. Demande de l’aide à ton enseignant pour accéder à tes missions.",
+      "not-found": {
+        "sentence-1": "Session inactive ou école non trouvée.",
+        "sentence-2": "Demande de l’aide à ton enseignant pour accéder à tes missions."
+      },
       "division-list": {
         "page-title": "Liste des classes",
         "welcome": "Bienvenue sur la page de l'école : <strong>{schoolName}</strong><br>Maintenant, choisis ta classe."

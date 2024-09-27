@@ -15,17 +15,10 @@ export default class MissionActivitiesController extends Controller {
   get learnersCount() {
     return this.model.missionLearners.meta.rowCount;
   }
+
   @action
   clearFilters() {
     this.pageNumber = null;
-  }
-
-  statusColor(status) {
-    return {
-      'not-started': 'tertiary',
-      completed: 'success',
-      started: 'secondary',
-    }[status];
   }
 
   @action

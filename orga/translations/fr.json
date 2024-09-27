@@ -66,10 +66,18 @@
       "message": "'<strong>'Certifications :'</strong>' n’oubliez pas de '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finaliser les sessions dans Pix Certif'</a>' puis de télécharger les attestations ici via l'onglet “Certifications” avant la rentrée {year}."
     },
     "import": {
-      "message": "L'administrateur peut télécharger les résultats de certification et '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'importer'</a>' la base élèves, afin de créer les campagnes de rentrée par niveau. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Plus d’info'</a>'"
+      "message": "Les grandes étapes de l’année dans l’enseignement scolaire :",
+      "step1a": "Mettre en place&nbsp;: '<'a href='https://cloud.pix.fr/s/WjTnkSbFs9TDcSC' title='Guide télécharger les résultats' class='link link--banner link--bold link--underlined' '>'télécharger les résultats'</a>' de certification et",
+      "step1b": "importer",
+      "step1c": "la base élèves (admin)",
+      "step2": "'<'a href='https://cloud.pix.fr/s/RaPpKjFHNX2kSR4' title='Guide Lancer les parcours de rentrée' class='link link--banner link--bold link--underlined' '>'Créer les campagnes'</a>' (parcours rentrée, 6e, thématiques, disciplinaires, ciblés…).",
+      "step3": "'<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Guide Préparer et organiser la certification des élèves' class='link link--banner link--bold link--underlined' '>'Certifier les apprenants'</a>'."
     },
     "language-availability": {
       "message": "Votre langue n'est pas encore disponible sur Pix Orga. Pour votre confort, l'application sera présentée en anglais. Toute l'équipe de Pix travaille à l'ajout de votre langue."
+    },
+    "last-places-lot-available": {
+      "message": "Attention, vos places arrivent à échéance dans {days, number} jours."
     },
     "over-capacity": {
       "message": "Attention, vous consommez plus de places que votre capacité totale."
@@ -123,6 +131,11 @@
   "charts": {
     "participants-by-day": {
       "title": "Activité des participants",
+      "captions": {
+        "shared": "Total de participants par jour ayant envoyé leurs résultats par jour",
+        "shared-profile": "Total de participants ayant envoyé leurs profils par jour",
+        "started": "Total de participants par jour"
+      },
       "labels-a11y": {
         "date": "Date",
         "shared": "Total des participants ayant envoyé leurs résultats",
@@ -887,7 +900,7 @@
         "caption": "Liste des missions",
         "empty-state": "Il n'y a pas de missions",
         "headers": {
-          "competences": "Compétences travaillées",
+          "competences": "Compétences du CRCN travaillées",
           "name": "Mission",
           "started-by": "Commencé par"
         },
@@ -936,10 +949,17 @@
               "learners-count": "{count, plural, =0 {Aucun élève} =1 {1 élève} other {{count} élèves}}"
             },
             "headers": {
+              "dare-challenge": "Défi",
               "division": "Classe",
               "first-name": "Prénom",
               "last-name": "Nom",
-              "result": "Positionnement"
+              "result": "Evaluation de la mission",
+              "step": "Etape {number}"
+            },
+            "mission-dare-result": {
+              "not-reached": "NA",
+              "reached": "A",
+              "undefined": "-"
             },
             "mission-result": {
               "exceeded": "Dépassé",
@@ -948,7 +968,13 @@
               "reached": "Atteint",
               "undefined": "-"
             },
-            "no-data": "Il n'y a aucun participant"
+            "no-data": "Il n'y a aucun participant",
+            "step-result": {
+              "not-reached": "NA",
+              "partially-reached": "PA",
+              "reached": "A",
+              "undefined": "-"
+            }
           }
         },
         "tabs": {
@@ -1141,7 +1167,7 @@
         "table": {
           "title": "Historique d'achat de places",
           "caption": "Tableau listant les achats de places de votre organisation. Pour chaque achat, il indique : le nombre de places, la date d’activation, la date d’expiration ainsi que le statut (actif, à venir ou expiré). Il est ordonné selon le statut des achats et leur date d’expiration.",
-          "empty-state":"Aucune place pour le moment !",
+          "empty-state": "Aucune place pour le moment !",
           "headers": {
             "activation-date": "Date d'activation",
             "count": "Nombre de places",
@@ -1216,6 +1242,7 @@
     "sco-organization-participants": {
       "title": "{count, plural, =0 {Élèves} =1 {Élève ({count})} other {Élèves ({count})}}",
       "action-bar": {
+        "generate-username-password-button": "Générer les identifiants et/ou les mots de passe des élèves sélectionnés",
         "information": "{count, plural, =1 {{count} élève sélectionné} other {{count} élèves sélectionnés}}",
         "reset-password-button": "Réinitialiser les mots de passe des élèves sélectionnés"
       },
@@ -1252,6 +1279,13 @@
           "label": "Rechercher par méthode de connexion"
         },
         "students-count": "{count, plural, =0 {0 élève} =1 {1 élève} other {{count} élèves}}"
+      },
+      "generate-username-password-modal": {
+        "title": "Générer les identifiants et/ou les mots de passe des élèves sélectionnés",
+        "content-message-1": "Les élèves qui ne disposent pas encore d’une méthode de connexion doivent passer par une campagne de votre établissement pour créer leur compte PIX.",
+        "content-message-2": "Un fichier CSV contenant les identifiants ainsi que les mots de passe à usage unique sera généré.",
+        "content-message-3": "Communiquez ces nouveaux mots de passe à usage unique aux élèves. Lorsqu'ils se connecteront avec ce mot de passe, Pix leur demandera d'en saisir un nouveau",
+        "warning-message": "Un identifiant et un mot de passe seront générés pour les élèves ayant un accès au Médiacentre et/ou une adresse e-mail. Les élèves possédant déjà un identifiant verront leur mot de passe réinitialisé."
       },
       "manage-authentication-method-modal": {
         "title": "Gestion du compte Pix de l’élève",

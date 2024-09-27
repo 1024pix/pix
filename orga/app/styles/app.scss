@@ -34,6 +34,7 @@
 @import 'components/layout/sidebar';
 @import 'components/layout/topbar';
 @import 'components/layout/user-logged-menu';
+@import 'components/mission/result-table';
 @import 'components/organization-learner';
 @import 'components/pagination-control';
 @import 'components/participant';
@@ -84,6 +85,9 @@
 @import 'pages/authenticated/team/invitations-list';
 @import 'pages/authenticated/team/new';
 @import 'pages/authenticated/terms-of-service';
+
+/* App/Components */
+@import 'sco-organization-participant/generate-username-password-modal';
 
 body,
 html {

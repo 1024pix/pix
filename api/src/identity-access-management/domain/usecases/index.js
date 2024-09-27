@@ -24,15 +24,16 @@ import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/
 import { accountRecoveryDemandRepository } from '../../infrastructure/repositories/account-recovery-demand.repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method.repository.js';
 import { emailValidationDemandRepository } from '../../infrastructure/repositories/email-validation-demand.repository.js';
+import { eventLoggingJobRepository } from '../../infrastructure/repositories/jobs/event-logging-job.repository.js';
 import { garAnonymizedBatchEventsLoggingJobRepository } from '../../infrastructure/repositories/jobs/gar-anonymized-batch-events-logging-job-repository.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
+import { refreshTokenRepository } from '../../infrastructure/repositories/refresh-token.repository.js';
 import { resetPasswordDemandRepository } from '../../infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../infrastructure/repositories/user.repository.js';
 import { userEmailRepository } from '../../infrastructure/repositories/user-email.repository.js';
 import { userToCreateRepository } from '../../infrastructure/repositories/user-to-create.repository.js';
 import { authenticationSessionService } from '../services/authentication-session.service.js';
 import { pixAuthenticationService } from '../services/pix-authentication-service.js';
-import { refreshTokenService } from '../services/refresh-token-service.js';
 import { resetPasswordService } from '../services/reset-password.service.js';
 import { scoAccountRecoveryService } from '../services/sco-account-recovery.service.js';
 import { addOidcProviderValidator } from '../validators/add-oidc-provider.validator.js';
@@ -45,10 +46,12 @@ const repositories = {
   authenticationMethodRepository,
   campaignParticipationRepository,
   campaignRepository,
-  emailValidationDemandRepository,
   campaignToJoinRepository: campaignRepositories.campaignToJoinRepository,
+  emailValidationDemandRepository,
+  eventLoggingJobRepository,
   oidcProviderRepository,
   organizationLearnerRepository,
+  refreshTokenRepository,
   resetPasswordDemandRepository,
   userEmailRepository,
   userLoginRepository,
@@ -63,7 +66,6 @@ const services = {
   mailService,
   oidcAuthenticationServiceRegistry,
   pixAuthenticationService,
-  refreshTokenService,
   resetPasswordService,
   scoAccountRecoveryService,
   tokenService,

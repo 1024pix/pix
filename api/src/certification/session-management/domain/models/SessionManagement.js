@@ -25,7 +25,7 @@ class SessionManagement {
     certificationCandidates,
     certificationCenterId,
     assignedCertificationOfficerId,
-    supervisorPassword,
+    invigilatorPassword,
     version = CERTIFICATION_VERSIONS.V2,
     createdBy,
   } = {}) {
@@ -47,7 +47,7 @@ class SessionManagement {
     this.certificationCandidates = certificationCandidates;
     this.certificationCenterId = certificationCenterId;
     this.assignedCertificationOfficerId = assignedCertificationOfficerId;
-    this.supervisorPassword = supervisorPassword;
+    this.invigilatorPassword = invigilatorPassword;
     this.version = version;
     this.createdBy = createdBy;
   }
@@ -77,8 +77,8 @@ class SessionManagement {
     return this.publishedAt !== null;
   }
 
-  isSupervisable(supervisorPassword) {
-    return this.supervisorPassword === supervisorPassword;
+  isSupervisable(invigilatorPassword) {
+    return this.invigilatorPassword === invigilatorPassword;
   }
 }
 

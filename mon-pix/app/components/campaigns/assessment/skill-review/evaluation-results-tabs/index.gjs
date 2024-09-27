@@ -47,18 +47,22 @@ export default class EvaluationResultsTabs extends Component {
             </Panel>
           {{/if}}
           <Panel @index={{1}}>
-            <ResultsDetails />
+            <ResultsDetails @competenceResults={{@competenceResults}} @totalStage={{@totalStage}} />
           </Panel>
           {{#if this.showTrainingsTab}}
             <Panel @index={{2}}>
-              <Trainings />
+              <Trainings
+                @trainings={{@trainings}}
+                @isParticipationShared={{@isParticipationShared}}
+                @campaignParticipationResultId={{@campaignParticipationResultId}}
+              />
             </Panel>
           {{/if}}
         </:panels>
       </Tabs>
     {{else}}
       <section class="evaluation-results-tabs">
-        <ResultsDetails />
+        <ResultsDetails @competenceResults={{@competenceResults}} @totalStage={{@totalStage}} />
       </section>
     {{/if}}
   </template>

@@ -269,6 +269,47 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
     });
   });
 
+  describe('#findPaginatedFilteredTargetProfileSummariesForAdmin', function () {
+    it('should fetch and return serialized paginated filtered target profiles', async function () {
+      // given
+      const models = [{ name: Symbol('targetProfileSummariesName') }];
+      const meta = Symbol('meta');
+      const filter = Symbol('filter');
+      const page = { size: 2, number: 1 };
+      const useCaseParameters = { filter, page };
+      const expectedResult = Symbol('serialized-paginated-filtered-target-profile-summaries');
+
+      sinon.stub(prescriptionTargetProfileUsecases, 'findPaginatedFilteredTargetProfileSummariesForAdmin').resolves({
+        models,
+        meta,
+      });
+
+      const targetProfileSummaryForAdminSerializer = {
+        serialize: sinon.stub(),
+      };
+
+      targetProfileSummaryForAdminSerializer.serialize.withArgs(models, meta).returns(expectedResult);
+
+      // when
+      const response = await targetProfileController.findPaginatedFilteredTargetProfileSummariesForAdmin(
+        {
+          query: useCaseParameters,
+        },
+        hFake,
+        { targetProfileSummaryForAdminSerializer },
+      );
+
+      // then
+      expect(
+        prescriptionTargetProfileUsecases.findPaginatedFilteredTargetProfileSummariesForAdmin,
+      ).to.have.been.calledWithExactly(useCaseParameters);
+      expect(response).to.deep.equal({
+        meta: {},
+        data: [{ attributes: models[0], type: 'target-profile-summaries' }],
+      });
+    });
+  });
+
   describe('#findTargetProfileSummariesForAdmin', function () {
     it('should return serialized summaries', async function () {
       // given

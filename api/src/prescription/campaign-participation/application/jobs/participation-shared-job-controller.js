@@ -7,10 +7,6 @@ export class ParticipationSharedJobController extends JobController {
     super(ParticipationSharedJob.name);
   }
 
-  get legacyName() {
-    return 'SendSharedParticipationResultsToPoleEmploiJob';
-  }
-
   async handle({ data }) {
     const { campaignParticipationId } = data;
 

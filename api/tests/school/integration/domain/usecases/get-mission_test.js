@@ -13,6 +13,14 @@ describe('Integration | UseCase | getMission', function () {
       status: 'a status',
       learningObjectives_i18n: { fr: 'Il était une fois' },
       validatedObjectives_i18n: { fr: 'Bravo ! tu as réussi !' },
+      content: {
+        steps: [
+          {
+            name_i18n: { fr: 'truc' },
+          },
+        ],
+        dareChallenges: [],
+      },
     });
 
     const area = learningContentBuilder.buildArea({
@@ -39,6 +47,14 @@ describe('Integration | UseCase | getMission', function () {
       learningObjectives: 'Il était une fois',
       validatedObjectives: 'Bravo ! tu as réussi !',
       startedBy: '',
+      content: {
+        steps: [
+          {
+            name: 'truc',
+          },
+        ],
+        dareChallenges: [],
+      },
     });
 
     const returnedMission = await usecases.getMission({

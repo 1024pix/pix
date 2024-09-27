@@ -1,5 +1,6 @@
 import { setupTest } from 'ember-qunit';
 import extraFilterSerializer from 'pix-orga/utils/extra-filter-serializer.js';
+import paramsValidator from 'pix-orga/utils/params-validator.js';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -9,7 +10,7 @@ module('Unit | Route | authenticated/organization-participants/list', function (
   let store;
   const organizationParticipantSymbol = Symbol('organization-participant');
   const fullNameSymbol = Symbol('fullName');
-  const certificabilitySymbol = Symbol('certificability');
+  const certificabilitySymbol = [Symbol('certificability')];
   const extraFiltersSymbol = Symbol('extraFilters');
   const decodedExtraFiltersSymbol = Symbol('decodedExtraFilters');
   const encodedExtraFiltersSymbol = Symbol('encodedExtraFilters');
@@ -40,6 +41,7 @@ module('Unit | Route | authenticated/organization-participants/list', function (
       .stub(extraFilterSerializer, 'decodeExtraFilters')
       .withArgs(extraFiltersSymbol)
       .returns(decodedExtraFiltersSymbol);
+    sinon.stub(paramsValidator, 'validateCertificabilityParams').withArgs(params).returns(params);
 
     sinon
       .stub(store, 'query')

@@ -3,9 +3,10 @@ import { userAnonymizedEventLoggingJobRepository } from '../../../../../lib/infr
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
+import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
 import { UserAnonymizedEventLoggingJob } from '../../../../../src/identity-access-management/domain/models/UserAnonymizedEventLoggingJob.js';
-import { refreshTokenService } from '../../../../../src/identity-access-management/domain/services/refresh-token-service.js';
 import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
+import { refreshTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { resetPasswordDemandRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/reset-password-demand.repository.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { config } from '../../../../../src/shared/config.js';
@@ -63,7 +64,8 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
 
     await databaseBuilder.commit();
 
-    await refreshTokenService.createRefreshTokenFromUserId({ userId, source: 'pix' });
+    const refreshToken = RefreshToken.generate({ userId, source: 'pix' });
+    await refreshTokenRepository.save({ refreshToken });
 
     // when
     await DomainTransaction.execute(async (domainTransaction) =>
@@ -73,7 +75,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
         userRepository,
         userLoginRepository,
         authenticationMethodRepository,
-        refreshTokenService,
+        refreshTokenRepository,
         membershipRepository,
         certificationCenterMembershipRepository,
         organizationLearnerRepository,
@@ -96,7 +98,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
     const authenticationMethods = await knex('authentication-methods').where({ userId });
     expect(authenticationMethods).to.have.length(0);
 
-    const refreshTokens = await refreshTokenService.findByUserId(userId);
+    const refreshTokens = await refreshTokenRepository.findAllByUserId(userId);
     expect(refreshTokens).to.have.length(0);
 
     const resetPasswordDemands = await knex('reset-password-demands').whereRaw('LOWER("email") = LOWER(?)', user.email);
@@ -158,7 +160,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
           userRepository,
           userLoginRepository,
           authenticationMethodRepository,
-          refreshTokenService,
+          refreshTokenRepository,
           membershipRepository,
           certificationCenterMembershipRepository,
           organizationLearnerRepository,
@@ -191,7 +193,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
           userRepository,
           userLoginRepository,
           authenticationMethodRepository,
-          refreshTokenService,
+          refreshTokenRepository,
           membershipRepository,
           certificationCenterMembershipRepository,
           organizationLearnerRepository,
@@ -224,7 +226,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
           userRepository,
           userLoginRepository,
           authenticationMethodRepository,
-          refreshTokenService,
+          refreshTokenRepository,
           membershipRepository,
           certificationCenterMembershipRepository,
           organizationLearnerRepository,
@@ -262,7 +264,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
             userRepository,
             userLoginRepository,
             authenticationMethodRepository,
-            refreshTokenService,
+            refreshTokenRepository,
             membershipRepository,
             certificationCenterMembershipRepository,
             organizationLearnerRepository,
@@ -301,7 +303,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
             userRepository,
             userLoginRepository,
             authenticationMethodRepository,
-            refreshTokenService,
+            refreshTokenRepository,
             membershipRepository,
             certificationCenterMembershipRepository,
             organizationLearnerRepository,
@@ -343,7 +345,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
             userRepository,
             userLoginRepository,
             authenticationMethodRepository,
-            refreshTokenService,
+            refreshTokenRepository,
             membershipRepository,
             certificationCenterMembershipRepository,
             organizationLearnerRepository,
@@ -392,8 +394,6 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
 
       await databaseBuilder.commit();
 
-      await refreshTokenService.createRefreshTokenFromUserId({ userId, source: 'pix' });
-
       sinon.stub(config.auditLogger, 'isEnabled').value(false);
 
       // when
@@ -404,7 +404,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | anonymiz
           userRepository,
           userLoginRepository,
           authenticationMethodRepository,
-          refreshTokenService,
+          refreshTokenRepository,
           membershipRepository,
           certificationCenterMembershipRepository,
           organizationLearnerRepository,

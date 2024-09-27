@@ -242,11 +242,15 @@ const update = async function ({ id, authenticationComplement }) {
   await knex(AUTHENTICATION_METHODS_TABLE).where({ id }).update({ authenticationComplement, updatedAt: new Date() });
 };
 
-const batchUpdatePasswordThatShouldBeChanged = function ({ usersToUpdateWithNewPassword }) {
+const batchUpsertPasswordThatShouldBeChanged = function ({ usersToUpdateWithNewPassword }) {
   return Promise.all(
-    usersToUpdateWithNewPassword.map(({ userId, hashedPassword }) =>
-      updatePasswordThatShouldBeChanged({ userId, hashedPassword }),
-    ),
+    usersToUpdateWithNewPassword.map(async ({ userId, hashedPassword }) => {
+      if (await hasIdentityProviderPIX({ userId })) {
+        return updatePasswordThatShouldBeChanged({ userId, hashedPassword });
+      } else {
+        return createPasswordThatShouldBeChanged({ userId, hashedPassword });
+      }
+    }),
   );
 };
 
@@ -273,7 +277,7 @@ const anonymizeByUserIds = async function ({ userIds }) {
 
 /**
  * @typedef {Object} AuthenticationMethodRepository
- * @property {function} batchUpdatePasswordThatShouldBeChanged
+ * @property {function} batchUpsertPasswordThatShouldBeChanged
  * @property {function} create
  * @property {function} createPasswordThatShouldBeChanged
  * @property {function} findByUserId
@@ -293,7 +297,7 @@ const anonymizeByUserIds = async function ({ userIds }) {
  */
 export {
   anonymizeByUserIds,
-  batchUpdatePasswordThatShouldBeChanged,
+  batchUpsertPasswordThatShouldBeChanged,
   create,
   createPasswordThatShouldBeChanged,
   findByUserId,

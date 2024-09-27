@@ -6,7 +6,7 @@ import * as membershipRepository from '../../../../lib/infrastructure/repositori
 import * as sharedMembershipRepository from '../../../../src/shared/infrastructure/repositories/membership-repository.js';
 import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import * as certificationCenterRepository from '../../../certification/shared/infrastructure/repositories/certification-center-repository.js';
-import { refreshTokenService } from '../../../identity-access-management/domain/services/refresh-token-service.js';
+import { refreshTokenRepository } from '../../../identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import * as userRepository from '../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import { adminMemberRepository } from '../../../shared/infrastructure/repositories/admin-member.repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
@@ -38,7 +38,7 @@ const dependencies = {
   organizationInvitationRepository,
   organizationInvitedUserRepository,
   organizationRepository,
-  refreshTokenService,
+  refreshTokenRepository,
   sharedMembershipRepository,
   userRepository,
 };

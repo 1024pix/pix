@@ -10,7 +10,6 @@ import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as campaignParticipationOverviewSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
 import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
 import * as participantResultSerializer from '../../infrastructure/serializers/jsonapi/participant-result-serializer.js';
-import * as profileSerializer from '../../infrastructure/serializers/jsonapi/profile-serializer.js';
 import * as sharedProfileForCampaignSerializer from '../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer.js';
 import * as userAnonymizedDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js';
 import * as userDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer.js';
@@ -49,13 +48,6 @@ const rememberUserHasSeenNewDashboardInfo = async function (request, h, dependen
   const authenticatedUserId = request.auth.credentials.userId;
 
   const updatedUser = await usecases.rememberUserHasSeenNewDashboardInfo({ userId: authenticatedUserId });
-  return dependencies.userSerializer.serialize(updatedUser);
-};
-
-const rememberUserHasSeenLevelSevenInfo = async function (request, h, dependencies = { userSerializer }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-
-  const updatedUser = await usecases.rememberUserHasSeenLevelSevenInfo({ userId: authenticatedUserId });
   return dependencies.userSerializer.serialize(updatedUser);
 };
 
@@ -117,22 +109,6 @@ const getCampaignParticipationOverviews = async function (
   return dependencies.campaignParticipationOverviewSerializer.serializeForPaginatedList(
     userCampaignParticipationOverviews,
   );
-};
-
-const getProfile = function (request, h, dependencies = { profileSerializer, requestResponseUtils }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
-
-  return usecases
-    .getUserProfile({ userId: authenticatedUserId, locale })
-    .then(dependencies.profileSerializer.serialize);
-};
-
-const getProfileForAdmin = function (request, h, dependencies = { profileSerializer, requestResponseUtils }) {
-  const userId = request.params.id;
-  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
-
-  return usecases.getUserProfile({ userId, locale }).then(dependencies.profileSerializer.serialize);
 };
 
 const resetScorecard = function (request, h, dependencies = { scorecardSerializer, requestResponseUtils }) {
@@ -286,8 +262,6 @@ const userController = {
   findUserOrganizationsForAdmin,
   getCampaignParticipationOverviews,
   getCampaignParticipations,
-  getProfile,
-  getProfileForAdmin,
   getUserCampaignAssessmentResult,
   getUserCampaignParticipationToCampaign,
   getUserDetailsForAdmin,
@@ -295,7 +269,6 @@ const userController = {
   reassignAuthenticationMethods,
   rememberUserHasSeenAssessmentInstructions,
   rememberUserHasSeenChallengeTooltip,
-  rememberUserHasSeenLevelSevenInfo,
   rememberUserHasSeenNewDashboardInfo,
   removeAuthenticationMethod,
   resetScorecard,

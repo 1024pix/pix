@@ -2,11 +2,17 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-man
 import { Membership } from '../../../../src/shared/domain/models/Membership.js';
 import { PIX_PUBLIC_TARGET_PROFILE_ID, REAL_PIX_SUPER_ADMIN_ID } from '../common/constants.js';
 import { PIX_ORGA_ADMIN_LEAVING_ID, PIX_ORGA_ALL_ORGA_ID } from './build-organization-users.js';
-import { ACCESS_SCO_BAUDELAIRE_EXTERNAL_ID, SCO_ORGANIZATION_ID } from './constants.js';
+import {
+  ACCESS_SCO_BAUDELAIRE_EXTERNAL_ID,
+  ACCESS_SCO_NO_GAR_EXTERNAL_ID,
+  SCO_NO_GAR_ORGANIZATION_ID,
+  SCO_ORGANIZATION_ID,
+} from './constants.js';
 
 export function buildScoOrganizations(databaseBuilder) {
   _buildCollegeHouseOfTheDragonOrganization(databaseBuilder);
   _buildJosephineBaker(databaseBuilder);
+  _buildScoManagingStudentsNoGarOrganization(databaseBuilder);
 }
 
 function _buildCollegeHouseOfTheDragonOrganization(databaseBuilder) {
@@ -74,6 +80,28 @@ function _buildJosephineBaker(databaseBuilder) {
     documentationUrl: 'https://pix.fr/',
     provinceCode: '13',
     identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+    createdBy: REAL_PIX_SUPER_ADMIN_ID,
+  });
+
+  [
+    {
+      userId: PIX_ORGA_ALL_ORGA_ID,
+      organizationId: organization.id,
+      organizationRole: Membership.roles.ADMIN,
+    },
+  ].forEach(_buildAdminMembership(databaseBuilder));
+}
+
+function _buildScoManagingStudentsNoGarOrganization(databaseBuilder) {
+  const organization = databaseBuilder.factory.buildOrganization({
+    id: SCO_NO_GAR_ORGANIZATION_ID,
+    type: 'SCO',
+    name: 'Lycée pas-GAR',
+    isManagingStudents: true,
+    email: 'pas.gar@example.net',
+    externalId: ACCESS_SCO_NO_GAR_EXTERNAL_ID,
+    documentationUrl: 'https://pix.fr/',
+    provinceCode: '13',
     createdBy: REAL_PIX_SUPER_ADMIN_ID,
   });
 

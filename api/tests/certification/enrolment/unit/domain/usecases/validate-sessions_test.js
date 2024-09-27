@@ -130,6 +130,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         id: null,
         createdAt: null,
         userId: null,
+        reconciledAt: null,
         billingMode: CertificationCandidate.BILLING_MODES.FREE,
         subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
       });
@@ -139,6 +140,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         id: null,
         createdAt: null,
         userId: null,
+        reconciledAt: null,
         billingMode: CertificationCandidate.BILLING_MODES.FREE,
         subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
       });
@@ -203,13 +205,13 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
             ...expectedSession1,
             certificationCandidates: [candidate1],
             createdBy: undefined,
-            supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
+            invigilatorPassword: sinon.match.string,
           }),
           sinon.match({
             ...expectedSession2,
             certificationCandidates: [candidate2],
             createdBy: undefined,
-            supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
+            invigilatorPassword: sinon.match.string,
           }),
         ],
         userId,
@@ -232,6 +234,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           id: null,
           createdAt: null,
           userId: null,
+          reconciledAt: null,
           billingMode: CertificationCandidate.BILLING_MODES.FREE,
           subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
@@ -241,6 +244,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           id: null,
           createdAt: null,
           userId: null,
+          reconciledAt: null,
           billingMode: CertificationCandidate.BILLING_MODES.FREE,
           subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
@@ -250,6 +254,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           id: null,
           createdAt: null,
           userId: null,
+          reconciledAt: null,
           billingMode: CertificationCandidate.BILLING_MODES.FREE,
           subscriptions: [domainBuilder.buildCoreSubscription({ certificationCandidateId: null })],
         });
@@ -326,13 +331,13 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
               ...expectedSession1,
               certificationCandidates: [candidate1],
               createdBy: undefined,
-              supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
+              invigilatorPassword: sinon.match.string,
             }),
             sinon.match({
               ...expectedSession2,
               certificationCandidates: [candidate2, candidate3],
               createdBy: undefined,
-              supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
+              invigilatorPassword: sinon.match.string,
             }),
           ],
           userId,

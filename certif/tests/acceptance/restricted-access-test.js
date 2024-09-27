@@ -33,7 +33,7 @@ module('Acceptance | Restricted access', function (hooks) {
     });
 
     module('when current certification center is not blocked', function () {
-      test('should redirect to sessions/liste', async function (assert) {
+      test('should redirect to sessions', async function (assert) {
         // given
         const notBlockedCertificationCenterAccess = server.create('allowed-certification-center-access', {
           type: 'SCO',
@@ -49,7 +49,7 @@ module('Acceptance | Restricted access', function (hooks) {
         await visitScreen('/espace-ferme');
 
         // then
-        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.strictEqual(currentURL(), '/sessions');
       });
     });
 

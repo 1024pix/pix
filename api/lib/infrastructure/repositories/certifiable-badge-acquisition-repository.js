@@ -12,13 +12,6 @@ const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
 const findHighestCertifiable = async function ({ userId, limitDate = new Date() }) {
   const knexConn = DomainTransaction.getConnection();
   const certifiableBadgeAcquisitions = await knexConn
-    .with(
-      'complementary-badges-with-version',
-      knex.raw(`
-      select *, (rank() over (partition by "complementaryCertificationId", "level" ORDER BY "detachedAt" DESC NULLS FIRST)) - 1 as "offsetVersion"
-from "complementary-certification-badges"
-      `),
-    )
     .with('user-badges', (qb) => {
       qb.from(BADGE_ACQUISITIONS_TABLE)
         .select({
@@ -26,16 +19,15 @@ from "complementary-certification-badges"
           key: 'badges.key',
           acquiredAt: 'badge-acquisitions.createdAt',
           campaignParticipationId: 'badge-acquisitions.campaignParticipationId',
-          complementaryCertificationId: 'complementary-badges-with-version.complementaryCertificationId',
-          complementaryCertificationBadgeId: 'complementary-badges-with-version.id',
-          complementaryCertificationBadgeImageUrl: 'complementary-badges-with-version.imageUrl',
-          complementaryCertificationBadgeLabel: 'complementary-badges-with-version.label',
-          complementaryCertificationBadgeLevel: 'complementary-badges-with-version.level',
-          complementaryCertificationBadgeDetachedAt: 'complementary-badges-with-version.detachedAt',
-          complementaryCertificationBadgeOffsetVersion: 'complementary-badges-with-version.offsetVersion',
+          complementaryCertificationId: 'complementary-certification-badges.complementaryCertificationId',
+          complementaryCertificationBadgeId: 'complementary-certification-badges.id',
+          complementaryCertificationBadgeImageUrl: 'complementary-certification-badges.imageUrl',
+          complementaryCertificationBadgeLabel: 'complementary-certification-badges.label',
+          complementaryCertificationBadgeLevel: 'complementary-certification-badges.level',
+          complementaryCertificationBadgeDetachedAt: 'complementary-certification-badges.detachedAt',
         })
         .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
-        .join('complementary-badges-with-version', 'badges.id', 'complementary-badges-with-version.badgeId')
+        .join('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
         .where('badge-acquisitions.createdAt', '<=', limitDate)
         .where({
           'badge-acquisitions.userId': userId,
@@ -60,7 +52,6 @@ from "complementary-certification-badges"
       complementaryCertificationBadgeLabel: 'user-badges.complementaryCertificationBadgeLabel',
       complementaryCertificationBadgeLevel: 'user-badges.complementaryCertificationBadgeLevel',
       complementaryCertificationBadgeDetachedAt: 'user-badges.complementaryCertificationBadgeDetachedAt',
-      complementaryCertificationBadgeOffsetVersion: 'user-badges.complementaryCertificationBadgeOffsetVersion',
     })
     .join('complementary-certifications', 'complementary-certifications.id', 'user-badges.complementaryCertificationId')
     .join('campaign-participations', 'campaign-participations.id', 'user-badges.campaignParticipationId')
@@ -92,7 +83,6 @@ function _toDomain(certifiableBadgeAcquisitionsDto) {
       new CertifiableBadgeAcquisition({
         ...certifiableBadgeAcquisitionDto,
         isOutdated: !!certifiableBadgeAcquisitionDto.complementaryCertificationBadgeDetachedAt,
-        offsetVersion: certifiableBadgeAcquisitionDto.complementaryCertificationBadgeOffsetVersion,
       }),
   );
 }

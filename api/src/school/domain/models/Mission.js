@@ -73,11 +73,12 @@ class MissionContent {
 }
 
 class MissionStep {
-  constructor({ tutorialChallenges = [], trainingChallenges = [], validationChallenges = [] } = {}) {
+  constructor({ name, tutorialChallenges = [], trainingChallenges = [], validationChallenges = [] } = {}) {
+    this.name = name;
     this.tutorialChallenges = tutorialChallenges;
     this.trainingChallenges = trainingChallenges;
     this.validationChallenges = validationChallenges;
   }
 }
 
-export { Mission };
+export { Mission, MissionContent, MissionStep };

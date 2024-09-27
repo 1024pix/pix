@@ -1,5 +1,126 @@
 # Pix Changelog
 
+## v4.218.0 (26/09/2024)
+
+
+### :rocket: Amélioration
+- [#10187](https://github.com/1024pix/pix/pull/10187) [FEATURE] affiche la date de naissance et la classe pour les prescrits venant d'un import à format (Pix-13984).
+- [#10145](https://github.com/1024pix/pix/pull/10145) [FEATURE] exporte les champs supplémentaires fourni lors de l'import (PIX-13695).
+- [#10140](https://github.com/1024pix/pix/pull/10140) [FEATURE] Préparer le template de layout pour la nouvelle mire d'authentification (PIX-13996).
+- [#10180](https://github.com/1024pix/pix/pull/10180) [FEATURE] Supprimer l’info companion actif sur la page de supervision (PIX-14479).
+- [#10174](https://github.com/1024pix/pix/pull/10174) [FEATURE] Supprimer le endpoint de ping Companion dans l’API (PIX-14478).
+- [#10007](https://github.com/1024pix/pix/pull/10007) [FEATURE] Ajouter le contenu de l'onglet Formations (PIX-12986).
+
+### :building_construction: Tech
+- [#10175](https://github.com/1024pix/pix/pull/10175) [TECH] Replace des tests unitaires de composants par des tests d'intégration (PIX-14496).
+- [#10161](https://github.com/1024pix/pix/pull/10161) [TECH] Permettre la suppression de cronJob lorsque l'on change son nom (PIX-14453).
+- [#10188](https://github.com/1024pix/pix/pull/10188) [TECH] Prendre en compte la date de réconciliation dans les cas qui vérifie la réconciliation (PIX-14515).
+- [#10179](https://github.com/1024pix/pix/pull/10179) [TECH] Migration du endpoint target-profile-summaries (PIX-14475).
+- [#10190](https://github.com/1024pix/pix/pull/10190) [TECH] Remplit la colonne `reconciledAt` pour les anciennes certifications (PIX-14403).
+- [#10154](https://github.com/1024pix/pix/pull/10154) [TECH] Améliorer le mot de passe surveillant (PIX-13007).
+- [#10172](https://github.com/1024pix/pix/pull/10172) [TECH] migrate /api/admin/target-profiles/{id}/badges route (PIX-14465).
+
+### :bug: Correction
+- [#10185](https://github.com/1024pix/pix/pull/10185) [BUGFIX] Passer la bonne information en paramètre de la Pagination sur PixAdmin (Pix-14499).
+- [#10186](https://github.com/1024pix/pix/pull/10186) [BUGFIX] Ne pas proposer d'épreuves inaccessibles à un candidat de certification nécessitant un test aménagé (PIX-14517).
+
+## v4.217.0 (25/09/2024)
+
+
+### :rocket: Amélioration
+- [#10142](https://github.com/1024pix/pix/pull/10142) [FEATURE] Supprimer le support des anciens messages d’embed (PIX-14118).
+- [#10096](https://github.com/1024pix/pix/pull/10096) [FEATURE] Générer les identifiants en masse pour les élèves (PIX-12975).
+- [#10163](https://github.com/1024pix/pix/pull/10163) [FEATURE] Séparation bulle message sur la page error (Pix-13558).
+- [#10162](https://github.com/1024pix/pix/pull/10162) [FEATURE] Suppression du check de certificabilité à la création de la certification (PIX-14206).
+- [#10137](https://github.com/1024pix/pix/pull/10137) [FEATURE] Journaliser le changement d'adresse email (PIX-14360).
+- [#10165](https://github.com/1024pix/pix/pull/10165) [FEATURE] Sauvegarder la date de reconciliation (PIX-14392).
+- [#10155](https://github.com/1024pix/pix/pull/10155) [FEATURE] Masquer le champ "Code de prépaiement" tant que l'option "Prépayée" n'est pas cochée (PIX-13932).
+- [#10144](https://github.com/1024pix/pix/pull/10144) [FEATURE] Sélection des acquis accessibles pour proposer un test aménagé (PIX-14241).
+- [#10108](https://github.com/1024pix/pix/pull/10108) [FEATURE] Ecoute les évènements questions répondue et détermine si une quête est validée (PIX-13819).
+- [#10077](https://github.com/1024pix/pix/pull/10077) [FEATURE] Amélioration continue chatgpt-parle-francais (MODC-100).
+- [#9926](https://github.com/1024pix/pix/pull/9926) [FEATURE] Ajouter le contenu de l'onglet Détails des résultats (PIX-12985).
+
+### :building_construction: Tech
+- [#10166](https://github.com/1024pix/pix/pull/10166) [TECH] Migration de la route /api/users/{id}/profile (PIX-14454).
+- [#10093](https://github.com/1024pix/pix/pull/10093) [TECH] Ajout de OpenFeature et PixEnvVarProvider.
+- [#10167](https://github.com/1024pix/pix/pull/10167) [TECH] Suppression d'un script de rescoring N-1 (PIX-13544).
+- [#10133](https://github.com/1024pix/pix/pull/10133) [TECH] Essai de déclenchement de la CI via une Github Action, uniquement pour les Pull Requests.
+- [#10147](https://github.com/1024pix/pix/pull/10147) [TECH] Migrer le composant enrolled-candidates.hbs présent dans Pix Certif au format gjs (PIX-13810).
+
+### :bug: Correction
+- [#10157](https://github.com/1024pix/pix/pull/10157) [BUGFIX]  Ajout d'espace dans le bouton de la page de fin de mission (Pix-14165).
+- [#10143](https://github.com/1024pix/pix/pull/10143) [BUGFIX] Supprimer l'initialisation en lang fr par défaut de l'application (PIX-14387).
+- [#10158](https://github.com/1024pix/pix/pull/10158) [BUGFIX] Correction de l'alignement des titres dans les cartes mission (Pix-14420).
+- [#10159](https://github.com/1024pix/pix/pull/10159) [BUGFIX] renomme les clés de traduction dans les fichier nl / en sur la table des lots de places (PIX-14452).
+
+### :arrow_up: Montée de version
+- [#10160](https://github.com/1024pix/pix/pull/10160) [BUMP] Update dependency @1024pix/pix-ui to ^46.13.2 (orga).
+
+## v4.216.0 (23/09/2024)
+
+
+### :rocket: Amélioration
+- [#10153](https://github.com/1024pix/pix/pull/10153) [FEATURE] Ajout d'une bulle info lors de la selection des classes (pix-13987).
+- [#10146](https://github.com/1024pix/pix/pull/10146) [FEATURE] Changement du logo PixJunior / blob / label Béta (pix-13628).
+- [#10136](https://github.com/1024pix/pix/pull/10136) [FEATURE] :sparkles: Affiche le détail de résultat par mission et par élève pour les enseignants dans pixOrga (PIX-13848).
+- [#10131](https://github.com/1024pix/pix/pull/10131) [FEATURE] Retourner un élément de type Flashcards dans l'API (PIX-14305).
+
+### :building_construction: Tech
+- [#10141](https://github.com/1024pix/pix/pull/10141) [TECH] Ajout d'une colonne pour enregistrer la reconciliation candidat (PIX-14391).
+
+### :bug: Correction
+- [#10123](https://github.com/1024pix/pix/pull/10123) [BUGFIX] Ne pas afficher un indice lorsque la traduction n'est pas dispo (PIX-14227).
+
+## v4.215.0 (19/09/2024)
+
+
+### :rocket: Amélioration
+- [#10100](https://github.com/1024pix/pix/pull/10100) [FEATURE] Faire la vérification d'éligibilité Coeur lors de la réconciliation sur Pix App (PIX-14204).
+- [#10139](https://github.com/1024pix/pix/pull/10139) [FEATURE] simplifie les bannière d'info sur orga (PIX-13968).
+- [#10115](https://github.com/1024pix/pix/pull/10115) [FEATURE] Tenir compte de la condition sur l'obligation d'avoir une certification pix délivrée et validée avec un score minimum requis dans le bandeau V3 (PIX-14236).
+- [#10121](https://github.com/1024pix/pix/pull/10121) [FEATURE] Mettre à jour la bannière de certification sur PixOrga (PIX-13969).
+- [#10130](https://github.com/1024pix/pix/pull/10130) [FEATURE] Ajout de données l'audit logger pour le changement d'email (PIX-14362).
+- [#10101](https://github.com/1024pix/pix/pull/10101) [FEATURE] Déconnecter l'utilisateur s'il utilise un refresh token avec un scope incorrect.
+- [#10106](https://github.com/1024pix/pix/pull/10106) [FEATURE] affiche une alerte d'expiration des lots de places (PIX-14008).
+
+### :building_construction: Tech
+- [#10128](https://github.com/1024pix/pix/pull/10128) [TECH] Rediriger les routes de sessions "list" vers "index".
+- [#10087](https://github.com/1024pix/pix/pull/10087) [TECH] Refactorer le RefreshToken service (PIX-13913).
+- [#9963](https://github.com/1024pix/pix/pull/9963) [TECH] Migration de la route de la mise à jour du bandeau niveau 7 dans le contexte évaluation (PIX-13671).
+
+### :bug: Correction
+- [#10118](https://github.com/1024pix/pix/pull/10118) [BUGFIX] Ne pas retourner de 500 dans le cas d'un filtre sur la certificabilité mal défini (PIX-14300).
+- [#10135](https://github.com/1024pix/pix/pull/10135) [BUGFIX] Eviter de remonter une 500 lors de l'erreur sur l'upload du fichier (PIX-14384).
+- [#10138](https://github.com/1024pix/pix/pull/10138) [BUGFIX] Mise à jour du lien de téléchargement de PV d'incident (PIX-14406).
+
+## v4.214.0 (18/09/2024)
+
+
+### :rocket: Amélioration
+- [#10103](https://github.com/1024pix/pix/pull/10103) [FEATURE] affiche les lots de place dans orga (PIX-14009).
+- [#10097](https://github.com/1024pix/pix/pull/10097) [FEATURE] Afficher des feedback spécifiques aux QCU (PIX-14202) (PIX-13405).
+
+### :building_construction: Tech
+- [#10080](https://github.com/1024pix/pix/pull/10080) [TECH] Passage en v3 des centres de certif de type SCO (hors whitelist) (PIX-14098).
+- [#10099](https://github.com/1024pix/pix/pull/10099) [TECH] Changer le system de Redis lock et supprimer Bluebird.
+- [#10114](https://github.com/1024pix/pix/pull/10114) [TECH] Remonter les organisations ayant des lots de places illimités pour data (PIX-14247).
+- [#10120](https://github.com/1024pix/pix/pull/10120) [TECH] Remplacer le logger error par juste un warn dans le cas des erreurs connues (PIX-14314).
+- [#10088](https://github.com/1024pix/pix/pull/10088) [TECH] Sauvegarder l'état de l'import dans tous les cas (PIX-14200).
+- [#10104](https://github.com/1024pix/pix/pull/10104) [TECH] Retirer l'étagère à bouquins du répertoire des centres de certification.
+- [#10091](https://github.com/1024pix/pix/pull/10091) [TECH] :recycle: Déplacement d'un modèle de domaine évaluation de `src/shared` vers `src/evaluation`.
+
+### :bug: Correction
+- [#10116](https://github.com/1024pix/pix/pull/10116) [BUGFIX] Corriger l'affichage des listes à puces dans les indices (PIX-9987).
+- [#10122](https://github.com/1024pix/pix/pull/10122) [BUGFIX] Corriger l'affichage des onglets sessions V3 sur la barre de navigation de Pix Admin (PIX-14349).
+- [#10117](https://github.com/1024pix/pix/pull/10117) [BUGFIX] Correction de l'affichage du temps de certification (PIX-14318).
+
+### :arrow_up: Montée de version
+- [#10127](https://github.com/1024pix/pix/pull/10127) [BUMP] Update dependency sinon-chai to v4 (api).
+- [#10126](https://github.com/1024pix/pix/pull/10126) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.27 (orga).
+- [#10125](https://github.com/1024pix/pix/pull/10125) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.27 (mon-pix).
+- [#10124](https://github.com/1024pix/pix/pull/10124) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.27 (junior).
+- [#10113](https://github.com/1024pix/pix/pull/10113) [BUMP] Update dependency @1024pix/pix-ui to ^46.12.27 (certif).
+
 ## v4.213.0 (13/09/2024)
 
 

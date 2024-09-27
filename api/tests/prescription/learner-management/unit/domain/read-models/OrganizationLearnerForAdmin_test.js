@@ -1,3 +1,4 @@
+import { IMPORT_KEY_FIELD } from '../../../../../../src/prescription/learner-management/domain/constants.js';
 import { OrganizationLearnerForAdmin } from '../../../../../../src/prescription/learner-management/domain/read-models/OrganizationLearnerForAdmin.js';
 import { ObjectValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
@@ -11,7 +12,7 @@ describe('Unit | Domain | Read-models | OrganizationLearnerForAdmin', function (
         id: 1,
         firstName: 'John',
         lastName: 'Doe',
-        birthdate: new Date('2000-10-15'),
+        birthdate: '2000-10-15',
         division: '3A',
         group: 'L1',
         organizationId: 1,
@@ -26,6 +27,25 @@ describe('Unit | Domain | Read-models | OrganizationLearnerForAdmin', function (
     it('should successfully instantiate object when passing all valid arguments', function () {
       // when
       expect(() => new OrganizationLearnerForAdmin(validArguments)).not.to.throw(ObjectValidationError);
+    });
+
+    it('should overide birthdate and division if additionalColumns and additionalInfos are given', function () {
+      const learner = new OrganizationLearnerForAdmin({
+        ...validArguments,
+        additionalColumns: [
+          {
+            name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE,
+            key: 'dateofbirth',
+          },
+          { name: IMPORT_KEY_FIELD.COMMON_DIVISION, key: 'groupe' },
+        ],
+        additionalInformations: {
+          groupe: 'CP',
+          dateofbirth: '2020-02-01',
+        },
+      });
+      expect(learner.division).to.equal('CP');
+      expect(learner.birthdate).to.deep.equal('2020-02-01');
     });
 
     it('should throw an ObjectValidationError when id is not valid', function () {
@@ -60,9 +80,7 @@ describe('Unit | Domain | Read-models | OrganizationLearnerForAdmin', function (
 
     it('should throw an ObjectValidationError when birthdate is not valid', function () {
       // when
-      expect(() => new OrganizationLearnerForAdmin({ ...validArguments, birthdate: 'not_valid' })).to.throw(
-        ObjectValidationError,
-      );
+
       expect(() => new OrganizationLearnerForAdmin({ ...validArguments, birthdate: undefined })).to.throw(
         ObjectValidationError,
       );
@@ -70,7 +88,7 @@ describe('Unit | Domain | Read-models | OrganizationLearnerForAdmin', function (
 
     it('should not throw an ObjectValidationError when birthdate is null', function () {
       // when
-      expect(() => new OrganizationLearnerForAdmin({ ...validArguments, birthdate: 'null' })).to.throw(
+      expect(() => new OrganizationLearnerForAdmin({ ...validArguments, birthdate: null })).not.to.throw(
         ObjectValidationError,
       );
     });

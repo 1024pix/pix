@@ -1,4 +1,5 @@
 import { Assessment as SchoolAssessment } from '../../../../src/school/domain/models/Assessment.js';
+import { MissionAssessmentResult } from '../../../../src/school/infrastructure/models/mission-assessment.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 
 function buildSchoolAssessment({
@@ -24,6 +25,7 @@ function buildSchoolAssessment({
   campaignCode,
   missionId,
   organizationLearnerId,
+  result,
 } = {}) {
   return new SchoolAssessment({
     id,
@@ -48,6 +50,7 @@ function buildSchoolAssessment({
     campaignCode,
     missionId,
     organizationLearnerId,
+    result: new MissionAssessmentResult({ ...result }),
   });
 }
 

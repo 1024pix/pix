@@ -27,9 +27,10 @@ export class JobRepository {
 
   /**
    * @param {Object} config
-   * @param {valueOf<JobPriority>} config.priority
-   * @param {valueOf<JobRetry>} config.retry
-   * @param {valueOf<JobExpireIn>} config.expireIn
+   * @param {string} config.name Job name
+   * @param {valueOf<JobPriority>} config.priority Job prority
+   * @param {valueOf<JobRetry>} config.retry Job retry strategy
+   * @param {valueOf<JobExpireIn>} config.expireIn Job retention duration
    */
   constructor(config) {
     this.name = config.name;
@@ -58,7 +59,11 @@ export class JobRepository {
   async #send(jobs) {
     const knexConn = DomainTransaction.getConnection();
 
-    return knexConn('pgboss.job').insert(jobs);
+    const results = await knexConn.batchInsert('pgboss.job', jobs);
+
+    const rowCount = results.reduce((total, batchResult) => total + (batchResult.rowCount || 0), 0);
+
+    return { rowCount };
   }
 
   async performAsync(...datas) {

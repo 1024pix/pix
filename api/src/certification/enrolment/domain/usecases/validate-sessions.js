@@ -145,6 +145,7 @@ async function _createValidCertificationCandidates({
       subscriptions,
       id: null,
       userId: null,
+      reconciledAt: null,
       organizationLearnerId: null,
       createdAt: null,
     });

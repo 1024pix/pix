@@ -3,19 +3,20 @@ import _ from 'lodash';
 import {
   CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
   CONCURRENCY_HEAVY_OPERATIONS,
-} from '../../../../../../lib/infrastructure/constants.js';
+} from '../../../../../shared/infrastructure/constants.js';
 import * as csvSerializer from '../../../../../shared/infrastructure/serializers/csv/csv-serializer.js';
 import { PromiseUtils } from '../../../../../shared/infrastructure/utils/promise-utils.js';
 import { CampaignProfilesCollectionResultLine } from '../../exports/campaigns/campaign-profiles-collection-result-line.js';
 
 class CampaignProfilesCollectionExport {
-  constructor(outputStream, organization, campaign, competences, translate) {
+  constructor({ outputStream, organization, campaign, competences, translate, additionalHeaders = [] }) {
     this.stream = outputStream;
     this.organization = organization;
     this.campaign = campaign;
     this.idPixLabel = campaign.idPixLabel;
     this.competences = competences;
     this.translate = translate;
+    this.additionalHeaders = additionalHeaders;
   }
 
   export(
@@ -50,6 +51,8 @@ class CampaignProfilesCollectionExport {
     const displayGroup = this.organization.isSup && this.organization.isManagingStudents;
     const displayDivision = this.organization.isSco && this.organization.isManagingStudents;
 
+    const extraHeaders = this.additionalHeaders.map((header) => header.columnName);
+
     const header = [
       this.translate('campaign-export.common.organization-name'),
       this.translate('campaign-export.common.campaign-id'),
@@ -57,6 +60,7 @@ class CampaignProfilesCollectionExport {
       this.translate('campaign-export.common.campaign-name'),
       this.translate('campaign-export.common.participant-lastname'),
       this.translate('campaign-export.common.participant-firstname'),
+      ...extraHeaders,
       displayGroup && this.translate('campaign-export.common.participant-group'),
       displayDivision && this.translate('campaign-export.common.participant-division'),
       displayStudentNumber && this.translate('campaign-export.common.participant-student-number'),
@@ -101,14 +105,15 @@ class CampaignProfilesCollectionExport {
         return sameUserId && sameDate;
       });
 
-      const line = new CampaignProfilesCollectionResultLine(
-        this.campaign,
-        this.organization,
-        campaignParticipationResultData,
-        this.competences,
+      const line = new CampaignProfilesCollectionResultLine({
+        campaign: this.campaign,
+        organization: this.organization,
+        campaignParticipationResult: campaignParticipationResultData,
+        additionalHeaders: this.additionalHeaders,
+        competences: this.competences,
         placementProfile,
-        this.translate,
-      );
+        translate: this.translate,
+      });
 
       return line.toCsvLine();
     });

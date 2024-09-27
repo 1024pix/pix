@@ -9,6 +9,7 @@ import * as scorecardsRoutes from './application/scorecards/index.js';
 import * as smartRandomSimulatorRoutes from './application/smart-random-simulator/index.js';
 import * as stageCollectionRoutes from './application/stage-collections/index.js';
 import * as stagesRoutes from './application/stages/index.js';
+import * as usersRoutes from './application/users/index.js';
 
 const evaluationRoutes = [
   answersRoutes,
@@ -22,6 +23,7 @@ const evaluationRoutes = [
   scorecardsRoutes,
   smartRandomSimulatorRoutes,
   stagesRoutes,
+  usersRoutes,
 ];
 
 export { evaluationRoutes };

@@ -54,8 +54,8 @@
 }
 
 .evaluation-results-tab-badge__content {
+  min-width: 0;
   padding: var(--pix-spacing-4x);
-  overflow: hidden;
 }
 
 .evaluation-results-tab-badge__title {
@@ -71,16 +71,6 @@
 
   margin-top: var(--pix-spacing-2x);
   color: var(--pix-neutral-500);
-
-  &--shrinked {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-}
-
-.evaluation-results-tab-badge__description--one-liner + .evaluation-results-tab-badge__show-more {
-  display: none;
 }
 
 .evaluation-results-tab-badge__progress-gauge {

@@ -12,7 +12,17 @@ const buildMission = function ({
     fr: "une validation d'objectif en français",
   },
   status = undefined,
-  content,
+  content = {
+    steps: [
+      {
+        name: 'name of the step 1',
+        tutorialChallenges: [],
+        trainingChallenges: [],
+        validationChallenges: [],
+      },
+    ],
+    dareChallenges: [],
+  },
 } = {}) {
   return {
     id,

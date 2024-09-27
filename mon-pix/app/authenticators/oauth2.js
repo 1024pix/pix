@@ -6,6 +6,7 @@ import RSVP from 'rsvp';
 export default class OAuth2 extends OAuth2PasswordGrant {
   serverTokenEndpoint = `${ENV.APP.API_HOST}/api/token`;
   serverTokenRevocationEndpoint = `${ENV.APP.API_HOST}/api/revoke`;
+  refreshAccessTokensWithScope = true;
 
   authenticate({ login, password, scope, token }) {
     if (token) {
@@ -18,9 +19,14 @@ export default class OAuth2 extends OAuth2PasswordGrant {
         access_token: token,
         user_id,
         source,
+        scope,
       });
     }
 
     return super.authenticate(login, password, scope);
+  }
+
+  restore(data) {
+    return super.restore({ ...data, scope: ENV.APP.AUTHENTICATION.SCOPE });
   }
 }

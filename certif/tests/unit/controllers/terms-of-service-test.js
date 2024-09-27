@@ -25,12 +25,12 @@ module('Unit | Controller | terms-of-service', function (hooks) {
       assert.ok(controller);
     });
 
-    test('it should transition to authenticated.sessions.list', async function (assert) {
+    test('it should transition to authenticated.sessions', async function (assert) {
       // when
       await controller.send('submit');
 
       // then
-      sinon.assert.calledWith(controller.router.transitionTo, 'authenticated.sessions.list');
+      sinon.assert.calledWith(controller.router.transitionTo, 'authenticated.sessions');
       assert.ok(controller);
     });
 

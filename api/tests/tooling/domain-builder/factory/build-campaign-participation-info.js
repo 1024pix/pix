@@ -1,4 +1,4 @@
-import { CampaignParticipationInfo } from '../../../../src/shared/domain/read-models/CampaignParticipationInfo.js';
+import { CampaignParticipationInfo } from '../../../../src/prescription/campaign/domain/read-models/CampaignParticipationInfo.js';
 
 function buildCampaignParticipationInfo({
   participantFirstName = 'participantFirstName',
@@ -12,6 +12,7 @@ function buildCampaignParticipationInfo({
   sharedAt = new Date('2020-02-02'),
   division,
   masteryRate = 1,
+  additionalInfos = null,
 } = {}) {
   return new CampaignParticipationInfo({
     participantFirstName,
@@ -25,6 +26,7 @@ function buildCampaignParticipationInfo({
     sharedAt,
     division,
     masteryRate,
+    additionalInfos,
   });
 }
 

@@ -19,7 +19,7 @@ module('Acceptance | Session List', function (hooks) {
   module('When certificationPointOfContact is not authenticated', function () {
     test('it should not be accessible', async function (assert) {
       // when
-      await visit('/sessions/liste');
+      await visit('/sessions');
 
       // then
       assert.strictEqual(currentURL(), '/connexion');
@@ -53,7 +53,7 @@ module('Acceptance | Session List', function (hooks) {
         allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
 
         // when
-        await visit('/sessions/liste');
+        await visit('/sessions');
 
         // then
         assert.strictEqual(currentURL(), '/espace-ferme');
@@ -62,15 +62,15 @@ module('Acceptance | Session List', function (hooks) {
 
     test('it should be accessible', async function (assert) {
       // when
-      await visit('/sessions/liste');
+      await visit('/sessions');
 
       // then
-      assert.strictEqual(currentURL(), '/sessions/liste');
+      assert.strictEqual(currentURL(), '/sessions');
     });
 
     test('it should show title indicating that the certificationPointOfContact can create a session', async function (assert) {
       // when
-      const screen = await visit('/sessions/liste');
+      const screen = await visit('/sessions');
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Créer ma première session de certification' })).exists();
@@ -78,7 +78,7 @@ module('Acceptance | Session List', function (hooks) {
 
     test('it should redirect to the new session creation page when clicked on create session button', async function (assert) {
       // given
-      const screen = await visit('/sessions/liste');
+      const screen = await visit('/sessions');
 
       // when
       await click(screen.getByRole('link', { name: 'Créer une session' }));
@@ -89,7 +89,7 @@ module('Acceptance | Session List', function (hooks) {
 
     test('it should redirect to the import session page when clicked on create/edit sessions button', async function (assert) {
       // given
-      const screen = await visit('/sessions/liste');
+      const screen = await visit('/sessions');
 
       // when
       await click(screen.getByRole('link', { name: 'Créer plusieurs sessions' }));
@@ -104,7 +104,7 @@ module('Acceptance | Session List', function (hooks) {
         server.createList('session-summary', 5, { certificationCenterId: 123, date: '2019-01-01' });
 
         // when
-        const screen = await visit('/sessions/liste');
+        const screen = await visit('/sessions');
 
         // then
         assert.strictEqual(screen.getAllByRole('row', { name: 'Session de certification' }).length, 5);
@@ -130,7 +130,7 @@ module('Acceptance | Session List', function (hooks) {
           id: 123,
         });
 
-        const screen = await visit('/sessions/liste');
+        const screen = await visit('/sessions');
 
         // when
         await click(screen.getByRole('link', { name: 'Session 123' }));
@@ -159,7 +159,7 @@ module('Acceptance | Session List', function (hooks) {
         server.create('session-summary', { certificationCenterId: centerManagingStudents.id });
 
         // when
-        const screen = await visit('/sessions/liste');
+        const screen = await visit('/sessions');
 
         assert
           .dom(
@@ -206,7 +206,7 @@ module('Acceptance | Session List', function (hooks) {
           date: '2020-02-02',
           time: '16:00',
         });
-        const screen = await visit('/sessions/liste');
+        const screen = await visit('/sessions');
         await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
         await screen.findByRole('dialog');
 
@@ -214,7 +214,7 @@ module('Acceptance | Session List', function (hooks) {
         await click(screen.getByRole('button', { name: 'Supprimer la session' }));
 
         // then
-        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.strictEqual(currentURL(), '/sessions');
         assert.dom(screen.getByText('La session a été supprimée avec succès.')).exists();
         assert.dom(screen.queryByRole('button', { name: 'Supprimer la session 123' })).doesNotExist();
         assert.dom(screen.getByRole('button', { name: 'Supprimer la session 456' })).exists();
@@ -241,7 +241,7 @@ module('Acceptance | Session List', function (hooks) {
           }),
           400,
         );
-        const screen = await visit('/sessions/liste');
+        const screen = await visit('/sessions');
         await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
         await screen.findByRole('dialog');
 
@@ -249,7 +249,7 @@ module('Acceptance | Session List', function (hooks) {
         await click(screen.getByRole('button', { name: 'Supprimer la session' }));
 
         // then
-        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.strictEqual(currentURL(), '/sessions');
         assert.dom(screen.getByText("Une erreur s'est produite lors de la suppression de la session.")).exists();
         assert.dom(screen.getByRole('button', { name: 'Supprimer la session 123' })).exists();
       });
@@ -275,7 +275,7 @@ module('Acceptance | Session List', function (hooks) {
           }),
           404,
         );
-        const screen = await visit('/sessions/liste');
+        const screen = await visit('/sessions');
         await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
         await screen.findByRole('dialog');
 
@@ -283,7 +283,7 @@ module('Acceptance | Session List', function (hooks) {
         await click(screen.getByRole('button', { name: 'Supprimer la session' }));
 
         // then
-        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.strictEqual(currentURL(), '/sessions');
         assert.dom(screen.getByText("La session que vous tentez de supprimer n'existe pas.")).exists();
         assert.dom(screen.getByRole('button', { name: 'Supprimer la session 123' })).exists();
       });
@@ -309,7 +309,7 @@ module('Acceptance | Session List', function (hooks) {
           }),
           400,
         );
-        const screen = await visit('/sessions/liste');
+        const screen = await visit('/sessions');
         await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
         await screen.findByRole('dialog');
 
@@ -317,7 +317,7 @@ module('Acceptance | Session List', function (hooks) {
         await click(screen.getByRole('button', { name: 'Supprimer la session' }));
 
         // then
-        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.strictEqual(currentURL(), '/sessions');
         assert.dom(screen.getByText('La session a déjà commencé.')).exists();
         assert.dom(screen.getByRole('button', { name: 'Supprimer la session 123' })).exists();
       });
@@ -341,7 +341,7 @@ module('Acceptance | Session List', function (hooks) {
           id: 26,
         });
 
-        const screen = await visit('/sessions/liste');
+        const screen = await visit('/sessions');
         await click(screen.getByRole('button', { name: 'Aller à la page suivante' }));
         await click(screen.getByRole('button', { name: 'Aller à la page suivante' }));
         await click(screen.getByRole('link', { name: 'Session 26' }));
@@ -351,7 +351,7 @@ module('Acceptance | Session List', function (hooks) {
 
         // then
         assert.dom(screen.getByText('Page 3 / 3')).exists();
-        assert.strictEqual(currentURL(), '/sessions/liste?pageNumber=3');
+        assert.strictEqual(currentURL(), '/sessions?pageNumber=3');
       });
     });
   });

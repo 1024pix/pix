@@ -135,18 +135,24 @@ export default class ParticipantsByDay extends Component {
   get datasets() {
     let startedLabel = '';
     let sharedLabel = '';
+    let startedCaption = '';
+    let sharedCaption = '';
 
     if (this.args.isTypeAssessment) {
+      startedCaption = LABELS_ASSESSMENT.started.caption;
       startedLabel = LABELS_ASSESSMENT.started.a11y;
+      sharedCaption = LABELS_ASSESSMENT.shared.caption;
       sharedLabel = LABELS_ASSESSMENT.shared.a11y;
     } else {
+      startedCaption = LABELS_PROFILE_COLLECTIONS.started.caption;
       startedLabel = LABELS_PROFILE_COLLECTIONS.started.a11y;
+      sharedCaption = LABELS_PROFILE_COLLECTIONS.shared.caption;
       sharedLabel = LABELS_PROFILE_COLLECTIONS.shared.a11y;
     }
 
     return [
-      { entries: this.startedDatasets, countLabel: startedLabel },
-      { entries: this.sharedDatasets, countLabel: sharedLabel },
+      { caption: startedCaption, entries: this.startedDatasets, countLabel: startedLabel },
+      { caption: sharedCaption, entries: this.sharedDatasets, countLabel: sharedLabel },
     ];
   }
 
@@ -165,6 +171,7 @@ export default class ParticipantsByDay extends Component {
 
         {{#each this.datasets as |dataset|}}
           <table class="screen-reader-only">
+            <caption>{{t dataset.caption}}</caption>
             <thead>
               <tr>
                 <TableHeader>{{t "charts.participants-by-day.labels-a11y.date"}}</TableHeader>
@@ -188,10 +195,12 @@ export default class ParticipantsByDay extends Component {
 
 const LABELS_ASSESSMENT = {
   started: {
+    caption: 'charts.participants-by-day.captions.started',
     legend: 'charts.participants-by-day.labels-legend.started',
     a11y: 'charts.participants-by-day.labels-a11y.started',
   },
   shared: {
+    caption: 'charts.participants-by-day.captions.shared',
     legend: 'charts.participants-by-day.labels-legend.shared',
     a11y: 'charts.participants-by-day.labels-a11y.shared',
   },
@@ -199,10 +208,12 @@ const LABELS_ASSESSMENT = {
 
 const LABELS_PROFILE_COLLECTIONS = {
   started: {
+    caption: 'charts.participants-by-day.captions.started',
     legend: 'charts.participants-by-day.labels-legend.started',
     a11y: 'charts.participants-by-day.labels-a11y.started',
   },
   shared: {
+    caption: 'charts.participants-by-day.captions.shared-profile',
     legend: 'charts.participants-by-day.labels-legend.shared-profile',
     a11y: 'charts.participants-by-day.labels-a11y.shared-profile',
   },

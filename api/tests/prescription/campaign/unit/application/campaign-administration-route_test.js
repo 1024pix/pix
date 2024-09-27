@@ -411,4 +411,90 @@ describe('Unit | Application | Router | campaign-administration-router ', functi
       ]);
     });
   });
+
+  describe('GET /api/admin/organizations/{organizationId}/campaigns', function () {
+    describe('success case', function () {
+      beforeEach(function () {
+        sinon.stub(campaignAdministrationController, 'findPaginatedCampaignManagements').returns('ok');
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+      });
+
+      it('should return 200 when organizationId valid', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/organizations/12/campaigns');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return 200 when pageSize valid', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/organizations/12/campaigns?page[size]=12');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return 200 when pageNumber valid', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/organizations/12/campaigns?page[number]=12');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    describe('error case', function () {
+      it('should return 400 with an invalid organizationId', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/organizations/invalid/campaigns');
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should return 400 with an invalid pageSize is given', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/organizations/666/campaigns?page[size]=toto');
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should return 400 with an invalid page number is given', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/admin/organizations/666/campaigns?page[number]=toto',
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
 });

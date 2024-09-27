@@ -1,10 +1,12 @@
-import Information from './information';
+import Certification from './certification';
 import LanguageAvailability from './language-availability';
+import Scommunication from './sco-communication';
 import Survey from './survey';
 
 <template>
   <div class="top-banners">
-    <Information />
+    <Certification />
+    <Scommunication />
     <LanguageAvailability />
     <Survey />
   </div>

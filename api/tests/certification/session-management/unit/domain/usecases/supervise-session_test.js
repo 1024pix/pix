@@ -21,7 +21,7 @@ describe('Unit | UseCase | supervise-session', function () {
   it('should throw a InvalidSessionSupervisingLoginError when the supervised password is wrong', async function () {
     // given
     const sessionId = 123;
-    const supervisorPassword = 'NOT_MATCHING_SUPERVISOR_PASSWORD';
+    const invigilatorPassword = 'NOT_MATCHING_INVIGILATOR_PASSWORD';
     const userId = 434;
     const session = domainBuilder.certification.sessionManagement.buildSession({ id: sessionId });
     sessionRepository.get.resolves(session);
@@ -29,7 +29,7 @@ describe('Unit | UseCase | supervise-session', function () {
     // when
     const error = await catchErr(superviseSession)({
       sessionId,
-      supervisorPassword,
+      invigilatorPassword,
       userId,
       sessionRepository,
       supervisorAccessRepository,
@@ -50,7 +50,7 @@ describe('Unit | UseCase | supervise-session', function () {
     // when
     const error = await catchErr(superviseSession)({
       sessionId,
-      supervisorPassword: session.supervisorPassword,
+      invigilatorPassword: session.invigilatorPassword,
       userId,
       sessionRepository,
       supervisorAccessRepository,
@@ -70,7 +70,7 @@ describe('Unit | UseCase | supervise-session', function () {
     // when
     await superviseSession({
       sessionId,
-      supervisorPassword: session.supervisorPassword,
+      invigilatorPassword: session.invigilatorPassword,
       userId,
       sessionRepository,
       supervisorAccessRepository,

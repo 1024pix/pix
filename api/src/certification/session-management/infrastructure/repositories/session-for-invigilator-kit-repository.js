@@ -11,7 +11,7 @@ const get = async function ({ id }) {
       'sessions.room',
       'sessions.examiner',
       'sessions.accessCode',
-      'sessions.supervisorPassword',
+      'sessions.invigilatorPassword',
       'sessions.version',
     )
     .from('sessions')
@@ -26,6 +26,6 @@ export { get };
 function _toDomain(results) {
   return new SessionForInvigilatorKit({
     ...results,
-    invigilatorPassword: results.supervisorPassword,
+    invigilatorPassword: results.invigilatorPassword,
   });
 }

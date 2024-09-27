@@ -4,7 +4,6 @@ import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
 import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
 import { Correction } from '../../../src/shared/domain/models/Correction.js';
 import { Hint } from '../../../src/shared/domain/models/Hint.js';
-import { getTranslatedKey } from '../../../src/shared/domain/services/get-translated-text.js';
 import {
   challengeDatasource,
   skillDatasource,
@@ -74,9 +73,16 @@ function _hasValidatedHint(skillDataObject) {
 }
 
 function _convertSkillToHint({ skill, locale }) {
+  const matches = locale.match(/^([a-z]{2,3})-?[a-z]{0,3}$/);
+  const language = matches?.[1];
+  const translation = skill.hint_i18n?.[language];
+  if (!translation) {
+    return null;
+  }
+
   return new Hint({
     skillName: skill.name,
-    value: getTranslatedKey(skill.hint_i18n, locale),
+    value: translation,
   });
 }
 

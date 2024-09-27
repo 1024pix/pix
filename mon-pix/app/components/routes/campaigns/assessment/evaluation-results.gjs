@@ -14,6 +14,10 @@ import QuitResults from '../../../campaigns/assessment/skill-review/quit-results
     </header>
     <EvaluationResultsTabs
       @badges={{@model.campaignParticipationResult.campaignParticipationBadges}}
+      @campaignParticipationResultId={{@model.campaignParticipationResult.id}}
+      @competenceResults={{@model.campaignParticipationResult.competenceResults}}
+      @isParticipationShared={{@model.campaignParticipationResult.isShared}}
+      @totalStage={{@model.campaignParticipationResult.reachedStage.totalStage}}
       @trainings={{@model.trainings}}
     />
   </div>

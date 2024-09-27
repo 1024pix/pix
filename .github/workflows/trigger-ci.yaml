@@ -1,0 +1,19 @@
+name: Trigger CircleCI
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  push:
+    branches: dev
+
+jobs:
+  trigger-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger CircleCI
+        # ensure PR is not draft
+        if: '! github.event.pull_request.draft'
+        uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.0.5
+        env:
+          CCI_TOKEN: ${{ secrets.PIX_SERVICE_CIRCLE_CI_TOKEN }}

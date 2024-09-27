@@ -3,7 +3,7 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 import extraFilters from '../../../utils/extra-filter-serializer.js';
-
+import paramsValidator from '../../../utils/params-validator.js';
 export default class ListRoute extends Route {
   queryParams = {
     pageNumber: { refreshModel: true },
@@ -20,6 +20,8 @@ export default class ListRoute extends Route {
   @service store;
 
   async model(params) {
+    paramsValidator.validateCertificabilityParams(params);
+
     return this.store.query('organization-participant', {
       filter: {
         organizationId: this.currentUser.organization.id,

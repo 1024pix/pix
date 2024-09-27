@@ -4,6 +4,14 @@ import { t } from 'ember-intl';
 import Header from '../table/header';
 import PaginationControl from '../table/pagination-control';
 
+function statusColor(status) {
+  return {
+    'not-started': 'tertiary',
+    completed: 'success',
+    started: 'secondary',
+  }[status];
+}
+
 <template>
   {{#if @missionLearners}}
     <div class="panel">
@@ -34,7 +42,7 @@ import PaginationControl from '../table/pagination-control';
                 {{missionLearner.division}}
               </td>
               <td>
-                <PixTag @color={{this.statusColor missionLearner.status}}>{{t
+                <PixTag @color={{statusColor missionLearner.missionStatus}}>{{t
                     missionLearner.displayableStatus
                   }}</PixTag>
               </td>

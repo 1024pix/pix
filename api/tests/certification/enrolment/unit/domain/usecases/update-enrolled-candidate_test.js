@@ -65,13 +65,14 @@ describe('Unit | UseCase | update-enrolled-candidate', function () {
     });
   });
 
-  context('when the candidate is linked to a user', function () {
+  context('when the candidate is reconciled', function () {
     it('should call update method with correct data', async function () {
       // given
       const foundCandidate = domainBuilder.certification.enrolment.buildCandidate({
         id: editedCandidate.id,
         accessibilityAdjustmentNeeded: false,
         userId: 123,
+        reconciledAt: new Date('2024-09-25'),
       });
       candidateRepository.get.withArgs({ certificationCandidateId: editedCandidate.id }).resolves(foundCandidate);
 

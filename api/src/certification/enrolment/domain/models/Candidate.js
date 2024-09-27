@@ -24,6 +24,7 @@ export class Candidate {
     authorizedToStart = false,
     sessionId,
     userId,
+    reconciledAt,
     organizationLearnerId,
     billingMode,
     prepaymentCode,
@@ -55,18 +56,20 @@ export class Candidate {
     this.hasSeenCertificationInstructions = hasSeenCertificationInstructions;
     this.subscriptions = subscriptions;
     this.accessibilityAdjustmentNeeded = accessibilityAdjustmentNeeded;
+    this.reconciledAt = reconciledAt;
   }
 
-  isLinkedToAUser() {
-    return !_.isNil(this.userId);
+  isReconciled() {
+    return !!this.userId && !!this.reconciledAt;
   }
 
-  isLinkedTo(userId) {
-    return this.userId === userId;
+  isReconciledTo(userId) {
+    return this.isReconciled() && this.userId === userId;
   }
 
-  link(userId) {
+  reconcile(userId) {
     this.userId = userId;
+    this.reconciledAt = new Date();
   }
 
   updateAccessibilityAdjustmentNeededStatus(newAdjustmentStatus) {
@@ -133,5 +136,9 @@ export class Candidate {
 
   convertExtraTimePercentageToDecimal() {
     this.extraTimePercentage = this.extraTimePercentage / 100;
+  }
+
+  hasCoreSubscription() {
+    return this.subscriptions.some((subscription) => subscription.isCore());
   }
 }

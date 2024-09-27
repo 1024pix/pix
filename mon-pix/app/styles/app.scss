@@ -104,6 +104,7 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'components/result-item';
 @import 'components/rounded-panel';
 @import 'components/scorecard-details';
+@import 'components/show-more-text';
 @import 'components/signup-form';
 @import 'components/sitemap/content';
 @import 'components/timed-challenge-instructions';
@@ -129,6 +130,9 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'components/campaigns';
 @import 'components/modulix/feedback';
 
+/* Styles for colocated components */
+@import 'authentication-layout';
+
 /* pages */
 @import 'pages/assessment-results';
 @import 'pages/campaign-landing-page';
@@ -144,6 +148,7 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'pages/fill-in-participant-external-id';
 @import 'pages/inscription';
 @import 'pages/join-restricted-campaign';
+@import 'pages/authentication';
 @import 'pages/module';
 @import 'pages/module-preview';
 @import 'pages/student-sco';

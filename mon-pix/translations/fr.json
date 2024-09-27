@@ -145,6 +145,7 @@
       "help-center": "Centre d'aide",
       "label": "Menu de bas de page",
       "legal-notice": "Mentions légales",
+      "server-status": "Statut des services",
       "sitemap": "Plan du site",
       "student-data-protection-policy": "Politique de protection des données des élèves",
       "student-data-protection-policy-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39"
@@ -320,6 +321,11 @@
       },
       "answers": {
         "header": "Vos réponses"
+      }
+    },
+    "authentication": {
+      "login": {
+        "signup-button": "S'inscrire sur Pix"
       }
     },
     "autonomous-course": {
@@ -1730,7 +1736,7 @@
         "results-details": {
           "title": "Détails des résultats",
           "description": "Découvrez en détail vos compétences, organisées par domaines spécifiques, pour mieux comprendre vos forces et axes d'amélioration. Identifiez vos points forts et les domaines où concentrer vos efforts pour progresser davantage.",
-          "tab-label": "Détails des résultats"
+          "tab-label": "Détails"
         },
         "rewards": {
           "title": "Récompenses et attentes de l’organisateur",
@@ -1740,7 +1746,11 @@
         "trainings": {
           "title": "Vous souhaitez en apprendre plus ?",
           "description": "Obtenez des recommandations de formations personnalisées pour continuer à progresser et nourrir votre curiosité pour vous aider à réaliser votre plein potentiel.",
-          "tab-label": "Formations"
+          "tab-label": "Formations",
+          "modal": {
+            "content": "Envoyez vos résultats pour permettre à l’organisateur du parcours de vous accompagner.'<br />'Après avoir partagé, vous bénéficierez d'un accès à ces formations&nbsp;!",
+            "share-error": "Il y a eu une erreur lors de l'envoi de vos résultats. Veuillez réessayer."
+          }
         }
       },
       "trainings": {

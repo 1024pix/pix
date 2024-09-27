@@ -80,6 +80,7 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
             occurredAt: '2024-06-25T16:09:05.761Z',
             role: 'SUPER_ADMIN',
             client: 'PIX_ADMIN',
+            data: { hello: 'world' },
           },
         ];
 

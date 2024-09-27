@@ -38,7 +38,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       ApplicationTransaction.getTransactionAsDomainTransaction.returns(domainTransaction);
 
       usecases.uploadSiecleFile.resolves();
-      dependencies = { logErrorWithCorrelationIds: sinon.stub() };
+      dependencies = { logErrorWithCorrelationIds: sinon.stub(), logWarnWithCorrelationIds: sinon.stub() };
     });
 
     it('should delete uploaded file', async function () {
@@ -89,6 +89,28 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         payload,
       });
+    });
+
+    it('should log error on failed usecases to import organizationLearners xml', async function () {
+      // given
+      const uploadedError = Symbol('uploadedError');
+      usecases.uploadSiecleFile.rejects(uploadedError);
+      const userId = 1;
+      request.auth = { credentials: { userId } };
+      hFake.request = {
+        path: '/api/organizations/145/sco-organization-learners/import-siecle',
+      };
+
+      // when
+      const error = await catchErr(scoOrganizationManagementController.importOrganizationLearnersFromSIECLE)(
+        request,
+        hFake,
+        dependencies,
+      );
+
+      // then
+      expect(dependencies.logWarnWithCorrelationIds).to.have.been.calledWithExactly(uploadedError);
+      expect(error).to.be.deep.equal(uploadedError);
     });
 
     it('should call the usecase to import organizationLearners csv', async function () {

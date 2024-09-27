@@ -51,7 +51,7 @@ export default class SessionsNewController extends Controller {
   cancel() {
     this.isSessionDateMissing = false;
     this.isSessionTimeMissing = false;
-    this.router.transitionTo('authenticated.sessions.list');
+    this.router.transitionTo('authenticated.sessions');
   }
 
   @action

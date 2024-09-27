@@ -25,7 +25,7 @@ export async function get({ certificationCandidateId }) {
  * @param {Object} params
  * @param {number} params.sessionId
  *
- * @return [Candidate]
+ * @return {Array<Candidate>}
  */
 export async function findBySessionId({ sessionId }) {
   const candidatesData = await buildBaseReadQuery(knex)
@@ -43,27 +43,27 @@ export async function findBySessionId({ sessionId }) {
  */
 export async function update(candidate) {
   const candidateDataToSave = adaptModelToDb(candidate);
-  await knex.transaction(async (trx) => {
-    const [updatedCertificationCandidate] = await trx('certification-candidates')
-      .where({
-        id: candidate.id,
-      })
-      .update(candidateDataToSave)
-      .returning('*');
+  const knexConn = DomainTransaction.getConnection();
 
-    if (!updatedCertificationCandidate) {
-      throw new CertificationCandidateNotFoundError();
-    }
+  const [updatedCertificationCandidate] = await knexConn('certification-candidates')
+    .where({
+      id: candidate.id,
+    })
+    .update(candidateDataToSave)
+    .returning('*');
 
-    await trx('certification-subscriptions').where({ certificationCandidateId: candidate.id }).del();
-    for (const subscription of candidate.subscriptions) {
-      await trx('certification-subscriptions').insert({
-        certificationCandidateId: candidate.id,
-        type: subscription.type,
-        complementaryCertificationId: subscription.complementaryCertificationId,
-      });
-    }
-  });
+  if (!updatedCertificationCandidate) {
+    throw new CertificationCandidateNotFoundError();
+  }
+
+  await knexConn('certification-subscriptions').where({ certificationCandidateId: candidate.id }).del();
+  for (const subscription of candidate.subscriptions) {
+    await knexConn('certification-subscriptions').insert({
+      certificationCandidateId: candidate.id,
+      type: subscription.type,
+      complementaryCertificationId: subscription.complementaryCertificationId,
+    });
+  }
 }
 
 /**
@@ -185,6 +185,7 @@ function adaptModelToDb(candidate) {
     authorizedToStart: candidate.authorizedToStart,
     sessionId: candidate.sessionId,
     userId: candidate.userId,
+    reconciledAt: candidate.reconciledAt,
     organizationLearnerId: candidate.organizationLearnerId,
     billingMode: candidate.billingMode,
     prepaymentCode: candidate.prepaymentCode,

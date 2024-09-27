@@ -24,4 +24,11 @@ export default class OrganizationCampaignsRoute extends Route {
       organizationId,
     };
   }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.pageNumber = 1;
+      controller.pageSize = 10;
+    }
+  }
 }

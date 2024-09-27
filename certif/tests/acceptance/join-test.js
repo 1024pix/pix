@@ -93,7 +93,7 @@ module('Acceptance | join ', function (hooks) {
 
           // then
           assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-          assert.strictEqual(currentURL(), '/sessions/liste');
+          assert.strictEqual(currentURL(), '/sessions');
           assert.dom(
             screen.getByRole('button', { name: 'Harry Cover Collège Truffaut (ABC123) Ouvrir le menu utilisateur' }),
           );

@@ -18,7 +18,7 @@ export default class TermsOfServiceController extends Controller {
         adapterOptions: { acceptPixCertifTermsOfService: true },
       });
       this.currentUser.certificationPointOfContact.pixCertifTermsOfServiceAccepted = true;
-      this.router.transitionTo('authenticated.sessions.list');
+      this.router.transitionTo('authenticated.sessions');
     } catch (errorResponse) {
       this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
     }

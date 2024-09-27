@@ -1,0 +1,13 @@
+.show-more-text {
+  overflow: hidden;
+}
+
+.show-more-text__text-container--shrinked {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  & > * {
+    display: inline;
+  }
+}

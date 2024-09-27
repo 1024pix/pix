@@ -16,6 +16,8 @@ const buildOrganizationLearner = function ({
   deletedBy = null,
   deletedAt = null,
   attributes = null,
+  certifiableAt = null,
+  isCertifiable = null,
 } = {}) {
   organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -32,6 +34,8 @@ const buildOrganizationLearner = function ({
     deletedBy,
     deletedAt,
     attributes,
+    certifiableAt,
+    isCertifiable,
   };
 
   return databaseBuffer.pushInsertable({

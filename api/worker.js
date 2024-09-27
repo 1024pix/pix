@@ -93,14 +93,20 @@ export async function registerJobs({ jobGroup, dependencies = { startPgBoss, cre
       logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
       jobQueues.register(job.jobName, ModuleClass);
 
-      if (job.legacyName) {
+      if (!job.jobCron && job.legacyName) {
         logger.warn(`Temporary Job" ${job.legacyName}" registered from module "${moduleName}."`);
         jobQueues.register(job.legacyName, ModuleClass);
       }
 
       if (job.jobCron) {
-        await pgBoss.schedule(job.jobName, job.jobCron, {}, { tz: 'Europe/Paris' });
+        await jobQueues.scheduleCronJob({ name: job.jobName, cron: job.jobCron, options: { tz: 'Europe/Paris' } });
         logger.info(`Cron for job "${job.jobName}" scheduled "${job.jobCron}"`);
+
+        // For cronJob we need to unschedule older cron
+        if (job.legacyName) {
+          await jobQueues.unscheduleCronJob(job.legacyName);
+        }
+
         cronJobCount++;
       } else {
         jobRegisteredCount++;

@@ -25,6 +25,7 @@ const buildOrganizationLearnerWithUser = function ({
   user,
   updatedAt = new Date('2021-01-01'), // for BEGINNING_OF_THE_2020_SCHOOL_YEAR, can outdate very fast! ;)
   group = 'LB1',
+  attributes = null,
 } = {}) {
   organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
   const { id: userId } = buildUser(user);
@@ -50,6 +51,7 @@ const buildOrganizationLearnerWithUser = function ({
     userId,
     updatedAt,
     group,
+    attributes,
   };
 
   return databaseBuffer.pushInsertable({

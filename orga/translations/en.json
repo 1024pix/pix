@@ -66,10 +66,18 @@
       "message": "'<strong>'Certifications :'</strong>' n’oubliez pas de '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finaliser les sessions dans Pix Certif'</a>' puis de télécharger les attestations ici via l'onglet “Certifications” avant la rentrée {year}."
     },
     "import": {
-      "message": "The administrator can download certification results and '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'import'</a>' the students database to create back-to-school campaigns by year level. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Learn more'</a>'"
+      "message": "The main stages of the school year :",
+      "step1a": " Setting up&nbsp;: '<'a href='https://cloud.pix.fr/s/WjTnkSbFs9TDcSC' title='Downloading results how-to' class='link link--banner link--bold link--underlined' '>'downloading certification results'</a>' and",
+      "step1b": "importing",
+      "step1c": "the student database (admin)",
+      "step2": "'<'a href='https://cloud.pix.fr/s/RaPpKjFHNX2kSR4' title='Back-to-school how-to' class='link link--banner link--bold link--underlined' '>'Create campaigns'</a>' (back-to-school, 6th grade, thematic, subject-based, targeted courses, etc.).",
+      "step3": "'<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Preparing and organising student certification how-to' class='link link--banner link--bold link--underlined' '>'Certify learners'</a>'."
     },
     "language-availability": {
       "message": "Your language is not yet available on Pix Orga. For your convenience, the application will be presented in English. The entire Pix team is working to add your language."
+    },
+    "last-places-lot-available": {
+      "message": "Please note that your seats will expire in {days, number} days."
     },
     "over-capacity": {
       "message": "Please note that you are using more seats than your total capacity."
@@ -120,6 +128,11 @@
   "charts": {
     "participants-by-day": {
       "title": "Participant's activity",
+      "captions": {
+        "shared": "Submitted results by day",
+        "shared-profile": "Submitted profiles by day",
+        "started": "Total participants by day"
+      },
       "labels-a11y": {
         "date": "Date",
         "shared": "Submitted results",
@@ -882,7 +895,7 @@
         "caption": "List of missions",
         "empty-state": "There is not any mission",
         "headers": {
-          "competences": "Targeted competence",
+          "competences": "Targeted DigComp competence",
           "name": "Mission",
           "started-by": "Started by"
         },
@@ -928,10 +941,18 @@
               "learners-count": "{count, plural, =0 {No student} =1 {1 student} other {{count} students}}"
             },
             "headers": {
+              "dare-challenge": "Dare challenge",
               "division": "Division",
               "first-name": "First name",
               "last-name": "Last name",
-              "result": "Positioning"
+              "result": "Mission assessment",
+              "step": "Step {number}"
+            },
+            "mission-dare-result": {
+              "not-reached": "NR",
+              "partially-reached": "PR",
+              "reached": "R",
+              "undefined": "-"
             },
             "mission-result": {
               "exceeded": "Exceeded",
@@ -940,7 +961,13 @@
               "reached": "Reached",
               "undefined": "-"
             },
-            "no-data": "There is not any participants"
+            "no-data": "There is not any participants",
+            "step-result": {
+              "not-reached": "NR",
+              "partially-reached": "PR",
+              "reached": "R",
+              "undefined": "-"
+            }
           }
         },
         "tabs": {
@@ -1133,11 +1160,11 @@
         "table": {
           "title": "Seats purchase history",
           "caption": "Table listing your organisation's seat purchases. For each purchase, it shows: the number of tickets, the activation date, the expiry date and the status (active, coming soon or expired). It is ordered according to the status of the purchases and their expiry date.",
-          "empty-state":"No seats yet!",
+          "empty-state": "No seats yet!",
           "headers": {
-            "activationDate": "Activation date",
+            "activation-date": "Activation date",
             "count": "Seats count",
-            "expirationDate": "Expiration date",
+            "expiration-date": "Expiration date",
             "status": "Status"
           }
         }
@@ -1208,6 +1235,7 @@
     "sco-organization-participants": {
       "title": "{count, plural, =0 {Students} =1 {Student ({count})} other {Students ({count})}}",
       "action-bar": {
+        "generate-username-password-button": "Generate logins and/or passwords for selected students",
         "information": "{count, plural, =1 {{count} student selected} other {{count} students selected}}",
         "reset-password-button": "Reset passwords for selected students"
       },
@@ -1244,6 +1272,13 @@
           "label": "Search by log in method"
         },
         "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}"
+      },
+      "generate-username-password-modal": {
+        "title": "Generate logins and/or passwords for selected students",
+        "content-message-1": "Students who do not yet have a login method must go through a campaign at your school to create their PIX account.",
+        "content-message-2": "A CSV file containing login details and one-time passwords will be generated.",
+        "content-message-3": "Give these new one-time passwords to the students. When they log in with this password, Pix will ask them to enter a new one.",
+        "warning-message": "A login and password will be generated for students who have access to the Mediacentre and/or an e-mail address. Students who already have a login will have their password reset."
       },
       "manage-authentication-method-modal": {
         "title": "Managing the student's Pix account",

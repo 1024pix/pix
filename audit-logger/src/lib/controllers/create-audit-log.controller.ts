@@ -51,6 +51,7 @@ export const CREATE_AUDIT_LOG_ROUTE: ServerRoute = {
             client: Joi.string()
               .valid(...AuditLogClientTypes)
               .required(),
+            data: Joi.object().optional(),
           }),
         )
         .single(),

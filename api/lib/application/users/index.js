@@ -42,33 +42,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/admin/users/{id}/profile',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        handler: userController.getProfileForAdmin,
-        notes: [
-          "- Permet à un administrateur de récupérer le nombre total de Pix d'un utilisateur\n et de ses scorecards",
-        ],
-        tags: ['api', 'user', 'profile'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/admin/users/{id}/organizations',
       config: {
         pre: [
@@ -353,30 +326,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/users/{id}/profile',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        handler: userController.getProfile,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Récupération du nombre total de Pix de l'utilisateur\n et de ses scorecards" +
-            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'user', 'profile'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/users/{userId}/campaigns/{campaignId}/profile',
       config: {
         validate: {
@@ -517,31 +466,6 @@ const register = async function (server) {
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             "- Sauvegarde le fait que l'utilisateur ait vu le message sur le nouveau dashboard" +
-            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-          "- Le contenu de la requête n'est pas pris en compte.",
-        ],
-        tags: ['api', 'user'],
-      },
-    },
-    {
-      method: 'PATCH',
-      path: '/api/users/{id}/user-has-seen-level-seven-info',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        handler: userController.rememberUserHasSeenLevelSevenInfo,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Sauvegarde le fait que l'utilisateur ait vu le message d'information d'ouverture du niveau 7" +
             '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
           "- Le contenu de la requête n'est pas pris en compte.",
         ],

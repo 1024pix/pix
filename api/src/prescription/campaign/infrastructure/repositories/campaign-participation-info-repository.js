@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
-import { CampaignParticipationInfo } from '../../../../shared/domain/read-models/CampaignParticipationInfo.js';
+import { CampaignParticipationInfo } from '../../domain/read-models/CampaignParticipationInfo.js';
 
 const findByCampaignId = async function (campaignId) {
   const results = await knex
@@ -14,6 +14,7 @@ const findByCampaignId = async function (campaignId) {
         'view-active-organization-learners.studentNumber',
         'view-active-organization-learners.division',
         'view-active-organization-learners.group',
+        'view-active-organization-learners.attributes',
       ])
         .from('campaign-participations')
         .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
@@ -49,6 +50,7 @@ function _rowToCampaignParticipationInfo(row) {
     participantExternalId: row.participantExternalId,
     studentNumber: row.studentNumber,
     userId: row.userId,
+    additionalInfos: row.attributes,
     campaignParticipationId: row.id,
     isCompleted: row.state === Assessment.states.COMPLETED,
     createdAt: new Date(row.createdAt),
