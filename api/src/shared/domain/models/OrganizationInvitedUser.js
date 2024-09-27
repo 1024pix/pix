@@ -1,5 +1,6 @@
+import { AlreadyAcceptedOrCancelledInvitationError } from '../../../team/domain/errors.js';
 import { OrganizationInvitation } from '../../../team/domain/models/OrganizationInvitation.js';
-import { AlreadyAcceptedOrCancelledInvitationError, AlreadyExistingMembershipError, NotFoundError } from '../errors.js';
+import { AlreadyExistingMembershipError, NotFoundError } from '../errors.js';
 import { roles } from './Membership.js';
 
 class OrganizationInvitedUser {

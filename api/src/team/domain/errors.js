@@ -1,5 +1,11 @@
 import { DomainError } from '../../shared/domain/errors.js';
 
+class AlreadyAcceptedOrCancelledInvitationError extends DomainError {
+  constructor(message = "L'invitation a déjà été acceptée ou annulée.") {
+    super(message);
+  }
+}
+
 class AlreadyExistingAdminMemberError extends DomainError {
   constructor(message = 'Cet agent a déjà accès') {
     super(message);
@@ -33,6 +39,7 @@ class OrganizationArchivedError extends DomainError {
 }
 
 export {
+  AlreadyAcceptedOrCancelledInvitationError,
   AlreadyExistingAdminMemberError,
   MembershipNotFound,
   OrganizationArchivedError,

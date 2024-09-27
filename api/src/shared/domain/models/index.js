@@ -63,7 +63,6 @@ import { CertifiableBadgeAcquisition } from './CertifiableBadgeAcquisition.js';
 import { CertifiableProfileForLearningContent } from './CertifiableProfileForLearningContent.js';
 import { CertificationCandidate } from './CertificationCandidate.js';
 import { CertificationCenter } from './CertificationCenter.js';
-import { CertificationCenterInvitedUser } from './CertificationCenterInvitedUser.js';
 import { CertificationCenterMembership } from './CertificationCenterMembership.js';
 import { CertificationChallenge } from './CertificationChallenge.js';
 import { CertificationChallengeWithType } from './CertificationChallengeWithType.js';
@@ -151,7 +150,6 @@ export {
   CertificationCandidate,
   CertificationCandidateForSupervising,
   CertificationCenter,
-  CertificationCenterInvitedUser,
   CertificationCenterMembership,
   CertificationChallenge,
   CertificationChallengeWithType,

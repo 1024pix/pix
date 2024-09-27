@@ -649,12 +649,6 @@ class AlreadyExistingInvitationError extends DomainError {
   }
 }
 
-class AlreadyAcceptedOrCancelledInvitationError extends DomainError {
-  constructor(message = "L'invitation a déjà été acceptée ou annulée.") {
-    super(message);
-  }
-}
-
 class AlreadyRatedAssessmentError extends DomainError {
   constructor(message = 'Cette évaluation a déjà été évaluée.') {
     super(message);
@@ -1083,7 +1077,6 @@ export {
   AccountRecoveryDemandExpired,
   AccountRecoveryUserAlreadyConfirmEmail,
   AcquiredBadgeForbiddenDeletionError,
-  AlreadyAcceptedOrCancelledInvitationError,
   AlreadyExistingCampaignParticipationError,
   AlreadyExistingEntityError,
   AlreadyExistingInvitationError,

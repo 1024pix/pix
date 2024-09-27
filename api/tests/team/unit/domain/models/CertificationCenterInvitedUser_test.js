@@ -1,7 +1,8 @@
-import { AlreadyAcceptedOrCancelledInvitationError, NotFoundError } from '../../../../src/shared/domain/errors.js';
-import { CertificationCenterInvitedUser } from '../../../../src/shared/domain/models/CertificationCenterInvitedUser.js';
-import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
-import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { AlreadyAcceptedOrCancelledInvitationError } from '../../../../../src/team/domain/errors.js';
+import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
+import { CertificationCenterInvitedUser } from '../../../../../src/team/domain/models/CertificationCenterInvitedUser.js';
+import { catchErr, domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationCenterInvitedUser', function () {
   describe('#acceptInvitation', function () {
