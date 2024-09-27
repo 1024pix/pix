@@ -22,7 +22,7 @@ const getOrganizationLearnersCsvTemplate = async function ({
   const importFormat = await organizationLearnerImportFormatRepository.get(organizationId);
   let columns;
   if (importFormat) {
-    columns = importFormat.headersFields;
+    columns = importFormat.headersName;
   } else {
     if (!_isSupManagingStudents(membership)) {
       throw new UserNotAuthorizedToAccessEntityError(ERROR_MESSAGE);

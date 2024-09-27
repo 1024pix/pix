@@ -13,8 +13,8 @@ class ImportOrganizationLearnerSet {
   #existingLearners;
   #organizationId;
 
-  #validationRuleList;
   #hasValidationFormats;
+  #validationRuleList;
 
   #columnMapping;
 
@@ -29,10 +29,12 @@ class ImportOrganizationLearnerSet {
   constructor({ organizationId, importFormat }) {
     this.#organizationId = organizationId;
 
-    this.#validationRuleList = importFormat.config.validationRules;
     this.#unicityColumns = importFormat.config.unicityColumns;
 
-    this.#hasValidationFormats = !!importFormat.config.validationRules?.formats;
+    this.#hasValidationFormats = Boolean(importFormat.config.headers.find((header) => header.config?.validate));
+    this.#validationRuleList = importFormat.config.headers.flatMap((header) => {
+      return header.config?.validate ? { name: header.name, ...header.config?.validate } : [];
+    });
 
     this.#columnMapping = importFormat.config.headers;
 
@@ -69,7 +71,7 @@ class ImportOrganizationLearnerSet {
   }
 
   #hasRequiredProperties() {
-    const definedProperties = this.#columnMapping.map((header) => header.property);
+    const definedProperties = this.#columnMapping.map((header) => header.config?.property);
     if (!definedProperties.includes('firstName')) {
       this.#errors.push(
         new ImportLearnerConfigurationError(
@@ -90,9 +92,9 @@ class ImportOrganizationLearnerSet {
 
   #setUnicityColumnMapping() {
     this.#unicityColumnMapping = this.#unicityColumns.reduce((unicityColumnMapping, unicityKey) => {
-      const { property } = this.#columnMapping.find((column) => column.name === unicityKey);
+      const { config } = this.#columnMapping.find((column) => column.name === unicityKey);
 
-      unicityColumnMapping[unicityKey] = property || unicityKey;
+      unicityColumnMapping[unicityKey] = config?.property || unicityKey;
 
       return unicityColumnMapping;
     }, {});
@@ -103,8 +105,8 @@ class ImportOrganizationLearnerSet {
 
     this.#columnMapping.forEach((column) => {
       const value = learner[column.name];
-      if (column.property) {
-        learnerAttributes[column.property] = value;
+      if (column.config?.property) {
+        learnerAttributes[column.config.property] = value;
       } else {
         learnerAttributes[column.name] = this.#formatLearnerAttribute({ attribute: value, columnName: column.name });
       }
@@ -117,15 +119,15 @@ class ImportOrganizationLearnerSet {
     if (!attribute) return null;
 
     if (this.#hasValidationFormats) {
-      const dateFormat = this.#validationRuleList.formats.find(
-        (rule) => rule.type === 'date' && rule.name === columnName,
+      const dateFormat = this.#columnMapping.find(
+        (header) => header.config?.validate?.type === 'date' && header.name === columnName,
       );
 
       if (dateFormat) {
         return convertDateValue({
           dateString: attribute,
-          inputFormat: dateFormat.format,
-          alternativeInputFormat: dateFormat.format,
+          inputFormat: dateFormat.config.validate.format,
+          alternativeInputFormat: dateFormat.config.validate.format,
           outputFormat: 'YYYY-MM-DD',
         });
       }
@@ -232,7 +234,7 @@ class ImportOrganizationLearnerSet {
   }
 
   #checkValidations(learner) {
-    return validateCommonOrganizationLearner(learner, this.#validationRuleList.formats);
+    return validateCommonOrganizationLearner(learner, this.#validationRuleList);
   }
 
   get learners() {
