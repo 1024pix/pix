@@ -1,14 +1,44 @@
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable mocha/no-setup-in-describe */
 import { CertificationCandidateEligibilityError } from '../../../../../../src/certification/enrolment/domain/errors.js';
-import { verifyCandidateEligibility } from '../../../../../../src/certification/enrolment/domain/usecases/verify-candidate-eligibility.js';
+import { verifyCandidateSubscriptions } from '../../../../../../src/certification/enrolment/domain/usecases/verify-candidate-subscriptions.js';
 import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
-import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
+import { UserNotAuthorizedToCertifyError } from '../../../../../../src/shared/domain/errors.js';
+import { AssessmentResult } from '../../../../../../src/shared/domain/models/index.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate-eligibility', function () {
+describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate-subscriptions', function () {
   let session;
   const dependencies = {};
+
+  context('when a candidate has subscribed to a core certification', function () {
+    context('when user profile is not certifiable', function () {
+      it('should throw an error', async function () {
+        // given
+        dependencies.sessionRepository = {
+          get: sinon.stub(),
+        };
+        dependencies.placementProfileService = {
+          getPlacementProfile: sinon.stub().resolves({ isCertifiable: sinon.stub().returns(false) }),
+        };
+
+        const candidate = domainBuilder.certification.enrolment.buildCandidate({
+          userId: null,
+          subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
+        });
+
+        // when
+        const error = await catchErr(verifyCandidateSubscriptions)({
+          userId: 2,
+          candidate,
+          ...dependencies,
+        });
+
+        //then
+        expect(error).to.be.instanceOf(UserNotAuthorizedToCertifyError);
+      });
+    });
+  });
 
   context('when session is v2', function () {
     beforeEach(function () {
@@ -16,20 +46,22 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       dependencies.sessionRepository = {
         get: sinon.stub().resolves(session),
       };
+      dependencies.placementProfileService = {
+        getPlacementProfile: sinon.stub().resolves({ isCertifiable: sinon.stub().returns(true) }),
+      };
     });
 
     it('should resolve', async function () {
       // given
       const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        userId: 1234,
-        subscriptions: [],
+        userId: null,
+        subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
       });
 
       // when
-      const result = await verifyCandidateEligibility({
-        userId: candidate.userId,
+      const result = await verifyCandidateSubscriptions({
+        userId: 2,
         candidate,
-        limitDate: Date.now(),
         ...dependencies,
       });
 
@@ -52,6 +84,9 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       dependencies.certificationBadgesService = {
         findLatestBadgeAcquisitions: sinon.stub(),
       };
+      dependencies.placementProfileService = {
+        getPlacementProfile: sinon.stub().resolves({ isCertifiable: sinon.stub().returns(true) }),
+      };
       dependencies.complementaryCertificationBadgeRepository = {
         findAll: sinon.stub(),
       };
@@ -63,7 +98,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         const certificationCandidateId = 456;
         const candidate = domainBuilder.certification.enrolment.buildCandidate({
           id: certificationCandidateId,
-          userId: 1234,
+          userId: null,
           subscriptions: [
             domainBuilder.certification.enrolment.buildCoreSubscription({
               certificationCandidateId,
@@ -72,10 +107,9 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         });
 
         // when
-        const result = await verifyCandidateEligibility({
-          userId: candidate.userId,
+        const result = await verifyCandidateSubscriptions({
+          userId: 2,
           candidate,
-          limitDate: Date.now(),
           ...dependencies,
         });
 
@@ -88,6 +122,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       it('should resolve', async function () {
         // given
         const certificationCandidateId = 456;
+        const complementaryCertificationId = 123;
         const candidate = domainBuilder.certification.enrolment.buildCandidate({
           id: certificationCandidateId,
           userId: 1234,
@@ -97,12 +132,13 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
             }),
             domainBuilder.certification.enrolment.buildComplementarySubscription({
               certificationCandidateId,
+              complementaryCertificationId,
             }),
           ],
         });
 
         // when
-        const result = await verifyCandidateEligibility({
+        const result = await verifyCandidateSubscriptions({
           userId: candidate.userId,
           candidate,
           limitDate: Date.now(),
@@ -153,7 +189,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           dependencies.pixCertificationRepository.findByUserId.resolves([pixCertification]);
 
           // when
-          const error = await catchErr(verifyCandidateEligibility)({
+          const error = await catchErr(verifyCandidateSubscriptions)({
             userId: candidate.userId,
             candidate,
             limitDate: Date.now(),
@@ -222,7 +258,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           ]);
 
           // when
-          const error = await catchErr(verifyCandidateEligibility)({
+          const error = await catchErr(verifyCandidateSubscriptions)({
             userId: candidate.userId,
             candidate,
             limitDate: Date.now(),
@@ -300,7 +336,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           ]);
 
           // when
-          const error = await catchErr(verifyCandidateEligibility)({
+          const error = await catchErr(verifyCandidateSubscriptions)({
             userId: candidate.userId,
             candidate,
             limitDate: Date.now(),
@@ -366,7 +402,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           ]);
 
           // when
-          const error = await catchErr(verifyCandidateEligibility)({
+          const error = await catchErr(verifyCandidateSubscriptions)({
             userId: candidate.userId,
             candidate,
             limitDate: Date.now(),
@@ -432,7 +468,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           ]);
 
           // when
-          const result = await verifyCandidateEligibility({
+          const result = await verifyCandidateSubscriptions({
             userId: candidate.userId,
             candidate,
             limitDate: Date.now(),

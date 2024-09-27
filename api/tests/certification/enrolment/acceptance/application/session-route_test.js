@@ -474,7 +474,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
             isV3Pilot: true,
           }).id;
 
-          const onlyComplmentarySubscritpionUserId = databaseBuilder.factory.buildUser({
+          const onlyComplementarySubscriptionUserId = databaseBuilder.factory.buildUser({
             lang: LANGUAGES_CODE.FRENCH,
           }).id;
 
@@ -489,7 +489,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
             lastName,
             birthdate,
             sessionId: sessionId2,
-            userId: onlyComplmentarySubscritpionUserId,
+            userId: null,
             organizationLearnerId: null,
             hasSeenCertificationInstructions: false,
           }).id;
@@ -516,7 +516,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
                 },
               },
             },
-            headers: { authorization: generateValidRequestAuthorizationHeader(onlyComplmentarySubscritpionUserId) },
+            headers: { authorization: generateValidRequestAuthorizationHeader(onlyComplementarySubscriptionUserId) },
           };
 
           // when
