@@ -10,9 +10,9 @@ import {
 } from '../../../src/shared/domain/errors.js';
 import { Organization, OrganizationForAdmin, OrganizationTag } from '../../../src/shared/domain/models/index.js';
 import * as codeGenerator from '../../../src/shared/domain/services/code-generator.js';
-import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../src/shared/infrastructure/constants.js';
 import { monitoringTools } from '../../../src/shared/infrastructure/monitoring-tools.js';
 import { PromiseUtils } from '../../../src/shared/infrastructure/utils/promise-utils.js';
+import { CONCURRENCY_HEAVY_OPERATIONS } from '../../infrastructure/constants.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const SEPARATOR = '_';
