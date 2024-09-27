@@ -50,7 +50,7 @@ class Mailer {
         return EmailingAttempt.failure(options.to, EmailingAttempt.errorCode.INVALID_EMAIL, err.message);
       }
 
-      return EmailingAttempt.failure(options.to);
+      return EmailingAttempt.failure(options.to, EmailingAttempt.errorCode.PROVIDER_ERROR, err.message);
     }
 
     return EmailingAttempt.success(options.to);

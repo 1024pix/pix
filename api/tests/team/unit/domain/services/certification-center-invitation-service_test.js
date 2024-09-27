@@ -171,6 +171,7 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
 
           // then
           expect(error).to.be.instanceOf(SendingEmailError);
+          expect(error.message).to.equal('Failed to send email to "dick.cionère@example.net" for some unknown reason.');
         });
       });
     });

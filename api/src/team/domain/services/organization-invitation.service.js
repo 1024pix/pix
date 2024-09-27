@@ -64,7 +64,7 @@ const createOrUpdateOrganizationInvitation = async ({
       throw new SendingEmailToInvalidEmailAddressError(email, emailingAttempt.errorMessage);
     }
 
-    throw new SendingEmailError();
+    throw new SendingEmailError(email);
   }
 
   return await organizationInvitationRepository.updateModificationDate(organizationInvitation.id);

@@ -102,6 +102,7 @@ describe('Integration | Team | Domain | Service | organization-invitation', func
 
       // then
       expect(result).to.be.an.instanceOf(SendingEmailError);
+      expect(result.message).to.equal('Failed to send email to "invitation@example.net" for some unknown reason.');
     });
   });
 });
