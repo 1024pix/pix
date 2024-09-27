@@ -785,8 +785,8 @@ class DeprecatedCertificationIssueReportSubcategoryError extends DomainError {
 }
 
 class SendingEmailError extends DomainError {
-  constructor() {
-    super("Échec lors de l'envoi de l'email.");
+  constructor(emailAddress) {
+    super(`Failed to send email to "${emailAddress}" for some unknown reason.`);
     this.code = 'SENDING_EMAIL_FAILED';
   }
 }

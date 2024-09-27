@@ -747,12 +747,12 @@ describe('Integration | API | Controller Error', function () {
     const SERVICE_UNAVAILABLE_ERROR = 503;
 
     it('responds ServiceUnavailable when a SendingEmailError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.SendingEmailError(['toto@pix.fr', 'titi@pix.fr']));
+      routeHandler.throws(new DomainErrors.SendingEmailError('toto@pix.fr'));
 
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(SERVICE_UNAVAILABLE_ERROR);
-      expect(responseDetail(response)).to.equal("Échec lors de l'envoi de l'email.");
+      expect(responseDetail(response)).to.equal('Failed to send email to "toto@pix.fr" for some unknown reason.');
     });
 
     it('responds ServiceUnavailable when a SendingEmailToResultRecipientError error occurs', async function () {

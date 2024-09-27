@@ -82,7 +82,7 @@ async function _sendInvitationEmail(
       throw new SendingEmailToInvalidEmailAddressError(email, emailingAttempt.errorMessage);
     }
 
-    throw new SendingEmailError();
+    throw new SendingEmailError(email);
   }
 
   await certificationCenterInvitationRepository.updateModificationDate(certificationCenterInvitation.id);

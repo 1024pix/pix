@@ -41,7 +41,7 @@ const createOrUpdateCertificationCenterInvitationForAdmin = async function ({
       throw new SendingEmailToInvalidDomainError(email);
     }
 
-    throw new SendingEmailError();
+    throw new SendingEmailError(email);
   }
 
   return { isInvitationCreated, certificationCenterInvitation };

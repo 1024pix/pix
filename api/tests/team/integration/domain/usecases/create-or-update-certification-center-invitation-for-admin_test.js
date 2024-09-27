@@ -168,6 +168,7 @@ describe('Integration | Team | UseCase | create-or-update-certification-center-i
 
     // then
     expect(result).to.be.an.instanceOf(SendingEmailError);
+    expect(result.message).to.equal('Failed to send email to "some.user@example.net" for some unknown reason.');
   });
 
   context('when recipient email has an invalid domain', function () {
