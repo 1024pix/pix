@@ -16,7 +16,7 @@ module('Integration | Component |  administration/campaigns-import', function (h
   let store, adapter, notificationSuccessStub, clearAllStub, saveAdapterStub, notificationErrorStub;
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
-    adapter = store.adapterFor('campaigns-import');
+    adapter = store.adapterFor('import-files');
     saveAdapterStub = sinon.stub(adapter, 'addCampaignsCsv');
     notificationSuccessStub = sinon.stub();
     notificationErrorStub = sinon.stub().returns();

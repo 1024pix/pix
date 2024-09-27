@@ -141,6 +141,7 @@ Router.map(function () {
     this.route('administration', function () {
       this.route('common');
       this.route('campaigns');
+      this.route('organizations');
       this.route('certification');
       this.route('deployment');
       this.route('access');

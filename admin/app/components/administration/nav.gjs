@@ -12,6 +12,10 @@ import { t } from 'ember-intl';
       {{t "pages.administration.navigation.campaigns.label"}}
     </LinkTo>
 
+    <LinkTo @route="authenticated.administration.organizations" class="navbar-item">
+      {{t "pages.administration.navigation.organizations.label"}}
+    </LinkTo>
+
     <LinkTo @route="authenticated.administration.certification" class="navbar-item">
       {{t "pages.administration.navigation.certification.label"}}
     </LinkTo>

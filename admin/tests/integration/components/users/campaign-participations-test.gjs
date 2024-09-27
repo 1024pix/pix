@@ -62,7 +62,7 @@ module('Integration | Component | users | campaign-participation', function (hoo
       assert.dom(screen.getByRole('link', { name: 'SOMECODE' })).exists();
     });
 
-    test('it should display orgnaization learner information', async function (assert) {
+    test('it should display organization learner information', async function (assert) {
       // given
       const participation = EmberObject.create({
         organizationLearnerFullName: 'Un nom bien long',
