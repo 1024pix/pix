@@ -4,7 +4,7 @@ import { OrganizationLearner } from '../../../../../src/shared/domain/models/Org
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Repository | organizationLearner', function () {
-  describe('#findPaginatedMissionLearners', function () {
+  describe('#findMissionLearners', function () {
     it('should return missionLearners corresponding to the organizationId', async function () {
       const organizationId = 123456;
       const rawStudent = {
@@ -29,7 +29,7 @@ describe('Unit | Repository | organizationLearner', function () {
         .withArgs({ organizationId, page: customPagination, filter: divisionFilter })
         .resolves({ organizationLearners: [new OrganizationLearner(rawStudent)], pagination: expectedPagination });
 
-      const { missionLearners, pagination } = await missionLearnersRepository.findPaginatedMissionLearners({
+      const { missionLearners, pagination } = await missionLearnersRepository.findMissionLearners({
         organizationId,
         page: customPagination,
         filter: divisionFilter,
