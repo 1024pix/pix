@@ -1,5 +1,9 @@
 import { mailService } from '../../../../../lib/domain/services/mail-service.js';
-import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../../src/shared/domain/errors.js';
+import {
+  SendingEmailError,
+  SendingEmailToInvalidDomainError,
+  SendingEmailToInvalidEmailAddressError,
+} from '../../../../../src/shared/domain/errors.js';
 import { EmailingAttempt } from '../../../../../src/shared/domain/models/EmailingAttempt.js';
 import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
@@ -169,6 +173,39 @@ describe('Integration | Team | UseCase | create-or-update-certification-center-i
       expect(error).to.be.an.instanceOf(SendingEmailToInvalidDomainError);
       expect(error.message).to.equal(
         'Failed to send email to someone@consideredInvalidDomain.net because domain seems to be invalid.',
+      );
+    });
+  });
+
+  context('when recipient email is invalid', function () {
+    it('throws a SendingEmailToInvalidEmailAddressError', async function () {
+      // given
+      const invalidEmail = 'considered_invalid@example.net';
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Konoha' }).id;
+      databaseBuilder.factory.buildCertificationCenterInvitation({
+        email: invalidEmail,
+        certificationCenterId,
+        code: 'BBBJJJPPP6',
+        status: CertificationCenterInvitation.StatusType.PENDING,
+      });
+      await databaseBuilder.commit();
+
+      const emailingAttempt = EmailingAttempt.failure(invalidEmail, EmailingAttempt.errorCode.INVALID_EMAIL);
+      mailService.sendCertificationCenterInvitationEmail.resolves(emailingAttempt);
+
+      // when
+      const error = await catchErr(usecases.createOrUpdateCertificationCenterInvitationForAdmin)({
+        email: invalidEmail,
+        locale: 'fr',
+        role: 'ADMIN',
+        certificationCenterId,
+        mailService,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(SendingEmailToInvalidEmailAddressError);
+      expect(error.message).to.equal(
+        'Failed to send email to considered_invalid@example.net because email address seems to be invalid.',
       );
     });
   });

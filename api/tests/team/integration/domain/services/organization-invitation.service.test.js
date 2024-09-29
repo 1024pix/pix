@@ -1,7 +1,11 @@
 import _ from 'lodash';
 
 import { mailService } from '../../../../../lib/domain/services/mail-service.js';
-import { SendingEmailError } from '../../../../../src/shared/domain/errors.js';
+import {
+  SendingEmailError,
+  SendingEmailToInvalidDomainError,
+  SendingEmailToInvalidEmailAddressError,
+} from '../../../../../src/shared/domain/errors.js';
 import { EmailingAttempt } from '../../../../../src/shared/domain/models/EmailingAttempt.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import * as organizationRepository from '../../../../../src/shared/infrastructure/repositories/organization-repository.js';
@@ -74,6 +78,75 @@ describe('Integration | Team | Domain | Service | organization-invitation', func
         updatedAt: now,
       };
       expect(_.omit(result, 'organizationName')).to.deep.equal(expectedOrganizationInvitation);
+    });
+
+    context('when recipient email has an invalid domain', function () {
+      it('throws a SendingEmailToInvalidDomainError', async function () {
+        // given
+        const emailWithInvalidDomain = 'someone@consideredInvalidDomain.net';
+        const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
+          email: emailWithInvalidDomain,
+          status: OrganizationInvitation.StatusType.PENDING,
+        });
+        await databaseBuilder.commit();
+
+        const emailingAttempt = EmailingAttempt.failure(
+          emailWithInvalidDomain,
+          EmailingAttempt.errorCode.INVALID_DOMAIN,
+        );
+        sinon.stub(mailService, 'sendOrganizationInvitationEmail');
+        mailService.sendOrganizationInvitationEmail.resolves(emailingAttempt);
+
+        // when
+        const error = await catchErr(organizationInvitationService.createOrUpdateOrganizationInvitation)({
+          organizationId: organizationInvitation.organizationId,
+          email: emailWithInvalidDomain,
+          organizationRepository,
+          organizationInvitationRepository,
+          dependencies: {
+            mailService,
+          },
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(SendingEmailToInvalidDomainError);
+        expect(error.message).to.equal(
+          'Failed to send email to someone@consideredInvalidDomain.net because domain seems to be invalid.',
+        );
+      });
+    });
+
+    context('when recipient email is invalid', function () {
+      it('throws a SendingEmailToInvalidEmailAddressError', async function () {
+        // given
+        const invalidEmail = 'considered_invalid@example.net';
+        const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
+          email: invalidEmail,
+          status: OrganizationInvitation.StatusType.PENDING,
+        });
+        await databaseBuilder.commit();
+
+        const emailingAttempt = EmailingAttempt.failure(invalidEmail, EmailingAttempt.errorCode.INVALID_EMAIL);
+        sinon.stub(mailService, 'sendOrganizationInvitationEmail');
+        mailService.sendOrganizationInvitationEmail.resolves(emailingAttempt);
+
+        // when
+        const error = await catchErr(organizationInvitationService.createOrUpdateOrganizationInvitation)({
+          organizationId: organizationInvitation.organizationId,
+          email: invalidEmail,
+          organizationRepository,
+          organizationInvitationRepository,
+          dependencies: {
+            mailService,
+          },
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(SendingEmailToInvalidEmailAddressError);
+        expect(error.message).to.equal(
+          'Failed to send email to considered_invalid@example.net because email address seems to be invalid.',
+        );
+      });
     });
 
     context('when email sending fails for some unknown reason', function () {
