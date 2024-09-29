@@ -32,7 +32,6 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
         it('creates an invitation, sends an email and updates invitation modification date', async function () {
           // given
           const certificationCenter = domainBuilder.buildCertificationCenter({
-            id: 202310130,
             name: 'Best Certification Center',
           });
           const code = 'AZERTY007';
@@ -46,7 +45,6 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
           });
           const createdCertificationCenterInvitation = new CertificationCenterInvitation({
             ...certificationCenterInvitationToCreate,
-            id: 202310131,
           });
 
           certificationCenterInvitationRepository.create.resolves(createdCertificationCenterInvitation);
@@ -91,7 +89,6 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
         it('sends an email and updates invitation modification date', async function () {
           // given
           const certificationCenter = domainBuilder.buildCertificationCenter({
-            id: 202310130,
             name: 'Best Certification Center',
           });
           const code = 'AZERTY007';
@@ -102,7 +99,6 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
             code,
             createdAt: new Date('2023-10-10'),
             email,
-            id: 202310131,
             updatedAt: new Date('2023-10-11'),
           });
 
@@ -230,7 +226,6 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
       it('throws a generic SendingEmailError', async function () {
         // given
         const certificationCenter = domainBuilder.buildCertificationCenter({
-          id: 202310130,
           name: 'Best Certification Center',
         });
         const code = 'AZERTY007';
@@ -241,7 +236,6 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
           code,
           createdAt: new Date('2023-10-10'),
           email,
-          id: 202310131,
           updatedAt: new Date('2023-10-11'),
         });
 
@@ -289,7 +283,6 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
         it('sends an email and updates invitation modification date', async function () {
           // given
           const certificationCenter = domainBuilder.buildCertificationCenter({
-            id: 202310130,
             name: 'Best Certification Center',
           });
           const code = 'AZERTY007';
@@ -300,7 +293,6 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
             code,
             createdAt: new Date('2023-10-10'),
             email,
-            id: 202310131,
             updatedAt: new Date('2023-10-11'),
           });
 
