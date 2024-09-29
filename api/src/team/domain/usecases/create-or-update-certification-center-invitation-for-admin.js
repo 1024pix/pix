@@ -1,4 +1,8 @@
-import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../shared/domain/errors.js';
+import {
+  SendingEmailError,
+  SendingEmailToInvalidDomainError,
+  SendingEmailToInvalidEmailAddressError,
+} from '../../../shared/domain/errors.js';
 import { CertificationCenterInvitation } from '../models/CertificationCenterInvitation.js';
 
 const createOrUpdateCertificationCenterInvitationForAdmin = async function ({
@@ -39,6 +43,10 @@ const createOrUpdateCertificationCenterInvitationForAdmin = async function ({
   if (emailingAttempt.hasFailed()) {
     if (emailingAttempt.hasFailedBecauseDomainWasInvalid()) {
       throw new SendingEmailToInvalidDomainError(email);
+    }
+
+    if (emailingAttempt.hasFailedBecauseEmailWasInvalid()) {
+      throw new SendingEmailToInvalidEmailAddressError(email, emailingAttempt.errorMessage);
     }
 
     throw new SendingEmailError(email);
