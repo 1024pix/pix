@@ -23,7 +23,7 @@ describe('Integration | Team | Domain | Service | organization-invitation', func
       clock.restore();
     });
 
-    it('should create a new organization-invitation with organizationId, email, role and status', async function () {
+    it('creates a new organization invitation with organizationId, email, role and status', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
@@ -53,7 +53,7 @@ describe('Integration | Team | Domain | Service | organization-invitation', func
       );
     });
 
-    it('should re-send an email with same code when organization-invitation already exist with status pending', async function () {
+    it('re-sends an email with same code when organization invitation already exists with status pending', async function () {
       // given
       const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
         status: OrganizationInvitation.StatusType.PENDING,
@@ -76,33 +76,35 @@ describe('Integration | Team | Domain | Service | organization-invitation', func
       expect(_.omit(result, 'organizationName')).to.deep.equal(expectedOrganizationInvitation);
     });
 
-    it('should throw an error if email was not send', async function () {
-      // given
-      const email = 'invitation@example.net';
-      const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
-        status: OrganizationInvitation.StatusType.PENDING,
-        email,
+    context('when email sending fails for some unknown reason', function () {
+      it('throws a generic SendingEmailError', async function () {
+        // given
+        const email = 'invitation@example.net';
+        const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
+          status: OrganizationInvitation.StatusType.PENDING,
+          email,
+        });
+        await databaseBuilder.commit();
+
+        const emailingAttempt = EmailingAttempt.failure(email);
+        sinon.stub(mailService, 'sendOrganizationInvitationEmail');
+        mailService.sendOrganizationInvitationEmail.resolves(emailingAttempt);
+
+        // when
+        const result = await catchErr(organizationInvitationService.createOrUpdateOrganizationInvitation)({
+          organizationId: organizationInvitation.organizationId,
+          email,
+          organizationRepository,
+          organizationInvitationRepository,
+          dependencies: {
+            mailService,
+          },
+        });
+
+        // then
+        expect(result).to.be.an.instanceOf(SendingEmailError);
+        expect(result.message).to.equal('Failed to send email to "invitation@example.net" for some unknown reason.');
       });
-      await databaseBuilder.commit();
-
-      const emailingAttempt = EmailingAttempt.failure(email);
-      sinon.stub(mailService, 'sendOrganizationInvitationEmail');
-      mailService.sendOrganizationInvitationEmail.resolves(emailingAttempt);
-
-      // when
-      const result = await catchErr(organizationInvitationService.createOrUpdateOrganizationInvitation)({
-        organizationId: organizationInvitation.organizationId,
-        email,
-        organizationRepository,
-        organizationInvitationRepository,
-        dependencies: {
-          mailService,
-        },
-      });
-
-      // then
-      expect(result).to.be.an.instanceOf(SendingEmailError);
-      expect(result.message).to.equal('Failed to send email to "invitation@example.net" for some unknown reason.');
     });
   });
 });

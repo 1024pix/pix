@@ -133,8 +133,8 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
     });
 
     context('failure', function () {
-      context('when an error occurs', function () {
-        it('throws an error', async function () {
+      context('when email sending fails for some unknown reason', function () {
+        it('throws a generic SendingEmailError', async function () {
           // given
           const certificationCenter = domainBuilder.buildCertificationCenter({
             id: 202310130,
