@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
-import * as scoringConfigurationRepository from '../../infrastructure/repositories/scoring-configuration-repository.js';
+import * as scoringConfigurationRepository from '../../../shared/infrastructure/repositories/scoring-configuration-repository.js';
 
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
