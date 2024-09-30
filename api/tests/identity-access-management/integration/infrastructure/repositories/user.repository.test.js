@@ -4,6 +4,7 @@ import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTrans
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
+import { UserDetailsForAdmin } from '../../../../../src/identity-access-management/domain/models/UserDetailsForAdmin.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { Organization } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { IMPORT_KEY_FIELD } from '../../../../../src/prescription/learner-management/domain/constants.js';
@@ -18,7 +19,6 @@ import {
 import { CertificationCenter } from '../../../../../src/shared/domain/models/CertificationCenter.js';
 import { CertificationCenterMembership } from '../../../../../src/shared/domain/models/CertificationCenterMembership.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
-import { UserDetailsForAdmin } from '../../../../../src/shared/domain/models/UserDetailsForAdmin.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 const expectedUserDetailsForAdminAttributes = [

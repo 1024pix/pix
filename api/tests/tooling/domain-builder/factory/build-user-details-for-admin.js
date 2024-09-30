@@ -1,4 +1,4 @@
-import { UserDetailsForAdmin } from '../../../../src/shared/domain/models/UserDetailsForAdmin.js';
+import { UserDetailsForAdmin } from '../../../../src/identity-access-management/domain/models/UserDetailsForAdmin.js';
 
 const buildUserDetailsForAdmin = function ({
   id = 123,

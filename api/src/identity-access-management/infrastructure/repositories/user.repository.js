@@ -14,12 +14,12 @@ import {
 import { CertificationCenter } from '../../../shared/domain/models/CertificationCenter.js';
 import { CertificationCenterMembership } from '../../../shared/domain/models/CertificationCenterMembership.js';
 import { Membership } from '../../../shared/domain/models/Membership.js';
-import { UserDetailsForAdmin } from '../../../shared/domain/models/UserDetailsForAdmin.js';
 import { fetchPage, isUniqConstraintViolated } from '../../../shared/infrastructure/utils/knex-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
 import { User } from '../../domain/models/User.js';
+import { UserDetailsForAdmin } from '../../domain/models/UserDetailsForAdmin.js';
 import { UserLogin } from '../../domain/models/UserLogin.js';
 
 const getByEmail = async function (email) {

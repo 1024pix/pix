@@ -109,7 +109,6 @@ import { TargetProfileForAdmin } from './TargetProfileForAdmin.js';
 import { Thematic } from './Thematic.js';
 import { Tube } from './Tube.js';
 import { UserCompetence } from './UserCompetence.js';
-import { UserDetailsForAdmin } from './UserDetailsForAdmin.js';
 import { UserOrgaSettings } from './UserOrgaSettings.js';
 import { UserSavedTutorialWithTutorial } from './UserSavedTutorialWithTutorial.js';
 import { Validation } from './Validation.js';
@@ -227,7 +226,6 @@ export {
   TutorialEvaluation,
   User,
   UserCompetence,
-  UserDetailsForAdmin,
   UserLogin,
   UserOrgaSettings,
   UserSavedTutorial,
