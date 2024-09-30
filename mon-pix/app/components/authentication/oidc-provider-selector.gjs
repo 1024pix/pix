@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 
 export default class OidcProviderSelector extends Component {
   @service oidcIdentityProviders;
@@ -29,19 +30,19 @@ export default class OidcProviderSelector extends Component {
 
   <template>
     <PixSelect
-      @id="oidc-provider-selector"
-      @value={{this.selectedProvider}}
-      @options={{this.providerOptions}}
-      @onChange={{this.onProviderChange}}
       @hideDefaultOption="true"
+      @id="oidc-provider-selector"
       @isSearchable="true"
-      @placeholder="Sélectionner un organisme"
-      @searchLabel="Recherche par mot clé"
-      @searchPlaceholder="Recherche par mot clé"
+      @onChange={{this.onProviderChange}}
+      @options={{this.providerOptions}}
+      @placeholder={{t "components.authentication.oidc-provider-selector.placeholder"}}
+      @searchLabel={{t "components.authentication.oidc-provider-selector.searchLabel"}}
+      @searchPlaceholder={{t "components.authentication.oidc-provider-selector.searchLabel"}}
+      @value={{this.selectedProvider}}
       class="oidc-provider-selector"
       ...attributes
     >
-      <:label>Rechercher une organisation</:label>
+      <:label>{{t "components.authentication.oidc-provider-selector.label"}}</:label>
     </PixSelect>
   </template>
 }

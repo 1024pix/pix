@@ -1,11 +1,18 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import OidcProviderSelector from 'mon-pix/components/authentication/oidc-provider-selector';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
+const I18N_KEYS = {
+  selectLabel: 'components.authentication.oidc-provider-selector.label',
+  selectPlaceholder: 'components.authentication.oidc-provider-selector.placeholder',
+  searchLabel: 'components.authentication.oidc-provider-selector.searchLabel',
+};
 
 module('Integration | Component | Authentication | oidc-provider-selector', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -24,13 +31,12 @@ module('Integration | Component | Authentication | oidc-provider-selector', func
 
     //when
     const screen = await render(<template><OidcProviderSelector /></template>);
-    await click(screen.getByRole('button', { name: 'Rechercher une organisation' }));
+    await click(screen.getByRole('button', { name: t(I18N_KEYS.selectLabel) }));
     await screen.findByRole('listbox');
 
     //then
-    assert.dom(screen.getAllByText('Sélectionner un organisme')[0]).exists();
-    assert.dom(screen.getByText('Recherche par mot clé')).exists();
-    assert.dom(screen.getByText('Rechercher une organisation')).exists();
+    assert.dom(screen.getAllByText(t(I18N_KEYS.selectPlaceholder))[0]).exists();
+    assert.dom(screen.getByText(t(I18N_KEYS.searchLabel))).exists();
     assert.dom(screen.getByText('ConnectEtMoi')).isVisible();
   });
 
@@ -49,7 +55,7 @@ module('Integration | Component | Authentication | oidc-provider-selector', func
 
     // when
     const screen = await render(<template><OidcProviderSelector /></template>);
-    await click(screen.getByRole('button', { name: 'Rechercher une organisation' }));
+    await click(screen.getByRole('button', { name: t(I18N_KEYS.selectLabel) }));
     await screen.findByRole('listbox');
 
     // then
@@ -78,7 +84,7 @@ module('Integration | Component | Authentication | oidc-provider-selector', func
       const screen = await render(
         <template><OidcProviderSelector @onProviderChange={{onProviderChangeStub}} /></template>,
       );
-      await click(screen.getByRole('button', { name: 'Rechercher une organisation' }));
+      await click(screen.getByRole('button', { name: t(I18N_KEYS.selectLabel) }));
       await screen.findByRole('listbox');
 
       await click(screen.getByRole('option', { name: 'ConnectEtMoi' }));

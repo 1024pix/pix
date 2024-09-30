@@ -113,6 +113,13 @@
     }
   },
   "components": {
+    "authentication": {
+      "oidc-provider-selector": {
+        "label": "Search for an organization",
+        "placeholder": "Select an organization",
+        "searchLabel": "Keyword search"
+      }
+    },
     "invited": {
       "reconciliation": {
         "error-message": {
