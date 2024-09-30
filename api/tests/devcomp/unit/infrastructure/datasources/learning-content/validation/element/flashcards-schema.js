@@ -6,9 +6,14 @@ const image = Joi.object({
   url: Joi.string().uri().required(),
 });
 
-const cardSide = Joi.object({
+const rectoSide = Joi.object({
   image,
   text: htmlNotAllowedSchema.required(),
+});
+
+const versoSide = Joi.object({
+  image,
+  text: htmlSchema.required(),
 });
 
 const flashcardsElementSchema = Joi.object({
@@ -19,8 +24,8 @@ const flashcardsElementSchema = Joi.object({
   introImage: image,
   cards: Joi.array().items({
     id: uuidSchema,
-    recto: cardSide,
-    verso: cardSide,
+    recto: rectoSide,
+    verso: versoSide,
   }),
 }).required();
 
