@@ -172,7 +172,7 @@ describe('Integration | Team | UseCase | create-or-update-certification-center-i
       // then
       expect(error).to.be.an.instanceOf(SendingEmailToInvalidDomainError);
       expect(error.message).to.equal(
-        'Failed to send email to someone@consideredInvalidDomain.net because domain seems to be invalid.',
+        'Failed to send email to "someone@consideredInvalidDomain.net" because domain seems to be invalid.',
       );
     });
   });
@@ -205,7 +205,7 @@ describe('Integration | Team | UseCase | create-or-update-certification-center-i
       // then
       expect(error).to.be.an.instanceOf(SendingEmailToInvalidEmailAddressError);
       expect(error.message).to.equal(
-        'Failed to send email to considered_invalid@example.net because email address seems to be invalid.',
+        'Failed to send email to "considered_invalid@example.net" because email address seems to be invalid.',
       );
     });
   });

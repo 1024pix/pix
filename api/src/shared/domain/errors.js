@@ -793,14 +793,14 @@ class SendingEmailError extends DomainError {
 
 class SendingEmailToInvalidDomainError extends DomainError {
   constructor(emailAddress) {
-    super(`Failed to send email to ${emailAddress} because domain seems to be invalid.`);
+    super(`Failed to send email to "${emailAddress}" because domain seems to be invalid.`);
     this.code = 'INVALID_EMAIL_DOMAIN';
   }
 }
 
 class SendingEmailToInvalidEmailAddressError extends DomainError {
   constructor(emailAddress, errorMessage) {
-    super(`Failed to send email to ${emailAddress} because email address seems to be invalid.`);
+    super(`Failed to send email to "${emailAddress}" because email address seems to be invalid.`);
     this.code = 'INVALID_EMAIL_ADDRESS_FORMAT';
     this.meta = {
       emailAddress,
