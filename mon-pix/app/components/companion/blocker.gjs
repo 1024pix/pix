@@ -2,6 +2,7 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
+import ENV from 'mon-pix/config/environment';
 
 import ShieldIcon from './shield-icon';
 
@@ -10,18 +11,20 @@ export default class CompanionBlocker extends Component {
 
   constructor(...args) {
     super(...args);
-    this.pixCompanion.startCheckingExtensionIsEnabled();
+    if (ENV.APP.FT_IS_PIX_COMPANION_MANDATORY) this.pixCompanion.startCheckingExtensionIsEnabled();
   }
 
   willDestroy(...args) {
     super.willDestroy(...args);
-    this.pixCompanion.stopCheckingExtensionIsEnabled();
+    if (ENV.APP.FT_IS_PIX_COMPANION_MANDATORY) this.pixCompanion.stopCheckingExtensionIsEnabled();
+  }
+
+  get isBlocked() {
+    return ENV.APP.FT_IS_PIX_COMPANION_MANDATORY && !this.pixCompanion.isExtensionEnabled;
   }
 
   <template>
-    {{#if this.pixCompanion.isExtensionEnabled}}
-      {{yield}}
-    {{else}}
+    {{#if this.isBlocked}}
       <section class="companion-blocker">
         <ShieldIcon />
         <h1>
@@ -30,6 +33,8 @@ export default class CompanionBlocker extends Component {
         <p>{{t "common.companion.not-detected.description"}}</p>
         {{!-- <PixButtonLink @href="https://pix.fr" target="_blank">{{t "common.companion.not-detected.link"}}</PixButtonLink> --}}
       </section>
+    {{else}}
+      {{yield}}
     {{/if}}
   </template>
 }
