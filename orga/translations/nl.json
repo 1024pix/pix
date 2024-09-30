@@ -989,7 +989,6 @@
             },
             "mission-dare-result": {
               "not-reached": "NB",
-              "partially-reached": "GB",
               "reached": "B",
               "undefined": "-"
             },
