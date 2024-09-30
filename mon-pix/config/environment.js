@@ -43,6 +43,7 @@ module.exports = function (environment) {
       // when it is created
       API_HOST: process.env.API_HOST || '',
       FT_FOCUS_CHALLENGE_ENABLED: _isFeatureEnabled(process.env.FT_FOCUS_CHALLENGE_ENABLED) || false,
+      FT_IS_PIX_COMPANION_MANDATORY: _isFeatureEnabled(process.env.FT_IS_PIX_COMPANION_MANDATORY) || false,
       isTimerCountdownEnabled: true,
       LOAD_EXTERNAL_SCRIPT: true,
       NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS: 5,
