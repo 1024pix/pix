@@ -10,7 +10,7 @@ export function convertJoiToJsonSchema(joiSchema) {
   return convertFromType(joiSchema.describe());
 }
 
-function convertFromType(joiDescribedSchema) {
+function convertFromType(joiDescribedSchema, key = '') {
   switch (joiDescribedSchema.type) {
     case 'boolean':
       return convertBoolean();
@@ -19,7 +19,7 @@ function convertFromType(joiDescribedSchema) {
     case 'number':
       return convertNumber(joiDescribedSchema);
     case 'array':
-      return convertArray(joiDescribedSchema);
+      return convertArray(joiDescribedSchema, key);
     case 'object':
       return convertObject(joiDescribedSchema);
     case 'alternatives':
@@ -125,7 +125,7 @@ function convertNumber(joiNumberDescribedSchema) {
   return jsonSchema;
 }
 
-function convertArray(joiArrayDescribedSchema) {
+function convertArray(joiArrayDescribedSchema, key = '') {
   const jsonSchema = { type: 'array' };
   const rules = joiArrayDescribedSchema.rules;
 
@@ -142,8 +142,13 @@ function convertArray(joiArrayDescribedSchema) {
   if (joiArrayDescribedSchema.items) {
     jsonSchema.items = {};
 
+    const itemTitle = key.endsWith('s') ? key.slice(0, -1) : key;
+
     for (const item of joiArrayDescribedSchema.items) {
       jsonSchema.items = convertFromType(item);
+      if (itemTitle) {
+        jsonSchema.items.title = itemTitle;
+      }
     }
   }
 
@@ -158,7 +163,7 @@ function convertObject(joiObjectDescribedSchema) {
     const required = [];
 
     for (const [key, value] of Object.entries(joiObjectDescribedSchema.keys)) {
-      properties[key] = convertFromType(value);
+      properties[key] = convertFromType(value, key);
 
       if (hasFlag(value?.flags, 'presence', 'required')) {
         required.push(key);
