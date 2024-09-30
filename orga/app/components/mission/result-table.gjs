@@ -1,7 +1,7 @@
 import PixTag from '@1024pix/pix-ui/components/pix-tag';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip.js';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
-import {t} from 'ember-intl';
+import { t } from 'ember-intl';
 
 import Header from '../table/header';
 import PaginationControl from '../table/pagination-control';
@@ -45,7 +45,11 @@ function getMissionResultColor(result) {
 
                   <PixTooltip @id="tooltip-{{index}}" @isInline={{true}}>
                     <:triggerElement>
-                      <FaIcon @icon="circle-info" class="mission-result-table__info-icon" aria-describedby="tooltip-{{index}}" />
+                      <FaIcon
+                        @icon="circle-info"
+                        class="mission-result-table__info-icon"
+                        aria-describedby="tooltip-{{index}}"
+                      />
                     </:triggerElement>
 
                     <:tooltip>

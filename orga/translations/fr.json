@@ -963,8 +963,8 @@
               "division": "Classe",
               "first-name": "Prénom",
               "last-name": "Nom",
-              "result": "Evaluation de la mission",
-              "step": "Etape {number}"
+              "result": "Évaluation de la mission",
+              "step": "Étape {number}"
             },
             "mission-dare-result": {
               "not-reached": "NA",
