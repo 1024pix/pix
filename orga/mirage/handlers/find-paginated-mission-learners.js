@@ -5,6 +5,7 @@ export function findPaginatedMissionLearners(schema, request) {
   const queryParams = request.queryParams;
   const divisionsFilter = queryParams['filter[divisions]'];
   const nameFilter = queryParams['filter[name]'];
+  const resultFilter = queryParams['filter[results]'];
 
   let missionLearners = schema.missionLearners.where({ organizationId });
   if (divisionsFilter) {
@@ -20,6 +21,11 @@ export function findPaginatedMissionLearners(schema, request) {
           learner.lastName.toUpperCase().includes(nameFilter.toUpperCase())) &&
         learner.organizationId === Number(organizationId)
       );
+    });
+  }
+  if (resultFilter) {
+    missionLearners = missionLearners.filter((learner) => {
+      return resultFilter.includes(learner.result.global) && learner.organizationId === Number(organizationId);
     });
   }
   const rowCount = missionLearners.length;

@@ -946,6 +946,16 @@
             "caption": "Tableau des élèves avec le résultat de leur participation à la mission {missionName}",
             "filters": {
               "aria-label": "Filtre sur les élèves",
+              "global-result": {
+                "label": "Évaluation de la mission",
+                "options": {
+                  "exceeded": "Dépassé",
+                  "no-result": "Pas d'évaluation",
+                  "not-reached": "Non atteint",
+                  "partially-reached": "Partiellement atteint",
+                  "reached": "Atteint"
+                }
+              },
               "learners-count": "{count, plural, =0 {Aucun élève} =1 {1 élève} other {{count} élèves}}"
             },
             "headers": {
@@ -953,8 +963,8 @@
               "division": "Classe",
               "first-name": "Prénom",
               "last-name": "Nom",
-              "result": "Evaluation de la mission",
-              "step": "Etape {number}"
+              "result": "Évaluation de la mission",
+              "step": "Étape {number}"
             },
             "mission-dare-result": {
               "not-reached": "NA",

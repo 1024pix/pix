@@ -85,12 +85,14 @@ async function findPaginatedLearners({ organizationId, page, filter }) {
 
   if (filter) {
     const { name, ...attributesToFilter } = filter;
-    Object.entries(attributesToFilter).forEach(([name, values]) => {
-      query.andWhere(function () {
-        // eslint-disable-next-line knex/avoid-injections
-        this.whereRaw(`attributes->>'${name}' in ( ${values.map((_) => '?').join(' , ')} )`, values);
+    Object.entries(attributesToFilter)
+      .filter(([_, values]) => values !== undefined)
+      .forEach(([name, values]) => {
+        query.andWhere(function () {
+          // eslint-disable-next-line knex/avoid-injections
+          this.whereRaw(`attributes->>'${name}' in ( ${values.map((_) => '?').join(' , ')} )`, values);
+        });
       });
-    });
     if (name) {
       filterByFullName(query, name, 'firstName', 'lastName');
     }

@@ -20,5 +20,16 @@
     @triggerFiltering={{this.onFilter}}
   />
 
+  <PixMultiSelect
+    @options={{this.resultOptions}}
+    @values={{this.results}}
+    @placeholder={{t "pages.missions.mission.table.result.filters.global-result.label"}}
+    @onChange={{this.onSelectResults}}
+    @isSearchable={{false}}
+    @screenReaderOnly={{true}}
+  >
+    <:label>{{t "pages.missions.mission.table.result.filters.global-result.label"}}</:label>
+    <:default as |option|>{{option.label}}</:default>
+  </PixMultiSelect>
 </PixFilterBanner>
 <Mission::ResultTable @missionLearners={{this.model.missionLearners}} @mission={{this.model.mission.mission}} />

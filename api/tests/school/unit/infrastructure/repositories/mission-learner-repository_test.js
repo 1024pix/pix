@@ -4,7 +4,7 @@ import { OrganizationLearner } from '../../../../../src/shared/domain/models/Org
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Repository | organizationLearner', function () {
-  describe('#findPaginatedMissionLearners', function () {
+  describe('#findMissionLearners', function () {
     it('should return missionLearners corresponding to the organizationId', async function () {
       const organizationId = 123456;
       const rawStudent = {
@@ -14,7 +14,6 @@ describe('Unit | Repository | organizationLearner', function () {
         division: '4ème',
         organizationId: 23456,
       };
-      const customPagination = { number: 1, size: 100 };
       const organizationLearnerApiStub = { find: sinon.stub() };
       const expectedMissionLearner = new SchoolLearner(rawStudent);
       const expectedPagination = {
@@ -26,18 +25,16 @@ describe('Unit | Repository | organizationLearner', function () {
       const divisionFilter = { divisions: ['4ème'] };
 
       organizationLearnerApiStub.find
-        .withArgs({ organizationId, page: customPagination, filter: divisionFilter })
+        .withArgs({ organizationId, filter: divisionFilter })
         .resolves({ organizationLearners: [new OrganizationLearner(rawStudent)], pagination: expectedPagination });
 
-      const { missionLearners, pagination } = await missionLearnersRepository.findPaginatedMissionLearners({
+      const { missionLearners } = await missionLearnersRepository.findMissionLearners({
         organizationId,
-        page: customPagination,
         filter: divisionFilter,
         organizationLearnerApi: organizationLearnerApiStub,
       });
 
       expect(missionLearners).to.deep.equal([expectedMissionLearner]);
-      expect(pagination).to.deep.equal(expectedPagination);
     });
   });
 });

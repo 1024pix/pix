@@ -163,6 +163,42 @@ module('Acceptance | Missions Detail', function (hooks) {
         assert.strictEqual(screen.getAllByRole('cell', { name: 'Charles' }).length, 2);
         assert.dom(screen.queryByRole('cell', { name: xavierHenry.firstName })).doesNotExist();
       });
+      test('Should filter on the mission assessment result', async function (assert) {
+        server.create('mission-learner', {
+          firstName: 'Charles',
+          lastName: 'Qui a réussi',
+          division: 'CM2-C',
+          status: 'completed',
+          organizationId: 1,
+          result: {
+            global: 'reached',
+          },
+        });
+        server.create('mission-learner', {
+          firstName: 'Charles',
+          lastName: 'Qui a moins réussi',
+          division: 'CM2-B',
+          status: 'completed',
+          organizationId: 1,
+          result: {
+            global: 'not-reached',
+          },
+        });
+
+        const screen = await visit('/missions/1/results');
+
+        const select = screen.getByRole('button', {
+          name: t('pages.missions.mission.table.result.filters.global-result.label'),
+        });
+        await click(select);
+        const optionSelected = await screen.findByRole('checkbox', {
+          name: t('pages.missions.mission.table.result.filters.global-result.options.reached'),
+        });
+        await click(optionSelected);
+
+        assert.strictEqual(screen.getAllByRole('cell', { name: 'Qui a réussi' }).length, 1);
+        assert.dom(screen.queryByRole('cell', { name: 'Qui a moins réussi' })).doesNotExist();
+      });
     });
   });
 });
