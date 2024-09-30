@@ -1,6 +1,6 @@
 import { CertificationCompletedJob } from '../../../../../../lib/domain/events/CertificationCompleted.js';
 import { CertificationScoringCompleted } from '../../../../../../lib/domain/events/CertificationScoringCompleted.js';
-import { CertificationCompletedJobController } from '../../../../../../src/certification/scoring/application/jobs/certification-completed-job-controller.js';
+import { CertificationCompletedJobController } from '../../../../../../src/certification/evaluation/application/jobs/certification-completed-job-controller.js';
 import { AssessmentResultFactory } from '../../../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
 import {
   ABORT_REASONS,
@@ -24,6 +24,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
   let flashAlgorithmService;
   let certificationChallengeForScoringRepository;
   let certificationAssessmentHistoryRepository;
+  let services;
 
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
@@ -36,6 +37,8 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
 
     scoringCertificationService = {
       isLackOfAnswersForTechnicalReason: sinon.stub(),
+    };
+    services = {
       handleV2CertificationScoring: sinon.stub(),
       handleV3CertificationScoring: sinon.stub(),
     };
@@ -86,10 +89,14 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
         it('should not save any results', async function () {
           // given
           const otherError = new Error();
-          scoringCertificationService.handleV2CertificationScoring.rejects(otherError);
+          services.handleV2CertificationScoring.rejects(otherError);
           sinon.stub(AssessmentResultFactory, 'buildAlgoErrorResult');
 
-          const dependencies = { certificationAssessmentRepository, scoringCertificationService };
+          const dependencies = {
+            certificationAssessmentRepository,
+            scoringCertificationService,
+            services,
+          };
 
           // when
           await catchErr(certificationCompletedJobController.handle)(data, dependencies);
@@ -112,7 +119,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
           });
           const computeError = new CertificationComputeError();
 
-          scoringCertificationService.handleV2CertificationScoring.rejects(computeError);
+          services.handleV2CertificationScoring.rejects(computeError);
           sinon.stub(AssessmentResultFactory, 'buildAlgoErrorResult').returns(errorAssessmentResult);
           assessmentResultRepository.save.resolves(errorAssessmentResult);
           certificationCourseRepository.get
@@ -126,6 +133,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
             competenceMarkRepository,
             scoringCertificationService,
             certificationAssessmentRepository,
+            services,
           };
 
           // when
@@ -169,7 +177,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
           });
 
           certificationCourseRepository.update.resolves(certificationCourse);
-          scoringCertificationService.handleV2CertificationScoring.resolves({
+          services.handleV2CertificationScoring.resolves({
             certificationCourse,
             certificationAssessmentScore,
           });
@@ -181,6 +189,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            services,
             events,
           };
 
@@ -218,7 +227,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
             });
 
             certificationCourseRepository.update.resolves(certificationCourse);
-            scoringCertificationService.handleV2CertificationScoring.resolves({
+            services.handleV2CertificationScoring.resolves({
               certificationCourse,
               certificationAssessmentScore,
             });
@@ -232,6 +241,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               competenceMarkRepository,
               scoringCertificationService,
               certificationAssessmentRepository,
+              services,
               events,
             };
 
@@ -312,7 +322,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               abortReason: ABORT_REASONS.CANDIDATE,
             });
 
-            scoringCertificationService.handleV3CertificationScoring.resolves(abortedCertificationCourse);
+            services.handleV3CertificationScoring.resolves(abortedCertificationCourse);
 
             const dependencies = {
               certificationChallengeForScoringRepository,
@@ -322,6 +332,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               scoringConfigurationRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              services,
               certificationAssessmentRepository,
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
@@ -361,7 +372,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               abortReason: ABORT_REASONS.TECHNICAL,
             });
 
-            scoringCertificationService.handleV3CertificationScoring.resolves(abortedCertificationCourse);
+            services.handleV3CertificationScoring.resolves(abortedCertificationCourse);
 
             const dependencies = {
               certificationChallengeForScoringRepository,
@@ -371,6 +382,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               scoringConfigurationRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              services,
               certificationAssessmentRepository,
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
@@ -412,7 +424,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               completedAt: null,
             });
 
-            scoringCertificationService.handleV3CertificationScoring.resolves(certificationCourse);
+            services.handleV3CertificationScoring.resolves(certificationCourse);
 
             const dependencies = {
               certificationChallengeForScoringRepository,
@@ -422,6 +434,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
               scoringConfigurationRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              services,
               certificationAssessmentRepository,
               flashAlgorithmConfigurationRepository,
               flashAlgorithmService,
@@ -462,7 +475,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
                 abortReason,
               });
 
-              scoringCertificationService.handleV3CertificationScoring.resolves(certificationCourse);
+              services.handleV3CertificationScoring.resolves(certificationCourse);
 
               const dependencies = {
                 certificationChallengeForScoringRepository,
@@ -472,6 +485,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
                 scoringConfigurationRepository,
                 competenceMarkRepository,
                 scoringCertificationService,
+                services,
                 certificationAssessmentRepository,
                 flashAlgorithmConfigurationRepository,
                 flashAlgorithmService,
@@ -512,7 +526,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
                 abortReason,
               });
 
-              scoringCertificationService.handleV3CertificationScoring.resolves(certificationCourse);
+              services.handleV3CertificationScoring.resolves(certificationCourse);
 
               const dependencies = {
                 certificationChallengeForScoringRepository,
@@ -522,6 +536,7 @@ describe('Unit | Certification | Application | jobs | CertificationCompletedJobC
                 scoringConfigurationRepository,
                 competenceMarkRepository,
                 scoringCertificationService,
+                services,
                 certificationAssessmentRepository,
                 flashAlgorithmConfigurationRepository,
                 flashAlgorithmService,

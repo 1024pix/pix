@@ -2,7 +2,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
-import { V3CertificationScoring } from '../../domain/models/V3CertificationScoring.js';
+import { V3CertificationScoring } from '../../../scoring/domain/models/V3CertificationScoring.js';
 
 export const getLatestByDateAndLocale = async ({ locale, date }) => {
   const allAreas = await areaRepository.list();

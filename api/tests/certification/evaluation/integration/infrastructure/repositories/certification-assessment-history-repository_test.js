@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../../db/knex-database-connection.js';
-import { save } from '../../../../../../src/certification/scoring/infrastructure/repositories/certification-assessment-history-repository.js';
+import { save } from '../../../../../../src/certification/evaluation/infrastructure/repositories/certification-assessment-history-repository.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | CertificationChallengeCapacityRepository', function () {
