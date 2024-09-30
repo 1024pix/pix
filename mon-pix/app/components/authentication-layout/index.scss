@@ -37,7 +37,7 @@
           grid-column: 1 / span 5;
           padding: var(--pix-spacing-4x);
           background: var(--pix-primary-500);
-          border-radius: 24px;
+          border-radius: var(--pix-spacing-6x);
 
           > img {
             height: 100%;

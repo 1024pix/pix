@@ -1,7 +1,7 @@
 .signin-page-layout {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--pix-spacing-4x);
   padding-top: var(--pix-spacing-6x);
 }
 

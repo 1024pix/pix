@@ -135,7 +135,6 @@ export default class SigninForm extends Component {
           @id="login"
           name="login"
           {{on "input" this.updateLogin}}
-          @validationStatus="default"
           placeholder={{t "pages.sign-in.fields.login.placeholder"}}
           autocomplete="email"
           required
@@ -143,12 +142,11 @@ export default class SigninForm extends Component {
           <:label>{{t "pages.sign-in.fields.login.label"}}</:label>
         </PixInput>
 
-        <div class="signin-form__password-section">
+        <div class="signin-form__password">
           <PixInputPassword
             @id="password"
             name="password"
             {{on "input" this.updatePassword}}
-            @validationStatus="default"
             autocomplete="current-password"
             required
           >
