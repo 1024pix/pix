@@ -1,0 +1,21 @@
+.companion-blocker {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: var(--pix-neutral-0);
+  text-align: center;
+  background-color: var(--pix-certif-500);
+
+  > h1 {
+    @extend %pix-title-m;
+  }
+
+  > p {
+    @extend %pix-body-l;
+
+    max-width: 500px;
+  }
+}

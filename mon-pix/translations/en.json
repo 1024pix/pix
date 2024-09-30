@@ -63,6 +63,13 @@
       "label": "Agree Pix terms of use and personal data protection policy",
       "message": "I agree to the '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Pix terms of use'</a>' and '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'personal data protection policy'</a>'"
     },
+    "companion": {
+      "not-detected": {
+        "title": "The Pix Companion extension<br /> is not detected",
+        "description": " The extension may not be installed or enabled. Read the following documentation in order to resume your certification session.  If necessary ask your invigilator.",
+        "link": "Go to documentation"
+      }
+    },
     "data-protection-policy-information-banner": {
       "title": "Please note that our personal data protection policy has been updated. To take a look at what's changing, click here: ",
       "url-label": "Personal data protection policy."
