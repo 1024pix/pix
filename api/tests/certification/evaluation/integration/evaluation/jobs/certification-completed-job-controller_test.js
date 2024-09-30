@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { CertificationCompletedJob } from '../../../../../../lib/domain/events/CertificationCompleted.js';
-import { CertificationCompletedJobController } from '../../../../../../src/certification/scoring/application/jobs/certification-completed-job-controller.js';
+import { CertificationCompletedJobController } from '../../../../../../src/certification/evaluation/application/jobs/certification-completed-job-controller.js';
 import { LOCALE } from '../../../../../../src/shared/domain/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/index.js';
 import {
