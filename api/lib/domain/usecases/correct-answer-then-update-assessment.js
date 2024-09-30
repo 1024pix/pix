@@ -9,7 +9,13 @@ import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
 import { KnowledgeElement } from '../../../src/shared/domain/models/index.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
-const evaluateAnswer = function ({ challenge, answer, assessment, examiner: injectedExaminer }) {
+const evaluateAnswer = function ({
+  challenge,
+  answer,
+  assessment,
+  examiner: injectedExaminer,
+  accessibilityAdjustmentNeeded,
+}) {
   const examiner = injectedExaminer ?? new Examiner({ validator: challenge.validator });
   try {
     return examiner.evaluate({
@@ -18,6 +24,7 @@ const evaluateAnswer = function ({ challenge, answer, assessment, examiner: inje
       isFocusedChallenge: challenge.focused,
       hasLastQuestionBeenFocusedOut: assessment.hasLastQuestionBeenFocusedOut,
       isCertificationEvaluation: assessment.isCertification(),
+      accessibilityAdjustmentNeeded,
     });
   } catch (error) {
     throw new AnswerEvaluationError(challenge);
@@ -126,6 +133,7 @@ const correctAnswerThenUpdateAssessment = async function ({
   skillRepository,
   campaignRepository,
   knowledgeElementRepository,
+  certificationEvaluationCandidateRepository,
   flashAssessmentResultRepository,
   certificationChallengeLiveAlertRepository,
   flashAlgorithmService,
@@ -152,17 +160,31 @@ const correctAnswerThenUpdateAssessment = async function ({
 
   const challenge = await challengeRepository.get(answer.challengeId);
 
-  const onGoingCertificationChallengeLiveAlert =
-    await certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId({
-      challengeId: challenge.id,
+  let certificationCandidate;
+
+  if (assessment.isCertification()) {
+    const onGoingCertificationChallengeLiveAlert =
+      await certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId({
+        challengeId: challenge.id,
+        assessmentId: assessment.id,
+      });
+
+    if (onGoingCertificationChallengeLiveAlert) {
+      throw new ForbiddenAccess('An alert has been set.');
+    }
+
+    certificationCandidate = await certificationEvaluationCandidateRepository.findByAssessmentId({
       assessmentId: assessment.id,
     });
-
-  if (onGoingCertificationChallengeLiveAlert) {
-    throw new ForbiddenAccess('An alert has been set.');
   }
 
-  const correctedAnswer = evaluateAnswer({ challenge, answer, assessment, examiner });
+  const correctedAnswer = evaluateAnswer({
+    challenge,
+    answer,
+    assessment,
+    examiner,
+    accessibilityAdjustmentNeeded: certificationCandidate?.accessibilityAdjustmentNeeded,
+  });
   const now = dateUtils.getNowDate();
   const lastQuestionDate = assessment.lastQuestionDate || now;
   correctedAnswer.setTimeSpentFrom({ now, lastQuestionDate });
