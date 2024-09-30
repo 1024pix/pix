@@ -66,7 +66,8 @@
     "companion": {
       "not-detected": {
         "title": "L’extension Pix Companion<br /> n’est pas détectée",
-        "description": "L’extension n’est peut-être pas installée ou activée. Consultez le document suivant afin de reprendre votre session de certification. Si besoin contactez le surveillant."
+        "description": "L’extension n’est peut-être pas installée ou activée. Consultez le document suivant afin de reprendre votre session de certification. Si besoin contactez le surveillant.",
+        "link": "Accéder à la documentation"
       }
     },
     "data-protection-policy-information-banner": {
