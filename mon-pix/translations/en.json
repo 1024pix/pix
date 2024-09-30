@@ -597,7 +597,8 @@
         "wrong-account-sco-link": {
           "label": "How to find the account linked to the school/organisation ?",
           "url": "https://pix.fr/support/enseignement-scolaire/enseignant-ou-personnel-de-direction/que-faire-si-une-eleve-ne-parvient-pas-rejoindre-sa-session-de-certification"
-        }
+        },
+        "candidate-not-eligible": "<strong>The account with which you are currently logged in isn’t eligible for this session of certification.</strong> '<br>' The information entered matches a candidate enrolled in the session for taking a complementary certification on it’s own. '<br>' Please check that you are logged with an account that is eligible to taking the complementary certification alone."
       },
       "first-title": "Join a session",
       "form": {
