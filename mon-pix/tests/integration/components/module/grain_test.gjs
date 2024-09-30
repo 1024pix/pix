@@ -262,6 +262,47 @@ module('Integration | Component | Module | Grain', function (hooks) {
       });
     });
 
+    module('when element is of type flashcards', function () {
+      test('should display a flashcards element', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const flashCardsElement = {
+          id: '71de6394-ff88-4de3-8834-a40057a50ff4',
+          type: 'flashcards',
+          title: "Introduction à l'adresse e-mail",
+          instruction: '<p>...</p>',
+          introImage: { url: 'https://images.pix.fr/modulix/placeholder-details.svg' },
+          cards: [
+            {
+              id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+              recto: {
+                image: {
+                  url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
+                },
+                text: "A quoi sert l'arobase dans mon adresse email ?",
+              },
+              verso: {
+                image: { url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg' },
+                text: "Parce que c'est joli",
+              },
+            },
+          ],
+        };
+        const grain = store.createRecord('grain', {
+          title: 'Grain title',
+          components: [{ type: 'element', element: flashCardsElement }],
+        });
+        this.set('grain', grain);
+
+        // when
+        const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} />`);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Voir la réponse' })).exists();
+      });
+    });
+
     module('when all elements are answered', function () {
       test('should not display skip button', async function (assert) {
         // given

@@ -1334,6 +1334,11 @@
             "name": "Empezar"
           }
         },
+        "flashcards": {
+          "seeAnswer" : "ver la respuesta",
+          "seeAgain": "Revisa la pregunta",
+          "nextCard": "Siguiente"
+        },
         "grain": {
           "continue": "Continuar",
           "skip": "Ir a",
@@ -1370,6 +1375,10 @@
         "format": "Formato {format}",
         "intro": "Elija el formato de archivo que desea utilizar.",
         "label": "Descargue el archivo en {format}"
+      },
+      "flashcards": {
+        "direction": "Encuentra la respuesta y luego gira la tarjeta.",
+        "position": "Tarjeta {currentCardPosition}/{totalCards}"
       },
       "grain": {
         "tag": {

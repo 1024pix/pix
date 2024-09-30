@@ -57,15 +57,15 @@
                 "id": "e1de6394-ff88-4de3-8834-a40057a50ff4",
                 "recto": {
                   "image": {
-                    "url": "https://example.org/image.jpeg"
+                    "url": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg"
                   },
                   "text": "A quoi sert l'arobase dans mon adresse email ?"
                 },
                 "verso": {
                   "image": {
-                    "url": "https://example.org/image.jpeg"
+                    "url": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg"
                   },
-                  "text": "Parce que c'est joli"
+                  "text": "<p>Parce que c'est joli</p>"
                 }
               }
             ]

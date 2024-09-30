@@ -1352,6 +1352,11 @@
             "name": "Start"
           }
         },
+        "flashcards": {
+          "seeAnswer" : "See the answer",
+          "seeAgain": "Review the question",
+          "nextCard": "Next"
+        },
         "grain": {
           "continue": "Continue",
           "skip": "Skip",
@@ -1388,6 +1393,10 @@
         "format": "{format} format ",
         "intro": "Choose the file format you would like to use.",
         "label": "Download file in {format} format"
+      },
+      "flashcards": {
+        "direction": "Look for the answer then turn the card",
+        "position": "Card {currentCardPosition}/{totalCards}"
       },
       "grain": {
         "tag": {
