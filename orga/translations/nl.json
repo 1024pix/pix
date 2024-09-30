@@ -110,9 +110,6 @@
       "title": "Totaal aantal deelnemers"
     },
     "place-info": {
-      "details": "met minstens één deelname aan een campagne.",
-      "link": "Een plaats vrijmaken op het tabblad ”Deelnemers”",
-      "message": "1 plaats bezet = 1 deelnemer",
       "with-account": {
         "heading": "'<strong>'De deelnemer heeft een Pix-account:'</strong>'",
         "message-description": "Je kunt plaatsen vrijmaken door deelnemers te verwijderen van het tabblad Deelnemers.",
@@ -359,7 +356,6 @@
       "support": "Helpcentrum",
       "team": "Team"
     },
-    "pix-orga": "Pix Orga",
     "places": {
       "link": "Zie details",
       "number": "{count, plural, =0 {0 plaatsen beschikbaar} =1 {1 plaats beschikbaar} other {{count} plaatsen beschikbaar}}"
@@ -557,10 +553,6 @@
           "groups": {
             "empty": "Geen groep",
             "title": "Groepen"
-          },
-          "search": {
-            "placeholder": "Achternaam, voornaam",
-            "title": "Zoeken op voor- en achternaam"
           },
           "stages": "Succesratio",
           "status": {
@@ -878,25 +870,15 @@
       "list": {
         "aria-label": "Opdracht",
         "banner": {
-          "admin": {
-            "abstract": "Om te beginnen, gelieve",
-            "import-text": "je studenten te importeren",
-            "info": "uit Onde (exporteerbaar bestand in het menu Lijsten & documenten > Extracties> Leerlingen of hun begeleider)."
-          },
           "copypaste-container": {
             "abstract": "Start je eerste opdrachten met je studenten door de sessie te activeren via de knop hierboven en door de code te gebruiken",
             "button": {
               "success": "gekopieerd !",
               "tooltip": "de link kopiëren"
-            },
-            "hint": "Aarzel niet om toe te voegen aan je favorieten.",
-            "import-text": "link school"
+            }
           },
           "hint": "Aarzel niet om toe te voegen aan je favorieten.",
           "import-text": "link school",
-          "non-admin": {
-            "abstract": "Om te beginnen vraag je je beheerder om de studenten te importeren."
-          },
           "step1": {
             "admin": {
               "head": "Stap 1: <b>Gelieve</b>.",
@@ -964,13 +946,30 @@
             "caption": "Tabel van studenten met de resultaten van hun deelname aan de opdracht {missionName}",
             "filters": {
               "aria-label": "Filter studenten",
+              "global-result": {
+                "label": "Évaluation de la mission",
+                "options": {
+                  "exceeded": "Overtroffen",
+                  "no-result": "Geen beoordeling",
+                  "not-reached": "Niet bereikt",
+                  "partially-reached": "Gedeeltelijk bereikt",
+                  "reached": "Bereikt"
+                }
+              },
               "learners-count": "{count, plural, =0 {Geen student} =1 {1 student} other {{count} studenten}}"
             },
             "headers": {
+              "dare-challenge": "Uitdaging",
               "division": "Klasse",
               "first-name": "Voornaam",
               "last-name": "Achternaam",
-              "result": "Positionering"
+              "result": "Positionering",
+              "step": "Stap {number}"
+            },
+            "mission-dare-result": {
+              "not-reached": "NB",
+              "reached": "B",
+              "undefined": "-"
             },
             "mission-result": {
               "exceeded": "Overtroffen",
@@ -979,7 +978,13 @@
               "reached": "Bereikt",
               "undefined": "-"
             },
-            "no-data": "Er zijn geen deelnemers"
+            "no-data": "Er zijn geen deelnemers",
+            "step-result": {
+              "not-reached": "NB",
+              "partially-reached": "GB",
+              "reached": "B",
+              "undefined": "-"
+            }
           }
         },
         "tabs": {
@@ -1099,7 +1104,6 @@
           "main-participation-access": "{count, plural, =1 {Hij/zij kan niet} other {Zij kunnen niet}} meer deelnemen aan nieuwe campagnes waaraan {count, plural, =1 {hij/zij had} other {ze hadden}} deelgenomen in het verleden.",
           "main-participation-prevent": "Alle campagne-items {count, plural, =1 {van hem} other {van hen}} worden verwijderd. "
         },
-        "delete-button": "Ja, verwijderen",
         "title": "{count, plural, =1 {Verwijder '<strong>'{firstname} {lastname}’</strong>' uit jouw deelnemers?} other {Weet je zeker dat je '<strong>'{count}'</strong>'}} deelnemers wilt verwijderen?"
       },
       "empty-state": {
@@ -1114,10 +1118,6 @@
           "certificability": {
             "label": "Zoeken op certificeerbaarheid",
             "placeholder": "Certificeerbaarheid"
-          },
-          "fullName": {
-            "label": "Zoeken op voor- en achternaam",
-            "placeholder": "Achternaam, voornaam"
           }
         }
       },
@@ -1289,10 +1289,6 @@
           "empty-option": "Inlogmethode",
           "label": "Zoeken op inlogmethode"
         },
-        "search": {
-          "label": "Zoeken op voor- en achternaam",
-          "placeholder": "Achternaam, voornaam"
-        },
         "students-count": "{count, plural, =0 {0 studenten} =1 {1 student} other {{count} studenten}}"
       },
       "generate-username-password-modal": {
@@ -1407,7 +1403,6 @@
         "show-actions": "Acties weergeven"
       },
       "deletion-modal": {
-        "confirmation-checkbox": "Ik kan bevestigen dat ik de gevolgen van de {count} schrappingen volledig begrijp.",
         "content": {
           "footer": "Houd er rekening mee dat deze actie onomkeerbaar is.",
           "header": "{count, plural, =1 {Deze student is niet meer zichtbaar} other {Deze studenten zijn niet meer zichtbaar}} in Pix Orga.",
@@ -1416,7 +1411,6 @@
           "main-participation-access": "{count, plural, =1 {Hij/zij kan niet} other {Zij kunnen niet}} meer deelnemen aan nieuwe campagnes waaraan {count, plural, =1 {hij/zij had} other {ze hadden}} deelgenomen in het verleden.",
           "main-participation-prevent": "Alle campagne-items {count, plural, =1 {van hem} other {van hen}} worden verwijderd."
         },
-        "delete-button": "Ja, verwijderen",
         "title": "{count, plural, =1 {Verwijder '<strong>'{firstname} {lastname}'</strong>' uit je studenten?} other {Weet je zeker dat je '<strong>'{count}'</strong>'}} studenten wilt verwijderen?"
       },
       "edit-student-number-modal": {
@@ -1445,10 +1439,6 @@
           "empty": "Geen groep",
           "label": "Een groep invoeren",
           "placeholder": "Zoeken op groep"
-        },
-        "search": {
-          "label": "Zoeken op voor- en achternaam",
-          "placeholder": "Achternaam, voornaam"
         },
         "student-number": {
           "label": "Voer een studentnummer in",
