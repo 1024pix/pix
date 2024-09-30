@@ -1,5 +1,5 @@
 import { CertificationChallengeForScoring } from '../../../../../../src/certification/scoring/domain/models/CertificationChallengeForScoring.js';
-import { getByCertificationCourseId } from '../../../../../../src/certification/scoring/infrastructure/repositories/certification-challenge-for-scoring-repository.js';
+import { getByCertificationCourseId } from '../../../../../../src/certification/evaluation/infrastructure/repositories/certification-challenge-for-scoring-repository.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | CertificationChallengeForScoringRepository', function () {

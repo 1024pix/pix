@@ -7,6 +7,8 @@ import { CertificationComputeError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/index.js';
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
 import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
+import * as certificationAssessmentHistoryRepository from '../../../evaluation/infrastructure/repositories/certification-assessment-history-repository.js';
+import * as certificationChallengeForScoringRepository from '../../../evaluation/infrastructure/repositories/certification-challenge-for-scoring-repository.js';
 import * as flashAlgorithmService from '../../../flash-certification/domain/services/algorithm-methods/flash.js';
 import { assessmentResultRepository } from '../../../session-management/infrastructure/repositories/index.js';
 import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
@@ -17,8 +19,6 @@ import * as competenceMarkRepository from '../../../shared/infrastructure/reposi
 import * as flashAlgorithmConfigurationRepository from '../../../shared/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import { AssessmentResultFactory } from '../../domain/models/factories/AssessmentResultFactory.js';
 import { scoringDegradationService } from '../../domain/services/scoring-degradation-service.js';
-import * as certificationAssessmentHistoryRepository from '../../infrastructure/repositories/certification-assessment-history-repository.js';
-import * as certificationChallengeForScoringRepository from '../../infrastructure/repositories/certification-challenge-for-scoring-repository.js';
 import * as scoringConfigurationRepository from '../../infrastructure/repositories/scoring-configuration-repository.js';
 
 export class CertificationCompletedJobController extends JobController {
