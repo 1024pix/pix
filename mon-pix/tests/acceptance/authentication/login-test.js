@@ -12,7 +12,7 @@ module('Acceptance | Login', function (hooks) {
   setupMirage(hooks);
   setupIntl(hooks);
 
-  module('when feature toggle is false', function (hooks) {
+  module('when "New authentication design" feature toggle is disabled', function (hooks) {
     hooks.beforeEach(function () {
       server.create('feature-toggle', {
         id: 0,
@@ -78,20 +78,19 @@ module('Acceptance | Login', function (hooks) {
     });
   });
 
-  module('when feature toggle is true', function (hooks) {
+  module('when "New authentication design" feature toggle is enabled', function (hooks) {
     hooks.beforeEach(function () {
-      server.create('feature-toggle', {
-        id: 0,
-        isNewAuthenticationDesignEnabled: true,
-      });
+      server.create('feature-toggle', { id: 0, isNewAuthenticationDesignEnabled: true });
     });
 
-    test('displays the new layout with a footer', async function (assert) {
+    test('displays the authentication layout with a footer', async function (assert) {
       // when
       const screen = await visit('/connexion');
+
       // then
       assert.dom(screen.getByRole('contentinfo')).exists();
     });
+
     module('when current url does not contain french tld (.fr)', function () {
       module('when accessing the login page with "English" as selected language', function () {
         module('when the user select "Français" as his language', function () {
@@ -104,7 +103,7 @@ module('Acceptance | Login', function (hooks) {
 
             // then
             assert.strictEqual(currentURL(), '/connexion');
-            assert.dom(screen.getByRole('heading', { name: t('pages.sign-in.title'), level: 1 })).exists();
+            assert.dom(screen.getByRole('heading', { name: t('pages.sign-in.first-title'), level: 1 })).exists();
             assert.dom(screen.getByRole('button', { name: 'Sélectionnez une langue' })).exists();
           });
         });

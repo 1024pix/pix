@@ -1,0 +1,37 @@
+.signin-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-4x);
+
+  input {
+    width: 100%;
+    padding: var(--pix-spacing-3x);
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-4x);
+  }
+
+  &__mandatory-fields-message {
+    @extend %pix-body-xs;
+
+    color: var(--pix-neutral-500);
+  }
+
+  &__password {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-2x);
+    align-items: end;
+
+    .pix-input-password {
+      width: 100%;
+    }
+  }
+}
