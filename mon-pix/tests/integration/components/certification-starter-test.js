@@ -19,11 +19,11 @@ module('Integration | Component | certification-starter', function (hooks) {
       this.set(
         'certificationCandidateSubscription',
         store.createRecord('certification-candidate-subscription', {
-          eligibleSubscription: null,
+          eligibleSubscriptions: null,
           nonEligibleSubscription: null,
         }),
       );
-      this.set('certificationCandidateSubscription', { eligibleSubscription: null, nonEligibleSubscription: null });
+      this.set('certificationCandidateSubscription', { eligibleSubscriptions: null, nonEligibleSubscription: null });
 
       // when
       const screen = await render(
@@ -48,7 +48,7 @@ module('Integration | Component | certification-starter', function (hooks) {
         this.set(
           'certificationCandidateSubscription',
           store.createRecord('certification-candidate-subscription', {
-            eligibleSubscription: { label: 'Certif complémentaire 1' },
+            eligibleSubscriptions: [{ label: 'Certif complémentaire 1' }],
             nonEligibleSubscription: null,
           }),
         );
@@ -73,7 +73,7 @@ module('Integration | Component | certification-starter', function (hooks) {
         this.set(
           'certificationCandidateSubscription',
           store.createRecord('certification-candidate-subscription', {
-            eligibleSubscription: { label: 'Certif complémentaire 1' },
+            eligibleSubscriptions: [{ label: 'Certif complémentaire 1' }],
             nonEligibleSubscription: null,
           }),
         );
@@ -95,7 +95,7 @@ module('Integration | Component | certification-starter', function (hooks) {
         this.set(
           'certificationCandidateSubscription',
           store.createRecord('certification-candidate-subscription', {
-            eligibleSubscription: null,
+            eligibleSubscriptions: null,
             nonEligibleSubscription: { label: 'Certif complémentaire 1' },
           }),
         );
@@ -119,7 +119,7 @@ module('Integration | Component | certification-starter', function (hooks) {
         this.set(
           'certificationCandidateSubscription',
           store.createRecord('certification-candidate-subscription', {
-            eligibleSubscription: null,
+            eligibleSubscriptions: null,
             nonEligibleSubscription: { label: 'Certif complémentaire 1' },
           }),
         );

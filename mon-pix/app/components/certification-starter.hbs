@@ -8,10 +8,11 @@
           {{t "pages.certification-start.subscription"}}
         </p>
         <div class="certification-starter-subscriptions-container-items">
-          {{#if @certificationCandidateSubscription.eligibleSubscription}}
+
+          {{#if (gt @certificationCandidateSubscription.eligibleSubscriptions.length 0)}}
             <span class="certification-starter-subscriptions-container-items__eligible-item">
               <FaIcon @icon="circle-check" class="certification-starter-subscriptions-container-items__eligible-icon" />
-              {{@certificationCandidateSubscription.eligibleSubscription.label}}
+              {{get @certificationCandidateSubscription.eligibleSubscriptions "0.label"}}
             </span>
           {{else}}
             <span class="certification-starter-subscriptions-container-items__non-eligible-item">

@@ -2,12 +2,12 @@ import Model, { attr } from '@ember-data/model';
 
 export default class CertificationCandidateSubscription extends Model {
   @attr sessionId;
-  @attr eligibleSubscription;
+  @attr eligibleSubscriptions;
   @attr nonEligibleSubscription;
   @attr sessionVersion;
 
   get hasSubscription() {
-    return this.eligibleSubscription || this.nonEligibleSubscription;
+    return this.eligibleSubscriptions?.length || this.nonEligibleSubscription;
   }
 
   get isSessionVersion3() {

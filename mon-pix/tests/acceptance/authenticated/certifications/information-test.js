@@ -26,7 +26,7 @@ module('Acceptance | Certifications | Information', function (hooks) {
       server.create('certification-candidate-subscription', {
         id: 2,
         sessionId: 123,
-        eligibleSubscription: null,
+        eligibleSubscriptions: null,
         nonEligibleSubscription: null,
         sessionVersion: 3,
       });
@@ -61,7 +61,7 @@ module('Acceptance | Certifications | Information', function (hooks) {
         server.create('certification-candidate-subscription', {
           id: 2,
           sessionId: 123,
-          eligibleSubscription: null,
+          eligibleSubscriptions: null,
           nonEligibleSubscription: null,
           sessionVersion: 3,
         });
@@ -102,7 +102,7 @@ module('Acceptance | Certifications | Information', function (hooks) {
         server.create('certification-candidate-subscription', {
           id: 2,
           sessionId: 123,
-          eligibleSubscription: null,
+          eligibleSubscriptions: null,
           nonEligibleSubscription: null,
           sessionVersion: 3,
         });

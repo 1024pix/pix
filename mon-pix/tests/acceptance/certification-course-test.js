@@ -211,7 +211,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             this.server.create('certification-candidate-subscription', {
               id: 1,
               sessionId: 1,
-              eligibleSubscription: null,
+              eligibleSubscriptions: null,
               nonEligibleSubscription: null,
             });
 
@@ -238,7 +238,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             this.server.create('certification-candidate-subscription', {
               id: 2,
               sessionId: 1,
-              eligibleSubscription: null,
+              eligibleSubscriptions: null,
               nonEligibleSubscription: null,
             });
 
@@ -279,7 +279,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             this.server.create('certification-candidate-subscription', {
               id: 2,
               sessionId: 1,
-              eligibleSubscription: null,
+              eligibleSubscriptions: null,
               nonEligibleSubscription: null,
             });
           });
@@ -402,7 +402,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         this.server.create('certification-candidate-subscription', {
           id: 2,
           sessionId: 1,
-          eligibleSubscription: null,
+          eligibleSubscriptions: null,
           nonEligibleSubscription: null,
         });
 
@@ -477,7 +477,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             server.create('certification-candidate-subscription', {
               id: 2,
               sessionId: 1,
-              eligibleSubscription: null,
+              eligibleSubscriptions: null,
               nonEligibleSubscription: null,
             });
 
@@ -556,7 +556,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           this.server.create('certification-candidate-subscription', {
             id: 2,
             sessionId: 1,
-            eligibleSubscription: null,
+            eligibleSubscriptions: null,
             nonEligibleSubscription: null,
           });
 
@@ -607,7 +607,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           this.server.create('certification-candidate-subscription', {
             id: 2,
             sessionId: 1,
-            eligibleSubscription: null,
+            eligibleSubscriptions: null,
             nonEligibleSubscription: null,
           });
 
@@ -653,7 +653,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             this.server.create('certification-candidate-subscription', {
               id: 2,
               sessionId: 1,
-              eligibleSubscription: null,
+              eligibleSubscriptions: null,
               nonEligibleSubscription: null,
             });
 
@@ -709,7 +709,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             this.server.create('certification-candidate-subscription', {
               id: 2,
               sessionId: 1,
-              eligibleSubscription: null,
+              eligibleSubscriptions: null,
               nonEligibleSubscription: null,
             });
 
