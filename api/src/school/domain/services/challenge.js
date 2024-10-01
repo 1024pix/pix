@@ -1,4 +1,4 @@
-export const challengeService = { getAlternativeVersion };
+export const challengeService = { getAlternativeVersion, mapChallenge };
 
 function getAlternativeVersion({ mission, activities, activityInfo }) {
   const alreadyPlayedAlternativeVersions = activities
@@ -31,4 +31,9 @@ function getAlternativeVersion({ mission, activities, activityInfo }) {
 
 function _randomIndexForChallenges(length, random = Math.random()) {
   return Math.floor(random * length);
+}
+
+function mapChallenge(challenge) {
+  challenge.instruction = challenge.instruction?.split('***');
+  return challenge;
 }
