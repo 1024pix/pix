@@ -9,15 +9,9 @@ describe('Unit | UseCase | campaign-administration | create-campaigns', function
     };
     const code1 = Symbol('code1');
     const code2 = Symbol('code2');
-    const administrator = domainBuilder.buildUser();
     const someoneId = 454756;
     const otherOrganization = domainBuilder.buildOrganization({ id: 3 });
     const organization = domainBuilder.buildOrganization({ id: 4 });
-    const administratorMembership = domainBuilder.buildMembership({
-      user: administrator,
-      organization: otherOrganization,
-      organizationRole: 'ADMIN',
-    });
 
     const codeGeneratorStub = {
       generate: sinon
@@ -42,6 +36,7 @@ describe('Unit | UseCase | campaign-administration | create-campaigns', function
         name: 'My other Campaign',
         targetProfileId: 3,
         creatorId: 1,
+        ownerId: someoneId,
       },
     ];
 
@@ -54,7 +49,7 @@ describe('Unit | UseCase | campaign-administration | create-campaigns', function
       {
         ...campaignsToCreate[1],
         type: 'ASSESSMENT',
-        ownerId: administrator.id,
+        ownerId: someoneId,
         code: code2,
       },
     ];
@@ -67,7 +62,7 @@ describe('Unit | UseCase | campaign-administration | create-campaigns', function
       .withArgs({ ...campaignsToCreate[0], type: CampaignTypes.ASSESSMENT, code: code1, ownerId: someoneId })
       .resolves(campaignsWithAllData[0]);
     campaignCreatorPOJO.createCampaign
-      .withArgs({ ...campaignsToCreate[1], type: CampaignTypes.ASSESSMENT, code: code2, ownerId: administrator.id })
+      .withArgs({ ...campaignsToCreate[1], type: CampaignTypes.ASSESSMENT, code: code2, ownerId: someoneId })
       .resolves(campaignsWithAllData[1]);
 
     const campaignCreatorRepositoryStub = {
@@ -80,16 +75,8 @@ describe('Unit | UseCase | campaign-administration | create-campaigns', function
     const createdCampaignsSymbol = Symbol('');
     campaignAdministrationRepository.save.withArgs(campaignsWithAllData).resolves(createdCampaignsSymbol);
 
-    const membershipRepository = {
-      findAdminsByOrganizationId: sinon.stub(),
-    };
-    membershipRepository.findAdminsByOrganizationId
-      .withArgs({ organizationId: otherOrganization.id })
-      .resolves([administratorMembership]);
-
     const result = await createCampaigns({
       campaignsToCreate,
-      membershipRepository,
       campaignAdministrationRepository,
       codeGenerator: codeGeneratorStub,
       campaignCreatorRepository: campaignCreatorRepositoryStub,
