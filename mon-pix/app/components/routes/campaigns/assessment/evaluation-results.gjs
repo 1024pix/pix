@@ -1,5 +1,6 @@
 import { t } from 'ember-intl';
 
+import EvaluationResultsHero from '../../../campaigns/assessment/skill-review/evaluation-results-hero';
 import EvaluationResultsTabs from '../../../campaigns/assessment/skill-review/evaluation-results-tabs';
 import QuitResults from '../../../campaigns/assessment/skill-review/quit-results';
 
@@ -12,6 +13,7 @@ import QuitResults from '../../../campaigns/assessment/skill-review/quit-results
       </h2>
       <QuitResults @isCampaignShared={{@model.campaignParticipationResult.isShared}} />
     </header>
+    <EvaluationResultsHero @campaignParticipationResult={{@model.campaignParticipationResult}} />
     <EvaluationResultsTabs
       @badges={{@model.campaignParticipationResult.campaignParticipationBadges}}
       @campaignParticipationResultId={{@model.campaignParticipationResult.id}}
