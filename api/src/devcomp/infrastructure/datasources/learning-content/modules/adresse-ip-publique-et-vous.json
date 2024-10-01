@@ -76,7 +76,7 @@
                 {
                   "id": "e939579a-c185-481b-8f78-e9fbb6d7363e",
                   "type": "qcu",
-                  "instruction": "<p>D'après le moteur de recherche, où se trouve environ Mélanie ?</p>",
+                  "instruction": "<p>D'après le moteur de recherche, où se trouve Mélanie ?</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -184,7 +184,7 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct <span aria-hidden=\"true\">💫</span></span>.<p>L'adresse IP publique est l’équivalent d’une adresse postale pour identifier où est une personne.</p>",
+              "valid": "<span class=\"feedback__state\">Correct <span aria-hidden=\"true\">💫</span></span><p>L'adresse IP publique est l’équivalent d’une adresse postale pour identifier où est une personne.</p>",
               "invalid": "<span class=\"feedback__state\">Incorrect</span>.<p>Vous pensez peut-être plutôt à l'adresse <strong>web</strong> ou l'adresse <strong>mail</strong>.<br>Vous pouvez remonter voir la vidéo.<span aria-hidden=\"true\">👆</span></p>"
             },
             "solution": "1"
