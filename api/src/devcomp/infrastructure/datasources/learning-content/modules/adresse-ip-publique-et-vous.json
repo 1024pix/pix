@@ -452,7 +452,7 @@
                 {
                   "id": "952234bc-4ec1-4ebd-9208-6cc261a1efd8",
                   "type": "qcu",
-                  "instruction": "<p>L'imprimante et l' ordinateur de Mélanie sont connectés à sa box internet.<br>Quelle adresse est différente pour son imprimante et pour son ordinateur ?</p>",
+                  "instruction": "<p>L'imprimante et l'ordinateur de Mélanie sont connectés à sa box internet.<br>Quelle adresse est différente pour son imprimante et pour son ordinateur ?</p>",
                   "proposals": [
                     {
                       "id": "1",
