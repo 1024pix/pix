@@ -1,3 +1,4 @@
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -13,6 +14,7 @@ export default class ModulixFlashcards extends Component {
    */
   displayedSideName = 'recto';
 
+  @tracked
   /**
    * Index of the displayed card in the deck
    * @type {number}
@@ -23,9 +25,23 @@ export default class ModulixFlashcards extends Component {
     return this.args.flashcards.cards[this.currentCardIndex];
   }
 
+  get currentCardNumber() {
+    return this.currentCardIndex + 1;
+  }
+
+  get numberOfCards() {
+    return this.args.flashcards.cards.length;
+  }
+
   @action
   flipCard() {
     this.displayedSideName = this.displayedSideName === 'recto' ? 'verso' : 'recto';
+  }
+
+  @action
+  goToNextCard() {
+    this.currentCardIndex++;
+    this.displayedSideName = 'recto';
   }
 
   <template>
@@ -41,12 +57,14 @@ export default class ModulixFlashcards extends Component {
           <p class="element-flashcards-footer__direction">{{t "pages.modulix.flashcards.direction"}}</p>
           <p class="element-flashcards-footer__position">{{t
               "pages.modulix.flashcards.position"
-              currentCardPosition=1
-              totalCards=1
+              currentCardPosition=this.currentCardNumber
+              totalCards=this.numberOfCards
             }}</p>
         {{/if}}
         {{#if (eq this.displayedSideName "verso")}}
-          <button type="button">{{t "pages.modulix.buttons.flashcards.nextCard"}}</button>
+          <button type="button" {{on "click" this.goToNextCard}}>{{t
+              "pages.modulix.buttons.flashcards.nextCard"
+            }}</button>
         {{/if}}
       </div>
     </div>
