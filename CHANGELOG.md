@@ -1,5 +1,45 @@
 # Pix Changelog
 
+## v4.219.0 (01/10/2024)
+
+
+### :rocket: Amélioration
+- [#10206](https://github.com/1024pix/pix/pull/10206) [FEATURE] Créer un composant local pour la sélection des OidcProvider (PIX-14134).
+- [#10201](https://github.com/1024pix/pix/pull/10201) [FEATURE] Utiliser la date de réconciliation du candidat dans le service Placement Profile (PIX-14402).
+- [#10211](https://github.com/1024pix/pix/pull/10211) [FEATURE] Enregistrer comme correcte une réponse focused out si le candidat a un besoin d'aménagement (PIX-14242).
+- [#10184](https://github.com/1024pix/pix/pull/10184) [FEATURE] Ajout du nouveau formulaire de connexion Pix App (PIX-14002).
+- [#10197](https://github.com/1024pix/pix/pull/10197) [FEATURE] Ajouter une page de blocage pour Pix Companion (PIX-14538).
+- [#10200](https://github.com/1024pix/pix/pull/10200) [FEATURE] Filtre sur les résultats dans le détail d'une mission sur Pix Orga (PIX-13377).
+- [#10198](https://github.com/1024pix/pix/pull/10198) [FEATURE] Ajouter des titres explicites aux éléments de tableaux lors de l'export du schema Modulix (PIX-14544).
+- [#10164](https://github.com/1024pix/pix/pull/10164) [FEATURE] Afficher une carte question / réponse (PIX-14306).
+- [#10191](https://github.com/1024pix/pix/pull/10191) [FEATURE] Pix Companion: Émettre des CustomEvents pour démarrage/fin de certification (PIX-14522).
+
+### :building_construction: Tech
+- [#10178](https://github.com/1024pix/pix/pull/10178) [TECH] Supprimer l'ancienne route de génération d'identifiants et mots de passe en masse (PIX-14498).
+- [#10208](https://github.com/1024pix/pix/pull/10208) [TECH] :recycle: Déplacement du modèle `UserDetailsForAdmin` dans le bon context.
+- [#10199](https://github.com/1024pix/pix/pull/10199) [TECH] Retirer les logs de débug de l'import SIECLE (PIX-14529).
+- [#10177](https://github.com/1024pix/pix/pull/10177) [TECH] :recycle: Déplace un model dans son context.
+- [#10173](https://github.com/1024pix/pix/pull/10173) [TECH] Migrer la route User Has Seen New Dashboard (PIX-14451).
+- [#10169](https://github.com/1024pix/pix/pull/10169) [TECH] Conserver un seul fichier de constantes pour le repertoire src/shared/infrastructures (PIX-14462).
+- [#10192](https://github.com/1024pix/pix/pull/10192) [TECH] Changer le code http de l'erreur AnswerEvaluationError (PIX-14519).
+
+### :bug: Correction
+- [#10219](https://github.com/1024pix/pix/pull/10219) [BUGFIX] Ne pas déclencher une erreur 503 quand l'email est invalide lors de l'envoi d'email transactionnel (PIX-14315).
+- [#10217](https://github.com/1024pix/pix/pull/10217) [BUGFIX] Purge de traduction non utilisé .
+
+### :arrow_up: Montée de version
+- [#10223](https://github.com/1024pix/pix/pull/10223) [BUMP] Update dependency @1024pix/pix-ui to ^46.13.4 (junior).
+- [#10222](https://github.com/1024pix/pix/pull/10222) [BUMP] Update dependency @1024pix/pix-ui to ^46.13.4 (certif).
+- [#10220](https://github.com/1024pix/pix/pull/10220) [BUMP] Update dependency @1024pix/pix-ui to ^46.13.4 (admin).
+- [#10024](https://github.com/1024pix/pix/pull/10024) [BUMP] Update dependency @xmldom/xmldom to ^0.9.0 (api).
+- [#10196](https://github.com/1024pix/pix/pull/10196) [BUMP] Update adobe/s3mock Docker tag to v3.10.1 (dossier racine).
+- [#10195](https://github.com/1024pix/pix/pull/10195) [BUMP] Update adobe/s3mock Docker tag to v3.10.1 (docker).
+- [#10194](https://github.com/1024pix/pix/pull/10194) [BUMP] Update adobe/s3mock Docker tag to v3.10.1 (.circleci).
+- [#10193](https://github.com/1024pix/pix/pull/10193) [BUMP] Update dependency @1024pix/pix-ui to ^46.13.4 (orga).
+
+### :coffee: Autre
+- [#10132](https://github.com/1024pix/pix/pull/10132) [DOC] Corriger des erreurs dans l'ADR 51.
+
 ## v4.218.0 (26/09/2024)
 
 
