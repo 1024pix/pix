@@ -202,7 +202,7 @@
           "element": {
             "id": "3f4354a6-3243-4b5a-a459-58b3f3d1ecb8",
             "type": "text",
-            "content": "<p>Pour chaque affirmation, répondez par vrai ou par faux.<br><i>Remarque : certaines personnes utilisent des VPN pour modifier leur adresse IP. Dans les exemples suivants, aucun VPN n'est utilisé.</i></p>"
+            "content": "<p>Pour chaque affirmation, répondez par vrai ou par faux.<br><i>Remarque : certaines personnes utilisent des VPN pour modifier leur adresse IP.<br>Dans les exemples suivants, aucun VPN n'est utilisé.</i></p>"
           }
         },
         {
