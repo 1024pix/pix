@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-export default class CertificationJoiner extends Component {
+export default class CertificationStarter extends Component {
   @service store;
   @service router;
   @service currentUser;
