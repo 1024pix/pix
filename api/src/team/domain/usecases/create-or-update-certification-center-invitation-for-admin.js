@@ -1,4 +1,8 @@
-import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../shared/domain/errors.js';
+import {
+  SendingEmailError,
+  SendingEmailToInvalidDomainError,
+  SendingEmailToInvalidEmailAddressError,
+} from '../../../shared/domain/errors.js';
 import { CertificationCenterInvitation } from '../models/CertificationCenterInvitation.js';
 
 const createOrUpdateCertificationCenterInvitationForAdmin = async function ({
@@ -29,19 +33,23 @@ const createOrUpdateCertificationCenterInvitationForAdmin = async function ({
     isInvitationCreated = false;
   }
 
-  const mailerResponse = await mailService.sendCertificationCenterInvitationEmail({
+  const emailingAttempt = await mailService.sendCertificationCenterInvitationEmail({
     email,
     locale,
     certificationCenterName: certificationCenterInvitation.certificationCenterName,
     certificationCenterInvitationId: certificationCenterInvitation.id,
     code: certificationCenterInvitation.code,
   });
-  if (mailerResponse?.status === 'FAILURE') {
-    if (mailerResponse.hasFailedBecauseDomainWasInvalid()) {
+  if (emailingAttempt.hasFailed()) {
+    if (emailingAttempt.hasFailedBecauseDomainWasInvalid()) {
       throw new SendingEmailToInvalidDomainError(email);
     }
 
-    throw new SendingEmailError();
+    if (emailingAttempt.hasFailedBecauseEmailWasInvalid()) {
+      throw new SendingEmailToInvalidEmailAddressError(email, emailingAttempt.errorMessage);
+    }
+
+    throw new SendingEmailError(email);
   }
 
   return { isInvitationCreated, certificationCenterInvitation };

@@ -152,7 +152,7 @@ describe('Unit | Class | BrevoProvider', function () {
             template: templateId,
           };
           stubbedBrevoSMTPApi.sendTransacEmail.rejects({
-            response: { text: '{"code":"invalid_parameter","message":"email is not valid in to"}' },
+            body: { code: 'invalid_parameter', message: 'email is not valid in to' },
           });
 
           // when

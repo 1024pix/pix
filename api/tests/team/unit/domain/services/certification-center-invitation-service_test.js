@@ -1,4 +1,8 @@
-import { SendingEmailError } from '../../../../../src/shared/domain/errors.js';
+import {
+  SendingEmailError,
+  SendingEmailToInvalidDomainError,
+  SendingEmailToInvalidEmailAddressError,
+} from '../../../../../src/shared/domain/errors.js';
 import { EmailingAttempt } from '../../../../../src/shared/domain/models/index.js';
 import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import {
@@ -28,7 +32,6 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
         it('creates an invitation, sends an email and updates invitation modification date', async function () {
           // given
           const certificationCenter = domainBuilder.buildCertificationCenter({
-            id: 202310130,
             name: 'Best Certification Center',
           });
           const code = 'AZERTY007';
@@ -42,7 +45,6 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
           });
           const createdCertificationCenterInvitation = new CertificationCenterInvitation({
             ...certificationCenterInvitationToCreate,
-            id: 202310131,
           });
 
           certificationCenterInvitationRepository.create.resolves(createdCertificationCenterInvitation);
@@ -87,7 +89,6 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
         it('sends an email and updates invitation modification date', async function () {
           // given
           const certificationCenter = domainBuilder.buildCertificationCenter({
-            id: 202310130,
             name: 'Best Certification Center',
           });
           const code = 'AZERTY007';
@@ -98,7 +99,6 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
             code,
             createdAt: new Date('2023-10-10'),
             email,
-            id: 202310131,
             updatedAt: new Date('2023-10-11'),
           });
 
@@ -133,29 +133,29 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
     });
 
     context('failure', function () {
-      context('when an error occurs', function () {
-        it('throws an error', async function () {
+      context('when recipient email has an invalid domain', function () {
+        it('throws a SendingEmailToInvalidDomainError', async function () {
           // given
+          const emailWithInvalidDomain = 'someone@consideredInvalidDomain.net';
           const certificationCenter = domainBuilder.buildCertificationCenter({
-            id: 202310130,
             name: 'Best Certification Center',
           });
-          const code = 'AZERTY007';
-          const email = 'dick.cionère@example.net';
+          const code = 'AZERTY005';
           const locale = 'fr-fr';
           const certificationCenterInvitation = new CertificationCenterInvitation({
             certificationCenterId: certificationCenter.id,
             code,
             createdAt: new Date('2023-10-10'),
-            email,
-            id: 202310131,
+            email: emailWithInvalidDomain,
             updatedAt: new Date('2023-10-11'),
           });
 
           certificationCenterInvitationRepository.findOnePendingByEmailAndCertificationCenterId.resolves(
             certificationCenterInvitation,
           );
-          mailService.sendCertificationCenterInvitationEmail.resolves(EmailingAttempt.failure(email));
+          mailService.sendCertificationCenterInvitationEmail.resolves(
+            EmailingAttempt.failure(emailWithInvalidDomain, EmailingAttempt.errorCode.INVALID_DOMAIN),
+          );
 
           // when
           const error = await catchErr(
@@ -165,13 +165,100 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
             }),
           )({
             certificationCenter,
-            email,
+            email: emailWithInvalidDomain,
             locale,
           });
 
           // then
-          expect(error).to.be.instanceOf(SendingEmailError);
+          expect(error).to.be.an.instanceOf(SendingEmailToInvalidDomainError);
+          expect(error.message).to.equal(
+            'Failed to send email to "someone@consideredInvalidDomain.net" because domain seems to be invalid.',
+          );
         });
+      });
+    });
+
+    context('when recipient email is invalid', function () {
+      it('throws a SendingEmailToInvalidEmailAddressError', async function () {
+        // given
+        const invalidEmail = 'considered_invalid@example.net';
+        const certificationCenter = domainBuilder.buildCertificationCenter({
+          name: 'Best Certification Center',
+        });
+        const code = 'AZERTY006';
+        const locale = 'fr-fr';
+        const certificationCenterInvitation = new CertificationCenterInvitation({
+          certificationCenterId: certificationCenter.id,
+          code,
+          createdAt: new Date('2023-10-10'),
+          email: invalidEmail,
+          updatedAt: new Date('2023-10-11'),
+        });
+
+        certificationCenterInvitationRepository.findOnePendingByEmailAndCertificationCenterId.resolves(
+          certificationCenterInvitation,
+        );
+        mailService.sendCertificationCenterInvitationEmail.resolves(
+          EmailingAttempt.failure(invalidEmail, EmailingAttempt.errorCode.INVALID_EMAIL),
+        );
+
+        // when
+        const error = await catchErr(
+          createOrUpdateCertificationCenterInvitation({
+            certificationCenterInvitationRepository,
+            mailService,
+          }),
+        )({
+          certificationCenter,
+          email: invalidEmail,
+          locale,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(SendingEmailToInvalidEmailAddressError);
+        expect(error.message).to.equal(
+          'Failed to send email to "considered_invalid@example.net" because email address seems to be invalid.',
+        );
+      });
+    });
+
+    context('when email sending fails for some unknown reason', function () {
+      it('throws a generic SendingEmailError', async function () {
+        // given
+        const certificationCenter = domainBuilder.buildCertificationCenter({
+          name: 'Best Certification Center',
+        });
+        const code = 'AZERTY007';
+        const email = 'dick.cionère@example.net';
+        const locale = 'fr-fr';
+        const certificationCenterInvitation = new CertificationCenterInvitation({
+          certificationCenterId: certificationCenter.id,
+          code,
+          createdAt: new Date('2023-10-10'),
+          email,
+          updatedAt: new Date('2023-10-11'),
+        });
+
+        certificationCenterInvitationRepository.findOnePendingByEmailAndCertificationCenterId.resolves(
+          certificationCenterInvitation,
+        );
+        mailService.sendCertificationCenterInvitationEmail.resolves(EmailingAttempt.failure(email));
+
+        // when
+        const error = await catchErr(
+          createOrUpdateCertificationCenterInvitation({
+            certificationCenterInvitationRepository,
+            mailService,
+          }),
+        )({
+          certificationCenter,
+          email,
+          locale,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(SendingEmailError);
+        expect(error.message).to.equal('Failed to send email to "dick.cionère@example.net" for some unknown reason.');
       });
     });
   });
@@ -196,7 +283,6 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
         it('sends an email and updates invitation modification date', async function () {
           // given
           const certificationCenter = domainBuilder.buildCertificationCenter({
-            id: 202310130,
             name: 'Best Certification Center',
           });
           const code = 'AZERTY007';
@@ -207,7 +293,6 @@ describe('Unit | Team | Domain | Services | CertificationCenterInvitationService
             code,
             createdAt: new Date('2023-10-10'),
             email,
-            id: 202310131,
             updatedAt: new Date('2023-10-11'),
           });
 

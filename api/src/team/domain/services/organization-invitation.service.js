@@ -47,7 +47,7 @@ const createOrUpdateOrganizationInvitation = async ({
 
   const organization = await organizationRepository.get(organizationId);
 
-  const mailerResponse = await dependencies.mailService.sendOrganizationInvitationEmail({
+  const emailingAttempt = await dependencies.mailService.sendOrganizationInvitationEmail({
     email,
     organizationName: organization.name,
     organizationInvitationId: organizationInvitation.id,
@@ -55,16 +55,16 @@ const createOrUpdateOrganizationInvitation = async ({
     locale,
     tags,
   });
-  if (mailerResponse?.status === 'FAILURE') {
-    if (mailerResponse.hasFailedBecauseDomainWasInvalid()) {
+  if (emailingAttempt.hasFailed()) {
+    if (emailingAttempt.hasFailedBecauseDomainWasInvalid()) {
       throw new SendingEmailToInvalidDomainError(email);
     }
 
-    if (mailerResponse.hasFailedBecauseEmailWasInvalid()) {
-      throw new SendingEmailToInvalidEmailAddressError(email, mailerResponse.errorMessage);
+    if (emailingAttempt.hasFailedBecauseEmailWasInvalid()) {
+      throw new SendingEmailToInvalidEmailAddressError(email, emailingAttempt.errorMessage);
     }
 
-    throw new SendingEmailError();
+    throw new SendingEmailError(email);
   }
 
   return await organizationInvitationRepository.updateModificationDate(organizationInvitation.id);

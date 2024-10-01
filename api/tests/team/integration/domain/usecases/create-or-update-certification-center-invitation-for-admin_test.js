@@ -1,5 +1,9 @@
 import { mailService } from '../../../../../lib/domain/services/mail-service.js';
-import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../../src/shared/domain/errors.js';
+import {
+  SendingEmailError,
+  SendingEmailToInvalidDomainError,
+  SendingEmailToInvalidEmailAddressError,
+} from '../../../../../src/shared/domain/errors.js';
 import { EmailingAttempt } from '../../../../../src/shared/domain/models/EmailingAttempt.js';
 import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { usecases } from '../../../../../src/team/domain/usecases/index.js';
@@ -11,7 +15,9 @@ describe('Integration | Team | UseCase | create-or-update-certification-center-i
 
   beforeEach(function () {
     clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
-    sinon.stub(mailService, 'sendCertificationCenterInvitationEmail');
+    sinon
+      .stub(mailService, 'sendCertificationCenterInvitationEmail')
+      .resolves(EmailingAttempt.success('stub@example.net'));
   });
 
   afterEach(async function () {
@@ -67,7 +73,7 @@ describe('Integration | Team | UseCase | create-or-update-certification-center-i
     expect(result.certificationCenterInvitation.code).to.exist;
   });
 
-  it('updates an already existing pending invitation’s', async function () {
+  it('updates an already existing pending invitation', async function () {
     // given
     const email = 'some.user@example.net';
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Centre Pixou' }).id;
@@ -138,54 +144,25 @@ describe('Integration | Team | UseCase | create-or-update-certification-center-i
     });
   });
 
-  it('throws an error if email was not send', async function () {
-    // given
-    const email = 'some.user@example.net';
-    const role = null;
-
-    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Pixar' }).id;
-    databaseBuilder.factory.buildCertificationCenterInvitation({
-      email,
-      certificationCenterId,
-      code: 'BBBJJJPPP3',
-      status: CertificationCenterInvitation.StatusType.PENDING,
-    }).id;
-    await databaseBuilder.commit();
-
-    const mailerResponse = EmailingAttempt.failure(email);
-    mailService.sendCertificationCenterInvitationEmail.resolves(mailerResponse);
-
-    // when
-    const result = await catchErr(usecases.createOrUpdateCertificationCenterInvitationForAdmin)({
-      email,
-      locale: 'fr',
-      certificationCenterId,
-      mailService,
-      role,
-    });
-
-    // then
-    expect(result).to.be.an.instanceOf(SendingEmailError);
-  });
-
   context('when recipient email has an invalid domain', function () {
-    it('throws a SendingEmailToInvalidDomainError error', async function () {
+    it('throws a SendingEmailToInvalidDomainError', async function () {
       // given
-      const email = 'hatake.kakashi@konoha.fire';
+      const emailWithInvalidDomain = 'someone@consideredInvalidDomain.net';
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Konoha' }).id;
       databaseBuilder.factory.buildCertificationCenterInvitation({
-        email,
+        email: emailWithInvalidDomain,
         certificationCenterId,
-        code: 'NUSUSHKH7',
+        code: 'BBBJJJPPP5',
         status: CertificationCenterInvitation.StatusType.PENDING,
       });
       await databaseBuilder.commit();
-      const emailAttemptFailure = EmailingAttempt.failure(email, EmailingAttempt.errorCode.INVALID_DOMAIN);
-      mailService.sendCertificationCenterInvitationEmail.resolves(emailAttemptFailure);
+
+      const emailingAttempt = EmailingAttempt.failure(emailWithInvalidDomain, EmailingAttempt.errorCode.INVALID_DOMAIN);
+      mailService.sendCertificationCenterInvitationEmail.resolves(emailingAttempt);
 
       // when
       const error = await catchErr(usecases.createOrUpdateCertificationCenterInvitationForAdmin)({
-        email,
+        email: emailWithInvalidDomain,
         locale: 'fr',
         role: 'ADMIN',
         certificationCenterId,
@@ -195,8 +172,74 @@ describe('Integration | Team | UseCase | create-or-update-certification-center-i
       // then
       expect(error).to.be.an.instanceOf(SendingEmailToInvalidDomainError);
       expect(error.message).to.equal(
-        'Failed to send email to hatake.kakashi@konoha.fire because domain seems to be invalid.',
+        'Failed to send email to "someone@consideredInvalidDomain.net" because domain seems to be invalid.',
       );
+    });
+  });
+
+  context('when recipient email is invalid', function () {
+    it('throws a SendingEmailToInvalidEmailAddressError', async function () {
+      // given
+      const invalidEmail = 'considered_invalid@example.net';
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Konoha' }).id;
+      databaseBuilder.factory.buildCertificationCenterInvitation({
+        email: invalidEmail,
+        certificationCenterId,
+        code: 'BBBJJJPPP6',
+        status: CertificationCenterInvitation.StatusType.PENDING,
+      });
+      await databaseBuilder.commit();
+
+      const emailingAttempt = EmailingAttempt.failure(invalidEmail, EmailingAttempt.errorCode.INVALID_EMAIL);
+      mailService.sendCertificationCenterInvitationEmail.resolves(emailingAttempt);
+
+      // when
+      const error = await catchErr(usecases.createOrUpdateCertificationCenterInvitationForAdmin)({
+        email: invalidEmail,
+        locale: 'fr',
+        role: 'ADMIN',
+        certificationCenterId,
+        mailService,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(SendingEmailToInvalidEmailAddressError);
+      expect(error.message).to.equal(
+        'Failed to send email to "considered_invalid@example.net" because email address seems to be invalid.',
+      );
+    });
+  });
+
+  context('when email sending fails for some unknown reason', function () {
+    it('throws a generic SendingEmailError', async function () {
+      // given
+      const email = 'some.user@example.net';
+      const role = null;
+
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Pixar' }).id;
+      databaseBuilder.factory.buildCertificationCenterInvitation({
+        email,
+        certificationCenterId,
+        code: 'BBBJJJPPP7',
+        status: CertificationCenterInvitation.StatusType.PENDING,
+      }).id;
+      await databaseBuilder.commit();
+
+      const emailingAttempt = EmailingAttempt.failure(email);
+      mailService.sendCertificationCenterInvitationEmail.resolves(emailingAttempt);
+
+      // when
+      const result = await catchErr(usecases.createOrUpdateCertificationCenterInvitationForAdmin)({
+        email,
+        locale: 'fr',
+        certificationCenterId,
+        mailService,
+        role,
+      });
+
+      // then
+      expect(result).to.be.an.instanceOf(SendingEmailError);
+      expect(result.message).to.equal('Failed to send email to "some.user@example.net" for some unknown reason.');
     });
   });
 });
