@@ -72,9 +72,14 @@ module('Unit | Route | Certification | Start', function (hooks) {
             },
           });
 
-          const findRecordStub = sinon.stub().returns(certificationCandidateSubscription);
-          const peekRecordStub = sinon.stub().returns(certificationCandidate);
-          const storeStub = Service.create({ findRecord: findRecordStub, peekRecord: peekRecordStub });
+          const findRecordStub = sinon
+            .stub()
+            .withArgs('certification-candidate-subscription', certificationCandidate.id)
+            .returns(certificationCandidateSubscription)
+            .withArgs('certification-candidate', certificationCandidate.id)
+            .returns(certificationCandidate);
+
+          const storeStub = Service.create({ findRecord: findRecordStub });
 
           const route = this.owner.lookup('route:authenticated/certifications.start');
           route.set('store', storeStub);

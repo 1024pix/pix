@@ -14,8 +14,8 @@ module('Unit | Route | Certifications | Information', function (hooks) {
       const certificationCandidate = store.createRecord('certification-candidate', {
         id: '1234',
       });
-      const peekRecordStub = sinon.stub().resolves(certificationCandidate);
-      const storeStub = Service.create({ peekRecord: peekRecordStub });
+      const findRecordStub = sinon.stub().resolves(certificationCandidate);
+      const storeStub = Service.create({ findRecord: findRecordStub });
       const route = this.owner.lookup('route:authenticated/certifications.information');
       route.set('store', storeStub);
 
@@ -29,8 +29,8 @@ module('Unit | Route | Certifications | Information', function (hooks) {
     module('when no candidate exist', function () {
       test('should return to certification form', async function (assert) {
         // given
-        const peekRecordStub = sinon.stub().resolves();
-        const storeStub = Service.create({ peekRecord: peekRecordStub });
+        const findRecordStub = sinon.stub().resolves();
+        const storeStub = Service.create({ findRecord: findRecordStub });
         const route = this.owner.lookup('route:authenticated/certifications.information');
         route.set('store', storeStub);
         route.router = { replaceWith: sinon.stub() };

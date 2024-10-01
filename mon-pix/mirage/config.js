@@ -13,6 +13,7 @@ import deleteUserSavedTutorial from './routes/delete-user-saved-tutorial';
 import getAreas from './routes/get-areas';
 import getCampaigns from './routes/get-campaigns';
 import getCertification from './routes/get-certification';
+import getCertificationCandidate from './routes/get-certification-candidate';
 import getCertificationCandidatesSubscriptions from './routes/get-certification-candidates-subscriptions';
 import getCertifications from './routes/get-certifications';
 import getChallenge from './routes/get-challenge';
@@ -104,6 +105,7 @@ function routes() {
 
   this.post('/shared-certifications', postSharedCertifications);
 
+  this.get('/certification-candidates/:id', getCertificationCandidate);
   this.get('/certification-candidates/:id/subscriptions', getCertificationCandidatesSubscriptions);
 
   this.get('/certification-courses/:id');

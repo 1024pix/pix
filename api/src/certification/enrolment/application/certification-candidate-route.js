@@ -94,6 +94,29 @@ const register = async function (server) {
       },
     },
     {
+      method: 'GET',
+      path: '/api/certification-candidates/{certificationCandidateId}',
+      config: {
+        validate: {
+          params: Joi.object({
+            certificationCandidateId: identifiersType.certificationCandidateId,
+          }),
+        },
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsCandidate,
+            assign: 'authorizationCheck',
+          },
+        ],
+        handler: certificationCandidateController.getCandidate,
+        tags: ['api', 'certification-candidates'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle permet à un candidat de récupérer ses informations',
+        ],
+      },
+    },
+    {
       method: 'DELETE',
       path: '/api/sessions/{sessionId}/certification-candidates/{certificationCandidateId}',
       config: {
