@@ -9,7 +9,7 @@
     "level": "Intermédiaire",
     "objectives": [
       "Comprendre la fonction des adresses IP publiques",
-      "Connaître les informations personnelles dévoilées par l'adresse IP publique",
+      "Connaître les informations personnelles dévoilées par l'adresse IP publique (IPv4)",
       "Distinguer les adresses IP publiques des adresses IP privées"
     ],
     "tabletSupport": "comfortable"
@@ -17,7 +17,7 @@
   "transitionTexts": [
     {
       "grainId": "1d516eb9-e7b7-48a3-a3b5-7971ad171d6f",
-      "content": "<p>Lorsque vous naviguez sur internet, un site peut savoir environ où vous vous trouvez même si vous ne lui avez pas partagé votre localisation.<span aria-hidden=\"true\">📍</span><br>Mystère ? Pas vraiment. Commençons par un exemple.</p>"
+      "content": "<p>Lorsque vous naviguez sur internet, un site peut connaître la ville où vous vous trouvez même si vous ne lui avez pas partagé votre localisation.<span aria-hidden=\"true\">📍</span><br>Mystère ? Pas vraiment. Commençons par un exemple.</p>"
     },
     {
       "grainId": "4f4ada91-e239-4991-9fc8-ab491aabc424",
@@ -80,7 +80,7 @@
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "Brest"
+                      "content": "Liège"
                     },
                     {
                       "id": "2",
@@ -202,7 +202,7 @@
           "element": {
             "id": "3f4354a6-3243-4b5a-a459-58b3f3d1ecb8",
             "type": "text",
-            "content": "<p>Pour chaque affirmation, répondez par vrai ou par faux.<br><i>Remarque : si vous connaissez les VPN, partez du principe qu'aucun VPN n'est utilisé dans les exemples suivants.</i></p>"
+            "content": "<p>Pour chaque affirmation, répondez par vrai ou par faux.<br><i>Remarque : certaines personnes utilisent des VPN pour modifier leur adresse IP. Dans les exemples suivants, aucun VPN n'est utilisé.</i></p>"
           }
         },
         {
@@ -297,8 +297,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span><p> On peut connaître au mieux le pays ou la ville où elle se trouve.<br>Par contre, la police par exemple peut accéder si besoin à cette information.</p>",
-                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>On peut connaître au mieux le pays ou la ville où elle se trouve.<br>Par contre, la police par exemple peut accéder si besoin à cette information.</p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">🎉</span></span><p>Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve.<br>Par contre, la police peut accéder à plus d'informations, dans un cadre prévu par la loi.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse.</span><p>Au mieux, vous pourrez connaître le pays ou la ville où elle se trouve.<br>Par contre, la police peut accéder à plus d'informations, dans un cadre prévu par la loi.</p>"
                   },
                   "solution": "2"
                 }
@@ -383,22 +383,7 @@
           "element": {
             "id": "9814961b-3134-468d-a918-9b98a1775395",
             "type": "text",
-            "content": "<p>Analysez ce schéma qui présente les deux types d'adresses IP.<br>Par la suite, vous devrez trouver quel est le type d'adresse IP concernée entre privée et publique dans des situations concrètes.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "a06beddf-5a22-4c18-8774-b75db2c46a43",
-            "type": "separator"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "1b524302-7175-4923-8810-835201d3d443",
-            "type": "text",
-            "content": "<p><span aria-hidden=\"true\">🏠</span> Sur le <strong>réseau local</strong>, les appareils (ordinateur, imprimante, etc.) utilisent des adresses IP <strong>privées</strong> (ou locales) pour communiquer.</p><p><span aria-hidden=\"true\">🌐</span> Sur <strong>internet</strong>, ce sont des adresses IP <strong>publiques</strong> qui permettent aux sites et aux box internet de communiquer des informations.</p><p><span aria-hidden=\"true\">🛜</span> Une box internet a <strong>deux adresses IP</strong> : une privée et une publique.</p>"
+            "content": "<p>Analysez le schéma ci-dessous qui présente les deux types d'adresses IP.<br>Par la suite, vous devrez trouver quel est le type d'adresse IP (privée ou publique) dans des situations concrètes.</p>"
           }
         },
         {
@@ -409,6 +394,14 @@
             "url": "https://i.imgur.com/8IUOpoz.png",
             "alt": "Image décrite dans l'alternative textuelle",
             "alternativeText": "Schéma en deux blocs : le premier bloc représente un réseau local avec des illustrations d'appareils (ordinateurs, imprimante) et leurs adresses IP privées, le second bloc représente Internet avec des illustrations de pages web et leurs adresses IP publiques. La box Internet se situe au centre et appartient aux deux blocs. Elle a deux adresses IP, une adresse IP privée et une adresse IP publique."
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "1b524302-7175-4923-8810-835201d3d443",
+            "type": "text",
+            "content": "<p><span aria-hidden=\"true\">🏠</span> Sur le <strong>réseau local</strong>, les appareils (ordinateur, imprimante, etc.) utilisent des adresses IP <strong>privées</strong> (ou locales) pour communiquer.</p><p><span aria-hidden=\"true\">🌐</span> Sur <strong>internet</strong>, ce sont des adresses IP <strong>publiques</strong> qui permettent aux sites et aux box internet de communiquer des informations.</p><p><span aria-hidden=\"true\">🛜</span> Une box internet a <strong>deux adresses IP</strong> : une privée et une publique.</p>"
           }
         }
       ]
@@ -426,7 +419,7 @@
                 {
                   "id": "9bc62c21-dfd4-40a8-9497-680a7e1c13d9",
                   "type": "text",
-                  "content": "<h3><span aria-hidden=\"true\">🕹️</span> À vous de jouer !</h3><p>À l'aide du schéma ci-dessus, trouvez pour chaque question si elle correspond à une IP publique ou à une IP privée.</p>"
+                  "content": "<h3><span aria-hidden=\"true\">🕹️</span> À vous de jouer !</h3><p>À l'aide du schéma ci-dessus, trouvez pour chaque question si elle correspond à une IP privée ou à une IP publique.</p>"
                 }
               ]
             },
@@ -439,18 +432,18 @@
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "l'adresse IP publique"
+                      "content": "l'adresse IP privée"
                     },
                     {
                       "id": "2",
-                      "content": "l'adresse IP privée"
+                      "content": "l'adresse IP publique"
                     }
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Ces échanges se font sur le réseau <strong>local</strong> de Mélanie</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L'adresse IP publique permet les échanges entre la box internet de Mélanie et les sites qu'elle visite.</p>"
                   },
-                  "solution": "2"
+                  "solution": "1"
                 }
               ]
             },
@@ -459,22 +452,22 @@
                 {
                   "id": "952234bc-4ec1-4ebd-9208-6cc261a1efd8",
                   "type": "qcu",
-                  "instruction": "<p>Quelle adresse est différente pour l'ordinateur et pour l'imprimante de Mélanie ?</p>",
+                  "instruction": "<p>L'imprimante et l' ordinateur de Mélanie sont connectés à sa box internet.<br>Quelle adresse est différente pour son imprimante et pour son ordinateur ?</p>",
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "l'adresse IP publique"
+                      "content": "l'adresse IP privée"
                     },
                     {
                       "id": "2",
-                      "content": "l'adresse IP privée"
+                      "content": "l'adresse IP publique"
                     }
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Cela permet de bien distinguer chacun des appareils de Mélanie</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L'adresse IP publique est spécifique à la box internet. Chaque appareil qui y est connecté a sa propre adresse IP privée.</p>"
                   },
-                  "solution": "2"
+                  "solution": "1"
                 }
               ]
             },
@@ -487,18 +480,18 @@
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "l'adresse IP publique"
+                      "content": "l'adresse IP privée"
                     },
                     {
                       "id": "2",
-                      "content": "l'adresse IP privée"
+                      "content": "l'adresse IP publique"
                     }
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Cette adresse est <strong>publique</strong> donc <strong>visible</strong>.</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> L'adresse IP <strong>privée</strong> (locale) de Mélanie est visible uniquement par les appareils de son réseau local.</p>"
                   },
-                  "solution": "1"
+                  "solution": "2"
                 }
               ]
             }
