@@ -92,10 +92,10 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bonne réponse !<span aria-hidden=\"true\">✨</span></span>",
+                    "valid": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">✨</span></span>",
                     "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Avez-vous regardé <strong>en bas de l'image</strong> ?.</strong></p>"
                   },
-                  "solution": "2"
+                  "solution": "3"
                 }
               ]
             },
