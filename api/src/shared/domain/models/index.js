@@ -52,7 +52,6 @@ import { Assessment } from './Assessment.js';
 import { AssessmentResult } from './AssessmentResult.js';
 import { Authentication } from './Authentication.js';
 import { AuthenticationSessionContent } from './AuthenticationSessionContent.js';
-import { BadgeAcquisition } from './BadgeAcquisition.js';
 import { BadgeCriterionForCalculation } from './BadgeCriterionForCalculation.js';
 import { BadgeDetails } from './BadgeDetails.js';
 import { BadgeForCalculation } from './BadgeForCalculation.js';
@@ -128,7 +127,6 @@ export {
   Authentication,
   AuthenticationMethod,
   AuthenticationSessionContent,
-  BadgeAcquisition,
   BadgeCriterionForCalculation,
   BadgeDetails,
   BadgeForCalculation,
