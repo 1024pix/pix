@@ -340,6 +340,16 @@
     "authentication": {
       "login": {
         "signup-button": "S'inscrire sur Pix"
+      },
+      "sso-selection": {
+        "title": "Choisir une autre organisation",
+        "signin": {
+          "link": "Je me connecte"
+        },
+        "signup": {
+          "title": "Vous n'avez pas de compte ?",
+          "link": "Inscrivez-vous"
+        }
       }
     },
     "autonomous-course": {

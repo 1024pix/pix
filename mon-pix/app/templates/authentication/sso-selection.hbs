@@ -1,13 +1,13 @@
 {{#if this.isSigninRoute}}
   {{page-title (t "pages.sign-in.title")}}
 {{else}}
-  {{page-title (t "pages.sign-in.title")}}
+  {{page-title (t "pages.sign-up.title")}}
 {{/if}}
 
-<AuthenticationLayout class="signin-page-layout">
+<AuthenticationLayout class="sso-selection-page">
   <:header>
     <PixButton @variant="secondary" @triggerAction={{this.goBack}} @iconBefore="arrow-left">
-      Retour
+      {{t "common.actions.back"}}
     </PixButton>
   </:header>
 
@@ -15,7 +15,16 @@
     {{#if this.isSigninRoute}}
       <h1 class="pix-title-m">{{t "pages.sign-in.first-title"}}</h1>
     {{else}}
-      <h1 class="pix-title-m">{{t "pages.sign-in.first-title"}}</h1>
+      <h1 class="pix-title-m">{{t "pages.sign-up.first-title"}}</h1>
+    {{/if}}
+
+    <Authentication::SsoSelectionForm />
+
+    {{#if this.isSigninRoute}}
+      <section class="sso-selection-page__signup">
+        <h2 class="pix-body-l">{{t "pages.authentication.sso-selection.signup.title"}}</h2>
+        <LinkTo @route="inscription">{{t "pages.authentication.sso-selection.signup.link"}}</LinkTo>
+      </section>
     {{/if}}
   </:content>
 </AuthenticationLayout>

@@ -330,6 +330,21 @@
       },
       "title": "Fin de la prueba"
     },
+    "authentication": {
+      "login": {
+        "signup-button": "Sign up to Pix"
+      },
+      "sso-selection": {
+        "title": "Choose another organization",
+        "signin": {
+          "link": "Log in"
+        },
+        "signup": {
+          "title": "Don't have an account?",
+          "link": "Sign up"
+        }
+      }
+    },
     "autonomous-course": {
       "landing-page": {
         "actions": {
