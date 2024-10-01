@@ -4,6 +4,7 @@ import {
   CertificationVersion,
 } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { config } from '../../../../src/shared/config.js';
+import { KnowledgeElement } from '../../../../src/shared/domain/models/KnowledgeElement.js';
 import {
   createServer,
   databaseBuilder,
@@ -333,6 +334,7 @@ describe('Acceptance | API | Certification Course', function () {
           // given
           const { options, userId, sessionId } = _createRequestOptions();
           _createNonExistingCertifCourseSetup({ learningContent, userId, sessionId });
+
           await databaseBuilder.commit();
 
           // when
@@ -342,6 +344,9 @@ describe('Acceptance | API | Certification Course', function () {
           const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
           expect(certificationCourses).to.have.length(1);
           expect(certificationCourses[0].version).to.equal(CERTIFICATION_VERSIONS.V2);
+          expect(response.result.data.attributes).to.include({
+            'nb-challenges': 2,
+          });
         });
 
         context('when the session is v3', function () {
@@ -512,12 +517,23 @@ function _createNonExistingCertifCourseSetup({ learningContent, sessionId, userI
     sessionId,
     userId,
     authorizedToStart: true,
+    reconciledAt: new Date('2019-02-01'),
   });
   databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
   databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
     learningContent,
     userId,
     earnedPix: 4,
+    placementDate: new Date('2019-01-01'),
+  });
+
+  // KnowledgeElement.StatusType.RESET after the reconciledAt date
+  databaseBuilder.factory.buildKnowledgeElement({
+    status: KnowledgeElement.StatusType.RESET,
+    skillId: 'recSkill5_1',
+    competenceId: 'recCompetence5',
+    userId: userId,
+    createdAt: new Date('2023-03-03'),
   });
 
   return {

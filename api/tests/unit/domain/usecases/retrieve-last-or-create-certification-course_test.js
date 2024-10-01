@@ -8,16 +8,16 @@ import { MAX_REACHABLE_LEVEL } from '../../../../src/shared/domain/constants.js'
 import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
+  LanguageNotSupportedError,
   NotFoundError,
   UnexpectedUserAccountError,
 } from '../../../../src/shared/domain/errors.js';
-import { LanguageNotSupportedError } from '../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | retrieve-last-or-create-certification-course', function () {
   let clock;
-  let now;
+  let reconciledAt;
   let verificationCode;
 
   const sessionRepository = {};
@@ -51,8 +51,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   };
 
   beforeEach(function () {
-    now = new Date('2019-01-01T05:06:07Z');
-    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    reconciledAt = new Date('2019-01-01T05:06:07Z');
+    clock = sinon.useFakeTimers({ now: reconciledAt, toFake: ['Date'] });
     verificationCode = Symbol('verificationCode');
 
     assessmentRepository.save = sinon.stub();
@@ -295,15 +295,17 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 accessCode: 'accessCode',
               });
               sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
+              const certificationCandidate = domainBuilder.buildCertificationCandidate({
+                userId: 2,
+                sessionId: 1,
+                authorizedToStart: true,
+                subscriptions: [domainBuilder.buildCoreSubscription()],
+                reconciledAt,
+              });
 
-              certificationCandidateRepository.getBySessionIdAndUserId.withArgs({ sessionId: 1, userId: 2 }).resolves(
-                domainBuilder.buildCertificationCandidate({
-                  userId: 2,
-                  sessionId: 1,
-                  authorizedToStart: true,
-                  subscriptions: [domainBuilder.buildCoreSubscription()],
-                }),
-              );
+              certificationCandidateRepository.getBySessionIdAndUserId
+                .withArgs({ sessionId: 1, userId: 2 })
+                .resolves(certificationCandidate);
 
               certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
                 .withArgs({ userId: 2, sessionId: 1 })
@@ -313,7 +315,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               const { placementProfile, userCompetencesWithChallenges } = _buildPlacementProfileWithTwoChallenges({
                 placementProfileService,
                 userId: 2,
-                now,
+                reconciledAt: certificationCandidate.reconciledAt,
                 version: foundSession.version,
               });
 
@@ -365,6 +367,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 sessionId: 1,
                 authorizedToStart: true,
                 subscriptions: [domainBuilder.buildCoreSubscription()],
+                reconciledAt,
               });
               certificationCandidateRepository.getBySessionIdAndUserId
                 .withArgs({ sessionId: 1, userId: 2 })
@@ -378,7 +381,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 _buildPlacementProfileWithTwoChallenges({
                   placementProfileService,
                   userId: 2,
-                  now,
+                  reconciledAt: foundCertificationCandidate.reconciledAt,
                   version: foundSession.version,
                 });
               certificationChallengesService.pickCertificationChallenges
@@ -505,6 +508,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     sessionId: 1,
                     authorizedToStart: true,
                     subscriptions: [domainBuilder.buildCoreSubscription()],
+                    reconciledAt,
                   });
                   certificationCandidateRepository.getBySessionIdAndUserId
                     .withArgs({ sessionId: 1, userId })
@@ -517,7 +521,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   _buildPlacementProfileWithTwoChallenges({
                     placementProfileService,
                     userId,
-                    now,
+                    reconciledAt: foundCertificationCandidate.reconciledAt,
                     version: foundSession.version,
                   });
 
@@ -618,13 +622,14 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       authorizedToStart: true,
                       subscriptions: [domainBuilder.buildCoreSubscription()],
                       complementaryCertification,
+                      reconciledAt,
                     });
 
                     const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
                       _buildPlacementProfileWithTwoChallenges({
                         placementProfileService,
                         userId: 2,
-                        now,
+                        reconciledAt: foundCertificationCandidate.reconciledAt,
                         version: foundSession.version,
                       });
                     certificationChallengesService.pickCertificationChallenges
@@ -739,13 +744,14 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       authorizedToStart: true,
                       subscriptions: [domainBuilder.buildCoreSubscription()],
                       complementaryCertification,
+                      reconciledAt,
                     });
 
                     const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
                       _buildPlacementProfileWithTwoChallenges({
                         placementProfileService,
                         userId: 2,
-                        now,
+                        reconciledAt: foundCertificationCandidate.reconciledAt,
                         version: foundSession.version,
                       });
                     certificationChallengesService.pickCertificationChallenges
@@ -853,6 +859,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         authorizedToStart: true,
                         subscriptions: [domainBuilder.buildCoreSubscription()],
                         complementaryCertification,
+                        reconciledAt,
                       });
 
                       certificationCandidateRepository.getBySessionIdAndUserId
@@ -863,7 +870,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         _buildPlacementProfileWithTwoChallenges({
                           placementProfileService,
                           userId: 2,
-                          now,
+                          reconciledAt: foundCertificationCandidate.reconciledAt,
                           version: foundSession.version,
                         });
                       certificationChallengesService.pickCertificationChallenges
@@ -958,7 +965,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         _buildPlacementProfileWithTwoChallenges({
                           placementProfileService,
                           userId: 2,
-                          now,
+                          reconciledAt: foundCertificationCandidate.reconciledAt,
                           version: foundSession.version,
                         });
                       certificationChallengesService.pickCertificationChallenges
@@ -1069,6 +1076,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       sessionId: 1,
                       subscriptions: [domainBuilder.buildCoreSubscription()],
                       complementaryCertification: null,
+                      reconciledAt,
                     });
 
                     certificationCandidateRepository.getBySessionIdAndUserId
@@ -1079,7 +1087,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       _buildPlacementProfileWithTwoChallenges({
                         placementProfileService,
                         userId: 2,
-                        now,
+                        reconciledAt: foundCertificationCandidate.reconciledAt,
                         version: foundSession.version,
                       });
                     certificationChallengesService.pickCertificationChallenges
@@ -1166,6 +1174,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     authorizedToStart: true,
                     subscriptions: [domainBuilder.buildCoreSubscription()],
                     complementaryCertification,
+                    reconciledAt,
                   });
 
                   certificationCandidateRepository.getBySessionIdAndUserId
@@ -1176,7 +1185,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     _buildPlacementProfileWithTwoChallenges({
                       placementProfileService,
                       userId: 2,
-                      now,
+                      reconciledAt: foundCertificationCandidate.reconciledAt,
                       version: foundSession.version,
                     });
                   certificationChallengesService.pickCertificationChallenges
@@ -1239,7 +1248,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   });
 });
 
-function _buildPlacementProfileWithTwoChallenges({ placementProfileService, userId, now, version }) {
+function _buildPlacementProfileWithTwoChallenges({ placementProfileService, userId, reconciledAt, version }) {
   const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
   const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
   // TODO : use the domainBuilder to instanciate userCompetences
@@ -1247,7 +1256,9 @@ function _buildPlacementProfileWithTwoChallenges({ placementProfileService, user
     isCertifiable: sinon.stub().returns(true),
     userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }],
   };
-  placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now, version }).resolves(placementProfile);
+  placementProfileService.getPlacementProfile
+    .withArgs({ userId, limitDate: reconciledAt, version })
+    .resolves(placementProfile);
 
   const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
   userCompetencesWithChallenges[0].challenges[0].testedSkill = domainBuilder.buildSkill();

@@ -10,17 +10,17 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
       const certificationAssessmentRepository = {
         getByCertificationCourseId: sinon.stub(),
       };
-
       const placementProfileService = {
         getPlacementProfile: sinon.stub(),
       };
-
       const competenceMarkRepository = {
         findByCertificationCourseId: sinon.stub(),
       };
-
       const scoringCertificationService = {
         calculateCertificationAssessmentScore: sinon.stub(),
+      };
+      const certificationCandidateRepository = {
+        getByCertificationCourseId: sinon.stub(),
       };
 
       const certificationCourseId = 1234;
@@ -39,10 +39,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
         state: CertificationAssessmentStates.STARTED,
       });
 
-      certificationAssessmentRepository.getByCertificationCourseId
-        .withArgs({ certificationCourseId })
-        .resolves(certificationAssessment);
-
       const competenceMark = domainBuilder.buildCompetenceMark({
         competenceId: 'recComp1',
         areaCode: '1',
@@ -59,15 +55,28 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
         competencesData: [{ id: 'recComp1', index: '1.1', name: 'Manger des fruits', level: 3, score: 45 }],
       });
 
+      const candidate = domainBuilder.certification.sessionManagement.buildCertificationCandidate({
+        userId: certificationAssessment.userId,
+        reconciledAt: new Date('2024-09-26'),
+      });
+
+      certificationAssessmentRepository.getByCertificationCourseId
+        .withArgs({ certificationCourseId })
+        .resolves(certificationAssessment);
+
       competenceMarkRepository.findByCertificationCourseId.resolves([]);
       scoringCertificationService.calculateCertificationAssessmentScore
         .withArgs({ certificationAssessment, continueOnError: true })
         .resolves(certificationAssessmentScore);
 
+      certificationCandidateRepository.getByCertificationCourseId
+        .withArgs({ certificationCourseId })
+        .resolves(candidate);
+
       placementProfileService.getPlacementProfile
         .withArgs({
-          userId: certificationAssessment.userId,
-          limitDate: certificationAssessment.createdAt,
+          userId: candidate.userId,
+          limitDate: candidate.reconciledAt,
           version: certificationAssessment.version,
           allowExcessPixAndLevels: false,
         })
@@ -80,6 +89,7 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
         competenceMarkRepository,
         certificationAssessmentRepository,
         scoringCertificationService,
+        certificationCandidateRepository,
       });
 
       //then
@@ -125,17 +135,17 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
       const certificationAssessmentRepository = {
         getByCertificationCourseId: sinon.stub(),
       };
-
       const placementProfileService = {
         getPlacementProfile: sinon.stub(),
       };
-
       const competenceMarkRepository = {
         findByCertificationCourseId: sinon.stub(),
       };
-
       const scoringCertificationService = {
         calculateCertificationAssessmentScore: sinon.stub(),
+      };
+      const certificationCandidateRepository = {
+        getByCertificationCourseId: sinon.stub(),
       };
 
       const certificationCourseId = 1234;
@@ -166,14 +176,23 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
         competencesData: [{ id: 'recComp1', index: '1.1', name: 'Manger des fruits', level: 3, score: 45 }],
       });
 
+      const candidate = domainBuilder.certification.sessionManagement.buildCertificationCandidate({
+        userId: certificationAssessment.userId,
+        reconciledAt: new Date('2024-09-26'),
+      });
+
       certificationAssessmentRepository.getByCertificationCourseId
         .withArgs({ certificationCourseId })
         .resolves(certificationAssessment);
 
+      certificationCandidateRepository.getByCertificationCourseId
+        .withArgs({ certificationCourseId })
+        .resolves(candidate);
+
       placementProfileService.getPlacementProfile
         .withArgs({
-          userId: certificationAssessment.userId,
-          limitDate: certificationAssessment.createdAt,
+          userId: candidate.userId,
+          limitDate: candidate.reconciledAt,
           version: certificationAssessment.version,
           allowExcessPixAndLevels: false,
         })
@@ -188,6 +207,7 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
         certificationCourseId,
         placementProfileService,
         competenceMarkRepository,
+        certificationCandidateRepository,
         certificationAssessmentRepository,
         scoringCertificationService,
       });

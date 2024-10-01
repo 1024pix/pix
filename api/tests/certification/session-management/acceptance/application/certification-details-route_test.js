@@ -56,7 +56,14 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
-        databaseBuilder.factory.buildCertificationCourse({ id: 1234 });
+        const sessionId = databaseBuilder.factory.buildSession().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCandidate({
+          userId,
+          sessionId,
+          reconciledAt: new Date(),
+        });
+        databaseBuilder.factory.buildCertificationCourse({ id: 1234, sessionId });
         const assessmentId = databaseBuilder.factory.buildAssessment({
           certificationCourseId: 1234,
           competenceId: 'competence_id',
@@ -131,7 +138,13 @@ describe('Certification | Session Management | Acceptance | Application | Routes
         const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
-        databaseBuilder.factory.buildCertificationCourse({ id: 1234, userId: user.id });
+        const sessionId = databaseBuilder.factory.buildSession().id;
+        databaseBuilder.factory.buildCertificationCandidate({
+          userId: user.id,
+          sessionId,
+          reconciledAt: new Date(),
+        });
+        databaseBuilder.factory.buildCertificationCourse({ id: 1234, userId: user.id, sessionId });
         const assessmentId = databaseBuilder.factory.buildAssessment({
           certificationCourseId: 1234,
           competenceId: 'competence_id',

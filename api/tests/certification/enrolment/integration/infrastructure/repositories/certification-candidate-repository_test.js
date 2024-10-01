@@ -138,12 +138,21 @@ describe('Integration | Repository | CertificationCandidate', function () {
   describe('#getBySessionIdAndUserId', function () {
     let userId;
     let complementaryCertificationId;
+    let certificationCandidateId;
+    let createdAt, reconciledAt;
 
     beforeEach(function () {
       // given
+      createdAt = new Date('2000-01-01');
+      reconciledAt = new Date('2020-01-02');
       userId = databaseBuilder.factory.buildUser().id;
       complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
-      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId }).id;
+      certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+        sessionId,
+        userId,
+        createdAt,
+        reconciledAt,
+      }).id;
       databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId });
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         complementaryCertificationId,
@@ -156,13 +165,52 @@ describe('Integration | Repository | CertificationCandidate', function () {
     context('when there is one certification candidate with the given session id and user id', function () {
       it('should fetch the candidate', async function () {
         // when
-        const actualCandidates = await certificationCandidateRepository.getBySessionIdAndUserId({ sessionId, userId });
+        const actualCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ sessionId, userId });
 
         // then
-        expect(actualCandidates.sessionId).to.equal(sessionId);
-        expect(actualCandidates.userId).to.equal(userId);
-        expect(actualCandidates.complementaryCertification).not.to.be.null;
-        expect(actualCandidates.complementaryCertification.id).to.equal(complementaryCertificationId);
+        expect(actualCandidate).to.deep.equal({
+          accessibilityAdjustmentNeeded: false,
+          authorizedToStart: false,
+          billingMode: null,
+          birthCity: 'PARIS 1',
+          birthCountry: 'France',
+          birthINSEECode: '75101',
+          birthPostalCode: null,
+          birthProvinceCode: null,
+          birthdate: '2000-01-04',
+          complementaryCertification: {
+            id: complementaryCertificationId,
+            key: 'DROIT',
+            label: 'UneSuperCertifComplémentaire',
+          },
+          createdAt,
+          email: 'somemail@example.net',
+          externalId: 'externalId',
+          extraTimePercentage: 0.3,
+          firstName: 'first-name',
+          hasSeenCertificationInstructions: false,
+          id: certificationCandidateId,
+          lastName: 'last-name',
+          organizationLearnerId: null,
+          prepaymentCode: null,
+          reconciledAt,
+          resultRecipientEmail: 'somerecipientmail@example.net',
+          sessionId,
+          sex: 'M',
+          subscriptions: [
+            {
+              certificationCandidateId: undefined,
+              complementaryCertificationId: null,
+              type: 'CORE',
+            },
+            {
+              certificationCandidateId,
+              complementaryCertificationId,
+              type: 'COMPLEMENTARY',
+            },
+          ],
+          userId: userId,
+        });
       });
     });
 

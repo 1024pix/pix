@@ -189,12 +189,6 @@ async function _startNewCertification({
 }) {
   const challengesForCertification = [];
 
-  const placementProfile = await placementProfileService.getPlacementProfile({
-    userId,
-    limitDate: new Date(),
-    version,
-  });
-
   const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
 
   const complementaryCertificationCourseData = [];
@@ -228,6 +222,12 @@ async function _startNewCertification({
 
   let challengesForPixCertification = [];
   if (!CertificationVersion.isV3(version)) {
+    const placementProfile = await placementProfileService.getPlacementProfile({
+      userId,
+      limitDate: certificationCandidate.reconciledAt,
+      version,
+    });
+
     challengesForPixCertification = await certificationChallengesService.pickCertificationChallenges(
       placementProfile,
       locale,
