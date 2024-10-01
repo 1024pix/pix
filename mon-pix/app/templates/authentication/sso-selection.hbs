@@ -1,0 +1,21 @@
+{{#if this.isSigninRoute}}
+  {{page-title (t "pages.sign-in.title")}}
+{{else}}
+  {{page-title (t "pages.sign-in.title")}}
+{{/if}}
+
+<AuthenticationLayout class="signin-page-layout">
+  <:header>
+    <PixButton @variant="secondary" @triggerAction={{this.goBack}} @iconBefore="arrow-left">
+      Retour
+    </PixButton>
+  </:header>
+
+  <:content>
+    {{#if this.isSigninRoute}}
+      <h1 class="pix-title-m">{{t "pages.sign-in.first-title"}}</h1>
+    {{else}}
+      <h1 class="pix-title-m">{{t "pages.sign-in.first-title"}}</h1>
+    {{/if}}
+  </:content>
+</AuthenticationLayout>

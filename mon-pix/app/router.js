@@ -59,8 +59,6 @@ Router.map(function () {
     });
   });
 
-  this.route('inscription');
-
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.start', { path: '/courses/:course_id' });
 
@@ -70,17 +68,6 @@ Router.map(function () {
     this.route('results');
     this.route('checkpoint');
   });
-
-  this.route('logout', { path: '/deconnexion' });
-  this.route('not-connected', { path: '/nonconnecte' });
-  this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
-  this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
-  this.route('account-recovery', { path: '/recuperer-mon-compte' }, function () {
-    this.route('find-sco-record', { path: '/' });
-    this.route('update-sco-record', { path: '/:temporary_key' });
-  });
-
-  this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
 
   this.route('shared-certification', { path: '/partage-certificat/:id' });
 
@@ -126,11 +113,29 @@ Router.map(function () {
 
   this.route('terms-of-service', { path: '/cgu' });
 
+  this.route('inscription', function () {
+    this.route('inscription', { path: '' });
+    this.route('sso-selection');
+  });
+
   this.route('authentication', { path: '/connexion' }, function () {
     this.route('login', { path: '' });
     this.route('login-oidc', { path: '/:identity_provider_slug' });
     this.route('login-or-register-oidc', { path: '/oidc' });
     this.route('login-gar', { path: '/gar' });
+    this.route('sso-selection');
+  });
+
+  this.route('logout', { path: '/deconnexion' });
+  this.route('not-connected', { path: '/nonconnecte' });
+
+  this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
+  this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
+  this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
+
+  this.route('account-recovery', { path: '/recuperer-mon-compte' }, function () {
+    this.route('find-sco-record', { path: '/' });
+    this.route('update-sco-record', { path: '/:temporary_key' });
   });
 
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
