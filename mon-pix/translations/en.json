@@ -120,6 +120,13 @@
     }
   },
   "components": {
+    "authentication": {
+      "oidc-provider-selector": {
+        "label": "Search for an organization",
+        "placeholder": "Select an organization",
+        "searchLabel": "Keyword search"
+      }
+    },
     "invited": {
       "reconciliation": {
         "title": "Join organization { organizationName }",
@@ -1360,7 +1367,7 @@
           }
         },
         "flashcards": {
-          "seeAnswer" : "See the answer",
+          "seeAnswer": "See the answer",
           "seeAgain": "Review the question",
           "nextCard": "Next"
         },

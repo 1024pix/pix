@@ -120,6 +120,13 @@
     }
   },
   "components": {
+    "authentication": {
+      "oidc-provider-selector": {
+        "label": "Rechercher une organisation",
+        "placeholder": "Sélectionner un organisme",
+        "searchLabel": "Recherche par mots-clés"
+      }
+    },
     "invited": {
       "reconciliation": {
         "title": "Rejoignez l'organisation { organizationName }",
