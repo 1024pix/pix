@@ -131,4 +131,58 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       });
     });
   });
+
+  module('acquired badges', function () {
+    module('when there is at least one acquired badge', function () {
+      test('should display the acquired badges block', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const acquiredBadge = store.createRecord('campaign-participation-badge', { isAcquired: true });
+        const campaignParticipationResult = store.createRecord('campaign-participation-result', {
+          campaignParticipationBadges: [acquiredBadge],
+        });
+        this.set('campaignParticipationResult', campaignParticipationResult);
+
+        // when
+        const screen = await render(
+          hbs`
+            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaignParticipationResult={{this.campaignParticipationResult}}
+            />`,
+        );
+
+        // then
+        const badgesTitle = screen.getByRole('heading', {
+          name: t('pages.skill-review.hero.acquired-badges-title'),
+        });
+        assert.dom(badgesTitle).exists();
+      });
+    });
+
+    module('when there is no acquired badge', function () {
+      test('should not display the acquired badges block', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const notAquiredBadge = store.createRecord('campaign-participation-badge', { isAcquired: false });
+        const campaignParticipationResult = store.createRecord('campaign-participation-result', {
+          campaignParticipationBadges: [notAquiredBadge],
+        });
+        this.set('campaignParticipationResult', campaignParticipationResult);
+
+        // when
+        const screen = await render(
+          hbs`
+            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaignParticipationResult={{this.campaignParticipationResult}}
+            />`,
+        );
+
+        // then
+        const badgesTitle = screen.queryByRole('heading', {
+          name: t('pages.skill-review.hero.acquired-badges-title'),
+        });
+        assert.dom(badgesTitle).doesNotExist();
+      });
+    });
+  });
 });

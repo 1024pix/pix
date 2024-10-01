@@ -1,10 +1,10 @@
+import PixStars from '@1024pix/pix-ui/components/pix-stars';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
-import PixStars from '@1024pix/pix-ui/components/pix-stars';
-
 import MarkdownToHtml from '../../../../markdown-to-html';
+import AcquiredBadges from './acquired-badges';
 
 export default class EvaluationResultsHero extends Component {
   @service currentUser;
@@ -63,6 +63,9 @@ export default class EvaluationResultsHero extends Component {
           <div class="evaluation-results-hero-details__stage-message" data-testid="stage-message">
             <MarkdownToHtml @isInline={{true}} @markdown={{@campaignParticipationResult.reachedStage.message}} />
           </div>
+        {{/if}}
+        {{#if @campaignParticipationResult.acquiredBadges.length}}
+          <AcquiredBadges @acquiredBadges={{@campaignParticipationResult.acquiredBadges}} />
         {{/if}}
       </div>
     </div>

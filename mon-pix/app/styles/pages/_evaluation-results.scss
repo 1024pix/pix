@@ -129,6 +129,55 @@
   }
 }
 
+// Acquired badges
+.evaluation-results-hero-details__acquired-badges-title {
+  @extend %pix-title-xs;
+
+  margin-block: var(--pix-spacing-8x) var(--pix-spacing-4x);
+}
+
+.evaluation-results-hero-details__acquired-badges {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr));
+  gap: var(--pix-spacing-6x);
+
+  .image-container {
+    position: relative;
+    padding: var(--pix-spacing-4x);
+    overflow: hidden;
+    background-color: var(--pix-neutral-20);
+    border-radius: 0.5rem;
+  }
+
+  img {
+    display: block;
+    height: 5rem;
+    margin: 0 auto;
+  }
+
+  .certifiable-label {
+    @extend %pix-title-xs;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    color: var(--pix-success-700);
+    font-size: 0.8125rem;
+    line-height: 1.75rem;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: var(--pix-success-100);
+  }
+
+  .badge-name {
+    @extend %pix-body-m;
+
+    margin-top: var(--pix-spacing-2x);
+    text-align: center;
+  }
+}
+
 /**
  * Evaluation Results Tabs
  */

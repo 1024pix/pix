@@ -1795,6 +1795,7 @@
         "starsAcquired": "{acquired, plural, =0 {aucune étoile acquise} =1 {# étoile acquise} other {# étoiles acquises}} sur {total}"
       },
       "hero": {
+        "acquired-badges-title": "Récompenses obtenues",
         "bravo": "Bravo {name} !",
         "mastery-rate": "de réussite aux questions"
       },
