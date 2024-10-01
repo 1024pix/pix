@@ -49,10 +49,91 @@
 }
 
 /**
+ * Evaluation Results Hero
+ */
+.evaluation-results-hero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pix-spacing-10x);
+  justify-content: stretch;
+  max-width: 80rem;
+  margin: 0 auto var(--pix-spacing-10x);
+  padding: var(--pix-spacing-6x);
+  background-color: var(--pix-neutral-0);
+  border: 1px solid var(--pix-neutral-100);
+  border-radius: 1.5rem;
+}
+
+// Results
+.evaluation-results-hero__results {
+  flex: 1;
+  min-width: min(20rem, 100%);
+  padding: var(--pix-spacing-4x) var(--pix-spacing-6x) 9rem;
+  text-align: center;
+  background-color: var(--pix-primary-10);
+  background-image: url('/images/illustrations/fusee-results.svg');
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: auto 7rem;
+  border-radius: 1rem;
+}
+
+.evaluation-results-hero-results__percent {
+  @extend %pix-title-xs;
+
+  color: var(--pix-primary-700);
+  font-weight: var(--pix-font-bold);
+
+  strong {
+    display: block;
+    font-size: 4.5rem;
+    line-height: 5.5rem;
+
+    span {
+      margin-left: 0.1em;
+      font-size: 3.5rem;
+      line-height: 0;
+      vertical-align: -0.1em;
+    }
+  }
+}
+
+// Details
+.evaluation-results-hero__details {
+  flex: 4;
+  min-width: min(25rem, 100%);
+}
+
+.evaluation-results-hero-details__title {
+  @extend %pix-title-m;
+
+  margin-bottom: var(--pix-spacing-4x);
+}
+
+.evaluation-results-hero-results__stars {
+  margin-block: var(--pix-spacing-6x) var(--pix-spacing-3x);
+  justify-content: center;
+}
+
+.evaluation-results-hero-details__stage-message {
+  @extend %pix-body-l;
+
+  margin-bottom: var(--pix-spacing-4x);
+
+  &:not(:last-child)::after {
+    display: block;
+    height: 1px;
+    background-color: var(--pix-neutral-100);
+    content: '';
+    margin-block: var(--pix-spacing-4x);
+  }
+}
+
+/**
  * Evaluation Results Tabs
  */
 .evaluation-results-tabs {
-  max-width: 1200px;
+  max-width: 66rem;
   margin: 0 auto;
 }
 

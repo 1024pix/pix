@@ -49,4 +49,86 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       assert.dom(screen.getByText(t('pages.skill-review.hero.mastery-rate'))).exists();
     });
   });
+
+  module('stages', function () {
+    module('when there are stages', function () {
+      test('displays reached stage stars and message', async function (assert) {
+        // given
+        this.set('campaignParticipationResult', {
+          hasReachedStage: true,
+          reachedStage: { reachedStage: 4, totalStage: 5, message: 'lorem ipsum dolor sit amet' },
+        });
+
+        // when
+        const screen = await render(
+          hbs`
+            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaignParticipationResult={{this.campaignParticipationResult}}
+            />`,
+        );
+
+        // then
+        const stars = {
+          acquired: this.campaignParticipationResult.reachedStage.reachedStage - 1,
+          total: this.campaignParticipationResult.reachedStage.totalStage - 1,
+        };
+        assert.strictEqual(screen.getAllByText(t('pages.skill-review.stage.starsAcquired', stars)).length, 2);
+
+        assert.dom(screen.getByText(this.campaignParticipationResult.reachedStage.message)).exists();
+      });
+    });
+
+    module('when there is only one stage', function () {
+      test('displays the stage 0 message but no stars', async function (assert) {
+        // given
+        this.set('campaignParticipationResult', {
+          hasReachedStage: true,
+          reachedStage: { reachedStage: 1, totalStage: 1, message: 'Stage 0 message' },
+        });
+
+        // when
+        const screen = await render(
+          hbs`
+            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaignParticipationResult={{this.campaignParticipationResult}}
+            />`,
+        );
+
+        // then
+        const stars = {
+          acquired: this.campaignParticipationResult.reachedStage.reachedStage - 1,
+          total: this.campaignParticipationResult.reachedStage.totalStage - 1,
+        };
+        assert.dom(screen.queryByText(t('pages.skill-review.stage.starsAcquired', stars))).doesNotExist();
+
+        assert.dom(screen.getByText(this.campaignParticipationResult.reachedStage.message)).exists();
+      });
+    });
+
+    module('when there is no stage', function () {
+      test('not display stars and message', async function (assert) {
+        // given
+        this.set('campaign', { organizationId: 1 });
+        this.set('campaignParticipationResult', {
+          hasReachedStage: false,
+          reachedStage: { message: 'not existing message' },
+        });
+
+        // when
+        const screen = await render(
+          hbs`
+            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaign={{this.campaign}}
+              @campaignParticipationResult={{this.campaignParticipationResult}}
+            />`,
+        );
+
+        // then
+        const stars = { acquired: 0, total: 0 };
+        assert.dom(screen.queryByText(t('pages.skill-review.stage.starsAcquired', stars))).doesNotExist();
+
+        assert.dom(screen.queryByTestId('stage-message')).doesNotExist();
+      });
+    });
+  });
 });
