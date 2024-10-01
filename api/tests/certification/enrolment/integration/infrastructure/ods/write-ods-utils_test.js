@@ -66,7 +66,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
     };
 
     const stringifiedXml =
-      '<xml xmlns:some="" xmlns:text="">' +
+      '<xml xmlns:some="some namespace" xmlns:text="text namespace">' +
       '<some:element>' +
       '<text:p>PLACEHOLDER_1</text:p>' +
       '<text:p>Some value</text:p>' +
@@ -78,7 +78,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
       '</xml>';
 
     const updatedStringifiedXml =
-      '<xml xmlns:some="" xmlns:text="">' +
+      '<xml xmlns:some="some namespace" xmlns:text="text namespace">' +
       '<some:element>' +
       '<text:p>Dummy name</text:p>' +
       '<text:p>Some value</text:p>' +
@@ -139,7 +139,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
     ];
 
     const stringifiedXml =
-      '<xml xmlns:some="" xmlns:text="">' +
+      '<xml xmlns:some="some namespace" xmlns:text="text namespace" xmlns:office="office namespace">' +
       '<some:element>' +
       '<some:element>' +
       '<some:element office:value-type="percentage">' +
@@ -157,7 +157,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
       '</xml>';
 
     const updatedStringifiedXml =
-      '<xml xmlns:some="" xmlns:text="">' +
+      '<xml xmlns:some="some namespace" xmlns:text="text namespace" xmlns:office="office namespace">' +
       '<some:element>' +
       '<some:element>' +
       '<some:element office:value-type="percentage" office:value="0.5"/>' +
@@ -224,7 +224,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
         ];
 
         const stringifiedXml = `
-          <xml xmlns:some="" xmlns:text="">
+          <xml xmlns:some="some namespace" xmlns:text="text namespace" xmlns:office="office namespace"> +
             <some:element>
               <some:element>
                 <some:element office:value-type="string"><text:p>PROP_STRING</text:p></some:element>
@@ -236,7 +236,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
           `;
 
         const updatedStringifiedXml = `
-          <xml xmlns:some="" xmlns:text="">
+          <xml xmlns:some="some namespace" xmlns:text="text namespace" xmlns:office="office namespace"> +
             <some:element>
               <some:element>
                 <some:element office:value-type="string">
@@ -273,7 +273,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
     it('should add a cell at the end of a line ignoring repeated blank cells', function () {
       // given
       const stringifiedXml =
-        '<xml xmlns:table="" xmlns:text="">' +
+        '<xml xmlns:table="table namespace" xmlns:text="text namespace">' +
         '<table:table-row>' +
         '<table:table-cell>' +
         '<text:p>Title</text:p>' +
@@ -300,7 +300,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
 
       // then
       const updatedStringifiedXml =
-        '<xml xmlns:table="" xmlns:text="">' +
+        '<xml xmlns:table="table namespace" xmlns:text="text namespace">' +
         '<table:table-row>' +
         '<table:table-cell>' +
         '<text:p>Title</text:p>' +
@@ -326,7 +326,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
       it('should add more than one text element', function () {
         // given
         const stringifiedXml =
-          '<xml xmlns:table="" xmlns:text="">' +
+          '<xml xmlns:table="table namespace" xmlns:text="text namespace">' +
           '<table:table-row>' +
           '<table:table-cell>' +
           '<text:p>Title</text:p>' +
@@ -353,7 +353,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
 
         // then
         const updatedStringifiedXml =
-          '<xml xmlns:table="" xmlns:text="">' +
+          '<xml xmlns:table="table namespace" xmlns:text="text namespace">' +
           '<table:table-row>' +
           '<table:table-cell>' +
           '<text:p>Title</text:p>' +
@@ -384,7 +384,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
       it('should add a number-rows-spanned attribute to the added cell', function () {
         // given
         const stringifiedXml =
-          '<xml xmlns:table="" xmlns:text="">' +
+          '<xml xmlns:table="table namespace" xmlns:text="text namespace">' +
           '<table:table-row>' +
           '<table:table-cell>' +
           '<text:p>Title</text:p>' +
@@ -411,7 +411,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
 
         // then
         const updatedStringifiedXml =
-          '<xml xmlns:table="" xmlns:text="">' +
+          '<xml xmlns:table="table namespace" xmlns:text="text namespace">' +
           '<table:table-row>' +
           '<table:table-cell>' +
           '<text:p>Title</text:p>' +
@@ -438,7 +438,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
       it('should add a number-columns-spanned attribute to the added cell', function () {
         // given
         const stringifiedXml =
-          '<xml xmlns:table="" xmlns:text="">' +
+          '<xml xmlns:table="table namespace" xmlns:text="text namespace">' +
           '<table:table-row>' +
           '<table:table-cell>' +
           '<text:p>Title</text:p>' +
@@ -465,7 +465,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
 
         // then
         const updatedStringifiedXml =
-          '<xml xmlns:table="" xmlns:text="">' +
+          '<xml xmlns:table="table namespace" xmlns:text="text namespace">' +
           '<table:table-row>' +
           '<table:table-cell>' +
           '<text:p>Title</text:p>' +
@@ -493,7 +493,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
       it('should insert the added cell at a customized position from the end of the line', function () {
         // given
         const stringifiedXml =
-          '<xml xmlns:table="" xmlns:text="">' +
+          '<xml xmlns:table="table namespace" xmlns:text="text namespace">' +
           '<table:table-row>' +
           '<table:table-cell>' +
           '<text:p>Title</text:p>' +
@@ -522,7 +522,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
 
         // then
         const updatedStringifiedXml =
-          '<xml xmlns:table="" xmlns:text="">' +
+          '<xml xmlns:table="table namespace" xmlns:text="text namespace">' +
           '<table:table-row>' +
           '<table:table-cell>' +
           '<text:p>Title</text:p>' +
@@ -552,7 +552,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
     it('should increment column span of last cell of rows from a line number to another', function () {
       // given
       const stringifiedXml =
-        '<xml xmlns:table="" xmlns:text="">' +
+        '<xml xmlns:table="table namespace" xmlns:text="text namespace">' +
         '<table:table-row>' +
         '<table:table-cell table:number-columns-spanned="5">' +
         '<text:p>Title</text:p>' +
@@ -591,7 +591,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
 
       // then
       const updatedStringifiedXml =
-        '<xml xmlns:table="" xmlns:text="">' +
+        '<xml xmlns:table="table namespace" xmlns:text="text namespace">' +
         '<table:table-row>' +
         '<table:table-cell table:number-columns-spanned="5">' +
         '<text:p>Title</text:p>' +
@@ -628,7 +628,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
       it('should add a tooltip, dropdown menu and entry validation', function () {
         // given
         const stringifiedXml = `
-        <xml xmlns:table="">
+        <xml xmlns:table="table namespace">
           <table:content-validations></table:content-validations>
         </xml>`;
 
@@ -648,7 +648,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
 
         // then
         const updatedStringifiedXml = `
-         <xml xmlns:table="">
+         <xml xmlns:table="table namespace">
               <table:content-validations>
                   <table:content-validation table:name="validator2000"
                                             table:condition="of:cell-content-is-in-list(&quot;a&quot;;&quot;b&quot;)"
@@ -673,7 +673,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
       it('should add a tooltip, dropdown menu and an optional entry validation', function () {
         // given
         const stringifiedXml = `
-        <xml xmlns:table="">
+        <xml xmlns:table="table namespace">
           <table:content-validations></table:content-validations>
         </xml>`;
 
@@ -693,7 +693,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
 
         // then
         const expectedXml = `
-         <xml xmlns:table="">
+         <xml xmlns:table="table namespace">
               <table:content-validations>
                   <table:content-validation table:name="validator2000"
                                             table:condition="of:cell-content-is-in-list(&quot;a&quot;;&quot;b&quot;)"
@@ -719,7 +719,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
     it('should add a tooltip on a cell range', function () {
       // given
       const stringifiedXml = `
-        <xml xmlns:table="">
+        <xml xmlns:table="table namespace">
           <table:content-validations></table:content-validations>
         </xml>`;
 
@@ -736,7 +736,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | write-ods-utils'
 
       // then
       const updatedStringifiedXml = `
-        <xml xmlns:table="">
+        <xml xmlns:table="table namespace">
           <table:content-validations>
             <table:content-validation table:name="important-info">
                 <table:help-message table:title="Please read this important information" table:display="true">

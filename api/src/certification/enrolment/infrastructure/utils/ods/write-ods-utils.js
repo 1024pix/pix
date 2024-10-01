@@ -399,7 +399,7 @@ function _deepCloneDomElement(domElement) {
 }
 
 function _buildXmlDomFromXmlString(stringifiedXml) {
-  return new DOMParser().parseFromString(stringifiedXml);
+  return new DOMParser().parseFromString(stringifiedXml, 'text/xml');
 }
 
 function _updateXmlElementWithData(xmlElement, dataToInject, templateValues) {
