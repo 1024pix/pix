@@ -93,7 +93,7 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Bonne réponse ! <span aria-hidden=\"true\">✨</span></span>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Avez-vous regardé <strong>en bas de l'image</strong>?</p>"
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Avez-vous regardé <strong>en bas de l'image </strong>?</p>"
                   },
                   "solution": "3"
                 }
@@ -121,7 +121,7 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Bonne réponse !<span aria-hidden=\"true\">✨</span></span>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Avez-vous regardé <strong>en bas de l'image</strong>?</p>"
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Avez-vous regardé <strong>en bas de l'image </strong>?</p>"
                   },
                   "solution": "2"
                 }
