@@ -40,6 +40,13 @@ const ORGANIZATION_FEATURE = {
   },
 };
 
+const CAMPAIGN_FEATURES = {
+  EXTERNAL_ID: {
+    key: 'EXTERNAL_ID',
+    description: "Permet d'activer la saisie d'un identifiant externe lors de la participation à une campagne",
+  },
+};
+
 const VALIDATION_ERRORS = {
   FIELD_DATE_FORMAT: 'FIELD_DATE_FORMAT',
   FIELD_BAD_VALUES: 'FIELD_BAD_VALUES',
@@ -160,6 +167,7 @@ const constants = {
 
 export {
   ALL_TREATMENTS,
+  CAMPAIGN_FEATURES,
   CERTIFICATION_CENTER_TYPES,
   COMPETENCES_COUNT,
   constants,

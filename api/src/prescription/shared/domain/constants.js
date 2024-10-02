@@ -9,4 +9,9 @@ const CampaignTypes = {
   PROFILES_COLLECTION: 'PROFILES_COLLECTION',
 };
 
-export { CampaignParticipationStatuses, CampaignTypes };
+const IdPixTypes = {
+  STRING: 'STRING',
+  EMAIL: 'EMAIL',
+};
+
+export { CampaignParticipationStatuses, CampaignTypes, IdPixTypes };
