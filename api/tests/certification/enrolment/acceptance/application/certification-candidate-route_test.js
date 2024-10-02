@@ -208,6 +208,56 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
     });
   });
 
+  describe('GET /api/certification-candidates/{certificationCandidateId}', function () {
+    it('should respond with a 200 and candidate information', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+      const candidateUserId = databaseBuilder.factory.buildUser().id;
+      const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+        id: 1001,
+        sessionId,
+        userId: candidateUserId,
+        firstName: 'Lemmy',
+        lastName: 'Kilmister',
+        birthdate: '1945-12-24',
+        hasSeenCertificationInstructions: true,
+      }).id;
+      databaseBuilder.factory.buildCoreSubscription({
+        certificationCandidateId: candidateId,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const options = {
+        method: 'GET',
+        url: `/api/certification-candidates/${candidateId}`,
+        payload: {},
+        headers: { authorization: generateValidRequestAuthorizationHeader(candidateUserId, 'pix') },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        data: {
+          attributes: {
+            birthdate: '1945-12-24',
+            'first-name': 'Lemmy',
+            'has-seen-certification-instructions': true,
+            'last-name': 'Kilmister',
+            'session-id': sessionId,
+          },
+          id: '1001',
+          type: 'certification-candidates',
+        },
+      });
+    });
+  });
+
   describe('PATCH /api/sessions/{sessionId}/certification-candidates/{certificationCandidateId}', function () {
     it('should respond with a 200', async function () {
       // given

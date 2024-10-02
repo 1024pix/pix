@@ -60,9 +60,20 @@ const validateCertificationInstructions = async function (
   return dependencies.certificationCandidateSerializer.serialize(candidate);
 };
 
+const getCandidate = async function (request, h, dependencies = { candidateSerializer }) {
+  const certificationCandidateId = request.params.certificationCandidateId;
+
+  const candidate = await usecases.getCandidate({
+    certificationCandidateId,
+  });
+
+  return dependencies.candidateSerializer.serializeForParticipation(candidate);
+};
+
 const certificationCandidateController = {
   addCandidate,
   getEnrolledCandidates,
+  getCandidate,
   deleteCandidate,
   validateCertificationInstructions,
   updateEnrolledCandidate,

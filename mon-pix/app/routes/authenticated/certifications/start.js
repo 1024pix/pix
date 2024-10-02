@@ -7,15 +7,10 @@ export default class StartRoute extends Route {
   @service featureToggles;
 
   async model(params) {
-    const certificationCandidateSubscription = await this.store.findRecord(
-      'certification-candidate-subscription',
-      params.certification_candidate_id,
-    );
-
-    const certificationCandidate = await this.store.peekRecord(
-      'certification-candidate',
-      params.certification_candidate_id,
-    );
+    const [certificationCandidate, certificationCandidateSubscription] = await Promise.all([
+      this.store.findRecord('certification-candidate', params.certification_candidate_id),
+      this.store.findRecord('certification-candidate-subscription', params.certification_candidate_id),
+    ]);
 
     const hasSeenCertificationInstructions = certificationCandidate?.hasSeenCertificationInstructions;
 
