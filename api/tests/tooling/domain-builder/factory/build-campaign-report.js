@@ -1,4 +1,4 @@
-import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignExternalIdTypes, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 import { CampaignReport } from '../../../../src/shared/domain/read-models/CampaignReport.js';
 
 const buildCampaignReport = function ({
@@ -7,6 +7,7 @@ const buildCampaignReport = function ({
   code = 'AZERTY123',
   title = 'Un titre de campagne',
   idPixLabel = 'Un id pix label',
+  idPixType = CampaignExternalIdTypes.STRING,
   createdAt = new Date(),
   customLandingPageText = 'Une custom landing page',
   archivedAt = null,
@@ -32,6 +33,7 @@ const buildCampaignReport = function ({
     code,
     title,
     idPixLabel,
+    idPixType,
     createdAt,
     customLandingPageText,
     archivedAt,
