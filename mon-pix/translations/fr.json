@@ -861,6 +861,7 @@
       "is-focused-challenge": {
         "info-alert": {
           "title": "Essayez de répondre à cette question sans vous aider d’internet ou d’applications.",
+          "adjusted-course-title": "Répondez à cette question sans vous aider d’internet ou d’applications.",
           "subtitle": "En certification, si vous changez de page, votre réponse ne sera pas validée."
         }
       },

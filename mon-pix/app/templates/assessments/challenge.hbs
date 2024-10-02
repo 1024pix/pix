@@ -8,12 +8,18 @@
     aria-live="assertive"
   >
     <div class="challenge-info-alert__icon"></div>
-    <p class="challenge-info-alert__title">
-      {{t "pages.challenge.is-focused-challenge.info-alert.title"}}
-    </p>
-    <p class="challenge-info-alert__subtitle">
-      {{t "pages.challenge.is-focused-challenge.info-alert.subtitle"}}
-    </p>
+    {{#if @model.assessment.certificationCourse.isAdjustedForAccessibility}}
+      <p class="challenge-info-alert__title">
+        {{t "pages.challenge.is-focused-challenge.info-alert.adjusted-course-title"}}
+      </p>
+    {{else}}
+      <p class="challenge-info-alert__title">
+        {{t "pages.challenge.is-focused-challenge.info-alert.title"}}
+      </p>
+      <p class="challenge-info-alert__subtitle">
+        {{t "pages.challenge.is-focused-challenge.info-alert.subtitle"}}
+      </p>
+    {{/if}}
   </div>
 {{/if}}
 
@@ -102,12 +108,18 @@
       aria-live="assertive"
     >
       <div class="challenge-info-alert__icon"></div>
-      <p class="challenge-info-alert__title">
-        {{t "pages.challenge.is-focused-challenge.info-alert.title"}}
-      </p>
-      <p class="challenge-info-alert__subtitle">
-        {{t "pages.challenge.is-focused-challenge.info-alert.subtitle"}}
-      </p>
+      {{#if @model.assessment.certificationCourse.isAdjustedForAccessibility}}
+        <p class="challenge-info-alert__title">
+          {{t "pages.challenge.is-focused-challenge.info-alert.adjusted-course-title"}}
+        </p>
+      {{else}}
+        <p class="challenge-info-alert__title">
+          {{t "pages.challenge.is-focused-challenge.info-alert.title"}}
+        </p>
+        <p class="challenge-info-alert__subtitle">
+          {{t "pages.challenge.is-focused-challenge.info-alert.subtitle"}}
+        </p>
+      {{/if}}
     </div>
   {{/if}}
 </div>

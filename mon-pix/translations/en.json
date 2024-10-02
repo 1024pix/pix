@@ -861,6 +861,7 @@
       "is-focused-challenge": {
         "info-alert": {
           "title": "Answer this question without searching the internet or using any piece of software.",
+          "adjusted-course-title": "Answer this question without using the Internet or any applications.",
           "subtitle": "If you switch pages or tabs during a certification test, you answer will not be validated."
         }
       },
