@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v4.220.0 (02/10/2024)
+
+
+### :rocket: Amélioration
+- [#10202](https://github.com/1024pix/pix/pull/10202) [FEATURE] Permettre la modification d'import à format via PixAdmin (PIX-14541).
+- [#10213](https://github.com/1024pix/pix/pull/10213) [FEATURE] Créer un générateur de pdf avec formulaire à partir d'un template (pix-13821).
+- [#10216](https://github.com/1024pix/pix/pull/10216) [FEATURE] Bloquer l'utilisateur si on ne détecte pas l'extension et qu'il se trouve sur l'écran de démarrage (PIX-14501).
+
+### :building_construction: Tech
+- [#10134](https://github.com/1024pix/pix/pull/10134) [TECH] Suppression de scripts dépréciés ou inutilisés.
+- [#10221](https://github.com/1024pix/pix/pull/10221) [TECH] :recycle: Déplace le modèle `OrganizationInvitedUser` dans le context `team`.
+- [#10212](https://github.com/1024pix/pix/pull/10212) [TECH] :recycle: Suppression du model `BadgeAcquisition`.
+
+### :bug: Correction
+- [#10229](https://github.com/1024pix/pix/pull/10229) [BUGFIX] Pouvoir rafraîchir les pages d’instructions et d'entrée en session (PIX-14590).
+- [#10218](https://github.com/1024pix/pix/pull/10218) [BUGFIX] mets à jours les clefs de trad nl / en.
+
+### :arrow_up: Montée de version
+- [#10228](https://github.com/1024pix/pix/pull/10228) [BUMP] Update dependency @1024pix/pix-ui to ^46.14.0 (certif).
+- [#10227](https://github.com/1024pix/pix/pull/10227) [BUMP] Update dependency @1024pix/pix-ui to ^46.14.0 (admin).
+- [#10224](https://github.com/1024pix/pix/pull/10224) [BUMP] Update dependency @1024pix/pix-ui to ^46.13.4 (mon-pix).
+
 ## v4.219.0 (01/10/2024)
 
 
