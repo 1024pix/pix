@@ -2,13 +2,14 @@ import lodash from 'lodash';
 
 const { has } = lodash;
 
-import { AlreadyRegisteredEmailError } from '../../../src/shared/domain/errors.js';
+import { AlreadyRegisteredEmailError } from '../../../../src/shared/domain/errors.js';
 import {
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredUsernameError,
-} from '../../../src/shared/domain/errors.js';
-const updateUserDetailsForAdministration = async function ({ userId, userDetailsForAdministration, userRepository }) {
-  const { email, username } = userDetailsForAdministration;
+} from '../../../../src/shared/domain/errors.js';
+
+const updateUserDetailsByAdmin = async function ({ userId, userDetailsToUpdate, userRepository }) {
+  const { email, username } = userDetailsToUpdate;
 
   const foundUsersWithEmailAlreadyUsed = email && (await userRepository.findAnotherUserByEmail(userId, email));
   const foundUsersWithUsernameAlreadyUsed =
@@ -21,15 +22,13 @@ const updateUserDetailsForAdministration = async function ({ userId, userDetails
 
   const userMustValidateTermsOfService = await _isAddingEmailForFirstTime({ userId, email, userRepository });
   if (userMustValidateTermsOfService) {
-    userDetailsForAdministration.mustValidateTermsOfService = true;
+    userDetailsToUpdate.mustValidateTermsOfService = true;
   }
 
-  await userRepository.updateUserDetailsForAdministration({ id: userId, userAttributes: userDetailsForAdministration });
+  await userRepository.updateUserDetailsForAdministration({ id: userId, userAttributes: userDetailsToUpdate });
 
   return userRepository.getUserDetailsForAdmin(userId);
 };
-
-export { updateUserDetailsForAdministration };
 
 async function _checkEmailAndUsernameAreAvailable({ usersWithEmail, usersWithUsername }) {
   const isEmailAlreadyUsed = has(usersWithEmail, '[0].email');
@@ -51,3 +50,5 @@ async function _isAddingEmailForFirstTime({ userId, email, userRepository }) {
   const shouldChangeEmail = !!email;
   return userWithoutEmail && userHasUsername && shouldChangeEmail;
 }
+
+export { updateUserDetailsByAdmin };
