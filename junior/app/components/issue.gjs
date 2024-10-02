@@ -8,7 +8,6 @@ import Bubble from './bubble';
 import RobotDialog from './robot-dialog';
 
 export default class Issue extends Component {
-  @service intl;
   @service router;
 
   @action
@@ -28,6 +27,10 @@ export default class Issue extends Component {
     return `${this.args.class || 'default'}`;
   }
 
+  get backHomeButtonVariant() {
+    return this.args.refreshAction ? 'secondary' : 'primary';
+  }
+
   <template>
     <div class="issue">
       <img src={{this.blobBackground}} alt="robot-speaker" class="blob" />
@@ -40,9 +43,20 @@ export default class Issue extends Component {
           <Bubble @message={{@message}} />
         {{/if}}
       </RobotDialog>
-      <PixButton class="pix1d-button" @triggerAction={{this.goToHome}} @iconBefore="arrow-left">{{t
-          "pages.error.backHome"
-        }}</PixButton>
+      <div class="issue-buttons">
+        {{#if @refreshAction}}
+          <PixButton class="issue-button" @triggerAction={{@refreshAction}} @iconBefore="arrows-rotate">{{t
+              "pages.error.refresh"
+            }}</PixButton>
+        {{/if}}
+        <PixButton
+          @variant={{this.backHomeButtonVariant}}
+          class="issue-button"
+          @triggerAction={{this.goToHome}}
+          @iconBefore="arrow-left"
+        >{{t "pages.error.backHome"}}</PixButton>
+      </div>
     </div>
+    <img src="/images/logo.svg" alt="Pix Junior" class="logo" />
   </template>
 }
