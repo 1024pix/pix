@@ -16,7 +16,6 @@ describe('Integration | Application | Users | Routes', function () {
       .callsFake((request, h) => h.response(true));
 
     sinon.stub(userController, 'getUserDetailsForAdmin').returns('ok');
-    sinon.stub(userController, 'updateUserDetailsForAdministration').returns('updated');
     sinon.stub(userController, 'resetScorecard').returns('ok');
     sinon.stub(userController, 'rememberUserHasSeenChallengeTooltip').returns('ok');
 
@@ -103,89 +102,6 @@ describe('Integration | Application | Users | Routes', function () {
       it('should return BAD_REQUEST (400) when id in param is out of range"', async function () {
         // given
         const url = '/api/admin/users/0';
-
-        // when
-        const response = await httpTestServer.request(methodGET, url);
-
-        // then
-        expect(response.statusCode).to.equal(400);
-      });
-    });
-
-    describe('PATCH /api/admin/users/{id}', function () {
-      it('should update user when payload is valid', async function () {
-        // given
-        securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
-        const url = '/api/admin/users/123';
-
-        const payload = {
-          data: {
-            id: '123',
-            attributes: {
-              'first-name': 'firstNameUpdated',
-              'last-name': 'lastNameUpdated',
-              email: 'emailUpdated@example.net',
-            },
-          },
-        };
-
-        // when
-        const response = await httpTestServer.request(methodPATCH, url, payload);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('should return bad request when firstName is missing', async function () {
-        // given
-        securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
-        const url = '/api/admin/users/123';
-
-        const payload = {
-          data: {
-            id: '123',
-            attributes: {
-              'last-name': 'lastNameUpdated',
-              email: 'emailUpdated@example.net',
-            },
-          },
-        };
-
-        // when
-        const response = await httpTestServer.request(methodPATCH, url, payload);
-
-        // then
-        expect(response.statusCode).to.equal(400);
-        const firstError = response.result.errors[0];
-        expect(firstError.detail).to.equal('"data.attributes.first-name" is required');
-      });
-
-      it('should return bad request when lastName is missing', async function () {
-        // given
-        securityPreHandlers.hasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
-        const url = '/api/admin/users/123';
-        const payload = {
-          data: {
-            id: '123',
-            attributes: {
-              'first-name': 'firstNameUpdated',
-              email: 'emailUpdated',
-            },
-          },
-        };
-
-        // when
-        const response = await httpTestServer.request(methodPATCH, url, payload);
-
-        // then
-        expect(response.statusCode).to.equal(400);
-        const firstError = response.result.errors[0];
-        expect(firstError.detail).to.equal('"data.attributes.last-name" is required');
-      });
-
-      it('should return a 400 when id in param is not a number"', async function () {
-        // given
-        const url = '/api/admin/users/NOT_A_NUMBER';
 
         // when
         const response = await httpTestServer.request(methodGET, url);
