@@ -141,6 +141,7 @@ export default async function initUser(databaseBuilder) {
     ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec des paliers par seuils',
+    areKnowledgeElementsResettable: true,
     configTargetProfile: {
       frameworks: [
         {
@@ -212,6 +213,7 @@ export default async function initUser(databaseBuilder) {
     organizationId: TEAM_EVALUATION_OFFSET_ID,
     ownerId: TEAM_EVALUATION_OFFSET_ID,
     name: 'Campagne avec des paliers par niveaux - niveau à 0 ',
+    title: 'Campagne avec des paliers par niveaux - niveau à 0 ',
     code: 'EVALSTAG1',
     targetProfileId: targetProfile1.targetProfileId,
     idPixLabel: null,
@@ -222,6 +224,7 @@ export default async function initUser(databaseBuilder) {
     organizationId: TEAM_EVALUATION_OFFSET_ID,
     ownerId: TEAM_EVALUATION_OFFSET_ID,
     name: 'Campagne avec des paliers par niveaux - niveau à 0  et un "Premier Acquis"',
+    title: 'Campagne avec des paliers par niveaux - niveau à 0  et un "Premier Acquis"',
     code: 'EVALSTAG2',
     targetProfileId: targetProfile2.targetProfileId,
     idPixLabel: null,
@@ -232,16 +235,22 @@ export default async function initUser(databaseBuilder) {
     organizationId: TEAM_EVALUATION_OFFSET_ID,
     ownerId: TEAM_EVALUATION_OFFSET_ID,
     name: 'Campagne avec des paliers par niveau - niveau à 0 et paliers de niveaux',
+    title: 'Campagne avec des paliers par niveau - niveau à 0 et paliers de niveaux',
     code: 'EVALSTAG3',
     targetProfileId: targetProfile3.targetProfileId,
     idPixLabel: null,
-    configCampaign: { participantCount: 0 },
+    customResultPageText:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget tortor ut diam dictum viverra quis at purus. Morbi id quam a massa blandit gravida.',
+    customResultPageButtonUrl: 'https://pix.org',
+    customResultPageButtonText: 'Cliquez ici',
+    configCampaign: { participantCount: 1 },
   });
   const campaign4 = await tooling.campaign.createAssessmentCampaign({
     databaseBuilder,
     organizationId: TEAM_EVALUATION_OFFSET_ID,
     ownerId: TEAM_EVALUATION_OFFSET_ID,
     name: 'Campagne avec des paliers par seuil - seuil à 0',
+    title: 'Campagne avec des paliers par seuil - seuil à 0',
     code: 'EVALSTAG4',
     targetProfileId: targetProfile4.targetProfileId,
     idPixLabel: null,
@@ -252,6 +261,7 @@ export default async function initUser(databaseBuilder) {
     organizationId: TEAM_EVALUATION_OFFSET_ID,
     ownerId: TEAM_EVALUATION_OFFSET_ID,
     name: 'Campagne avec des paliers par seuil - seuil à 0 et un "Premier Acquis"',
+    title: 'Campagne avec des paliers par seuil - seuil à 0 et un "Premier Acquis"',
     code: 'EVALSTAG5',
     targetProfileId: targetProfile5.targetProfileId,
     idPixLabel: null,
@@ -262,9 +272,11 @@ export default async function initUser(databaseBuilder) {
     organizationId: TEAM_EVALUATION_OFFSET_ID,
     ownerId: TEAM_EVALUATION_OFFSET_ID,
     name: "Campagne d'évaluation SCO - seuil à 0 et paliers de seuil",
+    title: "Campagne d'évaluation SCO - seuil à 0 et paliers de seuil",
     code: 'EVALSTAG6',
     targetProfileId: targetProfile6.targetProfileId,
     idPixLabel: null,
+    multipleSendings: true,
     configCampaign: { participantCount: 0 },
   });
 
@@ -293,11 +305,12 @@ export default async function initUser(databaseBuilder) {
     campaignId: campaign3.campaignId,
     userId: user.id,
     organizationLearnerId: organizationLearner.id,
-    masteryRate: 0.7,
+    masteryRate: 0.2,
     pixScore: 500,
-    validatedSkillsCount: 5,
+    validatedSkillsCount: 2,
     isCertifiable: true,
     status: 'TO_SHARE',
+    createdAt: dayjs(),
   });
   const campaignParticipation4 = databaseBuilder.factory.buildCampaignParticipation({
     campaignId: campaign4.campaignId,
@@ -327,7 +340,8 @@ export default async function initUser(databaseBuilder) {
     pixScore: 500,
     validatedSkillsCount: 5,
     isCertifiable: true,
-    status: 'TO_SHARE',
+    status: 'SHARED',
+    sharedAt: new Date('2020-01-01'),
   });
 
   const allCampaignParticipations = [
@@ -342,11 +356,20 @@ export default async function initUser(databaseBuilder) {
   // 3. Build stage-acquisitions
   [
     { stages: stages1, campaignParticipation: campaignParticipation1 },
-    { stages: stages2, campaignParticipation: campaignParticipation2 },
+    {
+      stages: stages2,
+      campaignParticipation: campaignParticipation2,
+    },
     { stages: stages3, campaignParticipation: campaignParticipation3 },
-    { stages: stages4, campaignParticipation: campaignParticipation4 },
+    {
+      stages: stages4,
+      campaignParticipation: campaignParticipation4,
+    },
     { stages: stages5, campaignParticipation: campaignParticipation5 },
-    { stages: stages6, campaignParticipation: campaignParticipation6 },
+    {
+      stages: stages6,
+      campaignParticipation: campaignParticipation6,
+    },
   ].forEach(({ stages, campaignParticipation }) => {
     stages.stageIds.forEach((stageId) => {
       databaseBuilder.factory.buildStageAcquisition({
@@ -368,6 +391,8 @@ export default async function initUser(databaseBuilder) {
       userId: user.id,
       type: 'CAMPAIGN',
       campaignParticipationId: campaignParticipation.id,
+      isImproving: true,
+      createdAt: dayjs(),
     });
 
     // 2. Build assessment result
@@ -376,7 +401,9 @@ export default async function initUser(databaseBuilder) {
     });
 
     // 3. Knowledge elements configuration (we need some acquired KEs to have stages)
-    for (const { answerData, keData } of answersAndKEFromAdvancedProfile) {
+    for (let i = 0; i < answersAndKEFromAdvancedProfile.length; i++) {
+      const { answerData, keData } = answersAndKEFromAdvancedProfile[i];
+
       const answer = databaseBuilder.factory.buildAnswer({
         assessmentId: assessment.id,
         answerData,
@@ -387,7 +414,8 @@ export default async function initUser(databaseBuilder) {
         answerId: answer.id,
         userId: user.id,
         ...keData,
-        createdAt: dayjs().subtract(1, 'day'),
+        status: i % 2 ? 'invalidated' : 'validated',
+        createdAt: new Date('2020-01-01'),
       });
     }
   });
