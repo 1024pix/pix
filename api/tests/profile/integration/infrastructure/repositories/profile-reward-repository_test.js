@@ -40,8 +40,13 @@ describe('Profile | Integration | Repository | profile-reward', function () {
         eligibilityRequirements: {},
         successRequirements: {},
       });
+      const otherAttestation = databaseBuilder.factory.buildAttestation({
+        templateName: 'otherTemplateName',
+        key: 'otherKey',
+      });
       const { rewardId: secondRewardId } = databaseBuilder.factory.buildQuest({
         rewardType: REWARD_TYPES.ATTESTATION,
+        rewardId: otherAttestation.id,
         eligibilityRequirements: {},
         successRequirements: {},
       });
