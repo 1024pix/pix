@@ -686,6 +686,10 @@
       },
       "direct-link": "Lien direct",
       "external-user-id-label": "Libellé de l'identifiant",
+      "external-user-id-types": {
+        "email": "email",
+        "string": "texte libre"
+      },
       "landing-page-text": "Texte de la page d'accueil",
       "multiple-sendings": {
         "title": "Envoi multiple",
