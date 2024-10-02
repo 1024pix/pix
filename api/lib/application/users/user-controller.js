@@ -2,6 +2,7 @@ import { usecases as devcompUsecases } from '../../../src/devcomp/domain/usecase
 import * as trainingSerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
 import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/index.js';
 import * as scorecardSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/scorecard-serializer.js';
+import * as userDetailsForAdminSerializer from '../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-details-for-admin.serializer.js';
 import * as campaignParticipationSerializer from '../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 import * as userSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
@@ -12,29 +13,12 @@ import * as certificationCenterMembershipSerializer from '../../infrastructure/s
 import * as participantResultSerializer from '../../infrastructure/serializers/jsonapi/participant-result-serializer.js';
 import * as sharedProfileForCampaignSerializer from '../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer.js';
 import * as userAnonymizedDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js';
-import * as userDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer.js';
 import * as userOrganizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
 
 const getUserDetailsForAdmin = async function (request, h, dependencies = { userDetailsForAdminSerializer }) {
   const userId = request.params.id;
   const userDetailsForAdmin = await usecases.getUserDetailsForAdmin({ userId });
   return dependencies.userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
-};
-
-const updateUserDetailsForAdministration = async function (
-  request,
-  h,
-  dependencies = { userDetailsForAdminSerializer },
-) {
-  const userId = request.params.id;
-  const userDetailsForAdministration = dependencies.userDetailsForAdminSerializer.deserialize(request.payload);
-
-  const updatedUser = await usecases.updateUserDetailsForAdministration({
-    userId,
-    userDetailsForAdministration,
-  });
-
-  return dependencies.userDetailsForAdminSerializer.serializeForUpdate(updatedUser);
 };
 
 const rememberUserHasSeenAssessmentInstructions = async function (request, h, dependencies = { userSerializer }) {
@@ -264,7 +248,6 @@ const userController = {
   rememberUserHasSeenChallengeTooltip,
   removeAuthenticationMethod,
   resetScorecard,
-  updateUserDetailsForAdministration,
 };
 
 export { userController };
