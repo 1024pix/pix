@@ -197,15 +197,52 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
       // when
       const screen = await render(
-        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
-          @campaign={{this.campaign}}
-          @campaignParticipationResult={{this.campaignParticipationResult}}
-        />`,
+        hbs`
+          <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+            @campaign={{this.campaign}}
+            @campaignParticipationResult={{this.campaignParticipationResult}}
+          />`,
       );
 
       // then
       assert.dom(screen.getByText(t('pages.skill-review.organization-message'))).exists();
       assert.dom(screen.getByText('My custom result page text')).exists();
+    });
+  });
+
+  module('retry or reset block', function () {
+    module('when the user can retry the campaign', function () {
+      test('displays the retry or reset block', async function (assert) {
+        // given
+        this.set('campaignParticipationResult', { masteryRate: 0.1, canRetry: true, canReset: true });
+
+        // when
+        const screen = await render(
+          hbs`
+            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaignParticipationResult={{this.campaignParticipationResult}} />`,
+        );
+
+        // then
+        assert.dom(screen.getByText(t('pages.skill-review.hero.retry.title'))).exists();
+      });
+    });
+
+    module('when the user can not retry the campaign', function () {
+      test('not display the retry or reset block', async function (assert) {
+        // given
+        this.set('campaignParticipationResult', { masteryRate: 0.1, canRetry: false, canReset: true });
+
+        // when
+        const screen = await render(
+          hbs`
+            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaignParticipationResult={{this.campaignParticipationResult}} />`,
+        );
+
+        // then
+        assert.dom(screen.queryByText(t('pages.skill-review.hero.retry.title'))).doesNotExist();
+      });
     });
   });
 });

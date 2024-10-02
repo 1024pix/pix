@@ -179,7 +179,8 @@
 }
 
 // Custom organization block
-.evaluation-results-hero__organization-block {
+.evaluation-results-hero__organization-block,
+.evaluation-results-hero__retry {
   flex-basis: 100%;
   padding-top: var(--pix-spacing-10x);
   border-top: 1px solid var(--pix-neutral-100);
@@ -194,6 +195,51 @@
 .evaluation-results-hero-organization-block__link {
   display: inline-flex;
   margin-top: var(--pix-spacing-4x);
+}
+
+// Retry or reset block
+.evaluation-results-hero__retry {
+  display: grid;
+  grid-template-columns: 1fr min(250px, 25%);
+  gap: var(--pix-spacing-10x);
+
+  &::after {
+    background-image: url("/images/illustrations/skill-review/retry-assessment.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    content: '';
+  }
+
+  @media (max-width: 767px) {
+    display: block;
+
+    &::after {
+      content: none;
+    }
+  }
+}
+
+.evaluation-results-hero-retry__title {
+  @extend %pix-title-l;
+
+  color: var(--pix-neutral-900);
+}
+
+.evaluation-results-hero-retry__description {
+  @extend %pix-title-xs;
+
+  margin-top: var(--pix-spacing-1x);
+  color: var(--pix-neutral-500);
+}
+
+.evaluation-results-hero-retry__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pix-spacing-4x);
+  align-items: center;
+  margin-block: var(--pix-spacing-4x);
+  padding-block: var(--pix-spacing-1x);
 }
 
 /**

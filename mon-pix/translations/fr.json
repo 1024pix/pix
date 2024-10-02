@@ -1797,7 +1797,15 @@
       "hero": {
         "acquired-badges-title": "Récompenses obtenues",
         "bravo": "Bravo {name} !",
-        "mastery-rate": "de réussite aux questions"
+        "mastery-rate": "de réussite aux questions",
+        "retry": {
+          "title": "Améliorez vos résultats",
+          "description": "Votre organisateur vous invite à repasser ce parcours.",
+          "actions": {
+            "retry": "Repasser mon parcours",
+            "reset": "Remettre à zéro et tout retenter"
+          }
+        }
       },
       "tabs": {
         "aria-label": "3 onglets détaillant vos résultats",

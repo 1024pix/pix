@@ -6,6 +6,7 @@ import { t } from 'ember-intl';
 import MarkdownToHtml from '../../../../markdown-to-html';
 import AcquiredBadges from './acquired-badges';
 import CustomOrganizationBlock from './custom-organization-block';
+import RetryOrResetBlock from './retry-or-reset-block';
 
 export default class EvaluationResultsHero extends Component {
   @service currentUser;
@@ -74,6 +75,9 @@ export default class EvaluationResultsHero extends Component {
         @customResultPageButtonText={{@campaign.customResultPageButtonText}}
         @customResultPageButtonUrl={{@campaign.customResultPageButtonUrl}}
       />
+      {{#if @campaignParticipationResult.canRetry}}
+        <RetryOrResetBlock @campaign={{@campaign}} @campaignParticipationResult={{@campaignParticipationResult}} />
+      {{/if}}
     </div>
   </template>
 }
