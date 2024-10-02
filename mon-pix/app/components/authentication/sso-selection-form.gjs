@@ -15,19 +15,26 @@ export default class SsoSelectionForm extends Component {
   @service router;
   @service oidcIdentityProviders;
 
-  @tracked selectedProvider = null;
+  @tracked selectedProviderId = null;
 
   @action
-  async onProviderChange(selectedProvider) {
-    this.selectedProvider = selectedProvider;
+  async onProviderChange(selectedProviderId) {
+    this.selectedProviderId = selectedProviderId;
   }
 
   get providers() {
     return this.oidcIdentityProviders.list?.filter((provider) => !EXCLUDED_PROVIDER_CODES.includes(provider.code));
   }
 
-  get isButtonDisabled() {
-    return this.selectedProvider === null;
+  get hasSelectedProvider() {
+    return this.selectedProviderId !== null;
+  }
+
+  get selectedProviderName() {
+    const provider = this.oidcIdentityProviders.list?.find((provider) => provider.id === this.selectedProviderId);
+    if (!provider) return null;
+
+    return provider.organizationName;
   }
 
   <template>
@@ -42,14 +49,23 @@ export default class SsoSelectionForm extends Component {
 
       <OidcProviderSelector @providers={{this.providers}} @onProviderChange={{this.onProviderChange}} />
 
-      {{#if this.isButtonDisabled}}
+      {{#if this.hasSelectedProvider}}
+        <PixButtonLink
+          aria-describedby="signin-message"
+          @route="authentication.login-oidc"
+          @model={{this.selectedProviderId}}
+          @size="large"
+        >
+          {{t "pages.authentication.sso-selection.signin.link"}}
+        </PixButtonLink>
+
+        <p id="signin-message" class="sso-selection-form__signin-message" aria-live="polite">
+          {{t "pages.authentication.sso-selection.signin.message" providerName=this.selectedProviderName}}
+        </p>
+      {{else}}
         <PixButton @type="button" @isDisabled={{true}} @size="large">
           {{t "pages.authentication.sso-selection.signin.link"}}
         </PixButton>
-      {{else}}
-        <PixButtonLink @route="authentication.login-oidc" @model={{this.selectedProvider}} @size="large">
-          {{t "pages.authentication.sso-selection.signin.link"}}
-        </PixButtonLink>
       {{/if}}
     </section>
   </template>

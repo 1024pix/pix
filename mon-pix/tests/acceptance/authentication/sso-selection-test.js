@@ -8,7 +8,7 @@ import sinon from 'sinon';
 
 import setupIntl from '../../helpers/setup-intl';
 
-module('Acceptance | authentication | SSO selection tests', function (hooks) {
+module('Acceptance | authentication | SSO selection', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);

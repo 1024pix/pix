@@ -8,4 +8,10 @@
 
     color: var(--pix-neutral-500);
   }
+
+  &__signin-message {
+    @extend %pix-body-s;
+
+    color: var(--pix-neutral-500);
+  }
 }

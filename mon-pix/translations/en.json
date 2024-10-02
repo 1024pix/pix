@@ -344,7 +344,8 @@
       "sso-selection": {
         "title": "Choose another organization",
         "signin": {
-          "link": "Log in"
+          "link": "Log in",
+          "message": "You will be redirected to the “{providerName}” connection page in order to identify yourself on Pix."
         },
         "signup": {
           "title": "Don't have an account?",

@@ -35,15 +35,23 @@ module('Integration | Component | Authentication | SsoSelectionForm', function (
   });
 
   test('it selects a provider', async function (assert) {
+    // given
+    const providerName = 'ConnectEtMoi';
+
     //when
     const screen = await render(<template><SsoSelectionForm /></template>);
     await clickByName(t('components.authentication.oidc-provider-selector.label'));
     await screen.findByRole('listbox');
-    await click(screen.getByRole('option', { name: 'ConnectEtMoi' }));
+    await click(screen.getByRole('option', { name: providerName }));
 
     // then
     const buttonLink = await screen.findByRole('link', { name: t('pages.authentication.sso-selection.signin.link') });
     assert.strictEqual(buttonLink.getAttribute('href'), '/connexion/cem');
+
+    const connexionMessage = await screen.findByText(
+      t('pages.authentication.sso-selection.signin.message', { providerName }),
+    );
+    assert.dom(connexionMessage).exists();
   });
 
   test('it excludes some providers', async function (assert) {
