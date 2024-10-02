@@ -1,3 +1,4 @@
+import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { CsvImportError } from '../../../../../src/shared/domain/errors.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
@@ -11,7 +12,7 @@ import {
 describe('Acceptance | Application | organization-import', function () {
   let server;
 
-  beforeEach(async function () {
+  before(async function () {
     server = await createServer();
   });
 
@@ -124,6 +125,35 @@ describe('Acceptance | Application | organization-import', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('POST /api/admin/import-organization-learners-format', function () {
+    let options, connectedUser;
+
+    beforeEach(async function () {
+      connectedUser = databaseBuilder.factory.buildUser.withRole({ role: PIX_ADMIN.ROLES.SUPER_ADMIN });
+      await databaseBuilder.commit();
+    });
+
+    it('should upload file with no error', async function () {
+      // given
+      const buffer = '[{"name":"GENERIC","fileType":"csv","config":{"awesome_config": "pouet"}}]';
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'POST',
+        url: `/api/admin/import-organization-learners-format`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(connectedUser.id),
+        },
+        payload: buffer,
+      };
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
     });
   });
 });

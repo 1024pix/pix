@@ -76,6 +76,14 @@
         },
         "upload-button": "Importer un fichier JSON"
       },
+      "organization-import-format": {
+        "title": "Mise à jour d'import à format existants",
+        "description": "Seul les imports à format existants seront mis à jour. Dans le cas où le nom ne correspond pas, il n'y aura pas de création d'import à format.",
+        "notifications": {
+          "success": "Les imports à formats sont bien mis à jour"
+        },
+        "upload-button": "Importer un fichier JSON"
+      },
       "organization-tags-import": {
         "title": "Ajout de tags en masse sur des organisations",
         "description": "Permet d’ajouter des tags à des organisations. Chaque ligne du fichier CSV doit être constituée de l’ID d’une organisation, suivie du nom d’un tag.",
@@ -417,6 +425,9 @@
         },
         "deployment": {
           "label": "Déploiement"
+        },
+        "organizations": {
+          "label": "Organisations"
         }
       }
     },

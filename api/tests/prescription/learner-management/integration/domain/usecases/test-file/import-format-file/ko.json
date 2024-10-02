@@ -1,0 +1,4 @@
+[
+  { "name": "FIRST_FORMAT", "fileType": "csv", "config": "toto" },
+  { "name": "SECOND_FORMAT", "fileType": "unsupportedFileType", "config": { "new_config": "not_bad" } }
+]

@@ -3,8 +3,6 @@ function updateBadgeCriterion(schema, request) {
     const badgeCriterionId = request.params.id;
     const params = JSON.parse(request.requestBody);
 
-    console.log(schema);
-
     const badgeCriterion = schema.badgeCriteria.find(badgeCriterionId);
     badgeCriterion.update(params.data.attributes);
 
