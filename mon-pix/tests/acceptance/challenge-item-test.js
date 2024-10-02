@@ -7,10 +7,12 @@ import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 import { authenticate } from '../helpers/authentication';
+import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Displaying a challenge of any type', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   let assessment;
 
@@ -185,6 +187,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
           });
 
           module('when assessment is of type certification', function (hooks) {
+            let screen;
+
             hooks.beforeEach(async function () {
               const focusedCertificationChallengeWarningManager = this.owner.lookup(
                 'service:focused-certification-challenge-warning-manager',
@@ -200,17 +204,30 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                 nbChallenges: 1,
                 firstName: 'Laura',
                 lastName: 'Bravo',
+                version: 2,
               });
               assessment = certificationCourse.assessment;
-              const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+              screen = await visit(`/assessments/${assessment.id}/challenges/0`);
               await click(screen.getByRole('button', { name: 'Je suis prêt' }));
               await triggerEvent(document, 'focusedout');
             });
 
             test('should display the certification warning alert', async function (assert) {
               // then
-              assert.dom('[data-test="certification-focused-out-error-message"]').exists();
-              assert.dom('[data-test="default-focused-out-error-message"]').doesNotExist();
+              assert
+                .dom(
+                  screen.getByText(
+                    'Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse. Si vous avez été contraint de changer de page, prévenez votre surveillant et répondez à la question en sa présence.',
+                  ),
+                )
+                .exists();
+              assert
+                .dom(
+                  screen.queryByText(
+                    'Nous avons détecté un changement de page. En certification, votre réponse ne serait pas validée.',
+                  ),
+                )
+                .doesNotExist();
             });
 
             test('should add failure to the page title', async function (assert) {
@@ -233,7 +250,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
             test('should display the default warning alert', async function (assert) {
               // then
-              assert.dom('[data-test="default-focused-out-error-message"]').exists();
+              assert.dom(find('[data-test="default-focused-out-error-message"]')).exists();
               assert.dom('[data-test="certification-focused-out-error-message"]').doesNotExist();
             });
 
