@@ -852,6 +852,7 @@
       "has-focused-out-of-window": {
         "certification": "We have detected a page switch. Your answer will not be validated. If you have been forced to change pages, please inform your invigilator and answer the question in their presence.",
         "default": "We have detected a page switch. During a certification test, your answer would not be validated.",
+        "v3-accessible-certification": "We have detected a page switch. If you have been forced to change pages in order to use a digital accessibility tool (such as a screen reader or virtual keyboard), please answer the question anyways.",
         "v3-certification": "We have detected a page change. Your answer will be counted as wrong. If you have been forced to change page, tell your supervisor so that he or she can see this and report it, if necessary."
       },
       "illustration": {
