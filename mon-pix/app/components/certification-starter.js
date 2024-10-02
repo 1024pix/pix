@@ -21,6 +21,12 @@ export default class CertificationStarter extends Component {
     return this.inputAccessCode.toUpperCase();
   }
 
+  get complementarySubscriptionLabel() {
+    return this.args.certificationCandidateSubscription.eligibleSubscriptions.find(
+      (subscription) => subscription.type === 'COMPLEMENTARY',
+    ).label;
+  }
+
   @action
   async submit(e) {
     e.preventDefault();

@@ -16,7 +16,7 @@
                   @icon="circle-check"
                   class="certification-starter-subscriptions-container-items__eligible-icon"
                 />
-                {{get @certificationCandidateSubscription.eligibleSubscriptions "0.label"}}
+                {{this.complementarySubscriptionLabel}}
               </span>
             {{else}}
               <span class="certification-starter-subscriptions-container-items__non-eligible-item">
