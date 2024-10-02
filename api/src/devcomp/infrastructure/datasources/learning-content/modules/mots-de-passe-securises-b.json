@@ -32,7 +32,7 @@
       "grainId": "65e80d85-4590-4662-8765-f1b3d995f21a"
     },
     {
-      "content": "<p>Créer des mots de passe solides, ce n'est pas toujours simple mais c'est nécessaire pour se protéger. <span aria-hidden=\"true\">🛡️</span><br>Voici quelques astuces pour vous aider à créer et retenir vos mots de passe solides.&nbsp;<span aria-hidden=\"true\">💡</span></p>",
+      "content": "<p>Créer des mots de passe solides, ce n'est pas toujours simple mais c'est nécessaire pour se protéger. <span aria-hidden=\"true\">🛡️</span><br>Voici trois méthodes pour vous aider à créer et retenir vos mots de passe solides.</p>",
       "grainId": "f14510d6-ee18-48be-8bb6-39a9427e3102"
     },
     {
@@ -40,7 +40,7 @@
       "grainId": "6336bac0-c272-40cc-a002-ee724a5ec4c8"
     },
     {
-      "content": "<p>Peut-être que certains de vos mots de passe ne sont pas solides.<br>Pour finir ce module, prenez de bonnes résolutions. <span aria-hidden=\"true\">💫</span></p>",
+      "content": "<p>Et vous, peut-être que certains de vos mots de passe ne sont pas solides.<br>Pour finir ce module, prenez de bonnes résolutions. <span aria-hidden=\"true\">💫</span></p>",
       "grainId": "464fe554-ff12-4b14-b6d6-3510fff2bb26"
     }
   ],
@@ -103,7 +103,7 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct&#8239;!<span aria-hidden=\"true\">🎉</span></span><p>Il fait partie des 20 mots de passe les plus utilisés. Découvrez la liste complète juste après.</p>",
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;! <span aria-hidden=\"true\">🎉</span></span><p>Il fait partie des 20 mots de passe les plus utilisés. Découvrez la liste complète juste après.</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Essayez à nouveau en proposant un mot de passe très simple, utilisé par tout le monde.</p>"
                   }
                 }
@@ -114,7 +114,7 @@
                 {
                   "id": "6426dbb4-5627-4ae7-aa22-b63b70a8065f",
                   "type": "text",
-                  "content": "Voici la liste des 20 mots de passes les plus utilisés en France. <span aria-hidden=\"true\">👇</span>"
+                  "content": "<p>Voici la liste des 20 mots de passes les plus utilisés en France. <span aria-hidden=\"true\">👇</span></p><p>Interdiction de les utiliser : ils sont trop connus !</p>"
                 },
                 {
                   "id": "b10615ab-ef98-4077-8382-fcd7011ec186",
@@ -282,7 +282,7 @@
           "element": {
             "id": "2e695244-52c5-4277-8414-d18777d0d242",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite</h3><ul><li>Un mot de passe solide est unique, long et composé de différents caractères.</li><li>Un mot de passe ne contient pas d'informations personnelles et doit rester secret.</li><li>Tous les mots de passe ne sont pas égaux&nbsp;: l'accès à votre boîte mail permet de contrôler de nombreux autres services. Ce mot de passe est donc très important.&nbsp;<span aria-hidden=\"true\">🚨</span></li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite</h3><ul><li>Un mot de passe solide est unique, long et composé de différents caractères.</li><li>Un mot de passe ne contient pas d'informations personnelles et doit rester secret.</li><li>N'utilisez pas le même mot de passe partout. Le mot de passe le plus important est celui de votre boîte mail car il permet de changer tous vos mots de passe.</li></ul>"
           }
         }
       ]
@@ -388,27 +388,27 @@
             {
               "elements": [
                 {
+                  "id": "69bfe140-57ac-4fcf-a118-2e9382daacd4",
+                  "type": "text",
+                  "content": "<h3>Méthode n°1&nbsp;: retenez une phrase qui vous plaît et gardez certains caractères. <span aria-hidden=\"true\">🧩</span></h3><p><span aria-hidden=\"true\">✔️</span> Par exemple, \"<strong>J'a</strong>i <strong>2 c</strong>hats<strong>, 3 p</strong>oissons <strong>e</strong>xotiques <strong>e</strong>t <strong>j'a</strong>ime <strong>l</strong>a <strong>p</strong>longée <strong>!</strong>\" vous donne le mot de passe&nbsp;: <code>Ja2c3peejalp!</code></p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
                   "id": "f6edeae6-fbfb-4dce-b556-1bb7928d5ff5",
                   "type": "text",
-                  "content": "<h3>Astuce n°1&nbsp;: utilisez une méthode simple qui permet de respecter les règles. <span aria-hidden=\"true\">🔏</span></h3><p>Il existe différentes méthodes, à vous de choisir ou de trouver la votre :</p><ul><li>choisir une phrase qui vous plaît et gardez certains caractères. <span aria-hidden=\"true\">🧩</span><br>Par exemple, \"<strong>J'a</strong>i <strong>2 c</strong>hats<strong>, 3 p</strong>oissons <strong>e</strong>xotiques <strong>e</strong>t <strong>j'a</strong>ime <strong>l</strong>a <strong>p</strong>longée <strong>!</strong>\" vous donne le mot de passe&nbsp;: <code>Ja2c3peejalp!</code><span aria-hidden=\"true\">✔️</span> </li><li>écrire une phrase qui vous plaît uniquement avec des sons. <span aria-hidden=\"true\">🎶</span><br>Par exemple, \"J'aime les bandes dessinées !\" vous donne le mot de passe : <code>Gmeléban2D6né!</code><span aria-hidden=\"true\">✔️</span> </li></ul>"
+                  "content": "<h3>Méthode n°2&nbsp;: écrivez une phrase qui vous plaît uniquement avec des sons. <span aria-hidden=\"true\">🎶</span></h3><p><span aria-hidden=\"true\">✔️</span> Par exemple, \"J'aime les bandes dessinées !\" vous donne le mot de passe : <code>Gmeléban2D6né!</code></p>"
                 }
               ]
             },
             {
               "elements": [
                 {
-                  "id": "6eda6d92-1147-4c19-a7e5-f61a2228e33c",
+                  "id": "e274a0f9-4b4a-4358-8b1f-9e009c5a3ec8",
                   "type": "text",
-                  "content": "<h3>Astuce n°2&nbsp;: n'utilisez pas le même mot de passe partout&#8239;! <span aria-hidden=\"true\">🔑🗝️</span></h3><p>Utiliser toujours le même mot de passe est risqué. C'est comme utiliser la même clé pour toutes ses portes. C'est très pratique, mais si votre mot de passe est piraté, toutes les portes sont ouvertes&#8239;!&nbsp;<span aria-hidden=\"true\">☠️</span></p><p>En particulier, pour votre boîte mail, créez et mémorisez un mot de passe très solide car il permet de changer tous les autres mots de passe."
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "dadd152e-350c-4710-8609-af5f92e69b2c",
-                  "type": "text",
-                  "content": "<h3>Astuce n°3&nbsp;: créez un nouveau mot de passe si vous l'avez oublié. <span aria-hidden=\"true\">🆕</span></h3><p>Oublier son mot de passe, ce n'est pas grave. Au moment de votre connexion, les sites internet permettent de changer votre mot de passe si vous l'avez oublié.<br>Il est même recommandé de modifier souvent son mot de passe, pour plus de sécurité."
+                  "content": "<h3>Méthode n°3&nbsp;: votre propre méthode ! <span aria-hidden=\"true\">🧠</span></h3><p>Vous pouvez mélanger les deux méthodes présentées ou trouver d'autres astuces.</p><p>En tout cas, oublier son mot de passe, ce n'est pas grave. Au moment de votre connexion, les sites internet permettent de changer votre mot de passe si vous l'avez oublié.</p>"
                 }
               ]
             }
