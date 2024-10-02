@@ -1,6 +1,8 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { SUPPORTED_LOCALES } from '../../../shared/domain/constants.js';
+import { AVAILABLE_LANGUAGES } from '../../../shared/domain/services/language-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { userAdminController } from './user.admin.controller.js';
 
@@ -66,6 +68,54 @@ export const userAdminRoutes = [
         "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
           '- Elle permet de récupérer & chercher une liste d’utilisateurs\n' +
           '- Cette liste est paginée et filtrée selon un **id**, **firstName**, un **lastName**, un **email** et **identifiant** donnés',
+      ],
+      tags: ['api', 'admin', 'user'],
+    },
+  },
+  {
+    method: 'PATCH',
+    path: '/api/admin/users/{id}',
+    config: {
+      pre: [
+        {
+          method: (request, h) =>
+            securityPreHandlers.hasAtLeastOneAccessOf([
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+              securityPreHandlers.checkAdminMemberHasRoleSupport,
+            ])(request, h),
+        },
+      ],
+      plugins: {
+        'hapi-swagger': {
+          payloadType: 'form',
+        },
+      },
+      validate: {
+        params: Joi.object({
+          id: identifiersType.userId,
+        }),
+        payload: Joi.object({
+          data: {
+            attributes: {
+              'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+              'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+              email: Joi.string().email().allow(null).optional(),
+              username: Joi.string().allow(null).optional(),
+              lang: Joi.string().valid(...AVAILABLE_LANGUAGES),
+              locale: Joi.string()
+                .allow(null)
+                .optional()
+                .valid(...SUPPORTED_LOCALES),
+            },
+          },
+        }),
+        options: {
+          allowUnknown: true,
+        },
+      },
+      handler: (request, h) => userAdminController.updateUserDetailsByAdmin(request, h),
+      notes: [
+        "- Permet à un administrateur de mettre à jour certains attributs d'un utilisateur identifié par son identifiant",
       ],
       tags: ['api', 'admin', 'user'],
     },
