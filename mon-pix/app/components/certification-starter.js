@@ -27,6 +27,17 @@ export default class CertificationStarter extends Component {
     ).label;
   }
 
+  get subscriptionTitle() {
+    if (
+      !this.args.certificationCandidateSubscription.isSessionVersion3 ||
+      this.args.certificationCandidateSubscription.isV3CoreAndComplementary
+    ) {
+      return this.intl.t('pages.certification-start.core-and-complementary-subscriptions');
+    } else {
+      return this.intl.t('pages.certification-start.complementary-subscription');
+    }
+  }
+
   @action
   async submit(e) {
     e.preventDefault();

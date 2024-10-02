@@ -676,7 +676,8 @@
       "first-title": "Vous allez commencer votre test de certification",
       "link-to-user-certification": "Voir mes certifications",
       "non-eligible-subscription": "Vous n'êtes pas éligible à {nonEligibleSubscriptionLabel}. Vous pouvez néanmoins passer votre certification Pix.",
-      "subscription": "Vous êtes inscrit à la certification complémentaire suivante en plus de la certification Pix :"
+      "core-and-complementary-subscriptions": "Vous êtes inscrit à la certification complémentaire suivante en plus de la certification Pix :",
+      "complementary-subscription": "Vous êtes inscrit à la certification complémentaire suivante :"
     },
     "certifications-list": {
       "title": "Mes Certifications",

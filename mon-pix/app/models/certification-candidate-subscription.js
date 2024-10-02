@@ -20,6 +20,15 @@ export default class CertificationCandidateSubscription extends Model {
     );
   }
 
+  get isV3CoreAndComplementary() {
+    return (
+      this.isSessionVersion3 &&
+      this.eligibleSubscriptions.length === 2 &&
+      this.eligibleSubscriptions.some((eligibleSubscription) => eligibleSubscription.type === 'CORE') &&
+      this.eligibleSubscriptions.some((eligibleSubscription) => eligibleSubscription.type === 'COMPLEMENTARY')
+    );
+  }
+
   get isSessionVersion3() {
     return this.sessionVersion === 3;
   }
