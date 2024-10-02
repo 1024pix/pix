@@ -79,7 +79,7 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
       user = await insertUserWithRoleSuperAdmin();
     });
 
-    it('should reply with 200 status code, when user details are updated', async function () {
+    it('replies with 200 status code, when user details are updated', async function () {
       // given
       const options = {
         method: 'PATCH',
@@ -113,33 +113,7 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
     });
 
     describe('Error case', function () {
-      it('should return bad request when payload is not valid', async function () {
-        // given
-        const options = {
-          method: 'PATCH',
-          url: `/api/admin/users/${user.id}`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-          payload: {
-            data: {
-              id: user.id,
-              attributes: {
-                email: 'emailUpdated',
-                lang: 'pt',
-              },
-            },
-          },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(400);
-        const firstError = response.result.errors[0];
-        expect(firstError.detail).to.equal('"data.attributes.first-name" is required');
-      });
-
-      it('should reply with not authorized error', async function () {
+      it('replies with not authorized error', async function () {
         // given
         const options = {
           method: 'PATCH',
@@ -163,7 +137,7 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should reply with forbidden error', async function () {
+      it('replies with forbidden error', async function () {
         user = databaseBuilder.factory.buildUser({ email: 'partial.update@example.net' });
         await databaseBuilder.commit();
 

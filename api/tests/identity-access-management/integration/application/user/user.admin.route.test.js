@@ -81,29 +81,6 @@ describe('Integration | Identity Access Management | Application | Route | Admin
       sinon.stub(userAdminController, 'updateUserDetailsByAdmin').returns('updated');
     });
 
-    it('should update user when payload is valid', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
-      const url = '/api/admin/users/123';
-
-      const payload = {
-        data: {
-          id: '123',
-          attributes: {
-            'first-name': 'firstNameUpdated',
-            'last-name': 'lastNameUpdated',
-            email: 'emailUpdated@example.net',
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request('PATCH', url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
     it('should return bad request when firstName is missing', async function () {
       // given
       sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);

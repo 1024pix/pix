@@ -117,7 +117,7 @@ export const userAdminRoutes = [
       notes: [
         "- Permet à un administrateur de mettre à jour certains attributs d'un utilisateur identifié par son identifiant",
       ],
-      tags: ['api', 'admin', 'user'],
+      tags: ['api', 'admin', 'identity-access-management'],
     },
   },
 ];
