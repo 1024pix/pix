@@ -9,8 +9,8 @@ module('Acceptance | Challenge workflow', function (hooks) {
   module('when user click on skip button', function () {
     test('redirects to next challenge', async function (assert) {
       const assessment = this.server.create('assessment');
-      this.server.create('challenge', { id: 1 });
-      this.server.create('challenge', { id: 2, instruction: 'challenge alternatif' });
+      this.server.create('challenge', 'withInstruction', { id: 1 });
+      this.server.create('challenge', { id: 2, instruction: ['challenge alternatif'] });
       // when
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
       await click(screen.getByRole('button', { name: t('pages.challenge.actions.skip') }));
@@ -51,7 +51,7 @@ module('Acceptance | Challenge workflow', function (hooks) {
       this.server.create('challenge', 'QCU');
       this.server.create('challenge', {
         id: 2,
-        instruction: 'Nouvelle instruction',
+        instruction: ['Nouvelle instruction'],
       });
       // when
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
@@ -85,7 +85,7 @@ module('Acceptance | Challenge workflow', function (hooks) {
       this.server.create('challenge', 'QROCWithSelect');
       this.server.create('challenge', {
         id: 2,
-        instruction: 'Nouvelle instruction',
+        instruction: ['Nouvelle instruction'],
       });
       // when
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
