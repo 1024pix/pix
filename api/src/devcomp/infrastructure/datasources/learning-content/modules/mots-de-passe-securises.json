@@ -36,7 +36,7 @@
       "grainId": "65e80d85-4590-4662-8765-f1b3d995f21a"
     },
     {
-      "content": "<p>En plus des règles que vous venez de voir, voici aussi quelques astuces pour vous aider à créer vos mots de passe.&nbsp;<span aria-hidden=\"true\">💡</span></p>",
+      "content": "<p>En plus des règles que vous venez de voir, voici quelques astuces pour vous aider à créer vos mots de passe.&nbsp;<span aria-hidden=\"true\">💡</span></p>",
       "grainId": "f14510d6-ee18-48be-8bb6-39a9427e3102"
     },
     {
@@ -62,7 +62,7 @@
                 {
                   "id": "d8d3f524-10c7-4190-986b-f1e309efb124",
                   "type": "qrocm",
-                  "instruction": "<p>Certains mots de passe sont très utilisés et donc faciles à deviner.<br>Trouvez un des 20 mots de passe les plus utilisé en France.</p>",
+                  "instruction": "<p>Certains mots de passe sont très utilisés et donc faciles à deviner.<br>À votre avis, quel est le mot de passe le plus utilisé en France&#8239;?</p>",
                   "proposals": [
                     {
                       "type": "text",
@@ -107,7 +107,7 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct&#8239;! <span aria-hidden=\"true\">🎉</span></span><p>Vous allez découvrir la liste complète juste après.</p>",
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!<span aria-hidden=\"true\">🎉</span></span><p>Il fait partie des 20 mots de passe les plus utilisés. Découvrez la liste complète juste après.</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Essayez à nouveau en proposant un mot de passe très simple, utilisé par tout le monde.</p>"
                   }
                 }
@@ -143,7 +143,7 @@
           "element": {
             "id": "826281e7-865f-462d-abc0-77537c42a2b4",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">🧑‍💻&nbsp;🔮&nbsp;</span>Une personne peut deviner votre mot de passe.</h3><p>Si vous utilisez des informations privées dans votre mot de passe, il est possible qu’une personne de votre entourage le devine facilement.</p><p><span aria-hidden=\"true\">⚠️</span> Elle pourra alors accéder à vos données personnelles et privées. Et ce n’est peut-être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.</p>"
+            "content": "<h3>Une personne peut deviner votre mot de passe. <span aria-hidden=\"true\">🧑‍💻&nbsp;🔮&nbsp;</span></h3><p>Si vous utilisez des informations privées dans votre mot de passe, il est possible qu’une personne de votre entourage le devine facilement.</p><p><span aria-hidden=\"true\">⚠️</span> Elle pourra alors accéder à vos données personnelles et privées. Et ce n’est peut-être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.</p>"
           }
         },
         {
@@ -159,7 +159,7 @@
           "element": {
             "id": "9d0b7aff-a9da-453f-a6ba-c61fbaa7bb25",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">🤖&nbsp;🏴‍☠️&nbsp;</span>Un logiciel informatique peut pirater votre mot de passe.</h3><p>Les ordinateurs sont capables de trouver des mots de passe en testant très rapidement différentes combinaisons possibles.<br>En 2023, un mot de passe court comme <code>$0Leil@?</code> peut être piraté en 5 minutes seulement. Mais avec un mot de passe plus long, comme <code>$0Leil@1504</code>, cette durée passe à 226 ans.</p> <p><span aria-hidden=\"true\">⚠️</span> En général, le pirate ne vous connaît pas. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
+            "content": "<h3>Un logiciel informatique peut pirater votre mot de passe. <span aria-hidden=\"true\">🤖&nbsp;🏴‍☠️&nbsp;</span></h3><p>Les ordinateurs sont capables de trouver des mots de passe en testant très rapidement différentes combinaisons possibles.<br>En 2023, un mot de passe court comme <code>$0Leil@?</code> peut être piraté en 5 minutes seulement. Mais avec un mot de passe plus long, comme <code>$0Leil@1504</code>, cette durée passe à 226 ans.</p> <p><span aria-hidden=\"true\">⚠️</span> En général, le pirate ne vous connaît pas. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
           }
         }
       ]
@@ -174,7 +174,7 @@
           "element": {
             "id": "7ef31e68-e798-4a92-86a0-ad61ebd9b915",
             "type": "text",
-            "content": "<p>Pour créer son mot de passe d'adresse mail, Austin a utilisé les deux informations suivantes&nbsp;:</p><ul><li>ol est né le <strong>15 novembre 1984</strong>,</li><li>il a un chat qui s’appelle <strong>Bill</strong>.</li></ul>"
+            "content": "<p>Pour créer son mot de passe d'adresse mail, Austin a utilisé les deux informations suivantes&nbsp;:</p><ul><li>il est né le <strong>15 novembre 1984</strong>,</li><li>il a un chat qui s’appelle <strong>Bill</strong>.</li></ul>"
           }
         },
         {
@@ -182,7 +182,7 @@
           "element": {
             "id": "2695bb89-112c-49d1-80b2-469d824af58f",
             "type": "qrocm",
-            "instruction": "<p>À votre avis, quel peut être le mot de passe d'Austin&#8239;?</p>",
+            "instruction": "<p>À votre avis, quel est le mot de passe d'Austin&#8239;?</p>",
             "proposals": [
               {
                 "input": "mot-de-passe",
@@ -344,9 +344,9 @@
             {
               "elements": [
                 {
-                  "id": "006acae6-1bca-420f-ba74-29e7e0369069",
+                  "id": "cb943d75-1008-4736-80bf-aec9481ba541",
                   "type": "qcu",
-                  "instruction": "<p>Utiliser des caractères spéciaux rend les mots de passe moins solides.</p>",
+                  "instruction": "<p>Le mot de passe <code>Hj5m7a</code> est moins solide que le mot de passe <code>Hj5m7a9€</code>.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -358,10 +358,10 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Les caractères spéciaux rendent les mots de passe <strong>plus</strong> solides car plus dur à trouver</p>.",
-                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Les caractères spéciaux rendent les mots de passe <strong>plus</strong> solides car plus dur à trouver</p>"
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Un mot de passe plus long, avec des caractères spéciaux, est plus solide.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Un mot de passe plus long, avec des caractères spéciaux, est plus solide.</p>"
                   },
-                  "solution": "2"
+                  "solution": "1"
                 }
               ]
             },
@@ -388,30 +388,6 @@
                   "solution": "1"
                 }
               ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "cb943d75-1008-4736-80bf-aec9481ba541",
-                  "type": "qcu",
-                  "instruction": "<p>Le mot de passe <code>Hj5m7a</code> est moins solide que le mot de passe <code>Hj5m7a9€</code>.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai"
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux"
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Un mot de passe plus long, avec des caractères spéciaux, est plus solide.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Un mot de passe plus long, avec des caractères spéciaux, est plus solide.</p>"
-                  },
-                  "solution": "1"
-                }
-              ]
             }
           ]
         }
@@ -423,44 +399,36 @@
       "title": "Astuces de gestion de mots de passe",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "f6edeae6-fbfb-4dce-b556-1bb7928d5ff5",
-            "type": "text",
-            "content": "<h3>Astuce n°1&nbsp;: utilisez une phrase qui vous plaît et gardez certains caractères pour le retenir facilement.</h3><p>Par exemple&nbsp;: la phrase \"<strong>J'a</strong>i <strong>2 c</strong>hats<strong>, 3 p</strong>oissons <strong>e</strong>xotiques <strong>e</strong>t <strong>j'a</strong>dore <strong>l</strong>a <strong>p</strong>longée <strong>!</strong>\" vous donne le mot de passe&nbsp;: <strong>Ja2c3peejalp!</strong></p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "b8bc3e1e-bf21-4b3b-8dce-0a0213aefb1b",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "6eda6d92-1147-4c19-a7e5-f61a2228e33c",
-            "type": "text",
-            "content": "<h3>Astuce n°2&nbsp;: n'utilisez pas le même mot de passe partout&#8239;!</h3><p>Utiliser toujours le même mot de passe est risqué. C'est comme utiliser la même clé pour toutes ses portes. C'est très pratique, mais si votre mot de passe est piraté, toutes les portes sont ouvertes&#8239;!&nbsp;<span aria-hidden=\"true\">☠️</span></p><p>En particulier, pour votre boîte mail, créez et mémorisez un mot de passe très solide car il permet de changer tous les autres."
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "95098e06-e113-46ba-afa0-b7890d5cf467",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "dadd152e-350c-4710-8609-af5f92e69b2c",
-            "type": "text",
-            "content": "<h3>Astuce n°3&nbsp;: créez un nouveau mot de passe si vous l'avez oublié.</h3><p>Oublier son mot de passe, ce n'est pas grave. Au moment de votre connexion, les sites internet permettent de changer votre mot de passe si vous l'avez oublié."
-          }
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "f6edeae6-fbfb-4dce-b556-1bb7928d5ff5",
+                  "type": "text",
+                  "content": "<h3>Astuce n°1&nbsp;: utilisez une méthode pour créer et retenir votre mot de passe solide. <span aria-hidden=\"true\">🔏</span></h3><p>Il existe différentes méthodes, à vous de choisir ou de trouver la votre :</p><ul><li>choisir une <strong>phrase qui vous plaît et gardez certains caractères</strong>. <span aria-hidden=\"true\">🧩</span><br><span aria-hidden=\"true\">✔️</span> Par exemple, \"<strong>J'a</strong>i <strong>2 c</strong>hats<strong>, 3 p</strong>oissons <strong>e</strong>xotiques <strong>e</strong>t <strong>j'a</strong>ime <strong>l</strong>a <strong>p</strong>longée <strong>!</strong>\" vous donne le mot de passe&nbsp;: <code>Ja2c3peejalp!</code></li><li>écrire une phrase qui vous plaît <strong>uniquement avec des sons</strong>. <span aria-hidden=\"true\">🎶</span><br><span aria-hidden=\"true\">✔️</span> Par exemple, \"J'aime les bandes dessinées !\" vous donne le mot de passe : <code>Gmeléban2D6né!</code></li></ul>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "6eda6d92-1147-4c19-a7e5-f61a2228e33c",
+                  "type": "text",
+                  "content": "<h3>Astuce n°2&nbsp;: n'utilisez pas le même mot de passe partout&#8239;! <span aria-hidden=\"true\">🔑🗝️</span></h3><p>Utiliser toujours le même mot de passe est risqué. C'est comme utiliser la même clé pour toutes ses portes. C'est très pratique, mais si votre mot de passe est piraté, toutes les portes sont ouvertes&#8239;!&nbsp;<span aria-hidden=\"true\">☠️</span></p><p>En particulier, pour votre boîte mail, créez et mémorisez un mot de passe très solide car il permet de changer tous les autres mots de passe."
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "dadd152e-350c-4710-8609-af5f92e69b2c",
+                  "type": "text",
+                  "content": "<h3>Astuce n°3&nbsp;: créez un nouveau mot de passe si vous l'avez oublié. <span aria-hidden=\"true\">🆕</span></h3><p>Oublier son mot de passe, ce n'est pas grave. Au moment de votre connexion, les sites internet permettent de changer votre mot de passe si vous l'avez oublié.<br>Il est même recommandé de modifier souvent son mot de passe, pour plus de sécurité."
+                }
+              ]
+            }
+          ]
         }
       ]
     },
