@@ -56,4 +56,28 @@ export default class List extends Controller {
     }
     this.router.transitionTo(route, missionId);
   }
+
+  get missionListCompleted() {
+    return this.model.missions.filter((mission) =>
+      this.model.organizationLearner.completedMissionIds?.includes(mission.id),
+    );
+  }
+
+  get missionListStarted() {
+    return this.model.missions.filter((mission) =>
+      this.model.organizationLearner.startedMissionIds?.includes(mission.id),
+    );
+  }
+
+  get missionListToStart() {
+    return this.model.missions.filter(
+      (mission) =>
+        !this.model.organizationLearner.startedMissionIds?.includes(mission.id) &&
+        !this.model.organizationLearner.completedMissionIds?.includes(mission.id),
+    );
+  }
+
+  get orderedMissionList() {
+    return [...this.missionListStarted, ...this.missionListToStart, ...this.missionListCompleted];
+  }
 }

@@ -7,10 +7,10 @@ export default class MissionsRoute extends Route {
   @service currentLearner;
 
   async model() {
-    const result = await this.store.findAll('mission');
+    const missions = await this.store.findAll('mission');
     const organizationLearner = await this.store.findRecord('organization-learner', this.currentLearner.learner.id);
     return {
-      missions: [...result].sort((mission) => mission.id),
+      missions,
       organizationLearner,
     };
   }

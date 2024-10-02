@@ -8,32 +8,36 @@ import identifyLearner from '../helpers/identify-learner';
 
 module('Acceptance | Display missions list', function (hooks) {
   setupApplicationTest(hooks);
-  test('displays all the available missions with their corresponding status', async function (assert) {
-    this.server.create('mission', { id: '1', name: 'mission_1' });
-    this.server.create('mission', { id: '2', name: 'mission_2' });
-    this.server.create('mission', { id: '3', name: 'mission_3' });
+  test('displays all the available missions with their corresponding status and good order', async function (assert) {
+    this.server.create('mission', { id: 1, name: 'mission_1' });
+    this.server.create('mission', { id: 2, name: 'mission_2' });
+    this.server.create('mission', { id: 3, name: 'mission_3' });
     const learner = this.server.create('organization-learner', {
       name: 'learner',
-      completedMissionIds: ['2'],
-      startedMissionIds: ['1'],
+      completedMissionIds: ['1'],
+      startedMissionIds: ['2'],
     });
-    identifyLearner(this.owner, { id: learner.id });
+
+    identifyLearner(this.owner, {
+      id: learner.id,
+      completedMissionIds: learner.completedMissionIds,
+      startedMissionIds: learner.startedMissionIds,
+    });
 
     // when
     const screen = await visit('/');
 
     // then
-    //In progress mission card
     assert
       .dom(
-        within(screen.getByText('mission_1').parentElement.parentElement.parentElement).getByText(
+        within(screen.getByText('mission_2').parentElement.parentElement.parentElement).getByText(
           t('pages.missions.list.status.started.label'),
         ),
       )
       .exists();
     assert
       .dom(
-        within(screen.getByText('mission_1').parentElement.parentElement).getByText(
+        within(screen.getByText('mission_2').parentElement.parentElement).getByText(
           t('pages.missions.list.status.started.button-label'),
         ),
       )
@@ -42,7 +46,7 @@ module('Acceptance | Display missions list', function (hooks) {
     //Completed mission card
     assert
       .dom(
-        within(screen.getByText('mission_2').parentElement.parentElement).getByText(
+        within(screen.getByText('mission_1').parentElement.parentElement).getByText(
           t('pages.missions.list.status.completed.label'),
         ),
       )
@@ -63,6 +67,13 @@ module('Acceptance | Display missions list', function (hooks) {
         ),
       )
       .exists();
+
+    const missionsList = screen.getAllByRole('button');
+    assert.strictEqual(missionsList.length, 3);
+
+    assert.true(missionsList[0].innerHTML.includes('mission_2'));
+    assert.true(missionsList[1].innerHTML.includes('mission_3'));
+    assert.true(missionsList[2].innerHTML.includes('mission_1'));
   });
   test('redirect to the challenge when user has already started the mission', async function (assert) {
     this.server.create('mission', { id: '1', name: 'started_mission' });
