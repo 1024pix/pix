@@ -1,17 +1,16 @@
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
 export default class OidcProviderSelector extends Component {
-  @service oidcIdentityProviders;
-
   @tracked selectedProvider;
 
   get providerOptions() {
-    const options = this.oidcIdentityProviders.list.map((provider) => ({
+    const { providers = [] } = this.args;
+
+    const options = providers.map((provider) => ({
       label: provider.organizationName,
       value: provider.id,
     }));

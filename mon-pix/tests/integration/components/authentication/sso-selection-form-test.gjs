@@ -10,8 +10,10 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 class OidcProvidersServiceStub extends Service {
   get list() {
     return [
-      { id: 'cem', organizationName: 'ConnectEtMoi' },
-      { id: 'sc', organizationName: 'StarConnect' },
+      { id: 'cem', code: 'CEM', organizationName: 'ConnectEtMoi' },
+      { id: 'sc', code: 'SC', organizationName: 'StarConnect' },
+      { id: 'hidden1', code: 'FWB', organizationName: 'Not displayed provider 1' },
+      { id: 'hidden2', code: 'GOOGLE', organizationName: 'Not displayed provider 2' },
     ];
   }
 }
@@ -19,10 +21,11 @@ class OidcProvidersServiceStub extends Service {
 module('Integration | Component | Authentication | SsoSelectionForm', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it renders the component', async function (assert) {
-    //given
+  hooks.beforeEach(function () {
     this.owner.register('service:oidcIdentityProviders', OidcProvidersServiceStub);
+  });
 
+  test('it renders the component', async function (assert) {
     //when
     const screen = await render(<template><SsoSelectionForm /></template>);
 
@@ -32,9 +35,6 @@ module('Integration | Component | Authentication | SsoSelectionForm', function (
   });
 
   test('it selects a provider', async function (assert) {
-    //given
-    this.owner.register('service:oidcIdentityProviders', OidcProvidersServiceStub);
-
     //when
     const screen = await render(<template><SsoSelectionForm /></template>);
     await clickByName(t('components.authentication.oidc-provider-selector.label'));
@@ -44,5 +44,18 @@ module('Integration | Component | Authentication | SsoSelectionForm', function (
     // then
     const buttonLink = await screen.findByRole('link', { name: t('pages.authentication.sso-selection.signin.link') });
     assert.strictEqual(buttonLink.getAttribute('href'), '/connexion/cem');
+  });
+
+  test('it excludes some providers', async function (assert) {
+    //when
+    const screen = await render(<template><SsoSelectionForm /></template>);
+    await clickByName(t('components.authentication.oidc-provider-selector.label'));
+    await screen.findByRole('listbox');
+
+    // then
+    const options = await screen.findAllByRole('option');
+    const optionsLabels = options.map((option) => option.innerText);
+
+    assert.deepEqual(optionsLabels, ['ConnectEtMoi', 'StarConnect']);
   });
 });

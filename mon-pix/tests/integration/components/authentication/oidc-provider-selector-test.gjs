@@ -1,5 +1,4 @@
 import { render } from '@1024pix/ember-testing-library';
-import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import OidcProviderSelector from 'mon-pix/components/authentication/oidc-provider-selector';
@@ -19,18 +18,13 @@ module('Integration | Component | Authentication | oidc-provider-selector', func
 
   test('it displays an Oidc Provider selector with correct labels', async function (assert) {
     //given
-    class OidcProvidersServiceStub extends Service {
-      get list() {
-        return [
-          { id: '1', organizationName: 'ConnectEtMoi' },
-          { id: '2', organizationName: 'StarConnect' },
-        ];
-      }
-    }
-    this.owner.register('service:oidcIdentityProviders', OidcProvidersServiceStub);
+    const providers = [
+      { id: '1', organizationName: 'ConnectEtMoi' },
+      { id: '2', organizationName: 'StarConnect' },
+    ];
 
     //when
-    const screen = await render(<template><OidcProviderSelector /></template>);
+    const screen = await render(<template><OidcProviderSelector @providers={{providers}} /></template>);
     await click(screen.getByRole('button', { name: t(I18N_KEYS.selectLabel) }));
     await screen.findByRole('listbox');
 
@@ -42,19 +36,14 @@ module('Integration | Component | Authentication | oidc-provider-selector', func
 
   test('it displays a sorted list of oidc providers', async function (assert) {
     // given
-    class OidcProvidersServiceStub extends Service {
-      get list() {
-        return [
-          { id: '1', organizationName: 'Third' },
-          { id: '2', organizationName: 'Second' },
-          { id: '3', organizationName: 'First' },
-        ];
-      }
-    }
-    this.owner.register('service:oidcIdentityProviders', OidcProvidersServiceStub);
+    const providers = [
+      { id: '1', organizationName: 'Third' },
+      { id: '2', organizationName: 'Second' },
+      { id: '3', organizationName: 'First' },
+    ];
 
     // when
-    const screen = await render(<template><OidcProviderSelector /></template>);
+    const screen = await render(<template><OidcProviderSelector @providers={{providers}} /></template>);
     await click(screen.getByRole('button', { name: t(I18N_KEYS.selectLabel) }));
     await screen.findByRole('listbox');
 
@@ -68,21 +57,18 @@ module('Integration | Component | Authentication | oidc-provider-selector', func
   module('when user selects a provider', function () {
     test('it triggers the onProviderChange property', async function (assert) {
       // given
-      class OidcProvidersServiceStub extends Service {
-        get list() {
-          return [
-            { id: '1', organizationName: 'ConnectEtMoi' },
-            { id: '2', organizationName: 'StarConnect' },
-          ];
-        }
-      }
-      this.owner.register('service:oidcIdentityProviders', OidcProvidersServiceStub);
+      const providers = [
+        { id: '1', organizationName: 'ConnectEtMoi' },
+        { id: '2', organizationName: 'StarConnect' },
+      ];
 
       const onProviderChangeStub = sinon.stub();
 
       // when
       const screen = await render(
-        <template><OidcProviderSelector @onProviderChange={{onProviderChangeStub}} /></template>,
+        <template>
+          <OidcProviderSelector @providers={{providers}} @onProviderChange={{onProviderChangeStub}} />
+        </template>,
       );
       await click(screen.getByRole('button', { name: t(I18N_KEYS.selectLabel) }));
       await screen.findByRole('listbox');

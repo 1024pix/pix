@@ -8,14 +8,22 @@ import { t } from 'ember-intl';
 
 import OidcProviderSelector from './oidc-provider-selector';
 
+// It will be managed through an API property in the future
+const EXCLUDED_PROVIDER_CODES = ['FWB', 'GOOGLE'];
+
 export default class SsoSelectionForm extends Component {
   @service router;
+  @service oidcIdentityProviders;
 
   @tracked selectedProvider = null;
 
   @action
   async onProviderChange(selectedProvider) {
     this.selectedProvider = selectedProvider;
+  }
+
+  get providers() {
+    return this.oidcIdentityProviders.list?.filter((provider) => !EXCLUDED_PROVIDER_CODES.includes(provider.code));
   }
 
   get isButtonDisabled() {
@@ -32,7 +40,7 @@ export default class SsoSelectionForm extends Component {
         {{t "common.form.mandatory-all-fields"}}
       </p>
 
-      <OidcProviderSelector @onProviderChange={{this.onProviderChange}} />
+      <OidcProviderSelector @providers={{this.providers}} @onProviderChange={{this.onProviderChange}} />
 
       {{#if this.isButtonDisabled}}
         <PixButton @type="button" @isDisabled={{true}} @size="large">
