@@ -1,23 +1,41 @@
 import { config } from '../../../../shared/config.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { DEFAULT_PAGINATION, fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
+import { DEFAULT_PAGINATION } from '../../../../shared/infrastructure/utils/knex-utils.js';
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 
 /**
  * @param {Object} params
- * @param {number} params.pageNumber - page number to fetch, default 1
+ * @param {number} params.[cursorId] - identifies the primary identifier above with the results will be taken (cursor pagination). If empty, will start from beginning
+ * @param {number} params.[size] - number of centers to fetch
+ * @returns {Array<number>} centers primary identifiers found ordered by ascending identifiers
  */
-export const findSCOV2Centers = async function ({ pageNumber = DEFAULT_PAGINATION.PAGE } = {}) {
+export const findSCOV2Centers = async function ({ cursorId, size = DEFAULT_PAGINATION.PAGE_SIZE } = {}) {
+  logger.debug('cursorId:[%o]', cursorId);
   const knexConn = DomainTransaction.getConnection();
   const query = knexConn
     .from('certification-centers')
     .select('certification-centers.id')
     .where({ isV3Pilot: false, type: CERTIFICATION_CENTER_TYPES.SCO })
-    .whereNotIn('certification-centers.externalId', config.features.pixCertifScoBlockedAccessWhitelist);
+    .andWhere((queryBuilder) => {
+      queryBuilder
+        .whereNotIn('certification-centers.externalId', _getWhitelist())
+        .orWhereNull('certification-centers.externalId');
+    })
+    .orderBy('certification-centers.id', 'ASC')
+    .limit(size);
 
-  const { results, pagination } = await fetchPage(query, { number: pageNumber });
+  if (cursorId) {
+    query.andWhere('certification-centers.id', '>', cursorId);
+  }
 
-  return { centerIds: results.map(({ id }) => id), pagination };
+  return (await query).map(({ id }) => id);
+};
+
+const _getWhitelist = () => {
+  const whitelist = config.features.pixCertifScoBlockedAccessWhitelist;
+  logger.debug('SCO Whitelist:[%o]', whitelist);
+  return whitelist;
 };
 
 /**

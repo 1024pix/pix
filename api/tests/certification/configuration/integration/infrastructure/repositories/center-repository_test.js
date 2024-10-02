@@ -10,6 +10,7 @@ describe('Certification | Configuration | Integration | Repository | center-repo
 
     beforeEach(function () {
       originalEnvValueWhitelist = config.features.pixCertifScoBlockedAccessWhitelist;
+      config.features.pixCertifScoBlockedAccessWhitelist = [];
     });
 
     afterEach(function () {
@@ -40,15 +41,39 @@ describe('Certification | Configuration | Integration | Repository | center-repo
       const results = await centerRepository.findSCOV2Centers();
 
       // then
-      expect(results).to.deep.equal({
-        centerIds: [centerId],
-        pagination: {
-          page: 1,
-          pageCount: 1,
-          pageSize: 10,
-          rowCount: 1,
-        },
-      });
+      expect(results).to.deep.equal([centerId]);
+    });
+
+    it('should return paginated results', async function () {
+      // given
+      // note: identifiers are inserted in a non ASC order on purpose
+      const expectedFirstResult = databaseBuilder.factory.buildCertificationCenter({
+        id: 333,
+        isV3Pilot: false,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
+      }).id;
+      const cursorId = databaseBuilder.factory.buildCertificationCenter({
+        id: 111,
+        isV3Pilot: true,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
+      }).id;
+      const expectedThirdResult = databaseBuilder.factory.buildCertificationCenter({
+        id: 555,
+        isV3Pilot: false,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
+      }).id;
+      const expectedSecondResult = databaseBuilder.factory.buildCertificationCenter({
+        id: 444,
+        isV3Pilot: false,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const results = await centerRepository.findSCOV2Centers({ cursorId });
+
+      // then
+      expect(results).to.deep.equal([expectedFirstResult, expectedSecondResult, expectedThirdResult]);
     });
 
     context('when no remaining centers in V2', function () {
@@ -65,15 +90,7 @@ describe('Certification | Configuration | Integration | Repository | center-repo
         const results = await centerRepository.findSCOV2Centers();
 
         // then
-        expect(results).to.deep.equal({
-          centerIds: [],
-          pagination: {
-            page: 1,
-            pageCount: 0,
-            pageSize: 10,
-            rowCount: 0,
-          },
-        });
+        expect(results).to.deep.equal([]);
       });
     });
 
@@ -98,15 +115,30 @@ describe('Certification | Configuration | Integration | Repository | center-repo
         const results = await centerRepository.findSCOV2Centers();
 
         // then
-        expect(results).to.deep.equal({
-          centerIds: [notInWhitelistId],
-          pagination: {
-            page: 1,
-            pageCount: 1,
-            pageSize: 10,
-            rowCount: 1,
-          },
-        });
+        expect(results).to.deep.equal([notInWhitelistId]);
+      });
+    });
+
+    context('when center has no externalId', function () {
+      it('should return the center', async function () {
+        // given
+        const expectedOne = databaseBuilder.factory.buildCertificationCenter({
+          isV3Pilot: false,
+          type: CERTIFICATION_CENTER_TYPES.SCO,
+          externalId: null,
+        }).id;
+        const expectedTwo = databaseBuilder.factory.buildCertificationCenter({
+          isV3Pilot: false,
+          type: CERTIFICATION_CENTER_TYPES.SCO,
+          externalId: '',
+        }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const results = await centerRepository.findSCOV2Centers();
+
+        // then
+        expect(results).to.deep.equal([expectedOne, expectedTwo]);
       });
     });
   });

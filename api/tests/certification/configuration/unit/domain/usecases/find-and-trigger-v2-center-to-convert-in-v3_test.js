@@ -18,33 +18,9 @@ describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-c
     // given
     const centerId1 = 1;
     const centerId2 = 2;
-    centerRepository.findSCOV2Centers.onCall(0).returns({
-      centerIds: [centerId1],
-      pagination: {
-        page: 1,
-        pageCount: 2,
-        pageSize: 1,
-        rowCount: 2,
-      },
-    });
-    centerRepository.findSCOV2Centers.onCall(1).returns({
-      centerIds: [centerId2],
-      pagination: {
-        page: 2,
-        pageCount: 2,
-        pageSize: 1,
-        rowCount: 2,
-      },
-    });
-    centerRepository.findSCOV2Centers.onCall(2).returns({
-      centerIds: [],
-      pagination: {
-        page: 3,
-        pageCount: 2,
-        pageSize: 1,
-        rowCount: 2,
-      },
-    });
+    centerRepository.findSCOV2Centers.onCall(0).returns([centerId1]);
+    centerRepository.findSCOV2Centers.onCall(1).returns([centerId2]);
+    centerRepository.findSCOV2Centers.onCall(2).returns([]);
 
     convertCenterToV3JobRepository.performAsync.resolves();
 
@@ -56,6 +32,9 @@ describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-c
 
     // then
     expect(centerRepository.findSCOV2Centers).to.have.been.calledThrice;
+    expect(centerRepository.findSCOV2Centers.getCall(0).args).to.deep.equal([{ cursorId: undefined }]);
+    expect(centerRepository.findSCOV2Centers.getCall(1).args).to.deep.equal([{ cursorId: centerId1 }]);
+    expect(centerRepository.findSCOV2Centers.getCall(2).args).to.deep.equal([{ cursorId: centerId2 }]);
     expect(convertCenterToV3JobRepository.performAsync.getCall(0).args).to.deep.equal([
       new ConvertCenterToV3Job({ centerId: centerId1 }),
     ]);
@@ -69,25 +48,9 @@ describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-c
     it('should not trigger conversion orders', async function () {
       // given
       const centerId1 = 1;
-      centerRepository.findSCOV2Centers.onCall(0).returns({
-        centerIds: [centerId1],
-        pagination: {
-          page: 1,
-          pageCount: 0,
-          pageSize: 0,
-          rowCount: 1,
-        },
-      });
+      centerRepository.findSCOV2Centers.onCall(0).returns([centerId1]);
 
-      centerRepository.findSCOV2Centers.onCall(1).returns({
-        centerIds: [],
-        pagination: {
-          page: 2,
-          pageCount: 1,
-          pageSize: 0,
-          rowCount: 1,
-        },
-      });
+      centerRepository.findSCOV2Centers.onCall(1).returns([]);
 
       // when
       const numberOfCenters = await findAndTriggerV2CenterToConvertInV3({

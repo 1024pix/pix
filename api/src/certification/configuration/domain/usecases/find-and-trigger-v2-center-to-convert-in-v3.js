@@ -3,6 +3,7 @@
  * @typedef {import ('./index.js').ConvertCenterToV3JobRepository} ConvertCenterToV3JobRepository
  */
 
+import { _ } from '../../../../shared/infrastructure/utils/lodash-utils.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { ConvertCenterToV3Job } from '../models/ConvertCenterToV3Job.js';
 
@@ -20,13 +21,15 @@ export const findAndTriggerV2CenterToConvertInV3 = async ({
 }) => {
   let numberOfCenters = 0;
   let hasNext = false;
-  let pageNumber = 1;
+  let cursorId;
 
   do {
-    const { centerIds, pagination } = await centerRepository.findSCOV2Centers({ pageNumber });
-    numberOfCenters = pagination.rowCount;
+    const centerIds = await centerRepository.findSCOV2Centers({ cursorId });
+    logger.debug('Centers ids:[%o]', centerIds);
+
+    numberOfCenters += centerIds.length;
     hasNext = !!centerIds.length;
-    pageNumber++;
+    cursorId = _.last(centerIds);
 
     if (!isDryRun) {
       await _sendConversionOrders({ centerIds, convertCenterToV3JobRepository });
