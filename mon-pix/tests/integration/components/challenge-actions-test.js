@@ -78,7 +78,7 @@ module('Integration | Component | challenge actions', function (hooks) {
           this.set('certificationVersion', 3);
 
           // when
-          await render(hbs`<ChallengeActions
+          const screen = await render(hbs`<ChallengeActions
   @isCertification={{this.isCertification}}
   @validateAnswer={{this.validateActionStub}}
   @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
@@ -89,9 +89,27 @@ module('Integration | Component | challenge actions', function (hooks) {
 />`);
 
           // then
-          assert.dom('[data-test="default-focused-out-error-message"]').doesNotExist();
-          assert.dom('[data-test="certification-focused-out-error-message"]').doesNotExist();
-          assert.dom('[data-test="certification-v3-focused-out-error-message"]').exists();
+          assert
+            .dom(
+              screen.queryByText(
+                'Nous avons détecté un changement de page. En certification, votre réponse ne serait pas validée.',
+              ),
+            )
+            .doesNotExist();
+          assert
+            .dom(
+              screen.queryByText(
+                'Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse. Si vous avez été contraint de changer de page, prévenez votre surveillant et répondez à la question en sa présence.',
+              ),
+            )
+            .doesNotExist();
+          assert
+            .dom(
+              screen.getByText(
+                "Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse. Si vous avez été contraint de changer de page, prévenez votre surveillant afin qu'il puisse le constater et le signaler, le cas échéant.",
+              ),
+            )
+            .exists();
         });
       });
     });
