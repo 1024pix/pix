@@ -2,41 +2,46 @@
   <h2 class="certification-start-page__title">{{t "pages.certification-start.first-title"}}</h2>
 
   {{#if @certificationCandidateSubscription.hasSubscription}}
-    <div class="certification-starter-subscriptions">
-      <div class="certification-starter-subscriptions-container">
-        <p class="certification-starter-subscriptions-container-title">
-          {{t "pages.certification-start.subscription"}}
-        </p>
-        <div class="certification-starter-subscriptions-container-items">
+    {{#unless @certificationCandidateSubscription.isV3CoreOnly}}
+      <div class="certification-starter-subscriptions">
+        <div class="certification-starter-subscriptions-container">
+          <p class="certification-starter-subscriptions-container-title">
+            {{t "pages.certification-start.subscription"}}
+          </p>
+          <div class="certification-starter-subscriptions-container-items">
 
-          {{#if (gt @certificationCandidateSubscription.eligibleSubscriptions.length 0)}}
-            <span class="certification-starter-subscriptions-container-items__eligible-item">
-              <FaIcon @icon="circle-check" class="certification-starter-subscriptions-container-items__eligible-icon" />
-              {{get @certificationCandidateSubscription.eligibleSubscriptions "0.label"}}
-            </span>
-          {{else}}
-            <span class="certification-starter-subscriptions-container-items__non-eligible-item">
-              <FaIcon
-                @icon="circle-check"
-                class="certification-starter-subscriptions-container-items__non-eligible-icon"
-              />
-              {{@certificationCandidateSubscription.nonEligibleSubscription.label}}
-            </span>
-          {{/if}}
+            {{#if (gt @certificationCandidateSubscription.eligibleSubscriptions.length 0)}}
+              <span class="certification-starter-subscriptions-container-items__eligible-item">
+                <FaIcon
+                  @icon="circle-check"
+                  class="certification-starter-subscriptions-container-items__eligible-icon"
+                />
+                {{get @certificationCandidateSubscription.eligibleSubscriptions "0.label"}}
+              </span>
+            {{else}}
+              <span class="certification-starter-subscriptions-container-items__non-eligible-item">
+                <FaIcon
+                  @icon="circle-check"
+                  class="certification-starter-subscriptions-container-items__non-eligible-icon"
+                />
+                {{@certificationCandidateSubscription.nonEligibleSubscription.label}}
+              </span>
+            {{/if}}
+          </div>
         </div>
+        {{#if @certificationCandidateSubscription.nonEligibleSubscription}}
+          <div class="certification-starter-subscriptions-container__non-eligible">
+            <FaIcon @icon="circle-exclamation" class="certification-starter-subscriptions-container__info-icon" />
+            <span>
+              {{t
+                "pages.certification-start.non-eligible-subscription"
+                nonEligibleSubscriptionLabel=@certificationCandidateSubscription.nonEligibleSubscription.label
+              }}
+            </span>
+          </div>
+        {{/if}}
       </div>
-      {{#if @certificationCandidateSubscription.nonEligibleSubscription}}
-        <div class="certification-starter-subscriptions-container__non-eligible">
-          <FaIcon @icon="circle-exclamation" class="certification-starter-subscriptions-container__info-icon" />
-          <span>
-            {{t
-              "pages.certification-start.non-eligible-subscription"
-              nonEligibleSubscriptionLabel=@certificationCandidateSubscription.nonEligibleSubscription.label
-            }}
-          </span>
-        </div>
-      {{/if}}
-    </div>
+    {{/unless}}
   {{/if}}
   <label for="certificationStarterSessionCode" class="certification-start-page__order">
     {{t "pages.certification-start.access-code"}}

@@ -40,6 +40,35 @@ module('Integration | Component | certification-starter', function (hooks) {
     });
   });
 
+  module('when the session is v3', function () {
+    module('when the candidate has only core subscription', function () {
+      test('should not display subscription eligible panel', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        this.set(
+          'certificationCandidateSubscription',
+          store.createRecord('certification-candidate-subscription', {
+            eligibleSubscriptions: [{ label: null, type: 'CORE' }],
+            nonEligibleSubscription: null,
+            sessionVersion: 3,
+          }),
+        );
+
+        // when
+        const screen = await render(
+          hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
+        );
+
+        // then
+        assert.notOk(screen.queryByText('Vous n’êtes pas éligible à'));
+        assert.notOk(
+          screen.queryByText(
+            'Vous êtes inscrit à la certification complémentaire suivante en plus de la certification Pix :',
+          ),
+        );
+      });
+    });
+  });
   module('when the candidate has complementary certification subscription', function () {
     module('when the candidate is eligible', function () {
       test('should display subscription eligible panel', async function (assert) {
