@@ -8,6 +8,7 @@ import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
+import { ID_PIX_TYPES } from '../../../helpers/id-pix-types';
 import CopyPasteButton from '../../copy-paste-button';
 import SafeMarkdownToHtml from '../../safe-markdown-to-html';
 import TargetProfileTooltip from './target-profile-tooltip';
@@ -73,6 +74,10 @@ export default class CampaignView extends Component {
 
   get queryForDuplicate() {
     return { source: this.args.campaign.id };
+  }
+
+  get idPixTypeText() {
+    return ID_PIX_TYPES[this.args.campaign.idPixType];
   }
 
   @action
@@ -164,7 +169,9 @@ export default class CampaignView extends Component {
             <div class="campaign-settings-content">
               <dt class="label-text campaign-settings-content__label">{{t
                   "pages.campaign-settings.external-user-id-label"
-                }}</dt>
+                }}
+                <span class="help-text">({{t this.idPixTypeText}})</span></dt>
+
               <dd class="content-text campaign-settings-content__text">{{@campaign.idPixLabel}}</dd>
             </div>
           {{/if}}
