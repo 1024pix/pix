@@ -98,4 +98,78 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
       expect(usecases.findPaginatedFilteredUsers).to.have.been.calledWithMatch(query);
     });
   });
+
+  describe('#updateUserDetailsByAdmin', function () {
+    const userId = 1132;
+    const newEmail = 'partiel@update.com';
+    let dependencies;
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'updateUserDetailsByAdmin');
+      const userDetailsForAdminSerializer = { serializeForUpdate: sinon.stub(), deserialize: sinon.stub() };
+      dependencies = { userDetailsForAdminSerializer };
+    });
+
+    it('updates email, firstName, lastName', async function () {
+      const lastName = 'newLastName';
+      const firstName = 'newFirstName';
+      const payload = {
+        data: {
+          attributes: {
+            email: newEmail,
+            lastName: 'newLastName',
+            firstName: 'newFirstName',
+          },
+        },
+      };
+      const request = {
+        params: {
+          id: userId,
+        },
+        payload,
+      };
+
+      // given
+      dependencies.userDetailsForAdminSerializer.deserialize.withArgs(payload).returns({
+        email: newEmail,
+        lastName,
+        firstName,
+      });
+      usecases.updateUserDetailsByAdmin.resolves({ email: newEmail, lastName, firstName });
+      dependencies.userDetailsForAdminSerializer.serializeForUpdate.returns('updated');
+
+      // when
+      const response = await userAdminController.updateUserDetailsByAdmin(request, hFake, dependencies);
+
+      // then
+      expect(response).to.be.equal('updated');
+    });
+
+    it('updates email only', async function () {
+      // given
+      const payload = {
+        data: {
+          attributes: {
+            email: newEmail,
+          },
+        },
+      };
+      const request = {
+        params: {
+          id: userId,
+        },
+        payload,
+      };
+
+      dependencies.userDetailsForAdminSerializer.deserialize.withArgs(payload).returns({ email: newEmail });
+      usecases.updateUserDetailsByAdmin.resolves({ email: newEmail });
+      dependencies.userDetailsForAdminSerializer.serializeForUpdate.returns(newEmail);
+
+      // when
+      const response = await userAdminController.updateUserDetailsByAdmin(request, hFake, dependencies);
+
+      // then
+      expect(response).to.be.equal(newEmail);
+    });
+  });
 });
