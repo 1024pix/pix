@@ -20,39 +20,38 @@ class RedisCache extends Cache {
   }
 
   async get(key, generator) {
-    const value = await this._client.get(key);
-
-    if (value) {
-      const parsed = JSON.parse(value);
-      const patches = await this._client.lrange(`${key}:${PATCHES_KEY}`, 0, -1);
-      patches.map((patchJSON) => JSON.parse(patchJSON)).forEach((patch) => applyPatch(parsed, patch));
-      return parsed;
-    }
-
-    return this._manageValueNotFoundInCache(key, generator);
-  }
-
-  async _manageValueNotFoundInCache(key, generator) {
     const keyToLock = REDIS_LOCK_PREFIX + key;
 
     let lock;
     try {
       lock = await this._client.lock(keyToLock, config.caching.redisCacheKeyLockTTL);
+      const value = await this._client.get(key);
 
-      logger.info({ key }, 'Executing generator for Redis key');
-      const value = await generator();
-      return this.set(key, value);
+      if (value) {
+        const parsed = JSON.parse(value);
+        const patches = await this._client.lrange(`${key}:${PATCHES_KEY}`, 0, -1);
+        patches.map((patchJSON) => JSON.parse(patchJSON)).forEach((patch) => applyPatch(parsed, patch));
+        return parsed;
+      }
+
+      return this._manageValueNotFoundInCache(key, generator);
     } catch (err) {
       if (err instanceof Redlock.LockError) {
         logger.trace({ keyToLock }, 'Could not lock Redis key, waiting');
         await new Promise((resolve) => setTimeout(resolve, config.caching.redisCacheLockedWaitBeforeRetry));
         return this.get(key, generator);
       }
-      logger.error({ err }, 'Error while trying to update value in Redis cache');
+      logger.error({ err }, 'Error while trying to get value in Redis cache');
       throw err;
     } finally {
       if (lock) await lock.unlock();
     }
+  }
+
+  async _manageValueNotFoundInCache(key, generator) {
+    logger.info({ key }, 'Executing generator for Redis key');
+    const value = await generator();
+    return this.set(key, value);
   }
 
   async set(key, object) {

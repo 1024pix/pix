@@ -42,7 +42,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
         expect(result).to.deep.equal(cachedData);
       });
 
-      it('should resolve with the existing value and apply the patche if any', async function () {
+      it('should resolve with the existing value and apply the patch if any', async function () {
         // given
         const redisCachedData = JSON.stringify({ foo: 'bar' });
         const cachedPatchesData = [JSON.stringify({ operation: 'assign', path: 'foo', value: 'roger' })];
