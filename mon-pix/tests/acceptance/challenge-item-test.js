@@ -58,9 +58,9 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
 
               // then
-              assert.dom('.challenge__info-alert--show').exists();
-              assert.dom('.focus-zone-warning--triggered').exists();
-              assert.dom('.focus-zone-warning__overlay').exists();
+              assert.dom(find('.challenge__info-alert--show')).exists();
+              assert.dom(find('.focus-zone-warning--triggered')).exists();
+              assert.dom(find('.focus-zone-warning__overlay')).exists();
             });
 
             module('when user closes tooltip', function (hooks) {
@@ -91,7 +91,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                 await triggerEvent(document, 'focusedout');
 
                 // then
-                assert.dom('[data-test="alert-message-focused-out-of-window"]').exists();
+                assert.dom(find('[data-test="alert-message-focused-out-of-window"]')).exists();
               });
 
               test('should display an info alert with dashed border and overlay', async function (assert) {
@@ -100,9 +100,9 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                 await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
 
                 // then
-                assert.dom('.challenge__info-alert--could-show').exists();
-                assert.dom('.focus-zone-warning--triggered').exists();
-                assert.dom('.focus-zone-warning__overlay').exists();
+                assert.dom(find('.challenge__info-alert--could-show')).exists();
+                assert.dom(find('.focus-zone-warning--triggered')).exists();
+                assert.dom(find('.focus-zone-warning__overlay')).exists();
               });
 
               test('should display only the warning alert when it has been triggered', async function (assert) {
@@ -110,18 +110,18 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                 const focusZone = find('.focus-zone-warning');
                 await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
 
-                assert.dom('.challenge__info-alert--could-show').exists();
-                assert.dom('.focus-zone-warning--triggered').exists();
-                assert.dom('.focus-zone-warning__overlay').exists();
+                assert.dom(find('.challenge__info-alert--could-show')).exists();
+                assert.dom(find('.focus-zone-warning--triggered')).exists();
+                assert.dom(find('.focus-zone-warning__overlay')).exists();
 
                 // when
                 await triggerEvent(document, 'focusedout');
 
                 // then
-                assert.dom('.challenge__info-alert--could-show').doesNotExist();
-                assert.dom('[data-test="alert-message-focused-out-of-window"]').exists();
-                assert.dom('.focus-zone-warning--triggered').exists();
-                assert.dom('.focus-zone-warning__overlay').exists();
+                assert.dom(find('.challenge__info-alert--could-show')).doesNotExist();
+                assert.dom(find('[data-test="alert-message-focused-out-of-window"]')).exists();
+                assert.dom(find('.focus-zone-warning--triggered')).exists();
+                assert.dom(find('.focus-zone-warning__overlay')).exists();
               });
             });
           });
@@ -444,10 +444,10 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               await triggerEvent(challengeItem, 'mouseleave');
 
               // then
-              assert.dom('.challenge__info-alert--could-show').doesNotExist();
-              assert.dom('.challenge__focused-out-overlay').doesNotExist();
-              assert.dom('.challenge-actions__focused-out-of-window').doesNotExist();
-              assert.dom('.challenge-actions__already-answered').exists();
+              assert.dom(find('.challenge__info-alert--could-show')).doesNotExist();
+              assert.dom(find('.challenge__focused-out-overlay')).doesNotExist();
+              assert.dom(find('.challenge-actions__focused-out-of-window')).doesNotExist();
+              assert.dom(find('.challenge-actions__already-answered')).exists();
             });
           });
 
@@ -570,6 +570,252 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
         // then
         assert.dom(screen.getByText('Mode focus')).exists();
+      });
+    });
+  });
+
+  module('when assessment is v2 certification', function (hooks) {
+    let screen;
+    hooks.beforeEach(function () {
+      const focusedCertificationChallengeWarningManager = this.owner.lookup(
+        'service:focused-certification-challenge-warning-manager',
+      );
+      focusedCertificationChallengeWarningManager.reset();
+
+      assessment = server.create('assessment', 'ofCertificationType');
+
+      const certificationCourse = server.create('certification-course', {
+        accessCode: 'ABCD12',
+        sessionId: 1,
+        nbChallenges: 1,
+        firstName: 'Laura',
+        lastName: 'Bravo',
+        version: 2,
+      });
+      assessment = certificationCourse.assessment;
+    });
+
+    [{ challengeType: 'QROC' }, { challengeType: 'QROCM' }, { challengeType: 'QCM' }, { challengeType: 'QCU' }].forEach(
+      function (data) {
+        module(`when ${data.challengeType} challenge is focused`, function (hooks) {
+          hooks.beforeEach(function () {
+            server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
+          });
+          module('when user has not answered the question', function () {
+            module('when user has not seen the challenge tooltip yet', function (hooks) {
+              hooks.beforeEach(async function () {
+                // given
+                const user = server.create('user', 'withEmail', {
+                  hasSeenFocusedChallengeTooltip: false,
+                });
+                await authenticate(user);
+                // when
+                screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+                await click(screen.getByRole('button', { name: 'Je suis prêt' }));
+              });
+
+              test('should display a tooltip', async function (assert) {
+                // then
+                assert.dom(find('.tooltip-tag__information')).exists();
+              });
+
+              test('should display an info alert with dashed border and overlay ', async function (assert) {
+                // when
+                const focusZone = find('.focus-zone-warning');
+                await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
+
+                // then
+                assert.dom(find('.challenge__info-alert--show')).exists();
+                assert.dom(find('.focus-zone-warning--triggered')).exists();
+                assert.dom(find('.focus-zone-warning__overlay')).exists();
+              });
+
+              module('when user closes tooltip', function (hooks) {
+                hooks.beforeEach(async function () {
+                  // when
+                  await click('.tooltip-tag-information__button');
+                });
+
+                test('should hide a tooltip', async function (assert) {
+                  // then
+                  assert.dom('#challenge-statement-tag--tooltip').doesNotExist();
+                });
+
+                test('should enable input and buttons', async function (assert) {
+                  // then
+                  assert.ok(find('.challenge-actions__action-skip').getAttribute('aria-disabled').includes('false'));
+                  assert.ok(
+                    find('.challenge-actions__action-validate').getAttribute('aria-disabled').includes('false'),
+                  );
+                  assert.notOk(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled'));
+                });
+
+                test('should display a warning alert', async function (assert) {
+                  // when
+                  await triggerEvent(document, 'focusedout');
+
+                  // then
+                  assert.dom(find('[data-test="alert-message-focused-out-of-window"]')).exists();
+                });
+
+                test('should display an info alert with dashed border and overlay', async function (assert) {
+                  // when
+                  const focusZone = find('.focus-zone-warning');
+                  await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
+
+                  // then
+                  assert.dom(find('.challenge__info-alert--could-show')).exists();
+                  assert.dom(find('.focus-zone-warning--triggered')).exists();
+                  assert.dom(find('.focus-zone-warning__overlay')).exists();
+                });
+
+                test('should display only the warning alert when it has been triggered', async function (assert) {
+                  // given
+                  const focusZone = find('.focus-zone-warning');
+                  await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
+
+                  assert.dom(find('.challenge__info-alert--could-show')).exists();
+                  assert.dom(find('.focus-zone-warning--triggered')).exists();
+                  assert.dom(find('.focus-zone-warning__overlay')).exists();
+
+                  // when
+                  await triggerEvent(document, 'focusedout');
+
+                  // then
+                  assert.dom(find('.challenge__info-alert--could-show')).doesNotExist();
+                  assert.dom(find('[data-test="alert-message-focused-out-of-window"]')).exists();
+                  assert.dom(find('.focus-zone-warning--triggered')).exists();
+                  assert.dom(find('.focus-zone-warning__overlay')).exists();
+                });
+              });
+            });
+          });
+        });
+      },
+    );
+  });
+
+  module('when assessment is v3 certification', function () {
+    module('when certification is not adjusted', function (hooks) {
+      let screen;
+      hooks.beforeEach(function () {
+        const focusedCertificationChallengeWarningManager = this.owner.lookup(
+          'service:focused-certification-challenge-warning-manager',
+        );
+        focusedCertificationChallengeWarningManager.reset();
+
+        assessment = server.create('assessment', 'ofCertificationType');
+
+        const certificationCourse = server.create('certification-course', {
+          accessCode: 'ABCD12',
+          sessionId: 1,
+          nbChallenges: 1,
+          firstName: 'Laura',
+          lastName: 'Bravo',
+          version: 3,
+        });
+        assessment = certificationCourse.assessment;
+      });
+
+      [
+        { challengeType: 'QROC' },
+        { challengeType: 'QROCM' },
+        { challengeType: 'QCM' },
+        { challengeType: 'QCU' },
+      ].forEach(function (data) {
+        module(`when ${data.challengeType} challenge is focused`, function (hooks) {
+          hooks.beforeEach(function () {
+            server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
+          });
+          module('when user has not answered the question', function () {
+            module('when user has not seen the challenge tooltip yet', function (hooks) {
+              hooks.beforeEach(async function () {
+                // given
+                const user = server.create('user', 'withEmail', {
+                  hasSeenFocusedChallengeTooltip: false,
+                });
+                await authenticate(user);
+                // when
+                screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+                await click(screen.getByRole('button', { name: 'Je suis prêt' }));
+              });
+
+              test('should display an info alert with dashed border and overlay ', async function (assert) {
+                // when
+                const focusZone = find('.focus-zone-warning');
+                await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
+
+                // then
+                assert.dom(find('.challenge__info-alert--show')).exists();
+                assert.dom(find('.focus-zone-warning--triggered')).exists();
+                assert.dom(find('.focus-zone-warning__overlay')).exists();
+              });
+
+              module('when user closes tooltip', function (hooks) {
+                hooks.beforeEach(async function () {
+                  // when
+                  await click('.tooltip-tag-information__button');
+                });
+
+                test('should display a warning alert', async function (assert) {
+                  // when
+                  await triggerEvent(document, 'focusedout');
+
+                  // then
+                  assert
+                    .dom(
+                      screen.getByText(
+                        "Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse. Si vous avez été contraint de changer de page, prévenez votre surveillant afin qu'il puisse le constater et le signaler, le cas échéant.",
+                      ),
+                    )
+                    .exists();
+                });
+
+                test('should display an info alert with dashed border and overlay', async function (assert) {
+                  // when
+                  const focusZone = find('.focus-zone-warning');
+                  await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
+
+                  // then
+                  assert.strictEqual(
+                    screen.getAllByText(
+                      'Essayez de répondre à cette question sans vous aider d’internet ou d’applications.',
+                    ).length,
+                    2,
+                  );
+                  assert.dom(find('.focus-zone-warning--triggered')).exists();
+                  assert.dom(find('.focus-zone-warning__overlay')).exists();
+                });
+
+                test('should display only the warning alert when it has been triggered', async function (assert) {
+                  // given
+                  const focusZone = find('.focus-zone-warning');
+                  await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
+
+                  // when
+                  await triggerEvent(document, 'focusedout');
+
+                  // then
+                  assert.strictEqual(
+                    screen.getAllByText(
+                      'Essayez de répondre à cette question sans vous aider d’internet ou d’applications.',
+                    ).length,
+                    1,
+                  );
+                  assert
+                    .dom(
+                      screen.getByText(
+                        "Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse. Si vous avez été contraint de changer de page, prévenez votre surveillant afin qu'il puisse le constater et le signaler, le cas échéant.",
+                      ),
+                    )
+                    .exists();
+                  assert.dom(find('.focus-zone-warning--triggered')).exists();
+                  assert.dom(find('.focus-zone-warning__overlay')).exists();
+                });
+              });
+            });
+          });
+        });
       });
     });
   });
