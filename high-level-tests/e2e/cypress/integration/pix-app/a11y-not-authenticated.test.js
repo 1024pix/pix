@@ -1,4 +1,4 @@
-describe("Accessibility tests (a11y)", () => {
+describe("a11y", () => {
   const fixtures = [
     "users",
     "authentication-methods",

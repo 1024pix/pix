@@ -1,4 +1,4 @@
-describe("Accessibility tests (a11y)", () => {
+describe("a11y", () => {
   const viewports = [
     { width: 350, height: 667 },
     { width: 1280, height: 800 },
