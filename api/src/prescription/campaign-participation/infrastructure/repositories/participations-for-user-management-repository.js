@@ -26,6 +26,7 @@ const findByUserId = async function (userId) {
     )
     .leftJoin('users as deletedByUsers', 'deletedByUsers.id', 'campaign-participations.deletedBy')
     .where('campaign-participations.userId', userId)
+    .orderBy('createdAt', 'desc')
     .orderBy('campaignCode', 'asc')
     .orderBy('sharedAt', 'desc');
 

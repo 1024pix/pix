@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { CampaignParticipationForUserManagement } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipationForUserManagement.js';
 import * as participationsForUserManagementRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/participations-for-user-management-repository.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
@@ -113,28 +111,29 @@ describe('Integration | Repository | Participations-For-User-Management', functi
         });
       });
 
-      it('should sort participations by ascending campaign code', async function () {
-        const campaignId1 = databaseBuilder.factory.buildCampaign({ code: 'AAAAAAA' }).id;
-        const campaignId2 = databaseBuilder.factory.buildCampaign({ code: 'BBBBBBB' }).id;
-        const campaignId3 = databaseBuilder.factory.buildCampaign({ code: 'CCCCCCC' }).id;
+      it('should sort participations by descending createdAt', async function () {
+        const campaign1 = databaseBuilder.factory.buildCampaign();
+        const campaign2 = databaseBuilder.factory.buildCampaign();
+        const campaign3 = databaseBuilder.factory.buildCampaign();
+
         // given
-        databaseBuilder.factory.buildCampaignParticipation({
+        const participationToCampaign1InJanuary = databaseBuilder.factory.buildCampaignParticipation({
           userId,
-          campaignId: campaignId3,
-          participantExternalId: '3',
-          createdAt: new Date('2020-01-02'),
+          campaignId: campaign1.id,
+          participantExternalId: 'Created-January',
+          createdAt: new Date('2024-01-01'),
         });
-        databaseBuilder.factory.buildCampaignParticipation({
+        const participationToCampaign2InFebruary = databaseBuilder.factory.buildCampaignParticipation({
           userId,
-          campaignId: campaignId1,
-          participantExternalId: '1',
-          createdAt: new Date('2020-01-01'),
+          campaignId: campaign2.id,
+          participantExternalId: 'Created-February',
+          createdAt: new Date('2024-02-01'),
         });
-        databaseBuilder.factory.buildCampaignParticipation({
+        const participationToCampaign3InMarch = databaseBuilder.factory.buildCampaignParticipation({
           userId,
-          campaignId: campaignId2,
-          participantExternalId: '2',
-          createdAt: new Date('2020-01-03'),
+          campaignId: campaign3.id,
+          participantExternalId: 'Created-March',
+          createdAt: new Date('2024-03-01'),
         });
 
         await databaseBuilder.commit();
@@ -143,36 +142,67 @@ describe('Integration | Repository | Participations-For-User-Management', functi
         const participationsForUserManagement = await participationsForUserManagementRepository.findByUserId(userId);
 
         // then
-        expect(_.map(participationsForUserManagement, 'campaignCode')).to.exactlyContainInOrder([
-          'AAAAAAA',
-          'BBBBBBB',
-          'CCCCCCC',
-        ]);
+        expect(participationsForUserManagement[0].id).to.equal(participationToCampaign3InMarch.id);
+        expect(participationsForUserManagement[1].id).to.equal(participationToCampaign2InFebruary.id);
+        expect(participationsForUserManagement[2].id).to.equal(participationToCampaign1InJanuary.id);
       });
 
-      it('should sort participations by descending sharedAt when campaign code is the same', async function () {
-        const campaignId = databaseBuilder.factory.buildCampaign({ code: 'AAAAAAA' }).id;
+      it('should sort participations by ascending campaign code when createdAt is the same', async function () {
+        const campaignA = databaseBuilder.factory.buildCampaign({ code: 'AAAAAAA' });
+        const campaignB = databaseBuilder.factory.buildCampaign({ code: 'BBBBBBB' });
+        const campaignC = databaseBuilder.factory.buildCampaign({ code: 'CCCCCCC' });
+
         // given
-        databaseBuilder.factory.buildCampaignParticipation({
+        const participationToCampaignC = databaseBuilder.factory.buildCampaignParticipation({
           userId,
-          campaignId,
-          participantExternalId: 'January23',
+          campaignId: campaignC.id,
+          createdAt: new Date('2020-01-02'),
+        });
+        const participationToCampaignB = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId: campaignB.id,
+          createdAt: new Date('2020-01-02'),
+        });
+        const participationToCampaignA = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId: campaignA.id,
+          createdAt: new Date('2020-01-02'),
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const participationsForUserManagement = await participationsForUserManagementRepository.findByUserId(userId);
+
+        // then
+        expect(participationsForUserManagement[0].id).to.equal(participationToCampaignA.id);
+        expect(participationsForUserManagement[1].id).to.equal(participationToCampaignB.id);
+        expect(participationsForUserManagement[2].id).to.equal(participationToCampaignC.id);
+      });
+
+      it('should sort participations by descending sharedAt when createdAt is the same and campaign code is the same', async function () {
+        const campaign = databaseBuilder.factory.buildCampaign();
+        // given
+        const participationSharedInJanuary = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId: campaign.id,
+          participantExternalId: 'Shared-January',
           createdAt: new Date('2020-01-02'),
           sharedAt: new Date('2023-01-01'),
           isImproved: true,
         });
-        databaseBuilder.factory.buildCampaignParticipation({
+        const participationSharedInFebruary = databaseBuilder.factory.buildCampaignParticipation({
           userId,
-          campaignId,
-          participantExternalId: 'May23',
-          createdAt: new Date('2020-01-01'),
-          sharedAt: new Date('2023-05-01'),
+          campaignId: campaign.id,
+          participantExternalId: 'Shared-February',
+          createdAt: new Date('2020-01-02'),
+          sharedAt: new Date('2023-02-01'),
         });
-        databaseBuilder.factory.buildCampaignParticipation({
+        const participationSharedInMarch = databaseBuilder.factory.buildCampaignParticipation({
           userId,
-          campaignId,
-          participantExternalId: 'March23',
-          createdAt: new Date('2020-01-03'),
+          campaignId: campaign.id,
+          participantExternalId: 'Shared-March',
+          createdAt: new Date('2020-01-02'),
           sharedAt: new Date('2023-03-01'),
           isImproved: true,
         });
@@ -183,51 +213,9 @@ describe('Integration | Repository | Participations-For-User-Management', functi
         const participationsForUserManagement = await participationsForUserManagementRepository.findByUserId(userId);
 
         // then
-        expect(_.map(participationsForUserManagement, 'participantExternalId')).to.exactlyContainInOrder([
-          'May23',
-          'March23',
-          'January23',
-        ]);
-      });
-
-      it('should sort participations first by ascending campaignCode and after by sharedAt', async function () {
-        const campaignId1 = databaseBuilder.factory.buildCampaign({ code: 'AAAAAAA' }).id;
-        const campaignId2 = databaseBuilder.factory.buildCampaign({ code: 'BBBBBBB' }).id;
-        // given
-        databaseBuilder.factory.buildCampaignParticipation({
-          userId,
-          campaignId: campaignId2,
-          participantExternalId: 'BBBB-MAY23',
-          createdAt: new Date('2020-01-02'),
-          sharedAt: new Date('2023-05-01'),
-        });
-        databaseBuilder.factory.buildCampaignParticipation({
-          userId,
-          campaignId: campaignId1,
-          participantExternalId: 'AAAA-JANUARY23',
-          createdAt: new Date('2020-01-01'),
-          sharedAt: new Date('2023-01-01'),
-        });
-        databaseBuilder.factory.buildCampaignParticipation({
-          userId,
-          campaignId: campaignId2,
-          participantExternalId: 'BBBB-FEBRUARY23',
-          createdAt: new Date('2020-01-03'),
-          sharedAt: new Date('2023-02-01'),
-          isImproved: true,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const participationsForUserManagement = await participationsForUserManagementRepository.findByUserId(userId);
-
-        // then
-        expect(_.map(participationsForUserManagement, 'participantExternalId')).to.exactlyContainInOrder([
-          'AAAA-JANUARY23',
-          'BBBB-MAY23',
-          'BBBB-FEBRUARY23',
-        ]);
+        expect(participationsForUserManagement[0].id).to.equal(participationSharedInMarch.id);
+        expect(participationsForUserManagement[1].id).to.equal(participationSharedInFebruary.id);
+        expect(participationsForUserManagement[2].id).to.equal(participationSharedInJanuary.id);
       });
     });
   });
