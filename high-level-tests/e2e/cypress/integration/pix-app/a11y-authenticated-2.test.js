@@ -1,27 +1,32 @@
-describe("a11y", () => {
+describe("Accessibility tests (a11y)", () => {
   const viewports = [
     { width: 350, height: 667 },
     { width: 1280, height: 800 },
   ];
 
-  beforeEach(() => {
-    cy.task("db:fixture", "users");
-    cy.task("db:fixture", "authentication-methods");
-    cy.task("db:fixture", "organizations");
-    cy.task("db:fixture", "memberships");
-    cy.task("db:fixture", "organization-invitations");
-    cy.task("db:fixture", "user-orga-settings");
-    cy.task("db:fixture", "target-profiles");
-    cy.task("db:fixture", "target-profile_tubes");
-    cy.task("db:fixture", "campaigns");
-    cy.task("db:fixture", "campaign_skills");
-    cy.task("db:fixture", "organization-learners");
-    cy.task("db:fixture", "campaign-participations");
-    cy.task("db:fixture", "assessments");
-    cy.task("db:fixture", "answers");
-    cy.task("db:fixture", "knowledge-elements");
-  });
+  const fixtures = [
+    "users",
+    "authentication-methods",
+    "organizations",
+    "memberships",
+    "organization-invitations",
+    "user-orga-settings",
+    "target-profiles",
+    "target-profile_tubes",
+    "campaigns",
+    "campaign_skills",
+    "organization-learners",
+    "campaign-participations",
+    "assessments",
+    "answers",
+    "knowledge-elements",
+  ];
 
+  const loadFixtures = () => {
+    fixtures.forEach((fixture) => cy.task("db:fixture", fixture));
+  };
+
+  beforeEach(loadFixtures);
   describe("Authenticated pages", () => {
     const authenticatedPages = [
       { url: "/mes-tutos/enregistres" },

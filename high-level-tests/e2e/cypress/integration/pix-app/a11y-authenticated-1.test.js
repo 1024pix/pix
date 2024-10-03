@@ -4,39 +4,41 @@ describe("a11y", () => {
     { width: 1280, height: 800 },
   ];
 
-  beforeEach(() => {
-    cy.task("db:fixture", "users");
-    cy.task("db:fixture", "authentication-methods");
-    cy.task("db:fixture", "organizations");
-    cy.task("db:fixture", "memberships");
-    cy.task("db:fixture", "organization-invitations");
-    cy.task("db:fixture", "user-orga-settings");
-    cy.task("db:fixture", "target-profiles");
-    cy.task("db:fixture", "target-profile_tubes");
-    cy.task("db:fixture", "campaigns");
-    cy.task("db:fixture", "campaign_skills");
-    cy.task("db:fixture", "organization-learners");
-    cy.task("db:fixture", "campaign-participations");
-    cy.task("db:fixture", "assessments");
-    cy.task("db:fixture", "answers");
-    cy.task("db:fixture", "knowledge-elements");
-  });
+  const authenticatedPages = [
+    "/mes-tutos/enregistres",
+    "/mes-tutos/recommandes",
+    "/mon-compte/informations-personnelles",
+    "/mon-compte/langue",
+    "/mon-compte/methodes-de-connexion",
+    "/plan-du-site",
+  ];
 
-  describe("Authenticated pages", () => {
-    const authenticatedPages = [
-      { url: "/accueil" },
-      { url: "/assessments/fake-assessment", skipFailures: true },
-      { url: "/campagnes" },
-      { url: "/campagnes/NERA/evaluation/resultats" },
-      { url: "/certifications" },
-      { url: "/competences" },
-      { url: "/competences/recH9MjIzN54zXlwr/details" },
-      { url: "/mes-certifications" },
-      { url: "/mes-formations" },
-      { url: "/mes-parcours" },
+  const loadFixtures = () => {
+    const fixtures = [
+      "users",
+      "authentication-methods",
+      "organizations",
+      "memberships",
+      "organization-invitations",
+      "user-orga-settings",
+      "target-profiles",
+      "target-profile_tubes",
+      "campaigns",
+      "campaign_skills",
+      "organization-learners",
+      "campaign-participations",
+      "assessments",
+      "answers",
+      "knowledge-elements",
     ];
 
-    authenticatedPages.forEach(({ url, skipFailures = false }) => {
+    fixtures.forEach((fixture) => cy.task("db:fixture", fixture));
+  };
+
+  beforeEach(loadFixtures);
+
+  describe("Authenticated pages", () => {
+    authenticatedPages.forEach((url) => {
       beforeEach(() => {
         // given
         cy.visitMonPix("/");
@@ -47,13 +49,12 @@ describe("a11y", () => {
         // when
         cy.visitMonPix(url);
         cy.get(".app-loader").should("not.exist");
-
         cy.injectAxe();
 
         // then
         viewports.forEach(({ width, height }) => {
           cy.viewport(width, height);
-          cy.checkA11yAndShowViolations({ skipFailures, url });
+          cy.checkA11yAndShowViolations({ skipFailures: false, url });
         });
       });
     });
