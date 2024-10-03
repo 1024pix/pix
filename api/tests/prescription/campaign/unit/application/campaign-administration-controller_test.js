@@ -1,5 +1,6 @@
 import { campaignAdministrationController } from '../../../../../src/prescription/campaign/application/campaign-adminstration-controller.js';
 import { usecases } from '../../../../../src/prescription/campaign/domain/usecases/index.js';
+import { CampaignExternalIdTypes } from '../../../../../src/prescription/shared/domain/constants.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Controller | Campaign administration', function () {
@@ -31,6 +32,7 @@ describe('Unit | Application | Controller | Campaign administration', function (
               type: 'ASSESSMENT',
               title: 'title',
               'id-pix-label': 'idPixLabel',
+              'id-pix-type': CampaignExternalIdTypes.STRING,
               'custom-landing-page-text': 'customLandingPageText',
               'multiple-sendings': true,
               'owner-id': ownerId,
@@ -50,6 +52,7 @@ describe('Unit | Application | Controller | Campaign administration', function (
         type: 'ASSESSMENT',
         title: 'title',
         idPixLabel: 'idPixLabel',
+        idPixType: CampaignExternalIdTypes.STRING,
         customLandingPageText: 'customLandingPageText',
         organizationId: 456,
         targetProfileId: 123,
@@ -84,6 +87,7 @@ describe('Unit | Application | Controller | Campaign administration', function (
               type: 'ASSESSMENT',
               title: 'title',
               'id-pix-label': 'idPixLabel',
+              'id-pix-type': CampaignExternalIdTypes.STRING,
               'custom-landing-page-text': 'customLandingPageText',
               'multiple-sendings': true,
             },
@@ -102,6 +106,7 @@ describe('Unit | Application | Controller | Campaign administration', function (
         type: 'ASSESSMENT',
         title: 'title',
         idPixLabel: 'idPixLabel',
+        idPixType: CampaignExternalIdTypes.STRING,
         customLandingPageText: 'customLandingPageText',
         organizationId: 456,
         targetProfileId: 123,
