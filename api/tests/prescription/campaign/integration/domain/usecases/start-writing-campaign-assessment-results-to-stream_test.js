@@ -3,7 +3,8 @@ import stream from 'node:stream';
 const { PassThrough } = stream;
 
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
-import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
+import { CampaignExternalIdTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CAMPAIGN_FEATURES, ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { CampaignParticipationStatuses, KnowledgeElement } from '../../../../../../src/shared/domain/models/index.js';
 import { databaseBuilder, expect, mockLearningContent, streamToPromise } from '../../../../../test-helper.js';
@@ -73,6 +74,120 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
       csvPromise = streamToPromise(writableStream);
     });
 
+    context('with externalId campaign feature', function () {
+      beforeEach(async function () {
+        const externalIdFeature = databaseBuilder.factory.buildFeature(CAMPAIGN_FEATURES.EXTERNAL_ID);
+        databaseBuilder.factory.buildCampaignFeature({
+          featureId: externalIdFeature.id,
+          campaignId: campaign.id,
+          params: { label: 'Identifiant Pix', type: CampaignExternalIdTypes.STRING },
+        });
+        participant = databaseBuilder.factory.buildUser();
+        organizationLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          firstName: '@Jean',
+          lastName: '=Bono',
+          organizationId: organization.id,
+          userId: participant.id,
+        });
+
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          organizationLearnerId: organizationLearner.id,
+          userId: participant.id,
+          participantExternalId: 'toto',
+          masteryRate: 0.67,
+          createdAt,
+          sharedAt,
+        });
+
+        databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: campaignParticipation.id,
+          userId: participant.id,
+          state: Assessment.states.COMPLETED,
+          type: Assessment.types.CAMPAIGN,
+        });
+
+        const ke1 = databaseBuilder.factory.buildKnowledgeElement({
+          status: 'validated',
+          skillId: 'recSkillWeb1',
+          competenceId: 'recCompetence1',
+          userId: participant.id,
+          createdAt,
+        });
+        const ke2 = databaseBuilder.factory.buildKnowledgeElement({
+          status: 'validated',
+          skillId: 'recSkillWeb2',
+          competenceId: 'recCompetence1',
+          userId: participant.id,
+          createdAt,
+        });
+        const ke3 = databaseBuilder.factory.buildKnowledgeElement({
+          status: 'invalidated',
+          skillId: 'recSkillWeb3',
+          competenceId: 'recCompetence1',
+          userId: participant.id,
+          createdAt,
+        });
+        databaseBuilder.factory.buildKnowledgeElementSnapshot({
+          userId: participant.id,
+          snappedAt: sharedAt,
+          snapshot: JSON.stringify([ke1, ke2, ke3]),
+        });
+
+        ['recSkillWeb1', 'recSkillWeb2', 'recSkillWeb3'].forEach((skillId) => {
+          databaseBuilder.factory.buildCampaignSkill({
+            campaignId: campaign.id,
+            skillId: skillId,
+          });
+        });
+
+        await databaseBuilder.commit();
+      });
+      it('should return the complete line with participant external id', async function () {
+        // given
+        const csvSecondLine =
+          `"${organization.name}";` +
+          `${campaign.id};` +
+          `"${campaign.code}";` +
+          `"'${campaign.name}";` +
+          `"'${targetProfile.name}";` +
+          `"'${organizationLearner.lastName}";` +
+          `"'${organizationLearner.firstName}";` +
+          `"${campaignParticipation.participantExternalId}";` +
+          '1;' +
+          '2019-02-25;' +
+          '"Oui";' +
+          '2019-03-01;' +
+          '1;' +
+          '"Non";' +
+          '0,67;' +
+          '0,67;' +
+          '3;' +
+          '2;' +
+          '0,67;' +
+          '3;' +
+          '2;' +
+          '"OK";' +
+          '"OK";' +
+          '"KO"';
+
+        // when
+        await usecases.startWritingCampaignAssessmentResultsToStream({
+          campaignId: campaign.id,
+          writableStream,
+          i18n,
+        });
+        const csv = await csvPromise;
+
+        const csvLines = csv.split('\n');
+        const csvFirstLineCells = csvLines[0].split(';');
+
+        // then
+        expect(csvFirstLineCells).to.includes('"Identifiant Pix"');
+        expect(csvLines[1]).to.equal(csvSecondLine);
+      });
+    });
+
     context('extra rows', function () {
       beforeEach(async function () {
         // Import Configuration
@@ -119,7 +234,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
           campaignId: campaign.id,
           organizationLearnerId: organizationLearner.id,
           userId: participant.id,
-          participantExternalId: 'toto',
           masteryRate: 0.67,
           createdAt,
           sharedAt,
@@ -180,7 +294,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
           `"'${organizationLearner.lastName}";` +
           `"'${organizationLearner.firstName}";` +
           `"${organizationLearner.attributes.hobby}";` +
-          `"${campaignParticipation.participantExternalId}";` +
           '1;' +
           '2019-02-25;' +
           '"Oui";' +
@@ -230,7 +343,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
           campaignId: campaign.id,
           organizationLearnerId: organizationLearner.id,
           userId: participant.id,
-          participantExternalId: 'toto',
           masteryRate: 0.67,
           createdAt,
           sharedAt,
@@ -291,7 +403,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
           `"'${targetProfile.name}";` +
           `"'${organizationLearner.lastName}";` +
           `"'${organizationLearner.firstName}";` +
-          `"${campaignParticipation.participantExternalId}";` +
           '1;' +
           '2019-02-25;' +
           '"Oui";' +
@@ -341,7 +452,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
           campaignId: campaign.id,
           organizationLearnerId: organizationLearner.id,
           userId: participant.id,
-          participantExternalId: 'toto',
           status: CampaignParticipationStatuses.STARTED,
           createdAt,
         });
@@ -381,7 +491,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
           `"'${targetProfile.name}";` +
           `"'${organizationLearner.lastName}";` +
           `"'${organizationLearner.firstName}";` +
-          `"${campaignParticipation.participantExternalId}";` +
           '0,333;' +
           `2019-02-25;` +
           '"Non";' +
@@ -434,7 +543,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
           campaignId: campaign.id,
           organizationLearnerId: organizationLearner.id,
           userId: participant.id,
-          participantExternalId: 'toto',
           isImproved: true,
           masteryRate: 0.67,
           createdAt,
@@ -454,7 +562,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
           campaignId: campaign.id,
           organizationLearnerId: organizationLearner.id,
           userId: participant.id,
-          participantExternalId: 'toto',
           isImproved: false,
           createdAt: secondParticipationDateCreatedAt,
         });
@@ -522,7 +629,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
           `"'${targetProfile.name}";` +
           `"'${organizationLearner.lastName}";` +
           `"'${organizationLearner.firstName}";` +
-          `"${campaignParticipation.participantExternalId}";` +
           '0,667;' +
           `2019-03-05;` +
           '"Non";' +
@@ -548,7 +654,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
           `"'${targetProfile.name}";` +
           `"'${organizationLearner.lastName}";` +
           `"'${organizationLearner.firstName}";` +
-          `"${campaignParticipation.participantExternalId}";` +
           '1;' +
           '2019-02-25;' +
           '"Oui";' +
