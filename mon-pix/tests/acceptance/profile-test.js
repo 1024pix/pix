@@ -1,4 +1,4 @@
-import { getByTextWithHtml, queryByTextWithHtml, visit } from '@1024pix/ember-testing-library';
+import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
@@ -63,64 +63,6 @@ module('Acceptance | Profile', function (hooks) {
       // then
       const scorecard = user.scorecards.models[0];
       assert.strictEqual(currentURL(), `/competences/${scorecard.competenceId}/details`);
-    });
-  });
-
-  module('Authenticated cases as a user with specific max reachable level', function () {
-    module('max reachable level is set to seven', function (hooks) {
-      hooks.beforeEach(async function () {
-        const userWithMaxReachableLevelSeven = server.create('user', 'withMaxReachableLevelSeven');
-        await authenticate(userWithMaxReachableLevelSeven);
-      });
-      module('user has never closed the banner', function () {
-        test('should display the level seven information banner', async function (assert) {
-          // when
-          await visit('/competences');
-
-          // then
-          assert.ok(
-            getByTextWithHtml(
-              t('common.new-information-banner.lvl-seven', { lvlSevenUrl: this.url.levelSevenNewsUrl }),
-            ),
-          );
-        });
-      });
-
-      module('user has closed the banner', function () {
-        test('should not display the level seven information banner', async function (assert) {
-          // given
-          const screen = await visit('/competences');
-
-          // when
-          await click(screen.getByRole('button', { name: t('common.new-information-banner.close-label') }));
-
-          // then
-          assert.strictEqual(
-            queryByTextWithHtml(
-              t('common.new-information-banner.lvl-seven', { lvlSevenUrl: this.url.levelSevenNewsUrl }),
-            ),
-            null,
-          );
-        });
-      });
-    });
-
-    module('max reachable level is not set to seven', function (hooks) {
-      hooks.beforeEach(async function () {
-        const userWithMaxReachableLevelSix = server.create('user', 'withMaxReachableLevelSix');
-        await authenticate(userWithMaxReachableLevelSix);
-      });
-      test('should not display the level seven information banner', async function (assert) {
-        // when
-        await visit('/competences');
-
-        assert.strictEqual(
-          queryByTextWithHtml(
-            t('common.new-information-banner.lvl-seven', { lvlSevenUrl: this.url.levelSevenNewsUrl }),
-          ),
-          null,
-        );
-      });
     });
   });
 

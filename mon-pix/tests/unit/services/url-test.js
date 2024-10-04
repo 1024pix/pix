@@ -424,38 +424,6 @@ module('Unit | Service | url', function (hooks) {
     });
   });
 
-  module('#levelSevenNewsUrl', function () {
-    test('returns the French URL page', function (assert) {
-      // given
-      const service = this.owner.lookup('service:url');
-      service.currentDomain = { isFranceDomain: true };
-      service.intl = { primaryLocale: FRENCH_INTERNATIONAL_LOCALE };
-      const expectedLevelSevenNewsUrl = 'https://pix.fr/actualites/decouvrez-le-niveau-7-des-maintenant-sur-pix';
-
-      // when
-      const levelSevenNewsUrl = service.levelSevenNewsUrl;
-
-      // then
-      assert.strictEqual(levelSevenNewsUrl, expectedLevelSevenNewsUrl);
-    });
-
-    module('when current language is "en"', function () {
-      test('returns the English URL page', function (assert) {
-        // given
-        const service = this.owner.lookup('service:url');
-        service.currentDomain = { isFranceDomain: false };
-        service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
-        const expectedLevelSevenNewsUrl = 'https://pix.org/en/news/discover-level-7-on-pix';
-
-        // when
-        const levelSevenNewsUrl = service.levelSevenNewsUrl;
-
-        // then
-        assert.strictEqual(levelSevenNewsUrl, expectedLevelSevenNewsUrl);
-      });
-    });
-  });
-
   module('#supportHomeUrl', function () {
     module('when website is pix.fr', function () {
       test('returns the French page URL', function (assert) {

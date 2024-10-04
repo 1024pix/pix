@@ -91,8 +91,7 @@
       "test": "Tu prueba se está cargando"
     },
     "new-information-banner": {
-      "close-label": "Cerrar el banner",
-      "lvl-seven": "¡Por fin está disponible el nivel 7! Puedes obtener más información en '<'a href=\"{lvlSevenUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'esta noticia'</a>'."
+      "close-label": "Cerrar el banner"
     },
     "or": "o",
     "pagination": {

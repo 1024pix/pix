@@ -12,7 +12,6 @@ export default ApplicationSerializer.extend({
     'pixCertifTermsOfServiceAccepted',
     'hasSeenAssessmentInstructions',
     'hasSeenNewDashboardInfo',
-    'hasSeenLevelSevenInfo',
     'isAnonymous',
     'hasRecommendedTrainings',
   ],

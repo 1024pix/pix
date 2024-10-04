@@ -126,15 +126,6 @@ export default class Url extends Service {
     }
   }
 
-  get levelSevenNewsUrl() {
-    const currentLanguage = this.intl.primaryLocale;
-
-    if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
-      return 'https://pix.org/en/news/discover-level-7-on-pix';
-    }
-    return 'https://pix.fr/actualites/decouvrez-le-niveau-7-des-maintenant-sur-pix';
-  }
-
   get serverStatusUrl() {
     const currentLanguage = this.intl.primaryLocale;
     return `https://status.pix.org/?locale=${currentLanguage}`;

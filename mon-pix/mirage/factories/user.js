@@ -271,9 +271,6 @@ export default Factory.extend({
   isAnonymous() {
     return false;
   },
-  hasSeenLevelSevenInfo() {
-    return false;
-  },
   shouldChangePassword: trait({
     shouldChangePassword: true,
   }),
@@ -297,15 +294,6 @@ export default Factory.extend({
   }),
   hasSeenNewDashboardInfo: trait({
     hasSeenNewDashboardInfo: true,
-  }),
-  withMaxReachableLevelSeven: trait({
-    afterCreate(user, server) {
-      user.update({
-        profile: server.create('profile', {
-          maxReachableLevel: 7,
-        }),
-      });
-    },
   }),
   withMaxReachableLevelSix: trait({
     afterCreate(user, server) {
