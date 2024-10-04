@@ -234,6 +234,8 @@ export default class EnrolledCandidates extends Component {
         return this._handleEntityValidationError(errorResponse);
       case '400':
         return this._handleMissingQueryParamError(errorResponse);
+      case '403':
+        return this._handleApiError(errorResponse);
       default:
         return this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-add-unknown`);
     }
@@ -243,6 +245,15 @@ export default class EnrolledCandidates extends Component {
     const error = errorResponse?.errors?.[0];
     if (error?.code) {
       return this.intl.t(`common.api-error-messages.certification-candidate.${error.code}`, {
+        ...error?.meta,
+      });
+    }
+  }
+
+  _handleApiError(errorResponse) {
+    const error = errorResponse?.errors?.[0];
+    if (error?.code) {
+      return this.intl.t(`common.api-error-messages.${error.code}`, {
         ...error?.meta,
       });
     }

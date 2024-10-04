@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { click } from '@ember/test-helpers';
+import { click } from "@ember/test-helpers";
 import { t } from 'ember-intl/test-support';
 import EnrolledCandidates from 'pix-certif/components/sessions/session-details/enrolled-candidates';
 import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
@@ -48,10 +48,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
   test('it should have an accessible table description', async function (assert) {
     //given
-    const candidate = _buildCertificationCandidate({
-      birthdate: new Date('2019-04-28'),
-      subscriptions: [],
-    });
+    const candidate = _buildCertificationCandidate({ subscriptions: [] });
 
     const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
     const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
@@ -89,7 +86,6 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       complementaryCertificationId,
     });
     const candidate = _buildCertificationCandidate({
-      birthdate: new Date('2019-04-28'),
       accessibilityAdjustmentNeeded: true,
       subscriptions: [coreSubscription, complementarySubscription],
     });
@@ -131,9 +127,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
   test('it should display details button', async function (assert) {
     // given
-    const candidate = _buildCertificationCandidate({
-      subscriptions: [],
-    });
+    const candidate = _buildCertificationCandidate({ subscriptions: [] });
     const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
     const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
@@ -158,9 +152,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
   test('it should display details modal', async function (assert) {
     // given
-    const candidate = _buildCertificationCandidate({
-      subscriptions: [],
-    });
+    const candidate = _buildCertificationCandidate({ subscriptions: [] });
     const certificationCandidates = [store.createRecord('certification-candidate', candidate)];
     const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
@@ -190,19 +182,9 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
     test('it should be possible to delete the candidate', async function (assert) {
       // given
       const certificationCandidates = [
-        _buildCertificationCandidate({
-          id: 1,
-          firstName: 'Riri',
-          lastName: 'Duck',
-          subscriptions: [],
-        }),
-        _buildCertificationCandidate({ id: 2, firstName: 'Fifi', lastName: 'Duck', subscriptions: [] }),
-        _buildCertificationCandidate({
-          id: 3,
-          firstName: 'Loulou',
-          lastName: 'Duck',
-          subscriptions: [],
-        }),
+        _buildCertificationCandidate({ id: '1' }),
+        _buildCertificationCandidate({ id: '2', firstName: 'Lara', lastName: 'Pafromage' }),
+        _buildCertificationCandidate({ id: '3', firstName: 'Jean', lastName: 'Registre' }),
       ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
       const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
@@ -221,7 +203,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         </template>,
       );
 
-      await click(screen.getByRole('button', { name: 'Supprimer le candidat Riri Duck' }));
+      await click(screen.getByRole('button', { name: 'Supprimer le candidat Eddy Taurial' }));
 
       // then
       sinon.assert.calledOnce(certificationCandidates[0].destroyRecord);
@@ -235,21 +217,9 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
     test('it display candidates with delete button disabled', async function (assert) {
       // given
       const certificationCandidates = [
-        _buildCertificationCandidate({
-          id: 1,
-          firstName: 'Riri',
-          lastName: 'Duck',
-          isLinked: false,
-          subscriptions: [],
-        }),
-        _buildCertificationCandidate({ id: 2, firstName: 'Fifi', lastName: 'Duck', isLinked: true, subscriptions: [] }),
-        _buildCertificationCandidate({
-          id: 3,
-          firstName: 'Loulou',
-          lastName: 'Duck',
-          isLinked: false,
-          subscriptions: [],
-        }),
+        _buildCertificationCandidate({ id: '1' }),
+        _buildCertificationCandidate({ id: '2', firstName: 'Lara', lastName: 'Pafromage', isLinked: true }),
+        _buildCertificationCandidate({ id: '3', firstName: 'Jean', lastName: 'Registre' }),
       ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
       const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
@@ -266,13 +236,13 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
       // then
       assert
-        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Riri Duck' }))
+        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Eddy Taurial' }))
         .hasClass(DELETE_BUTTON_SELECTOR);
       assert
-        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Fifi Duck' }))
+        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Lara Pafromage' }))
         .hasClass(DELETE_BUTTON_DISABLED_SELECTOR);
       assert
-        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Loulou Duck' }))
+        .dom(screen.getByRole('button', { name: 'Supprimer le candidat Jean Registre' }))
         .hasClass(DELETE_BUTTON_SELECTOR);
     });
   });
@@ -308,27 +278,9 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       test('it display candidates with an edit button', async function (assert) {
         // given
         const certificationCandidates = [
-          _buildCertificationCandidate({
-            id: 1,
-            firstName: 'Riri',
-            lastName: 'Duck',
-            isLinked: false,
-            subscriptions: [],
-          }),
-          _buildCertificationCandidate({
-            id: 2,
-            firstName: 'Fifi',
-            lastName: 'Duck',
-            isLinked: true,
-            subscriptions: [],
-          }),
-          _buildCertificationCandidate({
-            id: 3,
-            firstName: 'Loulou',
-            lastName: 'Duck',
-            isLinked: false,
-            subscriptions: [],
-          }),
+          _buildCertificationCandidate({ id: '1' }),
+          _buildCertificationCandidate({ id: '2', firstName: 'Lara', lastName: 'Pafromage', isLinked: true }),
+          _buildCertificationCandidate({ id: '3', firstName: 'Jean', lastName: 'Registre' }),
         ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
         const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
@@ -346,12 +298,12 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         // then
 
         // then
-        assert.dom(screen.getByRole('button', { name: 'Editer le candidat Riri Duck' })).hasClass(EDIT_BUTTON_SELECTOR);
+        assert.dom(screen.getByRole('button', { name: 'Editer le candidat Eddy Taurial' })).hasClass(EDIT_BUTTON_SELECTOR);
         assert
-          .dom(screen.getByRole('button', { name: 'Editer le candidat Fifi Duck' }))
+          .dom(screen.getByRole('button', { name: 'Editer le candidat Lara Pafromage' }))
           .hasClass(EDIT_BUTTON_DISABLED_SELECTOR);
         assert
-          .dom(screen.getByRole('button', { name: 'Editer le candidat Loulou Duck' }))
+          .dom(screen.getByRole('button', { name: 'Editer le candidat Jean Registre' }))
           .hasClass(EDIT_BUTTON_SELECTOR);
         assert.strictEqual(
           screen.getAllByText("Ce candidat a déjà rejoint la session. Vous ne pouvez pas l'éditer.").length,
@@ -363,7 +315,6 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         test('should display candidate needs accessibility adjusted certification', async function (assert) {
           // given
           const candidate = _buildCertificationCandidate({
-            birthdate: new Date('2019-04-28'),
             accessibilityAdjustmentNeeded: true,
           });
 
@@ -391,7 +342,6 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         test('should display candidate doesnt need accessibility adjusted certification', async function (assert) {
           // given
           const candidate = _buildCertificationCandidate({
-            birthdate: new Date('2019-04-28'),
             accessibilityAdjustmentNeeded: false,
           });
 
@@ -420,7 +370,6 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       test('should not display accessibility adjusted certification needed information', async function (assert) {
         // given
         const candidate = _buildCertificationCandidate({
-          birthdate: new Date('2019-04-28'),
           accessibilityAdjustmentNeeded: true,
         });
 
@@ -450,20 +399,8 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       test('it does not display candidates with an edit button', async function (assert) {
         // given
         const certificationCandidates = [
-          _buildCertificationCandidate({
-            id: 1,
-            firstName: 'Riri',
-            lastName: 'Duck',
-            isLinked: false,
-            subscriptions: [],
-          }),
-          _buildCertificationCandidate({
-            id: 2,
-            firstName: 'Fifi',
-            lastName: 'Duck',
-            isLinked: true,
-            subscriptions: [],
-          }),
+          _buildCertificationCandidate({ id: '1' }),
+          _buildCertificationCandidate({ id: '2', firstName: 'Lara', lastName: 'Pafromage', isLinked: true })
         ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
         const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
@@ -479,8 +416,8 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         );
 
         // then
-        assert.dom(screen.queryByRole('button', { name: 'Editer le candidat Riri Duck' })).doesNotExist();
-        assert.dom(screen.queryByRole('button', { name: 'Editer le candidat Fifi Duck' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Editer le candidat Eddy Taurial' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Editer le candidat Lara Pafromage' })).doesNotExist();
       });
     });
   });
@@ -498,7 +435,6 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         complementaryCertificationId: cleaCertificationId,
       });
       const candidate = _buildCertificationCandidate({
-        birthdate: new Date('2019-04-28'),
         subscriptions: [coreSubscription, complementarySubscription],
       });
       const complementaryCertifications = [
@@ -728,18 +664,18 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
 function _buildCertificationCandidate({
   id = '12345',
-  firstName = 'Bob',
-  lastName = 'Leponge',
-  birthdate = new Date(),
-  birthCity = 'Marseille',
-  birthProvinceCode = '',
-  birthCountry = '',
-  email = 'bob.leponge@la.mer',
-  resultRecipientEmail = 'recipient@college.fr',
+  firstName = 'Eddy',
+  lastName = 'Taurial',
+  birthdate = '1990-03-22',
+  birthCity = 'Sainte-Anne',
+  birthProvinceCode = '01',
+  birthCountry = 'France',
+  email = 'eddy.taurial@example.com',
+  resultRecipientEmail = 'pat.atrak@example.com',
   externalId = 'an external id',
   extraTimePercentage = 0.3,
   isLinked = false,
-  billingMode = null,
+  billingMode = 'FREE',
   prepaymentCode = null,
   accessibilityAdjustmentNeeded = false,
   subscriptions = [],
