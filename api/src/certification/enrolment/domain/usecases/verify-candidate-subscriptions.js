@@ -23,7 +23,6 @@ import { CertificationCandidateEligibilityError } from '../errors.js';
  */
 export async function verifyCandidateSubscriptions({
   candidate,
-  userId,
   sessionId,
   sessionRepository,
   pixCertificationRepository,
@@ -32,11 +31,12 @@ export async function verifyCandidateSubscriptions({
   certificationBadgesService,
 }) {
   const session = await sessionRepository.get({ id: sessionId });
+  const { userId } = candidate;
 
   if (candidate.hasCoreSubscription()) {
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId,
-      limitDate: new Date(),
+      limitDate: candidate.reconciledAt,
     });
 
     if (!placementProfile.isCertifiable()) {
@@ -53,7 +53,10 @@ export async function verifyCandidateSubscriptions({
 
     const highestUserValidPixScore = _getHighestUserValidPixScore(userPixCertifications);
 
-    const userAcquiredBadges = await certificationBadgesService.findLatestBadgeAcquisitions({ userId });
+    const userAcquiredBadges = await certificationBadgesService.findLatestBadgeAcquisitions({
+      userId,
+      limitDate: candidate.reconciledAt,
+    });
 
     const subscribedHighestBadgeAcquisition = _getSubscribedHighestBadgeAcquisition(userAcquiredBadges, candidate);
 
@@ -78,8 +81,6 @@ export async function verifyCandidateSubscriptions({
       throw new CertificationCandidateEligibilityError();
     }
   }
-
-  return true;
 }
 
 function _isSubscribedUserBadgeOutDated(subscribedComplementaryCertificationBadge) {
