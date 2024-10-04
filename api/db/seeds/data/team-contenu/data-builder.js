@@ -178,7 +178,6 @@ async function _createCoreTargetProfile(databaseBuilder) {
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_PIX_ID,
     name: 'Profil cible Pur Pix (Niv3 ~ 5)',
-    isPublic: true,
     ownerOrganizationId: PRO_ORGANIZATION_ID,
     isSimplifiedAccess: false,
     description:
@@ -244,7 +243,6 @@ async function _createDiverseTargetProfile(databaseBuilder) {
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_PIX_AND_MORE_ID,
     name: 'Profil cible Pix et un autre réf (Niv1 ~ 8)',
-    isPublic: true,
     ownerOrganizationId: PRO_ORGANIZATION_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible pur pix et un autre réf (Niv1 ~ 8) et des paliers SEUILS',

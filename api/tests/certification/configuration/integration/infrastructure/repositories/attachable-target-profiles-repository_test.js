@@ -171,12 +171,12 @@ class TargetProfileFactory {
   #complementaryCertificationBadge;
 
   constructor(targetProfileOpts = {}) {
-    const _targetProfileOpts = { isPublic: true, outdated: false, ...targetProfileOpts };
+    const _targetProfileOpts = { outdated: false, ...targetProfileOpts };
     this.withTargetProfile(_targetProfileOpts);
   }
 
   withTargetProfile(targetProfileOpts) {
-    const _targetProfileOpts = { isPublic: true, outdated: false, ...targetProfileOpts };
+    const _targetProfileOpts = { outdated: false, ...targetProfileOpts };
     this.#targetProfile = databaseBuilder.factory.buildTargetProfile(_targetProfileOpts);
     return this;
   }

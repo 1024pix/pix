@@ -4,7 +4,7 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (targetProfiles, meta) {
   return new Serializer('target-profile', {
-    attributes: ['name', 'outdated', 'isPublic', 'ownerOrganizationId', 'isSimplifiedAccess'],
+    attributes: ['name', 'outdated', 'ownerOrganizationId', 'isSimplifiedAccess'],
     meta,
   }).serialize(targetProfiles);
 };
@@ -22,7 +22,6 @@ const deserialize = function (json) {
   if (attributes.category !== undefined) deserializedData.category = attributes.category;
   if (attributes.description !== undefined) deserializedData.description = attributes.description;
   if (attributes.comment !== undefined) deserializedData.comment = attributes.comment;
-  if (attributes['is-public'] !== undefined) deserializedData.isPublic = attributes['is-public'];
   if (attributes['image-url'] !== undefined) deserializedData.imageUrl = attributes['image-url'];
   if (attributes['owner-organization-id'] !== undefined)
     deserializedData.ownerOrganizationId = attributes['owner-organization-id'];

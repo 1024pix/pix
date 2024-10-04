@@ -7,11 +7,12 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
   describe('#availableForOrganization', function () {
     context('when there is one target profile', function () {
       it('returns the count of tube', async function () {
-        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({});
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
+          ownerOrganizationId: organizationId,
+        });
         databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tube1' });
         databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tube2' });
-
-        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
 
         await databaseBuilder.commit();
 
@@ -22,10 +23,11 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
       });
 
       it('returns the count of thematic results', async function () {
-        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({});
-        databaseBuilder.factory.buildBadge({ targetProfileId });
-
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
+          ownerOrganizationId: organizationId,
+        });
+        databaseBuilder.factory.buildBadge({ targetProfileId });
 
         await databaseBuilder.commit();
 
@@ -36,10 +38,11 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
       });
 
       it('returns a boolean to know if target profile has stages', async function () {
-        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({});
-        databaseBuilder.factory.buildStage({ targetProfileId });
-
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
+          ownerOrganizationId: organizationId,
+        });
+        databaseBuilder.factory.buildStage({ targetProfileId });
 
         await databaseBuilder.commit();
 
@@ -50,8 +53,11 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
       });
 
       it('returns the target profile category', async function () {
-        databaseBuilder.factory.buildTargetProfile({ category: categories.CUSTOM });
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildTargetProfile({
+          category: categories.CUSTOM,
+          ownerOrganizationId: organizationId,
+        });
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] =
@@ -61,8 +67,11 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
       });
 
       it('returns the target profile description', async function () {
-        databaseBuilder.factory.buildTargetProfile({ description: 'THIS IS SPARTA!' });
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildTargetProfile({
+          ownerOrganizationId: organizationId,
+          description: 'THIS IS SPARTA!',
+        });
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] =
@@ -72,8 +81,11 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
       });
 
       it('returns the target profile areKnowledgeElementsResettable', async function () {
-        databaseBuilder.factory.buildTargetProfile({ areKnowledgeElementsResettable: false });
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildTargetProfile({
+          areKnowledgeElementsResettable: false,
+          ownerOrganizationId: organizationId,
+        });
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] =
@@ -88,12 +100,12 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
         const { id: targetProfileId1 } = databaseBuilder.factory.buildTargetProfile({
           name: 'name1',
-          isPublic: false,
+          ownerOrganizationId: organizationId,
           isSimplifiedAccess: true,
         });
         const { id: targetProfileId2 } = databaseBuilder.factory.buildTargetProfile({
           name: 'name2',
-          isPublic: true,
+          ownerOrganizationId: organizationId,
           isSimplifiedAccess: false,
         });
         databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfileId1, organizationId });
@@ -112,7 +124,6 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           tubeCount: 2,
           thematicResultCount: 1,
           hasStage: false,
-          isPublic: false,
           isSimplifiedAccess: true,
           description: null,
           category: 'OTHER',
@@ -123,7 +134,6 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           name: 'name2',
           tubeCount: 1,
           thematicResultCount: 0,
-          isPublic: true,
           isSimplifiedAccess: false,
           hasStage: false,
           description: null,
@@ -136,25 +146,12 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
       });
     });
 
-    it('returns target profile public', async function () {
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({ isPublic: true });
-      databaseBuilder.factory.buildTargetProfile({ isPublic: false });
-
-      await databaseBuilder.commit();
-
-      const [targetProfile] = await targetProfileForSpecifierRepository.availableForOrganization(organizationId);
-
-      expect(targetProfile.id).to.equal(targetProfileId);
-    });
-
-    it('returns target profile private owned by the organizations', async function () {
+    it('returns target profile owned by the organizations', async function () {
       const { id: organizationId } = databaseBuilder.factory.buildOrganization();
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
         ownerOrganizationId: organizationId,
-        isPublic: false,
       });
-      databaseBuilder.factory.buildTargetProfile({ isPublic: false });
+      databaseBuilder.factory.buildTargetProfile();
 
       await databaseBuilder.commit();
 
@@ -163,12 +160,12 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
       expect(targetProfile.id).to.equal(targetProfileId);
     });
 
-    it('returns target profile private shared with the organization', async function () {
+    it('returns target profile shared with the organization', async function () {
       const { id: organizationId } = databaseBuilder.factory.buildOrganization();
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
-        isPublic: false,
+        ownerOrganizationId: organizationId,
       });
-      databaseBuilder.factory.buildTargetProfile({ isPublic: false });
+      databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
 
       await databaseBuilder.commit();
@@ -181,16 +178,14 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
     it('does not return target profile outdated', async function () {
       const { id: organizationId } = databaseBuilder.factory.buildOrganization();
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
-        isPublic: false,
         outdated: true,
+        ownerOrganizationId: organizationId,
       });
       databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
       databaseBuilder.factory.buildTargetProfile({
         ownerOrganizationId: organizationId,
-        isPublic: false,
         outdated: true,
       });
-      databaseBuilder.factory.buildTargetProfile({ isPublic: true, outdated: true });
 
       await databaseBuilder.commit();
 

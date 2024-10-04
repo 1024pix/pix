@@ -89,7 +89,6 @@ describe('Acceptance | Route | target-profiles', function () {
               category: 'OTHER',
               description: 'coucou maman',
               comment: 'coucou papa',
-              'is-public': false,
               'image-url': 'http://some/image.ok',
               'owner-organization-id': '1',
               tubes: [{ id: 'recTube1', level: 5 }],
@@ -205,7 +204,6 @@ describe('Acceptance | Route | target-profiles', function () {
       const targetProfile = databaseBuilder.factory.buildTargetProfile({
         name: 'Savoir tout faire',
         imageUrl: 'https://test',
-        isPublic: true,
         isSimplifiedAccess: false,
         createdAt: new Date('2020-01-01'),
         outdated: false,
@@ -229,7 +227,6 @@ describe('Acceptance | Route | target-profiles', function () {
         'has-linked-campaign': true,
         'has-linked-autonomous-course': false,
         'image-url': 'https://test',
-        'is-public': true,
         'is-simplified-access': false,
         name: 'Savoir tout faire',
         outdated: false,

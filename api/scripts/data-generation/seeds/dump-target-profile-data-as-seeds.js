@@ -85,7 +85,6 @@ function printTargetProfileAsSeed(targetProfileData) {
       name: ${escapedOrNull(targetProfileData.name)},
       isSimplifiedAccess: ${targetProfileData.isSimplifiedAccess},
       category: ${escapedOrNull(targetProfileData.category)},
-      isPublic: true,
     });`);
 }
 

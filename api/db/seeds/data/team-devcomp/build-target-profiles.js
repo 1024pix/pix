@@ -10,7 +10,6 @@ export async function buildTargetProfiles(databaseBuilder) {
     name: '[Pix+Édu 1D FC] Prêt pour la certification du volet 1',
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
-    isPublic: true,
     areKnowledgeElementsResettable: true,
   });
   [

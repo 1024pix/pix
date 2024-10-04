@@ -26,33 +26,20 @@ describe('Integration | Repository | Autonomous Course Target Profile', function
         const otherOrganization = databaseBuilder.factory.buildOrganization();
         databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
 
-        const targetProfile1 = databaseBuilder.factory.buildTargetProfile({
-          ownerOrganizationId: organization.id,
-          isPublic: true,
-          isSimplifiedAccess: true,
-          name: 'Target profile 1',
-        });
         const targetProfile2 = databaseBuilder.factory.buildTargetProfile({
           ownerOrganizationId: organization.id,
-          isPublic: false,
           isSimplifiedAccess: true,
           name: 'Target profile 2',
         });
         const targetProfile3 = databaseBuilder.factory.buildTargetProfile({
           ownerOrganizationId: otherOrganization.id,
-          isPublic: false,
           isSimplifiedAccess: false,
           name: 'Target profile 3',
         });
         const targetProfile4 = databaseBuilder.factory.buildTargetProfile({
           ownerOrganizationId: organization.id,
-          isPublic: true,
           isSimplifiedAccess: false,
           name: 'Target profile 4',
-        });
-        databaseBuilder.factory.buildTargetProfileShare({
-          organizationId: organization.id,
-          targetProfileId: targetProfile1.id,
         });
         databaseBuilder.factory.buildTargetProfileShare({
           organizationId: organization.id,

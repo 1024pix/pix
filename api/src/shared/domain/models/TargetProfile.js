@@ -15,7 +15,6 @@ class TargetProfile {
     id,
     name,
     imageUrl,
-    isPublic,
     category,
     isSimplifiedAccess,
     outdated,
@@ -27,7 +26,6 @@ class TargetProfile {
     this.id = id;
     this.name = name;
     this.imageUrl = imageUrl;
-    this.isPublic = isPublic;
     this.category = category;
     this.isSimplifiedAccess = isSimplifiedAccess;
     this.outdated = outdated;

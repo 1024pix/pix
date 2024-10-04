@@ -90,7 +90,6 @@ const register = async function (server) {
                 category: Joi.string().required(),
                 description: Joi.string().allow(null).max(500).required(),
                 comment: Joi.string().allow(null).max(500).required(),
-                'is-public': Joi.boolean().required(),
                 'image-url': Joi.string().uri().allow(null).required(),
                 'owner-organization-id': Joi.string()
                   .pattern(/^[0-9]+$/, 'numbers')

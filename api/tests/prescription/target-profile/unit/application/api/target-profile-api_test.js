@@ -41,7 +41,6 @@ describe('Unit | API | TargetProfile', function () {
         name: 'Mon target profile',
         id: 777,
         category: 'TOTO',
-        isPublic: true,
         isSimplifiedAccess: false,
       });
 
@@ -63,7 +62,6 @@ describe('Unit | API | TargetProfile', function () {
       expect(result[0].name).to.equal(targetProfile.name);
       expect(result[0].category).to.equal(targetProfile.category);
       expect(result[0].isSimplifiedAccess).to.equal(targetProfile.isSimplifiedAccess);
-      expect(result[0].isPublic).to.equal(targetProfile.isPublic);
       expect(result[0]).not.to.be.instanceOf(TargetProfileForSpecifier);
     });
 

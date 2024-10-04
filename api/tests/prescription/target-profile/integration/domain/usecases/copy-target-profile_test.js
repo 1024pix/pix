@@ -43,7 +43,6 @@ describe('Integration | UseCases | copy-target-profile', function () {
       expect(newlyCreatedTargetProfile.comment).to.equal(originTargetProfile.comment);
       expect(newlyCreatedTargetProfile.description).to.equal(originTargetProfile.description);
       expect(newlyCreatedTargetProfile.imageUrl).to.equal(originTargetProfile.imageUrl);
-      expect(newlyCreatedTargetProfile.isPublic).to.equal(originTargetProfile.isPublic);
       expect(newlyCreatedTargetProfile.isSimplifiedAccess).to.equal(originTargetProfile.isSimplifiedAccess);
       expect(newlyCreatedTargetProfile.outdated).to.equal(originTargetProfile.outdated);
       expect(newlyCreatedTargetProfile.ownerOrganizationId).to.equal(originTargetProfile.ownerOrganizationId);
