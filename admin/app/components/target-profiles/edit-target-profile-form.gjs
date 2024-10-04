@@ -108,13 +108,6 @@ export default class CreateTargetProfileForm extends Component {
             >
               <:label>Identifiant de l'organisation de référence :</:label>
             </PixInput>
-
-            <PixCheckbox @checked={{@targetProfile.isPublic}} onChange={{fn this.handleCheckboxChange "isPublic"}}>
-              <:label>
-                Public
-                <small>(un profil cible marqué comme public sera affecté à toutes les organisations)</small>
-              </:label>
-            </PixCheckbox>
           {{/unless}}
 
           <PixCheckbox

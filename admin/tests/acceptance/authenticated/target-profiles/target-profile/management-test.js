@@ -73,7 +73,6 @@ module('Acceptance | Target Profile Management', function (hooks) {
       server.create('target-profile', {
         id: 1,
         name: 'Profil Cible Fantastix',
-        isPublic: true,
         outdated: false,
         ownerOrganizationId: 456,
         description: 'Top profil cible.',
@@ -91,7 +90,6 @@ module('Acceptance | Target Profile Management', function (hooks) {
       assert.dom(screen.getByRole('heading', { name: 'Profil Cible Fantastix', level: 2 })).exists();
       assert.dom(screen.getByText('Thématiques')).exists();
       assert.dom(_findByListItemText(screen, 'ID : 1')).exists();
-      assert.dom(_findByListItemText(screen, 'Public : Oui')).exists();
       assert.dom(_findByListItemText(screen, 'Obsolète : Non')).exists();
       assert.dom(_findByListItemText(screen, 'Parcours Accès Simplifié : Oui')).exists();
       assert.dom(_findByListItemText(screen, `${t('pages.target-profiles.resettable-checkbox.label')} : Non`)).exists();

@@ -14,7 +14,6 @@ module('Integration | Component | TargetProfile', function (hooks) {
     hasLinkedCampaign: false,
     hasLinkedAutonomousCourse: false,
     id: 666,
-    isPublic: false,
     isSimplifiedAccess: false,
     maxLevel: 7,
     name: 'Dummy target-profile',
