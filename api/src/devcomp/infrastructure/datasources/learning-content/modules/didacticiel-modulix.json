@@ -57,15 +57,39 @@
                 "id": "e1de6394-ff88-4de3-8834-a40057a50ff4",
                 "recto": {
                   "image": {
-                    "url": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg"
+                    "url": "https://images.pix.fr/modulix/didacticiel/icon.svg"
                   },
-                  "text": "A quoi sert l'arobase dans mon adresse email ?"
+                  "text": "Qui a écrit le Dormeur du Val ?"
                 },
                 "verso": {
                   "image": {
-                    "url": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg"
+                    "url": "https://images.pix.fr/modulix/didacticiel/chaton.jpg"
                   },
-                  "text": "<p>Parce que c'est joli</p>"
+                  "text": "<p>Arthur Rimbaud</p>"
+                }
+              },
+              {
+                "id": "48d0cd29-1e08-4b18-b15a-411ab83e5d3c",
+                "recto": {
+                  "text": "Comment s'appelait la fille de Victor Hugo, évoquée dans le poème 'Demain dès l'aube' ?"
+                },
+                "verso": {
+                  "text": "<p>Léopoldine</p>"
+                }
+              },
+              {
+                "id": "2611784c-cf3f-4445-998d-d02fa568da0c",
+                "recto": {
+                  "image": {
+                    "url": "https://images.pix.fr/modulix/didacticiel/icon.svg"
+                  },
+                  "text": "Quel animal a des yeux 'mêlés de métal et d'agathe' selon Charles Baudelaire ?"
+                },
+                "verso": {
+                  "image": {
+                    "url": "https://images.pix.fr/modulix/didacticiel/chaton.jpg"
+                  },
+                  "text": "<p>Un chat</p>"
                 }
               }
             ]

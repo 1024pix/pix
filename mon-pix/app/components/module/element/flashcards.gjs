@@ -1,10 +1,10 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
-import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
+import ModulixFlashcardsCard from 'mon-pix/components/module/element/flashcards-card';
 
 export default class ModulixFlashcards extends Component {
   @tracked
@@ -12,66 +12,59 @@ export default class ModulixFlashcards extends Component {
    * Displayed side of the card on the screen
    * @type {'recto'|'verso'}
    */
-  displayedSide = 'recto';
+  displayedSideName = 'recto';
 
+  @tracked
   /**
    * Index of the displayed card in the deck
    * @type {number}
    */
   currentCardIndex = 0;
 
-  get currentCardSide() {
-    const side = this.displayedSide;
-    return this.args.flashcards.cards[this.currentCardIndex][side];
+  get currentCard() {
+    return this.args.flashcards.cards[this.currentCardIndex];
+  }
+
+  get currentCardNumber() {
+    return this.currentCardIndex + 1;
+  }
+
+  get numberOfCards() {
+    return this.args.flashcards.cards.length;
   }
 
   @action
   flipCard() {
-    this.displayedSide = this.displayedSide === 'recto' ? 'verso' : 'recto';
+    this.displayedSideName = this.displayedSideName === 'recto' ? 'verso' : 'recto';
+  }
+
+  @action
+  goToNextCard() {
+    this.currentCardIndex++;
+    this.displayedSideName = 'recto';
   }
 
   <template>
     <div class="element-flashcards">
-      <div class="element-flashcards__card">
-        {{#if this.currentCardSide.image}}
-          <div class="element-flashcards-card__image">
-            <img src={{this.currentCardSide.image.url}} alt="" />
-          </div>
-        {{/if}}
-
-        <div class="element-flashcards-card__text">
-          {{#if (eq this.displayedSide "recto")}}
-            <p class="element-flashcards-card__text--recto">{{this.currentCardSide.text}}</p>
-          {{else if (eq this.displayedSide "verso")}}
-            {{htmlUnsafe this.currentCardSide.text}}
-          {{/if}}
-        </div>
-
-        <div class="element-flashcards-card__footer element-flashcards-card__footer--{{this.displayedSide}}">
-          {{#if (eq this.displayedSide "recto")}}
-            <PixButton @triggerAction={{this.flipCard}} @variant="primary" @size="small" @iconAfter="rotate-right">
-              {{t "pages.modulix.buttons.flashcards.seeAnswer"}}
-            </PixButton>
-          {{/if}}
-          {{#if (eq this.displayedSide "verso")}}
-            <PixButton @triggerAction={{this.flipCard}} @variant="tertiary" @size="small">
-              {{t "pages.modulix.buttons.flashcards.seeAgain"}}
-            </PixButton>
-          {{/if}}
-        </div>
-      </div>
+      <ModulixFlashcardsCard
+        @card={{this.currentCard}}
+        @displayedSideName={{this.displayedSideName}}
+        @onCardFlip={{this.flipCard}}
+      />
 
       <div class="element-flashcards__footer">
-        {{#if (eq this.displayedSide "recto")}}
+        {{#if (eq this.displayedSideName "recto")}}
           <p class="element-flashcards-footer__direction">{{t "pages.modulix.flashcards.direction"}}</p>
           <p class="element-flashcards-footer__position">{{t
               "pages.modulix.flashcards.position"
-              currentCardPosition=1
-              totalCards=1
+              currentCardPosition=this.currentCardNumber
+              totalCards=this.numberOfCards
             }}</p>
         {{/if}}
-        {{#if (eq this.displayedSide "verso")}}
-          <button type="button">{{t "pages.modulix.buttons.flashcards.nextCard"}}</button>
+        {{#if (eq this.displayedSideName "verso")}}
+          <button type="button" {{on "click" this.goToNextCard}}>{{t
+              "pages.modulix.buttons.flashcards.nextCard"
+            }}</button>
         {{/if}}
       </div>
     </div>
