@@ -1,5 +1,5 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/user-details-for-admin.serializer.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', function () {
   describe('#serialize', function () {
@@ -136,7 +136,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
   });
 
   describe('#serializeForUpdate', function () {
-    it('should serialize user details for Pix Admin', function () {
+    it('serializes user details for Pix Admin', function () {
       // given
       const modelObject = domainBuilder.buildUserDetailsForAdmin({
         organizationLearners: [domainBuilder.buildOrganizationLearnerForAdmin()],

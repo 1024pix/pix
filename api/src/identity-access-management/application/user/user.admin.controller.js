@@ -1,4 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
+import * as userDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-details-for-admin.serializer.js';
 import * as userForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-for-admin.serializer.js';
 import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
 
@@ -31,10 +32,27 @@ const unblockUserAccount = async function (request, h, dependencies = { userLogi
 };
 
 /**
+ * @param request
+ * @param h
+ * @param {object} dependencies
+ * @param {UserDetailsForAdminSerializer} dependencies.userDetailsForAdminSerializer
+ * @return {Promise<*>}
+ */
+const updateUserDetailsByAdmin = async function (request, h, dependencies = { userDetailsForAdminSerializer }) {
+  const userId = request.params.id;
+  const userDetailsToUpdate = dependencies.userDetailsForAdminSerializer.deserialize(request.payload);
+
+  const updatedUser = await usecases.updateUserDetailsByAdmin({ userId, userDetailsToUpdate });
+
+  return dependencies.userDetailsForAdminSerializer.serializeForUpdate(updatedUser);
+};
+
+/**
  * @typedef {object} UserAdminController
  * @property {function} findPaginatedFilteredUsers
  * @property {function} unblockUserAccount
+ * @property {function} updateUserDetailsByAdmin
  */
-const userAdminController = { findPaginatedFilteredUsers, unblockUserAccount };
+const userAdminController = { findPaginatedFilteredUsers, unblockUserAccount, updateUserDetailsByAdmin };
 
 export { userAdminController };

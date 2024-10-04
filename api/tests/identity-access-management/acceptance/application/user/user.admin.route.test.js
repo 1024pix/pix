@@ -71,4 +71,99 @@ describe('Acceptance | Identity Access Management | Application | Route | Admin 
       });
     });
   });
+
+  describe('PATCH /api/admin/users', function () {
+    let user;
+
+    beforeEach(async function () {
+      user = await insertUserWithRoleSuperAdmin();
+    });
+
+    it('replies with 200 status code, when user details are updated', async function () {
+      // given
+      const options = {
+        method: 'PATCH',
+        url: `/api/admin/users/${user.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        payload: {
+          data: {
+            id: user.id,
+            attributes: {
+              'first-name': 'firstNameUpdated',
+              'last-name': 'lastNameUpdated',
+              email: 'emailUpdated@example.net',
+              username: 'usernameUpdated',
+              lang: 'en',
+              locale: 'fr-FR',
+            },
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.id).to.equal('1234');
+      expect(response.result.data.type).to.equal('users');
+      expect(response.result.data.attributes.email).to.equal('emailUpdated@example.net');
+      expect(response.result.data.relationships['organization-learners']).to.not.be.undefined;
+      expect(response.result.data.relationships['authentication-methods']).to.not.be.undefined;
+    });
+
+    describe('Error case', function () {
+      it('replies with not authorized error', async function () {
+        // given
+        const options = {
+          method: 'PATCH',
+          url: `/api/admin/users/${user.id}`,
+          payload: {
+            data: {
+              id: user.id,
+              attributes: {
+                firstName: 'firstNameUpdated',
+                lastName: 'lastNameUpdated',
+                email: 'emailUpdated',
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('replies with forbidden error', async function () {
+        user = databaseBuilder.factory.buildUser({ email: 'partial.update@example.net' });
+        await databaseBuilder.commit();
+
+        // given
+        const options = {
+          method: 'PATCH',
+          url: `/api/admin/users/${user.id}`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              id: user.id,
+              attributes: {
+                'first-name': 'firstNameUpdated',
+                'last-name': 'lastNameUpdated',
+                email: 'emailUpdated@example.net',
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
 });

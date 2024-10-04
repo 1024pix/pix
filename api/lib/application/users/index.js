@@ -2,8 +2,6 @@ import Joi from 'joi';
 
 import { BadRequestError, sendJsonApiError } from '../../../src/shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { SUPPORTED_LOCALES } from '../../../src/shared/domain/constants.js';
-import { AVAILABLE_LANGUAGES } from '../../../src/shared/domain/services/language-service.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { userController } from './user-controller.js';
 
@@ -94,54 +92,6 @@ const register = async function (server) {
             '- Elle permet à un administrateur de lister les centres de certification auxquels appartient l´utilisateur',
         ],
         tags: ['api', 'admin', 'user', 'certification-centers'],
-      },
-    },
-    {
-      method: 'PATCH',
-      path: '/api/admin/users/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-              ])(request, h),
-          },
-        ],
-        plugins: {
-          'hapi-swagger': {
-            payloadType: 'form',
-          },
-        },
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                email: Joi.string().email().allow(null).optional(),
-                username: Joi.string().allow(null).optional(),
-                lang: Joi.string().valid(...AVAILABLE_LANGUAGES),
-                locale: Joi.string()
-                  .allow(null)
-                  .optional()
-                  .valid(...SUPPORTED_LOCALES),
-              },
-            },
-          }),
-          options: {
-            allowUnknown: true,
-          },
-        },
-        handler: userController.updateUserDetailsForAdministration,
-        notes: [
-          "- Permet à un administrateur de mettre à jour certains attributs d'un utilisateur identifié par son identifiant",
-        ],
-        tags: ['api', 'admin', 'user'],
       },
     },
     {
