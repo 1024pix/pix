@@ -4,7 +4,6 @@ import { service } from '@ember/service';
 export default class StartRoute extends Route {
   @service store;
   @service router;
-  @service featureToggles;
 
   async model(params) {
     const [certificationCandidate, certificationCandidateSubscription] = await Promise.all([
@@ -14,11 +13,7 @@ export default class StartRoute extends Route {
 
     const hasSeenCertificationInstructions = certificationCandidate?.hasSeenCertificationInstructions;
 
-    if (
-      !hasSeenCertificationInstructions &&
-      certificationCandidateSubscription.isSessionVersion3 &&
-      this.featureToggles.featureToggles.areV3InfoScreensEnabled
-    ) {
+    if (!hasSeenCertificationInstructions && certificationCandidateSubscription.isSessionVersion3) {
       this.router.replaceWith('authenticated.certifications.information', params.certification_candidate_id);
     }
 

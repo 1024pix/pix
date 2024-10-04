@@ -195,7 +195,6 @@ const configuration = (function () {
       scoAccountRecoveryKeyLifetimeMinutes: process.env.SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES,
     },
     featureToggles: {
-      areV3InfoScreensEnabled: toBoolean(process.env.FT_ENABLE_V3_INFO_SCREENS),
       isV3EligibilityCheckEnabled: toBoolean(process.env.FT_ENABLE_V3_ELIGIBILITY_CHECK),
       deprecatePoleEmploiPushNotification: toBoolean(process.env.DEPRECATE_PE_PUSH_NOTIFICATION),
       isAlwaysOkValidateNextChallengeEndpointEnabled: toBoolean(
@@ -396,7 +395,6 @@ const configuration = (function () {
     config.features.pixCertifScoBlockedAccessDateLycee = null;
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
-    config.featureToggles.areV3InfoScreensEnabled = false;
     config.featureToggles.isV3EligibilityCheckEnabled = false;
     config.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = false;
     config.featureToggles.isPix1dEnabled = true;
