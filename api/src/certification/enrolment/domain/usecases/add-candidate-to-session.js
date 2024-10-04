@@ -101,7 +101,7 @@ export async function addCandidateToSession({
     } catch {
       throw new CertificationCandidatesError({
         code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
-        meta: { email: candidate.resultRecipientEmail },
+        meta: { value: candidate.resultRecipientEmail },
       });
     }
   }
@@ -111,7 +111,7 @@ export async function addCandidateToSession({
     } catch {
       throw new CertificationCandidatesError({
         code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
-        meta: { email: candidate.email },
+        meta: { value: candidate.email },
       });
     }
   }

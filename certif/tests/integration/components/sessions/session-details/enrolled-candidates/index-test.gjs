@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { click } from "@ember/test-helpers";
+import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import EnrolledCandidates from 'pix-certif/components/sessions/session-details/enrolled-candidates';
 import { COMPLEMENTARY_KEYS, SUBSCRIPTION_TYPES } from 'pix-certif/models/subscription';
@@ -298,7 +298,9 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         // then
 
         // then
-        assert.dom(screen.getByRole('button', { name: 'Editer le candidat Eddy Taurial' })).hasClass(EDIT_BUTTON_SELECTOR);
+        assert
+          .dom(screen.getByRole('button', { name: 'Editer le candidat Eddy Taurial' }))
+          .hasClass(EDIT_BUTTON_SELECTOR);
         assert
           .dom(screen.getByRole('button', { name: 'Editer le candidat Lara Pafromage' }))
           .hasClass(EDIT_BUTTON_DISABLED_SELECTOR);
@@ -400,7 +402,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         // given
         const certificationCandidates = [
           _buildCertificationCandidate({ id: '1' }),
-          _buildCertificationCandidate({ id: '2', firstName: 'Lara', lastName: 'Pafromage', isLinked: true })
+          _buildCertificationCandidate({ id: '2', firstName: 'Lara', lastName: 'Pafromage', isLinked: true }),
         ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
         const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
