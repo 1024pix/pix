@@ -310,6 +310,7 @@ class CertificationCourse {
       completedAt: this._completedAt,
       isPublished: this._isPublished,
       isRejectedForFraud: this._isRejectedForFraud,
+      isAdjustedForAccessibility: this._isAdjustedForAccessibility,
       verificationCode: this._verificationCode,
       assessment: this._assessment,
       challenges: this._challenges,

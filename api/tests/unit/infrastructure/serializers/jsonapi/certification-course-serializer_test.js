@@ -19,6 +19,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         certificationIssueReports: [],
         hasSeenEndTestScreen: true,
         version: 2,
+        isAdjustedForAccessibility: true,
       });
 
       const issueReport = new CertificationIssueReport({
@@ -40,6 +41,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'has-seen-end-test-screen': true,
             'first-name': certificationCourse.toDTO().firstName,
             'last-name': certificationCourse.toDTO().lastName,
+            'is-adjusted-for-accessibility': true,
             version: 2,
           },
           relationships: {
@@ -71,6 +73,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         certificationIssueReports: undefined,
         hasSeenEndTestScreen: true,
         version: 2,
+        isAdjustedForAccessibility: false,
       });
 
       const jsonCertificationCourseWithAssessment = {
@@ -84,6 +87,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'first-name': certificationCourse.toDTO().firstName,
             'last-name': certificationCourse.toDTO().lastName,
             version: 2,
+            'is-adjusted-for-accessibility': false,
           },
           relationships: {
             assessment: {
@@ -114,6 +118,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         certificationIssueReports: undefined,
         hasSeenEndTestScreen: true,
         version: 2,
+        isAdjustedForAccessibility: false,
       });
 
       const jsonCertificationCourseWithAssessment = {
@@ -127,6 +132,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'first-name': certificationCourse.toDTO().firstName,
             'last-name': certificationCourse.toDTO().lastName,
             version: 2,
+            'is-adjusted-for-accessibility': false,
           },
           relationships: {
             assessment: {

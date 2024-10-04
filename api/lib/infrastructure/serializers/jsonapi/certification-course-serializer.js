@@ -18,6 +18,7 @@ const serialize = function (certificationCourse) {
       'firstName',
       'lastName',
       'version',
+      'isAdjustedForAccessibility',
     ],
     assessment: {
       ref: 'id',
