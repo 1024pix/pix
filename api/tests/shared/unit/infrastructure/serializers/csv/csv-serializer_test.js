@@ -1408,6 +1408,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         "Identifiant de l'organisation*",
         'Nom de la campagne*',
         'Identifiant du profil cible*',
+        'Identifiant du propriétaire*',
         'Identifiant du créateur*',
       ];
 
@@ -1425,11 +1426,11 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
   describe('#parseForCampaignsImport', function () {
     const headerCsv =
-      "Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe;Identifiant du créateur*;Titre du parcours;Descriptif du parcours;Envoi multiple;Identifiant du propriétaire;Texte de la page de fin de parcours;Texte du bouton de la page de fin de parcours;URL du bouton de la page de fin de parcours\n";
+      "Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe;Identifiant du créateur*;Titre du parcours;Descriptif du parcours;Envoi multiple;Identifiant du propriétaire*;Texte de la page de fin de parcours;Texte du bouton de la page de fin de parcours;URL du bouton de la page de fin de parcours\n";
 
     it('should return parsed campaign data', async function () {
       // given
-      const csv = `${headerCsv}1;chaussette;1234;numéro étudiant;789;titre 1;descriptif 1;Oui;45\n2;chapeau;1234;identifiant;666;titre 2;descriptif 2;Non\n3;chausson;1234;identifiant;123;titre 3;descriptif 3;Non;;Bravo !;Cliquez ici;https://hmpg.net/`;
+      const csv = `${headerCsv}1;chaussette;1234;numéro étudiant;789;titre 1;descriptif 1;Oui;45\n2;chapeau;1234;identifiant;666;titre 2;descriptif 2;Non;77\n3;chausson;1234;identifiant;123;titre 3;descriptif 3;Non;88;Bravo !;Cliquez ici;https://hmpg.net/`;
 
       // when
       const parsedData = await csvSerializer.parseForCampaignsImport(csv);
@@ -1459,7 +1460,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           customLandingPageText: 'descriptif 2',
           creatorId: 666,
           multipleSendings: false,
-          ownerId: null,
+          ownerId: 77,
           customResultPageText: null,
           customResultPageButtonText: null,
           customResultPageButtonUrl: null,
@@ -1473,7 +1474,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           customLandingPageText: 'descriptif 3',
           creatorId: 123,
           multipleSendings: false,
-          ownerId: null,
+          ownerId: 88,
           customResultPageText: 'Bravo !',
           customResultPageButtonText: 'Cliquez ici',
           customResultPageButtonUrl: 'https://hmpg.net/',
@@ -1563,6 +1564,34 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         expect(error).to.be.instanceOf(FileValidationError);
         expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
         expect(error.meta).to.equal('NaN is not a valid value for "Identifiant du créateur*"');
+      });
+    });
+
+    describe('when ownerId field is not valid', function () {
+      it('should throw an error when empty', async function () {
+        // given
+        const campaignWithoutOwnerIdCsv = `${headerCsv}1;chaussette;1234;numéro étudiant;12;titre;descriptif;false;;`;
+
+        // when
+        const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithoutOwnerIdCsv);
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('NaN is not a valid value for "Identifiant du propriétaire*"');
+      });
+
+      it('should throw an error when not a number', async function () {
+        // given
+        const campaignWithBadNumberForOwnerIdCsv = `${headerCsv}1;chaussette;1234;idpixlabel;1234;titre;descriptif;false;not a number`;
+
+        // when
+        const error = await catchErr(csvSerializer.parseForCampaignsImport)(campaignWithBadNumberForOwnerIdCsv);
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
+        expect(error.meta).to.equal('NaN is not a valid value for "Identifiant du propriétaire*"');
       });
     });
 

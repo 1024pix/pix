@@ -181,6 +181,7 @@ const requiredFieldNamesForCampaignsImport = [
   "Identifiant de l'organisation*",
   'Nom de la campagne*',
   'Identifiant du profil cible*',
+  'Identifiant du propriétaire*',
   'Identifiant du créateur*',
 ];
 
@@ -206,7 +207,7 @@ async function parseForCampaignsImport(cleanedData, { parseCsvData } = csvHelper
           "Identifiant de l'organisation*",
           'Identifiant du profil cible*',
           'Identifiant du créateur*',
-          'Identifiant du propriétaire',
+          'Identifiant du propriétaire*',
         ].includes(columnName)
       ) {
         value = parseInt(value, 10);
@@ -231,7 +232,7 @@ async function parseForCampaignsImport(cleanedData, { parseCsvData } = csvHelper
     title: data['Titre du parcours'],
     customLandingPageText: data['Descriptif du parcours'],
     multipleSendings: data['Envoi multiple'].toLowerCase() === 'oui' ? true : false,
-    ownerId: data['Identifiant du propriétaire'] || null,
+    ownerId: data['Identifiant du propriétaire*'],
     customResultPageText: data['Texte de la page de fin de parcours'] || null,
     customResultPageButtonText: data['Texte du bouton de la page de fin de parcours'] || null,
     customResultPageButtonUrl: data['URL du bouton de la page de fin de parcours'] || null,
