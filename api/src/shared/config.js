@@ -301,6 +301,9 @@ const configuration = (function () {
       plannerJobEnabled: process.env.PGBOSS_PLANNER_JOB_ENABLED
         ? toBoolean(process.env.PGBOSS_PLANNER_JOB_ENABLED)
         : true,
+      exportSenderJobEnabled: process.env.PGBOSS_EXPORT_SENDER_JOB_ENABLED
+        ? toBoolean(process.env.PGBOSS_EXPORT_SENDER_JOB_ENABLED)
+        : true,
     },
     poleEmploi: {
       clientId: process.env.POLE_EMPLOI_CLIENT_ID,
