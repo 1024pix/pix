@@ -27,56 +27,82 @@ describe('Unit | Application | Certification | Sessions Management | jobs | cpf-
     };
   });
 
-  it('should send to CpfExportBuilderJob chunks of certification course ids', async function () {
-    // given
-    const jobId = '237584-7648';
-    const logger = { info: noop };
-    sinon.stub(cpf.plannerJob, 'chunkSize').value(2);
-    sinon.stub(cpf.plannerJob, 'monthsToProcess').value(2);
-    sinon.stub(cpf.plannerJob, 'minimumReliabilityPeriod').value(2);
+  describe('#isJobEnabled', function () {
+    it('return true when job is enabled', function () {
+      //given
+      sinon.stub(config.pgBoss, 'plannerJobEnabled').value(true);
 
-    const startDate = dayjs().utc().subtract(3, 'months').startOf('month').toDate();
-    const endDate = dayjs().utc().subtract(2, 'months').endOf('month').toDate();
+      // when
+      const handler = new CpfExportPlannerJobController();
 
-    cpfCertificationResultRepository.countExportableCertificationCoursesByTimeRange.resolves(5);
-
-    // when
-    const jobController = new CpfExportPlannerJobController();
-    await jobController.handle({
-      jobId,
-      dependencies: { cpfCertificationResultRepository, cpfExportBuilderJobRepository, logger },
+      // then
+      expect(handler.isJobEnabled).to.be.true;
     });
 
-    // then
-    expect(cpfCertificationResultRepository.markCertificationToExport).to.have.been.callCount(3);
-    expect(cpfCertificationResultRepository.markCertificationToExport.getCall(0)).to.have.been.calledWithExactly({
-      startDate,
-      endDate,
-      limit: 2,
-      offset: 0,
-      batchId: '237584-7648#0',
+    it('return false when job is disabled', function () {
+      //given
+      sinon.stub(config.pgBoss, 'plannerJobEnabled').value(false);
+
+      //when
+      const handler = new CpfExportPlannerJobController();
+
+      //then
+      expect(handler.isJobEnabled).to.be.false;
     });
-    expect(cpfCertificationResultRepository.markCertificationToExport.getCall(1)).to.have.been.calledWithExactly({
-      startDate,
-      endDate,
-      limit: 2,
-      offset: 2,
-      batchId: '237584-7648#1',
+  });
+
+  describe('#handle', function () {
+    it('should send to CpfExportBuilderJob chunks of certification course ids', async function () {
+      // given
+      const jobId = '237584-7648';
+      const logger = { info: noop };
+      sinon.stub(cpf.plannerJob, 'chunkSize').value(2);
+      sinon.stub(cpf.plannerJob, 'monthsToProcess').value(2);
+      sinon.stub(cpf.plannerJob, 'minimumReliabilityPeriod').value(2);
+
+      const startDate = dayjs().utc().subtract(3, 'months').startOf('month').toDate();
+      const endDate = dayjs().utc().subtract(2, 'months').endOf('month').toDate();
+
+      cpfCertificationResultRepository.countExportableCertificationCoursesByTimeRange.resolves(5);
+
+      // when
+      const jobController = new CpfExportPlannerJobController();
+      await jobController.handle({
+        jobId,
+        dependencies: { cpfCertificationResultRepository, cpfExportBuilderJobRepository, logger },
+      });
+
+      // then
+      expect(cpfCertificationResultRepository.markCertificationToExport).to.have.been.callCount(3);
+      expect(cpfCertificationResultRepository.markCertificationToExport.getCall(0)).to.have.been.calledWithExactly({
+        startDate,
+        endDate,
+        limit: 2,
+        offset: 0,
+        batchId: '237584-7648#0',
+      });
+      expect(cpfCertificationResultRepository.markCertificationToExport.getCall(1)).to.have.been.calledWithExactly({
+        startDate,
+        endDate,
+        limit: 2,
+        offset: 2,
+        batchId: '237584-7648#1',
+      });
+      expect(cpfCertificationResultRepository.markCertificationToExport.getCall(2)).to.have.been.calledWithExactly({
+        startDate,
+        endDate,
+        limit: 2,
+        offset: 4,
+        batchId: '237584-7648#2',
+      });
+      expect(
+        cpfCertificationResultRepository.countExportableCertificationCoursesByTimeRange,
+      ).to.have.been.calledWithExactly({ startDate, endDate });
+      expect(cpfExportBuilderJobRepository.performAsync).to.have.been.calledOnceWith(
+        new CpfExportBuilderJob({ batchId: '237584-7648#0' }),
+        new CpfExportBuilderJob({ batchId: '237584-7648#1' }),
+        new CpfExportBuilderJob({ batchId: '237584-7648#2' }),
+      );
     });
-    expect(cpfCertificationResultRepository.markCertificationToExport.getCall(2)).to.have.been.calledWithExactly({
-      startDate,
-      endDate,
-      limit: 2,
-      offset: 4,
-      batchId: '237584-7648#2',
-    });
-    expect(
-      cpfCertificationResultRepository.countExportableCertificationCoursesByTimeRange,
-    ).to.have.been.calledWithExactly({ startDate, endDate });
-    expect(cpfExportBuilderJobRepository.performAsync).to.have.been.calledOnceWith(
-      new CpfExportBuilderJob({ batchId: '237584-7648#0' }),
-      new CpfExportBuilderJob({ batchId: '237584-7648#1' }),
-      new CpfExportBuilderJob({ batchId: '237584-7648#2' }),
-    );
   });
 });

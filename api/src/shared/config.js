@@ -298,6 +298,9 @@ const configuration = (function () {
       importFileJobEnabled: process.env.PGBOSS_IMPORT_FILE_JOB_ENABLED
         ? toBoolean(process.env.PGBOSS_IMPORT_FILE_JOB_ENABLED)
         : true,
+      plannerJobEnabled: process.env.PGBOSS_PLANNER_JOB_ENABLED
+        ? toBoolean(process.env.PGBOSS_PLANNER_JOB_ENABLED)
+        : true,
     },
     poleEmploi: {
       clientId: process.env.POLE_EMPLOI_CLIENT_ID,

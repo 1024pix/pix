@@ -19,6 +19,10 @@ class CpfExportPlannerJobController extends JobScheduleController {
     super('CpfExportPlannerJob', { jobCron: config.cpf.plannerJob.cron });
   }
 
+  get isJobEnabled() {
+    return config.pgBoss.plannerJobEnabled;
+  }
+
   async handle({ jobId, dependencies = { cpfCertificationResultRepository, cpfExportBuilderJobRepository, logger } }) {
     const startDate = dayjs()
       .utc()
