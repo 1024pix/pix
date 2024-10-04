@@ -77,7 +77,6 @@ module('Acceptance | Target profile creation', function (hooks) {
       await clickByName('Nouveau profil cible');
       await fillByLabel(/Nom/, 'Un profil cible, et vite !');
       await fillByLabel(/Identifiant de l'organisation de référence/, 1);
-      await clickByName(/Public/);
       await clickByName(/Permettre la remise à zéro des acquis du profil cible/);
 
       await fillByLabel(/Référentiel/, 'Pi');

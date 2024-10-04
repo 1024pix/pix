@@ -65,7 +65,6 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
       category: 'OTHER',
       comment: '',
       imageUrl: '',
-      isPublic: false,
       name: 'A name',
       ownerOrganizationId: 1000,
     };
@@ -97,7 +96,6 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
       assert.dom(screen.getByLabelText(/Nom/)).exists();
       assert.dom(screen.getByLabelText(/Catégorie/)).exists();
       assert.dom(screen.getByLabelText(/Identifiant de l'organisation de référence/)).exists();
-      assert.dom(screen.getByLabelText(/Public/)).exists();
       assert.dom(screen.getByLabelText(/Permettre la remise à zéro des acquis du profil cible/)).exists();
 
       assert.dom(screen.getByText(/Sélection des sujets/)).exists();
@@ -188,7 +186,6 @@ module('Integration | Component | TargetProfiles::EditTargetProfileForm', functi
 
       // then
       assert.notOk(screen.queryByLabelText(/Identifiant de l'organisation de référence/));
-      assert.notOk(screen.queryByLabelText(/Public/));
       assert.dom(screen.getByText(/Sélection des sujets/)).exists();
       assert.dom(screen.getByText(/1 · Titre domaine/)).exists();
 
