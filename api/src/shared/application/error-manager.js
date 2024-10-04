@@ -469,7 +469,7 @@ function _mapToHttpError(error) {
   }
 
   if (error instanceof DomainErrors.CertificationCandidateOnFinalizedSessionError) {
-    return new HttpErrors.ForbiddenError(error.message);
+    return new HttpErrors.ForbiddenError(error.message, error.code);
   }
 
   if (error instanceof DomainErrors.OrganizationLearnerCannotBeDissociatedError) {
