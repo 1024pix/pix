@@ -1,0 +1,17 @@
+.sso-selection-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-4x);
+
+  &__mandatory-fields-message {
+    @extend %pix-body-xs;
+
+    color: var(--pix-neutral-500);
+  }
+
+  &__signin-message {
+    @extend %pix-body-s;
+
+    color: var(--pix-neutral-500);
+  }
+}

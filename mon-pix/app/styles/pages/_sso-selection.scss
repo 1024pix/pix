@@ -1,0 +1,20 @@
+.sso-selection-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-4x);
+  padding-top: var(--pix-spacing-6x);
+
+  &__signup {
+    display: flex;
+    gap: var(--pix-spacing-2x);
+    margin-top: var(--pix-spacing-4x);
+    color: var(--pix-neutral-500);
+
+    > a {
+      color: var(--pix-neutral-800);
+      font-weight: var(--pix-font-bold);
+      text-decoration: underline;
+    }
+  }
+}
+

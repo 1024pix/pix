@@ -134,8 +134,9 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 
 /* Styles for colocated components */
 @import 'authentication-layout';
-@import 'authentication/signin-form';
 @import 'authentication/oidc-provider-selector';
+@import 'authentication/signin-form';
+@import 'authentication/sso-selection-form';
 
 /* pages */
 @import 'pages/assessment-results';
@@ -162,6 +163,7 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'pages/send-profile';
 @import 'pages/sign-form';
 @import 'pages/skill-review';
+@import 'pages/sso-selection';
 @import 'pages/terms-of-service';
 @import 'pages/update-expired-password-form';
 @import 'pages/user-certifications';
