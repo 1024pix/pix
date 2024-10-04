@@ -41,7 +41,13 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
   });
 
   context('when session is v2', function () {
-    beforeEach(function () {
+    it('should not check eligibility', async function () {
+      // given
+      const candidate = domainBuilder.certification.enrolment.buildCandidate({
+        userId: 100200,
+        reconciledAt: new Date(),
+        subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
+      });
       session = domainBuilder.certification.enrolment.buildSession({ id: 1234, version: CERTIFICATION_VERSIONS.V2 });
       dependencies.sessionRepository = {
         get: sinon.stub().resolves(session),
@@ -49,24 +55,23 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       dependencies.placementProfileService = {
         getPlacementProfile: sinon.stub().resolves({ isCertifiable: sinon.stub().returns(true) }),
       };
-    });
-
-    it('should resolve', async function () {
-      // given
-      const candidate = domainBuilder.certification.enrolment.buildCandidate({
-        userId: null,
-        subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
-      });
+      dependencies.pixCertificationRepository = {
+        findByUserId: sinon.stub(),
+      };
 
       // when
-      const result = await verifyCandidateSubscriptions({
-        userId: 2,
+      await verifyCandidateSubscriptions({
         candidate,
         ...dependencies,
       });
 
-      //then
-      expect(result).to.be.true;
+      // then
+      expect(dependencies.placementProfileService.getPlacementProfile).to.have.been.calledWithExactly({
+        userId: candidate.userId,
+        limitDate: candidate.reconciledAt,
+      });
+
+      expect(dependencies.pixCertificationRepository.findByUserId).to.not.have.been.called;
     });
   });
 
@@ -107,14 +112,14 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         });
 
         // when
-        const result = await verifyCandidateSubscriptions({
-          userId: 2,
-          candidate,
-          ...dependencies,
-        });
-
-        //then
-        expect(result).to.be.true;
+        // then
+        expect(async () => {
+          await verifyCandidateSubscriptions({
+            userId: 2,
+            candidate,
+            ...dependencies,
+          });
+        }).not.to.throw(CertificationCandidateEligibilityError);
       });
     });
 
@@ -138,15 +143,14 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         });
 
         // when
-        const result = await verifyCandidateSubscriptions({
-          userId: candidate.userId,
-          candidate,
-          limitDate: Date.now(),
-          ...dependencies,
-        });
-
         //then
-        expect(result).to.be.true;
+        expect(async () => {
+          await verifyCandidateSubscriptions({
+            userId: 2,
+            candidate,
+            ...dependencies,
+          });
+        }).not.to.throw(CertificationCandidateEligibilityError);
       });
     });
 
@@ -468,15 +472,14 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
           ]);
 
           // when
-          const result = await verifyCandidateSubscriptions({
-            userId: candidate.userId,
-            candidate,
-            limitDate: Date.now(),
-            ...dependencies,
-          });
-
           //then
-          expect(result).to.be.true;
+          expect(async () => {
+            await verifyCandidateSubscriptions({
+              userId: candidate.userId,
+              candidate,
+              ...dependencies,
+            });
+          }).not.to.throw(CertificationCandidateEligibilityError);
         });
       });
     });

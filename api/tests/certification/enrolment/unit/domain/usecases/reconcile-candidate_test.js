@@ -38,7 +38,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | reconcile-candid
     candidateRepository.update.withArgs(candidate).resolves();
 
     // when
-    await reconcileCandidate({
+    const result = await reconcileCandidate({
       candidate,
       ...dependencies,
     });
@@ -47,5 +47,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | reconcile-candid
     expect(candidateRepository.update).to.have.been.calledWith(candidate);
     expect(candidate.userId).to.equal(userId);
     expect(candidate.reconciledAt).to.deep.equal(now);
+    expect(result).to.deep.equal(candidate);
   });
 });

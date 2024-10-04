@@ -73,8 +73,11 @@ describe('Unit | Application | Service | register-candidate-participation', func
       clock.restore();
     });
 
-    it('should verify candidate eligibility', async function () {
+    it('should verify candidate subscriptions', async function () {
       // when
+      unlinkedCandidate.reconcile();
+      usecases.reconcileCandidate.resolves(unlinkedCandidate);
+
       await registerCandidateParticipation({
         ...candidateData,
         userId,

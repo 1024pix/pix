@@ -1,7 +1,6 @@
 /**
  * @typedef {import ('../../domain/models/Candidate.js').Candidate} Candidate
  */
-
 import { usecases } from '../../domain/usecases/index.js';
 
 /**
@@ -36,14 +35,16 @@ export const registerCandidateParticipation = async ({
     return candidate;
   }
 
-  await usecases.verifyCandidateSubscriptions({
+  const reconciliedCandidate = await usecases.reconcileCandidate({
+    userId,
     candidate,
+  });
+
+  await usecases.verifyCandidateSubscriptions({
+    candidate: reconciliedCandidate,
     userId,
     sessionId,
   });
 
-  return usecases.reconcileCandidate({
-    userId,
-    candidate,
-  });
+  return reconciliedCandidate;
 };

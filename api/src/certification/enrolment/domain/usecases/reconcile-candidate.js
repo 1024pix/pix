@@ -30,6 +30,8 @@ const _saveReconcilement = withTransaction(
    * @param {CandidateRepository} params.candidateRepository
    */
   async ({ candidate, candidateRepository }) => {
-    return candidateRepository.update(candidate);
+    await candidateRepository.update(candidate);
+
+    return candidate;
   },
 );
