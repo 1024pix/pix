@@ -490,6 +490,7 @@ const configuration = (function () {
 
     config.cpf.sendEmailJob = {
       recipient: 'team-all-star-certif-de-ouf@example.net',
+      cron: '0 3 * * *',
     };
 
     config.jwtConfig.livretScolaire = { secret: 'secretosmose', tokenLifespan: '1h' };

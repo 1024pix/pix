@@ -113,6 +113,12 @@ export async function registerJobs({ jobGroup, dependencies = { startPgBoss, cre
       }
     } else {
       logger.warn(`Job "${job.jobName}" is disabled.`);
+
+      // For cronJob we need to unschedule older cron
+      if (job.jobCron) {
+        await jobQueues.unscheduleCronJob(job.jobName);
+        logger.info(`Job CRON "${job.jobName}" is unscheduled.`);
+      }
     }
   }
 
