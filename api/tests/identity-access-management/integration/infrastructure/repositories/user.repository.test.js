@@ -1160,23 +1160,24 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
             name: 'test',
             fileType: 'csv',
             config: {
-              displayableColumns: [
-                {
-                  key: 4,
-                  position: 2,
-                  name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE,
-                },
-                {
-                  key: 3,
-                  position: 1,
-                  name: IMPORT_KEY_FIELD.COMMON_DIVISION,
-                },
-              ],
               headers: [
-                { key: 1, name: 'Nom apprenant', property: 'lastName', required: true },
-                { key: 2, name: 'Prénom apprenant', property: 'firstName', required: true },
-                { key: 3, name: 'Classe', required: true },
-                { key: 4, name: 'Date de naissance', required: true },
+                { name: 'Nom apprenant', property: 'lastName', required: true },
+                { name: 'Prénom apprenant', property: 'firstName', required: true },
+                {
+                  name: 'Classe',
+                  required: true,
+                  config: {
+                    displayable: {
+                      position: 1,
+                      name: IMPORT_KEY_FIELD.COMMON_DIVISION,
+                    },
+                  },
+                },
+                {
+                  name: 'Date de naissance',
+                  required: true,
+                  config: { displayable: { position: 2, name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE } },
+                },
               ],
             },
           });

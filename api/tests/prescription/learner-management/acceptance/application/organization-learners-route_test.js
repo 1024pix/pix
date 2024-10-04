@@ -92,10 +92,13 @@ describe('Acceptance | Prescription | learner management | Application | organiz
         config: {
           unicityColumns: ['column_firstname'],
           acceptedEncoding: ['utf-8'],
-          validationRules: { formats: [{ name: 'column_lastname', type: 'string' }] },
           headers: [
-            { name: 'column_firstname', property: 'firstName', required: true },
-            { name: 'column_lastname', property: 'lastName', required: true },
+            {
+              name: 'column_firstname',
+              config: { property: 'firstName', validate: { type: 'string' } },
+              required: true,
+            },
+            { name: 'column_lastname', config: { property: 'lastName' }, required: true },
             { name: 'hobby', required: false },
           ],
         },
@@ -153,25 +156,32 @@ describe('Acceptance | Prescription | learner management | Application | organiz
         config: {
           acceptedEncoding: ['utf8'],
           unicityColumns: ['unicity key'],
-          reconciliationMappingColumns: [
-            { key: 1, fieldId: 'reconcileField1', columnName: IMPORT_KEY_FIELD.COMMON_LASTNAME, position: 1 },
-            { key: 2, fieldId: 'reconcileField2', columnName: IMPORT_KEY_FIELD.COMMON_FIRSTNAME, position: 2 },
-          ],
-          validationRules: {
-            formats: [
-              { name: 'Nom apprenant', type: 'string', required: true },
-              { name: 'Prénom apprenant', type: 'string', required: true },
-              { name: 'unicity key', type: 'string', required: true },
-              { name: 'catégorie', type: 'string', required: true },
-              { name: 'Date de naissance', type: 'date', format: 'YYYY-MM-DD', required: true },
-            ],
-          },
           headers: [
-            { key: 1, name: 'Nom apprenant', property: 'lastName', required: true },
-            { key: 2, name: 'Prénom apprenant', property: 'firstName', required: true },
-            { key: 3, name: 'unicity key', required: true },
-            { key: 4, name: 'catégorie', required: true },
-            { key: 5, name: 'Date de naissance', required: true },
+            {
+              config: {
+                property: 'lastName',
+                validate: { type: 'string', required: true },
+                reconcile: { fieldId: 'reconcileField1', name: IMPORT_KEY_FIELD.COMMON_LASTNAME, position: 1 },
+              },
+              name: 'Nom apprenant',
+              required: true,
+            },
+            {
+              config: {
+                property: 'firstName',
+                validate: { type: 'string', required: true },
+                reconcile: { fieldId: 'reconcileField2', name: IMPORT_KEY_FIELD.COMMON_FIRSTNAME, position: 2 },
+              },
+              name: 'Prénom apprenant',
+              required: true,
+            },
+            { config: {}, name: 'unicity key', required: true },
+            { config: { validate: { type: 'string', required: true } }, name: 'catégorie', required: true },
+            {
+              config: { validate: { type: 'date', format: 'YYYY-MM-DD', required: true } },
+              name: 'Date de naissance',
+              required: true,
+            },
           ],
         },
       }).id;

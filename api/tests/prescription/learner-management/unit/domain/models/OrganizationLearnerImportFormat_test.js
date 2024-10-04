@@ -14,50 +14,49 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
       config: {
         acceptedEncoding: ['utf8'],
         unicityColumns: ['unicity key'],
-        reconciliationMappingColumns: [
-          { key: 4, fieldId: 'reconcileField3', name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, position: 3 },
-          { key: 1, fieldId: 'reconcileField1', name: IMPORT_KEY_FIELD.COMMON_LASTNAME, position: 1 },
-          { key: 2, fieldId: 'reconcileField2', name: IMPORT_KEY_FIELD.COMMON_FIRSTNAME, position: 2 },
-        ],
-        validationRules: {
-          formats: [
-            { key: 1, name: 'Nom apprenant', type: 'string', required: true },
-            { key: 2, name: 'Prénom apprenant', type: 'string', required: true },
-            { key: 3, name: 'catégorie', type: 'string', required: true },
-            { key: 4, name: 'Date de naissance', type: 'date', format: 'YYYY-MM-DD', required: true },
-            { key: 5, name: 'unicity key', type: 'string', required: true },
-          ],
-        },
         headers: [
-          { key: 1, name: 'Nom apprenant', property: 'lastName', required: true },
-          { key: 2, name: 'Prénom apprenant', property: 'firstName', required: true },
-          { key: 3, name: 'catégorie', required: true, config: { exportable: true } },
-          { key: 4, name: 'Date de naissance', required: true, config: { exportable: true } },
-          { key: 5, name: 'unicity key', required: true },
-        ],
-        filterableColumns: [
           {
-            key: 4,
-            position: 2,
-            name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE,
+            name: 'Nom apprenant',
+            config: {
+              validate: { type: 'string', required: true },
+              property: 'lastName',
+              reconcile: { fieldId: 'reconcileField1', name: IMPORT_KEY_FIELD.COMMON_LASTNAME, position: 1 },
+            },
+            required: true,
           },
           {
-            key: 3,
-            position: 1,
-            name: IMPORT_KEY_FIELD.COMMON_DIVISION,
-          },
-        ],
-        displayableColumns: [
-          {
-            key: 3,
-            position: 2,
-            name: IMPORT_KEY_FIELD.COMMON_DIVISION,
+            name: 'Prénom apprenant',
+            config: {
+              validate: { type: 'string', required: true },
+              property: 'firstName',
+              reconcile: { fieldId: 'reconcileField2', name: IMPORT_KEY_FIELD.COMMON_FIRSTNAME, position: 2 },
+            },
+            required: true,
           },
           {
-            key: 4,
-            position: 1,
-            name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE,
+            name: 'catégorie',
+            required: true,
+            config: {
+              displayable: {
+                position: 2,
+                name: IMPORT_KEY_FIELD.COMMON_DIVISION,
+                filterable: { type: 'string' },
+              },
+              exportable: true,
+              validate: { type: 'string', required: true },
+            },
           },
+          {
+            name: 'Date de naissance',
+            required: true,
+            config: {
+              validate: { type: 'date', format: 'YYYY-MM-DD', required: true },
+              reconcile: { fieldId: 'reconcileField3', name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, position: 3 },
+              displayable: { position: 1, name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, filterable: { type: 'string' } },
+              exportable: true,
+            },
+          },
+          { name: 'unicity key', required: true, validate: { type: 'string', required: true } },
         ],
       },
       createdAt: new Date('2024-01-01'),
@@ -144,14 +143,33 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
       const organizationLearnerImportFormat = new OrganizationLearnerImportFormat(
         organizationLearnerImportFormatPayload,
       );
-      expect(organizationLearnerImportFormat.extraColumns).to.deep.equal([
+      expect(organizationLearnerImportFormat.extraColumns).to.deep.members([
         { key: 'Date de naissance', name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE },
         { key: 'catégorie', name: IMPORT_KEY_FIELD.COMMON_DIVISION },
       ]);
     });
 
     it('should return empty when displayableColumns is not defined', function () {
-      delete organizationLearnerImportFormatPayload.config.displayableColumns;
+      organizationLearnerImportFormatPayload.config.headers = [
+        {
+          name: 'Nom apprenant',
+          config: {
+            validate: { type: 'string', required: true },
+            property: 'lastName',
+            reconcile: { fieldId: 'reconcileField1', name: IMPORT_KEY_FIELD.COMMON_LASTNAME, position: 1 },
+          },
+          required: true,
+        },
+        {
+          name: 'Prénom apprenant',
+          config: {
+            validate: { type: 'string', required: true },
+            property: 'firstName',
+            reconcile: { fieldId: 'reconcileField2', name: IMPORT_KEY_FIELD.COMMON_FIRSTNAME, position: 2 },
+          },
+          required: true,
+        },
+      ];
 
       const organizationLearnerImportFormat = new OrganizationLearnerImportFormat(
         organizationLearnerImportFormatPayload,
@@ -166,13 +184,32 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
         organizationLearnerImportFormatPayload,
       );
       expect(organizationLearnerImportFormat.orderedFilterableColumns).to.deep.equal([
-        { key: 3, name: IMPORT_KEY_FIELD.COMMON_DIVISION, position: 1 },
-        { key: 4, name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, position: 2 },
+        { name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, position: 1 },
+        { name: IMPORT_KEY_FIELD.COMMON_DIVISION, position: 2 },
       ]);
     });
 
     it('should return empty when filterableColumns is not defined', function () {
-      delete organizationLearnerImportFormatPayload.config.filterableColumns;
+      organizationLearnerImportFormatPayload.config.headers = [
+        {
+          name: 'Nom apprenant',
+          config: {
+            validate: { type: 'string', required: true },
+            property: 'lastName',
+            reconcile: { fieldId: 'reconcileField1', name: IMPORT_KEY_FIELD.COMMON_LASTNAME, position: 1 },
+          },
+          required: true,
+        },
+        {
+          name: 'Prénom apprenant',
+          config: {
+            validate: { type: 'string', required: true },
+            property: 'firstName',
+            reconcile: { fieldId: 'reconcileField2', name: IMPORT_KEY_FIELD.COMMON_FIRSTNAME, position: 2 },
+          },
+          required: true,
+        },
+      ];
 
       const organizationLearnerImportFormat = new OrganizationLearnerImportFormat(
         organizationLearnerImportFormatPayload,
@@ -187,13 +224,32 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
         organizationLearnerImportFormatPayload,
       );
       expect(organizationLearnerImportFormat.orderedDisplayabledColumns).to.deep.equal([
-        { key: 4, name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, position: 1 },
-        { key: 3, name: IMPORT_KEY_FIELD.COMMON_DIVISION, position: 2 },
+        { name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, position: 1 },
+        { name: IMPORT_KEY_FIELD.COMMON_DIVISION, position: 2 },
       ]);
     });
 
     it('should return empty when displayableColumns is not defined', function () {
-      delete organizationLearnerImportFormatPayload.config.displayableColumns;
+      organizationLearnerImportFormatPayload.config.headers = [
+        {
+          name: 'Nom apprenant',
+          config: {
+            validate: { type: 'string', required: true },
+            property: 'lastName',
+            reconcile: { fieldId: 'reconcileField1', name: IMPORT_KEY_FIELD.COMMON_LASTNAME, position: 1 },
+          },
+          required: true,
+        },
+        {
+          name: 'Prénom apprenant',
+          config: {
+            validate: { type: 'string', required: true },
+            property: 'firstName',
+            reconcile: { fieldId: 'reconcileField2', name: IMPORT_KEY_FIELD.COMMON_FIRSTNAME, position: 2 },
+          },
+          required: true,
+        },
+      ];
 
       const organizationLearnerImportFormat = new OrganizationLearnerImportFormat(
         organizationLearnerImportFormatPayload,
@@ -208,8 +264,8 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
         organizationLearnerImportFormatPayload,
       );
       expect(organizationLearnerImportFormat.filtersToDisplay).to.deep.equal([
-        IMPORT_KEY_FIELD.COMMON_DIVISION,
         IMPORT_KEY_FIELD.COMMON_BIRTHDATE,
+        IMPORT_KEY_FIELD.COMMON_DIVISION,
       ]);
     });
   });
@@ -226,7 +282,26 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
     });
 
     it('should return empty when displayableColumns is not defined', function () {
-      delete organizationLearnerImportFormatPayload.config.displayableColumns;
+      organizationLearnerImportFormatPayload.config.headers = [
+        {
+          name: 'Nom apprenant',
+          config: {
+            validate: { type: 'string', required: true },
+            property: 'lastName',
+            reconcile: { fieldId: 'reconcileField1', name: IMPORT_KEY_FIELD.COMMON_LASTNAME, position: 1 },
+          },
+          required: true,
+        },
+        {
+          name: 'Prénom apprenant',
+          config: {
+            validate: { type: 'string', required: true },
+            property: 'firstName',
+            reconcile: { fieldId: 'reconcileField2', name: IMPORT_KEY_FIELD.COMMON_FIRSTNAME, position: 2 },
+          },
+          required: true,
+        },
+      ];
 
       const organizationLearnerImportFormat = new OrganizationLearnerImportFormat(
         organizationLearnerImportFormatPayload,
@@ -241,24 +316,24 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
         organizationLearnerImportFormatPayload,
       );
       expect(organizationLearnerImportFormat.reconciliationFields).to.deep.equal([
-        { fieldId: 'reconcileField1', name: IMPORT_KEY_FIELD.COMMON_LASTNAME, type: 'string' },
-        { fieldId: 'reconcileField2', name: IMPORT_KEY_FIELD.COMMON_FIRSTNAME, type: 'string' },
-        { fieldId: 'reconcileField3', name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, type: 'date' },
+        { fieldId: 'reconcileField1', name: IMPORT_KEY_FIELD.COMMON_LASTNAME, type: 'string', position: 1 },
+        { fieldId: 'reconcileField2', name: IMPORT_KEY_FIELD.COMMON_FIRSTNAME, type: 'string', position: 2 },
+        { fieldId: 'reconcileField3', name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, type: 'date', position: 3 },
       ]);
     });
   });
 
-  describe('#headersFields', function () {
+  describe('#headersName', function () {
     it('should return headers fields', function () {
       const organizationLearnerImportFormat = new OrganizationLearnerImportFormat(
         organizationLearnerImportFormatPayload,
       );
-      expect(organizationLearnerImportFormat.headersFields).to.deep.equal([
-        { key: 1, name: 'Nom apprenant', property: 'lastName', required: true },
-        { key: 2, name: 'Prénom apprenant', property: 'firstName', required: true },
-        { key: 3, name: 'catégorie', required: true, config: { exportable: true } },
-        { key: 4, name: 'Date de naissance', required: true, config: { exportable: true } },
-        { key: 5, name: 'unicity key', required: true },
+      expect(organizationLearnerImportFormat.headersName).to.deep.equal([
+        { name: 'Nom apprenant' },
+        { name: 'Prénom apprenant' },
+        { name: 'catégorie' },
+        { name: 'Date de naissance' },
+        { name: 'unicity key' },
       ]);
     });
   });
@@ -297,7 +372,7 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
 
     it('should return empty when there is no exportable columns', function () {
       organizationLearnerImportFormatPayload.config.headers = [
-        { key: 1, name: 'Nom apprenant', property: 'lastName', required: true },
+        { name: 'Nom apprenant', property: 'lastName', required: true },
       ];
 
       const organizationLearnerImportFormat = new OrganizationLearnerImportFormat(

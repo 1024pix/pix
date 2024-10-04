@@ -32,30 +32,45 @@ class OrganizationLearnerImportFormat {
 
   #sortObject = (columnA, columnB) => columnA.position - columnB.position;
 
-  get reconciliationFields() {
-    return this.config.reconciliationMappingColumns
-      .slice()
-      .sort(this.#sortObject)
-      .map(({ name, fieldId, key }) => {
-        const { type } = this.config.validationRules.formats.find((format) => format.key === key);
-        return { name, fieldId, type };
-      });
+  get #displayable() {
+    return this.config.headers.flatMap((header) => (header?.config?.displayable ? header : [])).slice();
   }
 
-  get headersFields() {
-    return this.config.headers;
+  get reconciliationFields() {
+    return this.config.headers
+      .flatMap((header) =>
+        header?.config?.reconcile
+          ? {
+              name: header.config.reconcile.name,
+              fieldId: header.config.reconcile.fieldId,
+              position: header.config.reconcile.position,
+              type: header.config.validate.type,
+            }
+          : [],
+      )
+      .sort(this.#sortObject);
+  }
+
+  get headersName() {
+    return this.config.headers.map(({ name }) => ({ name }));
   }
 
   get orderedDisplayabledColumns() {
-    if (!this.config.displayableColumns) return [];
-
-    return this.config.displayableColumns.slice().sort(this.#sortObject);
+    return this.#displayable
+      .map(({ config }) => {
+        return { name: config.displayable.name, position: config.displayable.position };
+      })
+      .sort(this.#sortObject);
   }
 
   get orderedFilterableColumns() {
-    if (!this.config.filterableColumns) return [];
-
-    return this.config.filterableColumns.slice().sort(this.#sortObject);
+    return this.#displayable
+      .flatMap(({ config }) =>
+        config.displayable.filterable?.type
+          ? { name: config.displayable.name, position: config.displayable.position }
+          : [],
+      )
+      .sort(this.#sortObject);
   }
 
   get columnsToDisplay() {
@@ -67,14 +82,14 @@ class OrganizationLearnerImportFormat {
   }
 
   get extraColumns() {
-    return this.orderedDisplayabledColumns.map((column) => {
-      const { name: key } = this.config.headers.find((header) => header.key === column.key);
+    return this.#displayable.map((header) => {
       return {
-        name: column.name,
-        key,
+        name: header.config.displayable.name,
+        key: header.name,
       };
     });
   }
+
   get exportableColumns() {
     return this.config.headers.flatMap(({ name, config }) => (config?.exportable ? { columnName: name } : []));
   }
@@ -92,15 +107,14 @@ class OrganizationLearnerImportFormat {
    */
   transformReconciliationData(params) {
     return Object.entries(params).reduce((obj, [fieldId, value]) => {
-      const reconciliationField = this.config.reconciliationMappingColumns.find((column) => column.fieldId === fieldId);
-      const header = this.headersFields.find((column) => column.key === reconciliationField.key);
-      if (header.property) {
-        obj[header.property] = value;
+      const reconciliationField = this.config.headers.find(({ config }) => config?.reconcile?.fieldId === fieldId);
+      if (reconciliationField.config.property) {
+        obj[reconciliationField.config.property] = value;
       } else {
         if (!obj.attributes) {
           obj.attributes = {};
         }
-        obj.attributes[header.name] = value;
+        obj.attributes[reconciliationField.name] = value;
       }
       return obj;
     }, {});

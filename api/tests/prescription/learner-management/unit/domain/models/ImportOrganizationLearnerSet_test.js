@@ -10,7 +10,6 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
     prénom: 'Tomie',
     nom: 'Katana',
     "nom d'usage": 'Yolo',
-    anniversaire: '34',
     group: 'Solo',
   };
   let importFormat;
@@ -19,18 +18,14 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
     importFormat = {
       config: {
         unicityColumns: ['prénom'],
-        validationRules: {},
         headers: [
           {
             name: 'prénom',
-            property: 'firstName',
+            config: { property: 'firstName' },
           },
           {
             name: 'nom',
-            property: 'lastName',
-          },
-          {
-            name: 'anniversaire',
+            config: { property: 'lastName' },
           },
           {
             name: 'group',
@@ -68,7 +63,6 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             lastName: 'Katana',
             organizationId,
             "nom d'usage": 'Yolo',
-            anniversaire: '34',
             group: 'Solo',
           }),
         ]);
@@ -81,7 +75,6 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           prénom: 'Mieto',
           nom: 'Nataka',
           "nom d'usage": 'Yolo',
-          anniversaire: '34',
           group: 'Solo',
         };
         learnerSet.addLearners([learnerAttributes, learnerAttributes2]);
@@ -104,7 +97,6 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           firstName: 'Tomie',
           lastName: 'Katana',
           "nom d'usage": 'YoYo',
-          anniversaire: '34',
           group: 'Solo',
           organizationId,
         });
@@ -124,7 +116,6 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           prénom: 'Edgar',
           nom: 'Paslatugène',
           "nom d'usage": 'Edou',
-          anniversaire: '34',
           group: 'Solo',
         };
         learnerSet.addLearners([learnerAttributes, learnerAttributes2]);
@@ -135,7 +126,6 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           firstName: 'Edgar',
           lastName: 'làsaymieux',
           "nom d'usage": 'Ed',
-          anniversaire: '30',
           group: 'Solo',
           organizationId,
         });
@@ -151,7 +141,6 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             organizationId,
             attributes: {
               "nom d'usage": 'Yolo',
-              anniversaire: '34',
               group: 'Solo',
             },
           },
@@ -163,7 +152,6 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             organizationId,
             attributes: {
               "nom d'usage": 'Edou',
-              anniversaire: '34',
               group: 'Solo',
             },
           },
@@ -177,7 +165,6 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         it('should throw an error when there is no firstName property', async function () {
           importFormat = {
             config: {
-              validationRules: {},
               unicityColumns: ['nom'],
               headers: [
                 {
@@ -185,7 +172,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
                 },
                 {
                   name: 'nom',
-                  property: 'lastName',
+                  config: { property: 'lastName' },
                 },
               ],
             },
@@ -202,11 +189,10 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           importFormat = {
             config: {
               unicityColumns: ['nom'],
-              validationRules: {},
               headers: [
                 {
                   name: 'prénom',
-                  property: 'firstName',
+                  config: { property: 'firstName' },
                 },
                 {
                   name: 'nom',
@@ -225,7 +211,6 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         it('should throw 2 errors when there is no lastName and firstname property', async function () {
           importFormat = {
             config: {
-              validationRules: {},
               unicityColumns: ['nom'],
               headers: [
                 {
@@ -252,16 +237,14 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         it('should throw an error when no unicity rules is given', async function () {
           importFormat = {
             config: {
-              validationRules: {},
-
               headers: [
                 {
                   name: 'prénom',
-                  property: 'firstName',
+                  config: { property: 'firstName' },
                 },
                 {
                   name: 'nom',
-                  property: 'lastName',
+                  config: { property: 'lastName' },
                 },
               ],
             },
@@ -325,11 +308,17 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         });
       });
       context('checkDateRule', function () {
-        it('when the date respect the format, should not throw an error', async function () {
-          importFormat.config.validationRules = {
-            formats: [{ name: 'birthdate', type: 'date', format: 'YYYY-MM-DD', required: true }],
-          };
+        beforeEach(function () {
+          importFormat.config.headers = [
+            ...importFormat.config.headers,
+            {
+              name: 'birthdate',
+              config: { validate: { type: 'date', format: 'YYYY-MM-DD', required: true } },
+            },
+          ];
+        });
 
+        it('when the date respect the format, should not throw an error', async function () {
           const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const response = learnerSet.addLearners([{ ...learnerAttributes, birthdate: '2026-03-06' }]);
@@ -337,37 +326,32 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         });
 
         it('should throw date error when the format is not respected', async function () {
-          importFormat.config.validationRules = {
-            formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY-MM-DD', required: true }],
-          };
-
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
-
-          const errors = await catchErr(learnerSet.addLearners, learnerSet)([learnerAttributes]);
-          expect(errors).lengthOf(1);
-          expect(errors[0]).instanceOf(CsvImportError);
-          expect(errors[0].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
-          expect(errors[0].meta.field).to.equal('anniversaire');
-          expect(errors[0].meta.line).to.equal(2);
-          expect(errors[0].meta.acceptedFormat).to.equal('YYYY-MM-DD');
-        });
-
-        it('should throw date error when the format is not possible', async function () {
-          importFormat.config.validationRules = {
-            formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY-MM-DD', required: true }],
-          };
-
           const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(
             learnerSet.addLearners,
             learnerSet,
-          )([{ ...learnerAttributes, anniversaire: '2026-53-46' }]);
+          )([{ ...learnerAttributes, birthdate: '01-2026-12' }]);
+          expect(errors).lengthOf(1);
+          expect(errors[0]).instanceOf(CsvImportError);
+          expect(errors[0].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
+          expect(errors[0].meta.field).to.equal('birthdate');
+          expect(errors[0].meta.line).to.equal(2);
+          expect(errors[0].meta.acceptedFormat).to.equal('YYYY-MM-DD');
+        });
+
+        it('should throw date error when the format is not possible', async function () {
+          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
+
+          const errors = await catchErr(
+            learnerSet.addLearners,
+            learnerSet,
+          )([{ ...learnerAttributes, birthdate: '2026-53-46' }]);
 
           expect(errors).lengthOf(1);
           expect(errors[0]).instanceOf(CsvImportError);
           expect(errors[0].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
-          expect(errors[0].meta.field).to.equal('anniversaire');
+          expect(errors[0].meta.field).to.equal('birthdate');
           expect(errors[0].meta.line).to.equal(2);
           expect(errors[0].meta.acceptedFormat).to.equal('YYYY-MM-DD');
         });
@@ -386,14 +370,14 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         });
 
         it('when the value DOES NOT correspond to the expectedValues, should throw an error', async function () {
-          importFormat.config.headers = [...importFormat.config.headers, { name: 'Cycle' }, { name: 'Niveau' }];
-          importFormat.config.validationRules = {
-            formats: [
-              { name: 'Cycle', type: 'string', expectedValues: ['Cycle III'], required: true },
-              { name: 'Niveau', type: 'string', expectedValues: ['CM1', 'CM2'], required: true },
-            ],
-          };
-
+          importFormat.config.headers = [
+            ...importFormat.config.headers,
+            { name: 'Cycle', config: { validate: { type: 'string', expectedValues: ['Cycle III'], required: true } } },
+            {
+              name: 'Niveau',
+              config: { validate: { type: 'string', expectedValues: ['CM1', 'CM2'], required: true } },
+            },
+          ];
           const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(
@@ -412,54 +396,23 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           expect(errors[1].meta.line).to.equal(2);
           expect(errors[1].meta.valids).to.deep.equal(['CM1', 'CM2']);
         });
-
-        it('should throw date error when the format is not respected', async function () {
-          importFormat.config.validationRules = {
-            formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY-MM-DD', required: true }],
-          };
-
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
-
-          const errors = await catchErr(learnerSet.addLearners, learnerSet)([learnerAttributes]);
-          expect(errors).lengthOf(1);
-          expect(errors[0]).instanceOf(CsvImportError);
-          expect(errors[0].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
-          expect(errors[0].meta.field).to.equal('anniversaire');
-          expect(errors[0].meta.line).to.equal(2);
-          expect(errors[0].meta.acceptedFormat).to.equal('YYYY-MM-DD');
-        });
-
-        it('should throw date error when the format is not possible', async function () {
-          importFormat.config.validationRules = {
-            formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY-MM-DD', required: true }],
-          };
-
-          const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
-
-          const errors = await catchErr(
-            learnerSet.addLearners,
-            learnerSet,
-          )([{ ...learnerAttributes, anniversaire: '2026-53-46' }]);
-
-          expect(errors).lengthOf(1);
-          expect(errors[0]).instanceOf(CsvImportError);
-          expect(errors[0].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
-          expect(errors[0].meta.field).to.equal('anniversaire');
-          expect(errors[0].meta.line).to.equal(2);
-          expect(errors[0].meta.acceptedFormat).to.equal('YYYY-MM-DD');
-        });
       });
+
       context('With several rules', function () {
         it('should throw all errors on multiple lines ', async function () {
-          importFormat.config.validationRules = {
-            formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY-MM-DD', required: true }],
-          };
+          importFormat.config.headers = [
+            ...importFormat.config.headers,
+            {
+              name: 'birthdate',
+              config: { validate: { type: 'date', format: 'YYYY-MM-DD', required: true } },
+            },
+          ];
           importFormat.config.unicityColumns = ['prénom', 'group'];
 
           const secondLearnersAttributes = {
             prénom: 'Tomie',
             nom: 'Katana',
-            anniversaire: '2002-04-01',
+            birthdate: '2002-04-01',
             group: 'Solo',
           };
 
@@ -468,12 +421,12 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           const errors = await catchErr(
             learnerSet.addLearners,
             learnerSet,
-          )([learnerAttributes, secondLearnersAttributes]);
+          )([{ ...learnerAttributes, birthdate: '34' }, secondLearnersAttributes]);
 
           expect(errors).lengthOf(2);
 
           expect(errors[0].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
-          expect(errors[0].meta.field).to.equal('anniversaire');
+          expect(errors[0].meta.field).to.equal('birthdate');
           expect(errors[0].meta.line).to.equal(2);
           expect(errors[0].meta.acceptedFormat).to.equal('YYYY-MM-DD');
 
@@ -483,14 +436,18 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         });
         it('should throw all errors on one line', async function () {
           importFormat.config.unicityColumns = ['prénom', 'group'];
-          importFormat.config.validationRules = {
-            formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY-MM-DD', required: true }],
-          };
+          importFormat.config.headers = [
+            ...importFormat.config.headers,
+            {
+              name: 'birthdate',
+              config: { validate: { type: 'date', format: 'YYYY-MM-DD', required: true } },
+            },
+          ];
 
           const secondLearnersAttributes = {
             prénom: 'Tomie',
             nom: 'Katana',
-            anniversaire: '2002',
+            birthdate: '2002',
             group: 'Solo',
           };
 
@@ -499,7 +456,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           const errors = await catchErr(
             learnerSet.addLearners,
             learnerSet,
-          )([{ ...learnerAttributes, anniversaire: '2023-05-01' }, secondLearnersAttributes]);
+          )([{ ...learnerAttributes, birthdate: '2023-05-01' }, secondLearnersAttributes]);
 
           expect(errors).lengthOf(2);
 
@@ -508,7 +465,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           expect(errors[0].meta.line).to.equal(3);
 
           expect(errors[1].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
-          expect(errors[1].meta.field).to.equal('anniversaire');
+          expect(errors[1].meta.field).to.equal('birthdate');
           expect(errors[1].meta.line).to.equal(3);
           expect(errors[1].meta.acceptedFormat).to.equal('YYYY-MM-DD');
         });
@@ -517,26 +474,35 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
     describe('convertLearnerDates', function () {
       it('when there is one date config, should transform the date', async function () {
-        importFormat.config.validationRules = {
-          formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY/MM/DD', required: true }],
-        };
+        importFormat.config.headers = [
+          ...importFormat.config.headers,
+          {
+            name: 'birthdate',
+            config: { validate: { type: 'date', format: 'YYYY/DD/MM', required: true } },
+          },
+        ];
 
         const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
-        learnerSet.addLearners([{ ...learnerAttributes, anniversaire: '2026/03/06' }]);
+        learnerSet.addLearners([{ ...learnerAttributes, birthdate: '2026/03/06' }]);
 
         const learners = learnerSet.learners;
 
-        expect(learners.list[0].attributes.anniversaire).to.equal('2026-03-06');
+        expect(learners.list[0].attributes.birthdate).to.equal('2026-06-03');
       });
 
       it('when there is several date configs, should transform all the dates', async function () {
-        importFormat.config.validationRules = {
-          formats: [
-            { name: 'anniversaire', type: 'date', format: 'DD-MM-YYYY', required: true },
-            { name: 'marriage', type: 'date', format: 'YYYY-DD-MM', required: true },
-          ],
-        };
+        importFormat.config.headers = [
+          ...importFormat.config.headers,
+          {
+            name: 'birthdate',
+            config: { validate: { type: 'date', format: 'DD-MM-YYYY', required: true } },
+          },
+          {
+            name: 'marriage',
+            config: { validate: { type: 'date', format: 'YYYY-DD-MM', required: true } },
+          },
+        ];
 
         importFormat.config.headers.push({ name: 'marriage' });
 
@@ -545,11 +511,11 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           importFormat,
         });
 
-        learnerSet.addLearners([{ ...learnerAttributes, anniversaire: '06-03-2010', marriage: '2027-09-06' }]);
+        learnerSet.addLearners([{ ...learnerAttributes, birthdate: '06-03-2010', marriage: '2027-09-06' }]);
 
         const learners = learnerSet.learners;
 
-        expect(learners.list[0].attributes.anniversaire).to.equal('2010-03-06');
+        expect(learners.list[0].attributes.birthdate).to.equal('2010-03-06');
         expect(learners.list[0].attributes.marriage).to.equal('2027-06-09');
       });
     });
