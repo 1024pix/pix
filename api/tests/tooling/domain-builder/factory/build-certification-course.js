@@ -32,6 +32,7 @@ function buildCertificationCourse({
   complementaryCertificationCourses = [],
   maxReachableLevelOnCertificationDate = 7,
   numberOfChallenges = 20,
+  isAdjustedForAccessibility = false,
   lang,
 } = {}) {
   const certificationIssueReports = [];
@@ -75,6 +76,7 @@ function buildCertificationCourse({
     complementaryCertificationCourses,
     maxReachableLevelOnCertificationDate,
     numberOfChallenges,
+    isAdjustedForAccessibility,
     lang,
   });
 }
