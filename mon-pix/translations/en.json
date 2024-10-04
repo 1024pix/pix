@@ -162,7 +162,7 @@
       "server-status": "Status service",
       "sitemap": "Site map",
       "student-data-protection-policy": "Student data protection policy",
-      "student-data-protection-policy-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39"
+      "student-data-protection-policy-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves"
     },
     "homepage": "Pix's Homepage",
     "main": {
@@ -1216,7 +1216,7 @@
       },
       "rgpd-legal-notice": "To know how your personnal data is processed, and what your rights are, you can read",
       "rgpd-legal-notice-link": "Mentions d'information.",
-      "rgpd-legal-notice-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39",
+      "rgpd-legal-notice-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves",
       "sco": {
         "associate": "Link",
         "continue-with-pix": "Continue with my Pix account",
@@ -1326,7 +1326,7 @@
         },
         "rgpd-legal-notice": "To know how your personnal data is processed, and what your rights are, you can read",
         "rgpd-legal-notice-link": "Mentions d'information.",
-        "rgpd-legal-notice-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39"
+        "rgpd-legal-notice-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves"
       }
     },
     "login-or-register-oidc": {

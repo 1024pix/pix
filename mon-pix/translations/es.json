@@ -155,7 +155,7 @@
       "server-status": "Status service",
       "sitemap": "Mapa del sitio",
       "student-data-protection-policy": "Política de protección de datos de los alumnos",
-      "student-data-protection-policy-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39"
+      "student-data-protection-policy-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves"
     },
     "homepage": "Página de inicio de Pix",
     "main": {
@@ -1195,7 +1195,7 @@
       },
       "rgpd-legal-notice": "Para saber cómo se tratan tus datos y cuáles son tus derechos, puedes leer el",
       "rgpd-legal-notice-link": "aviso legal.",
-      "rgpd-legal-notice-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39",
+      "rgpd-legal-notice-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves",
       "sco": {
         "associate": "Asociar",
         "continue-with-pix": "Continuar con mi cuenta Pix",
@@ -1331,7 +1331,7 @@
         },
         "rgpd-legal-notice": "Para saber cómo se tratan tus datos y cuáles son tus derechos, puedes leer el",
         "rgpd-legal-notice-link": "aviso legal.",
-        "rgpd-legal-notice-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39",
+        "rgpd-legal-notice-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves",
         "title": "Me inscribo en Pix"
       },
       "title": "Conectarse a Pix"
