@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v4.221.0 (04/10/2024)
+
+
+### :rocket: Amélioration
+- [#10247](https://github.com/1024pix/pix/pull/10247) [FEATURE] Afficher plusieurs cartes d'un deck de flashcards Modulix (PIX-14307).
+- [#10240](https://github.com/1024pix/pix/pull/10240) [FEATURE] Rendre obligatoire le champs propriétaire lors de la création de campagne en masse sur Pix Admin (PIX-12577).
+- [#10226](https://github.com/1024pix/pix/pull/10226) [FEATURE] Créer la page de sélection de SSO (PIX-14160).
+
+### :building_construction: Tech
+- [#10214](https://github.com/1024pix/pix/pull/10214) [TECH] Supprimer les usages des key dans la configuration des imports à format (PIX-14622).
+- [#10238](https://github.com/1024pix/pix/pull/10238) [TECH] Migration de PATCH /api/admin/users/{id} (PIX-14631).
+
+### :arrow_up: Montée de version
+- [#10243](https://github.com/1024pix/pix/pull/10243) [BUMP] Update dependency ember-keyboard to v9 (certif).
+
 ## v4.220.0 (02/10/2024)
 
 
