@@ -6,9 +6,9 @@
     {{t "pages.autonomous-course.landing-page.texts.title"}}<br />
     {{@campaign.title}}
   </h1>
-  <p class="autonomous-course-landing-page-start-block__description">
-    {{@campaign.customLandingPageText}}
-  </p>
+  <div class="autonomous-course-landing-page-start-block__description">
+    <MarkdownToHtml @markdown={{@campaign.customLandingPageText}} @isInline={{true}} />
+  </div>
   {{#if this.isUserConnected}}
     <PixButton
       id="autonomous-course-connected-start-button"
