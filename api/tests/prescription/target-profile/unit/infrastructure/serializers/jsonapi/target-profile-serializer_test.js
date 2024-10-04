@@ -11,7 +11,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
         ownerOrganizationId: 12,
         name: 'Les compétences de BRO 2.0',
         outdated: true,
-        ispublic: false,
         isSimplifiedAccess: true,
       });
 
@@ -24,7 +23,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
           attributes: {
             name: targetProfile.name,
             outdated: targetProfile.outdated,
-            'is-public': targetProfile.isPublic,
             'owner-organization-id': targetProfile.ownerOrganizationId,
             'is-simplified-access': targetProfile.isSimplifiedAccess,
           },
@@ -66,7 +64,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
             category: 'OTHER',
             description: 'Amazing description',
             comment: 'Interesting comment',
-            'is-public': false,
             'image-url': 'superImage.png',
             'owner-organization-id': 12,
             tubes: [
@@ -87,7 +84,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
         category: 'OTHER',
         description: 'Amazing description',
         comment: 'Interesting comment',
-        isPublic: false,
         imageUrl: 'superImage.png',
         ownerOrganizationId: 12,
         tubes: [

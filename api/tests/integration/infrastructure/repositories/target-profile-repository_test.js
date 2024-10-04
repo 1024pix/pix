@@ -53,7 +53,7 @@ describe('Integration | Repository | Target-profile', function () {
       targetProfileIds = [targetProfile1.id];
 
       const expectedTargetProfilesAttributes = _.map([targetProfile1], (item) =>
-        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']),
+        _.pick(item, ['id', 'name', 'organizationId', 'outdated']),
       );
 
       // when
@@ -61,7 +61,7 @@ describe('Integration | Repository | Target-profile', function () {
 
       // then
       const foundTargetProfilesAttributes = _.map(foundTargetProfiles, (item) =>
-        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']),
+        _.pick(item, ['id', 'name', 'organizationId', 'outdated']),
       );
       expect(foundTargetProfilesAttributes).to.deep.equal(expectedTargetProfilesAttributes);
     });
@@ -75,7 +75,7 @@ describe('Integration | Repository | Target-profile', function () {
       targetProfileIds = [targetProfile1.id, targetProfileIdNotExisting, targetProfile2.id, targetProfile3.id];
 
       const expectedTargetProfilesAttributes = _.map([targetProfile1, targetProfile2, targetProfile3], (item) =>
-        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']),
+        _.pick(item, ['id', 'name', 'organizationId', 'outdated']),
       );
 
       // when
@@ -83,7 +83,7 @@ describe('Integration | Repository | Target-profile', function () {
 
       // then
       const foundTargetProfilesAttributes = _.map(foundTargetProfiles, (item) =>
-        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']),
+        _.pick(item, ['id', 'name', 'organizationId', 'outdated']),
       );
       expect(foundTargetProfilesAttributes).to.deep.equal(expectedTargetProfilesAttributes);
     });
@@ -97,7 +97,7 @@ describe('Integration | Repository | Target-profile', function () {
 
       // then
       const foundTargetProfilesAttributes = _.map(foundTargetProfiles, (item) =>
-        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']),
+        _.pick(item, ['id', 'name', 'organizationId', 'outdated']),
       );
       expect(foundTargetProfilesAttributes).to.deep.equal([]);
     });

@@ -64,8 +64,7 @@ function _createPublicTargetProfile(databaseBuilder) {
     databaseBuilder,
     targetProfileId: PIX_PUBLIC_TARGET_PROFILE_ID,
     ownerOrganizationId: null,
-    isPublic: true,
-    name: 'Profil Cible Public',
+    name: 'Profil Cible',
     configTargetProfile: {
       frameworks: [
         {

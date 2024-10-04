@@ -36,62 +36,39 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
     });
 
     context('when there are target profiles', function () {
-      context('when target profiles are public', function () {
-        it('returns the public target profiles', async function () {
-          const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-          databaseBuilder.factory.buildMembership({ organizationId, userId });
+      it('returns the shared target profiles', async function () {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildMembership({ organizationId, userId });
 
-          const { id: targetProfilePublicId } = databaseBuilder.factory.buildTargetProfile({
-            isPublic: true,
-            outdated: false,
-          });
-
-          await databaseBuilder.commit();
-
-          const creator = await campaignCreatorRepository.get(organizationId);
-          expect(creator.availableTargetProfileIds).to.exactlyContain([targetProfilePublicId]);
+        const { id: targetProfileSharedId } = databaseBuilder.factory.buildTargetProfile({
+          outdated: false,
         });
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfileSharedId, organizationId });
+        databaseBuilder.factory.buildTargetProfile({
+          outdated: false,
+        });
+
+        await databaseBuilder.commit();
+
+        const creator = await campaignCreatorRepository.get(organizationId);
+        expect(creator.availableTargetProfileIds).to.exactlyContain([targetProfileSharedId]);
       });
 
-      context('when the target profiles are private', function () {
-        it('returns the shared target profiles', async function () {
-          const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-          databaseBuilder.factory.buildMembership({ organizationId, userId });
+      it('returns the target profiles is owned by the organization', async function () {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildMembership({ organizationId, userId });
 
-          const { id: targetProfileSharedId } = databaseBuilder.factory.buildTargetProfile({
-            isPublic: false,
-            outdated: false,
-          });
-          databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfileSharedId, organizationId });
-          databaseBuilder.factory.buildTargetProfile({
-            isPublic: false,
-            outdated: false,
-          });
-
-          await databaseBuilder.commit();
-
-          const creator = await campaignCreatorRepository.get(organizationId);
-          expect(creator.availableTargetProfileIds).to.exactlyContain([targetProfileSharedId]);
+        const { id: organizationTargetProfileId } = databaseBuilder.factory.buildTargetProfile({
+          outdated: false,
+          ownerOrganizationId: organizationId,
         });
 
-        it('returns the target profiles is owned by the organization', async function () {
-          const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-          databaseBuilder.factory.buildMembership({ organizationId, userId });
+        await databaseBuilder.commit();
 
-          const { id: organizationTargetProfileId } = databaseBuilder.factory.buildTargetProfile({
-            isPublic: false,
-            outdated: false,
-            ownerOrganizationId: organizationId,
-          });
-
-          await databaseBuilder.commit();
-
-          const creator = await campaignCreatorRepository.get(organizationId);
-          expect(creator.availableTargetProfileIds).to.exactlyContain([organizationTargetProfileId]);
-        });
+        const creator = await campaignCreatorRepository.get(organizationId);
+        expect(creator.availableTargetProfileIds).to.exactlyContain([organizationTargetProfileId]);
       });
 
       context('when target profiles are outdated', function () {
@@ -101,16 +78,10 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
           databaseBuilder.factory.buildMembership({ organizationId, userId });
 
           databaseBuilder.factory.buildTargetProfile({
-            isPublic: true,
-            outdated: true,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            isPublic: false,
             outdated: true,
             ownerOrganizationId: organizationId,
           });
           const { id: targetProfileSharedId } = databaseBuilder.factory.buildTargetProfile({
-            isPublic: false,
             outdated: true,
           });
           databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfileSharedId, organizationId });

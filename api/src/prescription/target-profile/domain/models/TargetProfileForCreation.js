@@ -9,7 +9,6 @@ class TargetProfileForCreation {
     category,
     description,
     comment,
-    isPublic,
     imageUrl,
     ownerOrganizationId,
     tubes,
@@ -19,7 +18,6 @@ class TargetProfileForCreation {
     this.category = category;
     this.description = description;
     this.comment = comment;
-    this.isPublic = isPublic;
     this.imageUrl = imageUrl;
     this.ownerOrganizationId = ownerOrganizationId;
     this.tubes = tubes;
@@ -33,7 +31,6 @@ class TargetProfileForCreation {
       category: creationCommand.category,
       description: creationCommand.description,
       comment: creationCommand.comment,
-      isPublic: creationCommand.isPublic,
       imageUrl: creationCommand.imageUrl || DEFAULT_IMAGE_URL,
       ownerOrganizationId: creationCommand.ownerOrganizationId,
       tubes: creationCommand.tubes,
@@ -49,7 +46,6 @@ class TargetProfileForCreation {
       category: targetProfileToCopy.category,
       description: targetProfileToCopy.description,
       comment: targetProfileToCopy.comment,
-      isPublic: targetProfileToCopy.isPublic,
       imageUrl: targetProfileToCopy.imageUrl || DEFAULT_IMAGE_URL,
       ownerOrganizationId: targetProfileToCopy.ownerOrganizationId,
       tubes: targetProfileToCopy.tubes,

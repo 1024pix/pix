@@ -13,7 +13,9 @@ describe('Integration | Repository | Autonomous Course', function () {
         id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
       });
       databaseBuilder.factory.buildMembership({ organizationId, userId });
-      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
+        ownerOrganizationId: organizationId,
+      });
 
       await databaseBuilder.commit();
 
@@ -43,7 +45,9 @@ describe('Integration | Repository | Autonomous Course', function () {
         id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
       });
       databaseBuilder.factory.buildMembership({ organizationId, userId });
-      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
+        ownerOrganizationId: organizationId,
+      });
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
 
       await databaseBuilder.commit();
@@ -92,7 +96,6 @@ describe('Integration | Repository | Autonomous Course', function () {
           id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
         });
         const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
-          isPublic: false,
           ownerOrganizationId: organizationId,
           isSimplifiedAccess: true,
         });

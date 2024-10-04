@@ -114,7 +114,6 @@ describe('Integration | Repository | Target-profile', function () {
         category: TargetProfile.categories.SUBJECT,
         description: 'la description',
         comment: 'le commentaire',
-        isPublic: true,
         imageUrl: 'mon-image/stylée',
         ownerOrganizationId: 1,
         areKnowledgeElementsResettable: true,
@@ -134,7 +133,6 @@ describe('Integration | Repository | Target-profile', function () {
           'category',
           'description',
           'comment',
-          'isPublic',
           'imageUrl',
           'ownerOrganizationId',
           'areKnowledgeElementsResettable',
@@ -146,7 +144,6 @@ describe('Integration | Repository | Target-profile', function () {
         category: TargetProfile.categories.SUBJECT,
         description: 'la description',
         comment: 'le commentaire',
-        isPublic: true,
         imageUrl: 'mon-image/stylée',
         ownerOrganizationId: 1,
         areKnowledgeElementsResettable: true,
@@ -240,7 +237,6 @@ describe('Integration | Repository | Target-profile', function () {
           id: 10,
           ownerOrganizationId: 1,
           outdated: false,
-          isPublic: false,
         });
         await databaseBuilder.commit();
 
@@ -264,7 +260,6 @@ describe('Integration | Repository | Target-profile', function () {
             id: 10,
             ownerOrganizationId: 1,
             outdated: false,
-            isPublic: false,
           });
           await databaseBuilder.commit();
 
@@ -288,21 +283,18 @@ describe('Integration | Repository | Target-profile', function () {
             name: 'A_tp',
             ownerOrganizationId: 1,
             outdated: false,
-            isPublic: false,
           });
           databaseBuilder.factory.buildTargetProfile({
             id: 10,
             name: 'B_tp',
             ownerOrganizationId: 1,
             outdated: false,
-            isPublic: false,
           });
           databaseBuilder.factory.buildTargetProfile({
             id: 12,
             name: 'Not_Mine',
             ownerOrganizationId: 2,
             outdated: false,
-            isPublic: false,
           });
           await databaseBuilder.commit();
 
@@ -327,7 +319,6 @@ describe('Integration | Repository | Target-profile', function () {
             name: 'A_tp',
             ownerOrganizationId: 1,
             outdated: false,
-            isPublic: false,
           });
           databaseBuilder.factory.buildOrganization({ id: 2 });
           databaseBuilder.factory.buildOrganization({ id: 3 });
@@ -355,19 +346,16 @@ describe('Integration | Repository | Target-profile', function () {
             id: 11,
             name: 'A_tp',
             outdated: false,
-            isPublic: false,
           });
           databaseBuilder.factory.buildTargetProfile({
             id: 10,
             name: 'B_tp',
             outdated: false,
-            isPublic: false,
           });
           databaseBuilder.factory.buildTargetProfile({
             id: 12,
             name: 'Not_Mine',
             outdated: false,
-            isPublic: false,
           });
           databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 10, organizationId: 1 });
           databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 11, organizationId: 1 });
@@ -386,32 +374,26 @@ describe('Integration | Repository | Target-profile', function () {
           ];
           expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
         });
-        it('should return summaries for public target profiles', async function () {
+        it('should summaries target profiles belong to me', async function () {
           // given
-          databaseBuilder.factory.buildOrganization({ id: 1 });
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
           databaseBuilder.factory.buildTargetProfile({
             id: 11,
+            ownerOrganizationId: organizationId,
             name: 'A_tp',
             outdated: false,
-            isPublic: true,
           });
           databaseBuilder.factory.buildTargetProfile({
             id: 10,
+            ownerOrganizationId: organizationId,
             name: 'B_tp',
             outdated: false,
-            isPublic: true,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 12,
-            name: 'Not_Mine',
-            outdated: false,
-            isPublic: false,
           });
           await databaseBuilder.commit();
 
           // when
           const actualTargetProfileSummaries = await targetProfileAdministrationRepository.findByOrganization({
-            organizationId: 1,
+            organizationId,
           });
 
           // then
@@ -421,20 +403,15 @@ describe('Integration | Repository | Target-profile', function () {
           ];
           expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
         });
+
         it('should ignore outdated target profiles', async function () {
           // given
           databaseBuilder.factory.buildOrganization({ id: 1 });
           databaseBuilder.factory.buildTargetProfile({
-            id: 11,
-            name: 'A_tp',
-            outdated: false,
-            isPublic: true,
-          });
-          databaseBuilder.factory.buildTargetProfile({
             id: 10,
+            ownerOrganizationId: 1,
             name: 'B_tp',
             outdated: true,
-            isPublic: true,
           });
           await databaseBuilder.commit();
 
@@ -444,38 +421,26 @@ describe('Integration | Repository | Target-profile', function () {
           });
 
           // then
-          const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', outdated: false }),
-          ];
-          expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
+          expect(actualTargetProfileSummaries).lengthOf(0);
         });
-        it('should return summaries within constraints (mix)', async function () {
+        it('should return summaries within constraints', async function () {
           // given
           databaseBuilder.factory.buildOrganization({ id: 1 });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 10,
-            name: 'A_tp',
-            outdated: false,
-            isPublic: true,
-          });
           databaseBuilder.factory.buildTargetProfile({
             id: 11,
             name: 'B_tp',
             ownerOrganizationId: 1,
             outdated: false,
-            isPublic: false,
           });
           databaseBuilder.factory.buildTargetProfile({
             id: 12,
             name: 'C_tp',
             outdated: false,
-            isPublic: false,
           });
           databaseBuilder.factory.buildTargetProfile({
             id: 13,
             name: 'D_tp',
             outdated: true,
-            isPublic: true,
           });
           databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 12, organizationId: 1 });
           await databaseBuilder.commit();
@@ -487,7 +452,6 @@ describe('Integration | Repository | Target-profile', function () {
 
           // then
           const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, name: 'A_tp', outdated: false }),
             domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'B_tp', outdated: false }),
             domainBuilder.buildTargetProfileSummaryForAdmin({ id: 12, name: 'C_tp', outdated: false }),
           ];

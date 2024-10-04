@@ -13,7 +13,6 @@ describe('Unit | Domain | Validators | target-profile/creationCommandValidator',
         category: categories.OTHER,
         description: 'Une description',
         comment: 'Un commentaire',
-        isPublic: true,
         imageUrl: 'url/vers/image',
         ownerOrganizationId: 123,
         tubes: [
@@ -96,23 +95,6 @@ describe('Unit | Domain | Validators | target-profile/creationCommandValidator',
         const targetProfileCreationCommand = {
           ...validParams,
           comment: 123,
-        };
-
-        try {
-          // when
-          creationCommandValidator.validate(targetProfileCreationCommand);
-          expect.fail('should have thrown an error');
-        } catch (err) {
-          // then
-          expect(err).to.be.instanceOf(EntityValidationError);
-        }
-      });
-
-      it('should reject when isPublic is not valid', function () {
-        // given
-        const targetProfileCreationCommand = {
-          ...validParams,
-          isPublic: 'not a boolean',
         };
 
         try {

@@ -547,8 +547,8 @@ describe('Acceptance | TargetProfile | Application | Route | admin-target-profil
       organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildTargetProfile({
         id: 1,
+        ownerOrganizationId: organizationId,
         name: 'Super profil cible',
-        isPublic: true,
         outdated: false,
       });
       await databaseBuilder.commit();

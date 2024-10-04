@@ -262,7 +262,6 @@ describe('Unit | Application | Target Profiles | Routes', function () {
             category: 'OTHER',
             description: 'coucou maman',
             comment: 'coucou papa',
-            'is-public': false,
             'image-url': 'http://some/image.ok',
             'owner-organization-id': null,
             tubes: [{ id: 'recTube1', level: '5' }],
@@ -440,29 +439,6 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       // when
       const payload = { ...validPayload };
       payload.data.attributes.comment = 123;
-      const response = await httpTestServer.request('POST', '/api/admin/target-profiles', payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-      sinon.assert.notCalled(targetProfileController.createTargetProfile);
-    });
-
-    it('should return 400 without reaching controller if payload has wrong isPublic format', async function () {
-      // given
-      sinon.stub(targetProfileController, 'createTargetProfile').returns('ok');
-      sinon
-        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const payload = { ...validPayload };
-      payload.data.attributes['is-public'] = 123;
       const response = await httpTestServer.request('POST', '/api/admin/target-profiles', payload);
 
       // then

@@ -21,7 +21,6 @@ function _fetchTargetProfiles(organizationId) {
       'target-profiles.category',
       'target-profiles.areKnowledgeElementsResettable',
       'target-profiles.isSimplifiedAccess',
-      'target-profiles.isPublic',
       knex.count('id').from('badges').whereRaw('badges."targetProfileId"="target-profiles".id').as('countBadges'),
       knex.count('id').from('stages').whereRaw('stages."targetProfileId"="target-profiles".id').as('countStages'),
       knex
@@ -32,7 +31,6 @@ function _fetchTargetProfiles(organizationId) {
     ])
     .where({ outdated: false })
     .where((qb) => {
-      qb.orWhere({ isPublic: true });
       qb.orWhere({ ownerOrganizationId: organizationId });
       qb.orWhereIn('target-profiles.id', selectTargetProfileSharesIdsBelongToOrganization);
     })
@@ -52,7 +50,6 @@ async function _buildTargetProfileForSpecifier(row) {
     description: row.description,
     category: row.category,
     areKnowledgeElementsResettable: row.areKnowledgeElementsResettable,
-    isPublic: row.isPublic,
     isSimplifiedAccess: row.isSimplifiedAccess,
   });
 }

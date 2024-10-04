@@ -7,7 +7,6 @@ class TargetProfileForAdmin {
     id,
     name,
     outdated,
-    isPublic,
     createdAt,
     ownerOrganizationId,
     description,
@@ -29,7 +28,6 @@ class TargetProfileForAdmin {
     this.id = id;
     this.name = name;
     this.outdated = outdated;
-    this.isPublic = isPublic;
     this.createdAt = createdAt;
     this.ownerOrganizationId = ownerOrganizationId;
     this.description = description;

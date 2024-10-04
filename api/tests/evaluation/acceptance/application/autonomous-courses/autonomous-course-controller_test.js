@@ -56,7 +56,6 @@ describe('Acceptance | API | Autonomous Course', function () {
         });
         targetProfileId = databaseBuilder.factory.buildTargetProfile({
           isSimplifiedAccess: true,
-          isPublic: false,
           ownerOrganizationId: organizationId,
         }).id;
         databaseBuilder.factory.buildMembership({ organizationId, userId });
@@ -189,7 +188,6 @@ describe('Acceptance | API | Autonomous Course', function () {
       });
       targetProfileId = databaseBuilder.factory.buildTargetProfile({
         isSimplifiedAccess: true,
-        isPublic: false,
         ownerOrganizationId: organizationId,
       }).id;
       await databaseBuilder.commit();
@@ -321,31 +319,21 @@ describe('Acceptance | API | Autonomous Course', function () {
       const validTargetProfile1 = databaseBuilder.factory.buildTargetProfile({
         ownerOrganizationId: mainOrganization.id,
         isSimplifiedAccess: true,
-        isPublic: false,
       });
 
       const validTargetProfile2 = databaseBuilder.factory.buildTargetProfile({
         ownerOrganizationId: mainOrganization.id,
         isSimplifiedAccess: true,
-        isPublic: false,
       });
 
       const targetProfileFromAnotherOrganization = databaseBuilder.factory.buildTargetProfile({
         ownerOrganizationId: otherOrganization.id,
         isSimplifiedAccess: true,
-        isPublic: false,
       });
 
       const targetProfileNotSimplifiedAccess = databaseBuilder.factory.buildTargetProfile({
         ownerOrganizationId: mainOrganization.id,
         isSimplifiedAccess: false,
-        isPublic: false,
-      });
-
-      const publicTargetProfile = databaseBuilder.factory.buildTargetProfile({
-        ownerOrganizationId: mainOrganization.id,
-        isSimplifiedAccess: true,
-        isPublic: true,
       });
 
       targetProfiles = [
@@ -353,7 +341,6 @@ describe('Acceptance | API | Autonomous Course', function () {
         validTargetProfile2,
         targetProfileFromAnotherOrganization,
         targetProfileNotSimplifiedAccess,
-        publicTargetProfile,
       ];
 
       await databaseBuilder.commit();

@@ -6,10 +6,7 @@ async function get(organizationId) {
     .leftJoin('target-profile-shares', 'targetProfileId', 'target-profiles.id')
     .where({ outdated: false })
     .andWhere((queryBuilder) => {
-      queryBuilder
-        .where({ isPublic: true })
-        .orWhere({ ownerOrganizationId: organizationId })
-        .orWhere({ organizationId });
+      queryBuilder.where({ ownerOrganizationId: organizationId }).orWhere({ organizationId });
     })
     .pluck('target-profiles.id');
 
