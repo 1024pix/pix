@@ -428,7 +428,7 @@ export default class CandidateCreationModal extends Component {
               @id='result-recipient-email'
               {{on 'input' (fn @updateCandidateData @candidateData 'resultRecipientEmail')}}
               type='email'
-              autocomplete='off'
+              autocomplete='nope'
             >
               <:label>{{t 'common.forms.certification-labels.email-results'}}</:label>
             </PixInput>
@@ -443,7 +443,7 @@ export default class CandidateCreationModal extends Component {
               @id='email'
               {{on 'input' (fn @updateCandidateData @candidateData 'email')}}
               type='email'
-              autocomplete='off'
+              autocomplete='nope'
             >
               <:label>{{t 'common.forms.certification-labels.email-convocation'}}</:label>
             </PixInput>
