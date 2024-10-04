@@ -357,7 +357,15 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
         foundCertificationCenterMembership;
 
       expect(associatedCertificationCenter).to.be.an.instanceof(CertificationCenter);
-      expect(omit(associatedCertificationCenter, ['habilitations'])).to.deep.equal(certificationCenter);
+      expect(omit(associatedCertificationCenter, ['habilitations'])).to.deep.equal({
+        createdAt: certificationCenter.createdAt,
+        externalId: certificationCenter.externalId,
+        id: certificationCenter.id,
+        isV3Pilot: certificationCenter.isV3Pilot,
+        name: certificationCenter.name,
+        type: certificationCenter.type,
+        updatedAt: certificationCenter.updatedAt,
+      });
 
       expect(associatedUser).to.be.an.instanceOf(User);
       expect(pick(associatedUser, ['id', 'firstName', 'lastName', 'email'])).to.deep.equal(expectedUser);

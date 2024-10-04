@@ -383,6 +383,14 @@
             "warmUpLength": "Nombre de questions d'entraînement"
           }
         },
+        "sco-whitelist": {
+          "title": "Liste blanche centres SCO",
+          "import": {
+            "button": "Importer une nouvelle liste blanche au format CSV",
+            "error": "Échec de l'enregistrement de la liste blanche",
+            "success": "Liste blanche enregistrée"
+          }
+        },
         "scoring-simulator": {
           "title": "Simulateur de scoring",
           "actions": {
