@@ -517,6 +517,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     authorizedToStart: true,
                     subscriptions: [domainBuilder.buildCoreSubscription()],
                     reconciledAt,
+                    accessibilityAdjustmentNeeded: true,
                   });
                   certificationCandidateRepository.getBySessionIdAndUserId
                     .withArgs({ sessionId: 1, userId })
@@ -553,6 +554,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
                     version: 3,
                     lang: user.lang,
+                    isAdjustedForAccessibility: foundCertificationCandidate.accessibilityAdjustmentNeeded,
                   });
 
                   const savedCertificationCourse = domainBuilder.buildCertificationCourse(
@@ -593,6 +595,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       challenges: [],
                       version: 3,
                       lang: user.lang,
+                      isAdjustedForAccessibility: true,
                     }),
                   );
                 });

@@ -97,6 +97,7 @@ class CertificationCourse {
       sex: certificationCandidate.sex,
       birthplace: certificationCandidate.birthCity,
       externalId: certificationCandidate.externalId,
+      isAdjustedForAccessibility: certificationCandidate.accessibilityAdjustmentNeeded,
       challenges,
       numberOfChallenges,
       verificationCode,

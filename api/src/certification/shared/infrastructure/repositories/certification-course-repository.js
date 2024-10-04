@@ -92,6 +92,7 @@ async function get({ id }) {
 
   const challengesDTO = await _findAllChallenges(id, knexConn);
 
+  let candidateDTO;
   if (certificationCourseDTO.version === 3) {
     const configuration = await _getV3ConfigurationForCertificationCreationDate(
       certificationCourseDTO.createdAt,
@@ -100,6 +101,13 @@ async function get({ id }) {
 
     certificationCourseDTO.numberOfChallenges =
       configuration?.maximumAssessmentLength ?? config.v3Certification.numberOfChallengesPerCourse;
+
+    candidateDTO = await knexConn('certification-candidates')
+      .where({
+        userId: certificationCourseDTO.userId,
+        sessionId: certificationCourseDTO.sessionId,
+      })
+      .first();
   }
 
   return _toDomain({
@@ -108,6 +116,7 @@ async function get({ id }) {
     assessmentDTO,
     complementaryCertificationCoursesDTO,
     certificationIssueReportsDTO,
+    candidateDTO,
   });
 }
 
@@ -117,6 +126,7 @@ function _toDomain({
   assessmentDTO = {},
   complementaryCertificationCoursesDTO = [],
   certificationIssueReportsDTO = [],
+  candidateDTO,
 }) {
   const complementaryCertificationCourses = complementaryCertificationCoursesDTO.map(
     (complementaryCertificationCourseDTO) => new ComplementaryCertificationCourse(complementaryCertificationCourseDTO),
@@ -134,6 +144,7 @@ function _toDomain({
     challenges: challengesDTO,
     complementaryCertificationCourses,
     certificationIssueReports,
+    isAdjustedForAccessibility: candidateDTO?.accessibilityAdjustmentNeeded,
   });
 }
 
@@ -243,6 +254,7 @@ function _adaptModelToDb(certificationCourse) {
     'challenges',
     'createdAt',
     'numberOfChallenges',
+    'isAdjustedForAccessibility',
   ]);
 }
 
