@@ -6,7 +6,7 @@
           "pages.session-supervising.candidate-list.indicate-candidates-attendance"
         }}</p>
       <div class="session-supervising-candidate-list__search">
-        <FaIcon @icon="search" class="search-icon" />
+        <PixIcon @name="search" @ariaHidden={{true}} class="search-icon" />
         <PixInput
           class="search-input"
           @id="search-candidate"
@@ -17,16 +17,13 @@
         >
           <:label>{{t "pages.session-supervising.candidate-list.search-candidate"}}</:label>
         </PixInput>
-        <PixButton
-          @size="small"
-          @variant="secondary"
-          @isBorderVisible={{false}}
+        <PixIconButton
+          @ariaLabel={{t "pages.session-supervising.candidate-list.clear-field"}}
+          @icon="times"
           @triggerAction={{this.emptySearchInput}}
-          aria-label={{t "pages.session-supervising.candidate-list.clear-field"}}
-          class="empty-button"
-        >
-          <FaIcon @icon="times" />
-        </PixButton>
+          class="clear-button"
+          @size={{true}}
+        />
       </div>
       <p class="session-supervising-candidate-list__candidates-count">{{t
           "pages.session-supervising.candidate-list.authorized-to-start-candidates"

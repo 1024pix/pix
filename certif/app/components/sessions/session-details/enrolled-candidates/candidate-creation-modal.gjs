@@ -1,4 +1,5 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixMessage from '@1024pix/pix-ui/components/pix-message';
 import PixModal from '@1024pix/pix-ui/components/pix-modal';
@@ -8,7 +9,6 @@ import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { service } from '@ember/service';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import inputmask from 'ember-inputmask5/modifiers/inputmask';
@@ -471,11 +471,14 @@ export default class CandidateCreationModal extends Component {
                   </label>
                   <PixTooltip @id='tooltip-prepayment-code' @position='left'>
                     <:triggerElement>
-                      <FaIcon
-                        @icon='info-circle'
+                      <PixIcon
+                        @plainIcon={{true}}
+                        @name='info'
+                        @ariaHidden={{true}}
+                        aria-label={{t 'pages.sessions.detail.candidates.add-modal.prepayment-information'}}
                         tabindex='0'
                         aria-describedby='tooltip-prepayment-code'
-                        aria-label={{t 'pages.sessions.detail.candidates.add-modal.prepayment-information'}}
+                        class='new-candidate-tooltip__icon'
                       />
                     </:triggerElement>
                     <:tooltip>

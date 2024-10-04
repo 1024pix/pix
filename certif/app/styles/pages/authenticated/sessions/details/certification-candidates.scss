@@ -27,16 +27,9 @@
 }
 
 .panel-actions__header-icon {
-  font-size: 1rem;
-  width: 1.75rem;
-  height: 1.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 0.18rem solid;
-  border-radius: 0.13rem;
-  padding-top: 0.13rem;
-  box-sizing: border-box;
+  fill: var(--pix-neutral-500);
+  width: 2rem;
+  height: 2rem;
 }
 
 .panel-actions__action-row {
@@ -53,10 +46,9 @@
 }
 
 .panel-actions__action-icon {
-  color: var(--pix-neutral-500);
-  font-size: 2rem;
-  width: 3.125rem;
-  text-align: center;
+  fill: var(--pix-neutral-500);
+  width: 3rem;
+  height: 3rem;
 }
 
 .panel-actions__action-icon svg {
@@ -96,9 +88,10 @@
 }
 
 .panel-actions__warning-icon {
-  color: var(--pix-warning-500);
-  margin-right: 8px;
-  font-size: 1.5rem;
+  fill: var(--pix-warning-500);
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-left: var(--pix-spacing-1x);
 }
 
 .panel-actions-description  {
@@ -176,6 +169,12 @@
   gap: 0.5rem;
   width: 100px;
   box-sizing: content-box;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    fill: var(--pix-neutral-800);
+  }
 }
 
 .certification-candidates-actions {

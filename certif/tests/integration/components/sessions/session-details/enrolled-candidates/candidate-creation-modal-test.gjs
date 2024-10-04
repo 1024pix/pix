@@ -251,7 +251,6 @@ module(
               />
             </template>,
           );
-          // debugger
 
           await click(screen.getByRole('button', { name: `* ${t('common.forms.certification-labels.pricing')}` }));
           await screen.findByRole('listbox');

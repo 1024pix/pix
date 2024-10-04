@@ -7,15 +7,18 @@
       checked={{@nonBlockingTechnicalIssueCategory.isChecked}}
       {{on "click" (fn @toggleOnCategory @nonBlockingTechnicalIssueCategory)}}
     />
-    <label for="input-radio-for-category-technical-issue"><span
-      >{{@nonBlockingTechnicalIssueCategory.categoryCode}}&nbsp;</span>{{@nonBlockingTechnicalIssueCategory.categoryLabel}}</label>
+    <label for="input-radio-for-category-technical-issue">
+      <span>{{@nonBlockingTechnicalIssueCategory.categoryCode}}&nbsp;</span>
+      {{@nonBlockingTechnicalIssueCategory.categoryLabel}}
+    </label>
     <PixTooltip @id="tooltip-technical-issue" @position="right" @isWide={{true}}>
       <:triggerElement>
-        <FaIcon
-          @icon="info-circle"
+        <PixIcon
+          @name="info"
+          @plainIcon={{true}}
+          @alternativeText={{t "pages.session-finalization.add-issue-modal.errors.technical-issue"}}
           tabindex="0"
           aria-describedby="tooltip-technical-issue"
-          aria-label="{{t 'pages.session-finalization.add-issue-modal.errors.technical-issue'}}"
         />
       </:triggerElement>
       <:tooltip>

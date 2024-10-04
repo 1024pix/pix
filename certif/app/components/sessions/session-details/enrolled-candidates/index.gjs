@@ -1,12 +1,12 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import EmberObject, { action } from '@ember/object';
 import { service } from '@ember/service';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
@@ -388,8 +388,9 @@ export default class EnrolledCandidates extends Component {
                     {{#if this.showCompatibilityTooltip}}
                       <PixTooltip @id='tooltip-compatibility-subscription' @position='bottom' @isWide={{true}}>
                         <:triggerElement>
-                          <FaIcon
-                            @icon='circle-info'
+                          <PixIcon
+                            @plainIcon={{true}}
+                            @name='info'
                             tabindex='0'
                             aria-describedby='tooltip-compatibility-subscription'
                           />

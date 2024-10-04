@@ -43,13 +43,10 @@
         text-decoration: none;
 
         &-icon {
-          width: 15px;
+          width: 1.2rem;
+          height: 2rem;
           margin-right: 8px;
-          color: var(--pix-neutral-800);
-        }
-
-        &-icon-chevron {
-          filter: invert(20%) sepia(74%) saturate(338%) hue-rotate(177deg) brightness(92%) contrast(100%);
+          fill: var(--pix-neutral-800);
         }
 
         &.active {
@@ -74,13 +71,11 @@
   overflow: hidden;
 
   &__topbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     min-height: $navbar-height;
+    max-height: 2.5rem;
     background-color: var(--pix-neutral-0);
   }
-}
-
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
 }

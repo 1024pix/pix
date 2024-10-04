@@ -10,7 +10,9 @@
     gap: var(--pix-spacing-2x);
 
     > svg {
-      color: var(--pix-neutral-500);
+      width: 2rem;
+      height: 2rem;
+      fill: var(--pix-neutral-500);
     }
 
     > h2 {
@@ -94,8 +96,10 @@
     align-items: center;
     gap: var(--pix-spacing-2x);
 
-    > img {
-      color: var(--pix-neutral-500);
+    > svg {
+      fill: var(--pix-neutral-500);
+      width: 1.3rem;
+      height: 1.3rem;
     }
   }
 
@@ -111,16 +115,6 @@
       width: 150px;
       height: 150px;
     }
-  }
-}
-
-.file-import-block {
-
-  &__icon {
-    color: var(--pix-neutral-500);
-    height: auto;
-    padding: 0 var(--pix-spacing-6x);
-    width: 50px;
   }
 }
 
@@ -148,13 +142,12 @@
   }
 }
 
-.import-download-block {
-
+.import-download-block,
+.file-import-block {
   &__icon {
-    color: var(--pix-neutral-500);
-    height: auto;
-    padding: 0 var(--pix-spacing-8x);
-    width: 30px;
+    fill: var(--pix-neutral-500);
+    height: 3rem;
+    width: 7rem;
   }
 }
 

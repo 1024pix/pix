@@ -17,9 +17,7 @@
 {{#if this.shouldDisplayNoRefererSection}}
   <div class="panel team__no-referer-container">
     <div class="team__no-referer-container-grey">
-      <div class="team__no-referer-bell-icon">
-        <FaIcon @icon="bell" />
-      </div>
+      <PixIcon @name="bell" @plainIcon={{true}} @ariaHidden={{true}} class="team__no-referer-icon" />
       <div>
         <h2 class="team__no-referer-title">
           {{t "pages.team.no-referer-section.title"}}

@@ -22,7 +22,7 @@ export default class NoSessionPanel extends Component {
 
   <template>
     <div class='no-session-panel'>
-      <img class='no-session-panel__icon' src='{{this.rootURL}}/icons/empty-list-session.svg' alt='' role='none' />
+      <img class='no-session-panel__icon' src='{{this.rootURL}}/images/empty-list-session.svg' alt='' role='none' />
       <h1 class='page-title'>{{t 'pages.sessions.list.empty.title'}}</h1>
 
       <ul class='no-session-panel__link-to-create'>

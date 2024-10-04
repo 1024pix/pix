@@ -37,20 +37,14 @@
     @extend %pix-body-m;
 
     color: var(--pix-neutral-500);
-    margin: 16px 0;
+    margin: var(--pix-spacing-4x) 0;
   }
 
-  &__no-referer-bell-icon {
-    width: 80px;
-    padding: 2px;
-    margin-right: 16px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-
-    svg {
-      font-size: 2.5rem;
-      color: var(--pix-neutral-500);
-    }
+  &__no-referer-icon {
+    width: 50px;
+    height: 130px;
+    margin-right: var(--pix-spacing-6x);
+    margin-left: var(--pix-spacing-4x);
+    fill: var(--pix-neutral-500);
   }
 }

@@ -5,14 +5,13 @@
     </div>
   {{else}}
     <div class="import-page__title">
-      <FaIcon @icon="clipboard-list" class="fa-lg" />
+      <PixIcon @name="assignment" @plainIcon={{true}} @ariaHidden={{true}} />
       <h2>{{t "pages.sessions.import.step-two.title"}}</h2>
     </div>
 
     <ul class="import-page-section__result-count-list">
       <li class="import-page-section__result-count-item">
-        {{! template-lint-disable no-redundant-role }}
-        <img src="{{this.rootURL}}/icons/solid-square-chevron-right.svg" alt="" role="presentation" />
+        <PixIcon @name="session" @plainIcon={{true}} @ariaHidden={{true}} />
         <p>
           {{t
             "pages.sessions.import.step-two.sessions-and-empty-sessions-count"
@@ -22,7 +21,7 @@
         </p>
       </li>
       <li class="import-page-section__result-count-item">
-        <FaIcon @icon="user" />
+        <PixIcon @name="infoUser" @plainIcon={{true}} @ariaHidden={{true}} />
         <p>
           {{t "pages.sessions.import.step-two.candidates-count" candidatesCount=@candidatesCount}}
         </p>
@@ -119,7 +118,8 @@
 {{#unless this.noError}}
   <section class="import-page__section--download panel">
     <div class="import-page__title">
-      <FaIcon @icon="cloud-arrow-up" class="fa-lg" />
+      <PixIcon @name="upload" @ariaHidden={{true}} />
+
       <h2>{{t "pages.sessions.import.step-two.actions.import-again.title"}}</h2>
     </div>
     <Import::FileImportBlock

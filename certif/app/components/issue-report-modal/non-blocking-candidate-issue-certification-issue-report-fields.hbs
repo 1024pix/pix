@@ -11,11 +11,13 @@
       >{{@nonBlockingCandidateIssueCategory.categoryCode}}&nbsp;</span>{{@nonBlockingCandidateIssueCategory.categoryLabel}}</label>
     <PixTooltip @id="tooltip-candidate-issue" @position="right" @isWide={{true}}>
       <:triggerElement>
-        <FaIcon
-          @icon="info-circle"
+        <PixIcon
+          @name="info"
+          @plainIcon={{true}}
+          @ariaHidden={{false}}
+          @alternativeText="Incident technique"
           tabindex="0"
           aria-describedby="tooltip-candidate-issue"
-          aria-label="Incident technique"
         />
       </:triggerElement>
       <:tooltip>

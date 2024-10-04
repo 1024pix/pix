@@ -38,7 +38,7 @@
         {{/each}}
       </ul>
       <PixButton @triggerAction={{fn @onClickIssueReport @report}} class="issue-report-modal__add-button">
-        <FaIcon @icon="plus" />
+        <PixIcon @name="add" @ariaHidden={{true}} />
         {{t "pages.session-finalization.issue-reports-modal.actions.add-reporting"}}
       </PixButton>
     </div>

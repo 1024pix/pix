@@ -15,7 +15,10 @@
     float: right;
 
     svg {
-      margin-right: 8px;
+      margin-right: var(--pix-spacing-2x);
+      width: 1rem;
+      height: 1rem;
+      fill: var(--pix-primary-700);
     }
   }
 

@@ -12,9 +12,9 @@
   </span>
   <span class="screen-reader-only">{{t "navigation.user-logged-menu.button-extra-information"}}</span>
   {{#if this.isMenuOpen}}
-    <FaIcon @icon="chevron-up" @class="logged-user-summary__chevron logged-user-summary__chevron--up" />
+    <PixIcon @name="up" @ariaHidden={{true}} class="logged-user-summary__chevron" />
   {{else}}
-    <FaIcon @icon="chevron-down" @class="logged-user-summary__chevron" />
+    <PixIcon @name="down" @ariaHidden={{true}} class="logged-user-summary__chevron" />
   {{/if}}
 </button>
 
@@ -32,7 +32,7 @@
     </Dropdown::Item>
   {{/each}}
   <Dropdown::ItemLink @linkTo="logout" class="logged-user-menu-item">
-    <FaIcon @icon="power-off" @class="logged-user-menu-item__icon" />
+    <PixIcon @name="power" class="logged-user-menu-item__icon" @ariaHidden={{true}} />
     {{t "navigation.user-logged-menu.logout"}}
   </Dropdown::ItemLink>
 </Dropdown::Content>

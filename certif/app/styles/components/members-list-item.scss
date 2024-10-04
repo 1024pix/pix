@@ -10,10 +10,28 @@
     font-size: 12px;
   }
 
-  &__tool-tip {
+  &__tooltip {
     font-weight: 900;
     font-size: 18px;
+
+    span {
+      &:focus > svg {
+        fill: var(--pix-neutral-800);
+      }
+    }
+
+    &-icon {
+      display: flex;
+      width: 1.3rem;
+      height: 1.3rem;
+      fill: var(--pix-neutral-500);
+
+      &:hover {
+        fill: var(--pix-neutral-800);
+      }
+    }
   }
+
 
   &__managing-role {
     display:flex;

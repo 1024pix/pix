@@ -45,7 +45,7 @@ export default class Topbar extends Component {
   }
 
   <template>
-    <div class='main-content__topbar topbar'>
+    <div class='main-content__topbar'>
       <UserLoggedMenu @onCertificationCenterAccessChanged={{this.changeCurrentCertificationCenterAccess}} />
     </div>
 

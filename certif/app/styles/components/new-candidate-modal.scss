@@ -40,7 +40,6 @@
     }
   }
 
-  /* prepayment custom field can be modified with the version 45 of pix UI */
   &__tooltip {
     display: flex;
     flex-wrap: wrap;
@@ -57,5 +56,13 @@
     > input {
       width: 248px;
     }
+  }
+}
+
+.new-candidate-tooltip {
+  &__icon {
+  width: 1rem;
+  height: 1rem;
+  fill: var(--pix-neutral-800);
   }
 }

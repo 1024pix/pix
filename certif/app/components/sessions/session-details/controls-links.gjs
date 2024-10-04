@@ -1,6 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import { t } from 'ember-intl';
 
 <template>
@@ -17,7 +17,7 @@ import { t } from 'ember-intl';
       rel='noopener noreferrer'
       download
     >
-      <FaIcon @icon='file-download' class='session-details__controls-icon' />
+      <PixIcon @name='download' @plainIcon={{true}} @ariaHidden={{true}} class='session-details__controls-icon' />
       {{t 'pages.sessions.detail.downloads.incident-report.label'}}
     </PixButtonLink>
     <PixButton
@@ -28,7 +28,7 @@ import { t } from 'ember-intl';
       aria-label={{t 'pages.sessions.detail.downloads.invigilator-kit.extra-information'}}
       @triggerAction={{@fetchInvigilatorKit}}
     >
-      <FaIcon @icon='file-download' class='session-details__controls-icon' />
+      <PixIcon @name='download' @plainIcon={{true}} @ariaHidden={{true}} class='session-details__controls-icon' />
       {{t 'pages.sessions.detail.downloads.invigilator-kit.label'}}
     </PixButton>
     {{#if @shouldDisplayDownloadButton}}
@@ -41,7 +41,7 @@ import { t } from 'ember-intl';
         target='_blank'
         aria-label={{t 'pages.sessions.detail.downloads.attendance-sheet.extra-information'}}
       >
-        <FaIcon @icon='file-download' class='session-details__controls-icon' />
+        <PixIcon @name='download' @plainIcon={{true}} @ariaHidden={{true}} class='session-details__controls-icon' />
         {{t 'pages.sessions.detail.downloads.attendance-sheet.label'}}
       </PixButton>
     {{/if}}

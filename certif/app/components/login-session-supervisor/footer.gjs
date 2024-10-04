@@ -1,13 +1,14 @@
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import { LinkTo } from '@ember/routing';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import { t } from 'ember-intl';
 
 <template>
   <footer>
-    <span><FaIcon @icon='user-circle' />
+    <span class='footer__item'>
+      <PixIcon @name='userCircle' @plainIcon={{true}} class='footer-item__icon' @ariaHidden={{true}} />
       {{@currentUserEmail}}
     </span>
-    <LinkTo class='logout' @route='logout'>
+    <LinkTo class='footer__logout' @route='logout'>
       {{t 'pages.session-supervising.login.form.actions.switch-account'}}
     </LinkTo>
   </footer>

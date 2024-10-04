@@ -1,7 +1,7 @@
 .session-finalization-step-container {
   display: flex;
   flex-direction: column;
-  margin-bottom: 24px;
+  margin-bottom: var(--pix-spacing-6x);
 
   &__page-title {
     margin: 0;
@@ -13,7 +13,7 @@
   }
 
   p {
-    margin: 8px 0 0;
+    margin-top: var(--pix-spacing-2x);
     color: var(--pix-neutral-500);
 
     @extend %pix-body-s;
@@ -22,19 +22,22 @@
   &__header {
     display: flex;
     align-items: center;
-    margin: 16px;
-    padding: 20px 24px;
+    margin: var(--pix-spacing-4x);
+    padding: 20px var(--pix-spacing-6x);
     background: var(--pix-neutral-20);
-    border-radius: 8px;
-  }
-
-  &__titles {
-    display: flex;
-    flex-direction: column;
-    margin-left: 24px;
+    border-radius: var(--pix-spacing-2x);
   }
 
   &__border {
     border-top: 1px solid var(--pix-neutral-20);
+  }
+}
+
+.session-finalization-step-header {
+  &__icon {
+    width: 2rem;
+    height: 2rem;
+    margin-right: var(--pix-spacing-4x);
+    fill: var(--pix-neutral-500);
   }
 }
