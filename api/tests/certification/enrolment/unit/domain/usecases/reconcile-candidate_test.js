@@ -1,4 +1,3 @@
-import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { reconcileCandidate } from '../../../../../../src/certification/enrolment/domain/usecases/reconcile-candidate.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -10,7 +9,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | reconcile-candid
   const userId = 2;
 
   beforeEach(function () {
-    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
     candidateRepository = {
       update: sinon.stub(),
     };
