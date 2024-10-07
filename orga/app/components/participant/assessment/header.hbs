@@ -30,7 +30,7 @@
 
   <div class="panel-header__body">
     <Ui::InformationWrapper>
-      {{#if @participation.participantExternalId}}
+      {{#if (and @participation.participantExternalId @campaign.idPixLabel)}}
         <Ui::Information>
           <:title>{{@campaign.idPixLabel}}</:title>
           <:content>{{@participation.participantExternalId}}</:content>
