@@ -47,10 +47,10 @@
           "element": {
             "id": "47823e8f-a4af-44d6-96f7-5b6fc7bc6b51",
             "type": "flashcards",
-            "title": "Introduction à l'adresse e-mail",
+            "title": "Introduction à la poésie",
             "instruction": "<p>...</p>",
             "introImage": {
-              "url": "https://example.org/image.jpeg"
+              "url": "https://images.pix.fr/modulix/didacticiel/intro-flashcards.png"
             },
             "cards": [
               {
@@ -59,7 +59,7 @@
                   "image": {
                     "url": "https://images.pix.fr/modulix/didacticiel/icon.svg"
                   },
-                  "text": "Qui a écrit le Dormeur du Val ?"
+                  "text": "Qui a écrit « Le Dormeur du Val ? »"
                 },
                 "verso": {
                   "image": {
@@ -71,7 +71,7 @@
               {
                 "id": "48d0cd29-1e08-4b18-b15a-411ab83e5d3c",
                 "recto": {
-                  "text": "Comment s'appelait la fille de Victor Hugo, évoquée dans le poème 'Demain dès l'aube' ?"
+                  "text": "Comment s'appelait la fille de Victor Hugo, évoquée dans le poème « Demain dès l'aube » ?"
                 },
                 "verso": {
                   "text": "<p>Léopoldine</p>"
@@ -83,13 +83,13 @@
                   "image": {
                     "url": "https://images.pix.fr/modulix/didacticiel/icon.svg"
                   },
-                  "text": "Quel animal a des yeux 'mêlés de métal et d'agathe' selon Charles Baudelaire ?"
+                  "text": "Quel animal a des yeux « mêlés de métal et d'agathe » selon Charles Baudelaire ?"
                 },
                 "verso": {
                   "image": {
                     "url": "https://images.pix.fr/modulix/didacticiel/chaton.jpg"
                   },
-                  "text": "<p>Un chat</p>"
+                  "text": "<p>Le chat</p>"
                 }
               }
             ]
