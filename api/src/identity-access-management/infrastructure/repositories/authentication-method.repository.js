@@ -331,22 +331,22 @@ function _toDomain(authenticationMethodDTO) {
   });
 }
 
-function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationComplement) {
+function _toAuthenticationComplement(identityProvider, authenticationComplement) {
   if (identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code) {
-    return new AuthenticationMethod.PixAuthenticationComplement(bookshelfAuthenticationComplement);
+    return new AuthenticationMethod.PixAuthenticationComplement(authenticationComplement);
   }
 
   if (identityProvider === OidcIdentityProviders.POLE_EMPLOI.code) {
-    return new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement(bookshelfAuthenticationComplement);
+    return new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement(authenticationComplement);
   }
 
   if (identityProvider === NON_OIDC_IDENTITY_PROVIDERS.GAR.code) {
-    const methodWasCreatedWithoutUserFirstAndLastName = bookshelfAuthenticationComplement === null;
+    const methodWasCreatedWithoutUserFirstAndLastName = authenticationComplement === null;
     if (methodWasCreatedWithoutUserFirstAndLastName) {
       return undefined;
     }
 
-    return new AuthenticationMethod.GARAuthenticationComplement(bookshelfAuthenticationComplement);
+    return new AuthenticationMethod.GARAuthenticationComplement(authenticationComplement);
   }
 
   return undefined;

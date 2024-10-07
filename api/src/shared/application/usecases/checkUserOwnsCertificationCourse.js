@@ -2,7 +2,7 @@ import * as certificationCourseRepository from '../../../certification/shared/in
 
 const execute = async function ({ userId, certificationCourseId, dependencies = { certificationCourseRepository } }) {
   const certificationCourse = await dependencies.certificationCourseRepository.get({ id: certificationCourseId });
-  return certificationCourse.doesBelongTo(userId);
+  return certificationCourse.getUserId() === userId;
 };
 
 export { execute };

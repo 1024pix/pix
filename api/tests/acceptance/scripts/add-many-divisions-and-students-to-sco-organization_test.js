@@ -1,7 +1,5 @@
 import { addManyDivisionsAndStudentsToScoCertificationCenter } from '../../../scripts/data-generation/add-many-divisions-and-students-to-sco-organization.js';
-import { knex } from '../../../src/shared/infrastructure/bookshelf.js';
-import { BookshelfOrganizationLearner } from '../../../src/shared/infrastructure/orm-models/OrganizationLearner.js';
-import { databaseBuilder, expect } from '../../test-helper.js';
+import { databaseBuilder, expect, knex } from '../../test-helper.js';
 
 describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organization', function () {
   const organizationId = 123;
@@ -37,8 +35,9 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
   });
 });
 
-function _getNumberOfOrganizationLearners() {
-  return BookshelfOrganizationLearner.count().then((number) => parseInt(number, 10));
+async function _getNumberOfOrganizationLearners() {
+  const [{ count }] = await knex('organization-learners').count();
+  return count;
 }
 
 function _getDistinctDivisions() {

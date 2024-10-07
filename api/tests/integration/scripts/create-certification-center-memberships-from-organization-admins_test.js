@@ -6,8 +6,7 @@ import {
   prepareDataForInsert,
 } from '../../../scripts/create-certification-center-memberships-from-organization-admins.js';
 import { Membership } from '../../../src/shared/domain/models/Membership.js';
-import { BookshelfCertificationCenterMembership } from '../../../src/shared/infrastructure/orm-models/CertificationCenterMembership.js';
-import { databaseBuilder, expect } from '../../test-helper.js';
+import { databaseBuilder, expect, knex } from '../../test-helper.js';
 
 describe('Integration | Scripts | create-certification-center-memberships-from-organization-admins.js', function () {
   function _buildUserWithAdminMembership(organizationId) {
@@ -244,8 +243,9 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
   });
 
   describe('#createCertificationCenterMemberships', function () {
-    const getNumberOfCertificationCenterMemberships = () => {
-      return BookshelfCertificationCenterMembership.count().then((number) => parseInt(number, 10));
+    const getNumberOfCertificationCenterMemberships = async () => {
+      const [{ count }] = await knex('certification-center-memberships').count();
+      return count;
     };
 
     context('when the certification center does not have any membership', function () {
