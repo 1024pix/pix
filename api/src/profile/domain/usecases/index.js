@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as competenceEvaluationRepository from '../../../evaluation/infrastructure/repositories/competence-evaluation-repository.js';
+import { repositories } from '../../../profile/infrastructure/repositories/index.js';
 import * as profileRewardRepository from '../../../profile/infrastructure/repositories/profile-reward-repository.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
@@ -21,6 +22,7 @@ const dependencies = {
   competenceEvaluationRepository,
   knowledgeElementRepository,
   profileRewardRepository,
+  userRepository: repositories.userRepository,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);

@@ -1,6 +1,11 @@
 import { PROFILE_REWARDS_TABLE_NAME } from '../../../../../db/migrations/20240820101213_add-profile-rewards-table.js';
+import { ATTESTATIONS } from '../../../../../src/profile/domain/constants.js';
 import { ProfileReward } from '../../../../../src/profile/domain/models/ProfileReward.js';
-import { getByUserId, save } from '../../../../../src/profile/infrastructure/repositories/profile-reward-repository.js';
+import {
+  getByAttestationKeyAndUserIds,
+  getByUserId,
+  save,
+} from '../../../../../src/profile/infrastructure/repositories/profile-reward-repository.js';
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
@@ -40,8 +45,13 @@ describe('Profile | Integration | Repository | profile-reward', function () {
         eligibilityRequirements: {},
         successRequirements: {},
       });
+      const otherAttestation = databaseBuilder.factory.buildAttestation({
+        templateName: 'otherTemplateName',
+        key: 'otherKey',
+      });
       const { rewardId: secondRewardId } = databaseBuilder.factory.buildQuest({
         rewardType: REWARD_TYPES.ATTESTATION,
+        rewardId: otherAttestation.id,
         eligibilityRequirements: {},
         successRequirements: {},
       });
@@ -81,6 +91,92 @@ describe('Profile | Integration | Repository | profile-reward', function () {
 
       // then
       expect(result).to.be.empty;
+    });
+  });
+
+  describe('#getByAttestationKeyAndUserIds', function () {
+    it('should return an empty array if there are no attestations for these users', async function () {
+      // given
+      const attestation = databaseBuilder.factory.buildAttestation();
+      const user = databaseBuilder.factory.buildUser();
+      await databaseBuilder.commit();
+
+      // when
+      const result = await getByAttestationKeyAndUserIds({ attestationKey: attestation.key, userIds: [user.id] });
+
+      // then
+      expect(result.length).to.equal(0);
+    });
+
+    it('should return all attestations for users', async function () {
+      // given
+      const attestation = databaseBuilder.factory.buildAttestation();
+      const firstUser = databaseBuilder.factory.buildUser();
+      const secondUser = databaseBuilder.factory.buildUser();
+      const expectedProfileRewards = [];
+      expectedProfileRewards.push(
+        new ProfileReward(
+          databaseBuilder.factory.buildProfileReward({ rewardId: attestation.id, userId: firstUser.id }),
+        ),
+      );
+      expectedProfileRewards.push(
+        new ProfileReward(
+          databaseBuilder.factory.buildProfileReward({ rewardId: attestation.id, userId: secondUser.id }),
+        ),
+      );
+      await databaseBuilder.commit();
+
+      // when
+      const result = await getByAttestationKeyAndUserIds({
+        attestationKey: attestation.key,
+        userIds: [firstUser.id, secondUser.id],
+      });
+
+      // then
+      expect(result).to.be.deep.equal(expectedProfileRewards);
+      expect(result[0]).to.be.an.instanceof(ProfileReward);
+      expect(result[1]).to.be.an.instanceof(ProfileReward);
+    });
+
+    it('should not return attestations of other users', async function () {
+      // given
+      const attestation = databaseBuilder.factory.buildAttestation();
+      const firstUser = databaseBuilder.factory.buildUser();
+      const secondUser = databaseBuilder.factory.buildUser();
+      const expectedFirstUserProfileReward = [];
+      expectedFirstUserProfileReward.push(
+        new ProfileReward(
+          databaseBuilder.factory.buildProfileReward({ rewardId: attestation.id, userId: firstUser.id }),
+        ),
+      );
+      databaseBuilder.factory.buildProfileReward({ rewardId: attestation.id, userId: secondUser.id });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await getByAttestationKeyAndUserIds({
+        attestationKey: attestation.key,
+        userIds: [firstUser.id],
+      });
+
+      // then
+      expect(result).to.be.deep.equal(expectedFirstUserProfileReward);
+    });
+
+    it('should not return other attestations', async function () {
+      // given
+      const attestation = databaseBuilder.factory.buildAttestation({ key: ATTESTATIONS.SIXTH_GRADE });
+      const firstUser = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildProfileReward({ rewardId: attestation.id, userId: firstUser.id });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await getByAttestationKeyAndUserIds({
+        attestationKey: 'SOME_KEY',
+        userIds: [firstUser.id],
+      });
+
+      // then
+      expect(result.length).to.equal(0);
     });
   });
 });

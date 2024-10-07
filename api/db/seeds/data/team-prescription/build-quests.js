@@ -1,3 +1,4 @@
+import { ATTESTATIONS } from '../../../../src/profile/domain/constants.js';
 import { REWARD_TYPES } from '../../../../src/quest/domain/constants.js';
 import { COMPARISON } from '../../../../src/quest/domain/models/Quest.js';
 import { TARGET_PROFILE_BADGES_STAGES_ID } from './constants.js';
@@ -8,7 +9,8 @@ async function createAttestationQuest(databasebuilder) {
   const successfulUsers = await retrieveSuccessfulUsers(databasebuilder, campaigns);
 
   const { id: rewardId } = await databasebuilder.factory.buildAttestation({
-    templateName: '6eme-pdf',
+    templateName: 'sixth-grade-attestation-template',
+    key: ATTESTATIONS.SIXTH_GRADE,
   });
 
   const questEligibilityRequirements = [
