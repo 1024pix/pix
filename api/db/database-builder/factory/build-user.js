@@ -93,7 +93,7 @@ const buildUser = function buildUser({
   username = `${firstName}.${lastName}.${id}`,
   cgu = true,
   lang = 'fr',
-  locale,
+  locale = null,
   lastTermsOfServiceValidatedAt = null,
   lastPixOrgaTermsOfServiceValidatedAt = null,
   lastPixCertifTermsOfServiceValidatedAt = null,
