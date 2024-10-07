@@ -201,6 +201,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
             'owner-organization-id': 12,
             'has-linked-campaign': false,
             'has-linked-autonomous-course': false,
+            'tubes-count': 3,
             'capped-tubes': [
               {
                 id: 'recTube1',
