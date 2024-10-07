@@ -44,6 +44,7 @@ const serialize = function ({ targetProfile, filter }) {
       'stageCollection',
       'areas',
       'maxLevel',
+      'tubesCount',
       'cappedTubes',
     ],
     badges: {
