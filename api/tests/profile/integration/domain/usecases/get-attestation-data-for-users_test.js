@@ -19,6 +19,7 @@ describe('Profile | Integration | Domain | get-attestation-data-for-users', func
 
   describe('#getAttestationDataForUsers', function () {
     it('should return profile rewards', async function () {
+      const locale = 'FR-fr';
       const attestation = databaseBuilder.factory.buildAttestation();
       const firstUser = new User(databaseBuilder.factory.buildUser());
       const secondUser = new User(databaseBuilder.factory.buildUser());
@@ -36,9 +37,13 @@ describe('Profile | Integration | Domain | get-attestation-data-for-users', func
       const results = await usecases.getAttestationDataForUsers({
         attestationKey: attestation.key,
         userIds: [firstUser.id, secondUser.id],
+        locale,
       });
 
-      expect(results).to.deep.equal([firstUser.toForm(firstCreatedAt), secondUser.toForm(secondCreatedAt)]);
+      expect(results).to.deep.equal([
+        firstUser.toForm(firstCreatedAt, locale),
+        secondUser.toForm(secondCreatedAt, locale),
+      ]);
     });
   });
 });

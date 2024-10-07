@@ -30,11 +30,11 @@ describe('Unit | Profile | Domain | Models | User', function () {
     const date = new Date('2024-10-02');
 
     // when
-    const form = user.toForm(date);
+    const form = user.toForm(date, 'FR-fr');
 
     // then
     expect(form.get('fullName')).to.deep.equal(user.fullName);
     expect(form.get('filename')).to.deep.equal(user.fullName + Date.now());
-    expect(form.get('date')).to.deep.equal(date);
+    expect(form.get('date')).to.deep.equal('02/10/2024');
   });
 });
