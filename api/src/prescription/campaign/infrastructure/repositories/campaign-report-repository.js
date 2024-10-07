@@ -116,8 +116,13 @@ const findPaginatedFilteredByOrganizationId = async function ({ organizationId, 
   const query = knex('campaigns')
     .distinct('campaigns.id')
     .select(
-      'campaigns.*',
-      'users.id AS "ownerId"',
+      'campaigns.id',
+      'campaigns.name',
+      'campaigns.code',
+      'campaigns.type',
+      'campaigns.archivedAt',
+      'campaigns.createdAt',
+      'users.id AS ownerId',
       'users.firstName AS ownerFirstName',
       'users.lastName AS ownerLastName',
       knex.raw(
