@@ -19,10 +19,26 @@
       "organization-not-found-error": "The organization \"{organizationId}\" does not exist."
     },
     "fields": {
-      "createdAt": "Date of creation",
-      "id": "ID",
-      "name": "Name",
-      "status": "Status"
+      "createdAt": "creation date",
+      "id": "id",
+      "name": "name",
+      "status": "status",
+      "target-profile": {
+        "category": {
+          "name": "category",
+          "tags": {
+            "BACK_TO_SCHOOL": "Back to school",
+            "COMPETENCES": "Pix Competences",
+            "CUSTOM": "Created for you",
+            "DISCIPLINE": "Schools",
+            "OTHER": "Other",
+            "PIX_PLUS": "Pix+",
+            "PREDEFINED": "Ready-made",
+            "SUBJECT": "Subject",
+            "TARGETED": "Targeted"
+          }
+        }
+      }
     },
     "filters": {
       "title": "Filters",

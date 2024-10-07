@@ -51,6 +51,7 @@ export default class TargetProfileListSummaryItems extends Component {
             <tr>
               <th class="table__column table__column--id">{{t "common.fields.id"}}</th>
               <th>{{t "common.fields.name"}}</th>
+              <th>{{t "common.fields.target-profile.category.name"}}</th>
               <th class="col-date">{{t "common.fields.createdAt"}}</th>
               <th class="col-status">{{t "common.fields.status"}}</th>
             </tr>
@@ -60,14 +61,15 @@ export default class TargetProfileListSummaryItems extends Component {
             <tbody>
               {{#each @summaries as |summary|}}
                 <tr aria-label="Profil cible">
-                  <td headers="target-profile-id" class="table__column table__column--id">{{summary.id}}</td>
-                  <td headers="target-profile-name">
+                  <td class="table__column table__column--id">{{summary.id}}</td>
+                  <td>
                     <LinkTo @route="authenticated.target-profiles.target-profile" @model={{summary.id}}>
                       {{summary.name}}
                     </LinkTo>
                   </td>
+                  <td class="table__column table__column--id">{{t summary.translationKeyCategory}}</td>
                   <td class="table__column">{{formatDate summary.createdAt}}</td>
-                  <td headers="target-profile-status" class="target-profile-table-column__status">
+                  <td class="target-profile-table-column__status">
                     {{if summary.outdated "Obsolète" "Actif"}}
                   </td>
                 </tr>

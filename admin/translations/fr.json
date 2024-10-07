@@ -19,10 +19,26 @@
       "organization-not-found-error": "L’organisation \"{organizationId}\" n’existe pas."
     },
     "fields": {
-      "createdAt": "Date de création",
+      "target-profile": {
+        "category": {
+          "name": "catégorie",
+          "tags": {
+            "BACK_TO_SCHOOL": "Parcours de rentrée / 6e",
+            "COMPETENCES": "Les 16 compétences",
+            "CUSTOM": "Parcours sur-mesure",
+            "DISCIPLINE": "Disciplinaires",
+            "OTHER": "Autres",
+            "PIX_PLUS": "Pix+",
+            "PREDEFINED": "Parcours prédéfinis",
+            "SUBJECT": "Thématiques",
+            "TARGETED": "Parcours ciblés"
+          }
+        }
+      },
+      "createdAt": "date de création",
       "id": "ID",
-      "name": "Nom",
-      "status": "Statut"
+      "name": "nom",
+      "status": "statut"
     },
     "filters": {
       "title": "Filtres",
