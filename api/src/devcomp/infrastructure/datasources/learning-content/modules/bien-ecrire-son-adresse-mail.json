@@ -95,7 +95,7 @@
                 {
                   "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
                   "type": "text",
-                  "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>Partie 1&nbsp;: l’identifiant. Cette partie est choisie par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque, même avec des majuscules&#8239;!</p><ul><li><span aria-hidden=\"true\">✅</span> Par exemple&nbsp;: <code>mika.aubert</code> ; <code>mika671</code> ou <code>G3oDu671</code></li><li><span aria-hidden=\"true\">❌</span> Mais certains caractères sont interdits ou à éviter&nbsp;: &amp; ; @ ; é ; â ; $ ; * ; € ; etc.</li></ul><p><br>Un conseil si vous envoyez des mails importants : utilisez une adresse mail avec un identifiant classique, par exemple <code>prenom.nom</code>.</p>"
+                  "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>Partie 1&nbsp;: l’identifiant. Cette partie est choisie par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque, même avec des majuscules&#8239;!</p><ul><li><span aria-hidden=\"true\">✅</span> Par exemple&nbsp;: <code>mickael.aubert123</code> ; <code>mika671</code> ou <code>G3oDu671</code></li><li><span aria-hidden=\"true\">❌</span> Mais certains caractères sont interdits ou à éviter&nbsp;: &amp; ; @ ; é ; â ; $ ; * ; € ; etc.</li></ul><p><br>Un conseil si vous envoyez des mails importants : utilisez une adresse mail avec un identifiant classique, par exemple <code>prenom.nom</code>.</p>"
                 }
               ]
             },
@@ -367,7 +367,7 @@
           "element": {
             "id": "b0fcb950-b5b1-4384-886e-79fb852d5bb7",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite</h3><ul><li>C'est l'utilisateur qui choisit son identifiant d'adresse mail. Il peut utiliser des chiffres ou des majuscules.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: <code>mika.aubert</code> ; <code>M3g4Cool1415</code>, etc.</li><li>Il y a une @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite</h3><ul><li>C'est l'utilisateur qui choisit son identifiant d'adresse mail. Il peut utiliser des chiffres ou des majuscules.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: <code>mickael.aubert123</code> ; <code>M3g4Cool1415</code>, etc.</li><li>Il y a une @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
           }
         }
       ]
