@@ -76,4 +76,12 @@
       }
     }
   }
+
+  .page-body-template {
+    padding: var(--pix-spacing-8x);
+
+    &__content {
+      margin-bottom: var(--pix-spacing-8x);
+    }
+  }
 }

@@ -18,6 +18,18 @@
       "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur '<'a href=\"{url}\"'>'mot de passe oublié'</a>' pour le réinitialiser.",
       "organization-not-found-error": "L’organisation \"{organizationId}\" n’existe pas."
     },
+    "fields": {
+      "createdAt": "Date de création",
+      "id": "ID",
+      "name": "Nom",
+      "status": "Statut"
+    },
+    "filters": {
+      "title": "Filtres",
+      "actions": {
+        "clear": "Effacer les filtres"
+      }
+    },
     "forms": {
       "loading": "Chargement...",
       "mandatory": "Champ obligatoire",
@@ -657,6 +669,18 @@
         },
         "notifications": {
           "success": "Le profil cible a bien été copié."
+        }
+      },
+      "filters": {
+        "aria-label": "Filtres sur les profils cibles",
+        "count": "{count, plural, =0 {0 profil cible} =1 {1 profil cible} other {{count} profils cibles}}",
+        "search-by-id": {
+          "name": "Filtrer les profils cible par un ID",
+          "placeholder": "Rechercher par ID"
+        },
+        "search-by-name": {
+          "name": "Filtrer les profils cible par un nom",
+          "placeholder": "Rechercher par nom"
         }
       },
       "resettable-checkbox": {

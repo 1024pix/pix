@@ -1,10 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
 import ListSummaryItems from 'pix-admin/components/target-profiles/list-summary-items';
 import { module, test } from 'qunit';
 
+import setupIntlRenderingTest, { t } from '../../../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | routes/authenticated/target-profiles | list-items', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   const triggerFiltering = function () {};
   const goToTargetProfilePage = function () {};
@@ -18,9 +19,9 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
     );
 
     // then
-    assert.dom(screen.getByText('ID')).exists();
-    assert.dom(screen.getByText('Nom')).exists();
-    assert.dom(screen.getByText('Statut')).exists();
+    assert.ok(screen.getByText(t('common.fields.id')));
+    assert.ok(screen.getByText(t('common.fields.name')));
+    assert.ok(screen.getByText(t('common.fields.status')));
   });
 
   test('it should display search inputs', async function (assert) {
@@ -32,8 +33,8 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
     );
 
     // then
-    assert.dom(screen.getByRole('textbox', { name: 'Filtrer les profils cible par un id' })).exists();
-    assert.dom(screen.getByRole('textbox', { name: 'Filtrer les profils cible par un nom' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: t('pages.target-profiles.filters.search-by-id.name') })).exists();
+    assert.dom(screen.getByRole('textbox', { name: t('pages.target-profiles.filters.search-by-name.name') })).exists();
   });
 
   test('it should display target profile summaries list', async function (assert) {

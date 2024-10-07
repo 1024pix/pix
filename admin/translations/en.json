@@ -18,6 +18,18 @@
       "login-user-temporary-blocked-error": "You have reached too many failed login attempts. Please try again later or '<'a href=\"{url}\"'>'reset your password here'</a>'.",
       "organization-not-found-error": "The organization \"{organizationId}\" does not exist."
     },
+    "fields": {
+      "createdAt": "Date of creation",
+      "id": "ID",
+      "name": "Name",
+      "status": "Status"
+    },
+    "filters": {
+      "title": "Filters",
+      "actions": {
+        "clear": "Clear filters"
+      }
+    },
     "forms": {
       "loading": "Loading...",
       "mandatory": "Champ obligatoire",
@@ -640,6 +652,18 @@
         },
         "notifications": {
           "success": "The target profile has been duplicated."
+        }
+      },
+      "filters": {
+        "aria-label": "Target profile filters",
+        "count": "{count, plural, =0 {0 target profile} =1 {1 target profile} other {{count} target profiles}}",
+        "search-by-id": {
+          "name": "Filter target profiles by ID",
+          "placeholder": "Search by ID"
+        },
+        "search-by-name": {
+          "name": "Filter target profiles by name",
+          "placeholder": "Search by name"
         }
       },
       "resettable-checkbox": {

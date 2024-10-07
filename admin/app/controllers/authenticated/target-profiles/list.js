@@ -26,4 +26,10 @@ export default class ListController extends Controller {
   triggerFiltering(fieldName, event) {
     debounceTask(this, 'updateFilters', { [fieldName]: event.target.value }, this.DEBOUNCE_MS);
   }
+
+  @action
+  onResetFilter() {
+    this.id = null;
+    this.name = null;
+  }
 }

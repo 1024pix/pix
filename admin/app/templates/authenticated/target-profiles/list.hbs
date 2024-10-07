@@ -8,13 +8,14 @@
   </div>
 </header>
 
-<main class="page-body">
-  <section class="page-section">
+<main class="page-body-template">
+  <section>
     <TargetProfiles::ListSummaryItems
       @summaries={{@model}}
       @id={{this.id}}
       @name={{this.name}}
       @triggerFiltering={{this.triggerFiltering}}
+      @onResetFilter={{this.onResetFilter}}
     />
   </section>
 </main>
