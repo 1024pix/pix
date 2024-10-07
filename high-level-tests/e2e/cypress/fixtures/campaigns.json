@@ -7,8 +7,7 @@
     "organizationId": 1,
     "creatorId": 1,
     "ownerId": 1,
-    "targetProfileId": 1,
-    "idPixLabel": "Surnom"
+    "targetProfileId": 1
   },
   {
     "id": 2,
@@ -37,8 +36,7 @@
     "type": "PROFILES_COLLECTION",
     "organizationId": 1,
     "creatorId": 1,
-    "ownerId": 1,
-    "idPixLabel": "Surnom"
+    "ownerId": 1
   },
   {
     "id": 5,
