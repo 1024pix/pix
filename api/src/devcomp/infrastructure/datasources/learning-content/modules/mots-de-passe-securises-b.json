@@ -40,7 +40,7 @@
       "grainId": "6336bac0-c272-40cc-a002-ee724a5ec4c8"
     },
     {
-      "content": "<p>Et vous, peut-être que certains de vos mots de passe ne sont pas solides.<br>Pour finir ce module, prenez de bonnes résolutions. <span aria-hidden=\"true\">💫</span></p>",
+      "content": "<p>Et vous, peut-être que certains de vos mots de passe ne sont pas solides.<br>Pour finir ce module, nous vous proposons de prendre de bonnes résolutions. <span aria-hidden=\"true\">💫</span></p>",
       "grainId": "464fe554-ff12-4b14-b6d6-3510fff2bb26"
     }
   ],
@@ -114,7 +114,7 @@
                 {
                   "id": "6426dbb4-5627-4ae7-aa22-b63b70a8065f",
                   "type": "text",
-                  "content": "<p>Voici la liste des 20 mots de passes les plus utilisés en France. <span aria-hidden=\"true\">👇</span></p><p>Interdiction de les utiliser : ils sont trop connus !</p>"
+                  "content": "<p>Voici la liste des 20 mots de passes les plus utilisés en France. <span aria-hidden=\"true\">👇</span></p><p>Ce sont donc les pires mots de passe.</p>"
                 },
                 {
                   "id": "b10615ab-ef98-4077-8382-fcd7011ec186",
@@ -139,7 +139,7 @@
           "element": {
             "id": "826281e7-865f-462d-abc0-77537c42a2b4",
             "type": "text",
-            "content": "<p>Après cette vidéo, vous devrez répondre à des questions sur les règles de création de mot de passe sécurisé et deviner un mot de passe faible.</p>"
+            "content": "<p>Après cette vidéo, vous devrez répondre à des questions sur les règles de création de mot de passe sécurisé.</p>"
           }
         },
         {
@@ -225,7 +225,7 @@
                 {
                   "id": "68f45335-8aab-40f5-baff-9719ce8b582a",
                   "type": "qcu",
-                  "instruction": "<p>Utiliser son nom de famille dans son mot de passe le rend facile à trouver.</p>",
+                  "instruction": "<p>Utiliser son prénom dans son mot de passe le rend facile à trouver.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -390,7 +390,7 @@
                 {
                   "id": "69bfe140-57ac-4fcf-a118-2e9382daacd4",
                   "type": "text",
-                  "content": "<h3>Méthode n°1&nbsp;: retenez une phrase qui vous plaît et gardez certains caractères. <span aria-hidden=\"true\">🧩</span></h3><p><span aria-hidden=\"true\">✔️</span> Par exemple, \"<strong>J'a</strong>i <strong>2 c</strong>hats<strong>, 3 p</strong>oissons <strong>e</strong>xotiques <strong>e</strong>t <strong>j'a</strong>ime <strong>l</strong>a <strong>p</strong>longée <strong>!</strong>\" vous donne le mot de passe&nbsp;: <code>Ja2c3peejalp!</code></p>"
+                  "content": "<h3>Méthode n°1&nbsp;: retenez une phrase qui vous plaît et gardez les premiers caractères. <span aria-hidden=\"true\">🧩</span></h3><p><span aria-hidden=\"true\">✔️</span> Par exemple, \"<strong>J'a</strong>i <strong>2 c</strong>hats<strong>, 3 p</strong>oissons <strong>e</strong>xotiques <strong>e</strong>t <strong>j'a</strong>ime <strong>l</strong>a <strong>p</strong>longée <strong>!</strong>\" vous donne le mot de passe&nbsp;: <code>Ja2c3peejalp!</code></p>"
                 }
               ]
             },
@@ -408,7 +408,7 @@
                 {
                   "id": "e274a0f9-4b4a-4358-8b1f-9e009c5a3ec8",
                   "type": "text",
-                  "content": "<h3>Méthode n°3&nbsp;: votre propre méthode ! <span aria-hidden=\"true\">🧠</span></h3><p>Vous pouvez mélanger les deux méthodes présentées ou trouver d'autres astuces.</p><p>En tout cas, oublier son mot de passe, ce n'est pas grave. Au moment de votre connexion, les sites internet permettent de changer votre mot de passe si vous l'avez oublié.</p>"
+                  "content": "<h3>Méthode n°3&nbsp;: votre méthode ! <span aria-hidden=\"true\">🧠</span></h3><p>Vous pouvez mélanger les deux méthodes présentées ou trouver d'autres astuces.</p><p>En tout cas, oublier le mot de passe d'un compte, ce n'est pas grave. Au moment de votre connexion, les sites internet permettent de changer votre mot de passe si vous l'avez oublié.</p>"
                 }
               ]
             }
@@ -464,34 +464,34 @@
           "element": {
             "id": "7bedd844-b13a-4a2a-b64c-ad947a73f15e",
             "type": "qcu",
-            "instruction": "Que souhaitez-vous faire concernant vos mots de passe ?",
+            "instruction": "<mark><i>Usage effectif sous condition d'une modalité QCU déclaratif disponible</i></mark><br>À l'issue de ce module, que souhaitez-vous faire concernant vos mots de passe ?",
             "proposals": [
               {
                 "id": "1",
                 "content": "Je ne les changerai pas même s'ils sont faibles.",
-                "feedback": ""
+                "feedback": "<p>Avec de petits gestes, vous pouvez éviter une situation très désagréable.<br>Nous vous recommandons de le faire lorsque vous aurez le temps ! 🔐</p>"
               },
               {
                 "id": "2",
-                "content": "Je vais bientôt tous les sécuriser car ils sont faibles.",
-                "feedback": ""
+                "content": "Je vais bientôt les modifier car ils sont trop faibles.",
+                "feedback": "<p>Voilà un bon début ! Fixer rapidement une date pour être sûr de le faire. 😉</p>"
               },
               {
                 "id": "3",
                 "content": "Je vais seulement changer le mot de passe de ma boîte mail.",
-                "feedback": ""
+                "feedback": "<p>S'il faut en changer un en premier, c'est bien celui là.<br>C'est un bon début. 😀 </p>"
               },
               {
                 "id": "4",
-                "content": "Je n'ai pas besoin de les changer bientôt car ils sont déjà sécurisés",
-                "feedback": ""
+                "content": "Je n'ai pas besoin de les changer bientôt car ils sont déjà sécurisés.",
+                "feedback": "<p>Très bien ! ✨ <br>Au moindre doute, prenez pour réflexe de changer immédiatemment votre mot de passe.</p>"
               }
             ],
             "feedbacks": {
               "valid": "",
               "invalid": ""
             },
-            "solution": ""
+            "solution": "4"
           }
         }
       ]
