@@ -320,14 +320,6 @@ const configuration = (function () {
       },
       accessTokenLifespanMs: ms(process.env.SAML_ACCESS_TOKEN_LIFESPAN || '7d'),
     },
-    sentry: {
-      enabled: toBoolean(process.env.SENTRY_ENABLED),
-      dsn: process.env.SENTRY_DSN,
-      environment: process.env.SENTRY_ENVIRONMENT || 'development',
-      maxBreadcrumbs: _getNumber(process.env.SENTRY_MAX_BREADCRUMBS, 100),
-      debug: toBoolean(process.env.SENTRY_DEBUG),
-      maxValueLength: 1000,
-    },
     temporaryKey: {
       secret: process.env.AUTH_SECRET,
       tokenLifespan: '1d',
@@ -501,8 +493,6 @@ const configuration = (function () {
     config.caching.redisUrl = null;
     config.caching.redisCacheKeyLockTTL = 100;
     config.caching.redisCacheLockedWaitBeforeRetry = 1;
-
-    config.sentry.enabled = false;
 
     config.redis = {
       url: process.env.TEST_REDIS_URL,
