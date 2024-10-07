@@ -185,4 +185,27 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       });
     });
   });
+
+  module('when there is some custom organization content', function () {
+    test('it should display the organization block', async function (assert) {
+      //given
+      this.set('campaign', {
+        customResultPageText: 'My custom result page text',
+      });
+
+      this.set('campaignParticipationResult', { masteryRate: 0.75 });
+
+      // when
+      const screen = await render(
+        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+          @campaign={{this.campaign}}
+          @campaignParticipationResult={{this.campaignParticipationResult}}
+        />`,
+      );
+
+      // then
+      assert.dom(screen.getByText(t('pages.skill-review.organization-message'))).exists();
+      assert.dom(screen.getByText('My custom result page text')).exists();
+    });
+  });
 });

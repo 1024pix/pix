@@ -178,6 +178,24 @@
   }
 }
 
+// Custom organization block
+.evaluation-results-hero__organization-block {
+  flex-basis: 100%;
+  padding-top: var(--pix-spacing-10x);
+  border-top: 1px solid var(--pix-neutral-100);
+}
+
+.evaluation-results-hero-organization-block__title {
+  @extend %pix-title-s;
+
+  margin-bottom: var(--pix-spacing-2x);
+}
+
+.evaluation-results-hero-organization-block__link {
+  display: inline-flex;
+  margin-top: var(--pix-spacing-4x);
+}
+
 /**
  * Evaluation Results Tabs
  */

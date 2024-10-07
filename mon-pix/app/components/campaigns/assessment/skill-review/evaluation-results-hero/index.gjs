@@ -5,6 +5,7 @@ import { t } from 'ember-intl';
 
 import MarkdownToHtml from '../../../../markdown-to-html';
 import AcquiredBadges from './acquired-badges';
+import CustomOrganizationBlock from './custom-organization-block';
 
 export default class EvaluationResultsHero extends Component {
   @service currentUser;
@@ -68,6 +69,11 @@ export default class EvaluationResultsHero extends Component {
           <AcquiredBadges @acquiredBadges={{@campaignParticipationResult.acquiredBadges}} />
         {{/if}}
       </div>
+      <CustomOrganizationBlock
+        @customResultPageText={{@campaign.customResultPageText}}
+        @customResultPageButtonText={{@campaign.customResultPageButtonText}}
+        @customResultPageButtonUrl={{@campaign.customResultPageButtonUrl}}
+      />
     </div>
   </template>
 }
