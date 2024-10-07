@@ -5,7 +5,7 @@ import { TargetProfileSummaryForAdmin } from '../../domain/models/TargetProfileS
 
 const findPaginatedFiltered = async function ({ filter, page }) {
   const query = knex('target-profiles')
-    .select('id', 'name', 'outdated', 'createdAt')
+    .select('id', 'name', 'outdated', 'category', 'createdAt')
     .orderBy('outdated', 'ASC')
     .orderBy('name', 'ASC')
     .modify(_applyFilters, filter);

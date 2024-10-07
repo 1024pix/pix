@@ -6,6 +6,7 @@ class TargetProfileSummaryForAdmin {
     this.id = params.id;
     this.name = params.name;
     this.outdated = params.outdated;
+    this.category = params.category;
     this.createdAt = params.createdAt;
     this.#sharedOrganizationId = params.sharedOrganizationId;
     this.#ownerOrganizationId = params.ownerOrganizationId;
