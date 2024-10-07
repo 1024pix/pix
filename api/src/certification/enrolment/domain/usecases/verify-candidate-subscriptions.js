@@ -19,7 +19,10 @@ import { CertificationCandidateEligibilityError } from '../errors.js';
  * @param {ComplementaryCertificationBadgeRepository} params.complementaryCertificationBadgeRepository
  * @param {PlacementProfileService} params.placementProfileService
  * @param {CertificationBadgesService} params.certificationBadgesService
- * @returns {Promise<void>}
+ *
+ * @returns {Promise<void>} if candidate is deemed eligible
+ * @throws {UserNotAuthorizedToCertifyError} candidate is not certifiable for CORE
+ * @throws {CertificationCandidateEligibilityError} candidate is not eligibile to his complementary
  */
 export async function verifyCandidateSubscriptions({
   candidate,
@@ -173,7 +176,13 @@ function _isUserPixScoreSufficientForBadge({
 }
 
 function _computeRequiredScore({ lowerLevelBadge, subscribedComplementaryCertificationBadge }) {
-  return lowerLevelBadge
-    ? lowerLevelBadge.minimumEarnedPix
-    : subscribedComplementaryCertificationBadge.minimumEarnedPix;
+  if (lowerLevelBadge?.minimumEarnedPix) {
+    return lowerLevelBadge.minimumEarnedPix;
+  }
+
+  if (subscribedComplementaryCertificationBadge?.minimumEarnedPix) {
+    return subscribedComplementaryCertificationBadge.minimumEarnedPix;
+  }
+
+  return 0;
 }

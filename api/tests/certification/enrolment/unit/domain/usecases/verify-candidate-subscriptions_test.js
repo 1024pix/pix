@@ -113,13 +113,13 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
 
         // when
         // then
-        expect(async () => {
-          await verifyCandidateSubscriptions({
+        return expect(
+          verifyCandidateSubscriptions({
             userId: 2,
             candidate,
             ...dependencies,
-          });
-        }).not.to.throw(CertificationCandidateEligibilityError);
+          }),
+        ).to.be.fulfilled;
       });
     });
 
@@ -144,13 +144,13 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
 
         // when
         //then
-        expect(async () => {
-          await verifyCandidateSubscriptions({
+        return expect(
+          verifyCandidateSubscriptions({
             userId: 2,
             candidate,
             ...dependencies,
-          });
-        }).not.to.throw(CertificationCandidateEligibilityError);
+          }),
+        ).to.be.fulfilled;
       });
     });
 
@@ -419,67 +419,136 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       });
 
       context('when user pixScore is above current level', function () {
-        it('should resolve', async function () {
-          // given
-          const certificationCandidateId = 456;
-          const complementaryCertificationId = 789;
-          const complementaryCertificationBadgeId = 4568;
+        context('when there is a minimumEarnedPix', function () {
+          it('should not reject the candidate', async function () {
+            // given
+            const certificationCandidateId = 456;
+            const complementaryCertificationId = 789;
+            const complementaryCertificationBadgeId = 4568;
 
-          const candidate = domainBuilder.certification.enrolment.buildCandidate({
-            id: certificationCandidateId,
-            userId: 1234,
-            subscriptions: [
-              domainBuilder.certification.enrolment.buildComplementarySubscription({
-                certificationCandidateId,
-                complementaryCertificationId,
-              }),
-            ],
-          });
-
-          const complementaryCertificationBadges = [
-            domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
-              id: complementaryCertificationBadgeId,
-              complementaryCertificationId,
-              level: 1,
-              minimumEarnedPix: 200,
-            }),
-          ];
-
-          dependencies.pixCertificationRepository.findByUserId.resolves([
-            domainBuilder.certification.enrolment.buildPixCertification({
-              pixScore: 300,
-              status: AssessmentResult.status.VALIDATED,
-              isCancelled: false,
-              isRejectedForFraud: false,
-            }),
-          ]);
-
-          dependencies.certificationBadgesService.findLatestBadgeAcquisitions.resolves([
-            domainBuilder.buildCertifiableBadgeAcquisition({
-              complementaryCertificationId,
-              complementaryCertificationBadgeId,
-            }),
-          ]);
-
-          dependencies.complementaryCertificationBadgeRepository.findAll.resolves([
-            ...complementaryCertificationBadges,
-            domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
-              id: 9865,
-              level: 1,
-              minimumEarnedPix: 300,
-              complementaryCertificationId: 9865,
-            }),
-          ]);
-
-          // when
-          //then
-          expect(async () => {
-            await verifyCandidateSubscriptions({
-              userId: candidate.userId,
-              candidate,
-              ...dependencies,
+            const candidate = domainBuilder.certification.enrolment.buildCandidate({
+              id: certificationCandidateId,
+              userId: 1234,
+              subscriptions: [
+                domainBuilder.certification.enrolment.buildComplementarySubscription({
+                  certificationCandidateId,
+                  complementaryCertificationId,
+                }),
+              ],
             });
-          }).not.to.throw(CertificationCandidateEligibilityError);
+
+            const complementaryCertificationBadges = [
+              domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
+                id: complementaryCertificationBadgeId,
+                complementaryCertificationId,
+                level: 1,
+                minimumEarnedPix: 200,
+              }),
+            ];
+
+            dependencies.pixCertificationRepository.findByUserId.resolves([
+              domainBuilder.certification.enrolment.buildPixCertification({
+                pixScore: 300,
+                status: AssessmentResult.status.VALIDATED,
+                isCancelled: false,
+                isRejectedForFraud: false,
+              }),
+            ]);
+
+            dependencies.certificationBadgesService.findLatestBadgeAcquisitions.resolves([
+              domainBuilder.buildCertifiableBadgeAcquisition({
+                complementaryCertificationId,
+                complementaryCertificationBadgeId,
+              }),
+            ]);
+
+            dependencies.complementaryCertificationBadgeRepository.findAll.resolves([
+              ...complementaryCertificationBadges,
+              domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
+                id: 9865,
+                level: 1,
+                minimumEarnedPix: 300,
+                complementaryCertificationId: 9865,
+              }),
+            ]);
+
+            // when
+            //then
+            return expect(
+              verifyCandidateSubscriptions({
+                userId: candidate.userId,
+                candidate,
+                ...dependencies,
+              }),
+            ).to.be.fulfilled;
+          });
+        });
+
+        context('when minimumEarnedPix is undefined', function () {
+          it('should not reject the candidate', async function () {
+            // given
+            const certificationCandidateId = 456;
+            const complementaryCertificationId = 789;
+            const complementaryCertificationBadgeId = 4568;
+
+            const candidate = domainBuilder.certification.enrolment.buildCandidate({
+              id: certificationCandidateId,
+              userId: 1234,
+              subscriptions: [
+                domainBuilder.certification.enrolment.buildComplementarySubscription({
+                  certificationCandidateId,
+                  complementaryCertificationId,
+                }),
+              ],
+            });
+
+            const complementaryCertificationBadges = [
+              domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
+                id: complementaryCertificationBadgeId,
+                complementaryCertificationId,
+                level: 1,
+              }),
+            ];
+
+            // DomainBuilder does not allow a undefined value, and 'null' is a value that is already handled
+            delete complementaryCertificationBadges[0].minimumEarnedPix;
+
+            dependencies.pixCertificationRepository.findByUserId.resolves([
+              domainBuilder.certification.enrolment.buildPixCertification({
+                pixScore: 300,
+                status: AssessmentResult.status.VALIDATED,
+                isCancelled: false,
+                isRejectedForFraud: false,
+              }),
+            ]);
+
+            dependencies.certificationBadgesService.findLatestBadgeAcquisitions.resolves([
+              domainBuilder.buildCertifiableBadgeAcquisition({
+                complementaryCertificationId,
+                complementaryCertificationBadgeId,
+              }),
+            ]);
+
+            dependencies.complementaryCertificationBadgeRepository.findAll.resolves([
+              ...complementaryCertificationBadges,
+              domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
+                id: 9865,
+                level: 1,
+                minimumEarnedPix: 300,
+                complementaryCertificationId: 9865,
+              }),
+            ]);
+
+            // when
+            //then
+            return expect(
+              verifyCandidateSubscriptions({
+                userId: candidate.userId,
+                candidate,
+                ...dependencies,
+              }),
+            ).to.be.fulfilled;
+          });
         });
       });
     });
