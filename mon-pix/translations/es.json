@@ -1357,6 +1357,7 @@
           }
         },
         "flashcards": {
+          "start" : "Para empezar",
           "seeAnswer" : "ver la respuesta",
           "seeAgain": "Revisa la pregunta",
           "nextCard": "Siguiente"
