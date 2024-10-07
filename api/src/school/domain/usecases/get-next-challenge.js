@@ -1,5 +1,6 @@
 import { Activity } from '../models/Activity.js';
 import { ActivityInfo } from '../models/ActivityInfo.js';
+import { challengeService } from '../services/challenge.js';
 
 export async function getNextChallenge({
   assessmentId,
@@ -25,6 +26,6 @@ export async function getNextChallenge({
   });
 
   await assessmentRepository.updateWhenNewChallengeIsAsked({ id: assessmentId, lastChallengeId: challengeId });
-
-  return challengeRepository.get(challengeId);
+  const challenge = await challengeRepository.get(challengeId);
+  return challengeService.mapChallenge(challenge);
 }

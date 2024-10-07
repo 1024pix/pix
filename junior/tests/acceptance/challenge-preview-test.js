@@ -9,11 +9,11 @@ module('Acceptance | ChallengePreview', function (hooks) {
 
   test('displays challenge preview', async function (assert) {
     // given
-    const challenge = this.server.create('challenge');
+    const challenge = this.server.create('challenge', 'withInstruction');
     // when
     const screen = await visit(`/challenges/${challenge.id}/preview`);
     // then
-    assert.dom(screen.getByText(`${challenge.instruction}`)).exists();
+    assert.dom(screen.getByText(`${challenge.instruction[0]}`)).exists();
   });
 
   test('displays ko message', async function (assert) {

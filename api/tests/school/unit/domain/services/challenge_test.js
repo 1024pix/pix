@@ -222,4 +222,22 @@ describe('Unit | Service | Challenge', function () {
       });
     });
   });
+
+  describe('#mapChallenge', function () {
+    context('when challenge has *** separator in instruction key', function () {
+      it('should split the text into an Array', async function () {
+        const instruction = 'Une première bulle.<br/>Pour tout mettre\n***\nUne deuxième bulle \n sur plusieurs lignes';
+        const challenge = domainBuilder.buildChallenge({
+          instruction,
+        });
+
+        const mappedChallenge = await challengeService.mapChallenge(challenge);
+
+        expect(mappedChallenge.instruction).to.deep.equal([
+          'Une première bulle.<br/>Pour tout mettre\n',
+          '\nUne deuxième bulle \n sur plusieurs lignes',
+        ]);
+      });
+    });
+  });
 });

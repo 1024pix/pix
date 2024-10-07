@@ -102,6 +102,57 @@ describe('Integration | Usecase | get-next-challenge', function () {
         expect(challenge).to.be.instanceOf(Challenge);
         expect(updatedAssessment.lastChallengeId).to.equal('second_va_challenge_on_step_2_id');
       });
+      it('should return next challenge with the instruction in an array', async function () {
+        const { assessmentId, missionId } = databaseBuilder.factory.buildMissionAssessment();
+
+        databaseBuilder.factory.buildActivity({
+          assessmentId,
+          level: Activity.levels.VALIDATION,
+          status: Activity.status.STARTED,
+          stepIndex: 0,
+          createdAt: new Date('2022-09-15'),
+        });
+
+        await databaseBuilder.commit();
+
+        mockLearningContent({
+          challenges: [
+            learningContentBuilder.buildChallenge({
+              id: 'multi_instruction_id',
+              skillId: 'skill_id',
+              instruction: 'Une première bulle.<br/>Pour tout mettre***Une deuxième bulle\n sur plusieurs lignes',
+            }),
+          ],
+          skills: [learningContentBuilder.buildSkill({ id: 'skill_id' })],
+          missions: [
+            learningContentBuilder.buildMission({
+              id: missionId,
+              content: {
+                steps: [
+                  {
+                    validationChallenges: [['multi_instruction_id']],
+                  },
+                ],
+              },
+            }),
+          ],
+        });
+
+        const challenge = await getNextChallenge({
+          assessmentId,
+          activityRepository,
+          activityAnswerRepository,
+          challengeRepository,
+          assessmentRepository,
+          missionAssessmentRepository,
+          missionRepository,
+        });
+
+        expect(challenge.instruction).to.deep.equal([
+          'Une première bulle.<br/>Pour tout mettre',
+          'Une deuxième bulle\n sur plusieurs lignes',
+        ]);
+      });
     });
   });
 });

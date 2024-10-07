@@ -1,7 +1,9 @@
 {{page-title (t "pages.challenge.title")}}
 <div class="container">
   <RobotDialog @class={{this.robotMood}}>
-    <Bubble @message={{@challenge.instruction}} />
+    {{#each @challenge.instruction as |instruction|}}
+      <Bubble @message={{instruction}} />
+    {{/each}}
     {{#if (eq this.answer.result "ok")}}
       <Bubble @message={{t "pages.challenge.messages.correct-answer"}} @status="success" aria-live="polite" />
     {{/if}}
