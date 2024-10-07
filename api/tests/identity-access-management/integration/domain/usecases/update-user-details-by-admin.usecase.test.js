@@ -1,3 +1,4 @@
+import { EventLoggingJob } from '../../../../../src/identity-access-management/domain/models/jobs/EventLoggingJob.js';
 import { UserDetailsForAdmin } from '../../../../../src/identity-access-management/domain/models/UserDetailsForAdmin.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import * as userRepository from '../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
@@ -6,15 +7,30 @@ import {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
 } from '../../../../../src/shared/domain/errors.js';
-import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
+import { roles } from '../../../../../src/shared/domain/models/Membership.js';
+import { catchErr, databaseBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | updateUserDetailsByAdmin', function () {
   let userId;
+  let updatedByAdminId;
+
+  let clock;
+  const now = new Date('2024-12-25');
 
   beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser({ email: 'email@example.net' }).id;
+    updatedByAdminId = databaseBuilder.factory.buildUser.withRole({
+      email: 'admin@example.net',
+      role: roles.SUPER_ADMIN,
+    }).id;
     databaseBuilder.factory.buildUser({ email: 'alreadyexist@example.net' });
     await databaseBuilder.commit();
+
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+  });
+
+  afterEach(async function () {
+    clock.restore();
   });
 
   it('updates user email, firstname and lastname', async function () {
@@ -29,6 +45,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
     const result = await usecases.updateUserDetailsByAdmin({
       userId,
       userDetailsToUpdate,
+      updatedByAdminId,
     });
 
     // then
@@ -36,6 +53,16 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
     expect(result.email).equal(userDetailsToUpdate.email);
     expect(result.firstName).equal(userDetailsToUpdate.firstName);
     expect(result.lastName).equal(userDetailsToUpdate.lastName);
+
+    await expect(EventLoggingJob.name).to.have.been.performed.withJobPayload({
+      client: 'PIX_ADMIN',
+      action: 'EMAIL_CHANGED',
+      role: 'SUPPORT',
+      userId: updatedByAdminId,
+      targetUserId: userId,
+      data: { oldEmail: 'email@example.net', newEmail: userDetailsToUpdate.email },
+      occurredAt: '2024-12-25T00:00:00.000Z',
+    });
   });
 
   it('updates user email only', async function () {
@@ -48,6 +75,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
     const result = await usecases.updateUserDetailsByAdmin({
       userId,
       userDetailsToUpdate,
+      updatedByAdminId,
     });
 
     // then
@@ -67,11 +95,31 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
     const result = await usecases.updateUserDetailsByAdmin({
       userId,
       userDetailsToUpdate,
+      updatedByAdminId,
     });
 
     // then
     expect(result.organizationLearners.length).to.equal(2);
     expect(result.email).to.equal(userDetailsToUpdate.email);
+  });
+
+  context('When email is not updated', function () {
+    it('does not log into audit logger', async function () {
+      // given
+      const userDetailsToUpdate = { email: 'email@example.net' };
+
+      // when
+      const result = await usecases.updateUserDetailsByAdmin({
+        userId,
+        userDetailsToUpdate,
+        updatedByAdminId,
+      });
+
+      // then
+      expect(result.email).equal(userDetailsToUpdate.email);
+
+      await expect(EventLoggingJob.name).to.have.been.performed.withJobsCount(0);
+    });
   });
 
   context('When adding a new email for user', function () {
@@ -89,6 +137,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
         await usecases.updateUserDetailsByAdmin({
           userId: userWithUsername.id,
           userDetailsToUpdate: { email: 'first@email.com' },
+          updatedByAdminId,
         });
 
         // then
@@ -111,6 +160,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
         await usecases.updateUserDetailsByAdmin({
           userId: userWithUsername.id,
           userDetailsToUpdate: { email: 'first@email.com' },
+          updatedByAdminId,
         });
 
         // then
@@ -131,6 +181,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
       const error = await catchErr(usecases.updateUserDetailsByAdmin)({
         userId,
         userDetailsToUpdate,
+        updatedByAdminId,
       });
 
       // then
@@ -157,6 +208,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
       const error = await catchErr(usecases.updateUserDetailsByAdmin)({
         userId: userToUpdate.id,
         userDetailsToUpdate: { username: anotherUser.username },
+        updatedByAdminId,
       });
 
       // then
@@ -183,6 +235,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | updateUs
       const error = await catchErr(usecases.updateUserDetailsByAdmin)({
         userId,
         userDetailsToUpdate,
+        updatedByAdminId,
       });
 
       // then

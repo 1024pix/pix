@@ -111,31 +111,17 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
     });
 
     it('updates email, firstName, lastName', async function () {
-      const lastName = 'newLastName';
-      const firstName = 'newFirstName';
-      const payload = {
-        data: {
-          attributes: {
-            email: newEmail,
-            lastName: 'newLastName',
-            firstName: 'newFirstName',
-          },
-        },
-      };
+      // given
+      const userDetails = { email: newEmail, lastName: 'newLastName', firstName: 'newFirstName' };
+      const payload = { data: { attributes: userDetails } };
       const request = {
-        params: {
-          id: userId,
-        },
+        auth: { credentials: { userId: 'adminId' } },
+        params: { id: userId },
         payload,
       };
 
-      // given
-      dependencies.userDetailsForAdminSerializer.deserialize.withArgs(payload).returns({
-        email: newEmail,
-        lastName,
-        firstName,
-      });
-      usecases.updateUserDetailsByAdmin.resolves({ email: newEmail, lastName, firstName });
+      dependencies.userDetailsForAdminSerializer.deserialize.withArgs(payload).returns(userDetails);
+      usecases.updateUserDetailsByAdmin.withArgs({ ...userDetails, updatedByAdminId: 'adminId' }).resolves();
       dependencies.userDetailsForAdminSerializer.serializeForUpdate.returns('updated');
 
       // when
@@ -155,6 +141,7 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
         },
       };
       const request = {
+        auth: { credentials: { userId: 'adminId' } },
         params: {
           id: userId,
         },

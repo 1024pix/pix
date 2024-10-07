@@ -39,10 +39,11 @@ const unblockUserAccount = async function (request, h, dependencies = { userLogi
  * @return {Promise<*>}
  */
 const updateUserDetailsByAdmin = async function (request, h, dependencies = { userDetailsForAdminSerializer }) {
+  const updatedByAdminId = request.auth.credentials.userId;
   const userId = request.params.id;
   const userDetailsToUpdate = dependencies.userDetailsForAdminSerializer.deserialize(request.payload);
 
-  const updatedUser = await usecases.updateUserDetailsByAdmin({ userId, userDetailsToUpdate });
+  const updatedUser = await usecases.updateUserDetailsByAdmin({ userId, userDetailsToUpdate, updatedByAdminId });
 
   return dependencies.userDetailsForAdminSerializer.serializeForUpdate(updatedUser);
 };
