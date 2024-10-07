@@ -31,10 +31,6 @@ export default class TargetProfile extends Component {
   @tracked displaySimplifiedAccessPopupConfirm = false;
   @tracked displayPdfParametersModal = false;
 
-  get isPublic() {
-    return this.args.model.isPublic;
-  }
-
   get isOutdated() {
     return this.args.model.outdated;
   }
@@ -193,7 +189,6 @@ export default class TargetProfile extends Component {
               >{{@model.ownerOrganizationId}}</LinkTo>
             </li>
             <li><span class="bold">Date de création&#x20;:&#x20;</span>{{formatDate @model.createdAt}}</li>
-            <li><span class="bold">Public&#x20;:&#x20;</span>{{this.displayBooleanState this.isPublic}}</li>
             <li><span class="bold">Obsolète&#x20;:&#x20;</span>{{this.displayBooleanState this.isOutdated}}</li>
             <li>
               <span class="bold">Parcours Accès Simplifié&#x20;:&#x20;</span>{{this.displayBooleanState

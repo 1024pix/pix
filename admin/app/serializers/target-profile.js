@@ -14,7 +14,6 @@ export default class TargetProfileSerializer extends ApplicationSerializer {
           comment: attributes.comment,
           description: attributes.description,
           'image-url': attributes['image-url'],
-          'is-public': attributes['is-public'],
           name: attributes.name,
           'owner-organization-id': attributes['owner-organization-id'],
         },
@@ -27,7 +26,6 @@ export default class TargetProfileSerializer extends ApplicationSerializer {
 
     const isUpdateMode = options?.update;
     if (isUpdateMode) {
-      delete json.data.attributes['is-public'];
       delete json.data.attributes['owner-organization-id'];
     }
 

@@ -71,7 +71,6 @@ function _createComplementaryWithoutReferential(databaseBuilder) {
     name: 'Parcours complet CléA numérique V1',
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
-    isPublic: true,
     ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
 
@@ -82,7 +81,6 @@ function _createComplementaryWithoutReferential(databaseBuilder) {
     name: 'Parcours complet CléA numérique V2',
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
-    isPublic: true,
     ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
   [
@@ -264,7 +262,6 @@ function _createComplementaryWithHasComplementaryReferential(databaseBuilder) {
     name: '[Pix+Droit] Prêt pour la certification',
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
-    isPublic: true,
     ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
   [
@@ -420,7 +417,6 @@ function _createComplementaryWithHasComplementaryReferential(databaseBuilder) {
     name: '[Pix+Droit (PC 2)] Prêt pour la certification',
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
-    isPublic: true,
     ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
 
@@ -619,7 +615,6 @@ function _createWithHasExternalJury(databaseBuilder) {
     isSimplifiedAccess: false,
     areKnowledgeElementsResettable: true,
     category: 'PREDEFINED',
-    isPublic: true,
     ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
   databaseBuilder.factory.buildTargetProfile({
@@ -629,7 +624,6 @@ function _createWithHasExternalJury(databaseBuilder) {
     name: '[Pix+Édu 1D FC] Prêt pour la certification du volet 1',
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
-    isPublic: true,
     ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
   [

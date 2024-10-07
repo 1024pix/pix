@@ -9,7 +9,6 @@ class TargetProfileForSpecifier {
     category,
     areKnowledgeElementsResettable,
     isSimplifiedAccess,
-    isPublic,
   }) {
     this.id = id;
     this.name = name;
@@ -20,7 +19,6 @@ class TargetProfileForSpecifier {
     this.category = category;
     this.areKnowledgeElementsResettable = areKnowledgeElementsResettable;
     this.isSimplifiedAccess = isSimplifiedAccess;
-    this.isPublic = isPublic;
   }
 }
 

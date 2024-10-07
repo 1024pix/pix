@@ -80,7 +80,6 @@ async function createCoreTargetProfile(databaseBuilder) {
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_PIX_ID,
     name: 'Profil cible Pur Pix (Niv3 ~ 6)',
-    isPublic: true,
     ownerOrganizationId: SCO_ORGANIZATION_ID,
     isSimplifiedAccess: false,
     description:

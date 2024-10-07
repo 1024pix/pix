@@ -11,7 +11,6 @@ describe('Integration | Repository | Target-profile-for-update', function () {
         category: 'old category',
         description: 'old description',
         comment: 'old comment',
-        isPublic: false,
         imageUrl: 'old image url',
       });
 
@@ -39,7 +38,6 @@ describe('Integration | Repository | Target-profile-for-update', function () {
           category: 'new category',
           description: 'new description',
           comment: 'new comment',
-          isPublic: true,
           imageUrl: 'new-image-url',
           tubes: [
             {
@@ -92,7 +90,6 @@ describe('Integration | Repository | Target-profile-for-update', function () {
           category: 'new category',
           description: 'new description',
           comment: 'new comment',
-          isPublic: true,
           imageUrl: 'new-image-url',
         };
 

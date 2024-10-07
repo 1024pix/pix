@@ -36,7 +36,6 @@ export default async function initUser(databaseBuilder) {
       databaseBuilder,
       ownerOrganizationId: specificOrganizationId,
       targetProfileId: AUTONOMOUS_COURSES_ID + i,
-      isPublic: false,
       isSimplifiedAccess: true,
       name: `Profil-cible pour parcours autonome n°${i}`,
       description: 'Profil cible pour parcours autonome',

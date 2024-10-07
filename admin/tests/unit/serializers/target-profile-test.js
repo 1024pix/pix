@@ -15,7 +15,6 @@ module('Unit | Serializer | Target Profile', function (hooks) {
           comment: 'comment',
           description: 'desc',
           imageUrl: 'some-url',
-          isPublic: true,
           name: 'name',
           ownerOrganizationId: 1,
         };
@@ -30,7 +29,6 @@ module('Unit | Serializer | Target Profile', function (hooks) {
           comment: targetProfileData.comment,
           description: targetProfileData.description,
           'image-url': targetProfileData.imageUrl,
-          'is-public': targetProfileData.isPublic,
           name: targetProfileData.name,
           'owner-organization-id': String(targetProfileData.ownerOrganizationId),
           tubes,
@@ -48,7 +46,6 @@ module('Unit | Serializer | Target Profile', function (hooks) {
           comment: 'comment',
           description: 'desc',
           imageUrl: 'some-url',
-          isPublic: true,
           name: 'name',
           ownerOrganizationId: 1,
         };
@@ -62,7 +59,6 @@ module('Unit | Serializer | Target Profile', function (hooks) {
           comment: targetProfileData.comment,
           description: targetProfileData.description,
           'image-url': targetProfileData.imageUrl,
-          'is-public': targetProfileData.isPublic,
           name: targetProfileData.name,
           'owner-organization-id': String(targetProfileData.ownerOrganizationId),
         });

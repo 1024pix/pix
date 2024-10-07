@@ -35,7 +35,6 @@ const create = async function ({ targetProfileForCreation }) {
     'category',
     'description',
     'comment',
-    'isPublic',
     'imageUrl',
     'ownerOrganizationId',
     'areKnowledgeElementsResettable',
@@ -63,7 +62,6 @@ const findByOrganization = async function ({ organizationId }) {
       id: 'target-profiles.id',
       name: 'target-profiles.name',
       outdated: 'target-profiles.outdated',
-      isPublic: 'target-profiles.isPublic',
       ownerOrganizationId: 'target-profiles.ownerOrganizationId',
       sharedOrganizationId: 'target-profile-shares.organizationId',
     })
@@ -75,7 +73,6 @@ const findByOrganization = async function ({ organizationId }) {
     })
     .where({ outdated: false })
     .where((qb) => {
-      qb.orWhere({ isPublic: true });
       qb.orWhere({ ownerOrganizationId: organizationId });
       qb.orWhere((subQb) => {
         subQb.whereNotNull('target-profile-shares.id');

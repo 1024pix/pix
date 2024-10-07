@@ -7,10 +7,6 @@ export default Factory.extend({
     return 'Mon Super Profil Cible Trop Biengggg';
   },
 
-  isPublic() {
-    return true;
-  },
-
   createdAt() {
     return new Date('2020-01-01');
   },

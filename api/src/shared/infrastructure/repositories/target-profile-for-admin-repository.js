@@ -25,7 +25,6 @@ const get = async function ({ id, locale = FRENCH_FRANCE }) {
       'target-profiles.id',
       'target-profiles.name',
       'target-profiles.outdated',
-      'target-profiles.isPublic',
       'target-profiles.imageUrl',
       'target-profiles.createdAt',
       'target-profiles.description',

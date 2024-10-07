@@ -48,7 +48,6 @@ export default async function initUser(databaseBuilder) {
     databaseBuilder,
     targetProfileId: ALL_PURPOSE_ID,
     name: 'Profil cible paliers et RT acquis',
-    isPublic: true,
     ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec des paliers par niveaux et avec des RT acquis, certifiables et en lacune',

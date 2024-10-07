@@ -11,9 +11,7 @@ function _toDomain(AutonomousCourseTargetProfileDTO) {
 const get = async function ({ targetProfileApi }) {
   const targetProfiles = await targetProfileApi.getByOrganizationId(constants.AUTONOMOUS_COURSES_ORGANIZATION_ID);
 
-  const autonomousCourseTargetProfileDTO = targetProfiles.filter(
-    (targetProfile) => !targetProfile.isPublic && targetProfile.isSimplifiedAccess,
-  );
+  const autonomousCourseTargetProfileDTO = targetProfiles.filter((targetProfile) => targetProfile.isSimplifiedAccess);
 
   if (!autonomousCourseTargetProfileDTO.length) {
     throw new NotFoundError(
