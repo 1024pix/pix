@@ -1380,7 +1380,7 @@
           }
         },
         "flashcards": {
-          "continuer": "Continuer",
+          "start": "Commencer",
           "seeAnswer": "Voir la réponse",
           "seeAgain": "Revoir la question",
           "nextCard": "Suivant"

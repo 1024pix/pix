@@ -299,7 +299,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
           <Module::Grain @grain={{this.grain}} />`);
 
         // then
-        assert.dom(screen.getByRole('button', { name: 'Voir la réponse' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Commencer' })).exists();
       });
     });
 
