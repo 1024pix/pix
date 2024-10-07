@@ -129,6 +129,25 @@
   }
 }
 
+.evaluation-results-hero-results__shared-message {
+  display: inline-flex;
+  margin-bottom: var(--pix-spacing-4x);
+}
+
+.evaluation-results-hero-details__explanations {
+  @extend %pix-body-s;
+
+  font-weight: var(--pix-font-bold);
+}
+
+.evaluation-results-hero-details__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pix-spacing-6x);
+  align-items: center;
+  margin-top: var(--pix-spacing-6x);
+}
+
 // Acquired badges
 .evaluation-results-hero-details__acquired-badges-title {
   @extend %pix-title-xs;

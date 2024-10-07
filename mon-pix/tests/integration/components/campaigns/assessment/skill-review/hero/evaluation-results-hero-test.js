@@ -50,6 +50,114 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
     });
   });
 
+  module('results sharing', function () {
+    module('when results are not shared', function () {
+      test('it should display specific explanation and button', async function (assert) {
+        // given
+        this.set('campaignParticipationResult', {
+          campaignParticipationBadges: [],
+          isShared: false,
+          canImprove: false,
+          masteryRate: 0.75,
+          reachedStage: { acquired: 4, total: 5 },
+        });
+
+        // when
+        const screen = await render(
+          hbs`
+            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaignParticipationResult={{this.campaignParticipationResult}}
+            />`,
+        );
+
+        // then
+        assert.dom(screen.getByText(t('pages.skill-review.hero.explanations.send-results'))).exists();
+        assert.dom(screen.getByRole('button', { name: t('pages.skill-review.actions.send') })).exists();
+      });
+    });
+
+    module('when results are shared', function () {
+      module('when there are no trainings', function () {
+        test('it should display a message and a dashboard link', async function (assert) {
+          // given
+          this.set('campaignParticipationResult', { masteryRate: 0.75, isShared: true });
+
+          // when
+          const screen = await render(
+            hbs`
+              <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+                @campaignParticipationResult={{this.campaignParticipationResult}} />`,
+          );
+
+          // then
+          assert.dom(screen.getByText(t('pages.skill-review.hero.shared-message'))).exists();
+          assert.dom(screen.getByRole('link', { name: t('navigation.back-to-homepage') })).exists();
+        });
+      });
+
+      module('when there are trainings', function () {
+        test('it should display specific explanation and a see trainings button', async function (assert) {
+          // given
+          this.set('hasTrainings', true);
+          this.set('campaignParticipationResult', { masteryRate: 0.75, isShared: true });
+
+          // when
+          const screen = await render(
+            hbs`
+              <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+                @hasTrainings={{this.hasTrainings}}
+                @campaignParticipationResult={{this.campaignParticipationResult}}
+              />`,
+          );
+
+          // then
+          assert.dom(screen.getByText(t('pages.skill-review.hero.explanations.trainings'))).exists();
+          assert.dom(screen.getByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).exists();
+        });
+      });
+    });
+  });
+
+  module('improve results', function () {
+    module('when user can improve results', function () {
+      test('it should display specific explanation and button', async function (assert) {
+        // given
+        this.set('campaignParticipationResult', { masteryRate: 0.75, canImprove: true });
+
+        // when
+        const screen = await render(
+          hbs`
+            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaignParticipationResult={{this.campaignParticipationResult}}
+            />`,
+        );
+
+        // then
+        assert.dom(screen.getByText(t('pages.skill-review.hero.explanations.improve'))).exists();
+        assert.dom(screen.getByRole('button', { name: t('pages.skill-review.actions.improve') })).exists();
+      });
+    });
+
+    module('when user can not improve results', function () {
+      test('it should not display specific explanation and button', async function (assert) {
+        // given
+        this.set('campaignParticipationResult', { masteryRate: 0.75, canImprove: false });
+
+        // when
+        const screen = await render(
+          hbs`
+            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaignParticipationResult={{this.campaignParticipationResult}}
+            />`,
+        );
+
+        // then
+        assert.dom(screen.queryByText(t('pages.skill-review.hero.explanations.improve'))).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.actions.improve') })).doesNotExist();
+      });
+    });
+  });
+
   module('stages', function () {
     module('when there are stages', function () {
       test('displays reached stage stars and message', async function (assert) {

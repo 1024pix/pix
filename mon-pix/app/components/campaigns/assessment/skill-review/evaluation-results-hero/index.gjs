@@ -1,3 +1,6 @@
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import PixMessage from '@1024pix/pix-ui/components/pix-message';
 import PixStars from '@1024pix/pix-ui/components/pix-stars';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -66,6 +69,49 @@ export default class EvaluationResultsHero extends Component {
             <MarkdownToHtml @isInline={{true}} @markdown={{@campaignParticipationResult.reachedStage.message}} />
           </div>
         {{/if}}
+        {{#if @campaignParticipationResult.isShared}}
+          <PixMessage class="evaluation-results-hero-results__shared-message" @type="success" @withIcon={{true}}>
+            {{t "pages.skill-review.hero.shared-message"}}
+          </PixMessage>
+          {{#if @hasTrainings}}
+            <p class="evaluation-results-hero-details__explanations">
+              {{t "pages.skill-review.hero.explanations.trainings"}}
+            </p>
+          {{/if}}
+        {{else}}
+          <p class="evaluation-results-hero-details__explanations">
+            {{t "pages.skill-review.hero.explanations.send-results"}}
+          </p>
+        {{/if}}
+        {{#if @campaignParticipationResult.canImprove}}
+          <p class="evaluation-results-hero-details__explanations">
+            {{t "pages.skill-review.hero.explanations.improve"}}
+          </p>
+        {{/if}}
+        <div class="evaluation-results-hero-details__actions">
+          {{#if @campaignParticipationResult.isShared}}
+            {{#if @hasTrainings}}
+              <PixButton @size="large">{{t "pages.skill-review.hero.see-trainings"}}</PixButton>
+            {{else}}
+              <PixButtonLink @route="authentication.login" @size="large">
+                {{t "navigation.back-to-homepage"}}
+              </PixButtonLink>
+            {{/if}}
+          {{else}}
+            <PixButton @size="large">{{t "pages.skill-review.actions.send"}}</PixButton>
+          {{/if}}
+
+          {{#if @campaignParticipationResult.canImprove}}
+            <PixButton
+              @variant="tertiary"
+              @size="large"
+              @triggerAction={{this.improveResults}}
+              @isLoading={{this.isImproveButtonLoading}}
+            >
+              {{t "pages.skill-review.actions.improve"}}
+            </PixButton>
+          {{/if}}
+        </div>
         {{#if @campaignParticipationResult.acquiredBadges.length}}
           <AcquiredBadges @acquiredBadges={{@campaignParticipationResult.acquiredBadges}} />
         {{/if}}
