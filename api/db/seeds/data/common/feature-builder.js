@@ -1,6 +1,7 @@
 import { CERTIFICATION_FEATURES } from '../../../../src/certification/shared/domain/constants.js';
-import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
+import { CAMPAIGN_FEATURES, ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import {
+  FEATURE_CAMPAIGN_EXTERNAL_ID,
   FEATURE_CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE_ID,
   FEATURE_COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_ID,
   FEATURE_LEARNER_IMPORT_ID,
@@ -39,6 +40,11 @@ const featuresBuilder = async function ({ databaseBuilder }) {
     id: FEATURE_CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE_ID,
     key: CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
     description: CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.description,
+  });
+  databaseBuilder.factory.buildFeature({
+    id: FEATURE_CAMPAIGN_EXTERNAL_ID,
+    key: CAMPAIGN_FEATURES.EXTERNAL_ID.key,
+    description: CAMPAIGN_FEATURES.EXTERNAL_ID.description,
   });
   await databaseBuilder.commit();
 };
