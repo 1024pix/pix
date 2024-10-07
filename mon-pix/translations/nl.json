@@ -155,7 +155,7 @@
       "server-status": "Status service",
       "sitemap": "Kaart",
       "student-data-protection-policy": "Beleid gegevensbescherming studenten",
-      "student-data-protection-policy-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39"
+      "student-data-protection-policy-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves"
     },
     "homepage": "Startpagina Pix",
     "main": {
@@ -1195,7 +1195,7 @@
       },
       "rgpd-legal-notice": "Als u wilt weten hoe uw gegevens worden verwerkt en wat uw rechten zijn, kunt u het volgende lezen",
       "rgpd-legal-notice-link": "Informatie.",
-      "rgpd-legal-notice-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39",
+      "rgpd-legal-notice-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves",
       "sco": {
         "associate": "Geassocieerd",
         "continue-with-pix": "Doorgaan met mijn Pix-account",
@@ -1331,7 +1331,7 @@
         },
         "rgpd-legal-notice": "Als u wilt weten hoe uw gegevens worden verwerkt en wat uw rechten zijn, kunt u het volgende lezen",
         "rgpd-legal-notice-link": "Informatie.",
-        "rgpd-legal-notice-url": "https://cloud.pix.fr/s/nqgBodTkbtsGb39",
+        "rgpd-legal-notice-url": "https://pix.fr/politique-protection-donnees-personnelles-app-eleves",
         "title": "Ik wil me registreren bij Pix"
       },
       "title": "Verbinding maken met Pix"
