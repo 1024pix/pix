@@ -5,6 +5,7 @@ import PixStars from '@1024pix/pix-ui/components/pix-stars';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
+import ENV from 'mon-pix/config/environment';
 
 import MarkdownToHtml from '../../../../markdown-to-html';
 import AcquiredBadges from './acquired-badges';
@@ -13,6 +14,10 @@ import RetryOrResetBlock from './retry-or-reset-block';
 
 export default class EvaluationResultsHero extends Component {
   @service currentUser;
+
+  get isAutonomousCourse() {
+    return this.args.campaign.organizationId === ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID;
+  }
 
   get masteryRatePercentage() {
     return Math.round(this.args.campaignParticipationResult.masteryRate * 100);
@@ -79,9 +84,11 @@ export default class EvaluationResultsHero extends Component {
             </p>
           {{/if}}
         {{else}}
-          <p class="evaluation-results-hero-details__explanations">
-            {{t "pages.skill-review.hero.explanations.send-results"}}
-          </p>
+          {{#unless this.isAutonomousCourse}}
+            <p class="evaluation-results-hero-details__explanations">
+              {{t "pages.skill-review.hero.explanations.send-results"}}
+            </p>
+          {{/unless}}
         {{/if}}
         {{#if @campaignParticipationResult.canImprove}}
           <p class="evaluation-results-hero-details__explanations">
@@ -98,7 +105,13 @@ export default class EvaluationResultsHero extends Component {
               </PixButtonLink>
             {{/if}}
           {{else}}
-            <PixButton @size="large">{{t "pages.skill-review.actions.send"}}</PixButton>
+            {{#if this.isAutonomousCourse}}
+              <PixButtonLink @route="authentication.login" @size="large">
+                {{t "navigation.back-to-homepage"}}
+              </PixButtonLink>
+            {{else}}
+              <PixButton @size="large">{{t "pages.skill-review.actions.send"}}</PixButton>
+            {{/if}}
           {{/if}}
 
           {{#if @campaignParticipationResult.canImprove}}

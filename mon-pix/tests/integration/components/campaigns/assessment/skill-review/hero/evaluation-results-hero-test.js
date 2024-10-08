@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
+import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
@@ -22,12 +23,14 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
       this.owner.register('service:currentUser', currentUserService);
 
+      this.set('campaign', { organizationId: 1 });
       this.set('campaignParticipationResult', { masteryRate: 0.755 });
 
       // when
       screen = await render(
         hbs`
           <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+            @campaign={{this.campaign}}
             @campaignParticipationResult={{this.campaignParticipationResult}}
           />`,
       );
@@ -54,6 +57,11 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
     module('when results are not shared', function () {
       test('it should display specific explanation and button', async function (assert) {
         // given
+        this.set('campaign', {
+          customResultPageText: 'My custom result page text',
+          organizationId: 1,
+        });
+
         this.set('campaignParticipationResult', {
           campaignParticipationBadges: [],
           isShared: false,
@@ -66,6 +74,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
         const screen = await render(
           hbs`
             <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaign={{this.campaign}}
               @campaignParticipationResult={{this.campaignParticipationResult}}
             />`,
         );
@@ -78,15 +87,18 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
     module('when results are shared', function () {
       module('when there are no trainings', function () {
-        test('it should display a message and a dashboard link', async function (assert) {
+        test('it should display a message and a homepage link', async function (assert) {
           // given
+          this.set('campaign', { organizationId: 1 });
           this.set('campaignParticipationResult', { masteryRate: 0.75, isShared: true });
 
           // when
           const screen = await render(
             hbs`
               <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-                @campaignParticipationResult={{this.campaignParticipationResult}} />`,
+                @campaign={{this.campaign}}
+                @campaignParticipationResult={{this.campaignParticipationResult}}
+              />`,
           );
 
           // then
@@ -99,6 +111,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
         test('it should display specific explanation and a see trainings button', async function (assert) {
           // given
           this.set('hasTrainings', true);
+          this.set('campaign', { organizationId: 1 });
           this.set('campaignParticipationResult', { masteryRate: 0.75, isShared: true });
 
           // when
@@ -106,6 +119,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
             hbs`
               <Campaigns::Assessment::SkillReview::EvaluationResultsHero
                 @hasTrainings={{this.hasTrainings}}
+                @campaign={{this.campaign}}
                 @campaignParticipationResult={{this.campaignParticipationResult}}
               />`,
           );
@@ -118,16 +132,42 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
     });
   });
 
+  module('when it is an autonomous course', function () {
+    test('it should display only a homepage link', async function (assert) {
+      // given
+      this.set('campaign', { organizationId: ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID });
+      this.set('campaignParticipationResult', { masteryRate: 0.75 });
+
+      // when
+      const screen = await render(
+        hbs`
+          <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+            @campaign={{this.campaign}}
+            @campaignParticipationResult={{this.campaignParticipationResult}}
+          />`,
+      );
+
+      // then
+      assert.dom(screen.queryByText(t('pages.skill-review.hero.explanations.send-results'))).doesNotExist();
+
+      assert.dom(screen.getByRole('link', { name: t('navigation.back-to-homepage') })).exists();
+      assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') })).doesNotExist();
+    });
+  });
+
   module('improve results', function () {
     module('when user can improve results', function () {
       test('it should display specific explanation and button', async function (assert) {
         // given
+        this.set('campaign', { organizationId: 1 });
         this.set('campaignParticipationResult', { masteryRate: 0.75, canImprove: true });
 
         // when
         const screen = await render(
           hbs`
             <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaign={{this.campaign}}
               @campaignParticipationResult={{this.campaignParticipationResult}}
             />`,
         );
@@ -141,12 +181,14 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
     module('when user can not improve results', function () {
       test('it should not display specific explanation and button', async function (assert) {
         // given
+        this.set('campaign', { organizationId: 1 });
         this.set('campaignParticipationResult', { masteryRate: 0.75, canImprove: false });
 
         // when
         const screen = await render(
           hbs`
             <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaign={{this.campaign}}
               @campaignParticipationResult={{this.campaignParticipationResult}}
             />`,
         );
@@ -162,6 +204,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
     module('when there are stages', function () {
       test('displays reached stage stars and message', async function (assert) {
         // given
+        this.set('campaign', { organizationId: 1 });
         this.set('campaignParticipationResult', {
           hasReachedStage: true,
           reachedStage: { reachedStage: 4, totalStage: 5, message: 'lorem ipsum dolor sit amet' },
@@ -171,6 +214,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
         const screen = await render(
           hbs`
             <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaign={{this.campaign}}
               @campaignParticipationResult={{this.campaignParticipationResult}}
             />`,
         );
@@ -189,6 +233,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
     module('when there is only one stage', function () {
       test('displays the stage 0 message but no stars', async function (assert) {
         // given
+        this.set('campaign', { organizationId: 1 });
         this.set('campaignParticipationResult', {
           hasReachedStage: true,
           reachedStage: { reachedStage: 1, totalStage: 1, message: 'Stage 0 message' },
@@ -198,6 +243,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
         const screen = await render(
           hbs`
             <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaign={{this.campaign}}
               @campaignParticipationResult={{this.campaignParticipationResult}}
             />`,
         );
@@ -251,10 +297,13 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
         });
         this.set('campaignParticipationResult', campaignParticipationResult);
 
+        this.set('campaign', { organizationId: 1 });
+
         // when
         const screen = await render(
           hbs`
             <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaign={{this.campaign}}
               @campaignParticipationResult={{this.campaignParticipationResult}}
             />`,
         );
@@ -277,10 +326,13 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
         });
         this.set('campaignParticipationResult', campaignParticipationResult);
 
+        this.set('campaign', { organizationId: 1 });
+
         // when
         const screen = await render(
           hbs`
             <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaign={{this.campaign}}
               @campaignParticipationResult={{this.campaignParticipationResult}}
             />`,
         );
@@ -299,6 +351,7 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
       //given
       this.set('campaign', {
         customResultPageText: 'My custom result page text',
+        organizationId: 1,
       });
 
       this.set('campaignParticipationResult', { masteryRate: 0.75 });
@@ -322,13 +375,16 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
     module('when the user can retry the campaign', function () {
       test('displays the retry or reset block', async function (assert) {
         // given
+        this.set('campaign', { organizationId: 1 });
         this.set('campaignParticipationResult', { masteryRate: 0.1, canRetry: true, canReset: true });
 
         // when
         const screen = await render(
           hbs`
             <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaignParticipationResult={{this.campaignParticipationResult}} />`,
+              @campaign={{this.campaign}}
+              @campaignParticipationResult={{this.campaignParticipationResult}}
+            />`,
         );
 
         // then
@@ -339,13 +395,16 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
     module('when the user can not retry the campaign', function () {
       test('not display the retry or reset block', async function (assert) {
         // given
+        this.set('campaign', { organizationId: 1 });
         this.set('campaignParticipationResult', { masteryRate: 0.1, canRetry: false, canReset: true });
 
         // when
         const screen = await render(
           hbs`
             <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaignParticipationResult={{this.campaignParticipationResult}} />`,
+              @campaign={{this.campaign}}
+              @campaignParticipationResult={{this.campaignParticipationResult}}
+            />`,
         );
 
         // then
