@@ -120,7 +120,7 @@ module(
       assert.dom(screen.getByRole('textbox', { name: '* Code INSEE de naissance' })).hasAttribute('required');
     });
 
-    module('when the form is filled', () => {
+    module('when the form is filled', function () {
       test('it should submit a student', async function (assert) {
         const candidateData = {
           firstName: 'Lara',
@@ -336,7 +336,7 @@ module(
       assert.dom(screen.getByRole('button', { name: '* Pays de naissance' })).includesText('France');
     });
 
-    module('when close button cross icon is clicked', () => {
+    module('when close button cross icon is clicked', function () {
       test('it closes candidate details modal', async function (assert) {
         // given
         const closeModalStub = sinon.stub();
@@ -366,7 +366,7 @@ module(
       });
     });
 
-    module('when close bottom button is clicked', () => {
+    module('when close bottom button is clicked', function () {
       test('it closes candidate details modal ', async function (assert) {
         // given
         const closeModalStub = sinon.stub();
@@ -396,7 +396,7 @@ module(
       });
     });
 
-    module('when a foreign country is selected', () => {
+    module('when a foreign country is selected', function () {
       test('it shows city field and hides insee code and postal code fields', async function (assert) {
         // given
         const closeModalStub = sinon.stub();
@@ -419,6 +419,9 @@ module(
         );
 
         await click(screen.getByRole('button', { name: '* Pays de naissance' }));
+
+        await screen.findByRole('listbox');
+
         await click(
           await screen.findByRole('option', {
             name: 'Borduristan',
@@ -432,7 +435,7 @@ module(
       });
     });
 
-    module('when the insee code option is selected', () => {
+    module('when the insee code option is selected', function () {
       test('it shows insee code field and hides postal code and city fields', async function (assert) {
         // given
         const closeModalStub = sinon.stub();
@@ -463,7 +466,7 @@ module(
       });
     });
 
-    module('when the postal code option is selected', () => {
+    module('when the postal code option is selected', function () {
       test('it shows postal code and city fields and hides insee code field', async function (assert) {
         // given
         const closeModalStub = sinon.stub();
@@ -494,7 +497,7 @@ module(
       });
     });
 
-    module('when center is allowed access to complementary certifications', () => {
+    module('when center is allowed access to complementary certifications', function () {
       test('it display complementary certification options', async function (assert) {
         // given
         const updateCandidateFromEventStub = sinon.stub();
