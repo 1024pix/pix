@@ -78,6 +78,7 @@ describe('Integration | Usecase | get-organization-learner-with-completed-missio
           ...organizationLearner,
           division: organizationLearner.attributes['Libellé classe'],
           completedMissionIds: [completedMissionId],
+          startedMissionIds: [],
         }),
       );
     });
@@ -95,6 +96,8 @@ describe('Integration | Usecase | get-organization-learner-with-completed-missio
         new OrganizationLearner({
           ...organizationLearner,
           division: organizationLearner.attributes['Libellé classe'],
+          completedMissionIds: [],
+          startedMissionIds: [],
         }),
       );
     });

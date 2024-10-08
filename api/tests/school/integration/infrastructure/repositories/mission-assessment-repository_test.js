@@ -159,7 +159,7 @@ describe('Integration | Repository | mission-assessment-repository', function ()
       await databaseBuilder.commit();
 
       const result = await missionAssessmentRepository.getMissionIdsByState(organizationLearner.id);
-      expect(result).to.deep.equal({});
+      expect(result).to.deep.equal({ completed: [], started: [] });
     });
 
     it('should group on last assessment state', async function () {
@@ -192,6 +192,7 @@ describe('Integration | Repository | mission-assessment-repository', function ()
       const result = await missionAssessmentRepository.getMissionIdsByState(organizationLearner.id);
       expect(result).to.deep.equal({
         started: [missionId],
+        completed: [],
       });
     });
   });

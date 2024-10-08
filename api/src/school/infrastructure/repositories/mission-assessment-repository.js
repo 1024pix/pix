@@ -103,13 +103,9 @@ const getMissionIdsByState = async function (organizationLearnerId) {
     )
     .where({ organizationLearnerId });
 
-  const missionIdsGroupByState = {};
+  const missionIdsGroupByState = { completed: [], started: [] };
   missionAssessments.forEach((missionAssessment) => {
-    if (missionIdsGroupByState[missionAssessment.state]) {
-      missionIdsGroupByState[missionAssessment.state].push(missionAssessment.missionId);
-    } else {
-      missionIdsGroupByState[missionAssessment.state] = [missionAssessment.missionId];
-    }
+    missionIdsGroupByState[missionAssessment.state].push(missionAssessment.missionId);
   });
   return missionIdsGroupByState;
 };
