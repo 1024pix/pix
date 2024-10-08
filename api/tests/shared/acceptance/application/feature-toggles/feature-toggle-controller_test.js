@@ -20,7 +20,6 @@ describe('Acceptance | Shared | Application | Controller | feature-toggle', func
           id: '0',
           type: 'feature-toggles',
           attributes: {
-            'are-v3-info-screens-enabled': false,
             'deprecate-pole-emploi-push-notification': false,
             'is-v3-eligibility-check-enabled': false,
             'is-always-ok-validate-next-challenge-endpoint-enabled': false,
