@@ -4,6 +4,7 @@ class Mission {
   constructor({
     id,
     name,
+    cardImageUrl,
     competenceId,
     competenceName,
     thematicId,
@@ -19,6 +20,7 @@ class Mission {
   } = {}) {
     this.id = id;
     this.name = name;
+    this.cardImageUrl = cardImageUrl;
     this.competenceId = competenceId;
     this.competenceName = competenceName;
     this.thematicId = thematicId;

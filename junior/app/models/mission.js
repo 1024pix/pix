@@ -8,4 +8,5 @@ export default class Mission extends Model {
   @attr('string') introductionMediaUrl;
   @attr('string') introductionMediaType;
   @attr('string') introductionMediaAlt;
+  @attr('string') cardImageUrl;
 }
