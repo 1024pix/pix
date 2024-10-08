@@ -1,4 +1,4 @@
-import { ComplementaryCertificationBadge } from '../../../../src/certification/complementary-certification/domain/models/ComplementaryCertificationBadge.js';
+import { ComplementaryCertificationBadge } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationBadge.js';
 
 const buildComplementaryCertificationBadge = function ({
   id = 1,

@@ -1,7 +1,7 @@
 /**
  * @typedef {import ('../../domain/usecases/index.js').ComplementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
  * @typedef {import ('../models/ComplementaryCertification.js').ComplementaryCertification} ComplementaryCertification
- * @typedef {import ('../models/ComplementaryCertificationBadge.js').ComplementaryCertificationBadge} ComplementaryCertificationBadge
+ * @typedef {import ('../../../shared/domain/models/ComplementaryCertificationBadge.js').ComplementaryCertificationBadge} ComplementaryCertificationBadge
  */
 import lodash from 'lodash';
 
