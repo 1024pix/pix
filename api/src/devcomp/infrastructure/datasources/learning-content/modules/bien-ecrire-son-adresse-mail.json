@@ -4,8 +4,8 @@
   "title": "Bien écrire une adresse mail",
   "details": {
     "image": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg",
-    "description": "Écrire une adresse mail, c'est la première étape pour communiquer avec vos contacts par mail. Dans ce module, découvrez les différentes partie de l'adresse mail et apprenez à éviter des erreurs courantes.",
-    "duration": 12,
+    "description": "Écrire une adresse mail, c'est la première étape pour communiquer avec vos contacts. Dans ce module, découvrez les différentes partie de l'adresse mail et apprenez à éviter des erreurs courantes.",
+    "duration": 10,
     "level": "Débutant",
     "tabletSupport": "comfortable",
     "objectives": [
@@ -20,7 +20,7 @@
       "grainId": "34d225e8-5d52-4ebd-9acd-8bde8438cfc9"
     },
     {
-      "content": "<p>Et oui&#8239;! Naomi le sait&nbsp;: les adresses mails ont une forme particulière.</p><p>Étudions en détails l’adresse mail de Mickaël.&nbsp;<span aria-hidden=\"true\">🔎</span></p>",
+      "content": "<p>Et oui&#8239;! Naomi le sait&nbsp;: les adresses mail ont une forme particulière.</p><p>Nous allons étudier en détail l’adresse mail de Mickaël.&nbsp;<span aria-hidden=\"true\">🔎</span></p>",
       "grainId": "af860b1e-0566-4b06-bcb4-a68a5151d621"
     },
     {
@@ -28,7 +28,7 @@
       "grainId": "edd7fec3-a649-425b-b8e3-65b13c6c47ea"
     },
     {
-      "content": "<p>Pour finir, à vous de jouer : vous allez devoir trouver l'adresse mail de Naomi.<span aria-hidden=\"true\">💫</span></p>",
+      "content": "<p>Pour finir, à vous de jouer : vous allez devoir trouver l'adresse mail de Naomi. <span aria-hidden=\"true\">💫</span></p>",
       "grainId": "b7ea7630-824a-4a49-83d1-abb9b8d0d120"
     }
   ],
@@ -61,7 +61,7 @@
           "element": {
             "id": "acf16c79-b788-4ebe-b7a1-4138eef3db2f",
             "type": "text",
-            "content": "<p>Après les explications suivantes, vous devrez répondre à des questions sur l'adresse mail : ordre des parties, caractères autorisés, etc.</p>"
+            "content": "<p>Après cette leçon, vous devrez répondre à des questions sur les différentes parties de l'adresse mail.</p>"
           }
         },
         {
@@ -72,7 +72,7 @@
                 {
                   "id": "d4bf1c51-b113-440a-949a-f21c1e001daa",
                   "type": "text",
-                  "content": "<h3 class=\"screen-reader-only\">L'adresse mail de Mickaël</h3><h4>L'adresse mail de Mickaël est composée de deux parties et d'un séparateur au centre.</h4>"
+                  "content": "<p>L'adresse mail de Mickaël est <strong>mickael.aubert123@laposte.net</strong>.<br>Cette adresse est composée de <strong>deux parties</strong> et d'<strong>un séparateur</strong> au centre.</p>"
                 },
                 {
                   "id": "167907eb-ee0d-4de0-9fc8-609b2b62ed9f",
@@ -95,7 +95,7 @@
                 {
                   "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
                   "type": "text",
-                  "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>Partie 1&nbsp;: l’identifiant. Cette partie est choisie par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque, même avec des majuscules&#8239;!</p><ul><li><span aria-hidden=\"true\">✅</span> Par exemple&nbsp;: <code>mickael.aubert123</code> ; <code>mika671</code> ou <code>G3oDu671</code></li><li><span aria-hidden=\"true\">❌</span> Mais certains caractères sont interdits ou à éviter&nbsp;: &amp; ; @ ; é ; â ; $ ; * ; € ; etc.</li></ul><p><br>Un conseil si vous envoyez des mails importants : utilisez une adresse mail avec un identifiant classique, par exemple <code>prenom.nom</code>.</p>"
+                  "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>Partie 1&nbsp;: l’identifiant. Cette partie est choisie par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque, même avec des majuscules&#8239;!</p><p><span aria-hidden=\"true\">✅</span> Par exemple&nbsp;: <code>mickael.aubert123</code> ; <code>mika671</code> ou <code>G3oDu671</code></p><p><span aria-hidden=\"true\">❌</span> Mais certains caractères sont interdits ou à éviter&nbsp;: &amp; ; @ ; é ; â ; $ ; * ; € ; etc.</p><p><br><span aria-hidden=\"true\">📖</span> Un conseil si vous envoyez des mails importants : utilisez une adresse mail avec un identifiant classique, par exemple <code>prenom.nom</code>.</p>"
                 }
               ]
             },
@@ -127,7 +127,7 @@
                 {
                   "id": "1fd829f8-1799-4779-a28d-5d26fba31b8b",
                   "type": "text",
-                  "content": "<h3 class=\"screen-reader-only\">Le fournisseur d’adresse mail</h3><h4>Partie 2&nbsp;: le fournisseur d’adresse mail. Cette partie de l’adresse est donnée par le fournisseur.</h4><p><span aria-hidden=\"true\">✅</span> Voici des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com, yahoo.fr)</li><li>Microsoft (hotmail.com, live.fr)</li></ul><p><br>Quand vous écrivez une adresse mail, soyez attentifs à l'extension (<i>.fr</i>, <i>.com</i>, etc.). C'est important pour que le mail soit envoyé à la bonne adresse. <span aria-hidden=\"true\">🧐</span></p>"
+                  "content": "<h3 class=\"screen-reader-only\">Le fournisseur d’adresse mail</h3><h4>Partie 2&nbsp;: le fournisseur d’adresse mail. Cette partie de l’adresse est donnée par le fournisseur.</h4><p><span aria-hidden=\"true\">✅</span> Voici des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com, yahoo.fr)</li><li>Microsoft (hotmail.com, live.fr)</li></ul><p><br>Quand vous écrivez une adresse mail, soyez attentifs à l'extension (<code>.fr</code>, <code>.com</code>, etc.). C'est important pour que le mail soit envoyé à la bonne adresse. <span aria-hidden=\"true\">🧐</span></p>"
                 }
               ]
             }
@@ -310,7 +310,7 @@
                 {
                   "id": "9bd65c37-ea5d-49a9-a59c-4e07ab3f1049",
                   "type": "qcu",
-                  "instruction": "<p>Toutes les adresses mails se terminent par gmail.com. </p>",
+                  "instruction": "<p>Toutes les adresses mail se terminent par gmail.com. </p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -323,7 +323,7 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Bonne réponse&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span></span><p>Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y en énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>",
-                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse</span><p>Il y a d’autres fournisseurs d’adresses mails que Google (gmail.com).</p><p>Il y en a énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>"
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse</span><p>Il y a d’autres fournisseurs d’adresses mail que Google (gmail.com).</p><p>Il y en a énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>"
                   },
                   "solution": "2"
                 }
@@ -367,7 +367,7 @@
           "element": {
             "id": "b0fcb950-b5b1-4384-886e-79fb852d5bb7",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite</h3><ul><li>C'est l'utilisateur qui choisit son identifiant d'adresse mail. Il peut utiliser des chiffres ou des majuscules.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: <code>mickael.aubert123</code> ; <code>M3g4Cool1415</code>, etc.</li><li>Il y a une @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite :</h3><ul><li>C'est l'utilisateur qui choisit son identifiant d'adresse mail. Il peut utiliser des chiffres ou des majuscules.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: <code>mickael.aubert123</code> ; <code>M3g4Cool1415</code>, etc.</li><li>Il y a une @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Après l'arobase, les adresses mail se terminent de différentes manières, selon le fournisseur d’adresse mail.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
           }
         }
       ]
@@ -412,7 +412,7 @@
           "element": {
             "id": "6c69a919-4fc6-4039-9abc-ad70c49be7d8",
             "type": "text",
-            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><details><summary>Indice 1</summary><p>L'ordre est&nbsp;: l'identifiant, l'arobase puis le fournisseur d'adresse mail.</p></details><details><summary>Indice 2</summary><p>L'adresse mail se termine par <code>yahoo.com</code> quand le fournisseur est Yahoo.</p></details>"
+            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><details><summary>Indice 1</summary><p>L'ordre est l'identifiant, l'arobase puis le fournisseur d'adresse mail.</p></details><details><summary>Indice 2</summary><p>L'adresse mail se termine par <code>yahoo.com</code> quand le fournisseur est Yahoo.</p></details>"
           }
         }
       ]
