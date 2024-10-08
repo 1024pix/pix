@@ -2,9 +2,11 @@ import _ from 'lodash';
 
 import * as campaignManagementRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-management-repository.js';
 import {
+  CampaignExternalIdTypes,
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/domain/constants.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
@@ -24,6 +26,12 @@ describe('Integration | Repository | Campaign-Management', function () {
         organizationId: organization.id,
         isForAbsoluteNovice: true,
       });
+      const featureId = databaseBuilder.factory.buildFeature(CAMPAIGN_FEATURES.EXTERNAL_ID).id;
+      databaseBuilder.factory.buildCampaignFeature({
+        featureId,
+        campaignId: campaign.id,
+        params: { label: 'Id externe', type: CampaignExternalIdTypes.STRING },
+      });
       await databaseBuilder.commit();
 
       // when
@@ -35,7 +43,57 @@ describe('Integration | Repository | Campaign-Management', function () {
         name: campaign.name,
         code: campaign.code,
         type: campaign.type,
-        idPixLabel: campaign.idPixLabel,
+        idPixLabel: 'Id externe',
+        idPixType: CampaignExternalIdTypes.STRING,
+        createdAt: campaign.createdAt,
+        archivedAt: campaign.archivedAt,
+        creatorFirstName: user.firstName,
+        creatorLastName: user.lastName,
+        creatorId: user.id,
+        ownerId: owner.id,
+        ownerFirstName: owner.firstName,
+        ownerLastName: owner.lastName,
+        organizationId: organization.id,
+        organizationName: organization.name,
+        targetProfileId: targetProfile.id,
+        targetProfileName: targetProfile.name,
+        title: campaign.title,
+        isForAbsoluteNovice: true,
+        customLandingPageText: campaign.customLandingPageText,
+        customResultPageText: null,
+        customResultPageButtonText: null,
+        customResultPageButtonUrl: null,
+        sharedParticipationsCount: 0,
+        totalParticipationsCount: 0,
+        multipleSendings: false,
+      });
+    });
+
+    it('should return campaign details without external id campaign feature', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser();
+      const owner = databaseBuilder.factory.buildUser();
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      const organization = databaseBuilder.factory.buildOrganization({});
+      const campaign = databaseBuilder.factory.buildCampaign({
+        creatorId: user.id,
+        ownerId: owner.id,
+        targetProfileId: targetProfile.id,
+        organizationId: organization.id,
+        isForAbsoluteNovice: true,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignManagementRepository.get(campaign.id);
+
+      // then
+      expect(result).to.deep.include({
+        id: campaign.id,
+        name: campaign.name,
+        code: campaign.code,
+        type: campaign.type,
         createdAt: campaign.createdAt,
         archivedAt: campaign.archivedAt,
         creatorFirstName: user.firstName,
@@ -83,7 +141,6 @@ describe('Integration | Repository | Campaign-Management', function () {
         name: campaign.name,
         code: campaign.code,
         type: campaign.type,
-        idPixLabel: campaign.idPixLabel,
         createdAt: campaign.createdAt,
         archivedAt: campaign.archivedAt,
         creatorFirstName: user.firstName,
@@ -288,7 +345,6 @@ describe('Integration | Repository | Campaign-Management', function () {
           id: campaign.id,
           name: campaign.name,
           code: campaign.code,
-          idPixLabel: campaign.idPixLabel,
           createdAt: campaign.createdAt,
           archivedAt: campaign.archivedAt,
           deletedAt: campaign.deletedAt,
