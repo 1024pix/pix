@@ -262,6 +262,7 @@ describe('Unit | Identity Access Management | Application | Controller | oidc-pr
           code: 'SOME_OIDC_PROVIDER',
           source: 'some_oidc_provider',
           'organization-name': 'Some OIDC Provider',
+          slug: 'some-oidc-provider',
           'should-close-session': false,
         },
       });

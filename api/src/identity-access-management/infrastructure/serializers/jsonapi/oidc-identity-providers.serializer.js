@@ -9,11 +9,12 @@ const serialize = function (oidcIdentityProviders) {
         id: oidcIdentityProvider.slug,
         code: oidcIdentityProvider.code,
         organizationName: oidcIdentityProvider.organizationName,
+        slug: oidcIdentityProvider.slug,
         shouldCloseSession: oidcIdentityProvider.shouldCloseSession,
         source: oidcIdentityProvider.source,
       };
     },
-    attributes: ['code', 'organizationName', 'shouldCloseSession', 'source'],
+    attributes: ['code', 'organizationName', 'slug', 'shouldCloseSession', 'source'],
   }).serialize(oidcIdentityProviders);
 };
 
