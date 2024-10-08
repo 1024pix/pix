@@ -10,6 +10,7 @@ import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/util
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
+import * as complementaryCertificationBadgesRepository from '../../../shared/infrastructure/repositories/complementary-certification-badge-repository.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
 import * as sessionCodeService from '../services/session-code-service.js';
@@ -68,6 +69,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {CertificationCandidatesOdsService} CertificationCandidatesOdsService
  * @typedef {PlacementProfileService} PlacementProfileService
  * @typedef {LanguageService} LanguageService
+ * @typedef {complementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
  **/
 const dependencies = {
   certificationBadgesService,
@@ -81,6 +83,7 @@ const dependencies = {
   certificationCandidatesOdsService,
   placementProfileService,
   languageService,
+  complementaryCertificationBadgesRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

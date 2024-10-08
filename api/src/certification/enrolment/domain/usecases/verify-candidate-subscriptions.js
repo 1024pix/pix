@@ -1,9 +1,10 @@
 /**
  * @typedef {import ('./index.js').SessionRepository} SessionRepository
  * @typedef {import ('./index.js').PixCertificationRepository} PixCertificationRepository
- * @typedef {import ('./index.js').ComplementaryCertificationBadgeWithOffsetVersionRepository} ComplementaryCertificationBadgeWithOffsetVersionRepository
+ * @typedef {import ('./index.js').ComplementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
  * @typedef {import ('./index.js').CertificationBadgesService} CertificationBadgesService
  * @typedef {import ('./index.js').PlacementProfileService} PlacementProfileService
+ * @typedef {import ('../../../../shared/domain/models/index.js').CertifiableBadgeAcquisition} CertifiableBadgeAcquisition
  */
 import _ from 'lodash';
 
@@ -16,7 +17,7 @@ import { CertificationCandidateEligibilityError } from '../errors.js';
  * @param {Object} params
  * @param {SessionRepository} params.sessionRepository
  * @param {PixCertificationRepository} params.pixCertificationRepository
- * @param {ComplementaryCertificationBadgeWithOffsetVersionRepository} params.complementaryCertificationBadgeWithOffsetVersionRepository
+ * @param {ComplementaryCertificationBadgesRepository} params.complementaryCertificationBadgesRepository
  * @param {PlacementProfileService} params.placementProfileService
  * @param {CertificationBadgesService} params.certificationBadgesService
  *
@@ -29,7 +30,7 @@ export async function verifyCandidateSubscriptions({
   sessionId,
   sessionRepository,
   pixCertificationRepository,
-  complementaryCertificationBadgeWithOffsetVersionRepository,
+  complementaryCertificationBadgesRepository,
   placementProfileService,
   certificationBadgesService,
 }) {
@@ -71,10 +72,10 @@ export async function verifyCandidateSubscriptions({
       throw new CertificationCandidateEligibilityError();
     }
 
-    // PB CE NE SONT PAS DES BADGES QUI CORRESPONDENT A LA BDD (PAS DE DETACHEDAT, NI CE COMPLE_CERT_ID) ET ON S'EN FOUT DU OFFSET ET CURRENT ICI
-    // LE MODELE RENVOYE NE CORRESPOND PAS AU BESOIN
-    // LE REPO UTILISE ICI NE FAIT PAS VRAIMENT CE QUI EST ATTENDU DE BASE MAIS PAS BLOQUANT POUR CETTE PR
-    const complementaryCertificationBadges = await complementaryCertificationBadgeWithOffsetVersionRepository.findAll();
+    const complementaryCertificationBadges =
+      await complementaryCertificationBadgesRepository.getAllWithSameTargetProfile(
+        subscribedHighestBadgeAcquisition.complementaryCertificationBadgeId,
+      );
 
     const userComplementaryCertificationBadgesSortedByLevel =
       _getSubscribedComplementaryCertificationBadgesSortedByLevel(complementaryCertificationBadges, candidate);
