@@ -11,6 +11,10 @@ class CpfExportSenderJobController extends JobScheduleController {
     super('CpfExportSenderJob', { jobCron: config.cpf.sendEmailJob.cron });
   }
 
+  get isJobEnabled() {
+    return config.pgBoss.exportSenderJobEnabled;
+  }
+
   async handle({ dependencies = { mailService } }) {
     const generatedFiles = await usecases.getPreSignedUrls();
 

@@ -298,6 +298,12 @@ const configuration = (function () {
       importFileJobEnabled: process.env.PGBOSS_IMPORT_FILE_JOB_ENABLED
         ? toBoolean(process.env.PGBOSS_IMPORT_FILE_JOB_ENABLED)
         : true,
+      plannerJobEnabled: process.env.PGBOSS_PLANNER_JOB_ENABLED
+        ? toBoolean(process.env.PGBOSS_PLANNER_JOB_ENABLED)
+        : true,
+      exportSenderJobEnabled: process.env.PGBOSS_EXPORT_SENDER_JOB_ENABLED
+        ? toBoolean(process.env.PGBOSS_EXPORT_SENDER_JOB_ENABLED)
+        : true,
     },
     poleEmploi: {
       clientId: process.env.POLE_EMPLOI_CLIENT_ID,
@@ -484,6 +490,7 @@ const configuration = (function () {
 
     config.cpf.sendEmailJob = {
       recipient: 'team-all-star-certif-de-ouf@example.net',
+      cron: '0 3 * * *',
     };
 
     config.jwtConfig.livretScolaire = { secret: 'secretosmose', tokenLifespan: '1h' };

@@ -157,5 +157,24 @@ describe('#registerJobs', function () {
         'legyNameForScheduleComputeOrganizationLearnersCertificabilityJobController',
       );
     });
+
+    context('when a cron job is disabled', function () {
+      it('unschedule the job', async function () {
+        //given
+        sinon.stub(config.cpf.sendEmailJob, 'cron').value('0 21 * * *');
+        sinon.stub(config.pgBoss, 'exportSenderJobEnabled').value(false);
+
+        await registerJobs({
+          jobGroup: JobGroup.DEFAULT,
+          dependencies: {
+            startPgBoss: startPgBossStub,
+            createJobQueues: createJobQueuesStub,
+          },
+        });
+
+        // then
+        expect(jobQueueStub.unscheduleCronJob).to.have.been.calledWithExactly('CpfExportSenderJob');
+      });
+    });
   });
 });
