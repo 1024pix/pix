@@ -30,7 +30,7 @@ function _buildIsCertifiable(queryBuilder, organizationLearnerId) {
     .where('campaign-participations.deletedAt', null);
 }
 
-async function get(organizationLearnerId) {
+async function get({ organizationLearnerId }) {
   const row = await knex
     .with('subquery', (qb) => _buildIsCertifiable(qb, organizationLearnerId))
     .select(

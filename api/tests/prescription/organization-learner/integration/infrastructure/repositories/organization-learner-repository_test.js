@@ -11,7 +11,9 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         //given
         const randomOrganizationLearnerId = 123;
         //when
-        const err = await catchErr(organizationLearnerRepository.get)(randomOrganizationLearnerId);
+        const err = await catchErr(organizationLearnerRepository.get)({
+          organizationLearnerId: randomOrganizationLearnerId,
+        });
         //then
         expect(err.message).to.equal(`Student not found for ID ${randomOrganizationLearnerId}`);
         expect(err).to.be.an.instanceOf(NotFoundError);
@@ -37,7 +39,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         });
         await databaseBuilder.commit();
 
-        const organizationLearner = await organizationLearnerRepository.get(1233);
+        const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId: 1233 });
         expect(organizationLearner.id).to.equal(1233);
         expect(organizationLearner.firstName).to.equal('Dark');
         expect(organizationLearner.lastName).to.equal('Sasuke');
@@ -54,7 +56,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
         await databaseBuilder.commit();
 
-        const organizationLearner = await organizationLearnerRepository.get(id);
+        const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId: id });
 
         expect(organizationLearner.id).to.equal(id);
       });
@@ -70,7 +72,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
             });
             await databaseBuilder.commit();
 
-            const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+            const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
 
             expect(organizationLearner.group).to.equal('L3');
             expect(organizationLearner.division).to.equal(null);
@@ -87,7 +89,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
             });
             await databaseBuilder.commit();
 
-            const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+            const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
 
             expect(organizationLearner.division).to.equal('3B');
             expect(organizationLearner.group).to.equal(null);
@@ -104,7 +106,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
             });
             await databaseBuilder.commit();
 
-            const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+            const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
 
             expect(organizationLearner.group).to.equal(null);
             expect(organizationLearner.division).to.equal(null);
@@ -119,7 +121,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
             const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ userId });
             await databaseBuilder.commit();
 
-            const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+            const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
 
             expect(organizationLearner.authenticationMethods).to.be.empty;
           });
@@ -133,7 +135,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
             const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ userId });
             await databaseBuilder.commit();
 
-            const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+            const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
 
             expect(organizationLearner.authenticationMethods).to.have.members([
               NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
@@ -167,7 +169,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
             await databaseBuilder.commit();
 
             // when
-            const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+            const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
 
             //then
             expect(organizationLearner.isCertifiable).to.be.true;
@@ -200,7 +202,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
             });
             await databaseBuilder.commit();
 
-            const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+            const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
 
             expect(organizationLearner.isCertifiable).to.be.true;
             expect(organizationLearner.certifiableAt).to.deep.equal(certifiableParticipation.sharedAt);
@@ -242,7 +244,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
             await databaseBuilder.commit();
 
             // when
-            const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+            const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
 
             //then
             expect(organizationLearner.isCertifiable).to.be.false;
@@ -263,7 +265,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
             await databaseBuilder.commit();
 
             // when
-            const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+            const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
 
             //then
             expect(organizationLearner.isCertifiable).to.be.true;
@@ -293,7 +295,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
             });
             await databaseBuilder.commit();
 
-            const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+            const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
 
             expect(organizationLearner.isCertifiable).to.be.false;
             expect(organizationLearner).to.be.an.instanceOf(OrganizationLearner);
@@ -321,7 +323,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
             await databaseBuilder.commit();
 
-            const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+            const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
 
             expect(organizationLearner.isCertifiable).to.be.null;
             expect(organizationLearner.certifiableAt).to.be.null;
@@ -346,7 +348,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
             });
             await databaseBuilder.commit();
 
-            const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+            const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
 
             expect(organizationLearner.isCertifiable).to.be.null;
             expect(organizationLearner.certifiableAt).to.equal(null);
@@ -385,7 +387,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
             await databaseBuilder.commit();
 
-            const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+            const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
 
             expect(organizationLearner.isCertifiable).to.equal(certifiableParticipation.isCertifiable);
             expect(organizationLearner.certifiableAt).to.deep.equal(certifiableParticipation.sharedAt);
@@ -417,7 +419,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
               });
               await databaseBuilder.commit();
 
-              const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+              const organizationLearner = await organizationLearnerRepository.get({ organizationLearnerId });
 
               expect(organizationLearner.isCertifiable).to.equal(notDeletedParticipation.isCertifiable);
               expect(organizationLearner.certifiableAt).to.deep.equal(notDeletedParticipation.sharedAt);
