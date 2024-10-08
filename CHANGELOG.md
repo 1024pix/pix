@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v4.223.0 (08/10/2024)
+
+
+### :rocket: Amélioration
+- [#10233](https://github.com/1024pix/pix/pull/10233) [FEATURE] Ajout d'un nouvel ordre de mission (Pix-14469).
+- [#10260](https://github.com/1024pix/pix/pull/10260) [FEATURE] ajoute la feature de campagne external-id(Pix-14659).
+- [#10232](https://github.com/1024pix/pix/pull/10232) [FEATURE] Ajoute une API interne pour générer un zip avec les attestations d'une liste d'utilisateurs (PIX-13822).
+- [#10239](https://github.com/1024pix/pix/pull/10239) [FEATURE] Journaliser le changement d'email par le support (PIX-14363).
+- [#10225](https://github.com/1024pix/pix/pull/10225) [FEATURE] ✨ Affichage des instructions des challenges sur plusieurs bulles (PIX-14536) .
+- [#10257](https://github.com/1024pix/pix/pull/10257) [FEATURE] Mettre à jour l'url vers la politique de protection des données à caractère personnel des élèves (PIX-14460).
+- [#10241](https://github.com/1024pix/pix/pull/10241) [FEATURE] Rattacher les profil cible public aux organisation les utilisants (Pix-14625).
+- [#10234](https://github.com/1024pix/pix/pull/10234) [FEATURE] Ajouter une API interne pour récupérer les infos d'utilisateurs (PIX-14624).
+- [#10252](https://github.com/1024pix/pix/pull/10252) [FEATURE] Trier les participations aux campagnes par date de début sur Pix Admin (PIX-14621).
+- [#10168](https://github.com/1024pix/pix/pull/10168) [FEATURE] Utiliser le composant PixIcon dans Pix Certif (PIX-14461).
+- [#10176](https://github.com/1024pix/pix/pull/10176) [FEATURE] Rendre autonome le métier pour gérer la liste blanche des centres de certification fermés.
+
+### :building_construction: Tech
+- [#10181](https://github.com/1024pix/pix/pull/10181) [TECH] Suppression de Bookshelf.
+- [#10251](https://github.com/1024pix/pix/pull/10251) [TECH] Supprimer la colonne isPublic de `target-profiles` (PIX-14626).
+
+### :arrow_up: Montée de version
+- [#10266](https://github.com/1024pix/pix/pull/10266) [BUMP] Update dependency sinon to v19 (mon-pix).
+- [#10265](https://github.com/1024pix/pix/pull/10265) [BUMP] Update dependency ember-load-initializers to v3 (mon-pix).
+
 ## v4.221.0 (04/10/2024)
 
 
