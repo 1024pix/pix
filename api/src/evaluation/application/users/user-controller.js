@@ -1,4 +1,3 @@
-import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
 import * as userSerializer from '../../../shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import { evaluationUsecases as usecases } from '../../domain/usecases/index.js';
 
@@ -19,7 +18,7 @@ const rememberUserHasSeenNewDashboardInfo = async function (request, h, dependen
 const rememberUserHasSeenAssessmentInstructions = async function (request, h, dependencies = { userSerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
 
-  const updatedUser = await libUsecases.rememberUserHasSeenAssessmentInstructions({ userId: authenticatedUserId });
+  const updatedUser = await usecases.rememberUserHasSeenAssessmentInstructions({ userId: authenticatedUserId });
   return dependencies.userSerializer.serialize(updatedUser);
 };
 
