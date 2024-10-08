@@ -120,7 +120,7 @@ export default class ModulixPreview extends Component {
   }
 
   <template>
-    {{pageTitle this.module.title}}
+    {{pageTitle this.formattedModule.title}}
 
     <div class="module-preview">
       <aside class="module-preview__passage">
