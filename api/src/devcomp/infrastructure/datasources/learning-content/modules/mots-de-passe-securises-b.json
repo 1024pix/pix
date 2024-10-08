@@ -426,7 +426,7 @@
           "element": {
             "id": "acf16c79-b788-4ebe-b7a1-4138eef3db2f",
             "type": "text",
-            "content": "<p>Le tableau suivant donne le <strong>temps de piratage</strong> d'un mot de passe selon sa <strong>longueur</strong> et ses <strong>caractères</strong> (lettres, chiffres, majuscules, symboles).</p>\n"
+            "content": "<p>Le tableau suivant donne le <strong>temps de piratage</strong> d'un mot de passe selon sa <strong>longueur</strong> et ses <strong>caractères</strong> (chiffres, lettres minuscules ou majuscules, symboles).</p>\n"
           }
         },
         {
