@@ -35,11 +35,10 @@ export async function verifyCandidateSubscriptions({
   certificationBadgesService,
 }) {
   const session = await sessionRepository.get({ id: sessionId });
-  const { userId } = candidate;
 
   if (candidate.hasCoreSubscription()) {
     const placementProfile = await placementProfileService.getPlacementProfile({
-      userId,
+      userId: candidate.userId,
       limitDate: candidate.reconciledAt,
     });
 
@@ -49,23 +48,15 @@ export async function verifyCandidateSubscriptions({
   }
 
   if (_doesNeedEligibilityCheck(session, candidate)) {
-    const userPixCertifications = await pixCertificationRepository.findByUserId({ userId });
+    const userPixCertifications = await pixCertificationRepository.findByUserId({ userId: candidate.userId });
 
     if (!_hasValidCoreCertification(userPixCertifications)) {
       throw new CertificationCandidateEligibilityError();
     }
 
-    const highestUserValidPixScore = _getHighestUserValidPixScore(userPixCertifications);
-
-    // TODO: petit refacto  mettre ensemble userAcquiredBadges et subscribedHighestBadgeAcquisition
-    const userAcquiredBadgeAcquisitions = await certificationBadgesService.findLatestBadgeAcquisitions({
-      userId,
-      limitDate: candidate.reconciledAt,
-    });
-
-    const subscribedHighestBadgeAcquisition = _getSubscribedHighestBadgeAcquisition({
-      userAcquiredBadgeAcquisitions,
+    const subscribedHighestBadgeAcquisition = await _findHighestBadgeAcquisitionForCandidateSubscription({
       candidate,
+      certificationBadgesService,
     });
 
     if (_isSubscribedUserBadgeOutDated(subscribedHighestBadgeAcquisition)) {
@@ -78,14 +69,14 @@ export async function verifyCandidateSubscriptions({
       );
 
     const userComplementaryCertificationBadgesSortedByLevel =
-      _getSubscribedComplementaryCertificationBadgesSortedByLevel(complementaryCertificationBadges, candidate);
+      _getSubscribedComplementaryCertificationBadgesSortedByLevel({ complementaryCertificationBadges, candidate });
 
-    // ON DEVRAIT FILTRER SUBSCRIBED.CCBADGID === complementaryCertificationBadges.ID ET NE PAS FAIRE LA LIGNE DU DESSUS
     const subscribedComplementaryCertificationBadge = _getSubscribedComplementaryCertificationBadge(
       userComplementaryCertificationBadgesSortedByLevel,
       subscribedHighestBadgeAcquisition,
     );
 
+    const highestUserValidPixScore = _getHighestUserValidPixScore(userPixCertifications);
     if (
       !_isUserPixScoreSufficientForBadge({
         subscribedComplementaryCertificationBadge,
@@ -97,6 +88,25 @@ export async function verifyCandidateSubscriptions({
     }
   }
 }
+
+/**
+ * @param {Object} params
+ * @param {CertificationBadgesService} params.certificationBadgesService
+ * @param {Candidate} params.candidate
+ * @returns {CertifiableBadgeAcquisition} highest badge acquired that the candidate has been subscribed to
+ */
+async function _findHighestBadgeAcquisitionForCandidateSubscription({ candidate, certificationBadgesService }) {
+  const userAcquiredBadgeAcquisitions = await certificationBadgesService.findLatestBadgeAcquisitions({
+    userId: candidate.userId,
+    limitDate: candidate.reconciledAt,
+  });
+
+  return _getSubscribedHighestBadgeAcquisition({
+    userAcquiredBadgeAcquisitions,
+    candidate,
+  });
+}
+
 /**
  * @param {CertifiableBadgeAcquisition} subscribedBadgeAcquisition
  * @returns {boolean} true if badge exists and is tagged outdated
@@ -151,7 +161,13 @@ function _getSubscribedHighestBadgeAcquisition({ userAcquiredBadgeAcquisitions, 
   );
 }
 
-function _getSubscribedComplementaryCertificationBadgesSortedByLevel(complementaryCertificationBadges, candidate) {
+/**
+ * @param {Object} params
+ * @param {Array<ComplementaryCertificationBadge>} params.complementaryCertificationBadges
+ * @param {Candidate} params.candidate
+ * @returns {CertifiableBadgeAcquisition} badge acquired that the candidate has been subscribed to
+ */
+function _getSubscribedComplementaryCertificationBadgesSortedByLevel({ complementaryCertificationBadges, candidate }) {
   return _.chain(complementaryCertificationBadges)
     .filter(
       ({ complementaryCertificationId }) =>
