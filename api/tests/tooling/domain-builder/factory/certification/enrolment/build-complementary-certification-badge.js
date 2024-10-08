@@ -1,12 +1,12 @@
-import { ComplementaryCertificationBadge } from '../../../../../../src/certification/enrolment/domain/models/ComplementaryCertificationBadge.js';
+import { ComplementaryCertificationBadgeWithOffsetVersion } from '../../../../../../src/certification/enrolment/domain/models/ComplementaryCertificationBadge.js';
 
-const buildComplementaryCertificationBadge = function ({
+const buildComplementaryCertificationBadgeWithOffsetVersion = function ({
   id = 123,
   requiredPixScore = 100,
   offsetVersion = 0,
   currentAttachedComplementaryCertificationBadgeId = 123,
 } = {}) {
-  return new ComplementaryCertificationBadge({
+  return new ComplementaryCertificationBadgeWithOffsetVersion({
     id,
     requiredPixScore,
     offsetVersion,
@@ -14,4 +14,4 @@ const buildComplementaryCertificationBadge = function ({
   });
 };
 
-export { buildComplementaryCertificationBadge };
+export { buildComplementaryCertificationBadgeWithOffsetVersion };

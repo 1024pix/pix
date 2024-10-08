@@ -92,7 +92,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       dependencies.placementProfileService = {
         getPlacementProfile: sinon.stub().resolves({ isCertifiable: sinon.stub().returns(true) }),
       };
-      dependencies.complementaryCertificationBadgeRepository = {
+      dependencies.complementaryCertificationBadgeWithOffsetVersionRepository = {
         findAll: sinon.stub(),
       };
     });
@@ -310,7 +310,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
             }),
           ]);
 
-          dependencies.complementaryCertificationBadgeRepository.findAll.resolves([
+          dependencies.complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
             ...complementaryCertificationBadges,
             domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
               id: 9865,
@@ -376,7 +376,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
             }),
           ]);
 
-          dependencies.complementaryCertificationBadgeRepository.findAll.resolves([
+          dependencies.complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
             ...complementaryCertificationBadges,
             domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
               id: 9865,
@@ -443,7 +443,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
               }),
             ]);
 
-            dependencies.complementaryCertificationBadgeRepository.findAll.resolves([
+            dependencies.complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
               ...complementaryCertificationBadges,
               domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
                 id: 9865,
@@ -510,7 +510,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
               }),
             ]);
 
-            dependencies.complementaryCertificationBadgeRepository.findAll.resolves([
+            dependencies.complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
               ...complementaryCertificationBadges,
               domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
                 id: 9865,
