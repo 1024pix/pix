@@ -105,4 +105,12 @@ async function findPaginatedLearners({ organizationId, page, filter }) {
   return { learners, pagination };
 }
 
-export { findPaginatedLearners, get };
+async function getAttestationsForOrganizationLearnersAndKey({ attestationKey, organizationLearners, attestationsApi }) {
+  const userIds = organizationLearners.map((learner) => learner.userId);
+  return attestationsApi.generateAttestations({
+    attestationKey,
+    userIds,
+  });
+}
+
+export { findPaginatedLearners, get, getAttestationsForOrganizationLearnersAndKey };
