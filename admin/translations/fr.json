@@ -661,7 +661,8 @@
       },
       "resettable-checkbox": {
         "label": "Permettre la remise à zéro des acquis du profil cible"
-      }
+      },
+      "tubes-count": "Nombre de sujets compris dans ce profil cible"
     },
     "trainings": {
       "training": {

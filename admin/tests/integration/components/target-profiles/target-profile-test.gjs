@@ -1,4 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
+import { t } from 'ember-intl/test-support';
 import TargetProfile from 'pix-admin/components/target-profiles/target-profile';
 import { module, test } from 'qunit';
 
@@ -19,6 +20,7 @@ module('Integration | Component | TargetProfile', function (hooks) {
     name: 'Dummy target-profile',
     outdated: false,
     ownerOrganizationId: '100',
+    tubesCount: 6,
   };
 
   module('campaign / autonomous course link', function () {
@@ -71,6 +73,19 @@ module('Integration | Component | TargetProfile', function (hooks) {
         assert.dom(_findByListItemText(screen, 'Associé à une campagne ou un parcours autonome : Non')).doesNotExist();
         assert.dom(_findByListItemText(screen, 'Parcours Accès Simplifié : Oui')).exists();
       });
+    });
+  });
+
+  module('Details target profile', function () {
+    test('it should display the number of tubes information', async function (assert) {
+      //given
+      const model = { ...targetProfileSampleData };
+
+      // when
+      const screen = await render(<template><TargetProfile @model={{model}} /></template>);
+
+      // then
+      assert.ok(_findByListItemText(screen, `${t('pages.target-profiles.tubes-count')} : ${model.tubesCount}`));
     });
   });
 });

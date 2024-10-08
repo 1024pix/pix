@@ -644,7 +644,8 @@
       },
       "resettable-checkbox": {
         "label": "Allow resetting for evaluation-type campaigns when multiple submissions are enabled for the organisation"
-      }
+      },
+      "tubes-count": "Number of subjects included in this target profile"
     },
     "trainings": {
       "training": {
