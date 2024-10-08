@@ -1,6 +1,6 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
-import ModulixFlashcardsIntroCard from 'mon-pix/components/module/element/flashcards-intro-card';
+import ModulixFlashcardsIntroCard from 'mon-pix/components/module/element/flashcards/flashcards-intro-card';
 // eslint-disable-next-line no-restricted-imports
 import { module, test } from 'qunit';
 import sinon from 'sinon';

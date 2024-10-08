@@ -1,6 +1,6 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
-import ModulixFlashcards from 'mon-pix/components/module/element/flashcards';
+import ModulixFlashcards from 'mon-pix/components/module/element/flashcards/flashcards';
 // eslint-disable-next-line no-restricted-imports
 import { module, test } from 'qunit';
 

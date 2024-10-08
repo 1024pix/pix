@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { eq } from 'ember-truth-helpers';
 import DownloadElement from 'mon-pix/components/module/element/download';
 import EmbedElement from 'mon-pix/components/module/element/embed';
-import FlashcardsElement from 'mon-pix/components/module/element/flashcards';
+import FlashcardsElement from 'mon-pix/components/module/element/flashcards/flashcards';
 import ImageElement from 'mon-pix/components/module/element/image';
 import QcmElement from 'mon-pix/components/module/element/qcm';
 import QcuElement from 'mon-pix/components/module/element/qcu';

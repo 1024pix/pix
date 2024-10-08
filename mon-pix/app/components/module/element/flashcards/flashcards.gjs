@@ -4,8 +4,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
-import ModulixFlashcardsCard from 'mon-pix/components/module/element/flashcards-card';
-import ModulixFlashcardsIntroCard from 'mon-pix/components/module/element/flashcards-intro-card';
+import ModulixFlashcardsCard from 'mon-pix/components/module/element/flashcards/flashcards-card';
+import ModulixFlashcardsIntroCard from 'mon-pix/components/module/element/flashcards/flashcards-intro-card';
 
 export default class ModulixFlashcards extends Component {
   @tracked
