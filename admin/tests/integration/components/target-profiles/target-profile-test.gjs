@@ -23,7 +23,26 @@ module('Integration | Component | TargetProfile', function (hooks) {
     tubesCount: 6,
   };
 
-  module('campaign / autonomous course link', function () {
+  module('target profile overview section', function () {
+    module('basic informations', function () {
+      test('it should display target profile basic informations', async function (assert) {
+        //given
+        const model = { ...targetProfileSampleData };
+
+        // when
+        const screen = await render(<template><TargetProfile @model={{model}} /></template>);
+
+        // then
+        assert.ok(_findByListItemText(screen, `ID : ${model.id}`));
+        assert.ok(_findByListItemText(screen, `Organisation de référence : ${model.ownerOrganizationId}`));
+        assert.ok(_findByListItemText(screen, 'Date de création : 01/03/2024'));
+        assert.ok(_findByListItemText(screen, 'Obsolète : Non'));
+        assert.ok(_findByListItemText(screen, 'Parcours Accès Simplifié : Non'));
+        assert.ok(_findByListItemText(screen, `${t('pages.target-profiles.resettable-checkbox.label')} : Non`));
+        assert.ok(_findByListItemText(screen, `${t('pages.target-profiles.tubes-count')} : ${model.tubesCount}`));
+      });
+    });
+
     module('when no campaign is linked', function () {
       test('it should display a no-link information', async function (assert) {
         // given
@@ -73,19 +92,6 @@ module('Integration | Component | TargetProfile', function (hooks) {
         assert.dom(_findByListItemText(screen, 'Associé à une campagne ou un parcours autonome : Non')).doesNotExist();
         assert.dom(_findByListItemText(screen, 'Parcours Accès Simplifié : Oui')).exists();
       });
-    });
-  });
-
-  module('Details target profile', function () {
-    test('it should display the number of tubes information', async function (assert) {
-      //given
-      const model = { ...targetProfileSampleData };
-
-      // when
-      const screen = await render(<template><TargetProfile @model={{model}} /></template>);
-
-      // then
-      assert.ok(_findByListItemText(screen, `${t('pages.target-profiles.tubes-count')} : ${model.tubesCount}`));
     });
   });
 });
