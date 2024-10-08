@@ -25,8 +25,7 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
     });
 
     // when
-    screen = await render(hbs`
-      <Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+    screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
   });
 
   test('it should display a header', async function (assert) {
@@ -36,8 +35,7 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
 
   test('it should display a hero', async function (assert) {
     // when
-    const screen = await render(hbs`
-      <Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+    const screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
 
     // then
     assert.dom(screen.getByRole('heading', { name: /Bravo/ })).exists();
@@ -49,8 +47,7 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
       this.model.trainings = [Symbol('training')];
 
       // when
-      screen = await render(hbs`
-        <Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+      screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
 
       // then
       assert.dom(screen.getByRole('tablist', { name: t('pages.skill-review.tabs.aria-label') })).exists();

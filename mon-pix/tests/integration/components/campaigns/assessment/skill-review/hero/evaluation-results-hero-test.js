@@ -28,11 +28,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
       // when
       screen = await render(
-        hbs`
-          <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-            @campaign={{this.campaign}}
-            @campaignParticipationResult={{this.campaignParticipationResult}}
-          />`,
+        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
       );
     });
 
@@ -72,11 +71,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`
-            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaign={{this.campaign}}
-              @campaignParticipationResult={{this.campaignParticipationResult}}
-            />`,
+          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
         );
 
         // then
@@ -94,11 +92,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
           // when
           const screen = await render(
-            hbs`
-              <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-                @campaign={{this.campaign}}
-                @campaignParticipationResult={{this.campaignParticipationResult}}
-              />`,
+            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
           );
 
           // then
@@ -116,12 +113,11 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
           // when
           const screen = await render(
-            hbs`
-              <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-                @hasTrainings={{this.hasTrainings}}
-                @campaign={{this.campaign}}
-                @campaignParticipationResult={{this.campaignParticipationResult}}
-              />`,
+            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @hasTrainings={{this.hasTrainings}}
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
           );
 
           // then
@@ -140,11 +136,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
       // when
       const screen = await render(
-        hbs`
-          <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-            @campaign={{this.campaign}}
-            @campaignParticipationResult={{this.campaignParticipationResult}}
-          />`,
+        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
       );
 
       // then
@@ -165,11 +160,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`
-            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaign={{this.campaign}}
-              @campaignParticipationResult={{this.campaignParticipationResult}}
-            />`,
+          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
         );
 
         // then
@@ -186,11 +180,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`
-            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaign={{this.campaign}}
-              @campaignParticipationResult={{this.campaignParticipationResult}}
-            />`,
+          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
         );
 
         // then
@@ -212,11 +205,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`
-            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaign={{this.campaign}}
-              @campaignParticipationResult={{this.campaignParticipationResult}}
-            />`,
+          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
         );
 
         // then
@@ -241,11 +233,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`
-            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaign={{this.campaign}}
-              @campaignParticipationResult={{this.campaignParticipationResult}}
-            />`,
+          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
         );
 
         // then
@@ -270,11 +261,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`
-            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaign={{this.campaign}}
-              @campaignParticipationResult={{this.campaignParticipationResult}}
-            />`,
+          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
         );
 
         // then
@@ -301,11 +291,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`
-            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaign={{this.campaign}}
-              @campaignParticipationResult={{this.campaignParticipationResult}}
-            />`,
+          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
         );
 
         // then
@@ -330,11 +319,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`
-            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaign={{this.campaign}}
-              @campaignParticipationResult={{this.campaignParticipationResult}}
-            />`,
+          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
         );
 
         // then
@@ -359,11 +347,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`
-            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaign={{this.campaign}}
-              @campaignParticipationResult={{this.campaignParticipationResult}}
-            />`,
+          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
         );
 
         // then
@@ -386,11 +373,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`
-            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaign={{this.campaign}}
-              @campaignParticipationResult={{this.campaignParticipationResult}}
-            />`,
+          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
         );
 
         // then
@@ -407,11 +393,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`
-            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaign={{this.campaign}}
-              @campaignParticipationResult={{this.campaignParticipationResult}}
-            />`,
+          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
         );
 
         // then
@@ -430,11 +415,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`
-            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaign={{this.campaign}}
-              @campaignParticipationResult={{this.campaignParticipationResult}}
-            />`,
+          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
         );
 
         // then
@@ -450,11 +434,10 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
 
         // when
         const screen = await render(
-          hbs`
-            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-              @campaign={{this.campaign}}
-              @campaignParticipationResult={{this.campaignParticipationResult}}
-            />`,
+          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
         );
 
         // then

@@ -13,8 +13,7 @@ module(
     test('displays the block title', async function (assert) {
       // when
       const screen = await render(
-        hbs`
-          <Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock />`,
+        hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock />`,
       );
 
       // then
@@ -30,10 +29,9 @@ module(
 
           // when
           const screen = await render(
-            hbs`
-              <Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
-                @customResultPageText={{this.customResultPageText}}
-              />`,
+            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+  @customResultPageText={{this.customResultPageText}}
+/>`,
           );
 
           // then
@@ -48,10 +46,9 @@ module(
 
           // when
           const screen = await render(
-            hbs`
-              <Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
-                @customResultPageText={{this.customResultPageText}}
-              />`,
+            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+  @customResultPageText={{this.customResultPageText}}
+/>`,
           );
 
           // then
@@ -72,11 +69,10 @@ module(
 
           // when
           const screen = await render(
-            hbs`
-              <Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
-                @customResultPageButtonUrl={{this.customResultPageButtonUrl}}
-                @customResultPageButtonText={{this.customResultPageButtonText}}
-              />`,
+            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+  @customResultPageButtonUrl={{this.customResultPageButtonUrl}}
+  @customResultPageButtonText={{this.customResultPageButtonText}}
+/>`,
           );
 
           // then
@@ -97,11 +93,10 @@ module(
 
           // when
           const screen = await render(
-            hbs`
-              <Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
-                @customResultPageButtonUrl={{this.customResultPageButtonUrl}}
-                @customResultPageButtonText={{this.customResultPageButtonText}}
-              />`,
+            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+  @customResultPageButtonUrl={{this.customResultPageButtonUrl}}
+  @customResultPageButtonText={{this.customResultPageButtonText}}
+/>`,
           );
 
           // then
@@ -117,11 +112,10 @@ module(
 
           // when
           const screen = await render(
-            hbs`
-              <Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
-                @customResultPageButtonUrl={{this.customResultPageButtonUrl}}
-                @customResultPageButtonText={{this.customResultPageButtonText}}
-              />`,
+            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+  @customResultPageButtonUrl={{this.customResultPageButtonUrl}}
+  @customResultPageButtonText={{this.customResultPageButtonText}}
+/>`,
           );
 
           // then
