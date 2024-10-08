@@ -500,7 +500,7 @@
                     "valid": "<span class=\"feedback__state\">Correct.</span><p>Ce mot de passe est très robuste. Si vous l'avez reconnu, c'est l'exemple de mot de passe créé à l'aide d'une phrase écrite en phonétique.</p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Comptez bien le nombre de caractères et regardez s'il y a ou pas des majuscules, des nombres et des caractères spéciaux</p>"
                   },
-                  "solution": ""
+                  "solution": "3"
                 }
               ]
             }
