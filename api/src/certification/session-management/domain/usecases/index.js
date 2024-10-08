@@ -25,6 +25,7 @@ import {
 } from '../../infrastructure/repositories/index.js';
 import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-storage.js';
 import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-storage.js';
+import { mailService } from '../services/mail-service.js';
 
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCourseRepository} CertificationCourseRepository
@@ -59,6 +60,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {import('../../infrastructure/storage/cpf-exports-storage.js').cpfExportsStorage} CpfExportsStorage
  * @typedef {import('../../../shared/domain/services/certification-badges-service.js')} CertificationBadgesService
  * @typedef {import('../../../shared/domain/services/scoring-certification-service.js')} ScoringCertificationService
+ * @typedef {import('../services/mail-service.js')} MailService
  * @typedef {import('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
  * @typedef {import('../../../shared/domain/services/certification-cpf-service.js')} CertificationCpfService
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
@@ -97,6 +99,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {placementProfileService} PlacementProfileService
  * @typedef {scoringCertificationService} ScoringCertificationService
  * @typedef {certificationCpfService} CertificationCpfService
+ * @typedef {mailService} MailService
  * @typedef {pickChallengeService} PickChallengeService
  * @typedef {flashAlgorithmService} FlashAlgorithmService
  * @typedef {flashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
@@ -117,6 +120,7 @@ const dependencies = {
   cpfExportRepository,
   certificationBadgesService,
   placementProfileService,
+  mailService,
   scoringCertificationService,
   certificationCpfService,
   certificationChallengeRepository,

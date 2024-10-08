@@ -366,20 +366,6 @@ function sendCpfEmail({ email, generatedFiles }) {
   return mailer.sendEmail(options);
 }
 
-function sendNotificationToCertificationCenterRefererForCleaResults({ email, sessionId, sessionDate }) {
-  const formattedSessionDate = dayjs(sessionDate).locale('fr').format('DD/MM/YYYY');
-
-  const options = {
-    from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: translations.fr['email-sender-name']['pix-app'],
-    to: email,
-    template: mailer.acquiredCleaResultTemplateId,
-    variables: { sessionId, sessionDate: formattedSessionDate },
-  };
-
-  return mailer.sendEmail(options);
-}
-
 function sendNotificationToOrganizationMembersForTargetProfileDetached({ email, complementaryCertificationName }) {
   const options = {
     from: EMAIL_ADDRESS_NO_RESPONSE,
@@ -465,7 +451,6 @@ const mailService = {
   sendResetPasswordDemandEmail,
   sendVerificationCodeEmail,
   sendCpfEmail,
-  sendNotificationToCertificationCenterRefererForCleaResults,
   sendNotificationToOrganizationMembersForTargetProfileDetached,
 };
 
@@ -476,7 +461,6 @@ const mailService = {
  * @property {function} sendCertificationCenterInvitationEmail
  * @property {function} sendCertificationResultEmail
  * @property {function} sendCpfEmail
- * @property {function} sendNotificationToCertificationCenterRefererForCleaResults
  * @property {function} sendNotificationToOrganizationMembersForTargetProfileDetached
  * @property {function} sendOrganizationInvitationEmail
  * @property {function} sendResetPasswordDemandEmail
@@ -490,7 +474,6 @@ export {
   sendCertificationCenterInvitationEmail,
   sendCertificationResultEmail,
   sendCpfEmail,
-  sendNotificationToCertificationCenterRefererForCleaResults,
   sendNotificationToOrganizationMembersForTargetProfileDetached,
   sendOrganizationInvitationEmail,
   sendResetPasswordDemandEmail,
