@@ -117,6 +117,31 @@ describe('Certification | Configuration | Integration | Repository | center-repo
         // then
         expect(results).to.deep.equal([notInWhitelistId]);
       });
+
+      it('should not be case sensitive on externalId', async function () {
+        // given
+        const externalIdOfCenter = 'uAi123';
+        // Note : @see config.js : config is already trimmed and uppercased
+        const externalIdInConfig = 'UAI123';
+        const notInWhitelistId = databaseBuilder.factory.buildCertificationCenter({
+          isV3Pilot: false,
+          type: CERTIFICATION_CENTER_TYPES.SCO,
+        }).id;
+        databaseBuilder.factory.buildCertificationCenter({
+          isV3Pilot: false,
+          type: CERTIFICATION_CENTER_TYPES.SCO,
+          externalId: externalIdOfCenter,
+        }).id;
+        await databaseBuilder.commit();
+
+        config.features.pixCertifScoBlockedAccessWhitelist = [externalIdInConfig];
+
+        // when
+        const results = await centerRepository.findSCOV2Centers();
+
+        // then
+        expect(results).to.deep.equal([notInWhitelistId]);
+      });
     });
 
     context('when center has no externalId', function () {
@@ -132,13 +157,18 @@ describe('Certification | Configuration | Integration | Repository | center-repo
           type: CERTIFICATION_CENTER_TYPES.SCO,
           externalId: '',
         }).id;
+        const expectedThree = databaseBuilder.factory.buildCertificationCenter({
+          isV3Pilot: false,
+          type: CERTIFICATION_CENTER_TYPES.SCO,
+          externalId: '  ',
+        }).id;
         await databaseBuilder.commit();
 
         // when
         const results = await centerRepository.findSCOV2Centers();
 
         // then
-        expect(results).to.deep.equal([expectedOne, expectedTwo]);
+        expect(results).to.deep.equal([expectedOne, expectedTwo, expectedThree]);
       });
     });
   });

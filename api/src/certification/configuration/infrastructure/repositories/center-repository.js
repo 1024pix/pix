@@ -19,8 +19,9 @@ export const findSCOV2Centers = async function ({ cursorId, size = DEFAULT_PAGIN
     .where({ isV3Pilot: false, type: CERTIFICATION_CENTER_TYPES.SCO })
     .andWhere((queryBuilder) => {
       queryBuilder
-        .whereNotIn('certification-centers.externalId', _getWhitelist())
-        .orWhereNull('certification-centers.externalId');
+        .whereRaw('UPPER(TRIM("certification-centers"."externalId")) NOT IN (?)', _getWhitelist())
+        .orWhereNull('certification-centers.externalId')
+        .orWhereRaw('TRIM("certification-centers"."externalId") = \'\'');
     })
     .orderBy('certification-centers.id', 'ASC')
     .limit(size);
@@ -35,7 +36,7 @@ export const findSCOV2Centers = async function ({ cursorId, size = DEFAULT_PAGIN
 const _getWhitelist = () => {
   const whitelist = config.features.pixCertifScoBlockedAccessWhitelist;
   logger.debug('SCO Whitelist:[%o]', whitelist);
-  return whitelist;
+  return whitelist.join(',');
 };
 
 /**
