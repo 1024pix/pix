@@ -41,6 +41,7 @@ export default function (config) {
           attributes: {
             code: 'OIDC_PARTNER',
             'organization-name': 'Partenaire OIDC',
+            slug: 'partenaire-oidc',
             'should-close-session': false,
             source: 'oidc-externe',
           },
