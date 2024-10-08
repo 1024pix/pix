@@ -9,13 +9,6 @@ import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/
 import { usecases } from '../../domain/usecases/index.js';
 import * as userOrganizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
 
-const rememberUserHasSeenAssessmentInstructions = async function (request, h, dependencies = { userSerializer }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-
-  const updatedUser = await usecases.rememberUserHasSeenAssessmentInstructions({ userId: authenticatedUserId });
-  return dependencies.userSerializer.serialize(updatedUser);
-};
-
 const rememberUserHasSeenChallengeTooltip = async function (request, h, dependencies = { userSerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
   const challengeType = request.params.challengeType;
@@ -124,7 +117,6 @@ const userController = {
   findPaginatedUserRecommendedTrainings,
   findUserOrganizationsForAdmin,
   reassignAuthenticationMethods,
-  rememberUserHasSeenAssessmentInstructions,
   rememberUserHasSeenChallengeTooltip,
   removeAuthenticationMethod,
   resetScorecard,

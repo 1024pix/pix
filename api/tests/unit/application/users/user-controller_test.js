@@ -17,34 +17,6 @@ describe('Unit | Controller | user-controller', function () {
     };
   });
 
-  describe('#rememberUserHasSeenAssessmentInstructions', function () {
-    let request;
-    const userId = 1;
-
-    beforeEach(function () {
-      request = {
-        auth: { credentials: { userId } },
-        params: { id: userId },
-      };
-
-      sinon.stub(usecases, 'rememberUserHasSeenAssessmentInstructions');
-    });
-
-    it('should remember user has seen assessment instructions', async function () {
-      // given
-      usecases.rememberUserHasSeenAssessmentInstructions.withArgs({ userId }).resolves({});
-      userSerializer.serialize.withArgs({}).returns('ok');
-
-      // when
-      const response = await userController.rememberUserHasSeenAssessmentInstructions(request, hFake, {
-        userSerializer,
-      });
-
-      // then
-      expect(response).to.be.equal('ok');
-    });
-  });
-
   describe('#rememberUserHasSeenChallengeTooltip', function () {
     let request;
     const userId = 1;
