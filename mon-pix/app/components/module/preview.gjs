@@ -77,6 +77,12 @@ export default class ModulixPreview extends Component {
     super(owner, args);
 
     this.modulixPreviewMode.enable();
+
+    window.addEventListener('message', () => {
+      if (event.data?.from === 'modulix-editor') {
+        this.module = JSON.stringify(event.data.moduleContent, null, 2);
+      }
+    });
   }
 
   get passage() {
