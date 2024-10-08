@@ -21,13 +21,6 @@ const getUserDetailsForAdmin = async function (request, h, dependencies = { user
   return dependencies.userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
 };
 
-const rememberUserHasSeenAssessmentInstructions = async function (request, h, dependencies = { userSerializer }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-
-  const updatedUser = await usecases.rememberUserHasSeenAssessmentInstructions({ userId: authenticatedUserId });
-  return dependencies.userSerializer.serialize(updatedUser);
-};
-
 const rememberUserHasSeenChallengeTooltip = async function (request, h, dependencies = { userSerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
   const challengeType = request.params.challengeType;
@@ -244,7 +237,6 @@ const userController = {
   getUserDetailsForAdmin,
   getUserProfileSharedForCampaign,
   reassignAuthenticationMethods,
-  rememberUserHasSeenAssessmentInstructions,
   rememberUserHasSeenChallengeTooltip,
   removeAuthenticationMethod,
   resetScorecard,
