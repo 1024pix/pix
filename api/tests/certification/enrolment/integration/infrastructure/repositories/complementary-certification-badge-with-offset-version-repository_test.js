@@ -33,7 +33,8 @@ describe('Certification | Enrolment | Integration | Repository | complementary-c
       await databaseBuilder.commit();
 
       // when
-      const actualComplementaryCertificationBadges = await complementaryCertificationBadgeWithOffsetVersionRepository.findAll();
+      const actualComplementaryCertificationBadges =
+        await complementaryCertificationBadgeWithOffsetVersionRepository.findAll();
 
       // then
       const expectedResult = [
@@ -67,7 +68,8 @@ describe('Certification | Enrolment | Integration | Repository | complementary-c
 
     it('should return empty array when there are none', async function () {
       // when
-      const actualComplementaryCertificationBadges = await complementaryCertificationBadgeWithOffsetVersionRepository.findAll();
+      const actualComplementaryCertificationBadges =
+        await complementaryCertificationBadgeWithOffsetVersionRepository.findAll();
 
       // then
       expect(actualComplementaryCertificationBadges).to.deepEqualArray([]);
