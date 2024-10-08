@@ -78,11 +78,16 @@ export default class ModulixPreview extends Component {
 
     this.modulixPreviewMode.enable();
 
-    window.addEventListener('message', () => {
-      if (event.data?.from === 'modulix-editor') {
-        this.module = JSON.stringify(event.data.moduleContent, null, 2);
-      }
-    });
+    const isWindowOpenedFromModulixEditor = window.opener !== null;
+    if (isWindowOpenedFromModulixEditor) {
+      window.addEventListener('message', (event) => {
+        if (event.data?.from === 'modulix-editor') {
+          this.module = JSON.stringify(event.data.moduleContent, null, 2);
+        }
+      });
+
+      window.opener.postMessage({ from: 'pix-app', message: 'Ready to receive content !' }, '*');
+    }
   }
 
   get passage() {
