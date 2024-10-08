@@ -346,28 +346,78 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
     });
   });
 
-  module('when there is some custom organization content', function () {
-    test('it should display the organization block', async function (assert) {
-      //given
-      this.set('campaign', {
-        customResultPageText: 'My custom result page text',
-        organizationId: 1,
+  module('custom organization block', function () {
+    module('when customResultPageText if defined', function () {
+      test('displays the organization block with the text', async function (assert) {
+        // given
+        this.set('campaign', {
+          customResultPageText: 'My custom result page text',
+          organizationId: 1,
+        });
+
+        this.set('campaignParticipationResult', { masteryRate: 0.75 });
+
+        // when
+        const screen = await render(
+          hbs`
+            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaign={{this.campaign}}
+              @campaignParticipationResult={{this.campaignParticipationResult}}
+            />`,
+        );
+
+        // then
+        assert.dom(screen.getByText(t('pages.skill-review.organization-message'))).exists();
+        assert.dom(screen.getByText('My custom result page text')).exists();
       });
+    });
 
-      this.set('campaignParticipationResult', { masteryRate: 0.75 });
+    module('when campaign has customResultPageButton', function () {
+      test('displays the organization block with the custom button', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const campaign = await store.createRecord('campaign', {
+          customResultPageButtonUrl: 'https://example.net',
+          customResultPageButtonText: 'Custom result page button text',
+          organizationId: 1,
+        });
+        this.set('campaign', campaign);
+        this.set('campaignParticipationResult', { masteryRate: 0.75 });
 
-      // when
-      const screen = await render(
-        hbs`
-          <Campaigns::Assessment::SkillReview::EvaluationResultsHero
-            @campaign={{this.campaign}}
-            @campaignParticipationResult={{this.campaignParticipationResult}}
-          />`,
-      );
+        // when
+        const screen = await render(
+          hbs`
+            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaign={{this.campaign}}
+              @campaignParticipationResult={{this.campaignParticipationResult}}
+            />`,
+        );
 
-      // then
-      assert.dom(screen.getByText(t('pages.skill-review.organization-message'))).exists();
-      assert.dom(screen.getByText('My custom result page text')).exists();
+        // then
+        assert.dom(screen.getByText(t('pages.skill-review.organization-message'))).exists();
+        assert.dom(screen.getByRole('link', { name: 'Custom result page button text' })).exists();
+      });
+    });
+
+    module('when campaign has no custom result page button or text', function () {
+      test('no display the organization block', async function (assert) {
+        // given
+        this.set('campaign', { organizationId: 1 });
+        this.set('campaignParticipationResult', { masteryRate: 0.75 });
+
+        // when
+        const screen = await render(
+          hbs`
+            <Campaigns::Assessment::SkillReview::EvaluationResultsHero
+              @campaign={{this.campaign}}
+              @campaignParticipationResult={{this.campaignParticipationResult}}
+            />`,
+        );
+
+        // then
+        assert.dom(screen.queryByText(t('pages.skill-review.organization-message'))).doesNotExist();
+        assert.dom(screen.queryByText('My custom result page text')).doesNotExist();
+      });
     });
   });
 

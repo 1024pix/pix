@@ -10,62 +10,123 @@ module(
   function (hooks) {
     setupIntlRenderingTest(hooks);
 
-    module('when organization custom text is defined', function () {
-      test('it should display organization custom text', async function (assert) {
-        // given
-        this.set('customResultPageText', 'My custom result page text');
+    test('displays the block title', async function (assert) {
+      // when
+      const screen = await render(
+        hbs`
+          <Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock />`,
+      );
 
-        // when
-        const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
-  @customResultPageText={{this.customResultPageText}}
-/>`,
-        );
+      // then
+      assert.dom(screen.getByText(t('pages.skill-review.organization-message'))).exists();
+    });
 
-        // then
-        assert.dom(screen.getByText(t('pages.skill-review.organization-message'))).exists();
-        assert.dom(screen.getByText('My custom result page text')).exists();
+    module('custom text', function () {
+      module('when organization custom text is defined', function () {
+        test('displays organization custom text', async function (assert) {
+          // given
+          const customResultPageText = 'My custom result page text';
+          this.set('customResultPageText', customResultPageText);
+
+          // when
+          const screen = await render(
+            hbs`
+              <Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+                @customResultPageText={{this.customResultPageText}}
+              />`,
+          );
+
+          // then
+          assert.dom(screen.getByText(customResultPageText)).exists();
+        });
+      });
+
+      module('when organization custom text is not defined', function () {
+        test('not display organization custom text', async function (assert) {
+          // given
+          this.set('customResultPageText', null);
+
+          // when
+          const screen = await render(
+            hbs`
+              <Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+                @customResultPageText={{this.customResultPageText}}
+              />`,
+          );
+
+          // then
+          assert.dom(screen.queryByRole('paragraph')).doesNotExist();
+        });
       });
     });
 
-    module('when organization custom link url and label is defined', function () {
-      test('it should display organization custom link', async function (assert) {
-        // given
-        this.set('customResultPageButtonUrl', 'https://pix.org/');
-        this.set('customResultPageButtonText', 'My custom button');
+    module('custom button', function () {
+      module('when organization custom link url and label are defined', function () {
+        test('displays organization custom link', async function (assert) {
+          // given
+          const customResultPageButtonUrl = 'https://pix.org/';
+          this.set('customResultPageButtonUrl', customResultPageButtonUrl);
 
-        // when
-        const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
-  @customResultPageButtonUrl={{this.customResultPageButtonUrl}}
-  @customResultPageButtonText={{this.customResultPageButtonText}}
-/>`,
-        );
+          const customResultPageButtonText = 'My custom button';
+          this.set('customResultPageButtonText', customResultPageButtonText);
 
-        // then
-        assert.dom(screen.getByText(t('pages.skill-review.organization-message'))).exists();
-        assert.strictEqual(screen.getByRole('link', { name: 'My custom button' }).href, 'https://pix.org/');
+          // when
+          const screen = await render(
+            hbs`
+              <Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+                @customResultPageButtonUrl={{this.customResultPageButtonUrl}}
+                @customResultPageButtonText={{this.customResultPageButtonText}}
+              />`,
+          );
+
+          // then
+          assert.strictEqual(
+            screen.getByRole('link', { name: customResultPageButtonText }).href,
+            customResultPageButtonUrl,
+          );
+        });
       });
-    });
 
-    module('when no custom organization content is defined', function () {
-      test('should not display the block', async function (assert) {
-        // given
-        this.set('customResultPageText', null);
-        this.set('customResultPageButtonUrl', null);
-        this.set('customResultPageButtonText', null);
+      module('when organization custom link url is defined but label is not', function () {
+        test('not display organization custom link', async function (assert) {
+          // given
+          const customResultPageButtonUrl = 'https://pix.org/';
+          this.set('customResultPageButtonUrl', customResultPageButtonUrl);
 
-        // when
-        const screen = await render(
-          hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
-  @customResultPageText={{this.customResultPageText}}
-  @customResultPageButtonUrl={{this.customResultPageButtonUrl}}
-  @customResultPageButtonText={{this.customResultPageButtonText}}
-/>`,
-        );
+          this.set('customResultPageButtonText', null);
 
-        // then
-        assert.dom(screen.queryByText(t('pages.skill-review.organization-message'))).doesNotExist();
+          // when
+          const screen = await render(
+            hbs`
+              <Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+                @customResultPageButtonUrl={{this.customResultPageButtonUrl}}
+                @customResultPageButtonText={{this.customResultPageButtonText}}
+              />`,
+          );
+
+          // then
+          assert.dom(screen.queryByRole('link')).doesNotExist();
+        });
+      });
+
+      module('when organization custom link label is defined but url is not', function () {
+        test('not display organization custom link', async function (assert) {
+          // given
+          this.set('customResultPageButtonUrl', null);
+          this.set('customResultPageButtonText', 'Some custom button text');
+
+          // when
+          const screen = await render(
+            hbs`
+              <Campaigns::Assessment::SkillReview::EvaluationResultsHero::CustomOrganizationBlock
+                @customResultPageButtonUrl={{this.customResultPageButtonUrl}}
+                @customResultPageButtonText={{this.customResultPageButtonText}}
+              />`,
+          );
+
+          // then
+          assert.dom(screen.queryByRole('link')).doesNotExist();
+        });
       });
     });
   },

@@ -5,6 +5,7 @@ import PixStars from '@1024pix/pix-ui/components/pix-stars';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
+import { or } from 'ember-truth-helpers';
 import ENV from 'mon-pix/config/environment';
 
 import MarkdownToHtml from '../../../../markdown-to-html';
@@ -129,11 +130,13 @@ export default class EvaluationResultsHero extends Component {
           <AcquiredBadges @acquiredBadges={{@campaignParticipationResult.acquiredBadges}} />
         {{/if}}
       </div>
-      <CustomOrganizationBlock
-        @customResultPageText={{@campaign.customResultPageText}}
-        @customResultPageButtonText={{@campaign.customResultPageButtonText}}
-        @customResultPageButtonUrl={{@campaign.customResultPageButtonUrl}}
-      />
+      {{#if (or @campaign.customResultPageText @campaign.hasCustomResultPageButton)}}
+        <CustomOrganizationBlock
+          @customResultPageText={{@campaign.customResultPageText}}
+          @customResultPageButtonText={{@campaign.customResultPageButtonText}}
+          @customResultPageButtonUrl={{@campaign.customResultPageButtonUrl}}
+        />
+      {{/if}}
       {{#if @campaignParticipationResult.canRetry}}
         <RetryOrResetBlock @campaign={{@campaign}} @campaignParticipationResult={{@campaignParticipationResult}} />
       {{/if}}
