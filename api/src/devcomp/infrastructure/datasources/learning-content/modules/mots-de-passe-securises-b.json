@@ -426,7 +426,7 @@
           "element": {
             "id": "acf16c79-b788-4ebe-b7a1-4138eef3db2f",
             "type": "text",
-            "content": "<p>Le tableau suivant donne le <strong>temps de piratage</strong> d'un mot de passe selon sa longueur et ses caractères (lettres, chiffres, majuscules, symboles).</p>\n"
+            "content": "<p>Le tableau suivant donne le <strong>temps de piratage</strong> d'un mot de passe selon sa <strong>longueur</strong> et ses <strong>caractères</strong> (lettres, chiffres, majuscules, symboles).</p>\n"
           }
         },
         {
@@ -440,74 +440,71 @@
           }
         },
         {
-          "type": "element",
-          "element": {
-            "id": "77d51241-7d51-4779-92fb-8a5c04d38db2",
-            "type": "qrocm",
-            "instruction": "<p>À l'aide de ce tableau, trouvez le temps de piratage des mots de passe suivants.</p>",
-            "proposals": [
-              {
-                "type": "text",
-                "content": "<p>Mot de passe 1 :<br></p>"
-              },
-              {
-                "input": "mdp1",
-                "type": "select",
-                "display": "inline",
-                "placeholder": "- Sélectionner -",
-                "ariaLabel": "",
-                "defaultValue": "",
-                "tolerances": [],
-                "options": [
-                  {
-                    "id": "1",
-                    "content": "4 secondes"
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "e1587699-4b8f-4fca-80ec-2bb594b31ddf",
+                  "type": "qcu",
+                  "instruction": "Quel est le temps de piratage de <code>JpPdfDm</code> ?",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "4 secondes",
+                      "feedback": ""
+                    },
+                    {
+                      "id": "2",
+                      "content": "4 jours",
+                      "feedback": ""
+                    },
+                    {
+                      "id": "3",
+                      "content": "44 ans",
+                      "feedback": ""
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct.</span><p>Ce mot de passe est trop faible. Il faudrait l'allonger et utiliser d'autres caractères (nombres, symboles).</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Comptez bien le nombre de caractères et regardez s'il y a ou pas des majuscules, des nombres et des caractères spéciaux</p>"
                   },
-                  {
-                    "id": "2",
-                    "content": "4 jours"
+                  "solution": "2"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "b6184063-5aee-40fe-ad07-d8fea0a29f32",
+                  "type": "qcu",
+                  "instruction": "Quel est le temps de piratage de <code>Gmeléban2D6né!</code> ?",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "4 millions d'années",
+                      "feedback": ""
+                    },
+                    {
+                      "id": "2",
+                      "content": "12 milliards d'années",
+                      "feedback": ""
+                    },
+                    {
+                      "id": "3",
+                      "content": "805 milliards d'années",
+                      "feedback": ""
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct.</span><p>Ce mot de passe est très robuste. Si vous l'avez reconnu, c'est l'exemple de mot de passe créé à l'aide d'une phrase écrite en phonétique.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Comptez bien le nombre de caractères et regardez s'il y a ou pas des majuscules, des nombres et des caractères spéciaux</p>"
                   },
-                  {
-                    "id": "3",
-                    "content": "44 ans"
-                  }
-                ],
-                "solutions": []
-              },
-              {
-                "type": "text",
-                "content": "<p>Mot de passe 2 :&nbsp;</p>"
-              },
-              {
-                "input": "mdp2",
-                "type": "select",
-                "display": "inline",
-                "placeholder": "- Sélectionner -",
-                "ariaLabel": "",
-                "defaultValue": "",
-                "tolerances": [],
-                "options": [
-                  {
-                    "id": "1",
-                    "content": "A"
-                  },
-                  {
-                    "id": "2",
-                    "content": "B"
-                  },
-                  {
-                    "id": "3",
-                    "content": "C"
-                  }
-                ],
-                "solutions": []
-              }
-            ],
-            "feedbacks": {
-              "valid": "",
-              "invalid": ""
+                  "solution": ""
+                }
+              ]
             }
-          }
+          ]
         }
       ]
     },
