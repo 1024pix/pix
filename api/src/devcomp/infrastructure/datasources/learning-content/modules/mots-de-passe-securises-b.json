@@ -36,11 +36,11 @@
       "grainId": "f14510d6-ee18-48be-8bb6-39a9427e3102"
     },
     {
-      "content": "<p>Maintenant que vous en savez plus, vous allez pouvoir aider Austin.&nbsp;<span aria-hidden=\"true\">🧑🏻‍💼</span><br>Austin veut changer son mot de passe pour le rendre plus solide. </p>",
-      "grainId": "6336bac0-c272-40cc-a002-ee724a5ec4c8"
+      "content": "<p>Avec ces méthodes, les mots de passe que vous créez sont solides et prennent un temps infini à pirater.<br>À vous de le constater par vous même !<span aria-hidden=\"true\">👇</span></p>",
+      "grainId": "169e770a-933f-41c1-a2c5-834f7b8f2946"
     },
     {
-      "content": "<p>Et vous, peut-être que certains de vos mots de passe ne sont pas solides.<br>Pour finir ce module, nous vous proposons de prendre de bonnes résolutions. <span aria-hidden=\"true\">💫</span></p>",
+      "content": "<p>Certains de vos mots de passe ne sont peut-être pas encore solides.<br>Pour finir ce module, nous vous proposons de prendre de bonnes résolutions. <span aria-hidden=\"true\">💫</span></p>",
       "grainId": "464fe554-ff12-4b14-b6d6-3510fff2bb26"
     }
   ],
@@ -282,7 +282,7 @@
           "element": {
             "id": "2e695244-52c5-4277-8414-d18777d0d242",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite</h3><ul><li>Un mot de passe solide est unique, long et composé de différents caractères.</li><li>Un mot de passe ne contient pas d'informations personnelles et doit rester secret.</li><li>N'utilisez pas le même mot de passe partout. Le mot de passe le plus important est celui de votre boîte mail car il permet de changer tous vos mots de passe.</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite :</h3><ul><li>Un mot de passe solide est <strong>unique</strong>, <strong>long</strong> et composé de <strong>différents caractères</strong>.</li><li>Un mot de passe ne contient <strong>pas d'informations personnelles</strong> et doit rester <strong>secret</strong>.</li><li>N'utilisez pas le même mot de passe partout. Le <strong>mot de passe le plus important</strong> est celui de votre <strong>boîte mail</strong> car il permet de changer tous vos mots de passe.</li></ul>"
           }
         }
       ]
@@ -297,7 +297,7 @@
           "element": {
             "id": "7ef31e68-e798-4a92-86a0-ad61ebd9b915",
             "type": "text",
-            "content": "<p>Pour créer son mot de passe d'adresse mail, Austin a utilisé les deux informations suivantes&nbsp;:</p><ul><li>il est né le <strong>15 novembre 1984</strong>,</li><li>il a un chat qui s’appelle <strong>Bill</strong>.</li></ul>"
+            "content": "<p>Pour créer le mot de passe de son adresse mail, Austin a utilisé les deux informations suivantes&nbsp;:</p><ul><li>il est né le <strong>15 novembre 1984</strong>,</li><li>il a un chat qui s’appelle <strong>Honey</strong>.</li></ul>"
           }
         },
         {
@@ -318,60 +318,60 @@
                 "defaultValue": "",
                 "tolerances": ["t1"],
                 "solutions": [
-                  "Bill15111984",
-                  "15111984Bill",
-                  "Bill151184",
-                  "151184Bill",
-                  "bill15111984",
-                  "15111984bill",
-                  "bill151184",
-                  "151184bill",
-                  "Bill15novembre1984",
-                  "15novembre1984Bill",
-                  "Bill15novembre84",
-                  "15novembre84Bill",
-                  "bill15novembre1984",
-                  "15novembre1984bill",
-                  "bill15novembre84",
-                  "15novembre84bill",
-                  "Bill15/11/1984",
-                  "15/11/1984Bill",
-                  "Bill15/11/84",
-                  "15/11/84Bill",
-                  "bill15/11/1984",
-                  "15/11/1984bill",
-                  "bill15/11/84",
-                  "15/11/84bill",
-                  "Bill151119",
-                  "151119Bill",
-                  "Bill1511",
-                  "1511Bill",
-                  "bill1511",
-                  "1511bill",
-                  "bill1511",
-                  "1511bill",
-                  "Bill15novembre",
-                  "15novembreBill",
-                  "Bill15novembre",
-                  "15novembreBill",
-                  "bill15novembre",
-                  "15novembrebill",
-                  "bill15novembre",
-                  "15novembrebill",
-                  "Bill15/11",
-                  "15/11Bill",
-                  "Bill15/11",
-                  "15/11Bill",
-                  "bill15/11",
-                  "15/11bill",
-                  "bill15/11",
-                  "15/11bill"
+                  "Honey15111984",
+                  "15111984Honey",
+                  "Honey151184",
+                  "151184Honey",
+                  "honey15111984",
+                  "15111984honey",
+                  "honey151184",
+                  "151184honey",
+                  "Honey15novembre1984",
+                  "15novembre1984Honey",
+                  "Honey15novembre84",
+                  "15novembre84Honey",
+                  "honey15novembre1984",
+                  "15novembre1984honey",
+                  "honey15novembre84",
+                  "15novembre84honey",
+                  "Honey15/11/1984",
+                  "15/11/1984Honey",
+                  "Honey15/11/84",
+                  "15/11/84Honey",
+                  "honey15/11/1984",
+                  "15/11/1984honey",
+                  "honey15/11/84",
+                  "15/11/84honey",
+                  "Honey151119",
+                  "151119Honey",
+                  "Honey1511",
+                  "1511Honey",
+                  "honey1511",
+                  "1511honey",
+                  "honey1511",
+                  "1511honey",
+                  "Honey15novembre",
+                  "15novembreHoney",
+                  "Honey15novembre",
+                  "15novembreHoney",
+                  "honey15novembre",
+                  "15novembrehoney",
+                  "honey15novembre",
+                  "15novembrehoney",
+                  "Honey15/11",
+                  "15/11Honey",
+                  "Honey15/11",
+                  "15/11Honey",
+                  "honey15/11",
+                  "15/11honey",
+                  "honey15/11",
+                  "15/11honey"
                 ]
               }
             ],
             "feedbacks": {
               "valid": "<span class=\"feedback__state\">Correct.</span><p> C’est un <strong>mot de passe faible</strong>, c’est-à-dire  facile à trouver.</p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Plusieurs réponses sont possibles. Avez-vous utilisé la date de naissance d’Austin, par exemple 151184&#8239;? Et utilisé le prénom de son fils Bill&#8239;?</p>"
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Plusieurs réponses sont possibles. Avez-vous utilisé la date de naissance d’Austin, par exemple 151184&#8239;? Et utilisé le prénom de son fils Honey&#8239;?</p>"
             }
           }
         }
@@ -390,7 +390,7 @@
                 {
                   "id": "69bfe140-57ac-4fcf-a118-2e9382daacd4",
                   "type": "text",
-                  "content": "<h3>Méthode n°1&nbsp;: retenez une phrase qui vous plaît et gardez les premiers caractères. <span aria-hidden=\"true\">🧩</span></h3><p><span aria-hidden=\"true\">✔️</span> Par exemple, \"<strong>J'a</strong>i <strong>2 c</strong>hats<strong>, 3 p</strong>oissons <strong>e</strong>xotiques <strong>e</strong>t <strong>j'a</strong>ime <strong>l</strong>a <strong>p</strong>longée <strong>!</strong>\" vous donne le mot de passe&nbsp;: <code>Ja2c3peejalp!</code></p>"
+                  "content": "<h3>Méthode n°1&nbsp;: retenez une phrase qui vous plaît et gardez les premiers caractères de chaque mot. <span aria-hidden=\"true\">🖍️</span></h3><p><span aria-hidden=\"true\">✔️</span> Par exemple, \"<strong>J'a</strong>i <strong>2 c</strong>hats<strong>, 3 p</strong>oissons <strong>e</strong>xotiques <strong>e</strong>t <strong>j'a</strong>ime <strong>l</strong>a <strong>p</strong>longée <strong>!</strong>\" vous donne le mot de passe&nbsp;: <code>Ja2c3peejalp!</code></p>"
                 }
               ]
             },
@@ -399,7 +399,7 @@
                 {
                   "id": "f6edeae6-fbfb-4dce-b556-1bb7928d5ff5",
                   "type": "text",
-                  "content": "<h3>Méthode n°2&nbsp;: écrivez une phrase qui vous plaît uniquement avec des sons. <span aria-hidden=\"true\">🎶</span></h3><p><span aria-hidden=\"true\">✔️</span> Par exemple, \"J'aime les bandes dessinées !\" vous donne le mot de passe : <code>Gmeléban2D6né!</code></p>"
+                  "content": "<h3>Méthode n°2&nbsp;: écrivez une phrase qui vous plaît en phonétique, c'est-à-dire comme elle se prononce. <span aria-hidden=\"true\">🎶</span></h3><p><span aria-hidden=\"true\">✔️</span> Par exemple, \"J'aime les bandes dessinées !\" vous donne le mot de passe : <code>Gmeléban2D6né!</code>.<p>Dans cet exemple, \"J'ai\" est devenu \"G\" car ils se prononcent pareil.</p>"
                 }
               ]
             },
@@ -408,7 +408,7 @@
                 {
                   "id": "e274a0f9-4b4a-4358-8b1f-9e009c5a3ec8",
                   "type": "text",
-                  "content": "<h3>Méthode n°3&nbsp;: votre méthode ! <span aria-hidden=\"true\">🧠</span></h3><p>Vous pouvez mélanger les deux méthodes présentées ou trouver d'autres astuces.</p><p>En tout cas, oublier le mot de passe d'un compte, ce n'est pas grave. Au moment de votre connexion, les sites internet permettent de changer votre mot de passe si vous l'avez oublié.</p>"
+                  "content": "<h3>Méthode n°3&nbsp;: inventez votre méthode ! <span aria-hidden=\"true\">🧪</span></h3><p>Vous pouvez mélanger les deux méthodes présentées ou trouver d'autres astuces.</p><p>En tout cas, oublier le mot de passe d'un compte, ce n'est pas grave. Au moment de votre connexion, les sites internet permettent de changer votre mot de passe si vous l'avez oublié.</p>"
                 }
               ]
             }
@@ -417,39 +417,96 @@
       ]
     },
     {
-      "id": "6336bac0-c272-40cc-a002-ee724a5ec4c8",
+      "id": "169e770a-933f-41c1-a2c5-834f7b8f2946",
       "type": "activity",
-      "title": "Les conseils à donner à un ami",
+      "title": "Temps de craquage de mots de passes",
       "components": [
         {
           "type": "element",
           "element": {
-            "id": "5db8677e-2c9e-4f36-b932-4989459af149",
-            "type": "qcm",
-            "instruction": "<p>Quels conseils pouvez-vous donner à Austin pour créer un mot de passe solide&#8239;?</p>",
+            "id": "acf16c79-b788-4ebe-b7a1-4138eef3db2f",
+            "type": "text",
+            "content": "<p>Le tableau suivant donne le <strong>temps de piratage</strong> d'un mot de passe selon sa longueur et ses caractères (lettres, chiffres, majuscules, symboles).</p>\n"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "bb802478-6673-4ccf-ad99-90f553999042",
+            "type": "image",
+            "url": "https://i.imgur.com/sG2wQk7.jpeg",
+            "alt": "",
+            "alternativeText": "<p><br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "77d51241-7d51-4779-92fb-8a5c04d38db2",
+            "type": "qrocm",
+            "instruction": "<p>À l'aide de ce tableau, trouvez le temps de piratage des mots de passe suivants.</p>",
             "proposals": [
               {
-                "id": "1",
-                "content": "Créer un mot de passe qui est long."
+                "type": "text",
+                "content": "<p>Mot de passe 1 :<br></p>"
               },
               {
-                "id": "2",
-                "content": "Choisir un mot de passe qu'il utilise déjà."
+                "input": "mdp1",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "- Sélectionner -",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "4 secondes"
+                  },
+                  {
+                    "id": "2",
+                    "content": "4 jours"
+                  },
+                  {
+                    "id": "3",
+                    "content": "44 ans"
+                  }
+                ],
+                "solutions": []
               },
               {
-                "id": "3",
-                "content": "Décider de son mot de passe avec un ami."
+                "type": "text",
+                "content": "<p>Mot de passe 2 :&nbsp;</p>"
               },
               {
-                "id": "4",
-                "content": "Se servir d'une phrase et garder certains caractères."
+                "input": "mdp2",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "- Sélectionner -",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "A"
+                  },
+                  {
+                    "id": "2",
+                    "content": "B"
+                  },
+                  {
+                    "id": "3",
+                    "content": "C"
+                  }
+                ],
+                "solutions": []
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct.</span><p> Un mot de passe long est plus solide. Se servir d'une phrase permet de mieux s'en souvenir. </p>",
-              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Un mot de passe long est plus solide. Se servir d'une phrase permet de mieux s'en souvenir.</p>"
-            },
-            "solutions": ["1", "4"]
+              "valid": "",
+              "invalid": ""
+            }
           }
         }
       ]
@@ -468,8 +525,8 @@
             "proposals": [
               {
                 "id": "1",
-                "content": "Je ne les changerai pas même s'ils sont faibles.",
-                "feedback": "<p>Avec de petits gestes, vous pouvez éviter une situation très désagréable.<br>Nous vous recommandons de le faire lorsque vous aurez le temps ! 🔐</p>"
+                "content": "Je ne pense pas les modifier même si certains sont faibles.",
+                "feedback": "<p>Avec de petits gestes, vous pouvez éviter une situation très désagréable.<br>Nous vous recommandons de modifier ces mots de passe lorsque vous aurez le temps ! 🔐</p>"
               },
               {
                 "id": "2",
