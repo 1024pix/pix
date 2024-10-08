@@ -1,8 +1,5 @@
-import dayjs from 'dayjs';
-
 import { config } from '../../../src/shared/config.js';
 import { LOCALE } from '../../../src/shared/domain/constants.js';
-import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { urlBuilder } from '../../../src/shared/infrastructure/utils/url-builder.js';
 import { mailer } from '../../../src/shared/mail/infrastructure/services/mailer.js';
 import * as translations from '../../../translations/index.js';
@@ -72,55 +69,6 @@ function sendAccountCreationEmail({ email, firstName, locale = FRENCH_FRANCE, to
     to: email,
     subject: accountCreationEmailSubject,
     template: mailer.accountCreationTemplateId,
-    variables: templateVariables,
-  });
-}
-
-function sendCertificationResultEmail({
-  email,
-  sessionId,
-  sessionDate,
-  certificationCenterName,
-  resultRecipientEmail,
-  daysBeforeExpiration,
-  translate,
-}) {
-  const token = tokenService.createCertificationResultsByRecipientEmailLinkToken({
-    sessionId,
-    resultRecipientEmail,
-    daysBeforeExpiration,
-  });
-  const link = `${config.domain.pixApp + config.domain.tldOrg}/api/sessions/download-results/${token}`;
-
-  const formattedSessionDate = dayjs(sessionDate).locale('fr').format('DD/MM/YYYY');
-
-  const templateVariables = {
-    certificationCenterName,
-    sessionId,
-    sessionDate: formattedSessionDate,
-    fr: {
-      ...translations.fr['certification-result-email'].params,
-      homeName: PIX_HOME_NAME_FRENCH_FRANCE,
-      homeUrl: PIX_HOME_URL_FRENCH_FRANCE,
-      homeNameInternational: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrlInternational: PIX_HOME_URL_INTERNATIONAL.fr,
-      title: translate({ phrase: 'certification-result-email.title', locale: 'fr' }, { sessionId }),
-      link: `${link}?lang=fr`,
-    },
-    en: {
-      ...translations.en['certification-result-email'].params,
-      homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_INTERNATIONAL.en,
-      title: translate({ phrase: 'certification-result-email.title', locale: 'en' }, { sessionId }),
-      link: `${link}?lang=en`,
-    },
-  };
-
-  return mailer.sendEmail({
-    from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: `${translations.fr['email-sender-name']['pix-app']} / ${translations.en['email-sender-name']['pix-app']}`,
-    to: email,
-    template: mailer.certificationResultTemplateId,
     variables: templateVariables,
   });
 }
@@ -444,7 +392,6 @@ function _formatUrlWithLocale(url, locale) {
 const mailService = {
   sendAccountCreationEmail,
   sendAccountRecoveryEmail,
-  sendCertificationResultEmail,
   sendOrganizationInvitationEmail,
   sendScoOrganizationInvitationEmail,
   sendCertificationCenterInvitationEmail,
@@ -459,7 +406,6 @@ const mailService = {
  * @property {function} sendAccountCreationEmail
  * @property {function} sendAccountRecoveryEmail
  * @property {function} sendCertificationCenterInvitationEmail
- * @property {function} sendCertificationResultEmail
  * @property {function} sendCpfEmail
  * @property {function} sendNotificationToOrganizationMembersForTargetProfileDetached
  * @property {function} sendOrganizationInvitationEmail
@@ -472,7 +418,6 @@ export {
   sendAccountCreationEmail,
   sendAccountRecoveryEmail,
   sendCertificationCenterInvitationEmail,
-  sendCertificationResultEmail,
   sendCpfEmail,
   sendNotificationToOrganizationMembersForTargetProfileDetached,
   sendOrganizationInvitationEmail,
