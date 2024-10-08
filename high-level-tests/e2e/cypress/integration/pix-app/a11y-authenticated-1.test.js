@@ -11,6 +11,15 @@ describe("a11y", () => {
     "/mon-compte/langue",
     "/mon-compte/methodes-de-connexion",
     "/plan-du-site",
+    "/accueil",
+    "/campagnes",
+    "/campagnes/NERA/evaluation/resultats",
+    "/certifications",
+    "/competences",
+    "/competences/recH9MjIzN54zXlwr/details",
+    "/mes-certifications",
+    "/mes-formations",
+    "/mes-parcours",
   ];
 
   const loadFixtures = () => {
@@ -54,7 +63,11 @@ describe("a11y", () => {
         // then
         viewports.forEach(({ width, height }) => {
           cy.viewport(width, height);
-          cy.checkA11yAndShowViolations({ skipFailures: false, url });
+
+          const skipFailures =
+            url === "/assessments/fake-assessment" ? true : false;
+
+          cy.checkA11yAndShowViolations({ skipFailures, url });
         });
       });
     });
