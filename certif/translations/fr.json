@@ -21,6 +21,7 @@
       "validate": "Valider"
     },
     "api-error-messages": {
+      "CANDIDATE_NOT_ALLOWED_FOR_FINALIZED_SESSION": "Cette session a déjà été finalisée, l'ajout de candidat n'est pas autorisé.",
       "CANDIDATE_NOT_FOUND": "Une erreur est survenue, le candidat {firstName} {lastName} n'a pas été trouvé.",
       "INVALID_DOCUMENT": "La version du document est inconnue.<br />Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.",
       "SESSION_ALREADY_FINALIZED": "La session a déjà été finalisée.",

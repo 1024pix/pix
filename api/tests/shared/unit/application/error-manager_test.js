@@ -661,7 +661,7 @@ describe('Shared | Unit | Application | ErrorManager', function () {
       await handle(params.request, params.h, params.error);
 
       // then
-      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message);
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
     it('should instantiate ConflictError when CertificationEndedByFinalizationError', async function () {

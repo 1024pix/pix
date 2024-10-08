@@ -96,6 +96,7 @@ class CertificationEndedByFinalizationError extends DomainError {
 class CertificationCandidateOnFinalizedSessionError extends DomainError {
   constructor(message = "Cette session a déjà été finalisée, l'ajout de candidat n'est pas autorisé") {
     super(message);
+    this.code = 'CANDIDATE_NOT_ALLOWED_FOR_FINALIZED_SESSION';
   }
 }
 
