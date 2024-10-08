@@ -18,6 +18,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
 
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationBadgeWithOffsetVersionRepository} ComplementaryCertificationBadgeWithOffsetVersionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionRepository} SessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
  * @typedef {import('../../../session-management/infrastructure/repositories/index.js').CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository

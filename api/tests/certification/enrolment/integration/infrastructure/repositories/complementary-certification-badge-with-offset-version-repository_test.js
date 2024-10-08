@@ -1,8 +1,8 @@
-import * as complementaryCertificationBadgeRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/complementary-certification-badge-repository.js';
+import * as complementaryCertificationBadgeWithOffsetVersionRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/complementary-certification-badge-with-offset-version-repository.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Certification | Enrolment | Integration | Repository | ComplementaryCertificationBadge', function () {
+describe('Certification | Enrolment | Integration | Repository | complementary-certification-badge-with-offset-version-repository', function () {
   describe('#findAll', function () {
     it('should return all complementarycertificationbadge models from DB', async function () {
       // given
@@ -33,7 +33,7 @@ describe('Certification | Enrolment | Integration | Repository | ComplementaryCe
       await databaseBuilder.commit();
 
       // when
-      const actualComplementaryCertificationBadges = await complementaryCertificationBadgeRepository.findAll();
+      const actualComplementaryCertificationBadges = await complementaryCertificationBadgeWithOffsetVersionRepository.findAll();
 
       // then
       const expectedResult = [
@@ -67,7 +67,7 @@ describe('Certification | Enrolment | Integration | Repository | ComplementaryCe
 
     it('should return empty array when there are none', async function () {
       // when
-      const actualComplementaryCertificationBadges = await complementaryCertificationBadgeRepository.findAll();
+      const actualComplementaryCertificationBadges = await complementaryCertificationBadgeWithOffsetVersionRepository.findAll();
 
       // then
       expect(actualComplementaryCertificationBadges).to.deepEqualArray([]);

@@ -1,9 +1,16 @@
+/**
+ * @typedef {import ('./index.js').ComplementaryCertificationBadgeWithOffsetVersionRepository} ComplementaryCertificationBadgeWithOffsetVersionRepository
+ */
 import _ from 'lodash';
 
 import { AssessmentResult } from '../../../../shared/domain/models/index.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { CertificationEligibility, UserCertificationEligibility } from '../read-models/UserCertificationEligibility.js';
 
+/**
+ * @param {Object} params
+ * @param {ComplementaryCertificationBadgeWithOffsetVersionRepository} params.complementaryCertificationBadgeWithOffsetVersionRepository
+ */
 const getUserCertificationEligibility = async function ({
   userId,
   limitDate = new Date(),
@@ -11,7 +18,7 @@ const getUserCertificationEligibility = async function ({
   certificationBadgesService,
   complementaryCertificationCourseRepository,
   pixCertificationRepository,
-  complementaryCertificationBadgeRepository,
+  complementaryCertificationBadgeWithOffsetVersionRepository,
 }) {
   const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate });
   const isCertifiable = placementProfile.isCertifiable();
@@ -25,7 +32,8 @@ const getUserCertificationEligibility = async function ({
       userId,
     });
   const userPixCertifications = await pixCertificationRepository.findByUserId({ userId });
-  const allComplementaryCertificationBadges = await complementaryCertificationBadgeRepository.findAll();
+  const allComplementaryCertificationBadges =
+    await complementaryCertificationBadgeWithOffsetVersionRepository.findAll();
 
   const certificationEligibilities = [];
   for (const acquiredBadge of userAcquiredBadges) {

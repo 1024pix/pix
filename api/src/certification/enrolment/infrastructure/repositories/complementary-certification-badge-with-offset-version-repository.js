@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { ComplementaryCertificationBadge } from '../../domain/models/ComplementaryCertificationBadge.js';
+import { ComplementaryCertificationBadgeWithOffsetVersion } from '../../domain/models/ComplementaryCertificationBadge.js';
 
 /**
  *
@@ -23,7 +23,7 @@ export async function findAll() {
 }
 
 function _toDomain(data) {
-  return new ComplementaryCertificationBadge({
+  return new ComplementaryCertificationBadgeWithOffsetVersion({
     id: data.id,
     requiredPixScore: data.minimumEarnedPix,
     offsetVersion: data.offsetVersion,
