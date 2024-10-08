@@ -35,7 +35,6 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../../shared/domain/services/certification-cpf-service.js')} CertificationCpfService
  * @typedef {import('../../infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
  * @typedef {import('../services/temporary-sessions-storage-for-mass-import-service.js').TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
- * @typedef {import('../../../shared/domain/services/certification-badges-service.js')} CertificationBadgesService
  * @typedef {import('../services/certification-candidates-ods-service.js')} CertificationCandidatesOdsService
  * @typedef {import('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
  * @typedef {import('../../../../shared/domain/services/language-service.js')} languageService
@@ -64,7 +63,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
  * @typedef {SessionValidator} SessionValidator
  * @typedef {AttendanceSheetPdfUtils} AttendanceSheetPdfUtils
- * @typedef {CertificationBadgesService} CertificationBadgesService
+ * @typedef {certificationBadgesService} CertificationBadgesService
  * @typedef {CertificationCandidatesOdsService} CertificationCandidatesOdsService
  * @typedef {PlacementProfileService} PlacementProfileService
  * @typedef {LanguageService} LanguageService

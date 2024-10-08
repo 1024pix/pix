@@ -56,25 +56,36 @@ export async function verifyCandidateSubscriptions({
 
     const highestUserValidPixScore = _getHighestUserValidPixScore(userPixCertifications);
 
-    const userAcquiredBadges = await certificationBadgesService.findLatestBadgeAcquisitions({
+    // TODO: petit refacto  mettre ensemble userAcquiredBadges et subscribedHighestBadgeAcquisition
+    const userAcquiredBadgeAcquisitions = await certificationBadgesService.findLatestBadgeAcquisitions({
       userId,
       limitDate: candidate.reconciledAt,
     });
 
-    const subscribedHighestBadgeAcquisition = _getSubscribedHighestBadgeAcquisition(userAcquiredBadges, candidate);
+    const subscribedHighestBadgeAcquisition = _getSubscribedHighestBadgeAcquisition({
+      userAcquiredBadgeAcquisitions,
+      candidate,
+    });
 
+    if (_isSubscribedUserBadgeOutDated(subscribedHighestBadgeAcquisition)) {
+      throw new CertificationCandidateEligibilityError();
+    }
+
+    // PB CE NE SONT PAS DES BADGES QUI CORRESPONDENT A LA BDD (PAS DE DETACHEDAT, NI CE COMPLE_CERT_ID) ET ON S'EN FOUT DU OFFSET ET CURRENT ICI
+    // LE MODELE RENVOYE NE CORRESPOND PAS AU BESOIN
+    // LE REPO UTILISE ICI NE FAIT PAS VRAIMENT CE QUI EST ATTENDU DE BASE MAIS PAS BLOQUANT POUR CETTE PR
     const complementaryCertificationBadges = await complementaryCertificationBadgeRepository.findAll();
 
     const userComplementaryCertificationBadgesSortedByLevel =
       _getSubscribedComplementaryCertificationBadgesSortedByLevel(complementaryCertificationBadges, candidate);
 
+    // ON DEVRAIT FILTRER SUBSCRIBED.CCBADGID === complementaryCertificationBadges.ID ET NE PAS FAIRE LA LIGNE DU DESSUS
     const subscribedComplementaryCertificationBadge = _getSubscribedComplementaryCertificationBadge(
       userComplementaryCertificationBadgesSortedByLevel,
       subscribedHighestBadgeAcquisition,
     );
 
     if (
-      _isSubscribedUserBadgeOutDated(subscribedComplementaryCertificationBadge) ||
       !_isUserPixScoreSufficientForBadge({
         subscribedComplementaryCertificationBadge,
         userComplementaryCertificationBadgesSortedByLevel,
@@ -85,9 +96,12 @@ export async function verifyCandidateSubscriptions({
     }
   }
 }
-
-function _isSubscribedUserBadgeOutDated(subscribedComplementaryCertificationBadge) {
-  return subscribedComplementaryCertificationBadge?.detachedAt !== null;
+/**
+ * @param {CertifiableBadgeAcquisition} subscribedBadgeAcquisition
+ * @returns {boolean} true if badge exists and is tagged outdated
+ */
+function _isSubscribedUserBadgeOutDated(subscribedBadgeAcquisition) {
+  return subscribedBadgeAcquisition?.isOutdated || false;
 }
 
 function _doesNeedEligibilityCheck(session, candidate) {
@@ -122,9 +136,15 @@ function _getHighestUserValidPixScore(userPixCertifications) {
   return _.get(validPixCertifications, '[0].pixScore');
 }
 
-function _getSubscribedHighestBadgeAcquisition(userAcquiredBadges, candidate) {
+/**
+ * @param {Object} params
+ * @param {Array<CertifiableBadgeAcquisition>} params.userAcquiredBadgeAcquisitions
+ * @param {Candidate} params.candidate
+ * @returns {CertifiableBadgeAcquisition} badge acquired that the candidate has been subscribed to
+ */
+function _getSubscribedHighestBadgeAcquisition({ userAcquiredBadgeAcquisitions, candidate }) {
   return _.find(
-    userAcquiredBadges,
+    userAcquiredBadgeAcquisitions,
     ({ complementaryCertificationId }) =>
       candidate.subscriptions[0].complementaryCertificationId === complementaryCertificationId,
   );

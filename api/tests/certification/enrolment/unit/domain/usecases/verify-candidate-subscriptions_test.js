@@ -225,16 +225,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
             ],
           });
 
-          const complementaryCertificationBadges = [
-            domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
-              id: complementaryCertificationBadgeId,
-              complementaryCertificationId,
-              level: 1,
-              minimumEarnedPix: 200,
-              detachedAt: Date.now(),
-            }),
-          ];
-
           dependencies.pixCertificationRepository.findByUserId.resolves([
             domainBuilder.certification.enrolment.buildPixCertification({
               pixScore: 250,
@@ -248,16 +238,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
             domainBuilder.buildCertifiableBadgeAcquisition({
               complementaryCertificationId,
               complementaryCertificationBadgeId: complementaryCertificationBadgeId,
-            }),
-          ]);
-
-          dependencies.complementaryCertificationBadgeRepository.findAll.resolves([
-            ...complementaryCertificationBadges,
-            domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
-              id: 9865,
-              level: 1,
-              minimumEarnedPix: 300,
-              complementaryCertificationId: 9865,
+              isOutdated: true,
             }),
           ]);
 
