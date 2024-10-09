@@ -125,6 +125,12 @@
         "placeholder": "Select an organization",
         "searchLabel": "Keyword search"
       },
+      "other-authentication-providers": {
+        "signup-heading": "Other ways to sign up",
+        "login-heading": "Other ways to log in",
+        "continue-with-featured-identity-provider-link": "Continue with {featuredIdentityProvider}",
+        "select-another-organization-link": "Choose another organisation"
+      },
       "password-input": {
         "error-message": "You have entered the wrong password. Your password must be longer than 8 characters and contain at least one number, one lower case letter and one upper case letter.",
         "instructions-label": "Your password must comply with the following rules:",
