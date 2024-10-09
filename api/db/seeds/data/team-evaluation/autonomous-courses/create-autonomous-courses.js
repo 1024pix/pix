@@ -61,8 +61,7 @@ export default async function initUser(databaseBuilder) {
       code: `AUTOCOURS${i}`,
       name: `Parcours autonome n°${i}`,
       title: `Titre principal du parcours autonome n°${i}`,
-      customLandingPageText:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget tortor ut diam dictum viverra quis at purus. Morbi id quam a massa blandit gravida.',
+      customLandingPageText: `<strong>Lorem ipsum dolor sit amet</strong>, consectetur adipiscing elit. Mauris eget tortor ut diam dictum viverra quis at purus. Morbi id quam a massa blandit gravida.`,
       createdAt: dayjs().subtract(30, 'days').toDate(),
       idPixLabel: null,
       configCampaign: {
