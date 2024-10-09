@@ -1,7 +1,6 @@
 import lodash from 'lodash';
 
-import { Subscription } from '../../../certification/enrolment/domain/models/Subscription.js';
-import { BILLING_MODES, SUBSCRIPTION_TYPES } from '../../../certification/shared/domain/constants.js';
+import { BILLING_MODES } from '../../../certification/shared/domain/constants.js';
 
 const { isNil } = lodash;
 
@@ -65,27 +64,6 @@ class CertificationCandidate {
     this.hasSeenCertificationInstructions = hasSeenCertificationInstructions;
     this.accessibilityAdjustmentNeeded = accessibilityAdjustmentNeeded;
     this.reconciledAt = reconciledAt;
-
-    Object.defineProperty(this, 'complementaryCertification', {
-      enumerable: true,
-      get: function () {
-        return this.#complementaryCertification;
-      },
-
-      set: function (complementaryCertification) {
-        this.#complementaryCertification = complementaryCertification;
-        this.subscriptions = this.subscriptions.filter((subscription) => subscription.type === SUBSCRIPTION_TYPES.CORE);
-        if (complementaryCertification?.id) {
-          this.subscriptions.push(
-            Subscription.buildComplementary({
-              certificationCandidateId: this.id,
-              complementaryCertificationId: complementaryCertification.id,
-            }),
-          );
-        }
-      },
-    });
-
     this.complementaryCertification = complementaryCertification;
   }
 

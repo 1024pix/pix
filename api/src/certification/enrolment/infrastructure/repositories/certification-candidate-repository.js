@@ -5,16 +5,27 @@ import { ComplementaryCertification } from '../../domain/models/ComplementaryCer
 import { Subscription } from '../../domain/models/Subscription.js';
 
 const getBySessionIdAndUserId = async function ({ sessionId, userId }) {
-  const certificationCandidate = await _candidateBaseQuery().where({ sessionId, userId }).first();
-  return certificationCandidate ? _toDomain(certificationCandidate) : undefined;
+  const candidateData = await _candidateBaseQuery().where({ sessionId, userId }).first();
+  const subscriptionData = candidateData ? await _getSubscriptions(candidateData.id) : undefined;
+  return candidateData ? _toDomain({ candidateData, subscriptionData }) : undefined;
 };
 
 const findBySessionId = async function (sessionId) {
-  const results = await _candidateBaseQuery()
+  const certificationCandidates = await _candidateBaseQuery()
     .where({ 'certification-candidates.sessionId': sessionId })
     .orderByRaw('LOWER("certification-candidates"."lastName") asc')
     .orderByRaw('LOWER("certification-candidates"."firstName") asc');
-  return results.map(_toDomain);
+
+  const result = [];
+
+  for (const candidateData of certificationCandidates) {
+    const subscriptions = await _getSubscriptions(candidateData.id);
+    const certificationCandidate = _toDomain({ candidateData, subscriptions });
+
+    result.push(certificationCandidate);
+  }
+
+  return result;
 };
 
 const update = async function (certificationCandidate) {
@@ -30,24 +41,22 @@ const update = async function (certificationCandidate) {
 const getWithComplementaryCertification = async function ({ id }) {
   const candidateData = await _candidateBaseQuery().where('certification-candidates.id', id).first();
 
+  const subscriptionData = await _getSubscriptions(id);
+
   if (!candidateData) {
     throw new NotFoundError('Candidate not found');
   }
 
-  return _toDomain(candidateData);
+  return _toDomain({ candidateData, subscriptionData });
 };
 
 export { findBySessionId, getBySessionIdAndUserId, getWithComplementaryCertification, update };
 
-/**
- * @deprecated migration: new ComplementaryCertification(...) should not be done here
- * it should come from internal API complementary-certification bounded context.
- * Please beware of that when refactoring this code in the future
- */
-function _toDomain(candidateData) {
+function _toDomain({ candidateData, subscriptionData }) {
+  const subscriptions = subscriptionData?.map((subscription) => new Subscription({ ...subscription }));
   return new CertificationCandidate({
     ...candidateData,
-    subscriptions: [Subscription.buildCore({ id: candidateData.certificationCandidateId })],
+    subscriptions,
     complementaryCertification: candidateData.complementaryCertificationId
       ? new ComplementaryCertification({
           id: candidateData.complementaryCertificationId,
@@ -63,8 +72,8 @@ function _candidateBaseQuery() {
     .select({
       certificationCandidate: 'certification-candidates.*',
       complementaryCertificationId: 'complementary-certifications.id',
-      complementaryCertificationKey: 'complementary-certifications.key',
       complementaryCertificationLabel: 'complementary-certifications.label',
+      complementaryCertificationKey: 'complementary-certifications.key',
     })
     .from('certification-candidates')
     .leftJoin('certification-subscriptions', (builder) =>
@@ -78,4 +87,8 @@ function _candidateBaseQuery() {
       'complementary-certifications.id',
     )
     .groupBy('certification-candidates.id', 'complementary-certifications.id');
+}
+
+async function _getSubscriptions(candidateId) {
+  return knex.select('*').from('certification-subscriptions').where('certificationCandidateId', candidateId);
 }
