@@ -16,7 +16,8 @@ const findByCampaignId = async (campaignId) => {
     .join('target-profiles', 'target-profiles.id', `${TABLE_NAME}.targetProfileId`)
     .join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
     .where('campaigns.id', campaignId)
-    .orderBy('id');
+    .orderBy('isCertifiable', 'DESC')
+    .orderBy('id', 'ASC');
 };
 
 const isAssociated = async (badgeId) => {
