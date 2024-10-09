@@ -254,7 +254,7 @@ describe('Integration | Repository | Certification Course', function () {
 
           // then
           expect(actualCertificationCourse.getNumberOfChallenges()).to.equal(maximumAssessmentLength);
-          expect(actualCertificationCourse._isAdjustedForAccessibility).to.equal(
+          expect(actualCertificationCourse.isAdjustementNeeded()).to.equal(
             certificationCandidate.accessibilityAdjustmentNeeded,
           );
         });

@@ -151,6 +151,10 @@ class CertificationCourse {
     this._isAdjustedForAccessibility = !!isAdjustmentNeeded;
   }
 
+  isAdjustementNeeded() {
+    return this._isAdjustedForAccessibility;
+  }
+
   abort(reason) {
     const { error } = Joi.string()
       .valid(...Object.values(ABORT_REASONS))

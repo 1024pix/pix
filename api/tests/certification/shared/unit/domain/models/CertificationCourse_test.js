@@ -397,7 +397,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
         certificationCourse.adjustForAccessibility(isAdjustmentNeeded);
 
         // then
-        expect(certificationCourse._isAdjustedForAccessibility).to.be.true;
+        expect(certificationCourse.isAdjustementNeeded()).to.be.true;
       });
     });
 
@@ -411,7 +411,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
         certificationCourse.adjustForAccessibility(isAdjustmentNeeded);
 
         // then
-        expect(certificationCourse._isAdjustedForAccessibility).to.be.false;
+        expect(certificationCourse.isAdjustementNeeded()).to.be.false;
       });
     });
   });
