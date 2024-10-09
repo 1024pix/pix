@@ -114,7 +114,7 @@
                 {
                   "id": "6426dbb4-5627-4ae7-aa22-b63b70a8065f",
                   "type": "text",
-                  "content": "<p>Voici la liste des 20 mots de passes les plus utilisés en France. <span aria-hidden=\"true\">👇</span></p><p>Ce sont donc les pires mots de passe.</p>"
+                  "content": "<p>Voici la liste des 20 mots de passe les plus utilisés en France. <span aria-hidden=\"true\">👇</span></p><p>Ce sont donc les pires mots de passe.</p>"
                 },
                 {
                   "id": "b10615ab-ef98-4077-8382-fcd7011ec186",
@@ -249,7 +249,7 @@
                 {
                   "id": "68f45335-8aab-40f5-baff-9719ce8b582a",
                   "type": "qcu",
-                  "instruction": "<p>Tous les mots de passes ont la même importance.</p>",
+                  "instruction": "<p>Tous les mots de passe ont la même importance.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -419,7 +419,7 @@
     {
       "id": "169e770a-933f-41c1-a2c5-834f7b8f2946",
       "type": "activity",
-      "title": "Temps de craquage de mots de passes",
+      "title": "Temps de craquage de mots de passe",
       "components": [
         {
           "type": "element",
