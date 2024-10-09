@@ -22,7 +22,6 @@ const serialize = function (users, meta) {
       'profile',
       'campaignParticipations',
       'hasSeenAssessmentInstructions',
-      'hasSeenLevelSevenInfo',
       'isCertifiable',
       'hasSeenNewDashboardInfo',
       'hasSeenFocusedChallengeTooltip',

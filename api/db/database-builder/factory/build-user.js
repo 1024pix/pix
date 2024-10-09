@@ -74,7 +74,6 @@ function _generateEmailIfUndefined(email, id, lastName, firstName) {
  * @property {boolean} pixCertifTermsOfServiceAccepted
  * @property {boolean} hasSeenAssessmentInstructions
  * @property {boolean} hasSeenNewDashboardInfo
- * @property {boolean} hasSeenLevelSevenInfo
  * @property {boolean} hasSeenFocusedChallengeTooltip
  * @property {boolean} hasSeenOtherChallengesTooltip
  * @property {boolean} isAnonymous
@@ -102,7 +101,6 @@ const buildUser = function buildUser({
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
   hasSeenNewDashboardInfo = false,
-  hasSeenLevelSevenInfo = false,
   hasSeenFocusedChallengeTooltip = false,
   hasSeenOtherChallengesTooltip = false,
   isAnonymous = false,
@@ -132,7 +130,6 @@ const buildUser = function buildUser({
     pixCertifTermsOfServiceAccepted,
     hasSeenAssessmentInstructions,
     hasSeenNewDashboardInfo,
-    hasSeenLevelSevenInfo,
     hasSeenFocusedChallengeTooltip,
     hasSeenOtherChallengesTooltip,
     isAnonymous,

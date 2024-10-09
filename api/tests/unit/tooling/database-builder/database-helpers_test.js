@@ -10,7 +10,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-helpers', function () {
       {
         expectedTableName: 'users',
         insertSqlQuery:
-          '/* path:  */ insert into "users" ("cgu", "createdAt", "email", "emailConfirmedAt", "firstName", "hasBeenAnonymised", "hasBeenAnonymisedBy", "hasSeenAssessmentInstructions", "hasSeenFocusedChallengeTooltip", "hasSeenLevelSevenInfo", "hasSeenNewDashboardInfo", "hasSeenOtherChallengesTooltip", "id", "isAnonymous", "lang", "lastDataProtectionPolicySeenAt", "lastName", "lastPixCertifTermsOfServiceValidatedAt", "lastPixOrgaTermsOfServiceValidatedAt", "lastTermsOfServiceValidatedAt", "locale", "mustValidateTermsOfService", "pixCertifTermsOfServiceAccepted", "pixOrgaTermsOfServiceAccepted", "updatedAt", "username") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, DEFAULT, $21, $22, $23, $24, $25)',
+          '/* path:  */ insert into "users" ("cgu", "createdAt", "email", "emailConfirmedAt", "firstName", "hasBeenAnonymised", "hasBeenAnonymisedBy", "hasSeenAssessmentInstructions", "hasSeenFocusedChallengeTooltip", "hasSeenNewDashboardInfo", "hasSeenOtherChallengesTooltip", "id", "isAnonymous", "lang", "lastDataProtectionPolicySeenAt", "lastName", "lastPixCertifTermsOfServiceValidatedAt", "lastPixOrgaTermsOfServiceValidatedAt", "lastTermsOfServiceValidatedAt", "locale", "mustValidateTermsOfService", "pixCertifTermsOfServiceAccepted", "pixOrgaTermsOfServiceAccepted", "updatedAt", "username") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, DEFAULT, $21, $22, $23, $24, $25)',
       },
       {
         expectedTableName: 'pgboss.job',

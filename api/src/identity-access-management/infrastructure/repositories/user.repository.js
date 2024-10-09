@@ -296,16 +296,6 @@ const updateHasSeenAssessmentInstructionsToTrue = async function (id) {
   return new User(user);
 };
 
-const updateHasSeenLevelSevenInfoToTrue = async function (id) {
-  const now = new Date();
-  const [user] = await knex('users')
-    .where({ id })
-    .update({ hasSeenLevelSevenInfo: true, updatedAt: now })
-    .returning('*');
-
-  return new User(user);
-};
-
 const updateHasSeenNewDashboardInfoToTrue = async function (id) {
   const [user] = await knex('users')
     .where({ id })
@@ -447,7 +437,6 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
  * @property {function} updateEmail
  * @property {function} updateHasSeenAssessmentInstructionsToTrue
  * @property {function} updateHasSeenChallengeTooltip
- * @property {function} updateHasSeenLevelSevenInfoToTrue
  * @property {function} updateHasSeenNewDashboardInfoToTrue
  * @property {function} updateLastDataProtectionPolicySeenAt
  * @property {function} updatePixCertifTermsOfServiceAcceptedToTrue
@@ -480,7 +469,6 @@ export {
   updateEmail,
   updateHasSeenAssessmentInstructionsToTrue,
   updateHasSeenChallengeTooltip,
-  updateHasSeenLevelSevenInfoToTrue,
   updateHasSeenNewDashboardInfoToTrue,
   updateLastDataProtectionPolicySeenAt,
   updatePixCertifTermsOfServiceAcceptedToTrue,

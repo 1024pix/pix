@@ -50,11 +50,6 @@ export default class User extends ApplicationAdapter {
       return url + '/remember-user-has-seen-assessment-instructions';
     }
 
-    if (adapterOptions && adapterOptions.rememberUserHasSeenLevelSevenBanner) {
-      delete adapterOptions.rememberUserHasSeenLevelSevenBanner;
-      return url + '/user-has-seen-level-seven-info';
-    }
-
     if (adapterOptions && adapterOptions.rememberUserHasSeenNewDashboardInfo) {
       delete adapterOptions.rememberUserHasSeenNewDashboardInfo;
       return url + '/has-seen-new-dashboard-info';

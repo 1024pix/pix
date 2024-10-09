@@ -91,8 +91,7 @@
       "test": "Je test wordt geladen"
     },
     "new-information-banner": {
-      "close-label": "Sluit de banner",
-      "lvl-seven": "Pix wordt geleidelijk aan vertaald naar het Nederlands! De vertaling van al onze vaardigheden zal binnenkort beschikbaar zijn. '<'a href=\"https://pix.org/nl-be/de-planning-voor-de-uitrol-van-pix-in-het-nederlan\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Meer informatie'</a>'"
+      "close-label": "Sluit de banner"
     },
     "or": "of",
     "pagination": {
