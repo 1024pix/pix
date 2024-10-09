@@ -274,8 +274,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bonne réponse&#8239;!</span><p>Cette adresse est correctement écrite. On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>",
-                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse</span><p>Cette adresse est correctement écrite. On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>"
+                    "valid": "<span class=\"feedback__state\">Bonne réponse&#8239;! <span aria-hidden=\"true\">🎉</span></span><p>Cette adresse est correctement écrite.<br>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>",
+                    "invalid": "<span class=\"feedback__state\">Mauvaise réponse</span><p>Cette adresse est correctement écrite.<br>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>"
                   },
                   "solution": "1"
                 }
