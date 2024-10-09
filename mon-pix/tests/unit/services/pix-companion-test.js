@@ -8,6 +8,10 @@ module('Unit | Service | pix-companion', function (hooks) {
 
   const ORIGINAL_FT_IS_PIX_COMPANION_MANDATORY = ENV.APP.FT_IS_PIX_COMPANION_MANDATORY;
 
+  hooks.beforeEach(() => {
+    ENV.APP.FT_IS_PIX_COMPANION_MANDATORY = true;
+  });
+
   hooks.afterEach(() => {
     ENV.APP.FT_IS_PIX_COMPANION_MANDATORY = ORIGINAL_FT_IS_PIX_COMPANION_MANDATORY;
   });
