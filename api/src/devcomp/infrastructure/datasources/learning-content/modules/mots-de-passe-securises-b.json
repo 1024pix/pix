@@ -223,9 +223,9 @@
             {
               "elements": [
                 {
-                  "id": "68f45335-8aab-40f5-baff-9719ce8b582a",
+                  "id": "1771f61e-968b-41b9-b389-0c6910de3d38",
                   "type": "qcu",
-                  "instruction": "<p>Utiliser son prénom dans son mot de passe le rend facile à trouver.</p>",
+                  "instruction": "<p>Tous les mots de passe ont la même importance.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -249,7 +249,7 @@
                 {
                   "id": "68f45335-8aab-40f5-baff-9719ce8b582a",
                   "type": "qcu",
-                  "instruction": "<p>Tous les mots de passe ont la même importance.</p>",
+                  "instruction": "<p>Utiliser son prénom dans son mot de passe le rend facile à trouver.</p>",
                   "proposals": [
                     {
                       "id": "1",
