@@ -1,4 +1,3 @@
-import { config } from '../../../../shared/config.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { DEFAULT_PAGINATION } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
@@ -18,12 +17,6 @@ export const findSCOV2Centers = async function ({ cursorId, size = DEFAULT_PAGIN
     .from('certification-centers')
     .select('certification-centers.id', 'certification-centers.externalId')
     .where({ isV3Pilot: false, type: CenterTypes.SCO })
-    .andWhere((queryBuilder) => {
-      queryBuilder
-        .whereRaw('UPPER(TRIM("certification-centers"."externalId")) NOT IN (?)', _getWhitelist())
-        .orWhereNull('certification-centers.externalId')
-        .orWhereRaw('TRIM("certification-centers"."externalId") = \'\'');
-    })
     .orderBy('certification-centers.id', 'ASC')
     .limit(size);
 
@@ -37,12 +30,6 @@ export const findSCOV2Centers = async function ({ cursorId, size = DEFAULT_PAGIN
 
 const _toDomain = ({ id, externalId, type }) => {
   return new Center({ id, externalId, type });
-};
-
-const _getWhitelist = () => {
-  const whitelist = config.features.pixCertifScoBlockedAccessWhitelist;
-  logger.debug('SCO Whitelist:[%o]', whitelist);
-  return whitelist.join(',');
 };
 
 /**

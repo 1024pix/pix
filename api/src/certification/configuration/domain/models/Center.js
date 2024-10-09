@@ -1,6 +1,8 @@
 import Joi from 'joi';
 
+import { config } from '../../../../shared/config.js';
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
+import { _ } from '../../../../shared/infrastructure/utils/lodash-utils.js';
 import { CenterTypes } from './CenterTypes.js';
 
 export class Center {
@@ -22,6 +24,18 @@ export class Center {
     this.externalId = externalId;
 
     this.#validate();
+  }
+
+  isInWhitelist() {
+    if (this.type !== CenterTypes.SCO) {
+      return true;
+    }
+
+    if (this.type == CenterTypes.SCO && _.isBlank(this.externalId)) {
+      return false;
+    }
+
+    return config.features.pixCertifScoBlockedAccessWhitelist.includes(this.externalId.toUpperCase());
   }
 
   #validate() {

@@ -20,20 +20,21 @@ export const findAndTriggerV2CenterToConvertInV3 = async ({
   centerRepository,
   convertCenterToV3JobRepository,
 }) => {
-  let numberOfCenters = 0;
+  let numberOfConvertibleCenters = 0;
   let hasNext = false;
   let cursorId;
 
   do {
-    const centers = await centerRepository.findSCOV2Centers({ cursorId });
-    logger.debug('Centers:[%o]', centers);
+    const nextBatchOfCenters = await centerRepository.findSCOV2Centers({ cursorId });
+    hasNext = !!nextBatchOfCenters.length;
+    cursorId = _.last(nextBatchOfCenters)?.id;
 
-    numberOfCenters += centers.length;
-    hasNext = !!centers.length;
-    cursorId = _.last(centers)?.id;
+    const convertibleCenters = _selectConvertibleCenters(nextBatchOfCenters);
+    numberOfConvertibleCenters += convertibleCenters.length;
+    logger.debug('Convertible centers:[%o]', convertibleCenters);
 
     if (!isDryRun) {
-      await _sendConversionOrders({ centers, convertCenterToV3JobRepository });
+      await _sendConversionOrders({ centers: convertibleCenters, convertCenterToV3JobRepository });
     }
   } while (hasNext);
 
@@ -41,7 +42,14 @@ export const findAndTriggerV2CenterToConvertInV3 = async ({
     logger.warn('DRY_RUN: centers conversion to V3 have not been performed');
   }
 
-  return numberOfCenters;
+  return numberOfConvertibleCenters;
+};
+
+/**
+ * @param {Array<Center>} centers
+ */
+const _selectConvertibleCenters = (centers = []) => {
+  return centers.filter((center) => !center.isInWhitelist());
 };
 
 /**
