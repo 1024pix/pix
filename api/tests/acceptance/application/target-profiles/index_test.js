@@ -221,6 +221,7 @@ describe('Acceptance | Route | target-profiles', function () {
         'are-knowledge-elements-resettable': false,
         'capped-tubes': [],
         category: 'TEST',
+        'tubes-count': 1,
         comment: 'Un beau profil cible',
         description: 'Une description',
         'created-at': new Date('2020-01-01'),

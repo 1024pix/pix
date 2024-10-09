@@ -208,6 +208,9 @@ export default class TargetProfile extends Component {
                   "pages.target-profiles.resettable-checkbox.label"
                 }}&#x20;:&#x20;</span>{{this.displayBooleanState this.areKnowledgeElementsResettable}}
             </li>
+            <li><span class="bold">{{t
+                  "pages.target-profiles.tubes-count"
+                }}&#x20;:&#x20;</span>{{@model.tubesCount}}</li>
             {{#if @model.description}}
               <li>
                 <span class="bold">Description&#x20;:&#x20;</span>

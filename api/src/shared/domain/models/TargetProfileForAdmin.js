@@ -54,6 +54,7 @@ class TargetProfileForAdmin {
           allSkills: skills,
         }),
     );
+    this.tubesCount = tubes.length;
   }
 
   get cappedTubes() {
