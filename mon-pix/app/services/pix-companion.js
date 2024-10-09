@@ -1,8 +1,9 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import ENV from 'mon-pix/config/environment';
 
 export default class PixCompanion extends Service {
-  @tracked isExtensionEnabled = true;
+  @tracked _isExtensionEnabled = true;
 
   #checkExtensionIsEnabledInterval;
 
@@ -16,13 +17,15 @@ export default class PixCompanion extends Service {
     windowRef.postMessage({ event: 'pix:certification:stop' }, windowRef.location.origin);
   }
 
-  startCheckingExtensionIsEnabled() {
-    this.checkExtensionIsEnabled();
-    this.#checkExtensionIsEnabledInterval = setInterval(() => this.checkExtensionIsEnabled(), 1000);
+  startCheckingExtensionIsEnabled(windowRef = window) {
+    if (!ENV.APP.FT_IS_PIX_COMPANION_MANDATORY) return;
+    this.checkExtensionIsEnabled(windowRef);
+    this.#checkExtensionIsEnabledInterval = windowRef.setInterval(() => this.checkExtensionIsEnabled(windowRef), 1000);
   }
 
-  stopCheckingExtensionIsEnabled() {
-    clearInterval(this.#checkExtensionIsEnabledInterval);
+  stopCheckingExtensionIsEnabled(windowRef = window) {
+    if (!ENV.APP.FT_IS_PIX_COMPANION_MANDATORY) return;
+    windowRef.clearInterval(this.#checkExtensionIsEnabledInterval);
   }
 
   checkExtensionIsEnabled(windowRef = window) {
@@ -38,12 +41,17 @@ export default class PixCompanion extends Service {
 
     pong.promise
       .then(() => {
-        this.isExtensionEnabled = true;
+        this._isExtensionEnabled = true;
       })
       .catch(() => {
-        this.isExtensionEnabled = false;
+        this._isExtensionEnabled = false;
         windowRef.removeEventListener('pix:companion:pong', pongListener);
       });
+  }
+
+  get isExtensionEnabled() {
+    if (!ENV.APP.FT_IS_PIX_COMPANION_MANDATORY) return true;
+    return this._isExtensionEnabled;
   }
 }
 
