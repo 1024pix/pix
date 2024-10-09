@@ -1401,7 +1401,12 @@
           "start": "Commencer",
           "seeAnswer": "Voir la réponse",
           "seeAgain": "Revoir la question",
-          "nextCard": "Suivant"
+          "nextCard": "Suivant",
+          "answers": {
+            "notAtAll": "Pas du tout",
+            "almost": "Presque",
+            "yes": "Oui !"
+          }
         },
         "grain": {
           "continue": "Continuer",
@@ -1442,6 +1447,7 @@
       },
       "flashcards": {
         "direction": "Cherchez la réponse puis tournez la carte",
+        "answerDirection": "Vous aviez la réponse ?",
         "position": "Carte {currentCardPosition}/{totalCards}"
       },
       "grain": {

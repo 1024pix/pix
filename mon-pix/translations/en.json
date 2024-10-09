@@ -1401,7 +1401,12 @@
           "start": "Start",
           "seeAnswer": "See the answer",
           "seeAgain": "Review the question",
-          "nextCard": "Next"
+          "nextCard": "Next",
+          "answers": {
+            "notAtAll": "Not at all",
+            "almost": "Almost",
+            "yes": "Yes!"
+          }
         },
         "grain": {
           "continue": "Continue",
@@ -1442,7 +1447,8 @@
       },
       "flashcards": {
         "direction": "Look for the answer then turn the card",
-        "position": "Card {currentCardPosition}/{totalCards}"
+        "position": "Card {currentCardPosition}/{totalCards}",
+        "answerDirection": "Did you have the answer?"
       },
       "grain": {
         "tag": {

@@ -122,8 +122,8 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
     });
   });
 
-  module('when users clicks on the "Continue" then "Next" button', function () {
-    test('should display the next card', async function (assert) {
+  module('when users clicks on the "Continue" button', function () {
+    test('should display options buttons to answer', async function (assert) {
       // given
       const firstCard = {
         id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
@@ -167,11 +167,63 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
       const screen = await render(<template><ModulixFlashcards @flashcards={{flashcards}} /></template>);
       await clickByName(t('pages.modulix.buttons.flashcards.start'));
       await clickByName(t('pages.modulix.buttons.flashcards.seeAnswer'));
-      await clickByName(t('pages.modulix.buttons.flashcards.nextCard'));
 
       // then
-      assert.ok(screen.getByText('Qui a écrit le Dormeur du Val ?'));
-      assert.ok(screen.getByText(t('pages.modulix.flashcards.position', { currentCardPosition: 2, totalCards: 2 })));
+      assert.ok(screen.getByText(t('pages.modulix.flashcards.answerDirection')));
+      assert.ok(screen.getByText(t('pages.modulix.buttons.flashcards.answers.notAtAll')));
+    });
+
+    module('then user gives an answer', function () {
+      test('should display the next card', async function (assert) {
+        // given
+        const firstCard = {
+          id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+          recto: {
+            image: {
+              url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
+            },
+            text: "A quoi sert l'arobase dans mon adresse email ?",
+          },
+          verso: {
+            image: { url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg' },
+            text: "Parce que c'est joli",
+          },
+        };
+        const secondCard = {
+          id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+          recto: {
+            image: {
+              url: 'https://images.pix.fr/modulix/didacticiel/icon.svg',
+            },
+            text: 'Qui a écrit le Dormeur du Val ?',
+          },
+          verso: {
+            image: {
+              url: 'https://images.pix.fr/modulix/didacticiel/chaton.jpg',
+            },
+            text: '<p>Arthur Rimbaud</p>',
+          },
+        };
+
+        const flashcards = {
+          id: '71de6394-ff88-4de3-8834-a40057a50ff4',
+          type: 'flashcards',
+          title: "Introduction à l'adresse e-mail",
+          instruction: '<p>...</p>',
+          introImage: { url: 'https://images.pix.fr/modulix/placeholder-details.svg' },
+          cards: [firstCard, secondCard],
+        };
+
+        // when
+        const screen = await render(<template><ModulixFlashcards @flashcards={{flashcards}} /></template>);
+        await clickByName(t('pages.modulix.buttons.flashcards.start'));
+        await clickByName(t('pages.modulix.buttons.flashcards.seeAnswer'));
+        await clickByName(t('pages.modulix.buttons.flashcards.answers.notAtAll'));
+
+        // then
+        assert.ok(screen.getByText('Qui a écrit le Dormeur du Val ?'));
+        assert.ok(screen.getByText(t('pages.modulix.flashcards.position', { currentCardPosition: 2, totalCards: 2 })));
+      });
     });
   });
 });

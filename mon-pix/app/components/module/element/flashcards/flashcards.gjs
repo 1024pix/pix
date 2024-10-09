@@ -85,13 +85,33 @@ export default class ModulixFlashcards extends Component {
               }}</p>
           {{/if}}
           {{#if (eq this.displayedSideName "verso")}}
-            <button type="button" {{on "click" this.goToNextCard}}>{{t
-                "pages.modulix.buttons.flashcards.nextCard"
-              }}</button>
+            <p class="element-flashcards-footer__question">{{t "pages.modulix.flashcards.answerDirection"}}</p>
+            <div class="element-flashcards-footer__answer">
+              <button
+                class="element-flashcards-footer__answer__button element-flashcards-footer__answer__button--no"
+                type="button"
+                {{on "click" this.goToNextCard}}
+              >
+                {{t "pages.modulix.buttons.flashcards.answers.notAtAll"}}
+              </button>
+              <button
+                class="element-flashcards-footer__answer__button element-flashcards-footer__answer__button--almost"
+                type="button"
+                {{on "click" this.goToNextCard}}
+              >
+                {{t "pages.modulix.buttons.flashcards.answers.almost"}}
+              </button>
+              <button
+                class="element-flashcards-footer__answer__button element-flashcards-footer__answer__button--yes"
+                type="button"
+                {{on "click" this.goToNextCard}}
+              >
+                {{t "pages.modulix.buttons.flashcards.answers.yes"}}
+              </button>
+            </div>
           {{/if}}
         </div>
       {{/if}}
-
     </div>
   </template>
 }

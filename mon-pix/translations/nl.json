@@ -1377,7 +1377,12 @@
           "start": "Beginnen",
           "seeAnswer": "Zie het antwoord",
           "seeAgain": "Bekijk de vraag",
-          "nextCard": "Volgende"
+          "nextCard": "Volgende",
+          "answer": {
+            "notAtAll": "Helemaal niet",
+            "almost": "Bijna",
+            "yes": "Ja!"
+          }
         },
         "grain": {
           "continue": "Ga verder met",
@@ -1418,7 +1423,8 @@
       },
       "flashcards": {
         "direction": "Zoek het antwoord en draai de kaart om",
-        "position": "Kaart {currentCardPosition}/{totalCards}"
+        "position": "Kaart {currentCardPosition}/{totalCards}",
+        "answerDirection": "Had je het antwoord?"
       },
       "grain": {
         "tag": {
