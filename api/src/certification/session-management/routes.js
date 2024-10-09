@@ -2,6 +2,7 @@ import * as cancellation from './application/cancellation-route.js';
 import * as certificationCandidate from './application/certification-candidate-route.js';
 import * as certificationCourse from './application/certification-course-route.js';
 import * as certificationDetails from './application/certification-details-route.js';
+import * as certificationIssueReport from './application/certification-issue-report-route.js';
 import * as certificationOfficer from './application/certification-officer-route.js';
 import * as certificationReport from './application/certification-report-route.js';
 import * as complementaryCertificationCourseResults from './application/complementary-certification-course-results-route.js';
@@ -22,6 +23,7 @@ const certificationSessionRoutes = [
   certificationCourse,
   certificationOfficer,
   certificationReport,
+  certificationIssueReport,
   complementaryCertificationCourseResults,
   finalize,
   finalizedSession,

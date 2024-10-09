@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import { deleteCertificationIssueReport } from '../../../../lib/domain/usecases/delete-certification-issue-report.js';
-import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { deleteCertificationIssueReport } from '../../../../../../src/certification/session-management/domain/usecases/delete-certification-issue-report.js';
+import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | delete-certification-issue-report', function () {
   const certificationCourseRepository = { getSessionId: () => _.noop() };

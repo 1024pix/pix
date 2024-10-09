@@ -1,4 +1,4 @@
-import { CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually } from '../../../src/shared/domain/errors.js';
+import { CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually } from '../../domain/errors.js';
 
 const manuallyResolveCertificationIssueReport = async function ({
   certificationIssueReportId,
