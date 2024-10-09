@@ -426,13 +426,19 @@ describe('Integration | Certification | Application | jobs | CertificationComple
           const limitDate = new Date('2020-01-01T00:00:00Z');
           const certifiableUserId = databaseBuilder.factory.buildUser().id;
 
-          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
             userId: certifiableUserId,
             createdAt: limitDate,
             version: 3,
-          }).id;
+          });
+
+          databaseBuilder.factory.buildCertificationCandidate({
+            userId: certifiableUserId,
+            sessionId: certificationCourse.sessionId,
+          });
+
           const certificationAssessment = databaseBuilder.factory.buildAssessment({
-            certificationCourseId,
+            certificationCourseId: certificationCourse.id,
             userId: certifiableUserId,
             state: Assessment.states.STARTED,
             type: Assessment.types.CERTIFICATION,
@@ -441,14 +447,14 @@ describe('Integration | Certification | Application | jobs | CertificationComple
 
           _buildValidAnswersAndCertificationChallenges({
             assessmentId: certificationAssessment.id,
-            certificationCourseId,
+            certificationCourseId: certificationCourse.id,
           });
 
           await databaseBuilder.commit();
 
           const data = new CertificationCompletedJob({
             assessmentId: certificationAssessment.id,
-            certificationCourseId,
+            certificationCourseId: certificationCourse.id,
             userId: certifiableUserId,
             locale: LOCALE.FRENCH_FRANCE,
           });
@@ -472,13 +478,19 @@ describe('Integration | Certification | Application | jobs | CertificationComple
           const limitDate = new Date('2020-01-01T00:00:00Z');
           const certifiableUserId = databaseBuilder.factory.buildUser().id;
 
-          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
             userId: certifiableUserId,
             createdAt: limitDate,
             version: 3,
-          }).id;
+          });
+
+          databaseBuilder.factory.buildCertificationCandidate({
+            userId: certifiableUserId,
+            sessionId: certificationCourse.sessionId,
+          });
+
           const certificationAssessment = databaseBuilder.factory.buildAssessment({
-            certificationCourseId,
+            certificationCourseId: certificationCourse.id,
             userId: certifiableUserId,
             state: Assessment.states.STARTED,
             type: Assessment.types.CERTIFICATION,
@@ -487,14 +499,14 @@ describe('Integration | Certification | Application | jobs | CertificationComple
 
           _buildValidAnswersAndCertificationChallenges({
             assessmentId: certificationAssessment.id,
-            certificationCourseId,
+            certificationCourseId: certificationCourse.id,
           });
 
           await databaseBuilder.commit();
 
           const data = new CertificationCompletedJob({
             assessmentId: certificationAssessment.id,
-            certificationCourseId,
+            certificationCourseId: certificationCourse.id,
             userId: certifiableUserId,
             locale: LOCALE.FRENCH_FRANCE,
           });
@@ -510,7 +522,7 @@ describe('Integration | Certification | Application | jobs | CertificationComple
               'certification-challenge-capacities.certificationChallengeId',
             )
             .where({
-              courseId: certificationCourseId,
+              courseId: certificationCourse.id,
             });
 
           expect(certificationChallengeCapacities.length).to.equal(9);
@@ -522,13 +534,19 @@ describe('Integration | Certification | Application | jobs | CertificationComple
             const limitDate = new Date('2020-01-01T00:00:00Z');
             const certifiableUserId = databaseBuilder.factory.buildUser().id;
 
-            const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+            const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
               userId: certifiableUserId,
               createdAt: limitDate,
               version: 3,
-            }).id;
+            });
+
+            databaseBuilder.factory.buildCertificationCandidate({
+              userId: certifiableUserId,
+              sessionId: certificationCourse.sessionId,
+            });
+
             const certificationAssessment = databaseBuilder.factory.buildAssessment({
-              certificationCourseId,
+              certificationCourseId: certificationCourse.id,
               userId: certifiableUserId,
               state: Assessment.states.STARTED,
               type: Assessment.types.CERTIFICATION,
@@ -537,7 +555,7 @@ describe('Integration | Certification | Application | jobs | CertificationComple
 
             _buildValidAnswersAndCertificationChallenges({
               assessmentId: certificationAssessment.id,
-              certificationCourseId,
+              certificationCourseId: certificationCourse.id,
               difficulty: 9,
             });
 
@@ -545,7 +563,7 @@ describe('Integration | Certification | Application | jobs | CertificationComple
 
             const data = new CertificationCompletedJob({
               assessmentId: certificationAssessment.id,
-              certificationCourseId,
+              certificationCourseId: certificationCourse.id,
               userId: certifiableUserId,
               locale: LOCALE.FRENCH_FRANCE,
             });

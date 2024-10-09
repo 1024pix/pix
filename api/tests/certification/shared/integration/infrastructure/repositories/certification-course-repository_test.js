@@ -92,6 +92,7 @@ describe('Integration | Repository | Certification Course', function () {
         const userId = databaseBuilder.factory.buildUser().id;
         const sessionId = databaseBuilder.factory.buildSession({ version: 3 }).id;
 
+        databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId });
         certificationCourse = domainBuilder.buildCertificationCourse.unpersisted({
           userId,
           sessionId,
