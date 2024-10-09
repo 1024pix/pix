@@ -1,5 +1,5 @@
 const rememberUserHasSeenAssessmentInstructions = function ({ userId, userRepository }) {
-  return userRepository.updateHasSeenAssessmentInstructionsToTrue(userId);
+  return userRepository.updateAssessmentInstructionsInfoAsSeen({ userId });
 };
 
 export { rememberUserHasSeenAssessmentInstructions };
