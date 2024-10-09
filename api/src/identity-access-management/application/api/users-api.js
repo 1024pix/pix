@@ -4,10 +4,6 @@ import { UserDTO } from './models/UserDTO.js';
  * @module UserApi
  */
 
-export const markLevelSevenInfoAsSeen = async ({ userId }) => {
-  return usecases.rememberUserHasSeenLevelSevenInformation({ userId });
-};
-
 export const markNewDashboardInfoAsSeen = async ({ userId }) => {
   return usecases.markUserHasSeenNewDashboardInfo({ userId });
 };

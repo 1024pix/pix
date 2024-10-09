@@ -29,7 +29,6 @@ class User {
       lastDataProtectionPolicySeenAt,
       hasSeenAssessmentInstructions,
       hasSeenNewDashboardInfo,
-      hasSeenLevelSevenInfo,
       hasSeenFocusedChallengeTooltip,
       hasSeenOtherChallengesTooltip,
       mustValidateTermsOfService,
@@ -73,7 +72,6 @@ class User {
     this.hasSeenAssessmentInstructions = hasSeenAssessmentInstructions;
     this.hasSeenOtherChallengesTooltip = hasSeenOtherChallengesTooltip;
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
-    this.hasSeenLevelSevenInfo = hasSeenLevelSevenInfo;
     this.hasSeenFocusedChallengeTooltip = hasSeenFocusedChallengeTooltip;
     this.knowledgeElements = knowledgeElements;
     this.lang = lang ?? dependencies.languageService.LANGUAGES_CODE.FRENCH;
@@ -189,7 +187,6 @@ class User {
       hasSeenAssessmentInstructions: this.hasSeenAssessmentInstructions,
       hasSeenOtherChallengesTooltip: this.hasSeenOtherChallengesTooltip,
       hasSeenNewDashboardInfo: this.hasSeenNewDashboardInfo,
-      hasSeenLevelSevenInfo: this.hasSeenLevelSevenInfo,
       hasSeenFocusedChallengeTooltip: this.hasSeenFocusedChallengeTooltip,
       lang: this.lang,
       locale: this.locale,

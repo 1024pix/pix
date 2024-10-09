@@ -612,7 +612,6 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
         'hasSeenAssessmentInstructions',
         'hasSeenOtherChallengesTooltip',
         'hasSeenNewDashboardInfo',
-        'hasSeenLevelSevenInfo',
         'hasSeenFocusedChallengeTooltip',
         'lang',
         'locale',
