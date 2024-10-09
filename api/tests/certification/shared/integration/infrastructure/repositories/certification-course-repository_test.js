@@ -92,6 +92,7 @@ describe('Integration | Repository | Certification Course', function () {
         const userId = databaseBuilder.factory.buildUser().id;
         const sessionId = databaseBuilder.factory.buildSession({ version: 3 }).id;
 
+        databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId });
         certificationCourse = domainBuilder.buildCertificationCourse.unpersisted({
           userId,
           sessionId,
@@ -221,7 +222,7 @@ describe('Integration | Repository | Certification Course', function () {
       context('When the certification course is v3', function () {
         it('should retrieve the number of challenges from the configuration', async function () {
           const maximumAssessmentLength = 10;
-          const { expectedCertificationCourse } = _buildCertificationCourse({
+          const { expectedCertificationCourse, certificationCandidate } = _buildCertificationCourse({
             description,
             version: 3,
             createdAt: new Date('2022-01-03'),
@@ -253,6 +254,9 @@ describe('Integration | Repository | Certification Course', function () {
 
           // then
           expect(actualCertificationCourse.getNumberOfChallenges()).to.equal(maximumAssessmentLength);
+          expect(actualCertificationCourse.isAdjustementNeeded()).to.equal(
+            certificationCandidate.accessibilityAdjustmentNeeded,
+          );
         });
       });
     });
@@ -538,6 +542,11 @@ describe('Integration | Repository | Certification Course', function () {
 function _buildCertificationCourse({ createdAt, description, version = 2 }) {
   const userId = databaseBuilder.factory.buildUser().id;
   const sessionId = databaseBuilder.factory.buildSession().id;
+  const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+    userId,
+    sessionId,
+    accessibilityAdjustmentNeeded: true,
+  });
   const expectedCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
     userId,
     sessionId,
@@ -605,5 +614,6 @@ function _buildCertificationCourse({ createdAt, description, version = 2 }) {
     userId,
     sessionId,
     expectedCertificationCourse,
+    certificationCandidate,
   };
 }

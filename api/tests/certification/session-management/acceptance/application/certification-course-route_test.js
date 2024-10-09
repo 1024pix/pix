@@ -9,7 +9,7 @@ import {
 } from '../../../../test-helper.js';
 import { createSuccessfulCertificationCourse } from '../../../shared/fixtures/certification-course.js';
 
-describe('Certification | Session Management | Unit | Application | Routes | Certification Course', function () {
+describe('Certification | Session Management | Acceptance | Application | Routes | Certification Course', function () {
   describe('PATCH /api/admin/certification-courses/{certificationCourseId}', function () {
     context('when the user does not have role super admin', function () {
       it('should return 403 HTTP status code', async function () {
@@ -215,6 +215,11 @@ describe('Certification | Session Management | Unit | Application | Routes | Cer
           sessionId: session.id,
           userId,
           version: 3,
+        });
+
+        databaseBuilder.factory.buildCertificationCandidate({
+          userId: userId,
+          sessionId: certificationCourse.sessionId,
         });
 
         const { assessment, assessmentResult } = await createSuccessfulCertificationCourse({

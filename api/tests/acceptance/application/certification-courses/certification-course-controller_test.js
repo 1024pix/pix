@@ -62,6 +62,7 @@ describe('Acceptance | API | Certification Course', function () {
           'nb-challenges': 0,
           'first-name': certificationCourse.firstName,
           'last-name': certificationCourse.lastName,
+          'is-adjusted-for-accessibility': undefined,
           version: certificationCourse.version,
         },
         relationships: {

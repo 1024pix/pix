@@ -852,6 +852,7 @@
       "has-focused-out-of-window": {
         "certification": "Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse. Si vous avez été contraint de changer de page, prévenez votre surveillant et répondez à la question en sa présence.",
         "default": "Nous avons détecté un changement de page. En certification, votre réponse ne serait pas validée.",
+        "v3-accessible-certification": "Nous avons détecté un changement de page. Si vous avez été contraint de changer de page pour utiliser un outil d’accessibilité numérique (tel qu'un lecteur d'écran ou un clavier virtuel), répondez tout de même à la question.",
         "v3-certification": "Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse. Si vous avez été contraint de changer de page, prévenez votre surveillant afin qu'il puisse le constater et le signaler, le cas échéant."
       },
       "illustration": {
@@ -860,6 +861,7 @@
       "is-focused-challenge": {
         "info-alert": {
           "title": "Essayez de répondre à cette question sans vous aider d’internet ou d’applications.",
+          "adjusted-course-title": "Répondez à cette question sans vous aider d’internet ou d’applications.",
           "subtitle": "En certification, si vous changez de page, votre réponse ne sera pas validée."
         }
       },
