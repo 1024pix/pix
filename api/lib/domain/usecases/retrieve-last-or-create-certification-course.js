@@ -83,6 +83,8 @@ const retrieveLastOrCreateCertificationCourse = async function ({
   );
 
   if (existingCertificationCourse) {
+    existingCertificationCourse.adjustForAccessibility(certificationCandidate.accessibilityAdjustmentNeeded);
+
     return {
       created: false,
       certificationCourse: existingCertificationCourse,

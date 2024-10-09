@@ -41,6 +41,7 @@ class CertificationCourse {
     numberOfChallenges,
     version = CERTIFICATION_VERSIONS.V2,
     isRejectedForFraud = false,
+    isAdjustedForAccessibility,
     lang,
   } = {}) {
     this._id = id;
@@ -69,6 +70,7 @@ class CertificationCourse {
     this._abortReason = abortReason;
     this._complementaryCertificationCourses = complementaryCertificationCourses;
     this._isRejectedForFraud = isRejectedForFraud;
+    this._isAdjustedForAccessibility = isAdjustedForAccessibility;
     this._numberOfChallenges = numberOfChallenges;
     this._lang = lang;
   }
@@ -95,6 +97,7 @@ class CertificationCourse {
       sex: certificationCandidate.sex,
       birthplace: certificationCandidate.birthCity,
       externalId: certificationCandidate.externalId,
+      isAdjustedForAccessibility: certificationCandidate.accessibilityAdjustmentNeeded,
       challenges,
       numberOfChallenges,
       verificationCode,
@@ -142,6 +145,14 @@ class CertificationCourse {
 
   isRejectedForFraud() {
     return this._isRejectedForFraud;
+  }
+
+  adjustForAccessibility(isAdjustmentNeeded) {
+    this._isAdjustedForAccessibility = !!isAdjustmentNeeded;
+  }
+
+  isAdjustementNeeded() {
+    return this._isAdjustedForAccessibility;
   }
 
   abort(reason) {
@@ -303,6 +314,7 @@ class CertificationCourse {
       completedAt: this._completedAt,
       isPublished: this._isPublished,
       isRejectedForFraud: this._isRejectedForFraud,
+      isAdjustedForAccessibility: this._isAdjustedForAccessibility,
       verificationCode: this._verificationCode,
       assessment: this._assessment,
       challenges: this._challenges,

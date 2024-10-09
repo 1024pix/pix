@@ -7,6 +7,7 @@ export default class CertificationCourse extends Model {
   @attr('string') firstName;
   @attr('string') lastName;
   @attr('number') version;
+  @attr('boolean') isAdjustedForAccessibility;
 
   // references
   @attr('number') sessionId;

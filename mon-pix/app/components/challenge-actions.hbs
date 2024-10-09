@@ -42,19 +42,27 @@
         aria-live="assertive"
       >
         <FaIcon @icon="circle-info" class="challenge-actions-alert-message__icon" />
-        {{#if @isCertification}}
-          {{#if (eq @certificationVersion 3)}}
-            <span data-test="certification-v3-focused-out-error-message">{{t
-                "pages.challenge.has-focused-out-of-window.v3-certification"
-              }}</span>
-          {{else}}
-            <span data-test="certification-focused-out-error-message">{{t
-                "pages.challenge.has-focused-out-of-window.certification"
-              }}</span>
-          {{/if}}
-        {{else}}
+        {{#if this.isNotCertification}}
           <span data-test="default-focused-out-error-message">{{t
               "pages.challenge.has-focused-out-of-window.default"
+            }}</span>
+        {{/if}}
+
+        {{#if this.isV2Certification}}
+          <span data-test="certification-focused-out-error-message">{{t
+              "pages.challenge.has-focused-out-of-window.certification"
+            }}</span>
+        {{/if}}
+
+        {{#if this.isV3CertificationAdjustedForAccessibility}}
+          <span data-test="certification-v3-focused-out-error-message">{{t
+              "pages.challenge.has-focused-out-of-window.v3-accessible-certification"
+            }}</span>
+        {{/if}}
+
+        {{#if this.isV3CertificationNotAdjusted}}
+          <span data-test="certification-v3-focused-out-error-message">{{t
+              "pages.challenge.has-focused-out-of-window.v3-certification"
             }}</span>
         {{/if}}
       </div>

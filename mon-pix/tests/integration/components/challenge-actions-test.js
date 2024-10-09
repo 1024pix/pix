@@ -67,18 +67,19 @@ module('Integration | Component | challenge actions', function (hooks) {
       });
 
       module('when certification course version is 3', function () {
-        test("should show certification focus out's error message", async function (assert) {
-          // given
-          this.set('isValidateButtonEnabled', true);
-          this.set('isCertification', true);
-          this.set('hasFocusedOutOfWindow', true);
-          this.set('hasChallengeTimedOut', false);
-          this.set('isSkipButtonEnabled', true);
-          this.set('validateActionStub', () => {});
-          this.set('certificationVersion', 3);
+        module('when the candidate does not need an accessibility adjustment', function () {
+          test("should show a specific certification focus out's error message", async function (assert) {
+            // given
+            this.set('isValidateButtonEnabled', true);
+            this.set('isCertification', true);
+            this.set('hasFocusedOutOfWindow', true);
+            this.set('hasChallengeTimedOut', false);
+            this.set('isSkipButtonEnabled', true);
+            this.set('validateActionStub', () => {});
+            this.set('certificationVersion', 3);
 
-          // when
-          await render(hbs`<ChallengeActions
+            // when
+            const screen = await render(hbs`<ChallengeActions
   @isCertification={{this.isCertification}}
   @validateAnswer={{this.validateActionStub}}
   @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
@@ -88,10 +89,92 @@ module('Integration | Component | challenge actions', function (hooks) {
   @certificationVersion={{this.certificationVersion}}
 />`);
 
-          // then
-          assert.dom('[data-test="default-focused-out-error-message"]').doesNotExist();
-          assert.dom('[data-test="certification-focused-out-error-message"]').doesNotExist();
-          assert.dom('[data-test="certification-v3-focused-out-error-message"]').exists();
+            // then
+            assert
+              .dom(
+                screen.queryByText(
+                  'Nous avons détecté un changement de page. En certification, votre réponse ne serait pas validée.',
+                ),
+              )
+              .doesNotExist();
+            assert
+              .dom(
+                screen.queryByText(
+                  'Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse. Si vous avez été contraint de changer de page, prévenez votre surveillant et répondez à la question en sa présence.',
+                ),
+              )
+              .doesNotExist();
+            assert
+              .dom(
+                screen.getByText(
+                  "Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse. Si vous avez été contraint de changer de page, prévenez votre surveillant afin qu'il puisse le constater et le signaler, le cas échéant.",
+                ),
+              )
+              .exists();
+            assert
+              .dom(
+                screen.queryByText(
+                  "Nous avons détecté un changement de page. Si vous avez été contraint de changer de page pour utiliser un outil d’accessibilité numérique (tel qu'un lecteur d'écran ou un clavier virtuel), répondez tout de même à la question.",
+                ),
+              )
+              .doesNotExist();
+          });
+        });
+
+        module('when the candidate needs an accessibility adjustment', function () {
+          test("should show another specific certification focus out's error message", async function (assert) {
+            // given
+            this.set('isValidateButtonEnabled', true);
+            this.set('isCertification', true);
+            this.set('hasFocusedOutOfWindow', true);
+            this.set('hasChallengeTimedOut', false);
+            this.set('isSkipButtonEnabled', true);
+            this.set('validateActionStub', () => {});
+            this.set('certificationVersion', 3);
+            this.set('isAdjustedCourseForAccessibility', true);
+
+            // when
+            const screen = await render(hbs`<ChallengeActions
+  @isCertification={{this.isCertification}}
+  @validateAnswer={{this.validateActionStub}}
+  @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
+  @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
+  @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+  @isSkipButtonEnabled={{this.isSkipButtonEnabled}}
+  @certificationVersion={{this.certificationVersion}}
+  @isAdjustedCourseForAccessibility={{this.isAdjustedCourseForAccessibility}}
+/>`);
+
+            // then
+            assert
+              .dom(
+                screen.queryByText(
+                  'Nous avons détecté un changement de page. En certification, votre réponse ne serait pas validée.',
+                ),
+              )
+              .doesNotExist();
+            assert
+              .dom(
+                screen.queryByText(
+                  'Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse. Si vous avez été contraint de changer de page, prévenez votre surveillant et répondez à la question en sa présence.',
+                ),
+              )
+              .doesNotExist();
+            assert
+              .dom(
+                screen.queryByText(
+                  "Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse. Si vous avez été contraint de changer de page, prévenez votre surveillant afin qu'il puisse le constater et le signaler, le cas échéant.",
+                ),
+              )
+              .doesNotExist();
+            assert
+              .dom(
+                screen.getByText(
+                  "Nous avons détecté un changement de page. Si vous avez été contraint de changer de page pour utiliser un outil d’accessibilité numérique (tel qu'un lecteur d'écran ou un clavier virtuel), répondez tout de même à la question.",
+                ),
+              )
+              .exists();
+          });
         });
       });
     });
