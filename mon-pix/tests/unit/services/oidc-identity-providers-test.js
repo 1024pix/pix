@@ -1,7 +1,7 @@
 import Object from '@ember/object';
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
-import { module, test } from 'qunit';
+import { assert, module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Unit | Service | oidc-identity-providers', function (hooks) {
@@ -14,6 +14,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
         id: 'oidc-partner',
         code: 'OIDC_PARTNER',
         organizationName: 'Partenaire OIDC',
+        slug: 'partenaire-oidc',
         shouldCloseSession: false,
         source: 'oidc-externe',
       };
@@ -29,7 +30,6 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       await oidcIdentityProvidersService.load();
 
       // then
-
       assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].code, oidcPartner.code);
       assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].organizationName, oidcPartner.organizationName);
       assert.strictEqual(
@@ -75,6 +75,168 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
 
       // expect
       assert.deepEqual(names, ['France Connect', 'Impots.gouv']);
+    });
+  });
+
+  module('featuredIdentityProvider', function () {
+    module('when there is some identity providers containing a featured one', function () {
+      test('returns the featured identity provider', async function () {
+        // given
+        const currentDomainService = this.owner.lookup('service:currentDomain');
+        sinon.stub(currentDomainService, 'isFranceDomain').value(false);
+
+        const oidcPartner = {
+          id: 'fwb',
+          code: 'FWB',
+          organizationName: 'FWB',
+          slug: 'fwb',
+          shouldCloseSession: false,
+          source: 'fwb',
+        };
+        const oidcPartnerObject = Object.create(oidcPartner);
+        const storeStub = Service.create({
+          peekAll: sinon.stub().returns([oidcPartnerObject]),
+        });
+        const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+        oidcIdentityProvidersService.set('store', storeStub);
+
+        // when
+        const featuredIdentityProvider = await oidcIdentityProvidersService.featuredIdentityProvider;
+
+        // then
+        assert.strictEqual(featuredIdentityProvider.id, oidcPartner.id);
+        assert.strictEqual(featuredIdentityProvider.code, oidcPartner.code);
+        assert.strictEqual(featuredIdentityProvider.organizationName, oidcPartner.organizationName);
+        assert.strictEqual(featuredIdentityProvider.slug, oidcPartner.slug);
+        assert.strictEqual(featuredIdentityProvider.shouldCloseSession, oidcPartner.shouldCloseSession);
+        assert.strictEqual(featuredIdentityProvider.source, oidcPartner.source);
+      });
+    });
+
+    module('when there is some identity providers but no featured one', function () {
+      test('returns undefined', async function () {
+        // given
+        const oidcPartner = {
+          id: 'oidc-partner',
+          code: 'OIDC_PARTNER',
+          organizationName: 'Partenaire OIDC',
+          slug: 'partenaire-oidc',
+          shouldCloseSession: false,
+          source: 'oidc-externe',
+        };
+        const oidcPartnerObject = Object.create(oidcPartner);
+        const storeStub = Service.create({
+          peekAll: sinon.stub().returns([oidcPartnerObject]),
+        });
+        const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+        oidcIdentityProvidersService.set('store', storeStub);
+
+        // when
+        const featuredIdentityProvider = await oidcIdentityProvidersService.featuredIdentityProvider;
+
+        // then
+        assert.strictEqual(featuredIdentityProvider, undefined);
+      });
+    });
+
+    module('when there isn’t any identity providers', function () {
+      test('returns undefined', async function () {
+        // given
+        const storeStub = Service.create({
+          peekAll: sinon.stub().returns([]),
+        });
+        const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+        oidcIdentityProvidersService.set('store', storeStub);
+
+        // when
+        const featuredIdentityProvider = await oidcIdentityProvidersService.featuredIdentityProvider;
+
+        // then
+        assert.strictEqual(featuredIdentityProvider, undefined);
+      });
+    });
+  });
+
+  module('hasOtherIdentityProviders', function () {
+    module('when in France domain', function (hooks) {
+      hooks.beforeEach(function () {
+        const currentDomainService = this.owner.lookup('service:currentDomain');
+        sinon.stub(currentDomainService, 'isFranceDomain').value(true);
+      });
+
+      module('when there is some other identity providers', function () {
+        test('returns true', async function () {
+          // given
+          const oidcPartner = {
+            id: 'oidc-partner',
+            code: 'OIDC_PARTNER',
+            organizationName: 'Partenaire OIDC',
+            slug: 'partenaire-oidc',
+            shouldCloseSession: false,
+            source: 'oidc-externe',
+          };
+          const oidcPartnerObject = Object.create(oidcPartner);
+          const storeStub = Service.create({
+            peekAll: sinon.stub().returns([oidcPartnerObject]),
+          });
+          const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+          oidcIdentityProvidersService.set('store', storeStub);
+
+          // when
+          const hasOtherIdentityProviders = await oidcIdentityProvidersService.hasOtherIdentityProviders;
+
+          // then
+          assert.strictEqual(hasOtherIdentityProviders, true);
+        });
+      });
+
+      module('when there isn’t any other identity providers', function () {
+        test('returns false', async function () {
+          // given
+          const storeStub = Service.create({
+            peekAll: sinon.stub().returns([]),
+          });
+          const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+          oidcIdentityProvidersService.set('store', storeStub);
+
+          // when
+          const hasOtherIdentityProviders = await oidcIdentityProvidersService.hasOtherIdentityProviders;
+
+          // then
+          assert.strictEqual(hasOtherIdentityProviders, false);
+        });
+      });
+    });
+
+    module('when not in France domain', function (hooks) {
+      hooks.beforeEach(function () {
+        const currentDomainService = this.owner.lookup('service:currentDomain');
+        sinon.stub(currentDomainService, 'isFranceDomain').value(false);
+      });
+
+      test('returns false', async function () {
+        // given
+        const oidcPartner = {
+          id: 'oidc-partner',
+          code: 'OIDC_PARTNER',
+          organizationName: 'Partenaire OIDC',
+          slug: 'partenaire-oidc',
+          shouldCloseSession: false,
+          source: 'oidc-externe',
+        };
+        const oidcPartnerObject = Object.create(oidcPartner);
+        const storeStub = Service.create({
+          peekAll: sinon.stub().returns([oidcPartnerObject]),
+        });
+        const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
+        oidcIdentityProvidersService.set('store', storeStub);
+
+        // when
+        const hasOtherIdentityProviders = await oidcIdentityProvidersService.hasOtherIdentityProviders;
+
+        // then
+        assert.strictEqual(hasOtherIdentityProviders, false);
+      });
     });
   });
 
