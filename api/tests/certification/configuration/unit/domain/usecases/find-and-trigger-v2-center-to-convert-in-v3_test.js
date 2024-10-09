@@ -1,11 +1,16 @@
+import { CenterTypes } from '../../../../../../src/certification/configuration/domain/models/CenterTypes.js';
 import { ConvertCenterToV3Job } from '../../../../../../src/certification/configuration/domain/models/ConvertCenterToV3Job.js';
 import { findAndTriggerV2CenterToConvertInV3 } from '../../../../../../src/certification/configuration/domain/usecases/find-and-trigger-v2-center-to-convert-in-v3.js';
-import { expect, sinon } from '../../../../../test-helper.js';
+import { config } from '../../../../../../src/shared/config.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-center-to-convert-in-v3', function () {
-  let centerRepository, convertCenterToV3JobRepository;
+  let centerRepository, convertCenterToV3JobRepository, originalEnvValueWhitelist;
 
   beforeEach(function () {
+    originalEnvValueWhitelist = config.features.pixCertifScoBlockedAccessWhitelist;
+    config.features.pixCertifScoBlockedAccessWhitelist = [];
+
     centerRepository = {
       findSCOV2Centers: sinon.stub(),
     };
@@ -14,37 +19,25 @@ describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-c
     };
   });
 
+  afterEach(function () {
+    config.features.pixCertifScoBlockedAccessWhitelist = originalEnvValueWhitelist;
+  });
+
   it('should trigger V2 centers conversion to V3', async function () {
     // given
-    const centerId1 = 1;
-    const centerId2 = 2;
-    centerRepository.findSCOV2Centers.onCall(0).returns({
-      centerIds: [centerId1],
-      pagination: {
-        page: 1,
-        pageCount: 2,
-        pageSize: 1,
-        rowCount: 2,
-      },
+    const center1 = domainBuilder.certification.configuration.buildCenter({
+      id: 1,
+      type: CenterTypes.SCO,
+      externalId: 'center1',
     });
-    centerRepository.findSCOV2Centers.onCall(1).returns({
-      centerIds: [centerId2],
-      pagination: {
-        page: 2,
-        pageCount: 2,
-        pageSize: 1,
-        rowCount: 2,
-      },
+    const center2 = domainBuilder.certification.configuration.buildCenter({
+      id: 2,
+      type: CenterTypes.SCO,
+      externalId: 'center2',
     });
-    centerRepository.findSCOV2Centers.onCall(2).returns({
-      centerIds: [],
-      pagination: {
-        page: 3,
-        pageCount: 2,
-        pageSize: 1,
-        rowCount: 2,
-      },
-    });
+    centerRepository.findSCOV2Centers.onCall(0).returns([center1]);
+    centerRepository.findSCOV2Centers.onCall(1).returns([center2]);
+    centerRepository.findSCOV2Centers.onCall(2).returns([]);
 
     convertCenterToV3JobRepository.performAsync.resolves();
 
@@ -56,11 +49,14 @@ describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-c
 
     // then
     expect(centerRepository.findSCOV2Centers).to.have.been.calledThrice;
+    expect(centerRepository.findSCOV2Centers.getCall(0).args).to.deep.equal([{ cursorId: undefined }]);
+    expect(centerRepository.findSCOV2Centers.getCall(1).args).to.deep.equal([{ cursorId: center1.id }]);
+    expect(centerRepository.findSCOV2Centers.getCall(2).args).to.deep.equal([{ cursorId: center2.id }]);
     expect(convertCenterToV3JobRepository.performAsync.getCall(0).args).to.deep.equal([
-      new ConvertCenterToV3Job({ centerId: centerId1 }),
+      new ConvertCenterToV3Job({ centerId: center1.id }),
     ]);
     expect(convertCenterToV3JobRepository.performAsync.getCall(1).args).to.deep.equal([
-      new ConvertCenterToV3Job({ centerId: centerId2 }),
+      new ConvertCenterToV3Job({ centerId: center2.id }),
     ]);
     expect(numberOfCenters).to.equal(2);
   });
@@ -68,26 +64,13 @@ describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-c
   describe('when is a dry run', function () {
     it('should not trigger conversion orders', async function () {
       // given
-      const centerId1 = 1;
-      centerRepository.findSCOV2Centers.onCall(0).returns({
-        centerIds: [centerId1],
-        pagination: {
-          page: 1,
-          pageCount: 0,
-          pageSize: 0,
-          rowCount: 1,
-        },
+      const center1 = domainBuilder.certification.configuration.buildCenter({
+        id: 1,
+        type: CenterTypes.SCO,
+        externalId: 'center1',
       });
-
-      centerRepository.findSCOV2Centers.onCall(1).returns({
-        centerIds: [],
-        pagination: {
-          page: 2,
-          pageCount: 1,
-          pageSize: 0,
-          rowCount: 1,
-        },
-      });
+      centerRepository.findSCOV2Centers.onCall(0).returns([center1]);
+      centerRepository.findSCOV2Centers.onCall(1).returns([]);
 
       // when
       const numberOfCenters = await findAndTriggerV2CenterToConvertInV3({
@@ -100,6 +83,54 @@ describe('Certification | Configuration | Unit | UseCase | find-and-trigger-v2-c
       expect(centerRepository.findSCOV2Centers).to.have.been.calledTwice;
       expect(convertCenterToV3JobRepository.performAsync).to.not.have.been.called;
       expect(numberOfCenters).to.equal(1);
+    });
+  });
+
+  context('when center is in whitelist', function () {
+    let originalEnvValueWhitelist;
+
+    beforeEach(function () {
+      originalEnvValueWhitelist = config.features.pixCertifScoBlockedAccessWhitelist;
+      config.features.pixCertifScoBlockedAccessWhitelist = [];
+    });
+
+    afterEach(function () {
+      config.features.pixCertifScoBlockedAccessWhitelist = originalEnvValueWhitelist;
+    });
+
+    it('should filter out center from whitelist', async function () {
+      // given
+      // config is already uppercased + trimmed
+      config.features.pixCertifScoBlockedAccessWhitelist = ['WHITELISTED12'];
+      const center1 = domainBuilder.certification.configuration.buildCenter({
+        id: 1,
+        type: CenterTypes.SCO,
+        externalId: 'whiteLISTed12',
+      });
+      const center2 = domainBuilder.certification.configuration.buildCenter({
+        id: 2,
+        type: CenterTypes.SCO,
+        externalId: 'CONVERT_ME',
+      });
+      centerRepository.findSCOV2Centers.onCall(0).returns([center1, center2]);
+      centerRepository.findSCOV2Centers.onCall(1).returns([]);
+
+      convertCenterToV3JobRepository.performAsync.resolves();
+
+      // when
+      const numberOfCenters = await findAndTriggerV2CenterToConvertInV3({
+        centerRepository,
+        convertCenterToV3JobRepository,
+      });
+
+      // then
+      expect(convertCenterToV3JobRepository.performAsync).to.have.been.calledOnceWithExactly(
+        new ConvertCenterToV3Job({ centerId: center2.id }),
+      );
+      expect(numberOfCenters).to.equal(1);
+      expect(centerRepository.findSCOV2Centers).to.have.been.calledTwice;
+      expect(centerRepository.findSCOV2Centers.getCall(0).args).to.deep.equal([{ cursorId: undefined }]);
+      expect(centerRepository.findSCOV2Centers.getCall(1).args).to.deep.equal([{ cursorId: center2.id }]);
     });
   });
 });
