@@ -5,6 +5,11 @@
  * @typedef {import('../index.js').ScoringDegradationService} ScoringDegradationService
  * @typedef {import('../index.js').CertificationAssessmentHistoryRepository} CertificationAssessmentHistoryRepository
  * @typedef {import('../index.js').CertificationChallengeForScoringRepository} CertificationChallengeForScoringRepository
+ * @typedef {import('../index.js').ScoringConfigurationRepository} ScoringConfigurationRepository
+ * @typedef {import('../index.js').FlashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
+ * @typedef {import('../index.js').AnswerRepository} AnswerRepository
+ * @typedef {import('../index.js').FlashAlgorithmService} FlashAlgorithmService
+ * @typedef {import('../index.js').ChallengeRepository} ChallengeRepository
  */
 import { config } from '../../../../../shared/config.js';
 import { CompetenceMark } from '../../../../../shared/domain/models/index.js';
@@ -20,6 +25,11 @@ import { AssessmentResultFactory } from '../../../../scoring/domain/models/facto
  * @param {CompetenceMarkRepository} params.competenceMarkRepository
  * @param {CertificationAssessmentHistoryRepository} params.certificationAssessmentHistoryRepository
  * @param {CertificationChallengeForScoringRepository} params.certificationChallengeForScoringRepository
+ * @param {ScoringConfigurationRepository} params.scoringConfigurationRepository
+ * @param {FlashAlgorithmConfigurationRepository} params.flashAlgorithmConfigurationRepository
+ * @param {AnswerRepository} params.answerRepository
+ * @param {FlashAlgorithmService} params.flashAlgorithmService
+ * @param {ChallengeRepository} params.challengeRepository
  */
 export const handleV3CertificationScoring = async ({
   event,
@@ -109,8 +119,6 @@ export const handleV3CertificationScoring = async ({
 
   return certificationCourse;
 };
-
-export { handleV3CertificationScoring };
 
 function _createV3AssessmentResult({
   allAnswers,

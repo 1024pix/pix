@@ -15,6 +15,7 @@ import {
   flashAlgorithmConfigurationRepository,
 } from '../../../session-management/infrastructure/repositories/index.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import * as scoringConfigurationRepository from '../../../shared/infrastructure/repositories/scoring-configuration-repository.js';
 import * as certificationAssessmentHistoryRepository from '../../infrastructure/repositories/certification-assessment-history-repository.js';
 import * as certificationChallengeForScoringRepository from '../../infrastructure/repositories/certification-challenge-for-scoring-repository.js';
 
@@ -27,19 +28,23 @@ import * as certificationChallengeForScoringRepository from '../../infrastructur
  * @typedef {scoringDegradationService} ScoringDegradationService
  * @typedef {certificationAssessmentHistoryRepository} CertificationAssessmentHistoryRepository
  * @typedef {certificationChallengeForScoringRepository} CertificationChallengeForScoringRepository
+ * @typedef {scoringConfigurationRepository} ScoringConfigurationRepository
+ * @typedef {flashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
+ * @typedef {answerRepository} AnswerRepository
+ * @typedef {flashAlgorithmService} FlashAlgorithmService
+ * @typedef {challengeRepository} ChallengeRepository
  */
 const dependencies = {
   assessmentResultRepository,
   competenceMarkRepository,
   certificationCourseRepository,
   scoringDegradationService,
-
+  flashAlgorithmConfigurationRepository,
+  scoringConfigurationRepository,
   answerRepository,
   certificationAssessmentHistoryRepository,
-  certificationChallengeForScoringRepository,
-  flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
-  scoringConfigurationRepository,
+  certificationChallengeForScoringRepository,
   challengeRepository,
 };
 
@@ -57,6 +62,6 @@ const usecasesWithoutInjectedDependencies = {
   })),
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+const services = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 
-export { usecases };
+export { services };

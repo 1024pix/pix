@@ -1,11 +1,11 @@
 import { CertificationCompletedJob } from '../../../../../../../lib/domain/events/CertificationCompleted.js';
 import { CertificationCourseRejected } from '../../../../../../../lib/domain/events/CertificationCourseRejected.js';
 import { CertificationJuryDone } from '../../../../../../../lib/domain/events/CertificationJuryDone.js';
+import { handleV3CertificationScoring } from '../../../../../../../src/certification/evaluation/domain/services/scoring/scoring-v3.js';
 import { CertificationChallengeForScoring } from '../../../../../../../src/certification/scoring/domain/models/CertificationChallengeForScoring.js';
 import { ABORT_REASONS } from '../../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CERTIFICATION_VERSIONS } from '../../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { AutoJuryCommentKeys } from '../../../../../../../src/certification/shared/domain/models/JuryComment.js';
-import * as scoringCertificationService from '../../../../../../../src/certification/shared/domain/services/scoring-certification-service.js';
 import { config } from '../../../../../../../src/shared/config.js';
 import { AssessmentResult, status } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { CertificationResult } from '../../../../../../../src/shared/domain/models/index.js';
@@ -195,7 +195,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         });
 
         // when
-        await scoringCertificationService.handleV3CertificationScoring({
+        await handleV3CertificationScoring({
           event,
           emitter: AssessmentResult.emitters.PIX_ALGO,
           certificationAssessment,
@@ -301,7 +301,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               ]);
 
             // when
-            await scoringCertificationService.handleV3CertificationScoring({
+            await handleV3CertificationScoring({
               event,
               emitter: CertificationResult.emitters.PIX_ALGO,
               certificationAssessment,
@@ -409,7 +409,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               const emitter = CertificationResult.emitters.PIX_ALGO;
 
               // when
-              await scoringCertificationService.handleV3CertificationScoring({
+              await handleV3CertificationScoring({
                 event,
                 emitter,
                 certificationAssessment,
@@ -565,7 +565,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
             // when
-            await scoringCertificationService.handleV3CertificationScoring({
+            await handleV3CertificationScoring({
               event,
               emitter,
               certificationAssessment,
@@ -680,7 +680,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               .resolves(scoringConfiguration);
 
             // when
-            await scoringCertificationService.handleV3CertificationScoring({
+            await handleV3CertificationScoring({
               event,
               emitter,
               certificationAssessment,
@@ -806,7 +806,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
             // when
-            await scoringCertificationService.handleV3CertificationScoring({
+            await handleV3CertificationScoring({
               event,
               emitter,
               certificationAssessment,
@@ -923,7 +923,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               ]);
 
             // when
-            await scoringCertificationService.handleV3CertificationScoring({
+            await handleV3CertificationScoring({
               event,
               emitter,
               certificationAssessment,
@@ -1050,7 +1050,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             scoringDegradationService.downgradeCapacity.returns(expectedCapacity);
 
             // when
-            await scoringCertificationService.handleV3CertificationScoring({
+            await handleV3CertificationScoring({
               event,
               emitter,
               certificationAssessment,
@@ -1176,7 +1176,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
             // when
-            await scoringCertificationService.handleV3CertificationScoring({
+            await handleV3CertificationScoring({
               event,
               emitter,
               certificationAssessment,
@@ -1301,7 +1301,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             });
 
             // when
-            await scoringCertificationService.handleV3CertificationScoring({
+            await handleV3CertificationScoring({
               event,
               certificationAssessment,
               locale: 'fr',
@@ -1434,7 +1434,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             const emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 
             // when
-            await scoringCertificationService.handleV3CertificationScoring({
+            await handleV3CertificationScoring({
               event,
               emitter,
               certificationAssessment,

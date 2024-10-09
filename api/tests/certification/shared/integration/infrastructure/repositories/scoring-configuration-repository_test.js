@@ -6,7 +6,7 @@ import {
   getLatestByDateAndLocale,
   saveCertificationScoringConfiguration,
   saveCompetenceForScoringConfiguration,
-} from '../../../../../../src/certification/scoring/infrastructure/repositories/scoring-configuration-repository.js';
+} from '../../../../../../src/certification/shared/infrastructure/repositories/scoring-configuration-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 import { buildArea, buildCompetence, buildFramework } from '../../../../../tooling/domain-builder/factory/index.js';

@@ -5,21 +5,13 @@ import { JobController } from '../../../../shared/application/jobs/job-controlle
 import { V3_REPRODUCIBILITY_RATE } from '../../../../shared/domain/constants.js';
 import { CertificationComputeError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/index.js';
-import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
-import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
-import * as certificationAssessmentHistoryRepository from '../../../evaluation/infrastructure/repositories/certification-assessment-history-repository.js';
-import * as certificationChallengeForScoringRepository from '../../../evaluation/infrastructure/repositories/certification-challenge-for-scoring-repository.js';
-import * as flashAlgorithmService from '../../../flash-certification/domain/services/algorithm-methods/flash.js';
+import { AssessmentResultFactory } from '../../../scoring/domain/models/factories/AssessmentResultFactory.js';
 import { assessmentResultRepository } from '../../../session-management/infrastructure/repositories/index.js';
 import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
 import * as scoringCertificationService from '../../../shared/domain/services/scoring-certification-service.js';
 import * as certificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
-import * as competenceMarkRepository from '../../../shared/infrastructure/repositories/competence-mark-repository.js';
-import * as flashAlgorithmConfigurationRepository from '../../../shared/infrastructure/repositories/flash-algorithm-configuration-repository.js';
-import { AssessmentResultFactory } from '../../domain/models/factories/AssessmentResultFactory.js';
-import { scoringDegradationService } from '../../domain/services/scoring-degradation-service.js';
-import * as scoringConfigurationRepository from '../../infrastructure/repositories/scoring-configuration-repository.js';
+import { services } from '../../domain/services/index.js';
 
 export class CertificationCompletedJobController extends JobController {
   constructor() {
@@ -29,19 +21,10 @@ export class CertificationCompletedJobController extends JobController {
   async handle({
     data,
     dependencies = {
-      answerRepository,
       assessmentResultRepository,
-      certificationAssessmentHistoryRepository,
       certificationAssessmentRepository,
       certificationCourseRepository,
-      certificationChallengeForScoringRepository,
-      challengeRepository,
-      competenceMarkRepository,
-      flashAlgorithmConfigurationRepository,
-      flashAlgorithmService,
       scoringCertificationService,
-      scoringConfigurationRepository,
-      scoringDegradationService,
       events,
     },
   }) {
@@ -49,18 +32,9 @@ export class CertificationCompletedJobController extends JobController {
 
     const {
       assessmentResultRepository,
-      certificationAssessmentHistoryRepository,
       certificationAssessmentRepository,
       certificationCourseRepository,
-      certificationChallengeForScoringRepository,
-      competenceMarkRepository,
-      scoringConfigurationRepository,
       scoringCertificationService,
-      answerRepository,
-      flashAlgorithmConfigurationRepository,
-      flashAlgorithmService,
-      scoringDegradationService,
-      challengeRepository,
       events,
     } = dependencies;
 
@@ -71,25 +45,13 @@ export class CertificationCompletedJobController extends JobController {
       certificationScoringCompletedEvent = await _handleV3CertificationScoring({
         certificationAssessment,
         locale,
-        answerRepository,
-        assessmentResultRepository,
-        certificationAssessmentHistoryRepository,
-        certificationChallengeForScoringRepository,
         certificationCourseRepository,
-        competenceMarkRepository,
-        flashAlgorithmConfigurationRepository,
-        flashAlgorithmService,
-        scoringConfigurationRepository,
-        scoringCertificationService,
-        scoringDegradationService,
-        challengeRepository,
       });
     } else {
       certificationScoringCompletedEvent = await _handleV2CertificationScoring({
         certificationAssessment,
         assessmentResultRepository,
         certificationCourseRepository,
-        competenceMarkRepository,
         scoringCertificationService,
       });
     }
@@ -104,21 +66,15 @@ async function _handleV2CertificationScoring({
   certificationAssessment,
   assessmentResultRepository,
   certificationCourseRepository,
-  competenceMarkRepository,
   scoringCertificationService,
 }) {
   const emitter = AssessmentResult.emitters.PIX_ALGO;
 
   try {
-    const { certificationCourse, certificationAssessmentScore } =
-      await scoringCertificationService.handleV2CertificationScoring({
-        emitter,
-        certificationAssessment,
-        assessmentResultRepository,
-        certificationCourseRepository,
-        competenceMarkRepository,
-        scoringCertificationService,
-      });
+    const { certificationCourse, certificationAssessmentScore } = await services.handleV2CertificationScoring({
+      emitter,
+      certificationAssessment,
+    });
 
     certificationCourse.complete({ now: new Date() });
 
@@ -152,38 +108,12 @@ async function _handleV2CertificationScoring({
   }
 }
 
-async function _handleV3CertificationScoring({
-  certificationAssessment,
-  locale,
-  answerRepository,
-  assessmentResultRepository,
-  certificationAssessmentHistoryRepository,
-  certificationChallengeForScoringRepository,
-  certificationCourseRepository,
-  competenceMarkRepository,
-  flashAlgorithmConfigurationRepository,
-  flashAlgorithmService,
-  scoringConfigurationRepository,
-  scoringCertificationService,
-  scoringDegradationService,
-  challengeRepository,
-}) {
+async function _handleV3CertificationScoring({ certificationAssessment, locale, certificationCourseRepository }) {
   const emitter = AssessmentResult.emitters.PIX_ALGO;
-  const certificationCourse = await scoringCertificationService.handleV3CertificationScoring({
+  const certificationCourse = await services.handleV3CertificationScoring({
     certificationAssessment,
     emitter,
     locale,
-    answerRepository,
-    assessmentResultRepository,
-    certificationAssessmentHistoryRepository,
-    certificationChallengeForScoringRepository,
-    certificationCourseRepository,
-    competenceMarkRepository,
-    flashAlgorithmConfigurationRepository,
-    flashAlgorithmService,
-    scoringDegradationService,
-    scoringConfigurationRepository,
-    challengeRepository,
   });
 
   if (!certificationCourse.isCancelled()) {

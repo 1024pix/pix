@@ -27,6 +27,7 @@ async function handleCertificationRescoring({
   certificationAssessmentRepository,
   competenceMarkRepository,
   scoringCertificationService,
+  certificationEvaluationServices,
   certificationCourseRepository,
   certificationChallengeForScoringRepository,
   answerRepository,
@@ -58,7 +59,7 @@ async function handleCertificationRescoring({
       flashAlgorithmService,
       scoringDegradationService,
       scoringConfigurationRepository,
-      scoringCertificationService,
+      certificationEvaluationServices,
       challengeRepository,
     });
   }
@@ -70,6 +71,7 @@ async function handleCertificationRescoring({
     assessmentResultRepository,
     competenceMarkRepository,
     certificationCourseRepository,
+    certificationEvaluationServices,
   });
 }
 
@@ -80,12 +82,13 @@ async function _handleV2CertificationScoring({
   certificationCourseRepository,
   competenceMarkRepository,
   scoringCertificationService,
+  certificationEvaluationServices,
 }) {
   const emitter = _getEmitterFromEvent(event);
 
   try {
     const { certificationCourse, certificationAssessmentScore } =
-      await scoringCertificationService.handleV2CertificationScoring({
+      await certificationEvaluationServices.handleV2CertificationScoring({
         event,
         emitter,
         certificationAssessment,
@@ -137,12 +140,12 @@ async function _handleV3CertificationScoring({
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
   scoringConfigurationRepository,
-  scoringCertificationService,
+  certificationEvaluationServices,
   scoringDegradationService,
   challengeRepository,
 }) {
   const emitter = _getEmitterFromEvent(event);
-  const certificationCourse = await scoringCertificationService.handleV3CertificationScoring({
+  const certificationCourse = await certificationEvaluationServices.handleV3CertificationScoring({
     event,
     emitter,
     certificationAssessment,
