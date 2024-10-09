@@ -36,12 +36,15 @@ const findByTraining = async function ({ trainingId }) {
 export { findByTraining, findPaginatedFiltered };
 
 function _applyFilters(qb, filter) {
-  const { name, id } = filter;
+  const { name, id, categories } = filter;
   if (name) {
     qb.whereILike('name', `%${name}%`);
   }
   if (id) {
     qb.where({ id });
+  }
+  if (categories) {
+    qb.whereIn('category', categories);
   }
   return qb;
 }

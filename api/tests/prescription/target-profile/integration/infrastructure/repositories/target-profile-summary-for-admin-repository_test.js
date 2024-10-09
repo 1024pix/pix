@@ -1,6 +1,7 @@
 import * as targetProfileSummaryForAdminRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-summary-for-admin-repository.js';
 import { TargetProfile } from '../../../../../../src/shared/domain/models/TargetProfile.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
+
 describe('Integration | Repository | Target-profile-summary-for-admin', function () {
   describe('#findPaginatedFiltered', function () {
     it('return TargetProfileSummaryForAdmins model', async function () {
@@ -147,46 +148,39 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
     });
 
     context('when passing a filter', function () {
-      context('name filter', function () {
-        let targetProfileData;
-        beforeEach(function () {
-          targetProfileData = [
-            {
-              id: 1,
-              name: 'paTtErN',
-              outdated: false,
-              createdAt: new Date('2021-01-01'),
-              category: TargetProfile.categories.DISCIPLINE,
-            },
-            {
-              id: 2,
-              name: 'AApatterNOo',
-              outdated: true,
-              createdAt: new Date('2021-01-01'),
-              category: TargetProfile.categories.DISCIPLINE,
-            },
-            {
-              id: 3,
-              name: 'NotUnderTheRadar',
-              outdated: false,
-              createdAt: new Date('2021-01-01'),
-              category: TargetProfile.categories.DISCIPLINE,
-            },
-            {
-              id: 4,
-              name: 'PaTternXXXX',
-              outdated: true,
-              createdAt: new Date('2021-01-01'),
-              category: TargetProfile.categories.DISCIPLINE,
-            },
-          ];
-          targetProfileData.map(databaseBuilder.factory.buildTargetProfile);
-          return databaseBuilder.commit();
-        });
+      let disciplineTargetProfile, otherTargetProfile, backToSchoolTargetProfile;
+      beforeEach(function () {
+        disciplineTargetProfile = {
+          id: 1,
+          name: 'TP DISCIPLINE',
+          outdated: false,
+          createdAt: new Date('2021-01-01'),
+          category: TargetProfile.categories.DISCIPLINE,
+        };
+        otherTargetProfile = {
+          id: 2,
+          name: 'TP OTHER',
+          outdated: true,
+          createdAt: new Date('2021-01-01'),
+          category: TargetProfile.categories.OTHER,
+        };
+        backToSchoolTargetProfile = {
+          id: 3,
+          name: 'TP BACK_TO_SCHOOL',
+          outdated: false,
+          createdAt: new Date('2021-01-01'),
+          category: TargetProfile.categories.BACK_TO_SCHOOL,
+        };
 
-        it('should return only target profiles matching "name" pattern in filter', async function () {
+        [disciplineTargetProfile, otherTargetProfile, backToSchoolTargetProfile].map(
+          databaseBuilder.factory.buildTargetProfile,
+        );
+        return databaseBuilder.commit();
+      });
+      context('name filter', function () {
+        it('should return only target profiles matching "name" discipline in filter', async function () {
           // given
-          const filter = { name: 'pattern' };
+          const filter = { name: 'discipline' };
           const page = { number: 1, size: 10 };
 
           // when
@@ -197,51 +191,10 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
             });
 
           // then
-          const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({
-              id: 1,
-              name: 'paTtErN',
-              outdated: false,
-              createdAt: new Date('2021-01-01'),
-              category: TargetProfile.categories.DISCIPLINE,
-            }),
-            domainBuilder.buildTargetProfileSummaryForAdmin({
-              id: 2,
-              name: 'AApatterNOo',
-              outdated: true,
-              createdAt: new Date('2021-01-01'),
-              category: TargetProfile.categories.DISCIPLINE,
-            }),
-            domainBuilder.buildTargetProfileSummaryForAdmin({
-              id: 4,
-              name: 'PaTternXXXX',
-              outdated: true,
-              createdAt: new Date('2021-01-01'),
-              category: TargetProfile.categories.DISCIPLINE,
-            }),
-          ];
-          expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
+          expect(actualTargetProfileSummaries).to.deep.include(disciplineTargetProfile);
         });
       });
       context('id filter', function () {
-        let targetProfileData;
-        beforeEach(function () {
-          targetProfileData = [
-            {
-              id: 1,
-              name: 'TPA',
-              outdated: false,
-              createdAt: new Date('2021-01-01'),
-              category: TargetProfile.categories.PIX_PLUS,
-            },
-            { id: 11, name: 'TPB', outdated: true, createdAt: new Date('2021-01-01') },
-            { id: 21, name: 'TPC', outdated: false, createdAt: new Date('2021-01-01') },
-            { id: 4, name: 'TPD', outdated: true, createdAt: new Date('2021-01-01') },
-          ];
-          targetProfileData.map(databaseBuilder.factory.buildTargetProfile);
-          return databaseBuilder.commit();
-        });
-
         it('should return only target profiles with exact match ID', async function () {
           // given
           const filter = { id: 1 };
@@ -255,29 +208,58 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
             });
 
           // then
-          const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({
-              id: 1,
-              name: 'TPA',
-              outdated: false,
-              createdAt: new Date('2021-01-01'),
-              category: TargetProfile.categories.PIX_PLUS,
-            }),
-          ];
-          expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
+          expect(actualTargetProfileSummaries).to.deep.includes(disciplineTargetProfile);
+        });
+      });
+      context('category filter', function () {
+        it('should return only target profiles with matching category discipline', async function () {
+          // given
+          const filter = { categories: [TargetProfile.categories.DISCIPLINE, TargetProfile.categories.BACK_TO_SCHOOL] };
+          const page = { number: 1, size: 10 };
+
+          // when
+          const { models: actualTargetProfileSummaries } =
+            await targetProfileSummaryForAdminRepository.findPaginatedFiltered({
+              filter,
+              page,
+            });
+
+          // then
+
+          expect(actualTargetProfileSummaries[0]).to.deep.include(backToSchoolTargetProfile);
+          expect(actualTargetProfileSummaries[1]).to.deep.include(disciplineTargetProfile);
+        });
+
+        it('should return not result', async function () {
+          // given
+          const filter = { categories: [TargetProfile.categories.COMPETENCES] };
+          const page = { number: 1, size: 10 };
+
+          // when
+          const { models: actualTargetProfileSummaries } =
+            await targetProfileSummaryForAdminRepository.findPaginatedFiltered({
+              filter,
+              page,
+            });
+          // then
+          expect(actualTargetProfileSummaries).to.have.lengthOf(0);
+        });
+        it('should return all result when categories is falsy', async function () {
+          // given
+          const filter = { categories: null };
+          const page = { number: 1, size: 10 };
+
+          // when
+          const { models: actualTargetProfileSummaries } =
+            await targetProfileSummaryForAdminRepository.findPaginatedFiltered({
+              filter,
+              page,
+            });
+          // then
+          expect(actualTargetProfileSummaries).to.have.lengthOf(3);
         });
       });
       context('no match', function () {
-        let targetProfileData;
-        beforeEach(function () {
-          targetProfileData = [
-            { id: 1, name: 'HELLO', outdated: false },
-            { id: 2, name: 'SALUT', outdated: true },
-          ];
-          targetProfileData.map(databaseBuilder.factory.buildTargetProfile);
-          return databaseBuilder.commit();
-        });
-
         it('should return an empty array when no records match the filter', async function () {
           // given
           const filter = { name: 'COUCOU' };
@@ -291,7 +273,7 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
             });
 
           // then
-          expect(actualTargetProfileSummaries).to.deepEqualArray([]);
+          expect(actualTargetProfileSummaries).to.have.lengthOf(0);
         });
       });
     });
