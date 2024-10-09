@@ -1,6 +1,7 @@
 /**
  * @typedef {import ('./index.js').CentersRepository} CentersRepository
  * @typedef {import ('./index.js').ConvertCenterToV3JobRepository} ConvertCenterToV3JobRepository
+ * @typedef {import ('../models/Center.js').Center} Center
  */
 
 import { _ } from '../../../../shared/infrastructure/utils/lodash-utils.js';
@@ -24,15 +25,15 @@ export const findAndTriggerV2CenterToConvertInV3 = async ({
   let cursorId;
 
   do {
-    const centerIds = await centerRepository.findSCOV2Centers({ cursorId });
-    logger.debug('Centers ids:[%o]', centerIds);
+    const centers = await centerRepository.findSCOV2Centers({ cursorId });
+    logger.debug('Centers:[%o]', centers);
 
-    numberOfCenters += centerIds.length;
-    hasNext = !!centerIds.length;
-    cursorId = _.last(centerIds);
+    numberOfCenters += centers.length;
+    hasNext = !!centers.length;
+    cursorId = _.last(centers)?.id;
 
     if (!isDryRun) {
-      await _sendConversionOrders({ centerIds, convertCenterToV3JobRepository });
+      await _sendConversionOrders({ centers, convertCenterToV3JobRepository });
     }
   } while (hasNext);
 
@@ -45,10 +46,11 @@ export const findAndTriggerV2CenterToConvertInV3 = async ({
 
 /**
  * @param {Object} params
+ * @param {Array<Center>} params.centers
  * @param {ConvertCenterToV3JobRepository} params.convertCenterToV3JobRepository
  */
-const _sendConversionOrders = async ({ centerIds, convertCenterToV3JobRepository }) => {
-  for (const centerId of centerIds) {
-    await convertCenterToV3JobRepository.performAsync(new ConvertCenterToV3Job({ centerId }));
+const _sendConversionOrders = async ({ centers, convertCenterToV3JobRepository }) => {
+  for (const center of centers) {
+    await convertCenterToV3JobRepository.performAsync(new ConvertCenterToV3Job({ centerId: center.id }));
   }
 };
