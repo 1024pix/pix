@@ -9,7 +9,7 @@ import * as centerRepository from './center-repository.js';
 import * as certificationCandidateRepository from './certification-candidate-repository.js';
 import * as certificationCpfCityRepository from './certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from './certification-cpf-country-repository.js';
-import * as complementaryCertificationBadgeRepository from './complementary-certification-badge-repository.js';
+import * as complementaryCertificationBadgeWithOffsetVersionRepository from './complementary-certification-badge-with-offset-version-repository.js';
 import * as complementaryCertificationCourseRepository from './complementary-certification-course-repository.js';
 import * as complementaryCertificationRepository from './complementary-certification-repository.js';
 import * as countryRepository from './country-repository.js';
@@ -41,7 +41,7 @@ import * as userRepository from './user-repository.js';
  * @typedef {targetProfileHistoryRepository} TargetProfileHistoryRepository
  * @typedef {complementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
  * @typedef {pixCertificationRepository} PixCertificationRepository
- * @typedef {complementaryCertificationBadgeRepository} ComplementaryCertificationBadgeRepository
+ * @typedef {complementaryCertificationBadgeWithOffsetVersionRepository} ComplementaryCertificationBadgeWithOffsetVersionRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   candidateRepository,
@@ -62,7 +62,7 @@ const repositoriesWithoutInjectedDependencies = {
   targetProfileHistoryRepository,
   complementaryCertificationCourseRepository,
   pixCertificationRepository,
-  complementaryCertificationBadgeRepository,
+  complementaryCertificationBadgeWithOffsetVersionRepository,
 };
 
 /**

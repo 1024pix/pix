@@ -26,6 +26,10 @@ function _isLanguageNotSupported(err) {
   return _get(err, 'errors[0].code') === 'LANGUAGE_NOT_SUPPORTED';
 }
 
+function _isCandidateNotEligibleError(err) {
+  return _get(err, 'errors[0].code') === 'CERTIFICATION_CANDIDATE_ELIGIBILITY_ERROR';
+}
+
 export default class CertificationJoiner extends Component {
   @service store;
   @service intl;
@@ -113,13 +117,13 @@ export default class CertificationJoiner extends Component {
       currentCertificationCandidate = this.createCertificationCandidate();
       await currentCertificationCandidate.save({ adapterOptions: { joinSession: true, sessionId: this.sessionId } });
       this.args.onStepChange(currentCertificationCandidate.id);
-    } catch (err) {
+    } catch (error) {
       if (currentCertificationCandidate) {
         currentCertificationCandidate.deleteRecord();
       }
 
-      if (_isLanguageNotSupported(err)) {
-        const [currentError] = err.errors;
+      if (_isLanguageNotSupported(error)) {
+        const [currentError] = error.errors;
         const { languageCode } = currentError.meta;
         const userLanguage = this.intl.t(`common.languages.${languageCode}`);
         const NO_BREAK_SPACE = String.fromCharCode(160);
@@ -136,16 +140,20 @@ export default class CertificationJoiner extends Component {
           label: this.intl.t('pages.certification-joiner.error-messages.language-not-supported-link'),
           url: 'https://app.pix.org/mon-compte/langue',
         };
-      } else if (_isMatchingReconciledStudentNotFoundError(err)) {
+      } else if (_isMatchingReconciledStudentNotFoundError(error)) {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account-sco');
         this.errorMessageLink = {
           label: this.intl.t('pages.certification-joiner.error-messages.wrong-account-sco-link.label'),
           url: this.intl.t('pages.certification-joiner.error-messages.wrong-account-sco-link.url'),
         };
-      } else if (_isWrongAccount(err)) {
+      } else if (_isWrongAccount(error)) {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account');
-      } else if (_isSessionNotAccessibleError(err)) {
+      } else if (_isSessionNotAccessibleError(error)) {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.session-not-accessible');
+      } else if (_isCandidateNotEligibleError(error)) {
+        this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.candidate-not-eligible', {
+          htmlSafe: true,
+        });
       } else {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer');
         this.errorDetailList = [

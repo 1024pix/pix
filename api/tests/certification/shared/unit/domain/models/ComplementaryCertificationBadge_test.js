@@ -1,7 +1,7 @@
-import { ComplementaryCertificationBadge } from '../../../../../../src/certification/complementary-certification/domain/models/ComplementaryCertificationBadge.js';
+import { ComplementaryCertificationBadge } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationBadge.js';
 import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Certification | complementary-certification | Domain | Models | ComplementaryCertificationBadge', function () {
+describe('Unit | Certification | Shared | Domain | Models | ComplementaryCertificationBadge', function () {
   it('should return a complementary certification', function () {
     // given
     const rawData = {

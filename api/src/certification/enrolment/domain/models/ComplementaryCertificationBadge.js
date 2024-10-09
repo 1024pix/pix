@@ -1,4 +1,4 @@
-export class ComplementaryCertificationBadge {
+export class ComplementaryCertificationBadgeWithOffsetVersion {
   constructor({ id, requiredPixScore, offsetVersion, currentAttachedComplementaryCertificationBadgeId }) {
     this.id = id;
     this.requiredPixScore = requiredPixScore;

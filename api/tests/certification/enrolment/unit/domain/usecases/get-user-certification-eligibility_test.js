@@ -12,14 +12,14 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
   const certificationBadgesService = {};
   const complementaryCertificationCourseRepository = {};
   const pixCertificationRepository = {};
-  const complementaryCertificationBadgeRepository = {};
+  const complementaryCertificationBadgeWithOffsetVersionRepository = {};
 
   beforeEach(function () {
     placementProfileService.getPlacementProfile = sinon.stub();
     certificationBadgesService.findLatestBadgeAcquisitions = sinon.stub();
     complementaryCertificationCourseRepository.findByUserId = sinon.stub();
     pixCertificationRepository.findByUserId = sinon.stub();
-    complementaryCertificationBadgeRepository.findAll = sinon.stub();
+    complementaryCertificationBadgeWithOffsetVersionRepository.findAll = sinon.stub();
     dependencies = {
       userId,
       limitDate,
@@ -27,7 +27,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
       certificationBadgesService,
       complementaryCertificationCourseRepository,
       pixCertificationRepository,
-      complementaryCertificationBadgeRepository,
+      complementaryCertificationBadgeWithOffsetVersionRepository,
     };
   });
 
@@ -36,7 +36,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
       certificationBadgesService.findLatestBadgeAcquisitions.resolves([]);
       complementaryCertificationCourseRepository.findByUserId.resolves([]);
       pixCertificationRepository.findByUserId.resolves([]);
-      complementaryCertificationBadgeRepository.findAll.resolves([]);
+      complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([]);
     });
     context('when user is certifiable', function () {
       it('returns a user certification eligibility with is certifiable set to true', async function () {
@@ -121,7 +121,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
         context('when acquired badge is outdated', function () {
           const isOutdated = true;
           beforeEach(function () {
-            complementaryCertificationBadgeRepository.findAll.resolves([
+            complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
               domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                 id: '1234',
                 requiredPixScore,
@@ -195,7 +195,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
 
               context('when badge is outdated by more than one version', function () {
                 beforeEach(function () {
-                  complementaryCertificationBadgeRepository.findAll.resolves([
+                  complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
                     domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                       id: '1234',
                       requiredPixScore,
@@ -418,7 +418,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
         context('when acquired badge is not outdated', function () {
           const isOutdated = false;
           beforeEach(function () {
-            complementaryCertificationBadgeRepository.findAll.resolves([
+            complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
               domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                 id: complementaryCertificationBadgeId,
                 requiredPixScore,
@@ -645,7 +645,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
             }),
           );
           complementaryCertificationKey = 'NOT CLEA';
-          complementaryCertificationBadgeRepository.findAll.resolves([
+          complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
             domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
               id: complementaryCertificationBadgeId,
               requiredPixScore,
@@ -966,7 +966,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
             context('when user has an acquired certification for this badge', function () {
               it('should not be added in the eligibilities of the model', async function () {
                 // given
-                complementaryCertificationBadgeRepository.findAll.resolves([
+                complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
                   domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                     id: '1234',
                     requiredPixScore,
@@ -1065,7 +1065,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
             const isOutdated = true;
             it('should not be added in the eligibilities of the model', async function () {
               // given
-              complementaryCertificationBadgeRepository.findAll.resolves([
+              complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
                 domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                   id: '1234',
                   requiredPixScore,

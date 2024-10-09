@@ -1,6 +1,10 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { ComplementaryCertificationBadge } from '../../domain/models/ComplementaryCertificationBadge.js';
+import { ComplementaryCertificationBadgeWithOffsetVersion } from '../../domain/models/ComplementaryCertificationBadge.js';
 
+/**
+ *
+ * @deprecated doesn't work for multiple target profile on same complementary certification. Should be grouped by targetProfileIds
+ */
 export async function findAll() {
   const results = await knex('complementary-certification-badges')
     .select(
@@ -19,7 +23,7 @@ export async function findAll() {
 }
 
 function _toDomain(data) {
-  return new ComplementaryCertificationBadge({
+  return new ComplementaryCertificationBadgeWithOffsetVersion({
     id: data.id,
     requiredPixScore: data.minimumEarnedPix,
     offsetVersion: data.offsetVersion,

@@ -154,6 +154,49 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           });
         });
 
+        module('when user is not eligible', function () {
+          test('should display an error message', async function (assert) {
+            // given
+            const screen = await visit('/certifications');
+
+            // when
+            await fillCertificationJoiner({
+              sessionId: '1',
+              firstName: 'Laura',
+              lastName: 'CandidatPasEligible',
+              dayOfBirth: '04',
+              monthOfBirth: '01',
+              yearOfBirth: '1990',
+              t,
+            });
+
+            // then
+            assert
+              .dom(
+                screen.getByText(
+                  'Le compte avec lequel vous êtes actuellement connecté n’est pas éligible à cette session de certification.',
+                ),
+              )
+              .exists();
+            assert
+              .dom(
+                screen.getByText(
+                  'Les informations saisies correspondent à un candidat inscrit à la session en certification complémentaire seule.',
+                  { exact: false },
+                ),
+              )
+              .exists();
+
+            assert
+              .dom(
+                screen.getByText(
+                  'Vérifiez que vous êtes connecté au compte éligible pour le passage de la certification complémentaire seule.',
+                  { exact: false },
+                ),
+              )
+              .exists();
+          });
+        });
         module('when user is already linked to this candidate', function () {
           test('should redirect to certification start route', async function (assert) {
             // given

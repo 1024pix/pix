@@ -29,6 +29,9 @@ export default function (schema, request) {
   if (lastName === 'CandidatLiéUtilisateur') {
     return schema.certificationCandidates.find(1);
   }
+  if (lastName === 'CandidatPasEligible') {
+    return new Response(422, {}, { errors: [{ code: 'CERTIFICATION_CANDIDATE_ELIGIBILITY_ERROR' }] });
+  }
 
   return schema.certificationCandidates.create({
     id: 2,

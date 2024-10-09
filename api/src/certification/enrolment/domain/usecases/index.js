@@ -10,6 +10,7 @@ import * as attendanceSheetPdfUtils from '../../../enrolment/infrastructure/util
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 import * as sessionValidator from '../../../shared/domain/validators/session-validator.js';
+import * as complementaryCertificationBadgesRepository from '../../../shared/infrastructure/repositories/complementary-certification-badge-repository.js';
 import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
 import * as sessionCodeService from '../services/session-code-service.js';
@@ -18,6 +19,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
 
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationBadgeWithOffsetVersionRepository} ComplementaryCertificationBadgeWithOffsetVersionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionRepository} SessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
  * @typedef {import('../../../session-management/infrastructure/repositories/index.js').CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
@@ -35,7 +37,6 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../../shared/domain/services/certification-cpf-service.js')} CertificationCpfService
  * @typedef {import('../../infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
  * @typedef {import('../services/temporary-sessions-storage-for-mass-import-service.js').TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
- * @typedef {import('../../../shared/domain/services/certification-badges-service.js')} CertificationBadgesService
  * @typedef {import('../services/certification-candidates-ods-service.js')} CertificationCandidatesOdsService
  * @typedef {import('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
  * @typedef {import('../../../../shared/domain/services/language-service.js')} languageService
@@ -64,10 +65,11 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
  * @typedef {SessionValidator} SessionValidator
  * @typedef {AttendanceSheetPdfUtils} AttendanceSheetPdfUtils
- * @typedef {CertificationBadgesService} CertificationBadgesService
+ * @typedef {certificationBadgesService} CertificationBadgesService
  * @typedef {CertificationCandidatesOdsService} CertificationCandidatesOdsService
  * @typedef {PlacementProfileService} PlacementProfileService
  * @typedef {LanguageService} LanguageService
+ * @typedef {complementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
  **/
 const dependencies = {
   certificationBadgesService,
@@ -81,6 +83,7 @@ const dependencies = {
   certificationCandidatesOdsService,
   placementProfileService,
   languageService,
+  complementaryCertificationBadgesRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

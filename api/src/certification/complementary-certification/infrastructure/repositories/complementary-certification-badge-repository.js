@@ -1,8 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { Badge } from '../../../../evaluation/domain/models/Badge.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { ComplementaryCertificationBadge } from '../../domain/models/ComplementaryCertificationBadge.js';
 
 const getAllIdsByTargetProfileId = async function ({ targetProfileId }) {
   const knexConn = DomainTransaction.getConnection();
@@ -54,27 +52,6 @@ const findAttachableBadgesByIds = async function ({ ids }) {
   });
 };
 
-const getAllWithSameTargetProfile = async function (complementaryCertificationBadgeId) {
-  const complementaryCertificationBadges = await knex('complementary-certification-badges')
-    .select('complementary-certification-badges.*')
-    .join('badges', 'badges.id', '=', 'complementary-certification-badges.badgeId')
-    .where(
-      'badges.targetProfileId',
-      '=',
-      knex('complementary-certification-badges')
-        .select('target-profiles.id')
-        .join('badges', 'badges.id', '=', 'complementary-certification-badges.badgeId')
-        .join('target-profiles', 'target-profiles.id', '=', 'badges.targetProfileId')
-        .where('complementary-certification-badges.id', '=', complementaryCertificationBadgeId),
-    );
-
-  if (complementaryCertificationBadges.length === 0) {
-    throw new NotFoundError('No complementary certification badge found');
-  }
-
-  return complementaryCertificationBadges.map(_toDomain);
-};
-
 const isRelatedToCertification = async function (badgeId) {
   const knexConn = DomainTransaction.getConnection();
   const complementaryCertificationBadge = await knexConn('complementary-certification-badges')
@@ -83,15 +60,4 @@ const isRelatedToCertification = async function (badgeId) {
   return !!complementaryCertificationBadge;
 };
 
-function _toDomain(complementaryCertificationBadgeDTO) {
-  return new ComplementaryCertificationBadge(complementaryCertificationBadgeDTO);
-}
-
-export {
-  attach,
-  detachByIds,
-  findAttachableBadgesByIds,
-  getAllIdsByTargetProfileId,
-  getAllWithSameTargetProfile,
-  isRelatedToCertification,
-};
+export { attach, detachByIds, findAttachableBadgesByIds, getAllIdsByTargetProfileId, isRelatedToCertification };
