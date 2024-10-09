@@ -21,4 +21,14 @@ const updateHasSeenNewDashboardInfo = async function ({ userId, userApi }) {
   return userApi.markNewDashboardInfoAsSeen({ userId });
 };
 
+/**
+ * @function
+ * @param {Object} params
+ * @param {UserApi} params.userApi
+ * @param {number} params.userId
+ */
+const updateAssessmentInstructionsInfoAsSeen = async function ({ userId, userApi }) {
+  return userApi.markAssessmentInstructionsInfoAsSeen({ userId });
+};
+
 export { updateHasSeenNewDashboardInfo, updateMarkLevelSevenInfoAsSeen };
