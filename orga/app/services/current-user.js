@@ -84,10 +84,6 @@ export default class CurrentUserService extends Service {
     return !this.prescriber.missionsManagement;
   }
 
-  get canAccessParticipantsPage() {
-    return !this.prescriber.missionsManagement;
-  }
-
   get hasLearnerImportFeature() {
     return this.prescriber.hasOrganizationLearnerImport;
   }

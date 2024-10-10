@@ -23,14 +23,12 @@
         {{t "navigation.main.certifications"}}
       </LinkTo>
     {{/if}}
-    {{#if this.shouldDisplayParticipantsEntry}}
-      <LinkTo @route={{this.organizationLearnersList.route}} class="sidebar-nav__item">
-        <span class="sidebar-nav__item-icon">
-          <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
-        </span>
-        {{t this.organizationLearnersList.label}}
-      </LinkTo>
-    {{/if}}
+    <LinkTo @route={{this.organizationLearnersList.route}} class="sidebar-nav__item">
+      <span class="sidebar-nav__item-icon">
+        <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
+      </span>
+      {{t this.organizationLearnersList.label}}
+    </LinkTo>
     {{#if this.shouldDisplayMissionsEntry}}
       <LinkTo @route="authenticated.missions" class="sidebar-nav__item">
         <span class="sidebar-nav__item-icon">
