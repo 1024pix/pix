@@ -6,6 +6,32 @@ import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper
 
 describe('Integration | Identity Access Management | Infrastructure | Repository | user-to-create', function () {
   describe('#create', function () {
+    context('when a username is given', function () {
+      context('when username is already taken', function () {
+        it('throws a custom error', async function () {
+          // given
+          const alreadyExistingUserName = 'thierryDicule1234';
+          databaseBuilder.factory.buildUser({ id: 7, username: alreadyExistingUserName });
+          await databaseBuilder.commit();
+
+          const now = new Date('2022-02-01');
+          const user = new UserToCreate({
+            firstName: 'Thierry',
+            lastName: 'Dicule',
+            username: alreadyExistingUserName,
+            createdAt: now,
+            updatedAt: now,
+          });
+
+          // when
+          const error = await catchErr(userToCreateRepository.create)({ user });
+
+          // then
+          expect(error).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
+        });
+      });
+    });
+
     context('when no username is given', function () {
       it('returns a domain User object', async function () {
         // given
@@ -30,32 +56,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         expect(userSaved.email).to.equal(user.email);
         expect(userSaved.cgu).to.equal(user.cgu);
         expect(userSaved.locale).to.equal(user.locale);
-      });
-    });
-  });
-
-  context('when a username is given', function () {
-    context('when username is already taken', function () {
-      it('throws a custom error', async function () {
-        // given
-        const alreadyExistingUserName = 'thierryDicule1234';
-        databaseBuilder.factory.buildUser({ id: 7, username: alreadyExistingUserName });
-        await databaseBuilder.commit();
-
-        const now = new Date('2022-02-01');
-        const user = new UserToCreate({
-          firstName: 'Thierry',
-          lastName: 'Dicule',
-          username: alreadyExistingUserName,
-          createdAt: now,
-          updatedAt: now,
-        });
-
-        // when
-        const error = await catchErr(userToCreateRepository.create)({ user });
-
-        // then
-        expect(error).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
       });
     });
   });
