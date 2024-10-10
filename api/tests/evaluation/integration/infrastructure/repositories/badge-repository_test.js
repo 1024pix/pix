@@ -21,6 +21,7 @@ describe('Integration | Repository | Badge', function () {
       message: 'Congrats, you won the yellow badge!',
       key: 'YELLOW',
       targetProfileId: targetProfileWithSeveralBadges.id,
+      isCertifiable: false,
     });
     badgeWithSameTargetProfile_2 = databaseBuilder.factory.buildBadge({
       altMessage: 'You won the GREEN badge!',
@@ -28,24 +29,62 @@ describe('Integration | Repository | Badge', function () {
       message: 'Congrats, you won the green badge!',
       key: 'GREEN',
       targetProfileId: targetProfileWithSeveralBadges.id,
+      isCertifiable: true,
     });
+    databaseBuilder.factory.buildBadge({ key: 'BADGE_WITH_OTHER_TARGET_PROFILE' });
     await databaseBuilder.commit();
   });
 
   describe('#findByCampaignId', function () {
-    it('should return two badges for same target profile', async function () {
-      // given
-      const targetProfileId = targetProfileWithSeveralBadges.id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
-      await databaseBuilder.commit();
+    describe('when a target profile has badges', function () {
+      let badges, campaignId;
 
-      // when
-      const badges = await badgeRepository.findByCampaignId(campaignId);
+      beforeEach(async function () {
+        // given
+        const targetProfileId = targetProfileWithSeveralBadges.id;
+        campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+        await databaseBuilder.commit();
 
-      // then
-      expect(badges).to.have.length(2);
-      expect(badges[0].id).to.equal(badgeWithSameTargetProfile_1.id);
-      expect(badges[1].id).to.equal(badgeWithSameTargetProfile_2.id);
+        // when
+        badges = await badgeRepository.findByCampaignId(campaignId);
+      });
+
+      it('should return two badges for same target profile', async function () {
+        // then
+        expect(badges).to.have.length(2);
+      });
+
+      it('should return certifiable badges first', async function () {
+        expect(badges[0].id).to.equal(badgeWithSameTargetProfile_2.id);
+        expect(badges[0].isCertifiable).to.be.true;
+
+        expect(badges[1].id).to.equal(badgeWithSameTargetProfile_1.id);
+        expect(badges[1].isCertifiable).to.be.false;
+      });
+
+      it('should also sort badges by id', async function () {
+        const badgeWithSameTargetProfile_3 = databaseBuilder.factory.buildBadge({
+          id: 1,
+          targetProfileId: targetProfileWithSeveralBadges.id,
+          isCertifiable: true,
+        });
+        const badgeWithSameTargetProfile_4 = databaseBuilder.factory.buildBadge({
+          id: 2,
+          targetProfileId: targetProfileWithSeveralBadges.id,
+          isCertifiable: false,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        badges = await badgeRepository.findByCampaignId(campaignId);
+
+        // then
+        expect(badges[0].id).to.equal(badgeWithSameTargetProfile_3.id);
+        expect(badges[1].id).to.equal(badgeWithSameTargetProfile_2.id);
+        expect(badges[2].id).to.equal(badgeWithSameTargetProfile_4.id);
+        expect(badges[3].id).to.equal(badgeWithSameTargetProfile_1.id);
+      });
     });
 
     it('should return an empty array when the given campaign has no badges', async function () {
