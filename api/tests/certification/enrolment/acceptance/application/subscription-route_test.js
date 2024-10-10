@@ -14,163 +14,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | subscr
       // given
       const server = await createServer();
 
-      const learningContent = learningContentBuilder.fromAreas([
-        {
-          id: 'recvoGdo7z2z7pXWa',
-          title_i18n: {
-            fr: 'Information et données',
-          },
-          color: 'jaffa',
-          code: '1',
-          competences: [
-            {
-              id: 'recCompetence1',
-              name_i18n: {
-                fr: 'Mener une recherche et une veille d’information',
-              },
-              index: '1.1',
-              origin: 'Pix',
-              areaId: 'recvoGdo7z2z7pXWa',
-              thematics: [
-                {
-                  id: 'recThemCompetence1',
-                  tubes: [
-                    {
-                      id: 'recTubeCompetence1',
-                      skills: [
-                        {
-                          id: 'skillId@web3',
-                          name: '@web3',
-                          status: 'actif',
-                          level: 3,
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              id: 'recCompetence2',
-              name_i18n: {
-                fr: 'Gérer les données',
-              },
-              index: '1.2',
-              origin: 'Pix',
-              areaId: 'recvoGdo7z2z7pXWa',
-              thematics: [
-                {
-                  id: 'recThemCompetence2',
-                  tubes: [
-                    {
-                      id: 'recTubeCompetence2',
-                      skills: [
-                        {
-                          id: 'skillId@fichier3',
-                          name: '@fichier3',
-                          status: 'actif',
-                          level: 3,
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              id: 'recCompetence3',
-              name_i18n: {
-                fr: 'Traiter les données',
-              },
-              index: '1.3',
-              origin: 'Pix',
-              areaId: 'recvoGdo7z2z7pXWa',
-              thematics: [
-                {
-                  id: 'recThemCompetence3',
-                  tubes: [
-                    {
-                      id: 'recTubeCompetence3',
-                      skills: [
-                        {
-                          id: 'skillId@tri3',
-                          name: '@tri3',
-                          status: 'actif',
-                          level: 3,
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 'recDH19F7kKrfL3Ii',
-          title_i18n: {
-            fr: 'Communication et collaboration',
-          },
-          color: 'jaffa',
-          code: '1',
-          competences: [
-            {
-              id: 'recCompetence4',
-              name_i18n: {
-                fr: 'Intéragir',
-              },
-              index: '2.1',
-              origin: 'Pix',
-              areaId: 'recDH19F7kKrfL3Ii',
-              thematics: [
-                {
-                  id: 'recThemCompetence4',
-                  tubes: [
-                    {
-                      id: 'recTubeCompetence4',
-                      skills: [
-                        {
-                          id: 'skillId@spam3',
-                          name: '@spam3',
-                          status: 'actif',
-                          level: 3,
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              id: 'recCompetence5',
-              name_i18n: {
-                fr: 'Partager et publier',
-              },
-              index: '2.2',
-              origin: 'Pix',
-              areaId: 'recDH19F7kKrfL3Ii',
-              thematics: [
-                {
-                  id: 'recThemCompetence5',
-                  tubes: [
-                    {
-                      id: 'recTubeCompetence5',
-                      skills: [
-                        {
-                          id: 'skillId@vocRS3',
-                          name: '@vocRS3',
-                          status: 'actif',
-                          level: 3,
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ]);
+      const learningContent = _buildLearningContent();
       mockLearningContent(learningContent);
 
       const userId = databaseBuilder.factory.buildUser().id;
@@ -283,3 +127,163 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | subscr
     });
   });
 });
+
+function _buildLearningContent() {
+  return learningContentBuilder.fromAreas([
+    {
+      id: 'recvoGdo7z2z7pXWa',
+      title_i18n: {
+        fr: 'Information et données',
+      },
+      color: 'jaffa',
+      code: '1',
+      competences: [
+        {
+          id: 'recCompetence1',
+          name_i18n: {
+            fr: 'Mener une recherche et une veille d’information',
+          },
+          index: '1.1',
+          origin: 'Pix',
+          areaId: 'recvoGdo7z2z7pXWa',
+          thematics: [
+            {
+              id: 'recThemCompetence1',
+              tubes: [
+                {
+                  id: 'recTubeCompetence1',
+                  skills: [
+                    {
+                      id: 'skillId@web3',
+                      name: '@web3',
+                      status: 'actif',
+                      level: 3,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'recCompetence2',
+          name_i18n: {
+            fr: 'Gérer les données',
+          },
+          index: '1.2',
+          origin: 'Pix',
+          areaId: 'recvoGdo7z2z7pXWa',
+          thematics: [
+            {
+              id: 'recThemCompetence2',
+              tubes: [
+                {
+                  id: 'recTubeCompetence2',
+                  skills: [
+                    {
+                      id: 'skillId@fichier3',
+                      name: '@fichier3',
+                      status: 'actif',
+                      level: 3,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'recCompetence3',
+          name_i18n: {
+            fr: 'Traiter les données',
+          },
+          index: '1.3',
+          origin: 'Pix',
+          areaId: 'recvoGdo7z2z7pXWa',
+          thematics: [
+            {
+              id: 'recThemCompetence3',
+              tubes: [
+                {
+                  id: 'recTubeCompetence3',
+                  skills: [
+                    {
+                      id: 'skillId@tri3',
+                      name: '@tri3',
+                      status: 'actif',
+                      level: 3,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'recDH19F7kKrfL3Ii',
+      title_i18n: {
+        fr: 'Communication et collaboration',
+      },
+      color: 'jaffa',
+      code: '1',
+      competences: [
+        {
+          id: 'recCompetence4',
+          name_i18n: {
+            fr: 'Intéragir',
+          },
+          index: '2.1',
+          origin: 'Pix',
+          areaId: 'recDH19F7kKrfL3Ii',
+          thematics: [
+            {
+              id: 'recThemCompetence4',
+              tubes: [
+                {
+                  id: 'recTubeCompetence4',
+                  skills: [
+                    {
+                      id: 'skillId@spam3',
+                      name: '@spam3',
+                      status: 'actif',
+                      level: 3,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'recCompetence5',
+          name_i18n: {
+            fr: 'Partager et publier',
+          },
+          index: '2.2',
+          origin: 'Pix',
+          areaId: 'recDH19F7kKrfL3Ii',
+          thematics: [
+            {
+              id: 'recThemCompetence5',
+              tubes: [
+                {
+                  id: 'recTubeCompetence5',
+                  skills: [
+                    {
+                      id: 'skillId@vocRS3',
+                      name: '@vocRS3',
+                      status: 'actif',
+                      level: 3,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ]);
+}
