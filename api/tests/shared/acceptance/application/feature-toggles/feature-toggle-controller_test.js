@@ -31,6 +31,7 @@ describe('Acceptance | Shared | Application | Controller | feature-toggle', func
             'is-text-to-speech-button-enabled': false,
             'show-new-result-page': false,
             'show-experimental-missions': false,
+            'is-pix-companion-enabled': false,
           },
         },
       };
