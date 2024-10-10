@@ -213,6 +213,7 @@ const configuration = (function () {
       isTextToSpeechButtonEnabled: toBoolean(process.env.FT_ENABLE_TEXT_TO_SPEECH_BUTTON),
       showExperimentalMissions: toBoolean(process.env.FT_SHOW_EXPERIMENTAL_MISSIONS),
       showNewResultPage: toBoolean(process.env.FT_SHOW_NEW_RESULT_PAGE),
+      isPixCompanionEnabled: toBoolean(process.env.FT_PIX_COMPANION_ENABLED),
     },
     hapi: {
       options: {},
@@ -414,6 +415,7 @@ const configuration = (function () {
     config.featureToggles.isNeedToAdjustCertificationAccessibilityEnabled = false;
     config.featureToggles.showNewResultPage = false;
     config.featureToggles.showExperimentalMissions = false;
+    config.featureToggles.isPixCompanionEnabled = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'brevo';

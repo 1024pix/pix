@@ -39,6 +39,7 @@ const schema = Joi.object({
   FT_ENABLE_NEED_TO_ADJUST_CERTIFICATION_ACCESSIBILITY: Joi.string().optional().valid('true', 'false'),
   FT_ENABLE_PIX_PLUS_LOWER_LEVEL: Joi.string().optional().valid('true', 'false'),
   FT_ENABLE_TEXT_TO_SPEECH_BUTTON: Joi.string().optional().valid('true', 'false'),
+  FT_PIX_COMPANION_ENABLED: Joi.string().optional().valid('true', 'false'),
   KNEX_ASYNC_STACKTRACE_ENABLED: Joi.string().optional().valid('true', 'false'),
   LCMS_API_KEY: Joi.string().required(),
   LCMS_API_URL: Joi.string().uri().required(),

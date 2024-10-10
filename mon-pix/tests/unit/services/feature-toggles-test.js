@@ -11,6 +11,7 @@ module('Unit | Service | feature-toggles', function (hooks) {
     const featureToggles = Object.create({
       isTextToSpeechButtonEnabled: false,
       isNewAuthenticationDesignEnabled: false,
+      isPixCompanionEnabled: false,
     });
 
     let storeStub;
@@ -45,7 +46,7 @@ module('Unit | Service | feature-toggles', function (hooks) {
       assert.false(featureToggleService.featureToggles.isTextToSpeechButtonEnabled);
     });
 
-    test('it initializes the feature toggle isNewAuthenticationDesignEnabled to true', async function (assert) {
+    test('it initializes the feature toggle isNewAuthenticationDesignEnabled to false', async function (assert) {
       // given
       const featureToggleService = this.owner.lookup('service:featureToggles');
       featureToggleService.set('store', storeStub);
@@ -55,6 +56,18 @@ module('Unit | Service | feature-toggles', function (hooks) {
 
       // then
       assert.false(featureToggleService.featureToggles.isNewAuthenticationDesignEnabled);
+    });
+
+    test('it initializes the feature toggle isPixCompanionEnabled to false', async function (assert) {
+      // given
+      const featureToggleService = this.owner.lookup('service:featureToggles');
+      featureToggleService.set('store', storeStub);
+
+      // when
+      await featureToggleService.load();
+
+      // then
+      assert.false(featureToggleService.featureToggles.isPixCompanionEnabled);
     });
   });
 });
