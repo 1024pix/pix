@@ -7,22 +7,21 @@ describe('Profile | Unit | Application | Api | attestations', function () {
     it('should return a zip archive with users attestations', async function () {
       const attestationKey = Symbol('attestationKey');
       const userIds = Symbol('userIds');
-      const templateName = 'templateName';
       const data = Symbol('data');
       const expectedBuffer = Symbol('expectedBuffer');
 
       const dependencies = {
         pdfWithFormSerializer: {
-          generate: sinon.stub(),
+          serialize: sinon.stub(),
         },
       };
 
       sinon.stub(usecases, 'getAttestationDataForUsers');
 
-      usecases.getAttestationDataForUsers.withArgs({ attestationKey, userIds }).resolves({ templateName, data });
+      usecases.getAttestationDataForUsers.withArgs({ attestationKey, userIds }).resolves(data);
 
-      dependencies.pdfWithFormSerializer.generate
-        .withArgs(sinon.match(/(\w*\/)*templateName.pdf/), data)
+      dependencies.pdfWithFormSerializer.serialize
+        .withArgs(sinon.match(/(\w*\/)*sixth-grade-attestation-template.pdf/), data)
         .resolves(expectedBuffer);
       const result = await generateAttestations({ attestationKey, userIds, dependencies });
 
