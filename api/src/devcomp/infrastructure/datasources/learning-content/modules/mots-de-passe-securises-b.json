@@ -481,7 +481,7 @@
           "element": {
             "id": "7bedd844-b13a-4a2a-b64c-ad947a73f15e",
             "type": "qcu",
-            "instruction": "<mark><i>Usage effectif sous condition d'une modalité QCU déclaratif disponible</i></mark><br>À l'issue de ce module, que souhaitez-vous faire concernant vos mots de passe ?",
+            "instruction": "<mark><i>Usage effectif sous condition d'une modalité QCU déclaratif disponible. Couplage possible avec répétition espacée pour relancer ?</i></mark><br>À l'issue de ce module, que souhaitez-vous faire concernant vos mots de passe ?",
             "proposals": [
               {
                 "id": "1",
