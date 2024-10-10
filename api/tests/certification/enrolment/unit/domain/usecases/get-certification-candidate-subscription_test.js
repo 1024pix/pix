@@ -104,10 +104,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-certificatio
     context('when the candidate is not registered but eligible to one complementary certification', function () {
       it('should return the candidate without any complementary certification', async function () {
         // given
-        const certificationCandidateId = 123;
-        const userId = 456;
-        const sessionId = 789;
-
         const complementaryCertification = domainBuilder.buildComplementaryCertification({ key: 'PIX+' });
 
         const center = domainBuilder.certification.enrolment.buildCenter({
@@ -173,10 +169,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-certificatio
     context('when the candidate is registered and eligible to one complementary certification', function () {
       it('should return the candidate with one complementary certification', async function () {
         // given
-        const certificationCandidateId = 123;
-        const userId = 456;
-        const sessionId = 789;
-
         const complementaryCertification = domainBuilder.buildComplementaryCertification({ key: 'PIX+' });
 
         const center = domainBuilder.certification.enrolment.buildCenter({
@@ -253,10 +245,6 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-certificatio
     context('when the candidate is registered and not eligible to any complementary certification', function () {
       it('should return the candidate without any complementary certification', async function () {
         // given
-        const certificationCandidateId = 123;
-        const userId = 456;
-        const sessionId = 789;
-
         const complementaryCertification = domainBuilder.buildComplementaryCertification({ key: 'PIX+' });
 
         const center = domainBuilder.certification.enrolment.buildCenter({
