@@ -1,5 +1,42 @@
 # Pix Changelog
 
+## v4.224.0 (10/10/2024)
+
+
+### :rocket: Amélioration
+- [#10261](https://github.com/1024pix/pix/pull/10261) [FEATURE] Récupérer les inscriptions candidats après réconciliation (v3 uniquement) (PIX-14209).
+- [#10281](https://github.com/1024pix/pix/pull/10281) [FEATURE] Lister les RT certifiants des campagnes en premier (PIX-14560).
+- [#10271](https://github.com/1024pix/pix/pull/10271) [FEATURE] Permettre la prévisualisation depuis Modulix Editor (PIX-14709).
+- [#10262](https://github.com/1024pix/pix/pull/10262) [FEATURE] Afficher la carte d'intro dans les flashcards Modulix (PIX-14311).
+- [#10246](https://github.com/1024pix/pix/pull/10246) [FEATURE] Désafficher la bannière d'ouverture du niveau 7 (PIX-14495).
+- [#10276](https://github.com/1024pix/pix/pull/10276) [FEATURE] Bloquer le test de certif si l’extension n’est pas détectée (PIX-12780).
+- [#10255](https://github.com/1024pix/pix/pull/10255) [FEATURE] Ajoute un endpoint qui permet de télécharger le pdf d'une attestation pour un utilisateur (PIX-13823).
+- [#10258](https://github.com/1024pix/pix/pull/10258) [FEATURE] Mise à jour du wording lors du défocus pour candidats avec besoins d'ajustements (PIX-14428).
+- [#10272](https://github.com/1024pix/pix/pull/10272) [FEATURE] Voir le nombre de sujets évalués lors de la consultation d'un PC sur Pix Admin (PIX-9042).
+- [#10207](https://github.com/1024pix/pix/pull/10207) [FEATURE] Vérifier l'éligibilité complémentaire lors de la réconciliation V3 (PIX-14207).
+
+### :building_construction: Tech
+- [#10282](https://github.com/1024pix/pix/pull/10282) [TECH] Créer le feature toggle FT_PIX_COMPANION_ENABLED (PIX-14733).
+- [#10259](https://github.com/1024pix/pix/pull/10259) [TECH] Ajouter un composant local de gestion des règles de mot de passe (PIX-14149).
+- [#10267](https://github.com/1024pix/pix/pull/10267) [TECH] Fix sur des tests flaky (PIX-14702).
+- [#10270](https://github.com/1024pix/pix/pull/10270) [TECH] Migrer les derniers composants du dossier campaign de PixOrga vers GJS (PIX-14708).
+- [#10245](https://github.com/1024pix/pix/pull/10245) [TECH] Permettre la désactivation des CRON liés au CPF (PIX-14388).
+- [#10249](https://github.com/1024pix/pix/pull/10249) [TECH] Empêcher l'autocompletion sur les adresses email dans la modale d'ajout de candidat sur Pix Certif (PIX-13937).
+- [#10248](https://github.com/1024pix/pix/pull/10248) [TECH] Affichage d'une erreur spécifique à l'enregistrement d'un candidat lorsque la session est finalisée (PIX-13862).
+- [#10250](https://github.com/1024pix/pix/pull/10250) [TECH] Suppression du FT pour les écrans d'instruction certif v3 (PIX-12908).
+
+### :bug: Correction
+- [#10235](https://github.com/1024pix/pix/pull/10235) [BUGFIX] Conversion des centres restants (PIX-14581).
+- [#10253](https://github.com/1024pix/pix/pull/10253) [BUGFIX] Supporter les descriptions de parcours autonomes en markdown (PIX-14214).
+
+### :arrow_up: Montée de version
+- [#10285](https://github.com/1024pix/pix/pull/10285) [BUMP] Update dependency ember-load-initializers to v3 (junior).
+- [#10286](https://github.com/1024pix/pix/pull/10286) [BUMP] Update dependency ember-load-initializers to v3 (orga).
+- [#10283](https://github.com/1024pix/pix/pull/10283) [BUMP] Update dependency ember-load-initializers to v3 (admin).
+- [#10284](https://github.com/1024pix/pix/pull/10284) [BUMP] Update dependency ember-load-initializers to v3 (certif).
+- [#10231](https://github.com/1024pix/pix/pull/10231) [BUMP] Update dependency @1024pix/pix-ui to ^46.14.0 (junior).
+- [#10277](https://github.com/1024pix/pix/pull/10277) [BUMP] Update dependency @1024pix/pix-ui to ^46.15.0 (certif).
+
 ## v4.223.0 (08/10/2024)
 
 
