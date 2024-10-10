@@ -213,10 +213,10 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Pour sécuriser un mot de passe, il ne faut pas utiliser de données personnelles.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Pour sécuriser un mot de passe, il ne faut pas utiliser de données personnelles.</p>"
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Le mot de passe de la <strong>boîte mail</strong> est le plus important de tous.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Le mot de passe de la <strong>boîte mail</strong> est le plus important de tous.</p>"
                   },
-                  "solution": "1"
+                  "solution": "2"
                 }
               ]
             },
