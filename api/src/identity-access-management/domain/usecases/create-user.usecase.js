@@ -1,3 +1,4 @@
+import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { AlreadyRegisteredEmailError } from '../../../shared/domain/errors.js';
 import { EntityValidationError } from '../../../shared/domain/errors.js';
 import { urlBuilder } from '../../../shared/infrastructure/utils/url-builder.js';
@@ -19,7 +20,7 @@ import { urlBuilder } from '../../../shared/infrastructure/utils/url-builder.js'
  * @property {import('../../../shared/domain/validators').PasswordValidator} passwordValidator
  * @return {Promise<User|undefined>}
  */
-const createUser = async function ({
+const createUser = withTransaction(async function ({
   campaignCode,
   localeFromHeader,
   password,
@@ -77,7 +78,7 @@ const createUser = async function ({
   });
 
   return savedUser;
-};
+});
 
 export { createUser };
 

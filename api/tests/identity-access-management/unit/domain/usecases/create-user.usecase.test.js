@@ -1,5 +1,6 @@
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { createUser } from '../../../../../src/identity-access-management/domain/usecases/create-user.usecase.js';
+import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { AlreadyRegisteredEmailError } from '../../../../../src/shared/domain/errors.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import { urlBuilder } from '../../../../../src/shared/infrastructure/utils/url-builder.js';
@@ -28,6 +29,11 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
   let token;
 
   beforeEach(function () {
+    sinon.stub(DomainTransaction, 'execute');
+    DomainTransaction.execute.callsFake((fn) => {
+      return fn({});
+    });
+
     authenticationMethodRepository = {};
     userRepository = {
       checkIfEmailIsAvailable: sinon.stub(),
