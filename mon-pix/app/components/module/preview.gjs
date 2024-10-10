@@ -77,6 +77,17 @@ export default class ModulixPreview extends Component {
     super(owner, args);
 
     this.modulixPreviewMode.enable();
+
+    const isWindowOpenedFromModulixEditor = window.opener !== null;
+    if (isWindowOpenedFromModulixEditor) {
+      window.addEventListener('message', (event) => {
+        if (event.data?.from === 'modulix-editor') {
+          this.module = JSON.stringify(event.data.moduleContent, null, 2);
+        }
+      });
+
+      window.opener.postMessage({ from: 'pix-app', message: 'Ready to receive content !' }, '*');
+    }
   }
 
   get passage() {
@@ -120,7 +131,7 @@ export default class ModulixPreview extends Component {
   }
 
   <template>
-    {{pageTitle this.module.title}}
+    {{pageTitle this.formattedModule.title}}
 
     <div class="module-preview">
       <aside class="module-preview__passage">
