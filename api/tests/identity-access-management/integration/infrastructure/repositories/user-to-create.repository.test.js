@@ -11,7 +11,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         it('throws an OrganizationLearnerAlreadyLinkedToUserError', async function () {
           // given
           const alreadyExistingUserName = 'thierryDicule1234';
-          databaseBuilder.factory.buildUser({ id: 7, username: alreadyExistingUserName });
+          databaseBuilder.factory.buildUser({ username: alreadyExistingUserName });
           await databaseBuilder.commit();
 
           const now = new Date('2022-02-01');
