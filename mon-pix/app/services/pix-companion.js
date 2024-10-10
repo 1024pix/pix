@@ -1,8 +1,8 @@
-import Service from '@ember/service';
+import Service, { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import ENV from 'mon-pix/config/environment';
 
 export default class PixCompanion extends Service {
+  @service featureToggles;
   @tracked _isExtensionEnabled = true;
 
   #checkExtensionIsEnabledInterval;
@@ -18,13 +18,13 @@ export default class PixCompanion extends Service {
   }
 
   startCheckingExtensionIsEnabled(windowRef = window) {
-    if (!ENV.APP.FT_IS_PIX_COMPANION_MANDATORY) return;
+    if (!this.featureToggles.featureToggles.isPixCompanionEnabled) return;
     this.checkExtensionIsEnabled(windowRef);
     this.#checkExtensionIsEnabledInterval = windowRef.setInterval(() => this.checkExtensionIsEnabled(windowRef), 1000);
   }
 
   stopCheckingExtensionIsEnabled(windowRef = window) {
-    if (!ENV.APP.FT_IS_PIX_COMPANION_MANDATORY) return;
+    if (!this.featureToggles.featureToggles.isPixCompanionEnabled) return;
     windowRef.clearInterval(this.#checkExtensionIsEnabledInterval);
   }
 
@@ -50,7 +50,7 @@ export default class PixCompanion extends Service {
   }
 
   get isExtensionEnabled() {
-    if (!ENV.APP.FT_IS_PIX_COMPANION_MANDATORY) return true;
+    if (!this.featureToggles.featureToggles.isPixCompanionEnabled) return true;
     return this._isExtensionEnabled;
   }
 }

@@ -1,19 +1,14 @@
 import { setupTest } from 'ember-qunit';
-import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Unit | Service | pix-companion', function (hooks) {
   setupTest(hooks);
+  let pixCompanion;
 
-  const ORIGINAL_FT_IS_PIX_COMPANION_MANDATORY = ENV.APP.FT_IS_PIX_COMPANION_MANDATORY;
-
-  hooks.beforeEach(() => {
-    ENV.APP.FT_IS_PIX_COMPANION_MANDATORY = true;
-  });
-
-  hooks.afterEach(() => {
-    ENV.APP.FT_IS_PIX_COMPANION_MANDATORY = ORIGINAL_FT_IS_PIX_COMPANION_MANDATORY;
+  hooks.beforeEach(function () {
+    pixCompanion = this.owner.lookup('service:pix-companion');
+    pixCompanion.featureToggles = { featureToggles: { isPixCompanionEnabled: true } };
   });
 
   module('#startCertification', function () {
@@ -24,7 +19,6 @@ module('Unit | Service | pix-companion', function (hooks) {
         postMessage: sinon.stub(),
         location: { origin: 'test' },
       };
-      const pixCompanion = this.owner.lookup('service:pix-companion');
 
       // When
       pixCompanion.startCertification(windowStub);
@@ -44,7 +38,6 @@ module('Unit | Service | pix-companion', function (hooks) {
         postMessage: sinon.stub(),
         location: { origin: 'test' },
       };
-      const pixCompanion = this.owner.lookup('service:pix-companion');
 
       // When
       pixCompanion.stopCertification(windowStub);
@@ -69,7 +62,6 @@ module('Unit | Service | pix-companion', function (hooks) {
         assert.strictEqual(type, 'pix:companion:pong');
         listener();
       });
-      const pixCompanion = this.owner.lookup('service:pix-companion');
       pixCompanion._isExtensionEnabled = false;
 
       // When
@@ -93,7 +85,6 @@ module('Unit | Service | pix-companion', function (hooks) {
         assert.strictEqual(timeout, 100);
         callback();
       });
-      const pixCompanion = this.owner.lookup('service:pix-companion');
       pixCompanion._isExtensionEnabled = true;
 
       // When
@@ -107,10 +98,9 @@ module('Unit | Service | pix-companion', function (hooks) {
   });
 
   module('#startCheckingExtensionIsEnabled', function () {
-    module('when FT_IS_PIX_COMPANION_MANDATORY is false', function () {
+    module('when the feature toggle isPixCompanionEnabled is false', function () {
       test('do nothing', async function (assert) {
         // Given
-        ENV.APP.FT_IS_PIX_COMPANION_MANDATORY = false;
         const windowStub = {
           addEventListener: sinon.stub(),
           dispatchEvent: sinon.stub(),
@@ -118,7 +108,7 @@ module('Unit | Service | pix-companion', function (hooks) {
           setInterval: sinon.stub(),
           setTimeout: sinon.stub(),
         };
-        const pixCompanion = this.owner.lookup('service:pix-companion');
+        pixCompanion.featureToggles.featureToggles.isPixCompanionEnabled = false;
 
         // When
         pixCompanion.startCheckingExtensionIsEnabled(windowStub);
@@ -136,14 +126,13 @@ module('Unit | Service | pix-companion', function (hooks) {
   });
 
   module('#stopCheckingExtensionIsEnabled', function () {
-    module('when FT_IS_PIX_COMPANION_MANDATORY is false', function () {
+    module('when the feature toggle isPixCompanionEnabled is false', function () {
       test('do nothing', async function (assert) {
         // Given
-        ENV.APP.FT_IS_PIX_COMPANION_MANDATORY = false;
         const windowStub = {
           clearInterval: sinon.stub(),
         };
-        const pixCompanion = this.owner.lookup('service:pix-companion');
+        pixCompanion.featureToggles.featureToggles.isPixCompanionEnabled = false;
 
         // When
         pixCompanion.stopCheckingExtensionIsEnabled(windowStub);
@@ -156,11 +145,10 @@ module('Unit | Service | pix-companion', function (hooks) {
   });
 
   module('#isExtensionEnabled', function () {
-    module('when FT_IS_PIX_COMPANION_MANDATORY is false', function () {
+    module('when the feature toggle isPixCompanionEnabled is false', function () {
       test('always return true', async function (assert) {
         // Given
-        ENV.APP.FT_IS_PIX_COMPANION_MANDATORY = false;
-        const pixCompanion = this.owner.lookup('service:pix-companion');
+        pixCompanion.featureToggles.featureToggles.isPixCompanionEnabled = false;
 
         // When
         pixCompanion._isExtensionEnabled = false;
