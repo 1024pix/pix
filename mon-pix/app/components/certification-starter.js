@@ -28,14 +28,12 @@ export default class CertificationStarter extends Component {
   }
 
   get subscriptionTitle() {
-    if (
-      !this.args.certificationCandidateSubscription.isSessionVersion3 ||
-      this.args.certificationCandidateSubscription.isV3CoreAndComplementary
-    ) {
-      return this.intl.t('pages.certification-start.core-and-complementary-subscriptions');
-    } else {
-      return this.intl.t('pages.certification-start.complementary-subscription');
-    }
+    const { isSessionVersion3, isV3CoreAndComplementary } = this.args.certificationCandidateSubscription;
+
+    const complementaryAlone = isSessionVersion3 && !isV3CoreAndComplementary;
+    const intlSuffix = complementaryAlone ? 'complementary-subscription' : 'core-and-complementary-subscriptions';
+
+    return this.intl.t(`pages.certification-start.${intlSuffix}`);
   }
 
   @action
