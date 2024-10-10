@@ -458,6 +458,7 @@ describe('Acceptance | Controller | training-controller', function () {
           outdated: false,
           'created-at': undefined,
           'can-detach': false,
+          category: undefined,
         },
       };
 
