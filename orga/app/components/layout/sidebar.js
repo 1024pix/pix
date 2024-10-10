@@ -24,12 +24,15 @@ export default class SidebarMenu extends Component {
   get shouldDisplayPlacesEntry() {
     return this.currentUser.canAccessPlacesPage;
   }
+
   get shouldDisplayMissionsEntry() {
     return this.currentUser.canAccessMissionsPage;
   }
+
   get shouldDisplayCampaignsEntry() {
     return this.currentUser.canAccessCampaignsPage;
   }
+
   get shouldDisplayParticipantsEntry() {
     return this.currentUser.canAccessParticipantsPage;
   }
@@ -44,6 +47,11 @@ export default class SidebarMenu extends Component {
       return {
         route: 'authenticated.sup-organization-participants',
         label: 'navigation.main.sup-organization-participants',
+      };
+    } else if (this.currentUser.canAccessMissionsPage) {
+      return {
+        route: 'authenticated.organization-participants',
+        label: 'navigation.main.sco-organization-participants',
       };
     } else {
       return {

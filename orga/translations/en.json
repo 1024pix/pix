@@ -308,7 +308,8 @@
     },
     "organization-participants-header": {
       "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
-      "import-button": "Import"
+      "import-button": "Import",
+      "sco-title": "{count, plural, =0 {Students} =1 {Student ({count})} other {Students ({count})}}"
     },
     "participation-status": {
       "SHARED-ASSESSMENT": "Submitted results",
@@ -1065,6 +1066,7 @@
       "filters": {
         "aria-label": "Filters on participants",
         "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
+        "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}",
         "type": {
           "certificability": {
             "label": "Search by certificability",
