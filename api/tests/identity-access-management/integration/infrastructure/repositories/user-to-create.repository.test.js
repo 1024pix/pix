@@ -6,31 +6,35 @@ import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper
 
 describe('Integration | Identity Access Management | Infrastructure | Repository | user-to-create', function () {
   describe('#create', function () {
-    it('returns a domain User object', async function () {
-      // given
-      const email = 'my-email-to-save@example.net';
-      const user = new UserToCreate({
-        firstName: 'laura',
-        lastName: 'lune',
-        email,
-        cgu: true,
-        locale: 'fr-FR',
+    context('when no username is given', function () {
+      it('returns a domain User object', async function () {
+        // given
+        const email = 'my-email-to-save@example.net';
+        const user = new UserToCreate({
+          firstName: 'laura',
+          lastName: 'lune',
+          email,
+          cgu: true,
+          locale: 'fr-FR',
+        });
+
+        // when
+        const userSaved = await userToCreateRepository.create({ user });
+
+        // then
+        const usersSavedInDatabase = await knex('users').select();
+        expect(usersSavedInDatabase).to.have.lengthOf(1);
+        expect(userSaved).to.be.an.instanceOf(User);
+        expect(userSaved.firstName).to.equal(user.firstName);
+        expect(userSaved.lastName).to.equal(user.lastName);
+        expect(userSaved.email).to.equal(user.email);
+        expect(userSaved.cgu).to.equal(user.cgu);
+        expect(userSaved.locale).to.equal(user.locale);
       });
-
-      // when
-      const userSaved = await userToCreateRepository.create({ user });
-
-      // then
-      const usersSavedInDatabase = await knex('users').select();
-      expect(usersSavedInDatabase).to.have.lengthOf(1);
-      expect(userSaved).to.be.an.instanceOf(User);
-      expect(userSaved.firstName).to.equal(user.firstName);
-      expect(userSaved.lastName).to.equal(user.lastName);
-      expect(userSaved.email).to.equal(user.email);
-      expect(userSaved.cgu).to.equal(user.cgu);
-      expect(userSaved.locale).to.equal(user.locale);
     });
+  });
 
+  context('when a username is given', function () {
     context('when username is already taken', function () {
       it('throws a custom error', async function () {
         // given
