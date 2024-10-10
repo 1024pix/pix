@@ -28,6 +28,26 @@ module('Unit | Service | pix-companion', function (hooks) {
       sinon.assert.calledWith(windowStub.postMessage, { event: 'pix:certification:start' }, 'test');
       assert.ok(true);
     });
+
+    module('when the feature toggle isPixCompanionEnabled is false', function () {
+      test('do nothing', async function (assert) {
+        // Given
+        pixCompanion.featureToggles.featureToggles.isPixCompanionEnabled = false;
+        const windowStub = {
+          dispatchEvent: sinon.stub(),
+          postMessage: sinon.stub(),
+          location: { origin: 'test' },
+        };
+
+        // When
+        pixCompanion.startCertification(windowStub);
+
+        // Then
+        sinon.assert.notCalled(windowStub.dispatchEvent);
+        sinon.assert.notCalled(windowStub.postMessage);
+        assert.ok(true);
+      });
+    });
   });
 
   module('#stopCertification', function () {
@@ -46,6 +66,26 @@ module('Unit | Service | pix-companion', function (hooks) {
       sinon.assert.calledWith(windowStub.dispatchEvent, new CustomEvent('pix:certification:stop'));
       sinon.assert.calledWith(windowStub.postMessage, { event: 'pix:certification:stop' }, 'test');
       assert.ok(true);
+    });
+
+    module('when the feature toggle isPixCompanionEnabled is false', function () {
+      test('do nothing', async function (assert) {
+        // Given
+        pixCompanion.featureToggles.featureToggles.isPixCompanionEnabled = false;
+        const windowStub = {
+          dispatchEvent: sinon.stub(),
+          postMessage: sinon.stub(),
+          location: { origin: 'test' },
+        };
+
+        // When
+        pixCompanion.stopCertification(windowStub);
+
+        // Then
+        sinon.assert.notCalled(windowStub.dispatchEvent);
+        sinon.assert.notCalled(windowStub.postMessage);
+        assert.ok(true);
+      });
     });
   });
 
