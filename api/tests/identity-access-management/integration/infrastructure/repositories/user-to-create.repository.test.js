@@ -1,7 +1,10 @@
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { UserToCreate } from '../../../../../src/identity-access-management/domain/models/UserToCreate.js';
 import { userToCreateRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
-import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../../../src/shared/domain/errors.js';
+import {
+  AlreadyRegisteredEmailError,
+  OrganizationLearnerAlreadyLinkedToUserError,
+} from '../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Identity Access Management | Infrastructure | Repository | user-to-create', function () {
@@ -79,6 +82,30 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         expect(userSaved.email).to.equal(user.email);
         expect(userSaved.cgu).to.equal(user.cgu);
         expect(userSaved.locale).to.equal(user.locale);
+      });
+
+      context('when email is already taken', function () {
+        it('throws an AlreadyRegisteredEmailError', async function () {
+          // given
+          const alreadyExistingEmail = 'already_used_for_another_account@example.net';
+          databaseBuilder.factory.buildUser({ email: alreadyExistingEmail });
+          await databaseBuilder.commit();
+
+          const now = new Date('2022-02-01');
+          const user = new UserToCreate({
+            firstName: 'laura',
+            lastName: 'lune',
+            email: alreadyExistingEmail,
+            createdAt: now,
+            updatedAt: now,
+          });
+
+          // when
+          const error = await catchErr(userToCreateRepository.create)({ user });
+
+          // then
+          expect(error).to.be.instanceOf(AlreadyRegisteredEmailError);
+        });
       });
     });
   });
