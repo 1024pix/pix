@@ -44,6 +44,11 @@ export default class SidebarMenu extends Component {
         route: 'authenticated.sup-organization-participants',
         label: 'navigation.main.sup-organization-participants',
       };
+    } else if (this.currentUser.canAccessMissionsPage) {
+      return {
+        route: 'authenticated.organization-participants',
+        label: 'navigation.main.sco-organization-participants',
+      };
     } else {
       return {
         route: 'authenticated.organization-participants',
