@@ -54,14 +54,16 @@
       "internal-server-error": "Er is een interne fout opgetreden. Onze teams zijn bezig het probleem op te lossen. Probeer het later nog eens.",
       "login-unauthorized-error": "Het e-mailadres of de ingevoerde gebruikersnaam en/of wachtwoord zijn onjuist.",
       "login-user-blocked-error": "Je account is geblokkeerd omdat je te veel verbindingspogingen hebt gedaan. U kunt de blokkering opheffen door '<'a href=\"{url}\"'>'contact us'</a>'.",
-      "login-user-temporary-blocked-error": "Je hebt te veel inlogpogingen gedaan. Probeer het later nog eens of klik op '<'a href=\"{url}\"'>'wachtwoord vergeten'</a>' om het opnieuw in te stellen."
+      "login-user-temporary-blocked-error": "Je hebt te veel inlogpogingen gedaan. Probeer het later nog eens of klik op '<'a href=\"{url}\"'>'wachtwoord vergeten'</a>' om het opnieuw in te stellen.",
+      "login-unexpected-error": "Unable to connect. Please try again in a few moments. If the problem persists, '<'a href=\"https://pix.org/en/support\" target=\"blank\"'>'please contact us'</a>'."
     },
     "cgu": {
       "cgu": "gebruiksvoorwaarden",
       "data-protection-policy": "privacybeleid",
       "error": "Je moet de gebruiksvoorwaarden en het privacybeleid van Pix accepteren om een account aan te maken.",
       "label": "Ik accepteer de gebruiksvoorwaarden en het privacybeleid van Pix",
-      "message": "Ik accepteer de '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'gebruiksvoorwaarden'</a>' en de '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'privacybeleid'</a>' van Pix."
+      "message": "Ik accepteer de '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'gebruiksvoorwaarden'</a>' en de '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'privacybeleid'</a>' van Pix.",
+      "read-message": "Read the '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Pix terms of use'</a>' et la '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'personal data protection policy'</a>'."
     },
     "data-protection-policy-information-banner": {
       "title": "Ons privacybeleid is gewijzigd. We nodigen je uit om het te lezen:",
@@ -109,6 +111,17 @@
     "skip-links": {
       "skip-to-content": "Ga naar inhoud",
       "skip-to-footer": "Ga naar de onderkant van de pagina"
+    },
+    "validation": {
+      "password": {
+        "error": "Je wachtwoord moet minstens 8 tekens lang zijn en minstens één hoofdletter, één kleine letter en één cijfer bevatten.",
+        "rules": {
+          "contains-digit": "at least one number",
+          "contains-lowercase": "at least one lower case letter",
+          "contains-uppercase": "at least one capital letter",
+          "min-length": "at least 8 characters"
+        }
+      }
     }
   },
   "components": {
@@ -124,15 +137,36 @@
         "continue-with-featured-identity-provider-link": "Continue with {featuredIdentityProvider}",
         "select-another-organization-link": "Choose another organisation"
       },
-      "password-input": {
-        "error-message": "You have entered the wrong password. Your password must be longer than 8 characters and contain at least one number, one lower case letter and one upper case letter.",
+      "new-password-input": {
+        "label": "Wachtwoord",
         "instructions-label": "Your password must comply with the following rules:",
-        "rules": {
-          "completed-message": "{ rulesCompleted } out of { rulesCount } requirements completed.",
-          "contains-digit": "at least one number",
-          "contains-lowercase": "at least one lower case letter",
-          "contains-uppercase": "at least one capital letter",
-          "min-length": "at least 8 characters"
+        "completed-message": "{ rulesCompleted } out of { rulesCount } requirements completed."
+      },
+      "signup-form": {
+        "actions": {
+          "submit": "Ik wil graag registreren"
+        },
+        "errors": {
+          "invalid-locale-format": "Uw locale \"{invalidLocale}\" heeft de verkeerde indeling.",
+          "locale-not-supported": "Uw \"{localeNotSupported}\" locale wordt momenteel niet ondersteund."
+        },
+        "fields": {
+          "email": {
+            "error": "Uw e-mailadres is ongeldig.",
+            "label": "E-mail adres",
+            "placeholder": "ex: john.doe@email.fr"
+          },
+          "firstname": {
+            "error": "Je voornaam is niet ingevuld.",
+            "label": "Voornaam",
+            "placeholder": "ex: John"
+          },
+          "lastname": {
+            "error": "Je naam is niet ingevuld.",
+            "label": "Achternaam",
+            "placeholder": "ex: Doe"
+          },
+          "legend": "Vereiste informatie voor registratie."
         }
       }
     },
@@ -1648,7 +1682,8 @@
     },
     "sign-up": {
       "actions": {
-        "submit": "Ik wil graag registreren"
+        "submit": "Ik wil graag registreren",
+        "login": "Log in to Pix"
       },
       "errors": {
         "invalid-locale-format": "Uw locale \"{invalidLocale}\" heeft de verkeerde indeling.",

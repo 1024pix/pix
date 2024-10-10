@@ -54,14 +54,16 @@
       "internal-server-error": "Se ha producido un error interno. Nuestros equipos están resolviendo el problema. Vuelve a intentarlo más tarde.",
       "login-unauthorized-error": "La dirección de correo electrónico o el nombre de usuario y/o la contraseña introducidos son incorrectos.",
       "login-user-blocked-error": "Tu cuenta está bloqueada porque has realizado demasiados intentos de conexión. Para desbloquearla, '<'a href=\"{url}\"'>'ponte en contacto con nosotros'</a>'.",
-      "login-user-temporary-blocked-error": "Has realizado demasiados intentos de conexión. Inténtalo de nuevo más tarde o haz clic en '<'a href=\"{url}\"'>'contraseña olvidada'</a>' para restablecerla."
+      "login-user-temporary-blocked-error": "Has realizado demasiados intentos de conexión. Inténtalo de nuevo más tarde o haz clic en '<'a href=\"{url}\"'>'contraseña olvidada'</a>' para restablecerla.",
+      "login-unexpected-error": "Unable to connect. Please try again in a few moments. If the problem persists, '<'a href=\"https://pix.org/en/support\" target=\"blank\"'>'please contact us'</a>'."
     },
     "cgu": {
       "cgu": "condiciones de uso",
       "data-protection-policy": "política de privacidad",
       "error": "Debes aceptar las condiciones de uso y la política de privacidad de Pix para crear una cuenta.",
       "label": "Acepto las condiciones de uso y la política de privacidad de Pix",
-      "message": "Acepto las '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'condiciones de uso'</a>' y la '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'política de privacidad'</a>' de Pix."
+      "message": "Acepto las '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'condiciones de uso'</a>' y la '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'política de privacidad'</a>' de Pix.",
+      "read-message": "Read the '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Pix terms of use'</a>' et la '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'personal data protection policy'</a>'."
     },
     "data-protection-policy-information-banner": {
       "title": "Nuestra política de privacidad ha cambiado. Te invitamos a consultarla: ",
@@ -109,6 +111,17 @@
     "skip-links": {
       "skip-to-content": "Ir al contenido",
       "skip-to-footer": "Ir al final de la página"
+    },
+    "validation": {
+      "password": {
+        "error": "Tu contraseña debe tener al menos 8 caracteres y contener como mínimo una letra mayúscula, una letra minúscula y un dígito.",
+        "rules": {
+          "contains-digit": "at least one number",
+          "contains-lowercase": "at least one lower case letter",
+          "contains-uppercase": "at least one capital letter",
+          "min-length": "at least 8 characters"
+        }
+      }
     }
   },
   "components": {
@@ -124,15 +137,36 @@
         "continue-with-featured-identity-provider-link": "Continue with {featuredIdentityProvider}",
         "select-another-organization-link": "Choose another organisation"
       },
-      "password-input": {
-        "error-message": "You have entered the wrong password. Your password must be longer than 8 characters and contain at least one number, one lower case letter and one upper case letter.",
+      "new-password-input": {
+        "label": "Contraseña",
         "instructions-label": "Your password must comply with the following rules:",
-        "rules": {
-          "completed-message": "{ rulesCompleted } out of { rulesCount } requirements completed.",
-          "contains-digit": "at least one number",
-          "contains-lowercase": "at least one lower case letter",
-          "contains-uppercase": "at least one capital letter",
-          "min-length": "at least 8 characters"
+        "completed-message": "{ rulesCompleted } out of { rulesCount } requirements completed."
+      },
+      "signup-form": {
+        "actions": {
+          "submit": "Me inscribo"
+        },
+        "errors": {
+          "invalid-locale-format": "Tu configuración local «{invalidLocale}» tiene un formato incorrecto.",
+          "locale-not-supported": "Tu configuración local «{localeNotSupported}» no es compatible actualmente."
+        },
+        "fields": {
+          "email": {
+            "error": "Tu dirección de correo electrónico no es válida.",
+            "label": "Dirección de correo electrónico",
+            "placeholder": "ex: john.doe@email.fr"
+          },
+          "firstname": {
+            "error": "No has indicado tu nombre.",
+            "label": "Nombre",
+            "placeholder": "ex: John"
+          },
+          "lastname": {
+            "error": "No has indicado tus apellidos.",
+            "label": "Apellidos",
+            "placeholder": "ex: Doe"
+          },
+          "legend": "Información necesaria para la inscripción."
         }
       }
     },
@@ -1648,7 +1682,8 @@
     },
     "sign-up": {
       "actions": {
-        "submit": "Me inscribo"
+        "submit": "Me inscribo",
+        "login": "Log in to Pix"
       },
       "errors": {
         "invalid-locale-format": "Tu configuración local «{invalidLocale}» tiene un formato incorrecto.",
