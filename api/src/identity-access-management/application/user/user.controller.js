@@ -113,7 +113,7 @@ const getUserAuthenticationMethods = async function (request, h, dependencies = 
  * @param {UserSerializer} dependencies.userSerializer
  * @return {Promise<*>}
  */
-const save = async function (request, h, dependencies = { userSerializer, requestResponseUtils, localeService }) {
+const createUser = async function (request, h, dependencies = { userSerializer, requestResponseUtils, localeService }) {
   const localeFromCookie = request.state?.locale;
   const canonicalLocaleFromCookie = localeFromCookie
     ? dependencies.localeService.getCanonicalLocale(localeFromCookie)
@@ -216,7 +216,7 @@ export const userController = {
   getCurrentUser,
   getUserAuthenticationMethods,
   rememberUserHasSeenLastDataProtectionPolicyInformation,
-  save,
+  createUser,
   sendVerificationCode,
   updatePassword,
   updateUserEmailWithValidation,

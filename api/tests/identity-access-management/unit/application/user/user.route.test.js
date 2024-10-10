@@ -28,7 +28,7 @@ describe('Unit | Identity Access Management | Application | Route | User', funct
 
       it('should return HTTP 200 if payload is not empty and valid', async function () {
         // given
-        sinon.stub(userController, 'save').returns('ok');
+        sinon.stub(userController, 'createUser').returns('ok');
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(routesUnderTest);
 
