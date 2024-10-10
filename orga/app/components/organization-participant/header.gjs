@@ -10,9 +10,14 @@ export default class Header extends Component {
     return this.currentUser.isAdminInOrganization && this.currentUser.hasLearnerImportFeature;
   }
 
+  get titleTranslationKey() {
+    return this.currentUser.canAccessMissionsPage ? "components.organization-participants-header.sco.title" : "components.organization-participants-header.default.title"
+  }
+
   <template>
+    {{log "in the right component"}}
     <h1 class="organization-participant-list-page__header page-title">
-      {{t "components.organization-participants-header.title" count=@participantCount}}
+      {{t this.titleTranslationKey count=@participantCount}}
 
       {{#if this.displayImportButton}}
         <div class="organization-participant-list-page__import-students-button hide-on-mobile">

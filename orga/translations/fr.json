@@ -307,8 +307,13 @@
       "success": "Les participants ont bien été importés."
     },
     "organization-participants-header": {
-      "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
-      "import-button": "Importer"
+      "sco": {
+        "title": "{count, plural, =0 {Participants} =1 {Élèves ({count})} other {Participants ({count})}}"
+      },
+      "default": {
+        "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}"
+      },
+         "import-button": "Importer"
     },
     "participation-status": {
       "SHARED-ASSESSMENT": "Résultats reçus",
