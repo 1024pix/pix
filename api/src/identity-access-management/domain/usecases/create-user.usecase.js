@@ -36,7 +36,7 @@ const createUser = async function ({
   passwordValidator,
   i18n,
 }) {
-  const isValid = await _validateData({
+  await _assertValidData({
     password,
     user,
     userRepository,
@@ -49,37 +49,34 @@ const createUser = async function ({
     user.lastTermsOfServiceValidatedAt = new Date();
   }
 
-  if (isValid) {
-    const hashedPassword = await cryptoService.hashPassword(password);
+  const hashedPassword = await cryptoService.hashPassword(password);
 
-    const savedUser = await userService.createUserWithPassword({
-      user,
-      hashedPassword,
-      userToCreateRepository,
-      authenticationMethodRepository,
-    });
+  const savedUser = await userService.createUserWithPassword({
+    user,
+    hashedPassword,
+    userToCreateRepository,
+    authenticationMethodRepository,
+  });
 
-    let redirectionUrl = null;
-
-    if (campaignCode) {
-      const campaign = await campaignRepository.getByCode(campaignCode);
-      if (campaign) {
-        redirectionUrl = urlBuilder.getCampaignUrl(localeFromHeader, campaignCode);
-      }
+  let redirectionUrl = null;
+  if (campaignCode) {
+    const campaign = await campaignRepository.getByCode(campaignCode);
+    if (campaign) {
+      redirectionUrl = urlBuilder.getCampaignUrl(localeFromHeader, campaignCode);
     }
-
-    const token = await emailValidationDemandRepository.save(savedUser.id);
-    await mailService.sendAccountCreationEmail({
-      email: savedUser.email,
-      firstName: savedUser.firstName,
-      locale: localeFromHeader,
-      token,
-      redirectionUrl,
-      i18n,
-    });
-
-    return savedUser;
   }
+
+  const token = await emailValidationDemandRepository.save(savedUser.id);
+  await mailService.sendAccountCreationEmail({
+    email: savedUser.email,
+    firstName: savedUser.firstName,
+    locale: localeFromHeader,
+    token,
+    redirectionUrl,
+    i18n,
+  });
+
+  return savedUser;
 };
 
 export { createUser };
@@ -136,7 +133,7 @@ function _validatePassword(password, passwordValidator) {
  * @return {Promise<boolean>}
  * @private
  */
-async function _validateData({ password, user, userRepository, userValidator, passwordValidator }) {
+async function _assertValidData({ password, user, userRepository, userValidator, passwordValidator }) {
   let userValidatorError;
   try {
     userValidator.validate({ user });
@@ -159,6 +156,4 @@ async function _validateData({ password, user, userRepository, userValidator, pa
     const relevantErrors = validationErrors.filter((error) => error instanceof Error);
     throw EntityValidationError.fromMultipleEntityValidationErrors(relevantErrors);
   }
-
-  return true;
 }
