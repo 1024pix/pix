@@ -1357,6 +1357,7 @@
           }
         },
         "flashcards": {
+          "start": "Beginnen",
           "seeAnswer" : "Zie het antwoord",
           "seeAgain": "Bekijk de vraag",
           "nextCard": "Volgende"
