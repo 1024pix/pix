@@ -7,6 +7,30 @@ import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper
 describe('Integration | Identity Access Management | Infrastructure | Repository | user-to-create', function () {
   describe('#create', function () {
     context('when a username is given', function () {
+      it('creates and returns a user', async function () {
+        // given
+        const user = new UserToCreate({
+          firstName: 'laura',
+          lastName: 'lune',
+          username: 'laura2000',
+          cgu: true,
+          locale: 'fr-FR',
+        });
+
+        // when
+        const userSaved = await userToCreateRepository.create({ user });
+
+        // then
+        const usersSavedInDatabase = await knex('users').select();
+        expect(usersSavedInDatabase).to.have.lengthOf(1);
+        expect(userSaved).to.be.an.instanceOf(User);
+        expect(userSaved.firstName).to.equal(user.firstName);
+        expect(userSaved.lastName).to.equal(user.lastName);
+        expect(userSaved.username).to.equal(user.username);
+        expect(userSaved.cgu).to.equal(user.cgu);
+        expect(userSaved.locale).to.equal(user.locale);
+      });
+
       context('when username is already taken', function () {
         it('throws an OrganizationLearnerAlreadyLinkedToUserError', async function () {
           // given
@@ -33,13 +57,12 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     });
 
     context('when no username is given', function () {
-      it('returns a domain User object', async function () {
+      it('creates and returns a user', async function () {
         // given
-        const email = 'my-email-to-save@example.net';
         const user = new UserToCreate({
           firstName: 'laura',
           lastName: 'lune',
-          email,
+          email: 'my-email-to-save@example.net',
           cgu: true,
           locale: 'fr-FR',
         });
