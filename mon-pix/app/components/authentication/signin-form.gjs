@@ -12,6 +12,14 @@ import { t } from 'ember-intl';
 import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
 
+const HTTP_ERROR_MESSAGES = {
+  400: { key: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY },
+  401: { key: ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.I18N_KEY },
+  422: { key: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY },
+  504: { key: ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.I18N_KEY },
+  default: { key: 'common.api-error-messages.login-unexpected-error', values: { htmlSafe: true } },
+};
+
 export default class SigninForm extends Component {
   @service url;
   @service session;
@@ -20,7 +28,7 @@ export default class SigninForm extends Component {
 
   @tracked login = null;
   @tracked password = null;
-  @tracked error = null;
+  @tracked globalError = null;
   @tracked isLoading = false;
 
   @action
@@ -57,13 +65,13 @@ export default class SigninForm extends Component {
 
     switch (error?.code) {
       case 'INVALID_LOCALE_FORMAT':
-        this.error = {
+        this.globalError = {
           key: 'pages.sign-up.errors.invalid-locale-format',
           values: { invalidLocale: error.meta.locale },
         };
         break;
       case 'LOCALE_NOT_SUPPORTED':
-        this.error = {
+        this.globalError = {
           key: 'pages.sign-up.errors.locale-not-supported',
           values: { localeNotSupported: error.meta.locale },
         };
@@ -74,7 +82,7 @@ export default class SigninForm extends Component {
         break;
       }
       case 'USER_IS_TEMPORARY_BLOCKED':
-        this.error = {
+        this.globalError = {
           key: ENV.APP.API_ERROR_MESSAGES.USER_IS_TEMPORARY_BLOCKED.I18N_KEY,
           values: {
             url: '/mot-de-passe-oublie',
@@ -83,7 +91,7 @@ export default class SigninForm extends Component {
         };
         break;
       case 'USER_IS_BLOCKED':
-        this.error = {
+        this.globalError = {
           key: ENV.APP.API_ERROR_MESSAGES.USER_IS_BLOCKED.I18N_KEY,
           values: {
             url: 'https://support.pix.org/support/tickets/new',
@@ -92,7 +100,7 @@ export default class SigninForm extends Component {
         };
         break;
       default:
-        this.error = this._getI18nKeyByStatus(responseError.status);
+        this.globalError = HTTP_ERROR_MESSAGES[responseError.status] || HTTP_ERROR_MESSAGES['default'];
     }
   }
 
@@ -101,26 +109,11 @@ export default class SigninForm extends Component {
     return this.router.replaceWith('update-expired-password');
   }
 
-  _getI18nKeyByStatus(status) {
-    switch (status) {
-      case 400:
-        return { key: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY };
-      case 401:
-        return { key: ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.I18N_KEY };
-      case 422:
-        return { key: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY };
-      case 504:
-        return { key: ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.I18N_KEY };
-      default:
-        return { key: 'pages.sign-in.error.unexpected', values: { htmlSafe: true } };
-    }
-  }
-
   <template>
     <form {{on "submit" this.signin}} class="signin-form">
-      {{#if this.error}}
-        <PixMessage id="sign-in-error-message" @type="error" @withIcon="true" role="alert">
-          {{t this.error.key this.error.values}}
+      {{#if this.globalError}}
+        <PixMessage @type="error" @withIcon="true" role="alert">
+          {{t this.globalError.key this.globalError.values}}
         </PixMessage>
       {{/if}}
 

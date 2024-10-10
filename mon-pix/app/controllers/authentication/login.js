@@ -12,6 +12,7 @@ export default class LoginController extends Controller {
   get isNewAuthenticationDesignEnabled() {
     return this.featureToggles.featureToggles.isNewAuthenticationDesignEnabled;
   }
+
   get isInternationalDomain() {
     return !this.currentDomain.isFranceDomain;
   }
