@@ -32,12 +32,14 @@ const getUserCertificationEligibility = async function ({
       userId,
     });
   const userPixCertifications = await pixCertificationRepository.findByUserId({ userId });
-  const allComplementaryCertificationBadges =
-    await complementaryCertificationBadgeWithOffsetVersionRepository.findAll();
 
   const certificationEligibilities = [];
   for (const acquiredBadge of userAcquiredBadges) {
-    const acquiredComplementaryCertificationBadge = allComplementaryCertificationBadges.find(
+    const allComplementaryCertificationBadgesForSameTargetProfile =
+      await complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile({
+        complementaryCertificationBadgeId: acquiredBadge.complementaryCertificationBadgeId,
+      });
+    const acquiredComplementaryCertificationBadge = allComplementaryCertificationBadgesForSameTargetProfile.find(
       ({ id }) => id === acquiredBadge.complementaryCertificationBadgeId,
     );
     let areEligibilityConditionsFulfilled = false;
@@ -45,11 +47,11 @@ const getUserCertificationEligibility = async function ({
     if (isClea) {
       areEligibilityConditionsFulfilled = isCertifiable;
     } else {
-      areEligibilityConditionsFulfilled = _checkComplementaryEligibilityConditions(
-        allComplementaryCertificationBadges,
+      areEligibilityConditionsFulfilled = _checkComplementaryEligibilityConditions({
+        allComplementaryCertificationBadgesForSameTargetProfile,
         userPixCertifications,
-        acquiredComplementaryCertificationBadge.id,
-      );
+        acquiredComplementaryCertificationBadgeId: acquiredComplementaryCertificationBadge.id,
+      });
     }
 
     const isAcquiredExpectedLevel = _hasAcquiredComplementaryCertificationForExpectedLevel(
@@ -82,13 +84,14 @@ const getUserCertificationEligibility = async function ({
   });
 };
 
-function _checkComplementaryEligibilityConditions(
-  allComplementaryCertificationBadges,
+function _checkComplementaryEligibilityConditions({
+  allComplementaryCertificationBadgesForSameTargetProfile,
   userPixCertifications,
-  complementaryCertificationBadgeId,
-) {
-  const scoreRequired = allComplementaryCertificationBadges.find(
-    (complementaryCertificationBadge) => complementaryCertificationBadge.id === complementaryCertificationBadgeId,
+  acquiredComplementaryCertificationBadgeId,
+}) {
+  const scoreRequired = allComplementaryCertificationBadgesForSameTargetProfile.find(
+    (complementaryCertificationBadge) =>
+      complementaryCertificationBadge.id === acquiredComplementaryCertificationBadgeId,
   ).requiredPixScore;
   const validatedUserPixCertifications = userPixCertifications.filter(
     (pixCertification) =>
