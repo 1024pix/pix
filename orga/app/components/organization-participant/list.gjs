@@ -179,6 +179,7 @@ export default class List extends Component {
                 @onClickLearner={{fn @onClickLearner participant.id}}
                 @customRows={{this.customColumns}}
                 @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
+                @hasOrganizationParticipantPage={{@hasOrganizationParticipantPage}}
               />
             </:item>
           </SelectableList>

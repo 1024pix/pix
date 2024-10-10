@@ -25,6 +25,10 @@ export default class ListController extends Controller {
     return this.currentUser.prescriber.computeOrganizationLearnerCertificability;
   }
 
+  get hasOrganizationParticipantPage() {
+    return !this.currentUser.canAccessMissionsPage;
+  }
+
   @action
   triggerFiltering(fieldName, value) {
     if (fieldName.includes('.')) {
@@ -72,8 +76,10 @@ export default class ListController extends Controller {
 
   @action
   goToLearnerPage(learnerId, event) {
-    event.preventDefault();
-    this.router.transitionTo('authenticated.organization-participants.organization-participant', learnerId);
+    if (this.hasOrganizationParticipantPage) {
+      event.preventDefault();
+      this.router.transitionTo('authenticated.organization-participants.organization-participant', learnerId);
+    }
   }
 
   @action
