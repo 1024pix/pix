@@ -4,7 +4,7 @@
   "title": "Des mots de passe solides",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "Aujourd'hui, on utilise des mots de passe pour tout : son téléphone, son adresse mail, ses réseaux sociaux. Dans ce module, vous allez découvrir pourquoi et comment créer des mots de passe solides.",
+    "description": "Aujourd'hui on utilise des mots de passe pour tout : boîte mail, réseaux sociaux, sites marchands, etc. Dans ce module, vous allez découvrir pourquoi et comment créer des mots de passe solides.",
     "duration": 10,
     "level": "Débutant",
     "tabletSupport": "comfortable",
@@ -36,7 +36,7 @@
       "grainId": "f14510d6-ee18-48be-8bb6-39a9427e3102"
     },
     {
-      "content": "<p>Avec ces méthodes, les mots de passe que vous créez sont solides et prennent un temps infini à pirater.<br>À vous de le constater par vous même !<span aria-hidden=\"true\">👇</span></p>",
+      "content": "<p>Avec ces méthodes, les mots de passe que vous créez sont solides. Ils sont impossibles à deviner et prennent un temps infini à pirater. <span aria-hidden=\"true\">👇</span></p>",
       "grainId": "169e770a-933f-41c1-a2c5-834f7b8f2946"
     },
     {
@@ -175,30 +175,6 @@
             {
               "elements": [
                 {
-                  "id": "669c89e1-167e-40a3-a198-2ee226494b2e",
-                  "type": "qcu",
-                  "instruction": "<p>Un mot de passe long est plus dur à pirater qu'un mot de passe court.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "Vrai"
-                    },
-                    {
-                      "id": "2",
-                      "content": "Faux"
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span></span><p>Un mot de passe très long est le meilleur moyen de le rendre très sécurisé.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect&#8239;!</span><p>Un mot de passe très long est le meilleur moyen de le rendre très solides.</p>"
-                  },
-                  "solution": "1"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
                   "id": "cb943d75-1008-4736-80bf-aec9481ba541",
                   "type": "qcu",
                   "instruction": "<p>Le mot de passe <code>Hj5m7a</code> est moins solide que le mot de passe <code>Hj5m7a9€</code>.</p>",
@@ -282,7 +258,7 @@
           "element": {
             "id": "2e695244-52c5-4277-8414-d18777d0d242",
             "type": "text",
-            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite :</h3><ul><li>Un mot de passe solide est <strong>unique</strong>, <strong>long</strong> et composé de <strong>différents caractères</strong>.</li><li>Un mot de passe ne contient <strong>pas d'informations personnelles</strong> et doit rester <strong>secret</strong>.</li><li>N'utilisez pas le même mot de passe partout. Le <strong>mot de passe le plus important</strong> est celui de votre <strong>boîte mail</strong> car il permet de changer tous vos mots de passe.</li></ul>"
+            "content": "<h3><span aria-hidden=\"true\">📌</span> Résumons avant de passer à la suite :</h3><ul><li>Un mot de passe solide est <strong>long</strong> et composé de <strong>différents caractères</strong>.</li><br><li>Un mot de passe ne contient <strong>pas d'informations personnelles</strong> et doit rester <strong>secret</strong>.</li><br><li>N'utilisez pas le même mot de passe partout. Le <strong>mot de passe le plus important</strong> est celui de votre <strong>boîte mail</strong> car il permet de changer tous vos mots de passe.</li></ul>"
           }
         }
       ]
@@ -308,11 +284,15 @@
             "instruction": "<p>À votre avis, quel est le mot de passe d'Austin&#8239;?</p>",
             "proposals": [
               {
+                "type": "text",
+                "content": "<span>Mot de passe d'Austin :</span>"
+              },
+              {
                 "input": "mot-de-passe",
                 "type": "input",
                 "inputType": "text",
                 "size": 15,
-                "display": "block",
+                "display": "inline",
                 "placeholder": "",
                 "ariaLabel": "Mot de passe d'Austin",
                 "defaultValue": "",
@@ -370,7 +350,7 @@
               }
             ],
             "feedbacks": {
-              "valid": "<span class=\"feedback__state\">Correct.</span><p> C’est un <strong>mot de passe faible</strong>, c’est-à-dire  facile à trouver.</p>",
+              "valid": "<span class=\"feedback__state\">Correct.</span><p> Le mot de passe d'Austin est <strong>faible</strong>, c’est-à-dire  facile à trouver.<br>Ces informations personnelles sont souvent disponibles en ligne, par exemple sur les réseaux sociaux.</p>",
               "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Plusieurs réponses sont possibles. Avez-vous utilisé la date de naissance d’Austin, par exemple 151184&#8239;? Et utilisé le prénom de son fils Honey&#8239;?</p>"
             }
           }
@@ -440,71 +420,54 @@
           }
         },
         {
-          "type": "stepper",
-          "steps": [
-            {
-              "elements": [
-                {
-                  "id": "e1587699-4b8f-4fca-80ec-2bb594b31ddf",
-                  "type": "qcu",
-                  "instruction": "Quel est le temps de piratage de <code>JpPdfDm</code> ?",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "4 secondes",
-                      "feedback": ""
-                    },
-                    {
-                      "id": "2",
-                      "content": "4 jours",
-                      "feedback": ""
-                    },
-                    {
-                      "id": "3",
-                      "content": "44 ans",
-                      "feedback": ""
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p>Ce mot de passe est trop faible. Il faudrait l'allonger et utiliser d'autres caractères (nombres, symboles).</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Comptez bien le nombre de caractères et regardez s'il y a ou pas des majuscules, des nombres et des caractères spéciaux</p>"
+          "type": "element",
+          "element": {
+            "id": "8a7b17f0-55f9-446d-ab40-a9f6eb7329ca",
+            "type": "qrocm",
+            "instruction": "<p>Quel est le temps de piratage de <code>Gmeléban2D6né!</code> ?</p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<span>Temps de piratage :</span>"
+              },
+              {
+                "input": "premiere-partie",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "- Sélectionner -",
+                "ariaLabel": "Réponse",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "4 millions d'années"
                   },
-                  "solution": "2"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "b6184063-5aee-40fe-ad07-d8fea0a29f32",
-                  "type": "qcu",
-                  "instruction": "Quel est le temps de piratage de <code>Gmeléban2D6né!</code> ?",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "4 millions d'années",
-                      "feedback": ""
-                    },
-                    {
-                      "id": "2",
-                      "content": "12 milliards d'années",
-                      "feedback": ""
-                    },
-                    {
-                      "id": "3",
-                      "content": "805 milliards d'années",
-                      "feedback": ""
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p>Ce mot de passe est très robuste. Si vous l'avez reconnu, c'est l'exemple de mot de passe créé à l'aide d'une phrase écrite en phonétique.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Comptez bien le nombre de caractères et regardez s'il y a ou pas des majuscules, des nombres et des caractères spéciaux</p>"
+                  {
+                    "id": "2",
+                    "content": "12 milliards d'années"
                   },
-                  "solution": "3"
-                }
-              ]
+                  {
+                    "id": "2",
+                    "content": "805 milliards d'années"
+                  }
+                ],
+                "solutions": ["3"]
+              }
+            ],
+            "feedbacks": {
+              "valid": "<span class=\"feedback__state\">Bravo !&nbsp;<span aria-hidden=\"true\">💫</span></span></p>",
+              "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Pour réussir la prochaine fois, utilisez les indices ci-dessous&nbsp;<span aria-hidden=\"true\">👇</span> </p>"
             }
-          ]
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "b99ae76a-b911-4db4-bbe8-2580a8cc9820",
+            "type": "text",
+            "content": "<p><span aria-hidden=\"true\">🗝️</span> Si vous avez besoin d'aide, vous pouvez cliquer sur les indices ci-dessous&nbsp;:</p><details><summary>Indice 1</summary><p>Comptez le nombre de caractères du mot de passe.<br>Regardez s'il y a des majuscules, des chiffres et des symboles.</p></details><details><summary>Indice 2</summary><p>Ce mot de passe a <strong>14 caractères</strong>.<br>Il a des majuscules (G ; D), des chiffres (2 ; 6) et des symboles (é ; !)</p></details>"
+          }
         }
       ]
     },
