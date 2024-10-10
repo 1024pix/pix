@@ -41,6 +41,12 @@ export default class LearnerFilters extends Component {
       : this.intl.t('pages.organization-participants.filters.participations-count', { count: this.args.learnersCount });
   }
 
+  get learnerCountTranslation() {
+    return this.currentUser.canAccessMissionsPage
+      ? this.intl.t('pages.organization-participants.filters.students-count', { count: this.args.learnersCount })
+      : this.intl.t('pages.organization-participants.filters.participations-count', { count: this.args.learnersCount });
+  }
+
   <template>
     <PixFilterBanner
       @title={{t "common.filters.title"}}
