@@ -308,12 +308,12 @@
     },
     "organization-participants-header": {
       "sco": {
-        "title": "{count, plural, =0 {Participants} =1 {Élèves ({count})} other {Participants ({count})}}"
+        "title": "{count, plural, =0 {Élèves} =1 {Élèves ({count})} other {Élèves ({count})}}"
       },
       "default": {
         "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}"
       },
-         "import-button": "Importer"
+      "import-button": "Importer"
     },
     "participation-status": {
       "SHARED-ASSESSMENT": "Résultats reçus",
