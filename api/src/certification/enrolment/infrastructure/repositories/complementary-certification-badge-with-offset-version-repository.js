@@ -1,24 +1,30 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { ComplementaryCertificationBadgeWithOffsetVersion } from '../../domain/models/ComplementaryCertificationBadge.js';
 
-/**
- *
- * @deprecated doesn't work for multiple target profile on same complementary certification. Should be grouped by targetProfileIds
- */
-export async function findAll() {
+export async function getAllWithSameTargetProfile({ complementaryCertificationBadgeId }) {
   const results = await knex('complementary-certification-badges')
     .select(
-      'id',
-      'minimumEarnedPix',
+      'complementary-certification-badges.id',
+      'complementary-certification-badges.minimumEarnedPix',
       knex.raw(
         '(rank() over (partition by "complementaryCertificationId", "level" ORDER BY "detachedAt" DESC NULLS FIRST)) - 1 as "offsetVersion"',
       ),
       knex.raw(
-        ' (first_value("id") over (partition by "complementaryCertificationId", "level" ORDER BY "detachedAt" DESC NULLS FIRST)) as "currentAttachedComplementaryCertificationBadgeId"',
+        ' (first_value("complementary-certification-badges"."id") over (partition by "complementaryCertificationId", "level" ORDER BY "detachedAt" DESC NULLS FIRST)) as "currentAttachedComplementaryCertificationBadgeId"',
       ),
     )
+    .join('badges', 'badges.id', '=', 'complementary-certification-badges.badgeId')
+    .where(
+      'badges.targetProfileId',
+      '=',
+      knex('complementary-certification-badges')
+        .select('target-profiles.id')
+        .join('badges', 'badges.id', '=', 'complementary-certification-badges.badgeId')
+        .join('target-profiles', 'target-profiles.id', '=', 'badges.targetProfileId')
+        .where('complementary-certification-badges.id', '=', complementaryCertificationBadgeId),
+    )
+    .orderBy('complementary-certification-badges.id');
 
-    .orderBy('id');
   return results.map(_toDomain);
 }
 

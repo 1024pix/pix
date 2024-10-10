@@ -3,64 +3,85 @@ import { databaseBuilder, expect } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Enrolment | Integration | Repository | complementary-certification-badge-with-offset-version-repository', function () {
-  describe('#findAll', function () {
-    it('should return all complementarycertificationbadge models from DB', async function () {
+  describe('#getAllWithSameTargetProfile', function () {
+    it('should return all complementary certification badges with offset version for the same target profile', async function () {
       // given
-      const complementaryCertificationId1 = databaseBuilder.factory.buildComplementaryCertification({ key: 'key1' }).id;
+      const { id: targetProfileId1 } = databaseBuilder.factory.buildTargetProfile();
+      const { id: targetProfileId2 } = databaseBuilder.factory.buildTargetProfile();
+
+      const { id: badgeId1 } = databaseBuilder.factory.buildBadge({ targetProfileId1 });
+      const { id: badgeId2 } = databaseBuilder.factory.buildBadge({ targetProfileId2 });
+
+      const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({ key: 'key1' }).id;
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 1,
         minimumEarnedPix: 150,
-        complementaryCertificationId: complementaryCertificationId1,
+        badgeId: badgeId1,
+        complementaryCertificationId,
+        label: 'Pix+ toto FI confirmé',
         detachedAt: '2020-01-01',
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 4,
+        badgeId: badgeId1,
+        label: 'Pix+ toto FI confirmé',
         minimumEarnedPix: 150,
-        complementaryCertificationId: complementaryCertificationId1,
+        complementaryCertificationId,
       });
-      const complementaryCertificationId2 = databaseBuilder.factory.buildComplementaryCertification({ key: 'key2' }).id;
+
       databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 3,
-        minimumEarnedPix: 350,
-        complementaryCertificationId: complementaryCertificationId2,
+        id: 5,
+        minimumEarnedPix: 150,
+        badgeId: badgeId2,
+        label: 'Pix+ toto FC confirmé',
+        level: 1,
+        complementaryCertificationId,
+        detachedAt: '2020-01-01',
       });
-      const complementaryCertificationId3 = databaseBuilder.factory.buildComplementaryCertification({ key: 'key3' }).id;
       databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 2,
-        minimumEarnedPix: 0,
-        complementaryCertificationId: complementaryCertificationId3,
+        id: 6,
+        minimumEarnedPix: 150,
+        badgeId: badgeId2,
+        label: 'Pix+ toto FC confirmé',
+        level: 1,
+        complementaryCertificationId,
       });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 7,
+        minimumEarnedPix: 300,
+        badgeId: badgeId2,
+        label: 'Pix+ toto FC expert',
+        level: 2,
+        complementaryCertificationId,
+      });
+
       await databaseBuilder.commit();
 
       // when
       const actualComplementaryCertificationBadges =
-        await complementaryCertificationBadgeWithOffsetVersionRepository.findAll();
+        await complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile({
+          complementaryCertificationBadgeId: 6,
+        });
 
       // then
       const expectedResult = [
         domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
-          id: 1,
+          id: 5,
           requiredPixScore: 150,
           offsetVersion: 1,
-          currentAttachedComplementaryCertificationBadgeId: 4,
+          currentAttachedComplementaryCertificationBadgeId: 6,
         }),
         domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
-          id: 2,
-          requiredPixScore: 0,
-          offsetVersion: 0,
-          currentAttachedComplementaryCertificationBadgeId: 2,
-        }),
-        domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
-          id: 3,
-          requiredPixScore: 350,
-          offsetVersion: 0,
-          currentAttachedComplementaryCertificationBadgeId: 3,
-        }),
-        domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
-          id: 4,
+          id: 6,
           requiredPixScore: 150,
           offsetVersion: 0,
-          currentAttachedComplementaryCertificationBadgeId: 4,
+          currentAttachedComplementaryCertificationBadgeId: 6,
+        }),
+        domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+          id: 7,
+          requiredPixScore: 300,
+          offsetVersion: 0,
+          currentAttachedComplementaryCertificationBadgeId: 7,
         }),
       ];
       expect(actualComplementaryCertificationBadges).to.have.deep.members(expectedResult);
@@ -69,7 +90,9 @@ describe('Certification | Enrolment | Integration | Repository | complementary-c
     it('should return empty array when there are none', async function () {
       // when
       const actualComplementaryCertificationBadges =
-        await complementaryCertificationBadgeWithOffsetVersionRepository.findAll();
+        await complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile({
+          complementaryCertificationBadgeId: 6,
+        });
 
       // then
       expect(actualComplementaryCertificationBadges).to.deepEqualArray([]);
