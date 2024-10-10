@@ -117,6 +117,17 @@
         "label": "Search for an organization",
         "placeholder": "Select an organization",
         "searchLabel": "Keyword search"
+      },
+      "password-input": {
+        "error-message": "You have entered the wrong password. Your password must be longer than 8 characters and contain at least one number, one lower case letter and one upper case letter.",
+        "instructions-label": "Your password must comply with the following rules:",
+        "rules": {
+          "completed-message": "{ rulesCompleted } out of { rulesCount } requirements completed.",
+          "contains-digit": "at least one number",
+          "contains-lowercase": "at least one lower case letter",
+          "contains-uppercase": "at least one capital letter",
+          "min-length": "at least 8 characters"
+        }
       }
     },
     "invited": {
@@ -1357,8 +1368,8 @@
           }
         },
         "flashcards": {
-          "start" : "Para empezar",
-          "seeAnswer" : "ver la respuesta",
+          "start": "Para empezar",
+          "seeAnswer": "ver la respuesta",
           "seeAgain": "Revisa la pregunta",
           "nextCard": "Siguiente"
         },

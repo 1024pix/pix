@@ -124,6 +124,17 @@
         "label": "Rechercher une organisation",
         "placeholder": "Sélectionner un organisme",
         "searchLabel": "Recherche par mots-clés"
+      },
+      "password-input": {
+        "error-message": "Le mot de passe saisi est erroné. Votre mot de passe doit être supérieur à 8 caractères et contenir au minimum un chiffre, une minuscule et une majuscule.",
+        "instructions-label": "Votre mot de passe doit respecter les règles suivantes :",
+        "rules": {
+          "completed-message": "{ rulesCompleted } sur { rulesCount } complétées.",
+          "contains-digit": "un chiffre minimum",
+          "contains-lowercase": "une minuscule minimum",
+          "contains-uppercase": "une majuscule minimum",
+          "min-length": "8 caractères minimum"
+        }
       }
     },
     "invited": {
