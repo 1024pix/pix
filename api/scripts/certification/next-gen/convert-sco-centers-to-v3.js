@@ -5,14 +5,14 @@ import * as url from 'node:url';
 import { usecases } from '../../../src/certification/configuration/domain/usecases/index.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 /**
- * Usage: DRY_RUN=true node scripts/certification/next-gen/convert-centers-to-v3.js
+ * Usage: DRY_RUN=true node scripts/certification/next-gen/convert-sco-centers-to-v3.js
  **/
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main({ isDryRun }) {
-  logger.info('Creating orders to convert V2 centers to V3 centers');
+  logger.info('Creating orders to convert V2 SCO centers (not in whitelist) to V3 centers');
   const numberOfCenterConversionOrders = await usecases.findAndTriggerV2CenterToConvertInV3({ isDryRun });
   logger.info(`Conversion jobs sent for [${numberOfCenterConversionOrders}] V2 centers`);
   return 0;
