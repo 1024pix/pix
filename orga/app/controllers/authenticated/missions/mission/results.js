@@ -30,25 +30,21 @@ export default class MissionResultsController extends Controller {
   }
 
   @action
-  clearFilters() {
-    this.pageNumber = null;
-  }
-
-  @action
   onSelectDivisions(divisions) {
     this.divisions = divisions;
-    this.pageNumber = null;
+    this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
   @action
   onSelectResults(result) {
     this.results = result;
-    this.pageNumber = null;
+    this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
   @action
   onFilter(inputText, value) {
     this[inputText] = value;
+    this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
   @action
@@ -56,6 +52,7 @@ export default class MissionResultsController extends Controller {
     this.divisions = [];
     this.results = [];
     this.name = '';
+    this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
   @action

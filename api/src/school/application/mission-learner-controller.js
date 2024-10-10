@@ -11,6 +11,11 @@ const findPaginatedMissionLearners = async function (request) {
   if (filter.results && !Array.isArray(filter.results)) {
     filter.results = [filter.results];
   }
+
+  if (filter.statuses && !Array.isArray(filter.statuses)) {
+    filter.statuses = [filter.statuses];
+  }
+
   const result = await usecases.findPaginatedMissionLearners({ organizationId, missionId, page, filter });
   return missionLearnerSerializer.serialize(result);
 };

@@ -1,8 +1,38 @@
 import { MissionLearner } from '../../../../../src/school/domain/models/MissionLearner.js';
-import { filterByGlobalResult } from '../../../../../src/school/domain/usecases/find-paginated-mission-learners.js';
+import {
+  filterByGlobalResult,
+  filterByStatuses,
+} from '../../../../../src/school/domain/usecases/find-paginated-mission-learners.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | find-paginated-mission-learners', function () {
+  context('filterByStatuses', function () {
+    it('with empty mission learners, returns empty filtered array', function () {
+      const filter = [];
+      const missionLearners = [];
+      const filteredMissionLearners = filterByStatuses(missionLearners, filter);
+
+      expect(filteredMissionLearners).to.deep.equals([]);
+    });
+
+    it('should returns mission learner corresponding to the status filter', function () {
+      const notStartedMissionAssessement = new MissionLearner({
+        missionStatus: 'not-started',
+      });
+      const completedMissionAssessement = new MissionLearner({
+        missionStatus: 'completed',
+      });
+      const startedMissionAssessement = new MissionLearner({
+        missionStatus: 'started',
+      });
+
+      const missionLearners = [notStartedMissionAssessement, completedMissionAssessement, startedMissionAssessement];
+      const statusFilter = ['completed'];
+      const filteredMissionLearners = filterByStatuses(missionLearners, statusFilter);
+
+      expect(filteredMissionLearners).to.deep.equals([completedMissionAssessement]);
+    });
+  });
   context('filterByGlobalResult', function () {
     it('with empty mission learners, returns empty filtered array', function () {
       const filterGlobalResults = [];

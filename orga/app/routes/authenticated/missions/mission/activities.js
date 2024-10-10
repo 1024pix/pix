@@ -10,6 +10,7 @@ export default class MissionActivitiesRoute extends Route {
   queryParams = {
     divisions: { refreshModel: true },
     name: { refreshModel: true },
+    statuses: { refreshModel: true },
     pageNumber: {
       refreshModel: true,
     },
@@ -38,6 +39,7 @@ export default class MissionActivitiesRoute extends Route {
         filter: {
           divisions: params.divisions,
           name: params.name,
+          statuses: params.statuses,
         },
         page: {
           number: params.pageNumber,

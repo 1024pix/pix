@@ -928,7 +928,10 @@
             "caption": "Tabel van studenten met hun deelname aan de missie {missionName}",
             "filters": {
               "aria-label": "Filter studenten",
-              "learners-count": "{count, plural, =0 {Geen student} =1 {1 student} other {{count} studenten}}"
+              "learners-count": "{count, plural, =0 {Geen student} =1 {1 student} other {{count} studenten}}",
+              "status": {
+                "label": "Status opdracht"
+              }
             },
             "headers": {
               "division": "Klasse",
@@ -949,7 +952,7 @@
             "filters": {
               "aria-label": "Filter studenten",
               "global-result": {
-                "label": "Évaluation de la mission",
+                "label": "Missiebeoordeling",
                 "options": {
                   "exceeded": "Overtroffen",
                   "no-result": "Geen beoordeling",

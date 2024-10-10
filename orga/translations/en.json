@@ -930,7 +930,10 @@
             "caption": "List of students with their activity for the mission {missionName}",
             "filters": {
               "aria-label": "Filter on students",
-              "learners-count": "{count, plural, =0 {No student} =1 {1 student} other {{count} students}}"
+              "learners-count": "{count, plural, =0 {No student} =1 {1 student} other {{count} students}}",
+              "status": {
+                "label": "Mission status"
+              }
             },
             "headers": {
               "division": "Division",
