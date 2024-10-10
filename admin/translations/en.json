@@ -44,6 +44,10 @@
       "title": "Filters",
       "actions": {
         "clear": "Clear filters"
+      },
+      "target-profile": {
+        "label": "Category",
+        "placeholder": "Pix+, Other ..."
       }
     },
     "forms": {

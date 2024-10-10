@@ -12,6 +12,7 @@ export default class ListRoute extends Route {
     pageSize: { refreshModel: true },
     id: { refreshModel: true },
     name: { refreshModel: true },
+    categories: { refreshModel: true },
   };
 
   beforeModel() {
@@ -25,6 +26,7 @@ export default class ListRoute extends Route {
         filter: {
           id: params.id ? params.id.trim() : '',
           name: params.name ? params.name.trim() : '',
+          categories: params.categories ?? [],
         },
         page: {
           number: params.pageNumber,
@@ -46,6 +48,7 @@ export default class ListRoute extends Route {
       controller.pageSize = 10;
       controller.id = null;
       controller.name = null;
+      controller.categories = [];
     }
   }
 }

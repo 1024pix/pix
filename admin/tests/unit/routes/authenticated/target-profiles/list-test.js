@@ -14,15 +14,20 @@ module('Unit | Route | authenticated/target-profiles/list', function (hooks) {
   module('#model', function (hooks) {
     const params = {};
     const expectedQueryArgs = {};
+    let queryStub;
 
     hooks.beforeEach(function () {
-      route.store.query = sinon.stub().resolves();
+      queryStub = sinon.stub(route.store, 'query').resolves();
       params.pageNumber = 'somePageNumber';
       params.pageSize = 'somePageSize';
       expectedQueryArgs.page = {
         number: 'somePageNumber',
         size: 'somePageSize',
       };
+    });
+
+    hooks.afterEach(function () {
+      sinon.restore();
     });
 
     module('when queryParams filters are falsy', function () {
@@ -32,6 +37,7 @@ module('Unit | Route | authenticated/target-profiles/list', function (hooks) {
         expectedQueryArgs.filter = {
           name: '',
           id: '',
+          categories: [],
         };
 
         // then
@@ -45,17 +51,18 @@ module('Unit | Route | authenticated/target-profiles/list', function (hooks) {
         // given
         params.name = ' someName';
         params.id = 'someId ';
+        params.categories = ['OTHER'];
         expectedQueryArgs.filter = {
           name: 'someName',
           id: 'someId',
+          categories: ['OTHER'],
         };
 
         // when
         await route.model(params);
 
         // then
-        sinon.assert.calledWith(route.store.query, 'target-profile-summary', expectedQueryArgs);
-        assert.ok(true);
+        assert.ok(queryStub.calledWith('target-profile-summary', expectedQueryArgs));
       });
     });
   });
@@ -69,6 +76,7 @@ module('Unit | Route | authenticated/target-profiles/list', function (hooks) {
         pageSize: 'somePageSize',
         name: 'someName',
         id: 'someId',
+        categories: ['OTHER'],
       };
     });
 
@@ -78,10 +86,11 @@ module('Unit | Route | authenticated/target-profiles/list', function (hooks) {
         route.resetController(controller, true);
 
         // then
-        assert.deepEqual(controller.pageNumber, 1);
-        assert.deepEqual(controller.pageSize, 10);
-        assert.deepEqual(controller.name, null);
-        assert.deepEqual(controller.id, null);
+        assert.strictEqual(controller.pageNumber, 1);
+        assert.strictEqual(controller.pageSize, 10);
+        assert.strictEqual(controller.name, null);
+        assert.strictEqual(controller.id, null);
+        assert.strictEqual(controller.categories.length, 0);
       });
     });
 
@@ -91,10 +100,11 @@ module('Unit | Route | authenticated/target-profiles/list', function (hooks) {
         route.resetController(controller, false);
 
         // then
-        assert.deepEqual(controller.pageNumber, 'somePageNumber');
-        assert.deepEqual(controller.pageSize, 'somePageSize');
-        assert.deepEqual(controller.name, 'someName');
-        assert.deepEqual(controller.id, 'someId');
+        assert.strictEqual(controller.pageNumber, 'somePageNumber');
+        assert.strictEqual(controller.pageSize, 'somePageSize');
+        assert.strictEqual(controller.name, 'someName');
+        assert.strictEqual(controller.id, 'someId');
+        assert.deepEqual(controller.categories, ['OTHER']);
       });
     });
   });

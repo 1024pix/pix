@@ -1,16 +1,33 @@
 import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
+import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
 import PixPagination from '@1024pix/pix-ui/components/pix-pagination';
 import { fn } from '@ember/helper';
+import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
 import formatDate from '../../helpers/format-date';
+import { categories } from '../../helpers/target-profile-categories.js';
 
 export default class TargetProfileListSummaryItems extends Component {
+  @service intl;
+  @tracked selectedValues = [];
+
   get isClearFiltersButtonDisabled() {
-    return !this.args.id && !this.args.name;
+    return !this.args.id && !this.args.name && this.args.categories?.length === 0;
+  }
+
+  get categoryOptions() {
+    return Object.entries(categories).map(([key, value]) => ({ label: this.intl.t(value), value: key }));
+  }
+
+  @action
+  triggerCategoriesFiltering(values) {
+    this.args.triggerFiltering('categories', { target: { value: values } });
   }
 
   <template>
@@ -42,6 +59,18 @@ export default class TargetProfileListSummaryItems extends Component {
       >
         <:label>{{t "pages.target-profiles.filters.search-by-name.name"}}</:label>
       </PixInput>
+      <PixMultiSelect
+        @id="categories"
+        @screenReaderOnly={{true}}
+        @placeholder={{t "common.filters.target-profile.placeholder"}}
+        @onChange={{this.triggerCategoriesFiltering}}
+        @values={{@categories}}
+        @options={{this.categoryOptions}}
+      >
+        <:label>{{t "common.filters.target-profile.label"}}</:label>
+        <:default as |option|>{{option.label}}</:default>
+      </PixMultiSelect>
+
     </PixFilterBanner>
 
     <div class="content-text content-text--small">

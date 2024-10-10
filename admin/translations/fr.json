@@ -19,6 +19,10 @@
       "organization-not-found-error": "L’organisation \"{organizationId}\" n’existe pas."
     },
     "fields": {
+      "createdAt": "date de création",
+      "id": "ID",
+      "name": "nom",
+      "status": "statut",
       "target-profile": {
         "category": {
           "name": "catégorie",
@@ -34,16 +38,16 @@
             "TARGETED": "Parcours ciblés"
           }
         }
-      },
-      "createdAt": "date de création",
-      "id": "ID",
-      "name": "nom",
-      "status": "statut"
+      }
     },
     "filters": {
       "title": "Filtres",
       "actions": {
         "clear": "Effacer les filtres"
+      },
+      "target-profile": {
+        "label": "Catégorie",
+        "placeholder": "Pix+, Autres..."
       }
     },
     "forms": {
