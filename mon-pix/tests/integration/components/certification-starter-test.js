@@ -154,25 +154,6 @@ module('Integration | Component | certification-starter', function (hooks) {
             ),
           );
           assert.ok(screen.getByText('Certif complémentaire 1'));
-        });
-
-        test('should not display subscription non eligible panel', async function (assert) {
-          // given
-          const store = this.owner.lookup('service:store');
-          this.set(
-            'certificationCandidateSubscription',
-            store.createRecord('certification-candidate-subscription', {
-              eligibleSubscriptions: [{ label: 'Certif complémentaire 1', type: 'COMPLEMENTARY' }],
-              nonEligibleSubscription: null,
-            }),
-          );
-
-          // when
-          const screen = await render(
-            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
-          );
-
-          // then
           assert.notOk(screen.queryByText('Vous n’êtes pas éligible à'));
         });
       });
@@ -201,26 +182,6 @@ module('Integration | Component | certification-starter', function (hooks) {
               "Vous n'êtes pas éligible à Certif complémentaire 1. Vous pouvez néanmoins passer votre certification Pix.",
             ),
           );
-        });
-
-        test('should not display subscription eligible panel', async function (assert) {
-          // given
-          const store = this.owner.lookup('service:store');
-          this.set(
-            'certificationCandidateSubscription',
-            store.createRecord('certification-candidate-subscription', {
-              eligibleSubscriptions: null,
-              nonEligibleSubscription: { label: 'Certif complémentaire 1' },
-              sessionVersion: 2,
-            }),
-          );
-
-          // when
-          const screen = await render(
-            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} />`,
-          );
-
-          // then
           assert.notOk(
             screen.queryByText(
               'Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :',
