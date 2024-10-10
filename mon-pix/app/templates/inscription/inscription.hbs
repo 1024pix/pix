@@ -1,9 +1,25 @@
 {{page-title (t "pages.sign-up.title")}}
-<main class="sign-form-page" role="main">
-  <section class="sign-form-page__container">
-    <SignupForm @user={{@model}} />
-    {{#if this.isInternationalDomain}}
-      <LanguageSwitcher @selectedLanguage={{this.selectedLanguage}} @onLanguageChange={{this.onLanguageChange}} />
-    {{/if}}
-  </section>
-</main>
+
+{{#if this.isNewAuthenticationDesignEnabled}}
+  <AuthenticationLayout class="signup-page-layout">
+    <:header>
+      <PixButtonLink @variant="secondary" @route="authentication.login">
+        {{t "pages.sign-up.actions.login"}}
+      </PixButtonLink>
+    </:header>
+
+    <:content>
+      <h1 class="pix-title-m">{{t "pages.sign-up.first-title"}}</h1>
+      <Authentication::SignupForm @user={{@model}} />
+    </:content>
+  </AuthenticationLayout>
+{{else}}
+  <main class="sign-form-page" role="main">
+    <section class="sign-form-page__container">
+      <SignupForm @user={{@model}} />
+      {{#if this.isInternationalDomain}}
+        <LanguageSwitcher @selectedLanguage={{this.selectedLanguage}} @onLanguageChange={{this.onLanguageChange}} />
+      {{/if}}
+    </section>
+  </main>
+{{/if}}
