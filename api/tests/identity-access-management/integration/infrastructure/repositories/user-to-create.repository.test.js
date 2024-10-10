@@ -8,7 +8,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
   describe('#create', function () {
     context('when a username is given', function () {
       context('when username is already taken', function () {
-        it('throws a custom error', async function () {
+        it('throws an OrganizationLearnerAlreadyLinkedToUserError', async function () {
           // given
           const alreadyExistingUserName = 'thierryDicule1234';
           databaseBuilder.factory.buildUser({ id: 7, username: alreadyExistingUserName });
