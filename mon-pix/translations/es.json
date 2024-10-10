@@ -667,7 +667,7 @@
       "first-title": "Estás a punto de empezar tu prueba de certificación",
       "link-to-user-certification": "Ver mis certificaciones",
       "non-eligible-subscription": "No eres elegible para {nonEligibleSubscriptionLabel}. Sin embargo, puedes presentarte a la certificación Pix.",
-      "subscription": "Además de la certificación Pix, estás inscrito en la siguiente certificación complementaria:",
+      "core-and-complementary-subscriptions": "Además de la certificación Pix, estás inscrito en la siguiente certificación complementaria:",
       "title": "Unirse a una sesión de certificación"
     },
     "certifications-list": {

@@ -71,10 +71,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         expectedData = {
           ...expectedData,
           complementaryCertification: { id: 99 },
-          subscriptions: [
-            coreSubscription,
-            domainBuilder.buildComplementarySubscription({ complementaryCertificationId: 99 }),
-          ],
+          subscriptions: [coreSubscription],
         };
 
         // when

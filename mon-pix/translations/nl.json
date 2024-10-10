@@ -667,7 +667,7 @@
       "first-title": "Je staat op het punt om aan je certificeringstest te beginnen",
       "link-to-user-certification": "Bekijk mijn certificaten",
       "non-eligible-subscription": "Je komt niet in aanmerking voor {nonEligibleSubscriptionLabel}. Je kunt echter wel je Pix-certificering behalen.",
-      "subscription": "Je bent geregistreerd voor de volgende aanvullende certificering naast de Pix-certificering:",
+      "core-and-complementary-subscriptions": "Je bent geregistreerd voor de volgende aanvullende certificering naast de Pix-certificering:",
       "title": "Doe mee aan een certificeringssessie"
     },
     "certifications-list": {

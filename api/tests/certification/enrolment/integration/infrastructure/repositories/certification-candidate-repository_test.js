@@ -199,7 +199,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           sex: 'M',
           subscriptions: [
             {
-              certificationCandidateId: undefined,
+              certificationCandidateId,
               complementaryCertificationId: null,
               type: 'CORE',
             },
@@ -350,17 +350,20 @@ describe('Integration | Repository | CertificationCandidate', function () {
           domainBuilder.buildCertificationCandidate({
             ...certificationCandidate,
             complementaryCertification: null,
-            subscriptions: [domainBuilder.buildCoreSubscription()],
+            subscriptions: [
+              domainBuilder.buildCoreSubscription({
+                certificationCandidateId: certificationCandidate.id,
+              }),
+            ],
           }),
         );
       });
     });
 
-    context('when the candidate has complementary certification subscriptions', function () {
+    context('when the candidate has only complementary certification subscription', function () {
       it('should return the candidate with his complementary certification', async function () {
         // given
         const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate();
-        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
         const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Complementary certification 2',
         });
@@ -378,7 +381,53 @@ describe('Integration | Repository | CertificationCandidate', function () {
         expect(certificationCandidateWithComplementaryCertification).to.deep.equal(
           domainBuilder.buildCertificationCandidate({
             ...certificationCandidate,
-            subscriptions: [domainBuilder.buildCoreSubscription()],
+            subscriptions: [
+              domainBuilder.buildComplementarySubscription({
+                certificationCandidateId: certificationCandidate.id,
+                complementaryCertificationId: complementaryCertification.id,
+              }),
+            ],
+            complementaryCertification:
+              domainBuilder.certification.sessionManagement.buildCertificationSessionComplementaryCertification(
+                complementaryCertification,
+              ),
+          }),
+        );
+      });
+    });
+
+    context('when the candidate has core and complementary certification subscriptions', function () {
+      it('should return the candidate with his complementary certification', async function () {
+        // given
+        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate();
+        databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: certificationCandidate.id });
+        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+          label: 'Complementary certification 2',
+        });
+        databaseBuilder.factory.buildComplementaryCertificationSubscription({
+          complementaryCertificationId: complementaryCertification.id,
+          certificationCandidateId: certificationCandidate.id,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const certificationCandidateWithComplementaryCertification =
+          await certificationCandidateRepository.getWithComplementaryCertification({ id: certificationCandidate.id });
+
+        // then
+        expect(certificationCandidateWithComplementaryCertification).to.deep.equal(
+          domainBuilder.buildCertificationCandidate({
+            ...certificationCandidate,
+            subscriptions: [
+              domainBuilder.buildCoreSubscription({
+                certificationCandidateId: certificationCandidate.id,
+              }),
+              domainBuilder.buildComplementarySubscription({
+                complementaryCertificationId: complementaryCertification.id,
+                certificationCandidateId: certificationCandidate.id,
+              }),
+            ],
             complementaryCertification:
               domainBuilder.certification.sessionManagement.buildCertificationSessionComplementaryCertification(
                 complementaryCertification,

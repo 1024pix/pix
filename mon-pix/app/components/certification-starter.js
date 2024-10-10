@@ -21,6 +21,21 @@ export default class CertificationStarter extends Component {
     return this.inputAccessCode.toUpperCase();
   }
 
+  get complementarySubscriptionLabel() {
+    return this.args.certificationCandidateSubscription.eligibleSubscriptions.find(
+      (subscription) => subscription.type === 'COMPLEMENTARY',
+    ).label;
+  }
+
+  get subscriptionTitle() {
+    const { isSessionVersion3, isV3CoreAndComplementary } = this.args.certificationCandidateSubscription;
+
+    const complementaryAlone = isSessionVersion3 && !isV3CoreAndComplementary;
+    const intlSuffix = complementaryAlone ? 'complementary-subscription' : 'core-and-complementary-subscriptions';
+
+    return this.intl.t(`pages.certification-start.${intlSuffix}`);
+  }
+
   @action
   async submit(e) {
     e.preventDefault();

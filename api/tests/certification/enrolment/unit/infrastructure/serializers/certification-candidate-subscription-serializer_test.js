@@ -7,12 +7,8 @@ describe('Certification | Enrolment | Unit | Serializer | certification-candidat
       const certificationCandidateSubscription = domainBuilder.buildCertificationCandidateSubscription({
         id: 123,
         sessionId: 456,
-        eligibleSubscription: domainBuilder.buildComplementaryCertification({
-          key: 'FIRST_COMPLEMENTARY',
-          label: 'First Complementary Certification',
-        }),
+        eligibleSubscriptions: [{ type: 'COMPLEMENTARY', label: 'First Complementary Certification' }],
         sessionVersion: 2,
-
         nonEligibleSubscription: domainBuilder.buildComplementaryCertification({
           key: 'SECOND_COMPLEMENTARY',
           label: 'Second Complementary Certification',
@@ -24,11 +20,12 @@ describe('Certification | Enrolment | Unit | Serializer | certification-candidat
           id: '123',
           type: 'certification-candidate-subscriptions',
           attributes: {
-            'eligible-subscription': {
-              id: 1,
-              key: 'FIRST_COMPLEMENTARY',
-              label: 'First Complementary Certification',
-            },
+            'eligible-subscriptions': [
+              {
+                type: 'COMPLEMENTARY',
+                label: 'First Complementary Certification',
+              },
+            ],
             'non-eligible-subscription': {
               id: 1,
               key: 'SECOND_COMPLEMENTARY',
