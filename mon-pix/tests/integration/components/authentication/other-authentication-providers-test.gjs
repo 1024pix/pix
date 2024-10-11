@@ -98,28 +98,56 @@ module('Integration | Component | Authentication | other-authentication-provider
   });
 
   module('when there are other identity providers', function () {
-    test('it displays a select another organization link', async function (assert) {
-      // given
-      class OidcIdentityProvidersServiceStub extends Service {
-        get hasOtherIdentityProviders() {
-          return true;
+    module('when it’s for login', function () {
+      test('it displays a select another organization link', async function (assert) {
+        // given
+        class OidcIdentityProvidersServiceStub extends Service {
+          get hasOtherIdentityProviders() {
+            return true;
+          }
+
+          load() {
+            return Promise.resolve();
+          }
         }
+        this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersServiceStub);
 
-        load() {
-          return Promise.resolve();
-        }
-      }
-      this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersServiceStub);
+        // when
+        const screen = await render(<template><OtherAuthenticationProviders /></template>);
 
-      // when
-      const screen = await render(<template><OtherAuthenticationProviders /></template>);
-
-      // then
-      const link = await screen.findByRole('link', {
-        name: t('components.authentication.other-authentication-providers.select-another-organization-link'),
+        // then
+        const link = await screen.findByRole('link', {
+          name: t('components.authentication.other-authentication-providers.select-another-organization-link'),
+        });
+        assert.dom(link).exists();
+        assert.strictEqual(link.getAttribute('href'), '/connexion/sso-selection');
       });
-      assert.dom(link).exists();
-      assert.strictEqual(link.getAttribute('href'), '/connexion/sso-selection');
+    });
+
+    module('when it’s for signup', function () {
+      test('it displays a select another organization link', async function (assert) {
+        // given
+        class OidcIdentityProvidersServiceStub extends Service {
+          get hasOtherIdentityProviders() {
+            return true;
+          }
+
+          load() {
+            return Promise.resolve();
+          }
+        }
+        this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersServiceStub);
+
+        // when
+        const screen = await render(<template><OtherAuthenticationProviders @isForSignup={{true}} /></template>);
+
+        // then
+        const link = await screen.findByRole('link', {
+          name: t('components.authentication.other-authentication-providers.select-another-organization-link'),
+        });
+        assert.dom(link).exists();
+        assert.strictEqual(link.getAttribute('href'), '/inscription/sso-selection');
+      });
     });
   });
 

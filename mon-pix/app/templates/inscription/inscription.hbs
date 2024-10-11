@@ -11,6 +11,7 @@
     <:content>
       <h1 class="pix-title-m">{{t "pages.sign-up.first-title"}}</h1>
       <Authentication::SignupForm @user={{@model}} />
+      <Authentication::OtherAuthenticationProviders @isForSignup={{true}} />
     </:content>
   </AuthenticationLayout>
 {{else}}

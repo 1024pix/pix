@@ -7,6 +7,11 @@ export default class OtherAuthenticationProviders extends Component {
   @service oidcIdentityProviders;
   @service router;
 
+  get ssoSelectionRoute() {
+    const { isForSignup } = this.args;
+    return isForSignup ? 'inscription.sso-selection' : 'authentication.sso-selection';
+  }
+
   <template>
     <section class="authentication-other-authentication-providers-section">
       <h2 class="authentication-other-authentication-providers-section__heading">
@@ -39,7 +44,7 @@ export default class OtherAuthenticationProviders extends Component {
 
       {{#if this.oidcIdentityProviders.hasOtherIdentityProviders}}
         <PixButtonLink
-          @route="authentication.sso-selection"
+          @route={{this.ssoSelectionRoute}}
           @variant="secondary"
           @size="large"
           class="authentication-other-authentication-providers-section__button-link"
