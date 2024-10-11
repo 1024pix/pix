@@ -77,32 +77,32 @@ export default class ModulixFlashcards extends Component {
 
         <div class="element-flashcards__footer">
           {{#if (eq this.displayedSideName "recto")}}
-            <p class="element-flashcards-footer__direction">{{t "pages.modulix.flashcards.direction"}}</p>
-            <p class="element-flashcards-footer__position">{{t
+            <p class="element-flashcards__footer__direction">{{t "pages.modulix.flashcards.direction"}}</p>
+            <p class="element-flashcards__footer__position">{{t
                 "pages.modulix.flashcards.position"
                 currentCardPosition=this.currentCardNumber
                 totalCards=this.numberOfCards
               }}</p>
           {{/if}}
           {{#if (eq this.displayedSideName "verso")}}
-            <p class="element-flashcards-footer__question">{{t "pages.modulix.flashcards.answerDirection"}}</p>
-            <div class="element-flashcards-footer__answer">
+            <p class="element-flashcards__footer__question">{{t "pages.modulix.flashcards.answerDirection"}}</p>
+            <div class="element-flashcards__footer__answer">
               <button
-                class="element-flashcards-footer__answer__button element-flashcards-footer__answer__button--no"
+                class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--no"
                 type="button"
                 {{on "click" this.goToNextCard}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.notAtAll"}}
               </button>
               <button
-                class="element-flashcards-footer__answer__button element-flashcards-footer__answer__button--almost"
+                class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--almost"
                 type="button"
                 {{on "click" this.goToNextCard}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.almost"}}
               </button>
               <button
-                class="element-flashcards-footer__answer__button element-flashcards-footer__answer__button--yes"
+                class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--yes"
                 type="button"
                 {{on "click" this.goToNextCard}}
               >

@@ -19,10 +19,10 @@
     padding: var(--pix-spacing-2x);
     padding-bottom: var(--pix-spacing-6x);
     border: 0;
-  }
 
-  &__intro-card__title {
-    @extend %pix-title-s;
+    &__title {
+      @extend %pix-title-s;
+    }
   }
 
   &__footer {
@@ -33,6 +33,53 @@
     max-width: 345px;
     margin:auto;
     color: var(--pix-neutral-500);
+
+    &__position,
+    &__direction,
+    &__answer {
+      @extend %pix-body-m;
+    }
+
+    &__position {
+      font-weight: 700;
+    }
+
+    &__question {
+      color: var(--pix-neutral-900);
+      font-weight: 700;
+    }
+
+    &__answer {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      &__button {
+        width: calc(100% / 3 - 4px);
+        padding: var(--pix-spacing-4x) 0;
+        font-weight: 700;
+        line-height: 24px;
+        border-radius: var(--modulix-radius-s);
+
+        &--no {
+          color: var(--pix-error-500);
+          background: var(--pix-error-50);
+          border: 1px solid var(--pix-error-500);
+        }
+
+        &--almost {
+          color: var(--pix-neutral-900);
+          background: var(--pix-info-50);
+          border: 1px solid var(--pix-info-500);
+        }
+
+        &--yes {
+          color: var(--pix-success-500);
+          background: var(--pix-success-50);
+          border: 1px solid var(--pix-success-500);
+        }
+      }
+    }
   }
 }
 
@@ -75,53 +122,5 @@
   }
 }
 
-.element-flashcards-footer {
-  &__position,
-  &__direction,
-  &__answer {
-    @extend %pix-body-m;
-  }
 
-  &__position {
-    font-weight: 700;
-  }
-
-  &__question {
-    color: var(--pix-neutral-900);
-    font-weight: 700;
-  }
-}
-
-.element-flashcards-footer__answer {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-
-  &__button {
-    width: calc(100% / 3 - 4px);
-    padding: var(--pix-spacing-4x) 0;
-    font-weight: 700;
-    line-height: 24px;
-    border-radius: var(--modulix-radius-s);
-
-    &--no {
-      color: var(--pix-error-500);
-      background: var(--pix-error-50);
-      border: 1px solid var(--pix-error-500);
-    }
-
-    &--almost {
-      color: var(--pix-neutral-900);
-      background: var(--pix-info-50);
-      border: 1px solid var(--pix-info-500);
-    }
-
-    &--yes {
-      color: var(--pix-success-500);
-      background: var(--pix-success-50);
-      border: 1px solid var(--pix-success-500);
-    }
-  }
-
-}
 
