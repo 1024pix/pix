@@ -1,3 +1,4 @@
+import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
@@ -8,6 +9,19 @@ import QuitResults from '../../../campaigns/assessment/skill-review/quit-results
 export default class EvaluationResults extends Component {
   get hasTrainings() {
     return Boolean(this.args.model.trainings.length);
+  }
+
+  @action
+  showTrainings() {
+    const tabElement = document.querySelector('[role="tablist"]');
+    const tabElementTopPosition = tabElement.getBoundingClientRect().top;
+
+    window.scrollTo({
+      top: tabElementTopPosition,
+      behavior: 'smooth',
+    });
+
+    // TODO: display trainings tab
   }
 
   <template>
@@ -23,6 +37,7 @@ export default class EvaluationResults extends Component {
         @campaign={{@model.campaign}}
         @campaignParticipationResult={{@model.campaignParticipationResult}}
         @hasTrainings={{this.hasTrainings}}
+        @showTrainings={{this.showTrainings}}
       />
       <EvaluationResultsTabs
         @badges={{@model.campaignParticipationResult.campaignParticipationBadges}}

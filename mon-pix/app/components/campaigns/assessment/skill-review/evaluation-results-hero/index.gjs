@@ -2,6 +2,7 @@ import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixMessage from '@1024pix/pix-ui/components/pix-message';
 import PixStars from '@1024pix/pix-ui/components/pix-stars';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
@@ -36,6 +37,11 @@ export default class EvaluationResultsHero extends Component {
       acquired: this.args.campaignParticipationResult.reachedStage.reachedStage - 1,
       total: this.args.campaignParticipationResult.reachedStage.totalStage - 1,
     };
+  }
+
+  @action
+  handleSeeTrainingsClick() {
+    this.args.showTrainings();
   }
 
   <template>
@@ -99,7 +105,9 @@ export default class EvaluationResultsHero extends Component {
         <div class="evaluation-results-hero-details__actions">
           {{#if @campaignParticipationResult.isShared}}
             {{#if @hasTrainings}}
-              <PixButton @size="large">{{t "pages.skill-review.hero.see-trainings"}}</PixButton>
+              <PixButton @triggerAction={{this.handleSeeTrainingsClick}} @size="large">
+                {{t "pages.skill-review.hero.see-trainings"}}
+              </PixButton>
             {{else}}
               <PixButtonLink @route="authentication.login" @size="large">
                 {{t "navigation.back-to-homepage"}}

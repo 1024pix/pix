@@ -1,9 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
 
@@ -104,25 +106,42 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
         });
       });
 
-      module('when there are trainings', function () {
-        test('it should display specific explanation and a see trainings button', async function (assert) {
+      module('when there are trainings', function (hooks) {
+        let screen, showTrainings;
+
+        hooks.beforeEach(async function () {
           // given
           this.set('hasTrainings', true);
+
+          showTrainings = sinon.stub();
+          this.set('showTrainings', showTrainings);
+
           this.set('campaign', { organizationId: 1 });
           this.set('campaignParticipationResult', { masteryRate: 0.75, isShared: true });
 
           // when
-          const screen = await render(
+          screen = await render(
             hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
   @hasTrainings={{this.hasTrainings}}
+  @showTrainings={{this.showTrainings}}
   @campaign={{this.campaign}}
   @campaignParticipationResult={{this.campaignParticipationResult}}
 />`,
           );
+        });
 
+        test('it should display specific explanation and a see trainings button', async function (assert) {
           // then
           assert.dom(screen.getByText(t('pages.skill-review.hero.explanations.trainings'))).exists();
           assert.dom(screen.getByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).exists();
+        });
+
+        test('on see trainings click, it should trigger a specific action', async function (assert) {
+          // then
+          await click(screen.getByRole('button', { name: t('pages.skill-review.hero.see-trainings') }));
+
+          sinon.assert.calledOnce(showTrainings);
+          assert.ok(true);
         });
       });
     });
