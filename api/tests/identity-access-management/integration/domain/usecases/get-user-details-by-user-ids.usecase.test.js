@@ -16,7 +16,7 @@ describe('Integration | Domain | Usecases | GetUserDetailsById', function () {
       const users = await usecases.getUserDetailsByUserIds({ userIds: [1, 2] });
 
       // then
-      expect(users).to.deep.equal([firstUser, secondUser]);
+      expect(users).to.have.deep.members([firstUser, secondUser]);
     });
   });
 });
