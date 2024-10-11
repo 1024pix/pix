@@ -132,6 +132,7 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
           attributes: {
             code: 'LIMONADE_OIDC_PROVIDER',
             'organization-name': 'Limonade OIDC Provider',
+            slug: 'limonade-oidc-provider',
             'should-close-session': false,
             source: 'limonade_oidc_provider',
           },
@@ -142,6 +143,7 @@ describe('Unit | Identity Access Management | Application | Controller | Admin |
           attributes: {
             code: 'KOMBUCHA_OIDC_PROVIDER',
             'organization-name': 'Kombucha OIDC Provider',
+            slug: 'kombucha-oidc-provider',
             'should-close-session': true,
             source: 'kombucha_oidc_provider',
           },

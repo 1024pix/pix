@@ -77,6 +77,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
           attributes: {
             code: 'OIDC_EXAMPLE_NET',
             'organization-name': 'OIDC Example',
+            slug: 'oidc-example-net',
             'should-close-session': true,
             source: 'oidcexamplenet',
           },

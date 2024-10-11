@@ -1,0 +1,39 @@
+.authentication-other-authentication-providers-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-4x);
+
+  &__heading {
+    display: flex;
+    gap: var(--pix-spacing-6x);
+    margin-top: var(--pix-spacing-10x);
+    margin-bottom: var(--pix-spacing-10x);
+    color: var(--pix-neutral-500);
+  }
+
+  &__heading::before,
+  &__heading::after {
+    flex: 1 1;
+    margin: auto;
+    border-bottom: 1px solid var(--pix-neutral-100);
+    content: "";
+  }
+
+  &__button-link {
+    border: 1px solid;
+  }
+
+  &__featured-identity-provider-logo {
+    width: var(--pix-spacing-6x);
+    margin-right: var(--pix-spacing-4x);
+  }
+
+  // TODO: Use @iconAfter="chevronRight" when possible
+  &__chevron-right {
+    padding-left: var(--pix-spacing-6x);
+  }
+
+  &__chevron-right::after {
+    content: "\003009";
+  }
+}

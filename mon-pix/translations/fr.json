@@ -125,6 +125,12 @@
         "placeholder": "Sélectionner un organisme",
         "searchLabel": "Recherche par mots-clés"
       },
+      "other-authentication-providers": {
+        "signup-heading": "Autres moyens d’inscription",
+        "login-heading": "Autres moyens de connexion",
+        "continue-with-featured-identity-provider-link": "Continuer avec {featuredIdentityProvider}",
+        "select-another-organization-link": "Choisir une autre organisation"
+      },
       "password-input": {
         "error-message": "Le mot de passe saisi est erroné. Votre mot de passe doit être supérieur à 8 caractères et contenir au minimum un chiffre, une minuscule et une majuscule.",
         "instructions-label": "Votre mot de passe doit respecter les règles suivantes :",

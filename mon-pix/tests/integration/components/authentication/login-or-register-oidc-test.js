@@ -16,6 +16,7 @@ module('Integration | Component | authentication | login-or-register-oidc', func
       id: 'oidc-partner',
       code: 'OIDC_PARTNER',
       organizationName: 'Partenaire OIDC',
+      slug: 'partenaire-oidc',
       shouldCloseSession: false,
       source: 'oidc-externe',
     };
