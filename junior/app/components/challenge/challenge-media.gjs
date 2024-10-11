@@ -1,6 +1,6 @@
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import { on } from '@ember/modifier';
 import { action, trySet } from '@ember/object';
-import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
@@ -21,9 +21,9 @@ export default class ChallengeMedia extends Component {
     {{#if this.displayPlaceholder}}
       <div class="challenge-media__placeholder" aria-label="{{t 'pages.challenge.media.placeholder'}}">
         {{#if (eq @type "video")}}
-          <FaIcon @icon="video" @prefix="fapix" />
+          <PixIcon @name="videocam" @ariaHidden={{true}} />
         {{else}}
-          <FaIcon @icon="image" @prefix="fapix" />
+          <PixIcon @name="image" @ariaHidden={{true}} />
         {{/if}}
       </div>
     {{/if}}

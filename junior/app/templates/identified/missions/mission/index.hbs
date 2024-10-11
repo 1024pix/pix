@@ -27,10 +27,10 @@
         {{on "click" this.activeLoadingButton}}
       >
         <p>{{t "pages.missions.start-page.start-mission"}}</p>
-        <FaIcon @icon="arrow-right" class="button__icon-after" />
+        <PixIcon @name="arrowRight" class="details-action__icon" @ariaHidden={{true}} />
       </PixButtonLink>
 
-      <PixButton class="details-action details-action__loader" @isLoading="true" />
+      <PixButton class="details-action details-action__loader" @isLoading="true" @ariaHidden={{true}} />
     </div>
   </div>
 </div>
