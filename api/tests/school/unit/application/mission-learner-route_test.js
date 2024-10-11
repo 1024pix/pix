@@ -33,7 +33,7 @@ describe('Unit | Route | mission-learner-route', function () {
       // when
       const response = await httpTestServer.request(
         'GET',
-        `/api/organizations/4/missions/1/learners?filter[name]=Henry&filter[divisions][]=CM2-C&filter[divisions][]=CM2-B&page[number]=1&page[size]=25&filter[results][]=exceeded`,
+        `/api/organizations/4/missions/1/learners?filter[name]=Henry&filter[divisions][]=CM2-C&filter[divisions][]=CM2-B&page[number]=1&page[size]=25&filter[results][]=exceeded&filter[statuses][]=completed`,
       );
 
       // then
@@ -45,6 +45,7 @@ describe('Unit | Route | mission-learner-route', function () {
             'filter',
             sinon.match.has('divisions', ['CM2-C', 'CM2-B']),
             sinon.match.has('results', ['exceeded']),
+            sinon.match.has('statuses', ['completed']),
             sinon.match.has('name', 'Henry'),
           ),
           sinon.match.has('page', sinon.match.has('number', '1'), sinon.match.has('size', '25')),

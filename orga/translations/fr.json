@@ -930,7 +930,10 @@
             "caption": "Tableau des élèves avec leur participation à la mission {missionName}",
             "filters": {
               "aria-label": "Filtre sur les élèves",
-              "learners-count": "{count, plural, =0 {Aucun élève} =1 {1 élève} other {{count} élèves}}"
+              "learners-count": "{count, plural, =0 {Aucun élève} =1 {1 élève} other {{count} élèves}}",
+              "status": {
+                "label": "Statut de la mission"
+              }
             },
             "headers": {
               "division": "Classe",

@@ -7,35 +7,50 @@ const DEFAULT_PAGE_NUMBER = 1;
 
 export default class MissionActivitiesController extends Controller {
   @service router;
+  @service intl;
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 25;
   @tracked divisions = [];
+  @tracked statuses = [];
+  @tracked statusOptions = [
+    { value: 'completed', label: this.translateStatusOptionKey('completed') },
+    { value: 'started', label: this.translateStatusOptionKey('started') },
+    { value: 'not-started', label: this.translateStatusOptionKey('not-started') },
+  ];
   @tracked name = '';
+
+  translateStatusOptionKey(key) {
+    return this.intl.t(`pages.missions.mission.table.activities.mission-status.${key}`);
+  }
 
   get learnersCount() {
     return this.model.missionLearners.meta.rowCount;
   }
 
   @action
-  clearFilters() {
-    this.pageNumber = null;
+  onSelectDivisions(divisions) {
+    this.divisions = divisions;
+    this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
   @action
-  onSelectDivisions(divisions) {
-    this.divisions = divisions;
-    this.pageNumber = null;
+  onSelectStatuses(status) {
+    this.statuses = status;
+    this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
   @action
   onFilter(inputText, value) {
     this[inputText] = value;
+    this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
   @action
   onResetFilter() {
     this.divisions = [];
+    this.statuses = [];
     this.name = '';
+    this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
   @action
