@@ -641,4 +641,71 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
       });
     });
   });
+
+  describe('#findOrganizationLearnersByDivisions', function () {
+    let organizationId;
+
+    beforeEach(async function () {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return organization learners', async function () {
+      // given
+      const learner1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: '6eme A' });
+      const learner2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: '6eme B' });
+
+      await databaseBuilder.commit();
+
+      // when
+      const learners = await organizationLearnerRepository.findOrganizationLearnersByDivisions({
+        organizationId,
+        divisions: ['6eme A', '6eme B'],
+      });
+
+      // then
+      expect(learners).to.deep.equal([new OrganizationLearner(learner1), new OrganizationLearner(learner2)]);
+    });
+
+    context('when there is no organization with organizationId', function () {
+      const notExistingOrganizationId = '999999';
+
+      it('should return an empty array', async function () {
+        // given
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: '6eme A' });
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: '6eme B' });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await organizationLearnerRepository.findOrganizationLearnersByDivisions({
+          organizationId: notExistingOrganizationId,
+          divisions: ['6eme A', '6eme B'],
+        });
+
+        // then
+        expect(result).to.be.empty;
+      });
+    });
+    context('when there is no organizationLearners with these divisions', function () {
+      it('should return an empty array', async function () {
+        // given
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: '6eme A' });
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: '6eme B' });
+        const notExistingDivisions = ['6eme C', '6eme D'];
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await organizationLearnerRepository.findOrganizationLearnersByDivisions({
+          organizationId,
+          divisions: notExistingDivisions,
+        });
+
+        // then
+        expect(result).to.be.empty;
+      });
+    });
+  });
 });
