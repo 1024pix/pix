@@ -432,6 +432,78 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
+  module('when user clicks on a flashcards element self-assessment button', function () {
+    test('should push metrics event', async function (assert) {
+      // given
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+
+      const store = this.owner.lookup('service:store');
+      const firstCard = {
+        id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+        recto: {
+          image: {
+            url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
+          },
+          text: "A quoi sert l'arobase dans mon adresse email ?",
+        },
+        verso: {
+          image: { url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg' },
+          text: "Parce que c'est joli",
+        },
+      };
+      const secondCard = {
+        id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+        recto: {
+          image: {
+            url: 'https://images.pix.fr/modulix/didacticiel/icon.svg',
+          },
+          text: 'Qui a écrit le Dormeur du Val ?',
+        },
+        verso: {
+          image: {
+            url: 'https://images.pix.fr/modulix/didacticiel/chaton.jpg',
+          },
+          text: '<p>Arthur Rimbaud</p>',
+        },
+      };
+
+      const flashcardsElement = {
+        id: '71de6394-ff88-4de3-8834-a40057a50ff4',
+        type: 'flashcards',
+        title: "Introduction à l'adresse e-mail",
+        instruction: '<p>...</p>',
+        introImage: { url: 'https://images.pix.fr/modulix/placeholder-details.svg' },
+        cards: [firstCard, secondCard],
+      };
+
+      const grain1 = store.createRecord('grain', { components: [{ type: 'element', element: flashcardsElement }] });
+
+      const module = store.createRecord('module', { id: 'module-id', title: 'Module title', grains: [grain1] });
+      const passage = store.createRecord('passage');
+
+      const createRecordMock = sinon.mock();
+      createRecordMock.returns({ save: function () {} });
+      store.createRecord = createRecordMock;
+
+      await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+      // when
+      await clickByName(t('pages.modulix.buttons.flashcards.start'));
+      await clickByName(t('pages.modulix.buttons.flashcards.seeAnswer'));
+      await clickByName(t('pages.modulix.buttons.flashcards.answers.notAtAll'));
+
+      // then
+      sinon.assert.calledOnceWithExactly(metrics.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${module.id}`,
+        'pix-event-name': `Click sur le bouton 'no' de la flashcard : ${firstCard.id}`,
+      });
+      assert.ok(true);
+    });
+  });
+
   module('when user opens an image alternative text modal', function () {
     test('should push metrics event', async function (assert) {
       // given
