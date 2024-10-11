@@ -66,12 +66,12 @@
       "message": "'<strong>'Certificaten:'</strong>' Vergeet niet om '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'de sessies af te ronden in Pix Certif'</a>' en de certificaten hier te downloaden via het tabblad \"Certificaten\" voor de start van het schooljaar {year}."
     },
     "import": {
-      "message": "De beheerder kan certificeringsresultaten downloaden en de studentendatabase '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'importeren'</a>' om terug-naar-school campagnes per niveau te maken. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Meer info'</a>'",
+      "message": "Belangrijke fasen in het schooljaar :",
       "step1a": "Implement&nbsp;: '<'a href='https://cloud.pix.fr/s/WjTnkSbFs9TDcSC' title='Gids download resultaten' class='link link--banner link--bold link--underlined''>'download resultaten'</a>' certificering en",
       "step1b": "Importeren",
       "step1c": "studentendatabase (admin)",
-      "step2": "<'a href='https://cloud.pix.fr/s/RaPpKjFHNX2kSR4' title='Gids voor het lanceren van back-to-school cursussen' class='link- banner link-old link--underlined' '>'Campagnes maken'</a>' (cursussen rentrée, 6e, thematisch, disciplinair, gericht...).",
-      "step3": "<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Gids Certificering van lerenden voorbereiden en organiseren' class='link link--banner link--bold link--underlined' '>'Certificering van lerenden'</a>'."
+      "step2": "'<'a href='https://cloud.pix.fr/s/RaPpKjFHNX2kSR4' title='Gids voor het lanceren van back-to-school cursussen' class='link- banner link-old link--underlined' '>'Campagnes maken'</a>' (cursussen rentrée, 6e, thematisch, disciplinair, gericht...).",
+      "step3": "Certificering van lerenden. '<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Gids Certificering van lerenden voorbereiden en organiseren' class='link link--banner link--bold link--underlined' '>'Lees meer over de nieuwe certificering'</a>'."
     },
     "language-availability": {
       "message": "Jouw taal is nog niet beschikbaar op Pix Orga. Voor jouw gemak wordt de applicatie in het Engels weergegeven. Het Pix-team werkt eraan om jouw taal toe te voegen."
@@ -501,9 +501,7 @@
         "COMPETENCES": "De 16 vaardigheden",
         "CUSTOM": "Cursus op maat",
         "DISCIPLINE": "Disciplines",
-        "OTHER": {
-          "other": "Autres"
-        },
+        "OTHER": "Autres",
         "PIX_PLUS": "Pix+",
         "PREDEFINED": "Vooraf gedefinieerde test",
         "SUBJECT": "Thema's",

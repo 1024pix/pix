@@ -71,7 +71,7 @@
       "step1b": "importing",
       "step1c": "the student database (admin)",
       "step2": "'<'a href='https://cloud.pix.fr/s/RaPpKjFHNX2kSR4' title='Back-to-school how-to' class='link link--banner link--bold link--underlined' '>'Create campaigns'</a>' (back-to-school, 6th grade, thematic, subject-based, targeted courses, etc.).",
-      "step3": "'<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Preparing and organising student certification how-to' class='link link--banner link--bold link--underlined' '>'Certify learners'</a>'."
+      "step3": "Certify learners. '<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Preparing and organising student certification how-to' class='link link--banner link--bold link--underlined' '>'Find out more about the new certification'</a>'."
     },
     "language-availability": {
       "message": "Your language is not yet available on Pix Orga. For your convenience, the application will be presented in English. The entire Pix team is working to add your language."
@@ -81,6 +81,9 @@
     },
     "over-capacity": {
       "message": "Please note that you are using more seats than your total capacity."
+    },
+    "survey": {
+      "message": "Help Pix to develop Pix Orga by answering this short survey on how you use our campaigns! '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Access the survey'</a>'"
     }
   },
   "cards": {
@@ -877,6 +880,8 @@
               "tooltip": "copy code"
             }
           },
+          "hint": "Feel free to bookmark it on your posts.",
+          "import-text": "school link",
           "step1": {
             "admin": {
               "head": "Step 1 : <b>Please</b>",
@@ -903,7 +908,10 @@
           "name": "Mission",
           "started-by": "Started by"
         },
-        "no-division": "No division yet"
+        "no-division": "No division yet",
+        "non-admin": {
+          "abstract": "To begin, ask your administrator to import the students."
+        }
       },
       "mission": {
         "title": "Mission's information",
