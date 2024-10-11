@@ -1377,7 +1377,12 @@
           "start": "Para empezar",
           "seeAnswer": "ver la respuesta",
           "seeAgain": "Revisa la pregunta",
-          "nextCard": "Siguiente"
+          "nextCard": "Siguiente",
+          "answers": {
+            "notAtAll": "Para nada",
+            "almost": "Casi",
+            "yes": "¡Sí!"
+          }
         },
         "grain": {
           "continue": "Continuar",
@@ -1418,7 +1423,8 @@
       },
       "flashcards": {
         "direction": "Encuentra la respuesta y luego gira la tarjeta.",
-        "position": "Tarjeta {currentCardPosition}/{totalCards}"
+        "position": "Tarjeta {currentCardPosition}/{totalCards}",
+        "answerDirection": "¿Tienes la respuesta?"
       },
       "grain": {
         "tag": {

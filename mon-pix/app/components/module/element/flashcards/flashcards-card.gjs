@@ -11,7 +11,7 @@ export default class ModulixFlashcardsCard extends Component {
   }
 
   <template>
-    <div class="element-flashcards__card">
+    <div class="element-flashcards-card">
       {{#if this.currentSide.image}}
         <div class="element-flashcards-card__image">
           <img src={{this.currentSide.image.url}} alt="" />
