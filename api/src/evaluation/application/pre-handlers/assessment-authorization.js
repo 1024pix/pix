@@ -9,7 +9,7 @@ const verify = function (
 ) {
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   // eslint-disable-next-line no-restricted-syntax
-  const assessmentId = parseInt(request.params.id);
+  const assessmentId = parseInt(request.params.id) || parseInt(request.params.assessmentId);
 
   return dependencies.assessmentRepository.getByAssessmentIdAndUserId(assessmentId, userId).catch(() => {
     const buildError = _handleWhenInvalidAuthorization('Vous n’êtes pas autorisé à accéder à cette évaluation');

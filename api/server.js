@@ -12,6 +12,7 @@ import {
 } from './src/certification/complementary-certification/routes.js';
 import { certificationConfigurationRoutes, scoWhitelistRoutes } from './src/certification/configuration/routes.js';
 import { certificationEnrolmentRoutes } from './src/certification/enrolment/routes.js';
+import { certificationEvaluationRoutes } from './src/certification/evaluation/routes.js';
 import { flashCertificationRoutes } from './src/certification/flash-certification/routes.js';
 import { certificationResultRoutes } from './src/certification/results/routes.js';
 import { scoringRoutes } from './src/certification/scoring/routes.js';
@@ -47,6 +48,7 @@ const certificationRoutes = [
   complementaryCertificationRoutes,
   scoringRoutes,
   scoWhitelistRoutes,
+  certificationEvaluationRoutes,
 ];
 
 const prescriptionRoutes = [
