@@ -651,6 +651,10 @@
       },
       "direct-link": "Directe link",
       "external-user-id-label": "Type externe user-ID",
+      "external-user-id-types": {
+        "string": "vrije tekst",
+        "email": "e-mail"
+      },
       "landing-page-text": "Tekst op de startpagina",
       "multiple-sendings": {
         "status": {

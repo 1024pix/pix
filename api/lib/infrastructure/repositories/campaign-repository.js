@@ -1,4 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
+import { CAMPAIGN_FEATURES } from '../../../src/shared/domain/constants.js';
 import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { Campaign } from '../../../src/shared/domain/models/Campaign.js';
 import { tubeDatasource } from '../../../src/shared/infrastructure/datasources/learning-content/tube-datasource.js';
@@ -30,8 +31,17 @@ const get = async function (id) {
   if (!campaign) {
     throw new NotFoundError(`Not found campaign for ID ${id}`);
   }
+  const featureExternalId = await knex('campaign-features')
+    .join('features', 'features.id', 'featureId')
+    .where({
+      campaignId: id,
+      'features.key': CAMPAIGN_FEATURES.EXTERNAL_ID.key,
+    })
+    .first();
+
   return new Campaign({
     ...campaign,
+    ...{ idPixLabel: featureExternalId?.params?.label, idPixType: featureExternalId?.params?.type },
     organization: { id: campaign.organizationId },
     targetProfile: { id: campaign.targetProfileId },
     creator: { id: campaign.creatorId },

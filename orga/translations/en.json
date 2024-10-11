@@ -683,6 +683,10 @@
       },
       "direct-link": "Direct link",
       "external-user-id-label": "External user ID label",
+      "external-user-id-types": {
+        "email": "email",
+        "string": "free text"
+      },
       "landing-page-text": "Text to display on the starting page",
       "multiple-sendings": {
         "title": "Multiple Sendings",

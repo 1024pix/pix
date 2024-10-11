@@ -1,0 +1,7 @@
+[
+  {
+    "id": 1,
+    "key": "EXTERNAL_ID",
+    "description": "Permet d'activer la saisie d'un identifiant externe lors de la participation à une campagne"
+  }
+]

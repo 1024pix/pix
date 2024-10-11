@@ -2,7 +2,7 @@ import Joi from 'joi';
 import lodash from 'lodash';
 
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
-import { CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignExternalIdTypes, CampaignTypes } from '../../../shared/domain/constants.js';
 
 const { first } = lodash;
 const schema = Joi.object({
@@ -62,6 +62,12 @@ const schema = Joi.object({
     'string.empty': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
     'any.required': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
   }),
+
+  idPixType: Joi.string()
+    .required()
+    .valid(...Object.values(CampaignExternalIdTypes))
+    .allow(null)
+    .default(null),
 
   ownerId: Joi.number().integer().required().messages({
     'any.required': 'MISSING_OWNER',

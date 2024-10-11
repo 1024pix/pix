@@ -102,6 +102,7 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function ()
             'owner-last-name': report.ownerLastName,
             'custom-landing-page-text': report.customLandingPageText,
             'id-pix-label': report.idPixLabel,
+            'id-pix-type': report.idPixType,
             'is-archived': report.isArchived,
             'multiple-sendings': report.multipleSendings,
             'target-profile-description': report.targetProfileDescription,
