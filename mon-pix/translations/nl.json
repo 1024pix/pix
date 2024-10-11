@@ -169,6 +169,18 @@
           },
           "legend": "Vereiste informatie voor registratie."
         }
+      },
+      "password-reset-demand-form": {
+        "invalid-email": "Your email address is invalid.",
+        "rule": "All fields are required.",
+        "no-email-question": "No email address?",
+        "contact-us-link": {
+          "link-text": "Contact us",
+          "link-url": "https://pix.org/nl-be/support"
+        },
+        "actions": {
+          "receive-reset-button": "Receive a reset link"
+        }
       }
     },
     "invited": {
