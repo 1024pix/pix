@@ -1,3 +1,4 @@
+import { CertificationCompanionLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
 import { Assessment } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
@@ -55,7 +56,7 @@ describe('Certification | Evaluation | Acceptance | Application | Routes | compa
         .first();
       expect(certificationCompanionAlert).to.deep.equal({
         assessmentId: assessment.id,
-        status: 'ONGOING',
+        status: CertificationCompanionLiveAlertStatus.ONGOING,
       });
     });
   });
