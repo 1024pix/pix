@@ -47,7 +47,8 @@
       "sign-out": "Log uit.",
       "stay": "Blijf",
       "validate": "Valideer",
-      "refresh-page": "Pagina verversen"
+      "refresh-page": "Pagina verversen",
+      "login": "Log in to Pix"
     },
     "api-error-messages": {
       "bad-request-error": "De gegevens die u hebt opgegeven, hebben niet het juiste formaat.",
