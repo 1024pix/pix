@@ -12,13 +12,12 @@ module('Integration | Component | Companion | blocker', function (hooks) {
 
   test('it display children elements when extension is detected', async function (assert) {
     // given
-    const startCheckingExtensionIsEnabledStub = sinon.stub();
-    const stopCheckingExtensionIsEnabledStub = sinon.stub();
-
     class PixCompanionStub extends Service {
-      startCheckingExtensionIsEnabled = startCheckingExtensionIsEnabledStub;
-      stopCheckingExtensionIsEnabled = stopCheckingExtensionIsEnabledStub;
+      startCheckingExtensionIsEnabled = sinon.stub();
+      stopCheckingExtensionIsEnabled = sinon.stub();
       isExtensionEnabled = true;
+      addEventListener = sinon.stub();
+      removeEventListener = sinon.stub();
     }
 
     this.owner.register('service:pix-companion', PixCompanionStub);
@@ -33,19 +32,17 @@ module('Integration | Component | Companion | blocker', function (hooks) {
     );
 
     // then
-    sinon.assert.calledOnce(startCheckingExtensionIsEnabledStub);
     assert.dom(screen.queryByRole('heading', { level: 1, name: title })).exists();
   });
 
   test('it displays blocking page when extension is NOT detected', async function (assert) {
     // given
-    const startCheckingExtensionIsEnabledStub = sinon.stub();
-    const stopCheckingExtensionIsEnabledStub = sinon.stub();
-
     class PixCompanionStub extends Service {
-      startCheckingExtensionIsEnabled = startCheckingExtensionIsEnabledStub;
-      stopCheckingExtensionIsEnabled = stopCheckingExtensionIsEnabledStub;
+      startCheckingExtensionIsEnabled = sinon.stub();
+      stopCheckingExtensionIsEnabled = sinon.stub();
       isExtensionEnabled = false;
+      addEventListener = sinon.stub();
+      removeEventListener = sinon.stub();
     }
 
     this.owner.register('service:pix-companion', PixCompanionStub);
@@ -60,8 +57,6 @@ module('Integration | Component | Companion | blocker', function (hooks) {
     );
 
     // then
-    sinon.assert.calledOnce(startCheckingExtensionIsEnabledStub);
-
     assert.dom(screen.queryByRole('heading', { level: 1, name: 'Companion activé' })).doesNotExist();
 
     assert

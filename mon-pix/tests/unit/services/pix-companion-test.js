@@ -113,7 +113,7 @@ module('Unit | Service | pix-companion', function (hooks) {
       assert.true(pixCompanion.isExtensionEnabled);
     });
 
-    test('set isExtensionEnabled to false if pong is NOT received', async function (assert) {
+    test('set isExtensionEnabled to false and emit block event if pong is NOT received', async function (assert) {
       // Given
       const windowStub = {
         addEventListener: sinon.stub(),
@@ -126,6 +126,14 @@ module('Unit | Service | pix-companion', function (hooks) {
         callback();
       });
       pixCompanion._isExtensionEnabled = true;
+      let blockEventReceived = false;
+      pixCompanion.addEventListener(
+        'block',
+        () => {
+          blockEventReceived = true;
+        },
+        { once: true },
+      );
 
       // When
       pixCompanion.checkExtensionIsEnabled(windowStub);
@@ -134,6 +142,7 @@ module('Unit | Service | pix-companion', function (hooks) {
       // Then
       sinon.assert.calledWith(windowStub.dispatchEvent, new CustomEvent('pix:companion:ping'));
       assert.false(pixCompanion.isExtensionEnabled);
+      assert.true(blockEventReceived);
     });
   });
 
