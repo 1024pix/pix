@@ -1,6 +1,7 @@
 import { targetProfileController } from '../../../../../src/prescription/target-profile/application/admin-target-profile-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/target-profile/application/admin-target-profile-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { categories } from '../../../../../src/shared/domain/models/TargetProfile.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Admin Target Profiles | Routes', function () {
@@ -1072,11 +1073,25 @@ describe('Unit | Application | Admin Target Profiles | Routes', function () {
         // when
         const response = await httpTestServer.request(
           method,
-          `${url}?filter[id]=1&filter[name]=azerty&page[size]=10&page[number]=1`,
+          `${url}?filter[id]=1&filter[name]=azerty&filter[categories][]=${categories.COMPETENCES}&filter[categories][]=${categories.OTHER}&page[size]=10&page[number]=1`,
         );
 
         // then
         expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    context('when category is not valid', function () {
+      it('should reject request with HTTP code 400', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(method, `${url}?filter[categories][]=pifpof`);
+
+        // then
+        expect(response.statusCode).to.equal(400);
       });
     });
 

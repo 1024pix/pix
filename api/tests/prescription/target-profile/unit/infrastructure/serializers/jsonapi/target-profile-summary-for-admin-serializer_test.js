@@ -10,11 +10,13 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
           id: 1,
           name: 'TPA',
           outdated: false,
+          category: 'OTHER',
           createdAt: new Date('2021-01-01'),
         }),
         domainBuilder.buildTargetProfileSummaryForAdmin({
           id: 2,
           name: 'TPB',
+          category: 'POUET',
           outdated: true,
           createdAt: new Date('2021-01-01'),
         }),
@@ -33,6 +35,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
             attributes: {
               name: 'TPA',
               outdated: false,
+              category: 'OTHER',
               'created-at': new Date('2021-01-01'),
               'can-detach': false,
             },
@@ -42,6 +45,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
             id: '2',
             attributes: {
               name: 'TPB',
+              category: 'POUET',
               outdated: true,
               'created-at': new Date('2021-01-01'),
               'can-detach': false,

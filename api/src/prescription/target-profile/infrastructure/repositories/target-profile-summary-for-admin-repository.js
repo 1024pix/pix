@@ -5,7 +5,7 @@ import { TargetProfileSummaryForAdmin } from '../../domain/models/TargetProfileS
 
 const findPaginatedFiltered = async function ({ filter, page }) {
   const query = knex('target-profiles')
-    .select('id', 'name', 'outdated', 'createdAt')
+    .select('id', 'name', 'outdated', 'category', 'createdAt')
     .orderBy('outdated', 'ASC')
     .orderBy('name', 'ASC')
     .modify(_applyFilters, filter);
@@ -36,12 +36,15 @@ const findByTraining = async function ({ trainingId }) {
 export { findByTraining, findPaginatedFiltered };
 
 function _applyFilters(qb, filter) {
-  const { name, id } = filter;
+  const { name, id, categories } = filter;
   if (name) {
     qb.whereILike('name', `%${name}%`);
   }
   if (id) {
     qb.where({ id });
+  }
+  if (categories) {
+    qb.whereIn('category', categories);
   }
   return qb;
 }
