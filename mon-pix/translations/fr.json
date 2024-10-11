@@ -176,6 +176,19 @@
           },
           "legend": "Information nécessaire pour l'inscription."
         }
+      },
+      "password-reset-demand": {
+        "form": {
+          "rule": "Tous les champs sont obligatoires.",
+          "no-email": "Pas d’adresse e-mail renseignée ?"
+        },
+        "contact-us-link": {
+          "link-text": "Contactez-nous",
+          "link-url": "https://pix.fr/support"
+        },
+        "actions": {
+          "receive-reset-button": "Recevoir un lien de réinitialisation"
+        }
       }
     },
     "invited": {
