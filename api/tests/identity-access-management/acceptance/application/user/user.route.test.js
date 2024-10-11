@@ -12,7 +12,6 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
-  nock,
   sinon,
 } from '../../../../test-helper.js';
 
@@ -45,10 +44,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
     context('user is valid', function () {
       beforeEach(function () {
-        nock('https://www.google.com').post('/recaptcha/api/siteverify').query(true).reply(200, {
-          success: true,
-        });
-
         user = domainBuilder.buildUser({ username: null });
 
         options.payload.data.attributes = {
@@ -57,10 +52,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
           'last-name': user.lastName,
           email: user.email,
         };
-      });
-
-      afterEach(async function () {
-        nock.cleanAll();
       });
 
       it('should return status 201 with user', async function () {
@@ -80,7 +71,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
         // then
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.type).to.equal('users');
-        expect(response.result.data.attributes['recaptcha-token']).to.be.undefined;
         expect(response.result.data.attributes['last-terms-of-service-validated-at']).to.be.instanceOf(Date);
         const userAttributes = pick(response.result.data.attributes, pickedUserAttributes);
         expect(userAttributes).to.deep.equal(expectedAttributes);
