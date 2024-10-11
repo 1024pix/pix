@@ -47,7 +47,8 @@
       "sign-out": "Se déconnecter",
       "stay": "Rester",
       "validate": "Valider",
-      "refresh-page": "Rafraîchir la page"
+      "refresh-page": "Rafraîchir la page",
+      "login": "Se connecter sur Pix"
     },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",

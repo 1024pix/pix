@@ -47,7 +47,8 @@
       "sign-out": "Sign out",
       "stay": "Stay",
       "validate": "Validate",
-      "refresh-page": "Refresh the page"
+      "refresh-page": "Refresh the page",
+      "login": "Log in to Pix"
     },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
