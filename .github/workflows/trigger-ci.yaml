@@ -14,6 +14,6 @@ jobs:
       - name: Trigger CircleCI
         # ensure PR is not draft
         if: '! github.event.pull_request.draft'
-        uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.0.5
+        uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.2.0
         env:
           CCI_TOKEN: ${{ secrets.PIX_SERVICE_CIRCLE_CI_TOKEN }}
