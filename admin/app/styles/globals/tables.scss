@@ -68,6 +68,10 @@ td.td--bold {
   }
 }
 
+.table__cell--name {
+  word-break: break-all;
+}
+
 .table__cell--percentage {
   display: flex;
   align-items: center;

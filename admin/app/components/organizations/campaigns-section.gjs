@@ -35,7 +35,7 @@ import { eq } from 'ember-truth-helpers';
                       {{campaign.code}}
                     </LinkTo>
                   </td>
-                  <td>{{campaign.name}}</td>
+                  <td class="table__cell--name">{{campaign.name}}</td>
                   <td>
                     {{#if (eq campaign.type "ASSESSMENT")}}
                       <div title="Évaluation">
