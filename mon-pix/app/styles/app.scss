@@ -134,6 +134,7 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 
 /* Styles for colocated components */
 @import 'authentication-layout';
+@import 'authentication/password-reset-demand';
 @import 'authentication/oidc-provider-selector';
 @import 'authentication/signin-form';
 @import 'authentication/sso-selection-form';

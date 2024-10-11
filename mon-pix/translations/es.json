@@ -134,6 +134,19 @@
           "contains-uppercase": "at least one capital letter",
           "min-length": "at least 8 characters"
         }
+      },
+      "password-reset-demand": {
+        "form": {
+	  "rule": "All fields are required.",
+	  "no-email": "No email address?"
+	},
+        "contact-us-link": {
+          "link-text": "Contact us",
+          "link-url": "https://pix.org/en/support"
+        },
+        "actions": {
+          "receive-reset-link": "Receive a reset link"
+        }
       }
     },
     "invited": {
