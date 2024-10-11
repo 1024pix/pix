@@ -501,9 +501,7 @@
         "COMPETENCES": "De 16 vaardigheden",
         "CUSTOM": "Cursus op maat",
         "DISCIPLINE": "Disciplines",
-        "OTHER": {
-          "other": "Autres"
-        },
+        "OTHER": "Autres",
         "PIX_PLUS": "Pix+",
         "PREDEFINED": "Vooraf gedefinieerde test",
         "SUBJECT": "Thema's",

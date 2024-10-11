@@ -81,6 +81,9 @@
     },
     "over-capacity": {
       "message": "Please note that you are using more seats than your total capacity."
+    },
+    "survey": {
+      "message": "Help Pix to develop Pix Orga by answering this short survey on how you use our campaigns! '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Access the survey'</a>'"
     }
   },
   "cards": {
@@ -877,6 +880,8 @@
               "tooltip": "copy code"
             }
           },
+          "hint": "Feel free to bookmark it on your posts.",
+          "import-text": "school link",
           "step1": {
             "admin": {
               "head": "Step 1 : <b>Please</b>",
@@ -903,7 +908,10 @@
           "name": "Mission",
           "started-by": "Started by"
         },
-        "no-division": "No division yet"
+        "no-division": "No division yet",
+        "non-admin": {
+          "abstract": "To begin, ask your administrator to import the students."
+        }
       },
       "mission": {
         "title": "Mission's information",
