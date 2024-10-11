@@ -23,9 +23,9 @@ export const handleV2CertificationScoring = async ({
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
-  scoringDegradationService,
+  scoringCertificationService,
 }) => {
-  const certificationAssessmentScore = await scoringDegradationService.calculateCertificationAssessmentScore({
+  const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
     certificationAssessment,
     continueOnError: false,
   });
@@ -39,7 +39,7 @@ export const handleV2CertificationScoring = async ({
     certificationCourse,
     certificationAssessment,
     certificationAssessmentScore,
-    scoringDegradationService,
+    scoringCertificationService,
   });
 
   await _saveV2Result({
@@ -63,7 +63,7 @@ function _createV2AssessmentResult({
   certificationCourse,
   certificationAssessmentScore,
   certificationAssessment,
-  scoringDegradationService,
+  scoringCertificationService,
 }) {
   if (certificationCourse.isRejectedForFraud()) {
     return AssessmentResultFactory.buildFraud({
@@ -86,7 +86,7 @@ function _createV2AssessmentResult({
   }
 
   if (
-    scoringDegradationService.isLackOfAnswersForTechnicalReason({ certificationAssessmentScore, certificationCourse })
+    scoringCertificationService.isLackOfAnswersForTechnicalReason({ certificationAssessmentScore, certificationCourse })
   ) {
     return AssessmentResultFactory.buildLackOfAnswersForTechnicalReason({
       emitter,
