@@ -2,10 +2,10 @@ import { Writable } from 'node:stream';
 
 import pino from 'pino';
 
-import { config } from '../../../../src/shared/config.js';
-import { monitoringTools } from '../../../../src/shared/infrastructure/monitoring-tools.js';
-import * as pinoPlugin from '../../../../src/shared/infrastructure/plugins/pino.js';
-import { expect, generateValidRequestAuthorizationHeader, HttpTestServer, sinon } from '../../../test-helper.js';
+import { config } from '../../../../../src/shared/config.js';
+import { monitoringTools } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
+import * as pinoPlugin from '../../../../../src/shared/infrastructure/plugins/hapi/pino.js';
+import { expect, generateValidRequestAuthorizationHeader, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | plugins | pino', function () {
   let httpTestServer;

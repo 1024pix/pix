@@ -1,6 +1,5 @@
-import { getI18n } from '../../../../src/shared/infrastructure/i18n/i18n.js';
-import * as i18nPlugin from '../../../../src/shared/infrastructure/plugins/i18n.js';
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { getI18n } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | plugins | i18n', function () {
   let httpTestServer;
@@ -51,7 +50,6 @@ describe('Integration | Infrastructure | plugins | i18n', function () {
       httpTestServer = new HttpTestServer();
       handlerStub = sinon.stub().returns({});
 
-      await httpTestServer.register([i18nPlugin]);
       await httpTestServer.register({
         name: 'test-api',
         register: (server) => {

@@ -27,6 +27,11 @@ function _getNumber(numberAsString, defaultValue) {
   return isNaN(number) ? defaultValue : number;
 }
 
+function _getFloat(numberAsString, defaultValue) {
+  const number = parseFloat(numberAsString, 10);
+  return isNaN(number) ? defaultValue : number;
+}
+
 function _getDate(dateAsString) {
   if (!dateAsString) {
     return null;

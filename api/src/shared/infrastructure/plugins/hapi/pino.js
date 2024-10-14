@@ -1,9 +1,9 @@
 import { stdSerializers } from 'pino';
 
-import { monitoringTools } from '../../../../src/shared/infrastructure/monitoring-tools.js';
-import { generateHash } from '../../../identity-access-management/infrastructure/utils/crypto.js';
-import { config } from '../../config.js';
-import { logger } from '../utils/logger.js';
+import { monitoringTools } from '../../../../../src/shared/infrastructure/monitoring-tools.js';
+import { generateHash } from '../../../../identity-access-management/infrastructure/utils/crypto.js';
+import { config } from '../../../config.js';
+import { logger } from '../../utils/logger.js';
 
 const serializersSym = Symbol.for('pino.serializers');
 

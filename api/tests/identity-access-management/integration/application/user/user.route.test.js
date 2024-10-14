@@ -1,7 +1,6 @@
 import { identityAccessManagementRoutes } from '../../../../../src/identity-access-management/application/routes.js';
 import { userController } from '../../../../../src/identity-access-management/application/user/user.controller.js';
 import { config } from '../../../../../src/shared/config.js';
-import * as i18nPlugin from '../../../../../src/shared/infrastructure/plugins/i18n.js';
 import {
   databaseBuilder,
   expect,
@@ -17,7 +16,6 @@ describe('Integration | Identity Access Management | Application | Route | User'
 
   beforeEach(async function () {
     httpTestServer = new HttpTestServer();
-    await httpTestServer.register(i18nPlugin);
     await httpTestServer.register(routesUnderTest);
     httpTestServer.setupAuthentication();
   });

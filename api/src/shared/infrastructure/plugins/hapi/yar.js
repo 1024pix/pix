@@ -1,6 +1,6 @@
 import Yar from '@hapi/yar';
 
-import { config } from '../../config.js';
+import { config } from '../../../config.js';
 
 const plugin = Yar;
 const options = {

@@ -1,3 +1,4 @@
+import './src/shared/infrastructure/plugins/instrument.js';
 import 'dotenv/config';
 
 import { validateEnvironmentVariables } from './src/shared/infrastructure/validate-environment-variables.js';
@@ -28,6 +29,7 @@ const start = async function () {
     await _setupEcosystem();
   }
   server = await createServer();
+
   await server.start();
 };
 
