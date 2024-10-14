@@ -63,11 +63,13 @@ const schema = Joi.object({
     'any.required': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
   }),
 
-  idPixType: Joi.string()
-    .required()
-    .valid(...Object.values(CampaignExternalIdTypes))
-    .allow(null)
-    .default(null),
+  idPixType: Joi.when('idPixLabel', {
+    is: Joi.string().required(),
+    then: Joi.string()
+      .required()
+      .valid(...Object.values(CampaignExternalIdTypes)),
+    otherwise: Joi.valid(null),
+  }).messages({ 'any.required': 'MISSING_ID_PIX_TYPE' }),
 
   ownerId: Joi.number().integer().required().messages({
     'any.required': 'MISSING_OWNER',

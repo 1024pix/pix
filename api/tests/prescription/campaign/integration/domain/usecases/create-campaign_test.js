@@ -44,6 +44,7 @@ describe('Integration | UseCases | create-campaign', function () {
       type: CampaignTypes.ASSESSMENT,
       title: 'a title',
       idPixLabel: 'id Pix label',
+      idPixType: 'STRING',
       customLandingPageText: 'Hello',
       creatorId: userId,
       ownerId: userId,
@@ -73,14 +74,13 @@ describe('Integration | UseCases | create-campaign', function () {
     const campaign = {
       name: 'a name',
       type: CampaignTypes.PROFILES_COLLECTION,
-      idPixLabel: 'id Pix label',
       customLandingPageText: 'Hello',
       creatorId: userId,
       ownerId: userId,
       organizationId,
     };
 
-    const expectedAttributes = ['type', 'idPixLabel', 'name', 'customLandingPageText'];
+    const expectedAttributes = ['type', 'name', 'customLandingPageText'];
 
     // when
     const result = await createCampaign({
