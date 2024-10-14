@@ -96,7 +96,8 @@
     "error": {
       "title": "Erreur",
       "message": "Oups, une erreur inattendue est survenue.",
-      "backHome": "Retour à l'accueil"
+      "backHome": "Retour à l'accueil",
+      "refresh": "Actualiser la page"
     },
     "school": {
       "not-found": {
