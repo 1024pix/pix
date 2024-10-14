@@ -11,15 +11,15 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import { gt, not } from 'ember-truth-helpers';
+import { eq, gt, not } from 'ember-truth-helpers';
 import _orderBy from 'lodash/orderBy';
+import { ID_PIX_TYPES } from 'pix-orga/helpers/id-pix-types.js';
 
 import displayCampaignErrors from '../../helpers/display-campaign-errors';
 import TargetProfileDetails from '../campaign/target-profile-details';
 import ExplanationCard from '../ui/explanation-card';
 import FormField from '../ui/form-field';
 import PixFieldset from '../ui/pix-fieldset';
-
 export default class CreateForm extends Component {
   @service currentUser;
   @service intl;
@@ -88,16 +88,22 @@ export default class CreateForm extends Component {
     return this.wantIdPix === true;
   }
 
+  get isExternalIdTypeNotSelectedChecked() {
+    return this.args.campaign.idPixType === '';
+  }
+
   @action
   askLabelIdPix() {
     this.wantIdPix = true;
     this.args.campaign.idPixLabel = '';
+    this.args.campaign.idPixType = '';
   }
 
   @action
   doNotAskLabelIdPix() {
     this.wantIdPix = false;
     this.args.campaign.idPixLabel = null;
+    this.args.campaign.idPixType = '';
   }
 
   @action
@@ -137,6 +143,10 @@ export default class CreateForm extends Component {
   @action
   onChangeCampaignCustomLandingPageText(event) {
     this.args.campaign.customLandingPageText = event.target.value;
+  }
+  @action
+  onChangeIdPixType(event) {
+    this.args.campaign.idPixType = event.target.value;
   }
 
   @action
@@ -372,6 +382,35 @@ export default class CreateForm extends Component {
 
       {{#if this.wantIdPix}}
         <FormField>
+          <PixFieldset @required={{true}} aria-labelledby="external-ids-types" role="radiogroup">
+            <:title>{{t "pages.campaign-creation.external-id-type.question-label"}}</:title>
+            <:content>
+              <PixRadioButton
+                name="external-id-types"
+                @value="EMAIL"
+                {{on "change" (fn this.onChangeCampaignValue "idPixType")}}
+                checked={{eq @campaign.idPixType "EMAIL"}}
+              >
+                <:label>{{t ID_PIX_TYPES.EMAIL}}</:label>
+
+              </PixRadioButton>
+              <PixRadioButton
+                name="external-id-types"
+                @value="STRING"
+                {{on "change" (fn this.onChangeCampaignValue "idPixType")}}
+                checked={{eq @campaign.idPixType "STRING"}}
+              >
+                <:label>{{t ID_PIX_TYPES.STRING}}</:label>
+              </PixRadioButton>
+              {{#if @errors.idPixType}}
+                <div class="form__error error-message">
+                  {{displayCampaignErrors @errors.idPixType}}
+                </div>
+              {{/if}}
+            </:content>
+          </PixFieldset>
+        </FormField>
+        <FormField>
           <PixInput
             @id="external-id-label"
             @name="external-id-label"
@@ -383,6 +422,7 @@ export default class CreateForm extends Component {
           >
             <:label>{{t "pages.campaign-creation.external-id-label.label"}}</:label>
           </PixInput>
+
           {{#if @errors.idPixLabel}}
             <div class="form__error error-message">
               {{displayCampaignErrors @errors.idPixLabel}}

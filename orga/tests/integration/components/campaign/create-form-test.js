@@ -898,6 +898,45 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       const label = screen.getByLabelText(new RegExp(t('pages.campaign-creation.external-id-label.label')));
       assert.true(label.hasAttribute('aria-required', false));
     });
+    test('it asks for external id type', async function (assert) {
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+      );
+      await clickByName(t('pages.campaign-creation.yes'));
+
+      // then
+      const radioGroup = screen.getByRole('radiogroup', {
+        name: t('pages.campaign-creation.external-id-type.question-label'),
+      });
+      assert.ok(radioGroup);
+    });
+
+    test('it updates campaign model when select a type', async function (assert) {
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+      );
+      await clickByName(t('pages.campaign-creation.yes'));
+
+      const checkedRadio = screen.getByLabelText(t('pages.campaign-settings.external-user-id-types.email'));
+      await checkedRadio.click();
+      assert.strictEqual(this.campaign.idPixType, 'EMAIL');
+    });
   });
 
   test('it should fill campaign title', async function (assert) {
