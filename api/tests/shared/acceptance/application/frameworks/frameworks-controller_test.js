@@ -4,7 +4,7 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | frameworks-controller', function () {
   let server;

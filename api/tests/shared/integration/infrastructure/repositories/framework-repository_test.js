@@ -1,6 +1,6 @@
-import * as frameworkRepository from '../../../../lib/infrastructure/repositories/framework-repository.js';
-import { NotFoundError } from '../../../../src/shared/domain/errors.js';
-import { catchErr, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import * as frameworkRepository from '../../../../../src/shared/infrastructure/repositories/framework-repository.js';
+import { catchErr, domainBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
 
 describe('Integration | Repository | framework-repository', function () {
   const framework0 = {

@@ -1,6 +1,6 @@
-import { frameworksController } from '../../../../lib/application/frameworks/frameworks-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { expect, hFake, sinon } from '../../../test-helper.js';
+import { frameworksController } from '../../../../../src/shared/application/frameworks/frameworks-controller.js';
+import { sharedUsecases as usecases } from '../../../../../src/shared/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | frameworks-controller', function () {
   let frameworks;

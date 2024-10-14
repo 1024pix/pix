@@ -95,6 +95,7 @@ import * as assessmentResultRepository from '../../../src/shared/infrastructure/
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as courseRepository from '../../../src/shared/infrastructure/repositories/course-repository.js';
+import * as frameworkRepository from '../../../src/shared/infrastructure/repositories/framework-repository.js';
 import * as organizationRepository from '../../../src/shared/infrastructure/repositories/organization-repository.js';
 import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
 import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
@@ -133,7 +134,6 @@ import * as complementaryCertificationCourseResultRepository from '../../infrast
 import * as complementaryCertificationHabilitationRepository from '../../infrastructure/repositories/complementary-certification-habilitation-repository.js';
 import * as dataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer-repository.js';
 import * as flashAssessmentResultRepository from '../../infrastructure/repositories/flash-assessment-result-repository.js';
-import * as frameworkRepository from '../../infrastructure/repositories/framework-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import { certificationCompletedJobRepository } from '../../infrastructure/repositories/jobs/certification-completed-job-repository.js';
 import { userAnonymizedEventLoggingJobRepository } from '../../infrastructure/repositories/jobs/user-anonymized-event-logging-job-repository.js';
@@ -182,7 +182,7 @@ function requirePoleEmploiNotifier() {
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {mailService} MailService
  * @typedef {placementProfileService} PlacementProfileService
- * @typedef {sessionPublicationService} SessionPublicationService
+ * @typedef {sessionPublicationService} SessionPublicationServic
  * @typedef {sessionRepository} SessionRepository
  * @typedef {centerRepository} CenterRepository
  * @typedef {certificationCenterForAdminRepository} CertificationCenterForAdminRepository
