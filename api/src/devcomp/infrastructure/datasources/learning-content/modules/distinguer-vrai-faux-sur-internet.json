@@ -260,8 +260,8 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt la plupart des gens.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt la plupart des gens. Essayez à nouveau.</p>"
+                    "valid": "<span class=\"feedback__state\">Correct.</span><p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt pour la plupart des gens.</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> C'est un fait qui ne concerne que Miranda. Il ne présente pas d'intérêt pour la plupart des gens. Essayez à nouveau.</p>"
                   },
                   "solution": "3"
                 }
@@ -470,7 +470,7 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct.</span><p>Ce vendeur exagère complétement la réalité pour augmenter ses ventes. </p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Ce vendeur exagère pour essayer de vendre ses légumes produit à plus de personnes.</p>"
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Ce vendeur exagère pour essayer de vendre ses légumes à plus de personnes.</p>"
                   },
                   "solution": "1"
                 }
