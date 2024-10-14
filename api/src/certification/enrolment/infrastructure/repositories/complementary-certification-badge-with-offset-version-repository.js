@@ -31,7 +31,7 @@ export async function getAllWithSameTargetProfile({ complementaryCertificationBa
 function _toDomain(data) {
   return new ComplementaryCertificationBadgeWithOffsetVersion({
     id: data.id,
-    requiredPixScore: data.minimumEarnedPix,
+    requiredPixScore: data?.minimumEarnedPix || 0,
     offsetVersion: data.offsetVersion,
     currentAttachedComplementaryCertificationBadgeId: data.currentAttachedComplementaryCertificationBadgeId,
   });

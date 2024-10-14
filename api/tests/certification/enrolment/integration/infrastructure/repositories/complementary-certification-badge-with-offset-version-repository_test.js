@@ -31,7 +31,7 @@ describe('Certification | Enrolment | Integration | Repository | complementary-c
 
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 5,
-        minimumEarnedPix: 150,
+        minimumEarnedPix: null,
         badgeId: badgeId2,
         label: 'Pix+ toto FC confirmé',
         level: 1,
@@ -67,7 +67,7 @@ describe('Certification | Enrolment | Integration | Repository | complementary-c
       const expectedResult = [
         domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
           id: 5,
-          requiredPixScore: 150,
+          requiredPixScore: 0,
           offsetVersion: 1,
           currentAttachedComplementaryCertificationBadgeId: 6,
         }),
