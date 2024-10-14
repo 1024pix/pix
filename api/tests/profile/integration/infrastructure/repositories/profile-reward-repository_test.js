@@ -138,6 +138,31 @@ describe('Profile | Integration | Repository | profile-reward', function () {
       expect(result[1]).to.be.an.instanceof(ProfileReward);
     });
 
+    it('should return attestation ordered by id asc to prevent flakyness', async function () {
+      // given
+      const attestation = databaseBuilder.factory.buildAttestation();
+
+      const firstReward = new ProfileReward(
+        databaseBuilder.factory.buildProfileReward({ id: 2, rewardId: attestation.id }),
+      );
+
+      const secondReward = new ProfileReward(
+        databaseBuilder.factory.buildProfileReward({ id: 1, rewardId: attestation.id }),
+      );
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await getByAttestationKeyAndUserIds({
+        attestationKey: attestation.key,
+        userIds: [firstReward.userId, secondReward.userId],
+      });
+
+      // then
+      expect(result[0].id).to.equal(secondReward.id);
+      expect(result[1].id).to.equal(firstReward.id);
+    });
+
     it('should not return attestations of other users', async function () {
       // given
       const attestation = databaseBuilder.factory.buildAttestation();
