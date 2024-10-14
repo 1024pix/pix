@@ -1430,7 +1430,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
     it('should return parsed campaign data', async function () {
       // given
-      const csv = `${headerCsv}1;chaussette;1234;numéro étudiant;789;titre 1;descriptif 1;Oui;45\n2;chapeau;1234;identifiant;666;titre 2;descriptif 2;Non;77\n3;chausson;1234;identifiant;123;titre 3;descriptif 3;Non;88;Bravo !;Cliquez ici;https://hmpg.net/`;
+      const csv = `${headerCsv}1;chaussette;1234;numéro étudiant;789;titre 1;descriptif 1;Oui;45\n2;chapeau;1234;identifiant;666;titre 2;descriptif 2;Non;77\n3;chausson;1234;;123;titre 3;descriptif 3;Non;88;Bravo !;Cliquez ici;https://hmpg.net/`;
 
       // when
       const parsedData = await csvSerializer.parseForCampaignsImport(csv);
@@ -1442,6 +1442,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           name: 'chaussette',
           targetProfileId: 1234,
           idPixLabel: 'numéro étudiant',
+          idPixType: 'STRING',
           title: 'titre 1',
           customLandingPageText: 'descriptif 1',
           creatorId: 789,
@@ -1456,6 +1457,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           name: 'chapeau',
           targetProfileId: 1234,
           idPixLabel: 'identifiant',
+          idPixType: 'STRING',
           title: 'titre 2',
           customLandingPageText: 'descriptif 2',
           creatorId: 666,
@@ -1469,7 +1471,8 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           organizationId: 3,
           name: 'chausson',
           targetProfileId: 1234,
-          idPixLabel: 'identifiant',
+          idPixLabel: '',
+          idPixType: '',
           title: 'titre 3',
           customLandingPageText: 'descriptif 3',
           creatorId: 123,
@@ -1607,6 +1610,71 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         expect(error).to.be.instanceOf(FileValidationError);
         expect(error.code).to.equal('CSV_CONTENT_NOT_VALID');
         expect(error.meta).to.equal('"empty" is not a valid value for "Nom de la campagne*"');
+      });
+    });
+
+    describe('when idPixLabel is provided', function () {
+      const headerWithidPixtype =
+        "Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe;Type de l'identifiant externe;Identifiant du créateur*;Titre du parcours;Descriptif du parcours;Envoi multiple;Identifiant du propriétaire*;Texte de la page de fin de parcours;Texte du bouton de la page de fin de parcours;URL du bouton de la page de fin de parcours\n";
+
+      describe('if idPixType is present', function () {
+        it('should default to STRING', async function () {
+          // given
+          const csv = `${headerWithidPixtype}1;chaussette;1234;numéro étudiant;;789;titre 1;descriptif 1;Oui;45`;
+
+          // when
+          const parsedData = await csvSerializer.parseForCampaignsImport(csv);
+
+          // then
+          const expectedParsedData = [
+            {
+              organizationId: 1,
+              name: 'chaussette',
+              targetProfileId: 1234,
+              idPixLabel: 'numéro étudiant',
+              idPixType: 'STRING',
+              title: 'titre 1',
+              customLandingPageText: 'descriptif 1',
+              creatorId: 789,
+              multipleSendings: true,
+              ownerId: 45,
+              customResultPageText: null,
+              customResultPageButtonText: null,
+              customResultPageButtonUrl: null,
+            },
+          ];
+          expect(parsedData).to.have.deep.members(expectedParsedData);
+        });
+      });
+
+      describe('if idPixType i not present', function () {
+        it('should default to STRING', async function () {
+          // given
+          const csv = `${headerCsv}1;chaussette;1234;numéro étudiant;789;titre 1;descriptif 1;Oui;45`;
+
+          // when
+          const parsedData = await csvSerializer.parseForCampaignsImport(csv);
+
+          // then
+          const expectedParsedData = [
+            {
+              organizationId: 1,
+              name: 'chaussette',
+              targetProfileId: 1234,
+              idPixLabel: 'numéro étudiant',
+              idPixType: 'STRING',
+              title: 'titre 1',
+              customLandingPageText: 'descriptif 1',
+              creatorId: 789,
+              multipleSendings: true,
+              ownerId: 45,
+              customResultPageText: null,
+              customResultPageButtonText: null,
+              customResultPageButtonUrl: null,
+            },
+          ];
+          expect(parsedData).to.have.deep.members(expectedParsedData);
+        });
       });
     });
   });
