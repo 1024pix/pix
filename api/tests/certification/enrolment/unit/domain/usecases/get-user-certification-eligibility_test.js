@@ -19,7 +19,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
     certificationBadgesService.findLatestBadgeAcquisitions = sinon.stub();
     complementaryCertificationCourseRepository.findByUserId = sinon.stub();
     pixCertificationRepository.findByUserId = sinon.stub();
-    complementaryCertificationBadgeWithOffsetVersionRepository.findAll = sinon.stub();
+    complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile = sinon.stub();
     dependencies = {
       userId,
       limitDate,
@@ -36,7 +36,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
       certificationBadgesService.findLatestBadgeAcquisitions.resolves([]);
       complementaryCertificationCourseRepository.findByUserId.resolves([]);
       pixCertificationRepository.findByUserId.resolves([]);
-      complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([]);
+      complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([]);
     });
     context('when user is certifiable', function () {
       it('returns a user certification eligibility with is certifiable set to true', async function () {
@@ -121,7 +121,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
         context('when acquired badge is outdated', function () {
           const isOutdated = true;
           beforeEach(function () {
-            complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
+            complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
               domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                 id: '1234',
                 requiredPixScore,
@@ -195,7 +195,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
 
               context('when badge is outdated by more than one version', function () {
                 beforeEach(function () {
-                  complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
+                  complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
                     domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                       id: '1234',
                       requiredPixScore,
@@ -418,7 +418,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
         context('when acquired badge is not outdated', function () {
           const isOutdated = false;
           beforeEach(function () {
-            complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
+            complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
               domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                 id: complementaryCertificationBadgeId,
                 requiredPixScore,
@@ -645,7 +645,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
             }),
           );
           complementaryCertificationKey = 'NOT CLEA';
-          complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
+          complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
             domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
               id: complementaryCertificationBadgeId,
               requiredPixScore,
@@ -966,7 +966,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
             context('when user has an acquired certification for this badge', function () {
               it('should not be added in the eligibilities of the model', async function () {
                 // given
-                complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
+                complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
                   domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                     id: '1234',
                     requiredPixScore,
@@ -1065,7 +1065,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
             const isOutdated = true;
             it('should not be added in the eligibilities of the model', async function () {
               // given
-              complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
+              complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
                 domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                   id: '1234',
                   requiredPixScore,
