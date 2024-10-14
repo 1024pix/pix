@@ -4,6 +4,7 @@ import { evaluationDomainErrorMappingConfiguration } from '../src/evaluation/app
 import { authenticationDomainErrorMappingConfiguration } from '../src/identity-access-management/application/http-error-mapper-configuration.js';
 import { organizationalEntitiesDomainErrorMappingConfiguration } from '../src/organizational-entities/application/http-error-mapper-configuration.js';
 import { prescriptionDomainErrorMappingConfiguration } from '../src/prescription/shared/application/http-error-mapper-configuration.js';
+import { profileDomainErrorMappingConfiguration } from '../src/profile/application/http-error-mapper-configuration.js';
 import { schoolDomainErrorMappingConfiguration } from '../src/school/application/http-error-mapper-configuration.js';
 import { domainErrorMapper } from '../src/shared/application/domain-error-mapper.js';
 import * as preResponseUtils from '../src/shared/application/pre-response-utils.js';
@@ -19,6 +20,7 @@ const setupErrorHandling = function (server) {
     ...evaluationDomainErrorMappingConfiguration,
     ...prescriptionDomainErrorMappingConfiguration,
     ...schoolDomainErrorMappingConfiguration,
+    ...profileDomainErrorMappingConfiguration,
   ];
 
   domainErrorMapper.configure(configuration);
