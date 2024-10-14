@@ -1,5 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
@@ -30,7 +31,7 @@ function _buildIsCertifiable(queryBuilder, organizationLearnerId) {
     .where('campaign-participations.deletedAt', null);
 }
 
-async function get(organizationLearnerId) {
+async function get({ organizationLearnerId }) {
   const row = await knex
     .with('subquery', (qb) => _buildIsCertifiable(qb, organizationLearnerId))
     .select(
@@ -105,4 +106,26 @@ async function findPaginatedLearners({ organizationId, page, filter }) {
   return { learners, pagination };
 }
 
-export { findPaginatedLearners, get };
+async function findOrganizationLearnersByDivisions({ organizationId, divisions }) {
+  const knexConnection = DomainTransaction.getConnection();
+  const organizationLearners = await knexConnection
+    .from('view-active-organization-learners')
+    .where({ organizationId })
+    .whereIn('division', divisions);
+  return organizationLearners.map((organizationLearner) => new OrganizationLearner(organizationLearner));
+}
+
+async function getAttestationsForOrganizationLearnersAndKey({ attestationKey, organizationLearners, attestationsApi }) {
+  const userIds = organizationLearners.map((learner) => learner.userId);
+  return attestationsApi.generateAttestations({
+    attestationKey,
+    userIds,
+  });
+}
+
+export {
+  findOrganizationLearnersByDivisions,
+  findPaginatedLearners,
+  get,
+  getAttestationsForOrganizationLearnersAndKey,
+};

@@ -21,8 +21,8 @@ describe('Profile | Integration | Domain | get-attestation-data-for-users', func
     it('should return profile rewards', async function () {
       const locale = 'FR-fr';
       const attestation = databaseBuilder.factory.buildAttestation();
-      const firstUser = new User(databaseBuilder.factory.buildUser());
-      const secondUser = new User(databaseBuilder.factory.buildUser());
+      const firstUser = new User(databaseBuilder.factory.buildUser({ firstName: 'Alex', lastName: 'Terieur' }));
+      const secondUser = new User(databaseBuilder.factory.buildUser({ firstName: 'Theo', lastName: 'Courant' }));
       const firstCreatedAt = databaseBuilder.factory.buildProfileReward({
         rewardId: attestation.id,
         userId: firstUser.id,
@@ -44,6 +44,8 @@ describe('Profile | Integration | Domain | get-attestation-data-for-users', func
         firstUser.toForm(firstCreatedAt, locale),
         secondUser.toForm(secondCreatedAt, locale),
       ]);
+      expect(results[0].get('fullName')).to.equal('Alex TERIEUR');
+      expect(results[1].get('fullName')).to.equal('Theo COURANT');
     });
   });
 });
