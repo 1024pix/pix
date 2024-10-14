@@ -1,5 +1,5 @@
 import { identityAccessManagementRoutes } from '../../../../../src/identity-access-management/application/routes.js';
-import * as i18nPlugin from '../../../../../src/shared/infrastructure/plugins/i18n.js';
+import * as i18nPlugin from '../../../../../src/shared/infrastructure/plugins/hapi/i18n.js';
 import { expect, HttpTestServer } from '../../../../test-helper.js';
 
 const routesUnderTest = identityAccessManagementRoutes[0];

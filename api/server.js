@@ -30,7 +30,7 @@ import { profileRoutes } from './src/profile/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
 import { config } from './src/shared/config.js';
 import { monitoringTools } from './src/shared/infrastructure/monitoring-tools.js';
-import { plugins } from './src/shared/infrastructure/plugins/index.js';
+import { plugins } from './src/shared/infrastructure/plugins/hapi/index.js';
 import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
 // bounded context migration
 import { sharedRoutes } from './src/shared/routes.js';
