@@ -2,7 +2,7 @@
 
 ## État
 
-Amende [0009-transaction-metier.md][0009] et [0010-propager-domain-events-via-event-dispatcher.md][0010].
+Remplace [0009-transaction-metier.md][0009] et [0010-propager-domain-events-via-event-dispatcher.md][0010].
 
 [0009]: ./0009-transaction-metier.md
 [0010]: ./0010-propager-domain-events-via-event-dispatcher.md
