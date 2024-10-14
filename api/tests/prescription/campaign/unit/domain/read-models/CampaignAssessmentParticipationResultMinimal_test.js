@@ -23,6 +23,7 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignAssessmentPart
         lastName: 'Aguilar',
         badges: [],
         masteryRate: 0.45,
+        evolution: null,
         participantExternalId: 'Alba67',
         reachedStage: 2,
         totalStage: 6,
@@ -79,6 +80,73 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignAssessmentPart
 
         // then
         expect(campaignAssessmentParticipationResultMinimal.masteryRate).to.equal(0.75);
+      });
+    });
+  });
+
+  describe('evolution', function () {
+    context('when the previousMasteryRate is null', function () {
+      it('should return null for the evolution', function () {
+        // when
+        const campaignAssessmentParticipationResultMinimal = new CampaignAssessmentParticipationResultMinimal({
+          previousMasteryRate: null,
+          masteryRate: 0.18,
+        });
+
+        // then
+        expect(campaignAssessmentParticipationResultMinimal.evolution).to.equal(null);
+      });
+    });
+
+    context('when the masteryRate is null', function () {
+      it('should return null for the evolution', function () {
+        // when
+        const campaignAssessmentParticipationResultMinimal = new CampaignAssessmentParticipationResultMinimal({
+          previousMasteryRate: 0.18,
+          masteryRate: null,
+        });
+
+        // then
+        expect(campaignAssessmentParticipationResultMinimal.evolution).to.equal(null);
+      });
+    });
+
+    context('when the masteryRate is superior to the previousMasteryRate', function () {
+      it('should return increase for the evolution', function () {
+        // when
+        const campaignAssessmentParticipationResultMinimal = new CampaignAssessmentParticipationResultMinimal({
+          masteryRate: 0.8,
+          previousMasteryRate: 0.5,
+        });
+
+        // then
+        expect(campaignAssessmentParticipationResultMinimal.evolution).to.equal('increase');
+      });
+    });
+
+    context('when the masteryRate is inferior to the previousMasteryRate', function () {
+      it('should return decrease for the evolution', function () {
+        // when
+        const campaignAssessmentParticipationResultMinimal = new CampaignAssessmentParticipationResultMinimal({
+          masteryRate: 0.5,
+          previousMasteryRate: 0.8,
+        });
+
+        // then
+        expect(campaignAssessmentParticipationResultMinimal.evolution).to.equal('decrease');
+      });
+    });
+
+    context('when the masteryRate is equal to the previousMasteryRate', function () {
+      it('should return stable for the evolution', function () {
+        // when
+        const campaignAssessmentParticipationResultMinimal = new CampaignAssessmentParticipationResultMinimal({
+          masteryRate: 0.8,
+          previousMasteryRate: 0.8,
+        });
+
+        // then
+        expect(campaignAssessmentParticipationResultMinimal.evolution).to.equal('stable');
       });
     });
   });

@@ -1,5 +1,8 @@
 import * as campaignAssessmentParticipationResultListRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
-import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import {
+  CampaignParticipationStatuses,
+  CampaignTypes,
+} from '../../../../../../src/prescription/shared/domain/constants.js';
 import { databaseBuilder, expect, learningContentBuilder, mockLearningContent } from '../../../../../test-helper.js';
 
 const { STARTED } = CampaignParticipationStatuses;
@@ -374,6 +377,38 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         ];
         const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
+      });
+
+      it('computes the mastery percentage', async function () {
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+        });
+
+        expect(participations[0].masteryRate).to.equal(0.33);
+      });
+    });
+
+    context('evolution', function () {
+      beforeEach(async function () {
+        const campaign = databaseBuilder.factory.buildCampaign({
+          type: CampaignTypes.ASSESSMENT,
+        });
+
+        const { id: userId } = databaseBuilder.factory.buildUser({});
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+          masteryRate: 0,
+        });
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+          masteryRate: 0.33,
+        });
+
+        await databaseBuilder.commit();
       });
 
       it('computes the mastery percentage', async function () {

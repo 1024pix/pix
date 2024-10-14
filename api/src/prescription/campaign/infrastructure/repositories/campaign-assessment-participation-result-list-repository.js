@@ -7,8 +7,13 @@ import { CampaignAssessmentParticipationResultMinimal } from '../../domain/read-
 
 const { SHARED } = CampaignParticipationStatuses;
 
-async function findPaginatedByCampaignId({ page = {}, campaignId, filters = {} }) {
-  const stageCollection = await stageCollectionRepository.findStageCollection({ campaignId });
+async function findPaginatedByCampaignId({
+  page = {},
+  campaignId,
+  filters = {},
+  dependencies = { stageCollectionRepository },
+}) {
+  const stageCollection = await dependencies.stageCollectionRepository.findStageCollection({ campaignId });
 
   const { results, pagination } = await _getResultListPaginated(campaignId, stageCollection, filters, page);
   const participations = await _buildCampaignAssessmentParticipationResultList(results, stageCollection);
