@@ -14,8 +14,13 @@ module('Integration | Component | live-alert-handled-modal', function (hooks) {
     const candidate = store.createRecord('certification-candidate', {
       firstName: 'Jean-Paul',
       lastName: 'Candidat',
-      liveAlert: {
+      challengeLiveAlert: {
+        type: 'challenge',
         status: 'ongoing',
+        hasEmbed: false,
+        hasAttachment: false,
+        isFocus: false,
+        hasImage: false,
       },
     });
 
@@ -43,8 +48,13 @@ module('Integration | Component | live-alert-handled-modal', function (hooks) {
     const candidate = store.createRecord('certification-candidate', {
       firstName: 'Jean-Paul',
       lastName: 'Candidat',
-      liveAlert: {
+      challengeLiveAlert: {
+        type: 'challenge',
         status: 'ongoing',
+        hasEmbed: false,
+        hasAttachment: false,
+        isFocus: false,
+        hasImage: false,
       },
     });
 

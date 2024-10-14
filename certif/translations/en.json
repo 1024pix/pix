@@ -103,8 +103,15 @@
         "candidate-status": {
           "authorized-to-resume": "Allowed to resume",
           "finished": "Finished",
+          "live-alerts": {
+            "challenge": {
+              "ongoing": "Report in progress"
+            },
+            "companion": {
+              "ongoing": "Extension not detected"
+            }
+          },
           "ongoing": "In progress",
-          "ongoing-live-alert": "Signalement en cours",
           "start": "Start"
         },
         "complementary-alone": "Which tests will the candidate take?",

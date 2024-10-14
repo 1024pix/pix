@@ -103,8 +103,15 @@
         "candidate-status": {
           "authorized-to-resume": "Autorisé à reprendre",
           "finished": "Terminé",
+          "live-alerts": {
+            "challenge": {
+              "ongoing": "Signalement en cours"
+            },
+            "companion": {
+              "ongoing": "Extension non détectée"
+            }
+          },
           "ongoing": "En cours",
-          "ongoing-live-alert": "Signalement en cours",
           "start": "Début"
         },
         "complementary-alone": "Quelles épreuves le candidat passera-t-il ?",
