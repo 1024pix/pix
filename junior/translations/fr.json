@@ -82,12 +82,11 @@
       },
       "end-page": {
         "title": "Fin de mission",
-        "congratulations": "Bravo ! <br> Tu as terminé ta mission !",
         "back-to-missions": "Voir d'autres missions",
         "details-list": "Tu as pu travailler :",
         "result": {
           "exceeded": "Waouh, tu sembles être incollable sur ce sujet ! Tu as relevé le défi.",
-          "reached": "Bravo, tu as réussi !",
+          "reached": "Bravo, tu as réussi ta mission !",
           "partially-reached": "Il te manque quelques épreuves, reviens vite pour réessayer.",
           "not-reached": "Cette mission semble difficile, n’hésite pas à réessayer dès que tu te sens prêt."
         }
