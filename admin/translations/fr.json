@@ -261,6 +261,9 @@
     "badges": {
       "api-error-messages": {
         "key-already-exists": "La clé de badge {badgeKey} est déjà utilisée"
+      },
+      "tooltips": {
+        "parameters": "<u>En lacune</u><br/>Si le RT est en lacune et que l'apprenant n'a pas rempli les conditions d'obtention de ce RT, alors on ne verra le RT sur l'écran de résultats.<br/><br/><u>Certifiable</u><br/>Le RT devient un pré-requis pour une certification."
       }
     },
     "certification-centers": {

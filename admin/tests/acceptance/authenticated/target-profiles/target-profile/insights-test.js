@@ -446,7 +446,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         // when
         const screen = await visit('/target-profiles/1');
         await clickByName('Clés de lecture');
-        await clickByName('Détails du badge tagada');
+        await clickByName('Voir le détail du résultat thématique tagada');
 
         // then
         assert.strictEqual(currentURL(), '/target-profiles/1/badges/100');
@@ -494,7 +494,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         // when
         const screen = await visit('/target-profiles/1');
         await clickByName('Clés de lecture');
-        await clickByName('Détails du badge ancien titre');
+        await clickByName('Voir le détail du résultat thématique ancien titre');
         await clickByName('Modifier');
         await fillByLabel('* Titre :', 'nouveau titre');
         await fillByLabel('* Clé :', 'NEW_KEY');
@@ -526,7 +526,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         // when
         const screen = await visit('/target-profiles/1');
         await clickByName('Clés de lecture');
-        await clickByName('Détails du badge tagada');
+        await clickByName('Voir le détail du résultat thématique tagada');
         await clickByName('Modifier');
         await fillByLabel('* Titre :', 'tsouintsouin');
         await clickByName('Annuler');
@@ -638,7 +638,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         await waitForElementToBeRemoved(() => screen.queryByRole('listbox'));
 
         await clickByName('Enregistrer le RT');
-        await clickByName('Détails du badge Mon nouveau RT');
+        await clickByName('Voir le détail du résultat thématique Mon nouveau RT');
 
         // then
         assert.strictEqual(currentURL(), '/target-profiles/1/badges/1');
