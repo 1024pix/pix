@@ -3,6 +3,7 @@
     "campaign-creation": {
       "custom-landing-page_too_long": "Please choose a shorter text to display on the starting page.",
       "external-user-id-required": "Please specify the type of external user ID which the participants will be required to fill when starting the customised test.",
+      "id-pix-type-required": "Please select an external identifier type.",
       "name-required": "Please name your campaign.",
       "owner_not_in_organization": "Please select a member of your organization.",
       "purpose-required": "Please select the purpose of your campaign: assess participants or collect their profiles.",
@@ -497,6 +498,9 @@
         "required": "The external user ID label is mandatory.",
         "suggestion": "Example : \"Student Number\" or \"Email address\" *"
       },
+      "external-id-type": {
+        "question-label": "What is the type of the external ID ?"
+      },
       "landing-page-text": {
         "label": "Text to display on the starting page"
       },
@@ -687,8 +691,8 @@
       "direct-link": "Direct link",
       "external-user-id-label": "External user ID label",
       "external-user-id-types": {
-        "email": "email",
-        "string": "free text"
+        "email": "Email",
+        "string": "Other"
       },
       "landing-page-text": "Text to display on the starting page",
       "multiple-sendings": {

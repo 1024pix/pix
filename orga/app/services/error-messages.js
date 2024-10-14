@@ -8,6 +8,7 @@ const CAMPAIGN_CREATION_ERRORS = {
   OWNER_NOT_IN_ORGANIZATION: 'api-error-messages.campaign-creation.owner_not_in_organization',
   CAMPAIGN_TITLE_IS_TOO_LONG: 'api-error-messages.campaign-creation.title_too_long',
   CUSTOM_LANDING_PAGE_TEXT_IS_TOO_LONG: 'api-error-messages.campaign-creation.custom-landing-page-text_too_long',
+  MISSING_ID_PIX_TYPE: 'api-error-messages.campaign-creation.id-pix-type-required',
 };
 
 const CSV_IMPORT_ERRORS = {

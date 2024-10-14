@@ -7,7 +7,8 @@
       "owner_not_in_organization": "De eigenaar maakt geen deel uit van de organisatie.",
       "purpose-required": "Kies het doel van je campagne: Beoordeling of Verzameling van profielen.",
       "target-profile-required": "Selecteer een traject voor je campagne.",
-      "title_too_long": "De campagnetitel is te lang."
+      "title_too_long": "De campagnetitel is te lang.",
+      "id-pix-type-required": "Selecteer een extern identificatietype."
     },
     "csv-import": {
       "property-not-uniq": "Regel {line}: Het veld “{field}” moet uniek zijn binnen het bestand."
@@ -460,6 +461,9 @@
         "required": "De externe id is verplicht",
         "suggestion": "Voorbeeld: \"Studentnummer\" of \"Professioneel e-mailadres\" *."
       },
+      "external-id-type": {
+        "question-label": "Wat is het type externe identifier?"
+      },
       "landing-page-text": {
         "label": "Tekst op de startpagina"
       },
@@ -650,8 +654,8 @@
       "direct-link": "Directe link",
       "external-user-id-label": "Type externe user-ID",
       "external-user-id-types": {
-        "string": "vrije tekst",
-        "email": "e-mail"
+        "email": "E-mail",
+        "string": "Andere"
       },
       "landing-page-text": "Tekst op de startpagina",
       "multiple-sendings": {
