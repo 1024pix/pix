@@ -283,8 +283,8 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
     });
 
     context('idPixLabel & idPixType', function () {
-      context('when it is empty string', function () {
-        it('should save null instead of empty string', function () {
+      context('when idPixLabel is empty', function () {
+        it('should save if both idPixLabel and idPixType are empty', function () {
           const attributes = {
             name: 'CampaignName',
             type: CampaignTypes.ASSESSMENT,
@@ -302,10 +302,31 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
 
           const campaignForCreation = new CampaignForCreation(attributes);
 
-          expect(campaignForCreation.idPixLabel).to.be.null;
-          expect(campaignForCreation.idPixType).to.be.null;
+          expect(campaignForCreation.idPixLabel).to.be.undefined;
+          expect(campaignForCreation.idPixType).to.be.undefined;
         });
-        it('should default idPixType to STRING', function () {
+        it('should save if both idPixLabel and idPixType are not provided', function () {
+          const attributes = {
+            name: 'CampaignName',
+            type: CampaignTypes.ASSESSMENT,
+            targetProfileId: 1,
+            creatorId: 2,
+            ownerId: 2,
+            organizationId: 3,
+            title: '',
+            customLandingPageText: '',
+            customResultPageButtonText: null,
+            customResultPageButtonUrl: null,
+          };
+
+          const campaignForCreation = new CampaignForCreation(attributes);
+
+          expect(campaignForCreation.idPixLabel).to.be.undefined;
+          expect(campaignForCreation.idPixType).to.be.undefined;
+        });
+      });
+      context('when idPixLabel is provided', function () {
+        it('should throws if  idPixType is empty', function () {
           const attributes = {
             name: 'CampaignName',
             type: CampaignTypes.ASSESSMENT,
@@ -321,10 +342,52 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
             customResultPageButtonUrl: null,
           };
 
-          const campaignForCreation = new CampaignForCreation(attributes);
+          expect(() => {
+            new CampaignForCreation(attributes);
+          }).to.throw(EntityValidationError);
+        });
+        it('should throws if idPixType is null', function () {
+          const attributes = {
+            name: 'CampaignName',
+            type: CampaignTypes.ASSESSMENT,
+            targetProfileId: 1,
+            creatorId: 2,
+            ownerId: 2,
+            organizationId: 3,
+            title: '',
+            idPixLabel: 'toto',
+            idPixType: null,
+            customLandingPageText: '',
+            customResultPageButtonText: null,
+            customResultPageButtonUrl: null,
+          };
 
-          expect(campaignForCreation.idPixLabel).to.be.equal('toto');
-          expect(campaignForCreation.idPixType).to.equal(CampaignExternalIdTypes.STRING);
+          expect(() => {
+            new CampaignForCreation(attributes);
+          }).to.throw(EntityValidationError);
+        });
+      });
+
+      context('when idPixType is empty', function () {
+        it('should throws if there is a idPixType but no idPixLabel', function () {
+          const attributes = {
+            name: 'CampaignName',
+            type: CampaignTypes.ASSESSMENT,
+            targetProfileId: 1,
+            creatorId: 2,
+            ownerId: 2,
+            organizationId: 3,
+            title: '',
+            idPixLabel: '',
+            idPixType: 'toto',
+            customLandingPageText: '',
+            customResultPageButtonText: null,
+            customResultPageButtonUrl: null,
+          };
+
+          expect(() => {
+            new CampaignForCreation(attributes);
+          }).to.throw(EntityValidationError);
         });
       });
 

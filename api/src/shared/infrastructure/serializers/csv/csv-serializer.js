@@ -228,6 +228,10 @@ async function parseForCampaignsImport(cleanedData, { parseCsvData } = csvHelper
     name: data['Nom de la campagne*'],
     targetProfileId: data['Identifiant du profil cible*'],
     idPixLabel: data["Libellé de l'identifiant externe"],
+    idPixType:
+      data["Libellé de l'identifiant externe"]?.trim()?.length > 0
+        ? data["Type de l'identifiant externe"] || 'STRING'
+        : '',
     creatorId: data['Identifiant du créateur*'],
     title: data['Titre du parcours'],
     customLandingPageText: data['Descriptif du parcours'],
