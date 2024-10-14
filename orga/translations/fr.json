@@ -3,6 +3,7 @@
     "campaign-creation": {
       "custom-landing-page_too_long": "Le texte de présentation de la campagne est trop long.",
       "external-user-id-required": "Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.",
+      "id-pix-type-required": "Veuillez sélectionnez un type d'identifiant externe.",
       "name-required": "Veuillez donner un nom à votre campagne.",
       "owner_not_in_organization": "Le propriétaire ne fait pas partie de l'organisation.",
       "purpose-required": "Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.",
@@ -504,6 +505,9 @@
         "required": "L'id externe est obligatoire",
         "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *"
       },
+      "external-id-type": {
+        "question-label": "Quel est le type de l'identifiant externe ?"
+      },
       "landing-page-text": {
         "label": "Texte de la page d'accueil"
       },
@@ -694,8 +698,8 @@
       "direct-link": "Lien direct",
       "external-user-id-label": "Libellé de l'identifiant",
       "external-user-id-types": {
-        "email": "email",
-        "string": "texte libre"
+        "email": "Email",
+        "string": "Autre"
       },
       "landing-page-text": "Texte de la page d'accueil",
       "multiple-sendings": {
