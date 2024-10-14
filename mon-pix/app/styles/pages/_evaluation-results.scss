@@ -148,6 +148,14 @@
   margin-top: var(--pix-spacing-6x);
 }
 
+.evaluation-results-hero-results__actions-error {
+  width: 100%;
+
+  & > * {
+    display: inline-flex;
+  }
+}
+
 // Acquired badges
 .evaluation-results-hero-details__acquired-badges-title {
   @extend %pix-title-xs;

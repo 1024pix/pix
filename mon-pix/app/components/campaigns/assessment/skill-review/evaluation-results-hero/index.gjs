@@ -5,6 +5,7 @@ import PixStars from '@1024pix/pix-ui/components/pix-stars';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { or } from 'ember-truth-helpers';
 import ENV from 'mon-pix/config/environment';
@@ -16,6 +17,12 @@ import RetryOrResetBlock from './retry-or-reset-block';
 
 export default class EvaluationResultsHero extends Component {
   @service currentUser;
+  @service router;
+  @service store;
+
+  @tracked hasGlobalError = false;
+  @tracked isImproveButtonLoading = false;
+  @tracked isShareResultsLoading = false;
 
   get isAutonomousCourse() {
     return this.args.campaign.organizationId === ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID;
@@ -42,6 +49,46 @@ export default class EvaluationResultsHero extends Component {
   @action
   handleSeeTrainingsClick() {
     this.args.showTrainings();
+  }
+
+  @action
+  async improveResults() {
+    if (this.isImproveButtonLoading) return;
+
+    try {
+      this.hasGlobalError = false;
+      this.isImproveButtonLoading = true;
+
+      const campaignParticipationResult = this.args.campaignParticipationResult;
+      const adapter = this.store.adapterFor('campaign-participation-result');
+      await adapter.beginImprovement(campaignParticipationResult.id);
+      this.router.transitionTo('campaigns.entry-point', this.args.campaign.code);
+    } catch {
+      this.hasGlobalError = true;
+    } finally {
+      this.isImproveButtonLoading = false;
+    }
+  }
+
+  @action
+  async handleShareResultsClick() {
+    if (this.isShareResultsLoading) return;
+
+    try {
+      this.hasGlobalError = false;
+      this.isShareResultsLoading = true;
+
+      const campaignParticipationResult = this.args.campaignParticipationResult;
+      const adapter = this.store.adapterFor('campaign-participation-result');
+      await adapter.share(campaignParticipationResult.id);
+
+      campaignParticipationResult.isShared = true;
+      campaignParticipationResult.canImprove = false;
+    } catch {
+      this.hasGlobalError = true;
+    } finally {
+      this.isShareResultsLoading = false;
+    }
   }
 
   <template>
@@ -119,7 +166,13 @@ export default class EvaluationResultsHero extends Component {
                 {{t "navigation.back-to-homepage"}}
               </PixButtonLink>
             {{else}}
-              <PixButton @size="large">{{t "pages.skill-review.actions.send"}}</PixButton>
+              <PixButton
+                @triggerAction={{this.handleShareResultsClick}}
+                @size="large"
+                @isLoading={{this.isShareResultsLoading}}
+              >
+                {{t "pages.skill-review.actions.send"}}
+              </PixButton>
             {{/if}}
           {{/if}}
 
@@ -132,6 +185,14 @@ export default class EvaluationResultsHero extends Component {
             >
               {{t "pages.skill-review.actions.improve"}}
             </PixButton>
+          {{/if}}
+
+          {{#if this.hasGlobalError}}
+            <div class="evaluation-results-hero-results__actions-error">
+              <PixMessage @type="error" @withIcon={{true}}>
+                {{t "pages.skill-review.error"}}
+              </PixMessage>
+            </div>
           {{/if}}
         </div>
         {{#if @campaignParticipationResult.acquiredBadges.length}}

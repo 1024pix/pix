@@ -83,6 +83,72 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
         assert.dom(screen.getByText(t('pages.skill-review.hero.explanations.send-results'))).exists();
         assert.dom(screen.getByRole('button', { name: t('pages.skill-review.actions.send') })).exists();
       });
+
+      module('on click on the share button', function (hooks) {
+        let campaignParticipationResult, screen, shareStub;
+
+        hooks.beforeEach(async function () {
+          // given
+          const store = this.owner.lookup('service:store');
+
+          const adapter = store.adapterFor('campaign-participation-result');
+          shareStub = sinon.stub(adapter, 'share');
+
+          this.set('campaign', {
+            customResultPageText: 'My custom result page text',
+            organizationId: 1,
+          });
+
+          campaignParticipationResult = store.createRecord('campaign-participation-result', {
+            campaignParticipationBadges: [],
+            isShared: false,
+            canImprove: true,
+            masteryRate: 0.75,
+          });
+          campaignParticipationResult.id = 'campaignParticipationResultId';
+          this.set('campaignParticipationResult', campaignParticipationResult);
+
+          // when
+          screen = await render(
+            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
+          );
+        });
+
+        test('on success, it should display a notification and hide improve elements', async function (assert) {
+          // given
+          shareStub.resolves();
+
+          // when
+          await click(screen.getByRole('button', { name: t('pages.skill-review.actions.send') }));
+
+          // then
+          assert.ok(shareStub.calledOnce);
+          sinon.assert.calledWithExactly(shareStub, campaignParticipationResult.id);
+
+          assert.dom(screen.queryByText(t('pages.skill-review.hero.shared-message'))).exists();
+          assert.dom(screen.queryByText(t('pages.skill-review.error'))).doesNotExist();
+
+          assert.dom(screen.queryByText(t('pages.skill-review.hero.explanations.improve'))).doesNotExist();
+          assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.actions.improve') })).doesNotExist();
+        });
+
+        test('on fail, it should display an error', async function (assert) {
+          // given
+          shareStub.rejects();
+
+          // when
+          await click(screen.getByRole('button', { name: t('pages.skill-review.actions.send') }));
+
+          // then
+          assert.dom(screen.queryByText(t('pages.skill-review.error'))).exists();
+
+          assert.dom(screen.getByText(t('pages.skill-review.hero.explanations.improve'))).exists();
+          assert.dom(screen.getByRole('button', { name: t('pages.skill-review.actions.improve') })).exists();
+        });
+      });
     });
 
     module('when results are shared', function () {
@@ -188,6 +254,65 @@ module('Integration | Components | Campaigns | Assessment | Skill Review | Evalu
         // then
         assert.dom(screen.getByText(t('pages.skill-review.hero.explanations.improve'))).exists();
         assert.dom(screen.getByRole('button', { name: t('pages.skill-review.actions.improve') })).exists();
+      });
+
+      module('on improve button click', function (hooks) {
+        let beginImprovementStub, campaign, campaignParticipationResult, router, screen;
+
+        hooks.beforeEach(async function () {
+          // given
+          const store = this.owner.lookup('service:store');
+
+          router = this.owner.lookup('service:router');
+          router.transitionTo = sinon.stub();
+
+          const adapter = store.adapterFor('campaign-participation-result');
+          beginImprovementStub = sinon.stub(adapter, 'beginImprovement');
+
+          campaignParticipationResult = store.createRecord('campaign-participation-result', {
+            masteryRate: 0.75,
+            canImprove: true,
+          });
+          campaignParticipationResult.id = 'campaignParticipationResultId';
+          this.set('campaignParticipationResult', campaignParticipationResult);
+
+          campaign = this.set('campaign', { organizationId: 1, code: 'ABC' });
+
+          // when
+          screen = await render(
+            hbs`<Campaigns::Assessment::SkillReview::EvaluationResultsHero
+  @campaign={{this.campaign}}
+  @campaignParticipationResult={{this.campaignParticipationResult}}
+/>`,
+          );
+        });
+
+        test('on success, it should restart the campaign', async function (assert) {
+          // when
+          await click(screen.getByRole('button', { name: t('pages.skill-review.actions.improve') }));
+
+          // then
+          sinon.assert.calledWithExactly(beginImprovementStub, campaignParticipationResult.id);
+          assert.ok(beginImprovementStub.calledOnce);
+
+          sinon.assert.calledWithExactly(router.transitionTo, 'campaigns.entry-point', campaign.code);
+          assert.ok(router.transitionTo.calledOnce);
+        });
+
+        test('on fail, it should display an error', async function (assert) {
+          // given
+          beginImprovementStub.rejects();
+
+          // when
+          await click(screen.getByRole('button', { name: t('pages.skill-review.actions.send') }));
+
+          // then
+          assert.dom(screen.queryByText(t('pages.skill-review.error'))).exists();
+          assert.dom(screen.getByText(t('pages.skill-review.hero.explanations.improve'))).exists();
+          assert.dom(screen.getByRole('button', { name: t('pages.skill-review.actions.improve') })).exists();
+
+          assert.notOk(router.transitionTo.calledOnce);
+        });
       });
     });
 
