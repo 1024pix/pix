@@ -57,7 +57,7 @@
       width: fit-content;
       color: var(--pix-primary-500);
       font-weight: 700;
-      font-size:var(--pix-spacing-4x);
+      font-size: var(--pix-spacing-4x);
       line-height: 21.82px;
       text-align: center;
       background: var(--pix-neutral-0);
@@ -75,7 +75,7 @@
       }
     }
 
-    .started-icon{
+    .started-icon {
       position: absolute;
       top: -32px;
       left: 164px;
@@ -110,8 +110,21 @@
 
     .mission-icon {
       position: absolute;
-      top: 75px;
-      right: 18%;
+      top: 85px;
+      right: 0;
+      left: 0;
+
+      .icon {
+        width: 121px;
+        height: 112px;
+      }
+    }
+
+    .mission-icon-default {
+      position: absolute;
+      top: 100px;
+      right: 0;
+      left: 0;
     }
 
     .mission-icon--completed {

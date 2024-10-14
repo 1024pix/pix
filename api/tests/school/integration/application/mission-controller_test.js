@@ -36,6 +36,7 @@ describe('Integration | Controller | mission-controller', function () {
       expect(result.data).to.deep.equal({
         attributes: {
           name: mission.name,
+          'card-image-url': mission.cardImageUrl,
           'area-code': mission.areaCode,
           'learning-objectives': mission.learningObjectives,
           'validated-objectives': mission.validatedObjectives,
@@ -87,6 +88,7 @@ describe('Integration | Controller | mission-controller', function () {
         {
           attributes: {
             name: mission.name,
+            'card-image-url': mission.cardImageUrl,
             'area-code': mission.areaCode,
             'learning-objectives': mission.learningObjectives,
             'validated-objectives': mission.validatedObjectives,

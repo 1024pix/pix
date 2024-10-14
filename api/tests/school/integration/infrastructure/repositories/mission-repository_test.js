@@ -75,4 +75,85 @@ describe('Integration | Repository | mission-repository', function () {
       });
     });
   });
+
+  describe('#findAllActiveMissions', function () {
+    context('when there are active missions', function () {
+      it('should return all active mission', async function () {
+        // given
+        const expectedMission = new Mission({
+          id: 1,
+          name: 'nameThemaFR1',
+          competenceId: 'competenceId',
+          thematicId: 'thematicId',
+          cardImageUrl: 'super-url',
+          learningObjectives: 'learningObjectivesi18n',
+          validatedObjectives: 'validatedObjectivesi18n',
+          introductionMediaUrl: 'http://monimage.pix.fr',
+          introductionMediaType: 'image',
+          introductionMediaAlt: "Alt à l'image",
+          documentationUrl: 'http://madoc.pix.fr',
+          content: {
+            steps: [
+              {
+                name: 'step_name_1',
+              },
+            ],
+          },
+        });
+
+        mockLearningContent({
+          missions: [
+            {
+              id: 1,
+              status: 'VALIDATED',
+              name_i18n: { fr: 'nameThemaFR1' },
+              competenceId: 'competenceId',
+              thematicId: 'thematicId',
+              cardImageUrl: 'super-url',
+              learningObjectives_i18n: { fr: 'learningObjectivesi18n' },
+              validatedObjectives_i18n: { fr: 'validatedObjectivesi18n' },
+              introductionMediaUrl: 'http://monimage.pix.fr',
+              introductionMediaType: 'image',
+              introductionMediaAlt: "Alt à l'image",
+              documentationUrl: 'http://madoc.pix.fr',
+              content: {
+                steps: [
+                  {
+                    name_i18n: { fr: 'step_name_1' },
+                  },
+                ],
+              },
+            },
+            {
+              id: 2,
+              status: 'INACTIVE',
+              name_i18n: { fr: 'nameThemaFR1' },
+              competenceId: 'competenceId',
+              thematicId: 'thematicId',
+              cardImageUrl: 'super-url',
+              learningObjectives_i18n: { fr: 'learningObjectivesi18n' },
+              validatedObjectives_i18n: { fr: 'validatedObjectivesi18n' },
+              introductionMediaUrl: 'http://monimage.pix.fr',
+              introductionMediaType: 'image',
+              introductionMediaAlt: "Alt à l'image",
+              documentationUrl: 'http://madoc.pix.fr',
+              content: {
+                steps: [
+                  {
+                    name_i18n: { fr: 'step_name_1' },
+                  },
+                ],
+              },
+            },
+          ],
+        });
+
+        // when
+        const missions = await missionRepository.findAllActiveMissions();
+
+        // then
+        expect(missions).to.deep.equal([expectedMission]);
+      });
+    });
+  });
 });

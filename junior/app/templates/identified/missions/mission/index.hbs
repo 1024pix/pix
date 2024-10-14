@@ -5,7 +5,11 @@
   </RobotDialog>
   <div class="mission-page__body">
 
-    <MissionCard::MissionCard @title={{@model.name}} @areaCode={{@model.areaCode}} />
+    <MissionCard::MissionCard
+      @title={{@model.name}}
+      @cardImageUrl={{@model.cardImageUrl}}
+      @areaCode={{@model.areaCode}}
+    />
 
     <div class="mission-page__details">
       <LinkTo @route="identified.missions" class="details-go-back">{{t
