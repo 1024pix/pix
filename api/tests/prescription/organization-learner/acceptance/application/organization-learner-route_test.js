@@ -26,7 +26,9 @@ describe('Prescription | Organization Learner | Acceptance | Application | Organ
         organizationId,
         organizationRole: Membership.roles.MEMBER,
       });
-      const attestation = databaseBuilder.factory.buildAttestation();
+      const attestation = databaseBuilder.factory.buildAttestation({
+        templateName: 'sixth-grade-attestation-template',
+      });
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
         division: '6emeA',

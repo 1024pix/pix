@@ -23,14 +23,14 @@ describe('Profile | Unit | Controller | attestation-controller', function () {
       sinon.stub(hFake, 'response');
       hFake.response.callThrough();
 
-      const expectedUsecaseResponse = Symbol('expectedUsecaseResponse');
+      const expectedUsecaseResponse = { data: Symbol('data'), templateName: 'sixth-grade-attestation-template' };
       const expectedBuffer = Symbol('expectedBuffer');
 
       usecases.getAttestationDataForUsers
         .withArgs({ attestationKey, userIds: [userId], locale })
         .resolves(expectedUsecaseResponse);
       pdfWithFormSerializerStub.serialize
-        .withArgs(sinon.match(/(\w*\/)*sixth-grade-attestation-template.pdf/), expectedUsecaseResponse)
+        .withArgs(sinon.match(/(\w*\/)*sixth-grade-attestation-template.pdf/), expectedUsecaseResponse.data)
         .resolves(expectedBuffer);
 
       // when

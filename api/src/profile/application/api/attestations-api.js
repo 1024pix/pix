@@ -11,9 +11,7 @@ export const generateAttestations = async function ({
   userIds,
   dependencies = { pdfWithFormSerializer },
 }) {
-  const data = await usecases.getAttestationDataForUsers({ attestationKey, userIds });
-
-  const templateName = 'sixth-grade-attestation-template';
+  const { data, templateName } = await usecases.getAttestationDataForUsers({ attestationKey, userIds });
 
   const templatePath = path.join(__dirname, `../../infrastructure/serializers/pdf/templates/${templateName}.pdf`);
 

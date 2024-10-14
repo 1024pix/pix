@@ -18,7 +18,9 @@ describe('Profile | Unit | Application | Api | attestations', function () {
 
       sinon.stub(usecases, 'getAttestationDataForUsers');
 
-      usecases.getAttestationDataForUsers.withArgs({ attestationKey, userIds }).resolves(data);
+      usecases.getAttestationDataForUsers
+        .withArgs({ attestationKey, userIds })
+        .resolves({ data, templateName: 'sixth-grade-attestation-template' });
 
       dependencies.pdfWithFormSerializer.serialize
         .withArgs(sinon.match(/(\w*\/)*sixth-grade-attestation-template.pdf/), data)
