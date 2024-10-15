@@ -137,6 +137,7 @@ async function _createProCampaigns(databaseBuilder) {
     organizationId: PRO_ORGANIZATION_ID,
     ownerId: USER_ID_ADMIN_ORGANIZATION,
     name: 'Campagne de collecte de profil PRO',
+    idPixLabel: 'IdPixLabel',
     multipleSendings: true,
     code: 'PROCOLMUL',
     type: 'PROFILES_COLLECTION',
@@ -151,6 +152,7 @@ async function _createProCampaigns(databaseBuilder) {
     ownerId: USER_ID_ADMIN_ORGANIZATION,
     isForAbsoluteNovice: true,
     name: "Campagne d'évaluation PRO",
+    idPixLabel: 'IdPixLabel',
     code: 'PROASSIMP',
     createdAt: dayjs().subtract(30, 'days').toDate(),
     configCampaign: {
@@ -172,6 +174,7 @@ async function _createProCampaigns(databaseBuilder) {
     ownerId: USER_ID_ADMIN_ORGANIZATION,
     name: "Campagne d'évaluation PRO envoi multiple",
     code: 'PROASSMUL',
+    idPixLabel: 'IdPixLabel',
     multipleSendings: true,
     createdAt: dayjs().subtract(30, 'days').toDate(),
     configCampaign: {
