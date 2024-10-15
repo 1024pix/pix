@@ -23,6 +23,7 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignAssessmentPart
         lastName: 'Aguilar',
         badges: [],
         masteryRate: 0.45,
+        evolution: null,
         participantExternalId: 'Alba67',
         reachedStage: 2,
         totalStage: 6,
