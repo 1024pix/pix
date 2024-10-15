@@ -4,40 +4,40 @@
   "title": "Les bases du clavier",
   "details": {
     "image": "",
-    "description": "<p><br></p>",
+    "description": "<p>📝 Dans ce module, vous découvrirez les différentes fonctionnalités d’un clavier d’ordinateur et vous développerez des compétences de base pour savoir les utiliser.&nbsp; <br>⌨️ Le clavier d’ordinateur est une interface physique qui permet à l’utilisateur de frapper sur une touche pour faire apparaître un caractère à l’écran. L’ensemble des caractères permet de former un mot, une phrase, un texte. <br>💡A noter que les claviers peuvent varier selon : S’il s’agit d’un ordinateur fixe ou portableLa marque&nbsp;La zone géographique de son utilisateur</p>",
     "duration": 10,
     "level": "Débutant",
     "objectives": [
-      "",
-      "",
-      ""
+      "<p>Savoir utiliser les touches principales du clavier</p>",
+      "<p>Savoir taper les caractères de base (lettres majuscules, minuscules, chiffres, ponctuation)</p>",
+      "<p>Savoir éditer du texte (effacer, aller à la ligne)</p>"
     ],
     "tabletSupport": "comfortable"
   },
   "transitionTexts": [
     {
       "grainId": "46508373-6ef8-4c1c-bbd5-f1c9dce28ab4",
-      "content": "<p>Texte de transition 1</p>"
+      "content": "<p>Identifiez et apprenez à reconnaître les différentes zones du clavier.&nbsp; Celles-ci peuvent être placées différemment selon les claviers, mais on retrouve toujours ces catégories. <br></p>"
     },
     {
       "grainId": "21e56dd6-b481-449f-92b0-2af57fd65f84",
-      "content": "<p>Texte de transition 2</p>"
+      "content": "<p>Voyons si vous savez maintenant repérer les différentes zones du clavier</p>"
     },
     {
       "grainId": "3ecb5ff4-ea79-4e3b-b840-2fc68cc1d9ed",
-      "content": "<p>Texte de transition 3</p>"
+      "content": "<p>Vous savez identifier les différentes zones d’un clavier !&nbsp; </p><p>🚀 Découvrez maintenant comment saisir les différents caractères d’un clavier.</p><br>"
     },
     {
       "grainId": "cd94d304-7e92-4095-83f5-8e5afd35dfec",
-      "content": "<p>Texte de transition 4</p>"
+      "content": "<p>Après la théorie, place à la pratique ! 💻</p>"
     },
     {
       "grainId": "4e2dda32-a4b7-45b1-ac05-19e5241d7305",
-      "content": "<p>Texte de transition 5</p>"
+      "content": "<p>📢 Résumons avant de passer à la suite ! C’est partix.🌟</p>"
     },
     {
       "grainId": "1ea7845f-1980-4a70-b5d0-f7a0bdfaedea",
-      "content": "<p>Texte de transition 6</p>"
+      "content": "<p>Désormais, nous allons découvrir ensemble comment modifier un texte et aller à la ligne ! ✒️</p>"
     },
     {
       "grainId": "9d77db6c-20dc-4073-bac6-199949e8b38f",
@@ -45,7 +45,7 @@
     },
     {
       "grainId": "f697306b-6a6a-48c9-bcd4-992f32c49a46",
-      "content": "<p>Texte de transition 8</p>"
+      "content": "<p>Il est temps de mettre en application tout ce que vous avez appris avec ce module !</p>"
     }
   ],
   "grains": [
@@ -62,14 +62,14 @@
                 {
                   "id": "f78a4420-edd4-4923-b9f8-2182860297ac",
                   "type": "image",
-                  "url": "",
+                  "url": "https://i.imgur.com/OifJOh0.png",
                   "alt": "",
                   "alternativeText": ""
                 },
                 {
                   "id": "19c196b2-87bd-46f7-8c82-ace0a9669b13",
                   "type": "text",
-                  "content": ""
+                  "content": "<h3>Les lettres de l’alphabet </h3><p>Elles permettent d’écrire du texte et peuvent être enrichies d’accents à l’aide d’autres touches.</p>"
                 }
               ]
             },
@@ -78,14 +78,14 @@
                 {
                   "id": "9c0155cc-4bba-47cc-b244-c52d6e7c296f",
                   "type": "image",
-                  "url": "",
+                  "url": "https://i.imgur.com/OifJOh0.png",
                   "alt": "",
                   "alternativeText": ""
                 },
                 {
                   "id": "6f15c445-8bf9-4ed1-b66c-4b3fa0f71e22",
                   "type": "text",
-                  "content": ""
+                  "content": "<h3>Les caractères spéciaux et accents</h3><p>Ils permettent de mettre des accents, de la ponctuation ou des caractères spéciaux.</p>"
                 }
               ]
             },
@@ -94,14 +94,14 @@
                 {
                   "id": "3faafa5d-f4ed-4c99-bc5e-c4d12716d80c",
                   "type": "image",
-                  "url": "",
+                  "url": "https://i.imgur.com/OifJOh0.png",
                   "alt": "",
                   "alternativeText": ""
                 },
                 {
                   "id": "39a59aa6-6bde-4bf4-899b-48f99404546f",
                   "type": "text",
-                  "content": ""
+                  "content": "<h3>La touche espace</h3><p>Elle permet de séparer les mots les uns des autres.</p>"
                 }
               ]
             },
@@ -110,14 +110,14 @@
                 {
                   "id": "9a6d3573-d241-400f-a6f9-ee75a24f98a0",
                   "type": "image",
-                  "url": "",
+                  "url": "https://i.imgur.com/OifJOh0.png",
                   "alt": "",
                   "alternativeText": ""
                 },
                 {
                   "id": "449fc3e0-6fce-4de1-8803-77f463ab5c68",
                   "type": "text",
-                  "content": ""
+                  "content": "<h3>Les touches directionnelles</h3><p>Elles permettent de se déplacer dans le texte (de bas en haut et de gauche à droite)</p>"
                 }
               ]
             },
@@ -126,14 +126,14 @@
                 {
                   "id": "04729e82-1d2b-40a4-abbc-c8aebd02c87f",
                   "type": "image",
-                  "url": "",
+                  "url": "https://i.imgur.com/OifJOh0.png",
                   "alt": "",
                   "alternativeText": ""
                 },
                 {
                   "id": "41cc2e88-1966-442f-9683-8567757422ad",
                   "type": "text",
-                  "content": ""
+                  "content": "<h3>Les chiffres </h3><p>Ils permettent d’écrire les nombres, ils sont parfois situés au-dessus des lettres de l’alphabet sur certains claviers.</p>"
                 }
               ]
             }
@@ -149,19 +149,9 @@
         {
           "type": "element",
           "element": {
-            "id": "9d05bdd2-ce66-465c-b4e6-183e0af4c4fb",
-            "type": "image",
-            "url": "",
-            "alt": "",
-            "alternativeText": ""
-          }
-        },
-        {
-          "type": "element",
-          "element": {
             "id": "3ff8885b-dcc9-4db8-a9e4-633c39b85f9f",
             "type": "qrocm",
-            "instruction": "",
+            "instruction": "<p>Associez chaque zone du clavier avec ses touches correspondantes.<br></p>",
             "proposals": [
               {
                 "type": "text",
@@ -178,23 +168,23 @@
                 "options": [
                   {
                     "id": "1",
-                    "content": "A"
+                    "content": "Lettres de l’alphabet"
                   },
                   {
                     "id": "2",
-                    "content": "B"
+                    "content": "Caractères spéciaux et accents"
                   },
                   {
                     "id": "3",
-                    "content": "C"
+                    "content": "Touche espace "
                   },
                   {
                     "id": "4",
-                    "content": "D"
+                    "content": "Touches directionnelles "
                   },
                   {
                     "id": "5",
-                    "content": "D"
+                    "content": "Chiffres"
                   }
                 ],
                 "solutions": []
@@ -349,6 +339,16 @@
               "invalid": ""
             }
           }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "9d05bdd2-ce66-465c-b4e6-183e0af4c4fb",
+            "type": "image",
+            "url": "https://i.imgur.com/OifJOh0.png",
+            "alt": "",
+            "alternativeText": ""
+          }
         }
       ]
     },
@@ -358,42 +358,22 @@
       "title": "",
       "components": [
         {
-          "type": "stepper",
-          "steps": [
-            {
-              "elements": [
-                {
-                  "id": "f2f03943-8eab-46a5-b792-09fbce132cf2",
-                  "type": "text",
-                  "content": ""
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "4e99d136-7037-4f3f-bc8a-db6fb84feaaa",
-                  "type": "text",
-                  "content": ""
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
-                  "id": "d5243134-39fb-4103-9f7f-cbafa87429a0",
-                  "type": "text",
-                  "content": ""
-                }
-              ]
-            }
-          ]
+          "type": "element",
+          "element": {
+            "id": "ff28859b-b022-4d6d-a85f-e86be6f6509a",
+            "type": "video",
+            "title": "",
+            "url": "",
+            "poster": "",
+            "subtitles": "",
+            "transcription": "<p>Composer des caractères simples ou complexes avec un clavier <br>[Présentation en plusieurs étapes : 1 page par chiffre romain] <br>Utiliser la touche ‘Shift’ (ou ‘Maj’) pour écrire des majuscules, des chiffres ou de la ponctuation<br>Les lettres minuscules et majusculesPour taper une lettre minuscule, appuyez simplement sur la touche correspondante. Par exemple, pour taper 'a', appuyez sur la touche 'a'.Pour taper une lettre majuscule, maintenez la touche 'Shift' (ou 'Maj') enfoncée tout en appuyant sur la touche de la lettre. Par exemple, pour taper 'A', maintenez 'Shift' enfoncée et appuyez sur 'a'.Illustration : faire une vidéo de la manipulation.<br>Les chiffres&nbsp;Selon les claviers, les chiffres sont situés à droite ou en haut du clavier. Quand ils sont à droite, il suffit d’appuyer sur la touche du chiffre. Quand ils sont en haut, il faut, comme pour les majuscules, maintenir la touche ‘Shift’ (ou ‘Maj’) enfoncée tout en appuyant sur la touche du chiffreIllustration : faire une vidéo de la manipulation.<br><br>La ponctuationLa ponctuation est essentielle pour structurer et clarifier le texte.&nbsp;Si le signe de ponctuation est en bas de sa touche, il suffit d’appuyer sur la touche pour l’écrireSi le signe de ponctuation est en haut de la touche, il est nécessaire, comme pour les majuscules, de maintenir la touche ‘Shift’ (ou ‘Maj’ enfoncée)Illustration : faire une vidéo de la manipulation (montrer la rangée des touches de ponctuation, avec sur une des touches 2 cercles pour montrer l’emplacement haut et bas + une légende “utiliser la touche ‘Shift’ ou ‘Maj’ pour le signe du haut).&nbsp;<br>II. Utiliser la touche ‘Alt Gr’ pour utiliser les accents ou l’arobase (@)&nbsp; Les accentsPour taper un accent, maintenez la touche 'Alt Gr' enfoncée tout en appuyant sur la touche de l'accent, puis relâchez et appuyez sur la lettre.Illustration : faire une vidéo de la manipulation (une main appuyant sur 'Alt Gr' et la touche de l'accent circonflexe, puis sur la lettre).<br>Le arobase (@)Le arobase est souvent utilisé dans les adresses e-mail. Pour taper le arobase, maintenez la touche 'Alt Gr' enfoncée et appuyez sur la touche '0'.\"Illustration : faire une vidéo de la manipulation (une main appuyant sur 'Alt Gr' et '0')</p>"
+          }
         }
       ]
     },
     {
       "id": "cd94d304-7e92-4095-83f5-8e5afd35dfec",
-      "type": "lesson",
+      "type": "activity",
       "title": "",
       "components": [
         {
@@ -401,17 +381,17 @@
           "element": {
             "id": "dd47a567-ef8f-450a-b539-1c5b761db94a",
             "type": "qrocm",
-            "instruction": "",
+            "instruction": "<p>Tapez cette phrase, en respectant les espaces et la ponctuation.<br><strong>Qui viendra à la fête d’Anne-Sophie ?</strong></p>",
             "proposals": [
               {
                 "type": "text",
-                "content": "<p>Mon texte</p>"
+                "content": "<p>Recopiez-la phrase ci-dessus : <br></p>"
               },
               {
                 "input": "",
                 "type": "input",
                 "inputType": "text",
-                "size": 10,
+                "size": 40,
                 "display": "inline",
                 "placeholder": "",
                 "ariaLabel": "",
@@ -438,7 +418,7 @@
           "element": {
             "id": "1a723658-2c0b-4a53-b833-225a06db3a1e",
             "type": "text",
-            "content": "<p><strong>Résumons avant de passer à la suite</strong></p>"
+            "content": "<p><strong>Dans cette partie, vous avez appris à : </strong></p><p>identifier les différentes zones d’un clavierutiliser des caractères simples : minuscules, majuscules et chiffresutiliser la ponctuation, les accents ou le @&nbsp;saisir quelques mots avec des caractères spéciaux</p><br><p><strong>💡Ce que vous devez retenir :</strong> </p><br><p>➡️ Une touche peut afficher de 1 à 4 caractères ou avoir une fonction. </p><p>➡️ Vous devez parfois maintenir deux touches appuyées pour produire un caractère spécial.</p><br>"
           }
         }
       ]
@@ -449,14 +429,43 @@
       "title": "",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "2fce4555-d45a-44ba-936c-406958ce6e56",
-            "type": "image",
-            "url": "",
-            "alt": "",
-            "alternativeText": ""
-          }
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "34a635c1-6189-48a9-bd9b-d726a9fe77c2",
+                  "type": "image",
+                  "url": "https://i.imgur.com/9SZzbMf.png",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "cd52bf0a-28e4-4047-b4ef-219641e677b2",
+                  "type": "text",
+                  "content": "<p>Pour mettre en page votre texte et retourner à la ligne après une phrase ou à la fin d’un paragraphe, il suffit de taper sur la touche de retour à la ligne “Entrée”, à droite sur votre clavier. <br>💡 La touche “Entrée” est même parfois présente deux fois sur un clavier ! <br><br></p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "d9bd2a99-7979-4ec4-ae4d-951d4aba4b1a",
+                  "type": "text",
+                  "content": "<p>Il peut arriver que vous commettiez des erreurs en tapant un texte, et c’est normal !&nbsp; Comment faire pour corriger ces erreurs ? 👉 Visionnez la vidéo ci-dessous :<br><br></p>"
+                },
+                {
+                  "id": "f58246d1-f403-4cf3-83a1-994fe46f5e0b",
+                  "type": "video",
+                  "title": "",
+                  "url": "",
+                  "poster": "",
+                  "subtitles": "",
+                  "transcription": ""
+                }
+              ]
+            }
+          ]
         },
         {
           "type": "element",
@@ -478,7 +487,7 @@
           "element": {
             "id": "3656041e-d09e-41d1-94cc-c57b559a4c38",
             "type": "qrocm",
-            "instruction": "",
+            "instruction": "<p>Effacez le caractère @ en trop dans l’adresse mail suivante. <br>Puis ajoutez un tiret dans “pixmail”, entre “pix” et “mail”.</p>",
             "proposals": [
               {
                 "input": "",
@@ -488,7 +497,7 @@
                 "display": "inline",
                 "placeholder": "",
                 "ariaLabel": "",
-                "defaultValue": "Ma phrase avec un caractère à bouger",
+                "defaultValue": "contact@@pixmail.org",
                 "tolerances": [],
                 "solutions": []
               }
@@ -511,7 +520,7 @@
           "element": {
             "id": "3f387c92-8e79-4765-97fc-62088492ea57",
             "type": "qrocm",
-            "instruction": "",
+            "instruction": "<p>Tapez cette phrase complète en respectant les caractères spéciaux, les espaces et la ponctuation.</p><p><strong>Fiodor Dostoïevski aurait pu choisir comme mot de passe : Crime-Et@Châtiment!</strong><br><br></p>",
             "proposals": [
               {
                 "type": "text",
