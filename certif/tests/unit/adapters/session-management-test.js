@@ -173,6 +173,26 @@ module('Unit | Adapter | session', function (hooks) {
       );
     });
   });
+
+  module('#clearedLiveAlert', () => {
+    test("should build cleared live alert url from session id and candidate's user id", async function (assert) {
+      // given
+      adapter.ajax = sinon.stub();
+      const sessionId = 123;
+      const candidateUserId = 456;
+
+      // when
+      await adapter.clearedLiveAlert({ sessionId, candidateUserId });
+
+      // then
+      assert.ok(
+        adapter.ajax.calledWith(
+          `${ENV.APP.API_HOST}/api/sessions/${sessionId}/users/${candidateUserId}/clear-companion-alert`,
+          'PATCH',
+        ),
+      );
+    });
+  });
 });
 
 async function _createSessionWithCertificationReports({ store, sessionData = {}, certificationReportsData = [] }) {

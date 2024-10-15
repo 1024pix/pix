@@ -110,7 +110,13 @@
       >
         {{#if @candidate.hasOngoingChallengeLiveAlert}}
           <Dropdown::Item @onClick={{this.askUserToHandleLiveAlert}}>
-            {{t "pages.session-supervising.candidate-in-list.resume-test-modal.handle-live-alert"}}
+            {{t "pages.session-supervising.candidate-in-list.resume-test-modal.live-alerts.handle-challenge"}}
+          </Dropdown::Item>
+        {{/if}}
+
+        {{#if @candidate.hasOngoingCompanionLiveAlert}}
+          <Dropdown::Item @onClick={{this.askUserToHandleCompanionLiveAlert}}>
+            {{t "pages.session-supervising.candidate-in-list.resume-test-modal.live-alerts.handle-companion"}}
           </Dropdown::Item>
         {{/if}}
 
@@ -156,6 +162,13 @@
     @closeConfirmationModal={{this.closeHandleLiveAlertModal}}
     @candidateFullName={{this.candidateFullName}}
     @isLiveAlertValidated={{this.isLiveAlertValidated}}
+  />
+
+  <SessionSupervising::CompanionLiveAlertModal
+    @showModal={{this.isHandleCompanionLiveAlertModalDisplayed}}
+    @closeConfirmationModal={{this.closeHandleLiveAlertModal}}
+    @candidateFullName={{this.candidateFullName}}
+    @clearedLiveAlert={{this.clearedLiveAlert}}
   />
 
 </li>

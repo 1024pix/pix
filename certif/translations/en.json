@@ -483,6 +483,22 @@
           },
           "no-current-live-alert": "Aucun signalement en cours pour ce candidat"
         },
+        "modals": {
+          "live-alerts": {
+            "companion": {
+              "title": "Confirm that {candidateFullName} has the extension?",
+              "actions": {
+                "success-aria-label": "Confirm the presence of the extension and process the report"
+              },
+              "description": "This action allows the candidate to resume the test from the point at which he left it."
+            }
+          }
+        },
+        "notifications": {
+          "handling-live-alert": {
+            "success": "The report has been processed. '<br>' Please ask the candidate to refresh his page."
+          }
+        },
         "resume-test-modal": {
           "actions": {
             "confirm": "I confirm permission"
@@ -491,8 +507,11 @@
           "cancel-label": "Cancel and close the confirmation window",
           "description": "If the candidate has closed their Pix Certification exam window (by mistake, or because of a technical problem) and is still present in the exam room, you can allow them to resume their test where they left it.",
           "error": " An error has occurred, {firstName} {lastName} couldn't be allowed to resume his/her Pix certification exam.",
-          "handle-live-alert": "Gérer le signalement",
           "instruction-with-name": "Allow {firstName} {lastName} to resume their test ?",
+          "live-alerts": {
+            "handle-challenge": "Managing the report",
+            "handle-companion": "Confirm extension presence"
+          },
           "success": "Success ! {firstName} {lastName} can resume his/her Pix certification exam."
         },
         "start-date-time": "Starting time : ",

@@ -215,6 +215,60 @@ module('Unit | Model | certification-candidate-for-supervising', function (hooks
     });
   });
 
+  module('#hasOngoingCompanionLiveAlert', function () {
+    module('when the current live alert type is companion', function () {
+      module('when the status is ongoing', function () {
+        test('it returns true', function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const companionLiveAlert = { type: 'companion', status: 'ONGOING' };
+
+          // when
+          const certificationCandidateForSupervising = store.createRecord('certification-candidate-for-supervising', {
+            companionLiveAlert,
+          });
+
+          // then
+          assert.true(certificationCandidateForSupervising.hasOngoingCompanionLiveAlert);
+        });
+      });
+
+      module('when the status is not ongoing', function () {
+        test('it returns false', function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const companionLiveAlert = { type: 'companion', status: 'CLEARED' };
+
+          // when
+          const certificationCandidateForSupervising = store.createRecord('certification-candidate-for-supervising', {
+            companionLiveAlert,
+          });
+
+          // then
+          assert.false(certificationCandidateForSupervising.hasOngoingCompanionLiveAlert);
+        });
+      });
+    });
+
+    module('when the current live alert type is not companion', function () {
+      test('it returns false', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const challengeLiveAlert = { type: 'challenge', status: 'ongoing' };
+        const companionLiveAlert = null;
+
+        // when
+        const certificationCandidateForSupervising = store.createRecord('certification-candidate-for-supervising', {
+          challengeLiveAlert,
+          companionLiveAlert,
+        });
+
+        // then
+        assert.false(certificationCandidateForSupervising.hasOngoingCompanionLiveAlert);
+      });
+    });
+  });
+
   function _pickModelData(certificationCandidate) {
     return pick(certificationCandidate, [
       'firstName',

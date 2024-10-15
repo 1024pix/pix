@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 const Modals = {
   Confirmation: 'Confirmation',
   HandleLiveAlert: 'HandleLiveAlert',
+  HandleCompanionLiveAlert: 'HandleCompanionLiveAlert',
   HandledLiveAlertSuccess: 'HandledLiveAlertSuccess',
 };
 
@@ -149,6 +150,11 @@ export default class CandidateInList extends Component {
   }
 
   @action
+  askUserToHandleCompanionLiveAlert() {
+    this.displayedModal = Modals.HandleCompanionLiveAlert;
+  }
+
+  @action
   async rejectLiveAlert() {
     try {
       const adapter = this.store.adapterFor('session-management');
@@ -179,6 +185,29 @@ export default class CandidateInList extends Component {
         'pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-handling-live-alert',
       );
       this.notifications.error(errorMessage);
+    }
+  }
+
+  @action
+  async clearedLiveAlert() {
+    try {
+      const adapter = this.store.adapterFor('session-management');
+      await adapter.clearedLiveAlert({
+        sessionId: this.args.sessionId,
+        candidateUserId: this.args.candidate.userId,
+      });
+
+      this.notifications.success(
+        this.intl.t('pages.session-supervising.candidate-in-list.notifications.handling-live-alert.success', {
+          htmlSafe: true,
+        }),
+      );
+    } catch (error) {
+      this.notifications.error(
+        this.intl.t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-handling-live-alert'),
+      );
+    } finally {
+      this.displayedModal = null;
     }
   }
 
@@ -247,6 +276,10 @@ export default class CandidateInList extends Component {
 
   get isHandleLiveAlertModalDisplayed() {
     return this.displayedModal === Modals.HandleLiveAlert;
+  }
+
+  get isHandleCompanionLiveAlertModalDisplayed() {
+    return this.displayedModal === Modals.HandleCompanionLiveAlert;
   }
 
   get isLiveAlertHandledModalDisplayed() {
