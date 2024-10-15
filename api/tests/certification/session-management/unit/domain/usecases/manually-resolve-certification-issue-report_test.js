@@ -1,6 +1,6 @@
-import { manuallyResolveCertificationIssueReport } from '../../../../lib/domain/usecases/manually-resolve-certification-issue-report.js';
-import { CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually } from '../../../../src/shared/domain/errors.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually } from '../../../../../../src/certification/session-management/domain/errors.js';
+import { manuallyResolveCertificationIssueReport } from '../../../../../../src/certification/session-management/domain/usecases/manually-resolve-certification-issue-report.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | manually-resolve-certification-issue-report', function () {
   describe('when certification issue report is not resolved', function () {

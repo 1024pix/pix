@@ -71,7 +71,14 @@ class SessionNotAccessible extends DomainError {
   }
 }
 
+class CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually extends DomainError {
+  constructor(message = 'Le signalement ne peut pas être modifié manuellement') {
+    super(message);
+  }
+}
+
 export {
+  CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually,
   ChallengeToBeDeneutralizedNotFoundError,
   ChallengeToBeNeutralizedNotFoundError,
   CsvWithNoSessionDataError,
