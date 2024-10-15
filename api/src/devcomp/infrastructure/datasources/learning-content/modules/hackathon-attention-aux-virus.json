@@ -70,13 +70,11 @@
             "proposals": [
               {
                 "id": "1",
-                "content": "<p>Vrai</p>",
-                "feedback": "<p><br></p>"
+                "content": "<p>Vrai</p>"
               },
               {
                 "id": "2",
-                "content": "<p>Faux</p>",
-                "feedback": "<p><br></p>"
+                "content": "<p>Faux</p>"
               }
             ],
             "feedbacks": {
@@ -106,9 +104,9 @@
           "element": {
             "id": "189f9571-5636-4368-9e91-7f345d9a382e",
             "type": "video",
-            "title": "",
-            "url": "",
-            "poster": "",
+            "title": "Vidéo",
+            "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            "poster": "https://",
             "subtitles": "",
             "transcription": ""
           }
@@ -291,13 +289,11 @@
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "<p>Oui</p>",
-                      "feedback": ""
+                      "content": "<p>Oui</p>"
                     },
                     {
                       "id": "2",
-                      "content": "<p>Non</p>",
-                      "feedback": ""
+                      "content": "<p>Non</p>"
                     }
                   ],
                   "feedbacks": {
