@@ -1,0 +1,666 @@
+{
+  "id": "054bfc4c-6c22-403c-b2c1-ebb13997bb47",
+  "slug": "hackaton-appel-visio-situations-courantes",
+  "title": "Naviguer dans le monde de la visioconférence : les clefs pour réussir vos réunions virtuelles",
+  "details": {
+    "image": "",
+    "description": "<p>Bienvenue à cette formation sur les appels visio intitulée \"Appel visio : les situations courantes\". Avec l'évolution rapide de la technologie et l'augmentation du télétravail, les appels visioconférence sont devenus un outil essentiel dans le monde professionnel. Ce module a été conçu pour vous aider à maîtriser les compétences nécessaires pour gérer efficacement des appels visio dans diverses situations courantes.</p><p><strong>Méthodologie</strong></p><p>Ce module, d’une durée approximative de 10 minutes, sera interactive et pratique, combinant des présentations théoriques avec des exercices pratiques et des études de cas. Vous aurez l'occasion de mettre en pratique ce que vous apprenez dans des scénarios simulés, de recevoir des retours constructifs. Nous espérons que cette formation vous permettra de vous sentir plus à l'aise et confiant lors de vos prochains appels visio, et que vous pourrez appliquer ces compétences pour améliorer la qualité et l'efficacité de vos interactions professionnelles à distance.<br></p><p>Au cours de cette formation, vous allez approfondir vos connaissances et vos compétences sur les outils de visioconférence et apprendre à gérer des situations plus sophistiquées. Nous nous concentrerons sur :<br><br></p>",
+    "duration": 10,
+    "level": "Intermédiaire",
+    "objectives": [
+      "<p>Savoir utiliser les fonctionnalités de base des outils de visioconférence</p>",
+      "<p>Repérer des informations utiles concernant les participants à une visio</p>",
+      "<p>Interpréter une situation de visioconférence</p>",
+      "<p>Utiliser les fonctionnalités de base d’animation de visioconférence</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [
+    {
+      "grainId": "8e525040-5fec-43de-ae81-0a9bc0133a4e",
+      "content": "<p>Dans ce module, vous apprendrez ce qu’est un outil de visioconférence, à quoi sert-il, à qui s’adresse-t-il ?<br></p>"
+    },
+    {
+      "grainId": "8d9e8225-3dd7-44b3-8de8-7da38534bc05",
+      "content": "<p>Après avoir exploré la définition, passons maintenant à la mise en pratique des outils de visioconférence.</p>"
+    },
+    {
+      "grainId": "88608770-6439-46da-8561-f57faece3a3f",
+      "content": "<p>Nous avons vu comment rejoindre une réunion, voyons maintenant comment interagir de manière productive pendant une visioconférence.</p>"
+    },
+    {
+      "grainId": "19561b51-8ea1-4794-ab23-3381876e76d1",
+      "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-c5bdecd0-7fff-3d0b-58fd-ab6d161ccf10\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Après avoir découvert comment interagir efficacement lors d'une visioconférence, il est important de comprendre le rôle que chaque participant joue pour assurer la réussite de la réunion. Passons maintenant à l'analyse des différents acteurs et de leurs responsabilités au sein d'une visioconférence.</span></p></strong><br class=\"Apple-interchange-newline\"><br></p>"
+    },
+    {
+      "grainId": "081c25e1-4528-4ea0-90a5-1c48c2653ede",
+      "content": "<p>Vous connaissez les différents rôles et leurs spécificités, maintenant comment créer une visioconférence si vous en êtes l’organisateur ? Comment suivre l’inscription à celle-ci pour ne pas vous retrouvez seul face à votre écran le Jour J. Poursuivez vers le prochain module.<br><br></p>"
+    },
+    {
+      "grainId": "fbb1e6cc-35c7-4f90-a44f-03f7d38a3e52",
+      "content": "<p>Votre lien de visioconférence est prêt, les participants inscrits, votre document de présentation terminé, le Jour J arrive.&nbsp; Comment faire pour que tout se passe bien ? Poursuivez vers le prochain module pour animer en toute tranquillité !</p>"
+    },
+    {
+      "grainId": "39a8c788-3ecd-4bd9-9552-867ab8d7525b",
+      "content": "<p>Est-ce que ce guide vous semble utile ? 😊 <br>Poursuivez…<br><br></p>"
+    }
+  ],
+  "grains": [
+    {
+      "id": "8e525040-5fec-43de-ae81-0a9bc0133a4e",
+      "type": "lesson",
+      "title": "grain 1 leçon activité - La visioconférence : Késako ? ",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "d75c88c9-e8d2-40ec-9450-22da1022ebe4",
+            "type": "qcm",
+            "instruction": "<p>Dans la liste ci-dessous sélectionner les outils de visioconférence ? (plusieurs réponses possible)</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Zoom</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Teams</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>TikTok</p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>Whatsapp</p>"
+              },
+              {
+                "id": "5",
+                "content": "<p>MSVisio</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p><br></p>",
+              "invalid": "<p><br></p>"
+            },
+            "solutions": [
+              "1",
+              "2"
+            ]
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d75c88c9-e8d2-40ec-9450-22da1022ebe4",
+            "type": "video",
+            "title": "Qu’est ce que la visioconférence ?",
+            "url": "https://www.youtube.com/watch?v=1LFnfvht9w0",
+            "poster": "",
+            "subtitles": "",
+            "transcription": "<p><strong>La visioconférence : Késako ?</strong></p><p>Pour en savoir plus sur la visioconférence, visualiser cette vidéo : “Qu’est ce que la visioconférence ?”</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "85c7dad9-407b-44ff-9cea-57945b60d22d",
+            "type": "text",
+            "content": "<p>En résumé :&nbsp; <br>La visioconférence est une technologie qui permet à des personnes situées dans des lieux différents de se rencontrer et de communiquer en temps réel, via des images et du son, grâce à une connexion internet. Elle permet d’organiser des réunions, des formations ou des échanges professionnels à distance, en offrant une interaction directe entre les participants. Les outils de visioconférence incluent généralement des fonctions comme le partage d’écran, le chat et l’enregistrement des sessions, facilitant ainsi la collaboration à distance.<br><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "8d9e8225-3dd7-44b3-8de8-7da38534bc05",
+      "type": "activity",
+      "title": "grain 2 simul - Mes 1er pas dans une visioconférence",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "567d93e1-69c4-4681-968a-a62ea2a9a25c",
+            "type": "text",
+            "content": "<p>Mes 1er pas dans une visioconférence<strong></strong></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "a56d6a54-0ad2-4938-8b7c-a53ad8a5a6c7",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "",
+            "url": "",
+            "instruction": "<p>A l’aide du simulateur, demander à l’apprenant de rejoindre la visio”xxxx” via un agenda (sur la date xxxx et à telle heure xxxx)</p>",
+            "height": 0
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "e11c32ca-1328-4edc-8633-493a1f12b7c1",
+            "type": "text",
+            "content": "<p>Sélectionnez <strong>Calendrier</strong>  sur le côté gauche de Teams.</p><ol><li>Recherchez la réunion souhaitée, </li><li>puis sélectionnez <strong>Participer</strong>.</li></ol>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "020deb81-9937-4215-ac71-5bb42d3e4ba5",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "",
+            "url": "",
+            "instruction": "<p>A l’aide du simulateur, demander à l’apprenant de rejoindre la visio”xxxx” via un lien (sur la date xxxx et à telle heure xxxx)</p>",
+            "height": 0
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "720982de-8e78-41ab-9134-dfe0456184a4",
+            "type": "text",
+            "content": "<p>Dans votre invitation à la réunion, sélectionnez <strong>Rejoindre la réunion maintenant</strong> pour participer à Teams pour le web ou le bureau.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "e66f5cd8-9864-40fb-945c-22baa77c91be",
+            "type": "text",
+            "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-01fc22e9-7fff-1af3-7aae-3651b9745c50\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">En résumé :</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Accès via le lien de connexion</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> :</span></p><ul style=\"margin-top:0;margin-bottom:0;padding-inline-start:48px;\"><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Cliquez sur le lien reçu par email ou message pour rejoindre la visioconférence.</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:12pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Entrez un identifiant ou un code d'accès si nécessaire.</span></p></li></ul><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Accès via le calendrier</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> :</span></p><ul style=\"margin-top:0;margin-bottom:0;padding-inline-start:48px;\"><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Ouvrez votre calendrier numérique (Outlook, Google Calendar, etc.).</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:12pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Cliquez sur le lien intégré à l'invitation pour rejoindre la réunion.</span></p></li></ul><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Connexion anticipée</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Connectez-vous quelques minutes avant l’heure prévue pour éviter les retards et vérifier que tout fonctionne.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Stabilité de la connexion</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Assurez-vous d’avoir une connexion internet stable pour éviter les interruptions.</span></p></strong><br class=\"Apple-interchange-newline\"><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "88608770-6439-46da-8561-f57faece3a3f",
+      "type": "activity",
+      "title": "grain 3 leçon/activité - savoir interagir",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "4e508893-5ee1-4863-97d6-07cbaf0d0c4d",
+            "type": "text",
+            "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-ce1df83f-7fff-8915-b812-d219c30eb255\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Dynamiser vos interactions : techniques pour mieux interagir en visioconférence</span></strong></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "6ff327eb-40f9-4788-85d7-f7a426e99328",
+            "type": "image",
+            "url": "https://i.imgur.com/xgmDNmm.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "22680960-39dd-4d4a-97a8-84f28181962e",
+            "type": "qrocm",
+            "instruction": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-fa2c03d6-7fff-1727-f717-e6aea22c189e\"><p dir=\"ltr\" style=\"line-height:2.4;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Vous participer à la visioconférence ci-dessous :</span></p><br><ul style=\"margin-top:0;margin-bottom:0;padding-inline-start:48px;\"><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;margin-left: -14.740157480314956pt;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:2.4;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Qui est en train de parler ?&nbsp;</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;margin-left: -14.740157480314956pt;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:2.4;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Combien de personnes sont connectés à la réunion ?</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;margin-left: -14.740157480314956pt;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:2.4;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Citez une personne (autre que vous) dont le micro est coupé</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:2.4;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Citez la personne qui a écrit “Bonjour” dans le fil de conversation</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:2.4;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Citez les personnes dont la caméra est active</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:2.4;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Indiquez le nom de la personne qui lève la main</span></p></li></ul></strong></p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<p>Qui est en train de parler ?&nbsp;</p>"
+              },
+              {
+                "input": "1",
+                "type": "input",
+                "inputType": "text",
+                "size": 50,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [
+                  "t1",
+                  "t2",
+                  "t3"
+                ],
+                "solutions": []
+              },
+              {
+                "type": "text",
+                "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-8ef052d8-7fff-b7fc-6c50-c245fe804708\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Combien de personnes sont connectés à la réunion ?</span></strong></p>"
+              },
+              {
+                "input": "2",
+                "type": "input",
+                "inputType": "text",
+                "size": 50,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [
+                  "t1",
+                  "t2",
+                  "t3"
+                ],
+                "solutions": []
+              },
+              {
+                "type": "text",
+                "content": "<p>Citez une personne (autre que vous) dont le micro est coupé</p>"
+              },
+              {
+                "input": "3",
+                "type": "input",
+                "inputType": "text",
+                "size": 50,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [
+                  "t1",
+                  "t2",
+                  "t3"
+                ],
+                "solutions": []
+              },
+              {
+                "type": "text",
+                "content": "<p>Citez la personne qui a écrit “Bonjour” dans le fil de conversation</p>"
+              },
+              {
+                "input": "4",
+                "type": "input",
+                "inputType": "text",
+                "size": 50,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "solutions": []
+              },
+              {
+                "type": "text",
+                "content": "<p>Citez les personnes dont la caméra est active</p>"
+              },
+              {
+                "input": "5",
+                "type": "input",
+                "inputType": "text",
+                "size": 50,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "solutions": []
+              },
+              {
+                "type": "text",
+                "content": "<p>Indiquez le nom de la personne qui lève la main</p>"
+              },
+              {
+                "input": "6",
+                "type": "input",
+                "inputType": "text",
+                "size": 50,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "solutions": []
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            }
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "c8385886-132d-48de-9b34-e35e8e30996e",
+            "type": "text",
+            "content": "<p><br></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-867f1a69-7fff-ec0b-284f-3ec7df571ce1\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">En résumé :&nbsp;</span></strong></p><p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-867f1a69-7fff-ec0b-284f-3ec7df571ce1\"><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Essentiels pour interagir en visioconférence :</span></p><ol style=\"margin-top:0;margin-bottom:0;padding-inline-start:48px;\"><li dir=\"ltr\" style=\"list-style-type:decimal;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Micro</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Activez-le pour parler, désactivez-le après.</span></p></li><li dir=\"ltr\" style=\"list-style-type:decimal;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Caméra</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Utilisez-la pour plus d'interaction visuelle.</span></p></li><li dir=\"ltr\" style=\"list-style-type:decimal;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Écoute</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Soyez attentif et respectez les tours de parole.</span></p></li><li dir=\"ltr\" style=\"list-style-type:decimal;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Chat</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Posez des questions ou partagez des infos sans interrompre.</span></p></li><li dir=\"ltr\" style=\"list-style-type:decimal;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Levez la main</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Utilisez cette fonction pour demander la parole.</span></p></li><li dir=\"ltr\" style=\"list-style-type:decimal;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:12pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Réactions</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Utilisez les pouces, cœurs ou emojis pour approuver sans interrompre.</span></p></li></ol></strong></p><p><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "19561b51-8ea1-4794-ab23-3381876e76d1",
+      "type": "activity",
+      "title": "grain 4 activité leçon - savoir identifier les rôles",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "9d2360a8-5c90-4d9f-96dd-5ff89070f224",
+            "type": "text",
+            "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-ab2b46fb-7fff-d62d-cc92-3f59afca6d1e\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Acteurs de la visioconférence : comprendre leur rôle de chacun pour une réunion efficace</span></strong></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "cc2c1cc3-c35b-4e68-a8ea-fd09b28b4a25",
+            "type": "image",
+            "url": "https://i.imgur.com/xgmDNmm.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "527517b1-23b7-4d4c-83ad-1626901ee080",
+            "type": "qrocm",
+            "instruction": "<p>Attribuez le rôle adéquat à chaque utilisateur de la visioconférence :</p><p>(Simulateur d’une visioconférence avec 4 utilisateurs (Jean, Julie, Sylvain, Christine) : L’un présente son écran, l’un est organisateur, les 2 autres sont de simple participants (sous leur prénom des indices précisent leur rôle respectif))</p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-986d302d-7fff-ade0-57d5-39fcfcde6703\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Jean est</span></strong></p>"
+              },
+              {
+                "input": "1",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "participant"
+                  },
+                  {
+                    "id": "2",
+                    "content": "animateur"
+                  },
+                  {
+                    "id": "3",
+                    "content": "organisateur"
+                  }
+                ],
+                "solutions": []
+              },
+              {
+                "type": "text",
+                "content": "<p>Julie est</p>"
+              },
+              {
+                "input": "2",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "participant"
+                  },
+                  {
+                    "id": "2",
+                    "content": "animateur"
+                  },
+                  {
+                    "id": "3",
+                    "content": "organisateur"
+                  }
+                ],
+                "solutions": []
+              },
+              {
+                "type": "text",
+                "content": "<p>Sylvain est</p>"
+              },
+              {
+                "input": "3",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "participant"
+                  },
+                  {
+                    "id": "2",
+                    "content": "organisateur"
+                  },
+                  {
+                    "id": "3",
+                    "content": "animateur"
+                  }
+                ],
+                "solutions": []
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            }
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "9055f46d-0415-450c-840c-61cfb3595ac7",
+            "type": "text",
+            "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-20473b2a-7fff-f82d-b4eb-f4d05ffbcd17\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Description des rôles possibles dans une visioconférence</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">1. Organisateur :</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Planifie et programme la visioconférence.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Envoie les invitations et les rappels aux participants.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Prépare l'ordre du jour et les documents nécessaires.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Modère la réunion, s'assure que les discussions restent pertinentes et respectueuses.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Gère les aspects techniques (connexion, partage d'écran, enregistrement).</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">2. Animateur :</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Prépare et présente le contenu principal de la réunion.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Utilise des supports visuels (diapositives, vidéos) pour illustrer les points clés.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Répond aux questions des participants concernant le contenu présenté.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- S'assure que le message est clair et compréhensible pour tous.</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">3. Participants :</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Préparent leurs interventions et questions à l'avance.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Participent activement aux discussions.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Respectent les règles de prise de parole et de courtoisie.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Donnent leur feedback à la fin de la réunion.</span></p></strong><br class=\"Apple-interchange-newline\"><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "081c25e1-4528-4ea0-90a5-1c48c2653ede",
+      "type": "activity",
+      "title": "grain 5 activité leçon - planifier",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "617f8945-77c4-4ad4-af0e-8091be8e7bf9",
+            "type": "text",
+            "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-6d824100-7fff-b397-ef34-098986fe38b5\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">De l’idée à la réalité : comment planifier une visioconférence ?</span></strong></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "dc25dc13-0f72-4218-abcb-c1561b11993c",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "",
+            "url": "",
+            "instruction": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-3f461c30-7fff-62e7-0dae-2c57b6716609\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Créer une réunion visioconférence nommée “Projet FARO” à 15h30 le lundi 23 septembre, puis inviter Pierre, Jean et Sophie depuis l’onglet participant. Lesquels ont répondu “je participe” à votre invitation ?</span></strong></p><p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-3f461c30-7fff-62e7-0dae-2c57b6716609\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Simulateur d’un agenda mail, une fois que la réunion est créée et l’invitation envoyée à Pierre et Jean, un mot s’affiche à l’écran</span></strong></p>",
+            "height": 0
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "f364163c-cd5d-44d8-9394-d665ccdd18b9",
+            "type": "qcm",
+            "instruction": "<p>Lesquels ont répondu “je participe” à votre invitation&nbsp;<br><br></p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Jean</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Pierre</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Sophie</p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>Aucun</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            },
+            "solutions": [
+              "2",
+              "3"
+            ]
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "c4926150-15a3-4cc2-99e3-614046b58fb7",
+            "type": "text",
+            "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-de9d9915-7fff-2038-cd01-0f4028d71c7a\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Créer l’invitation :</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">a. </span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Utilisez la plateforme de visioconférence choisie pour créer l’événement. Incluez les informations essentielles : date, heure, lien de connexion, et instructions pour rejoindre la réunion.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">•</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">b. Rédiger un message d’invitation :</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">o</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Rédigez un message clair et concis pour accompagner l’invitation. Mentionnez l’objectif de la réunion, l’ordre du jour, et toute préparation nécessaire de la part des participants.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">•</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">c. Envoyer les invitations :</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">•</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Envoyez les invitations par email ou via le calendrier de la plateforme de visioconférence. Assurez-vous que tous les participants reçoivent l’invitation en temps voulu.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">•</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">d. Envoyer des rappels :</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">•</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Programmez des rappels automatiques ou manuels quelques jours et quelques heures avant la réunion pour s’assurer que tous les participants se souviennent de l’événement.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">•</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">e. Confirmer les participations :</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">•</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Vérifiez les réponses des participants et assurez-vous que tous ont bien reçu l’invitation et confirmé leur présence.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">•</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">b. Tester la technologie :</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">•</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Effectuez un test de la plateforme de visioconférence pour vous assurer que tout fonctionne correctement (connexion internet, audio, vidéo).</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">•</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">c. Préparer l’environnement :</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">•</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Choisissez un endroit calme et bien éclairé pour la réunion. Assurez-vous que tous les participants connaissent les règles de base (muter le micro, utiliser la caméra, etc.).</span></p></strong><br class=\"Apple-interchange-newline\"><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fbb1e6cc-35c7-4f90-a44f-03f7d38a3e52",
+      "type": "activity",
+      "title": "grain 6 activité leçon - animer",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "ce4bdda9-b204-4b09-b005-e3b46df1d018",
+            "type": "text",
+            "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-b8cd0fe1-7fff-0297-80c4-e82522315b55\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Ecran noir, bruit parasite, son coupé : Utiliser les bonnes fonctionnalités lors de vos animations</span></strong></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "34ca42b7-5044-48e8-882f-7a574135eb60",
+            "type": "image",
+            "url": "https://i.imgur.com/xgmDNmm.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "a731c660-e74a-45b1-ae3b-d682b498370e",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "",
+            "url": "",
+            "instruction": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-7638fd1f-7fff-f3da-645a-7c01516e1bbb\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Vous êtes animateur d’une réunion, partagez votre écran en entier à votre auditoire.Vous prenez la parole, plusieurs participants ont gardé leur micro ouvert lors de la réunion FARO et vous gêne, coupez leur micro. Quel mot s’affiche à l’écran ?</span></strong></p><p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-7638fd1f-7fff-f3da-645a-7c01516e1bbb\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Simulateur d’une visioconférence générique avec plusieurs participants, dont certains ont leur micro ouvert, et un autre animateur avec leur micro ouvert. L’utilisateur doit partager son écran au début de l'exercice.</span></strong></p>",
+            "height": 0
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "dd4b06b2-eb2f-4030-b8c4-a1d6b8d0be4e",
+            "type": "qrocm",
+            "instruction": "<p>Quel mot s'affiche ?</p>",
+            "proposals": [
+              {
+                "input": "1",
+                "type": "input",
+                "inputType": "text",
+                "size": 20,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "solutions": []
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            }
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d1d08186-5913-433a-b37b-47c41f30fd51",
+            "type": "text",
+            "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-9d71328e-7fff-b91a-e6b4-b3a3286e6136\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Bien sûr ! Voici un guide pour animer efficacement une visioconférence :</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">---</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**Titre : Guide pour Animer Efficacement une Visioconférence**</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**1. Préparation Avant la Réunion :**</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**a. Connaître l'ordre du jour :**</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Familiarisez-vous avec l'ordre du jour et les points clés à aborder.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Préparez des questions et des sujets de discussion pour encourager la participation.</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**b. Tester la technologie :**</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Vérifiez votre connexion internet, votre caméra et votre microphone.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Assurez-vous que tous les documents et présentations sont prêts et accessibles.</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**c. Créer un environnement propice :**</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Choisissez un endroit calme et bien éclairé.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Minimisez les distractions et assurez-vous que votre arrière-plan est professionnel.</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**2. Début de la Réunion :**</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**a. Accueillir les participants :**</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Connectez-vous quelques minutes avant le début pour accueillir les participants.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Faites un tour de table virtuel pour que chacun puisse se présenter, surtout si certains participants ne se connaissent pas.</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**b. Présenter l'ordre du jour :**</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Commencez par rappeler l'objectif de la réunion et présentez l'ordre du jour.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Expliquez les règles de base (muter les micros, lever la main pour parler, utiliser le chat pour les questions).</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**3. Pendant la Réunion :**</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**a. Garder le rythme :**</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Suivez l'ordre du jour et respectez le temps alloué pour chaque point.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Soyez flexible mais assurez-vous que les discussions restent pertinentes.</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**b. Encourager la participation :**</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Posez des questions ouvertes pour susciter des discussions.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Invitez les participants à partager leurs idées et leurs commentaires.</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**c. Gérer les interruptions :**</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Intervenez poliment si quelqu'un parle trop longtemps ou si les discussions dévient du sujet.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Utilisez les fonctionnalités de la plateforme (comme le chat ou les sondages) pour gérer les interactions.</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**4. Clôture de la Réunion :**</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**a. Résumer les points clés :**</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Faites un récapitulatif des décisions prises et des actions à entreprendre.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Assurez-vous que chaque participant sait ce qu'il doit faire après la réunion.</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**b. Demander des retours :**</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Invitez les participants à donner leur feedback sur la réunion.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Utilisez ces retours pour améliorer les futures visioconférences.</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">**c. Envoyer un compte-rendu :**</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">- Rédigez et envoyez un compte-rendu détaillé avec les points discutés, les décisions prises et les actions à entreprendre.</span></p></strong><br class=\"Apple-interchange-newline\"><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "39a8c788-3ecd-4bd9-9552-867ab8d7525b",
+      "type": "lesson",
+      "title": "grain 7 leçon - ce qu'il faut retenir",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "092786e1-b6f3-41a0-bcdd-807ff97348fb",
+            "type": "text",
+            "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-70a2a987-7fff-f4ae-58dd-b860c74c7a67\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Ce qu’il faut retenir...</span></strong></p><p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-70a2a987-7fff-f4ae-58dd-b860c74c7a67\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Bravo vous avez terminez ce module, une surprise vous attend !&nbsp;<br><br></span></strong></p>"
+          }
+        },
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "e8a21b28-d732-42e2-b447-68b80eae608b",
+                  "type": "text",
+                  "content": "<p>Télécharger la fiche récapitulative<br><br></p>"
+                },
+                {
+                  "id": "b436e10c-35b4-43d3-a396-04b5cb237f7c",
+                  "type": "download",
+                  "files": []
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "9bfcc61b-a386-41a2-b04a-8b00b7ddac45",
+                  "type": "text",
+                  "content": "<p>Télécharger l’attestation de suivi</p>"
+                },
+                {
+                  "id": "cdcc374a-c47a-41db-94be-7eeedfea2667",
+                  "type": "download",
+                  "files": []
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "22c58fee-c9bd-43e4-8769-669b7a2c783e",
+                  "type": "text",
+                  "content": "<p>Télécharger votre surprise (fond d’écran / badge sur la visioconférence)</p>"
+                },
+                {
+                  "id": "eb07755e-8e14-428d-bcbb-a157cef2bde0",
+                  "type": "download",
+                  "files": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
