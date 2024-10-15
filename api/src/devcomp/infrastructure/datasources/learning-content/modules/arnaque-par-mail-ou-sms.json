@@ -14,13 +14,69 @@
     ],
     "tabletSupport": "comfortable"
   },
-  "transitionTexts": [],
+  "transitionTexts": [
+    {
+      "grainId": "e51347f3-a8c6-4b3b-90b5-ccb8cd00f8c5",
+      "content": "<p>Chaque jour, nous recevons des messages de nos proches, de services ou d'entreprises. Mais parmi ces communications légitimes se glissent parfois des tentatives de fraude, connues sous le nom de phishing ou hameçonnage. Ces arnaques visent à vous tromper pour dérober vos informations personnelles ou bancaires. Dans ce module, vous apprendrez à détecter les signes d'une escroquerie, à comprendre les techniques employées par les fraudeurs, et surtout, à vous en protéger efficacement. Ne vous laissez pas prendre au piège : adoptez les bonnes pratiques pour sécuriser vos échanges et éviter les mauvaises surprises !<br></p>"
+    }
+  ],
   "grains": [
     {
       "id": "e51347f3-a8c6-4b3b-90b5-ccb8cd00f8c5",
       "type": "lesson",
       "title": "Identifier les sms frauduleux",
-      "components": []
+      "components": [
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "26b99782-5bba-4552-b287-9a3e8addac22",
+                  "type": "image",
+                  "url": "https://i.imgur.com/S8SkUNJ.png",
+                  "alt": "",
+                  "alternativeText": ""
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "794ec3f5-0770-4618-8e43-0d9540462b29",
+                  "type": "download",
+                  "files": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "8228950c-5ad3-4b94-b049-2cd312d10843",
+            "type": "qcu",
+            "instruction": "<p>Cette capture d'écran d'un SMS peut-elle être considérée comme un cas de phishing (hameçonnage) ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>oui</p>",
+                "feedback": "<p>👍 Tout à fait ! c'est un Sms de phishing car : </p><ul><li>Le \"O\" de \"GOUV\" est remplacé par un \"0\",</li><li>Le message est envoyé depuis un numéro commençant par 07,</li><li>Il contient un caractère d'urgence,</li><li>Le lien fourni n'est pas officiel pour ce type de démarche.</li></ul>"
+              },
+              {
+                "id": "2",
+                "content": "<p>non</p>",
+                "feedback": "<p>🚨 Le premier SMS est bien un cas de phishing ! Les indices qui le prouvent sont : </p><ul><li>Le \"O\" de \"GOUV\" est remplacé par un \"0\",</li><li>Le message est envoyé depuis un numéro commençant par 07,</li><li>Il contient un caractère d'urgence,</li><li>Le lien fourni n'est pas officiel pour ce type de démarche.</li></ul>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            },
+            "solution": "1"
+          }
+        }
+      ]
     },
     {
       "id": "d2456263-5df3-4313-8dc0-275e8b26bdd9",
