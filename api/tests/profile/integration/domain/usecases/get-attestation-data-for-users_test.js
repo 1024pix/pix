@@ -1,6 +1,7 @@
+import { AttestationNotFoundError } from '../../../../../src/profile/domain/errors.js';
 import { User } from '../../../../../src/profile/domain/models/User.js';
 import { usecases } from '../../../../../src/profile/domain/usecases/index.js';
-import { databaseBuilder, expect, sinon } from '../../../../test-helper.js';
+import { catchErr, databaseBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Profile | Integration | Domain | get-attestation-data-for-users', function () {
   let clock;
@@ -40,12 +41,33 @@ describe('Profile | Integration | Domain | get-attestation-data-for-users', func
         locale,
       });
 
-      expect(results).to.deep.equal([
-        firstUser.toForm(firstCreatedAt, locale),
-        secondUser.toForm(secondCreatedAt, locale),
-      ]);
-      expect(results[0].get('fullName')).to.equal('Alex TERIEUR');
-      expect(results[1].get('fullName')).to.equal('Theo COURANT');
+      expect(results).to.deep.equal({
+        data: [firstUser.toForm(firstCreatedAt, locale), secondUser.toForm(secondCreatedAt, locale)],
+        templateName: attestation.templateName,
+      });
+      expect(results.data[0].get('fullName')).to.equal('Alex TERIEUR');
+      expect(results.data[1].get('fullName')).to.equal('Theo COURANT');
+    });
+
+    it('should return AttestationNotFound error if attestation does not exist', async function () {
+      //given
+      const locale = 'FR-fr';
+      const firstUser = new User(databaseBuilder.factory.buildUser());
+
+      databaseBuilder.factory.buildProfileReward({
+        userId: firstUser.id,
+      });
+      await databaseBuilder.commit();
+
+      //when
+      const error = await catchErr(usecases.getAttestationDataForUsers)({
+        attestationKey: 'NOT_EXISTING_ATTESTATION',
+        userIds: [firstUser.id],
+        locale,
+      });
+
+      //then
+      expect(error).to.be.an.instanceof(AttestationNotFoundError);
     });
   });
 });

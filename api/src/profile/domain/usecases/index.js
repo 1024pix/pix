@@ -9,6 +9,7 @@ import * as areaRepository from '../../../shared/infrastructure/repositories/are
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as attestationRepository from '../../infrastructure/repositories/attestation-repository.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
 
@@ -23,6 +24,7 @@ const dependencies = {
   knowledgeElementRepository,
   profileRewardRepository,
   userRepository: repositories.userRepository,
+  attestationRepository,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);

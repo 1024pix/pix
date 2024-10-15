@@ -11,9 +11,11 @@ const getUserAttestation = async function (request, h, dependencies = { pdfWithF
   const userId = request.params.userId;
   const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
   const attestationKey = request.params.attestationKey;
-  // TODO: Modifier le usecase pour qu'il retourne le templateName
-  const templateName = 'sixth-grade-attestation-template';
-  const data = await usecases.getAttestationDataForUsers({ attestationKey, userIds: [userId], locale });
+  const { data, templateName } = await usecases.getAttestationDataForUsers({
+    attestationKey,
+    userIds: [userId],
+    locale,
+  });
 
   const templatePath = path.join(__dirname, `../infrastructure/serializers/pdf/templates/${templateName}.pdf`);
 
