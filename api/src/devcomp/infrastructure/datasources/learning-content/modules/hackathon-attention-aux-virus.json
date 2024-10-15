@@ -263,13 +263,11 @@
                   "proposals": [
                     {
                       "id": "1",
-                      "content": "<p>Oui</p>",
-                      "feedback": "<p><br></p>"
+                      "content": "<p>Oui</p>"
                     },
                     {
                       "id": "2",
-                      "content": "<p>Non</p>",
-                      "feedback": ""
+                      "content": "<p>Non</p>"
                     }
                   ],
                   "feedbacks": {
