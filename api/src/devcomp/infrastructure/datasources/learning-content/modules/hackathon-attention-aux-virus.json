@@ -19,6 +19,22 @@
     {
       "grainId": "fdc7d83d-9f17-4084-8692-8fd88915042b",
       "content": "<p>Vous avez déjà entendu parler de virus informatiques et de sécurité sur internet. <br>Grâce à ce module, vous aurez les clés pour les reconnaître et vous en protéger.</p>"
+    },
+    {
+      "grainId": "d2ad8b73-303a-40d1-a1f4-cf7f54b669fc",
+      "content": "<p>Un virus est un programme informatique qui perturbe le fonctionnement d’un ordinateur, téléphone, tablette, dans le but de nuire à une personne ou une organisation (récupération des données, blocage de système informatique...) <br>Mais comment est-il arrivé là ?<br></p>"
+    },
+    {
+      "grainId": "4ca73a72-7cfd-4434-8ba7-1a140c384942",
+      "content": "<p>Mais concrètement, ça ressemble à quoi un virus ?<br></p>"
+    },
+    {
+      "grainId": "4aa66d64-be5e-42e7-94fd-8d834a3ac288",
+      "content": "<p>Un virus, ça peut faire mal…<br></p>"
+    },
+    {
+      "grainId": "212b4e46-81f7-4527-9fcf-56b9147438c7",
+      "content": "<p>… mais on peut s’en protéger<br></p>"
     }
   ],
   "grains": [
@@ -44,6 +60,31 @@
             "alt": "Illustration décrite dans le texte alternatif",
             "alternativeText": "<p>Capture d’écran d’un bureau, avec une pop up d’un anti-virus: message “virus détecté”</p>"
           }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "b741b7f2-2385-45f1-a422-dad541a592fa",
+            "type": "qcu",
+            "instruction": "<p>Un virus est-il présent sur l’ordinateur de Charlène ?<br></p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Vrai</p>",
+                "feedback": "<p><br></p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Faux</p>",
+                "feedback": "<p><br></p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Ce message provient d’un anti-virus et indique qu’un virus (logiciel malveillant) a été repéré sur l’ordinateur</p>",
+              "invalid": "<p>Ce message provient d’un anti-virus et indique qu’un virus (logiciel malveillant) a été repéré sur l’ordinateur</p>"
+            },
+            "solution": "1"
+          }
         }
       ]
     },
@@ -51,37 +92,240 @@
       "id": "d2ad8b73-303a-40d1-a1f4-cf7f54b669fc",
       "type": "lesson",
       "title": "Comment est-il rentré ?",
-      "components": []
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "37606029-2f4d-4a34-90c7-d769b06ea944",
+            "type": "text",
+            "content": "<p>A la suite de cette vidéo, deux questions vous seront posées sur les façons les plus courantes d’être infecté par un virus et les conséquences. <br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "189f9571-5636-4368-9e91-7f345d9a382e",
+            "type": "video",
+            "title": "",
+            "url": "",
+            "poster": "",
+            "subtitles": "",
+            "transcription": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d3aec05e-e271-48a0-aede-0602a3456bf0",
+            "type": "text",
+            "content": "<p>Contenu de la vidéo </p><p> Elle aborde les façons les plus courantes d’être infecté par un virus : </p><ul><li> utiliser une clé USB sur son ordinateur</li><li>télécharger une application inconnue sur son téléphone, ordinateur ou tablette</li><li>cliquer sur un lien reçu par mail ou sms</li><li>cliquer sur un lien sur une page web</li></ul><p>Et ses conséquences : </p><ul><li> usurpation d’identité,accès aux comptes bancaires</li><li>perte/vol des données</li><li>blocage de l’ordinateur (ransomware/rançongiciel)</li></ul>"
+          }
+        }
+      ]
     },
     {
       "id": "4ca73a72-7cfd-4434-8ba7-1a140c384942",
       "type": "activity",
       "title": "Ça ressemble à quoi un virus ?",
-      "components": []
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "4eb7cbea-9bf7-421a-95d3-6e0f8ec09988",
+            "type": "qcm",
+            "instruction": "<p>Quelles habitudes de Charlène comportent un risque d’installer un virus sur son ordinateur ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Supprimer un fichier</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Utiliser la clé USB d’une connaissance</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Télécharger un fichier</p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>Regarder une émission de télévision en replay</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Utiliser la clé USB ou télécharger des documents peut comporter des risques. Il est important de rester prudent, même s’ils viennent d’une personne que l’on connaît : il est possible qu’eux mêmes aient été victimes d’un virus !</p>",
+              "invalid": "<p>Utiliser la clé USB ou télécharger des documents peut comporter des risques. Il est important de rester prudent, même s’ils viennent d’une personne que l’on connaît : il est possible qu’eux mêmes aient été victimes d’un virus !<br><br></p>"
+            },
+            "solutions": [
+              "2",
+              "3"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "4aa66d64-be5e-42e7-94fd-8d834a3ac288",
       "type": "activity",
       "title": "Un virus ça peut faire mal ...",
-      "components": []
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "dfc465ac-a235-4c35-b6c4-82c3e265b2c8",
+            "type": "qcm",
+            "instruction": "<p>Parmi les situations suivantes, lesquelles peuvent être liées à un virus ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>perte d’accès à sa boîte courriel, ses réseaux sociaux, …</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>usurpation d’identité</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>blocage de l’ordinateur</p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>mise en veille de l’ordinateur</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>tout comportement inhabituel sur un outil peut-être lié à un virus</p>",
+              "invalid": "<p>la mise en veille de l’ordinateur n’est pas signe de présence d’un virus.</p>"
+            },
+            "solutions": [
+              "1",
+              "2",
+              "3"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "212b4e46-81f7-4527-9fcf-56b9147438c7",
       "type": "lesson",
       "title": "… mais on peut s’en protéger",
-      "components": []
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "addb9cb7-b03c-4d8e-b79c-79ce4517b540",
+            "type": "text",
+            "content": "<p>À la suite de cette vidéo, une question vous sera posée sur les bonnes pratiques pour éviter des virus et rester en sécurité <br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "f293bd0e-4c62-4998-9558-0b2778ad9acf",
+            "type": "video",
+            "title": "",
+            "url": "",
+            "poster": "",
+            "subtitles": "",
+            "transcription": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "44876d16-df53-4e25-81d5-fc2385b04dd4",
+            "type": "text",
+            "content": "<p>Contenu de la vidéo :&nbsp; </p><ul><li>Définition d’un anti-virus (Le robert : Logiciel capable de détecter les virus informatiques et de les éliminer.)</li><li>Existence d’anti-virus installés directement sur les ordinateurs/smartphones à l’achat</li><li>Possible d’installer un anti-virus payant (avec des versions gratuites)</li><li>Nécessité de la mise à jour de ses outils : premier barrage contre les virus</li></ul>"
+          }
+        }
+      ]
     },
     {
       "id": "f45354ec-515a-4abf-835c-50a759395d2a",
-      "type": "lesson",
+      "type": "activity",
       "title": "Avec quels outils ?",
-      "components": []
+      "components": [
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "9bd114ed-2935-479b-998e-2d605b7fe6b7",
+                  "type": "image",
+                  "url": "https://i.imgur.com/LkiMnPn.jpeg",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "9bd114ed-2935-479b-998e-2d605b7fe6b7",
+                  "type": "qcu",
+                  "instruction": "<p>Charlène voit apparaître dans les notifications de son téléphone une proposition de mise à jour. Doit-elle accepter ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Oui</p>",
+                      "feedback": "<p><br></p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Non</p>",
+                      "feedback": ""
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<p>La mise à jour régulière des applications ou des outils est une des façons de se protéger des virus.</p>",
+                    "invalid": "<p>La mise à jour régulière des applications ou des outils est une des façons de se protéger des virus.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "e5cce67f-1ba4-451c-bb9d-d79883534b1b",
+                  "type": "qcu",
+                  "instruction": "<p>Charlène doit-elle obligatoirement acheter un anti-virus ?<br></p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Oui</p>",
+                      "feedback": ""
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Non</p>",
+                      "feedback": ""
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<p>Chacun est libre d’utiliser l’antivirus qu’il souhaite, mais des versions gratuites existent</p>",
+                    "invalid": "<p>Chacun est libre d’utiliser l’antivirus qu’il souhaite, mais des versions gratuites existent</p>"
+                  },
+                  "solution": "2"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "20027617-a8f2-40e2-9836-0182febca641",
       "type": "lesson",
       "title": " MAJ, tout va bien se passer",
-      "components": []
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "429926b6-552d-4ebe-86e2-9e466d29f4f2",
+            "type": "text",
+            "content": "<p>Ce qu'il faut retenir 🎓</p><ul><li>Il est très important de mettre à jour régulièrement ses outils numériques (ordinateur, tablette et smartphone) pour les sécuriser</li><li>Dans tous les cas, il faut être prudent dans ses usages numériques : ne pas télécharger ou cliquer sur des liens qui semblent suspects</li><li>Régulièrement, de nouveaux virus apparaissent. Des sites comme <a href=\"https://cybermalveillance.gouv.fr\" target=\"_blank\" rel=\"nofollow\">cybermalveillance.gouv.fr</a> sont là pour vous informer et vous accompagner.</li></ul>"
+          }
+        }
+      ]
     }
   ]
 }
