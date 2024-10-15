@@ -44,38 +44,38 @@
               "elements": [
                 {
                   "id": "794ec3f5-0770-4618-8e43-0d9540462b29",
-                  "type": "download",
-                  "files": []
+                  "type": "image",
+                  "url": "https://i.imgur.com/91ZombX.png",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "7a2b5b3b-fbdf-412f-8b4a-3eda7237caa5",
+                  "type": "qcu",
+                  "instruction": "<p>Cette capture d'écran d'un SMS peut-elle être considérée comme un cas de phishing (hameçonnage) ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Oui<br></p>",
+                      "feedback": ""
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Non</p>",
+                      "feedback": "<p>😅 Le message n'est pas un SMS de phishing car plusieurs conditions sont rassemblées : </p><ul><li>Le numéro est reconnu par le téléphone</li><li>Il ne contient aucun lien ni demande de démarche à suivre</li><li>Il se contente de fournir une information sans attendre de réponse</li></ul>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "",
+                    "invalid": ""
+                  },
+                  "solution": ""
                 }
               ]
             }
           ]
         },
-        {
-          "type": "element",
-          "element": {
-            "id": "8228950c-5ad3-4b94-b049-2cd312d10843",
-            "type": "qcu",
-            "instruction": "<p>Cette capture d'écran d'un SMS peut-elle être considérée comme un cas de phishing (hameçonnage) ?</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "<p>oui</p>",
-                "feedback": "<p>👍 Tout à fait ! c'est un Sms de phishing car : </p><ul><li>Le \"O\" de \"GOUV\" est remplacé par un \"0\",</li><li>Le message est envoyé depuis un numéro commençant par 07,</li><li>Il contient un caractère d'urgence,</li><li>Le lien fourni n'est pas officiel pour ce type de démarche.</li></ul>"
-              },
-              {
-                "id": "2",
-                "content": "<p>non</p>",
-                "feedback": "<p>🚨 Le premier SMS est bien un cas de phishing ! Les indices qui le prouvent sont : </p><ul><li>Le \"O\" de \"GOUV\" est remplacé par un \"0\",</li><li>Le message est envoyé depuis un numéro commençant par 07,</li><li>Il contient un caractère d'urgence,</li><li>Le lien fourni n'est pas officiel pour ce type de démarche.</li></ul>"
-              }
-            ],
-            "feedbacks": {
-              "valid": "",
-              "invalid": ""
-            },
-            "solution": "1"
-          }
-        }
+        
       ]
     },
     {
