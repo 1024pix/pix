@@ -1,0 +1,397 @@
+{
+  "id": "080b5c66-c791-4aa7-8928-434027b46fc0",
+  "slug": "cyberattaques-qui-quand-comment",
+  "title": "Cyberattaques : Qui ? Quand ? Comment ?",
+  "details": {
+    "image": "",
+    "description": "",
+    "duration": 10,
+    "level": "Avancé",
+    "objectives": [
+      ""
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [
+    {
+      "grainId": "b5525893-f0dd-4dc9-aa02-f1c0bc90aab8",
+      "content": "<p>Une cyberattaque est une <strong>action malveillante</strong> menée contre des systèmes informatiques, des réseaux ou des appareils numériques dans le but de <strong>voler, altérer, endommager ou perturber</strong> des informations ou des services.</p><p><br></p><p>Toute organisation ou personne peut être la cible d’une cyberattaque. En 2023, par exemple, plus de 250 cyberattaques ont visé des hôpitaux et établissements de santé.<br></p>"
+    },
+    {
+      "grainId": "4a1fb834-f6ee-498c-843e-21ffb772fded",
+      "content": "<p>Il existe de nombreux types de cyberattaques mais nous passerons en revue seulement les cinq plus fréquents :</p>"
+    },
+    {
+      "grainId": "38b7dd4c-1219-46ed-b1c7-22a9c45f58b6",
+      "content": "<p>Derrière une cyberattaque, on retrouve plusieurs types de pirates que l’on différencie notamment par leurs motivations (argent, idéaux, informations sensibles, réputation…). Dans cette activité, nous allons tenter d’identifier ces différents profils en se fondant sur les objectifs qu’ils poursuivent.</p>"
+    },
+    {
+      "grainId": "9bad01b1-60cd-4fec-a1a9-735d3a794117",
+      "content": "<p>Nous avons abordé dans ce module les principales formes de cyberattaques. Dans la vidéo suivante vous découvrirez un cas concret de défaçage (aussi appelé défacement ou défiguration) de site web.</p>"
+    }
+  ],
+  "grains": [
+    {
+      "id": "b5525893-f0dd-4dc9-aa02-f1c0bc90aab8",
+      "type": "lesson",
+      "title": "Types courants de cyberattaques",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "180ea0df-56e9-4859-90db-dc306b063663",
+            "type": "text",
+            "content": "<p>Voici quelques types courants de cyberattaques : <br><br>\n</p>\n<ul>\n    <li>\n        <strong><em>Malware</em></strong> (logiciels malveillants) : Ce sont des logiciels conçus pour endommager, perturber ou prendre le contrôle d'un système. <br>Exemples : virus, chevaux de Troie, …\n    </li><br>\n    <li><strong><em>Phishing</em></strong> (hameçonnage) : Une technique où les attaquants envoient des e-mails ou des messages qui semblent provenir de sources légitimes pour inciter les victimes à divulguer des informations sensibles (comme des mots de passe ou des numéros de carte de crédit).</li><br>\n    <li>Attaques par déni de service (<strong><em>DoS</em></strong> ou <strong><em>DDoS</em></strong>) : Ces attaques visent à submerger un réseau ou un serveur avec un grand volume de trafic pour le rendre indisponible.</li> <br>\n    <li><strong>Exploitation de failles</strong> : Les cybercriminels profitent des failles de sécurité dans des logiciels pour accéder illégalement à des systèmes.\n    </li>\n</ul>\n<p><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "4a1fb834-f6ee-498c-843e-21ffb772fded",
+      "type": "lesson",
+      "title": "Quels sont les différents types de cyberattaques ?",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "4c800ccd-c41f-4703-9c43-ab61d8a66d36",
+            "type": "text",
+            "content": "<p>Consultez les images suivantes puis associez chaque image à sa définition :</p>\n<br>\n<iframe src=\"https://epreuves-pr1946.review.pix.fr/natation.html\" width=\"700\" height=\"500\"></iframe>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "11e8418c-1eb6-4bec-818d-36b6e927357a",
+      "type": "lesson",
+      "title": "Récapitulatif des types de cyberattaques",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "e8abd3d7-8045-4270-b5a3-fe5f499a3314",
+            "type": "qrocm",
+            "instruction": "<p>Quelles sont les types d’attaque pour chacune de ces situations ?</p>",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<p>Le site d’une entreprise a été défiguré pour nuire à sa réputation, cet attaque est</p>"
+              },
+              {
+                "input": "1",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "un défaçage de site internet"
+                  },
+                  {
+                    "id": "2",
+                    "content": "une attaque par force brute"
+                  },
+                  {
+                    "id": "3",
+                    "content": "un déni de service"
+                  },
+                  {
+                    "id": "4",
+                    "content": "un rançongiciel"
+                  },
+                  {
+                    "id": "5",
+                    "content": "un hameçonnage"
+                  }
+                ],
+                "solutions": [
+                  "1"
+                ]
+              },
+              {
+                "type": "text",
+                "content": "<p>Un pirate peut deviner un mot de passe en testant les combinaisons les plus fréquentes. Plus le mot de passe est fort, plus il résistera à</p>"
+              },
+              {
+                "input": "",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "un défaçage de site internet"
+                  },
+                  {
+                    "id": "2",
+                    "content": "une attaque par force brute"
+                  },
+                  {
+                    "id": "3",
+                    "content": "un déni de service"
+                  },
+                  {
+                    "id": "4",
+                    "content": "un rançongiciel"
+                  },
+                  {
+                    "id": "5",
+                    "content": "un hameçonnage"
+                  }
+                ],
+                "solutions": [
+                  "2"
+                ]
+              },
+              {
+                "type": "text",
+                "content": "<p>Le site d’une entreprise ne peut plus être consulté, son serveur a été saturé par un trop grand nombre de requêtes. L’attaque menée est</p>"
+              },
+              {
+                "input": "",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "un défaçage de site internet"
+                  },
+                  {
+                    "id": "2",
+                    "content": "une attaque par force brute"
+                  },
+                  {
+                    "id": "3",
+                    "content": "un déni de service"
+                  },
+                  {
+                    "id": "4",
+                    "content": "un rançongiciel"
+                  },
+                  {
+                    "id": "5",
+                    "content": "un hameçonnage"
+                  }
+                ],
+                "solutions": [
+                  "3"
+                ]
+              },
+              {
+                "type": "text",
+                "content": "<p>Vos données ont été cryptées à votre insu, on vous demande une somme d’argent pour les récupérer, il s’agit d’</p>"
+              },
+              {
+                "input": "",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "un défaçage de site internet"
+                  },
+                  {
+                    "id": "2",
+                    "content": "une attaque par force brute"
+                  },
+                  {
+                    "id": "3",
+                    "content": "un déni de service"
+                  },
+                  {
+                    "id": "4",
+                    "content": "un rançongiciel"
+                  },
+                  {
+                    "id": "5",
+                    "content": "un hameçonnage"
+                  }
+                ],
+                "solutions": [
+                  "4"
+                ]
+              },
+              {
+                "type": "text",
+                "content": "<p>Vous recevez un mail de votre banque. Il vous invite à cliquer sur un lien pour mettre à jour vos données. Vous êtes probablement confronté-e à une tentative de</p>"
+              },
+              {
+                "input": "",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "un défaçage de site internet"
+                  },
+                  {
+                    "id": "2",
+                    "content": "une attaque par force brute"
+                  },
+                  {
+                    "id": "3",
+                    "content": "un déni de service"
+                  },
+                  {
+                    "id": "4",
+                    "content": "un rançongiciel"
+                  },
+                  {
+                    "id": "5",
+                    "content": "un hameçonnage"
+                  }
+                ],
+                "solutions": [
+                  "5"
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "38b7dd4c-1219-46ed-b1c7-22a9c45f58b6",
+      "type": "lesson",
+      "title": "Qui sont les principaux acteurs ? Pourquoi ?",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "add537d1-6e3d-4bfb-9d20-4038d1c4d44b",
+            "type": "text",
+            "content": "<iframe src=\"https://epreuves-pr1946.review.pix.fr/natation/pirates.html\" width=\"700\" height=\"500\"></iframe>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "57bba735-e9be-4aea-8b4a-58c836cf2330",
+      "type": "activity",
+      "title": "Grain QROCM : Complétez les trous avec le bon profil de pirate.",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "b506bac7-a60f-4151-be48-7a6fee2b848e",
+            "type": "text",
+            "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-a5162631-7fff-3402-a91e-04b730e7e23d\"><div dir=\"ltr\" style=\"margin-left:0pt;\" align=\"left\"><table style=\"border:none;border-collapse:collapse;\"><colgroup><col width=\"741\"></colgroup><tbody><tr style=\"height:103.49291338582678pt\"><td colspan=\"2\" style=\"border-left:solid #ffffff 1pt;border-right:solid #ffffff 1pt;border-bottom:solid #ffffff 1pt;border-top:solid #ffffff 1pt;vertical-align:top;background-color:#f4f5f7;padding:18pt 18pt 18pt 18pt;overflow:hidden;overflow-wrap:break-word;\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Consigne&nbsp;: </span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Complétez les trous avec le bon profil de pirate.</span></p><br><br><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Convaincu-e de l’importance de lutter contre la pêche intensive de requins, je veux m’attaquer aux sites internet des grands restaurants qui en servent. Je suis&nbsp; [ A ]</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Principalement motivé-e par des intérêts privés, je conçois des cyberattaques dans le but de collecter de l’argent ou de revendre des informations monnayables. Je suis … [ B ]</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Témoin d’activités qui me paraissent immorales ou illégales, je décide de rendre publiques des données pour les dénoncer. Je suis … [ C ]</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Je cherche avant tout à faire mes armes dans le champ de la cybermalveillance. Je suis … [ D ]</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">J’ai été missionné-e par une grande entreprise du secteur de la banque pour attaquer ses serveurs et déceler de potentielles failles de sécurité. Je suis … [ E ]</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Pour le compte des services de renseignement de mon pays, je suis chargé-e d’attaquer les systèmes d’information de ministères étrangers. Je suis un [ F ]&nbsp;</span></p></td></tr><tr style=\"height:103.49291338582678pt\"><td colspan=\"2\" style=\"border-left:solid #ffffff 1pt;border-right:solid #ffffff 1pt;border-bottom:solid #ffffff 1pt;border-top:solid #ffffff 1pt;vertical-align:top;background-color:#f4f5f7;padding:18.000000000000004pt 18.000000000000004pt 18.000000000000004pt 18.000000000000004pt;overflow:hidden;overflow-wrap:break-word;\"><ul style=\"margin-top:0;margin-bottom:0;padding-inline-start:48px;\"><li dir=\"ltr\" style=\"list-style-type:disc;font-size:13pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:2.4;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">A : [ Hacktiviste ]&nbsp;</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:13pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:2.4;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">B&nbsp;: [ Black hat ]</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:13pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:2.4;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">C&nbsp;: [ Lanceur d’alerte ]</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:13pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:2.4;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">D&nbsp;: [ Script kiddy ]</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:13pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:2.4;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">E&nbsp;: [ White hat ]</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:13pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:2.4;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">F&nbsp;: [ Pirate soutenu par un Etat ]</span></p></li></ul></td></tr></tbody></table></div></strong></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "9bad01b1-60cd-4fec-a1a9-735d3a794117",
+      "type": "lesson",
+      "title": "Leçon sur les différents acteurs",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "c30e2d0d-ccdd-4c66-bdd4-b6d99eaee7d6",
+            "type": "text",
+            "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-0fed7ad8-7fff-bf03-a962-24ddefe3ba21\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Vidéo en motion design de 2 minutes</span></p><br><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:14pt;margin-bottom:4pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Titre : \"Le Mystère du site web transformé\"</span></h3><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:14pt;margin-bottom:4pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Durée : 2 minutes</span></h3><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:14pt;margin-bottom:4pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Personnages :</span></h3><ul style=\"margin-top:0;margin-bottom:0;padding-inline-start:48px;\"><li dir=\"ltr\" style=\"list-style-type:disc;font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Lucas</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Un garçon de 12 ans, fan de jeux en ligne et curieux sur le web.</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Emma</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Une fille de 12 ans, son amie, passionnée par la technologie et l'informatique.</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:12pt;\" role=\"presentation\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Le Hacker</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Un personnage mystérieux et masqué, représentant le hacker, qui modifie les sites.</span></p></li></ul><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><br></p><hr><p><br></p><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:14pt;margin-bottom:4pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Scène 1 : Ouverture</span></h3><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">(00:00 - 00:20)</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Lucas et Emma sont dans la salle informatique de leur collège, en train de surfer sur le site de leur club préféré.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Narrateur</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : \"Voici Lucas et Emma, deux amis curieux qui adorent naviguer sur le site web de leur club. Mais aujourd'hui, une surprise les attend…\"</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Ils accèdent au site, mais au lieu du contenu habituel, ils voient des images étranges et des messages bizarres en grandes lettres rouges : « Site piraté ! ».</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Lucas</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : \"Qu’est-ce qui se passe ? Ce n'est pas le site que je connais !\"</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><br></p><hr><p><br></p><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:14pt;margin-bottom:4pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Scène 2 : Le défaçage expliqué</span></h3><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">(00:20 - 00:50)</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Le personnage du Hacker apparaît à l’écran, un masque sur le visage, en train de taper sur son clavier. On voit le site se transformer sous ses doigts.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Narrateur</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : \"Ce que Lucas et Emma voient est un </span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">défaçage</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : une attaque où un pirate modifie le contenu d’un site web sans autorisation.\"</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">L’écran montre une image simple du processus : un hacker accède à un site non sécurisé et change son apparence.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Emma</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : \"Ça ressemble à du piratage ! Ils ont modifié le site pour le rendre méconnaissable.\"</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Lucas</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : \"Mais pourquoi feraient-ils ça ?\"</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><br></p><hr><p><br></p><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:14pt;margin-bottom:4pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Scène 3 : Le processus du défaçage expliqué</span></h3><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">(00:50 - 01:20)</span></p><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Transition vers une animation simple qui montre les étapes d’un défaçage de manière visuelle, facile à comprendre pour les jeunes spectateurs.</span></h3><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Narrateur : </span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">\"Un hacker peut défacer un site web en exploitant des failles de sécurité. Il commence par chercher une vulnérabilité, souvent parce que le site n’est pas bien protégé.\"</span></h3><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">L’animation montre le hacker utiliser un outil pour scanner les failles d’un site.</span></h3><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Narrateur :</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> \"Ensuite, il trouve une manière d’entrer dans le système, comme un mot de passe faible ou un logiciel non mis à jour. Une fois à l’intérieur, il peut modifier le contenu du site, changeant son apparence pour diffuser son propre message.\"</span></h3><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">On voit le Hacker remplaçant les pages normales par des images effrayantes ou des slogans bizarres.</span></h3><br><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:14pt;margin-bottom:4pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Scène 4 : Comment se protéger ?</span></h3><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">(01:20 - 01:40)</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Emma montre à Lucas quelques solutions sur un écran : installer des protections, utiliser des mots de passe forts, et faire attention aux mises à jour.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Narrateur</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : \"Heureusement, il existe des moyens de se protéger contre ces attaques. Les propriétaires de sites peuvent utiliser des protections comme des pare-feux, des mots de passe solides et toujours garder leur site à jour.\"</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Emma</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : \"Et nous aussi, on doit être prudents : ne jamais cliquer sur des liens étranges et vérifier si un site est sécurisé !\"</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><br></p><hr><p><br></p><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:14pt;margin-bottom:4pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Scène 5 : Conclusion</span></h3><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">(01:40 - 02:00)</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Lucas et Emma retournent sur le site après que le club ait sécurisé son site. Tout est redevenu normal.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Lucas</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : \"Tout est redevenu normal ! Mais maintenant, je comprends qu'il faut être vigilant en ligne.\"</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Emma</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : \"Oui, un site piraté, ça peut arriver à n'importe qui. Mais on peut toujours se protéger !\"</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">L’écran affiche un message simple de prévention :</span></p><ul style=\"margin-top:0;margin-bottom:0;padding-inline-start:48px;\"><li dir=\"ltr\" style=\"list-style-type:disc;font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">\"Utilisez des mots de passe forts.\"</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">\"Vérifiez si les sites sont sécurisés.\"</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:12pt;\" role=\"presentation\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">\"Restez vigilants en ligne.\"</span></p></li></ul><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Narrateur</span><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : \"Soyez comme Lucas et Emma : restez curieux, mais prudents sur Internet !\"</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><br></p><hr><p><br></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:10pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Fin</span></p></strong></p><br class=\"Apple-interchange-newline\">"
+          }
+        }
+      ]
+    },
+    {
+      "id": "eb64fea1-3ede-4d43-a903-f0e2a71b8d90",
+      "type": "lesson",
+      "title": "Récapitulatif sur les différents acteurs",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "c30e2d0d-ccdd-4c66-bdd4-b6d99eaee7d6",
+            "type": "text",
+            "content": "<p><br></p><p dir=\"ltr\" style=\"line-height:1.2;margin-left: 3.25pt;margin-top:0pt;margin-bottom:0pt;\"><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-c8c5f09e-7fff-913d-039a-aec539799bb0\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">On distingue en général 6 types de pirates&nbsp;:&nbsp;</span></strong></p><ul style=\"margin-top:0;margin-bottom:0;padding-inline-start:48px;\"><li dir=\"ltr\" style=\"list-style-type:disc;font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;margin-left: -14.75pt;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-c8c5f09e-7fff-913d-039a-aec539799bb0\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Les «&nbsp;black hats&nbsp;» sont les «</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">méchants</span><span style=\"font-size:13pt;font-family:'___WRD_EMBED_SUB_45';color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">»</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> pirates informatiques, ceux qu</span><span style=\"font-size:13pt;font-family:'___WRD_EMBED_SUB_45';color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">’</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">on se contente généralement de qualifier de pirates. Le terme est souvent utilisé spécifiquement pour les pirates informatiques qui pénètrent dans les réseaux et les ordinateurs, ou qui créent des virus informatiques. En général, c</span><span style=\"font-size:13pt;font-family:'___WRD_EMBED_SUB_45';color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">’</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">est l</span><span style=\"font-size:13pt;font-family:'___WRD_EMBED_SUB_45';color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">’</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">argent qui motive les pirates </span><span style=\"font-size:13pt;font-family:'___WRD_EMBED_SUB_45';color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">«</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">black hat</span><span style=\"font-size:13pt;font-family:'___WRD_EMBED_SUB_45';color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">»</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">.</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"><br><br></span></strong></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;margin-left: -14.75pt;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-c8c5f09e-7fff-913d-039a-aec539799bb0\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Les «&nbsp;white hats&nbsp;», eux, sont les «</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">gentils</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">», des experts en sécurité informatique qui se spécialisent dans les tests d’intrusion et d’autres méthodes pour s’assurer que les systèmes d’information d’une entreprise sont sécurisés.</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"><br><br></span></strong></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;margin-left: -14.75pt;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-c8c5f09e-7fff-913d-039a-aec539799bb0\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Les pirates soutenus par un Etat sont missionnés, eux, par un Etat dans le but de s’attaquer à des civils, des entreprises et des gouvernements étrangers.</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"><br><br></span></strong></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;margin-left: -14.75pt;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-c8c5f09e-7fff-913d-039a-aec539799bb0\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Les hacktivistes aspirent au changement social. Certains hacktivistes tentent d’exposer des abus ou de faire avancer une cause politique ou religieuse. Par exemple, lors du Printemps arabe, certains hacktivistes ont permis à des groupes menacés de communiquer de manière sécurisée ainsi que d’accéder à des pages web censurées par le gouvernement.</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"><br><br></span></strong></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;margin-left: -14.75pt;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-c8c5f09e-7fff-913d-039a-aec539799bb0\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Les lanceurs d’alerte, eux, sont souvent internes à l’entité prise pour cible. Ils utilisent leur accès aux systèmes d’une organisation dont ils font partie pour faire fuiter des informations qu’ils jugent important de rendre publiques, parce qu’elles sont illicites.</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"><br><br></span></strong></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;margin-left: -14.75pt;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-c8c5f09e-7fff-913d-039a-aec539799bb0\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Les «&nbsp;script kiddies&nbsp;» sont des pirates «</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">black hat</span><span style=\"font-size:13pt;font-family:'___WRD_EMBED_SUB_45';color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">»</span><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> qui utilisent des programmes téléchargés sur Internet pour attaquer des réseaux et dégrader des sites web dans le but de se faire un nom.</span></strong></p></li></ul><p><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "11a1d74e-0230-4979-b10f-c1becc7ddb6d",
+      "type": "activity",
+      "title": "Activité QCU",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "a544b8e6-ff95-4252-8ff5-b2c751c8c232",
+            "type": "qcm",
+            "instruction": "<p><strong>Quelles sont les précautions à prendre pour protéger son site web d’un défaçage ?</strong></p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>choisir un nom de domaine en .fr</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>mettre en place un pare-feu sur le serveur qui héberge le site</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>héberger son site web en Europe</p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>utiliser des mots de passe forts pour la gestion de son site web</p>"
+              },
+              {
+                "id": "5",
+                "content": "<p>mettre à jour son site web régulièrement</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Bravo, vous savez comment vous protéger d’une cyberattaque par défaçage.</p>",
+              "invalid": "<p>Il y a bien trois précautions à prendre pour éviter les risques de défaçage : utiliser un pare-feu sur le serveur hébergeant le site, utiliser des mots de passe forts et mettre à jour systématiquement son site web.<br></p>"
+            },
+            "solutions": [
+              "2",
+              "4",
+              "5"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e12c324d-b6ac-431d-9408-4bf8557283c6",
+      "type": "lesson",
+      "title": "Conclusion",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "4d2cfdba-5c72-4b86-965a-3b9aa07166e7",
+            "type": "text",
+            "content": "<p>Résumons les points abordés dans ce module :</p><ul><li>vous avez découvert les principaux types de cyberattaques</li><li>vous connaissez les catégories attaquants et leurs motivations</li><li>vous êtes en mesure de reconnaître un site défacé/défiguré</li><br></ul><br>"
+          }
+        }
+      ]
+    }
+  ]
+}
