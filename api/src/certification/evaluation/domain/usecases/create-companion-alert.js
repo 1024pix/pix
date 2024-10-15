@@ -4,17 +4,13 @@ import {
   CertificationCompanionLiveAlertStatus,
 } from '../../../shared/domain/models/CertificationCompanionLiveAlert.js';
 
-/**
- * @typedef {import('../../../evaluation/domain/usecases/index.js').CertificationCompanionAlertRepository} CertificationCompanionAlertRepository
- */
-
 export const createCompanionAlert = withTransaction(
   /**
    * @param {Object} params
    * @param {number} params.assessmentId
-   * @param {CertificationCompanionAlertRepository} params.certificationCompanionAlertRepository
+   * @param {import('./index.js').CertificationCompanionAlertRepository} params.certificationCompanionAlertRepository
    **/
-  async function ({ assessmentId, certificationCompanionAlertRepository }) {
+  async function createCompanionAlert({ assessmentId, certificationCompanionAlertRepository }) {
     const companionAlert = new CertificationCompanionLiveAlert({
       assessmentId,
       status: CertificationCompanionLiveAlertStatus.ONGOING,
