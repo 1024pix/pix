@@ -247,7 +247,32 @@
       "id": "df72601a-3e24-4c36-817a-1e5eb3553a0a",
       "type": "lesson",
       "title": "Le hameçonnage",
-      "components": []
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "222d383d-3f81-44f5-8d6d-c9156f6cc326",
+            "type": "text",
+            "content": "<p>Qu'est-ce que le hameçonnage ou phishing en anglais ?&nbsp; <br>À la suite de cette vidéo, un exercice de détection du phishing vous sera proposé. <br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "ff9f3914-e683-49ac-aede-d6012c60de53",
+            "type": "text",
+            "content": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/-uTwhga-HpM?si=BNSXjOa31Jkkx_-c\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen=\"\"></iframe>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "fa54be1e-e774-48ac-914e-5b7ccaa5a160",
+            "type": "text",
+            "content": "<p><em><strong>TODO</strong> Ajouter ces notions dans la vidéo : </em></p><ul><li><em>les autres moyens de com' (whatsapp, telegram, etc.), </em></li><li><em>ce que ciblent les voleurs : identité, argent...</em></li></ul>"
+          }
+        }
+      ]
     },
     {
       "id": "deb75060-b602-4c0d-86d9-e768c6f9f51b",
