@@ -1,0 +1,87 @@
+{
+  "id": "dd2f9ee3-8bb8-4937-9c39-4f263ef19450",
+  "slug": "hackathon-attention-aux-virus",
+  "title": "Attention aux virus !",
+  "details": {
+    "image": "https://images.pix.fr/modulix/placeholder-details.svg",
+    "description": "<p><br></p>",
+    "duration": 0,
+    "level": "Débutant",
+    "objectives": [
+      "<p>Connaître le terme d'antivirus et son usage</p>",
+      "<p>Savoir ce qu’est un antivirus</p>",
+      "<p>Connaître différents types de virus</p>",
+      "<p>Reconnaître des causes courantes d’infection par virus</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [
+    {
+      "grainId": "fdc7d83d-9f17-4084-8692-8fd88915042b",
+      "content": "<p>Vous avez déjà entendu parler de virus informatiques et de sécurité sur internet. <br>Grâce à ce module, vous aurez les clés pour les reconnaître et vous en protéger.</p>"
+    }
+  ],
+  "grains": [
+    {
+      "id": "fdc7d83d-9f17-4084-8692-8fd88915042b",
+      "type": "activity",
+      "title": "Alerte aux virus !",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "c88bd566-0617-40f9-ae2d-162dcba4bdbe",
+            "type": "text",
+            "content": "<p>Charlène allume son ordinateur ce matin. Elle découvre ce message inquiétant : <br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "b0b61905-2e60-4b3f-aad3-974b0eabd2a0",
+            "type": "image",
+            "url": "https://i.imgur.com/DJcOsjI.jpeg",
+            "alt": "Illustration décrite dans le texte alternatif",
+            "alternativeText": "<p>Capture d’écran d’un bureau, avec une pop up d’un anti-virus: message “virus détecté”</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "d2ad8b73-303a-40d1-a1f4-cf7f54b669fc",
+      "type": "lesson",
+      "title": "Comment est-il rentré ?",
+      "components": []
+    },
+    {
+      "id": "4ca73a72-7cfd-4434-8ba7-1a140c384942",
+      "type": "activity",
+      "title": "Ça ressemble à quoi un virus ?",
+      "components": []
+    },
+    {
+      "id": "4aa66d64-be5e-42e7-94fd-8d834a3ac288",
+      "type": "activity",
+      "title": "Un virus ça peut faire mal ...",
+      "components": []
+    },
+    {
+      "id": "212b4e46-81f7-4527-9fcf-56b9147438c7",
+      "type": "lesson",
+      "title": "… mais on peut s’en protéger",
+      "components": []
+    },
+    {
+      "id": "f45354ec-515a-4abf-835c-50a759395d2a",
+      "type": "lesson",
+      "title": "Avec quels outils ?",
+      "components": []
+    },
+    {
+      "id": "20027617-a8f2-40e2-9836-0182febca641",
+      "type": "lesson",
+      "title": " MAJ, tout va bien se passer",
+      "components": []
+    }
+  ]
+}
