@@ -4,131 +4,6 @@ import { getCertificationDetails } from '../../../../../../src/certification/ses
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Certification | Session-management | Unit | Domain | UseCases | get-certification-details', function () {
-  context('the certification assessment has not been completed', function () {
-    it('should compute the certification details on the fly', async function () {
-      // given
-      const certificationAssessmentRepository = {
-        getByCertificationCourseId: sinon.stub(),
-      };
-      const placementProfileService = {
-        getPlacementProfile: sinon.stub(),
-      };
-      const competenceMarkRepository = {
-        findByCertificationCourseId: sinon.stub(),
-      };
-      const scoringCertificationService = {
-        calculateCertificationAssessmentScore: sinon.stub(),
-      };
-      const certificationCandidateRepository = {
-        getByCertificationCourseId: sinon.stub(),
-      };
-
-      const certificationCourseId = 1234;
-      const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({
-        challengeId: 'rec123',
-        competenceId: 'recComp1',
-        associatedSkillName: 'manger une mangue',
-        isNeutralized: false,
-      });
-      const answer = domainBuilder.buildAnswer.ok({ challengeId: 'rec123', value: 'prout' });
-
-      const certificationAssessment = domainBuilder.buildCertificationAssessment({
-        certificationCourseId,
-        certificationChallenges: [certificationChallenge],
-        certificationAnswersByDate: [answer],
-        state: CertificationAssessmentStates.STARTED,
-      });
-
-      const competenceMark = domainBuilder.buildCompetenceMark({
-        competenceId: 'recComp1',
-        areaCode: '1',
-        index: '1.1',
-        name: 'Manger des fruits',
-        level: 1,
-        score: 5,
-      });
-      const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
-        competenceMarks: [competenceMark],
-        percentageCorrectAnswers: 100,
-      });
-      const placementProfile = domainBuilder.buildPlacementProfile.buildForCompetences({
-        competencesData: [{ id: 'recComp1', index: '1.1', name: 'Manger des fruits', level: 3, score: 45 }],
-      });
-
-      const candidate = domainBuilder.certification.sessionManagement.buildCertificationCandidate({
-        userId: certificationAssessment.userId,
-        reconciledAt: new Date('2024-09-26'),
-      });
-
-      certificationAssessmentRepository.getByCertificationCourseId
-        .withArgs({ certificationCourseId })
-        .resolves(certificationAssessment);
-
-      competenceMarkRepository.findByCertificationCourseId.resolves([]);
-      scoringCertificationService.calculateCertificationAssessmentScore
-        .withArgs({ certificationAssessment, continueOnError: true })
-        .resolves(certificationAssessmentScore);
-
-      certificationCandidateRepository.getByCertificationCourseId
-        .withArgs({ certificationCourseId })
-        .resolves(candidate);
-
-      placementProfileService.getPlacementProfile
-        .withArgs({
-          userId: candidate.userId,
-          limitDate: candidate.reconciledAt,
-          version: certificationAssessment.version,
-          allowExcessPixAndLevels: false,
-        })
-        .resolves(placementProfile);
-
-      // when
-      const result = await getCertificationDetails({
-        certificationCourseId,
-        placementProfileService,
-        competenceMarkRepository,
-        certificationAssessmentRepository,
-        scoringCertificationService,
-        certificationCandidateRepository,
-      });
-
-      //then
-      expect(result).to.be.an.instanceof(CertificationDetails);
-      expect(result).to.deep.equal({
-        competencesWithMark: [
-          {
-            areaCode: '1',
-            id: 'recComp1',
-            index: '1.1',
-            name: 'Manger des fruits',
-            obtainedLevel: 1,
-            obtainedScore: 5,
-            positionedLevel: 3,
-            positionedScore: 45,
-          },
-        ],
-        createdAt: certificationAssessment.createdAt,
-        completedAt: certificationAssessment.completedAt,
-        id: certificationAssessment.certificationCourseId,
-        listChallengesAndAnswers: [
-          {
-            challengeId: 'rec123',
-            competence: '1.1',
-            hasBeenSkippedAutomatically: false,
-            isNeutralized: false,
-            result: 'ok',
-            skill: 'manger une mangue',
-            value: 'prout',
-          },
-        ],
-        percentageCorrectAnswers: 100,
-        status: 'started',
-        totalScore: 5,
-        userId: 123,
-      });
-    });
-  });
-
   context('the certification assessment has been completed', function () {
     it('should return the certification details', async function () {
       // given
@@ -140,9 +15,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
       };
       const competenceMarkRepository = {
         findByCertificationCourseId: sinon.stub(),
-      };
-      const scoringCertificationService = {
-        calculateCertificationAssessmentScore: sinon.stub(),
       };
       const certificationCandidateRepository = {
         getByCertificationCourseId: sinon.stub(),
@@ -209,7 +81,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
         competenceMarkRepository,
         certificationCandidateRepository,
         certificationAssessmentRepository,
-        scoringCertificationService,
       });
 
       //then

@@ -4,7 +4,6 @@ import { fileURLToPath } from 'node:url';
 
 import { pickChallengeService } from '../../../../../src/evaluation/domain/services/pick-challenge-service.js';
 import * as flashAlgorithmService from '../../../../certification/flash-certification/domain/services/algorithm-methods/flash.js';
-import * as scoringCertificationService from '../../../../certification/shared/domain/services/scoring-certification-service.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -94,7 +93,6 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {cpfReceiptsStorage} CpfReceiptsStorage
  * @typedef {cpfExportsStorage} CpfExportsStorage
  * @typedef {placementProfileService} PlacementProfileService
- * @typedef {scoringCertificationService} ScoringCertificationService
  * @typedef {certificationCpfService} CertificationCpfService
  * @typedef {pickChallengeService} PickChallengeService
  * @typedef {flashAlgorithmService} FlashAlgorithmService
@@ -116,7 +114,6 @@ const dependencies = {
   cpfExportRepository,
   certificationBadgesService,
   placementProfileService,
-  scoringCertificationService,
   certificationCpfService,
   certificationChallengeRepository,
   certificationIssueReportRepository,
