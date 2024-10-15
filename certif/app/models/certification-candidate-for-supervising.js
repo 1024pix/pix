@@ -36,7 +36,7 @@ export default class CertificationCandidateForSupervising extends Model {
   }
 
   get hasOngoingChallengeLiveAlert() {
-    return this.challengeLiveAlert?.status === 'ongoing';
+    return this.currentLiveAlert?.type === 'challenge' && this.currentLiveAlert?.status === 'ongoing';
   }
 
   get currentLiveAlert() {

@@ -32,13 +32,13 @@ module('Integration | Component | live-alert-handled-modal', function (hooks) {
     const screen = await renderScreen(hbs`<SessionSupervising::LiveAlertHandledModal
   @showModal={{this.isModalDisplayed}}
   @closeConfirmationModal={{this.closeModal}}
-  @title={{this.candidateFullName}}
+  @candidateFullName={{this.candidateFullName}}
   @isLiveAlertValidated={{false}}
 />`);
 
     // then
     assert.dom(screen.getByText('Le signalement a bien été refusé', { exact: false })).exists();
-    assert.dom(screen.getByText('Jean-Paul Candidat')).exists();
+    assert.dom(screen.getByText('Signalement du candidat : Jean-Paul Candidat')).exists();
     assert.dom(screen.getByRole('button', { name: 'Fermer' })).exists();
   });
 
@@ -66,13 +66,13 @@ module('Integration | Component | live-alert-handled-modal', function (hooks) {
     const screen = await renderScreen(hbs`<SessionSupervising::LiveAlertHandledModal
   @showModal={{this.isModalDisplayed}}
   @closeConfirmationModal={{this.closeModal}}
-  @title={{this.candidateFullName}}
+  @candidateFullName={{this.candidateFullName}}
   @isLiveAlertValidated={{true}}
 />`);
 
     // then
     assert.dom(screen.getByText('Le signalement a bien été validé', { exact: false })).exists();
-    assert.dom(screen.getByText('Jean-Paul Candidat')).exists();
+    assert.dom(screen.getByText('Signalement du candidat : Jean-Paul Candidat')).exists();
     assert.dom(screen.getByRole('button', { name: 'Fermer' })).exists();
   });
 });

@@ -25,10 +25,7 @@ export default class CandidateInList extends Component {
   @tracked isLiveAlertValidated = false;
 
   get candidateFullName() {
-    const candidateFullName = `${this.args.candidate.firstName} ${this.args.candidate.lastName}`;
-    return this.intl.t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.title', {
-      candidateFullName,
-    });
+    return `${this.args.candidate.firstName} ${this.args.candidate.lastName}`;
   }
 
   get isConfirmButtonToBeDisplayed() {
