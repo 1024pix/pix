@@ -338,7 +338,76 @@
       "id": "13b70f8b-edd3-4cfb-ae6d-65155c31bf53",
       "type": "lesson",
       "title": "Comment se protéger d'une arnaque ?",
-      "components": []
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "5c5bb658-0a54-4ef8-bd87-4f20bb8cabcc",
+            "type": "image",
+            "url": "https://i.imgur.com/vA1cTlR.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "417a8016-6a98-4f69-9746-2fb87b833d78",
+            "type": "image",
+            "url": "https://i.imgur.com/X8U9kCB.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "24e37d31-3358-4a74-a5c4-b2b92f2a5c12",
+            "type": "image",
+            "url": "https://i.imgur.com/SStIqGP.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "71f2e933-62b4-4080-8985-8c2277b60931",
+            "type": "image",
+            "url": "https://i.imgur.com/ZyCAgRr.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "aa6649e4-7ba2-4078-966b-60dd426e7aa0",
+            "type": "image",
+            "url": "https://i.imgur.com/FZm1ZvG.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "93fca6a8-0f99-4554-90c7-f7d865322a47",
+            "type": "image",
+            "url": "https://i.imgur.com/kCfF1m1.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "a47409c7-50b1-4d32-b2d9-65ed684e2efd",
+            "type": "text",
+            "content": "<p>Source : <br>https://www.cybermalveillance.gouv.fr/tous-nos-contenus/fiches-reflexes/hameconnage-phishing#prevention-phishing</p>"
+          }
+        }
+      ]
     },
     {
       "id": "4c8165e5-8c44-4dcf-821f-2a18bd090221",
