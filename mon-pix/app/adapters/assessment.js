@@ -23,4 +23,9 @@ export default class Assessment extends ApplicationAdapter {
     const payload = { data: { data: { attributes: { 'challenge-id': challengeId } } } };
     return this.ajax(url, 'POST', payload);
   }
+
+  createCompanionLiveAlert({ assessmentId }) {
+    const url = `${this.host}/${this.namespace}/assessments/${assessmentId}/companion-alert`;
+    return this.ajax(url, 'POST');
+  }
 }

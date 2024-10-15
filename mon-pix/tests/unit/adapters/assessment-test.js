@@ -67,4 +67,20 @@ module('Unit | Adapters | assessment', function (hooks) {
       );
     });
   });
+
+  module('#createCompanionLiveAlert', function () {
+    test('should call companion live alert endpoint', async function (assert) {
+      // given
+      adapter.ajax = sinon.stub();
+      const assessmentId = 123;
+
+      // when
+      await adapter.createCompanionLiveAlert({ assessmentId });
+
+      // then
+      assert.ok(
+        adapter.ajax.calledWith(`http://localhost:3000/api/assessments/${assessmentId}/companion-alert`, 'POST'),
+      );
+    });
+  });
 });

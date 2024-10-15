@@ -6,6 +6,7 @@ export default class PixCompanion extends Service {
   @tracked _isExtensionEnabled = true;
 
   #checkExtensionIsEnabledInterval;
+  #eventTarget = new EventTarget();
 
   startCertification(windowRef = window) {
     if (!this.featureToggles.featureToggles.isPixCompanionEnabled) return;
@@ -46,9 +47,26 @@ export default class PixCompanion extends Service {
         this._isExtensionEnabled = true;
       })
       .catch(() => {
+        if (this._isExtensionEnabled) {
+          this.#eventTarget.dispatchEvent(new CustomEvent('block'));
+        }
         this._isExtensionEnabled = false;
         windowRef.removeEventListener('pix:companion:pong', pongListener);
       });
+  }
+
+  /**
+   * @type EventTarget['addEventListener']
+   */
+  addEventListener(...args) {
+    this.#eventTarget.addEventListener(...args);
+  }
+
+  /**
+   * @type EventTarget['removeEventListener']
+   */
+  removeEventListener(...args) {
+    this.#eventTarget.removeEventListener(...args);
   }
 
   get isExtensionEnabled() {
