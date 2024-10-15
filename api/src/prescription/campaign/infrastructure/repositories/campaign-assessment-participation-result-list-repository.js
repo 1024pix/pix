@@ -52,6 +52,16 @@ function _getParticipations(qb, campaignId, stageCollection, filters) {
       .where('campaign-participations.status', SHARED)
       .whereNull('campaign-participations.deletedAt')
       .as('sharedResultCount'),
+    knex('campaign-participations')
+      .select('masteryRate')
+      .whereRaw('"organizationLearnerId" = "view-active-organization-learners".id')
+      .where('campaign-participations.campaignId', campaignId)
+      .where('campaign-participations.status', SHARED)
+      .whereNull('campaign-participations.deletedAt')
+      .orderBy('sharedAt', 'desc')
+      .offset(1)
+      .limit(1)
+      .as('previousMasteryRate'),
   )
     .distinctOn('campaign-participations.organizationLearnerId')
     .from('campaign-participations')
