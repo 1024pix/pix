@@ -1,0 +1,388 @@
+{
+  "id": "d2a6769c-7696-47ef-a27e-5801520c640a",
+  "slug": "hackathon-bases-du-clavier",
+  "title": "Les bases du clavier",
+  "details": {
+    "image": "",
+    "description": "<p><br></p>",
+    "duration": 10,
+    "level": "Débutant",
+    "objectives": [
+      "",
+      "",
+      ""
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [
+    {
+      "grainId": "46508373-6ef8-4c1c-bbd5-f1c9dce28ab4",
+      "content": "<p>Texte de transition 1</p>"
+    },
+    {
+      "grainId": "21e56dd6-b481-449f-92b0-2af57fd65f84",
+      "content": "<p>Texte de transition 2</p>"
+    },
+    {
+      "grainId": "3ecb5ff4-ea79-4e3b-b840-2fc68cc1d9ed",
+      "content": "<p>Texte de transition 3</p>"
+    },
+    {
+      "grainId": "cd94d304-7e92-4095-83f5-8e5afd35dfec",
+      "content": "<p>Texte de transition 4</p>"
+    },
+    {
+      "grainId": "4e2dda32-a4b7-45b1-ac05-19e5241d7305",
+      "content": "<p>Texte de transition 5</p>"
+    },
+    {
+      "grainId": "1ea7845f-1980-4a70-b5d0-f7a0bdfaedea",
+      "content": "<p>Texte de transition 6</p>"
+    },
+    {
+      "grainId": "9d77db6c-20dc-4073-bac6-199949e8b38f",
+      "content": "<p>Texte de transition 7</p>"
+    },
+    {
+      "grainId": "f697306b-6a6a-48c9-bcd4-992f32c49a46",
+      "content": "<p>Texte de transition 8</p>"
+    }
+  ],
+  "grains": [
+    {
+      "id": "46508373-6ef8-4c1c-bbd5-f1c9dce28ab4",
+      "type": "lesson",
+      "title": "",
+      "components": [
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "f78a4420-edd4-4923-b9f8-2182860297ac",
+                  "type": "image",
+                  "url": "",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "19c196b2-87bd-46f7-8c82-ace0a9669b13",
+                  "type": "text",
+                  "content": ""
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "9c0155cc-4bba-47cc-b244-c52d6e7c296f",
+                  "type": "image",
+                  "url": "",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "6f15c445-8bf9-4ed1-b66c-4b3fa0f71e22",
+                  "type": "text",
+                  "content": ""
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "3faafa5d-f4ed-4c99-bc5e-c4d12716d80c",
+                  "type": "image",
+                  "url": "",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "39a59aa6-6bde-4bf4-899b-48f99404546f",
+                  "type": "text",
+                  "content": ""
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "9a6d3573-d241-400f-a6f9-ee75a24f98a0",
+                  "type": "image",
+                  "url": "",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "449fc3e0-6fce-4de1-8803-77f463ab5c68",
+                  "type": "text",
+                  "content": ""
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "04729e82-1d2b-40a4-abbc-c8aebd02c87f",
+                  "type": "image",
+                  "url": "",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "41cc2e88-1966-442f-9683-8567757422ad",
+                  "type": "text",
+                  "content": ""
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21e56dd6-b481-449f-92b0-2af57fd65f84",
+      "type": "activity",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "3ff8885b-dcc9-4db8-a9e4-633c39b85f9f",
+            "type": "qrocm",
+            "instruction": "",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<p>Composant 1</p>"
+              },
+              {
+                "input": "",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "A"
+                  },
+                  {
+                    "id": "2",
+                    "content": "B"
+                  },
+                  {
+                    "id": "3",
+                    "content": "C"
+                  },
+                  {
+                    "id": "4",
+                    "content": "D"
+                  },
+                  {
+                    "id": "5",
+                    "content": "D"
+                  }
+                ],
+                "solutions": []
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "3ecb5ff4-ea79-4e3b-b840-2fc68cc1d9ed",
+      "type": "lesson",
+      "title": "",
+      "components": [
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "f2f03943-8eab-46a5-b792-09fbce132cf2",
+                  "type": "text",
+                  "content": ""
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "4e99d136-7037-4f3f-bc8a-db6fb84feaaa",
+                  "type": "text",
+                  "content": ""
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "d5243134-39fb-4103-9f7f-cbafa87429a0",
+                  "type": "text",
+                  "content": ""
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cd94d304-7e92-4095-83f5-8e5afd35dfec",
+      "type": "lesson",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "dd47a567-ef8f-450a-b539-1c5b761db94a",
+            "type": "qrocm",
+            "instruction": "",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<p>Mon texte</p>"
+              },
+              {
+                "input": "",
+                "type": "input",
+                "inputType": "text",
+                "size": 10,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "letexteàmodifier",
+                "tolerances": [],
+                "solutions": []
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "4e2dda32-a4b7-45b1-ac05-19e5241d7305",
+      "type": "lesson",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "1a723658-2c0b-4a53-b833-225a06db3a1e",
+            "type": "text",
+            "content": "<p><strong>Résumons avant de passer à la suite</strong></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "1ea7845f-1980-4a70-b5d0-f7a0bdfaedea",
+      "type": "lesson",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "2fce4555-d45a-44ba-936c-406958ce6e56",
+            "type": "image",
+            "url": "",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "82952b3a-092e-4626-a547-47db72cfdcad",
+            "type": "text",
+            "content": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "9d77db6c-20dc-4073-bac6-199949e8b38f",
+      "type": "activity",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "3656041e-d09e-41d1-94cc-c57b559a4c38",
+            "type": "qrocm",
+            "instruction": "",
+            "proposals": [
+              {
+                "input": "",
+                "type": "input",
+                "inputType": "text",
+                "size": 35,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "Ma phrase avec un caractère à bouger",
+                "tolerances": [],
+                "solutions": []
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "f697306b-6a6a-48c9-bcd4-992f32c49a46",
+      "type": "activity",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "3f387c92-8e79-4765-97fc-62088492ea57",
+            "type": "qrocm",
+            "instruction": "",
+            "proposals": [
+              {
+                "type": "text",
+                "content": "<p>Adresse mail :</p>"
+              },
+              {
+                "input": "",
+                "type": "input",
+                "inputType": "text",
+                "size": 20,
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "solutions": []
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
