@@ -278,7 +278,28 @@
       "id": "deb75060-b602-4c0d-86d9-e768c6f9f51b",
       "type": "activity",
       "title": "Eliminer la menace",
-      "components": []
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "36bc6e9e-b36c-4815-b531-52ec26001288",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "",
+            "url": "https://epreuves.pix.fr/pixmail-phishing.html?mode=example",
+            "instruction": "<p>Parmi les e-mails reçus certains sont malveillants, quelle est la marche à suivre pour réagir face à cette menace ?</p>",
+            "height": 500
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "36bc6e9e-b36c-4815-b531-52ec26001288",
+            "type": "text",
+            "content": "<p><em><strong>TODO</strong> Il est nécessaire de cliquer sur les deux e-mail malveillants “Problème concernant votre compte” et “Prime vacances”, de les signaler et de les supprimer. La manipulation réalisée, le simulateur indique “Bravo ! Vous venez de signaler et supprimer les e-mails frauduleux✅”&nbsp; <br></em></p><p>À retenir, vous pouvez également vérifier ou signaler un site internet : https://phishing-initiative.eu/contrib/ et www.internet-signalement.gouv.fr.</p>"
+          }
+        }
+      ]
     },
     {
       "id": "d272ddde-e2eb-42d0-8d12-611f33d84518",
