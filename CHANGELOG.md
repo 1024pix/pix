@@ -1,5 +1,59 @@
 # Pix Changelog
 
+## v4.225.0 (15/10/2024)
+
+
+### :rocket: Amélioration
+- [#10303](https://github.com/1024pix/pix/pull/10303) [FEATURE] Créer une alerte en cas de non détection de l'extension Companion lors de la certification sur Pix App (PIX-14727).
+- [#10268](https://github.com/1024pix/pix/pull/10268) [FEATURE] Ajoute un endpoint pour télécharger un zip des attestations pour une organisation (PIX-13824).
+- [#10264](https://github.com/1024pix/pix/pull/10264) [FEATURE] Ajout d'un bouton d'actualisation sur la page école de Pix Junior (PIX-14587).
+- [#10274](https://github.com/1024pix/pix/pull/10274) [FEATURE] Mise à jour de l'url de support dans le formulaire de récupération d'espace (PIX-14682).
+- [#10269](https://github.com/1024pix/pix/pull/10269) [FEATURE] :art: Afficher une image spécifique pour chaque mission (PIX-14589).
+- [#10263](https://github.com/1024pix/pix/pull/10263) [FEATURE] Permettre de filtrer sur les category des Profil Cible sur PixAdmin(PIX-14651).
+- [#10302](https://github.com/1024pix/pix/pull/10302) [FEATURE] Afficher les boutons de réponse des Flashcards Modulix (PIX-14309).
+- [#10236](https://github.com/1024pix/pix/pull/10236) [FEATURE] Migration vers PixIcon sur Junior (Pix-14628).
+- [#10296](https://github.com/1024pix/pix/pull/10296) [FEATURE] :sparkles: filtre les élèves par status de mission assessment (PIX-13382).
+- [#10294](https://github.com/1024pix/pix/pull/10294) [FEATURE] MAJ wording bandeau SCO .
+- [#10254](https://github.com/1024pix/pix/pull/10254) [FEATURE] permet la creation de feature de campagne (Pix-#14661).
+- [#10275](https://github.com/1024pix/pix/pull/10275) [FEATURE] Créer le composant des autres moyens de connexion/inscription (PIX-14159).
+
+### :building_construction: Tech
+- [#10170](https://github.com/1024pix/pix/pull/10170) [TECH] Amender l'ADR sur le EventDispatcher.
+- [#10295](https://github.com/1024pix/pix/pull/10295) [TECH] Corriger le test flaky sur le usecase on `get-user-details-by-id-usecase` (PIX-14779).
+- [#10287](https://github.com/1024pix/pix/pull/10287) [TECH] Correction du tests Flaky sur le usecase `get-data-organizations-places-statistics` (PIX-14739).
+
+### :bug: Correction
+- [#10292](https://github.com/1024pix/pix/pull/10292) [BUGFIX] Vérifier l'éligibilité de l'utilisateur en fonction du profil cible du badge acquis (PIX-14763).
+- [#10297](https://github.com/1024pix/pix/pull/10297) [BUGFIX] Couper le nom de la campagne même si elle ne contient pas d'espace dans les tableaux PixAdmin (PIX-11535).
+
+### :arrow_up: Montée de version
+- [#10326](https://github.com/1024pix/pix/pull/10326) [BUMP] Update dependency sinon to v19 (junior).
+- [#10325](https://github.com/1024pix/pix/pull/10325) [BUMP] Update dependency sinon to v19 (certif).
+- [#10323](https://github.com/1024pix/pix/pull/10323) [BUMP] Update dependency sinon to v19 (admin).
+- [#10322](https://github.com/1024pix/pix/pull/10322) [BUMP] Update dependency ember-resolver to v13 (orga).
+- [#10320](https://github.com/1024pix/pix/pull/10320) [BUMP] Update node.
+- [#10316](https://github.com/1024pix/pix/pull/10316) [BUMP] Update dependency @1024pix/pix-ui to ^46.15.2 (orga).
+- [#10317](https://github.com/1024pix/pix/pull/10317) [BUMP] Update dependency ember-source to ~5.12.0 (junior).
+- [#10314](https://github.com/1024pix/pix/pull/10314) [BUMP] Update adobe/s3mock Docker tag to v3.11.0 (dossier racine).
+- [#10315](https://github.com/1024pix/pix/pull/10315) [BUMP] Update dependency @1024pix/pix-ui to ^46.15.2 (mon-pix).
+- [#10309](https://github.com/1024pix/pix/pull/10309) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.20 (junior).
+- [#10311](https://github.com/1024pix/pix/pull/10311) [BUMP] Update nginx Docker tag to v1.27.2.
+- [#10310](https://github.com/1024pix/pix/pull/10310) [BUMP] Update adobe/s3mock Docker tag to v3.11.0 (docker).
+- [#10278](https://github.com/1024pix/pix/pull/10278) [BUMP] Update adobe/s3mock Docker tag to v3.11.0 (.circleci).
+- [#10308](https://github.com/1024pix/pix/pull/10308) [BUMP] Update dependency @1024pix/pix-ui to ^46.15.2 (junior).
+- [#10306](https://github.com/1024pix/pix/pull/10306) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.20 (orga).
+- [#10305](https://github.com/1024pix/pix/pull/10305) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.20 (mon-pix).
+- [#10304](https://github.com/1024pix/pix/pull/10304) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.20 (junior).
+- [#10301](https://github.com/1024pix/pix/pull/10301) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.20 (certif).
+- [#10300](https://github.com/1024pix/pix/pull/10300) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.20 (admin).
+- [#10299](https://github.com/1024pix/pix/pull/10299) [BUMP] Update dependency @1024pix/pix-ui to ^46.15.2 (certif).
+- [#10209](https://github.com/1024pix/pix/pull/10209) [BUMP] Update dependency npm-run-all2 to v6.2.3 (e2e).
+- [#10289](https://github.com/1024pix/pix/pull/10289) [BUMP] Update dependency sinon to v19 (orga).
+- [#10029](https://github.com/1024pix/pix/pull/10029) [BUMP] Update dependency ember-source to ~5.11.0 (junior).
+
+### :coffee: Autre
+- [#10280](https://github.com/1024pix/pix/pull/10280) [REFACTOR] Améliorer l'ergonomie de la liste des RT dans Admin (PIX-14711).
+
 ## v4.224.0 (10/10/2024)
 
 
