@@ -1,195 +1,373 @@
 {
-    "id": "d479340e-9d20-4a16-881e-6e10763b6995",
-    "slug": "bases-mise-en-forme-document-texte",
-    "title": "Les bases de mise en forme d'un document texte",
-    "details": {
-      "image": "",
-      "description": "",
-      "duration": 0,
-      "level": "Intermédiaire",
-      "objectives": [
-        ""
-      ],
-      "tabletSupport": "comfortable"
-    },
-    "transitionTexts": [
-      {
-        "grainId": "aab12024-7126-459c-ba41-7ad93a97a27d",
-        "content": "<p><br></p>"
-      }
+  "id": "d479340e-9d20-4a16-881e-6e10763b6995",
+  "slug": "bases-mise-en-forme-document-texte",
+  "title": "Les bases de mise en forme d'un document texte",
+  "details": {
+    "image": "",
+    "description": "<p>Dans vos activités au quotidien, vous serez amenés à rédiger et mettre en forme des contenus textuels. Dans ce module, vous allez découvrir comment vous y préparer.</p><p><br></p>",
+    "duration": 0,
+    "level": "Débutant",
+    "objectives": [
+      "<p>Savoir utiliser des outils simples de mise en forme dans un traitement de texte</p>",
+      "<p>Utiliser ou modifier des sauts de page dans un document</p>",
+      "<p>Gérer l'interligne dans un paragraphe ou un document</p>"
     ],
-    "grains": [
-      {
-        "id": "aab12024-7126-459c-ba41-7ad93a97a27d",
-        "type": "lesson",
-        "title": "Découvrir les bases de la mise en forme",
-        "components": [
-          {
-            "type": "element",
-            "element": {
-              "id": "5c4df93e-0e58-4aee-bfce-a7756229585e",
-              "type": "embed",
-              "isCompletionRequired": false,
-              "title": "",
-              "url": "",
-              "instruction": "",
-              "height": 0
-            }
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [
+    {
+      "grainId": "aab12024-7126-459c-ba41-7ad93a97a27d",
+      "content": "<p>Dans cette partie, nous allons voir comment appliquer les mises en forme les plus simples telles que le gras, le souligné, la taille et le style de la police et l’alignement.</p>"
+    },
+    {
+      "grainId": "7ccd5871-cef2-4491-abbc-d479b445aed0",
+      "content": "<p>Nous allons voir maintenant comment gérer les interlignes dans un paragraphe ou entre deux paragraphes.<br></p>"
+    },
+    {
+      "grainId": "8618a158-6aed-419f-af0d-362a6f47b9b9",
+      "content": "<p>Vous en savez désormais plus sur les caractères non imprimables et les sauts de page. 👩‍💻👨🏿‍💻 Vérifions ensemble.</p>"
+    }
+  ],
+  "grains": [
+    {
+      "id": "aab12024-7126-459c-ba41-7ad93a97a27d",
+      "type": "lesson",
+      "title": "Découvrir les bases de la mise en forme",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "5c4df93e-0e58-4aee-bfce-a7756229585e",
+            "type": "video",
+            "title": "Découvrir les bases de la mise en forme",
+            "url": "",
+            "poster": "",
+            "subtitles": "",
+            "transcription": "<p><br></p>"
           }
-        ]
-      },
-      {
-        "id": "28749fea-1cdb-47b2-bfc8-f538d6346033",
-        "type": "activity",
-        "title": "Mise en forme élémentaire de l'ensemble du document",
-        "components": [
-          {
-            "type": "element",
-            "element": {
-              "id": "1a14df53-f94f-4e1b-b201-86fe5e53c4cf",
-              "type": "download",
-              "files": []
-            }
-          },
-          {
-            "type": "element",
-            "element": {
-              "id": "173f64b3-96d7-4ebd-85f4-f2e09993e856",
-              "type": "qcm",
-              "instruction": "",
-              "proposals": [
-                {
-                  "id": "",
-                  "content": ""
-                },
-                {
-                  "id": "",
-                  "content": ""
-                },
-                {
-                  "id": "",
-                  "content": ""
-                }
-              ],
-              "feedbacks": {
-                "valid": "",
-                "invalid": ""
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "54c4c2b5-93f7-41a9-8e81-90da3baf8e81",
+            "type": "text",
+            "content": "<p>Video de type screencast</p><p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-6ece321a-7fff-2e52-6290-c9713a718282\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">A partir d’une interface “marque blanche” présenter les différentes parties et termes de la barre d’outils et des options de mise en forme disponibles.&nbsp;</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Détail Vidéo:</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Une voix off explique sur la vidéo de stream casting les 2 sections majeures : Police et paragraphe.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Pas à pas, détaillé l'emplacement et la fonction des icônes de la section police qui permettent la mise en forme des caractères,&nbsp;</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">La section police permet de modifier le style d'écriture, taille permet de changer la taille de police.&nbsp;</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Les attributs de caractères servent à appliquer la graisse, l'italique, le souligné</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">La section paragraphe comporte les fonctions de mise en forme des paragraphes :l'alignement de texte (gauche, droite, centré, justifié)&nbsp; espacement avant / après, et interlignage pré-définis.</span></p><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Les boîtes de dialogue des traitement de texte&nbsp; permettent d'accéder aux fonctions avancées de la mise en forme de paragraphe et d'en&nbsp; personnaliser les paramètres. </span></p></strong><br class=\"Apple-interchange-newline\"><br></p><p><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "28749fea-1cdb-47b2-bfc8-f538d6346033",
+      "type": "lesson",
+      "title": "Recap",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "1a14df53-f94f-4e1b-b201-86fe5e53c4cf",
+            "type": "text",
+            "content": "<p>Résumons avant de passer à la suite :&nbsp;</p><ul><li>La barre d’outils comporte plusieurs sections.&nbsp;</li><li>L’une des sections permet d’agir sur les caractères : dans cette section, vous pouvez modifier le style, la taille, la couleur, la mise en forme (par exemple gras ou italique) et la surbrillance de la police.</li><li>Une autre section importante permet d’agir sur la mise en forme d’un paragraphe : il peut s'agir de l’alignement, l'espace, de l'alinéa et des puces.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "98ceaed9-1f15-41fc-99b1-97fb51dc53fe",
+      "type": "activity",
+      "title": "Mise en forme élémentaire de texte",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "07cc7500-e182-4c70-976b-52c6101c3cd1",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "",
+            "url": "",
+            "instruction": "<p>Dans le simulateur , appliquer au texte une police arial taille 12, mettez le titre en gras souligné</p>",
+            "height": 0
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "bc81e378-42ca-497c-802d-3c52de0c417e",
+            "type": "text",
+            "content": "<p><em>A ajouter dans un simulateur</em></p><p><em>Eget duis nam <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec odio a nisl posuere iaculis. Vestibulum magna massa, ornare a risus at, mattis tincidunt est. Nam tellus orci, laoreet non ullamcorper ac, ornare eget risus. Duis lacus eros, fermentum at metus at, scelerisque interdum magna. Sed non vulputate urna. Fusce vehicula risus mi, eget dictum mauris faucibus sed. Aenean id metus eget sapien bibendum ultrices in ac lorem. Aliquam dapibus eros ac mollis ultrices. Nam non lectus ipsum. Suspendisse potenti. Aenean a dictum risus, ultricies egestas urna.</em></p><p><em><br></em></p><p><em>Validation automatique par le simulateur. Le texte d’origine à modifier est en police courier news taille 25.</em></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "7ccd5871-cef2-4491-abbc-d479b445aed0",
+      "type": "lesson",
+      "title": "Mettre en forme un paragraphe",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "07cc7500-e182-4c70-976b-52c6101c3cd1",
+            "type": "text",
+            "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-25e8eeb0-7fff-52d2-6044-4323905ba4f7\"><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 11pt;\"><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-0deedab4-7fff-c00b-994c-e3636505294b\"><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 700; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 11pt;\">Mettre en forme un paragraphe</span></strong></span></h3><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 11pt;\">L'interlignage, ou espacement entre les lignes d'un paragraphe, joue un rôle essentiel dans la lisibilité d'un texte. Un interlignage trop serré rend la lecture difficile, tandis qu'un interlignage trop espacé peut donner un aspect désordonné au document.</span></p><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:14pt;margin-bottom:4pt;\"><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 700; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 13pt;\">Les différentes options d'interlignage</span></h3><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 11pt;\">Dans la majorité des logiciels de traitement de texte, il est possible de régler l'interlignage selon plusieurs options standards :</span></p><ol style=\"margin-top:0;margin-bottom:0;padding-inline-start:48px;\"><li dir=\"ltr\" style=\"list-style-type: decimal; font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre; font-size: 11pt;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 700; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 11pt;\">Interligne simple</span><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 11pt;\"> : C'est l'espacement par défaut, où les lignes du texte se suivent sans espace supplémentaire.&nbsp;</span></p></li><li dir=\"ltr\" style=\"list-style-type: decimal; font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre; font-size: 11pt;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 700; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 11pt;\">1,5 ligne</span><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 11pt;\"> : Cette option augmente l'espacement entre les lignes d'une demi-hauteur supplémentaire, rendant le texte plus aéré.&nbsp;</span></p></li><li dir=\"ltr\" style=\"list-style-type: decimal; font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre; font-size: 11pt;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:12pt;\" role=\"presentation\"><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 700; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 11pt;\">Interligne double</span><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 11pt;\"> : Comme son nom l'indique, cette option double l'espace entre les lignes, créant un texte très espacé.&nbsp;</span></p></li></ol><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:14pt;margin-bottom:4pt;\"><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 700; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 13pt;\">Espacement entre paragraphes</span></h3><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 11pt;\">En plus de l'interlignage au sein des paragraphes, il est aussi possible de gérer l'espacement </span><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 700; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 11pt;\">entre les paragraphes</span><span style=\"font-family: Roboto, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap; font-size: 11pt;\">. Cet espace permet de signaler visuellement la fin d'une idée et le début d'une nouvelle, améliorant ainsi la clarté et la structure du texte. Ceci est à privilégier à l’ajout manuel de lignes vides. </span></strong></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "bc81e378-42ca-497c-802d-3c52de0c417e",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d1c1ec0a-be2c-4ced-a0ab-7450fdb9c315",
+            "type": "text",
+            "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-8220fbd8-7fff-adc2-b211-6603811143de\"><h3 dir=\"ltr\" style=\"line-height:1.2;margin-top:14pt;margin-bottom:4pt;\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Conseils pratiques pour utiliser l'interlignage</span></h3><ul style=\"margin-top:0;margin-bottom:0;padding-inline-start:48px;\"><li dir=\"ltr\" style=\"list-style-type:disc;font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Pour des rapports, des lettres ou des documents administratifs, un interligne de 1,15 ou 1,5 est souvent recommandé, car il équilibre lisibilité et densité d'information.</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">De nombreuses institutions académiques exigent un interlignage double pour faciliter les corrections et annotations.</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:12pt;\" role=\"presentation\"><span style=\"font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Pour des documents visuels comme des présentations ou des affiches, il peut être pertinent d'ajuster l'interlignage à une valeur supérieure à 1,5 ligne afin de maximiser la lisibilité à distance.</span></p></li></ul><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Il est important de maintenir une </span><span style=\"font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">cohérence</span><span style=\"font-size:11pt;font-family:Roboto,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> dans l'utilisation de l'interlignage au sein d'un document.</span></p></strong><br class=\"Apple-interchange-newline\"><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "f25a0d5d-ea49-416e-bdb4-5cf940c7a997",
+      "type": "lesson",
+      "title": "Recap",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "07cc7500-e182-4c70-976b-52c6101c3cd1",
+            "type": "text",
+            "content": "<p>Résumons avant de passer à la suite :&nbsp;</p><ul><li>L'interlignage permet d'aérer le texte, améliorant ainsi la lisibilité. Les options courantes incluent \"Simple\", \"1,5 ligne\", et \"Double\"</li><li>L'espacement automatique entre les paragraphes aide à structurer le texte de manière claire sans avoir besoin d'insérer manuellement des lignes vides.</li><li>Il est important de garder un interlignage cohérent tout au long du document.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "5b9d124a-012c-48e9-ba67-3c62b5665e4e",
+      "type": "activity",
+      "title": "Gérer les interlignes dans un paragraphe",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "07cc7500-e182-4c70-976b-52c6101c3cd1",
+            "type": "qcu",
+            "instruction": "<p>Quel est le principal avantage de l'interlignage dans un document ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Augmenter la quantité de texte sur une page</p>",
+                "feedback": ""
               },
-              "solutions": [
-                "",
-                ""
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "id": "c3b533e3-5f49-4241-8fe3-36b7d26471a0",
-        "type": "lesson",
-        "title": "Mettre en forme un paragraphe",
-        "components": []
-      },
-      {
-        "id": "6a835fac-5ef6-4571-ac21-2cf0f1fb1b06",
-        "type": "activity",
-        "title": "Gérer les interlignes dans un paragraphe",
-        "components": [
-          {
-            "type": "element",
-            "element": {
-              "id": "49819b55-5b73-4b11-91ac-045cc1f81abe",
-              "type": "embed",
-              "isCompletionRequired": false,
-              "title": "",
-              "url": "",
-              "instruction": "",
-              "height": 0
-            }
-          }
-        ]
-      },
-      {
-        "id": "4c72ab20-dc38-4d7f-b1b8-87f80cef5c82",
-        "type": "lesson",
-        "title": "Utilisation des sauts de page",
-        "components": []
-      },
-      {
-        "id": "b78f3cc3-1189-4ad0-bcbe-e18ee6181eb0",
-        "type": "activity",
-        "title": "Savoir insérer un saut de page",
-        "components": [
-          {
-            "type": "element",
-            "element": {
-              "id": "f544af3b-3c4b-4c67-86e3-7317bfe0d78a",
-              "type": "embed",
-              "isCompletionRequired": false,
-              "title": "",
-              "url": "",
-              "instruction": "",
-              "height": 0
-            }
-          },
-          {
-            "type": "element",
-            "element": {
-              "id": "a60f4078-11f9-4c45-8f70-1a94f50893a3",
-              "type": "qcm",
-              "instruction": "",
-              "proposals": [
-                {
-                  "id": "",
-                  "content": ""
-                },
-                {
-                  "id": "",
-                  "content": ""
-                },
-                {
-                  "id": "",
-                  "content": ""
-                }
-              ],
-              "feedbacks": {
-                "valid": "",
-                "invalid": ""
+              {
+                "id": "2",
+                "content": "<p>Faciliter la lecture en aérant le texte</p>",
+                "feedback": ""
               },
-              "solutions": [
-                "",
-                ""
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "id": "98ceaed9-1f15-41fc-99b1-97fb51dc53fe",
-        "type": "activity",
-        "title": "Mettez en forme ce document selon les indications précédentes",
-        "components": [
-          {
-            "type": "element",
-            "element": {
-              "id": "07cc7500-e182-4c70-976b-52c6101c3cd1",
-              "type": "download",
-              "files": []
-            }
-          },
-          {
-            "type": "element",
-            "element": {
-              "id": "bc81e378-42ca-497c-802d-3c52de0c417e",
-              "type": "qrocm",
-              "instruction": "",
-              "proposals": [],
-              "feedbacks": {
-                "valid": "",
-                "invalid": ""
+              {
+                "id": "3",
+                "content": "<p>Réduire la taille de la police automatiquement</p>",
+                "feedback": ""
               }
+            ],
+            "feedbacks": {
+              "valid": "<p>En effet, l'interlignage améliore la lisibilité en aérant le texte</p><p><br></p>",
+              "invalid": "<p>N’oubliez pas que l'espacement entre les lignes influence la clarté de la lecture.</p><p><br></p>"
+            },
+            "solution": "2"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "bc81e378-42ca-497c-802d-3c52de0c417e",
+            "type": "qcu",
+            "instruction": "<p>Quelle option d'interlignage est souvent utilisée pour les documents longs&nbsp;à annoter ?</p><p><br></p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Interligne simple</p>",
+                "feedback": ""
+              },
+              {
+                "id": "2",
+                "content": "<p>Interligne 1,5 ligne</p>",
+                "feedback": ""
+              },
+              {
+                "id": "3",
+                "content": "<p>Interligne double</p>",
+                "feedback": ""
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Exact ! L'interligne double facilite la lecture et permet d'ajouter des annotations.</p>",
+              "invalid": "<p>Pensez à l'importance de l'espacement pour les documents longs et leur lisibilité.</p><p><br></p>"
+            },
+            "solution": "3"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "3ec5af8b-3036-4164-b084-fe55390fd21e",
+            "type": "qcu",
+            "instruction": "<p>Quel est l'avantage de définir un espacement automatique entre les paragraphes ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Cela permet d'ajouter des lignes vides manuellement entre chaque paragraphe</p>",
+                "feedback": ""
+              },
+              {
+                "id": "2",
+                "content": "<p>Cela assure une mise en page cohérente et rend visible le passage d'un paragraphe à l'autre</p>",
+                "feedback": ""
+              },
+              {
+                "id": "3",
+                "content": "<p>Cela réduit la taille du document pour en faciliter l'impression</p>",
+                "feedback": ""
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>L'espacement automatique améliore la clarté et l'organisation du texte.</p>",
+              "invalid": "<p>Considérez comment un espacement approprié peut structurer un document de manière efficace</p>"
+            },
+            "solution": "2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "5e74b102-585e-459c-9ad6-680645ebe1f5",
+      "type": "lesson",
+      "title": "Utilisation des sauts de page",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "07cc7500-e182-4c70-976b-52c6101c3cd1",
+            "type": "video",
+            "title": "Rôle des caractères imprimables",
+            "url": "",
+            "poster": "",
+            "subtitles": "",
+            "transcription": "<p><br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "bc81e378-42ca-497c-802d-3c52de0c417e",
+            "type": "text",
+            "content": "<p><em>Vidéo à réaliser sur base du simulateur \"marque blanche\". S'inspirer de <a href=\"https://www.youtube.com/watch?v=ZXdU9v2LTeI\" target=\"_blank\">ceci</a></em></p><p><em>Une voix-off pour la vidéo est disponible dans Drive.</em></p><p><em>Script de la vidéo :</em></p><ul><li><em>Rôle des Caractères Non Imprimables</em><em> <br>Définition : “Les caractères non imprimables sont des caractères de contrôle, comme les espaces, les tabulations et les retours à la ligne, qui ne s’affichent pas directement dans le texte.” Utilité : “Ils permettent de visualiser la structure du document et de repérer les erreurs de formatage.” Démonstration : “Pour afficher ces caractères, utilisez le bouton ‘¶’ dans l’onglet ‘Accueil’ du simulateur “marque blanche”. Astuce : “Afficher ces caractères peut vous aider à identifier des espaces superflus ou des retours à la ligne non désirés.”</em></li></ul><p><br></p><ul><li><em> Intérêt des Sauts de Page <br>Définition : “Un saut de page force le texte à commencer sur une nouvelle page.” Utilité : Organisation : “Ils facilitent la structuration des documents longs, en séparant clairement les sections ou chapitres.” Présentation : “Ils améliorent la lisibilité et la présentation des documents imprimés, en évitant les coupures maladroites de texte.” Contrôle : “Ils permettent de contrôler où les pages se terminent et commencent, assurant une mise en page propre et professionnelle.” Démonstration : “Pour insérer un saut de page, placez le curseur à l’endroit souhaité et appuyez sur Ctrl + Entrée.”<br><br></em></li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "7cb48002-ec67-4b8d-99a7-b29d81fa5bc3",
+      "type": "lesson",
+      "title": "Recap",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "ca2aec48-e3b0-485c-b06b-b71c8456a97b",
+            "type": "text",
+            "content": "<p>Résumons avant de passer à la suite :&nbsp;</p><ul><li>Les caractères non imprimables aident à visualiser les espaces et retours à la ligne pour mieux structurer le document et repérer les erreurs.</li><li>Les sauts de page structurent les documents et améliorent leur présentation.</li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "8618a158-6aed-419f-af0d-362a6f47b9b9",
+      "type": "activity",
+      "title": "Insérer un saut de page",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "99bab3cb-83a7-4823-a924-6c556f5f2506",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "Insérer un saut de page",
+            "url": "",
+            "instruction": "<p>Insérer un saut de page après le mot “risus”</p><p><em>Validation automatique par simulateur</em></p>",
+            "height": 0
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "1caccbd9-7570-4993-9696-2afd84b98e14",
+            "type": "text",
+            "content": "<p><em>A intégrer dans simulateur&nbsp;</em> </p><p><em>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec odio a nisl posuere iaculis. Vestibulum magna massa, ornare a risus at, mattis tincidunt est. Nam tellus orci, laoreet non ullamcorper ac, ornare eget risus. Duis lacus eros, fermentum at metus at, scelerisque interdum magna. Sed non vulputate urna. Fusce vehicula risus mi, eget dictum mauris faucibus sed. Aenean id metus eget sapien bibendum ultrices in ac lorem. Aliquam dapibus eros ac mollis ultrices. Nam non lectus ipsum. Suspendisse potenti. Aenean a dictum risus, ultricies egestas urna.</em></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "5211ef04-7492-4288-9035-d62d7cedcce6",
+      "type": "activity",
+      "title": "Défi final",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "84c2d207-adb5-4d78-bac4-b833beba03e1",
+            "type": "download",
+            "files": [
+              {
+                "url": "",
+                "format": ".doc"
+              }
+            ]
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "2d59cca6-05e0-431f-9fd2-15fdefc53a66",
+            "type": "text",
+            "content": "<p>Téléchargez le fichier , et appliquez y la mise en forme suivante : </p><ul><li>Appliquez la police Calibri taille 12 à tout le texte.</li><li>Alignez le texte à gauche</li><li>Alignez les coordonnées du destinataire à droite</li><li>Mettez l'objet en gras souligné</li><li>Appliquez un espacement de 8 points après les paragraphes</li><li>Appliquez un interligne multiple de 1,08 points</li><li>Insérez un saut de page entre le courrier et la facture.</li></ul>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "6e1b5bc4-e7c3-4124-be33-721c5d90ba58",
+            "type": "qrocm",
+            "instruction": "<p>Quel est le dernier mot de la première page ?&nbsp;<br></p>",
+            "proposals": [
+              {
+                "input": "",
+                "type": "input",
+                "inputType": "text",
+                "size": 10,
+                "display": "inline",
+                "placeholder": "Réponse",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [
+                  "t1",
+                  "t2",
+                  "t3"
+                ],
+                "solutions": [
+                  ""
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
             }
           }
-        ]
-      }
-    ]
-  }
+        }
+      ]
+    }
+  ]
+}
