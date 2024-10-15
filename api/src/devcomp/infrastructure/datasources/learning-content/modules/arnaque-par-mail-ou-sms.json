@@ -305,7 +305,34 @@
       "id": "d272ddde-e2eb-42d0-8d12-611f33d84518",
       "type": "lesson",
       "title": "Comment réagir ?",
-      "components": []
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "81ea5e68-1f5a-4726-ac5c-ef28da90b767",
+            "type": "text",
+            "content": "<h3>Que faire si je suis victime d’hameçonnage ?</h3>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "bbb25319-e409-44df-8823-c317c6f89707",
+            "type": "image",
+            "url": "https://i.imgur.com/dY7jvVP.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "0f92e563-75f5-4e02-8509-22635b72e802",
+            "type": "text",
+            "content": "<p><strong><em>TODO&nbsp;</em></strong><em>Éléments à ajouter sous la forme d’un arbre de décision :&nbsp; où signalercomment stopper la propagationles actions à mener en générale</em></p>"
+          }
+        }
+      ]
     },
     {
       "id": "13b70f8b-edd3-4cfb-ae6d-65155c31bf53",
