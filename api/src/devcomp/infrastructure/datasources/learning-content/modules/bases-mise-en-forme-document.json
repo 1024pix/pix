@@ -1,0 +1,195 @@
+{
+    "id": "d479340e-9d20-4a16-881e-6e10763b6995",
+    "slug": "bases-mise-en-forme-document-texte",
+    "title": "Les bases de mise en forme d'un document texte",
+    "details": {
+      "image": "",
+      "description": "",
+      "duration": 0,
+      "level": "Intermédiaire",
+      "objectives": [
+        ""
+      ],
+      "tabletSupport": "comfortable"
+    },
+    "transitionTexts": [
+      {
+        "grainId": "aab12024-7126-459c-ba41-7ad93a97a27d",
+        "content": "<p><br></p>"
+      }
+    ],
+    "grains": [
+      {
+        "id": "aab12024-7126-459c-ba41-7ad93a97a27d",
+        "type": "lesson",
+        "title": "Découvrir les bases de la mise en forme",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "5c4df93e-0e58-4aee-bfce-a7756229585e",
+              "type": "embed",
+              "isCompletionRequired": false,
+              "title": "",
+              "url": "",
+              "instruction": "",
+              "height": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "28749fea-1cdb-47b2-bfc8-f538d6346033",
+        "type": "activity",
+        "title": "Mise en forme élémentaire de l'ensemble du document",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "1a14df53-f94f-4e1b-b201-86fe5e53c4cf",
+              "type": "download",
+              "files": []
+            }
+          },
+          {
+            "type": "element",
+            "element": {
+              "id": "173f64b3-96d7-4ebd-85f4-f2e09993e856",
+              "type": "qcm",
+              "instruction": "",
+              "proposals": [
+                {
+                  "id": "",
+                  "content": ""
+                },
+                {
+                  "id": "",
+                  "content": ""
+                },
+                {
+                  "id": "",
+                  "content": ""
+                }
+              ],
+              "feedbacks": {
+                "valid": "",
+                "invalid": ""
+              },
+              "solutions": [
+                "",
+                ""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "c3b533e3-5f49-4241-8fe3-36b7d26471a0",
+        "type": "lesson",
+        "title": "Mettre en forme un paragraphe",
+        "components": []
+      },
+      {
+        "id": "6a835fac-5ef6-4571-ac21-2cf0f1fb1b06",
+        "type": "activity",
+        "title": "Gérer les interlignes dans un paragraphe",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "49819b55-5b73-4b11-91ac-045cc1f81abe",
+              "type": "embed",
+              "isCompletionRequired": false,
+              "title": "",
+              "url": "",
+              "instruction": "",
+              "height": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "4c72ab20-dc38-4d7f-b1b8-87f80cef5c82",
+        "type": "lesson",
+        "title": "Utilisation des sauts de page",
+        "components": []
+      },
+      {
+        "id": "b78f3cc3-1189-4ad0-bcbe-e18ee6181eb0",
+        "type": "activity",
+        "title": "Savoir insérer un saut de page",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "f544af3b-3c4b-4c67-86e3-7317bfe0d78a",
+              "type": "embed",
+              "isCompletionRequired": false,
+              "title": "",
+              "url": "",
+              "instruction": "",
+              "height": 0
+            }
+          },
+          {
+            "type": "element",
+            "element": {
+              "id": "a60f4078-11f9-4c45-8f70-1a94f50893a3",
+              "type": "qcm",
+              "instruction": "",
+              "proposals": [
+                {
+                  "id": "",
+                  "content": ""
+                },
+                {
+                  "id": "",
+                  "content": ""
+                },
+                {
+                  "id": "",
+                  "content": ""
+                }
+              ],
+              "feedbacks": {
+                "valid": "",
+                "invalid": ""
+              },
+              "solutions": [
+                "",
+                ""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "98ceaed9-1f15-41fc-99b1-97fb51dc53fe",
+        "type": "activity",
+        "title": "Mettez en forme ce document selon les indications précédentes",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "07cc7500-e182-4c70-976b-52c6101c3cd1",
+              "type": "download",
+              "files": []
+            }
+          },
+          {
+            "type": "element",
+            "element": {
+              "id": "bc81e378-42ca-497c-802d-3c52de0c417e",
+              "type": "qrocm",
+              "instruction": "",
+              "proposals": [],
+              "feedbacks": {
+                "valid": "",
+                "invalid": ""
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
