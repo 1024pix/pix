@@ -30,7 +30,9 @@ export default class LearnerFilters extends Component {
   }
 
   get isClearFiltersButtonDisabled() {
-    return !this.args.fullName && this.args.certificabilityFilter.length === 0;
+    const hasCustomFiltersValues =
+      this.args.customFiltersValues && Object.values(this.args.customFiltersValues).length > 0;
+    return !this.args.fullName && this.args.certificabilityFilter.length === 0 && !hasCustomFiltersValues;
   }
 
   get learnerCountTranslation() {

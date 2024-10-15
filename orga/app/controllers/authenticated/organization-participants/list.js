@@ -29,6 +29,10 @@ export default class ListController extends Controller {
     return !this.currentUser.canAccessMissionsPage;
   }
 
+  get decodedExtraFilters() {
+    return decodeExtraFilters(this.extraFilters);
+  }
+
   @action
   triggerFiltering(fieldName, value) {
     if (fieldName.includes('.')) {
