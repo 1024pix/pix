@@ -1794,6 +1794,26 @@
         "masteryPercentage": "{rate, number, ::percent} de réussite",
         "starsAcquired": "{acquired, plural, =0 {aucune étoile acquise} =1 {# étoile acquise} other {# étoiles acquises}} sur {total}"
       },
+      "hero": {
+        "acquired-badges-title": "Récompenses obtenues",
+        "bravo": "Bravo {name} !",
+        "explanations": {
+          "improve": "Si vous voulez améliorer votre score, vous pouvez retenter certaines questions.",
+          "send-results": "Envoyez vos résultats à l’organisateur du parcours et continuez à progresser avec les formations recommandées.",
+          "trainings": "Pour progresser, découvrez nos recommandations de formations et trouvez celles qui vous conviennent le mieux."
+        },
+        "mastery-rate": "de réussite aux questions",
+        "retry": {
+          "title": "Améliorez vos résultats",
+          "description": "Votre organisateur vous invite à repasser ce parcours.",
+          "actions": {
+            "retry": "Repasser mon parcours",
+            "reset": "Remettre à zéro et tout retenter"
+          }
+        },
+        "see-trainings": "Voir les formations",
+        "shared-message": "Merci d'avoir envoyé vos résultats."
+      },
       "tabs": {
         "aria-label": "3 onglets détaillant vos résultats",
         "results-details": {

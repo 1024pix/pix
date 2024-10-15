@@ -45,6 +45,7 @@ async function createTargetProfile({
   comment,
   imageUrl,
   outdated,
+  areKnowledgeElementsResettable,
   attachedOrganizationIds = [],
   configTargetProfile,
 }) {
@@ -76,6 +77,7 @@ async function createTargetProfile({
     comment,
     imageUrl,
     outdated,
+    areKnowledgeElementsResettable,
     attachedOrganizationIds,
   });
   const cappedTubesDTO = _createTargetProfileTubes({ databaseBuilder, targetProfileId, configTargetProfile });
@@ -225,6 +227,7 @@ function _createTargetProfile({
   comment,
   imageUrl,
   outdated,
+  areKnowledgeElementsResettable,
   attachedOrganizationIds,
 }) {
   databaseBuilder.factory.buildTargetProfile({
@@ -237,6 +240,7 @@ function _createTargetProfile({
     comment,
     imageUrl,
     outdated,
+    areKnowledgeElementsResettable,
   });
   attachedOrganizationIds.map((organizationId) =>
     databaseBuilder.factory.buildTargetProfileShare({

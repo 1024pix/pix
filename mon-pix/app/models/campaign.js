@@ -46,6 +46,10 @@ export default class Campaign extends Model {
     return this.organizationType === 'SUP';
   }
 
+  get hasCustomResultPageButton() {
+    return Boolean(this.customResultPageButtonUrl) && Boolean(this.customResultPageButtonText);
+  }
+
   isRestrictedByIdentityProvider(identityProviderCode) {
     return this.identityProvider === identityProviderCode;
   }

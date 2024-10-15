@@ -232,6 +232,8 @@ export default async function initUser(databaseBuilder) {
     code: 'EVALBADGE',
     targetProfileId: targetProfileId,
     idPixLabel: null,
+    customResultPageText:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget tortor ut diam dictum viverra quis at purus. Morbi id quam a massa blandit gravida.',
     configCampaign: { participantCount: 0 },
   });
 
