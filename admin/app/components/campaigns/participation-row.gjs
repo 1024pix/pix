@@ -120,7 +120,7 @@ export default class ParticipationRow extends Component {
                 @triggerAction={{this.editParticipantExternalId}}
                 @size="small"
                 class="participation-item-actions__button"
-                @iconBefore="pen-to-square"
+                @iconBefore="edit"
               >
                 {{t "common.actions.edit"}}
               </PixButton>

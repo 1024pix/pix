@@ -114,7 +114,7 @@ export default class Badges extends Component {
                     @variant="error"
                     @triggerAction={{fn this.toggleDisplayConfirm badge.id}}
                     class="badges-table-actions-delete"
-                    @iconBefore="trash"
+                    @iconBefore="delete"
                     aria-label="Supprimer le résultat thématique {{badge.title}}"
                   >
                     Supprimer

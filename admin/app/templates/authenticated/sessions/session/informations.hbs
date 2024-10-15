@@ -155,8 +155,13 @@
             <p>{{this.copyButtonText}}</p>
           {{/if}}
 
-          <PixButton size="small" @triggerAction={{this.copyResultsDownloadLink}} @variant="secondary">
-            <FaIcon @icon="copy" @prefix="far" aria-label="Copier" />
+          <PixButton
+            @size="small"
+            @triggerAction={{this.copyResultsDownloadLink}}
+            @variant="secondary"
+            @iconBefore="copy"
+            @plainIconBefore={{true}}
+          >
             Lien de téléchargement des résultats
           </PixButton>
         </div>
@@ -167,14 +172,14 @@
             @variant="secondary"
             class="session-info__download-button"
             @isDisabled={{not this.sessionModel.isPublished}}
-            @iconBefore="file-arrow-down"
+            @iconBefore="download"
           >
             Télécharger les attestations
           </PixButton>
 
           {{#if this.sessionModel.areResultsToBeSentToPrescriber}}
             <PixButton
-              size="small"
+              @size="small"
               @triggerAction={{this.tagSessionAsSentToPrescriber}}
               @variant="secondary"
               class="session-info__download-button"

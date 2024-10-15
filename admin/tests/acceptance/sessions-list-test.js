@@ -68,7 +68,7 @@ module('Acceptance | Session List', function (hooks) {
         test('it should display the second page of finalized sessions', async function (assert) {
           // when
           const screen = await visit('/sessions/list');
-          await click(screen.getByLabelText('Aller à la page suivante'));
+          await click(screen.getByRole('button', { name: /Aller à la page suivante/ }));
 
           // then
           const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {

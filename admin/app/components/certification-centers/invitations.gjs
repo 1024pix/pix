@@ -38,7 +38,7 @@ export default class CertificationCenterInvitations extends Component {
                         class="certification-center-invitations-actions__button"
                         aria-label="Annuler l’invitation de {{invitation.email}}"
                         @triggerAction={{fn @onCancelCertificationCenterInvitation invitation}}
-                        @iconBefore="trash"
+                        @iconBefore="delete"
                       >
                         Annuler l’invitation
                       </PixButton>

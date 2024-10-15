@@ -46,7 +46,7 @@ export default class List extends Component {
             <td>{{place.creatorFullName}}</td>
             <td>
               {{#if this.accessControl.hasAccessToOrganizationPlacesActionsScope}}
-                <PixButton @size="small" @variant="error" @triggerAction={{fn @onDelete place}} @iconBefore="trash">
+                <PixButton @size="small" @variant="error" @triggerAction={{fn @onDelete place}} @iconBefore="delete">
                   Supprimer
                 </PixButton>
               {{/if}}

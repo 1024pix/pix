@@ -62,7 +62,7 @@ export default class Stage extends Component {
           <PixButton
             @variant="error"
             @size="small"
-            @iconBefore="trash"
+            @iconBefore="delete"
             @triggerAction={{this.toggleModal}}
             aria-label="Supprimer le palier {{@stage.id}}"
             class="stages-table-actions-delete"
