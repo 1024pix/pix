@@ -626,7 +626,12 @@
                 {
                   "id": "b436e10c-35b4-43d3-a396-04b5cb237f7c",
                   "type": "download",
-                  "files": []
+                  "files": [
+                    {
+                      "url": "https://google.com",
+                      "format": "pdf"
+                    }
+                  ]
                 }
               ]
             },
@@ -640,7 +645,12 @@
                 {
                   "id": "cdcc374a-c47a-41db-94be-7eeedfea2667",
                   "type": "download",
-                  "files": []
+                  "files": [
+                    {
+                      "url": "https://google.com",
+                      "format": "pdf"
+                    }
+                  ]
                 }
               ]
             },
@@ -654,7 +664,12 @@
                 {
                   "id": "eb07755e-8e14-428d-bcbb-a157cef2bde0",
                   "type": "download",
-                  "files": []
+                  "files": [
+                    {
+                      "url": "https://google.com",
+                      "format": "pdf"
+                    }
+                  ]
                 }
               ]
             }
