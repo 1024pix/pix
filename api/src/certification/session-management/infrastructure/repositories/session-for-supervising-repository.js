@@ -16,7 +16,6 @@ const get = async function ({ id }) {
       examiner: 'sessions.examiner',
       accessCode: 'sessions.accessCode',
       address: 'sessions.address',
-      version: 'sessions.version',
       certificationCandidates: knex.raw(`
         json_agg(json_build_object(
           'userId', "certification-candidates"."userId",
