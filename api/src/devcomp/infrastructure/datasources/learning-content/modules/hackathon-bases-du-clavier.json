@@ -188,6 +188,150 @@
                   }
                 ],
                 "solutions": []
+              },
+              {
+                "type": "text",
+                "content": "<p>Composant 2</p>"
+              },
+              {
+                "input": "",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "A"
+                  },
+                  {
+                    "id": "2",
+                    "content": "B"
+                  },
+                  {
+                    "id": "3",
+                    "content": "C"
+                  },
+                  {
+                    "id": "4",
+                    "content": "D"
+                  },
+                  {
+                    "id": "5",
+                    "content": "D"
+                  }
+                ],
+                "solutions": []
+              },
+              {
+                "type": "text",
+                "content": "<p>Composant 3</p>"
+              },
+              {
+                "input": "",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "A"
+                  },
+                  {
+                    "id": "2",
+                    "content": "B"
+                  },
+                  {
+                    "id": "3",
+                    "content": "C"
+                  },
+                  {
+                    "id": "4",
+                    "content": "D"
+                  },
+                  {
+                    "id": "5",
+                    "content": "D"
+                  }
+                ],
+                "solutions": []
+              },
+              {
+                "type": "text",
+                "content": "<p>Composant 4</p>"
+              },
+              {
+                "input": "",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "A"
+                  },
+                  {
+                    "id": "2",
+                    "content": "B"
+                  },
+                  {
+                    "id": "3",
+                    "content": "C"
+                  },
+                  {
+                    "id": "4",
+                    "content": "D"
+                  },
+                  {
+                    "id": "5",
+                    "content": "D"
+                  }
+                ],
+                "solutions": []
+              },
+              {
+                "type": "text",
+                "content": "<p>Composant 5</p>"
+              },
+              {
+                "input": "",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "A"
+                  },
+                  {
+                    "id": "2",
+                    "content": "B"
+                  },
+                  {
+                    "id": "3",
+                    "content": "C"
+                  },
+                  {
+                    "id": "4",
+                    "content": "D"
+                  },
+                  {
+                    "id": "5",
+                    "content": "D"
+                  }
+                ],
+                "solutions": []
               }
             ],
             "feedbacks": {
