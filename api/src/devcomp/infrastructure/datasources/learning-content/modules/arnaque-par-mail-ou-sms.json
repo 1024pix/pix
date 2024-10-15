@@ -1,1 +1,68 @@
-
+{
+  "id": "c90338d1-981c-4d19-bbe8-44aa7af09883",
+  "slug": "arnaque-par-mail-ou-sms",
+  "title": "Arnaque par mail ou SMS : ne mordez pas à l'hameçon !",
+  "details": {
+    "image": "https://images.pix.fr/modulix/placeholder-details.svg",
+    "description": "<p>Objectif principal du module : Identifier une attaque par hameçonnage et réagir de façon appropriée</p>",
+    "duration": 0,
+    "level": "Débutant",
+    "objectives": [
+      "<p>Reconnaître les signes d’un message de phishing / hameçonnage</p>",
+      "<p>Maîtriser la méthode de lecture d’URL au survol</p>",
+      "<p>Connaître les enjeux du hameçonnage (qui le pratique, pour quels objectifs...)</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [],
+  "grains": [
+    {
+      "id": "e51347f3-a8c6-4b3b-90b5-ccb8cd00f8c5",
+      "type": "lesson",
+      "title": "Identifier les sms frauduleux",
+      "components": []
+    },
+    {
+      "id": "d2456263-5df3-4313-8dc0-275e8b26bdd9",
+      "type": "activity",
+      "title": "Identifier les mails frauduleux",
+      "components": []
+    },
+    {
+      "id": "df72601a-3e24-4c36-817a-1e5eb3553a0a",
+      "type": "lesson",
+      "title": "Le hameçonnage",
+      "components": []
+    },
+    {
+      "id": "deb75060-b602-4c0d-86d9-e768c6f9f51b",
+      "type": "activity",
+      "title": "Eliminer la menace",
+      "components": []
+    },
+    {
+      "id": "d272ddde-e2eb-42d0-8d12-611f33d84518",
+      "type": "lesson",
+      "title": "Comment réagir ?",
+      "components": []
+    },
+    {
+      "id": "13b70f8b-edd3-4cfb-ae6d-65155c31bf53",
+      "type": "lesson",
+      "title": "Comment se protéger d'une arnaque ?",
+      "components": []
+    },
+    {
+      "id": "4c8165e5-8c44-4dcf-821f-2a18bd090221",
+      "type": "activity",
+      "title": "La prévention",
+      "components": []
+    },
+    {
+      "id": "673b60cd-46d3-41fe-b734-fac08ec9ff71",
+      "type": "lesson",
+      "title": "Ce qu'il faut retenir",
+      "components": []
+    }
+  ]
+}
