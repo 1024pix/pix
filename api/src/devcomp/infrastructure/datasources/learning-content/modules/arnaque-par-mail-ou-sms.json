@@ -37,6 +37,28 @@
                   "url": "https://i.imgur.com/S8SkUNJ.png",
                   "alt": "",
                   "alternativeText": ""
+                },
+                {
+                  "id": "7a2b5b3b-fbdf-412f-8b4a-3eda7237caa5",
+                  "type": "qcu",
+                  "instruction": "<p>Cette capture d'écran d'un SMS peut-elle être considérée comme un cas de phishing (hameçonnage) ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Oui</p>",
+                      "feedback": "<p>👍 Tout à fait ! C'est un SMS de phishing car : </p><ul><li>Le \"O\" de \"GOUV\" est remplacé par un \"0\"</li><li>Le message est envoyé depuis un numéro commençant par 07</li><li>Il contient un caractère d'urgence</li><li>Le lien fourni n'est pas officiel pour ce type de démarche</li></ul>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Non<br></p>",
+                      "feedback": "<p>🚨 Le premier SMS est bien un cas de phishing ! Les indices le prouvent sont : </p>\n<ul>\n    <li>Le \"O\" de \"GOUV\" est remplacé par un \"0\"</li>\n    <li>Le message est envoyé depuis un numéro commençant par 07</li>\n    <li>Il contient un caractère d'urgence</li>\n    <li>Le lien fourni n'est pas officiel pour ce type de démarche</li>\n</ul>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<p><br></p>",
+                    "invalid": ""
+                  },
+                  "solution": "1"
                 }
               ]
             },
@@ -69,13 +91,78 @@
                     "valid": "",
                     "invalid": ""
                   },
-                  "solution": ""
+                  "solution": "2"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "120418e3-404c-4958-b7c3-7017e440e29e",
+                  "type": "image",
+                  "url": "https://i.imgur.com/XqXOqt5.png",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "1326af00-4bae-4f16-b86c-1ad352b37025",
+                  "type": "qcu",
+                  "instruction": "<p>Cette capture d'écran d'un SMS peut-elle être considérée comme un cas de phishing (hameçonnage) ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Oui</p>",
+                      "feedback": "<p>😎 ET OUI ! Le SMS est un cas de phishing car : </p><ul><li>Les informations fournies sont insuffisantes</li><li>Il demande un retour via une messagerie externe (comme Telegram)</li><li>Il propose une offre trop alléchante (salaire élevé pour peu de travail)</li></ul>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Non</p>",
+                      "feedback": "<p>😱 Le SMS est un cas de phishing car : </p><ul><li>Les informations fournies sont insuffisantes</li><li>Il demande un retour via une messagerie externe (comme Telegram)</li><li>Il propose une offre trop alléchante (salaire élevé pour peu de travail)</li></ul>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "",
+                    "invalid": ""
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "13284bf6-ad5f-426b-915b-48f00addb64f",
+                  "type": "image",
+                  "url": "https://i.imgur.com/nGKRtpX.png",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "e25a6e29-5ee0-48f1-b74f-33f48baa2fdf",
+                  "type": "qcu",
+                  "instruction": "<p><br></p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Oui</p>",
+                      "feedback": "<p>🤩 BRAVO ! C'est un SMS de phishing car les conditions ci-dessous sont rassemblées : </p><ul><li>Il exploite un lien émotionnel familial</li><li>Il crée une situation d'urgence</li><li>Il demande de répondre via une messagerie externe (WhatsApp)</li></ul>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Non</p><ul>\n<br></ul>",
+                      "feedback": "<p>🕵️‍♂️ Attention ! C'est un SMS de phishing car les conditions ci-dessous sont rassemblées : </p>\n<ul>\n    <li>Il exploite un lien émotionnel familial</li>\n    <li>Il crée une situation d'urgence</li>\n    <li>Il demande de répondre via une messagerie externe (WhatsApp)</li>\n</ul>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "",
+                    "invalid": ""
+                  },
+                  "solution": "1"
                 }
               ]
             }
           ]
-        },
-        
+        }
       ]
     },
     {
