@@ -149,6 +149,16 @@
         {
           "type": "element",
           "element": {
+            "id": "9d05bdd2-ce66-465c-b4e6-183e0af4c4fb",
+            "type": "image",
+            "url": "",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
             "id": "3ff8885b-dcc9-4db8-a9e4-633c39b85f9f",
             "type": "qrocm",
             "instruction": "",
