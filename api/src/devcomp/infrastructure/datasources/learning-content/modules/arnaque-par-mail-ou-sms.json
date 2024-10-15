@@ -169,7 +169,79 @@
       "id": "d2456263-5df3-4313-8dc0-275e8b26bdd9",
       "type": "activity",
       "title": "Identifier les mails frauduleux",
-      "components": []
+      "components": [
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "6e63f630-7117-468b-90c3-28258b464a63",
+                  "type": "image",
+                  "url": "https://i.imgur.com/LsnIF88.png",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "d7cd107a-8b68-43d5-8a0d-537188f3744f",
+                  "type": "qcu",
+                  "instruction": "<p>Vous attendez un colis et vous venez de recevoir cet email vous informant de son état. Cliquez-vous sur le bouton ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Non</p>",
+                      "feedback": "<p>😎 Effectivement, il s’agit bien d’une arnaque ! Les pirates ont su que vous aviez effectué une commande en ligne et vous ont directement ciblé. Il est toujours préférable de passer par le site officiel du livreur pour accéder aux informations souhaitées.</p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Oui</p>",
+                      "feedback": "<p>Incorrect. 😭 Attention ! Cet email n’est pas officiel ! Plusieurs indices permettent de se méfier :&nbsp; </p><ul><li>Le logo de Chronopost n’est pas présent ;&nbsp;</li><li>En pointant sa souris sur le bouton, nous découvrons une URL qui n’emmène pas sur le site de Chronopost.</li><li>Par ailleurs, l’email indique “attendez votre colis à l’heure convenue”. Ce n’est pas réaliste, un colis Chronopost n’arrive jamais à l’heure convenue !</li></ul>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "",
+                    "invalid": ""
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "bf0c6825-8500-43be-9d25-70ec5a4f74bd",
+                  "type": "image",
+                  "url": "https://i.imgur.com/TjYkQua.png",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "3ef4f70e-6192-4619-9afe-e16b6a4e5559",
+                  "type": "qcu",
+                  "instruction": "<p>Vous venez de recevoir cet email qui vous indique une urgence d’action. Faut-il s’en méfier ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Non</p>",
+                      "feedback": "<p>Correct !&nbsp; </p><p>👍 Effectivement, il s’agit d’un email légitime. Dans le doute, il est toujours préférable de passer par le site officiel du service pour effectuer les actions demandées. <br><br></p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Non<br></p>",
+                      "feedback": "<p>Incorrect. </p>\n<p>🥹 Dans le doute, on ne sait jamais, cependant cet email est bien légitime. En plus des éléments éditoriaux et graphiques qui semblent corrects, l’URL pointée par le bouton va sur le bon site. Cependant, attention, l’intégration d’informations personnelles (prénom, numéro de carte) peut être une façon de créer de la confiance lors d’une tentative frauduleuse.<br><br></p>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "",
+                    "invalid": ""
+                  },
+                  "solution": "1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "df72601a-3e24-4c36-817a-1e5eb3553a0a",
