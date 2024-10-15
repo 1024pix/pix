@@ -419,7 +419,55 @@
       "id": "673b60cd-46d3-41fe-b734-fac08ec9ff71",
       "type": "lesson",
       "title": "Ce qu'il faut retenir",
-      "components": []
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "396d1d0b-7537-4fa5-9473-5ce99908e1da",
+            "type": "text",
+            "content": "<h3>Ton ami Félix à cliquer sur le lien d’un mail malveillant 😱, quelles sont les bonnes pratiques pour l’aider ?</h3>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "8882e112-7ff9-45b3-9ddf-f0c848619618",
+            "type": "qcm",
+            "instruction": "<h3>Ton ami Félix à cliquer sur le lien d’un mail malveillant 😱, quelles sont les bonnes pratiques pour l’aider ?</h3>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Supprimer immédiatement le mail</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Signaler le lien sur https://phishing-initiative.eu/contrib/</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Fermer l’ordinateur et l’oublier dans un placard</p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>Changer ses mots de passe sur les comptes concernés</p>"
+              },
+              {
+                "id": "5",
+                "content": "<p>Signaler le lien sur Pharos https://www.internet-signalement.gouv.fr/PharosS1/</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p><strong>Correct !&nbsp;</strong> </p><p>Bravo ! En effet, il est important de signaler les liens sur les plateformes compétentes et de changer ses mots de passe pour prévenir des risques. Ne vous laissez pas prendre au piège : adoptez toujours les bonnes pratiques pour sécuriser vos échanges et éviter les mauvaises surprises !<br><br></p>",
+              "invalid": "<p><strong>Incorrect.</strong> </p><p>Attention, la sécurité est l’affaire de tous. De manière générale, il faut toujours s’assurer de l’identité des expéditeurs des messages et éviter de cliquer sur des liens sans être sûr de leur origine. Faites toujours attention aux messages inattendus qui demandent des informations sensibles ou qui contiennent des liens.<br><br></p>"
+            },
+            "solutions": [
+              "2",
+              "4",
+              "5"
+            ]
+          }
+        }
+      ]
     }
   ]
 }
