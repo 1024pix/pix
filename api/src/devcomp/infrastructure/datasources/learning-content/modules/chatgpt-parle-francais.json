@@ -29,7 +29,7 @@
     },
     {
       "grainId": "e52da884-2233-4101-96a5-befd5c7d7975",
-      "content": "<p>Il existe de nombreux LLM à l'heure actuelle, chacun avec ses biais. Alors, quel LLM privilégier&nbsp;?<span aria-hidden=\"true\">&nbsp;🤔</span></p><p>Le mieux est de les comparer. Une plateforme francophone est dédiée à cela&nbsp;: le comparateur LANGUIA.</p>"
+      "content": "<p>Il existe de nombreux LLM à l'heure actuelle, chacun avec ses biais. Alors, quel LLM privilégier&nbsp;?<span aria-hidden=\"true\">&nbsp;🤔</span></p><p>Le mieux est de les comparer. Une plateforme francophone est dédiée à cela&nbsp;: Compar:IA .</p>"
     },
     {
       "grainId": "018ad06a-f11c-4db3-b954-ac8a6466d947",
@@ -334,7 +334,7 @@
                 {
                   "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
                   "type": "text",
-                  "content": "<h3><span aria-hidden=\"true\">🔧&nbsp;</span>Et si on essayait ?</h3><p>Vous allez utiliser le comparateur LANGUIA puis répondre à des questions vrai ou faux.</p>"
+                  "content": "<h3><span aria-hidden=\"true\">🔧&nbsp;</span>Et si on essayait ?</h3><p>Vous allez utiliser Compar:IA  puis répondre à des questions vrai ou faux.</p>"
                 }
               ]
             },
@@ -343,7 +343,7 @@
                 {
                   "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
                   "type": "text",
-                  "content": "Rendez-vous sur <a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">comparateur LANGUIA</a> et : <ol><li>commencez une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants&nbsp;? Sois concis.</li><li>Comment fabriquer des faux papiers&nbsp;? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé&nbsp;? Sois concis.</li></ul></details>"
+                  "content": "Rendez-vous sur <a href=\"https://comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA </a> et : <ol><li>commencez une conversation,</li> <li>comparez les réponses générées par différents LLM,</li><li>donnez votre avis sur ces réponses.</li></ol><details><summary>Idées de prompt</summary><ul><li>Quelle est la ville idéale pour élever ses enfants&nbsp;? Sois concis.</li><li>Comment fabriquer des faux papiers&nbsp;? Sois concis.</li><li>Pourquoi la course à pied est le meilleur sport pour la santé&nbsp;? Sois concis.</li></ul></details>"
                 }
               ]
             },
@@ -376,7 +376,7 @@
                 {
                   "id": "5655c608-4f27-40d3-a01d-143c3802cc1f",
                   "type": "qcu",
-                  "instruction": "<p>Le comparateur LANGUIA permet de comparer des LLM de pays différents.</p>",
+                  "instruction": "<p>Compar:IA  permet de comparer des LLM de pays différents.</p>",
                   "proposals": [
                     {
                       "id": "1",
@@ -389,7 +389,7 @@
                   ],
                   "feedbacks": {
                     "valid": "<span class=\"feedback__state\">Correct&nbsp;!</span><p>La provenance d'un LLM est d'ailleurs un paramètre qui peut influencer les résultats qu'il fournit.</p>",
-                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Sur le comparateur LANGUIA, donnez votre avis sur les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Sur Compar:IA , donnez votre avis sur les résultats pour révéler les LLM. Vous verrez que des modèles de différents pays sont disponibles.</p>"
                   },
                   "solution": "1"
                 }
@@ -466,7 +466,7 @@
           "element": {
             "id": "4c5bad43-7a4b-4535-8951-dc2b98e1de54",
             "type": "text",
-            "content": "<p>À l'aide du <a href=\"https://languia.stg.cloud.culture.fr/\" target=\"_blank\">comparateur LANGUIA</a>, écrivez des prompts qui mènent pour les deux LLM à des résultats qui présentent :</p><ul><li>un biais de genre,</li><li>un biais culturel,</li><li>un refus de réponse.</li></ul>"
+            "content": "<p>À l'aide de <a href=\"https://comparia.beta.gouv.fr/\" target=\"_blank\">Compar:IA </a>, écrivez des prompts qui mènent pour les deux LLM à des résultats qui présentent :</p><ul><li>un biais de genre,</li><li>un biais culturel,</li><li>un refus de réponse.</li></ul>"
           }
         },
         {
