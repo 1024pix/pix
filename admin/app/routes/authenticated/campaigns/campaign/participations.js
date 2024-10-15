@@ -11,7 +11,6 @@ export default class CampaignParticipationsRoute extends Route {
 
   async model(params) {
     const campaign = this.modelFor('authenticated.campaigns.campaign');
-    await campaign.reload();
     const campaignId = campaign.id;
 
     const query = {

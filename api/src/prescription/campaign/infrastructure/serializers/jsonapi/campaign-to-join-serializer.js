@@ -9,7 +9,6 @@ const serialize = function (campaignsToJoin) {
       'title',
       'type',
       'idPixLabel',
-      'idPixType',
       'customLandingPageText',
       'externalIdHelpImageUrl',
       'alternativeTextToExternalIdHelpImage',

@@ -5,7 +5,6 @@ class CampaignManagement {
     code,
     name,
     idPixLabel,
-    idPixType,
     createdAt,
     archivedAt,
     deletedAt,
@@ -36,7 +35,6 @@ class CampaignManagement {
     this.name = name;
     this.type = type;
     this.idPixLabel = idPixLabel;
-    this.idPixType = idPixType;
     this.createdAt = createdAt;
     this.archivedAt = archivedAt;
     this.deletedAt = deletedAt;

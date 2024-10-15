@@ -9,7 +9,6 @@ class Campaign {
     code,
     title,
     idPixLabel,
-    idPixType,
     externalIdHelpImageUrl,
     alternativeTextToExternalIdHelpImage,
     createdAt,
@@ -35,7 +34,6 @@ class Campaign {
     this.code = code;
     this.title = title;
     this.idPixLabel = idPixLabel;
-    this.idPixType = idPixType;
     this.externalIdHelpImageUrl = externalIdHelpImageUrl;
     this.alternativeTextToExternalIdHelpImage = alternativeTextToExternalIdHelpImage;
     this.createdAt = createdAt;

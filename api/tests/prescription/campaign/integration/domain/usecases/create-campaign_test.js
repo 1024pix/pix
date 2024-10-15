@@ -6,7 +6,6 @@ import { createCampaign } from '../../../../../../src/prescription/campaign/doma
 import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import * as campaignCreatorRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-creator-repository.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/domain/constants.js';
 import * as codeGenerator from '../../../../../../src/shared/domain/services/code-generator.js';
 import { databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 
@@ -17,8 +16,6 @@ describe('Integration | UseCases | create-campaign', function () {
 
   beforeEach(async function () {
     organizationId = databaseBuilder.factory.buildOrganization().id;
-    databaseBuilder.factory.buildFeature(CAMPAIGN_FEATURES.EXTERNAL_ID);
-
     userId = databaseBuilder.factory.buildUser().id;
 
     targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;

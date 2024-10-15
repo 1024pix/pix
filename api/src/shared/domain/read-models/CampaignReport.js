@@ -9,7 +9,6 @@ class CampaignReport {
     code,
     title,
     idPixLabel,
-    idPixType,
     createdAt,
     customLandingPageText,
     archivedAt,
@@ -30,7 +29,6 @@ class CampaignReport {
     this.title = title;
     this.type = type;
     this.idPixLabel = idPixLabel;
-    this.idPixType = idPixType;
     this.customLandingPageText = customLandingPageText;
     this.createdAt = createdAt;
     this.archivedAt = archivedAt;

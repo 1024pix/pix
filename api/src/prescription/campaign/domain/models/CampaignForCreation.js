@@ -1,4 +1,3 @@
-import { CampaignExternalIdTypes } from '../../../shared/domain/constants.js';
 import { validate } from '../validators/campaign-creation-validator.js';
 
 class CampaignForCreation {
@@ -6,7 +5,6 @@ class CampaignForCreation {
     name,
     title,
     idPixLabel,
-    idPixType,
     customLandingPageText,
     type,
     targetProfileId,
@@ -22,7 +20,6 @@ class CampaignForCreation {
     this.name = name;
     this.title = title;
     this.idPixLabel = idPixLabel === '' ? null : idPixLabel;
-    this.idPixType = idPixType ? idPixType : null;
     this.customLandingPageText = customLandingPageText;
     this.type = type;
     this.targetProfileId = targetProfileId;
@@ -34,9 +31,6 @@ class CampaignForCreation {
     this.customResultPageText = customResultPageText;
     this.customResultPageButtonText = customResultPageButtonText;
     this.customResultPageButtonUrl = customResultPageButtonUrl;
-    if (idPixLabel && !idPixType) {
-      this.idPixType = CampaignExternalIdTypes.STRING;
-    }
     validate(this);
   }
 }

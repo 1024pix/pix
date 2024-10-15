@@ -7,9 +7,9 @@
     "organizationId": 1,
     "creatorId": 1,
     "ownerId": 1,
-    "targetProfileId": 1
-  },
-  {
+    "targetProfileId": 1,
+    "idPixLabel": "Surnom"
+  }, {
     "id": 2,
     "name": "Campagne du Mur",
     "code": "WALL",
@@ -18,8 +18,7 @@
     "creatorId": 1,
     "ownerId": 1,
     "targetProfileId": 1
-  },
-  {
+  }, {
     "id": 3,
     "name": "Campagne de Winterfell",
     "code": "WINTER",
@@ -28,17 +27,16 @@
     "creatorId": 3,
     "ownerId": 3,
     "targetProfileId": 1
-  },
-  {
+  }, {
     "id": 4,
     "name": "Envoi profils Lannister",
     "code": "LION",
     "type": "PROFILES_COLLECTION",
     "organizationId": 1,
     "creatorId": 1,
-    "ownerId": 1
-  },
-  {
+    "ownerId": 1,
+    "idPixLabel": "Surnom"
+}, {
     "id": 5,
     "name": "Envoi profils Stark",
     "code": "WOLF",

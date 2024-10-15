@@ -12,7 +12,6 @@ export default class Campaign extends Model {
   @attr('boolean') isArchived;
   @attr('boolean') multipleSendings;
   @attr('nullable-string') idPixLabel;
-  @attr('string') idPixType;
   @attr('nullable-text') customLandingPageText;
   @attr('string') tokenForCampaignResults;
   @attr('number') ownerId;

@@ -8,12 +8,8 @@ import * as organizationFeatureApi from '../../../../../../src/organizational-en
 import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../../../src/prescription/campaign/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
 import * as campaignParticipationRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import * as organizationLearnerImportFormatRepository from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
+import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 import {
-  CampaignExternalIdTypes,
-  CampaignParticipationStatuses,
-} from '../../../../../../src/prescription/shared/domain/constants.js';
-import {
-  CAMPAIGN_FEATURES,
   MAX_REACHABLE_LEVEL,
   MAX_REACHABLE_PIX_BY_COMPETENCE,
   ORGANIZATION_FEATURE,
@@ -30,6 +26,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
     let participant;
     let organizationLearner;
     let campaign;
+    let campaignParticipation;
     let writableStream;
     let csvPromise;
     let i18n;
@@ -133,94 +130,40 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           name: '@Campagne de Test N°2',
           code: 'QWERTY456',
           organizationId: organization.id,
+          idPixLabel: 'Mail Perso',
           targetProfileId: null,
           type: 'PROFILES_COLLECTION',
           title: null,
         });
 
         organizationLearner = { firstName: '@Jean', lastName: '=Bono' };
-        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(organizationLearner, {
-          createdAt,
-          sharedAt,
-          status: CampaignParticipationStatuses.SHARED,
-          campaignId: campaign.id,
-          userId: participant.id,
-          pixScore: 52,
-          isImproved: true,
-        });
-
-        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(organizationLearner, {
-          createdAt,
-          sharedAt: null,
-          status: CampaignParticipationStatuses.TO_SHARE,
-          campaignId: campaign.id,
-          userId: participant.id,
-          pixScore: 0,
-          isImproved: false,
-        });
-
-        await databaseBuilder.commit();
-      });
-
-      it('should return all participation for one learner', async function () {
-        await startWritingCampaignProfilesCollectionResultsToStream({
-          campaignId: campaign.id,
-          writableStream,
-          i18n,
-          campaignRepository,
-          userRepository,
-          competenceRepository,
-          organizationRepository,
-          campaignParticipationRepository,
-          placementProfileService,
-          organizationFeatureApi,
-        });
-
-        const csv = await csvPromise;
-        const cells = csv.split('\n');
-
-        expect(cells[0]).to.be.equals(
-          '\uFEFF"Nom de l\'organisation";"ID Campagne";"Code";"Nom de la campagne";"Nom du Participant";"Prénom du Participant";"Envoi (O/N)";"Date de l\'envoi";"Nombre de pix total";"Certifiable (O/N)";"Nombre de compétences certifiables";"Niveau pour la compétence ";"Nombre de pix pour la compétence ";"Niveau pour la compétence ";"Nombre de pix pour la compétence "',
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          organizationLearner,
+          {
+            createdAt,
+            sharedAt,
+            status: CampaignParticipationStatuses.SHARED,
+            participantExternalId: '+Mon mail pro',
+            campaignId: campaign.id,
+            userId: participant.id,
+            pixScore: 52,
+            isImproved: true,
+          },
         );
-        expect(cells[1]).to.be.equals(
-          `"Observatoire de Pix";${campaign.id};"QWERTY456";"'@Campagne de Test N°2";"'=Bono";"'@Jean";"Oui";2019-03-01;52;"Non";2;1;12;5;40`,
+
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          organizationLearner,
+          {
+            createdAt,
+            sharedAt: null,
+            status: CampaignParticipationStatuses.TO_SHARE,
+            participantExternalId: '+Mon mail pro',
+            campaignId: campaign.id,
+            userId: participant.id,
+            pixScore: 0,
+            isImproved: false,
+          },
         );
-        expect(cells[2]).to.be.equals(
-          `"Observatoire de Pix";${campaign.id};"QWERTY456";"'@Campagne de Test N°2";"'=Bono";"'@Jean";"Non";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA"`,
-        );
-      });
-    });
-
-    context('when campaign has external id feature', function () {
-      beforeEach(async function () {
-        organization = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
-        campaign = databaseBuilder.factory.buildCampaign({
-          name: '@Campagne de Test N°2',
-          code: 'QWERTY456',
-          organizationId: organization.id,
-          targetProfileId: null,
-          type: 'PROFILES_COLLECTION',
-          title: null,
-        });
-
-        const externalIdFeature = databaseBuilder.factory.buildFeature(CAMPAIGN_FEATURES.EXTERNAL_ID);
-        databaseBuilder.factory.buildCampaignFeature({
-          featureId: externalIdFeature.id,
-          campaignId: campaign.id,
-          params: { label: 'Mail Perso', type: CampaignExternalIdTypes.EMAIL },
-        });
-
-        organizationLearner = { firstName: '@Jean', lastName: '=Bono' };
-        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(organizationLearner, {
-          createdAt,
-          sharedAt,
-          status: CampaignParticipationStatuses.SHARED,
-          participantExternalId: '+Mon mail pro',
-          campaignId: campaign.id,
-          userId: participant.id,
-          pixScore: 52,
-          isImproved: true,
-        });
 
         await databaseBuilder.commit();
       });
@@ -247,6 +190,9 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         );
         expect(cells[1]).to.be.equals(
           `"Observatoire de Pix";${campaign.id};"QWERTY456";"'@Campagne de Test N°2";"'=Bono";"'@Jean";"'+Mon mail pro";"Oui";2019-03-01;52;"Non";2;1;12;5;40`,
+        );
+        expect(cells[2]).to.be.equals(
+          `"Observatoire de Pix";${campaign.id};"QWERTY456";"'@Campagne de Test N°2";"'=Bono";"'@Jean";"'+Mon mail pro";"Non";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA"`,
         );
       });
     });
@@ -304,7 +250,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           userId: participant.id,
           attributes: { hobby: 'genky', sleep: '8h' },
         });
-        databaseBuilder.factory.buildCampaignParticipation({
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           organizationLearnerId: organizationLearner.id,
           userId: participant.id,
@@ -348,19 +294,24 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           name: '@Campagne de Test N°2',
           code: 'QWERTY456',
           organizationId: organization.id,
+          idPixLabel: 'Mail Perso',
           targetProfileId: null,
           type: 'PROFILES_COLLECTION',
           title: null,
         });
 
         organizationLearner = { firstName: '@Jean', lastName: '=Bono' };
-        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(organizationLearner, {
-          createdAt,
-          sharedAt,
-          campaignId: campaign.id,
-          userId: participant.id,
-          pixScore: 52,
-        });
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          organizationLearner,
+          {
+            createdAt,
+            sharedAt,
+            participantExternalId: '+Mon mail pro',
+            campaignId: campaign.id,
+            userId: participant.id,
+            pixScore: 52,
+          },
+        );
 
         await databaseBuilder.commit();
       });
@@ -375,6 +326,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           `"'${campaign.name}";` +
           `"'${organizationLearner.lastName}";` +
           `"'${organizationLearner.firstName}";` +
+          `"'${campaignParticipation.participantExternalId}";` +
           '"Oui";' +
           '2019-03-01;' +
           '52;' +
@@ -425,14 +377,16 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           name: '@Campagne de Test N°2',
           code: 'QWERTY456',
           organizationId: organization.id,
+          idPixLabel: 'Mail Perso',
           targetProfileId: null,
           type: 'PROFILES_COLLECTION',
           title: null,
         });
 
-        databaseBuilder.factory.buildCampaignParticipation({
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           createdAt,
           sharedAt,
+          participantExternalId: '+Mon mail pro',
           campaignId: campaign.id,
           userId: participant.id,
           organizationLearnerId: organizationLearner.id,
@@ -453,6 +407,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           `"'${organizationLearner.lastName}";` +
           `"'${organizationLearner.firstName}";` +
           `"${organizationLearner.division}";` +
+          `"'${campaignParticipation.participantExternalId}";` +
           '"Oui";' +
           '2019-03-01;' +
           '52;' +
@@ -504,14 +459,16 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           name: '@Campagne de Test N°2',
           code: 'QWERTY456',
           organizationId: organization.id,
+          idPixLabel: 'Mail Perso',
           targetProfileId: null,
           type: 'PROFILES_COLLECTION',
           title: null,
         });
 
-        databaseBuilder.factory.buildCampaignParticipation({
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           createdAt,
           sharedAt,
+          participantExternalId: '+Mon mail pro',
           campaignId: campaign.id,
           userId: participant.id,
           organizationLearnerId: organizationLearner.id,
@@ -533,6 +490,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           `"'${organizationLearner.firstName}";` +
           `"'${organizationLearner.group}";` +
           `"${organizationLearner.studentNumber}";` +
+          `"'${campaignParticipation.participantExternalId}";` +
           '"Oui";' +
           '2019-03-01;' +
           '52;' +

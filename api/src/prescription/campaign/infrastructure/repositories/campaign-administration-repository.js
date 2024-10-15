@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CAMPAIGN_FEATURES } from '../../../../shared/domain/constants.js';
 import { cryptoService } from '../../../../shared/domain/services/crypto-service.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
@@ -17,6 +16,7 @@ const CAMPAIGN_ATTRIBUTES = [
   'code',
   'title',
   'type',
+  'idPixLabel',
   'isForAbsoluteNovice',
   'customLandingPageText',
   'creatorId',
@@ -87,20 +87,6 @@ const save = async function (campaigns, dependencies = { skillRepository }) {
       const campaignAttributes = _.pick(campaign, CAMPAIGN_ATTRIBUTES);
       const [createdCampaignDTO] = await trx('campaigns').insert(campaignAttributes).returning('*');
       latestCreatedCampaign = new Campaign(createdCampaignDTO);
-
-      if (campaign.idPixLabel) {
-        const feature = await trx('features').where({ key: CAMPAIGN_FEATURES.EXTERNAL_ID.key }).first();
-        const [{ params }] = await trx('campaign-features')
-          .insert({
-            campaignId: latestCreatedCampaign.id,
-            featureId: feature.id,
-            params: { label: campaign.idPixLabel, type: campaign.idPixType },
-          })
-          .returning('*');
-        latestCreatedCampaign.idPixLabel = params.label;
-        latestCreatedCampaign.idPixType = params.type;
-      }
-
       if (latestCreatedCampaign.isAssessment()) {
         const cappedTubes = await trx('target-profile_tubes')
           .select('tubeId', 'level')

@@ -1,8 +1,6 @@
 import * as OidcIdentityProviders from '../../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { CampaignToJoin } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignToJoin.js';
 import * as campaignToJoinRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-to-join-repository.js';
-import { CampaignExternalIdTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/domain/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, databaseBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -28,12 +26,6 @@ describe('Integration | Repository | CampaignToJoin', function () {
         organizationId: organization.id,
         targetProfileId: targetProfile.id,
       });
-      const featureId = databaseBuilder.factory.buildFeature(CAMPAIGN_FEATURES.EXTERNAL_ID).id;
-      databaseBuilder.factory.buildCampaignFeature({
-        campaignId: expectedCampaign.id,
-        featureId,
-        params: { label: 'Id Ex', type: CampaignExternalIdTypes.STRING },
-      });
       databaseBuilder.factory.buildCampaign();
       await databaseBuilder.commit();
 
@@ -45,7 +37,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
       expect(actualCampaign.id).to.equal(expectedCampaign.id);
       expect(actualCampaign.code).to.equal(expectedCampaign.code);
       expect(actualCampaign.title).to.equal(expectedCampaign.title);
-      expect(actualCampaign.idPixLabel).to.equal('Id Ex');
+      expect(actualCampaign.idPixLabel).to.equal(expectedCampaign.idPixLabel);
       expect(actualCampaign.customLandingPageText).to.equal(expectedCampaign.customLandingPageText);
       expect(actualCampaign.externalIdHelpImageUrl).to.equal(expectedCampaign.externalIdHelpImageUrl);
       expect(actualCampaign.alternativeTextToExternalIdHelpImage).to.equal(

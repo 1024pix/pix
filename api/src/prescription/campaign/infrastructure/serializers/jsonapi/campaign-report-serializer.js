@@ -20,7 +20,6 @@ const serialize = function (campaignReports, meta, { tokenForCampaignResults } =
       'isArchived',
       'tokenForCampaignResults',
       'idPixLabel',
-      'idPixType',
       'targetProfileId',
       'targetProfileDescription',
       'targetProfileName',

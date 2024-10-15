@@ -1,7 +1,4 @@
-import {
-  CampaignExternalIdTypes,
-  CampaignParticipationStatuses,
-} from '../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
@@ -12,7 +9,6 @@ import {
 } from '../../../../test-helper.js';
 
 const { STARTED } = CampaignParticipationStatuses;
-import { CAMPAIGN_FEATURES } from '../../../../../src/shared/domain/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 
 describe('Acceptance | API | campaign-detail-route', function () {
@@ -28,12 +24,6 @@ describe('Acceptance | API | campaign-detail-route', function () {
     it('should return the campaign requested by code', async function () {
       // given
       campaign = databaseBuilder.factory.buildCampaign();
-      const featureId = databaseBuilder.factory.buildFeature(CAMPAIGN_FEATURES.EXTERNAL_ID).id;
-      databaseBuilder.factory.buildCampaignFeature({
-        campaignId: campaign.id,
-        featureId,
-        params: { label: 'Hello', type: CampaignExternalIdTypes.STRING },
-      });
       await databaseBuilder.commit();
       const options = {
         method: 'GET',
@@ -49,8 +39,7 @@ describe('Acceptance | API | campaign-detail-route', function () {
       expect(response.result.data.attributes.type).to.equal(campaign.type);
       expect(response.result.data.attributes.title).to.equal(campaign.title);
       expect(response.result.data.attributes['is-for-absolute-novice']).to.equal(campaign.isForAbsoluteNovice);
-      expect(response.result.data.attributes['id-pix-label']).to.equal('Hello');
-      expect(response.result.data.attributes['id-pix-type']).to.equal(CampaignExternalIdTypes.STRING);
+      expect(response.result.data.attributes['id-pix-label']).to.equal(campaign.idPixLabel);
     });
   });
 

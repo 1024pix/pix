@@ -18,7 +18,6 @@ class Campaign {
     createdAt,
     targetProfileId,
     idPixLabel,
-    idPixType,
     title,
     customLandingPageText,
     type,
@@ -40,7 +39,6 @@ class Campaign {
     this.id = id;
     this.code = code;
     this.idPixLabel = idPixLabel;
-    this.idPixType = idPixType;
     this.name = name;
     this.title = title;
     this.type = type;

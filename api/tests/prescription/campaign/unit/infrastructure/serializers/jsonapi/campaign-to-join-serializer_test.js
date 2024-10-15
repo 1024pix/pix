@@ -1,5 +1,4 @@
 import * as campaignToJoinSerializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
-import { CampaignExternalIdTypes } from '../../../../../../../src/prescription/shared/domain/constants.js';
 import { domainBuilder, expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function () {
@@ -9,7 +8,6 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function (
       const campaignToJoin = domainBuilder.buildCampaignToJoin({
         identityProvider: 'SUPER_IDP',
         hasLearnersImportFeature: true,
-        idPixType: CampaignExternalIdTypes.STRING,
       });
       campaignToJoin.setReconciliationFields([{ key: 'toto', value: 'titi' }]);
       // when
@@ -25,7 +23,6 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function (
             title: campaignToJoin.title,
             type: campaignToJoin.type,
             'id-pix-label': campaignToJoin.idPixLabel,
-            'id-pix-type': campaignToJoin.idPixType,
             'custom-landing-page-text': campaignToJoin.customLandingPageText,
             'external-id-help-image-url': campaignToJoin.externalIdHelpImageUrl,
             'alternative-text-to-external-id-help-image': campaignToJoin.alternativeTextToExternalIdHelpImage,

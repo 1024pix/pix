@@ -25,8 +25,6 @@ Given("les données de test sont chargées", () => {
   cy.task("db:fixture", "target-profile-trainings");
   cy.task("db:fixture", "training-triggers");
   cy.task("db:fixture", "training-trigger-tubes");
-  cy.task("db:fixture", "features");
-  cy.task("db:fixture", "campaign-features");
 });
 
 Given("tous les comptes sont créés", () => {
@@ -100,7 +98,8 @@ Then(`je vois {string} comme {string}`, (value, label) => {
     .within(() => cy.contains(value));
 });
 
-Then("la page devrait être accessible", function () {
+Then('la page devrait être accessible', function() {
   cy.injectAxe();
   cy.checkA11yAndShowViolations({});
 });
+

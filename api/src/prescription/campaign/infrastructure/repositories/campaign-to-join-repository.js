@@ -1,5 +1,4 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CAMPAIGN_FEATURES } from '../../../../shared/domain/constants.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CampaignToJoin } from '../../domain/read-models/CampaignToJoin.js';
 
@@ -28,21 +27,11 @@ const getByCode = async function ({ code, organizationFeatureAPI }) {
     throw new NotFoundError(`La campagne au code ${code} n'existe pas ou son accès est restreint`);
   }
 
-  const externalIdFeature = await knex('campaign-features')
-    .select('params')
-    .join('features', 'features.id', 'featureId')
-    .where({ campaignId: result.id, 'features.key': CAMPAIGN_FEATURES.EXTERNAL_ID.key })
-    .first();
-
   const { hasLearnersImportFeature } = await organizationFeatureAPI.getAllFeaturesFromOrganization(
     result.organizationId,
   );
 
-  return new CampaignToJoin({
-    ...result,
-    ...{ idPixLabel: externalIdFeature?.params?.label, idPixType: externalIdFeature?.params?.type },
-    hasLearnersImportFeature,
-  });
+  return new CampaignToJoin({ ...result, hasLearnersImportFeature });
 };
 
 export { getByCode };

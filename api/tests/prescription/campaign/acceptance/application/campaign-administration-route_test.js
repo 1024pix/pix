@@ -1,5 +1,5 @@
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
-import { CAMPAIGN_FEATURES, ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import {
   createServer,
@@ -232,9 +232,6 @@ describe('Acceptance | API | campaign-administration-route', function () {
         const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
 
         databaseBuilder.factory.buildOrganizationFeature({ organizationId, featureId });
-
-        databaseBuilder.factory.buildFeature(CAMPAIGN_FEATURES.EXTERNAL_ID).id;
-
         databaseBuilder.factory.buildMembership({ organizationId, userId, organizationRole: Membership.roles.ADMIN });
         const targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
         await databaseBuilder.commit();
@@ -250,6 +247,7 @@ describe('Acceptance | API | campaign-administration-route', function () {
           },
           payload: buffer,
         };
+
         const response = await server.inject(options);
         expect(response.statusCode).to.equal(204);
       });
