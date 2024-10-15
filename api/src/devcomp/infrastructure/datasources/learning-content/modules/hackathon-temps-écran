@@ -1,0 +1,396 @@
+{
+  "id": "aabd8979-3da9-4048-a20b-c5cf9c5ce90a",
+  "slug": "hackathon-limiter-temps-decran",
+  "title": "Limiter son temps d'écran pour préserver sa santé",
+  "details": {
+    "image": "https://images.pix.fr/modulix/placeholder-details.svg",
+    "description": "<p>Nous glissons quotidiennement dans nos sacs et nos poches des ordinateurs et des téléphones portables. Une enceinte intelligente amplifie la musique autant qu’elle décide de la radio que nous devrions écouter. Une montre connectée nous indique notre état de santé avec une batterie d’informations toutes plus précises les unes que les autres. De nombreuses applications mobiles régissent nos vies personnelles, conditionnent nos loisirs, captent nos attentions. Le numérique nous touche toutes et tous, jusque dans les interstices les plus intimes de nos vies. Le numérique s’y glisse, s’y faufile, s’y infiltre, s’y immisce, et souvent s’y impose.</p><p><br>En 2023, 34 % des internautes de 15 à 74 ans déclarent au moins un effet néfaste lié à l’usage des écrans dans la vie courante, en dehors des temps d’étude ou de travail. Les plus jeunes sont particulièrement concernés : 57 % chez les moins de 20 ans et 49 % chez les 20-34 ans.<br><br></p>",
+    "duration": 0,
+    "level": "Débutant",
+    "objectives": [
+      "<p>découvrir les mécanismes de l’économie de l’attention déployés par les plateformes<br><br></p>",
+      "<p>prévenir les risques psychiques et sociaux qui en découlent<br><br></p>",
+      "<p>donner des clés d’action, individuelle et collective, pour reprendre la main sur notre relation aux écrans</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [],
+  "grains": [
+    {
+      "id": "92329a5b-024d-4862-8ee9-797ca9c6a816",
+      "type": "activity",
+      "title": "Tous sur nos ecrans",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "37bfe658-9f59-4fa6-b960-8dda2786f2c9",
+            "type": "text",
+            "content": "<p>Mais que se passe-t-il à la maison ? Toute la famille est captivée par son écran.</p><p>Cliquez sur chaque membre de la famille pour découvrir son activité.<br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "c7d0e401-9c54-45ec-b32b-6da5f5443189",
+            "type": "image",
+            "url": "https://i.imgur.com/Ajj6h0c.jpeg",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "9a84051b-aa4c-4823-94c1-9abb30bfc529",
+            "type": "qcm",
+            "instruction": "<p>Selon-vous, quels membres sont les plus à risque en termes de surexposition aux écrans ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>La maman, Isabelle</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Le papa, Thomas<br></p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>La fille, Amélie<br></p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>Le garçon, Louis<br></p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Nous sommes toutes et tous plongés dans le même bain numérique. Il concerne tous les membres d’une famille, parents comme enfants, adultes comme jeunes,... L’important n’est pas l'application utilisée, mais comment il est utilisé, les outils numériques ne sont pas bons ou mauvais !</p>",
+              "invalid": "<p>Nous sommes toutes et tous plongés dans le même bain numérique. Il concerne tous les membres d’une famille, parents comme enfants, adultes comme jeunes,... L’important n’est pas l'application utilisée, mais comment il est utilisé, les outils numériques ne sont pas bons ou mauvais !</p>"
+            },
+            "solutions": [
+              "1",
+              "2",
+              "3",
+              "4"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "d1f779ec-78ed-46ea-addb-7abe22e0c9b9",
+      "type": "activity",
+      "title": "Mécanismes de captation de l'attention",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "cf18f567-7902-44f3-b935-67ae77bef82c",
+            "type": "qcm",
+            "instruction": "<p>Parmi les propositions ci-dessous, quels sont les mécanismes de captation de l’attention utilisés par ces quatre applications : Insta, Linkedin, Netflix, Tik Tok ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Le scroll infini</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Les systèmes de notification<br></p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>L’absence de publicités</p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>La lecture automatique de vidéos/de contenus<br></p>"
+              },
+              {
+                "id": "5",
+                "content": "<p>Les systèmes de récompenses (like, partage...)<br></p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            },
+            "solutions": [
+              "1",
+              "2",
+              "4",
+              "5"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "d468deff-812e-4174-99b8-dd271f379165",
+      "type": "lesson",
+      "title": " leçon identifier les mécanismes",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "cd53d051-5d52-483c-959a-4487ce8c68e6",
+            "type": "text",
+            "content": "<p>Cette courte vidéo vous permettra de mieux comprendre les mécanismes déployés par les plateformes pour capter notre attention.<br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "78b24b70-d874-44e1-9d56-d85f1fadbad7",
+            "type": "video",
+            "title": "C'est quoi l'économie de l'attention ? / Décodage - Info ou Mytho ?",
+            "url": "https://www.youtube.com/watch?v=qtAvaE2YxV0",
+            "poster": "",
+            "subtitles": "",
+            "transcription": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "10751ef3-db87-433b-9288-fd003e097af6",
+      "type": "activity",
+      "title": "Le signe de fatigue liés aux écrans",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "a64be87e-1014-474d-adb1-1d71054b9ed4",
+            "type": "text",
+            "content": "<p>Notre famille avance dans sa journée et chacun commence à ressentir les effets du temps passé sur les écrans. Saurez-vous les identifier ? </p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "6fa10f8d-d592-4683-a009-8b8123ff1116",
+            "type": "image",
+            "url": "",
+            "alt": "",
+            "alternativeText": "<p>image à venir</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "af7ad7e1-3688-4006-acac-b860e6f40b54",
+            "type": "qrocm",
+            "instruction": "<p>Le père :&nbsp;</p><p>à venir pour les autres personnages.</p>",
+            "proposals": [
+              {
+                "input": "1",
+                "type": "select",
+                "display": "inline",
+                "placeholder": "",
+                "ariaLabel": "",
+                "defaultValue": "",
+                "tolerances": [],
+                "options": [
+                  {
+                    "id": "1",
+                    "content": "Maux de tête"
+                  },
+                  {
+                    "id": "2",
+                    "content": "Fatigue oculaire"
+                  },
+                  {
+                    "id": "3",
+                    "content": "Sommeil"
+                  },
+                  {
+                    "id": "4",
+                    "content": "Isolement"
+                  }
+                ],
+                "solutions": [
+                  "1"
+                ]
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "d555dcf7-32f5-4263-90a1-fe1a3592f16a",
+      "type": "lesson",
+      "title": "Les symptômes",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "fe0f8d89-d140-4692-a67e-8d9425352852",
+            "type": "text",
+            "content": "<p>Quels sont les principaux symptômes résultant de la surexposition aux écrans ?</p><p><em>Infographie à créer à partir de :&nbsp;<a href=\"https://www.santemagazine.fr/psycho-sexo/psycho/quels-sont-les-effets-des-ecrans-sur-la-sante-1102464\">https://www.santemagazine.fr/psycho-sexo/psycho/quels-sont-les-effets-des-ecrans-sur-la-sante-1102464</a></em></p><p><br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "c3301c79-7a5b-4e21-9401-8257c40e638c",
+            "type": "image",
+            "url": "",
+            "alt": "",
+            "alternativeText": "<p>Infographie à créer à partir de :&nbsp;<a href=\"https://www.santemagazine.fr/psycho-sexo/psycho/quels-sont-les-effets-des-ecrans-sur-la-sante-1102464\">https://www.santemagazine.fr/psycho-sexo/psycho/quels-sont-les-effets-des-ecrans-sur-la-sante-1102464</a></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "48f0ede1-9ba4-4604-9a91-c08e6d0665b1",
+      "type": "lesson",
+      "title": "Tous en action ",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "f4b5a84f-7ae0-4e0a-91e2-9588fa325322",
+            "type": "text",
+            "content": "<p>Le père, Thomas, se rend compte qu’il passe beaucoup plus de temps qu’il pensait par jour sur son téléphone. Après avoir vérifié, il découvre qu’il passe 5 à 6 heures par jour sur LinkedIn.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "757adcb8-ac36-4235-9335-6d233b13d4c1",
+            "type": "qcu",
+            "instruction": "<p>Et vous ? Sur quelle type d’application passez-vous le plus de temps ? Pour le savoir, prenez votre téléphone !<br><br></p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Application de shopping<br></p>",
+                "feedback": "<p>Comme ma fille ! Toujours le nez sur sa tablette pour commander le dernier gadget sorti !</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Application de streaming (Netflix, youtube,...)<br></p>",
+                "feedback": "<p>Ma grand-mère est comme vous ! Impossible de la détacher du dernier épisode de Monk depuis qu’il sont en streaming !</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Réseaux sociaux<br></p>",
+                "feedback": "<p>Mon oncle fait pareil, il passe ses journées à scroller inlassablement sur des photos de pêche.</p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>Jeux vidéo<br></p>",
+                "feedback": "<p>Ma mère, elle, passe ses journées sur Candycrush !<br></p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            },
+            "solution": "1"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "55236b25-152c-4d75-aa21-3ce8d21fecaf",
+            "type": "text",
+            "content": "<p>Besoin d'aide ?</p><p> Sur Android :</p><p> 1. Ouvrir les Paramètres de votre téléphone. </p><p>2. Rechercher \"Bien-être numérique et contrôle parental\" (selon les modèles, cela peut s'appeler différemment, par exemple \"Temps d'écran\" ou \"Santé numérique\"). </p><p>3. Une fois dans \"Bien-être numérique\", vous verrez un graphique qui montre votre utilisation quotidienne, ainsi que le temps passé sur chaque application. </p><p><br></p><p> Sur iOS : </p><p>1. Ouvrir les Réglages de l'iPhone. </p><p>2. Descendez et sélectionnez \"Temps d’écran\". </p><p>3. Vous verrez un résumé de votre utilisation pour la journée ou la semaine, avec des détails sur le temps passé sur chaque application ou catégorie d'applications.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "9c0e00a8-f4ac-4953-82bf-61e34b37567d",
+      "type": "lesson",
+      "title": "paramétrage du temps d’écran",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "ed2a848a-f832-4c55-a337-27e0b540c4cf",
+            "type": "text",
+            "content": "<p>Louis propose à sa mère, Isabelle, de limiter son temps d’écran, après une petite recherche sur internet, il a découvert qu’il pouvait limiter le temps d’utilisation d’une application en particulier. Il va donc limiter le temps d’utilisation de Nexflix ! <br><br>Voici comment limiter votre temps d'écran pour une application spécifique sur smartphone :<br><br>1. Ouvrir les Paramètres de votre téléphone.<br>2. Aller dans \"Temps d’écran\".<br>3. Pour chaque catégorie d’applicatifs : choisissez la limite de temps d’écran en heures<br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "768bc205-c671-4e95-8b9a-b68f7ce72bb8",
+      "type": "activity",
+      "title": "Activité paramétrer son temps d’écran",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "1ecfec54-d40a-40a6-9b91-694542acab4a",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "",
+            "url": "https://epreuves.pix.fr/temps_en_ligne/temps_en_ligne.html?lang=fr&mode=a",
+            "instruction": "<p>Changez les paramètres du smartphone d'Isabelle pour qu’elle passe moins de temps en ligne :</p><ul><li>Limitez les applications de divertissement à 2 heures par jour.</li><li>Limitez les applications de réseaux sociaux à 1 heure par jour.<br><br></li></ul>",
+            "height": 750
+          }
+        }
+      ]
+    },
+    {
+      "id": "06929b04-86c9-4feb-b597-69c023c92ae5",
+      "type": "activity",
+      "title": "recap",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "8f88aac4-21b3-48e0-97a5-29d17c6d53e5",
+            "type": "text",
+            "content": "<p>Retour à la maison ! La famille se retrouve ensemble autour d’un écran...</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "241ae38a-7c5a-4526-b30b-df4a2ee5e32f",
+            "type": "image",
+            "url": "https://i.imgur.com/CsgLYR9.jpeg",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "f01063dd-0701-4924-b315-51a8db29693a",
+            "type": "qcu",
+            "instruction": "<p>Mais que s’est-il passé ?<br></p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Ils ont chacun limité leur temps d’écran.<br></p>",
+                "feedback": "<p><br></p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Ils ont échangé ensemble sur leurs pratiques numériques.<br></p>",
+                "feedback": ""
+              },
+              {
+                "id": "3",
+                "content": "<p>Ils ont passé le module Pix.<br></p>",
+                "feedback": ""
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Toutes les réponses sont justes !&nbsp;</p><p>Notre relation aux écrans dépend avant tout de la compréhension des outils que nous utilisons. Acquérir cette culture numérique est essentielle pour tout à chacun, elle permet d’agir en toute conscience, d’apprendre à connaître et à respecter ses besoins ainsi que sa santé !</p>",
+              "invalid": "<p>Toutes les réponses sont justes !&nbsp; Notre relation aux écrans dépend avant tout de la compréhension des outils que nous utilisons. Acquérir cette culture numérique est essentielle pour tout à chacun, elle permet d’agir en toute conscience, d’apprendre à connaître et à respecter ses besoins ainsi que sa santé !</p>"
+            },
+            "solution": "1"
+          }
+        }
+      ]
+    }
+  ]
+}
