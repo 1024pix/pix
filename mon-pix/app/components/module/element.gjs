@@ -32,7 +32,7 @@ export default class ModulixElement extends Component {
     {{else if (eq @element.type "separator")}}
       <SeparatorElement />
     {{else if (eq @element.type "flashcards")}}
-      <FlashcardsElement @flashcards={{@element}} />
+      <FlashcardsElement @flashcards={{@element}} @onFlashcardsAnswer={{@onElementAnswer}} />
     {{else if (eq @element.type "qcu")}}
       <QcuElement
         @element={{@element}}
