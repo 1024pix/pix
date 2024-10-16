@@ -14,6 +14,7 @@ const serialize = function (assessments) {
       // this serializer is also used by model CampaignAssessment
       assessment.certificationNumber = null;
       assessment.hasOngoingChallengeLiveAlert = currentAssessment.hasOngoingChallengeLiveAlert;
+      assessment.hasOngoingCompanionLiveAlert = currentAssessment.hasOngoingCompanionLiveAlert;
       if (currentAssessment.type === Assessment.types.CERTIFICATION) {
         assessment.certificationNumber = currentAssessment.certificationCourseId;
         assessment.certificationCourse = { id: currentAssessment.certificationCourseId };
@@ -44,6 +45,7 @@ const serialize = function (assessments) {
       'codeCampaign',
       'certificationNumber',
       'hasOngoingChallengeLiveAlert',
+      'hasOngoingCompanionLiveAlert',
       'course',
       'certificationCourse',
       'progression',
