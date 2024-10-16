@@ -1587,7 +1587,7 @@
         "instructions": "Un e-mail contenant la démarche à suivre afin de réinitialiser votre mot de passe\n vous a été envoyé à l’adresse e-mail {email}.",
         "subtitle": "Demande de réinitialisation de mot de passe"
       },
-      "title": "Mot de passe oublié ?"
+      "title": "Mot de passe oublié"
     },
     "profile": {
       "accessibility": {
