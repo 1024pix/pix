@@ -1,6 +1,7 @@
 import Joi from 'joi';
 
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { identifiersType as prescriptionIdentifiersType } from '../../shared/domain/types/identifiers-type.js';
 import { campaignController } from './campaign-controller.js';
 
 const register = async function (server) {
@@ -54,6 +55,23 @@ const register = async function (server) {
             "- Récupération de l'analyse de la campagne par son id",
         ],
         tags: ['api', 'campaign'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{campaignCode}/presentation-steps',
+      config: {
+        handler: campaignController.getPresentationSteps,
+        validate: {
+          params: Joi.object({
+            campaignCode: prescriptionIdentifiersType.campaignCode,
+          }),
+        },
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération des infos des écrans de présentation de début de parcours',
+        ],
+        tags: ['api', 'campaign', 'presentation'],
       },
     },
   ]);

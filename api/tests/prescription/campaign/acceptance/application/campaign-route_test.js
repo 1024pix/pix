@@ -2,6 +2,7 @@ import { Membership } from '../../../../../src/shared/domain/models/Membership.j
 import {
   createServer,
   databaseBuilder,
+  domainBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
@@ -347,6 +348,98 @@ describe('Acceptance | API | Campaign Route', function () {
         // then
         expect(response.statusCode).to.equal(200, response.payload);
         expect(response.result).to.deep.equal(expectedResult);
+      });
+    });
+  });
+
+  describe('GET /api/campaigns/{campaignId}/presentation-steps', function () {
+    it('should return the presentation steps informations', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId: organization.id,
+        organizationRole: Membership.roles.MEMBER,
+      });
+
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId: organization.id });
+      const badge = databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id });
+      const campaign = databaseBuilder.factory.buildCampaign({
+        code: 'CAMPAIGN1',
+        customLandingPageText: 'landing page text',
+        targetProfileId: targetProfile.id,
+        organizationId: organization.id,
+      });
+
+      const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent.frameworks[0].areas);
+      mockLearningContent(learningContentObjects);
+
+      databaseBuilder.factory.buildCampaignSkill({
+        campaignId: campaign.id,
+        skillId: learningContentObjects.competences[0].skillIds[0],
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaign.code}/presentation-steps`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        data: {
+          type: 'campaign-presentation-steps',
+          attributes: { 'custom-landing-page-text': campaign.customLandingPageText },
+          relationships: {
+            badges: {
+              data: [
+                {
+                  id: String(badge.id),
+                  type: 'badges',
+                },
+              ],
+            },
+            competences: {
+              data: [
+                {
+                  id: learningContentObjects.competences[0].id,
+                  type: 'competences',
+                },
+              ],
+            },
+          },
+        },
+        included: [
+          {
+            type: 'badges',
+            id: String(badge.id),
+            attributes: {
+              'alt-message': badge.altMessage,
+              'image-url': badge.imageUrl,
+              'is-always-visible': badge.isAlwaysVisible,
+              'is-certifiable': badge.isCertifiable,
+              key: badge.key,
+              message: badge.message,
+              title: badge.title,
+            },
+          },
+          {
+            type: 'competences',
+            id: learningContentObjects.competences[0].id,
+            attributes: {
+              index: learningContentObjects.competences[0].index,
+              name: learningContentObjects.competences[0].name,
+            },
+          },
+        ],
       });
     });
   });
