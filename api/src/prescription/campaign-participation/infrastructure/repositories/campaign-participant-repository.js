@@ -2,6 +2,7 @@ import pick from 'lodash/pick.js';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
+import { CAMPAIGN_FEATURES } from '../../../../shared/domain/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import {
   AlreadyExistingCampaignParticipationError,
@@ -154,7 +155,6 @@ async function _getCampaignToStart({ campaignId, organizationFeatureAPI }) {
     .select([
       'campaigns.id',
       'campaigns.type',
-      'idPixLabel',
       'campaigns.archivedAt',
       'campaigns.deletedAt',
       'isManagingStudents',
@@ -168,6 +168,13 @@ async function _getCampaignToStart({ campaignId, organizationFeatureAPI }) {
   if (!campaignAttributes) {
     throw new NotFoundError(`La campagne d'id ${campaignId} n'existe pas ou son accès est restreint`);
   }
+
+  const externalIdFeature = await knex('campaign-features')
+    .select('params')
+    .join('features', 'features.id', 'featureId')
+    .where({ campaignId, 'features.key': CAMPAIGN_FEATURES.EXTERNAL_ID.key })
+    .first();
+
   const skillIds = await campaignRepository.findSkillIds({ campaignId });
 
   const { hasLearnersImportFeature } = await organizationFeatureAPI.getAllFeaturesFromOrganization(
@@ -176,6 +183,8 @@ async function _getCampaignToStart({ campaignId, organizationFeatureAPI }) {
 
   return new CampaignToStartParticipation({
     ...campaignAttributes,
+    idPixLabel: externalIdFeature?.params.label,
+    idPixType: externalIdFeature?.params.type,
     hasLearnersImportFeature,
     skillCount: skillIds.length,
   });

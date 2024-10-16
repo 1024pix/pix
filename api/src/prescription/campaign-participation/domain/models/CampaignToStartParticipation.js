@@ -4,6 +4,7 @@ class CampaignToStartParticipation {
   constructor({
     id,
     idPixLabel,
+    idPixType,
     archivedAt,
     type,
     isManagingStudents,
@@ -17,6 +18,7 @@ class CampaignToStartParticipation {
     this.id = id;
     this.type = type;
     this.idPixLabel = idPixLabel;
+    this.idPixType = idPixType;
     this.archivedAt = archivedAt;
     this.multipleSendings = multipleSendings;
     this.assessmentMethod = assessmentMethod;
