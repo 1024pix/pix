@@ -3,6 +3,7 @@ import * as campaignAnalysisSerializer from '../../campaign-participation/infras
 import { usecases } from '../domain/usecases/index.js';
 import * as divisionSerializer from '../infrastructure/serializers/jsonapi/division-serializer.js';
 import * as groupSerializer from '../infrastructure/serializers/jsonapi/group-serializer.js';
+import * as tutorialStepsSerializer from '../infrastructure/serializers/jsonapi/tutorial-steps-serializer.js';
 
 const division = async function (request) {
   const { userId } = request.auth.credentials;
@@ -28,10 +29,19 @@ const getAnalysis = async function (request, h, dependencies = { campaignAnalysi
   return dependencies.campaignAnalysisSerializer.serialize(campaignAnalysis);
 };
 
+const getTutorialSteps = async function (request) {
+  const campaignId = request.params.campaignId;
+  const locale = extractLocaleFromRequest(request);
+
+  const tutorialSteps = await usecases.getTutorialSteps({ campaignId, locale });
+  return tutorialStepsSerializer.serialize(tutorialSteps);
+};
+
 const campaignController = {
   division,
   getAnalysis,
   getGroups,
+  getTutorialSteps,
 };
 
 export { campaignController };
