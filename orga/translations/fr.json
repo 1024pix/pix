@@ -240,7 +240,8 @@
     "import": {
       "field": {
         "birthdate": "Date de naissance",
-        "division": "Classe"
+        "division": "Classe",
+        "oralization": "Oralisation"
       }
     },
     "loading": "Chargement en cours",

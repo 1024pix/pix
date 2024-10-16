@@ -18,4 +18,19 @@ describe('Unit | Organizational Entities | application | API | OrganizationFeatu
       expect(organizationFeature.hasLearnersImportFeature).to.be.false;
     });
   });
+  describe('#hasOralizationFeature', function () {
+    it('should return true', function () {
+      const organizationFeature = new OrganizationFeaturesDTO({
+        features: [{ name: ORGANIZATION_FEATURE.ORALIZATION.key }],
+      });
+
+      expect(organizationFeature.hasOralizationFeature).to.be.true;
+    });
+
+    it('should return false', function () {
+      const organizationFeature = new OrganizationFeaturesDTO({ features: [] });
+
+      expect(organizationFeature.hasOralizationFeature).to.be.false;
+    });
+  });
 });
