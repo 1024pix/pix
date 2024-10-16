@@ -1,6 +1,7 @@
 import {
   FEATURE_LEARNER_IMPORT_ID,
   FEATURE_MISSIONS_MANAGEMENT_ID,
+  FEATURE_ORALIZATION_ID,
   IMPORT_FORMAT_ONDE_ID,
   USER_ID_ADMIN_ORGANIZATION,
   USER_ID_MEMBER_ORGANIZATION,
@@ -52,6 +53,7 @@ async function _createSco1dOrganizations(databaseBuilder) {
     memberIds: [USER_ID_MEMBER_ORGANIZATION],
     features: [
       { id: FEATURE_MISSIONS_MANAGEMENT_ID },
+      { id: FEATURE_ORALIZATION_ID },
       { id: FEATURE_LEARNER_IMPORT_ID, params: { organizationLearnerImportFormatId: IMPORT_FORMAT_ONDE_ID } },
     ],
   });
@@ -143,6 +145,7 @@ async function _createSco1dOrganizations(databaseBuilder) {
     adminIds: [TEAM_1D_USER_ID],
     features: [
       { id: FEATURE_MISSIONS_MANAGEMENT_ID },
+      { id: FEATURE_ORALIZATION_ID },
       { id: FEATURE_LEARNER_IMPORT_ID, params: { organizationLearnerImportFormatId: IMPORT_FORMAT_ONDE_ID } },
     ],
   });
