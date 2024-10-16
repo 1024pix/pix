@@ -26,14 +26,10 @@ export default class Information extends Component {
           <LinkToCurrentTargetProfile @model={{@currentTargetProfile}} />
         {{/if}}
         {{#if this.isMultipleCurrentTargetProfiles}}
-          <PixToggle
-            @onLabel="Profil 1"
-            @offLabel="Profil 2"
-            @toggled={{@switchToggle}}
-            @onChange={{@switchTargetProfile}}
-            @screenReaderOnly={{true}}
-          >
+          <PixToggle @toggled={{@switchToggle}} @onChange={{@switchTargetProfile}} @screenReaderOnly={{true}}>
             <:label>Accéder aux détails des profils cibles courants</:label>
+            <:on>Profil 1</:on>
+            <:off>Profil 2</:off>
           </PixToggle>
         {{/if}}
         {{#if this.hasAccessToAttachNewTargetProfile}}

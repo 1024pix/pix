@@ -21,7 +21,7 @@ import { t } from 'ember-intl';
         @size="small"
         class="member-item-actions__button"
         aria-label="Modifier le rôle"
-        @iconBefore="pen-to-square"
+        @iconBefore="edit"
         @triggerAction={{@onModifyRoleButtonClicked}}
       >
         {{t "components.certification-centers.membership-item.actions.edit-role"}}
@@ -32,7 +32,7 @@ import { t } from 'ember-intl';
         @variant="error"
         @triggerAction={{@onDeactivateMembershipButtonClicked}}
         class="member-item-actions__button"
-        @iconBefore="trash"
+        @iconBefore="delete"
       >
         {{t "common.actions.deactivate"}}
       </PixButton>

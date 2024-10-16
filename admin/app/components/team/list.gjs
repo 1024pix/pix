@@ -141,7 +141,7 @@ export default class List extends Component {
                         class="admin-member-item-actions__button"
                         aria-label={{concat "Modifier le rôle de l'agent " member.firstName " " member.lastName}}
                         @triggerAction={{fn this.toggleEditionModeForThisMember member}}
-                        @iconBefore="pen-to-square"
+                        @iconBefore="edit"
                       >
                         {{t "common.actions.edit"}}
                       </PixButton>
@@ -151,7 +151,7 @@ export default class List extends Component {
                       @variant="error"
                       aria-label={{concat "Désactiver l'agent " member.firstName " " member.lastName}}
                       @triggerAction={{fn this.displayDeactivateConfirmationPopup member}}
-                      @iconBefore="trash"
+                      @iconBefore="delete"
                     >
                       {{t "common.actions.deactivate"}}
                     </PixButton>

@@ -46,7 +46,7 @@ export default class LearningContent extends Component {
         </PixMessage>
         <PixMessage @type="info">Durée de l’opération : <strong>≈10s</strong>.</PixMessage>
 
-        <PixButton class="btn-refresh-cache" @triggerAction={{this.refreshLearningContent}} @iconBefore="arrows-rotate">
+        <PixButton class="btn-refresh-cache" @triggerAction={{this.refreshLearningContent}} @iconBefore="reload">
           Recharger le cache
         </PixButton>
         <br /><br />
@@ -56,7 +56,7 @@ export default class LearningContent extends Component {
         <PixButton
           @triggerAction={{this.createLearningContentReleaseAndRefreshCache}}
           @variant="primary-bis"
-          @iconBefore="arrows-rotate"
+          @iconBefore="reload"
         >
           Créer une nouvelle version du référentiel et recharger le cache
         </PixButton>
