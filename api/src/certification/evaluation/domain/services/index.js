@@ -5,7 +5,12 @@ import { fileURLToPath } from 'node:url';
 import * as flashAlgorithmService from '../../../../certification/flash-certification/domain/services/algorithm-methods/flash.js';
 // TODO: cross-bounded context violation
 import * as scoringDegradationService from '../../../../certification/scoring/domain/services/scoring-degradation-service.js';
+import * as scoringCertificationService from '../../../../certification/shared/domain/services/scoring-certification-service.js';
+// TODO: cross-bounded context violation
+import * as scoringService from '../../../../evaluation/domain/services/scoring/scoring-service.js';
+import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
+import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
 import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
@@ -31,6 +36,10 @@ import * as certificationChallengeForScoringRepository from '../../infrastructur
  * @typedef {answerRepository} AnswerRepository
  * @typedef {flashAlgorithmService} FlashAlgorithmService
  * @typedef {challengeRepository} ChallengeRepository
+ * @typedef {scoringService} ScoringService
+ * @typedef {areaRepository} AreaRepository
+ * @typedef {placementProfileService} PlacementProfileService
+ * @typedef {scoringCertificationService} ScoringCertificationService
  */
 const dependencies = {
   assessmentResultRepository,
@@ -44,6 +53,10 @@ const dependencies = {
   flashAlgorithmService,
   certificationChallengeForScoringRepository,
   challengeRepository,
+  areaRepository,
+  placementProfileService,
+  scoringService,
+  scoringCertificationService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
