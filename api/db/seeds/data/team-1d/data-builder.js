@@ -150,17 +150,17 @@ async function _createSco1dOrganizations(databaseBuilder) {
     ],
   });
 
-  await databaseBuilder.factory.buildOrganizationLearnerFeature({
+  await databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearnerFeature({
     featureId: FEATURE_ORALIZATION_ID,
     organizationLearnerId: learner1.id,
   });
 
-  await databaseBuilder.factory.buildOrganizationLearnerFeature({
+  await databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearnerFeature({
     featureId: FEATURE_ORALIZATION_ID,
     organizationLearnerId: learner2.id,
   });
 
-  await databaseBuilder.factory.buildOrganizationLearnerFeature({
+  await databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearnerFeature({
     featureId: FEATURE_ORALIZATION_ID,
     organizationLearnerId: learner3.id,
   });
