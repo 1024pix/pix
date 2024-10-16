@@ -205,4 +205,38 @@ module('Integration | Component | challenge actions', function (hooks) {
       });
     });
   });
+
+  module('when a companion live alert exists', function () {
+    test('should disable action buttons', async function (assert) {
+      // given
+      this.set('hasOngoingCompanionLiveAlert', true);
+
+      // when
+      const screen = await render(
+        hbs`<ChallengeActions @hasOngoingCompanionLiveAlert={{this.hasOngoingCompanionLiveAlert}} />`,
+      );
+
+      // then
+      assert.dom(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' })).isDisabled();
+      assert.dom(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' })).isDisabled();
+      assert.dom(screen.getByText('Les actions sont mises en pause en attendant le surveillant')).exists();
+    });
+  });
+
+  module('when a challenge live alert exists', function () {
+    test('should disable action buttons', async function (assert) {
+      // given
+      this.set('hasOngoingChallengeLiveAlert', true);
+
+      // when
+      const screen = await render(
+        hbs`<ChallengeActions @hasOngoingChallengeLiveAlert={{this.hasOngoingChallengeLiveAlert}} />`,
+      );
+
+      // then
+      assert.dom(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' })).isDisabled();
+      assert.dom(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' })).isDisabled();
+      assert.dom(screen.getByText('Les actions sont mises en pause en attendant le surveillant')).exists();
+    });
+  });
 });
