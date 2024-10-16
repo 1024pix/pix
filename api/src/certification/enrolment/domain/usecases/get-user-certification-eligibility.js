@@ -60,10 +60,7 @@ const getUserCertificationEligibility = async function ({
 
     if (isClea) {
       areEligibilityConditionsFulfilledForCurrentLevel = isCertifiable;
-    } else if (validatedUserPixCertifications.length === 0) {
-      areEligibilityConditionsFulfilledForCurrentLevel = false;
-      areEligibilityConditionsFulfilledForLowerLevel = false;
-    } else {
+    } else if (validatedUserPixCertifications.length !== 0) {
       areEligibilityConditionsFulfilledForCurrentLevel = _checkComplementaryEligibilityConditions({
         validatedUserPixCertifications,
         complementaryCertificationBadge: acquiredComplementaryCertificationBadge,
