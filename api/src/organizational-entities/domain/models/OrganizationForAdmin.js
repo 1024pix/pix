@@ -78,6 +78,7 @@ class OrganizationForAdmin {
     }
     if (this.type === 'SCO-1D') {
       this.features[ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.key] = { active: true, params: null };
+      this.features[ORGANIZATION_FEATURE.ORALIZATION.key] = { active: true, params: null };
       this.features[ORGANIZATION_FEATURE.LEARNER_IMPORT.key] = {
         active: true,
         params: { name: ORGANIZATION_FEATURE.LEARNER_IMPORT.FORMAT.ONDE },

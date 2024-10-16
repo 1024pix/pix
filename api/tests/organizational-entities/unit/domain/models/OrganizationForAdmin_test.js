@@ -42,6 +42,18 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
     });
 
     context('for SCO-1D organizations', function () {
+      it('builds an OrganizationForAdmin with ORALIZATION feature', function () {
+        const expectedOrganization = domainBuilder.buildOrganizationForAdmin({
+          type: 'SCO-1D',
+        });
+
+        const organization = new OrganizationForAdmin(expectedOrganization);
+
+        expect(organization.features).to.deep.includes({
+          [ORGANIZATION_FEATURE.ORALIZATION.key]: { active: true, params: null },
+        });
+      });
+
       it('builds an OrganizationForAdmin with MISSIONS_MANAGEMENT feature', function () {
         // given
         const expectedOrganization = domainBuilder.buildOrganizationForAdmin({
