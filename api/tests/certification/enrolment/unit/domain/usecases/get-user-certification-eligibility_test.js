@@ -304,6 +304,9 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
               badgeId: 999,
               complementaryCertificationId: complementaryBadgeAcquired.complementaryCertificationId,
               complementaryCertificationKey: complementaryBadgeAcquired.complementaryCertificationKey,
+              complementaryCertificationBadgeImageUrl: 'pix+.toto.initié.fr',
+              complementaryCertificationBadgeLabel: 'Pix+ Toto Initié',
+              isOutdated: false,
             });
             certificationBadgesService.findLatestBadgeAcquisitions
               .withArgs({
@@ -335,12 +338,18 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                 level: 1,
                 offsetVersion: 0,
                 currentAttachedComplementaryCertificationBadgeId: 999,
+                label: 'Pix+ Toto Initié',
+                imageUrl: 'pix+.toto.initié.fr',
+                isOutdated: false,
               }),
               domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                 id: complementaryBadgeAcquired.complementaryCertificationBadgeId,
                 requiredPixScore: pixCertificationRequiredScore,
                 level: 2,
                 offsetVersion: 0,
+                label: 'Pix+ Toto Avancé',
+                imageUrl: 'pix+.toto.avancé.fr',
+                isOutdated: false,
                 currentAttachedComplementaryCertificationBadgeId:
                   complementaryBadgeAcquired.complementaryCertificationBadgeId,
               }),
@@ -394,6 +403,15 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                 id: complementaryCertificationBadgeId,
                 requiredPixScore,
                 offsetVersion: 1,
+              }),
+            ]);
+
+            pixCertificationRepository.findByUserId.withArgs({ userId }).resolves([
+              domainBuilder.certification.enrolment.buildPixCertification({
+                pixScore: requiredPixScore,
+                status: AssessmentResult.status.VALIDATED,
+                isCancelled: false,
+                isRejectedForFraud: false,
               }),
             ]);
           });
@@ -698,7 +716,17 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                   userId,
                 }),
               );
+
+              pixCertificationRepository.findByUserId.withArgs({ userId }).resolves([
+                domainBuilder.certification.enrolment.buildPixCertification({
+                  pixScore: requiredPixScore,
+                  status: AssessmentResult.status.VALIDATED,
+                  isCancelled: false,
+                  isRejectedForFraud: false,
+                }),
+              ]);
             });
+
             context('when user has an acquired certification for this badge', function () {
               it('returns a UserCertificationEligibility model with the corresponding eligibility', async function () {
                 // given
@@ -802,6 +830,15 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                   userCompetences: [domainBuilder.buildUserCompetence({ estimatedLevel: 1, pixScore: 1 })],
                 }),
               );
+
+              pixCertificationRepository.findByUserId.withArgs({ userId }).resolves([
+                domainBuilder.certification.enrolment.buildPixCertification({
+                  pixScore: requiredPixScore,
+                  status: AssessmentResult.status.VALIDATED,
+                  isCancelled: false,
+                  isRejectedForFraud: false,
+                }),
+              ]);
             });
             context('when user has an acquired certification for this badge', function () {
               it('should not be added in the eligibilities of the model', async function () {

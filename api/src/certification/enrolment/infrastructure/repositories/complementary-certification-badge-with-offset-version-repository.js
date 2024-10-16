@@ -6,6 +6,10 @@ export async function getAllWithSameTargetProfile({ complementaryCertificationBa
     .select(
       'complementary-certification-badges.id',
       'complementary-certification-badges.minimumEarnedPix',
+      'complementary-certification-badges.level',
+      'complementary-certification-badges.label',
+      'complementary-certification-badges.imageUrl',
+      'complementary-certification-badges.detachedAt',
       knex.raw(
         '(rank() over (partition by "complementaryCertificationId", "level" ORDER BY "detachedAt" DESC NULLS FIRST)) - 1 as "offsetVersion"',
       ),
@@ -33,6 +37,10 @@ function _toDomain(data) {
     id: data.id,
     requiredPixScore: data?.minimumEarnedPix || 0,
     offsetVersion: data.offsetVersion,
+    level: data.level,
+    label: data.label,
+    imageUrl: data.imageUrl,
+    isOutdated: !!data.detachedAt,
     currentAttachedComplementaryCertificationBadgeId: data.currentAttachedComplementaryCertificationBadgeId,
   });
 }

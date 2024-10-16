@@ -17,14 +17,18 @@ describe('Certification | Enrolment | Integration | Repository | complementary-c
         id: 1,
         minimumEarnedPix: 150,
         badgeId: badgeId1,
+        level: 2,
         complementaryCertificationId,
         label: 'Pix+ toto FI confirmé',
+        imageUrl: 'Pix+-toto-FI-confirmé.fr',
         detachedAt: '2020-01-01',
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 4,
         badgeId: badgeId1,
+        level: 2,
         label: 'Pix+ toto FI confirmé',
+        imageUrl: 'Pix+-toto-FI-confirmé.fr',
         minimumEarnedPix: 150,
         complementaryCertificationId,
       });
@@ -34,7 +38,8 @@ describe('Certification | Enrolment | Integration | Repository | complementary-c
         minimumEarnedPix: null,
         badgeId: badgeId2,
         label: 'Pix+ toto FC confirmé',
-        level: 1,
+        imageUrl: 'Pix+-toto-FC-confirmé.fr',
+        level: 2,
         complementaryCertificationId,
         detachedAt: '2020-01-01',
       });
@@ -43,7 +48,8 @@ describe('Certification | Enrolment | Integration | Repository | complementary-c
         minimumEarnedPix: 150,
         badgeId: badgeId2,
         label: 'Pix+ toto FC confirmé',
-        level: 1,
+        imageUrl: 'Pix+-toto-FC-confirmé.fr',
+        level: 2,
         complementaryCertificationId,
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -51,7 +57,8 @@ describe('Certification | Enrolment | Integration | Repository | complementary-c
         minimumEarnedPix: 300,
         badgeId: badgeId2,
         label: 'Pix+ toto FC expert',
-        level: 2,
+        imageUrl: 'Pix+-toto-FC-expert.fr',
+        level: 3,
         complementaryCertificationId,
       });
 
@@ -68,19 +75,31 @@ describe('Certification | Enrolment | Integration | Repository | complementary-c
         domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
           id: 5,
           requiredPixScore: 0,
+          level: 2,
           offsetVersion: 1,
+          label: 'Pix+ toto FC confirmé',
+          imageUrl: 'Pix+-toto-FC-confirmé.fr',
+          isOutdated: true,
           currentAttachedComplementaryCertificationBadgeId: 6,
         }),
         domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
           id: 6,
           requiredPixScore: 150,
+          level: 2,
           offsetVersion: 0,
+          label: 'Pix+ toto FC confirmé',
+          imageUrl: 'Pix+-toto-FC-confirmé.fr',
+          isOutdated: false,
           currentAttachedComplementaryCertificationBadgeId: 6,
         }),
         domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
           id: 7,
           requiredPixScore: 300,
+          level: 3,
           offsetVersion: 0,
+          label: 'Pix+ toto FC expert',
+          imageUrl: 'Pix+-toto-FC-expert.fr',
+          isOutdated: false,
           currentAttachedComplementaryCertificationBadgeId: 7,
         }),
       ];
