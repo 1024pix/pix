@@ -1,14 +1,5 @@
 export class ComplementaryCertificationBadgeWithOffsetVersion {
-  constructor({
-    id,
-    requiredPixScore,
-    level,
-    offsetVersion,
-    currentAttachedComplementaryCertificationBadgeId,
-    label,
-    imageUrl,
-    isOutdated,
-  }) {
+  constructor({ id, requiredPixScore, level, offsetVersion, label, imageUrl, isOutdated }) {
     this.id = id;
     this.requiredPixScore = requiredPixScore;
     this.level = level;
@@ -16,6 +7,5 @@ export class ComplementaryCertificationBadgeWithOffsetVersion {
     this.label = label;
     this.imageUrl = imageUrl;
     this.isOutdated = isOutdated;
-    this.currentAttachedComplementaryCertificationBadgeId = currentAttachedComplementaryCertificationBadgeId;
   }
 }

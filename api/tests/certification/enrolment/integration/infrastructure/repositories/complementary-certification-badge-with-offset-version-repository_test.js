@@ -80,7 +80,6 @@ describe('Certification | Enrolment | Integration | Repository | complementary-c
           label: 'Pix+ toto FC confirmé',
           imageUrl: 'Pix+-toto-FC-confirmé.fr',
           isOutdated: true,
-          currentAttachedComplementaryCertificationBadgeId: 6,
         }),
         domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
           id: 6,
@@ -90,7 +89,6 @@ describe('Certification | Enrolment | Integration | Repository | complementary-c
           label: 'Pix+ toto FC confirmé',
           imageUrl: 'Pix+-toto-FC-confirmé.fr',
           isOutdated: false,
-          currentAttachedComplementaryCertificationBadgeId: 6,
         }),
         domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
           id: 7,
@@ -100,7 +98,6 @@ describe('Certification | Enrolment | Integration | Repository | complementary-c
           label: 'Pix+ toto FC expert',
           imageUrl: 'Pix+-toto-FC-expert.fr',
           isOutdated: false,
-          currentAttachedComplementaryCertificationBadgeId: 7,
         }),
       ];
       expect(actualComplementaryCertificationBadges).to.have.deep.members(expectedResult);

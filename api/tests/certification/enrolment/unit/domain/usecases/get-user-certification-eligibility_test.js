@@ -124,8 +124,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
               requiredPixScore: pixCertificationRequiredScore,
               level: 1,
               offsetVersion: 0,
-              currentAttachedComplementaryCertificationBadgeId:
-                complementaryBadgeAcquired.complementaryCertificationBadgeId,
             });
           complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile
             .withArgs({
@@ -194,8 +192,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
               requiredPixScore: pixCertificationRequiredScore,
               level: 1,
               offsetVersion: 0,
-              currentAttachedComplementaryCertificationBadgeId:
-                complementaryBadgeAcquired.complementaryCertificationBadgeId,
             });
           complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile
             .withArgs({
@@ -258,15 +254,12 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                 requiredPixScore: pixCertificationRequiredScore / 2,
                 level: 1,
                 offsetVersion: 0,
-                currentAttachedComplementaryCertificationBadgeId: 999,
               }),
               domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                 id: complementaryBadgeAcquired.complementaryCertificationBadgeId,
                 requiredPixScore: pixCertificationRequiredScore,
                 level: 2,
                 offsetVersion: 0,
-                currentAttachedComplementaryCertificationBadgeId:
-                  complementaryBadgeAcquired.complementaryCertificationBadgeId,
               }),
             ];
             complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile
@@ -337,7 +330,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                 requiredPixScore: pixCertificationRequiredScore / 2,
                 level: 1,
                 offsetVersion: 0,
-                currentAttachedComplementaryCertificationBadgeId: 999,
                 label: 'Pix+ Toto Initié',
                 imageUrl: 'pix+.toto.initié.fr',
                 isOutdated: false,
@@ -350,8 +342,6 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                 label: 'Pix+ Toto Avancé',
                 imageUrl: 'pix+.toto.avancé.fr',
                 isOutdated: false,
-                currentAttachedComplementaryCertificationBadgeId:
-                  complementaryBadgeAcquired.complementaryCertificationBadgeId,
               }),
             ];
             complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile
