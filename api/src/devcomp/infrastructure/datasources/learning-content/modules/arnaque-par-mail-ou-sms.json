@@ -1,0 +1,497 @@
+{
+  "id": "c90338d1-981c-4d19-bbe8-44aa7af09883",
+  "slug": "arnaque-par-mail-ou-sms",
+  "title": "Arnaque par mail ou SMS : ne mordez pas à l'hameçon !",
+  "details": {
+    "image": "https://images.pix.fr/modulix/placeholder-details.svg",
+    "description": "<p>Objectif principal du module : Identifier une attaque par hameçonnage et réagir de façon appropriée</p>",
+    "duration": 0,
+    "level": "Débutant",
+    "objectives": [
+      "<p>Reconnaître les signes d’un message de phishing / hameçonnage</p>",
+      "<p>Maîtriser la méthode de lecture d’URL au survol</p>",
+      "<p>Connaître les enjeux du hameçonnage (qui le pratique, pour quels objectifs...)</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [
+    {
+      "grainId": "e51347f3-a8c6-4b3b-90b5-ccb8cd00f8c5",
+      "content": "<p>Chaque jour, nous recevons des messages de nos proches, de services ou d'entreprises. Mais parmi ces communications légitimes se glissent parfois des tentatives de fraude, connues sous le nom de phishing ou hameçonnage. Ces arnaques visent à vous tromper pour dérober vos informations personnelles ou bancaires. Dans ce module, vous apprendrez à détecter les signes d'une escroquerie, à comprendre les techniques employées par les fraudeurs, et surtout, à vous en protéger efficacement. Ne vous laissez pas prendre au piège : adoptez les bonnes pratiques pour sécuriser vos échanges et éviter les mauvaises surprises !<br></p>"
+    }
+  ],
+  "grains": [
+    {
+      "id": "e51347f3-a8c6-4b3b-90b5-ccb8cd00f8c5",
+      "type": "lesson",
+      "title": "Identifier les sms frauduleux",
+      "components": [
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "26b99782-5bba-4552-b287-9a3e8addac22",
+                  "type": "image",
+                  "url": "https://i.imgur.com/S8SkUNJ.png",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "7a2b5b3b-fbdf-412f-8b4a-3eda7237caa5",
+                  "type": "qcu",
+                  "instruction": "<p>Cette capture d'écran d'un SMS peut-elle être considérée comme un cas de phishing (hameçonnage) ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Oui</p>",
+                      "feedback": "<p>👍 Tout à fait ! C'est un SMS de phishing car : </p><ul><li>Le \"O\" de \"GOUV\" est remplacé par un \"0\"</li><li>Le message est envoyé depuis un numéro commençant par 07</li><li>Il contient un caractère d'urgence</li><li>Le lien fourni n'est pas officiel pour ce type de démarche</li></ul>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Non<br></p>",
+                      "feedback": "<p>🚨 Le premier SMS est bien un cas de phishing ! Les indices le prouvent sont : </p>\n<ul>\n    <li>Le \"O\" de \"GOUV\" est remplacé par un \"0\"</li>\n    <li>Le message est envoyé depuis un numéro commençant par 07</li>\n    <li>Il contient un caractère d'urgence</li>\n    <li>Le lien fourni n'est pas officiel pour ce type de démarche</li>\n</ul>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<p><br></p>",
+                    "invalid": ""
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "794ec3f5-0770-4618-8e43-0d9540462b29",
+                  "type": "image",
+                  "url": "https://i.imgur.com/91ZombX.png",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "7a2b5b3b-fbdf-412f-8b4a-3eda7237caa5",
+                  "type": "qcu",
+                  "instruction": "<p>Cette capture d'écran d'un SMS peut-elle être considérée comme un cas de phishing (hameçonnage) ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Oui<br></p>",
+                      "feedback": ""
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Non</p>",
+                      "feedback": "<p>😅 Le message n'est pas un SMS de phishing car plusieurs conditions sont rassemblées : </p><ul><li>Le numéro est reconnu par le téléphone</li><li>Il ne contient aucun lien ni demande de démarche à suivre</li><li>Il se contente de fournir une information sans attendre de réponse</li></ul>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "",
+                    "invalid": ""
+                  },
+                  "solution": "2"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "120418e3-404c-4958-b7c3-7017e440e29e",
+                  "type": "image",
+                  "url": "https://i.imgur.com/XqXOqt5.png",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "1326af00-4bae-4f16-b86c-1ad352b37025",
+                  "type": "qcu",
+                  "instruction": "<p>Cette capture d'écran d'un SMS peut-elle être considérée comme un cas de phishing (hameçonnage) ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Oui</p>",
+                      "feedback": "<p>😎 ET OUI ! Le SMS est un cas de phishing car : </p><ul><li>Les informations fournies sont insuffisantes</li><li>Il demande un retour via une messagerie externe (comme Telegram)</li><li>Il propose une offre trop alléchante (salaire élevé pour peu de travail)</li></ul>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Non</p>",
+                      "feedback": "<p>😱 Le SMS est un cas de phishing car : </p><ul><li>Les informations fournies sont insuffisantes</li><li>Il demande un retour via une messagerie externe (comme Telegram)</li><li>Il propose une offre trop alléchante (salaire élevé pour peu de travail)</li></ul>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "",
+                    "invalid": ""
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "13284bf6-ad5f-426b-915b-48f00addb64f",
+                  "type": "image",
+                  "url": "https://i.imgur.com/nGKRtpX.png",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "e25a6e29-5ee0-48f1-b74f-33f48baa2fdf",
+                  "type": "qcu",
+                  "instruction": "<p><br></p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Oui</p>",
+                      "feedback": "<p>🤩 BRAVO ! C'est un SMS de phishing car les conditions ci-dessous sont rassemblées : </p><ul><li>Il exploite un lien émotionnel familial</li><li>Il crée une situation d'urgence</li><li>Il demande de répondre via une messagerie externe (WhatsApp)</li></ul>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Non</p><ul>\n<br></ul>",
+                      "feedback": "<p>🕵️‍♂️ Attention ! C'est un SMS de phishing car les conditions ci-dessous sont rassemblées : </p>\n<ul>\n    <li>Il exploite un lien émotionnel familial</li>\n    <li>Il crée une situation d'urgence</li>\n    <li>Il demande de répondre via une messagerie externe (WhatsApp)</li>\n</ul>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "",
+                    "invalid": ""
+                  },
+                  "solution": "1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d2456263-5df3-4313-8dc0-275e8b26bdd9",
+      "type": "activity",
+      "title": "Identifier les mails frauduleux",
+      "components": [
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "6e63f630-7117-468b-90c3-28258b464a63",
+                  "type": "image",
+                  "url": "https://i.imgur.com/LsnIF88.png",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "d7cd107a-8b68-43d5-8a0d-537188f3744f",
+                  "type": "qcu",
+                  "instruction": "<p>Vous attendez un colis et vous venez de recevoir cet email vous informant de son état. Cliquez-vous sur le bouton ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Non</p>",
+                      "feedback": "<p>😎 Effectivement, il s’agit bien d’une arnaque ! Les pirates ont su que vous aviez effectué une commande en ligne et vous ont directement ciblé. Il est toujours préférable de passer par le site officiel du livreur pour accéder aux informations souhaitées.</p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Oui</p>",
+                      "feedback": "<p>Incorrect. 😭 Attention ! Cet email n’est pas officiel ! Plusieurs indices permettent de se méfier :&nbsp; </p><ul><li>Le logo de Chronopost n’est pas présent ;&nbsp;</li><li>En pointant sa souris sur le bouton, nous découvrons une URL qui n’emmène pas sur le site de Chronopost.</li><li>Par ailleurs, l’email indique “attendez votre colis à l’heure convenue”. Ce n’est pas réaliste, un colis Chronopost n’arrive jamais à l’heure convenue !</li></ul>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "",
+                    "invalid": ""
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "bf0c6825-8500-43be-9d25-70ec5a4f74bd",
+                  "type": "image",
+                  "url": "https://i.imgur.com/TjYkQua.png",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "3ef4f70e-6192-4619-9afe-e16b6a4e5559",
+                  "type": "qcu",
+                  "instruction": "<p>Vous venez de recevoir cet email qui vous indique une urgence d’action. Faut-il s’en méfier ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Non</p>",
+                      "feedback": "<p>Correct !&nbsp; </p><p>👍 Effectivement, il s’agit d’un email légitime. Dans le doute, il est toujours préférable de passer par le site officiel du service pour effectuer les actions demandées. <br><br></p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Non<br></p>",
+                      "feedback": "<p>Incorrect. </p>\n<p>🥹 Dans le doute, on ne sait jamais, cependant cet email est bien légitime. En plus des éléments éditoriaux et graphiques qui semblent corrects, l’URL pointée par le bouton va sur le bon site. Cependant, attention, l’intégration d’informations personnelles (prénom, numéro de carte) peut être une façon de créer de la confiance lors d’une tentative frauduleuse.<br><br></p>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "",
+                    "invalid": ""
+                  },
+                  "solution": "1"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "df72601a-3e24-4c36-817a-1e5eb3553a0a",
+      "type": "lesson",
+      "title": "Le hameçonnage",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "222d383d-3f81-44f5-8d6d-c9156f6cc326",
+            "type": "text",
+            "content": "<p>Qu'est-ce que le hameçonnage ou phishing en anglais ?&nbsp; <br>À la suite de cette vidéo, un exercice de détection du phishing vous sera proposé. <br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "ff9f3914-e683-49ac-aede-d6012c60de53",
+            "type": "text",
+            "content": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/-uTwhga-HpM?si=BNSXjOa31Jkkx_-c\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen=\"\"></iframe>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "fa54be1e-e774-48ac-914e-5b7ccaa5a160",
+            "type": "text",
+            "content": "<p><em><strong>TODO</strong> Ajouter ces notions dans la vidéo : </em></p><ul><li><em>les autres moyens de com' (whatsapp, telegram, etc.), </em></li><li><em>ce que ciblent les voleurs : identité, argent...</em></li></ul>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "deb75060-b602-4c0d-86d9-e768c6f9f51b",
+      "type": "activity",
+      "title": "Eliminer la menace",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "36bc6e9e-b36c-4815-b531-52ec26001288",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "",
+            "url": "https://epreuves.pix.fr/pixmail-phishing.html?mode=example",
+            "instruction": "<p>Parmi les e-mails reçus certains sont malveillants, quelle est la marche à suivre pour réagir face à cette menace ?</p>",
+            "height": 500
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "36bc6e9e-b36c-4815-b531-52ec26001288",
+            "type": "text",
+            "content": "<p><em><strong>TODO</strong> Il est nécessaire de cliquer sur les deux e-mail malveillants “Problème concernant votre compte” et “Prime vacances”, de les signaler et de les supprimer. La manipulation réalisée, le simulateur indique “Bravo ! Vous venez de signaler et supprimer les e-mails frauduleux✅”&nbsp; <br></em></p><p>À retenir, vous pouvez également vérifier ou signaler un site internet : https://phishing-initiative.eu/contrib/ et www.internet-signalement.gouv.fr.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "d272ddde-e2eb-42d0-8d12-611f33d84518",
+      "type": "lesson",
+      "title": "Comment réagir ?",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "81ea5e68-1f5a-4726-ac5c-ef28da90b767",
+            "type": "text",
+            "content": "<h3>Que faire si je suis victime d’hameçonnage ?</h3>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "bbb25319-e409-44df-8823-c317c6f89707",
+            "type": "image",
+            "url": "https://i.imgur.com/dY7jvVP.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "0f92e563-75f5-4e02-8509-22635b72e802",
+            "type": "text",
+            "content": "<p><strong><em>TODO&nbsp;</em></strong><em>Éléments à ajouter sous la forme d’un arbre de décision :&nbsp; où signalercomment stopper la propagationles actions à mener en générale</em></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "13b70f8b-edd3-4cfb-ae6d-65155c31bf53",
+      "type": "lesson",
+      "title": "Comment se protéger d'une arnaque ?",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "5c5bb658-0a54-4ef8-bd87-4f20bb8cabcc",
+            "type": "image",
+            "url": "https://i.imgur.com/vA1cTlR.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "417a8016-6a98-4f69-9746-2fb87b833d78",
+            "type": "image",
+            "url": "https://i.imgur.com/X8U9kCB.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "24e37d31-3358-4a74-a5c4-b2b92f2a5c12",
+            "type": "image",
+            "url": "https://i.imgur.com/SStIqGP.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "71f2e933-62b4-4080-8985-8c2277b60931",
+            "type": "image",
+            "url": "https://i.imgur.com/ZyCAgRr.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "aa6649e4-7ba2-4078-966b-60dd426e7aa0",
+            "type": "image",
+            "url": "https://i.imgur.com/FZm1ZvG.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "93fca6a8-0f99-4554-90c7-f7d865322a47",
+            "type": "image",
+            "url": "https://i.imgur.com/kCfF1m1.png",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "a47409c7-50b1-4d32-b2d9-65ed684e2efd",
+            "type": "text",
+            "content": "<p>Source : <br>https://www.cybermalveillance.gouv.fr/tous-nos-contenus/fiches-reflexes/hameconnage-phishing#prevention-phishing</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "4c8165e5-8c44-4dcf-821f-2a18bd090221",
+      "type": "activity",
+      "title": "La prévention",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "396d1d0b-7537-4fa5-9473-5ce99908e1da",
+            "type": "text",
+            "content": "<h3>Ton ami Félix à cliquer sur le lien d’un mail malveillant 😱, quelles sont les bonnes pratiques pour l’aider ?</h3>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "8882e112-7ff9-45b3-9ddf-f0c848619618",
+            "type": "qcm",
+            "instruction": "<h3>Ton ami Félix à cliquer sur le lien d’un mail malveillant 😱, quelles sont les bonnes pratiques pour l’aider ?</h3>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Supprimer immédiatement le mail</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Signaler le lien sur https://phishing-initiative.eu/contrib/</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Fermer l’ordinateur et l’oublier dans un placard</p>"
+              },
+              {
+                "id": "4",
+                "content": "<p>Changer ses mots de passe sur les comptes concernés</p>"
+              },
+              {
+                "id": "5",
+                "content": "<p>Signaler le lien sur Pharos https://www.internet-signalement.gouv.fr/PharosS1/</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p><strong>Correct !&nbsp;</strong> </p><p>Bravo ! En effet, il est important de signaler les liens sur les plateformes compétentes et de changer ses mots de passe pour prévenir des risques. Ne vous laissez pas prendre au piège : adoptez toujours les bonnes pratiques pour sécuriser vos échanges et éviter les mauvaises surprises !<br><br></p>",
+              "invalid": "<p><strong>Incorrect.</strong> </p><p>Attention, la sécurité est l’affaire de tous. De manière générale, il faut toujours s’assurer de l’identité des expéditeurs des messages et éviter de cliquer sur des liens sans être sûr de leur origine. Faites toujours attention aux messages inattendus qui demandent des informations sensibles ou qui contiennent des liens.<br><br></p>"
+            },
+            "solutions": [
+              "2",
+              "4",
+              "5"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "673b60cd-46d3-41fe-b734-fac08ec9ff71",
+      "type": "lesson",
+      "title": "Ce qu'il faut retenir",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "396d1d0b-7537-4fa5-9473-5ce99908e1da",
+            "type": "text",
+            "content": "<p><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-c54d05e5-7fff-1d50-5439-8c93b22d5b9e\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Récapitulons ce que nous venons d’apprendre :&nbsp;</span></p><br><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Définition du phishing</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">(hameçonnage)</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">🐟: Le phishing est&nbsp;</span></p><ul style=\"margin-top:0;margin-bottom:0;padding-inline-start:48px;\"><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">une technique de </span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">fraude </span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">en ligne&nbsp;</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">qui consiste à </span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">tromper </span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">des victimes en se faisant passer pour une source fiable</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">afin de leur </span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">dérober des informations personnelles </span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">ou financières.&nbsp;</span></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Cette pratique peut se produire par </span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">email, SMS, </span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">et via des </span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">messageries </span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">comme WhatsApp, Messenger, Instagram, etc.</span></p></li></ul><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Points importants:</span></p><ol style=\"margin-top:0;margin-bottom:0;padding-inline-start:48px;\"><li dir=\"ltr\" style=\"list-style-type:decimal;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">SMS frauduleux</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Identifiez les SMS de phishing en repérant des signes comme un numéro suspect, des urgences artificielles ou des offres alléchantes.</span></p></li><li dir=\"ltr\" style=\"list-style-type:decimal;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Mails frauduleux</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Soyez vigilant face aux emails demandant une action urgente. Préférez toujours passer par le site officiel d’un service plutôt que de cliquer sur des liens dans les emails.</span></p></li><li dir=\"ltr\" style=\"list-style-type:decimal;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Informations récupérables</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : En cliquant sur un lien frauduleux, les fraudeurs peuvent accéder à diverses informations sensibles, telles que :</span></p></li><ul style=\"margin-top:0;margin-bottom:0;padding-inline-start:48px;\"><li dir=\"ltr\" style=\"list-style-type:circle;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"2\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Vos identifiants de connexion (nom d'utilisateur, mot de passe).</span></p></li><li dir=\"ltr\" style=\"list-style-type:circle;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"2\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Des données personnelles (nom, adresse, numéro de téléphone).</span></p></li><li dir=\"ltr\" style=\"list-style-type:circle;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"2\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Des informations financières (numéro de carte bancaire, coordonnées bancaires).</span></p></li><li dir=\"ltr\" style=\"list-style-type:circle;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"2\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Votre localisation ou d'autres données stockées sur votre appareil.</span></p></li></ul><li dir=\"ltr\" style=\"list-style-type:decimal;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Emails malveillants</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">: Signalez et supprimez les emails malveillants, en utilisant des sites de signalement comme</span><a href=\"https://phishing-initiative.eu/contrib/\" style=\"text-decoration:none;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#1155cc;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:underline;-webkit-text-decoration-skip:none;text-decoration-skip-ink:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">phishing-initiative.eu</span></a><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> et</span><a href=\"http://www.internet-signalement.gouv.fr\" style=\"text-decoration:none;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#1155cc;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:underline;-webkit-text-decoration-skip:none;text-decoration-skip-ink:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">internet-signalement.gouv.fr</span></a><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">.</span></p></li><li dir=\"ltr\" style=\"list-style-type:decimal;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:0pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Actions à entreprendre</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Ne fournissez jamais d'informations sensibles, déconnectez-vous d'Internet, analysez votre appareil, changez vos mots de passe et surveillez vos comptes.</span></p></li><li dir=\"ltr\" style=\"list-style-type:decimal;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:0pt;margin-bottom:12pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Prévention</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : Ne communiquez jamais d’informations sensibles par message ou téléphone. Vérifiez les liens et adresses des sites. Activez la double authentification pour sécuriser vos accès.</span></p></li></ol><br><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Avec la </span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">démocratisation de l'IA</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">, l'hameçonnage devient de plus en plus sophistiqué, les fraudeurs utilisant des techniques d'intelligence artificielle pour créer des messages personnalisés, imiter des voix, ou générer des contenus trompeurs, rendant les arnaques plus difficiles à détecter. Il est d’autant plus important de rester vigilant.</span></strong></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "8882e112-7ff9-45b3-9ddf-f0c848619618",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "3c94ff62-fc8a-4c8d-a8dd-6dcd3d319e75",
+            "type": "text",
+            "content": "<p><br><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-e4fd7481-7fff-d736-e79e-3b8d1407ce82\"><span style=\"font-size:13pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Liens utiles</span></strong></p><ul style=\"margin-top:0;margin-bottom:0;padding-inline-start:48px;\"><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\" role=\"presentation\"><strong style=\"font-weight:normal;\" id=\"docs-internal-guid-e4fd7481-7fff-d736-e79e-3b8d1407ce82\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Signalement de phishing</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> :</span><a href=\"https://phishing-initiative.eu/contrib/\" style=\"text-decoration:none;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#1155cc;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:underline;-webkit-text-decoration-skip:none;text-decoration-skip-ink:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">phishing-initiative.eu</span></a><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">,</span><a href=\"http://www.internet-signalement.gouv.fr\" style=\"text-decoration:none;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#1155cc;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:underline;-webkit-text-decoration-skip:none;text-decoration-skip-ink:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">internet-signalement.gouv.fr</span></a></strong></p></li><li dir=\"ltr\" style=\"list-style-type:disc;font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;\" aria-level=\"1\"><p dir=\"ltr\" style=\"line-height:1.2;margin-top:12pt;margin-bottom:12pt;\" role=\"presentation\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:700;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Vérification d'exposition</span><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#122647;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\"> : </span><a href=\"https://haveibeenpwned.com/\" style=\"text-decoration:none;\"><span style=\"font-size:16pt;font-family:Roboto,sans-serif;color:#1155cc;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:underline;-webkit-text-decoration-skip:none;text-decoration-skip-ink:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">I Have Been Pwned</span></a></p></li></ul><p><br></p>"
+          }
+        }
+      ]
+    }
+  ]
+}
