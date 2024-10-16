@@ -6,6 +6,7 @@ import {
   FEATURE_COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_ID,
   FEATURE_LEARNER_IMPORT_ID,
   FEATURE_MISSIONS_MANAGEMENT_ID,
+  FEATURE_ORALIZATION_ID,
   FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID,
   FEATURE_PLACES_MANAGEMENT_ID,
 } from './constants.js';
@@ -45,6 +46,11 @@ const featuresBuilder = async function ({ databaseBuilder }) {
     id: FEATURE_CAMPAIGN_EXTERNAL_ID,
     key: CAMPAIGN_FEATURES.EXTERNAL_ID.key,
     description: CAMPAIGN_FEATURES.EXTERNAL_ID.description,
+  });
+  databaseBuilder.factory.buildFeature({
+    id: FEATURE_ORALIZATION_ID,
+    key: ORGANIZATION_FEATURE.ORALIZATION.key,
+    description: ORGANIZATION_FEATURE.ORALIZATION.description,
   });
   await databaseBuilder.commit();
 };
