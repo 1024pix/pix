@@ -1568,7 +1568,7 @@
       "username": "Username"
     },
     "password-reset-demand": {
-      "title": "Forgot your password?",
+      "title": "Forgotten password",
       "actions": {
         "back-home": "Return to homepage",
         "back-sign-in": "Return to log in page",
