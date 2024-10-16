@@ -240,7 +240,8 @@
     "import": {
       "field": {
         "birthdate": "Geboortedatum",
-        "division": "Klasse"
+        "division": "Klasse",
+        "oralization": "Oralisatie"
       }
     },
     "loading": "Bezig met laden",

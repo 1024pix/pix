@@ -24,6 +24,9 @@ const findPaginatedFilteredParticipants = async function ({
       });
 
     meta.headingCustomColumns = importFormat.columnsToDisplay;
+    if (organizationFeatures.hasOralizationFeature) {
+      meta.headingCustomColumns.push('ORALIZATION');
+    }
     meta.customFilters = importFormat.filtersToDisplay;
 
     return { organizationParticipants, meta };

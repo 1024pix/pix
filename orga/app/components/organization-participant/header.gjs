@@ -1,7 +1,7 @@
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import {service} from '@ember/service';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
-import {t} from 'ember-intl';
+import { t } from 'ember-intl';
 
 export default class Header extends Component {
   @service currentUser;
