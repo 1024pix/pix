@@ -556,11 +556,12 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
     });
 
     context('when the organization type is SCO-1D', function () {
-      it('adds mission_management and learner_import features to the organization', async function () {
+      it('adds mission_management, oralization and learner_import features to the organization', async function () {
         const superAdminUserId = databaseBuilder.factory.buildUser().id;
         const missionManagementFeatureId = databaseBuilder.factory.buildFeature(
           ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT,
         ).id;
+        const oralizationFeatureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.ORALIZATION).id;
         const learnerImportFeatureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT).id;
         const organizationLearnerImportOndeFormat = databaseBuilder.factory.buildOrganizationLearnerImportFormat({
           name: 'ONDE',
@@ -580,11 +581,12 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           organizationId: savedOrganization.id,
         });
 
-        expect(savedOrganizationFeatures.length).to.equal(2);
+        expect(savedOrganizationFeatures.length).to.equal(3);
         const savedOrganizationFeatureIds = savedOrganizationFeatures.map(
           (organizationFeature) => organizationFeature.featureId,
         );
         expect(savedOrganizationFeatureIds).to.include(missionManagementFeatureId);
+        expect(savedOrganizationFeatureIds).to.include(oralizationFeatureId);
         expect(savedOrganizationFeatureIds).to.include(learnerImportFeatureId);
 
         const learnerImportFeatureParams = savedOrganizationFeatures.find((organizationFeature) => {
