@@ -1,10 +1,14 @@
 import dayjs from 'dayjs';
 import _ from 'lodash';
 
-import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
+import {
+  CampaignExternalIdTypes,
+  CampaignParticipationStatuses,
+} from '../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { getPlacementProfile } from '../../../../../src/shared/domain/services/placement-profile-service.js';
+import { FEATURE_CAMPAIGN_EXTERNAL_ID } from '../constants.js';
 import * as generic from './generic.js';
 import * as learningContent from './learning-content.js';
 import * as profileTooling from './profile-tooling.js';
@@ -442,7 +446,6 @@ function _buildCampaign({
     name,
     code,
     title,
-    idPixLabel,
     externalIdHelpImageUrl,
     alternativeTextToExternalIdHelpImage,
     customLandingPageText,
@@ -461,6 +464,13 @@ function _buildCampaign({
     multipleSendings,
     assessmentMethod,
   });
+  if (idPixLabel) {
+    databaseBuilder.factory.buildCampaignFeature({
+      campaignId: realCampaignId,
+      featureId: FEATURE_CAMPAIGN_EXTERNAL_ID,
+      params: { type: CampaignExternalIdTypes.STRING, label: idPixLabel },
+    });
+  }
   return { realCampaignId, realOrganizationId, realCreatedAt };
 }
 

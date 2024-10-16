@@ -42,8 +42,8 @@ describe('Integration | Repository | Campaign Administration', function () {
 
     it('should return campaigns for given ids', async function () {
       // given
-      const firstCampaign = new Campaign(databaseBuilder.factory.buildCampaign());
-      const secondCampaign = new Campaign(databaseBuilder.factory.buildCampaign());
+      const firstCampaign = new Campaign(databaseBuilder.factory.buildCampaign({ idPixLabel: null }));
+      const secondCampaign = new Campaign(databaseBuilder.factory.buildCampaign({ idPixLabel: null }));
       databaseBuilder.factory.buildCampaign();
 
       await databaseBuilder.commit();
