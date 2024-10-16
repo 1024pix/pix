@@ -1,8 +1,8 @@
 import { CertificationCandidateForSupervising } from '../../../../../../src/certification/session-management/domain/models/CertificationCandidateForSupervising.js';
-import { CertificationCandidateForSupervisingV3 } from '../../../../../../src/certification/session-management/domain/models/CertificationCandidateForSupervisingV3.js';
 import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/session-for-supervising-serializer.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
-import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { CertificationCompanionLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', function () {
@@ -48,7 +48,8 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
                 'enrolled-complementary-certification-label': 'Super Certification Complémentaire',
                 'is-still-eligible-to-complementary-certification': true,
                 'user-id': 6789,
-                'live-alert': null,
+                'challenge-live-alert': null,
+                'companion-live-alert': null,
               },
               id: '1234',
               type: 'certification-candidate-for-supervising',
@@ -139,12 +140,17 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
                 'enrolled-complementary-certification-label': 'Super Certification Complémentaire',
                 'is-still-eligible-to-complementary-certification': true,
                 'user-id': 6789,
-                'live-alert': {
-                  status: 'ongoing',
+                'challenge-live-alert': {
+                  type: 'challenge',
+                  status: CertificationChallengeLiveAlertStatus.ONGOING,
                   hasAttachment: false,
                   hasImage: false,
                   hasEmbed: false,
                   isFocus: false,
+                },
+                'companion-live-alert': {
+                  type: 'companion',
+                  status: CertificationCompanionLiveAlertStatus.ONGOING,
                 },
               },
               id: '1234',
@@ -162,7 +168,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
           date: '2017-01-20',
           time: '14:30',
           certificationCandidates: [
-            new CertificationCandidateForSupervisingV3({
+            new CertificationCandidateForSupervising({
               id: 1234,
               userId: 6789,
               firstName: 'toto',
@@ -183,12 +189,17 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
                   complementaryCertificationBadgeLabel: 'Super Certification Complémentaire',
                 }),
               ],
-              liveAlert: {
+              challengeLiveAlert: {
+                type: 'challenge',
                 status: CertificationChallengeLiveAlertStatus.ONGOING,
                 hasImage: false,
                 hasAttachment: false,
                 hasEmbed: false,
                 isFocus: false,
+              },
+              companionLiveAlert: {
+                type: 'companion',
+                status: CertificationCompanionLiveAlertStatus.ONGOING,
               },
             }),
           ],

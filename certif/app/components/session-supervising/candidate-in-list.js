@@ -142,7 +142,7 @@ export default class CandidateInList extends Component {
 
   @action
   askUserToHandleLiveAlert() {
-    if (this._hasCertificationOngoingLiveAlert) {
+    if (this.args.candidate.hasOngoingChallengeLiveAlert) {
       this.displayedModal = Modals.HandleLiveAlert;
     } else {
       this.notifications.error(
@@ -270,7 +270,9 @@ export default class CandidateInList extends Component {
     return theoricalEndDateTime;
   }
 
-  get _hasCertificationOngoingLiveAlert() {
-    return this.args.candidate.liveAlert.status === 'ongoing';
+  get currentLiveAlertLabel() {
+    const alertType = this.args.candidate.currentLiveAlert?.type;
+
+    return this.intl.t(`common.forms.certification-labels.candidate-status.live-alerts.${alertType}.ongoing`);
   }
 }

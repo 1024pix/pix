@@ -141,6 +141,60 @@ module('Unit | Model | certification-candidate-for-supervising', function (hooks
     });
   });
 
+  module('#hasOngoingChallengeLiveAlert', function () {
+    module('when the live alert status is ongoing', function () {
+      test('it returns true', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const challengeLiveAlert = { status: 'ongoing' };
+
+        // when
+        const certificationCandidateForSupervising = store.createRecord('certification-candidate-for-supervising', {
+          challengeLiveAlert,
+        });
+
+        // then
+        assert.true(certificationCandidateForSupervising.hasOngoingChallengeLiveAlert);
+      });
+    });
+
+    module('when the live alert status is not ongoing', function () {
+      test('it returns false', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const challengeLiveAlert = { status: 'validated' };
+
+        // when
+        const certificationCandidateForSupervising = store.createRecord('certification-candidate-for-supervising', {
+          challengeLiveAlert,
+        });
+
+        // then
+        assert.false(certificationCandidateForSupervising.hasOngoingChallengeLiveAlert);
+      });
+    });
+  });
+
+  module('#currentLiveAlert', function () {
+    module('when challenge and companion live alerts both exists', function () {
+      test('it returns companion live alert', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const challengeLiveAlert = { type: 'challenge', status: 'ongoing' };
+        const companionLiveAlert = { type: 'companion', status: 'ONGOING' };
+
+        // when
+        const certificationCandidateForSupervising = store.createRecord('certification-candidate-for-supervising', {
+          challengeLiveAlert,
+          companionLiveAlert,
+        });
+
+        // then
+        assert.deepEqual(certificationCandidateForSupervising.currentLiveAlert, companionLiveAlert);
+      });
+    });
+  });
+
   function _pickModelData(certificationCandidate) {
     return pick(certificationCandidate, [
       'firstName',
