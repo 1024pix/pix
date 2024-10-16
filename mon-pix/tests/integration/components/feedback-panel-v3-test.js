@@ -30,7 +30,7 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
         const store = this.owner.lookup('service:store');
         const submitLiveAlert = sinon.stub();
         const mockAssessment = store.createRecord('assessment', {
-          hasOngoingLiveAlert: false,
+          hasOngoingChallengeLiveAlert: false,
         });
         this.set('assessment', mockAssessment);
         this.set('submitLiveAlert', submitLiveAlert);
@@ -56,7 +56,7 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
           this.set('submitLiveAlert', submitLiveAlert);
 
           const mockAssessment = store.createRecord('assessment', {
-            hasOngoingLiveAlert: true,
+            hasOngoingChallengeLiveAlert: true,
           });
           this.set('assessment', mockAssessment);
 
@@ -77,7 +77,7 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
           this.set('submitLiveAlert', submitLiveAlertActions);
 
           const mockAssessment = store.createRecord('assessment', {
-            hasOngoingLiveAlert: true,
+            hasOngoingChallengeLiveAlert: true,
           });
           this.set('assessment', mockAssessment);
 
