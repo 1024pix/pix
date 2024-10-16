@@ -13,6 +13,9 @@ const findPaginatedFilteredParticipants = async function ({
   if (organizationFeatures.hasLearnersImportFeature) {
     const importFormat = await organizationLearnerImportFormatRepository.get(organizationId);
 
+    // TODO récupérer le featureId qui nous intéresse, pour l'oralization activé
+    // TODO Branger le organizationLearnerFeatureRepository pour récupérer les organizationLearners concerné par la feature
+
     const { organizationParticipants, meta } =
       await organizationParticipantRepository.findPaginatedFilteredImportedParticipants({
         organizationId,
@@ -22,6 +25,8 @@ const findPaginatedFilteredParticipants = async function ({
         sort,
         page,
       });
+
+    // TODO Si oralization activée pour l'orga, décorer la liste des organizationPArticipants avec l'info
 
     meta.headingCustomColumns = importFormat.columnsToDisplay;
     if (organizationFeatures.hasOralizationFeature) {
