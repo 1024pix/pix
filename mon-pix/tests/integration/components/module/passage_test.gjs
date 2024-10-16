@@ -432,6 +432,137 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
+  module('when user click on an answerable element auto-evaluation button', function () {
+    test('should save the element answer', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const firstCard = {
+        id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+        recto: {
+          image: {
+            url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
+          },
+          text: "A quoi sert l'arobase dans mon adresse email ?",
+        },
+        verso: {
+          image: { url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg' },
+          text: "Parce que c'est joli",
+        },
+      };
+      const secondCard = {
+        id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+        recto: {
+          image: {
+            url: 'https://images.pix.fr/modulix/didacticiel/icon.svg',
+          },
+          text: 'Qui a écrit le Dormeur du Val ?',
+        },
+        verso: {
+          image: {
+            url: 'https://images.pix.fr/modulix/didacticiel/chaton.jpg',
+          },
+          text: '<p>Arthur Rimbaud</p>',
+        },
+      };
+
+      const flashcardsElement = {
+        id: '71de6394-ff88-4de3-8834-a40057a50ff4',
+        type: 'flashcards',
+        title: "Introduction à l'adresse e-mail",
+        instruction: '<p>...</p>',
+        introImage: { url: 'https://images.pix.fr/modulix/placeholder-details.svg' },
+        cards: [firstCard, secondCard],
+      };
+
+      const grain1 = store.createRecord('grain', { components: [{ type: 'element', element: flashcardsElement }] });
+
+      const module = store.createRecord('module', { id: 'module-id', title: 'Module title', grains: [grain1] });
+      const passage = store.createRecord('passage', { id: 'passage-id' });
+
+      const saveStub = sinon.stub();
+      const createRecordMock = sinon.mock();
+      createRecordMock.returns({ save: saveStub });
+      store.createRecord = createRecordMock;
+
+      await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+      // when
+      await clickByName(t('pages.modulix.buttons.flashcards.start'));
+      await clickByName(t('pages.modulix.buttons.flashcards.seeAnswer'));
+      await clickByName(t('pages.modulix.buttons.flashcards.answers.notAtAll'));
+
+      // then
+      sinon.assert.calledWith(saveStub, { adapterOptions: { passageId: passage.id } });
+      assert.ok(true);
+    });
+
+    test('should not push metrics event', async function (assert) {
+      // given
+      const metrics = this.owner.lookup('service:metrics');
+      // metrics.add = sinon.stub();
+      const addMetricsSpy = sinon.spy(metrics, 'add');
+
+      const store = this.owner.lookup('service:store');
+      const firstCard = {
+        id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+        recto: {
+          image: {
+            url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
+          },
+          text: "A quoi sert l'arobase dans mon adresse email ?",
+        },
+        verso: {
+          image: { url: 'https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg' },
+          text: "Parce que c'est joli",
+        },
+      };
+      const secondCard = {
+        id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+        recto: {
+          image: {
+            url: 'https://images.pix.fr/modulix/didacticiel/icon.svg',
+          },
+          text: 'Qui a écrit le Dormeur du Val ?',
+        },
+        verso: {
+          image: {
+            url: 'https://images.pix.fr/modulix/didacticiel/chaton.jpg',
+          },
+          text: '<p>Arthur Rimbaud</p>',
+        },
+      };
+
+      const flashcardsElement = {
+        id: '71de6394-ff88-4de3-8834-a40057a50ff4',
+        type: 'flashcards',
+        title: "Introduction à l'adresse e-mail",
+        instruction: '<p>...</p>',
+        introImage: { url: 'https://images.pix.fr/modulix/placeholder-details.svg' },
+        cards: [firstCard, secondCard],
+      };
+
+      const grain1 = store.createRecord('grain', { components: [{ type: 'element', element: flashcardsElement }] });
+
+      const module = store.createRecord('module', { id: 'module-id', title: 'Module title', grains: [grain1] });
+      const passage = store.createRecord('passage');
+
+      const createRecordMock = sinon.mock();
+      createRecordMock.returns({ save: function () {} });
+      store.createRecord = createRecordMock;
+
+      await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+      // when
+      await clickByName(t('pages.modulix.buttons.flashcards.start'));
+      await clickByName(t('pages.modulix.buttons.flashcards.seeAnswer'));
+      await clickByName(t('pages.modulix.buttons.flashcards.answers.notAtAll'));
+
+      // then
+      sinon.assert.notCalled(addMetricsSpy);
+      assert.ok(true);
+    });
+  });
+
   module('when user opens an image alternative text modal', function () {
     test('should push metrics event', async function (assert) {
       // given
