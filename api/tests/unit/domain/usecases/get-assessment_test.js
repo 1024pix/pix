@@ -15,6 +15,7 @@ describe('Unit | UseCase | get-assessment', function () {
   let competenceRepository;
   let courseRepository;
   let certificationChallengeLiveAlertRepository;
+  let certificationCompanionAlertRepository;
 
   const certificationCourseId = 1;
 
@@ -48,6 +49,7 @@ describe('Unit | UseCase | get-assessment', function () {
     competenceRepository = { getCompetenceName: sinon.stub() };
     courseRepository = { getCourseName: sinon.stub(), get: sinon.stub() };
     certificationChallengeLiveAlertRepository = { getByAssessmentId: sinon.stub() };
+    certificationCompanionAlertRepository = { getAllByAssessmentId: sinon.stub() };
   });
 
   it('should resolve the Assessment domain object matching the given assessment ID', async function () {
@@ -156,6 +158,7 @@ describe('Unit | UseCase | get-assessment', function () {
         competenceRepository,
         courseRepository,
         certificationChallengeLiveAlertRepository,
+        certificationCompanionAlertRepository,
       });
 
       // then
@@ -175,6 +178,7 @@ describe('Unit | UseCase | get-assessment', function () {
           assessmentId: assessment.id,
           assessmentRepository,
           certificationChallengeLiveAlertRepository,
+          certificationCompanionAlertRepository,
         });
 
         // then
@@ -200,6 +204,7 @@ describe('Unit | UseCase | get-assessment', function () {
             assessmentId: assessment.id,
             assessmentRepository,
             certificationChallengeLiveAlertRepository,
+            certificationCompanionAlertRepository,
           });
 
           // then
@@ -224,6 +229,7 @@ describe('Unit | UseCase | get-assessment', function () {
             assessmentId: assessment.id,
             assessmentRepository,
             certificationChallengeLiveAlertRepository,
+            certificationCompanionAlertRepository,
           });
 
           // then
@@ -248,6 +254,7 @@ describe('Unit | UseCase | get-assessment', function () {
             assessmentId: assessment.id,
             assessmentRepository,
             certificationChallengeLiveAlertRepository,
+            certificationCompanionAlertRepository,
           });
 
           // then

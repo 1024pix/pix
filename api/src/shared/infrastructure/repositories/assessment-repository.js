@@ -182,7 +182,7 @@ function _adaptModelToDb(assessment) {
     'campaignParticipation',
     'title',
     'campaignCode',
-    'hasOngoingChallengeLiveAlert',
     'challengeLiveAlerts',
+    'companionLiveAlerts',
   ]);
 }
