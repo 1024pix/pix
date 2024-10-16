@@ -232,14 +232,15 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
     let assessmentResultRepository,
       competenceMarkRepository,
       certificationCourseRepository,
-      scoringCertificationService;
+      scoringCertificationService,
+      dependencies;
 
     beforeEach(function () {
       competenceMarkRepository = { save: sinon.stub() };
       assessmentResultRepository = { save: sinon.stub() };
       certificationCourseRepository = { get: sinon.stub() };
+      dependencies = { calculateCertificationAssessmentScore: sinon.stub() };
       scoringCertificationService = {
-        calculateCertificationAssessmentScore: sinon.stub(),
         isLackOfAnswersForTechnicalReason: sinon.stub(),
       };
     });
@@ -276,7 +277,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             assessmentId: certificationAssessment.id,
           });
 
-          calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
+          dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
           scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
           certificationCourseRepository.get
             .withArgs({ id: certificationAssessment.certificationCourseId })
@@ -296,6 +297,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            dependencies,
           });
 
           // then
@@ -321,6 +323,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            dependencies,
           });
 
           // then
@@ -348,7 +351,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           });
           const savedAssessmentResult = { id: 123123 };
 
-          calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
+          dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
           scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
           certificationCourseRepository.get
             .withArgs({ id: certificationAssessment.certificationCourseId })
@@ -364,6 +367,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            dependencies,
           });
 
           // then
@@ -436,7 +440,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           assessmentResult: savedAssessmentResult,
         });
 
-        calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
+        dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
         scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
         certificationCourseRepository.get
           .withArgs({ id: certificationAssessment.certificationCourseId })
@@ -453,6 +457,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           certificationCourseRepository,
           competenceMarkRepository,
           scoringCertificationService,
+          dependencies,
         });
 
         // then
@@ -512,7 +517,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             certificationCourseId: 789,
             assessmentResult: savedAssessmentResult,
           });
-          calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
+          dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
           scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
           certificationCourseRepository.get
             .withArgs({ id: certificationAssessment.certificationCourseId })
@@ -529,6 +534,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            dependencies,
           });
 
           // then
@@ -560,7 +566,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               certificationCourseId: 789,
               assessmentResult: savedAssessmentResult,
             });
-            calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
+            dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
             scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
             certificationCourseRepository.get
               .withArgs({ id: certificationAssessment.certificationCourseId })
@@ -577,6 +583,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              dependencies,
             });
 
             // then
@@ -631,7 +638,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             certificationCourseId: 789,
             assessmentResult: savedAssessmentResult,
           });
-          calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
+          dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
           scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
           certificationCourseRepository.get
             .withArgs({ id: certificationAssessment.certificationCourseId })
@@ -648,6 +655,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            dependencies,
           });
 
           // then
@@ -701,7 +709,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               certificationCourseId: 789,
               assessmentResult: savedAssessmentResult,
             });
-            calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
+            dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
             scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
             certificationCourseRepository.get
               .withArgs({ id: certificationAssessment.certificationCourseId })
@@ -717,6 +725,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              dependencies,
             });
 
             // then
@@ -771,7 +780,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               certificationCourseId: 789,
               assessmentResult: assessmentResultToBeSaved,
             });
-            calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
+            dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
             scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
             certificationCourseRepository.get
               .withArgs({ id: certificationAssessment.certificationCourseId })
@@ -787,6 +796,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              dependencies,
             });
 
             // then
@@ -835,7 +845,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
                 certificationCourseId: 789,
                 assessmentResult: assessmentResultToBeSaved,
               });
-              calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
+              dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
               scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(true);
               certificationCourseRepository.get
                 .withArgs({ id: certificationAssessment.certificationCourseId })
@@ -851,6 +861,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
                 certificationCourseRepository,
                 competenceMarkRepository,
                 scoringCertificationService,
+                dependencies,
               });
 
               // then

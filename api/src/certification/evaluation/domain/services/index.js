@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import * as flashAlgorithmService from '../../../../certification/flash-certification/domain/services/algorithm-methods/flash.js';
 // TODO: cross-bounded context violation
 import * as scoringDegradationService from '../../../../certification/scoring/domain/services/scoring-degradation-service.js';
+import * as scoringCertificationService from '../../../../certification/shared/domain/services/scoring-certification-service.js';
 // TODO: cross-bounded context violation
 import * as scoringService from '../../../../evaluation/domain/services/scoring/scoring-service.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
@@ -38,6 +39,7 @@ import * as certificationChallengeForScoringRepository from '../../infrastructur
  * @typedef {scoringService} ScoringService
  * @typedef {areaRepository} AreaRepository
  * @typedef {placementProfileService} PlacementProfileService
+ * @typedef {scoringCertificationService} ScoringCertificationService
  */
 const dependencies = {
   assessmentResultRepository,
@@ -54,6 +56,7 @@ const dependencies = {
   areaRepository,
   placementProfileService,
   scoringService,
+  scoringCertificationService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

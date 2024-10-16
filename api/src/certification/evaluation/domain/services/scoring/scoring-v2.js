@@ -3,6 +3,7 @@
  * @typedef {import('../index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('../index.js').CompetenceMarkRepository} CompetenceMarkRepository
  * @typedef {import('../index.js').ScoringDegradationService} ScoringDegradationService
+ * @typedef {import('../index.js').ScoringCertificationService} ScoringCertificationService
  * @typedef {import('../index.js').ScoringService} ScoringService
  */
 
@@ -27,6 +28,7 @@ import { CERTIFICATION_VERSIONS } from '../../../../shared/domain/models/Certifi
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {CompetenceMarkRepository} params.competenceMarkRepository
  * @param {ScoringDegradationService} params.scoringDegradationService
+ * @param {ScoringCertificationService} params.scoringCertificationService
  * @param {AreaRepository} params.areaRepository
  * @param {PlacementProfileService} params.placementProfileService
  * @param {ScoringService} params.scoringService
@@ -42,8 +44,9 @@ export const handleV2CertificationScoring = async ({
   areaRepository,
   placementProfileService,
   scoringService,
+  dependencies = { calculateCertificationAssessmentScore },
 }) => {
-  const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+  const certificationAssessmentScore = await dependencies.calculateCertificationAssessmentScore({
     certificationAssessment,
     continueOnError: false,
     areaRepository,
@@ -245,7 +248,7 @@ function _getResult(answers, certificationChallenges, testedCompetences, allArea
 
 /**
  * @param {Object} params
- * @param {ScoringDegradationService} params.scoringDegradationService
+ * @param {ScoringCertificationService} params.scoringCertificationService
  */
 function _createV2AssessmentResult({
   juryId,
