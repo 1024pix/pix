@@ -475,19 +475,19 @@ describe('Unit | Domain | Models | Assessment', function () {
     });
   });
 
-  describe('#hasOngoingLiveAlert', function () {
+  describe('#hasOngoingChallengeLiveAlert', function () {
     describe('when assessment has no live alerts attached', function () {
       it('should return false', function () {
         const assessmentWithoutLiveAlert = domainBuilder.buildAssessment();
 
-        expect(assessmentWithoutLiveAlert.hasOngoingLiveAlert).to.be.false;
+        expect(assessmentWithoutLiveAlert.hasOngoingChallengeLiveAlert).to.be.false;
       });
     });
 
     describe('when assessment has live alerts attached but no ongoing', function () {
       it('should return false', function () {
         const assessmentWithoutLiveAlert = domainBuilder.buildAssessment({
-          liveAlerts: [
+          challengeLiveAlerts: [
             domainBuilder.buildCertificationChallengeLiveAlert({
               status: CertificationChallengeLiveAlertStatus.DISMISSED,
             }),
@@ -497,14 +497,14 @@ describe('Unit | Domain | Models | Assessment', function () {
           ],
         });
 
-        expect(assessmentWithoutLiveAlert.hasOngoingLiveAlert).to.be.false;
+        expect(assessmentWithoutLiveAlert.hasOngoingChallengeLiveAlert).to.be.false;
       });
     });
 
     describe('when assessment has an ongoing live alert ', function () {
       it('should return true', function () {
         const assessmentWithoutLiveAlert = domainBuilder.buildAssessment({
-          liveAlerts: [
+          challengeLiveAlerts: [
             domainBuilder.buildCertificationChallengeLiveAlert({
               status: CertificationChallengeLiveAlertStatus.DISMISSED,
             }),
@@ -514,7 +514,7 @@ describe('Unit | Domain | Models | Assessment', function () {
           ],
         });
 
-        expect(assessmentWithoutLiveAlert.hasOngoingLiveAlert).to.be.true;
+        expect(assessmentWithoutLiveAlert.hasOngoingChallengeLiveAlert).to.be.true;
       });
     });
   });
