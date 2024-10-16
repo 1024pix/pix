@@ -1,6 +1,7 @@
 import {
   FEATURE_LEARNER_IMPORT_ID,
   FEATURE_MISSIONS_MANAGEMENT_ID,
+  FEATURE_ORALIZATION_ID,
   IMPORT_FORMAT_ONDE_ID,
   USER_ID_ADMIN_ORGANIZATION,
   USER_ID_MEMBER_ORGANIZATION,
@@ -52,6 +53,7 @@ async function _createSco1dOrganizations(databaseBuilder) {
     memberIds: [USER_ID_MEMBER_ORGANIZATION],
     features: [
       { id: FEATURE_MISSIONS_MANAGEMENT_ID },
+      { id: FEATURE_ORALIZATION_ID },
       { id: FEATURE_LEARNER_IMPORT_ID, params: { organizationLearnerImportFormatId: IMPORT_FORMAT_ONDE_ID } },
     ],
   });
@@ -94,14 +96,14 @@ async function _createSco1dOrganizations(databaseBuilder) {
   });
 
   // create class with namesakes
-  await databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
-    firstName: 'Bob',
+  const learner1 = await databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+    firstName: 'Bob (oralisé)',
     lastName: 'Le lapin',
     division: 'CM1-B',
     organizationId: TEAM_1D_ORGANIZATION_1_ID,
   });
-  await databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
-    firstName: 'Bob',
+  const learner2 = await databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+    firstName: 'Bob (oralisé)',
     lastName: 'Le castor',
     division: 'CM1-B',
     organizationId: TEAM_1D_ORGANIZATION_1_ID,
@@ -112,8 +114,8 @@ async function _createSco1dOrganizations(databaseBuilder) {
     division: 'CM1-B',
     organizationId: TEAM_1D_ORGANIZATION_1_ID,
   });
-  await databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
-    firstName: 'Bob',
+  const learner3 = await databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+    firstName: 'Bob (oralisé)',
     lastName: 'Le CObaye',
     division: 'CM1-B',
     organizationId: TEAM_1D_ORGANIZATION_1_ID,
@@ -143,8 +145,24 @@ async function _createSco1dOrganizations(databaseBuilder) {
     adminIds: [TEAM_1D_USER_ID],
     features: [
       { id: FEATURE_MISSIONS_MANAGEMENT_ID },
+      { id: FEATURE_ORALIZATION_ID },
       { id: FEATURE_LEARNER_IMPORT_ID, params: { organizationLearnerImportFormatId: IMPORT_FORMAT_ONDE_ID } },
     ],
+  });
+
+  await databaseBuilder.factory.buildOrganizationLearnerFeature({
+    featureId: FEATURE_ORALIZATION_ID,
+    organizationLearnerId: learner1.id,
+  });
+
+  await databaseBuilder.factory.buildOrganizationLearnerFeature({
+    featureId: FEATURE_ORALIZATION_ID,
+    organizationLearnerId: learner2.id,
+  });
+
+  await databaseBuilder.factory.buildOrganizationLearnerFeature({
+    featureId: FEATURE_ORALIZATION_ID,
+    organizationLearnerId: learner3.id,
   });
 
   await databaseBuilder.factory.buildSchool({
