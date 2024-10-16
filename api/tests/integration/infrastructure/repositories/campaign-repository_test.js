@@ -175,7 +175,6 @@ describe('Integration | Repository | Campaign', function () {
         'createdAt',
         'archivedAt',
         'customLandingPageText',
-        'idPixLabel',
         'externalIdHelpImageUrl',
         'alternativeTextToExternalIdHelpImage',
         'title',
