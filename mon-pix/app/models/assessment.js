@@ -21,6 +21,7 @@ export default class Assessment extends Model {
   @attr('string') lastQuestionState;
   @attr('string') method;
   @attr('boolean', { defaultValue: false }) hasOngoingLiveAlert;
+  @attr('boolean') hasOngoingCompanionLiveAlert;
 
   // references
   @attr('string') competenceId;
