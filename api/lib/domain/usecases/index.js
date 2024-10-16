@@ -26,6 +26,7 @@ import * as certificationAssessmentRepository from '../../../src/certification/s
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../src/certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationChallengeRepository from '../../../src/certification/shared/infrastructure/repositories/certification-challenge-repository.js';
+import * as certificationCompanionAlertRepository from '../../../src/certification/shared/infrastructure/repositories/certification-companion-alert-repository.js';
 import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/shared/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as issueReportCategoryRepository from '../../../src/certification/shared/infrastructure/repositories/issue-report-category-repository.js';
@@ -236,6 +237,7 @@ const dependencies = {
   certificationChallengeLiveAlertRepository,
   certificationChallengeRepository,
   certificationChallengesService,
+  certificationCompanionAlertRepository,
   certificationCourseRepository,
   certificationCpfCityRepository,
   certificationOfficerRepository,

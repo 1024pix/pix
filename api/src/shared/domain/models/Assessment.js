@@ -64,6 +64,7 @@ class Assessment {
     method,
     campaignCode,
     challengeLiveAlerts,
+    companionLiveAlerts,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -86,6 +87,7 @@ class Assessment {
     this.method = method || Assessment.computeMethodFromType(this.type);
     this.campaignCode = campaignCode;
     this.challengeLiveAlerts = challengeLiveAlerts;
+    this.companionLiveAlerts = companionLiveAlerts;
   }
 
   isCompleted() {
@@ -150,8 +152,9 @@ class Assessment {
     return this.method === methods.SMART_RANDOM;
   }
 
-  attachLiveAlerts(challengeLiveAlerts) {
+  attachLiveAlerts({ challengeLiveAlerts, companionLiveAlerts }) {
     this.challengeLiveAlerts = challengeLiveAlerts;
+    this.companionLiveAlerts = companionLiveAlerts;
   }
 
   get hasLastQuestionBeenFocusedOut() {

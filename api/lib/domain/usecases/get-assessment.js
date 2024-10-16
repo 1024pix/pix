@@ -9,6 +9,7 @@ const getAssessment = async function ({
   courseRepository,
   campaignRepository,
   certificationChallengeLiveAlertRepository,
+  certificationCompanionAlertRepository,
 }) {
   const assessment = await assessmentRepository.getWithAnswers(assessmentId);
 
@@ -22,7 +23,11 @@ const getAssessment = async function ({
 
   await _addCampaignRelatedAttributes(assessment, campaignRepository);
   await _addDemoRelatedAttributes(assessment, courseRepository);
-  await _addCertificationRelatedAttributes({ assessment, certificationChallengeLiveAlertRepository });
+  await _addCertificationRelatedAttributes({
+    assessment,
+    certificationChallengeLiveAlertRepository,
+    certificationCompanionAlertRepository,
+  });
   return assessment;
 };
 
@@ -45,14 +50,23 @@ async function _addDemoRelatedAttributes(assessment, courseRepository) {
   }
 }
 
-async function _addCertificationRelatedAttributes({ assessment, certificationChallengeLiveAlertRepository }) {
-  if (assessment.type === Assessment.types.CERTIFICATION) {
-    const certificationChallengeLiveAlerts = await certificationChallengeLiveAlertRepository.getByAssessmentId({
-      assessmentId: assessment.id,
-    });
-
-    assessment.attachLiveAlerts(certificationChallengeLiveAlerts);
+async function _addCertificationRelatedAttributes({
+  assessment,
+  certificationChallengeLiveAlertRepository,
+  certificationCompanionAlertRepository,
+}) {
+  if (assessment.type !== Assessment.types.CERTIFICATION) {
+    return;
   }
+  const challengeLiveAlerts = await certificationChallengeLiveAlertRepository.getByAssessmentId({
+    assessmentId: assessment.id,
+  });
+
+  const companionLiveAlerts = await certificationCompanionAlertRepository.getAllByAssessmentId({
+    assessmentId: assessment.id,
+  });
+
+  assessment.attachLiveAlerts({ challengeLiveAlerts, companionLiveAlerts });
 }
 
 function _fetchAssessmentTitle({ assessment, locale, competenceRepository, courseRepository, campaignRepository }) {
