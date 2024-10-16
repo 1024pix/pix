@@ -832,6 +832,7 @@ function _createWithHasExternalJury(databaseBuilder) {
       'Vous avez obtenu le niveau “Initié (entrée dans le métier)” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
     stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_1er_initie.pdf',
     createdBy: REAL_PIX_SUPER_ADMIN_ID,
+    minimumEarnedPix: 48,
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -898,6 +899,7 @@ function _createWithHasExternalJury(databaseBuilder) {
       'Vous avez obtenu le niveau “Confirmé” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
     stickerUrl: 'https://images.pix.fr/stickers/macaron_edu_1er_confirme.pdf',
     createdBy: REAL_PIX_SUPER_ADMIN_ID,
+    minimumEarnedPix: 300,
   });
 }
 
