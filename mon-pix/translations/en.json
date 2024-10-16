@@ -1587,7 +1587,7 @@
         "instructions": "An email explaining how to reset your password\n has been sent to the email address {email}.",
         "subtitle": "Password reset request"
       },
-      "title": "Forgot your password?"
+      "title": "Forgotten password"
     },
     "profile": {
       "accessibility": {
