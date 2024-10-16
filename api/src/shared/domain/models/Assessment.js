@@ -1,4 +1,5 @@
 import { CertificationChallengeLiveAlertStatus } from '../../../certification/shared/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationCompanionLiveAlertStatus } from '../../../certification/shared/domain/models/CertificationCompanionLiveAlert.js';
 import { Answer } from '../../../evaluation/domain/models/Answer.js';
 import { ObjectValidationError } from '../errors.js';
 
@@ -168,6 +169,16 @@ class Assessment {
 
     return this.challengeLiveAlerts.some(
       (challengeLiveAlert) => challengeLiveAlert.status === CertificationChallengeLiveAlertStatus.ONGOING,
+    );
+  }
+
+  get hasOngoingCompanionLiveAlert() {
+    if (!this.companionLiveAlerts) {
+      return false;
+    }
+
+    return this.companionLiveAlerts.some(
+      (companionLiveAlert) => companionLiveAlert.status === CertificationCompanionLiveAlertStatus.ONGOING,
     );
   }
 
