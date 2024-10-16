@@ -11,6 +11,7 @@ export default class Assessments extends Component {
   async createLiveAlert() {
     const adapter = this.store.adapterFor('assessment');
     await adapter.createCompanionLiveAlert({ assessmentId: this.args.assessment.id });
+    // FIXME reload assessment
   }
 
   <template>

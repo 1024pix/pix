@@ -917,6 +917,13 @@
           "subtitle": "En certification, si vous changez de page, votre réponse ne sera pas validée."
         }
       },
+      "live-alerts": {
+        "refresh": "Rafraîchir la page",
+        "waiting-information": "En attente du surveillant...",
+        "companion": {
+          "message": "Merci de contacter votre surveillant afin qu’il confirme la présence de l’extension."
+        }
+      },
       "parts": {
         "answer-input": "Votre réponse",
         "answer-instructions": {

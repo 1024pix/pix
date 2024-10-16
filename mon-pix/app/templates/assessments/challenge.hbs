@@ -92,6 +92,10 @@
             {{/if}}
           </div>
         {{/unless}}
+
+        {{#if @model.assessment.hasOngoingCompanionLiveAlert}}
+          <Assessments::ChallengeLiveAlert @assessment={{@model.assessment}} />
+        {{/if}}
       </div>
 
       {{#if this.isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
