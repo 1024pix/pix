@@ -142,6 +142,7 @@ describe('Unit | UseCase | get-assessment', function () {
     beforeEach(function () {
       assessment.type = Assessment.types.CERTIFICATION;
     });
+
     it('should resolve the Assessment domain object with CERTIFICATION title matching the given assessment ID', async function () {
       // given
       assessmentRepository.getWithAnswers.resolves(assessment);
@@ -162,8 +163,9 @@ describe('Unit | UseCase | get-assessment', function () {
       expect(result.id).to.equal(assessment.id);
       expect(result.title).to.equal(certificationCourseId);
     });
+
     context('when no liveAlert is attached to the assessment', function () {
-      it('should set hasOngoingLiveAlert to false', async function () {
+      it('should set hasOngoingChallengeLiveAlert to false', async function () {
         // given
         assessment.type = Assessment.types.CERTIFICATION;
         assessmentRepository.getWithAnswers.withArgs(assessment.id).resolves(assessment);
@@ -176,12 +178,13 @@ describe('Unit | UseCase | get-assessment', function () {
         });
 
         // then
-        expect(result.hasOngoingLiveAlert).to.equal(false);
+        expect(result.hasOngoingChallengeLiveAlert).to.equal(false);
       });
     });
+
     context('when a liveAlert is attached to the assessment', function () {
       context('when a live alert is ongoing', function () {
-        it('should set hasOngoingLiveAlert to true', async function () {
+        it('should set hasOngoingChallengeLiveAlert to true', async function () {
           // given
           assessment.type = Assessment.types.CERTIFICATION;
           assessmentRepository.getWithAnswers.withArgs(assessment.id).resolves(assessment);
@@ -200,11 +203,12 @@ describe('Unit | UseCase | get-assessment', function () {
           });
 
           // then
-          expect(result.hasOngoingLiveAlert).to.equal(true);
+          expect(result.hasOngoingChallengeLiveAlert).to.equal(true);
         });
       });
+
       context('when live alerts have been dismissed', function () {
-        it('should set hasOngoingLiveAlert to false', async function () {
+        it('should set hasOngoingChallengeLiveAlert to false', async function () {
           // given
           assessment.type = Assessment.types.CERTIFICATION;
           assessmentRepository.getWithAnswers.withArgs(assessment.id).resolves(assessment);
@@ -223,12 +227,12 @@ describe('Unit | UseCase | get-assessment', function () {
           });
 
           // then
-          expect(result.hasOngoingLiveAlert).to.equal(false);
+          expect(result.hasOngoingChallengeLiveAlert).to.equal(false);
         });
       });
 
       context('when live alerts have been accepted', function () {
-        it('should set hasOngoingLiveAlert to false', async function () {
+        it('should set hasOngoingChallengeLiveAlert to false', async function () {
           // given
           assessment.type = Assessment.types.CERTIFICATION;
           assessmentRepository.getWithAnswers.withArgs(assessment.id).resolves(assessment);
@@ -247,7 +251,7 @@ describe('Unit | UseCase | get-assessment', function () {
           });
 
           // then
-          expect(result.hasOngoingLiveAlert).to.equal(false);
+          expect(result.hasOngoingChallengeLiveAlert).to.equal(false);
         });
       });
     });

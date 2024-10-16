@@ -22,7 +22,7 @@ const getAssessment = async function ({
 
   await _addCampaignRelatedAttributes(assessment, campaignRepository);
   await _addDemoRelatedAttributes(assessment, courseRepository);
-  await _addCertificationRelatedAttributes(assessment, certificationChallengeLiveAlertRepository);
+  await _addCertificationRelatedAttributes({ assessment, certificationChallengeLiveAlertRepository });
   return assessment;
 };
 
@@ -45,11 +45,13 @@ async function _addDemoRelatedAttributes(assessment, courseRepository) {
   }
 }
 
-async function _addCertificationRelatedAttributes(assessment, liveAlertRepository) {
+async function _addCertificationRelatedAttributes({ assessment, certificationChallengeLiveAlertRepository }) {
   if (assessment.type === Assessment.types.CERTIFICATION) {
-    const liveAlerts = await liveAlertRepository.getByAssessmentId({ assessmentId: assessment.id });
+    const certificationChallengeLiveAlerts = await certificationChallengeLiveAlertRepository.getByAssessmentId({
+      assessmentId: assessment.id,
+    });
 
-    assessment.attachLiveAlerts(liveAlerts);
+    assessment.attachLiveAlerts(certificationChallengeLiveAlerts);
   }
 }
 
