@@ -19,6 +19,7 @@ import * as groupRepository from '../../../campaign/infrastructure/repositories/
 import * as organizationLearnerImportFormatRepository from '../../../learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import * as organizationLearnerActivityRepository from '../../infrastructure/repositories/organization-learner-activity-repository.js';
+import * as organizationLearnerFeatureRepository from '../../infrastructure/repositories/organization-learner-feature-repository.js';
 import * as organizationParticipantRepository from '../../infrastructure/repositories/organization-participant-repository.js';
 import * as registrationOrganizationLearnerRepository from '../../infrastructure/repositories/registration-organization-learner-repository.js';
 import * as scoOrganizationParticipantRepository from '../../infrastructure/repositories/sco-organization-participant-repository.js';
@@ -34,6 +35,7 @@ const dependencies = {
   organizationParticipantRepository,
   organizationLearnerActivityRepository,
   organizationLearnerRepository: repositories.organizationLearnerRepository,
+  organizationLearnerFeatureRepository,
   organizationLearnerImportFormatRepository,
   organizationFeaturesAPI,
   campaignRepository,
