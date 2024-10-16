@@ -98,4 +98,34 @@ describe('Unit | UseCases | find-paginated-participants', function () {
     expect(result.meta.headingCustomColumns).to.be.equals(columnsToDisplay);
     expect(result.meta.customFilters).to.be.equals(filtersToDisplay);
   });
+
+  context('when oralization feature is linked to organization', function () {
+    it('should return an headingCustomColumns with oralization', async function () {
+      organizationFeaturesAPI.getAllFeaturesFromOrganization
+        .withArgs(organizationId)
+        .resolves({ hasLearnersImportFeature: true, hasOralizationFeature: true });
+
+      organizationLearnerImportFormatRepository.get
+        .withArgs(organizationId)
+        .resolves({ columnsToDisplay: [], extraColumns, filtersToDisplay });
+
+      organizationParticipantRepository.findPaginatedFilteredImportedParticipants.resolves({
+        organizationParticipants: [],
+        meta: {},
+      });
+
+      const result = await findPaginatedFilteredParticipants({
+        organizationId,
+        filters,
+        extraFilters,
+        page,
+        sort,
+        organizationParticipantRepository,
+        organizationLearnerImportFormatRepository,
+        organizationFeaturesAPI,
+      });
+
+      expect(result.meta.headingCustomColumns).to.be.deep.equals(['ORALIZATION']);
+    });
+  });
 });
