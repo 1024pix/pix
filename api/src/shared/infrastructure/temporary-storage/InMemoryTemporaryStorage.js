@@ -29,6 +29,22 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
     return this._client.get(key);
   }
 
+  async increment(key) {
+    let value = Number(this.get(key));
+    if (Number.isNaN(value)) {
+      value = 0;
+    }
+    this.update(key, `${value + 1}`);
+  }
+
+  async decrement(key) {
+    let value = Number(this.get(key));
+    if (Number.isNaN(value)) {
+      value = 0;
+    }
+    this.update(key, `${value - 1}`);
+  }
+
   async delete(key) {
     return this._client.del(key);
   }

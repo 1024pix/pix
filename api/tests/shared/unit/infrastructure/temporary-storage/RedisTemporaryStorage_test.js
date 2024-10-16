@@ -10,6 +10,8 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
     clientStub = {
       get: sinon.stub(),
       set: sinon.stub(),
+      incr: sinon.stub(),
+      decr: sinon.stub(),
       del: sinon.stub(),
       expire: sinon.stub(),
       ttl: sinon.stub(),
@@ -92,6 +94,34 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
         EXPIRATION_PARAMETER,
         expirationDelaySeconds,
       );
+    });
+  });
+
+  describe('#increment', function () {
+    it('should call client incr to increment value', async function () {
+      // given
+      const key = 'valueKey';
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      await redisTemporaryStorage.increment(key);
+
+      // then
+      expect(clientStub.incr).to.have.been.calledWith(key);
+    });
+  });
+
+  describe('#decrement', function () {
+    it('should call client incr to decrement value', async function () {
+      // given
+      const key = 'valueKey';
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      await redisTemporaryStorage.decrement(key);
+
+      // then
+      expect(clientStub.decr).to.have.been.calledWith(key);
     });
   });
 

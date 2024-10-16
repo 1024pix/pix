@@ -27,6 +27,18 @@ class RedisTemporaryStorage extends TemporaryStorage {
     return storageKey;
   }
 
+  async increment(key) {
+    const storageKey = trim(key);
+
+    await this._client.incr(storageKey);
+  }
+
+  async decrement(key) {
+    const storageKey = trim(key);
+
+    await this._client.decr(storageKey);
+  }
+
   async update(key, value) {
     const storageKey = trim(key);
 

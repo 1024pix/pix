@@ -8,6 +8,34 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
     inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
   });
 
+  describe('#increment', function () {
+    it('should call client incr to increment value', async function () {
+      // given
+      const key = 'valueKey';
+      const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
+
+      // when
+      await inMemoryTemporaryStorage.increment(key);
+
+      // then
+      expect(await inMemoryTemporaryStorage.get(key)).to.equal('1');
+    });
+  });
+
+  describe('#decrement', function () {
+    it('should call client incr to decrement value', async function () {
+      // given
+      const key = 'valueKey';
+      const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
+
+      // when
+      await inMemoryTemporaryStorage.decrement(key);
+
+      // then
+      expect(await inMemoryTemporaryStorage.get(key)).to.equal('-1');
+    });
+  });
+
   describe('#save', function () {
     let clock;
 
