@@ -83,13 +83,15 @@
           @isTextToSpeechActivated={{this.isTextToSpeechActivated}}
         />
 
-        <div class="challenge__feedback" role="complementary">
-          {{#if (eq @model.assessment.certificationCourse.version 3)}}
-            <FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{@model.assessment}} />
-          {{else}}
-            <FeedbackPanel @assessment={{@model.assessment}} @challenge={{@model.challenge}} />
-          {{/if}}
-        </div>
+        {{#unless @model.assessment.hasOngoingCompanionLiveAlert}}
+          <div class="challenge__feedback" role="complementary">
+            {{#if (eq @model.assessment.certificationCourse.version 3)}}
+              <FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{@model.assessment}} />
+            {{else}}
+              <FeedbackPanel @assessment={{@model.assessment}} @challenge={{@model.challenge}} />
+            {{/if}}
+          </div>
+        {{/unless}}
       </div>
 
       {{#if this.isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
