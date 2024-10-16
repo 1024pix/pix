@@ -18,6 +18,7 @@ describe('Unit | Organizational Entities | application | API | OrganizationFeatu
       expect(organizationFeature.hasLearnersImportFeature).to.be.false;
     });
   });
+
   describe('#hasOralizationFeature', function () {
     it('should return true', function () {
       const organizationFeature = new OrganizationFeaturesDTO({
