@@ -85,6 +85,52 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
     await redisClient.del(keyToRemove);
   });
 
+  it('should create value and decrement it to -1', async function () {
+    // given
+    const client = new RedisClient(config.redis.url);
+
+    // when
+    await client.decr('toto');
+
+    // then
+    expect(await client.get('toto')).to.equal('-1');
+  });
+
+  it('should decrement value', async function () {
+    // given
+    const client = new RedisClient(config.redis.url);
+    await client.set('toto', 1);
+
+    // when
+    await client.decr('toto');
+
+    // then
+    expect(await client.get('toto')).to.equal('0');
+  });
+
+  it('should create value and increment it to 1', async function () {
+    // given
+    const client = new RedisClient(config.redis.url);
+
+    // when
+    await client.incr('toto');
+
+    // then
+    expect(await client.get('toto')).to.equal('1');
+  });
+
+  it('should increment value', async function () {
+    // given
+    const client = new RedisClient(config.redis.url);
+    await client.set('toto', 1);
+
+    // when
+    await client.incr('toto');
+
+    // then
+    expect(await client.get('toto')).to.equal('2');
+  });
+
   it('should flush all values', async function () {
     // given
     const client = new RedisClient(config.redis.url);
