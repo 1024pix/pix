@@ -5,17 +5,33 @@ import { JobGroup } from '../../../../src/shared/application/jobs/job-controller
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Jobs | AnswerJobController', function () {
+  let jobController;
+  let profileRewardTemporaryStorageStub;
+
+  beforeEach(function () {
+    profileRewardTemporaryStorageStub = { decrement: sinon.stub() };
+    jobController = new AnswerJobController({
+      dependencies: { profileRewardTemporaryStorage: profileRewardTemporaryStorageStub },
+    });
+  });
+
   it('setup the job controller configuration', async function () {
-    const jobController = new AnswerJobController();
     expect(jobController.jobName).to.equal(AnswerJob.name);
     expect(jobController.jobGroup).to.equal(JobGroup.FAST);
   });
 
   it('triggers the usecase', async function () {
     sinon.stub(usecases, 'rewardUser').resolves();
-    const userId = Symbol('data');
-    const jobController = new AnswerJobController();
+    const userId = Symbol('userId');
     await jobController.handle({ data: { userId } });
     expect(usecases.rewardUser).to.have.been.calledWith({ userId });
+  });
+
+  it("decrement user's job count in temporary storage", async function () {
+    sinon.stub(usecases, 'rewardUser').resolves();
+    const userId = Symbol('data');
+    await jobController.handle({ data: { userId } });
+
+    expect(profileRewardTemporaryStorageStub.decrement).to.have.been.calledWith(userId);
   });
 });
