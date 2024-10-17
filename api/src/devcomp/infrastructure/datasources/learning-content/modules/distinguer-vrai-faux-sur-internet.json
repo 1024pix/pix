@@ -5,18 +5,18 @@
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
     "description": "De nombreuses informations circulent sur internet et les réseaux sociaux. Ces informations sont parfois exagérées, trompeuses ou fausses. Dans ce module, vous allez découvrir une méthode pour analyser l'information et aiguiser votre esprit critique pour mieux distinguer le vrai du faux !",
-    "duration": 15,
+    "duration": 10,
     "level": "Intermédiaire",
     "tabletSupport": "comfortable",
     "objectives": [
       "Connaître une méthode de vérification d'informations",
-      "Repérer une fausse information sur internet",
-      "Vérifier une information sur internet"
+      "Savoir vérifier une information sur internet",
+      "Repérer une fausse information sur internet"
     ]
   },
   "transitionTexts": [
     {
-      "content": "<p>Vous avez déjà sûrement croisé sur internet des informations douteuses. Vous avez peut-être même relayé, sans le savoir, de fausses informations !<br>Pour démêler le vrai du faux, il existe heureusement certaines méthodes.<span aria-hidden=\"true\">🔍</span></p>",
+      "content": "<p>Vous avez déjà sûrement croisé sur internet des informations douteuses. Vous avez peut-être même partagé de fausses informations (<i>fake news</i> en anglais) sans le savoir !<br>Pour démêler le vrai du faux, il existe heureusement certaines méthodes.<span aria-hidden=\"true\">🔍</span></p>",
       "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
     },
     {
@@ -24,17 +24,14 @@
       "grainId": "eb83569f-2e37-49ed-aa6f-31c420b673b9"
     },
     {
-      "content": "<p>C'est une information et pas une anecdote, d'accord. Mais est-ce que cette information est vraie ? Pour le savoir, il faut souvent mener l'enquête.<span aria-hidden=\"true\">🕵🏽</span></p><p>Voyons ensemble la méthode <i>qui ?, quand ?, d'où ?</i>. Trois questions à se poser pour vérifier une information.<span aria-hidden=\"true\">👇</span></p>",
+      "content": "<p>C'est une information et pas une anecdote, d'accord. Mais est-ce que cette information est vraie ? Pour le savoir, il faut mener l'enquête.<span aria-hidden=\"true\">🕵🏽</span></p><p>Voyons ensemble la méthode <i>qui ?, quand ?, d'où ?</i>. Trois questions à se poser pour vérifier une information.<span aria-hidden=\"true\">👇</span></p>",
       "grainId": "ed22ab38-ec6d-47df-88ea-4894f1cd6c8a"
     },
     {
       "content": "<p>Vérifiez que vous avez retenu l'essentiel en répondant à cette question. <span aria-hidden=\"true\">🎯</span></p>",
       "grainId": "46309f55-22e6-4b0f-bfc4-2bad94f9cbd7"
     },
-    {
-      "content": "<p>Si l'un de ces éléments est manquant ou partiel, il faut être prudent et chercher à en savoir plus. Voyons cela en pratique.</p>",
-      "grainId": "c624de0b-658a-47e7-b780-c579a1033aba"
-    },
+
     {
       "content": "<p>Même si on a vérifié le <i>qui&#8239;? quand&#8239;? d'où&#8239;?</i>, il faut rester vigilant.<br>D'autres indices peuvent aider à détecter de fausses informations.&nbsp;👣 <br>Plus il y en a, plus l’information a des chances d’être fausse.</p>",
       "grainId": "428ea826-6e21-4c56-a5a2-f97373f1e833"
@@ -96,37 +93,6 @@
             {
               "elements": [
                 {
-                  "id": "42567080-7352-4d2d-a419-9015f1f53cb4",
-                  "type": "image",
-                  "url": "https://i.imgur.com/H5JCJVT.png",
-                  "alt": "",
-                  "alternativeText": ""
-                },
-                {
-                  "id": "c54f3eb3-df53-4bab-8300-37103878acd2",
-                  "type": "qcu",
-                  "instruction": "<p>San Francisco met en circulation des navettes sans conducteurs.</p>",
-                  "proposals": [
-                    {
-                      "id": "1",
-                      "content": "plutôt vrai"
-                    },
-                    {
-                      "id": "2",
-                      "content": "plutôt faux"
-                    }
-                  ],
-                  "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Bravo&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>",
-                    "invalid": "<span class=\"feedback__state\">Et pourtant, c'est vrai&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
-                  },
-                  "solution": "1"
-                }
-              ]
-            },
-            {
-              "elements": [
-                {
                   "id": "f6368eef-f7fd-44de-8d3e-573e1ca74b32",
                   "type": "image",
                   "url": "https://i.imgur.com/tC8s1jc.png",
@@ -154,6 +120,37 @@
                   "solution": "2"
                 }
               ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "42567080-7352-4d2d-a419-9015f1f53cb4",
+                  "type": "image",
+                  "url": "https://i.imgur.com/H5JCJVT.png",
+                  "alt": "",
+                  "alternativeText": ""
+                },
+                {
+                  "id": "c54f3eb3-df53-4bab-8300-37103878acd2",
+                  "type": "qcu",
+                  "instruction": "<p>San Francisco met en circulation des navettes sans conducteurs.</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "plutôt vrai"
+                    },
+                    {
+                      "id": "2",
+                      "content": "plutôt faux"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Bravo&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>",
+                    "invalid": "<span class=\"feedback__state\">Et pourtant, c'est vrai&#8239;!</span><p> C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
+                  },
+                  "solution": "1"
+                }
+              ]
             }
           ]
         }
@@ -169,7 +166,7 @@
           "element": {
             "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
             "type": "text",
-            "content": "<p>Après cette vidéo, vous devrez déterminer dans des exemples concrets s'il s'agit d'une <strong>opinion</strong>, d'une <strong>rumeur</strong>, d'une <strong>anecdote</strong>, d'une <strong>information</strong>.</p>"
+            "content": "<p>Après cette vidéo, vous devrez trouver dans des exemples concrets s'il s'agit d'une <strong>opinion</strong>, d'une <strong>rumeur</strong>, d'une <strong>anecdote</strong>, d'une <strong>information</strong>.</p>"
           }
         },
         {
@@ -341,44 +338,45 @@
       "title": "Méthode pour vérifier une information (leçon)",
       "components": [
         {
-          "type": "element",
-          "element": {
-            "id": "332d9e96-d12e-4809-9d25-173a57ed93be",
-            "type": "text",
-            "content": "<h3>Question n°1&nbsp;: qui est la personne qui partage cette information&#8239;?&nbsp;<span aria-hidden=\"true\">🖋️</span></h3><p>Demandez-vous si vous connaissez cette personne, si elle est reconnue ou encore si elle a un intérêt particulier à ce que cette information circule.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "42276690-f134-4b88-ac0f-c26ad62370ec",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "8aa4a733-4a92-4007-897d-ab884a7add85",
-            "type": "text",
-            "content": "<h3>Question n°2&nbsp;: quelle est la date de l’information&#8239;?&nbsp;<span aria-hidden=\"true\">📅</span></h3><p>C’est simple à vérifier et très important&#8239;! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "056ef18b-2f2f-4518-acca-93bb59b2d151",
-            "type": "text",
-            "content": "<hr>"
-          }
-        },
-        {
-          "type": "element",
-          "element": {
-            "id": "36577421-d9d0-4f49-ac43-b4e804ba5635",
-            "type": "text",
-            "content": "<h3>Question n°3&nbsp;: d’où provient cette information&#8239;?&nbsp;<span aria-hidden=\"true\">📍</span></h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est un témoignage direct, le résultat d'expérience scientifique, l'enquête d'un journal, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
-          }
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "332d9e96-d12e-4809-9d25-173a57ed93be",
+                  "type": "text",
+                  "content": "<h3>Question n°1&nbsp;: <i>qui</i> est la personne qui partage cette information&#8239;?&nbsp;<span aria-hidden=\"true\">🖋️</span></h3><p>Demandez-vous si vous connaissez cette personne, si elle est reconnue ou encore si elle a un intérêt particulier à ce que cette information circule.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "8aa4a733-4a92-4007-897d-ab884a7add85",
+                  "type": "text",
+                  "content": "<h3>Question n°2&nbsp;: de <i>quand</i> date de l’information&#8239;?&nbsp;<span aria-hidden=\"true\">📅</span></h3><p>C’est simple à vérifier et très important&#8239;! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "36577421-d9d0-4f49-ac43-b4e804ba5635",
+                  "type": "text",
+                  "content": "<h3>Question n°3&nbsp;: <i>d’où</i> provient cette information&#8239;?&nbsp;<span aria-hidden=\"true\">📍</span></h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est un témoignage direct, le résultat d'expériences scientifiques, l'enquête d'un journal, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "1e5732d8-a486-48b4-b9d3-0f9625efffcf",
+                  "type": "text",
+                  "content": "<p>👉 Si les réponses à ces questions vous font encore douter, cherchez à en savoir plus et considérez que cette information est fausse.</p>"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -469,7 +467,7 @@
                     }
                   ],
                   "feedbacks": {
-                    "valid": "<span class=\"feedback__state\">Correct.</span><p>Ce vendeur exagère complétement la réalité pour augmenter ses ventes. </p>",
+                    "valid": "<span class=\"feedback__state\">Correct.</span><p>Ce vendeur n'est pas neutre. Il exagère la réalité pour essayer d'augmenter ses ventes. </p>",
                     "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Ce vendeur exagère pour essayer de vendre ses légumes à plus de personnes.</p>"
                   },
                   "solution": "1"
@@ -608,7 +606,7 @@
           "element": {
             "id": "2a308355-f39f-498e-aef6-f1c0830f5b1f",
             "type": "qcm",
-            "instruction": "<p>Quels sont les conseils à donner à Stéphane&#8239;?</p>",
+            "instruction": "<p>Quels sont les bons conseils à donner à Stéphane&#8239;?</p>",
             "proposals": [
               {
                 "id": "1",
