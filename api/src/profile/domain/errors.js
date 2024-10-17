@@ -6,4 +6,10 @@ class AttestationNotFoundError extends DomainError {
   }
 }
 
-export { AttestationNotFoundError };
+class RewardTypeDoesNotExistError extends DomainError {
+  constructor(message = 'Reward Type does not exist') {
+    super(message);
+  }
+}
+
+export { AttestationNotFoundError, RewardTypeDoesNotExistError };
