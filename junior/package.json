@@ -55,7 +55,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
-    "babel-plugin-ember-template-compilation": "^2.2.5",
+    "babel-plugin-ember-template-compilation": "^2.3.0",
     "dotenv": "^16.3.1",
     "ember-auto-import": "^2.7.2",
     "ember-cli": "^5.8.1",
@@ -100,7 +100,7 @@
     "stylelint": "^16.0.0",
     "stylelint-order": "^6.0.3",
     "tracked-built-ins": "^3.3.0",
-    "webpack": "^5.91.0",
+    "webpack": "^5.95.0",
     "xss": "^1.0.14"
   },
   "overrides": {
