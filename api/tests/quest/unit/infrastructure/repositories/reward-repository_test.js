@@ -1,0 +1,95 @@
+import { QuestResult } from '../../../../../src/quest/domain/models/QuestResult.js';
+import { getByQuestAndUserId } from '../../../../../src/quest/infrastructure/repositories/reward-repository.js';
+import { expect, sinon } from '../../../../test-helper.js';
+
+describe('Quest | Unit | Infrastructure | Repositories | Reward', function () {
+  describe('#getByQuestAndUserId', function () {
+    let userId;
+    let quest;
+    let reward;
+    let rewardApiStub;
+    let profileRewardApiStub;
+    let profileRewardTemporaryStorageStub;
+
+    beforeEach(function () {
+      userId = Symbol('userId');
+      quest = {
+        id: 1,
+        rewardId: Symbol('rewardId'),
+        rewardType: Symbol('rewardType'),
+      };
+      reward = Symbol('reward');
+      rewardApiStub = {
+        getByIdAndType: sinon.stub(),
+      };
+      profileRewardApiStub = {
+        getByUserId: sinon.stub(),
+      };
+      profileRewardTemporaryStorageStub = {
+        get: sinon.stub(),
+      };
+
+      rewardApiStub.getByIdAndType
+        .withArgs({ rewardId: quest.rewardId, rewardType: quest.rewardType })
+        .resolves(reward);
+    });
+
+    it('should return QuestResult with obtained true when reward is obtained', async function () {
+      const profileReward = [{ rewardId: quest.rewardId, rewardType: quest.rewardType }];
+      profileRewardApiStub.getByUserId.withArgs(userId).resolves(profileReward);
+
+      const result = await getByQuestAndUserId({
+        userId,
+        quest,
+        rewardApi: rewardApiStub,
+        profileRewardApi: profileRewardApiStub,
+        profileRewardTemporaryStorage: profileRewardTemporaryStorageStub,
+      });
+
+      expect(result).to.be.an.instanceof(QuestResult);
+      expect(result.id).to.equal(quest.id);
+      expect(result.reward).to.equal(reward);
+      expect(result.obtained).to.be.true;
+    });
+
+    it('should return QuestResult with obtained false when reward is not obtained', async function () {
+      const profileReward = [];
+
+      profileRewardApiStub.getByUserId.withArgs(userId).resolves(profileReward);
+      profileRewardTemporaryStorageStub.get.withArgs(userId).resolves(0);
+
+      const result = await getByQuestAndUserId({
+        userId,
+        quest,
+        rewardApi: rewardApiStub,
+        profileRewardApi: profileRewardApiStub,
+        profileRewardTemporaryStorage: profileRewardTemporaryStorageStub,
+      });
+
+      expect(result).to.be.an.instanceof(QuestResult);
+      expect(result.id).to.equal(quest.id);
+      expect(result.reward).to.equal(reward);
+      expect(result.obtained).to.be.false;
+    });
+
+    it('should return QuestResult with obtained null when reward is processing', async function () {
+      const profileReward = [];
+
+      profileRewardApiStub.getByUserId.withArgs(userId).resolves(profileReward);
+      profileRewardTemporaryStorageStub.get.withArgs(userId).resolves(1);
+
+      const result = await getByQuestAndUserId({
+        userId,
+        quest,
+        rewardApi: rewardApiStub,
+        profileRewardApi: profileRewardApiStub,
+        profileRewardTemporaryStorage: profileRewardTemporaryStorageStub,
+      });
+
+      expect(result).to.be.an.instanceof(QuestResult);
+      expect(result.id).to.equal(quest.id);
+      expect(result.reward).to.equal(reward);
+      expect(result.obtained).to.be.null;
+    });
+  });
+});
