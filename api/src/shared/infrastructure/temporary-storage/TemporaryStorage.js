@@ -25,6 +25,14 @@ class TemporaryStorage {
     throw new Error('Method #expire({ key, expirationDelaySeconds }) must be overridden');
   }
 
+  async increment(/* key */) {
+    throw new Error('Method #increment(key) must be overridden');
+  }
+
+  async decrement(/* key */) {
+    throw new Error('Method #decrement(key) must be overridden');
+  }
+
   async ttl(/* key */) {
     throw new Error('Method #ttl(key) must be overridden');
   }

@@ -15,6 +15,32 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
     });
   });
 
+  describe('#decrement', function () {
+    it('should reject an error (because this class actually mocks an interface)', function () {
+      // given
+      const temporaryStorageInstance = new TemporaryStorage();
+
+      // when
+      const result = temporaryStorageInstance.decrement('key');
+
+      // then
+      expect(result).to.be.rejected;
+    });
+  });
+
+  describe('#increment', function () {
+    it('should reject an error (because this class actually mocks an interface)', function () {
+      // given
+      const temporaryStorageInstance = new TemporaryStorage();
+
+      // when
+      const result = temporaryStorageInstance.increment('key');
+
+      // then
+      expect(result).to.be.rejected;
+    });
+  });
+
   describe('#get', function () {
     it('should reject an error (because this class actually mocks an interface)', function () {
       // given
