@@ -3,7 +3,6 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { t } from 'ember-intl';
 
 import PasswordChecklist from './password-checklist';
 
@@ -34,7 +33,7 @@ export default class NewPasswordInput extends Component {
       autocomplete="new-password"
       ...attributes
     >
-      <:label>{{t "components.authentication.new-password-input.label"}}</:label>
+      <:label>{{yield to="label"}}</:label>
     </PixInputPassword>
 
     <PasswordChecklist id="password-checklist" @rules={{@rules}} @value={{this.value}} />
