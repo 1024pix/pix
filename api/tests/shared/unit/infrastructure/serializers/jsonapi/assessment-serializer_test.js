@@ -14,7 +14,8 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
           type: 'assessments',
           attributes: {
             'certification-number': certificationCourseId,
-            'has-ongoing-live-alert': false,
+            'has-ongoing-challenge-live-alert': false,
+            'has-ongoing-companion-live-alert': false,
             state: assessment.state,
             type: assessment.type,
             title: assessment.courseId.toString(),

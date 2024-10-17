@@ -1,4 +1,5 @@
 import { CertificationChallengeLiveAlertStatus } from '../../../certification/shared/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationCompanionLiveAlertStatus } from '../../../certification/shared/domain/models/CertificationCompanionLiveAlert.js';
 import { Answer } from '../../../evaluation/domain/models/Answer.js';
 import { ObjectValidationError } from '../errors.js';
 
@@ -63,7 +64,8 @@ class Assessment {
     campaignParticipationId,
     method,
     campaignCode,
-    liveAlerts,
+    challengeLiveAlerts,
+    companionLiveAlerts,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -85,7 +87,8 @@ class Assessment {
     this.campaignParticipationId = campaignParticipationId;
     this.method = method || Assessment.computeMethodFromType(this.type);
     this.campaignCode = campaignCode;
-    this.liveAlerts = liveAlerts;
+    this.challengeLiveAlerts = challengeLiveAlerts;
+    this.companionLiveAlerts = companionLiveAlerts;
   }
 
   isCompleted() {
@@ -150,20 +153,33 @@ class Assessment {
     return this.method === methods.SMART_RANDOM;
   }
 
-  attachLiveAlerts(liveAlerts) {
-    this.liveAlerts = liveAlerts;
+  attachLiveAlerts({ challengeLiveAlerts, companionLiveAlerts }) {
+    this.challengeLiveAlerts = challengeLiveAlerts;
+    this.companionLiveAlerts = companionLiveAlerts;
   }
 
   get hasLastQuestionBeenFocusedOut() {
     return this.lastQuestionState === Assessment.statesOfLastQuestion.FOCUSEDOUT;
   }
 
-  get hasOngoingLiveAlert() {
-    if (!this.liveAlerts) {
+  get hasOngoingChallengeLiveAlert() {
+    if (!this.challengeLiveAlerts) {
       return false;
     }
 
-    return this.liveAlerts.some((liveAlert) => liveAlert.status === CertificationChallengeLiveAlertStatus.ONGOING);
+    return this.challengeLiveAlerts.some(
+      (challengeLiveAlert) => challengeLiveAlert.status === CertificationChallengeLiveAlertStatus.ONGOING,
+    );
+  }
+
+  get hasOngoingCompanionLiveAlert() {
+    if (!this.companionLiveAlerts) {
+      return false;
+    }
+
+    return this.companionLiveAlerts.some(
+      (companionLiveAlert) => companionLiveAlert.status === CertificationCompanionLiveAlertStatus.ONGOING,
+    );
   }
 
   static computeMethodFromType(type) {

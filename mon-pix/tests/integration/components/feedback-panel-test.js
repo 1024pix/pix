@@ -329,10 +329,14 @@ module('Integration | Component | feedback-panel', function (hooks) {
     });
   });
 
-  module('When assessment is not of type certification', function () {
+  module('When assessment is not of type certification', function (hooks) {
+    hooks.beforeEach(function () {
+      this.assessment = {};
+    });
+
     test('should display the feedback panel', async function (assert) {
       // given & when
-      const screen = await render(hbs`<FeedbackPanel />`);
+      const screen = await render(hbs`<FeedbackPanel @assessment={{this.assessment}} />`);
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Signaler un problème avec la question' })).exists();
@@ -340,7 +344,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
     test('should toggle the form view when clicking on the toggle link', async function (assert) {
       // given
-      const screen = await render(hbs`<FeedbackPanel />`);
+      const screen = await render(hbs`<FeedbackPanel @assessment={{this.assessment}} />`);
 
       // when
       await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
@@ -466,7 +470,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
   module('Error management', function () {
     test('should not display error if "form" view (with error) was closed and re-opened', async function (assert) {
       // given
-      const screen = await render(hbs`<FeedbackPanel />`);
+      this.assessment = {};
+      const screen = await render(hbs`<FeedbackPanel @assessment={{this.assessment}} />`);
       await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
       await click(screen.getByRole('button', { name: "J'ai un problème avec" }));

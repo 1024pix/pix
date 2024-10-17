@@ -1,5 +1,5 @@
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { Assessment } from '../../../../../src/shared/domain/models/index.js';
 import {
   createServer,
   databaseBuilder,
@@ -167,7 +167,8 @@ describe('Acceptance | API | assessment-controller-get', function () {
           title: 'Preview',
           type: Assessment.types.PREVIEW,
           'certification-number': null,
-          'has-ongoing-live-alert': false,
+          'has-ongoing-challenge-live-alert': false,
+          'has-ongoing-companion-live-alert': false,
           'last-question-state': Assessment.statesOfLastQuestion.ASKED,
           'competence-id': 'recCompetenceId',
           method: Assessment.methods.CHOSEN,
@@ -300,7 +301,8 @@ describe('Acceptance | API | assessment-controller-get', function () {
           title: 'Preview',
           type: Assessment.types.PREVIEW,
           'certification-number': null,
-          'has-ongoing-live-alert': false,
+          'has-ongoing-challenge-live-alert': false,
+          'has-ongoing-companion-live-alert': false,
           'competence-id': 'recCompetenceId',
           'last-question-state': Assessment.statesOfLastQuestion.ASKED,
           method: Assessment.methods.CHOSEN,

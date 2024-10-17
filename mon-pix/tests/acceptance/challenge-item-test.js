@@ -693,6 +693,34 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         });
       },
     );
+
+    module('when there is a companion live alert', function () {
+      test('should hide feedback button', async function (assert) {
+        // given
+        const certificationCourse = server.create('certification-course', {
+          accessCode: 'ABCD12',
+          sessionId: 1,
+          nbChallenges: 1,
+          firstName: 'Alain',
+          lastName: 'Cendy',
+          version: 2,
+          assessment: server.create('assessment', {
+            type: 'CERTIFICATION',
+            title: 'assessment COMPANION',
+            hasOngoingCompanionLiveAlert: true,
+          }),
+        });
+
+        assessment = certificationCourse.assessment;
+        server.create('challenge', 'forCertification', 'QCM');
+
+        // when
+        const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: 'Signaler un problème avec la question' })).doesNotExist();
+      });
+    });
   });
 
   module('when assessment is v3 certification', function () {
@@ -940,6 +968,34 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
             });
           });
         });
+      });
+    });
+
+    module('when there is a companion live alert', function () {
+      test('should hide feedback button', async function (assert) {
+        // given
+        const certificationCourse = server.create('certification-course', {
+          accessCode: 'ABCD12',
+          sessionId: 1,
+          nbChallenges: 1,
+          firstName: 'Alain',
+          lastName: 'Cendy',
+          version: 3,
+          assessment: server.create('assessment', {
+            type: 'CERTIFICATION',
+            title: 'assessment COMPANION',
+            hasOngoingCompanionLiveAlert: true,
+          }),
+        });
+
+        assessment = certificationCourse.assessment;
+        server.create('challenge', 'forCertification', 'QCM');
+
+        // when
+        const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: 'Signaler un problème avec la question' })).doesNotExist();
       });
     });
   });

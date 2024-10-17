@@ -314,6 +314,7 @@ export {
   buildCertificationChallengeForScoring,
   buildCertificationChallengeLiveAlert,
   buildCertificationChallengeWithType,
+  buildCertificationCompanionLiveAlert,
   buildCertificationCourse,
   buildCertificationCpfCity,
   buildCertificationCpfCountry,
