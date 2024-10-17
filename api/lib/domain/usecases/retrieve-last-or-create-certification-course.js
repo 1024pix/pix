@@ -9,12 +9,13 @@
  * @typedef {import('./index.js').CertificationChallengesService} CertificationChallengesService
  * @typedef {import('./index.js').VerifyCertificateCodeService} VerifyCertificateCodeService
  * @typedef {import('./index.js').AssessmentRepository} AssessmentRepository
+ * @typedef {import('../../../src/shared/domain/models/CertificationCandidate.js').CertificationCandidate} CertificationCandidate
  */
 import { SessionNotAccessible } from '../../../src/certification/session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
-import { SUBSCRIPTION_TYPES } from '../../../src/certification/shared/domain/constants.js';
+import { AlgoritmEngineVersion } from '../../../src/certification/shared/domain/models/AlgoritmEngineVersion.js';
 import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { SESSIONS_VERSIONS, SessionVersion } from '../../../src/certification/shared/domain/models/SessionVersion.js';
+import { SessionVersion } from '../../../src/certification/shared/domain/models/SessionVersion.js';
 import { config } from '../../../src/shared/config.js';
 import { LanguageNotSupportedError } from '../../../src/shared/domain/errors.js';
 import {
@@ -92,15 +93,8 @@ const retrieveLastOrCreateCertificationCourse = async function ({
     };
   }
 
-  let { version } = session;
-
-  // TODO: switch to certif-course version, not session
-  if (_isComplementaryCertificationOnly(certificationCandidate)) {
-    version = SESSIONS_VERSIONS.V2;
-  }
-
   let lang;
-  if (SessionVersion.isV3(version)) {
+  if (SessionVersion.isV3(session.version)) {
     const user = await userRepository.get(userId);
     const isUserLanguageValid = _validateUserLanguage(languageService, user.lang);
 
@@ -112,7 +106,7 @@ const retrieveLastOrCreateCertificationCourse = async function ({
   }
 
   return _startNewCertification({
-    sessionId,
+    session,
     userId,
     certificationCandidate,
     locale,
@@ -123,18 +117,28 @@ const retrieveLastOrCreateCertificationCourse = async function ({
     placementProfileService,
     verifyCertificateCodeService,
     certificationBadgesService,
-    version,
     lang,
   });
 };
 
 export { retrieveLastOrCreateCertificationCourse };
 
-function _isComplementaryCertificationOnly(certificationCandidate) {
-  return (
-    certificationCandidate.subscriptions.length === 1 &&
-    certificationCandidate.subscriptions[0].type === SUBSCRIPTION_TYPES.COMPLEMENTARY
-  );
+/**
+ * @param {Object} params
+ * @param {SessionVersion} params.sessionVersion
+ * @param {CertificationCandidate} params.certificationCandidate
+ * @returns {AlgoritmEngineVersion}
+ */
+function _selectCertificationAlgorithmEngine({ sessionVersion, certificationCandidate }) {
+  if (!SessionVersion.isV3(sessionVersion)) {
+    return AlgoritmEngineVersion.V2;
+  }
+
+  if (certificationCandidate.isEnrolledToComplementaryOnly()) {
+    return AlgoritmEngineVersion.V2;
+  }
+
+  return AlgoritmEngineVersion.V3;
 }
 
 function _validateUserLanguage(languageService, userLanguage) {
@@ -179,6 +183,7 @@ async function _blockCandidateFromRestartingWithoutExplicitValidation(
 
 /**
  * @param {Object} params
+ * @param {Session} params.session
  * @param {CertificationCourseRepository} params.certificationCourseRepository
  * @param {PlacementProfileService} params.placementProfileService
  * @param {CertificationCenterRepository} params.certificationCenterRepository
@@ -188,7 +193,7 @@ async function _blockCandidateFromRestartingWithoutExplicitValidation(
  * @param {VerifyCertificateCodeService} params.verifyCertificateCodeService
  */
 async function _startNewCertification({
-  sessionId,
+  session,
   userId,
   certificationCandidate,
   locale,
@@ -199,13 +204,11 @@ async function _startNewCertification({
   placementProfileService,
   certificationBadgesService,
   verifyCertificateCodeService,
-  // TODO: switch to certif-course version, not session
-  version,
   lang,
 }) {
   const challengesForCertification = [];
 
-  const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
+  const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId: session.id });
 
   const complementaryCertificationCourseData = [];
 
@@ -236,13 +239,18 @@ async function _startNewCertification({
     }
   }
 
+  const algoritmEngineVersion = _selectCertificationAlgorithmEngine({
+    sessionVersion: session.version,
+    certificationCandidate,
+  });
+
   let challengesForPixCertification = [];
-  // TODO: switch to certif-course version, not session
-  if (!SessionVersion.isV3(version)) {
+
+  if (!AlgoritmEngineVersion.isV3(algoritmEngineVersion)) {
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId,
       limitDate: certificationCandidate.reconciledAt,
-      version,
+      version: algoritmEngineVersion,
     });
 
     challengesForPixCertification = await certificationChallengesService.pickCertificationChallenges(
@@ -257,7 +265,7 @@ async function _startNewCertification({
   const certificationCourseCreatedMeanwhile = await _getCertificationCourseIfCreatedMeanwhile(
     certificationCourseRepository,
     userId,
-    sessionId,
+    session.id,
   );
   if (certificationCourseCreatedMeanwhile) {
     return {
@@ -274,7 +282,7 @@ async function _startNewCertification({
     certificationChallenges: challengesForCertification,
     verifyCertificateCodeService,
     complementaryCertificationCourseData,
-    version,
+    algoritmEngineVersion,
     lang,
   });
 }
@@ -300,7 +308,7 @@ async function _createCertificationCourse({
   userId,
   certificationChallenges,
   complementaryCertificationCourseData,
-  version,
+  algoritmEngineVersion,
   lang,
 }) {
   const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
@@ -314,7 +322,7 @@ async function _createCertificationCourse({
     maxReachableLevelOnCertificationDate: features.maxReachableLevel,
     complementaryCertificationCourses,
     verificationCode,
-    version,
+    algoritmEngineVersion,
     lang,
   });
 

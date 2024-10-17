@@ -3,7 +3,9 @@ import _ from 'lodash';
 import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course.js';
 import { SessionNotAccessible } from '../../../../src/certification/session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
+import { AlgoritmEngineVersion } from '../../../../src/certification/shared/domain/models/AlgoritmEngineVersion.js';
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { SESSIONS_VERSIONS } from '../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { LOCALE, MAX_REACHABLE_LEVEL } from '../../../../src/shared/domain/constants.js';
 import {
   CandidateNotAuthorizedToJoinSessionError,
@@ -324,7 +326,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 placementProfileService,
                 userId: 2,
                 reconciledAt: certificationCandidate.reconciledAt,
-                version: foundSession.version,
+                version: AlgoritmEngineVersion.V2,
               });
 
               certificationBadgesService.findStillValidBadgeAcquisitions.resolves([]);
@@ -447,12 +449,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             });
 
             context('when the candidate is enroled in complementary certification only', function () {
-              xit('should build a v2 algorithm certification', async function () {
+              it('should build a v2 algorithm certification', async function () {
                 // given
                 const user = domainBuilder.buildUser({ id: 2, lang: LOCALE.FRENCH_SPOKEN });
                 const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
                   accessCode: 'accessCode',
-                  version: 3,
+                  version: SESSIONS_VERSIONS.V3,
                 });
 
                 sessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
@@ -478,7 +480,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     placementProfileService,
                     userId: user.id,
                     reconciledAt: foundCertificationCandidate.reconciledAt,
-                    version: foundSession.version,
+                    version: AlgoritmEngineVersion.V2,
                   });
                 certificationChallengesService.pickCertificationChallenges
                   .withArgs(placementProfile)
@@ -518,7 +520,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   challenges: [challenge1, challenge2],
                   verificationCode,
                   maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
-                  version: 2,
+                  algoritmEngineVersion: AlgoritmEngineVersion.V2,
                   lang: user.lang,
                 });
                 const savedCertificationCourse = domainBuilder.buildCertificationCourse(
@@ -643,13 +645,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     .withArgs({ userId, sessionId: 1 })
                     .resolves(null);
 
-                  _buildPlacementProfileWithTwoChallenges({
-                    placementProfileService,
-                    userId,
-                    reconciledAt: foundCertificationCandidate.reconciledAt,
-                    version: foundSession.version,
-                  });
-
                   const certificationCenter = domainBuilder.buildCertificationCenter({
                     habilitations: [],
                     isV3Pilot: true,
@@ -668,7 +663,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     challenges: [],
                     verificationCode,
                     maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
-                    version: 3,
+                    algoritmEngineVersion: AlgoritmEngineVersion.V3,
                     lang: user.lang,
                     isAdjustedForAccessibility: foundCertificationCandidate.accessibilityAdjustmentNeeded,
                   });
@@ -757,7 +752,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         placementProfileService,
                         userId: 2,
                         reconciledAt: foundCertificationCandidate.reconciledAt,
-                        version: foundSession.version,
+                        version: AlgoritmEngineVersion.V2,
                       });
                     certificationChallengesService.pickCertificationChallenges
                       .withArgs(placementProfile)
@@ -879,7 +874,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         placementProfileService,
                         userId: 2,
                         reconciledAt: foundCertificationCandidate.reconciledAt,
-                        version: foundSession.version,
+                        version: AlgoritmEngineVersion.V2,
                       });
                     certificationChallengesService.pickCertificationChallenges
                       .withArgs(placementProfile)
@@ -998,7 +993,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           placementProfileService,
                           userId: 2,
                           reconciledAt: foundCertificationCandidate.reconciledAt,
-                          version: foundSession.version,
+                          version: AlgoritmEngineVersion.V2,
                         });
                       certificationChallengesService.pickCertificationChallenges
                         .withArgs(placementProfile)
@@ -1093,7 +1088,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           placementProfileService,
                           userId: 2,
                           reconciledAt: foundCertificationCandidate.reconciledAt,
-                          version: foundSession.version,
+                          version: AlgoritmEngineVersion.V2,
                         });
                       certificationChallengesService.pickCertificationChallenges
                         .withArgs(placementProfile)
@@ -1215,7 +1210,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         placementProfileService,
                         userId: 2,
                         reconciledAt: foundCertificationCandidate.reconciledAt,
-                        version: foundSession.version,
+                        version: AlgoritmEngineVersion.V2,
                       });
                     certificationChallengesService.pickCertificationChallenges
                       .withArgs(placementProfile)
@@ -1313,7 +1308,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       placementProfileService,
                       userId: 2,
                       reconciledAt: foundCertificationCandidate.reconciledAt,
-                      version: foundSession.version,
+                      version: AlgoritmEngineVersion.V2,
                     });
                   certificationChallengesService.pickCertificationChallenges
                     .withArgs(placementProfile)
