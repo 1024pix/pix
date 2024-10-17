@@ -778,13 +778,10 @@
         "actions": {
           "no-send-feedback": "Nee, ik kom terug op de test",
           "open-close": "Een probleem met de vraag melden",
-          "refresh-page": "Pagina verversen",
           "send-feedback": "Ja, ik weet het zeker"
         },
         "description": "Weet je zeker dat je een probleem wilt melden?",
-        "information": "Als je een probleem meldt, wordt je certificering gepauzeerd totdat de supervisor ingrijpt om je melding te valideren of ongeldig te verklaren.",
-        "problem-banner": "Vertel het je supervisor zodat hij of zij kan uitzoeken wat het probleem is.",
-        "waiting-information": "Wachten op de supervisor..."
+        "information": "Als je een probleem meldt, wordt je certificering gepauzeerd totdat de supervisor ingrijpt om je melding te valideren of ongeldig te verklaren."
       },
       "feedback-panel": {
         "actions": {
@@ -898,6 +895,16 @@
         "info-alert": {
           "subtitle": "Bij certificering wordt je antwoord niet gevalideerd als je van pagina verandert.",
           "title": "Beantwoord deze vraag zonder op internet te zoeken of software te gebruiken."
+        }
+      },
+      "live-alerts": {
+        "refresh": "Refresh the page",
+        "waiting-information": "Waiting for the invigilator...",
+        "companion": {
+          "message": "Notify your invigilator so that they can confirm the presence of the extension."
+        },
+        "challenge": {
+          "message": "Notify your invigilator so that they can check your problem"
         }
       },
       "parts": {

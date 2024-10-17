@@ -15,12 +15,15 @@ module('Integration | Component | Assessments | challenge-live-alert', function 
     const assessment = {
       reload: sinon.stub(),
     };
+    const message = t('pages.challenge.live-alerts.companion.message');
 
     // when
-    const screen = await render(<template><ChallengeLiveAlert @assessment={{assessment}} /></template>);
+    const screen = await render(
+      <template><ChallengeLiveAlert @assessment={{assessment}} @message={{message}} /></template>,
+    );
 
     // then
-    assert.dom(screen.getByText(t('pages.challenge.live-alerts.companion.message'))).exists();
+    assert.dom(screen.getByText(message)).exists();
     assert.dom(screen.getByText(t('pages.challenge.live-alerts.waiting-information'))).exists();
     assert.dom(screen.getByRole('button', { name: t('pages.challenge.live-alerts.refresh') })).exists();
   });

@@ -893,13 +893,10 @@
         "actions": {
           "no-send-feedback": "No, I'm coming back to the test",
           "open-close": "Report a problem with the question",
-          "refresh-page": "Refresh the page",
           "send-feedback": "Yes, I'm sure"
         },
         "description": "Are you sure you want to report a problem?",
-        "information": "By reporting a problem, your certification is paused while the invigilator intervenes to validate or invalidate your report",
-        "problem-banner": "Notify your invigilator so that they can check your problem",
-        "waiting-information": "Waiting for the invigilator..."
+        "information": "By reporting a problem, your certification is paused while the invigilator intervenes to validate or invalidate your report"
       },
       "has-focused-out-of-window": {
         "certification": "We have detected a page switch. Your answer will not be validated. If you have been forced to change pages, please inform your invigilator and answer the question in their presence.",
@@ -922,6 +919,9 @@
         "waiting-information": "Waiting for the invigilator...",
         "companion": {
           "message": "Notify your invigilator so that they can confirm the presence of the extension."
+        },
+        "challenge": {
+          "message": "Notify your invigilator so that they can check your problem"
         }
       },
       "parts": {

@@ -43,8 +43,9 @@ export default class FeedbackPanelV3 extends Component {
   }
 
   @action
-  resfreshPage() {
-    this.router.refresh();
+  submitLiveAlert() {
+    this.args.submitLiveAlert();
+    this._resetPanel();
   }
 
   _resetPanel() {

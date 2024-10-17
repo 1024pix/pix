@@ -13,7 +13,7 @@ export default class ChallengeLiveAlert extends Component {
 
   <template>
     <div class="challenge-live-alert">
-      <PixMessage @type="error" @withIcon={{true}}>{{t "pages.challenge.live-alerts.companion.message"}}</PixMessage>
+      <PixMessage @type="error" @withIcon={{true}}>{{@message}}</PixMessage>
 
       <div class="challenge-live-alert__refresh-information">
         <p>{{t "pages.challenge.live-alerts.waiting-information"}}</p>
