@@ -46,7 +46,8 @@
       "show-more": "Ver más",
       "sign-out": "Desconectarse",
       "stay": "Quedarse",
-      "validate": "Validar"
+      "validate": "Validar",
+      "login": "Log in to Pix"
     },
     "api-error-messages": {
       "bad-request-error": "Los datos que has enviado no están en el formato correcto.",
@@ -167,6 +168,19 @@
             "placeholder": "ex: Doe"
           },
           "legend": "Información necesaria para la inscripción."
+        }
+      },
+      "password-reset-demand": {
+        "form": {
+	  "rule": "All fields are required.",
+	  "no-email": "No email address?"
+	},
+        "contact-us-link": {
+          "link-text": "Contact us",
+          "link-url": "https://pix.org/en/support"
+        },
+        "actions": {
+          "receive-reset-link": "Receive a reset link"
         }
       }
     },
