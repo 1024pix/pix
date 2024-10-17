@@ -123,12 +123,14 @@ export default class ModulePassage extends Component {
         adapterOptions: { passageId: this.args.passage.id },
       });
 
-    this.metrics.add({
-      event: 'custom-event',
-      'pix-event-category': 'Modulix',
-      'pix-event-action': `Passage du module : ${this.args.module.id}`,
-      'pix-event-name': `Click sur le bouton vérifier de l'élément : ${answerData.element.id}`,
-    });
+    if (answerData?.elementType !== 'flashcards') {
+      this.metrics.add({
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${this.args.module.id}`,
+        'pix-event-name': `Click sur le bouton vérifier de l'élément : ${answerData.element.id}`,
+      });
+    }
   }
 
   @action

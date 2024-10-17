@@ -51,10 +51,20 @@ export default class ModulixFlashcards extends Component {
     this.displayedSideName = this.displayedSideName === 'recto' ? 'verso' : 'recto';
   }
 
-  @action
   goToNextCard() {
     this.currentCardIndex++;
     this.displayedSideName = 'recto';
+  }
+
+  @action
+  onAnswer(event) {
+    const answerData = {
+      userResponse: [event.target.dataset.label],
+      element: this.currentCard,
+      elementType: 'flashcards',
+    };
+    this.args.onFlashcardsAnswer(answerData);
+    this.goToNextCard();
   }
 
   <template>
@@ -90,21 +100,24 @@ export default class ModulixFlashcards extends Component {
               <button
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--no"
                 type="button"
-                {{on "click" this.goToNextCard}}
+                data-label="no"
+                {{on "click" this.onAnswer}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.notAtAll"}}
               </button>
               <button
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--almost"
                 type="button"
-                {{on "click" this.goToNextCard}}
+                data-label="almost"
+                {{on "click" this.onAnswer}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.almost"}}
               </button>
               <button
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--yes"
                 type="button"
-                {{on "click" this.goToNextCard}}
+                data-label="yes"
+                {{on "click" this.onAnswer}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.yes"}}
               </button>
