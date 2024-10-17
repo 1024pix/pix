@@ -5,10 +5,11 @@ export class OrganizationLearnerWithParticipations {
       MEFCode: organizationLearner.MEFCode,
     };
     this.organization = {
+      id: organization.id,
       isManagingStudents: organization.isManagingStudents,
       tags: tagNames,
       type: organization.type,
     };
-    this.campaignParticipations = campaignParticipations.map(({ targetProfileId }) => ({ targetProfileId }));
+    this.campaignParticipations = campaignParticipations.map(({ id, targetProfileId }) => ({ id, targetProfileId }));
   }
 }

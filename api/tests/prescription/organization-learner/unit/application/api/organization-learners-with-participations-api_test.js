@@ -41,11 +41,12 @@ describe('Unit | API | Organization Learner With Participations', function () {
             MEFCode: organizationLearner1.MEFCode,
           },
           organization: {
+            id: organization1.id,
             isManagingStudents: organization1.isManagingStudents,
             tags: tagNames,
             type: organization1.type,
           },
-          campaignParticipations: campaignParticipations.map(({ targetProfileId }) => ({ targetProfileId })),
+          campaignParticipations: campaignParticipations.map(({ id, targetProfileId }) => ({ id, targetProfileId })),
         },
         {
           organizationLearner: {
@@ -53,11 +54,12 @@ describe('Unit | API | Organization Learner With Participations', function () {
             MEFCode: organizationLearner2.MEFCode,
           },
           organization: {
+            id: organization2.id,
             isManagingStudents: organization2.isManagingStudents,
             tags: tagNames,
             type: organization2.type,
           },
-          campaignParticipations: campaignParticipations.map(({ targetProfileId }) => ({ targetProfileId })),
+          campaignParticipations: campaignParticipations.map(({ id, targetProfileId }) => ({ id, targetProfileId })),
         },
       ]);
     });
