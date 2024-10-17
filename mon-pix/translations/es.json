@@ -8,6 +8,7 @@
       "r32": "Ya dispones de una cuenta Pix utilizada con el nombre de usuario con la forma nombre.apellido seguido de 4 dígitos:'<br>'{ value }'<br><br>'Para continuar, conéctate a esta cuenta o pide ayuda a un profesor.'<br><br>'(Para el profesor: ver el 'Kit de resolución de problemas' en Pix Orga > Documentación - Código R32)",
       "r33": "Ya dispones de una cuenta Pix a través del ENT. Utilízala para unirte al test.",
       "r70": "Se ha producido un error. Desconéctate y vuelve a intentarlo.",
+      "r80": "La dirección de correo electrónico no es válida.",
       "r90": {
         "account-belonging-to-another-user": "Parece que un estudiante ya está utilizando esta cuenta.",
         "details": {

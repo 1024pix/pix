@@ -8,6 +8,7 @@
       "r32": "Vous possédez déjà un compte Pix utilisé avec l’identifiant sous la forme prénom.nom suivi de 4 chiffres:'<br>'{ value }'<br><br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R32)",
       "r33": "Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.",
       "r70": "Une erreur est survenue. Déconnectez-vous et recommencez.",
+      "r80": "L'adresse email n'est pas valide.",
       "r90": {
         "account-belonging-to-another-user": "Il semblerait qu'un élève utilise déjà ce compte.",
         "details": {

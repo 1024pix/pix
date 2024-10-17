@@ -8,6 +8,7 @@
       "r32": "Je hebt al een Pix-account gebruikt met de identificatiecode in de vorm voornaam.achternaam gevolgd door 4 cijfers:'<br>'{ value }'<br><br>'Om verder te gaan, log je in bij dit account of vraag je een docent om hulp.'<br><br>'(Voor de docent: zie de 'Probleemoplossingskit' in Pix Orga > Documentatie - Code R32)",
       "r33": "Je hebt al een Pix-account via ENT. Gebruik deze om deel te nemen aan de cursus.",
       "r70": "Er is een fout opgetreden. Log uit en probeer het opnieuw.",
+      "r80": "Het e-mailadres is ongeldig.",
       "r90": {
         "account-belonging-to-another-user": "Het lijkt erop dat één student deze account al gebruikt.",
         "details": {

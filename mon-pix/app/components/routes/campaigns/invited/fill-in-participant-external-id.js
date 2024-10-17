@@ -3,12 +3,18 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
+import { getJoinErrorsMessageByShortCode } from '../../../../utils/errors-messages';
+
 export default class FillInParticipantExternalId extends Component {
   @service intl;
+  previousError = this.args.previousError;
+  previousParticipantExternalId = this.args.previousParticipantExternalId;
 
-  @tracked participantExternalId = null;
+  @tracked participantExternalId = this.previousParticipantExternalId || null;
   @tracked isLoading = false;
-  @tracked errorMessage = null;
+  @tracked errorMessage = this.previousError
+    ? this.intl.t(getJoinErrorsMessageByShortCode({ shortCode: this.previousError }))
+    : null;
 
   @action
   submit(event) {
