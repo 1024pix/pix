@@ -94,7 +94,10 @@
         {{/unless}}
 
         {{#if @model.assessment.hasOngoingCompanionLiveAlert}}
-          <Assessments::ChallengeLiveAlert @assessment={{@model.assessment}} />
+          <Assessments::ChallengeLiveAlert
+            @message={{t "pages.challenge.live-alerts.companion.message"}}
+            @assessment={{@model.assessment}}
+          />
         {{/if}}
       </div>
 
