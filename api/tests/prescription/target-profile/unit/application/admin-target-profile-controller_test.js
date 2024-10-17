@@ -1,3 +1,4 @@
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { targetProfileController } from '../../../../../src/prescription/target-profile/application/admin-target-profile-controller.js';
 import { usecases as prescriptionTargetProfileUsecases } from '../../../../../src/prescription/target-profile/domain/usecases/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
@@ -418,6 +419,54 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
 
       // then
       expect(response).to.deep.equal(expectedResult);
+    });
+  });
+
+  describe('#createTargetProfile', function () {
+    it('should succeed', async function () {
+      // given
+      sinon.stub(prescriptionTargetProfileUsecases, 'createTargetProfile');
+      const targetProfileCreationCommand = {
+        name: 'targetProfileName',
+        category: 'OTHER',
+        description: 'coucou maman',
+        comment: 'coucou papa',
+        imageUrl: 'http://some/image.ok',
+        ownerOrganizationId: null,
+        tubes: [{ id: 'recTube1', level: '5' }],
+      };
+      sinon.stub(DomainTransaction, 'execute').callsFake(() => {
+        return prescriptionTargetProfileUsecases.createTargetProfile({
+          targetProfileCreationCommand,
+        });
+      });
+      prescriptionTargetProfileUsecases.createTargetProfile.withArgs({ targetProfileCreationCommand }).resolves(123);
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              name: 'targetProfileName',
+              category: 'OTHER',
+              description: 'coucou maman',
+              comment: 'coucou papa',
+              'image-url': 'http://some/image.ok',
+              'owner-organization-id': null,
+              tubes: [{ id: 'recTube1', level: '5' }],
+            },
+          },
+        },
+      };
+
+      // when
+      const response = await targetProfileController.createTargetProfile(request, hFake);
+
+      // then
+      expect(response).to.deep.equal({
+        data: {
+          type: 'target-profiles',
+          id: '123',
+        },
+      });
     });
   });
 });

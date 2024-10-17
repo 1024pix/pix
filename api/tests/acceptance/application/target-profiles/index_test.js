@@ -3,7 +3,6 @@ import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  knex,
   mockLearningContent,
 } from '../../../test-helper.js';
 
@@ -52,68 +51,6 @@ describe('Acceptance | Route | target-profiles', function () {
 
   beforeEach(async function () {
     server = await createServer();
-  });
-
-  describe('POST /api/admin/target-profiles', function () {
-    let user;
-
-    beforeEach(function () {
-      user = databaseBuilder.factory.buildUser.withRole();
-      const learningContentForTest = {
-        skills: [
-          {
-            id: 'recSkill1',
-            name: 'skill1',
-            status: 'actif',
-            tubeId: 'recTube1',
-          },
-        ],
-      };
-      mockLearningContent(learningContentForTest);
-      return databaseBuilder.commit();
-    });
-
-    it('should return 200', async function () {
-      // given
-      databaseBuilder.factory.buildOrganization({ id: 1 });
-      await databaseBuilder.commit();
-
-      const options = {
-        method: 'POST',
-        url: '/api/admin/target-profiles',
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        payload: {
-          data: {
-            attributes: {
-              name: 'targetProfileName',
-              category: 'OTHER',
-              description: 'coucou maman',
-              comment: 'coucou papa',
-              'image-url': 'http://some/image.ok',
-              'owner-organization-id': '1',
-              tubes: [{ id: 'recTube1', level: 5 }],
-              'are-knowledge-elements-resettable': true,
-            },
-          },
-        },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      const { id: targetProfileId, areKnowledgeElementsResettable } = await knex('target-profiles')
-        .select('id', 'areKnowledgeElementsResettable')
-        .first();
-      expect(response.statusCode).to.equal(200);
-      expect(response.result).to.deep.equal({
-        data: {
-          type: 'target-profiles',
-          id: `${targetProfileId}`,
-        },
-      });
-      expect(areKnowledgeElementsResettable).to.be.true;
-    });
   });
 
   describe('PATCH /api/admin/target-profiles/{id}', function () {

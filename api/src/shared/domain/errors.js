@@ -578,12 +578,6 @@ class YamlParsingError extends DomainError {
   }
 }
 
-class TargetProfileCannotBeCreated extends DomainError {
-  constructor(message = 'Erreur lors de la création du profil cible.') {
-    super(message);
-  }
-}
-
 class AlreadyExistingMembershipError extends DomainError {
   constructor(message = 'Le membership existe déjà.') {
     super(message);
@@ -1183,7 +1177,6 @@ export {
   SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
   SIECLE_ERRORS,
-  TargetProfileCannotBeCreated,
   TargetProfileInvalidError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
   UnexpectedUserAccountError,

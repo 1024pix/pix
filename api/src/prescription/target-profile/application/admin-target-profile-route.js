@@ -9,6 +9,56 @@ import { targetProfileController } from './admin-target-profile-controller.js';
 const register = async function (server) {
   server.route([
     {
+      method: 'POST',
+      path: '/api/admin/target-profiles',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                name: Joi.string().required(),
+                category: Joi.string().required(),
+                description: Joi.string().allow(null).max(500).required(),
+                comment: Joi.string().allow(null).max(500).required(),
+                'image-url': Joi.string().uri().allow(null).required(),
+                'owner-organization-id': Joi.string()
+                  .pattern(/^[0-9]+$/, 'numbers')
+                  .allow(null)
+                  .required(),
+                tubes: Joi.array()
+                  .items({
+                    id: Joi.string().required(),
+                    level: Joi.number().required(),
+                  })
+                  .required(),
+                'are-knowledge-elements-resettable': Joi.boolean().required(),
+              },
+            },
+          }),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        handler: targetProfileController.createTargetProfile,
+        tags: ['api', 'admin', 'target-profiles', 'create'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle permet de créer un profil cible avec ses acquis ainsi qu'un gabarit de ce profil cible",
+        ],
+      },
+    },
+    {
       method: 'PUT',
       path: '/api/admin/target-profiles/{targetProfileId}/outdate',
       config: {

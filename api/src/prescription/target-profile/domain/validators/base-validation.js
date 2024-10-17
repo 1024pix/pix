@@ -3,8 +3,8 @@ import lodash from 'lodash';
 
 const { first } = lodash;
 
-import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
-import { TargetProfile } from '../../../../src/shared/domain/models/TargetProfile.js';
+import { EntityValidationError } from '../../../../shared/domain/errors.js';
+import { TargetProfile } from '../../../../shared/domain/models/TargetProfile.js';
 
 const categories = TargetProfile.categories;
 
