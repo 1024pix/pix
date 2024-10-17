@@ -1,24 +1,24 @@
 /**
  * @typedef {import ('./index.js').CentersRepository} CentersRepository
- * @typedef {import ('./index.js').ConvertCenterToV3JobRepository} ConvertCenterToV3JobRepository
+ * @typedef {import ('./index.js').ConvertScoCenterToV3JobRepository} ConvertScoCenterToV3JobRepository
  * @typedef {import ('../models/Center.js').Center} Center
  */
 
 import { _ } from '../../../../shared/infrastructure/utils/lodash-utils.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
-import { ConvertCenterToV3Job } from '../models/ConvertCenterToV3Job.js';
+import { ConvertScoCenterToV3Job } from '../models/ConvertScoCenterToV3Job.js';
 
 /**
  * @param {Object} params
  * @param {boolean} [params.isDryRun]
  * @param {CentersRepository} params.centerRepository
- * @param {ConvertCenterToV3JobRepository} params.convertCenterToV3JobRepository
+ * @param {ConvertScoCenterToV3JobRepository} params.convertScoCenterToV3JobRepository
  * @returns {Promise<number>} number of centers for which conversion has been requested
  */
 export const findAndTriggerV2CenterToConvertInV3 = async ({
   isDryRun = false,
   centerRepository,
-  convertCenterToV3JobRepository,
+  convertScoCenterToV3JobRepository,
 }) => {
   let numberOfConvertibleCenters = 0;
   let hasNext = false;
@@ -34,7 +34,7 @@ export const findAndTriggerV2CenterToConvertInV3 = async ({
     logger.debug('Convertible centers:[%o]', convertibleCenters);
 
     if (!isDryRun) {
-      await _sendConversionOrders({ centers: convertibleCenters, convertCenterToV3JobRepository });
+      await _sendConversionOrders({ centers: convertibleCenters, convertScoCenterToV3JobRepository });
     }
   } while (hasNext);
 
@@ -55,10 +55,10 @@ const _selectConvertibleCenters = (centers = []) => {
 /**
  * @param {Object} params
  * @param {Array<Center>} params.centers
- * @param {ConvertCenterToV3JobRepository} params.convertCenterToV3JobRepository
+ * @param {ConvertScoCenterToV3JobRepository} params.convertScoCenterToV3JobRepository
  */
-const _sendConversionOrders = async ({ centers, convertCenterToV3JobRepository }) => {
+const _sendConversionOrders = async ({ centers, convertScoCenterToV3JobRepository }) => {
   for (const center of centers) {
-    await convertCenterToV3JobRepository.performAsync(new ConvertCenterToV3Job({ centerId: center.id }));
+    await convertScoCenterToV3JobRepository.performAsync(new ConvertScoCenterToV3Job({ centerId: center.id }));
   }
 };

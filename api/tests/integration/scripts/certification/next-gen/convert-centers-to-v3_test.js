@@ -1,22 +1,32 @@
 import { main } from '../../../../../scripts/certification/next-gen/convert-centers-to-v3.js';
-import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/domain/constants.js';
-import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Scripts | Certification | convert-centers-to-v3', function () {
-  it('should save pg boss jobs for each certification course ids', async function () {
-    // given
-    const centerId = databaseBuilder.factory.buildCertificationCenter({
-      isV3Pilot: false,
-      type: CERTIFICATION_CENTER_TYPES.SCO,
-    }).id;
-    await databaseBuilder.commit();
-
-    // when
-    await main({});
+  it('should call convertSessionsWithNoCoursesToV3 usecase', async function () {
+    const dependencies = {
+      convertSessionsWithNoCoursesToV3: sinon.stub().resolves(),
+      convertCentersToV3: sinon.stub().resolves(),
+    };
+    const isDryRun = Symbol('isDryRun');
+    await main({ isDryRun, dependencies });
 
     // then
-    const [job1] = await knex('pgboss.job').where({ name: 'ConvertCenterToV3Job' }).orderBy('createdon', 'asc');
+    expect(dependencies.convertSessionsWithNoCoursesToV3).to.have.been.calledOnceWith({ isDryRun });
+  });
 
-    expect([job1.data]).to.have.deep.members([{ centerId }]);
+  it('should call convertCentersToV3 usecase', async function () {
+    const dependencies = {
+      convertSessionsWithNoCoursesToV3: sinon.stub().resolves(),
+      convertCentersToV3: sinon.stub().resolves(),
+    };
+    const isDryRun = Symbol('isDryRun');
+    const preservedCenterIds = Symbol('preservedCenterIds');
+    await main({ isDryRun, preservedCenterIds, dependencies });
+
+    // then
+    expect(dependencies.convertCentersToV3).to.have.been.calledOnceWith({
+      isDryRun,
+      preservedCenterIds,
+    });
   });
 });
