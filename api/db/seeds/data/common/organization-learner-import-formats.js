@@ -7,67 +7,92 @@ export const organizationLearnerImportFormat = async function ({ databaseBuilder
     name: 'ONDE',
     fileType: 'csv',
     config: {
-      acceptedEncoding: ['iso-8859-1', 'utf8'],
-      unicityColumns: ['INE'],
       headers: [
         {
           name: 'Nom élève',
-          required: true,
           config: {
             property: 'lastName',
-            validate: { type: 'string', required: true },
+            validate: {
+              type: 'string',
+              required: true,
+            },
           },
+          required: true,
         },
         {
           name: 'Prénom élève',
           config: {
             property: 'firstName',
-            validate: { type: 'string', required: true },
+            validate: {
+              type: 'string',
+              required: true,
+            },
           },
           required: true,
         },
         {
           name: 'INE',
-          required: true,
           config: {
-            validate: { type: 'string', required: true },
+            validate: {
+              type: 'string',
+              required: true,
+            },
           },
+          required: true,
         },
         {
           name: 'Cycle',
-          required: true,
           config: {
             validate: {
               type: 'string',
-              expectedValues: ['CYCLE III'],
               required: true,
+              expectedValues: ['CYCLE III'],
             },
           },
+          required: true,
         },
         {
           name: 'Niveau',
-          required: true,
           config: {
             validate: {
               type: 'string',
-              expectedValues: ['CM1', 'CM2'],
               required: true,
+              expectedValues: ['CM1', 'CM2'],
             },
           },
+          required: true,
         },
         {
           name: 'Libellé classe',
-          required: true,
           config: {
-            validate: { type: 'string', required: true },
+            validate: {
+              type: 'string',
+              required: true,
+            },
+            displayable: {
+              position: 1,
+              name: IMPORT_KEY_FIELD.COMMON_DIVISION,
+              filterable: {
+                type: 'string',
+              },
+            },
           },
+          required: true,
         },
         {
           name: 'Date naissance',
+          config: {
+            validate: {
+              type: 'date',
+              format: 'YYYY-MM-DD',
+              required: true,
+            },
+          },
           required: true,
-          config: { validate: { type: 'date', format: 'YYYY-MM-DD', required: true } },
         },
       ],
+      unicityColumns: ['INE'],
+      acceptedEncoding: ['iso-8859-1', 'utf8'],
     },
     createdAt: new Date('2024-01-01'),
     createdBy: REAL_PIX_SUPER_ADMIN_ID,
