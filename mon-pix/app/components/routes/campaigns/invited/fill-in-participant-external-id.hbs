@@ -18,6 +18,9 @@
       @validationStatus={{if this.errorMessage "error"}}
       @requiredLabel={{true}}
       {{on "change" this.updateParticipantExternalId}}
+      @subLabel={{this.idPixInputSubLabel}}
+      type={{this.idPixInputType}}
+      aria-autocomplete="none"
     >
       <:label>{{@campaign.idPixLabel}}</:label>
     </PixInput>
