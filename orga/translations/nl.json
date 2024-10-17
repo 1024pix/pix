@@ -308,6 +308,7 @@
     },
     "organization-participants-header": {
       "import-button": "Importeren",
+      "sco-title": "{count, plural, =0 {Leerling} =1 {Leerling ({count})} other {Leerlingen ({count})}}",
       "title": "{count, plural, =0 {Deelnemer} =1 {Deelnemer ({count})} other {Deelnemers ({count})}}"
     },
     "participation-status": {
@@ -1119,6 +1120,7 @@
       "filters": {
         "aria-label": "Filters deelnemers",
         "participations-count": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count} deelnemers}}",
+        "students-count": "{count, plural, =0 {0 leerling} =1 {1 leerling} other {{count} leerlingen}}",
         "type": {
           "certificability": {
             "label": "Zoeken op certificeerbaarheid",
