@@ -20,12 +20,7 @@ describe('Integration | Identity Access Management | Application | Controller | 
     const headers = {
       'accept-language': 'fr',
     };
-    const payload = {
-      data: {
-        type: 'password-reset-demands',
-        attributes: { email },
-      },
-    };
+    const payload = { email };
 
     it('returns a 201 HTTP status code with a response', async function () {
       // given

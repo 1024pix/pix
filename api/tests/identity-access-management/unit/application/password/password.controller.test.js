@@ -41,11 +41,7 @@ describe('Unit | Identity Access Management | Application | Controller | passwor
       headers: {
         'accept-language': locale,
       },
-      payload: {
-        data: {
-          attributes: { email },
-        },
-      },
+      payload: { email },
     };
     const resetPasswordDemand = {
       id: 1,
