@@ -27,17 +27,6 @@ const updateTargetProfile = async function (request, h, dependencies = { usecase
   return h.response().code(204);
 };
 
-const createTargetProfile = async function (request) {
-  const targetProfileCreationCommand = targetProfileSerializer.deserialize(request.payload);
-
-  const targetProfileId = await DomainTransaction.execute(async () => {
-    return usecases.createTargetProfile({
-      targetProfileCreationCommand,
-    });
-  });
-  return targetProfileSerializer.serializeId(targetProfileId);
-};
-
 const findPaginatedTrainings = async function (request, h, dependencies = { trainingSummarySerializer }) {
   const { page } = request.query;
   const targetProfileId = request.params.id;
@@ -52,7 +41,6 @@ const findPaginatedTrainings = async function (request, h, dependencies = { trai
 const targetProfileController = {
   getTargetProfileForAdmin,
   updateTargetProfile,
-  createTargetProfile,
   findPaginatedTrainings,
 };
 

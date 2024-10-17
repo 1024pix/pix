@@ -1,13 +1,13 @@
 import { HttpErrors } from '../../../shared/application/http-errors.js';
-import { AggregateImportError } from '../domain/errors.js';
+import { TargetProfileCannotBeCreated } from '../domain/errors.js';
 
-const learnerManagementDomainErrorMappingConfiguration = [
+const targetProfileDomainErrorMappingConfiguration = [
   {
-    name: AggregateImportError.name,
+    name: TargetProfileCannotBeCreated.name,
     httpErrorFn: (error) => {
-      return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
+      return new HttpErrors.UnprocessableEntityError(error.message);
     },
   },
 ];
 
-export { learnerManagementDomainErrorMappingConfiguration };
+export { targetProfileDomainErrorMappingConfiguration };
