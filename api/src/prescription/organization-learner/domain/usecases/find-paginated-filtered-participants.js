@@ -51,9 +51,7 @@ const findPaginatedFilteredParticipants = async function ({
       organizationParticipants: organizationParticipants?.map((participant) => {
         const hasOralization = learnersWithOralizationFeature.some(
           (learnerWithOralization) => learnerWithOralization.id === participant.id,
-        )
-          ? 'true'
-          : 'false';
+        );
         participant.extraColumns['ORALIZATION'] = hasOralization;
 
         return participant;

@@ -1109,6 +1109,12 @@
             "label": "Nombre de participations"
           }
         },
+        "row-value": {
+          "oralization": {
+            "true": "Activée",
+            "false": "Désactivée"
+          }
+        },
         "description": "Tableau des participants trié par nom.",
         "empty": "Aucun participant",
         "row-title": "Participant"

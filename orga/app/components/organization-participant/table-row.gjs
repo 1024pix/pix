@@ -8,12 +8,23 @@ import { t } from 'ember-intl';
 
 import CertificabilityCell from '../certificability/cell';
 import LastParticipationDateTooltip from '../ui/last-participation-date-tooltip';
+import { eq } from "ember-truth-helpers";
 
 export default class TableRow extends Component {
   @service currentUser;
+  @service intl;
 
   displayDate(date) {
     return dayjs(date).format('DD/MM/YYYY');
+  }
+
+  //TODO erase this abomination !!!!
+  get oralizationActivatedTranslationKey () {
+    return this.intl.t(`pages.organization-participants.table.row-value.oralization.true`)
+  }
+
+  get oralizationDeactivatedTranslationKey () {
+    return this.intl.t(`pages.organization-participants.table.row-value.oralization.false`)
   }
 
   getCustomRowData(extraColumns, key) {
@@ -66,7 +77,17 @@ export default class TableRow extends Component {
       </td>
       <td class="ellipsis" title={{@participant.firstName}}>{{@participant.firstName}}</td>
       {{#each @customRows as |key|}}
-        <td>{{this.getCustomRowData @participant.extraColumns key}}</td>
+        <td>
+          {{#if (eq key 'ORALIZATION')}}
+            {{#if @participant.extraColumns.ORALIZATION }}
+                {{this.oralizationActivatedTranslationKey}}
+            {{else}}
+              {{this.oralizationDeactivatedTranslationKey}}
+            {{/if}}
+          {{else}}
+            {{this.getCustomRowData @participant.extraColumns key}}
+          {{/if}}
+        </td>
       {{/each}}
       {{#unless this.currentUser.canAccessMissionsPage}}
         <td class="table__column--center">
