@@ -8,6 +8,7 @@
       "r32": "You already have a Pix account under the username '<br>'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br>'(Code R32)",
       "r33": "You already have a Pix account through your virtual learning environment (\"ENT\"). Log in with this account to take your customised test.",
       "r70": "An error occurred. Please log out and try again.",
+      "r80": "The e-mail address is invalid.",
       "r90": {
         "account-belonging-to-another-user": "It looks like a pupil is already using this account.",
         "details": {

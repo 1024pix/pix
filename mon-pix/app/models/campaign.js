@@ -5,6 +5,7 @@ export default class Campaign extends Model {
   @attr('string') title;
   @attr('string') type;
   @attr('string') idPixLabel;
+  @attr('string') idPixType;
   @attr('string') customLandingPageText;
   @attr('string') externalIdHelpImageUrl;
   @attr('string') alternativeTextToExternalIdHelpImage;

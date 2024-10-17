@@ -18,4 +18,11 @@ export default class FillInParticipantExternalId extends Controller {
     this.router.transitionTo('campaigns.campaign-landing-page', this.model.code);
     return;
   }
+
+  get previousError() {
+    return this.campaignStorage.get(this.model.code, 'error');
+  }
+  get previousParticipantExternalId() {
+    return this.campaignStorage.get(this.model.code, 'previousParticipantExternalId');
+  }
 }

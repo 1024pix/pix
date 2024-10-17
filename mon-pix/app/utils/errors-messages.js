@@ -34,6 +34,11 @@ const JOIN_ERRORS = [
     message: 'api-error-messages.join-error.r70',
     code: 'USER_ALREADY_RECONCILED_IN_THIS_ORGANIZATION',
   },
+  {
+    shortCode: 'INVALID_EMAIL',
+    message: 'api-error-messages.join-error.r80',
+    code: 'INVALID_EMAIL',
+  },
 ];
 
 const REGISTER_ERRORS = [

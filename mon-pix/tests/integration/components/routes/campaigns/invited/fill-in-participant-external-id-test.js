@@ -62,4 +62,52 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
       assert.dom('img').doesNotExist();
     });
   });
+
+  module('with idPixLabel and idPixType', function () {
+    module('idPixInputType', function () {
+      Object.entries({ STRING: 'text', EMAIL: 'email' }).forEach(function ([idPixType, inputType]) {
+        test(`returns ${inputType} input type`, async function (assert) {
+          const campaign = {
+            idPixLabel: 'idpix',
+            idPixType,
+          };
+          this.set('campaign', campaign);
+
+          // given
+          const screen = await render(
+            hbs`<Routes::Campaigns::Invited::FillInParticipantExternalId
+    @campaign={{this.campaign}}
+    @onSubmit={{this.onSubmitStub}}
+    @onCancel={{this.onCancelStub}}
+  />`,
+          );
+          const input = screen.getByLabelText(/idpix/);
+          assert.strictEqual(input.type, inputType);
+        });
+      });
+    });
+
+    module('idPixPlaceholder', function () {
+      Object.entries({ STRING: 'abc123', EMAIL: 'nour.pix@example.net' }).forEach(function ([idPixType, placeholder]) {
+        test(`returns ${placeholder} input type`, async function (assert) {
+          const campaign = {
+            idPixLabel: 'idpix',
+            idPixType,
+          };
+          this.set('campaign', campaign);
+
+          // given
+          const screen = await render(
+            hbs`<Routes::Campaigns::Invited::FillInParticipantExternalId
+    @campaign={{this.campaign}}
+    @onSubmit={{this.onSubmitStub}}
+    @onCancel={{this.onCancelStub}}
+  />`,
+          );
+          const input = screen.getByLabelText(/idpix/);
+          assert.strictEqual(input.placeholder, placeholder);
+        });
+      });
+    });
+  });
 });

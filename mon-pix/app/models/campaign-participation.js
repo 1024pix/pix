@@ -14,7 +14,7 @@ export default class CampaignParticipation extends Model {
   // includes
   @belongsTo('assessment', { async: true, inverse: null }) assessment;
   @belongsTo('campaign', { async: true, inverse: null }) campaign;
-  @belongsTo('campaignParticipationResult', { async: true, inverse: null }) campaignParticipationResult;
+  @belongsTo('campaign-participation-result', { async: true, inverse: null }) campaignParticipationResult;
   @belongsTo('user', { async: true, inverse: null }) user;
 
   @hasMany('training', { async: true, inverse: 'campaignParticipation' }) trainings;
