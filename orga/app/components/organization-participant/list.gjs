@@ -14,11 +14,13 @@ import ActionBar from './action-bar';
 import LearnerFilters from './learner-filters';
 import TableHeaders from './table-headers';
 import TableRow from './table-row';
+import dayjs from 'dayjs';
 
 export default class List extends Component {
   @tracked showDeletionModal = false;
 
   @service currentUser;
+  @service intl;
 
   get showCheckbox() {
     return this.currentUser.isAdminInOrganization && !this.currentUser.hasLearnerImportFeature;
@@ -44,10 +46,60 @@ export default class List extends Component {
     return Boolean(this.args.participants.length);
   }
 
-  get customColumns() {
+  displayDate(date) {
+    return dayjs(date).format('DD/MM/YYYY');
+  }
+
+  get customColumns () {
     if (!this.currentUser.hasLearnerImportFeature || !this.args.participants.meta) return [];
 
     return this.args.participants.meta.headingCustomColumns;
+  }
+
+
+  get extraColumnRowInfo () {
+    if (!this.currentUser.hasLearnerImportFeature || !this.args.participants.meta) return [];
+
+    //TODO Faire la popote pour créer un tableau d'object ou chacun des objet contiennent les trad (déjà translate) / la colonne /
+
+    //  this.args.participants.meta.headingCustomColumns => ['COMMON_DIVISION', 'ORALIZATION]
+    // on a acces aux participants
+
+    // faire un truc du genre dégueu mais un peu plus caché :)
+
+    return this.args.participants.map((participant) => {
+      const extraInfos = Object.keys(participant.extraColumns).reduce((accumulator, currentValue)=> {
+        const extraColumnInfo = {}
+        extraColumnInfo.headerName = currentValue;
+
+        if (currentValue === 'ORALIZATION') {
+          extraColumnInfo.value = this.intl.t(`pages.organization-participants.table.row-value.oralization.${participant.extraColumns[currentValue]}`);
+        } else  {
+          if (dayjs(participant.extraColumns[currentValue]).isValid()) {
+            extraColumnInfo.value =  this.displayDate(participant.extraColumns[currentValue]);
+          } else {
+            extraColumnInfo.value = participant.extraColumns[currentValue];
+          }
+        }
+
+        return [
+          ...accumulator,
+          {...extraColumnInfo }
+      ]
+
+      }, [])
+
+      return {
+        participant,
+        extraInfos
+      }
+
+    })
+  }
+
+  @action
+  participantExtraInfoRow (participant) {
+    return this.extraColumnRowInfo.find((info) => info.participant.id === participant.id)
   }
 
   get customFilters() {
@@ -177,7 +229,7 @@ export default class List extends Component {
                 @isParticipantSelected={{isParticipantSelected}}
                 @onToggleParticipant={{fn this.addStopPropagationOnFunction toggleParticipant}}
                 @onClickLearner={{fn @onClickLearner participant.id}}
-                @customRows={{this.customColumns}}
+                @customRows={{this.participantExtraInfoRow participant }}
                 @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
                 @hasOrganizationParticipantPage={{@hasOrganizationParticipantPage}}
               />

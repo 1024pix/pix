@@ -76,17 +76,9 @@ export default class TableRow extends Component {
         {{/if}}
       </td>
       <td class="ellipsis" title={{@participant.firstName}}>{{@participant.firstName}}</td>
-      {{#each @customRows as |key|}}
+      {{#each @customRows.extraInfos as |extraRowInfos|}}
         <td>
-          {{#if (eq key 'ORALIZATION')}}
-            {{#if @participant.extraColumns.ORALIZATION }}
-                {{this.oralizationActivatedTranslationKey}}
-            {{else}}
-              {{this.oralizationDeactivatedTranslationKey}}
-            {{/if}}
-          {{else}}
-            {{this.getCustomRowData @participant.extraColumns key}}
-          {{/if}}
+          {{extraRowInfos.value}}
         </td>
       {{/each}}
       {{#unless this.currentUser.canAccessMissionsPage}}
