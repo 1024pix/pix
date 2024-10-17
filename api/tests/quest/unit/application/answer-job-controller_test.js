@@ -2,6 +2,7 @@ import { AnswerJobController } from '../../../../src/quest/application/jobs/answ
 import { AnswerJob } from '../../../../src/quest/domain/models/AnwserJob.js';
 import { usecases } from '../../../../src/quest/domain/usecases/index.js';
 import { JobGroup } from '../../../../src/shared/application/jobs/job-controller.js';
+import { DomainTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Jobs | AnswerJobController', function () {
@@ -12,6 +13,9 @@ describe('Unit | Application | Jobs | AnswerJobController', function () {
     profileRewardTemporaryStorageStub = { decrement: sinon.stub() };
     jobController = new AnswerJobController({
       dependencies: { profileRewardTemporaryStorage: profileRewardTemporaryStorageStub },
+    });
+    sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+      return callback();
     });
   });
 
@@ -25,6 +29,13 @@ describe('Unit | Application | Jobs | AnswerJobController', function () {
     const userId = Symbol('userId');
     await jobController.handle({ data: { userId } });
     expect(usecases.rewardUser).to.have.been.calledWith({ userId });
+  });
+
+  it('should use transaction', async function () {
+    sinon.stub(usecases, 'rewardUser').resolves();
+    const userId = Symbol('userId');
+    await jobController.handle({ data: { userId } });
+    expect(DomainTransaction.execute).to.have.been.called;
   });
 
   it("decrement user's job count in temporary storage", async function () {

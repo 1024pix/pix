@@ -1,4 +1,5 @@
 import { AnswerJob } from '../../../quest/domain/models/AnwserJob.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { JobRepository } from '../../../shared/infrastructure/repositories/jobs/job-repository.js';
 import { temporaryStorage } from '../../../shared/infrastructure/temporary-storage/index.js';
 
@@ -15,8 +16,17 @@ export class AnswerJobRepository extends JobRepository {
   }
 
   async performAsync(job) {
-    super.performAsync(job);
-    await this.#profileRewardTemporaryStorage.increment(job.userId);
+    const knexConn = DomainTransaction.getConnection();
+
+    if (knexConn.isTransaction) {
+      await super.performAsync(job);
+      await this.#profileRewardTemporaryStorage.increment(job.userId);
+    } else {
+      await DomainTransaction.execute(async () => {
+        await super.performAsync(job);
+        await this.#profileRewardTemporaryStorage.increment(job.userId);
+      });
+    }
   }
 }
 

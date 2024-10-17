@@ -1,4 +1,5 @@
 import { JobController, JobGroup } from '../../../shared/application/jobs/job-controller.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { temporaryStorage } from '../../../shared/infrastructure/temporary-storage/index.js';
 import { AnswerJob } from '../../domain/models/AnwserJob.js';
 import { usecases } from '../../domain/usecases/index.js';
@@ -15,9 +16,10 @@ export class AnswerJobController extends JobController {
 
   async handle({ data }) {
     const { userId } = data;
+    DomainTransaction.execute(async () => {
+      await usecases.rewardUser({ userId });
 
-    await usecases.rewardUser({ userId });
-
-    this.#profileRewardTemporaryStorage.decrement(userId);
+      await this.#profileRewardTemporaryStorage.decrement(userId);
+    });
   }
 }
