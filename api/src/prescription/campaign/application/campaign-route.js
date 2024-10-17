@@ -56,6 +56,21 @@ const register = async function (server) {
         tags: ['api', 'campaign'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{campaignId}/tutorial-steps',
+      config: {
+        auth: false,
+        handler: campaignController.getTutorialSteps,
+        validate: {
+          params: Joi.object({
+            campaignId: identifiersType.campaignId,
+          }),
+        },
+        notes: ['- Récupération des étapes des écrans de début de parcours'],
+        tags: ['api', 'division'],
+      },
+    },
   ]);
 };
 
