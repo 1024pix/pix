@@ -1238,6 +1238,8 @@
         "continue": "Continue"
       },
       "errors": {
+        "invalid-external-id": "The { idPixLabel } is invalid.",
+        "invalid-external-id-email": "The e-mail address is invalid.",
         "max-length-id-pix-label": "Your { idPixLabel } must not exceed 255 characters.",
         "missing-id-pix-label": "Please enter your { idPixLabel }."
       },
