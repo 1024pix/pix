@@ -1,4 +1,4 @@
-import {AlgoritmEngineVersion} from '../../../../src/certification/shared/domain/models/AlgoritmEngineVersion.js';
+import { AlgoritmEngineVersion } from '../../../../src/certification/shared/domain/models/AlgoritmEngineVersion.js';
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
