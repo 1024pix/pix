@@ -13,41 +13,54 @@ const findPaginatedFilteredParticipants = async function ({
 }) {
   const organizationFeatures = await organizationFeaturesAPI.getAllFeaturesFromOrganization(organizationId);
 
+  let organizationParticipants, meta;
   if (organizationFeatures.hasLearnersImportFeature) {
     const importFormat = await organizationLearnerImportFormatRepository.get(organizationId);
 
-    organizationLearnerFeatureRepository.getLearnersByFeature({
+    const result = await organizationParticipantRepository.findPaginatedFilteredImportedParticipants({
       organizationId,
-      featureKey: ORGANIZATION_FEATURE.ORALIZATION,
+      extraColumns: importFormat.extraColumns,
+      extraFilters,
+      filters,
+      sort,
+      page,
     });
-
-    const { organizationParticipants, meta } =
-      await organizationParticipantRepository.findPaginatedFilteredImportedParticipants({
-        organizationId,
-        extraColumns: importFormat.extraColumns,
-        extraFilters,
-        filters,
-        sort,
-        page,
-      });
-
-    // TODO Si oralization activée pour l'orga, décorer la liste des organizationPArticipants avec l'info
+    organizationParticipants = result.organizationParticipants;
+    meta = result.meta;
 
     meta.headingCustomColumns = importFormat.columnsToDisplay;
-    if (organizationFeatures.hasOralizationFeature) {
-      meta.headingCustomColumns.push('ORALIZATION');
-    }
     meta.customFilters = importFormat.filtersToDisplay;
-
-    return { organizationParticipants, meta };
   } else {
-    return organizationParticipantRepository.findPaginatedFilteredParticipants({
+    const result = await organizationParticipantRepository.findPaginatedFilteredParticipants({
       organizationId,
       filters,
       sort,
       page,
     });
+    organizationParticipants = result?.organizationParticipants;
+    meta = result?.meta;
   }
+  if (organizationFeatures.hasOralizationFeature) {
+    const learnersWithOralizationFeature = await organizationLearnerFeatureRepository.getLearnersByFeature({
+      organizationId,
+      featureKey: ORGANIZATION_FEATURE.ORALIZATION,
+    });
+    meta.headingCustomColumns.push('ORALIZATION');
+    return {
+      meta,
+      organizationParticipants: organizationParticipants?.map((participant) => {
+        const hasOralization = learnersWithOralizationFeature.some(
+          (learnerWithOralization) => learnerWithOralization.id === participant.id,
+        )
+          ? 'true'
+          : 'false';
+        participant.extraColumns['ORALIZATION'] = hasOralization;
+
+        return participant;
+      }),
+    };
+  }
+  return { organizationParticipants, meta };
 };
 
 export { findPaginatedFilteredParticipants };
