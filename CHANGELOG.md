@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v4.226.0 (17/10/2024)
+
+
+### :rocket: Amélioration
+- [#10313](https://github.com/1024pix/pix/pull/10313) [FEATURE] Afficher un signalement d'extension de Companion dans l’espace surveillant (PIX-14731).
+- [#10230](https://github.com/1024pix/pix/pull/10230) [FEATURE] Ajouter la bannière de la nouvelle page de fin de parcours (PIX-12987).
+- [#10298](https://github.com/1024pix/pix/pull/10298) [FEATURE] maj lien et nom LANGUIA MODC-285.
+
+### :building_construction: Tech
+- [#10349](https://github.com/1024pix/pix/pull/10349) [TECH]  insere les idPixLabel dans la table campaign-features lors des seed (pix-14874).
+- [#10345](https://github.com/1024pix/pix/pull/10345) [TECH] Mis à jour de package PixOrga (PIX-14872).
+- [#10293](https://github.com/1024pix/pix/pull/10293) [TECH] :recycle: Déplace les routes à propos de `CertificationIssueReport`.
+- [#10312](https://github.com/1024pix/pix/pull/10312) [TECH] Recuperer le templateName depuis la base de données plutôt qu'en dur dans le code (PIX-14786) .
+
+### :bug: Correction
+- [#10347](https://github.com/1024pix/pix/pull/10347) [BUGFIX] récupère le idpixlabel depuis la feature avant de démarrer une participation (pix-14873).
+
+### :arrow_up: Montée de version
+- [#10321](https://github.com/1024pix/pix/pull/10321) [BUMP] Update dependency @1024pix/pix-ui to v47 (admin).
+
 ## v4.225.0 (15/10/2024)
 
 
