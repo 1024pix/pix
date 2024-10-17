@@ -10,12 +10,18 @@ export default class CompanionBlocker extends Component {
 
   constructor(...args) {
     super(...args);
+    if (this.args.onBlock) {
+      this.pixCompanion.addEventListener('block', this.args.onBlock);
+    }
     this.pixCompanion.startCheckingExtensionIsEnabled();
   }
 
   willDestroy(...args) {
     super.willDestroy(...args);
     this.pixCompanion.stopCheckingExtensionIsEnabled();
+    if (this.args.onBlock) {
+      this.pixCompanion.removeEventListener('block', this.args.onBlock);
+    }
   }
 
   get isBlocked() {

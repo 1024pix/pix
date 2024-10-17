@@ -66,12 +66,12 @@
       "message": "'<strong>'Certificaten:'</strong>' Vergeet niet om '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'de sessies af te ronden in Pix Certif'</a>' en de certificaten hier te downloaden via het tabblad \"Certificaten\" voor de start van het schooljaar {year}."
     },
     "import": {
-      "message": "De beheerder kan certificeringsresultaten downloaden en de studentendatabase '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'importeren'</a>' om terug-naar-school campagnes per niveau te maken. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Meer info'</a>'",
+      "message": "Belangrijke fasen in het schooljaar :",
       "step1a": "Implement&nbsp;: '<'a href='https://cloud.pix.fr/s/WjTnkSbFs9TDcSC' title='Gids download resultaten' class='link link--banner link--bold link--underlined''>'download resultaten'</a>' certificering en",
       "step1b": "Importeren",
       "step1c": "studentendatabase (admin)",
-      "step2": "<'a href='https://cloud.pix.fr/s/RaPpKjFHNX2kSR4' title='Gids voor het lanceren van back-to-school cursussen' class='link- banner link-old link--underlined' '>'Campagnes maken'</a>' (cursussen rentrée, 6e, thematisch, disciplinair, gericht...).",
-      "step3": "<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Gids Certificering van lerenden voorbereiden en organiseren' class='link link--banner link--bold link--underlined' '>'Certificering van lerenden'</a>'."
+      "step2": "'<'a href='https://cloud.pix.fr/s/RaPpKjFHNX2kSR4' title='Gids voor het lanceren van back-to-school cursussen' class='link- banner link-old link--underlined' '>'Campagnes maken'</a>' (cursussen rentrée, 6e, thematisch, disciplinair, gericht...).",
+      "step3": "Certificering van lerenden. '<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Gids Certificering van lerenden voorbereiden en organiseren' class='link link--banner link--bold link--underlined' '>'Lees meer over de nieuwe certificering'</a>'."
     },
     "language-availability": {
       "message": "Jouw taal is nog niet beschikbaar op Pix Orga. Voor jouw gemak wordt de applicatie in het Engels weergegeven. Het Pix-team werkt eraan om jouw taal toe te voegen."
@@ -308,6 +308,7 @@
     },
     "organization-participants-header": {
       "import-button": "Importeren",
+      "sco-title": "{count, plural, =0 {Leerling} =1 {Leerling ({count})} other {Leerlingen ({count})}}",
       "title": "{count, plural, =0 {Deelnemer} =1 {Deelnemer ({count})} other {Deelnemers ({count})}}"
     },
     "participation-status": {
@@ -501,9 +502,7 @@
         "COMPETENCES": "De 16 vaardigheden",
         "CUSTOM": "Cursus op maat",
         "DISCIPLINE": "Disciplines",
-        "OTHER": {
-          "other": "Autres"
-        },
+        "OTHER": "Autres",
         "PIX_PLUS": "Pix+",
         "PREDEFINED": "Vooraf gedefinieerde test",
         "SUBJECT": "Thema's",
@@ -651,6 +650,10 @@
       },
       "direct-link": "Directe link",
       "external-user-id-label": "Type externe user-ID",
+      "external-user-id-types": {
+        "string": "vrije tekst",
+        "email": "e-mail"
+      },
       "landing-page-text": "Tekst op de startpagina",
       "multiple-sendings": {
         "status": {
@@ -926,7 +929,10 @@
             "caption": "Tabel van studenten met hun deelname aan de missie {missionName}",
             "filters": {
               "aria-label": "Filter studenten",
-              "learners-count": "{count, plural, =0 {Geen student} =1 {1 student} other {{count} studenten}}"
+              "learners-count": "{count, plural, =0 {Geen student} =1 {1 student} other {{count} studenten}}",
+              "status": {
+                "label": "Status opdracht"
+              }
             },
             "headers": {
               "division": "Klasse",
@@ -947,7 +953,7 @@
             "filters": {
               "aria-label": "Filter studenten",
               "global-result": {
-                "label": "Évaluation de la mission",
+                "label": "Missiebeoordeling",
                 "options": {
                   "exceeded": "Overtroffen",
                   "no-result": "Geen beoordeling",
@@ -1114,6 +1120,7 @@
       "filters": {
         "aria-label": "Filters deelnemers",
         "participations-count": "{count, plural, =0 {0 deelnemer} =1 {1 deelnemer} other {{count} deelnemers}}",
+        "students-count": "{count, plural, =0 {0 leerling} =1 {1 leerling} other {{count} leerlingen}}",
         "type": {
           "certificability": {
             "label": "Zoeken op certificeerbaarheid",

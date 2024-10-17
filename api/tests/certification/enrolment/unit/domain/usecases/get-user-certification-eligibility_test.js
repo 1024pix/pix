@@ -19,7 +19,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
     certificationBadgesService.findLatestBadgeAcquisitions = sinon.stub();
     complementaryCertificationCourseRepository.findByUserId = sinon.stub();
     pixCertificationRepository.findByUserId = sinon.stub();
-    complementaryCertificationBadgeWithOffsetVersionRepository.findAll = sinon.stub();
+    complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile = sinon.stub();
     dependencies = {
       userId,
       limitDate,
@@ -36,7 +36,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
       certificationBadgesService.findLatestBadgeAcquisitions.resolves([]);
       complementaryCertificationCourseRepository.findByUserId.resolves([]);
       pixCertificationRepository.findByUserId.resolves([]);
-      complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([]);
+      complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([]);
     });
     context('when user is certifiable', function () {
       it('returns a user certification eligibility with is certifiable set to true', async function () {
@@ -83,31 +83,293 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
   context('eligibility', function () {
     const complementaryCertificationBadgeId = 123;
 
-    context('when user has not acquired any certifiable badge', function () {
-      it('returns a UserCertificationEligibility model with no eligibilities  ', async function () {
-        placementProfileService.getPlacementProfile.withArgs({ userId, limitDate }).resolves(
-          domainBuilder.buildPlacementProfile.buildCertifiable({
-            profileDate: limitDate,
-            userId,
-          }),
-        );
-        certificationBadgesService.findLatestBadgeAcquisitions
-          .withArgs({
-            userId,
-            limitDate,
-          })
-          .resolves([]);
-        complementaryCertificationCourseRepository.findByUserId.resolves([]);
+    context('when user has a badge acquisition', function () {
+      context('when user has the required pix score', function () {
+        it('returns that user is eligible for current level', async function () {
+          // given
+          placementProfileService.getPlacementProfile.withArgs({ userId, limitDate }).resolves(
+            domainBuilder.buildPlacementProfile.buildCertifiable({
+              profileDate: limitDate,
+              userId,
+            }),
+          );
 
-        const userCertificationEligibility = await getUserCertificationEligibility(dependencies);
+          const complementaryBadgeAcquired = domainBuilder.buildCertifiableBadgeAcquisition();
+          certificationBadgesService.findLatestBadgeAcquisitions
+            .withArgs({
+              userId,
+              limitDate,
+            })
+            .resolves([complementaryBadgeAcquired]);
 
-        expect(userCertificationEligibility).to.deep.equal(
-          domainBuilder.certification.enrolment.buildUserCertificationEligibility({
-            id: userId,
-            isCertifiable: true,
-            certificationEligibilities: [],
-          }),
-        );
+          complementaryCertificationCourseRepository.findByUserId.resolves([]);
+
+          const pixCertificationRequiredScore = 300;
+          pixCertificationRepository.findByUserId
+            .withArgs({
+              userId,
+            })
+            .resolves([
+              domainBuilder.certification.enrolment.buildPixCertification({
+                pixScore: pixCertificationRequiredScore,
+                status: AssessmentResult.status.VALIDATED,
+                isCancelled: false,
+                isRejectedForFraud: false,
+              }),
+            ]);
+
+          const complementaryBadgeWithOffset =
+            domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+              id: complementaryBadgeAcquired.complementaryCertificationBadgeId,
+              requiredPixScore: pixCertificationRequiredScore,
+              level: 1,
+              offsetVersion: 0,
+            });
+          complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile
+            .withArgs({
+              complementaryCertificationBadgeId: complementaryBadgeAcquired.complementaryCertificationBadgeId,
+            })
+            .resolves([complementaryBadgeWithOffset]);
+
+          // when
+          const userCertificationEligibility = await getUserCertificationEligibility(dependencies);
+
+          // then
+          expect(userCertificationEligibility).to.deep.equal(
+            domainBuilder.certification.enrolment.buildUserCertificationEligibility({
+              id: userId,
+              isCertifiable: true,
+              certificationEligibilities: [
+                domainBuilder.certification.enrolment.buildV3CertificationEligibility({
+                  label: complementaryBadgeAcquired.complementaryCertificationBadgeLabel,
+                  imageUrl: complementaryBadgeAcquired.complementaryCertificationBadgeImageUrl,
+                  isAcquiredExpectedLevel: false,
+                  isOutdated: complementaryBadgeAcquired.isOutdated,
+                }),
+              ],
+            }),
+          );
+        });
+      });
+
+      context('when user has not the required pix score', function () {
+        it('returns that user is not eligible for current level', async function () {
+          // given
+          placementProfileService.getPlacementProfile.withArgs({ userId, limitDate }).resolves(
+            domainBuilder.buildPlacementProfile.buildCertifiable({
+              profileDate: limitDate,
+              userId,
+            }),
+          );
+
+          const complementaryBadgeAcquired = domainBuilder.buildCertifiableBadgeAcquisition();
+          certificationBadgesService.findLatestBadgeAcquisitions
+            .withArgs({
+              userId,
+              limitDate,
+            })
+            .resolves([complementaryBadgeAcquired]);
+
+          complementaryCertificationCourseRepository.findByUserId.resolves([]);
+
+          const pixCertificationRequiredScore = 300;
+          pixCertificationRepository.findByUserId
+            .withArgs({
+              userId,
+            })
+            .resolves([
+              domainBuilder.certification.enrolment.buildPixCertification({
+                pixScore: pixCertificationRequiredScore - 1,
+                status: AssessmentResult.status.VALIDATED,
+                isCancelled: false,
+                isRejectedForFraud: false,
+              }),
+            ]);
+
+          const complementaryBadgeWithOffset =
+            domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+              id: complementaryBadgeAcquired.complementaryCertificationBadgeId,
+              requiredPixScore: pixCertificationRequiredScore,
+              level: 1,
+              offsetVersion: 0,
+            });
+          complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile
+            .withArgs({
+              complementaryCertificationBadgeId: complementaryBadgeAcquired.complementaryCertificationBadgeId,
+            })
+            .resolves([complementaryBadgeWithOffset]);
+
+          // when
+          const userCertificationEligibility = await getUserCertificationEligibility(dependencies);
+
+          // then
+          expect(userCertificationEligibility).to.deep.equal(
+            domainBuilder.certification.enrolment.buildUserCertificationEligibility({
+              id: userId,
+              isCertifiable: true,
+              certificationEligibilities: [],
+            }),
+          );
+        });
+      });
+
+      context('when there is a lower level', function () {
+        context('when the user has not the required pix score for the lower level', function () {
+          it('returns that user is not eligible for lower level', async function () {
+            // given
+            placementProfileService.getPlacementProfile.withArgs({ userId, limitDate }).resolves(
+              domainBuilder.buildPlacementProfile.buildCertifiable({
+                profileDate: limitDate,
+                userId,
+              }),
+            );
+
+            const complementaryBadgeAcquired = domainBuilder.buildCertifiableBadgeAcquisition();
+            certificationBadgesService.findLatestBadgeAcquisitions
+              .withArgs({
+                userId,
+                limitDate,
+              })
+              .resolves([complementaryBadgeAcquired]);
+
+            complementaryCertificationCourseRepository.findByUserId.resolves([]);
+
+            const pixCertificationRequiredScore = 300;
+            pixCertificationRepository.findByUserId
+              .withArgs({
+                userId,
+              })
+              .resolves([
+                domainBuilder.certification.enrolment.buildPixCertification({
+                  pixScore: pixCertificationRequiredScore / 2 - 1,
+                  status: AssessmentResult.status.VALIDATED,
+                  isCancelled: false,
+                  isRejectedForFraud: false,
+                }),
+              ]);
+
+            const complementaryBadgesWithOffset = [
+              domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                id: 999,
+                requiredPixScore: pixCertificationRequiredScore / 2,
+                level: 1,
+                offsetVersion: 0,
+              }),
+              domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                id: complementaryBadgeAcquired.complementaryCertificationBadgeId,
+                requiredPixScore: pixCertificationRequiredScore,
+                level: 2,
+                offsetVersion: 0,
+              }),
+            ];
+            complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile
+              .withArgs({
+                complementaryCertificationBadgeId: complementaryBadgeAcquired.complementaryCertificationBadgeId,
+              })
+              .resolves(complementaryBadgesWithOffset);
+
+            // when
+            const userCertificationEligibility = await getUserCertificationEligibility(dependencies);
+
+            // then
+            expect(userCertificationEligibility).to.deep.equal(
+              domainBuilder.certification.enrolment.buildUserCertificationEligibility({
+                id: userId,
+                isCertifiable: true,
+                certificationEligibilities: [],
+              }),
+            );
+          });
+        });
+
+        context('when the user has the required pix score for the lower level', function () {
+          it('returns that user is eligible for lower level', async function () {
+            // given
+            placementProfileService.getPlacementProfile.withArgs({ userId, limitDate }).resolves(
+              domainBuilder.buildPlacementProfile.buildCertifiable({
+                profileDate: limitDate,
+                userId,
+              }),
+            );
+
+            const complementaryBadgeAcquired = domainBuilder.buildCertifiableBadgeAcquisition();
+            const lowerLevelComplementaryBadgeAcquired = domainBuilder.buildCertifiableBadgeAcquisition({
+              badgeId: 999,
+              complementaryCertificationId: complementaryBadgeAcquired.complementaryCertificationId,
+              complementaryCertificationKey: complementaryBadgeAcquired.complementaryCertificationKey,
+              complementaryCertificationBadgeImageUrl: 'pix+.toto.initié.fr',
+              complementaryCertificationBadgeLabel: 'Pix+ Toto Initié',
+              isOutdated: false,
+            });
+            certificationBadgesService.findLatestBadgeAcquisitions
+              .withArgs({
+                userId,
+                limitDate,
+              })
+              .resolves([complementaryBadgeAcquired]);
+
+            complementaryCertificationCourseRepository.findByUserId.resolves([]);
+
+            const pixCertificationRequiredScore = 300;
+            pixCertificationRepository.findByUserId
+              .withArgs({
+                userId,
+              })
+              .resolves([
+                domainBuilder.certification.enrolment.buildPixCertification({
+                  pixScore: pixCertificationRequiredScore / 2 + 1,
+                  status: AssessmentResult.status.VALIDATED,
+                  isCancelled: false,
+                  isRejectedForFraud: false,
+                }),
+              ]);
+
+            const complementaryBadgesWithOffset = [
+              domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                id: 999,
+                requiredPixScore: pixCertificationRequiredScore / 2,
+                level: 1,
+                offsetVersion: 0,
+                label: 'Pix+ Toto Initié',
+                imageUrl: 'pix+.toto.initié.fr',
+                isOutdated: false,
+              }),
+              domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                id: complementaryBadgeAcquired.complementaryCertificationBadgeId,
+                requiredPixScore: pixCertificationRequiredScore,
+                level: 2,
+                offsetVersion: 0,
+                label: 'Pix+ Toto Avancé',
+                imageUrl: 'pix+.toto.avancé.fr',
+                isOutdated: false,
+              }),
+            ];
+            complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile
+              .withArgs({
+                complementaryCertificationBadgeId: complementaryBadgeAcquired.complementaryCertificationBadgeId,
+              })
+              .resolves(complementaryBadgesWithOffset);
+
+            // when
+            const userCertificationEligibility = await getUserCertificationEligibility(dependencies);
+
+            // then
+            expect(userCertificationEligibility).to.deep.equal(
+              domainBuilder.certification.enrolment.buildUserCertificationEligibility({
+                id: userId,
+                isCertifiable: true,
+                certificationEligibilities: [
+                  domainBuilder.certification.enrolment.buildV3CertificationEligibility({
+                    label: lowerLevelComplementaryBadgeAcquired.complementaryCertificationBadgeLabel,
+                    imageUrl: lowerLevelComplementaryBadgeAcquired.complementaryCertificationBadgeImageUrl,
+                    isAcquiredExpectedLevel: false,
+                    isOutdated: lowerLevelComplementaryBadgeAcquired.isOutdated,
+                  }),
+                ],
+              }),
+            );
+          });
+        });
       });
     });
 
@@ -121,7 +383,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
         context('when acquired badge is outdated', function () {
           const isOutdated = true;
           beforeEach(function () {
-            complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
+            complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
               domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                 id: '1234',
                 requiredPixScore,
@@ -131,6 +393,15 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                 id: complementaryCertificationBadgeId,
                 requiredPixScore,
                 offsetVersion: 1,
+              }),
+            ]);
+
+            pixCertificationRepository.findByUserId.withArgs({ userId }).resolves([
+              domainBuilder.certification.enrolment.buildPixCertification({
+                pixScore: requiredPixScore,
+                status: AssessmentResult.status.VALIDATED,
+                isCancelled: false,
+                isRejectedForFraud: false,
               }),
             ]);
           });
@@ -195,7 +466,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
 
               context('when badge is outdated by more than one version', function () {
                 beforeEach(function () {
-                  complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
+                  complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
                     domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                       id: '1234',
                       requiredPixScore,
@@ -418,7 +689,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
         context('when acquired badge is not outdated', function () {
           const isOutdated = false;
           beforeEach(function () {
-            complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
+            complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
               domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                 id: complementaryCertificationBadgeId,
                 requiredPixScore,
@@ -435,7 +706,17 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                   userId,
                 }),
               );
+
+              pixCertificationRepository.findByUserId.withArgs({ userId }).resolves([
+                domainBuilder.certification.enrolment.buildPixCertification({
+                  pixScore: requiredPixScore,
+                  status: AssessmentResult.status.VALIDATED,
+                  isCancelled: false,
+                  isRejectedForFraud: false,
+                }),
+              ]);
             });
+
             context('when user has an acquired certification for this badge', function () {
               it('returns a UserCertificationEligibility model with the corresponding eligibility', async function () {
                 // given
@@ -539,6 +820,15 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
                   userCompetences: [domainBuilder.buildUserCompetence({ estimatedLevel: 1, pixScore: 1 })],
                 }),
               );
+
+              pixCertificationRepository.findByUserId.withArgs({ userId }).resolves([
+                domainBuilder.certification.enrolment.buildPixCertification({
+                  pixScore: requiredPixScore,
+                  status: AssessmentResult.status.VALIDATED,
+                  isCancelled: false,
+                  isRejectedForFraud: false,
+                }),
+              ]);
             });
             context('when user has an acquired certification for this badge', function () {
               it('should not be added in the eligibilities of the model', async function () {
@@ -645,7 +935,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
             }),
           );
           complementaryCertificationKey = 'NOT CLEA';
-          complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
+          complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
             domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
               id: complementaryCertificationBadgeId,
               requiredPixScore,
@@ -966,7 +1256,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
             context('when user has an acquired certification for this badge', function () {
               it('should not be added in the eligibilities of the model', async function () {
                 // given
-                complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
+                complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
                   domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                     id: '1234',
                     requiredPixScore,
@@ -1065,7 +1355,7 @@ describe('Certification | Enrolment | Unit | Usecases | get-user-certification-e
             const isOutdated = true;
             it('should not be added in the eligibilities of the model', async function () {
               // given
-              complementaryCertificationBadgeWithOffsetVersionRepository.findAll.resolves([
+              complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
                 domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
                   id: '1234',
                   requiredPixScore,

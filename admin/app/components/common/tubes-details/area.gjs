@@ -5,15 +5,18 @@ import Competence from '../tubes-details/competence';
 <template>
   <div class="area-border-container">
     <div class="area-border {{@color}}"></div>
-    <PixCollapsible @title="{{@title}}" class="{{@color}} list-competences">
-      {{#each @competences as |competence|}}
-        <Competence
-          @title={{competence.title}}
-          @thematics={{competence.thematics}}
-          @displayDeviceCompatibility={{@displayDeviceCompatibility}}
-          @displaySkillDifficultyAvailability={{@displaySkillDifficultyAvailability}}
-        />
-      {{/each}}
+    <PixCollapsible class="{{@color}} list-competences">
+      <:title>{{@title}}</:title>
+      <:default>
+        {{#each @competences as |competence|}}
+          <Competence
+            @title={{competence.title}}
+            @thematics={{competence.thematics}}
+            @displayDeviceCompatibility={{@displayDeviceCompatibility}}
+            @displaySkillDifficultyAvailability={{@displaySkillDifficultyAvailability}}
+          />
+        {{/each}}
+      </:default>
     </PixCollapsible>
   </div>
 </template>

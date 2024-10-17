@@ -9,7 +9,7 @@ import Background from './mission-card-completed-background';
     {{/if}}
 
     <div class="mission-icon--completed">
-      <img src="/images/mission/icon/finished-icon.svg" alt="" />
+      <img src="/images/mission/icon/pix-junior-logo-white.svg" alt="" aria-hidden="true" />
     </div>
     <Background @areaCode={{@areaCode}} />
     <div class="completed-mission-card-bottom">

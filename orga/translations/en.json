@@ -71,7 +71,7 @@
       "step1b": "importing",
       "step1c": "the student database (admin)",
       "step2": "'<'a href='https://cloud.pix.fr/s/RaPpKjFHNX2kSR4' title='Back-to-school how-to' class='link link--banner link--bold link--underlined' '>'Create campaigns'</a>' (back-to-school, 6th grade, thematic, subject-based, targeted courses, etc.).",
-      "step3": "'<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Preparing and organising student certification how-to' class='link link--banner link--bold link--underlined' '>'Certify learners'</a>'."
+      "step3": "Certify learners. '<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Preparing and organising student certification how-to' class='link link--banner link--bold link--underlined' '>'Find out more about the new certification'</a>'."
     },
     "language-availability": {
       "message": "Your language is not yet available on Pix Orga. For your convenience, the application will be presented in English. The entire Pix team is working to add your language."
@@ -81,6 +81,9 @@
     },
     "over-capacity": {
       "message": "Please note that you are using more seats than your total capacity."
+    },
+    "survey": {
+      "message": "Help Pix to develop Pix Orga by answering this short survey on how you use our campaigns! '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Access the survey'</a>'"
     }
   },
   "cards": {
@@ -305,7 +308,8 @@
     },
     "organization-participants-header": {
       "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
-      "import-button": "Import"
+      "import-button": "Import",
+      "sco-title": "{count, plural, =0 {Students} =1 {Student ({count})} other {Students ({count})}}"
     },
     "participation-status": {
       "SHARED-ASSESSMENT": "Submitted results",
@@ -683,6 +687,10 @@
       },
       "direct-link": "Direct link",
       "external-user-id-label": "External user ID label",
+      "external-user-id-types": {
+        "email": "email",
+        "string": "free text"
+      },
       "landing-page-text": "Text to display on the starting page",
       "multiple-sendings": {
         "title": "Multiple Sendings",
@@ -873,6 +881,8 @@
               "tooltip": "copy code"
             }
           },
+          "hint": "Feel free to bookmark it on your posts.",
+          "import-text": "school link",
           "step1": {
             "admin": {
               "head": "Step 1 : <b>Please</b>",
@@ -899,7 +909,10 @@
           "name": "Mission",
           "started-by": "Started by"
         },
-        "no-division": "No division yet"
+        "no-division": "No division yet",
+        "non-admin": {
+          "abstract": "To begin, ask your administrator to import the students."
+        }
       },
       "mission": {
         "title": "Mission's information",
@@ -918,7 +931,10 @@
             "caption": "List of students with their activity for the mission {missionName}",
             "filters": {
               "aria-label": "Filter on students",
-              "learners-count": "{count, plural, =0 {No student} =1 {1 student} other {{count} students}}"
+              "learners-count": "{count, plural, =0 {No student} =1 {1 student} other {{count} students}}",
+              "status": {
+                "label": "Mission status"
+              }
             },
             "headers": {
               "division": "Division",
@@ -1050,6 +1066,7 @@
       "filters": {
         "aria-label": "Filters on participants",
         "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
+        "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}",
         "type": {
           "certificability": {
             "label": "Search by certificability",

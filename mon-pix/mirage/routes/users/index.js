@@ -18,7 +18,18 @@ import resetScorecard from './reset-scorecard';
 export default function index(config) {
   config.get('/users/me', getAuthenticatedUser);
 
-  config.post('/users');
+  config.post('/users', (schema, request) => {
+    const params = JSON.parse(request.requestBody);
+    const firstName = params.data.attributes['first-name'];
+    const lastName = params.data.attributes['first-name'];
+    const email = params.data.attributes['email'];
+    const password = params.data.attributes['password'];
+    const locale = params.data.attributes['locale'];
+    const cgu = params.data.attributes['cgu'];
+
+    return schema.users.create({ id: 10000, firstName, lastName, email, password, cgu, locale });
+  });
+
   config.post('/users/:id/competences/:competenceId/reset', resetScorecard);
   config.post('/users/:id/update-email', putUpdateEmail);
 

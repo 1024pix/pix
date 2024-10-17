@@ -384,6 +384,8 @@ function routes() {
 
   this.patch('/sessions/:id/candidates/:candidateId/dismiss-live-alert', () => new Response(204));
 
+  this.patch('/sessions/:id/users/:userId/clear-companion-alert', () => new Response(204));
+
   _configureCertificationCenterInvitationRoutes(this);
   _configureCertificationCenterMemberRoutes(this);
 }

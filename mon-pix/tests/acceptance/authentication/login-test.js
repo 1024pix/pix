@@ -1,9 +1,10 @@
-import { visit } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntl from '../../helpers/setup-intl';
 
@@ -12,16 +13,24 @@ module('Acceptance | Login', function (hooks) {
   setupMirage(hooks);
   setupIntl(hooks);
 
+  let domainService;
+
+  hooks.beforeEach(function () {
+    domainService = this.owner.lookup('service:currentDomain');
+    sinon.stub(domainService, 'getExtension');
+  });
+
   module('when "New authentication design" feature toggle is disabled', function (hooks) {
     hooks.beforeEach(function () {
-      server.create('feature-toggle', {
-        id: 0,
-        isNewAuthenticationDesignEnabled: false,
-      });
+      server.create('feature-toggle', { id: 0, isNewAuthenticationDesignEnabled: false });
     });
 
-    module('when current url does not contain french tld (.fr)', function () {
-      module('when accessing the signin page with "Français" as default language', function () {
+    module('When on International domain (.org)', function (hooks) {
+      hooks.beforeEach(function () {
+        domainService.getExtension.returns('org');
+      });
+
+      module('when accessing the inscription page with "Français" as default language', function () {
         test('displays the signin page with "Français" as selected language', async function (assert) {
           // when
 
@@ -83,15 +92,27 @@ module('Acceptance | Login', function (hooks) {
       server.create('feature-toggle', { id: 0, isNewAuthenticationDesignEnabled: true });
     });
 
-    test('displays the authentication layout with a footer', async function (assert) {
-      // when
+    test('user logs in', async function (assert) {
+      // given
+      const user = server.create('user', 'withEmail');
+
       const screen = await visit('/connexion');
 
+      // when
+      await fillByLabel(t('pages.sign-in.fields.login.label'), user.email);
+      await fillByLabel(t('pages.sign-in.fields.password.label'), user.password);
+      await clickByName(t('pages.sign-in.actions.submit'));
+
       // then
-      assert.dom(screen.getByRole('contentinfo')).exists();
+      const homepageHeading = screen.getByRole('heading', { name: t('pages.dashboard.title') });
+      assert.dom(homepageHeading).exists();
     });
 
-    module('when current url does not contain french tld (.fr)', function () {
+    module('When on International domain (.org)', function (hooks) {
+      hooks.beforeEach(function () {
+        domainService.getExtension.returns('org');
+      });
+
       module('when accessing the login page with "English" as selected language', function () {
         module('when the user select "Français" as his language', function () {
           test('displays the login page with "Français" as selected language', async function (assert) {

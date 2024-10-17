@@ -303,9 +303,92 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
       expect(
         prescriptionTargetProfileUsecases.findPaginatedFilteredTargetProfileSummariesForAdmin,
       ).to.have.been.calledWithExactly(useCaseParameters);
-      expect(response).to.deep.equal({
-        meta: {},
-        data: [{ attributes: models[0], type: 'target-profile-summaries' }],
+      expect(response).to.deep.equal(expectedResult);
+    });
+
+    describe('categories filter', function () {
+      it('should not transform filter categories if already an array', async function () {
+        // given
+        const models = [{ name: Symbol('targetProfileSummariesName') }];
+        const meta = Symbol('meta');
+        const filter = {
+          categories: ['TOTO'],
+        };
+        const page = { size: 2, number: 1 };
+        const useCaseParameters = { filter, page };
+        const expectedResult = Symbol('serialized-paginated-filtered-target-profile-summaries');
+
+        sinon.stub(prescriptionTargetProfileUsecases, 'findPaginatedFilteredTargetProfileSummariesForAdmin').resolves({
+          models,
+          meta,
+        });
+
+        const targetProfileSummaryForAdminSerializer = {
+          serialize: sinon.stub(),
+        };
+
+        targetProfileSummaryForAdminSerializer.serialize.withArgs(models, meta).returns(expectedResult);
+
+        // when
+        await targetProfileController.findPaginatedFilteredTargetProfileSummariesForAdmin(
+          {
+            query: useCaseParameters,
+          },
+          hFake,
+          { targetProfileSummaryForAdminSerializer },
+        );
+
+        // then
+        expect(
+          prescriptionTargetProfileUsecases.findPaginatedFilteredTargetProfileSummariesForAdmin.calledWithExactly({
+            filter: {
+              categories: ['TOTO'],
+            },
+            page,
+          }),
+        ).to.be.true;
+      });
+
+      it('should transform string filter categories to array', async function () {
+        // given
+        const models = [{ name: Symbol('targetProfileSummariesName') }];
+        const meta = Symbol('meta');
+        const filter = {
+          categories: 'TOTO',
+        };
+        const page = { size: 2, number: 1 };
+        const useCaseParameters = { filter, page };
+        const expectedResult = Symbol('serialized-paginated-filtered-target-profile-summaries');
+
+        sinon.stub(prescriptionTargetProfileUsecases, 'findPaginatedFilteredTargetProfileSummariesForAdmin').resolves({
+          models,
+          meta,
+        });
+
+        const targetProfileSummaryForAdminSerializer = {
+          serialize: sinon.stub(),
+        };
+
+        targetProfileSummaryForAdminSerializer.serialize.withArgs(models, meta).returns(expectedResult);
+
+        // when
+        await targetProfileController.findPaginatedFilteredTargetProfileSummariesForAdmin(
+          {
+            query: useCaseParameters,
+          },
+          hFake,
+          { targetProfileSummaryForAdminSerializer },
+        );
+
+        // then
+        expect(
+          prescriptionTargetProfileUsecases.findPaginatedFilteredTargetProfileSummariesForAdmin.calledWithExactly({
+            filter: {
+              categories: ['TOTO'],
+            },
+            page,
+          }),
+        ).to.be.true;
       });
     });
   });
@@ -313,37 +396,28 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
   describe('#findTargetProfileSummariesForAdmin', function () {
     it('should return serialized summaries', async function () {
       // given
+      const expectedResult = Symbol('serialized-target-profile-summaries');
       sinon.stub(prescriptionTargetProfileUsecases, 'findOrganizationTargetProfileSummariesForAdmin');
       const request = {
-        params: { id: 123 },
+        params: { id: Symbol('oranizationId') },
       };
-      const targetProfileSummary = domainBuilder.buildTargetProfileSummaryForAdmin({
-        id: 456,
-        name: 'Super profil cible',
-        outdated: false,
-      });
+      const targetProfileSummary = Symbol('targetProfileSummary');
+      const targetProfileSummaryForAdminSerializer = {
+        serialize: sinon.stub(),
+      };
       prescriptionTargetProfileUsecases.findOrganizationTargetProfileSummariesForAdmin
-        .withArgs({ organizationId: 123 })
-        .resolves([targetProfileSummary]);
+        .withArgs({ organizationId: request.params.id })
+        .resolves(targetProfileSummary);
+
+      targetProfileSummaryForAdminSerializer.serialize.withArgs(targetProfileSummary).returns(expectedResult);
 
       // when
-      const response = await targetProfileController.findTargetProfileSummariesForAdmin(request);
+      const response = await targetProfileController.findTargetProfileSummariesForAdmin(request, null, {
+        targetProfileSummaryForAdminSerializer,
+      });
 
       // then
-      expect(response).to.deep.equal({
-        data: [
-          {
-            type: 'target-profile-summaries',
-            id: '456',
-            attributes: {
-              name: 'Super profil cible',
-              outdated: false,
-              'can-detach': false,
-              'created-at': undefined,
-            },
-          },
-        ],
-      });
+      expect(response).to.deep.equal(expectedResult);
     });
   });
 });

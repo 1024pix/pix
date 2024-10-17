@@ -1,5 +1,116 @@
 # Pix Changelog
 
+## v4.226.0 (17/10/2024)
+
+
+### :rocket: Amélioration
+- [#10313](https://github.com/1024pix/pix/pull/10313) [FEATURE] Afficher un signalement d'extension de Companion dans l’espace surveillant (PIX-14731).
+- [#10230](https://github.com/1024pix/pix/pull/10230) [FEATURE] Ajouter la bannière de la nouvelle page de fin de parcours (PIX-12987).
+- [#10298](https://github.com/1024pix/pix/pull/10298) [FEATURE] maj lien et nom LANGUIA MODC-285.
+
+### :building_construction: Tech
+- [#10349](https://github.com/1024pix/pix/pull/10349) [TECH]  insere les idPixLabel dans la table campaign-features lors des seed (pix-14874).
+- [#10345](https://github.com/1024pix/pix/pull/10345) [TECH] Mis à jour de package PixOrga (PIX-14872).
+- [#10293](https://github.com/1024pix/pix/pull/10293) [TECH] :recycle: Déplace les routes à propos de `CertificationIssueReport`.
+- [#10312](https://github.com/1024pix/pix/pull/10312) [TECH] Recuperer le templateName depuis la base de données plutôt qu'en dur dans le code (PIX-14786) .
+
+### :bug: Correction
+- [#10347](https://github.com/1024pix/pix/pull/10347) [BUGFIX] récupère le idpixlabel depuis la feature avant de démarrer une participation (pix-14873).
+
+### :arrow_up: Montée de version
+- [#10321](https://github.com/1024pix/pix/pull/10321) [BUMP] Update dependency @1024pix/pix-ui to v47 (admin).
+
+## v4.225.0 (15/10/2024)
+
+
+### :rocket: Amélioration
+- [#10303](https://github.com/1024pix/pix/pull/10303) [FEATURE] Créer une alerte en cas de non détection de l'extension Companion lors de la certification sur Pix App (PIX-14727).
+- [#10268](https://github.com/1024pix/pix/pull/10268) [FEATURE] Ajoute un endpoint pour télécharger un zip des attestations pour une organisation (PIX-13824).
+- [#10264](https://github.com/1024pix/pix/pull/10264) [FEATURE] Ajout d'un bouton d'actualisation sur la page école de Pix Junior (PIX-14587).
+- [#10274](https://github.com/1024pix/pix/pull/10274) [FEATURE] Mise à jour de l'url de support dans le formulaire de récupération d'espace (PIX-14682).
+- [#10269](https://github.com/1024pix/pix/pull/10269) [FEATURE] :art: Afficher une image spécifique pour chaque mission (PIX-14589).
+- [#10263](https://github.com/1024pix/pix/pull/10263) [FEATURE] Permettre de filtrer sur les category des Profil Cible sur PixAdmin(PIX-14651).
+- [#10302](https://github.com/1024pix/pix/pull/10302) [FEATURE] Afficher les boutons de réponse des Flashcards Modulix (PIX-14309).
+- [#10236](https://github.com/1024pix/pix/pull/10236) [FEATURE] Migration vers PixIcon sur Junior (Pix-14628).
+- [#10296](https://github.com/1024pix/pix/pull/10296) [FEATURE] :sparkles: filtre les élèves par status de mission assessment (PIX-13382).
+- [#10294](https://github.com/1024pix/pix/pull/10294) [FEATURE] MAJ wording bandeau SCO .
+- [#10254](https://github.com/1024pix/pix/pull/10254) [FEATURE] permet la creation de feature de campagne (Pix-#14661).
+- [#10275](https://github.com/1024pix/pix/pull/10275) [FEATURE] Créer le composant des autres moyens de connexion/inscription (PIX-14159).
+
+### :building_construction: Tech
+- [#10170](https://github.com/1024pix/pix/pull/10170) [TECH] Amender l'ADR sur le EventDispatcher.
+- [#10295](https://github.com/1024pix/pix/pull/10295) [TECH] Corriger le test flaky sur le usecase on `get-user-details-by-id-usecase` (PIX-14779).
+- [#10287](https://github.com/1024pix/pix/pull/10287) [TECH] Correction du tests Flaky sur le usecase `get-data-organizations-places-statistics` (PIX-14739).
+
+### :bug: Correction
+- [#10292](https://github.com/1024pix/pix/pull/10292) [BUGFIX] Vérifier l'éligibilité de l'utilisateur en fonction du profil cible du badge acquis (PIX-14763).
+- [#10297](https://github.com/1024pix/pix/pull/10297) [BUGFIX] Couper le nom de la campagne même si elle ne contient pas d'espace dans les tableaux PixAdmin (PIX-11535).
+
+### :arrow_up: Montée de version
+- [#10326](https://github.com/1024pix/pix/pull/10326) [BUMP] Update dependency sinon to v19 (junior).
+- [#10325](https://github.com/1024pix/pix/pull/10325) [BUMP] Update dependency sinon to v19 (certif).
+- [#10323](https://github.com/1024pix/pix/pull/10323) [BUMP] Update dependency sinon to v19 (admin).
+- [#10322](https://github.com/1024pix/pix/pull/10322) [BUMP] Update dependency ember-resolver to v13 (orga).
+- [#10320](https://github.com/1024pix/pix/pull/10320) [BUMP] Update node.
+- [#10316](https://github.com/1024pix/pix/pull/10316) [BUMP] Update dependency @1024pix/pix-ui to ^46.15.2 (orga).
+- [#10317](https://github.com/1024pix/pix/pull/10317) [BUMP] Update dependency ember-source to ~5.12.0 (junior).
+- [#10314](https://github.com/1024pix/pix/pull/10314) [BUMP] Update adobe/s3mock Docker tag to v3.11.0 (dossier racine).
+- [#10315](https://github.com/1024pix/pix/pull/10315) [BUMP] Update dependency @1024pix/pix-ui to ^46.15.2 (mon-pix).
+- [#10309](https://github.com/1024pix/pix/pull/10309) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.20 (junior).
+- [#10311](https://github.com/1024pix/pix/pull/10311) [BUMP] Update nginx Docker tag to v1.27.2.
+- [#10310](https://github.com/1024pix/pix/pull/10310) [BUMP] Update adobe/s3mock Docker tag to v3.11.0 (docker).
+- [#10278](https://github.com/1024pix/pix/pull/10278) [BUMP] Update adobe/s3mock Docker tag to v3.11.0 (.circleci).
+- [#10308](https://github.com/1024pix/pix/pull/10308) [BUMP] Update dependency @1024pix/pix-ui to ^46.15.2 (junior).
+- [#10306](https://github.com/1024pix/pix/pull/10306) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.20 (orga).
+- [#10305](https://github.com/1024pix/pix/pull/10305) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.20 (mon-pix).
+- [#10304](https://github.com/1024pix/pix/pull/10304) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.20 (junior).
+- [#10301](https://github.com/1024pix/pix/pull/10301) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.20 (certif).
+- [#10300](https://github.com/1024pix/pix/pull/10300) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.20 (admin).
+- [#10299](https://github.com/1024pix/pix/pull/10299) [BUMP] Update dependency @1024pix/pix-ui to ^46.15.2 (certif).
+- [#10209](https://github.com/1024pix/pix/pull/10209) [BUMP] Update dependency npm-run-all2 to v6.2.3 (e2e).
+- [#10289](https://github.com/1024pix/pix/pull/10289) [BUMP] Update dependency sinon to v19 (orga).
+- [#10029](https://github.com/1024pix/pix/pull/10029) [BUMP] Update dependency ember-source to ~5.11.0 (junior).
+
+### :coffee: Autre
+- [#10280](https://github.com/1024pix/pix/pull/10280) [REFACTOR] Améliorer l'ergonomie de la liste des RT dans Admin (PIX-14711).
+
+## v4.224.0 (10/10/2024)
+
+
+### :rocket: Amélioration
+- [#10261](https://github.com/1024pix/pix/pull/10261) [FEATURE] Récupérer les inscriptions candidats après réconciliation (v3 uniquement) (PIX-14209).
+- [#10281](https://github.com/1024pix/pix/pull/10281) [FEATURE] Lister les RT certifiants des campagnes en premier (PIX-14560).
+- [#10271](https://github.com/1024pix/pix/pull/10271) [FEATURE] Permettre la prévisualisation depuis Modulix Editor (PIX-14709).
+- [#10262](https://github.com/1024pix/pix/pull/10262) [FEATURE] Afficher la carte d'intro dans les flashcards Modulix (PIX-14311).
+- [#10246](https://github.com/1024pix/pix/pull/10246) [FEATURE] Désafficher la bannière d'ouverture du niveau 7 (PIX-14495).
+- [#10276](https://github.com/1024pix/pix/pull/10276) [FEATURE] Bloquer le test de certif si l’extension n’est pas détectée (PIX-12780).
+- [#10255](https://github.com/1024pix/pix/pull/10255) [FEATURE] Ajoute un endpoint qui permet de télécharger le pdf d'une attestation pour un utilisateur (PIX-13823).
+- [#10258](https://github.com/1024pix/pix/pull/10258) [FEATURE] Mise à jour du wording lors du défocus pour candidats avec besoins d'ajustements (PIX-14428).
+- [#10272](https://github.com/1024pix/pix/pull/10272) [FEATURE] Voir le nombre de sujets évalués lors de la consultation d'un PC sur Pix Admin (PIX-9042).
+- [#10207](https://github.com/1024pix/pix/pull/10207) [FEATURE] Vérifier l'éligibilité complémentaire lors de la réconciliation V3 (PIX-14207).
+
+### :building_construction: Tech
+- [#10282](https://github.com/1024pix/pix/pull/10282) [TECH] Créer le feature toggle FT_PIX_COMPANION_ENABLED (PIX-14733).
+- [#10259](https://github.com/1024pix/pix/pull/10259) [TECH] Ajouter un composant local de gestion des règles de mot de passe (PIX-14149).
+- [#10267](https://github.com/1024pix/pix/pull/10267) [TECH] Fix sur des tests flaky (PIX-14702).
+- [#10270](https://github.com/1024pix/pix/pull/10270) [TECH] Migrer les derniers composants du dossier campaign de PixOrga vers GJS (PIX-14708).
+- [#10245](https://github.com/1024pix/pix/pull/10245) [TECH] Permettre la désactivation des CRON liés au CPF (PIX-14388).
+- [#10249](https://github.com/1024pix/pix/pull/10249) [TECH] Empêcher l'autocompletion sur les adresses email dans la modale d'ajout de candidat sur Pix Certif (PIX-13937).
+- [#10248](https://github.com/1024pix/pix/pull/10248) [TECH] Affichage d'une erreur spécifique à l'enregistrement d'un candidat lorsque la session est finalisée (PIX-13862).
+- [#10250](https://github.com/1024pix/pix/pull/10250) [TECH] Suppression du FT pour les écrans d'instruction certif v3 (PIX-12908).
+
+### :bug: Correction
+- [#10235](https://github.com/1024pix/pix/pull/10235) [BUGFIX] Conversion des centres restants (PIX-14581).
+- [#10253](https://github.com/1024pix/pix/pull/10253) [BUGFIX] Supporter les descriptions de parcours autonomes en markdown (PIX-14214).
+
+### :arrow_up: Montée de version
+- [#10285](https://github.com/1024pix/pix/pull/10285) [BUMP] Update dependency ember-load-initializers to v3 (junior).
+- [#10286](https://github.com/1024pix/pix/pull/10286) [BUMP] Update dependency ember-load-initializers to v3 (orga).
+- [#10283](https://github.com/1024pix/pix/pull/10283) [BUMP] Update dependency ember-load-initializers to v3 (admin).
+- [#10284](https://github.com/1024pix/pix/pull/10284) [BUMP] Update dependency ember-load-initializers to v3 (certif).
+- [#10231](https://github.com/1024pix/pix/pull/10231) [BUMP] Update dependency @1024pix/pix-ui to ^46.14.0 (junior).
+- [#10277](https://github.com/1024pix/pix/pull/10277) [BUMP] Update dependency @1024pix/pix-ui to ^46.15.0 (certif).
+
 ## v4.223.0 (08/10/2024)
 
 

@@ -1,5 +1,6 @@
 import { CampaignForCreation } from '../../../../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignExternalIdTypes, CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CampaignForCreation', function () {
@@ -281,7 +282,7 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
       });
     });
 
-    context('idPixLabel', function () {
+    context('idPixLabel & idPixType', function () {
       context('when it is empty string', function () {
         it('should save null instead of empty string', function () {
           const attributes = {
@@ -293,6 +294,7 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
             organizationId: 3,
             title: '',
             idPixLabel: '',
+            idPixType: '',
             customLandingPageText: '',
             customResultPageButtonText: null,
             customResultPageButtonUrl: null,
@@ -301,6 +303,28 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
           const campaignForCreation = new CampaignForCreation(attributes);
 
           expect(campaignForCreation.idPixLabel).to.be.null;
+          expect(campaignForCreation.idPixType).to.be.null;
+        });
+        it('should default idPixType to STRING', function () {
+          const attributes = {
+            name: 'CampaignName',
+            type: CampaignTypes.ASSESSMENT,
+            targetProfileId: 1,
+            creatorId: 2,
+            ownerId: 2,
+            organizationId: 3,
+            title: '',
+            idPixLabel: 'toto',
+            idPixType: '',
+            customLandingPageText: '',
+            customResultPageButtonText: null,
+            customResultPageButtonUrl: null,
+          };
+
+          const campaignForCreation = new CampaignForCreation(attributes);
+
+          expect(campaignForCreation.idPixLabel).to.be.equal('toto');
+          expect(campaignForCreation.idPixType).to.equal(CampaignExternalIdTypes.STRING);
         });
       });
 
@@ -315,6 +339,7 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
             organizationId: 3,
             title: '',
             idPixLabel: 'Mon idPixLabel',
+            idPixType: CampaignExternalIdTypes.STRING,
             customLandingPageText: '',
             customResultPageButtonText: null,
             customResultPageButtonUrl: null,
@@ -323,6 +348,30 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
           const campaignForCreation = new CampaignForCreation(attributes);
 
           expect(campaignForCreation.idPixLabel).to.equal('Mon idPixLabel');
+          expect(campaignForCreation.idPixType).to.equal(CampaignExternalIdTypes.STRING);
+        });
+      });
+
+      context('when the idPixtype is not allowed', function () {
+        it('should save given value', function () {
+          const attributes = {
+            name: 'CampaignName',
+            type: CampaignTypes.ASSESSMENT,
+            targetProfileId: 1,
+            creatorId: 2,
+            ownerId: 2,
+            organizationId: 3,
+            title: '',
+            idPixLabel: 'Mon idPixLabel',
+            idPixType: '1234',
+            customLandingPageText: '',
+            customResultPageButtonText: null,
+            customResultPageButtonUrl: null,
+          };
+
+          expect(() => {
+            new CampaignForCreation(attributes);
+          }).to.throw(EntityValidationError);
         });
       });
     });

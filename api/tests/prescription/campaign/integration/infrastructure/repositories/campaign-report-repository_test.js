@@ -1,7 +1,11 @@
 import _ from 'lodash';
 
 import * as campaignReportRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-report-repository.js';
-import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import {
+  CampaignExternalIdTypes,
+  CampaignParticipationStatuses,
+} from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/domain/constants.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { CampaignReport } from '../../../../../../src/shared/domain/read-models/CampaignReport.js';
 import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
@@ -29,7 +33,47 @@ describe('Integration | Repository | Campaign-Report', function () {
           name: campaign.name,
           code: campaign.code,
           title: campaign.title,
-          idPixLabel: campaign.idPixLabel,
+          createdAt: campaign.createdAt,
+          customLandingPageText: campaign.customLandingPageText,
+          archivedAt: campaign.archivedAt,
+          type: campaign.type,
+          ownerId: campaign.ownerId,
+          ownerLastName: 'White',
+          ownerFirstName: 'Walter',
+          multipleSendings: campaign.multipleSendings,
+        });
+      });
+
+      it('returns informations about campaigns and campaign features', async function () {
+        const creator = databaseBuilder.factory.buildUser({ firstName: 'Walter', lastName: 'White' });
+        const campaign = databaseBuilder.factory.buildCampaign({
+          archivedAt: new Date(),
+          ownerId: creator.id,
+          multipleSendings: false,
+        });
+        const externalIdFeature = databaseBuilder.factory.buildFeature(CAMPAIGN_FEATURES.EXTERNAL_ID);
+        databaseBuilder.factory.buildCampaignFeature({
+          campaignId: campaign.id,
+          featureId: externalIdFeature.id,
+          params: {
+            label: 'Un identifiant',
+            type: CampaignExternalIdTypes.STRING,
+          },
+        });
+
+        mockLearningContent({ skills: [] });
+
+        await databaseBuilder.commit();
+        const result = await campaignReportRepository.get(campaign.id);
+
+        expect(result).to.be.an.instanceof(CampaignReport);
+        expect(result).deep.include({
+          id: campaign.id,
+          name: campaign.name,
+          code: campaign.code,
+          title: campaign.title,
+          idPixLabel: 'Un identifiant',
+          idPixType: CampaignExternalIdTypes.STRING,
           createdAt: campaign.createdAt,
           customLandingPageText: campaign.customLandingPageText,
           archivedAt: campaign.archivedAt,
@@ -489,14 +533,10 @@ describe('Integration | Repository | Campaign-Report', function () {
             'code',
             'createdAt',
             'archivedAt',
-            'idPixLabel',
-            'title',
             'type',
-            'customLandingPageText',
             'ownerId',
             'ownerLastName',
             'ownerFirstName',
-            'targetProfileName',
             'participationsCount',
             'sharedParticipationsCount',
           ]),

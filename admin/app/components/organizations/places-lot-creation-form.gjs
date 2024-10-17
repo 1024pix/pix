@@ -32,6 +32,7 @@ export default class PlacesLotCreationForm extends Component {
   @tracked expirationDate;
   @tracked category;
   @tracked reference;
+  @tracked isLoading = false;
 
   constructor() {
     super(...arguments);
@@ -43,13 +44,18 @@ export default class PlacesLotCreationForm extends Component {
   async onSubmit(event) {
     event.preventDefault();
 
-    this.args.create({
+    if (this.isLoading) return;
+
+    this.isLoading = true;
+
+    await this.args.create({
       count: this.count,
       activationDate: this.activationDate,
       expirationDate: this.expirationDate ? this.expirationDate : null,
       category: this.category,
       reference: this.reference,
     });
+    this.isLoading = false;
   }
 
   @action
@@ -151,7 +157,7 @@ export default class PlacesLotCreationForm extends Component {
             >
               {{t "common.actions.cancel"}}
             </PixButtonLink>
-            <PixButton @type="submit" @size="small" @variant="success">
+            <PixButton @type="submit" @size="small" @variant="success" @isLoading={{this.isLoading}}>
               {{t "common.actions.add"}}
             </PixButton>
           </div>

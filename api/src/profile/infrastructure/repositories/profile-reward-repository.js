@@ -44,7 +44,8 @@ export const getByAttestationKeyAndUserIds = async ({ attestationKey, userIds })
     .select(PROFILE_REWARDS_TABLE_NAME + '.*')
     .join(ATTESTATIONS_TABLE_NAME, ATTESTATIONS_TABLE_NAME + '.id', PROFILE_REWARDS_TABLE_NAME + '.rewardId')
     .whereIn('userId', userIds)
-    .where(ATTESTATIONS_TABLE_NAME + '.key', attestationKey);
+    .where(ATTESTATIONS_TABLE_NAME + '.key', attestationKey)
+    .orderBy('id');
   return profileRewards.map(toDomain);
 };
 

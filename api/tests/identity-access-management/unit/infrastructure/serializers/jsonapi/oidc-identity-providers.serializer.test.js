@@ -20,6 +20,7 @@ describe('Unit | Identity Access Management | Infrastructure | Serializer | JSON
           attributes: {
             code: 'OIDC_PARTNER',
             'organization-name': 'Partenaire OIDC',
+            slug: 'oidc-partner',
             'should-close-session': true,
             source: 'oidc-external',
           },

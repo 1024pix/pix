@@ -26,7 +26,7 @@ import { t } from 'ember-intl';
       <PixButton
         aria-label={{t "components.users.certification-centers.memberships.items.actions.edit-role-extra-informations"}}
         class="member-item-actions__button"
-        @iconBefore="pen-to-square"
+        @iconBefore="edit"
         @size="small"
         @triggerAction={{@onEditRoleButtonClicked}}
       >
@@ -39,7 +39,7 @@ import { t } from 'ember-intl';
         }}
         @variant="error"
         class="member-item-actions__button"
-        @iconBefore="trash"
+        @iconBefore="delete"
         @size="small"
         @triggerAction={{@onDeactivateMembershipButtonClicked}}
       >

@@ -144,7 +144,7 @@ export default class NewStage extends Component {
             @size="small"
             aria-label="Supprimer palier"
             @triggerAction={{@remove}}
-            @iconBefore="trash"
+            @iconBefore="delete"
           >
             Supprimer
           </PixButton>

@@ -143,18 +143,30 @@ const copyTargetProfile = withTransaction(async (request) => {
   return copiedTargetProfileId;
 });
 
-const findTargetProfileSummariesForAdmin = async function (request) {
+const findTargetProfileSummariesForAdmin = async function (
+  request,
+  _,
+  dependencies = { targetProfileSummaryForAdminSerializer },
+) {
   const organizationId = request.params.id;
   const targetProfileSummaries = await prescriptionTargetProfileUsecases.findOrganizationTargetProfileSummariesForAdmin(
     {
       organizationId,
     },
   );
-  return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
+  return dependencies.targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
 };
 
-const findPaginatedFilteredTargetProfileSummariesForAdmin = async function (request) {
+const findPaginatedFilteredTargetProfileSummariesForAdmin = async function (
+  request,
+  _,
+  dependencies = { targetProfileSummaryForAdminSerializer },
+) {
   const options = request.query;
+
+  if (options.filter.categories && !Array.isArray(options.filter.categories)) {
+    options.filter.categories = [options.filter.categories];
+  }
 
   const { models: targetProfileSummaries, meta } =
     await prescriptionTargetProfileUsecases.findPaginatedFilteredTargetProfileSummariesForAdmin({
@@ -162,7 +174,7 @@ const findPaginatedFilteredTargetProfileSummariesForAdmin = async function (requ
       page: options.page,
     });
 
-  return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries, meta);
+  return dependencies.targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries, meta);
 };
 
 const targetProfileController = {

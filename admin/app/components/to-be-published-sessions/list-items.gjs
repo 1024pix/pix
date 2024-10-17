@@ -69,7 +69,8 @@ export default class ToBePublishedSessionsList extends Component {
                       class="publish-session-button"
                       @size="small"
                       aria-label="Publier la session numéro {{toBePublishedSession.id}}"
-                      @iconBefore="paper-plane"
+                      @iconBefore="session"
+                      @plainIconBefore={{true}}
                     >
                       Publier
                     </PixButton>

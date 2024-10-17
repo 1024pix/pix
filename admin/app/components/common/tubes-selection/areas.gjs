@@ -6,19 +6,22 @@ import Competence from './competence';
   {{#each @areas as |area|}}
     <div class="area-border-container">
       <div class="area-border {{area.color}}"></div>
-      <PixCollapsible @title="{{area.code}} · {{area.title}}" class="{{area.color}} list-competences">
-        {{#each area.sortedCompetences as |competence|}}
-          <Competence
-            @competence={{competence}}
-            @setLevelTube={{@setLevelTube}}
-            @selectedTubeIds={{@selectedTubeIds}}
-            @checkTube={{@checkTube}}
-            @uncheckTube={{@uncheckTube}}
-            @tubeLevels={{@tubeLevels}}
-            @displayDeviceCompatibility={{@displayDeviceCompatibility}}
-            @displaySkillDifficultyAvailability={{@displaySkillDifficultyAvailability}}
-          />
-        {{/each}}
+      <PixCollapsible class="{{area.color}} list-competences">
+        <:title>{{area.code}} · {{area.title}}</:title>
+        <:default>
+          {{#each area.sortedCompetences as |competence|}}
+            <Competence
+              @competence={{competence}}
+              @setLevelTube={{@setLevelTube}}
+              @selectedTubeIds={{@selectedTubeIds}}
+              @checkTube={{@checkTube}}
+              @uncheckTube={{@uncheckTube}}
+              @tubeLevels={{@tubeLevels}}
+              @displayDeviceCompatibility={{@displayDeviceCompatibility}}
+              @displaySkillDifficultyAvailability={{@displaySkillDifficultyAvailability}}
+            />
+          {{/each}}
+        </:default>
       </PixCollapsible>
     </div>
   {{/each}}

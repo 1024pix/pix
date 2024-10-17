@@ -584,6 +584,7 @@ async function _createComplementaryCertificationCampaign({ databaseBuilder }) {
       targetProfileId,
       name: 'Campagne evaluation team-certif',
       code: campaignCode,
+      idPixLabel: 'IdPixLabel',
       title: 'Campagne evaluation team-certif',
       configCampaign: {
         participantCount: 0,

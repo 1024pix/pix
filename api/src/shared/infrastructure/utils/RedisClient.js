@@ -24,6 +24,8 @@ class RedisClient {
 
     this.ttl = this._wrapWithPrefix(this._client.ttl).bind(this._client);
     this.get = this._wrapWithPrefix(this._client.get).bind(this._client);
+    this.incr = this._wrapWithPrefix(this._client.incr).bind(this._client);
+    this.decr = this._wrapWithPrefix(this._client.decr).bind(this._client);
     this.set = this._wrapWithPrefix(this._client.set).bind(this._client);
     this.del = this._wrapWithPrefix(this._client.del).bind(this._client);
     this.expire = this._wrapWithPrefix(this._client.expire).bind(this._client);

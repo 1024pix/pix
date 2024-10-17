@@ -1,70 +1,58 @@
 .element-flashcards {
-  &__card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    max-width: 345px;
-    height: 440px;
-    margin: auto auto var(--pix-spacing-4x);
-    padding: var(--pix-spacing-6x);
-    background: var(--pix-neutral-0);
-    border: 5px solid var(--pix-neutral-100);
-    border-radius: var(--modulix-radius-l);
-    box-shadow: 0 12px 24px 0 rgb(7 20 46 / 12%);
-  }
-
   &__footer {
     display: flex;
     flex-direction: column;
     gap: var(--pix-spacing-2x);
     align-items: center;
+    max-width: 345px;
+    margin:auto;
     color: var(--pix-neutral-500);
-  }
-}
 
-.element-flashcards-card {
-  &__image {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      height: auto;
-      max-height: 250px;
-      border-radius: var(--modulix-radius-s);
-    }
-  }
-
-  &__text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--pix-neutral-900);
-    text-align: center;
-
-    &--recto {
-      font-weight: bold;
-    }
-  }
-
-  &__footer {
-    display: flex;
-    align-items: center;
-
-    &--recto {
-      flex-direction: column;
+    &__position,
+    &__direction,
+    &__answer {
+      @extend %pix-body-m;
     }
 
-    &--verso {
-      justify-content: flex-end;
+    &__position {
+      font-weight: 700;
     }
-  }
-}
 
-.element-flashcards-footer {
-  &__position {
-    @extend %pix-body-m;
+    &__question {
+      color: var(--pix-neutral-900);
+      font-weight: 700;
+    }
 
-    font-weight: 700;
+    &__answer {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      &__button {
+        width: calc(100% / 3 - 4px);
+        padding: var(--pix-spacing-4x) 0;
+        font-weight: 700;
+        line-height: 24px;
+        border-radius: var(--modulix-radius-s);
+
+        &--no {
+          color: var(--pix-error-500);
+          background: var(--pix-error-50);
+          border: 1px solid var(--pix-error-500);
+        }
+
+        &--almost {
+          color: var(--pix-neutral-900);
+          background: var(--pix-info-50);
+          border: 1px solid var(--pix-info-500);
+        }
+
+        &--yes {
+          color: var(--pix-success-500);
+          background: var(--pix-success-50);
+          border: 1px solid var(--pix-success-500);
+        }
+      }
+    }
   }
 }

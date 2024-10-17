@@ -1,30 +1,33 @@
-import Service from '@ember/service';
+import Service, { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import ENV from 'mon-pix/config/environment';
 
 export default class PixCompanion extends Service {
+  @service featureToggles;
   @tracked _isExtensionEnabled = true;
 
   #checkExtensionIsEnabledInterval;
+  #eventTarget = new EventTarget();
 
   startCertification(windowRef = window) {
+    if (!this.featureToggles.featureToggles.isPixCompanionEnabled) return;
     windowRef.dispatchEvent(new CustomEvent('pix:certification:start'));
     windowRef.postMessage({ event: 'pix:certification:start' }, windowRef.location.origin);
   }
 
   stopCertification(windowRef = window) {
+    if (!this.featureToggles.featureToggles.isPixCompanionEnabled) return;
     windowRef.dispatchEvent(new CustomEvent('pix:certification:stop'));
     windowRef.postMessage({ event: 'pix:certification:stop' }, windowRef.location.origin);
   }
 
   startCheckingExtensionIsEnabled(windowRef = window) {
-    if (!ENV.APP.FT_IS_PIX_COMPANION_MANDATORY) return;
+    if (!this.featureToggles.featureToggles.isPixCompanionEnabled) return;
     this.checkExtensionIsEnabled(windowRef);
     this.#checkExtensionIsEnabledInterval = windowRef.setInterval(() => this.checkExtensionIsEnabled(windowRef), 1000);
   }
 
   stopCheckingExtensionIsEnabled(windowRef = window) {
-    if (!ENV.APP.FT_IS_PIX_COMPANION_MANDATORY) return;
+    if (!this.featureToggles.featureToggles.isPixCompanionEnabled) return;
     windowRef.clearInterval(this.#checkExtensionIsEnabledInterval);
   }
 
@@ -44,13 +47,30 @@ export default class PixCompanion extends Service {
         this._isExtensionEnabled = true;
       })
       .catch(() => {
+        if (this._isExtensionEnabled) {
+          this.#eventTarget.dispatchEvent(new CustomEvent('block'));
+        }
         this._isExtensionEnabled = false;
         windowRef.removeEventListener('pix:companion:pong', pongListener);
       });
   }
 
+  /**
+   * @type EventTarget['addEventListener']
+   */
+  addEventListener(...args) {
+    this.#eventTarget.addEventListener(...args);
+  }
+
+  /**
+   * @type EventTarget['removeEventListener']
+   */
+  removeEventListener(...args) {
+    this.#eventTarget.removeEventListener(...args);
+  }
+
   get isExtensionEnabled() {
-    if (!ENV.APP.FT_IS_PIX_COMPANION_MANDATORY) return true;
+    if (!this.featureToggles.featureToggles.isPixCompanionEnabled) return true;
     return this._isExtensionEnabled;
   }
 }

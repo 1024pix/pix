@@ -15,6 +15,7 @@ function _toDomain(data, locale) {
   return new Mission({
     id: data.id,
     name: translatedName,
+    cardImageUrl: data.cardImageUrl,
     competenceId: data.competenceId,
     thematicId: data.thematicId,
     learningObjectives: translatedLearningObjectives,

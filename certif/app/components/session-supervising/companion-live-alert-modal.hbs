@@ -1,0 +1,17 @@
+<PixModal @title={{this.title}} @onCloseButtonClick={{@closeConfirmationModal}} @showModal={{@showModal}}>
+  <:content>
+    <p>{{t "pages.session-supervising.candidate-in-list.modals.live-alerts.companion.description"}}</p>
+  </:content>
+
+  <:footer>
+    <PixButton @triggerAction={{this.onClose}} @variant="secondary" @isBorderVisible={{true}}>{{t
+        "common.actions.cancel"
+      }}</PixButton>
+    <PixButton
+      @triggerAction={{this.onSubmit}}
+      aria-label={{t
+        "pages.session-supervising.candidate-in-list.modals.live-alerts.companion.actions.success-aria-label"
+      }}
+    >{{t "common.actions.confirm"}}</PixButton>
+  </:footer>
+</PixModal>

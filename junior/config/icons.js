@@ -3,6 +3,6 @@ const commonIcons = getCommonIcons();
 
 module.exports = function () {
   return {
-    'free-solid-svg-icons': [...commonIcons['free-solid-svg-icons'], 'image', 'video'],
+    'free-solid-svg-icons': [...commonIcons['free-solid-svg-icons'], 'arrows-rotate', 'image', 'video'],
   };
 };

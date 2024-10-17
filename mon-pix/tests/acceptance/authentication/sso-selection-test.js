@@ -27,7 +27,7 @@ module('Acceptance | authentication | SSO selection', function (hooks) {
       domainService.getExtension.returns('fr');
     });
 
-    module('When the user signs in', function () {
+    module('When the user logs in', function () {
       test('it displays the sso selection page and displays the sign up section', async function (assert) {
         // given
         const screen = await visit('/connexion/sso-selection');

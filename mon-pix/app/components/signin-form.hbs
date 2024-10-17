@@ -71,7 +71,10 @@
         @model="pole-emploi"
         class="sign-form-body__oidc-connect-link oidc-provider-pole-emploi"
       >
-        <img src="/images/logo/pe-connect-logo.svg" alt="{{t 'pages.sign-in.pole-emploi.link.img'}}" />
+        <img
+          src="/images/logo/identity-providers/pole-emploi-deprecated.svg"
+          alt="{{t 'pages.sign-in.pole-emploi.link.img'}}"
+        />
         <span>{{t "pages.sign-in.pole-emploi.title"}}</span>
       </LinkTo>
     {{else}}
@@ -81,7 +84,7 @@
         </div>
         <LinkTo @route="authentication.login-oidc" @model="fwb" class="sign-form-body__fwb-oidc-connect-link">
           <img
-            src="/images/logo/fwb-connect-logo.svg"
+            src="/images/logo/identity-providers/fwb.svg"
             alt="{{t 'pages.sign-in.fwb.link.img'}}"
             class="sign-form-body__fwb-oidc-connect-link__logo"
           />

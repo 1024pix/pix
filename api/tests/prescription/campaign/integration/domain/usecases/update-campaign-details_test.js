@@ -33,6 +33,7 @@ describe('Integration | UseCases | update-campaign-details', function () {
       organizationId,
       multipleSendings: false,
       isForAbsoluteNovice: false,
+      idPixLabel: null,
     });
 
     campaignId = campaign.id;

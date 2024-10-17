@@ -5,6 +5,8 @@ import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTr
 import { CampaignParticipant } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
 import { CampaignToStartParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignToStartParticipation.js';
 import * as campaignParticipantRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participant-repository.js';
+import { CampaignExternalIdTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/domain/constants.js';
 import {
   AlreadyExistingCampaignParticipationError,
   OrganizationLearnersCouldNotBeSavedError,
@@ -22,6 +24,7 @@ const campaignParticipationDBAttributes = [
 ];
 
 const assessmentAttributes = ['userId', 'method', 'state', 'type', 'courseId', 'isImproving'];
+let featureId;
 
 describe('Integration | Infrastructure | Repository | CampaignParticipant', function () {
   describe('get', function () {
@@ -34,8 +37,36 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       organizationFeatureAPI = {
         getAllFeaturesFromOrganization: sinon.stub().resolves({ hasLearnersImportFeature: false }),
       };
+      featureId = databaseBuilder.factory.buildFeature(CAMPAIGN_FEATURES.EXTERNAL_ID).id;
 
       mockLearningContent(learningContent);
+    });
+
+    afterEach(function () {
+      featureId = null;
+    });
+    context('when campaign has externalId feature', function () {
+      it('should get correct idPixLabel', async function () {
+        const campaignToStartParticipation = buildCampaignWithSkills({
+          organizationId,
+          idPixLabel: 'idpix',
+        });
+        const { id: userId } = databaseBuilder.factory.buildUser();
+
+        await databaseBuilder.commit();
+
+        const campaignParticipant = await DomainTransaction.execute(async () => {
+          return campaignParticipantRepository.get({
+            userId,
+            campaignId: campaignToStartParticipation.id,
+
+            organizationFeatureAPI,
+          });
+        });
+
+        expect(campaignParticipant.campaignToStartParticipation.idPixLabel).to.equal('idpix');
+        expect(campaignParticipant.campaignToStartParticipation.idPixType).to.equal(CampaignExternalIdTypes.STRING);
+      });
     });
 
     it('set the userId', async function () {
@@ -507,6 +538,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           },
           ['skill1'],
         );
+
         buildCampaignWithSkills(
           {
             idPixLabel: 'id',
@@ -1202,13 +1234,30 @@ function buildCampaignWithSkills(attributes, skills = ['skill1']) {
   });
   const campaign = databaseBuilder.factory.buildCampaign({
     ...attributes,
+    idPixLabel: `deprecated_${attributes.idPixLabel}`,
     organizationId,
   });
+
+  if (attributes.idPixLabel) {
+    databaseBuilder.factory.buildCampaignFeature({
+      campaignId: campaign.id,
+      featureId,
+      params: {
+        label: attributes.idPixLabel,
+        type: CampaignExternalIdTypes.STRING,
+      },
+    });
+  }
   skills.forEach((skillId) => {
     databaseBuilder.factory.buildCampaignSkill({ skillId, campaignId: campaign.id });
   });
 
-  return new CampaignToStartParticipation({ ...campaign, hasLearnersImportFeature: false, ...attributes });
+  return new CampaignToStartParticipation({
+    ...campaign,
+    idPixType: CampaignExternalIdTypes.STRING,
+    hasLearnersImportFeature: false,
+    ...attributes,
+  });
 }
 
 function getExpectedCampaignParticipation(campaignParticipationId, campaignParticipant) {

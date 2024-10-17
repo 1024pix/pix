@@ -12,12 +12,11 @@ module('Integration | Component | Assessments | assessments', function (hooks) {
   module('when extension is enabled', function () {
     test('it displays assessment page', async function (assert) {
       // given
-      const startCheckingExtensionIsEnabledStub = sinon.stub();
-      const stopCheckingExtensionIsEnabledStub = sinon.stub();
-
       class PixCompanionStub extends Service {
-        startCheckingExtensionIsEnabled = startCheckingExtensionIsEnabledStub;
-        stopCheckingExtensionIsEnabled = stopCheckingExtensionIsEnabledStub;
+        addEventListener = sinon.stub();
+        removeEventListener = sinon.stub();
+        startCheckingExtensionIsEnabled = sinon.stub();
+        stopCheckingExtensionIsEnabled = sinon.stub();
         isExtensionEnabled = true;
       }
 
@@ -42,12 +41,11 @@ module('Integration | Component | Assessments | assessments', function (hooks) {
     module("when assessment's type is not certification", function () {
       test('it displays assessment page', async function (assert) {
         // given
-        const startCheckingExtensionIsEnabledStub = sinon.stub();
-        const stopCheckingExtensionIsEnabledStub = sinon.stub();
-
         class PixCompanionStub extends Service {
-          startCheckingExtensionIsEnabled = startCheckingExtensionIsEnabledStub;
-          stopCheckingExtensionIsEnabled = stopCheckingExtensionIsEnabledStub;
+          addEventListener = sinon.stub();
+          removeEventListener = sinon.stub();
+          startCheckingExtensionIsEnabled = sinon.stub();
+          stopCheckingExtensionIsEnabled = sinon.stub();
           isExtensionEnabled = true;
         }
 
@@ -77,12 +75,11 @@ module('Integration | Component | Assessments | assessments', function (hooks) {
   module('when extension is disabled', function () {
     test('it displays companion blocker page', async function (assert) {
       // given
-      const startCheckingExtensionIsEnabledStub = sinon.stub();
-      const stopCheckingExtensionIsEnabledStub = sinon.stub();
-
       class PixCompanionStub extends Service {
-        startCheckingExtensionIsEnabled = startCheckingExtensionIsEnabledStub;
-        stopCheckingExtensionIsEnabled = stopCheckingExtensionIsEnabledStub;
+        addEventListener = sinon.stub();
+        removeEventListener = sinon.stub();
+        startCheckingExtensionIsEnabled = sinon.stub();
+        stopCheckingExtensionIsEnabled = sinon.stub();
         isExtensionEnabled = false;
       }
 
@@ -110,12 +107,11 @@ module('Integration | Component | Assessments | assessments', function (hooks) {
     module("when assessment's type is not certification", function () {
       test('it displays assessment page', async function (assert) {
         // given
-        const startCheckingExtensionIsEnabledStub = sinon.stub();
-        const stopCheckingExtensionIsEnabledStub = sinon.stub();
-
         class PixCompanionStub extends Service {
-          startCheckingExtensionIsEnabled = startCheckingExtensionIsEnabledStub;
-          stopCheckingExtensionIsEnabled = stopCheckingExtensionIsEnabledStub;
+          addEventListener = sinon.stub();
+          removeEventListener = sinon.stub();
+          startCheckingExtensionIsEnabled = sinon.stub();
+          stopCheckingExtensionIsEnabled = sinon.stub();
           isExtensionEnabled = false;
         }
 

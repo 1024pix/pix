@@ -9,9 +9,11 @@ module('Unit | Model | campaign', function (hooks) {
     const model = store.createRecord('campaign', {
       name: 'Fake name',
       code: 'ABC123',
+      idPixType: 'STRING',
     });
     assert.strictEqual(model.name, 'Fake name');
     assert.strictEqual(model.code, 'ABC123');
+    assert.strictEqual(model.idPixType, 'STRING');
   });
 
   module('#urlToResult', function () {

@@ -4,6 +4,7 @@ const serialize = function (missions) {
   return new Serializer('missions', {
     attributes: [
       'name',
+      'cardImageUrl',
       'areaCode',
       'validatedObjectives',
       'learningObjectives',

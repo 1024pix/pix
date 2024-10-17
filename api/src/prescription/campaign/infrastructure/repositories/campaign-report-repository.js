@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { CAMPAIGN_FEATURES } from '../../../../shared/domain/constants.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CampaignParticipationStatuses } from '../../../../shared/domain/models/index.js';
 import { CampaignReport } from '../../../../shared/domain/read-models/CampaignReport.js';
@@ -19,7 +20,6 @@ const get = async function (id) {
       name: 'campaigns.name',
       code: 'campaigns.code',
       title: 'campaigns.title',
-      idPixLabel: 'campaigns.idPixLabel',
       createdAt: 'campaigns.createdAt',
       customLandingPageText: 'campaigns.customLandingPageText',
       archivedAt: 'campaigns.archivedAt',
@@ -54,7 +54,17 @@ const get = async function (id) {
     throw new NotFoundError(`La campagne d'id ${id} n'existe pas ou son accès est restreint`);
   }
 
-  const campaignReport = new CampaignReport({ ...result, id });
+  const externalIdFeature = await knex('campaign-features')
+    .select('params')
+    .join('features', 'features.id', 'featureId')
+    .where({ campaignId: id, 'features.key': CAMPAIGN_FEATURES.EXTERNAL_ID.key })
+    .first();
+
+  const campaignReport = new CampaignReport({
+    ...result,
+    ...{ idPixLabel: externalIdFeature?.params?.label, idPixType: externalIdFeature?.params?.type },
+    id,
+  });
 
   if (campaignReport.isAssessment) {
     const skillIds = await knex('campaign_skills').where({ campaignId: id }).pluck('skillId');
@@ -106,8 +116,13 @@ const findPaginatedFilteredByOrganizationId = async function ({ organizationId, 
   const query = knex('campaigns')
     .distinct('campaigns.id')
     .select(
-      'campaigns.*',
-      'users.id AS "ownerId"',
+      'campaigns.id',
+      'campaigns.name',
+      'campaigns.code',
+      'campaigns.type',
+      'campaigns.archivedAt',
+      'campaigns.createdAt',
+      'users.id AS ownerId',
       'users.firstName AS ownerFirstName',
       'users.lastName AS ownerLastName',
       knex.raw(

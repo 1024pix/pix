@@ -1,20 +1,13 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../shared/domain/models/CertificationChallengeLiveAlert.js';
-import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
+import { CertificationCompanionLiveAlertStatus } from '../../../shared/domain/models/CertificationCompanionLiveAlert.js';
 import { CertificationCandidateForSupervising } from '../../domain/models/CertificationCandidateForSupervising.js';
-import { CertificationCandidateForSupervisingV3 } from '../../domain/models/CertificationCandidateForSupervisingV3.js';
 import { ComplementaryCertificationForSupervising } from '../../domain/models/ComplementaryCertificationForSupervising.js';
 import { SessionForSupervising } from '../../domain/read-models/SessionForSupervising.js';
 
 const get = async function ({ id }) {
   const results = await knex
-    .with('ongoing-live-alerts', (queryBuilder) => {
-      queryBuilder
-        .select('*')
-        .from('certification-challenge-live-alerts')
-        .where({ status: CertificationChallengeLiveAlertStatus.ONGOING });
-    })
     .select({
       id: 'sessions.id',
       date: 'sessions.date',
@@ -23,7 +16,6 @@ const get = async function ({ id }) {
       examiner: 'sessions.examiner',
       accessCode: 'sessions.accessCode',
       address: 'sessions.address',
-      version: 'sessions.version',
       certificationCandidates: knex.raw(`
         json_agg(json_build_object(
           'userId', "certification-candidates"."userId",
@@ -35,19 +27,24 @@ const get = async function ({ id }) {
           'authorizedToStart', "certification-candidates"."authorizedToStart",
           'assessmentStatus', "assessments"."state",
           'startDateTime', "certification-courses"."createdAt",
-          'liveAlert', json_build_object(
-            'status', "ongoing-live-alerts".status,
-            'hasImage',"ongoing-live-alerts"."hasImage",
-            'hasAttachment', "ongoing-live-alerts"."hasAttachment",
-            'hasEmbed', "ongoing-live-alerts"."hasEmbed",
-            'isFocus', "ongoing-live-alerts"."isFocus"
+          'challengeLiveAlert', json_build_object(
+            'type', 'challenge',
+            'status', "certification-challenge-live-alerts".status,
+            'hasImage',"certification-challenge-live-alerts"."hasImage",
+            'hasAttachment', "certification-challenge-live-alerts"."hasAttachment",
+            'hasEmbed', "certification-challenge-live-alerts"."hasEmbed",
+            'isFocus', "certification-challenge-live-alerts"."isFocus"
+          ),
+          'companionLiveAlert', json_build_object(
+            'type', 'companion',
+            'status', "certification-companion-live-alerts".status
           ),
           'complementaryCertification', json_build_object(
             'key', "complementary-certifications"."key",
             'label', "complementary-certifications"."label",
             'certificationExtraTime', "complementary-certifications"."certificationExtraTime"
           )
-        ) order by "ongoing-live-alerts".status, lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
+        ) order by "certification-companion-live-alerts".status, "certification-challenge-live-alerts".status, lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
     `),
     })
     .from('sessions')
@@ -67,7 +64,20 @@ const get = async function ({ id }) {
       'complementary-certifications.id',
       'certification-subscriptions.complementaryCertificationId',
     )
-    .leftJoin('ongoing-live-alerts', 'ongoing-live-alerts.assessmentId', 'assessments.id')
+    .leftJoin('certification-challenge-live-alerts', function () {
+      this.on('certification-challenge-live-alerts.assessmentId', '=', 'assessments.id').andOnVal(
+        'certification-challenge-live-alerts.status',
+        '=',
+        CertificationChallengeLiveAlertStatus.ONGOING,
+      );
+    })
+    .leftJoin('certification-companion-live-alerts', function () {
+      this.on('certification-companion-live-alerts.assessmentId', '=', 'assessments.id').andOnVal(
+        'certification-companion-live-alerts.status',
+        '=',
+        CertificationCompanionLiveAlertStatus.ONGOING,
+      );
+    })
     .groupBy('sessions.id')
     .where({ 'sessions.id': id })
     .first();
@@ -93,21 +103,10 @@ function _buildCertificationCandidateForSupervising(candidateDto) {
   });
 }
 
-function _buildCertificationCandidateForSupervisingV3(candidateDto) {
-  return new CertificationCandidateForSupervisingV3({
-    ...candidateDto,
-    enrolledComplementaryCertification: _toDomainComplementaryCertification(candidateDto.complementaryCertification),
-  });
-}
-
 function _toDomain(results) {
   const certificationCandidates = results.certificationCandidates
     .filter((candidate) => candidate?.id !== null)
-    .map((candidate) =>
-      CertificationVersion.isV3(results.version)
-        ? _buildCertificationCandidateForSupervisingV3(candidate)
-        : _buildCertificationCandidateForSupervising(candidate),
-    );
+    .map((candidate) => _buildCertificationCandidateForSupervising(candidate));
 
   return new SessionForSupervising({
     ...results,

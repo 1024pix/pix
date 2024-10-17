@@ -1,4 +1,4 @@
-export { filterByGlobalResult, findPaginatedMissionLearners };
+export { filterByGlobalResult, filterByStatuses, findPaginatedMissionLearners };
 
 const findPaginatedMissionLearners = async function ({
   missionLearnerRepository,
@@ -18,8 +18,23 @@ const findPaginatedMissionLearners = async function ({
     missionLearners,
   );
 
-  return _paginateMissionLearner(filterByGlobalResult(missionLearnersWithStatus, filter.results), page);
+  const missionLearnerWithStatusFilteredByGlobalResult = filterByGlobalResult(
+    missionLearnersWithStatus,
+    filter.results,
+  );
+  const missionLearnerWithStatusFilteredByGlobalResultAndStatuses = filterByStatuses(
+    missionLearnerWithStatusFilteredByGlobalResult,
+    filter.statuses,
+  );
+  return _paginateMissionLearner(missionLearnerWithStatusFilteredByGlobalResultAndStatuses, page);
 };
+
+function filterByStatuses(missionLearners, statusesFilter) {
+  if (!statusesFilter) {
+    return missionLearners;
+  }
+  return missionLearners.filter((missionLearner) => statusesFilter.includes(missionLearner.missionStatus));
+}
 
 function filterByGlobalResult(missionLearners, resultFilter) {
   if (!resultFilter) {

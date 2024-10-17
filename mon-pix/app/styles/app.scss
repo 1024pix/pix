@@ -72,6 +72,7 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'components/module/download';
 @import 'components/module/embed';
 @import 'components/module/flashcards';
+@import 'components/module/flashcards-card';
 @import 'components/module/image';
 @import 'components/module/qcu';
 @import 'components/module/qcm';
@@ -135,8 +136,12 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 /* Styles for colocated components */
 @import 'authentication-layout';
 @import 'authentication/oidc-provider-selector';
+@import 'authentication/other-authentication-providers';
 @import 'authentication/signin-form';
+@import 'authentication/signup-form';
 @import 'authentication/sso-selection-form';
+@import 'authentication/new-password-input/password-checklist';
+@import 'authentication/new-password-input/password-rule';
 
 /* pages */
 @import 'pages/assessment-results';

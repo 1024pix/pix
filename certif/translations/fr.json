@@ -103,8 +103,15 @@
         "candidate-status": {
           "authorized-to-resume": "Autorisé à reprendre",
           "finished": "Terminé",
+          "live-alerts": {
+            "challenge": {
+              "ongoing": "Signalement en cours"
+            },
+            "companion": {
+              "ongoing": "Extension non détectée"
+            }
+          },
           "ongoing": "En cours",
-          "ongoing-live-alert": "Signalement en cours",
           "start": "Début"
         },
         "complementary-alone": "Quelles épreuves le candidat passera-t-il ?",
@@ -476,6 +483,22 @@
           },
           "no-current-live-alert": "Aucun signalement en cours pour ce candidat"
         },
+        "modals": {
+          "live-alerts": {
+            "companion": {
+              "title": "Confirmer que {candidateFullName} a bien l’extension ?",
+              "actions": {
+                "success-aria-label": "Confirmer la présence de l’extension et traiter le signalement"
+              },
+              "description": "Cette action permettra au candidat de reprendre son test à l’endroit où il l’avait quitté."
+            }
+          }
+        },
+        "notifications": {
+          "handling-live-alert": {
+            "success": "Le signalement a bien été traité. '<br>' Veuillez indiquer au candidat de rafraîchir sa page."
+          }
+        },
         "resume-test-modal": {
           "actions": {
             "confirm": "Je confirme l'autorisation"
@@ -484,8 +507,11 @@
           "cancel-label": "Annuler et fermer la fenêtre de confirmation",
           "description": "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté.",
           "error": "Une erreur est survenue, {firstName} {lastName} n'a a pu être autorisé à reprendre son test.",
-          "handle-live-alert": "Gérer le signalement",
           "instruction-with-name": "Autoriser {firstName} {lastName} à reprendre son test ?",
+          "live-alerts": {
+            "handle-challenge": "Gérer le signalement",
+            "handle-companion": "Confirmer la présence de l’extension"
+          },
           "success": "Succès ! {firstName} {lastName} peut reprendre son test de certification."
         },
         "start-date-time": "Début : ",

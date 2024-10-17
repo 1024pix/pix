@@ -47,66 +47,69 @@ export default class Competence extends Component {
 
   <template>
     <div class="competence-container">
-      <PixCollapsible @title="{{@competence.index}} {{@competence.name}}">
-        <div class="panel">
-          <table class="table content-text content-text--small select-tube-table">
-            <caption class="screen-reader-only">Sélection des sujets</caption>
-            <thead>
-              <tr>
-                <Header @size="medium" scope="col">
-                  <label>
-                    <PixCheckbox
-                      id="competence-{{@competence.id}}"
-                      @checked={{this.isChecked}}
-                      @isIndeterminate={{this.isIndeterminate}}
-                      {{on "change" this.onChange}}
-                    >
-                      <:label>Thématiques</:label>
-                    </PixCheckbox>
-                  </label>
-                </Header>
-                <Header @size="wide" scope="col">
-                  <p>Sujets</p>
-                </Header>
-                <Header @size="small" scope="col">
-                  <p>Niveau</p>
-                </Header>
-                {{#if @displayDeviceCompatibility}}
-                  <Header @size="medium" @align="center" scope="col">
-                    <p>Compatibilité</p>
+      <PixCollapsible>
+        <:title>{{@competence.index}} {{@competence.name}}</:title>
+        <:default>
+          <div class="panel">
+            <table class="table content-text content-text--small select-tube-table">
+              <caption class="screen-reader-only">Sélection des sujets</caption>
+              <thead>
+                <tr>
+                  <Header @size="medium" scope="col">
+                    <label>
+                      <PixCheckbox
+                        id="competence-{{@competence.id}}"
+                        @checked={{this.isChecked}}
+                        @isIndeterminate={{this.isIndeterminate}}
+                        {{on "change" this.onChange}}
+                      >
+                        <:label>Thématiques</:label>
+                      </PixCheckbox>
+                    </label>
                   </Header>
-                {{/if}}
-              </tr>
-            </thead>
+                  <Header @size="wide" scope="col">
+                    <p>Sujets</p>
+                  </Header>
+                  <Header @size="small" scope="col">
+                    <p>Niveau</p>
+                  </Header>
+                  {{#if @displayDeviceCompatibility}}
+                    <Header @size="medium" @align="center" scope="col">
+                      <p>Compatibilité</p>
+                    </Header>
+                  {{/if}}
+                </tr>
+              </thead>
 
-            <tbody>
-              {{#each @competence.sortedThematics as |thematic|}}
-                {{#each thematic.tubes as |tube index|}}
-                  <tr class={{if (eq index 0) "row-thematic"}} aria-label="Sujet">
-                    {{#if (eq index 0)}}
-                      <Thematic
-                        @thematic={{thematic}}
+              <tbody>
+                {{#each @competence.sortedThematics as |thematic|}}
+                  {{#each thematic.tubes as |tube index|}}
+                    <tr class={{if (eq index 0) "row-thematic"}} aria-label="Sujet">
+                      {{#if (eq index 0)}}
+                        <Thematic
+                          @thematic={{thematic}}
+                          @selectedTubeIds={{@selectedTubeIds}}
+                          @checkTube={{@checkTube}}
+                          @uncheckTube={{@uncheckTube}}
+                        />
+                      {{/if}}
+                      <Tube
+                        @tube={{tube}}
+                        @setLevelTube={{@setLevelTube}}
                         @selectedTubeIds={{@selectedTubeIds}}
                         @checkTube={{@checkTube}}
                         @uncheckTube={{@uncheckTube}}
+                        @tubeLevels={{@tubeLevels}}
+                        @displayDeviceCompatibility={{@displayDeviceCompatibility}}
+                        @displaySkillDifficultyAvailability={{@displaySkillDifficultyAvailability}}
                       />
-                    {{/if}}
-                    <Tube
-                      @tube={{tube}}
-                      @setLevelTube={{@setLevelTube}}
-                      @selectedTubeIds={{@selectedTubeIds}}
-                      @checkTube={{@checkTube}}
-                      @uncheckTube={{@uncheckTube}}
-                      @tubeLevels={{@tubeLevels}}
-                      @displayDeviceCompatibility={{@displayDeviceCompatibility}}
-                      @displaySkillDifficultyAvailability={{@displaySkillDifficultyAvailability}}
-                    />
-                  </tr>
+                    </tr>
+                  {{/each}}
                 {{/each}}
-              {{/each}}
-            </tbody>
-          </table>
-        </div>
+              </tbody>
+            </table>
+          </div>
+        </:default>
       </PixCollapsible>
     </div>
   </template>

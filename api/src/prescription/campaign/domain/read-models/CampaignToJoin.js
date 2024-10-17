@@ -7,6 +7,7 @@ class CampaignToJoin {
     code,
     title,
     idPixLabel,
+    idPixType,
     customLandingPageText,
     externalIdHelpImageUrl,
     alternativeTextToExternalIdHelpImage,
@@ -47,6 +48,7 @@ class CampaignToJoin {
 
     this.externalIdHelpImageUrl = externalIdHelpImageUrl;
     this.idPixLabel = idPixLabel;
+    this.idPixType = idPixType;
     this.alternativeTextToExternalIdHelpImage = alternativeTextToExternalIdHelpImage;
     this.isSimplifiedAccess = targetProfileIsSimplifiedAccess;
     this.isForAbsoluteNovice = isForAbsoluteNovice;

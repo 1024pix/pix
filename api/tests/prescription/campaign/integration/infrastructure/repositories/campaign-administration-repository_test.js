@@ -3,7 +3,8 @@ import _ from 'lodash';
 import { UnknownCampaignId } from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
 import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CampaignExternalIdTypes, CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/domain/constants.js';
 import { catchErr, databaseBuilder, expect, knex, mockLearningContent, sinon } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Campaign Administration', function () {
@@ -41,8 +42,8 @@ describe('Integration | Repository | Campaign Administration', function () {
 
     it('should return campaigns for given ids', async function () {
       // given
-      const firstCampaign = new Campaign(databaseBuilder.factory.buildCampaign());
-      const secondCampaign = new Campaign(databaseBuilder.factory.buildCampaign());
+      const firstCampaign = new Campaign(databaseBuilder.factory.buildCampaign({ idPixLabel: null }));
+      const secondCampaign = new Campaign(databaseBuilder.factory.buildCampaign({ idPixLabel: null }));
       databaseBuilder.factory.buildCampaign();
 
       await databaseBuilder.commit();
@@ -56,22 +57,25 @@ describe('Integration | Repository | Campaign Administration', function () {
   });
 
   describe('#save', function () {
+    let userId, ownerId, organizationId, targetProfileId;
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser().id;
+      ownerId = databaseBuilder.factory.buildUser().id;
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildMembership({ userId, organizationId });
+      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+
+      await databaseBuilder.commit();
+    });
     context('when campaign is of type ASSESSMENT', function () {
       it('should save the given campaign with type ASSESSMENT', async function () {
         // given
-        const user = databaseBuilder.factory.buildUser();
-        const creatorId = user.id;
-        const ownerId = databaseBuilder.factory.buildUser().id;
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
-        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-        await databaseBuilder.commit();
-
         const campaignToSave = {
           name: 'Evaluation niveau 1 recherche internet',
           code: 'BCTERD153',
           customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
-          creatorId,
+          creatorId: userId,
           ownerId,
           organizationId,
           multipleSendings: true,
@@ -207,12 +211,7 @@ describe('Integration | Repository | Campaign Administration', function () {
             ],
           };
           mockLearningContent(learningContent);
-          const user = databaseBuilder.factory.buildUser();
-          const creatorId = user.id;
-          const ownerId = databaseBuilder.factory.buildUser().id;
-          const organizationId = databaseBuilder.factory.buildOrganization().id;
-          databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
-          const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+
           databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube1', level: 2 });
           databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube2', level: 8 });
           databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube3', level: 3 });
@@ -224,7 +223,7 @@ describe('Integration | Repository | Campaign Administration', function () {
             name: 'Evaluation niveau 1 recherche internet',
             code: 'BCTERD153',
             customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
-            creatorId,
+            creatorId: userId,
             ownerId,
             organizationId,
             multipleSendings: true,
@@ -276,19 +275,14 @@ describe('Integration | Repository | Campaign Administration', function () {
           ],
         };
         mockLearningContent(learningContent);
-        const user = databaseBuilder.factory.buildUser();
-        const creatorId = user.id;
-        const ownerId = databaseBuilder.factory.buildUser().id;
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
-        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+
         databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube1', level: 2 });
         await databaseBuilder.commit();
         const campaignToSave = {
           name: 'Evaluation niveau 1 recherche internet',
           code: 'BCTERD153',
           customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
-          creatorId,
+          creatorId: userId,
           ownerId,
           organizationId,
           multipleSendings: true,
@@ -310,19 +304,13 @@ describe('Integration | Repository | Campaign Administration', function () {
 
     context('when assessment method is `flash`', function () {
       it('should not save any skills', async function () {
-        const user = databaseBuilder.factory.buildUser();
-        const creatorId = user.id;
-        const ownerId = databaseBuilder.factory.buildUser().id;
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
-
         await databaseBuilder.commit();
 
         const campaignToSave = {
           name: 'Evaluation niveau 1 recherche internet',
           code: 'BCTERD153',
           customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
-          creatorId,
+          creatorId: userId,
           ownerId,
           organizationId,
           multipleSendings: true,
@@ -341,18 +329,11 @@ describe('Integration | Repository | Campaign Administration', function () {
 
     it('should save the given campaign with type PROFILES_COLLECTION', async function () {
       // given
-      const user = databaseBuilder.factory.buildUser();
-      const creatorId = user.id;
-      const ownerId = databaseBuilder.factory.buildUser().id;
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-      databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
-      await databaseBuilder.commit();
-
       const campaignAttributes = {
         name: 'Evaluation niveau 1 recherche internet',
         code: 'BCTERD153',
         customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
-        creatorId,
+        creatorId: userId,
         ownerId,
         organizationId,
         multipleSendings: true,
@@ -386,21 +367,12 @@ describe('Integration | Repository | Campaign Administration', function () {
 
     context('when there are several campaigns', function () {
       it('should save the given campaigns', async function () {
-        // given
-        const user = databaseBuilder.factory.buildUser();
-        const creatorId = user.id;
-        const ownerId = databaseBuilder.factory.buildUser().id;
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
-        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-        await databaseBuilder.commit();
-
         const campaignsToSave = [
           {
             name: 'Evaluation niveau 1 recherche internet',
             code: 'ACTERD153',
             customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
-            creatorId,
+            creatorId: userId,
             ownerId,
             organizationId,
             multipleSendings: true,
@@ -415,7 +387,7 @@ describe('Integration | Repository | Campaign Administration', function () {
             name: 'Evaluation niveau 1 recherche internet #2',
             code: 'BCTERD153',
             customLandingPageText: 'Parcours évaluatif concernant la recherche internet #2',
-            creatorId,
+            creatorId: userId,
             ownerId,
             organizationId,
             multipleSendings: true,
@@ -483,6 +455,53 @@ describe('Integration | Repository | Campaign Administration', function () {
             'customResultPageText',
             'customResultPageButtonText',
             'customResultPageButtonUrl',
+          ]),
+        );
+      });
+    });
+
+    context('when the campaign have an idPixLabel', function () {
+      it('should save the campaign with its feature', async function () {
+        // given
+        databaseBuilder.factory.buildFeature(CAMPAIGN_FEATURES.EXTERNAL_ID);
+        await databaseBuilder.commit();
+
+        const campaignToSave = {
+          name: 'Evaluation niveau 1 recherche internet',
+          code: 'BCTERD153',
+          customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
+          creatorId: userId,
+          ownerId,
+          organizationId,
+          multipleSendings: true,
+          type: CampaignTypes.ASSESSMENT,
+          targetProfileId,
+          title: 'Parcours recherche internet',
+          idPixLabel: 'identifiant pix',
+          idPixType: CampaignExternalIdTypes.STRING,
+        };
+
+        // when
+        const savedCampaign = await campaignAdministrationRepository.save(campaignToSave);
+
+        // then
+        expect(savedCampaign).to.be.instanceof(Campaign);
+        expect(savedCampaign.id).to.exist;
+
+        expect(savedCampaign).to.deep.include(
+          _.pick(campaignToSave, [
+            'name',
+            'code',
+            'title',
+            'type',
+            'customLandingPageText',
+            'creator',
+            'organization',
+            'targetProfile',
+            'multipleSendings',
+            'ownerId',
+            'idPixLabel',
+            'idPixType',
           ]),
         );
       });

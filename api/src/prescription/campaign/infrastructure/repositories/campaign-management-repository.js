@@ -1,4 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { CAMPAIGN_FEATURES } from '../../../../shared/domain/constants.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
 import { CampaignManagement } from '../../domain/models/CampaignManagement.js';
@@ -11,7 +12,6 @@ const get = async function (campaignId) {
       id: 'campaigns.id',
       code: 'campaigns.code',
       name: 'campaigns.name',
-      idPixLabel: 'campaigns.idPixLabel',
       isForAbsoluteNovice: 'campaigns.isForAbsoluteNovice',
       createdAt: 'campaigns.createdAt',
       archivedAt: 'campaigns.archivedAt',
@@ -40,8 +40,19 @@ const get = async function (campaignId) {
     .where('campaigns.id', campaignId)
     .first();
 
+  const externalIdFeature = await knex('campaign-features')
+    .select('params')
+    .join('features', 'features.id', 'featureId')
+    .where({ campaignId: campaign.id, 'features.key': CAMPAIGN_FEATURES.EXTERNAL_ID.key })
+    .first();
+
   const participationCountByStatus = await _countParticipationsByStatus(campaignId, campaign.type);
-  campaign = { ...campaign, ...participationCountByStatus };
+  campaign = {
+    ...campaign,
+    ...participationCountByStatus,
+    idPixLabel: externalIdFeature?.params?.label,
+    idPixType: externalIdFeature?.params?.type,
+  };
   const campaignManagement = new CampaignManagement(campaign);
   return campaignManagement;
 };
@@ -52,7 +63,6 @@ const findPaginatedCampaignManagements = async function ({ organizationId, page 
       id: 'campaigns.id',
       code: 'campaigns.code',
       name: 'campaigns.name',
-      idPixLabel: 'campaigns.idPixLabel',
       createdAt: 'campaigns.createdAt',
       archivedAt: 'campaigns.archivedAt',
       deletedAt: 'campaigns.deletedAt',

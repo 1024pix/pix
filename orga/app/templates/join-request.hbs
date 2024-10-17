@@ -12,7 +12,7 @@
         <br />
         Si vous ne le recevez pas, vérifiez les courriers indésirables,<br />
         ou
-        <a href="https://support.pix.fr/support/tickets/new">contactez le support</a>.
+        <a href="https://pix.fr/support/enseignement-scolaire">contactez le support</a>.
       </p>
     {{else}}
       <h1 class="join-request__title">Activez ou récupérez votre espace</h1>
@@ -30,14 +30,17 @@
         <p class="join-request__error-message error-message">
           {{this.errorMessage}}
           Merci de
-          <a href="https://support.pix.fr/support/tickets/new">contacter le support</a>.
+          <a href="https://pix.fr/support/enseignement-scolaire">contacter le support</a>.
         </p>
       {{/if}}
 
       <Auth::JoinRequestForm @onSubmit={{this.createScoOrganizationInvitation}} />
     {{/if}}
     <div class="join-request-form__back">
-      <LinkTo @route="login"><FaIcon @icon="arrow-left" />Revenir à la page de connexion</LinkTo>
+      <LinkTo @route="login">
+        <FaIcon @icon="arrow-left" />
+        Revenir à la page de connexion
+      </LinkTo>
     </div>
   </div>
 </div>

@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 const Modals = {
   Confirmation: 'Confirmation',
   HandleLiveAlert: 'HandleLiveAlert',
+  HandleCompanionLiveAlert: 'HandleCompanionLiveAlert',
   HandledLiveAlertSuccess: 'HandledLiveAlertSuccess',
 };
 
@@ -25,10 +26,7 @@ export default class CandidateInList extends Component {
   @tracked isLiveAlertValidated = false;
 
   get candidateFullName() {
-    const candidateFullName = `${this.args.candidate.firstName} ${this.args.candidate.lastName}`;
-    return this.intl.t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.title', {
-      candidateFullName,
-    });
+    return `${this.args.candidate.firstName} ${this.args.candidate.lastName}`;
   }
 
   get isConfirmButtonToBeDisplayed() {
@@ -142,13 +140,18 @@ export default class CandidateInList extends Component {
 
   @action
   askUserToHandleLiveAlert() {
-    if (this._hasCertificationOngoingLiveAlert) {
+    if (this.args.candidate.hasOngoingChallengeLiveAlert) {
       this.displayedModal = Modals.HandleLiveAlert;
     } else {
       this.notifications.error(
         this.intl.t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.no-current-live-alert'),
       );
     }
+  }
+
+  @action
+  askUserToHandleCompanionLiveAlert() {
+    this.displayedModal = Modals.HandleCompanionLiveAlert;
   }
 
   @action
@@ -182,6 +185,29 @@ export default class CandidateInList extends Component {
         'pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-handling-live-alert',
       );
       this.notifications.error(errorMessage);
+    }
+  }
+
+  @action
+  async clearedLiveAlert() {
+    try {
+      const adapter = this.store.adapterFor('session-management');
+      await adapter.clearedLiveAlert({
+        sessionId: this.args.sessionId,
+        candidateUserId: this.args.candidate.userId,
+      });
+
+      this.notifications.success(
+        this.intl.t('pages.session-supervising.candidate-in-list.notifications.handling-live-alert.success', {
+          htmlSafe: true,
+        }),
+      );
+    } catch (error) {
+      this.notifications.error(
+        this.intl.t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-handling-live-alert'),
+      );
+    } finally {
+      this.displayedModal = null;
     }
   }
 
@@ -252,6 +278,10 @@ export default class CandidateInList extends Component {
     return this.displayedModal === Modals.HandleLiveAlert;
   }
 
+  get isHandleCompanionLiveAlertModalDisplayed() {
+    return this.displayedModal === Modals.HandleCompanionLiveAlert;
+  }
+
   get isLiveAlertHandledModalDisplayed() {
     return this.displayedModal === Modals.HandledLiveAlertSuccess;
   }
@@ -270,7 +300,9 @@ export default class CandidateInList extends Component {
     return theoricalEndDateTime;
   }
 
-  get _hasCertificationOngoingLiveAlert() {
-    return this.args.candidate.liveAlert.status === 'ongoing';
+  get currentLiveAlertLabel() {
+    const alertType = this.args.candidate.currentLiveAlert?.type;
+
+    return this.intl.t(`common.forms.certification-labels.candidate-status.live-alerts.${alertType}.ongoing`);
   }
 }

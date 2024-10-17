@@ -7,10 +7,10 @@
               "common.forms.certification-labels.candidate-status.authorized-to-resume"
             }}</PixTag>
         {{else}}
-          {{#if (eq @candidate.liveAlert.status "ongoing")}}
-            <PixTag class="session-supervising-candidate-in-list__status-container--ongoing-alert">{{t
-                "common.forms.certification-labels.candidate-status.ongoing-live-alert"
-              }}</PixTag>
+          {{#if @candidate.currentLiveAlert}}
+            <PixTag class="session-supervising-candidate-in-list__status-container--ongoing-alert">
+              {{this.currentLiveAlertLabel}}
+            </PixTag>
           {{else}}
             <PixTag class="session-supervising-candidate-in-list__status-container--started">{{t
                 "common.forms.certification-labels.candidate-status.ongoing"
@@ -108,9 +108,15 @@
         @close={{this.closeMenu}}
         aria-label={{t "pages.session-supervising.candidate-in-list.candidate-options"}}
       >
-        {{#if @candidate.liveAlert}}
+        {{#if @candidate.hasOngoingChallengeLiveAlert}}
           <Dropdown::Item @onClick={{this.askUserToHandleLiveAlert}}>
-            {{t "pages.session-supervising.candidate-in-list.resume-test-modal.handle-live-alert"}}
+            {{t "pages.session-supervising.candidate-in-list.resume-test-modal.live-alerts.handle-challenge"}}
+          </Dropdown::Item>
+        {{/if}}
+
+        {{#if @candidate.hasOngoingCompanionLiveAlert}}
+          <Dropdown::Item @onClick={{this.askUserToHandleCompanionLiveAlert}}>
+            {{t "pages.session-supervising.candidate-in-list.resume-test-modal.live-alerts.handle-companion"}}
           </Dropdown::Item>
         {{/if}}
 
@@ -139,7 +145,7 @@
     </:description>
   </SessionSupervising::ConfirmationModal>
 
-  {{#if (eq @candidate.liveAlert.status "ongoing")}}
+  {{#if @candidate.hasOngoingChallengeLiveAlert}}
     <SessionSupervising::HandleLiveAlertModal
       @showModal={{this.isHandleLiveAlertModalDisplayed}}
       @closeConfirmationModal={{this.closeHandleLiveAlertModal}}
@@ -147,15 +153,22 @@
       @rejectLiveAlert={{this.rejectLiveAlert}}
       @validateLiveAlert={{this.validateLiveAlert}}
       @candidateId={{@candidate.id}}
-      @liveAlert={{@candidate.liveAlert}}
+      @liveAlert={{@candidate.challengeLiveAlert}}
     />
   {{/if}}
 
   <SessionSupervising::LiveAlertHandledModal
     @showModal={{this.isLiveAlertHandledModalDisplayed}}
     @closeConfirmationModal={{this.closeHandleLiveAlertModal}}
-    @title={{this.candidateFullName}}
+    @candidateFullName={{this.candidateFullName}}
     @isLiveAlertValidated={{this.isLiveAlertValidated}}
+  />
+
+  <SessionSupervising::CompanionLiveAlertModal
+    @showModal={{this.isHandleCompanionLiveAlertModalDisplayed}}
+    @closeConfirmationModal={{this.closeHandleLiveAlertModal}}
+    @candidateFullName={{this.candidateFullName}}
+    @clearedLiveAlert={{this.clearedLiveAlert}}
   />
 
 </li>

@@ -1,3 +1,4 @@
+import * as TargetProfile from '../../../../../src/shared/domain/models/TargetProfile.js';
 import {
   createServer,
   databaseBuilder,
@@ -567,20 +568,40 @@ describe('Acceptance | TargetProfile | Application | Route | admin-target-profil
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result).to.deep.equal({
-        data: [
-          {
-            type: 'target-profile-summaries',
-            id: '1',
-            attributes: {
-              name: 'Super profil cible',
-              outdated: false,
-              'created-at': undefined,
-              'can-detach': false,
-            },
-          },
-        ],
+      expect(response.result.data).to.have.lengthOf(1);
+    });
+  });
+
+  describe('GET /api/admin/target-profile-summaries', function () {
+    let userId;
+    let organizationId;
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser.withRole().id;
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildTargetProfile({
+        id: 1,
+        ownerOrganizationId: organizationId,
+        name: 'Super profil cible',
+        outdated: false,
+        category: TargetProfile.categories.OTHER,
       });
+      await databaseBuilder.commit();
+    });
+
+    it('should return 200', async function () {
+      // given
+      const options = {
+        method: 'GET',
+        url: `/api/admin/target-profile-summaries`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 });

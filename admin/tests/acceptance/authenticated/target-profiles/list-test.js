@@ -1,13 +1,17 @@
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { module, test } from 'qunit';
 
+import setupIntl from '../../../helpers/setup-intl';
+
 module('Acceptance | Target Profiles | List', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   module('When admin member is not logged in', function () {
     test('it should not be accessible by an unauthenticated user', async function (assert) {
@@ -104,7 +108,9 @@ module('Acceptance | Target Profiles | List', function (hooks) {
           const screen = await visit('/target-profiles/list?id=123');
 
           // then
-          assert.dom(screen.getByRole('textbox', { name: 'Filtrer les profils cible par un id' })).hasValue('123');
+          assert
+            .dom(screen.getByRole('textbox', { name: t('pages.target-profiles.filters.search-by-id.name') }))
+            .hasValue('123');
         });
       });
     });

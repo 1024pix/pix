@@ -54,14 +54,16 @@
       "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
       "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
       "login-user-blocked-error": "Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer, '<'a href=\"{url}\"'>'contactez-nous'</a>'.",
-      "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur '<'a href=\"{url}\"'>'mot de passe oublié'</a>' pour le réinitialiser."
+      "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur '<'a href=\"{url}\"'>'mot de passe oublié'</a>' pour le réinitialiser.",
+      "login-unexpected-error": "Impossible de se connecter. Merci de réessayer dans quelques instants. Si le problème persiste, '<'a href=\"https://pix.fr/support\" target=\"blank\"'>'merci de nous contacter'</a>'."
     },
     "cgu": {
       "cgu": "conditions d'utilisation",
       "data-protection-policy": "politique de confidentialité",
       "error": "Vous devez accepter les conditions d’utilisation de Pix et la politique de confidentialité pour créer un compte.",
       "label": "J'accepte les conditions d'utilisation et la politique de confidentialité de Pix",
-      "message": "J'accepte les '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'conditions d'utilisation'</a>' et la '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'politique de confidentialité'</a>' de Pix"
+      "message": "J'accepte les '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'conditions d'utilisation'</a>' et la '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'politique de confidentialité'</a>' de Pix",
+      "read-message": "Lire les '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'conditions d'utilisation'</a>' et la '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'politique de confidentialité'</a>'."
     },
     "companion": {
       "not-detected": {
@@ -116,6 +118,17 @@
     "skip-links": {
       "skip-to-content": "Aller au contenu",
       "skip-to-footer": "Aller au bas de page"
+    },
+    "validation": {
+      "password": {
+        "error": "Le mot de passe saisi est erroné. Votre mot de passe doit être supérieur à 8 caractères et contenir au minimum un chiffre, une minuscule et une majuscule.",
+        "rules": {
+          "contains-digit": "un chiffre minimum",
+          "contains-lowercase": "une minuscule minimum",
+          "contains-uppercase": "une majuscule minimum",
+          "min-length": "8 caractères minimum"
+        }
+      }
     }
   },
   "components": {
@@ -124,6 +137,44 @@
         "label": "Rechercher une organisation",
         "placeholder": "Sélectionner un organisme",
         "searchLabel": "Recherche par mots-clés"
+      },
+      "other-authentication-providers": {
+        "signup-heading": "Autres moyens d’inscription",
+        "login-heading": "Autres moyens de connexion",
+        "continue-with-featured-identity-provider-link": "Continuer avec {featuredIdentityProvider}",
+        "select-another-organization-link": "Choisir une autre organisation"
+      },
+      "new-password-input": {
+        "label": "Mot de passe",
+        "instructions-label": "Votre mot de passe doit respecter les règles suivantes :",
+        "completed-message": "{ rulesCompleted } sur { rulesCount } complétées."
+      },
+      "signup-form": {
+        "actions": {
+          "submit": "Je m'inscris"
+        },
+        "errors": {
+          "invalid-locale-format": "Votre locale \"{invalidLocale}\" n'est pas dans le bon format.",
+          "locale-not-supported": "Votre locale \"{localeNotSupported}\" n'est actuellement pas supportée."
+        },
+        "fields": {
+          "email": {
+            "error": "Votre adresse e-mail n’est pas valide.",
+            "label": "Adresse e-mail",
+            "placeholder": "ex: jean.dupont@email.fr"
+          },
+          "firstname": {
+            "error": "Votre prénom n’est pas renseigné.",
+            "label": "Prénom",
+            "placeholder": "ex: Jean"
+          },
+          "lastname": {
+            "error": "Votre nom n’est pas renseigné.",
+            "label": "Nom",
+            "placeholder": "ex: Dupont"
+          },
+          "legend": "Information nécessaire pour l'inscription."
+        }
       }
     },
     "invited": {
@@ -665,7 +716,8 @@
       "first-title": "Vous allez commencer votre test de certification",
       "link-to-user-certification": "Voir mes certifications",
       "non-eligible-subscription": "Vous n'êtes pas éligible à {nonEligibleSubscriptionLabel}. Vous pouvez néanmoins passer votre certification Pix.",
-      "subscription": "Vous êtes inscrit à la certification complémentaire suivante en plus de la certification Pix :"
+      "core-and-complementary-subscriptions": "Vous êtes inscrit à la certification complémentaire suivante en plus de la certification Pix :",
+      "complementary-subscription": "Vous êtes inscrit à la certification complémentaire suivante :"
     },
     "certifications-list": {
       "title": "Mes Certifications",
@@ -1380,9 +1432,15 @@
           }
         },
         "flashcards": {
+          "start": "Commencer",
           "seeAnswer": "Voir la réponse",
           "seeAgain": "Revoir la question",
-          "nextCard": "Suivant"
+          "nextCard": "Suivant",
+          "answers": {
+            "notAtAll": "Pas du tout",
+            "almost": "Presque",
+            "yes": "Oui !"
+          }
         },
         "grain": {
           "continue": "Continuer",
@@ -1423,6 +1481,7 @@
       },
       "flashcards": {
         "direction": "Cherchez la réponse puis tournez la carte",
+        "answerDirection": "Vous aviez la réponse ?",
         "position": "Carte {currentCardPosition}/{totalCards}"
       },
       "grain": {
@@ -1614,8 +1673,7 @@
         "submit": "Je me connecte"
       },
       "error": {
-        "message": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects",
-        "unexpected": "Impossible de se connecter. Merci de réessayer dans quelques instants. Si le problème persiste, '<'a href=\"https://pix.fr/support\" target=\"blank\"'>'merci de nous contacter'</a>'."
+        "message": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects"
       },
       "fields": {
         "legend": "Informations nécessaires pour se connecter.",
@@ -1650,7 +1708,8 @@
     "sign-up": {
       "title": "Inscription",
       "actions": {
-        "submit": "Je m'inscris"
+        "submit": "Je m'inscris",
+        "login": "Se connecter sur Pix"
       },
       "errors": {
         "invalid-locale-format": "Votre locale \"{invalidLocale}\" n'est pas dans le bon format.",
@@ -1768,6 +1827,26 @@
         "caption": "Détails de vos résultats sous forme de pourcentage et d'étoiles en fonction des compétences",
         "masteryPercentage": "{rate, number, ::percent} de réussite",
         "starsAcquired": "{acquired, plural, =0 {aucune étoile acquise} =1 {# étoile acquise} other {# étoiles acquises}} sur {total}"
+      },
+      "hero": {
+        "acquired-badges-title": "Récompenses obtenues",
+        "bravo": "Bravo {name} !",
+        "explanations": {
+          "improve": "Si vous voulez améliorer votre score, vous pouvez retenter certaines questions.",
+          "send-results": "Envoyez vos résultats à l’organisateur du parcours et continuez à progresser avec les formations recommandées.",
+          "trainings": "Pour progresser, découvrez nos recommandations de formations et trouvez celles qui vous conviennent le mieux."
+        },
+        "mastery-rate": "de réussite aux questions",
+        "retry": {
+          "title": "Améliorez vos résultats",
+          "description": "Votre organisateur vous invite à repasser ce parcours.",
+          "actions": {
+            "retry": "Repasser mon parcours",
+            "reset": "Remettre à zéro et tout retenter"
+          }
+        },
+        "see-trainings": "Voir les formations",
+        "shared-message": "Merci d'avoir envoyé vos résultats."
       },
       "tabs": {
         "aria-label": "3 onglets détaillant vos résultats",

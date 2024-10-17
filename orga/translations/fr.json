@@ -71,7 +71,7 @@
       "step1b": "importer",
       "step1c": "la base élèves (admin)",
       "step2": "'<'a href='https://cloud.pix.fr/s/RaPpKjFHNX2kSR4' title='Guide Lancer les parcours de rentrée' class='link link--banner link--bold link--underlined' '>'Créer les campagnes'</a>' (parcours rentrée, 6e, thématiques, disciplinaires, ciblés…).",
-      "step3": "'<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Guide Préparer et organiser la certification des élèves' class='link link--banner link--bold link--underlined' '>'Certifier les apprenants'</a>'."
+      "step3": "Certifier les apprenants. '<'a href='https://cloud.pix.fr/s/2q4c4QT9jGbGbEq' title='Guide Préparer et organiser la certification des élèves' class='link link--banner link--bold link--underlined' '>'En savoir plus sur la nouvelle certification'</a>'."
     },
     "language-availability": {
       "message": "Votre langue n'est pas encore disponible sur Pix Orga. Pour votre confort, l'application sera présentée en anglais. Toute l'équipe de Pix travaille à l'ajout de votre langue."
@@ -308,7 +308,14 @@
     },
     "organization-participants-header": {
       "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}",
-      "import-button": "Importer"
+      "default": {
+        "title": "{count, plural, =0 {Participants} =1 {Participant ({count})} other {Participants ({count})}}"
+      },
+      "import-button": "Importer",
+      "sco": {
+        "title": "{count, plural, =0 {Élèves} =1 {Élèves ({count})} other {Élèves ({count})}}"
+      },
+      "sco-title": "{count, plural, =0 {Élèves} =1 {Élève ({count})} other {Élèves ({count})}}"
     },
     "participation-status": {
       "SHARED-ASSESSMENT": "Résultats reçus",
@@ -686,6 +693,10 @@
       },
       "direct-link": "Lien direct",
       "external-user-id-label": "Libellé de l'identifiant",
+      "external-user-id-types": {
+        "email": "email",
+        "string": "texte libre"
+      },
       "landing-page-text": "Texte de la page d'accueil",
       "multiple-sendings": {
         "title": "Envoi multiple",
@@ -926,7 +937,10 @@
             "caption": "Tableau des élèves avec leur participation à la mission {missionName}",
             "filters": {
               "aria-label": "Filtre sur les élèves",
-              "learners-count": "{count, plural, =0 {Aucun élève} =1 {1 élève} other {{count} élèves}}"
+              "learners-count": "{count, plural, =0 {Aucun élève} =1 {1 élève} other {{count} élèves}}",
+              "status": {
+                "label": "Statut de la mission"
+              }
             },
             "headers": {
               "division": "Classe",
@@ -1058,6 +1072,7 @@
       "filters": {
         "aria-label": "Filtres sur les participants",
         "participations-count": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count} participants}}",
+        "students-count": "{count, plural, =0 {0 élèves} =1 {1 élève} other {{count} élèves}}",
         "type": {
           "certificability": {
             "label": "Rechercher par certificabilité",

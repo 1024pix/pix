@@ -122,7 +122,7 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
               class="member-item-actions__button"
               aria-label="Modifier le rôle"
               @triggerAction={{this.editRoleOfMember}}
-              @iconBefore="pen-to-square"
+              @iconBefore="edit"
             >
               Modifier le rôle
             </PixButton>
@@ -134,7 +134,7 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
             class="member-item-actions__button"
             aria-label="Désactiver l'agent"
             @triggerAction={{this.toggleDisplayConfirm}}
-            @iconBefore="trash"
+            @iconBefore="delete"
           >
             {{t "common.actions.deactivate"}}
           </PixButton>

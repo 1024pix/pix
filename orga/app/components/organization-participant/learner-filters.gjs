@@ -10,6 +10,7 @@ import UiSearchInputFilter from '../ui/search-input-filter';
 
 export default class LearnerFilters extends Component {
   @service intl;
+  @service currentUser;
 
   get certificabilityOptions() {
     return [
@@ -29,7 +30,15 @@ export default class LearnerFilters extends Component {
   }
 
   get isClearFiltersButtonDisabled() {
-    return !this.args.fullName && this.args.certificabilityFilter.length === 0;
+    const hasCustomFiltersValues =
+      this.args.customFiltersValues && Object.values(this.args.customFiltersValues).length > 0;
+    return !this.args.fullName && this.args.certificabilityFilter.length === 0 && !hasCustomFiltersValues;
+  }
+
+  get learnerCountTranslation() {
+    return this.currentUser.canAccessMissionsPage
+      ? this.intl.t('pages.organization-participants.filters.students-count', { count: this.args.learnersCount })
+      : this.intl.t('pages.organization-participants.filters.participations-count', { count: this.args.learnersCount });
   }
 
   <template>
@@ -37,7 +46,7 @@ export default class LearnerFilters extends Component {
       @title={{t "common.filters.title"}}
       class="participant-filter-banner hide-on-mobile"
       aria-label={{t "pages.organization-participants.filters.aria-label"}}
-      @details={{t "pages.organization-participants.filters.participations-count" count=@learnersCount}}
+      @details={{this.learnerCountTranslation}}
       @clearFiltersLabel={{t "common.filters.actions.clear"}}
       @onClearFilters={{@onResetFilter}}
       @isClearFilterButtonDisabled={{this.isClearFiltersButtonDisabled}}
@@ -49,15 +58,18 @@ export default class LearnerFilters extends Component {
         @label={{t "common.filters.fullname.label"}}
         @triggerFiltering={{@onTriggerFiltering}}
       />
-      <UiMultiSelectFilter
-        @field="certificability"
-        @label={{t "pages.organization-participants.filters.type.certificability.label"}}
-        @onSelect={{@onTriggerFiltering}}
-        @selectedOption={{@certificabilityFilter}}
-        @options={{this.certificabilityOptions}}
-        @placeholder={{t "pages.organization-participants.filters.type.certificability.placeholder"}}
-        @emptyMessage=""
-      />
+
+      {{#unless this.currentUser.canAccessMissionsPage}}
+        <UiMultiSelectFilter
+          @field="certificability"
+          @label={{t "pages.organization-participants.filters.type.certificability.label"}}
+          @onSelect={{@onTriggerFiltering}}
+          @selectedOption={{@certificabilityFilter}}
+          @options={{this.certificabilityOptions}}
+          @placeholder={{t "pages.organization-participants.filters.type.certificability.placeholder"}}
+          @emptyMessage=""
+        />
+      {{/unless}}
       {{#each @customFilters as |customFilter|}}
         {{#let (t (getColumnName customFilter)) as |columnName|}}
           <UiSearchInputFilter

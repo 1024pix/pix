@@ -239,12 +239,6 @@ class CertificationCourseNotPublishableError extends DomainError {
   }
 }
 
-class CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually extends DomainError {
-  constructor(message = 'Le signalement ne peut pas être modifié manuellement') {
-    super(message);
-  }
-}
-
 class ImportLearnerConfigurationError extends DomainError {
   constructor(message, code) {
     super(message);
@@ -1123,7 +1117,6 @@ export {
   CertificationCourseNotPublishableError,
   CertificationEndedByFinalizationError,
   CertificationEndedBySupervisorError,
-  CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually,
   ChallengeAlreadyAnsweredError,
   ChallengeNotAskedError,
   CsvImportError,

@@ -252,6 +252,6 @@ module('Integration | Component | Module | Element', function (hooks) {
     );
 
     // then
-    assert.dom(screen.getByRole('button', { name: 'Voir la réponse' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Commencer' })).exists();
   });
 });

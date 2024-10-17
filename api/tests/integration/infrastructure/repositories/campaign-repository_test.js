@@ -1,6 +1,8 @@
 import _ from 'lodash';
 
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
+import { CampaignExternalIdTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { CAMPAIGN_FEATURES } from '../../../../src/shared/domain/constants.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { Campaign } from '../../../../src/shared/domain/models/Campaign.js';
 import { databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
@@ -173,7 +175,6 @@ describe('Integration | Repository | Campaign', function () {
         'createdAt',
         'archivedAt',
         'customLandingPageText',
-        'idPixLabel',
         'externalIdHelpImageUrl',
         'alternativeTextToExternalIdHelpImage',
         'title',
@@ -201,13 +202,32 @@ describe('Integration | Repository | Campaign', function () {
       return databaseBuilder.commit();
     });
 
-    it('should return a Campaign by her id', async function () {
+    it('should return a Campaign by its id', async function () {
       // when
       const result = await campaignRepository.get(campaign.id);
 
       // then
       expect(result).to.be.an.instanceof(Campaign);
       expect(result.name).to.equal(campaign.name);
+    });
+
+    it('should return a Campaign with idPixLabel by its id ', async function () {
+      // when
+      const feature = databaseBuilder.factory.buildFeature(CAMPAIGN_FEATURES.EXTERNAL_ID);
+      databaseBuilder.factory.buildCampaignFeature({
+        featureId: feature.id,
+        campaignId: campaign.id,
+        params: { label: 'identifiant pix', type: CampaignExternalIdTypes.STRING },
+      });
+      await databaseBuilder.commit();
+
+      const result = await campaignRepository.get(campaign.id);
+
+      // then
+      expect(result).to.be.an.instanceof(Campaign);
+      expect(result.name).to.equal(campaign.name);
+      expect(result.idPixLabel).to.equal('identifiant pix');
+      expect(result.idPixType).to.equal(CampaignExternalIdTypes.STRING);
     });
 
     it('should throw a NotFoundError if campaign can not be found', function () {

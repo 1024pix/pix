@@ -66,4 +66,9 @@ export default class SessionManagementAdapter extends ApplicationAdapter {
       },
     });
   }
+
+  clearedLiveAlert({ sessionId, candidateUserId: userId }) {
+    const url = `${this.host}/${this.namespace}/sessions/${sessionId}/users/${userId}/clear-companion-alert`;
+    return this.ajax(url, 'PATCH');
+  }
 }

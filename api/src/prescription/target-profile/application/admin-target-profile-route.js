@@ -3,6 +3,7 @@ import Joi from 'joi';
 import { BadRequestError, NotFoundError, sendJsonApiError } from '../../../shared/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType, optionalIdentifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { filterType } from '../../shared/domain/types/identifiers-type.js';
 import { targetProfileController } from './admin-target-profile-controller.js';
 
 const register = async function (server) {
@@ -374,6 +375,7 @@ const register = async function (server) {
             filter: Joi.object({
               id: Joi.number().integer().empty('').allow(null).optional(),
               name: Joi.string().empty('').allow(null).optional(),
+              categories: [filterType.targetProfileCategory, Joi.array().items(filterType.targetProfileCategory)],
             }).default({}),
             page: Joi.object({
               number: Joi.number().integer().empty('').allow(null).optional(),

@@ -44,7 +44,7 @@ export default class OrganizationInvitations extends Component {
                           class="organization-invitations-actions__button"
                           aria-label="Annuler l’invitation de {{invitation.email}}"
                           @triggerAction={{fn @onCancelOrganizationInvitation invitation}}
-                          @iconBefore="trash"
+                          @iconBefore="delete"
                         >
                           Annuler l’invitation
                         </PixButton>

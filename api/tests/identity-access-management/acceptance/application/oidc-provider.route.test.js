@@ -43,6 +43,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
           attributes: {
             code: 'OIDC_EXAMPLE_NET',
             'organization-name': 'OIDC Example',
+            slug: 'oidc-example-net',
             'should-close-session': true,
             source: 'oidcexamplenet',
           },

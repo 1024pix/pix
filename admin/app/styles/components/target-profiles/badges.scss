@@ -1,10 +1,14 @@
 .badges-table {
+  @extend %pix-body-m;
+}
+
+.badges-table-header {
   &__id {
     width: 110px;
   }
 
   &__key {
-    width: 150px;
+    width: 120px;
   }
 
   &__name {
@@ -13,37 +17,78 @@
 
   &__image {
     width: 130px;
-
-    img {
-      width: 90px;
-    }
   }
 
-  &__shortcoming {
-    width: 140px;
+  &__parameters {
+    width: 175px;
+
+    .pix-tooltip {
+      display: block;
+    }
+
+    .pix-tooltip__trigger-element {
+      display: flex;
+      gap: var(--pix-spacing-2x);
+      align-items: center;
+
+      svg {
+        width: 1em;
+        height: 1em;
+      }
+    }
   }
 
   &__actions {
-    width: 160px;
+    width: 180px;
   }
 }
 
-.badges-table-actions {
-  &__button {
-    width: 100%;
-
-    &--delete {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 8px;
+.badges-table-body {
+  &__image {
+    img {
+      display: block;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+      object-fit: contain;
+      object-position: center;
     }
   }
-}
 
-.badges-table-actions-delete {
-  margin-top: $pix-spacing-xs;
-}
+  &__key {
+    word-wrap: break-word;
+  }
 
-.key-table {
-  word-wrap: break-word;
+  &__parameters {
+    & > * {
+      width: 100%;
+
+      & + * {
+        margin-top: var(--pix-spacing-2x);
+      }
+    }
+
+    .valid::before,
+    .not-valid::before {
+      margin-right: 0.25ch;
+    }
+
+    .valid::before {
+      content: '✔'
+    }
+
+    .not-valid::before {
+      content: '✘'
+    }
+  }
+
+  &__actions {
+    & > * {
+      width: 100%;
+    }
+
+    & > *:not(:first-child) {
+      margin-top: var(--pix-spacing-2x);
+    }
+  }
 }

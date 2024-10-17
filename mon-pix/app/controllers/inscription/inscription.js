@@ -7,6 +7,11 @@ export default class InscriptionController extends Controller {
   @service intl;
   @service locale;
   @service router;
+  @service featureToggles;
+
+  get isNewAuthenticationDesignEnabled() {
+    return this.featureToggles.featureToggles.isNewAuthenticationDesignEnabled;
+  }
 
   get isInternationalDomain() {
     return !this.currentDomain.isFranceDomain;

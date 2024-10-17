@@ -3,6 +3,13 @@
   flex-direction: column;
   align-content: center;
 
+  .button-actions__icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    fill: var(--pix-neutral-0);
+  }
+
   &__media {
     display: flex;
     justify-content: center;

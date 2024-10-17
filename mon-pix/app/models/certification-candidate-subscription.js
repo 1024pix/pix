@@ -2,12 +2,30 @@ import Model, { attr } from '@ember-data/model';
 
 export default class CertificationCandidateSubscription extends Model {
   @attr sessionId;
-  @attr eligibleSubscription;
+  @attr eligibleSubscriptions;
   @attr nonEligibleSubscription;
   @attr sessionVersion;
 
   get hasSubscription() {
-    return this.eligibleSubscription || this.nonEligibleSubscription;
+    return this.eligibleSubscriptions?.length || this.nonEligibleSubscription;
+  }
+
+  get hasV3Subscription() {
+    return this.isSessionVersion3 && this.eligibleSubscriptions?.length;
+  }
+
+  get isV3CoreOnly() {
+    return (
+      this.isSessionVersion3 && this.eligibleSubscriptions.length === 1 && this.eligibleSubscriptions[0].type === 'CORE'
+    );
+  }
+
+  get isV3CoreAndComplementary() {
+    return (
+      this.isSessionVersion3 &&
+      this.eligibleSubscriptions.some((eligibleSubscription) => eligibleSubscription.type === 'CORE') &&
+      this.eligibleSubscriptions.some((eligibleSubscription) => eligibleSubscription.type === 'COMPLEMENTARY')
+    );
   }
 
   get isSessionVersion3() {

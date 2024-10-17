@@ -18,6 +18,38 @@
       "login-user-temporary-blocked-error": "You have reached too many failed login attempts. Please try again later or '<'a href=\"{url}\"'>'reset your password here'</a>'.",
       "organization-not-found-error": "The organization \"{organizationId}\" does not exist."
     },
+    "fields": {
+      "createdAt": "creation date",
+      "id": "id",
+      "name": "name",
+      "status": "status",
+      "target-profile": {
+        "category": {
+          "name": "category",
+          "tags": {
+            "BACK_TO_SCHOOL": "Back to school",
+            "COMPETENCES": "Pix Competences",
+            "CUSTOM": "Created for you",
+            "DISCIPLINE": "Schools",
+            "OTHER": "Other",
+            "PIX_PLUS": "Pix+",
+            "PREDEFINED": "Ready-made",
+            "SUBJECT": "Subject",
+            "TARGETED": "Targeted"
+          }
+        }
+      }
+    },
+    "filters": {
+      "title": "Filters",
+      "actions": {
+        "clear": "Clear filters"
+      },
+      "target-profile": {
+        "label": "Category",
+        "placeholder": "Pix+, Other ..."
+      }
+    },
     "forms": {
       "loading": "Loading...",
       "mandatory": "Champ obligatoire",
@@ -221,6 +253,9 @@
     "badges": {
       "api-error-messages": {
         "key-already-exists": "The badge key {badgeKey} already exists"
+      },
+      "tooltips": {
+        "parameters": "<u>Always visible</u><br/>If the badge is always visible and the learner has not fulfilled the obtaining conditions, then the badge will not be seen on the results screen.<br/><br/><u>Certifiable</u><br/>The badge becomes a prerequisite for certification."
       }
     },
     "certification-centers": {
@@ -640,6 +675,18 @@
         },
         "notifications": {
           "success": "The target profile has been duplicated."
+        }
+      },
+      "filters": {
+        "aria-label": "Target profile filters",
+        "count": "{count, plural, =0 {0 target profile} =1 {1 target profile} other {{count} target profiles}}",
+        "search-by-id": {
+          "name": "Filter target profiles by ID",
+          "placeholder": "Search by ID"
+        },
+        "search-by-name": {
+          "name": "Filter target profiles by name",
+          "placeholder": "Search by name"
         }
       },
       "resettable-checkbox": {

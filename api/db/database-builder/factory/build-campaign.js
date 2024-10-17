@@ -11,7 +11,7 @@ const buildCampaign = function ({
   name = 'Name',
   code,
   title = 'Title',
-  idPixLabel = 'IdPixLabel',
+  idPixLabel,
   externalIdHelpImageUrl = null,
   alternativeTextToExternalIdHelpImage = null,
   customLandingPageText = 'Some landing page text ',

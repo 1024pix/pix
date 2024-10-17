@@ -1,4 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 import { t } from 'ember-intl/test-support';
 import TableRow from 'pix-orga/components/organization-participant/table-row';
 import { module, test } from 'qunit';
@@ -8,6 +9,12 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | OrganizationParticipant | TableRow', function (hooks) {
   setupIntlRenderingTest(hooks);
+  hooks.beforeEach(function () {
+    class CurrentUserStub extends Service {
+      prescriber = { missionsManagement: true };
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
+  });
 
   module('common cases', function () {
     test('should display common column', async function (assert) {
@@ -39,7 +46,7 @@ module('Integration | Component | OrganizationParticipant | TableRow', function 
       assert.ok(screen.queryByText(1));
     });
 
-    test('should have a link on participant lastname to redirect on his page', async function (assert) {
+    test('should have a link on participant lastname to redirect on his page if hasOrganizationParticipantPage', async function (assert) {
       const noop = sinon.stub();
       const participant = {
         id: 777,
@@ -59,12 +66,42 @@ module('Integration | Component | OrganizationParticipant | TableRow', function 
             @onToggleParticipant={{noop}}
             @onClickLearner={{noop}}
             @hideCertifiableDate={{true}}
+            @hasOrganizationParticipantPage={{true}}
           />
         </template>,
       );
 
       // then
       assert.dom(screen.getByRole('link', { name: 'Bon' })).hasAttribute('href', '/participants/777');
+    });
+    test('should not have a link on participant lastname if not hasOrganizationParticipantPage', async function (assert) {
+      const noop = sinon.stub();
+      const participant = {
+        id: 777,
+        firstName: 'Jean',
+        lastName: 'Bon',
+        participationCount: 1,
+      };
+
+      // when
+      const screen = await render(
+        <template>
+          <TableRow
+            @showCheckbox={{noop}}
+            @participant={{participant}}
+            @isParticipantSelected={{noop}}
+            @openAuthenticationMethodModal={{noop}}
+            @onToggleParticipant={{noop}}
+            @onClickLearner={{noop}}
+            @hideCertifiableDate={{true}}
+            @hasOrganizationParticipantPage={{false}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.queryByRole('link', { name: 'Bon' })).doesNotExist();
+      assert.dom(screen.queryByRole('cell', { name: 'Bon' })).exists();
     });
   });
 
