@@ -33,6 +33,11 @@ export default class FillInParticipantExternalId extends Component {
   }
 
   @action
+  updateParticipantExternalId(event) {
+    this.participantExternalId = event.target.value;
+  }
+
+  @action
   cancel() {
     this.errorMessage = null;
     return this.args.onCancel();

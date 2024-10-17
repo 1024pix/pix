@@ -28,7 +28,7 @@ export default class CampaignParticipationResult extends Model {
 
   @hasMany('competenceResult', { async: false, inverse: 'campaignParticipationResult' }) competenceResults;
 
-  @belongsTo('reachedStage', { async: false, inverse: 'campaignParticipationResult' }) reachedStage;
+  @belongsTo('reached-stage', { async: false, inverse: 'campaignParticipationResult' }) reachedStage;
 
   get hasReachedStage() {
     return this.reachedStage !== null;
