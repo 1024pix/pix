@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { AlgoritmEngineVersion } from '../../../src/certification/shared/domain/models/AlgoritmEngineVersion.js';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildSession } from './build-session.js';
 import { buildUser } from './build-user.js';
@@ -22,7 +23,7 @@ const buildCertificationCourse = function ({
   completedAt = new Date('2022-03-01'),
   isPublished = true,
   verificationCode = `P-${id}`.padEnd(10, '3'),
-  version = 2,
+  version = AlgoritmEngineVersion.V2,
   userId,
   sessionId,
   maxReachableLevelOnCertificationDate = 5,

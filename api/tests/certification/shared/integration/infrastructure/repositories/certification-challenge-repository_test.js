@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { SESSIONS_VERSIONS } from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
+import { AlgoritmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgoritmEngineVersion.js';
 import * as certificationChallengeRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-challenge-repository.js';
 import { AssessmentEndedError } from '../../../../../../src/shared/domain/errors.js';
 import { CertificationChallenge } from '../../../../../../src/shared/domain/models/CertificationChallenge.js';
@@ -133,10 +133,9 @@ describe('Integration | Repository | Certification Challenge', function () {
       before(async function () {
         // given
         const userId = databaseBuilder.factory.buildUser({}).id;
-        // TODO: switch to certif-course version, not session
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           userId,
-          version: SESSIONS_VERSIONS.V3,
+          version: AlgoritmEngineVersion.V3,
         }).id;
         challengeId = databaseBuilder.factory.buildCertificationChallenge({
           challengeId: 'recChallenge1',
@@ -170,10 +169,9 @@ describe('Integration | Repository | Certification Challenge', function () {
       before(async function () {
         // given
         const userId = databaseBuilder.factory.buildUser({}).id;
-        // TODO: switch to certif-course version, not session
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           userId,
-          version: SESSIONS_VERSIONS.V3,
+          version: AlgoritmEngineVersion.V3,
         }).id;
 
         const answeredChallenge = databaseBuilder.factory.buildCertificationChallenge({

@@ -1,3 +1,4 @@
+import { AlgoritmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgoritmEngineVersion.js';
 import { SESSIONS_VERSIONS } from '../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
@@ -90,10 +91,9 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
             version: SESSIONS_VERSIONS.V3,
           }).id;
           databaseBuilder.factory.buildFlashAlgorithmConfiguration();
-          // TODO: switch to certif-course version, not session
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             isPublished: false,
-            version: SESSIONS_VERSIONS.V3,
+            version: AlgoritmEngineVersion.V3,
             userId,
             sessionId,
           }).id;
@@ -160,10 +160,9 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
             sessionId,
           });
           databaseBuilder.factory.buildCoreSubscription({ certificationCandidateId: candidate.id });
-          // TODO: switch to certif-course version, not session
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             isPublished: false,
-            version: SESSIONS_VERSIONS.V3,
+            version: AlgoritmEngineVersion.V3,
             userId: user.id,
             sessionId,
           }).id;

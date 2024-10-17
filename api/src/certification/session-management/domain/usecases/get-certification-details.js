@@ -5,7 +5,6 @@
  * @typedef {import('./index.js').PlacementProfileService} PlacementProfileService
  * @typedef {import('./index.js').ScoringCertificationService} ScoringCertificationService
  */
-import { SESSIONS_VERSIONS } from '../../../shared/domain/models/SessionVersion.js';
 import { CertificationDetails } from '../read-models/CertificationDetails.js';
 
 /**
@@ -34,11 +33,10 @@ const getCertificationDetails = async function ({
     certificationCourseId: certificationAssessment.certificationCourseId,
   });
 
-  // TODO: switch to certif-course version, not session
   const placementProfile = await placementProfileService.getPlacementProfile({
     userId: candidate.userId,
     limitDate: candidate.reconciledAt,
-    version: SESSIONS_VERSIONS.V2,
+    version: certificationAssessment.version,
     allowExcessPixAndLevels: false,
   });
 

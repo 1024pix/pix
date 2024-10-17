@@ -4,7 +4,7 @@ import * as knowledgeElementRepository from '../../../../lib/infrastructure/repo
 import * as knowledgeElementSnapshotRepository from '../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { PlacementProfile } from '../../../../src/shared/domain/models/PlacementProfile.js';
 import { UserCompetence } from '../../../../src/shared/domain/models/UserCompetence.js';
-import { SESSIONS_VERSIONS, SessionVersion } from '../../../certification/shared/domain/models/SessionVersion.js';
+import { AlgoritmEngineVersion } from '../../../certification/shared/domain/models/AlgoritmEngineVersion.js';
 import * as scoringService from '../../../evaluation/domain/services/scoring/scoring-service.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository.js';
@@ -15,13 +15,13 @@ import { PromiseUtils } from '../../infrastructure/utils/promise-utils.js';
 async function getPlacementProfile({
   userId,
   limitDate,
-  version = SESSIONS_VERSIONS.V2,
+  version = AlgoritmEngineVersion.V2,
   allowExcessPixAndLevels = true,
   locale,
 }) {
   const pixCompetences = await competenceRepository.listPixCompetencesOnly({ locale });
-  // TODO: switch to certif-assessment version, not session
-  if (!SessionVersion.isV1(version)) {
+
+  if (!AlgoritmEngineVersion.isV1(version)) {
     return _generatePlacementProfile({
       userId,
       profileDate: limitDate,
