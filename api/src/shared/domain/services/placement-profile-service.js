@@ -15,6 +15,7 @@ import { PromiseUtils } from '../../infrastructure/utils/promise-utils.js';
 async function getPlacementProfile({
   userId,
   limitDate,
+  // TODO: switch to certif-assessment version, not session
   version = SESSIONS_VERSIONS.V2,
   allowExcessPixAndLevels = true,
   locale,
