@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CertificationChallengeForScoring } from '../../domain/models/CertificationChallengeForScoring.js';
+import { CertificationChallengeForScoring } from '../../../scoring/domain/models/CertificationChallengeForScoring.js';
 
 export const getByCertificationCourseId = async ({ certificationCourseId }) => {
   const certificationChallengesForScoringDTO = await knex('certification-challenges')
