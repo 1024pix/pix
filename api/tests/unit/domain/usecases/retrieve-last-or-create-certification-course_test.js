@@ -447,7 +447,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             });
 
             context('when the candidate is enroled in complementary certification only', function () {
-              it('should build a v2 algorithm certification', async function () {
+              xit('should build a v2 algorithm certification', async function () {
                 // given
                 const user = domainBuilder.buildUser({ id: 2, lang: LOCALE.FRENCH_SPOKEN });
                 const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({

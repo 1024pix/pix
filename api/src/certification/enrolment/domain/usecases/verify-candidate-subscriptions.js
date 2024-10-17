@@ -10,7 +10,7 @@ import _ from 'lodash';
 
 import { UserNotAuthorizedToCertifyError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/index.js';
-import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
+import { SessionVersion } from '../../../shared/domain/models/SessionVersion.js';
 import { CertificationCandidateEligibilityError } from '../errors.js';
 
 /**
@@ -117,7 +117,7 @@ function _isSubscribedUserBadgeOutDated(subscribedBadgeAcquisition) {
 
 function _doesNeedEligibilityCheck(session, candidate) {
   return (
-    session.version === CERTIFICATION_VERSIONS.V3 &&
+    SessionVersion.isV3(session.version) &&
     candidate.subscriptions.length === 1 &&
     candidate.subscriptions[0]?.isComplementary()
   );

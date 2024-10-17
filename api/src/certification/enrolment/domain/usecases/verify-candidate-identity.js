@@ -15,7 +15,7 @@ import {
   UserAlreadyLinkedToCandidateInSessionError,
 } from '../../../../shared/domain/errors.js';
 import { CertificationCourse } from '../../../shared/domain/models/CertificationCourse.js';
-import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
+import { SessionVersion } from '../../../shared/domain/models/SessionVersion.js';
 
 /**
  * @param {Object} params
@@ -84,7 +84,7 @@ export const verifyCandidateIdentity = async ({
 };
 
 async function validateUserLanguage({ languageService, user, session }) {
-  if (CertificationVersion.isV3(session.version)) {
+  if (SessionVersion.isV3(session.version)) {
     const isUserLanguageValid = CertificationCourse.isLanguageAvailableForV3Certification(languageService, user.lang);
 
     if (!isUserLanguageValid) {
