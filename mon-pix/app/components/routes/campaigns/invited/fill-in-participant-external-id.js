@@ -42,4 +42,22 @@ export default class FillInParticipantExternalId extends Component {
     this.errorMessage = null;
     return this.args.onCancel();
   }
+
+  get idPixInputType() {
+    if (this.args.campaign.idPixType === 'EMAIL') {
+      return 'email';
+    } else if (this.args.campaign.idPixType === 'STRING') {
+      return 'text';
+    }
+    return null;
+  }
+
+  get idPixInputPlaceholder() {
+    if (this.args.campaign.idPixType === 'EMAIL') {
+      return 'nour.pix@example.net';
+    } else if (this.args.campaign.idPixType === 'STRING') {
+      return 'abc123';
+    }
+    return null;
+  }
 }

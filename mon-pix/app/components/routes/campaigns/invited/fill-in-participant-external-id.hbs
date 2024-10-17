@@ -12,12 +12,14 @@
 
   <form {{on "submit" this.submit}} class="fill-in-participant-external-id__form">
     <PixInput
-      @id="id-pix-label"
+      @id="external-id"
       @value={{this.participantExternalId}}
       @errorMessage={{this.errorMessage}}
       @validationStatus={{if this.errorMessage "error"}}
       @requiredLabel={{true}}
       {{on "change" this.updateParticipantExternalId}}
+      placeholder={{this.idPixInputPlaceholder}}
+      type={{this.idPixInputType}}
     >
       <:label>{{@campaign.idPixLabel}}</:label>
     </PixInput>
