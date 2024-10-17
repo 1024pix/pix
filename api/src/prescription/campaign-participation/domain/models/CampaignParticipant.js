@@ -5,6 +5,8 @@ import {
 import { EntityValidationError, ForbiddenAccess } from '../../../../shared/domain/errors.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { OrganizationLearner } from '../../../../shared/domain/models/OrganizationLearner.js';
+import * as emailValidationService from '../../../../shared/domain/services/email-validation-service.js';
+import { CampaignExternalIdTypes } from '../../../shared/domain/constants.js';
 import { CampaignParticipation } from './CampaignParticipation.js';
 
 const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindre la campagne";
@@ -105,7 +107,21 @@ class CampaignParticipant {
         invalidAttributes: [
           {
             attribute: 'participantExternalId',
-            message: 'Un identifiant externe est requis pour accèder à la campagne.',
+            message: 'MISSING_EXTERNAL_ID',
+          },
+        ],
+      });
+    }
+
+    if (
+      this.campaignToStartParticipation.idPixType === CampaignExternalIdTypes.EMAIL &&
+      !emailValidationService.validateEmailSyntax(participantExternalId)
+    ) {
+      throw new EntityValidationError({
+        invalidAttributes: [
+          {
+            attribute: 'participantExternalId',
+            message: 'INVALID_EMAIL',
           },
         ],
       });

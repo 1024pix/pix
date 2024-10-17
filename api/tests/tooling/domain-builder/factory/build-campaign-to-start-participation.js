@@ -4,6 +4,7 @@ import { CampaignTypes } from '../../../../src/prescription/shared/domain/consta
 const buildCampaignToStartParticipation = function ({
   id = 1,
   idPixLabel = 'Un id pix label',
+  idPixType,
   archivedAt = null,
   deletedAt = null,
   type = CampaignTypes.ASSESSMENT,
@@ -17,6 +18,7 @@ const buildCampaignToStartParticipation = function ({
   return new CampaignToStartParticipation({
     id,
     idPixLabel,
+    idPixType,
     archivedAt,
     deletedAt,
     type,
