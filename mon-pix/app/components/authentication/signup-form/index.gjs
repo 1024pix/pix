@@ -158,7 +158,9 @@ export default class SignupForm extends Component {
           @errorMessage={{this.validation.password.errorMessage}}
           @rules={{PASSWORD_RULES}}
           required
-        />
+        >
+          <:label>{{t "common.password"}}</:label>
+        </NewPasswordInput>
 
         <CguCheckbox
           @id="cgu"

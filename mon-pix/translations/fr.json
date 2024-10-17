@@ -116,6 +116,7 @@
       "page-results": "{total, plural, =0 {0 élément} =1 {1 élément} other {{total, number} éléments}}",
       "result-by-page": "Voir"
     },
+    "password": "Mot de passe",
     "pix": "pix",
     "skip-links": {
       "skip-to-content": "Aller au contenu",

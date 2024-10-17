@@ -109,6 +109,7 @@
       "page-results": "{total, plural, =0 {0 item} =1 {1 item} other {{total, number} items}}",
       "result-by-page": "Zie"
     },
+    "password": "Password",
     "pix": "Pix",
     "skip-links": {
       "skip-to-content": "Ga naar inhoud",

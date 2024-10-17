@@ -116,6 +116,7 @@
       "page-results": "{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}",
       "result-by-page": "See"
     },
+    "password": "Password",
     "pix": "pix",
     "skip-links": {
       "skip-to-content": "Skip to main content",

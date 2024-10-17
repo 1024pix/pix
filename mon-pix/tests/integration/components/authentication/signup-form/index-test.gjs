@@ -10,7 +10,7 @@ const I18N_KEYS = {
   firstNameInput: 'components.authentication.signup-form.fields.firstname.label',
   lastNameInput: 'components.authentication.signup-form.fields.lastname.label',
   emailInput: 'components.authentication.signup-form.fields.email.label',
-  passwordInput: 'components.authentication.new-password-input.label',
+  passwordInput: 'common.password',
   cguCheckbox: 'common.cgu.label',
   submitButton: 'components.authentication.signup-form.actions.submit',
 };
