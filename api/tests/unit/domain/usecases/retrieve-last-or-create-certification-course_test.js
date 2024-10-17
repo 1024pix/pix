@@ -4,7 +4,7 @@ import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/
 import { SessionNotAccessible } from '../../../../src/certification/session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { MAX_REACHABLE_LEVEL } from '../../../../src/shared/domain/constants.js';
+import { LOCALE, MAX_REACHABLE_LEVEL } from '../../../../src/shared/domain/constants.js';
 import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
@@ -443,6 +443,122 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   assessment: savedAssessment,
                   challenges: [challenge1, challenge2],
                 }),
+              });
+            });
+
+            context('when the candidate is enroled in complementary certification only', function () {
+              it('should build a v2 algorithm certification', async function () {
+                // given
+                const user = domainBuilder.buildUser({ id: 2, lang: LOCALE.FRENCH_SPOKEN });
+                const foundSession = domainBuilder.certification.sessionManagement.buildSession.created({
+                  accessCode: 'accessCode',
+                  version: 3,
+                });
+
+                sessionRepository.get.withArgs({ id: foundSession.id }).resolves(foundSession);
+
+                const candidateComplementarySubscription = domainBuilder.buildComplementarySubscription();
+                const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                  userId: user.id,
+                  sessionId: foundSession.id,
+                  authorizedToStart: true,
+                  subscriptions: [candidateComplementarySubscription],
+                  reconciledAt,
+                });
+                certificationCandidateRepository.getBySessionIdAndUserId
+                  .withArgs({ sessionId: foundSession.id, userId: user.id })
+                  .resolves(foundCertificationCandidate);
+
+                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                  .withArgs({ userId: user.id, sessionId: foundSession.id })
+                  .resolves(null);
+
+                const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
+                  _buildPlacementProfileWithTwoChallenges({
+                    placementProfileService,
+                    userId: user.id,
+                    reconciledAt: foundCertificationCandidate.reconciledAt,
+                    version: foundSession.version,
+                  });
+                certificationChallengesService.pickCertificationChallenges
+                  .withArgs(placementProfile)
+                  .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
+
+                const complementaryCertification = domainBuilder.buildComplementaryCertification({
+                  id: candidateComplementarySubscription.complementaryCertificationId,
+                });
+
+                const complementaryCertificationBadge =
+                  domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
+                    complementaryCertificationId: complementaryCertification.id,
+                  });
+                const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+                  complementaryCertificationId: complementaryCertification.id,
+                  complementaryCertificationKey: complementaryCertificationBadge.key,
+                  complementaryCertificationBadgeId: complementaryCertificationBadge.id,
+                  complementaryCertificationBadgeImageUrl: complementaryCertificationBadge.imageUrl,
+                  complementaryCertificationBadgeLabel: complementaryCertificationBadge.label,
+                });
+
+                const certificationCenter = domainBuilder.buildCertificationCenter({
+                  habilitations: [complementaryCertification],
+                });
+
+                userRepository.get.withArgs(user.id).resolves(user);
+                languageService.isLanguageAvailableForV3Certification.withArgs(user.lang).returns(true);
+
+                certificationCenterRepository.getBySessionId.resolves(certificationCenter);
+
+                certificationBadgesService.findStillValidBadgeAcquisitions
+                  .withArgs({ userId: user.id })
+                  .resolves([badgeAcquisition]);
+
+                const certificationCourseToSave = CertificationCourse.from({
+                  certificationCandidate: foundCertificationCandidate,
+                  challenges: [challenge1, challenge2],
+                  verificationCode,
+                  maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
+                  version: 2,
+                  lang: user.lang,
+                });
+                const savedCertificationCourse = domainBuilder.buildCertificationCourse(
+                  certificationCourseToSave.toDTO(),
+                );
+                certificationCourseRepository.save.resolves(savedCertificationCourse);
+
+                const assessmentToSave = new Assessment({
+                  userId: user.id,
+                  certificationCourseId: savedCertificationCourse.getId(),
+                  state: Assessment.states.STARTED,
+                  type: Assessment.types.CERTIFICATION,
+                  isImproving: false,
+                  method: Assessment.methods.CERTIFICATION_DETERMINED,
+                });
+                const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
+                assessmentRepository.save.withArgs({ assessment: assessmentToSave }).resolves(savedAssessment);
+
+                // when
+                const result = await retrieveLastOrCreateCertificationCourse({
+                  sessionId: foundSession.id,
+                  accessCode: 'accessCode',
+                  userId: user.id,
+                  locale: user.lang,
+                  ...injectables,
+                });
+
+                // then
+                expect(certificationCourseRepository.save).to.have.been.calledOnceWithExactly({
+                  certificationCourse: certificationCourseToSave,
+                });
+
+                expect(result).to.deep.equal({
+                  created: true,
+                  certificationCourse: new CertificationCourse({
+                    ...savedCertificationCourse.toDTO(),
+                    assessment: savedAssessment,
+                    challenges: [challenge1, challenge2],
+                  }),
+                });
               });
             });
 
