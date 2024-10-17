@@ -14,10 +14,7 @@ import { SessionNotAccessible } from '../../../src/certification/session-managem
 import { ComplementaryCertificationCourse } from '../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
 import { SUBSCRIPTION_TYPES } from '../../../src/certification/shared/domain/constants.js';
 import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
-import {
-  CERTIFICATION_VERSIONS,
-  CertificationVersion,
-} from '../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { SESSIONS_VERSIONS, SessionVersion } from '../../../src/certification/shared/domain/models/SessionVersion.js';
 import { config } from '../../../src/shared/config.js';
 import { LanguageNotSupportedError } from '../../../src/shared/domain/errors.js';
 import {
@@ -97,12 +94,13 @@ const retrieveLastOrCreateCertificationCourse = async function ({
 
   let { version } = session;
 
+  // TODO: switch to certif-course version, not session
   if (_isComplementaryCertificationOnly(certificationCandidate)) {
-    version = CERTIFICATION_VERSIONS.V2;
+    version = SESSIONS_VERSIONS.V2;
   }
 
   let lang;
-  if (CertificationVersion.isV3(version)) {
+  if (SessionVersion.isV3(version)) {
     const user = await userRepository.get(userId);
     const isUserLanguageValid = _validateUserLanguage(languageService, user.lang);
 
@@ -201,6 +199,7 @@ async function _startNewCertification({
   placementProfileService,
   certificationBadgesService,
   verifyCertificateCodeService,
+  // TODO: switch to certif-course version, not session
   version,
   lang,
 }) {
@@ -238,7 +237,8 @@ async function _startNewCertification({
   }
 
   let challengesForPixCertification = [];
-  if (!CertificationVersion.isV3(version)) {
+  // TODO: switch to certif-course version, not session
+  if (!SessionVersion.isV3(version)) {
     const placementProfile = await placementProfileService.getPlacementProfile({
       userId,
       limitDate: certificationCandidate.reconciledAt,

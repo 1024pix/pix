@@ -4,7 +4,7 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { usecases as certificationEvaluationUsecases } from '../../../certification/evaluation/domain/usecases/index.js';
 import * as certificationVersionRepository from '../../../certification/results/infrastructure/repositories/certification-version-repository.js';
 import { usecases as certificationUsecases } from '../../../certification/session-management/domain/usecases/index.js';
-import { CertificationVersion } from '../../../certification/shared/domain/models/CertificationVersion.js';
+import { SessionVersion } from '../../../certification/shared/domain/models/SessionVersion.js';
 import * as certificationChallengeRepository from '../../../certification/shared/infrastructure/repositories/certification-challenge-repository.js';
 import { usecases as devcompUsecases } from '../../../devcomp/domain/usecases/index.js';
 import { Answer } from '../../../evaluation/domain/models/Answer.js';
@@ -198,7 +198,8 @@ async function _getChallengeByAssessmentType({ assessment, request, dependencies
       certificationCourseId: assessment.certificationCourseId,
     });
 
-    if (CertificationVersion.isV3(certificationCourseVersion)) {
+    // TODO: switch to certif-course version, not session
+    if (SessionVersion.isV3(certificationCourseVersion)) {
       return certificationEvaluationUsecases.getNextChallenge({ assessment, locale });
     } else {
       return certificationEvaluationUsecases.getNextChallengeForV2Certification({ assessment, locale });

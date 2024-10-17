@@ -1,4 +1,4 @@
-import { CERTIFICATION_VERSIONS } from '../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { SESSIONS_VERSIONS } from '../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { types } from '../../../../../src/organizational-entities/domain/models/Organization.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/domain/constants.js';
 import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/language-service.js';
@@ -370,7 +370,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
         }).id;
         sessionId = databaseBuilder.factory.buildSession({
           finalizedAt: null,
-          version: CERTIFICATION_VERSIONS.V3,
+          version: SESSIONS_VERSIONS.V3,
           certificationCenterId,
         }).id;
         databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
@@ -481,7 +481,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
           const sessionId2 = databaseBuilder.factory.buildSession({
             id: 1234,
             finalizedAt: null,
-            version: CERTIFICATION_VERSIONS.V3,
+            version: SESSIONS_VERSIONS.V3,
             certificationCenterId,
           }).id;
           const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
@@ -554,7 +554,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
         }).id;
         sessionId = databaseBuilder.factory.buildSession({
           finalizedAt: null,
-          version: CERTIFICATION_VERSIONS.V3,
+          version: SESSIONS_VERSIONS.V3,
           certificationCenterId,
         }).id;
         databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({

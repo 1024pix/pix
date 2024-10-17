@@ -3,7 +3,7 @@ import BaseJoi from 'joi';
 import _ from 'lodash';
 
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
-import { CERTIFICATION_VERSIONS, CertificationVersion } from './CertificationVersion.js';
+import { SESSIONS_VERSIONS, SessionVersion } from './SessionVersion.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 
@@ -39,7 +39,8 @@ class CertificationCourse {
     abortReason,
     complementaryCertificationCourses = [],
     numberOfChallenges,
-    version = CERTIFICATION_VERSIONS.V2,
+    // TODO: switch to certif-course version, not session
+    version = SESSIONS_VERSIONS.V2,
     isRejectedForFraud = false,
     isAdjustedForAccessibility,
     lang,
@@ -290,7 +291,7 @@ class CertificationCourse {
   }
 
   isV3() {
-    return CertificationVersion.isV3(this._version);
+    return SessionVersion.isV3(this._version);
   }
 
   static isLanguageAvailableForV3Certification(languageService, candidateLanguage) {

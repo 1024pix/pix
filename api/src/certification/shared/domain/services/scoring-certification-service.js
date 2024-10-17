@@ -18,7 +18,7 @@ import { CertificationAssessmentHistory } from '../../../scoring/domain/models/C
 import { CertificationAssessmentScore } from '../../../scoring/domain/models/CertificationAssessmentScore.js';
 import { CertificationAssessmentScoreV3 } from '../../../scoring/domain/models/CertificationAssessmentScoreV3.js';
 import { AssessmentResultFactory } from '../../../scoring/domain/models/factories/AssessmentResultFactory.js';
-import { CERTIFICATION_VERSIONS } from '../models/CertificationVersion.js';
+import { SESSIONS_VERSIONS } from '../models/SessionVersion.js';
 
 const calculateCertificationAssessmentScore = async function ({
   certificationAssessment,
@@ -31,7 +31,8 @@ const calculateCertificationAssessmentScore = async function ({
   const testedCompetences = await _getTestedCompetences({
     userId: certificationAssessment.userId,
     limitDate: certificationAssessment.createdAt,
-    version: CERTIFICATION_VERSIONS.V2,
+    // TODO: switch to certif-assessment version, not session
+    version: SESSIONS_VERSIONS.V2,
     placementProfileService: dependencies.placementProfileService,
   });
 
