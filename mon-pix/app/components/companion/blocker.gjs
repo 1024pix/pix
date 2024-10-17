@@ -1,4 +1,4 @@
-// import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
@@ -36,7 +36,7 @@ export default class CompanionBlocker extends Component {
           {{t "common.companion.not-detected.title" htmlSafe=true}}
         </h1>
         <p>{{t "common.companion.not-detected.description"}}</p>
-        {{!-- <PixButtonLink @href="https://pix.fr" target="_blank">{{t "common.companion.not-detected.link"}}</PixButtonLink> --}}
+        <PixButtonLink @href="https://cloud.pix.fr/s/KocingDC4mFJ3R6" target="_blank">{{t "common.companion.not-detected.link"}}</PixButtonLink>
       </section>
     {{else}}
       {{yield}}
