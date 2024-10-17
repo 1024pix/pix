@@ -126,5 +126,39 @@ module('Integration | Component | routes/campaigns/invited/fill-in-participant-e
         assert.notOk(input);
       });
     });
+
+    module('with previousError', function (hooks) {
+      const campaign = {
+        code: 'ABCDE1234',
+        idPixLabel: 'idpix',
+        idPixType: 'EMAIL',
+      };
+
+      hooks.beforeEach(function () {
+        const campaignStorage = this.owner.lookup('service:campaignStorage');
+        campaignStorage.set(campaign.code, 'error', 'INVALID_EMAIL');
+        campaignStorage.set(campaign.code, 'previousParticipantExternalId', '1234TOTO');
+      });
+      hooks.afterEach(function () {
+        const campaignStorage = this.owner.lookup('service:campaignStorage');
+        campaignStorage.clear(campaign.code);
+      });
+
+      test(`initialize error and previous external id`, async function (assert) {
+        this.set('campaign', campaign);
+
+        // given
+        const screen = await render(
+          hbs`<Routes::Campaigns::Invited::FillInParticipantExternalId
+  @campaign={{this.campaign}}
+  @onSubmit={{this.onSubmitStub}}
+  @onCancel={{this.onCancelStub}}
+/>`,
+        );
+        const input = screen.getByLabelText(/idpix/);
+        assert.strictEqual(input.value, '1234TOTO');
+        assert.ok(screen.getByText(t('pages.fill-in-participant-external-id.errors.invalid-external-id-email')));
+      });
+    });
   });
 });

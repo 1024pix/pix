@@ -13,7 +13,9 @@ export default function (schema, request) {
         errors: [
           {
             status: 400,
-            detail: 'participant-external-id',
+            title: 'Bad Request',
+            detail:
+              '"data.attributes.participant-external-id" length must be less than or equal to 255 characters long',
           },
         ],
       },

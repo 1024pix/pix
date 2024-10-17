@@ -18,6 +18,10 @@ export default Factory.extend({
     return null;
   },
 
+  idPixType() {
+    return null;
+  },
+
   organizationLogoUrl() {
     return 'data:jpeg;base64=somelogo';
   },

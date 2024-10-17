@@ -149,12 +149,13 @@ module('Unit | Route | Entrance', function (hooks) {
       assert.ok(true);
     });
 
-    test('should abort campaign participation creation and redirect to fill-in-participant-external-id when something went wrong with it', async function (assert) {
+    test('should abort campaign participation creation and redirect to fill-in-participant-external-id when api return 400', async function (assert) {
       //given
       campaign = EmberObject.create({
         code: 'SOMECODE',
       });
       route.campaignStorage.get.withArgs(campaign.code, 'hasParticipated').returns(false);
+      route.campaignStorage.get.withArgs(campaign.code, 'participantExternalId').returns('1234TOTO');
       campaignParticipationStub.save.rejects({
         errors: [{ status: 400, detail: 'participant-external-id is too long' }],
       });
@@ -165,6 +166,8 @@ module('Unit | Route | Entrance', function (hooks) {
       //then
       sinon.assert.notCalled(route.currentUser.load);
       sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'participantExternalId', null);
+      sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'error', 'INVALID_EXTERNAL_ID');
+      sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'previousParticipantExternalId', '1234TOTO');
       sinon.assert.calledWith(
         route.router.replaceWith,
         'campaigns.invited.fill-in-participant-external-id',
@@ -173,6 +176,32 @@ module('Unit | Route | Entrance', function (hooks) {
       assert.ok(true);
     });
 
+    test('should abort campaign participation creation and redirect to fill-in-participant-external-id when api return 422', async function (assert) {
+      //given
+      campaign = EmberObject.create({
+        code: 'SOMECODE',
+      });
+      route.campaignStorage.get.withArgs(campaign.code, 'hasParticipated').returns(false);
+      route.campaignStorage.get.withArgs(campaign.code, 'participantExternalId').returns('1234TOTO');
+      campaignParticipationStub.save.rejects({
+        errors: [{ status: 422, detail: 'ERROR' }],
+      });
+
+      //when
+      await route.afterModel(campaign);
+
+      //then
+      sinon.assert.notCalled(route.currentUser.load);
+      sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'participantExternalId', null);
+      sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'error', 'ERROR');
+      sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'previousParticipantExternalId', '1234TOTO');
+      sinon.assert.calledWith(
+        route.router.replaceWith,
+        'campaigns.invited.fill-in-participant-external-id',
+        campaign.code,
+      );
+      assert.ok(true);
+    });
     test('should abort campaign participation and redirect to already participated', async function (assert) {
       //given
       campaign = EmberObject.create({

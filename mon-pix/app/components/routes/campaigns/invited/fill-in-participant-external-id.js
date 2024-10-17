@@ -3,12 +3,25 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
+const ERROR_MESSAGE = {
+  INVALID_EMAIL: 'pages.fill-in-participant-external-id.errors.invalid-external-id-email',
+  INVALID_EXTERNAL_ID: 'pages.fill-in-participant-external-id.errors.invalid-external-id',
+  MISSING_EXTERNAL_ID: 'pages.fill-in-participant-external-id.errors.missing-id-pix-label',
+};
 export default class FillInParticipantExternalId extends Component {
   @service intl;
+  @service campaignStorage;
 
-  @tracked participantExternalId = null;
+  @tracked participantExternalId = this.previousParticipantExternalId || null;
   @tracked isLoading = false;
-  @tracked errorMessage = null;
+  @tracked errorMessage = ERROR_MESSAGE[this.previousError] ? this.intl.t(ERROR_MESSAGE[this.previousError]) : null;
+
+  get previousError() {
+    return this.campaignStorage.get(this.args.campaign.code, 'error');
+  }
+  get previousParticipantExternalId() {
+    return this.campaignStorage.get(this.args.campaign.code, 'previousParticipantExternalId');
+  }
 
   @action
   submit(event) {
