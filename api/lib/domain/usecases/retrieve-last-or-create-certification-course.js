@@ -12,8 +12,12 @@
  */
 import { SessionNotAccessible } from '../../../src/certification/session-management/domain/errors.js';
 import { ComplementaryCertificationCourse } from '../../../src/certification/session-management/domain/models/ComplementaryCertificationCourse.js';
+import { SUBSCRIPTION_TYPES } from '../../../src/certification/shared/domain/constants.js';
 import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
+import {
+  CERTIFICATION_VERSIONS,
+  CertificationVersion,
+} from '../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { config } from '../../../src/shared/config.js';
 import { LanguageNotSupportedError } from '../../../src/shared/domain/errors.js';
 import {
@@ -91,7 +95,11 @@ const retrieveLastOrCreateCertificationCourse = async function ({
     };
   }
 
-  const { version } = session;
+  let { version } = session;
+
+  if (_isComplementaryCertificationOnly(certificationCandidate)) {
+    version = CERTIFICATION_VERSIONS.V2;
+  }
 
   let lang;
   if (CertificationVersion.isV3(version)) {
@@ -123,6 +131,13 @@ const retrieveLastOrCreateCertificationCourse = async function ({
 };
 
 export { retrieveLastOrCreateCertificationCourse };
+
+function _isComplementaryCertificationOnly(certificationCandidate) {
+  return (
+    certificationCandidate.subscriptions.length === 1 &&
+    certificationCandidate.subscriptions[0].type === SUBSCRIPTION_TYPES.COMPLEMENTARY
+  );
+}
 
 function _validateUserLanguage(languageService, userLanguage) {
   return CertificationCourse.isLanguageAvailableForV3Certification(languageService, userLanguage);
