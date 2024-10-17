@@ -46,7 +46,8 @@
       "show-more": "Meer bekijken",
       "sign-out": "Log uit.",
       "stay": "Blijf",
-      "validate": "Valideer"
+      "validate": "Valideer",
+      "refresh-page": "Pagina verversen"
     },
     "api-error-messages": {
       "bad-request-error": "De gegevens die u hebt opgegeven, hebben niet het juiste formaat.",

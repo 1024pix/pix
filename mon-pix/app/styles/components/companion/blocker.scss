@@ -18,4 +18,20 @@
 
     max-width: 500px;
   }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-2x);
+    padding-top: var(--pix-spacing-2x);
+  }
+}
+
+.companion-blocker-list {
+  &__refresh-button {
+    width: 100%;
+    color: var(--pix-neutral-0);
+    background-color: var(--pix-certif-500);
+    border: 2px solid var(--pix-neutral-0);
+  }
 }

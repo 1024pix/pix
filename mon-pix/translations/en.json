@@ -46,7 +46,8 @@
       "show-more": "Show more",
       "sign-out": "Sign out",
       "stay": "Stay",
-      "validate": "Validate"
+      "validate": "Validate",
+      "refresh-page": "Refresh the page"
     },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
