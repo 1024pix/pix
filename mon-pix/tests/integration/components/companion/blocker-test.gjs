@@ -62,6 +62,9 @@ module('Integration | Component | Companion | blocker', function (hooks) {
       .dom(screen.getByRole('heading', { level: 1, name: 'L’extension Pix Companion n’est pas détectée' }))
       .exists();
     assert.dom(screen.queryByText(t('common.companion.not-detected.description'))).exists();
-    assert.dom(screen.getByRole('link', { name: t('common.companion.not-detected.link') })).hasAttribute('href', 'https://cloud.pix.fr/s/KocingDC4mFJ3R6');
+    assert
+      .dom(screen.getByRole('link', { name: t('common.companion.not-detected.link') }))
+      .hasAttribute('href', 'https://cloud.pix.fr/s/KocingDC4mFJ3R6');
+    assert.dom(screen.getByRole('button', { name: t('common.actions.refresh-page') })).exists();
   });
 });
