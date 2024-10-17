@@ -16,20 +16,16 @@ async function createUserWithPassword({
   userToCreateRepository,
   authenticationMethodRepository,
 }) {
-  let savedUser;
   const userToAdd = UserToCreate.create(user);
+  const savedUser = await userToCreateRepository.create({ user: userToAdd });
 
-  await DomainTransaction.execute(async () => {
-    savedUser = await userToCreateRepository.create({ user: userToAdd });
+  const authenticationMethod = _buildPasswordAuthenticationMethod({
+    userId: savedUser.id,
+    hashedPassword,
+  });
 
-    const authenticationMethod = _buildPasswordAuthenticationMethod({
-      userId: savedUser.id,
-      hashedPassword,
-    });
-
-    await authenticationMethodRepository.create({
-      authenticationMethod,
-    });
+  await authenticationMethodRepository.create({
+    authenticationMethod,
   });
 
   return savedUser;

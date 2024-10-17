@@ -1,7 +1,10 @@
 import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../db/pgsql-errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../../../shared/domain/constants.js';
-import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../shared/domain/errors.js';
+import {
+  AlreadyRegisteredEmailError,
+  OrganizationLearnerAlreadyLinkedToUserError,
+} from '../../../shared/domain/errors.js';
 import { User } from '../../domain/models/User.js';
 
 /**
@@ -55,8 +58,14 @@ async function _createWithUsername({ knexConnection, user }) {
  * @private
  */
 async function _createWithoutUsername({ knexConnection, user }) {
-  const result = await knexConnection('users').insert(user).returning('*');
-  return _toUserDomain(result[0]);
+  try {
+    const result = await knexConnection('users').insert(user).returning('*');
+    return _toUserDomain(result[0]);
+  } catch (error) {
+    if (error.constraint === 'users_email_unique' && error.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
+      throw new AlreadyRegisteredEmailError();
+    }
+  }
 }
 
 /**

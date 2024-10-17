@@ -3,6 +3,7 @@ import * as url from 'node:url';
 import { disconnect } from '../db/knex-database-connection.js';
 import * as authenticationMethodRepository from '../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import { userToCreateRepository } from '../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
+import { DomainTransaction } from '../src/shared/domain/DomainTransaction.js';
 import { cryptoService } from '../src/shared/domain/services/crypto-service.js';
 import * as userService from '../src/shared/domain/services/user-service.js';
 import { parseCsvWithHeader } from './helpers/csvHelpers.js';
@@ -19,27 +20,29 @@ function prepareDataForInsert(rawUsers) {
 }
 
 async function createUsers({ usersInRaw }) {
-  const now = new Date();
+  await DomainTransaction.execute(async () => {
+    const now = new Date();
 
-  for (const userDTO of usersInRaw) {
-    const userToCreate = {
-      firstName: userDTO.firstName,
-      lastName: userDTO.lastName,
-      email: userDTO.email,
-      createAt: now,
-      updatedAt: now,
-      cgu: true,
-      lang: 'fr',
-    };
-    const hashedPassword = await cryptoService.hashPassword(userDTO.password);
+    for (const userDTO of usersInRaw) {
+      const userToCreate = {
+        firstName: userDTO.firstName,
+        lastName: userDTO.lastName,
+        email: userDTO.email,
+        createAt: now,
+        updatedAt: now,
+        cgu: true,
+        lang: 'fr',
+      };
+      const hashedPassword = await cryptoService.hashPassword(userDTO.password);
 
-    await userService.createUserWithPassword({
-      user: userToCreate,
-      hashedPassword,
-      userToCreateRepository,
-      authenticationMethodRepository,
-    });
-  }
+      await userService.createUserWithPassword({
+        user: userToCreate,
+        hashedPassword,
+        userToCreateRepository,
+        authenticationMethodRepository,
+      });
+    }
+  });
 }
 
 const modulePath = url.fileURLToPath(import.meta.url);

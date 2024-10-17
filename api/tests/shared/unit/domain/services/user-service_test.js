@@ -6,12 +6,10 @@ import * as userService from '../../../../../src/shared/domain/services/user-ser
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Service | user-service', function () {
-  let domainTransaction;
   const hashedPassword = 'ABCD1234';
 
   let user;
   let authenticationMethod;
-  let transactionToBeExecuted;
 
   let authenticationMethodRepository;
   let organizationLearnerRepository;
@@ -19,7 +17,10 @@ describe('Unit | Shared | Domain | Service | user-service', function () {
   let userToCreateRepository;
 
   beforeEach(function () {
-    domainTransaction = Symbol('domain transaction');
+    sinon.stub(DomainTransaction, 'execute');
+    DomainTransaction.execute.callsFake((fn) => {
+      return fn({});
+    });
 
     userRepository = {
       updateUsername: sinon.stub(),
@@ -39,10 +40,6 @@ describe('Unit | Shared | Domain | Service | user-service', function () {
     authenticationMethodRepository.create.resolves();
     organizationLearnerRepository.updateUserIdWhereNull.resolves();
     userToCreateRepository.create.resolves();
-
-    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
-      transactionToBeExecuted = lambda;
-    });
   });
 
   describe('#createUserWithPassword', function () {
@@ -64,7 +61,6 @@ describe('Unit | Shared | Domain | Service | user-service', function () {
         userToCreateRepository,
         authenticationMethodRepository,
       });
-      await transactionToBeExecuted(domainTransaction);
 
       // then
       expect(userToCreateRepository.create).to.have.been.calledOnce;
@@ -97,7 +93,6 @@ describe('Unit | Shared | Domain | Service | user-service', function () {
         userRepository,
         authenticationMethodRepository,
       });
-      await transactionToBeExecuted(domainTransaction);
 
       // then
       expect(userRepository.updateUsername).to.have.been.calledWithMatch({
@@ -130,7 +125,6 @@ describe('Unit | Shared | Domain | Service | user-service', function () {
         userToCreateRepository,
         organizationLearnerRepository,
       });
-      await transactionToBeExecuted(domainTransaction);
 
       // then
       expect(userToCreateRepository.create).to.have.been.calledOnce;
