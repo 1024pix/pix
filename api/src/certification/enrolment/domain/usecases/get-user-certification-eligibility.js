@@ -42,15 +42,33 @@ const getUserCertificationEligibility = async function ({
     const acquiredComplementaryCertificationBadge = allComplementaryCertificationBadgesForSameTargetProfile.find(
       ({ id }) => id === acquiredBadge.complementaryCertificationBadgeId,
     );
-    let areEligibilityConditionsFulfilled = false;
+    let areEligibilityConditionsFulfilledForCurrentLevel = false;
+    let areEligibilityConditionsFulfilledForLowerLevel = false;
     const isClea = acquiredBadge.complementaryCertificationKey === ComplementaryCertificationKeys.CLEA;
+
+    const validatedUserPixCertifications = userPixCertifications.filter(
+      (pixCertification) =>
+        !pixCertification.isCancelled &&
+        !pixCertification.isRejectedForFraud &&
+        pixCertification.status === AssessmentResult.status.VALIDATED,
+    );
+
+    const lowerLevelAcquiredBadgeWithOffsetVersion = _getLowerLevelBadge(
+      allComplementaryCertificationBadgesForSameTargetProfile,
+      acquiredBadge,
+    );
+
     if (isClea) {
-      areEligibilityConditionsFulfilled = isCertifiable;
-    } else {
-      areEligibilityConditionsFulfilled = _checkComplementaryEligibilityConditions({
-        allComplementaryCertificationBadgesForSameTargetProfile,
-        userPixCertifications,
-        acquiredComplementaryCertificationBadgeId: acquiredComplementaryCertificationBadge.id,
+      areEligibilityConditionsFulfilledForCurrentLevel = isCertifiable;
+    } else if (validatedUserPixCertifications.length !== 0) {
+      areEligibilityConditionsFulfilledForCurrentLevel = _checkComplementaryEligibilityConditions({
+        validatedUserPixCertifications,
+        complementaryCertificationBadge: acquiredComplementaryCertificationBadge,
+      });
+
+      areEligibilityConditionsFulfilledForLowerLevel = _checkComplementaryEligibilityConditions({
+        validatedUserPixCertifications,
+        complementaryCertificationBadge: lowerLevelAcquiredBadgeWithOffsetVersion,
       });
     }
 
@@ -63,14 +81,32 @@ const getUserCertificationEligibility = async function ({
     const badgeIsNotOutdated = acquiredComplementaryCertificationBadge?.offsetVersion === 0;
 
     if (
-      (badgeIsNotOutdated || badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt) &&
-      areEligibilityConditionsFulfilled
+      _isEligibleForCurrentLevel({
+        badgeIsNotOutdated,
+        badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt,
+        areEligibilityConditionsFulfilledForCurrentLevel,
+      })
     ) {
       certificationEligibilities.push(
         new CertificationEligibility({
           label: acquiredBadge.complementaryCertificationBadgeLabel,
           imageUrl: acquiredBadge.complementaryCertificationBadgeImageUrl,
           isOutdated: acquiredBadge.isOutdated,
+          isAcquiredExpectedLevel,
+        }),
+      );
+    } else if (
+      _isEligibleForLowerLevel({
+        badgeIsNotOutdated,
+        badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt,
+        areEligibilityConditionsFulfilledForLowerLevel,
+      })
+    ) {
+      certificationEligibilities.push(
+        new CertificationEligibility({
+          label: lowerLevelAcquiredBadgeWithOffsetVersion.label,
+          imageUrl: lowerLevelAcquiredBadgeWithOffsetVersion.imageUrl,
+          isOutdated: lowerLevelAcquiredBadgeWithOffsetVersion.isOutdated,
           isAcquiredExpectedLevel,
         }),
       );
@@ -84,27 +120,37 @@ const getUserCertificationEligibility = async function ({
   });
 };
 
-function _checkComplementaryEligibilityConditions({
-  allComplementaryCertificationBadgesForSameTargetProfile,
-  userPixCertifications,
-  acquiredComplementaryCertificationBadgeId,
+function _isEligibleForLowerLevel({
+  badgeIsNotOutdated,
+  badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt,
+  areEligibilityConditionsFulfilledForLowerLevel,
 }) {
-  const scoreRequired = allComplementaryCertificationBadgesForSameTargetProfile.find(
-    (complementaryCertificationBadge) =>
-      complementaryCertificationBadge.id === acquiredComplementaryCertificationBadgeId,
-  ).requiredPixScore;
-  const validatedUserPixCertifications = userPixCertifications.filter(
-    (pixCertification) =>
-      !pixCertification.isCancelled &&
-      !pixCertification.isRejectedForFraud &&
-      pixCertification.status === AssessmentResult.status.VALIDATED,
+  return (
+    (badgeIsNotOutdated || badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt) &&
+    areEligibilityConditionsFulfilledForLowerLevel
   );
-  if (validatedUserPixCertifications.length === 0) {
+}
+
+function _isEligibleForCurrentLevel({
+  badgeIsNotOutdated,
+  badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt,
+  areEligibilityConditionsFulfilledForCurrentLevel,
+}) {
+  return (
+    (badgeIsNotOutdated || badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt) &&
+    areEligibilityConditionsFulfilledForCurrentLevel
+  );
+}
+
+function _checkComplementaryEligibilityConditions({ validatedUserPixCertifications, complementaryCertificationBadge }) {
+  if (!complementaryCertificationBadge) {
     return false;
-  } else {
-    const highestObtainedScore = _.maxBy(validatedUserPixCertifications, 'pixScore').pixScore;
-    return highestObtainedScore >= scoreRequired;
   }
+
+  const requiredScore = complementaryCertificationBadge.requiredPixScore;
+
+  const highestObtainedScore = _.maxBy(validatedUserPixCertifications, 'pixScore').pixScore;
+  return highestObtainedScore >= requiredScore;
 }
 
 function _hasAcquiredComplementaryCertificationForExpectedLevel(
@@ -116,6 +162,14 @@ function _hasAcquiredComplementaryCertificationForExpectedLevel(
       certificationTakenByUser.isAcquiredExpectedLevelByPixSource() &&
       acquiredComplementaryCertificationBadge?.id === certificationTakenByUser.complementaryCertificationBadgeId,
   );
+}
+
+function _getLowerLevelBadge(allComplementaryCertificationBadgesForSameTargetProfile, acquiredBadge) {
+  return _.chain(allComplementaryCertificationBadgesForSameTargetProfile)
+    .sortBy('level')
+    .filter((badge) => badge.id != acquiredBadge.complementaryCertificationBadgeId)
+    .maxBy('level')
+    .value();
 }
 
 export { getUserCertificationEligibility };

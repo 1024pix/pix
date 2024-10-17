@@ -4,13 +4,19 @@ const buildComplementaryCertificationBadgeWithOffsetVersion = function ({
   id = 123,
   requiredPixScore = 100,
   offsetVersion = 0,
-  currentAttachedComplementaryCertificationBadgeId = 123,
+  level = 1,
+  label = 'Pix+ Toto',
+  imageUrl = 'pix+.toto.fr',
+  isOutdated = false,
 } = {}) {
   return new ComplementaryCertificationBadgeWithOffsetVersion({
     id,
     requiredPixScore,
     offsetVersion,
-    currentAttachedComplementaryCertificationBadgeId,
+    level,
+    label,
+    imageUrl,
+    isOutdated,
   });
 };
 
