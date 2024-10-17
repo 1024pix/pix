@@ -1,5 +1,5 @@
 import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { SESSIONS_VERSIONS } from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import * as languageService from '../../../../../../src/shared/domain/services/language-service.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
@@ -326,8 +326,9 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
       it('should return the number of challenges defined when created', function () {
         // given
         const numberOfChallenges = 5;
+        // TODO: switch to certif-course version, not session
         const certificationCourse = domainBuilder.buildCertificationCourse({
-          version: CERTIFICATION_VERSIONS.V3,
+          version: SESSIONS_VERSIONS.V3,
           numberOfChallenges,
         });
 
@@ -344,8 +345,9 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
         // given
         const numberOfChallenges = 5;
         const challenges = generateChallengeList({ length: numberOfChallenges });
+        // TODO: switch to certif-course version, not session
         const certificationCourse = domainBuilder.buildCertificationCourse({
-          version: CERTIFICATION_VERSIONS.V2,
+          version: SESSIONS_VERSIONS.V2,
           challenges,
         });
 

@@ -1,5 +1,5 @@
 import { verifyCandidateIdentity } from '../../../../../../src/certification/enrolment/domain/usecases/verify-candidate-identity.js';
-import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { SESSIONS_VERSIONS } from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { types } from '../../../../../../src/organizational-entities/domain/models/Organization.js';
 import {
   CertificationCandidateByPersonalInfoNotFoundError,
@@ -61,7 +61,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
     // given
     const session = domainBuilder.certification.enrolment.buildSession({
       id: sessionId,
-      version: CERTIFICATION_VERSIONS.V3,
+      version: SESSIONS_VERSIONS.V3,
       certificationCenterId,
     });
     const matchingCandidate = domainBuilder.certification.enrolment.buildCandidate({
@@ -114,7 +114,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         sessionRepository.get.withArgs({ id: sessionId }).resolves(
           domainBuilder.certification.enrolment.buildSession({
             id: sessionId,
-            version: CERTIFICATION_VERSIONS.V3,
+            version: SESSIONS_VERSIONS.V3,
             certificationCenterId,
           }),
         );
@@ -151,7 +151,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       sessionRepository.get.withArgs({ id: sessionId }).resolves(
         domainBuilder.certification.enrolment.buildSession({
           id: sessionId,
-          version: CERTIFICATION_VERSIONS.V2,
+          version: SESSIONS_VERSIONS.V2,
           certificationCenterId,
         }),
       );
@@ -188,7 +188,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
       sessionRepository.get.withArgs({ id: sessionId }).resolves(
         domainBuilder.certification.enrolment.buildSession({
           id: sessionId,
-          version: CERTIFICATION_VERSIONS.V2,
+          version: SESSIONS_VERSIONS.V2,
           certificationCenterId,
         }),
       );
@@ -239,7 +239,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         sessionRepository.get.withArgs({ id: sessionId }).resolves(
           domainBuilder.certification.enrolment.buildSession({
             id: sessionId,
-            version: CERTIFICATION_VERSIONS.V2,
+            version: SESSIONS_VERSIONS.V2,
             certificationCenterId,
           }),
         );
@@ -291,7 +291,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         sessionRepository.get.withArgs({ id: sessionId }).resolves(
           domainBuilder.certification.enrolment.buildSession({
             id: sessionId,
-            version: CERTIFICATION_VERSIONS.V2,
+            version: SESSIONS_VERSIONS.V2,
             certificationCenterId,
           }),
         );
@@ -343,7 +343,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         sessionRepository.get.withArgs({ id: sessionId }).resolves(
           domainBuilder.certification.enrolment.buildSession({
             id: sessionId,
-            version: CERTIFICATION_VERSIONS.V2,
+            version: SESSIONS_VERSIONS.V2,
             certificationCenterId,
           }),
         );
@@ -406,7 +406,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
             sessionRepository.get.withArgs({ id: sessionId }).resolves(
               domainBuilder.certification.enrolment.buildSession({
                 id: sessionId,
-                version: CERTIFICATION_VERSIONS.V2,
+                version: SESSIONS_VERSIONS.V2,
                 certificationCenterId,
               }),
             );

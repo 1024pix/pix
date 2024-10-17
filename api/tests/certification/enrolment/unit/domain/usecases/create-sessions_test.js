@@ -1,8 +1,8 @@
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { SessionEnrolment } from '../../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { createSessions } from '../../../../../../src/certification/enrolment/domain/usecases/create-sessions.js';
-import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { SESSIONS_VERSIONS } from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -195,7 +195,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // then
           const expectedSession = new SessionEnrolment({
             ...temporaryCachedSessions[0],
-            version: CERTIFICATION_VERSIONS.V3,
+            version: SESSIONS_VERSIONS.V3,
             createdBy: sessionCreatorId,
           });
           expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });
@@ -242,7 +242,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // then
           const expectedSession = new SessionEnrolment({
             ...temporaryCachedSessions[0],
-            version: CERTIFICATION_VERSIONS.V2,
+            version: SESSIONS_VERSIONS.V2,
             createdBy: sessionCreatorId,
           });
           expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession });

@@ -5,7 +5,7 @@ import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeu
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
 import { CertificationAssessment } from '../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { ABORT_REASONS } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { CERTIFICATION_VERSIONS } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { SESSIONS_VERSIONS } from '../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { CertificationComputeError } from '../../../../src/shared/domain/errors.js';
 import { AssessmentResult, CertificationResult } from '../../../../src/shared/domain/models/index.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
@@ -55,7 +55,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         it('should save the score with a rejected status', async function () {
           // given
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
-            version: CERTIFICATION_VERSIONS.V3,
+            version: SESSIONS_VERSIONS.V3,
           });
           const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
             abortReason: ABORT_REASONS.CANDIDATE,
@@ -91,7 +91,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         it('should save the score with a rejected status and cancel the certification course', async function () {
           // given
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
-            version: CERTIFICATION_VERSIONS.V3,
+            version: SESSIONS_VERSIONS.V3,
           });
 
           const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
@@ -142,7 +142,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           // given
           const certificationCourseStartDate = new Date('2022-01-01');
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
-            version: CERTIFICATION_VERSIONS.V3,
+            version: SESSIONS_VERSIONS.V3,
           });
 
           const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
@@ -183,7 +183,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         // given
         const certificationCourseStartDate = new Date('2022-01-01');
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          version: CERTIFICATION_VERSIONS.V3,
+          version: SESSIONS_VERSIONS.V3,
         });
 
         const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
@@ -221,7 +221,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const certificationCourseStartDate = new Date('2022-01-01');
           // given
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
-            version: CERTIFICATION_VERSIONS.V3,
+            version: SESSIONS_VERSIONS.V3,
           });
 
           const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
