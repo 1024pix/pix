@@ -1,122 +1,93 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import { on } from '@ember/modifier';
-import { blur } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import PasswordInput from 'mon-pix/components/authentication/password-input';
+import NewPasswordInput from 'mon-pix/components/authentication/new-password-input';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 const I18N = {
-  PASSWORD_INPUT_LABEL: 'pages.sign-in.fields.password.label',
-  RULES_STATUS_MESSAGE: 'components.authentication.password-input.rules.completed-message',
-  ERROR_MESSAGE: 'components.authentication.password-input.error-message',
+  PASSWORD_INPUT_LABEL: 'components.authentication.new-password-input.label',
+  RULES_STATUS_MESSAGE: 'components.authentication.new-password-input.completed-message',
+  ERROR_MESSAGE: 'common.validation.password.error',
+  RULE_1: 'common.validation.password.rules.min-length',
+  RULE_2: 'common.validation.password.rules.contains-uppercase',
 };
 
-module('Integration | Component | authentication | password-input', function (hooks) {
+module('Integration | Component | authentication | new-password-input', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it respects all rules', async function (assert) {
+  test('it triggers the input callback on password change', async function (assert) {
     // given
-    const validPassword = 'Pix12345';
+    const password = 'Pix12345';
+    const rules = [];
     const onInput = sinon.spy();
 
-    const screen = await render(<template><PasswordInput {{on "input" onInput}} /></template>);
+    await render(<template><NewPasswordInput {{on "input" onInput}} @rules={{rules}} /></template>);
 
     // when
-    await fillByLabel(t(I18N.PASSWORD_INPUT_LABEL), validPassword);
-    const passwordInputElement = screen.getByLabelText(t(I18N.PASSWORD_INPUT_LABEL));
-    await blur(passwordInputElement);
+    await fillByLabel(t(I18N.PASSWORD_INPUT_LABEL), password);
 
     // then
     const onInputEvent = onInput.firstCall.args[0];
-    assert.strictEqual(onInputEvent.target.value, validPassword);
-
-    assert.dom(passwordInputElement).doesNotHaveAttribute('aria-invalid');
-
-    const rulesStatusMessage = t(I18N.RULES_STATUS_MESSAGE, { rulesCompleted: 4, rulesCount: 4 });
-    assert.dom(screen.getByText(rulesStatusMessage)).exists();
+    assert.strictEqual(onInputEvent.target.value, password);
   });
 
-  test('it does not respect any rules', async function (assert) {
+  test('it triggers the password rules verification', async function (assert) {
     // given
-    const invalidPassword = '     ';
-    const onInput = sinon.stub();
+    const passwordPartiallyValid = 'pix';
+    const passwordFullyValid = 'pix1234';
+    const rules = [
+      { i18nKey: I18N.RULE_1, validate: (value) => value.includes('pix') },
+      { i18nKey: I18N.RULE_2, validate: (value) => value.includes('1234') },
+    ];
 
-    const screen = await render(<template><PasswordInput {{on "input" onInput}} /></template>);
+    const screen = await render(<template><NewPasswordInput @rules={{rules}} /></template>);
 
     // when
-    await fillByLabel(t(I18N.PASSWORD_INPUT_LABEL), invalidPassword);
-    const passwordInputElement = screen.getByLabelText(t(I18N.PASSWORD_INPUT_LABEL));
-    await blur(passwordInputElement);
+    await fillByLabel(t(I18N.PASSWORD_INPUT_LABEL), passwordPartiallyValid);
 
     // then
-    assert.dom(passwordInputElement).hasAttribute('aria-invalid');
-    assert.dom(screen.getByText(t(I18N.ERROR_MESSAGE))).exists();
+    const rulesPartiallyValid = t(I18N.RULES_STATUS_MESSAGE, { rulesCompleted: 1, rulesCount: 2 });
+    assert.dom(screen.getByText(rulesPartiallyValid)).exists();
+
+    // When
+    await fillByLabel(t(I18N.PASSWORD_INPUT_LABEL), passwordFullyValid);
+
+    // then
+    const rulesFullyValid = t(I18N.RULES_STATUS_MESSAGE, { rulesCompleted: 2, rulesCount: 2 });
+    assert.dom(screen.getByText(rulesFullyValid)).exists();
   });
 
-  test('it must have a minimum length of 8 chars', async function (assert) {
+  test('it displays error message and validation status', async function (assert) {
     // given
-    const invalidPassword = 'Pix1234';
+    const password = 'Pix1234';
     const onInput = sinon.stub();
-
-    const screen = await render(<template><PasswordInput {{on "input" onInput}} /></template>);
+    const validationStatus = 'error';
+    const errorMessage = t(I18N.ERROR_MESSAGE);
+    const rules = [
+      { i18nKey: I18N.RULE_1, validate: () => true },
+      { i18nKey: I18N.RULE_2, validate: () => true },
+    ];
 
     // when
-    await fillByLabel(t(I18N.PASSWORD_INPUT_LABEL), invalidPassword);
-    const passwordInputElement = screen.getByLabelText(t(I18N.PASSWORD_INPUT_LABEL));
-    await blur(passwordInputElement);
+    const screen = await render(
+      <template>
+        <NewPasswordInput
+          {{on "input" onInput}}
+          @rules={{rules}}
+          @validationStatus={{validationStatus}}
+          @errorMessage={{errorMessage}}
+        />
+      </template>,
+    );
+    await fillByLabel(t(I18N.PASSWORD_INPUT_LABEL), password);
 
     // then
-    assert.dom(passwordInputElement).hasAttribute('aria-invalid');
-  });
-
-  test('it must contains at least one uppercase char', async function (assert) {
-    // given
-    const invalidPassword = 'pix12345';
-    const onInput = sinon.stub();
-
-    const screen = await render(<template><PasswordInput {{on "input" onInput}} /></template>);
-
-    // when
-    await fillByLabel(t(I18N.PASSWORD_INPUT_LABEL), invalidPassword);
     const passwordInputElement = screen.getByLabelText(t(I18N.PASSWORD_INPUT_LABEL));
-    await blur(passwordInputElement);
-
-    // then
     assert.dom(passwordInputElement).hasAttribute('aria-invalid');
-  });
 
-  test('it must contains at least one lowercase char', async function (assert) {
-    // given
-    const invalidPassword = 'PIX12345';
-    const onInput = sinon.stub();
-
-    const screen = await render(<template><PasswordInput {{on "input" onInput}} /></template>);
-
-    // when
-    await fillByLabel(t(I18N.PASSWORD_INPUT_LABEL), invalidPassword);
-    const passwordInputElement = screen.getByLabelText(t(I18N.PASSWORD_INPUT_LABEL));
-    await blur(passwordInputElement);
-
-    // then
-    assert.dom(passwordInputElement).hasAttribute('aria-invalid');
-  });
-
-  test('it must contains at least one number', async function (assert) {
-    // given
-    const invalidPassword = 'PIXpixPIX';
-    const onInput = sinon.stub();
-
-    const screen = await render(<template><PasswordInput {{on "input" onInput}} /></template>);
-
-    // when
-    await fillByLabel(t(I18N.PASSWORD_INPUT_LABEL), invalidPassword);
-    const passwordInputElement = screen.getByLabelText(t(I18N.PASSWORD_INPUT_LABEL));
-    await blur(passwordInputElement);
-
-    // then
-    assert.dom(passwordInputElement).hasAttribute('aria-invalid');
+    assert.dom(screen.getByText(errorMessage)).exists();
   });
 });

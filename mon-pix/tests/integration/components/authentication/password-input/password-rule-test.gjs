@@ -1,10 +1,10 @@
 import { render } from '@1024pix/ember-testing-library';
-import PasswordRule from 'mon-pix/components/authentication/password-input/password-rule';
+import PasswordRule from 'mon-pix/components/authentication/new-password-input/password-rule';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | authentication | password-input | password-rule', function (hooks) {
+module('Integration | Component | authentication | new-password-input | password-rule', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('it renders a valid rule', async function (assert) {
