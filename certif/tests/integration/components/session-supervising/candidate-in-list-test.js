@@ -493,6 +493,30 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         assert.dom(screen.getByText('Extension non détectée')).exists();
         assert.dom(screen.queryByText('Signalement en cours')).doesNotExist();
       });
+
+      test('it displays the alert', async function (assert) {
+        // given
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
+          firstName: 'Alain',
+          lastName: 'Cendy',
+          id: '456',
+          startDateTime: new Date('2022-10-19T14:30:15Z'),
+          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          extraTimePercentage: 0.12,
+          authorizedToStart: false,
+          assessmentStatus: 'started',
+          companionLiveAlert: { type: 'companion', status: 'ONGOING' },
+        });
+
+        // when
+        const screen = await renderScreen(hbs`<SessionSupervising::CandidateInList @candidate={{this.candidate}} />`);
+        await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+        await click(screen.getByRole('button', { name: 'Confirmer la présence de l’extension' }));
+
+        // then
+        await screen.findByRole('dialog');
+        assert.dom(screen.getByRole('heading', { name: 'Confirmer que Alain Cendy a bien l’extension ?' })).exists();
+      });
     });
   });
 });

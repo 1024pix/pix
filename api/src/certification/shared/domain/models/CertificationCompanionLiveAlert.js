@@ -1,7 +1,12 @@
 export class CertificationCompanionLiveAlert {
-  constructor({ assessmentId, status }) {
+  constructor({ id, assessmentId, status }) {
+    this.id = id;
     this.assessmentId = assessmentId;
     this.status = status;
+  }
+
+  clear() {
+    this.status = CertificationCompanionLiveAlertStatus.CLEARED;
   }
 }
 /**

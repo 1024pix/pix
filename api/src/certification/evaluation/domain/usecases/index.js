@@ -20,6 +20,10 @@ import {
 import * as certificationCandidateRepository from '../../infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCompanionAlertRepository from '../../infrastructure/repositories/certification-companion-alert-repository.js';
 
+/**
+ * @typedef {certificationCompanionAlertRepository} CertificationCompanionAlertRepository
+ */
+
 const dependencies = {
   ...sessionRepositories,
   certificationCandidateRepository,

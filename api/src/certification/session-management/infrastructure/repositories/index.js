@@ -18,6 +18,7 @@ import * as complementaryCertificationCourseResultRepository from '../../../shar
 import * as flashAlgorithmConfigurationRepository from '../../../shared/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as certificationCandidateForSupervisingRepository from './certification-candidate-for-supervising-repository.js';
 import * as certificationCandidateRepository from './certification-candidate-repository.js';
+import * as certificationCompanionAlertRepository from './certification-companion-alert-repository.js';
 import * as certificationOfficerRepository from './certification-officer-repository.js';
 import * as competenceMarkRepository from './competence-mark-repository.js';
 import * as courseAssessmentResultRepository from './course-assessment-result-repository.js';
@@ -69,6 +70,7 @@ import * as v3CertificationCourseDetailsForAdministrationRepository from './v3-c
  * @typedef {cpfExportRepository} CpfExportRepository
  * @typedef {juryCertificationSummaryRepository} JuryCertificationSummaryRepository
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {typeof certificationCompanionAlertRepository} CertificationCompanionAlertRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   assessmentRepository,
@@ -100,6 +102,7 @@ const repositoriesWithoutInjectedDependencies = {
   certificationCpfCityRepository,
   certificationCpfCountryRepository,
   certificationCandidateRepository,
+  certificationCompanionAlertRepository,
 };
 
 /**

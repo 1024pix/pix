@@ -45,6 +45,7 @@ import { buildCertificationCenterMembership } from './build-certification-center
 import { buildCertificationChallenge } from './build-certification-challenge.js';
 import { buildCertificationChallengeLiveAlert } from './build-certification-challenge-live-alert.js';
 import { buildCertificationChallengeWithType } from './build-certification-challenge-with-type.js';
+import { buildCertificationCompanionLiveAlert } from './build-certification-companion-live-alert.js';
 import { buildCertificationCourse } from './build-certification-course.js';
 import { buildCertificationCpfCity } from './build-certification-cpf-city.js';
 import { buildCertificationCpfCountry } from './build-certification-cpf-country.js';
@@ -246,6 +247,7 @@ const certification = {
     buildCertificationCandidate: buildSessionManagementCandidate,
   },
   shared: {
+    buildCertificationCompanionLiveAlert,
     buildJuryComment: buildJuryComment,
   },
   lib: {

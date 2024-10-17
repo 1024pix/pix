@@ -61,6 +61,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {import('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
  * @typedef {import('../../../shared/domain/services/certification-cpf-service.js')} CertificationCpfService
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CertificationCompanionAlertRepository} CertificationCompanionAlertRepository
  **/
 
 /**
@@ -100,6 +101,7 @@ import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-st
  * @typedef {flashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
  * @typedef {cpfExportRepository} CpfExportRepository
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {certificationCompanionAlertRepository} CertificationCompanionAlertRepository
  **/
 const dependencies = {
   ...sessionRepositories,
