@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { ConvertCenterToV3JobController } from '../../../../../../src/certification/configuration/application/jobs/convert-center-to-v3-job-controller.js';
+import { ConvertScoCenterToV3JobController } from '../../../../../../src/certification/configuration/application/jobs/convert-sco-center-to-v3-job-controller.js';
 import { databaseBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Application | Certification | Configuration | jobs | convert-center-to-v3-job-controller', function () {
@@ -17,7 +17,7 @@ describe('Integration | Application | Certification | Configuration | jobs | con
     await databaseBuilder.commit();
 
     // when
-    const jobController = new ConvertCenterToV3JobController();
+    const jobController = new ConvertScoCenterToV3JobController();
     await jobController.handle({ data: { centerId: certificationCenterId } });
 
     // then

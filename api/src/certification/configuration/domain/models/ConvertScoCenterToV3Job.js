@@ -1,4 +1,4 @@
-export class ConvertCenterToV3Job {
+export class ConvertScoCenterToV3Job {
   /**
    * @param {Object} params
    * @param {number} params.centerId

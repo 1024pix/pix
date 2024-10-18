@@ -54,3 +54,18 @@ export const resetWhitelist = async () => {
     .update({ isScoBlockedAccessWhitelist: false, updatedAt: knexConn.fn.now() })
     .where({ type: CenterTypes.SCO });
 };
+
+/**
+ * @param {Object} params
+ * @param {Array<number>} params.preservedCenterIds
+ * @returns {Promise<number>} updated centers count
+ */
+export const updateCentersToV3 = async ({ preservedCenterIds }) => {
+  const knexConn = DomainTransaction.getConnection();
+  const results = await knexConn('certification-centers')
+    .update({ isV3Pilot: true, updatedAt: knexConn.fn.now() }, ['id'])
+    .where({ isV3Pilot: false })
+    .whereNotIn('id', preservedCenterIds);
+
+  return results.length;
+};
