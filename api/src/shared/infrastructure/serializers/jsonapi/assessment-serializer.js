@@ -13,7 +13,8 @@ const serialize = function (assessments) {
       // TODO: We can't use currentAssessment.isCertification() because
       // this serializer is also used by model CampaignAssessment
       assessment.certificationNumber = null;
-      assessment.hasOngoingLiveAlert = currentAssessment.hasOngoingLiveAlert;
+      assessment.hasOngoingChallengeLiveAlert = currentAssessment.hasOngoingChallengeLiveAlert;
+      assessment.hasOngoingCompanionLiveAlert = currentAssessment.hasOngoingCompanionLiveAlert;
       if (currentAssessment.type === Assessment.types.CERTIFICATION) {
         assessment.certificationNumber = currentAssessment.certificationCourseId;
         assessment.certificationCourse = { id: currentAssessment.certificationCourseId };
@@ -43,7 +44,8 @@ const serialize = function (assessments) {
       'answers',
       'codeCampaign',
       'certificationNumber',
-      'hasOngoingLiveAlert',
+      'hasOngoingChallengeLiveAlert',
+      'hasOngoingCompanionLiveAlert',
       'course',
       'certificationCourse',
       'progression',

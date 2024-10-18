@@ -1,4 +1,5 @@
 import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationCompanionLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationCompanionLiveAlert.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
@@ -475,19 +476,19 @@ describe('Unit | Domain | Models | Assessment', function () {
     });
   });
 
-  describe('#hasOngoingLiveAlert', function () {
+  describe('#hasOngoingChallengeLiveAlert', function () {
     describe('when assessment has no live alerts attached', function () {
       it('should return false', function () {
         const assessmentWithoutLiveAlert = domainBuilder.buildAssessment();
 
-        expect(assessmentWithoutLiveAlert.hasOngoingLiveAlert).to.be.false;
+        expect(assessmentWithoutLiveAlert.hasOngoingChallengeLiveAlert).to.be.false;
       });
     });
 
     describe('when assessment has live alerts attached but no ongoing', function () {
       it('should return false', function () {
         const assessmentWithoutLiveAlert = domainBuilder.buildAssessment({
-          liveAlerts: [
+          challengeLiveAlerts: [
             domainBuilder.buildCertificationChallengeLiveAlert({
               status: CertificationChallengeLiveAlertStatus.DISMISSED,
             }),
@@ -497,14 +498,14 @@ describe('Unit | Domain | Models | Assessment', function () {
           ],
         });
 
-        expect(assessmentWithoutLiveAlert.hasOngoingLiveAlert).to.be.false;
+        expect(assessmentWithoutLiveAlert.hasOngoingChallengeLiveAlert).to.be.false;
       });
     });
 
     describe('when assessment has an ongoing live alert ', function () {
       it('should return true', function () {
-        const assessmentWithoutLiveAlert = domainBuilder.buildAssessment({
-          liveAlerts: [
+        const assessmentWithLiveAlert = domainBuilder.buildAssessment({
+          challengeLiveAlerts: [
             domainBuilder.buildCertificationChallengeLiveAlert({
               status: CertificationChallengeLiveAlertStatus.DISMISSED,
             }),
@@ -514,7 +515,51 @@ describe('Unit | Domain | Models | Assessment', function () {
           ],
         });
 
-        expect(assessmentWithoutLiveAlert.hasOngoingLiveAlert).to.be.true;
+        expect(assessmentWithLiveAlert.hasOngoingChallengeLiveAlert).to.be.true;
+      });
+    });
+  });
+
+  describe('#hasOngoingCompanionLiveAlert', function () {
+    describe('when assessment has no live alerts attached', function () {
+      it('should return false', function () {
+        const assessmentWithoutLiveAlert = domainBuilder.buildAssessment();
+
+        expect(assessmentWithoutLiveAlert.hasOngoingCompanionLiveAlert).to.be.false;
+      });
+    });
+
+    describe('when assessment has live alerts attached but no ongoing', function () {
+      it('should return false', function () {
+        const assessmentWithoutLiveAlert = domainBuilder.buildAssessment({
+          companionLiveAlerts: [
+            domainBuilder.buildCertificationCompanionLiveAlert({
+              status: CertificationCompanionLiveAlertStatus.CLEARED,
+            }),
+            domainBuilder.buildCertificationCompanionLiveAlert({
+              status: CertificationCompanionLiveAlertStatus.CLEARED,
+            }),
+          ],
+        });
+
+        expect(assessmentWithoutLiveAlert.hasOngoingCompanionLiveAlert).to.be.false;
+      });
+    });
+
+    describe('when assessment has an ongoing live alert ', function () {
+      it('should return true', function () {
+        const assessmentWithLiveAlert = domainBuilder.buildAssessment({
+          companionLiveAlerts: [
+            domainBuilder.buildCertificationCompanionLiveAlert({
+              status: CertificationCompanionLiveAlertStatus.CLEARED,
+            }),
+            domainBuilder.buildCertificationCompanionLiveAlert({
+              status: CertificationCompanionLiveAlertStatus.ONGOING,
+            }),
+          ],
+        });
+
+        expect(assessmentWithLiveAlert.hasOngoingCompanionLiveAlert).to.be.true;
       });
     });
   });

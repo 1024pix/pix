@@ -7,13 +7,15 @@ module('Unit | Component | Assessments | Assessments', function (hooks) {
   setupTest(hooks);
 
   module('#createLiveAlert', function () {
-    test('should create a companion live alert', async function (assert) {
+    test('should create a companion live alert and reload assessment', async function (assert) {
       // given
+      const assessment = {
+        id: 123,
+        isCertification: true,
+        reload: sinon.stub(),
+      };
       const component = createGlimmerComponent('assessments/assessments', {
-        assessment: {
-          id: 123,
-          isCertification: true,
-        },
+        assessment,
       });
       const store = this.owner.lookup('service:store');
       const adapter = store.adapterFor('assessment');
@@ -23,7 +25,8 @@ module('Unit | Component | Assessments | Assessments', function (hooks) {
       await component.createLiveAlert();
 
       // then
-      sinon.assert.calledWithExactly(createCompanionLiveAlertStub, { assessmentId: 123 });
+      sinon.assert.calledOnceWithExactly(createCompanionLiveAlertStub, { assessmentId: 123 });
+      sinon.assert.calledOnceWithExactly(assessment.reload);
       assert.ok(true);
     });
   });

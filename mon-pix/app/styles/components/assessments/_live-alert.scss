@@ -1,0 +1,29 @@
+.live-alert {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-4x);
+  margin-top: var(--pix-spacing-4x);
+  margin-bottom: var(--pix-spacing-10x);
+
+  &__refresh-information {
+    display: flex;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+    font-weight: var(--pix-font-bold);
+
+    @extend %pix-body-s;
+  }
+}
+
+.refresh-information-live-alert {
+  &__button {
+    gap: var(--pix-spacing-1x);
+    color: var(--pix-primary-700);
+  }
+
+  &__icon {
+    width: 1rem;
+    height: 1rem;
+    fill: var(--pix-primary-700);
+  }
+}

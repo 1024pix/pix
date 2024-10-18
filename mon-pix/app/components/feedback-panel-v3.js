@@ -20,7 +20,7 @@ export default class FeedbackPanelV3 extends Component {
   }
 
   get isAssessmentPaused() {
-    return this.args.assessment.hasOngoingLiveAlert;
+    return this.args.assessment.hasOngoingChallengeLiveAlert;
   }
 
   get shouldBeExpanded() {
@@ -28,7 +28,7 @@ export default class FeedbackPanelV3 extends Component {
   }
 
   get isToggleFeedbackFormHidden() {
-    return this.args.assessment.hasOngoingLiveAlert;
+    return this.args.assessment.hasOngoingChallengeLiveAlert;
   }
 
   @action
@@ -43,8 +43,9 @@ export default class FeedbackPanelV3 extends Component {
   }
 
   @action
-  resfreshPage() {
-    this.router.refresh();
+  submitLiveAlert() {
+    this.args.submitLiveAlert();
+    this._resetPanel();
   }
 
   _resetPanel() {

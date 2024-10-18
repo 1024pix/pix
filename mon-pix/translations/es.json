@@ -778,13 +778,10 @@
         "actions": {
           "no-send-feedback": "No, vuelvo a la prueba",
           "open-close": "Informar de un problema con la pregunta",
-          "refresh-page": "Actualizar la página",
           "send-feedback": "Sí, estoy seguro/a"
         },
         "description": "¿Estás seguro/a de que quieres informar de un problema?",
-        "information": "Al informar de un problema, tu certificación se pausa hasta que el supervisor intervenga para validar o invalidar tu informe.",
-        "problem-banner": "Avisa al supervisor para que identifique el problema.",
-        "waiting-information": "Esperando al supervisor..."
+        "information": "Al informar de un problema, tu certificación se pausa hasta que el supervisor intervenga para validar o invalidar tu informe."
       },
       "feedback-panel": {
         "actions": {
@@ -898,6 +895,16 @@
         "info-alert": {
           "subtitle": " ",
           "title": "Responde a esta pregunta sin buscar en internet ni utilizar ningún programa informático."
+        }
+      },
+      "live-alerts": {
+        "refresh": "Refresh the page",
+        "waiting-information": "Waiting for the invigilator...",
+        "companion": {
+          "message": "Notify your invigilator so that they can confirm the presence of the extension."
+        },
+        "challenge": {
+          "message": "Notify your invigilator so that they can check your problem"
         }
       },
       "parts": {

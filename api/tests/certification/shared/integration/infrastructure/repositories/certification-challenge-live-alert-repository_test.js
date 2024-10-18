@@ -87,7 +87,7 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
     });
 
     describe('when a liveAlert is linked to the assessment id', function () {
-      it('should return an empty array', async function () {
+      it('should return an array with alerts', async function () {
         // given
         const questionNumber = 2;
         databaseBuilder.factory.buildAssessment({

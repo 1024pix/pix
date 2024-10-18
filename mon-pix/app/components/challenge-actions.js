@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 
 export default class ChallengeActions extends Component {
   get areActionButtonsDisabled() {
-    return this.args.disabled || this.args.hasOngoingLiveAlert;
+    return this.args.disabled || this.hasCurrentOngoingLiveAlert;
   }
 
   get isNotCertification() {
@@ -19,5 +19,9 @@ export default class ChallengeActions extends Component {
 
   get isV3CertificationNotAdjusted() {
     return this.args.certificationVersion === 3 && !this.args.isAdjustedCourseForAccessibility;
+  }
+
+  get hasCurrentOngoingLiveAlert() {
+    return this.args.hasOngoingCompanionLiveAlert || this.args.hasOngoingChallengeLiveAlert;
   }
 }
