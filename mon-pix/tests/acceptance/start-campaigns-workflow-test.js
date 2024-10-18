@@ -52,7 +52,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         module('When campaign is not restricted', function () {
           test('should display landing page', async function (assert) {
             // given
-            const campaign = server.create('campaign', { isRestricted: false });
+            const campaign = server.create('campaign', { isRestricted: false, idPixLabel: null });
             const screen = await visit('/campagnes');
 
             // when
@@ -426,7 +426,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             // when
             const screen = await visit(`/campagnes/${campaign.code}`);
             await click(screen.getByRole('button', { name: 'Je commence' }));
-            await fillIn(screen.getByRole('textbox', { name: 'Les anonymes' }), 'vu');
+            await fillIn(screen.getByRole('textbox', { name: /Les anonymes/ }), 'vu');
             await click(screen.getByRole('button', { name: 'Continuer' }));
 
             // then
@@ -766,7 +766,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           // when
           const screen = await visit(`/campagnes/${campaign.code}`);
           await click(screen.getByRole('button', { name: 'Je commence' }));
-          await fillIn(screen.getByRole('textbox', { name: 'Les anonymes' }), 'vu');
+          await fillIn(screen.getByRole('textbox', { name: /Les anonymes/ }), 'vu');
           await click(screen.getByRole('button', { name: 'Continuer' }));
 
           // then

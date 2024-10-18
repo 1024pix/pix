@@ -38,12 +38,12 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
         module('When participant external id is not set in the url', function () {
           test('should redirect to assessment after completion of external id', async function (assert) {
             // given
-            campaign = server.create('campaign', { idPixLabel: 'email', type: ASSESSMENT });
+            campaign = server.create('campaign', { idPixLabel: 'email', idPixType: 'EMAIL', type: ASSESSMENT });
             const screen = await startCampaignByCode(campaign.code);
             await _fillInputsToCreateUserPixAccount({ prescritUser, screen, t });
 
             // when
-            await fillIn(screen.getByRole('textbox', { name: 'email' }), 'monmail@truc.fr');
+            await fillIn(screen.getByRole('textbox', { name: /email/ }), 'monmail@truc.fr');
             await click(screen.getByRole('button', { name: 'Continuer' }));
 
             // then
@@ -184,7 +184,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
             await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
             await click(screen.getByRole('button', { name: t('pages.join.button') }));
             await click(screen.getByRole('button', { name: t('pages.join.sco.associate') }));
-            await fillIn(screen.getByRole('textbox', { name: 'nom de naissance de maman' }), 'truc');
+            await fillIn(screen.getByRole('textbox', { name: /nom de naissance de maman/ }), 'truc');
 
             // when
             await click(screen.getByRole('button', { name: 'Continuer' }));
@@ -203,7 +203,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
             const screen = await startCampaignByCode(campaign.code);
 
             // when
-            await fillIn(screen.getByRole('textbox', { name: 'nom de naissance de maman' }), 'truc');
+            await fillIn(screen.getByRole('textbox', { name: /nom de naissance de maman/ }), 'truc');
             await click(screen.getByRole('button', { name: 'Continuer' }));
 
             // then
@@ -216,7 +216,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
             const screen = await startCampaignByCode(campaign.code);
 
             // when
-            await fillIn(screen.getByRole('textbox', { name: 'nom de naissance de maman' }), 'truc');
+            await fillIn(screen.getByRole('textbox', { name: /nom de naissance de maman/ }), 'truc');
             await click(screen.getByRole('button', { name: 'Continuer' }));
             await click(screen.getByRole('button', { name: t('pages.tutorial.pass') }));
 
