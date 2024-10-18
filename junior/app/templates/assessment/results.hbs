@@ -1,7 +1,6 @@
 {{page-title (t "pages.missions.end-page.title")}}
 <div class="mission-page">
   <RobotDialog @class={{this.robotMood}}>
-    <Bubble @message={{t "pages.missions.end-page.congratulations"}} @status="success" />
     <Bubble @message={{t this.resultMessage}} @status="success" />
   </RobotDialog>
   <div class="mission-page__body">
