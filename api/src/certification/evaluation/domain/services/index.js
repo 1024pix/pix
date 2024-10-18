@@ -20,6 +20,7 @@ import * as competenceMarkRepository from '../../../shared/infrastructure/reposi
 import * as flashAlgorithmConfigurationRepository from '../../../shared/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as scoringConfigurationRepository from '../../../shared/infrastructure/repositories/scoring-configuration-repository.js';
 import * as certificationAssessmentHistoryRepository from '../../infrastructure/repositories/certification-assessment-history-repository.js';
+import * as certificationCandidateRepository from '../../infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationChallengeForScoringRepository from '../../infrastructure/repositories/certification-challenge-for-scoring-repository.js';
 
 /**
@@ -40,6 +41,7 @@ import * as certificationChallengeForScoringRepository from '../../infrastructur
  * @typedef {areaRepository} AreaRepository
  * @typedef {placementProfileService} PlacementProfileService
  * @typedef {scoringCertificationService} ScoringCertificationService
+ * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  */
 const dependencies = {
   assessmentResultRepository,
@@ -57,6 +59,7 @@ const dependencies = {
   placementProfileService,
   scoringService,
   scoringCertificationService,
+  certificationCandidateRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

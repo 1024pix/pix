@@ -93,7 +93,6 @@ const dependencies = {
   scoringCertificationService,
   scoringDegradationService,
   skillRepository,
-  scoringConfigurationRepository,
   supervisorAccessRepository,
   targetProfileRepository,
   userRepository,
