@@ -1,0 +1,141 @@
+{
+  "id": "22ed7a6a-0aa8-4b4b-a7cd-0e48d2c70710",
+  "slug": "la-recette-des-cookix",
+  "title": "La recette des Cookix",
+  "details": {
+    "image": "",
+    "description": "<p><br></p>",
+    "duration": 0,
+    "level": "Débutant",
+    "objectives": [
+      "<p>Préparer 24 cookies savoureux&nbsp;👨‍🍳</p>",
+      "<p>Bien se régaler&nbsp;😋</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [],
+  "grains": [
+    {
+      "id": "5ef2c419-5ef0-4969-a6f6-4140482c8ed8",
+      "type": "lesson",
+      "title": "Les ingrédients",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "ec43d24b-a7de-4194-b793-1b2d104b79c6",
+            "type": "text",
+            "content": "<h3>Ingrédients</h3><p><strong>Pour 24 cookies de 30g</strong></p><ul><li>50g de noisettes</li><li>75g de vergeoise</li><li>25g de cassonnade</li><li>10g de sucre vanillé</li><li>125g de beurre fondu</li><li>1 oeuf</li><li>230g de farine</li><li>1 pincée de fleur de sel</li><li>50g de beurre (ou purée) de noisettes</li><li>100g de pépites de chocolat noir</li><br></ul><p></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "501e31a9-591d-487e-90fa-2efc033c5c69",
+      "type": "activity",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "8b6921be-f9f7-46f8-a1a6-a9be2cfedd65",
+            "type": "qcu",
+            "instruction": "<p>Qu'est-ce que la vergeoise ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Un petit rongeur à grandes oreilles</p>",
+                "feedback": "<p class=\"feedback__state\">Et non !</p>\n<p>Vous confondez avec <em>la gerboise</em> ! Ces cookies sont 100% végétariens.</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Un breuvage alcoolique obtenu à partir d'orge</p>",
+                "feedback": "<p class=\"feedback__state\">Pas du tout !</p>\n<p>Vous pensez sans doute à <em>la cervoise</em> ! Ces cookies sont sans danger pour les enfants et les femmes enceintes.</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Un sucre à consistance moelleuse, coloré et parfumé par les cuissons successives du sirop résiduel issu de l'essorage du sucre de&nbsp;betterave.</p>",
+                "feedback": "<p class=\"feedback__state\">Tout à fait</p>\n<p>C'est ce qui donne aux cookix leur texture moelleuse et savoureuse</p>"
+              }
+            ],
+            "solution": "3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "af8d16e2-9233-4d50-919b-79d83dcd877a",
+      "type": "lesson",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "a160f2f8-8a9b-4a28-938c-5cea57e4aa99",
+            "type": "text",
+            "content": "<h3>Étape 1 : Torrefaction des noisettes</h3>"
+          }
+        },
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "6c7e7e64-562f-4022-a02a-6236af920619",
+                  "type": "text",
+                  "content": "<p>Préchauffer le four à 160 °.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "0f2cb1bb-a49f-455a-8d33-3949ebe25bfd",
+                  "type": "text",
+                  "content": "<p>Répartir les noisettes sur une plaque de noisettes et enfourner pour 15 minutes.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "8ed54a6e-9faa-4d7f-91d5-8595d5095928",
+                  "type": "text",
+                  "content": "<p>Pour patienter pendant la torréfaction, appréciez cette vidéo sur la récolte des noisettes.</p>\n\n<iframe width=\"700\" height=\"400\" src=\"https://www.youtube.com/embed/JQv5zxdKKCY?si=m44KNxMruE88Nw3i\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen=\"\"></iframe>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "6e877aa8-d27e-4f23-9755-1f486cceef21",
+                  "type": "text",
+                  "content": "<p>Après 15 minutes, sortez les noisettes du four et laissez les refroidir.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "944852b1-e69f-4c73-9b44-2195e341bcde",
+                  "type": "text",
+                  "content": "<p>Laissez les noisettes refroidir quelques instants pour ne pas vous brûler puis épluchez-les; une fois cuites, la peau se retire facilement.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "b08f804a-a264-45dd-97d5-dd2d33d2033e",
+                  "type": "text",
+                  "content": "<p>À l'aide d'un couteau, réduisez les noisettes en éclats.</p>"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
