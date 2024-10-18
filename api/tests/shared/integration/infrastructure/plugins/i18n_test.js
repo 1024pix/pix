@@ -1,6 +1,6 @@
-import * as i18nPlugin from '../../../../src/shared/infrastructure/plugins/i18n.js';
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
+import * as i18nPlugin from '../../../../../src/shared/infrastructure/plugins/hapi/i18n.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
+import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 describe('Integration | Infrastructure | plugins | i18n', function () {
   let httpTestServer;
