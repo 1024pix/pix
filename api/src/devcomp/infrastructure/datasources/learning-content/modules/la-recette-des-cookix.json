@@ -1,0 +1,71 @@
+{
+  "id": "22ed7a6a-0aa8-4b4b-a7cd-0e48d2c70710",
+  "slug": "la-recette-des-cookix",
+  "title": "La recette des Cookix",
+  "details": {
+    "image": "",
+    "description": "<p><br></p>",
+    "duration": 0,
+    "level": "Débutant",
+    "objectives": [
+      "<p>Préparer 48 cookies savoureux&nbsp;👨‍🍳</p>",
+      "<p>Bien se régaler&nbsp;😋</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [],
+  "grains": [
+    {
+      "id": "5ef2c419-5ef0-4969-a6f6-4140482c8ed8",
+      "type": "lesson",
+      "title": "Les ingrédients",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "ec43d24b-a7de-4194-b793-1b2d104b79c6",
+            "type": "text",
+            "content": "<p><h3>Ingrédients</h3><p><strong>Pour 24 cookies de 30g</strong></p><ul><li>50g de noisettes</li><li>75g de vergeoise</li><li>25g de cassonnade</li><li>10g de sucre vanillé</li><li>125g de beurre fondu</li><li>1 oeuf</li><li>230g de farine</li><li>1 pincée de fleur de sel</li><li>50g de beurre (ou purée) de noisettes</li><li>100g de pépites de chocolat noir</li><br></ul></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "501e31a9-591d-487e-90fa-2efc033c5c69",
+      "type": "activity",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "8b6921be-f9f7-46f8-a1a6-a9be2cfedd65",
+            "type": "qcu",
+            "instruction": "<p>Qu'est-ce que la vergeoise ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "<p>Un petit rongeur à grandes oreilles</p>",
+                "feedback": "<p class=\"feedback__state\">Et non !</p>\n<p>Vous confondez avec le gerboise ! Ces cookies sont 100% végétariens.</p>"
+              },
+              {
+                "id": "2",
+                "content": "<p>Un breuvage alcoolique obtenu à partir d'orge</p>",
+                "feedback": "<p class=\"feedback__state\">Pas du tout !</p>\n<p>Vous confondez avec le cervoise ! Ces cookies sont sans danger pour les enfants et les femmes enceintes.</p>"
+              },
+              {
+                "id": "3",
+                "content": "<p>Un sucre à consistance moelleuse, coloré et parfumé par les cuissons successives du sirop résiduel issu de l'essorage du sucre de&nbsp;betterave.</p>",
+                "feedback": "<p class=\"feedback__state\">Tout à fait</p>\n<p>C'est ce qui donne aux cookix leur texture moelleuse et savoureuse</p>"
+              }
+            ],
+            "feedbacks": {
+              "valid": "",
+              "invalid": ""
+            },
+            "solution": ""
+          }
+        }
+      ]
+    }
+  ]
+}
