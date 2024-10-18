@@ -1,3 +1,4 @@
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
@@ -7,12 +8,14 @@ import Rewards from './rewards';
 import Trainings from './trainings';
 
 export default class EvaluationResultsTabs extends Component {
+  @service tabManager;
+
   get showRewardsTab() {
     return this.args.badges.length > 0;
   }
 
   get initialTabIndex() {
-    return this.showRewardsTab ? 0 : 1;
+    return this.showRewardsTab ? this.tabManager.setActiveTab(0) : this.tabManager.setActiveTab(1);
   }
 
   get showTrainingsTab() {
