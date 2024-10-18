@@ -1,4 +1,5 @@
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
@@ -7,6 +8,8 @@ import EvaluationResultsTabs from '../../../campaigns/assessment/skill-review/ev
 import QuitResults from '../../../campaigns/assessment/skill-review/quit-results';
 
 export default class EvaluationResults extends Component {
+  @service tabManager;
+
   get hasTrainings() {
     return Boolean(this.args.model.trainings.length);
   }
@@ -21,7 +24,7 @@ export default class EvaluationResults extends Component {
       behavior: 'smooth',
     });
 
-    // TODO: display trainings tab
+    this.tabManager.setActiveTab(2);
   }
 
   <template>

@@ -19,6 +19,7 @@ export default class EvaluationResultsHero extends Component {
   @service currentUser;
   @service router;
   @service store;
+  @service tabManager;
 
   @tracked hasGlobalError = false;
   @tracked isImproveButtonLoading = false;
