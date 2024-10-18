@@ -35,7 +35,7 @@ module('Integration | Component | Companion | blocker', function (hooks) {
     assert.dom(screen.queryByRole('heading', { level: 1, name: title })).exists();
   });
 
-  test('it displays blocking page when extension is NOT detected', async function (assert) {
+  test('it displays blocking page when extension is not detected', async function (assert) {
     // given
     class PixCompanionStub extends Service {
       startCheckingExtensionIsEnabled = sinon.stub();
@@ -58,13 +58,13 @@ module('Integration | Component | Companion | blocker', function (hooks) {
 
     // then
     assert.dom(screen.queryByRole('heading', { level: 1, name: 'Companion activé' })).doesNotExist();
-
     assert
-      .dom(screen.queryByRole('heading', { level: 1, name: 'L’extension Pix Companion n’est pas détectée' }))
+      .dom(screen.getByRole('heading', { level: 1, name: 'L’extension Pix Companion n’est pas détectée' }))
       .exists();
-
     assert.dom(screen.queryByText(t('common.companion.not-detected.description'))).exists();
-
-    // assert.dom(screen.queryByRole('link', { name: t('common.companion.not-detected.link') })).exists();
+    assert
+      .dom(screen.getByRole('link', { name: t('common.companion.not-detected.link') }))
+      .hasAttribute('href', 'https://cloud.pix.fr/s/KocingDC4mFJ3R6');
+    assert.dom(screen.getByRole('button', { name: t('common.actions.refresh-page') })).exists();
   });
 });

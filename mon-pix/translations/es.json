@@ -46,7 +46,8 @@
       "show-more": "Ver más",
       "sign-out": "Desconectarse",
       "stay": "Quedarse",
-      "validate": "Validar"
+      "validate": "Validar",
+      "refresh-page": "Actualizar la página"
     },
     "api-error-messages": {
       "bad-request-error": "Los datos que has enviado no están en el formato correcto.",

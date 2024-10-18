@@ -1,4 +1,6 @@
-// import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import PixButton from '@1024pix/pix-ui/components/pix-button';
+import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
@@ -28,6 +30,11 @@ export default class CompanionBlocker extends Component {
     return !this.pixCompanion.isExtensionEnabled;
   }
 
+  @action
+  refreshPage() {
+    window.location.reload(true);
+  }
+
   <template>
     {{#if this.isBlocked}}
       <section class="companion-blocker">
@@ -36,7 +43,21 @@ export default class CompanionBlocker extends Component {
           {{t "common.companion.not-detected.title" htmlSafe=true}}
         </h1>
         <p>{{t "common.companion.not-detected.description"}}</p>
-        {{!-- <PixButtonLink @href="https://pix.fr" target="_blank">{{t "common.companion.not-detected.link"}}</PixButtonLink> --}}
+
+        <ul class="companion-blocker__list">
+          <li>
+            <PixButtonLink @href="https://cloud.pix.fr/s/KocingDC4mFJ3R6" target="_blank">{{t
+                "common.companion.not-detected.link"
+              }}</PixButtonLink>
+          </li>
+          <li>
+            <PixButton
+              @variant="secondary"
+              @triggerAction={{this.refreshPage}}
+              class="companion-blocker-list__refresh-button"
+            >{{t "common.actions.refresh-page"}}</PixButton>
+          </li>
+        </ul>
       </section>
     {{else}}
       {{yield}}
