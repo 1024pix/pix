@@ -4,7 +4,7 @@
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
+import { SESSIONS_VERSIONS } from '../../../shared/domain/models/SessionVersion.js';
 import { Candidate } from '../models/Candidate.js';
 import { SessionEnrolment } from '../models/SessionEnrolment.js';
 
@@ -76,7 +76,7 @@ function _hasCandidates(candidates) {
 async function _saveNewSessionReturningId({ sessionRepository, sessionDTO, isV3Pilot }) {
   const sessionToSave = new SessionEnrolment({
     ...sessionDTO,
-    version: isV3Pilot ? CERTIFICATION_VERSIONS.V3 : CERTIFICATION_VERSIONS.V2,
+    version: isV3Pilot ? SESSIONS_VERSIONS.V3 : SESSIONS_VERSIONS.V2,
   });
   return await sessionRepository.save({ session: sessionToSave });
 }
