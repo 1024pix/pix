@@ -1,4 +1,12 @@
 .element-flashcards {
+  --button-border-size: 1px;
+  --button-border-size-hover: 2px;
+
+  padding-top: var(--pix-spacing-8x);
+  background-image: url('/images/modulix/next-cards.svg');
+  background-repeat: no-repeat;
+  background-position: top center;
+
   &__footer {
     display: flex;
     flex-direction: column;
