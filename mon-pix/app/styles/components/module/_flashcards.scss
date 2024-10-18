@@ -2,16 +2,24 @@
   &__footer {
     display: flex;
     flex-direction: column;
-    gap: var(--pix-spacing-2x);
+    gap: var(--pix-spacing-3x);
     align-items: center;
+    justify-content: center;
     max-width: 345px;
+    min-height: 101px;
     margin:auto;
     color: var(--pix-neutral-500);
 
     &__position,
     &__direction,
     &__answer {
-      @extend %pix-body-m;
+      @extend %pix-body-l;
+
+      margin: 0 !important;
+    }
+
+    &__direction {
+      text-align: center;
     }
 
     &__position {
@@ -20,7 +28,7 @@
 
     &__question {
       color: var(--pix-neutral-900);
-      font-weight: 700;
+      font-weight: var(--pix-font-medium);
     }
 
     &__answer {
