@@ -28,7 +28,7 @@ export default class ModulixFlashcardsCard extends Component {
 
       <div class="element-flashcards-card__footer element-flashcards-card__footer--{{@displayedSideName}}">
         {{#if (eq @displayedSideName "recto")}}
-          <PixButton @triggerAction={{@onCardFlip}} @variant="primary" @size="small" @iconAfter="rotate-right">
+          <PixButton @triggerAction={{@onCardFlip}} @variant="primary" @size="small">
             {{t "pages.modulix.buttons.flashcards.seeAnswer"}}
           </PixButton>
         {{/if}}
