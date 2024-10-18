@@ -12,11 +12,17 @@
     flex-direction: column;
     gap: var(--pix-spacing-3x);
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     max-width: 345px;
-    min-height: 101px;
-    margin:auto;
+    height: 110px;
+    margin: auto;
+    overflow-y: clip;
     color: var(--pix-neutral-500);
+    transition: height 400ms;
+
+    &--empty {
+      height: 0;
+    }
 
     &__position,
     &__direction,
@@ -31,7 +37,8 @@
     }
 
     &__position {
-      font-weight: 700;
+      padding-bottom: var(--pix-spacing-6x);
+      font-weight: var(--pix-font-bold);
     }
 
     &__question {
@@ -43,11 +50,11 @@
       display: flex;
       justify-content: space-between;
       width: 100%;
+      padding-bottom: var(--button-border-size-hover);
 
       &__button {
-        width: calc(100% / 3 - 4px);
         padding: var(--pix-spacing-4x) 0;
-        font-weight: 700;
+        font-weight: var(--pix-font-bold);
         line-height: 24px;
         border-radius: var(--modulix-radius-s);
         transition: color 400ms, box-shadow 400ms;
