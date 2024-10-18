@@ -236,7 +236,7 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
           userSerializer.serialize.returns(expectedSerializedUser);
 
           // when
-          const response = await userController.save(
+          const response = await userController.createUser(
             {
               payload: {
                 data: {
@@ -282,7 +282,7 @@ describe('Unit | Identity Access Management | Application | Controller | User', 
           usecases.createUser.resolves(savedUser);
 
           // when
-          const response = await userController.save(
+          const response = await userController.createUser(
             {
               payload: {
                 data: {
