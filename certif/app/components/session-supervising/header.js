@@ -6,6 +6,8 @@ import { tracked } from '@glimmer/tracking';
 export default class Header extends Component {
   @service router;
   @service intl;
+  @service url;
+  @service featureToggles;
 
   @tracked modalDescriptionText;
   @tracked modalCancelText;
@@ -33,5 +35,13 @@ export default class Header extends Component {
   actionConfirmation() {
     this.closeConfirmationModal();
     return this.router.replaceWith('login-session-supervisor');
+  }
+
+  get pixCompanionDocumentationUrl() {
+    return this.url.pixCompanionDocumentationUrl;
+  }
+
+  get isPixCompanionExtensionEnabled() {
+    return this.featureToggles.featureToggles?.isPixCompanionEnabled;
   }
 }

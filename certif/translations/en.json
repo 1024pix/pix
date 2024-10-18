@@ -537,6 +537,10 @@
           "exit-extra-information": "Exit the session’s invigilation {sessionId}"
         },
         "address": "Location name",
+        "companion": {
+          "link": "Link to installation/activation documentation",
+          "message": "The Pix Companion extension is now mandatory for all candidates."
+        },
         "information": "Warning, make sure that all the candidates have finished their exam before exiting the invigilation. To resume the invigilation of this session, you will have to enter again it’s session number and it’s password.",
         "invigilator": "Invigilator(s)",
         "room": "Room",

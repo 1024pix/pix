@@ -283,4 +283,17 @@ module('Unit | Service | url', function (hooks) {
       });
     });
   });
+
+  module('#pixCompanionDocumentationUrl', function () {
+    test('should return the pix companion documentation url', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+
+      // when
+      const pixCompanionDocumentationUrl = service.pixCompanionDocumentationUrl;
+
+      // then
+      assert.strictEqual(pixCompanionDocumentationUrl, 'https://cloud.pix.fr/s/fpeEyDpYEkMeqRX');
+    });
+  });
 });

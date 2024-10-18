@@ -147,4 +147,64 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
       assert.dom(screen.queryByRole('heading', { name: 'Quitter la surveillance de la session 12345' })).doesNotExist();
     });
   });
+
+  module('when the FT_PIX_COMPANION_ENABLED feature toggle is enabled', function () {
+    test('should display a companion information with documentation url', async function (assert) {
+      // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = { isPixCompanionEnabled: true };
+      }
+      this.owner.register('service:featureToggles', FeatureTogglesStub);
+      const sessionForSupervising = store.createRecord('session-for-supervising', {
+        id: '12345',
+        date: '2020-01-01',
+        time: '12:00:00',
+        room: 'Salle 12',
+        examiner: 'Star Lord',
+        certificationCandidates: [],
+      });
+      this.set('sessionForSupervising', sessionForSupervising);
+
+      // when
+      const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}} />`);
+
+      // then
+      assert
+        .dom(screen.getByText('L’extension Pix Companion est désormais obligatoire pour tous les candidats.'))
+        .exists();
+      assert
+        .dom(screen.getByRole('link', { name: 'Lien vers la documentation d’installation/activation' }))
+        .hasAttribute('href', 'https://cloud.pix.fr/s/fpeEyDpYEkMeqRX');
+    });
+  });
+
+  module('when the FT_PIX_COMPANION_ENABLED feature toggle is disabled', function () {
+    test('should not display a companion information with documentation url', async function (assert) {
+      // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = { isPixCompanionEnabled: false };
+      }
+      this.owner.register('service:featureToggles', FeatureTogglesStub);
+      const sessionForSupervising = store.createRecord('session-for-supervising', {
+        id: '12345',
+        date: '2020-01-01',
+        time: '12:00:00',
+        room: 'Salle 12',
+        examiner: 'Star Lord',
+        certificationCandidates: [],
+      });
+      this.set('sessionForSupervising', sessionForSupervising);
+
+      // when
+      const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}} />`);
+
+      // then
+      assert
+        .dom(screen.queryByText('L’extension Pix Companion est désormais obligatoire pour tous les candidats.'))
+        .doesNotExist();
+      assert
+        .dom(screen.queryByRole('link', { name: 'Lien vers la documentation d’installation/activation' }))
+        .doesNotExist();
+    });
+  });
 });

@@ -74,6 +74,10 @@ export default class Url extends Service {
     return 'https://form-eu.123formbuilder.com/41052/form';
   }
 
+  get pixCompanionDocumentationUrl() {
+    return 'https://cloud.pix.fr/s/fpeEyDpYEkMeqRX';
+  }
+
   #isFrenchSpoken() {
     return this.intl.primaryLocale === 'fr';
   }

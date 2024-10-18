@@ -44,6 +44,11 @@
     font-weight: 500;
     margin: 0;
     padding: 8px 0;
+
+    &:last-child {
+      border-bottom: unset;
+      margin-bottom: var(--pix-spacing-4x);
+    }
   }
 
   &__label {
@@ -52,5 +57,16 @@
     flex-shrink: 0;
     font-weight: normal;
     margin-right: 8px;
+  }
+
+  &__companion-link {
+    align-items: center;
+    gap: var(--pix-spacing-1x);
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      fill: var(--pix-primary-500);
+    }
   }
 }
