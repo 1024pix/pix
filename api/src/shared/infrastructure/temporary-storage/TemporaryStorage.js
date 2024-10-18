@@ -86,6 +86,14 @@ class TemporaryStorage {
         return storage.expire({ key: prefix + key, expirationDelaySeconds });
       },
 
+      increment(key) {
+        return storage.increment({ key: prefix + key });
+      },
+
+      decrement(key) {
+        return storage.decrement({ key: prefix + key });
+      },
+
       ttl(key) {
         return storage.ttl(key);
       },
