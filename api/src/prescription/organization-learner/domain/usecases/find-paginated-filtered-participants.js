@@ -1,3 +1,5 @@
+import { ORGANIZATION_FEATURE } from '../../../../shared/domain/constants.js';
+
 const findPaginatedFilteredParticipants = async function ({
   organizationId,
   filters,
@@ -7,14 +9,12 @@ const findPaginatedFilteredParticipants = async function ({
   organizationParticipantRepository,
   organizationLearnerImportFormatRepository,
   organizationFeaturesAPI,
+  organizationLearnerFeatureRepository,
 }) {
   const organizationFeatures = await organizationFeaturesAPI.getAllFeaturesFromOrganization(organizationId);
 
   if (organizationFeatures.hasLearnersImportFeature) {
     const importFormat = await organizationLearnerImportFormatRepository.get(organizationId);
-
-    // TODO récupérer le featureId qui nous intéresse, pour l'oralization activé
-    // TODO Branger le organizationLearnerFeatureRepository pour récupérer les organizationLearners concerné par la feature
 
     const { organizationParticipants, meta } =
       await organizationParticipantRepository.findPaginatedFilteredImportedParticipants({
@@ -26,23 +26,62 @@ const findPaginatedFilteredParticipants = async function ({
         page,
       });
 
-    // TODO Si oralization activée pour l'orga, décorer la liste des organizationPArticipants avec l'info
-
     meta.headingCustomColumns = importFormat.columnsToDisplay;
-    if (organizationFeatures.hasOralizationFeature) {
-      meta.headingCustomColumns.push('ORALIZATION');
-    }
     meta.customFilters = importFormat.filtersToDisplay;
 
+    if (organizationFeatures.hasOralizationFeature) {
+      return await _addOralizationInformations({
+        organizationId,
+        meta,
+        organizationParticipants,
+        organizationLearnerFeatureRepository,
+      });
+    }
     return { organizationParticipants, meta };
-  } else {
-    return organizationParticipantRepository.findPaginatedFilteredParticipants({
-      organizationId,
-      filters,
-      sort,
-      page,
-    });
   }
+
+  return organizationParticipantRepository.findPaginatedFilteredParticipants({
+    organizationId,
+    filters,
+    sort,
+    page,
+  });
 };
+
+async function _addOralizationInformations({
+  organizationId,
+  meta,
+  organizationParticipants,
+  organizationLearnerFeatureRepository,
+}) {
+  meta.headingCustomColumns.push('ORALIZATION');
+  return {
+    meta,
+    organizationParticipants: await _addOralizationInformationToParticipants({
+      organizationId,
+      organizationParticipants,
+      organizationLearnerFeatureRepository,
+    }),
+  };
+}
+
+async function _addOralizationInformationToParticipants({
+  organizationId,
+  organizationParticipants,
+  organizationLearnerFeatureRepository,
+}) {
+  const learnersWithOralizationFeature = await organizationLearnerFeatureRepository.getLearnersByFeature({
+    organizationId,
+    featureKey: ORGANIZATION_FEATURE.ORALIZATION,
+  });
+  return organizationParticipants?.map((participant) => {
+    const hasOralization = learnersWithOralizationFeature.some(
+      (learnerWithOralization) => learnerWithOralization.id === participant.id,
+    );
+    participant.extraColumns['ORALIZATION'] = hasOralization;
+
+    return participant;
+  });
+}
 
 export { findPaginatedFilteredParticipants };

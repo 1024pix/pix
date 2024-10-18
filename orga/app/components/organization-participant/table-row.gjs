@@ -1,10 +1,10 @@
 import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
-import { on } from '@ember/modifier';
-import { LinkTo } from '@ember/routing';
-import { service } from '@ember/service';
+import {on} from '@ember/modifier';
+import {LinkTo} from '@ember/routing';
+import {service} from '@ember/service';
 import Component from '@glimmer/component';
 import dayjs from 'dayjs';
-import { t } from 'ember-intl';
+import {t} from 'ember-intl';
 
 import CertificabilityCell from '../certificability/cell';
 import LastParticipationDateTooltip from '../ui/last-participation-date-tooltip';
@@ -65,8 +65,10 @@ export default class TableRow extends Component {
         {{/if}}
       </td>
       <td class="ellipsis" title={{@participant.firstName}}>{{@participant.firstName}}</td>
-      {{#each @customRows as |key|}}
-        <td>{{this.getCustomRowData @participant.extraColumns key}}</td>
+      {{#each @customCells as |customCell|}}
+        <td>
+          {{customCell}}
+        </td>
       {{/each}}
       {{#unless this.currentUser.canAccessMissionsPage}}
         <td class="table__column--center">

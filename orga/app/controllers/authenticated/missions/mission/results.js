@@ -13,11 +13,11 @@ export default class MissionResultsController extends Controller {
   @tracked divisions = [];
   @tracked results = [];
   @tracked resultOptions = [
-    { value: 'reached', label: this.translateResultOptionKey('reached') },
-    { value: 'not-reached', label: this.translateResultOptionKey('not-reached') },
-    { value: 'exceeded', label: this.translateResultOptionKey('exceeded') },
-    { value: 'partially-reached', label: this.translateResultOptionKey('partially-reached') },
     { value: 'no-result', label: this.translateResultOptionKey('no-result') },
+    { value: 'not-reached', label: this.translateResultOptionKey('not-reached') },
+    { value: 'partially-reached', label: this.translateResultOptionKey('partially-reached') },
+    { value: 'reached', label: this.translateResultOptionKey('reached') },
+    { value: 'exceeded', label: this.translateResultOptionKey('exceeded') },
   ];
   @tracked name = '';
 

@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 import { databaseBuffer } from '../../../database-buffer.js';
-import { buildOrganizationLearner } from '../../build-organization-learner.js';
 import { buildFeature } from '../../build-feature.js';
+import { buildOrganizationLearner } from '../../build-organization-learner.js';
 
 const buildOrganizationLearnerFeature = function ({
   id = databaseBuffer.getNextId(),

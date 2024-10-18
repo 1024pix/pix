@@ -241,7 +241,7 @@
       "field": {
         "birthdate": "Date de naissance",
         "division": "Classe",
-        "oralization": "Oralisation"
+        "oralization": "Lecture de la consigne"
       }
     },
     "loading": "Chargement en cours",
@@ -1111,7 +1111,13 @@
         },
         "description": "Tableau des participants trié par nom.",
         "empty": "Aucun participant",
-        "row-title": "Participant"
+        "row-title": "Participant",
+        "row-value": {
+          "oralization": {
+            "false": "Désactivée",
+            "true": "Activée"
+          }
+        }
       }
     },
     "organization-participants-import": {
