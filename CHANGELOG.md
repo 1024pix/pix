@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v4.227.0 (18/10/2024)
+
+
+### :rocket: Amélioration
+- [#10330](https://github.com/1024pix/pix/pull/10330) [FEATURE] :art: Légère reprise d'une phrase de fin de mission (pix-14822).
+- [#10348](https://github.com/1024pix/pix/pull/10348) [FEATURE] Bloquer le candidat pendant la certification si une alerte d'extension existe (PIX-14732).
+- [#10362](https://github.com/1024pix/pix/pull/10362) [FEATURE] Ajouter une icône de rafraîchissement sur le bouton de l'écran d'extension.
+- [#10357](https://github.com/1024pix/pix/pull/10357) [FEATURE] Compléter la page de non détection de l'extension (PIX-14726).
+- [#10337](https://github.com/1024pix/pix/pull/10337) [FEATURE] Permettre au surveillant de traiter un signalement d'extension sur Pix Certif (PIX-14820).
+- [#10353](https://github.com/1024pix/pix/pull/10353) [FEATURE] Ajoute le suivi du nombre d'answer jobs par utilisateur dans redis (PIX-14878).
+- [#10327](https://github.com/1024pix/pix/pull/10327) [FEATURE] Afficher un menu Élèves personnalisé pour les écoles (PIX-13536).
+- [#10307](https://github.com/1024pix/pix/pull/10307) [FEATURE] Ajout de la nouvelle page d'inscription Pix App (PIX-14154).
+- [#10351](https://github.com/1024pix/pix/pull/10351) [FEATURE] Afficher dans le bandeau "Certification" l'éligibilité au niveau N-1 (PIX-14870).
+
+### :building_construction: Tech
+- [#10356](https://github.com/1024pix/pix/pull/10356) [TECH] Migrer la route  `createTargetProfile` dans le BC Prescription Target Profile (PIX-14918).
+- [#10331](https://github.com/1024pix/pix/pull/10331) [TECH] Mise à jour de webpack et un plugin babel (pix-14825).
+
+### :bug: Correction
+- [#10361](https://github.com/1024pix/pix/pull/10361) [BUGFIX] valide que le code campagne ne contient pas de caractère utf8 bizarre (pix-14718).
+- [#10291](https://github.com/1024pix/pix/pull/10291) [BUGFIX] Rendre plus résistante la gestion d'erreur de la création de comptes côté API (PIX-14736).
+- [#10350](https://github.com/1024pix/pix/pull/10350) [BUGFIX] Éviter la création mutltiple de lot de place lors du clique sur le bouton valider (PIX-14821).
+
 ## v4.226.0 (17/10/2024)
 
 
