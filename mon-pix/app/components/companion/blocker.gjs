@@ -1,5 +1,6 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -55,7 +56,10 @@ export default class CompanionBlocker extends Component {
               @variant="secondary"
               @triggerAction={{this.refreshPage}}
               class="companion-blocker-list__refresh-button"
-            >{{t "common.actions.refresh-page"}}</PixButton>
+            >
+              <PixIcon @name="refresh" @ariaHidden={{true}} class="companion-blocker-refresh-button__icon" />
+              {{t "common.actions.refresh-page"}}
+            </PixButton>
           </li>
         </ul>
       </section>

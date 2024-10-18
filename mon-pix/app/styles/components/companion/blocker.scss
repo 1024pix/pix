@@ -33,5 +33,26 @@
     color: var(--pix-neutral-0);
     background-color: var(--pix-certif-500);
     border: 2px solid var(--pix-neutral-0);
+
+    &:hover {
+      > svg {
+        fill: var(--pix-primary-700);
+      }
+    }
+
+    &:focus {
+      > svg {
+        fill: var(--pix-primary-900);
+      }
+    }
+  }
+}
+
+.companion-blocker-refresh-button {
+  &__icon {
+    width: 2rem;
+    height: 1rem;
+    padding-right: var(--pix-spacing-1x);
+    fill: var(--pix-neutral-0);
   }
 }
