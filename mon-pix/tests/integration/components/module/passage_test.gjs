@@ -49,7 +49,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     assert.dom(screen.queryByRole('button', { name: 'Continuer' })).doesNotExist();
   });
 
-  module('When a grain contains non existing elements', function () {
+  module('when a grain contains non existing elements', function () {
     test('should not display the grain if it contains only non existing elements', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -160,7 +160,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     assert.dom(screen.queryByRole('button', { name: 'Continuer' })).exists({ count: 1 });
   });
 
-  module('when user click on skip button', function () {
+  module('when user clicks on skip button', function () {
     test('should display next grain', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -223,7 +223,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
-  module('when user click on continue button', function (hooks) {
+  module('when user clicks on continue button', function (hooks) {
     let continueButtonName;
     hooks.beforeEach(function () {
       continueButtonName = t('pages.modulix.buttons.grain.continue');
@@ -321,7 +321,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
-  module('when user click on an answerable element verify button', function () {
+  module('when user clicks on an answerable element verify button', function () {
     test('should save the element answer', async function (assert) {
       // given
       const metrics = this.owner.lookup('service:metrics');
@@ -401,7 +401,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
-  module('when user click on an answerable element retry button', function () {
+  module('when user clicks on an answerable element retry button', function () {
     test('should push metrics event', async function (assert) {
       // given
       const metrics = this.owner.lookup('service:metrics');
@@ -504,7 +504,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
-  module('when user opens an video transcription modal', function () {
+  module('when user opens a video transcription modal', function () {
     test('should push metrics event', async function (assert) {
       // given
       const metrics = this.owner.lookup('service:metrics');
@@ -578,7 +578,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
-  module('when user click on next step button', function () {
+  module('when user clicks on next step button', function () {
     test('should push event', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -903,7 +903,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
-  module('When click on terminate button', function () {
+  module('when user clicks on terminate button', function () {
     test('should push an event', async function (assert) {
       // given
       class PassageAdapterStub extends ApplicationAdapter {
