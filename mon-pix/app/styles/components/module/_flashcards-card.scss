@@ -14,6 +14,18 @@
 }
 
 .element-flashcards-card {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: var(--pix-spacing-6x);
+    justify-content: center;
+
+    &--with-image {
+      justify-content: flex-start;
+    }
+  }
+
   &__image {
     display: flex;
     align-items: center;

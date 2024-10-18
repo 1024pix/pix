@@ -12,18 +12,23 @@ export default class ModulixFlashcardsCard extends Component {
 
   <template>
     <div class="element-flashcards-card">
-      {{#if this.currentSide.image}}
-        <div class="element-flashcards-card__image">
-          <img src={{this.currentSide.image.url}} alt="" />
-        </div>
-      {{/if}}
-
-      <div class="element-flashcards-card__text">
-        {{#if (eq @displayedSideName "recto")}}
-          <p class="element-flashcards-card__text--recto">{{this.currentSide.text}}</p>
-        {{else if (eq @displayedSideName "verso")}}
-          {{htmlUnsafe this.currentSide.text}}
+      <div
+        class="element-flashcards-card__content
+          {{if this.currentSide.image 'element-flashcards-card__content--with-image'}}"
+      >
+        {{#if this.currentSide.image}}
+          <div class="element-flashcards-card__image">
+            <img src={{this.currentSide.image.url}} alt="" />
+          </div>
         {{/if}}
+
+        <div class="element-flashcards-card__text">
+          {{#if (eq @displayedSideName "recto")}}
+            <p class="element-flashcards-card__text--recto">{{this.currentSide.text}}</p>
+          {{else if (eq @displayedSideName "verso")}}
+            {{htmlUnsafe this.currentSide.text}}
+          {{/if}}
+        </div>
       </div>
 
       <div class="element-flashcards-card__footer element-flashcards-card__footer--{{@displayedSideName}}">
