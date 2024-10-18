@@ -45,10 +45,12 @@ export default class SignupForm extends Component {
 
   @action
   async handleSignup(event) {
+    console.log('IN HANDLE SIGNUP');
     if (event) event.preventDefault();
     const { user } = this.args;
 
     if (!this.validation.isValid) return;
+    console.log('FORM IS VALID');
 
     this.isLoading = true;
 

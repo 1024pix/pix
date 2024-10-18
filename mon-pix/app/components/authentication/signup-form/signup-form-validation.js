@@ -75,7 +75,7 @@ export class SignupFormValidation {
       this.email.status,
       this.password.status,
       this.cgu.status,
-    ].every((status) => status !== 'error');
+    ].every((status) => status === 'error');
   }
 
   validateField(field, value) {

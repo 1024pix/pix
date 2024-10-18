@@ -150,6 +150,12 @@
         "instructions-label": "Votre mot de passe doit respecter les règles suivantes :",
         "completed-message": "{ rulesCompleted } sur { rulesCount } complétées."
       },
+      "password-reset-form": {
+        "actions": {
+          "submit": "Je réinitialise mon mot de passe"
+        },
+        "password-input-label": "Saisissez votre nouveau mot de passe"
+      },
       "signup-form": {
         "actions": {
           "submit": "Je m'inscris"
