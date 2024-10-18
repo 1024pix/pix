@@ -29,7 +29,7 @@ module('Acceptance | Password reset demand form', function (hooks) {
       assert.strictEqual(currentURL(), '/mot-de-passe-oublie');
     });
 
-    test('stays on mot de passe oublié page, and shows success message when email sent correspond to an existing user', async function (assert) {
+    test('stays on "mot de passe oublié" page, and shows success message when email sent correspond to an existing user', async function (assert) {
       // given
       this.server.create('user', {
         id: 1,
