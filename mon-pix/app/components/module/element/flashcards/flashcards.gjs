@@ -57,13 +57,13 @@ export default class ModulixFlashcards extends Component {
   }
 
   @action
-  onAnswer(event) {
+  onSelfAssessment(event) {
     const answerData = {
       userResponse: [event.target.dataset.label],
       element: this.currentCard,
       elementType: 'flashcards',
     };
-    this.args.onFlashcardsAnswer(answerData);
+    this.args.onSelfAssessment(answerData);
     this.goToNextCard();
   }
 
@@ -101,7 +101,7 @@ export default class ModulixFlashcards extends Component {
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--no"
                 type="button"
                 data-label="no"
-                {{on "click" this.onAnswer}}
+                {{on "click" this.onSelfAssessment}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.notAtAll"}}
               </button>
@@ -109,7 +109,7 @@ export default class ModulixFlashcards extends Component {
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--almost"
                 type="button"
                 data-label="almost"
-                {{on "click" this.onAnswer}}
+                {{on "click" this.onSelfAssessment}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.almost"}}
               </button>
@@ -117,7 +117,7 @@ export default class ModulixFlashcards extends Component {
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--yes"
                 type="button"
                 data-label="yes"
-                {{on "click" this.onAnswer}}
+                {{on "click" this.onSelfAssessment}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.yes"}}
               </button>

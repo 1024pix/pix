@@ -174,8 +174,8 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
       assert.ok(screen.getByText(t('pages.modulix.buttons.flashcards.answers.notAtAll')));
     });
 
-    module('then user gives an answer', function () {
-      test('should display the next card and send answer', async function (assert) {
+    module('when the user self-assesses their response', function () {
+      test('should display the next card and send self-assessment', async function (assert) {
         // given
         const firstCard = {
           id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
@@ -215,12 +215,12 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
           cards: [firstCard, secondCard],
         };
 
-        const onFlashcardsAnswerStub = sinon.stub();
+        const onSelfAssessmentStub = sinon.stub();
 
         // when
         const screen = await render(
           <template>
-            <ModulixFlashcards @flashcards={{flashcards}} @onFlashcardsAnswer={{onFlashcardsAnswerStub}} />
+            <ModulixFlashcards @flashcards={{flashcards}} @onSelfAssessment={{onSelfAssessmentStub}} />
           </template>,
         );
         await clickByName(t('pages.modulix.buttons.flashcards.start'));
@@ -230,7 +230,7 @@ module('Integration | Component | Module | Flashcards', function (hooks) {
         // then
         assert.ok(screen.getByText('Qui a écrit le Dormeur du Val ?'));
         assert.ok(screen.getByText(t('pages.modulix.flashcards.position', { currentCardPosition: 2, totalCards: 2 })));
-        assert.true(onFlashcardsAnswerStub.calledOnce);
+        assert.true(onSelfAssessmentStub.calledOnce);
       });
     });
   });

@@ -432,8 +432,8 @@ module('Integration | Component | Module | Passage', function (hooks) {
     });
   });
 
-  module('when user click on an answerable element auto-evaluation button', function () {
-    test('should save the element answer', async function (assert) {
+  module('when user clicks on a flashcards element self-assessement button', function () {
+    test('should save the self-assessment', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const firstCard = {
