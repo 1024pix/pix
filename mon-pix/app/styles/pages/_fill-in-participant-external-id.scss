@@ -38,50 +38,14 @@
   align-items: center;
 }
 
-.fill-in-participant-external-id-form__section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  @include device-is('tablet') {
-    flex-direction: row;
-    align-items: flex-end;
-  }
-}
-
-.fill-in-participant-external-id__form label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: var(--pix-font-bold);
-  font-size: 0.938rem;
-}
-
-.fill-in-participant-external-id__form-field input {
-  width: 232px;
-  height: 43px;
-  margin-right: var(--pix-spacing-2x);
-  padding: 4px 8px;
-  border: solid 2px var(--pix-neutral-100);
-  border-radius: 3px;
-  outline: none;
-}
-
-.fill-in-participant-external-id__button {
-  display: inline-block;
-}
-
-.fill-in-participant-external-id__cancel-button {
-  margin-top: 50px;
-}
 
 .fill-in-participant-external-id__help {
   margin-top: 32px;
 }
 
-/* ------------------------ ERROR ------------------------ */
-
-.fill-in-participant-external-id__form__error-message {
-  margin-top: 5px;
-  color: var(--pix-error-500);
-  font-size: 0.75rem;
+.fill-in-participant-external-id-form__buttonbar {
+  display: flex;
+  flex-direction: row;
+  gap: var(--pix-spacing-2x);
+  margin-top: 50px;
 }

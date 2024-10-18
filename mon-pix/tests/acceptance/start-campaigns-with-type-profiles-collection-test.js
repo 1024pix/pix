@@ -37,7 +37,11 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
         module('When participant external id is not set in the url', function () {
           test('should redirect to send profile page after completion of external id', async function (assert) {
             // then
-            campaign = server.create('campaign', { type: PROFILES_COLLECTION, idPixLabel: 'Adresse e-mail' });
+            campaign = server.create('campaign', {
+              type: PROFILES_COLLECTION,
+              idPixLabel: 'Adresse e-mail',
+              idPixType: 'EMAIL',
+            });
             const screen = await startCampaignByCode(campaign.code);
             await fillIn(screen.getByRole('textbox', { name: FIRST_NAME_INPUT_LABEL }), campaignParticipant.firstName);
             await fillIn(screen.getByRole('textbox', { name: LAST_NAME_INPUT_LABEL }), campaignParticipant.lastName);
@@ -47,7 +51,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
             await click(screen.getByRole('button', { name: "Je m'inscris" }));
 
             // when
-            await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'monmail@truc.fr');
+            await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail/ }), 'monmail@truc.fr');
             await click(screen.getByRole('button', { name: 'Continuer' }));
 
             // then
@@ -196,7 +200,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
             await click(screen.getByRole('button', { name: "C'est parti !" }));
             await click(screen.getByRole('button', { name: 'Associer' }));
 
-            await fillIn(screen.getByRole('textbox', { name: 'nom de naissance de maman' }), 'truc');
+            await fillIn(screen.getByRole('textbox', { name: /nom de naissance de maman/ }), 'truc');
 
             // when
             await click(screen.getByRole('button', { name: 'Continuer' }));
@@ -262,7 +266,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
             const screen = await startCampaignByCode(campaign.code);
 
             // when
-            await fillIn(screen.getByRole('textbox', { name: 'nom de naissance de maman' }), 'truc');
+            await fillIn(screen.getByRole('textbox', { name: /nom de naissance de maman/ }), 'truc');
             await click(screen.getByRole('button', { name: 'Continuer' }));
 
             // then
