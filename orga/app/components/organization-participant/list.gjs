@@ -1,10 +1,11 @@
-import { fn } from '@ember/helper';
-import { action, get } from '@ember/object';
-import { guidFor } from '@ember/object/internals';
-import { inject as service } from '@ember/service';
+import {fn} from '@ember/helper';
+import {action, get} from '@ember/object';
+import {guidFor} from '@ember/object/internals';
+import {inject as service} from '@ember/service';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-import { t } from 'ember-intl';
+import {tracked} from '@glimmer/tracking';
+import dayjs from 'dayjs';
+import {t} from 'ember-intl';
 
 import InElement from '../in-element';
 import SelectableList from '../selectable-list';
@@ -19,6 +20,7 @@ export default class List extends Component {
   @tracked showDeletionModal = false;
 
   @service currentUser;
+  @service intl;
 
   get showCheckbox() {
     return this.currentUser.isAdminInOrganization && !this.currentUser.hasLearnerImportFeature;
@@ -44,10 +46,35 @@ export default class List extends Component {
     return Boolean(this.args.participants.length);
   }
 
+  displayDate(date) {
+    return dayjs(date).format('DD/MM/YYYY');
+  }
+
   get customColumns() {
     if (!this.currentUser.hasLearnerImportFeature || !this.args.participants.meta) return [];
 
     return this.args.participants.meta.headingCustomColumns;
+  }
+
+  getExtraColumnRowValue(extraColumnName, participant) {
+    if (extraColumnName === 'ORALIZATION') {
+      return this.intl.t(
+        `pages.organization-participants.table.row-value.oralization.${participant.extraColumns[extraColumnName]}`,
+      );
+    } else {
+      if (dayjs(participant.extraColumns[extraColumnName]).isValid()) {
+        return this.displayDate(participant.extraColumns[extraColumnName]);
+      }
+    }
+    return participant.extraColumns[extraColumnName];
+  }
+
+  @action
+  extraColumnRowInfo(participant) {
+    if (!this.currentUser.hasLearnerImportFeature || !this.args.participants.meta) return [];
+
+    return Object.keys(participant.extraColumns)
+      .map((extraColumnName) => this.getExtraColumnRowValue(extraColumnName, participant));
   }
 
   get customFilters() {
@@ -177,7 +204,7 @@ export default class List extends Component {
                 @isParticipantSelected={{isParticipantSelected}}
                 @onToggleParticipant={{fn this.addStopPropagationOnFunction toggleParticipant}}
                 @onClickLearner={{fn @onClickLearner participant.id}}
-                @customRows={{this.customColumns}}
+                @customCells={{this.extraColumnRowInfo participant}}
                 @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
                 @hasOrganizationParticipantPage={{@hasOrganizationParticipantPage}}
               />
