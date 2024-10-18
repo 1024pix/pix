@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as organizationSerializer from '../../../organizational-entities/infrastructure/serializers/jsonapi/organization-serializer.js';
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { escapeFileName } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases as prescriptionTargetProfileUsecases } from '../domain/usecases/index.js';
 import * as targetProfileAttachOrganizationSerializer from '../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
@@ -143,6 +144,17 @@ const copyTargetProfile = withTransaction(async (request) => {
   return copiedTargetProfileId;
 });
 
+const createTargetProfile = async function (request, _, dependencies = { targetProfileSerializer }) {
+  const targetProfileCreationCommand = dependencies.targetProfileSerializer.deserialize(request.payload);
+
+  const targetProfileId = await DomainTransaction.execute(async () => {
+    return prescriptionTargetProfileUsecases.createTargetProfile({
+      targetProfileCreationCommand,
+    });
+  });
+  return dependencies.targetProfileSerializer.serializeId(targetProfileId);
+};
+
 const findTargetProfileSummariesForAdmin = async function (
   request,
   _,
@@ -178,6 +190,7 @@ const findPaginatedFilteredTargetProfileSummariesForAdmin = async function (
 };
 
 const targetProfileController = {
+  createTargetProfile,
   outdateTargetProfile,
   markTargetProfileAsSimplifiedAccess,
   attachTargetProfiles,

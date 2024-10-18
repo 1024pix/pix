@@ -432,10 +432,6 @@ function _mapToHttpError(error) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
 
-  if (error instanceof DomainErrors.TargetProfileCannotBeCreated) {
-    return new HttpErrors.UnprocessableEntityError(error.message);
-  }
-
   if (error instanceof DomainErrors.InvalidMembershipOrganizationRoleError) {
     return new HttpErrors.BadRequestError(error.message);
   }

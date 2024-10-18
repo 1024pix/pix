@@ -5,54 +5,6 @@ import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usec
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | target-profile-controller', function () {
-  describe('#createTargetProfile', function () {
-    it('should succeed', async function () {
-      // given
-      sinon.stub(usecases, 'createTargetProfile');
-      const targetProfileCreationCommand = {
-        name: 'targetProfileName',
-        category: 'OTHER',
-        description: 'coucou maman',
-        comment: 'coucou papa',
-        imageUrl: 'http://some/image.ok',
-        ownerOrganizationId: null,
-        tubes: [{ id: 'recTube1', level: '5' }],
-      };
-      sinon.stub(DomainTransaction, 'execute').callsFake(() => {
-        return usecases.createTargetProfile({
-          targetProfileCreationCommand,
-        });
-      });
-      usecases.createTargetProfile.withArgs({ targetProfileCreationCommand }).resolves(123);
-      const request = {
-        payload: {
-          data: {
-            attributes: {
-              name: 'targetProfileName',
-              category: 'OTHER',
-              description: 'coucou maman',
-              comment: 'coucou papa',
-              'image-url': 'http://some/image.ok',
-              'owner-organization-id': null,
-              tubes: [{ id: 'recTube1', level: '5' }],
-            },
-          },
-        },
-      };
-
-      // when
-      const response = await targetProfileController.createTargetProfile(request, hFake);
-
-      // then
-      expect(response).to.deep.equal({
-        data: {
-          type: 'target-profiles',
-          id: '123',
-        },
-      });
-    });
-  });
-
   describe('#updateTargetProfile', function () {
     context('successful case', function () {
       it('should succeed', async function () {
