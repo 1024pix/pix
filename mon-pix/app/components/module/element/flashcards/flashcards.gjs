@@ -6,6 +6,7 @@ import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import ModulixFlashcardsCard from 'mon-pix/components/module/element/flashcards/flashcards-card';
 import ModulixFlashcardsIntroCard from 'mon-pix/components/module/element/flashcards/flashcards-intro-card';
+import { fn } from "@ember/helper";
 
 export default class ModulixFlashcards extends Component {
   @tracked
@@ -51,10 +52,19 @@ export default class ModulixFlashcards extends Component {
     this.displayedSideName = this.displayedSideName === 'recto' ? 'verso' : 'recto';
   }
 
-  @action
   goToNextCard() {
     this.currentCardIndex++;
     this.displayedSideName = 'recto';
+  }
+
+  @action
+  onSelfAssessment(userAssessment) {
+    const answerData = {
+      userResponse: [userAssessment],
+      cardId: this.currentCard.id,
+    };
+    this.args.onSelfAssessment(answerData);
+    this.goToNextCard();
   }
 
   <template>
@@ -90,21 +100,21 @@ export default class ModulixFlashcards extends Component {
               <button
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--no"
                 type="button"
-                {{on "click" this.goToNextCard}}
+                {{on "click" (fn this.onSelfAssessment "no")}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.notAtAll"}}
               </button>
               <button
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--almost"
                 type="button"
-                {{on "click" this.goToNextCard}}
+                {{on "click" (fn this.onSelfAssessment "almost")}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.almost"}}
               </button>
               <button
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--yes"
                 type="button"
-                {{on "click" this.goToNextCard}}
+                {{on "click" (fn this.onSelfAssessment "yes")}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.yes"}}
               </button>

@@ -132,6 +132,19 @@ export default class ModulePassage extends Component {
   }
 
   @action
+  async onSelfAssessment(selfAssessmentData) {
+    await this.store
+      .createRecord('element-answer', {
+        userResponse: selfAssessmentData.userResponse,
+        elementId: selfAssessmentData.cardId,
+        passage: this.args.passage,
+      })
+      .save({
+        adapterOptions: { passageId: this.args.passage.id },
+      });
+  }
+
+  @action
   async onElementRetry(answerData) {
     this.metrics.add({
       event: 'custom-event',
@@ -204,6 +217,7 @@ export default class ModulePassage extends Component {
             @onImageAlternativeTextOpen={{this.onImageAlternativeTextOpen}}
             @onVideoTranscriptionOpen={{this.onVideoTranscriptionOpen}}
             @onElementAnswer={{this.onElementAnswer}}
+            @onSelfAssessment={{this.onSelfAssessment}}
             @onStepperNextStep={{this.onStepperNextStep}}
             @canMoveToNextGrain={{this.grainCanMoveToNextGrain index}}
             @onGrainContinue={{this.onGrainContinue}}
