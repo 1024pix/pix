@@ -55,6 +55,21 @@
     </div>
   </dl>
 
+  {{#if this.isPixCompanionExtensionEnabled}}
+    <PixMessage @type="info" @withIcon={{true}}>
+      {{t "pages.session-supervising.header.companion.message"}}
+      <a
+        href={{this.pixCompanionDocumentationUrl}}
+        target="_blank"
+        class="link session-supervising-header__companion-link"
+        rel="noopener noreferrer"
+      >
+        {{t "pages.session-supervising.header.companion.link"}}
+        <PixIcon @name="openNew" @alternativeText={{t "navigation.external-link-title"}} />
+      </a>
+    </PixMessage>
+  {{/if}}
+
   <SessionSupervising::ConfirmationModal
     @showModal={{this.isConfirmationModalDisplayed}}
     @closeConfirmationModal={{this.closeConfirmationModal}}
