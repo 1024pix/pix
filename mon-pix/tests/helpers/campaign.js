@@ -19,7 +19,7 @@ export async function resumeCampaignOfTypeAssessmentByCode(campaignCode, hasExte
   await visit(`/campagnes/${campaignCode}`);
   await clickByLabel('Je commence');
   if (hasExternalParticipantId) {
-    await fillIn('#id-pix-label', 'monmail@truc.fr');
+    await fillIn('#external-id', 'monmail@truc.fr');
     await clickByLabel('Continuer');
   }
   await clickByLabel('Ignorer');
@@ -29,7 +29,7 @@ export async function resumeCampaignOfTypeProfilesCollectionByCode(campaignCode,
   await visit(`/campagnes/${campaignCode}`);
   await clickByLabel("C'est parti !");
   if (hasExternalParticipantId) {
-    await fillIn('#id-pix-label', 'monmail@truc.fr');
+    await fillIn('#external-id', 'monmail@truc.fr');
     await clickByLabel('Continuer');
   }
 }
