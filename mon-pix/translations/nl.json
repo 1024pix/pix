@@ -1213,8 +1213,10 @@
         "continue": "Ga verder met"
       },
       "errors": {
-        "max-length-id-pix-label": "Uw { idPixLabel } mag niet langer zijn dan 255 tekens.",
-        "missing-id-pix-label": "Voer uw { idPixLabel } in."
+        "invalid-external-id": "Uw { idPixLabel } is ongeldig.",
+        "invalid-external-id-email": "Het e-mailadres is ongeldig.",
+        "max-length-external-id": "Uw { idPixLabel } mag niet langer zijn dan 255 tekens.",
+        "missing-external-id": "Voer uw { idPixLabel } in."
       },
       "first-title": "Voordat u begint",
       "title": "Mijn login invoeren"

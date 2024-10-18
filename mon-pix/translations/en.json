@@ -1238,8 +1238,10 @@
         "continue": "Continue"
       },
       "errors": {
-        "max-length-id-pix-label": "Your { idPixLabel } must not exceed 255 characters.",
-        "missing-id-pix-label": "Please enter your { idPixLabel }."
+        "invalid-external-id": "The { idPixLabel } is invalid.",
+        "invalid-external-id-email": "The e-mail address is invalid.",
+        "max-length-external-id": "Your { idPixLabel } must not exceed 255 characters.",
+        "missing-external-id": "Please enter your { idPixLabel }."
       },
       "first-title": "Before starting"
     },

@@ -54,14 +54,25 @@ export default class Entrance extends Route {
       if (!this.currentUser.user?.hasAssessmentParticipations) {
         this.currentUser.load();
       }
-
+      this.campaignStorage.set(campaign.code, 'error', null);
+      this.campaignStorage.set(campaign.code, 'previousParticipantExternalId', null);
       this.campaignStorage.set(campaign.code, 'hasParticipated', true);
     } catch (err) {
       const error = get(err, 'errors[0]', {});
       campaignParticipation.deleteRecord();
 
+      if (error.status == 422) {
+        this.campaignStorage.set(campaign.code, 'participantExternalId', null);
+        this.campaignStorage.set(campaign.code, 'error', error.detail);
+        this.campaignStorage.set(campaign.code, 'previousParticipantExternalId', participantExternalId);
+        return this.router.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
+      }
+
       if (error.status == 400 && error.detail.includes('participant-external-id')) {
         this.campaignStorage.set(campaign.code, 'participantExternalId', null);
+        this.campaignStorage.set(campaign.code, 'previousParticipantExternalId', participantExternalId);
+        this.campaignStorage.set(campaign.code, 'error', 'INVALID_EXTERNAL_ID');
+
         return this.router.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
       }
       if (error.detail === 'ORGANIZATION_LEARNER_HAS_ALREADY_PARTICIPATED') {
@@ -73,7 +84,7 @@ export default class Entrance extends Route {
   }
 
   async shouldBeginCampaignParticipation(campaign) {
-    const ongoingCampaignParticipation = await this.store.queryRecord('campaignParticipation', {
+    const ongoingCampaignParticipation = await this.store.queryRecord('campaign-participation', {
       campaignId: campaign.id,
       userId: this.currentUser.user.id,
     });

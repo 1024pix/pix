@@ -1,4 +1,5 @@
 import { CampaignParticipant } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
+import { CampaignExternalIdTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import {
   AlreadyExistingCampaignParticipationError,
   NotEnoughDaysPassedBeforeResetCampaignParticipationError,
@@ -370,6 +371,31 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
 
         expect(error).instanceof(EntityValidationError);
+      });
+
+      it('should throw an error if participantExternalId is not a valid email', async function () {
+        const campaignToStartParticipationEmail = domainBuilder.buildCampaignToStartParticipation({
+          idPixLabel: 'email',
+          idPixType: CampaignExternalIdTypes.EMAIL,
+        });
+
+        const campaignParticipant = new CampaignParticipant({
+          campaignToStartParticipation: campaignToStartParticipationEmail,
+          userIdentity,
+          organizationLearner: {
+            id: null,
+            hasParticipated: false,
+          },
+        });
+
+        const error = await catchErr(
+          campaignParticipant.start,
+          campaignParticipant,
+        )({ participantExternalId: "ceci n'est pas un email" });
+
+        expect(error).instanceof(EntityValidationError);
+        const [errorDetail] = error.invalidAttributes;
+        expect(errorDetail).to.deep.equal({ attribute: 'participantExternalId', message: 'INVALID_EMAIL' });
       });
 
       it('should get participant external id from parameters', async function () {

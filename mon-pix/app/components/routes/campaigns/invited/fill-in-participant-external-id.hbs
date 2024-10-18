@@ -11,19 +11,19 @@
   </p>
 
   <form {{on "submit" this.submit}} class="fill-in-participant-external-id__form">
-    <div class="fill-in-participant-external-id-form__section">
-      <div class="fill-in-participant-external-id__form-field">
-        <label for="id-pix-label">{{@campaign.idPixLabel}}</label>
-        <Input required id="id-pix-label" @value={{this.participantExternalId}} />
-      </div>
-
-      <PixButton @type="submit" class="fill-in-participant-external-id__button">
-        {{t "pages.fill-in-participant-external-id.buttons.continue"}}
-      </PixButton>
-      {{#if this.errorMessage}}
-        <div class="fill-in-participant-external-id__form__error-message">{{this.errorMessage}}</div>
-      {{/if}}
-    </div>
+    <PixInput
+      @id="external-id"
+      @value={{this.participantExternalId}}
+      @errorMessage={{this.errorMessage}}
+      @validationStatus={{if this.errorMessage "error"}}
+      @requiredLabel={{true}}
+      {{on "change" this.updateParticipantExternalId}}
+      @subLabel={{this.idPixInputSubLabel}}
+      type={{this.idPixInputType}}
+      aria-autocomplete="none"
+    >
+      <:label>{{@campaign.idPixLabel}}</:label>
+    </PixInput>
 
     {{#if @campaign.externalIdHelpImageUrl}}
       <img
@@ -33,14 +33,13 @@
       />
     {{/if}}
 
-    <PixButton
-      @variant="secondary"
-      @triggerAction={{this.cancel}}
-      @size="large"
-      @loadingColor="white"
-      class="fill-in-participant-external-id__cancel-button"
-    >
-      {{t "pages.fill-in-participant-external-id.buttons.cancel"}}
-    </PixButton>
+    <div class="fill-in-participant-external-id-form__buttonbar">
+      <PixButton @type="submit" class="fill-in-participant-external-id__button">
+        {{t "pages.fill-in-participant-external-id.buttons.continue"}}
+      </PixButton>
+      <PixButton @variant="secondary" @triggerAction={{this.cancel}} @loadingColor="white">
+        {{t "pages.fill-in-participant-external-id.buttons.cancel"}}
+      </PixButton>
+    </div>
   </form>
 </main>

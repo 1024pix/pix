@@ -50,7 +50,7 @@ export default class EntryPoint extends Route {
     let hasParticipated = false;
     if (this.session.isAuthenticated) {
       const currentUserId = this.currentUser.user.id;
-      const ongoingCampaignParticipation = await this.store.queryRecord('campaignParticipation', {
+      const ongoingCampaignParticipation = await this.store.queryRecord('campaign-participation', {
         campaignId: campaign.id,
         userId: currentUserId,
       });
