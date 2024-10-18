@@ -31,13 +31,14 @@ describe('Unit | Application| API | Models | OrganizationLearnerWithParticipatio
       MEFCode: organizationLearner.MEFCode,
     });
     expect(organizationLearnerWithParticipations.organization).to.deep.equal({
+      id: organization.id,
       isManagingStudents: organization.isManagingStudents,
       tags: tagNames,
       type: organization.type,
     });
     expect(organizationLearnerWithParticipations.campaignParticipations).to.deep.have.members([
-      { targetProfileId: participationsList[0].targetProfileId },
-      { targetProfileId: participationsList[1].targetProfileId },
+      { targetProfileId: participationsList[0].targetProfileId, id: participationsList[0].id },
+      { targetProfileId: participationsList[1].targetProfileId, id: participationsList[1].id },
     ]);
   });
 });

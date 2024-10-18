@@ -4,6 +4,7 @@ import lodash from 'lodash';
 import { PIX_ADMIN } from '../../authorization/domain/constants.js';
 import * as checkUserIsCandidateUseCase from '../../certification/enrolment/application/usecases/check-user-is-candidate.js';
 import * as certificationIssueReportRepository from '../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
+import * as checkCampaignParticipationBelongsToUserUsecase from '../../prescription/campaign/application/usecases/checkCampaignParticipationBelongsToUser.js';
 import * as isSchoolSessionActive from '../../school/application/usecases/is-school-session-active.js';
 import { ForbiddenAccess, NotFoundError } from '../domain/errors.js';
 import { Organization } from '../domain/models/index.js';
@@ -729,6 +730,21 @@ async function checkUserCanDisableHisOrganizationMembership(
   }
 }
 
+async function checkCampaignParticipationBelongsToUser(
+  request,
+  h,
+  dependencies = { checkCampaignParticipationBelongsToUserUsecase },
+) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const { campaignParticipationId } = request.params;
+  await dependencies.checkCampaignParticipationBelongsToUserUsecase.execute({ userId, campaignParticipationId });
+  return h.response(true);
+}
+
 function makeCheckOrganizationHasFeature(featureKey) {
   return async function (request, h, dependencies = { checkOrganizationHasFeatureUseCase }) {
     try {
@@ -764,6 +780,7 @@ const securityPreHandlers = {
   checkSchoolSessionIsActive,
   checkUserBelongsToLearnersOrganization,
   checkUserBelongsToOrganization,
+  checkCampaignParticipationBelongsToUser,
   checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserBelongsToSupOrganizationAndManagesStudents,

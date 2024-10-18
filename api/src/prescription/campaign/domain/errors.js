@@ -52,9 +52,16 @@ class DeletedCampaignError extends DomainError {
   }
 }
 
+class CampaignParticipationDoesNotBelongToUser extends DomainError {
+  constructor(message = "La participation n'est pas liée à l'utilisateur") {
+    super(message);
+  }
+}
+
 export {
   ArchivedCampaignError,
   CampaignCodeFormatError,
+  CampaignParticipationDoesNotBelongToUser,
   CampaignUniqueCodeError,
   DeletedCampaignError,
   IsForAbsoluteNoviceUpdateError,
