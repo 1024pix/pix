@@ -39,6 +39,7 @@ import * as improvementService from '../../../src/evaluation/domain/services/imp
 import { pickChallengeService } from '../../../src/evaluation/domain/services/pick-challenge-service.js';
 import * as scorecardService from '../../../src/evaluation/domain/services/scorecard-service.js';
 import * as stageAndStageAcquisitionComparisonService from '../../../src/evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
+import { answerJobRepository } from '../../../src/evaluation/infrastructure/repositories/answer-job-repository.js';
 import * as badgeCriteriaRepository from '../../../src/evaluation/infrastructure/repositories/badge-criteria-repository.js';
 import * as badgeRepository from '../../../src/evaluation/infrastructure/repositories/badge-repository.js';
 import * as competenceEvaluationRepository from '../../../src/evaluation/infrastructure/repositories/competence-evaluation-repository.js';
@@ -201,6 +202,7 @@ const dependencies = {
   accountRecoveryDemandRepository,
   certificationCompletedJobRepository,
   activityAnswerRepository,
+  answerJobRepository,
   adminMemberRepository,
   algorithmDataFetcherService,
   answerRepository,

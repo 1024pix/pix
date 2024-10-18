@@ -1,4 +1,5 @@
 import { AnswerEvaluationError, EmptyAnswerError } from '../../../src/evaluation/domain/errors.js';
+import { AnswerJob } from '../../../src/quest/domain/models/AnwserJob.js';
 import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 import {
   CertificationEndedByFinalizationError,
@@ -124,6 +125,7 @@ const correctAnswerThenUpdateAssessment = async function ({
   userId,
   locale,
   answerRepository,
+  answerJobRepository,
   assessmentRepository,
   areaRepository,
   challengeRepository,
@@ -255,6 +257,9 @@ const correctAnswerThenUpdateAssessment = async function ({
       assessmentId: assessment.id,
     });
   }
+
+  await answerJobRepository.performAsync(new AnswerJob({ userId }));
+
   return answerSaved;
 };
 
