@@ -10,6 +10,7 @@ const serialize = function ({ participations, pagination }) {
       'lastName',
       'participantExternalId',
       'masteryRate',
+      'evolution',
       'reachedStage',
       'totalStage',
       'prescriberTitle',

@@ -1,5 +1,8 @@
 import * as campaignAssessmentParticipationResultListRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
-import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import {
+  CampaignParticipationStatuses,
+  CampaignTypes,
+} from '../../../../../../src/prescription/shared/domain/constants.js';
 import { databaseBuilder, expect, learningContentBuilder, mockLearningContent } from '../../../../../test-helper.js';
 
 const { STARTED } = CampaignParticipationStatuses;
@@ -382,6 +385,168 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         });
 
         expect(participations[0].masteryRate).to.equal(0.33);
+      });
+    });
+
+    context('evolution', function () {
+      let userId, organizationLearnerId;
+      let organizationId;
+      beforeEach(async function () {
+        userId = databaseBuilder.factory.buildUser({}).id;
+
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+
+        organizationLearnerId = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          firstName: 'Sarah',
+          lastName: 'Croche',
+          organizationId,
+          userId,
+        }).id;
+
+        campaign = databaseBuilder.factory.buildCampaign({
+          type: CampaignTypes.ASSESSMENT,
+          organizationId,
+          multipleSendings: true,
+        });
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+          organizationLearnerId,
+          masteryRate: 0.33,
+          isImproved: false,
+          createdAt: new Date('2024-01-05'),
+          sharedAt: new Date('2024-01-06'),
+          status: CampaignParticipationStatuses.SHARED,
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should compute correct evolution for participations', async function () {
+        // given
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+          organizationLearnerId,
+          masteryRate: 0.66,
+          isImproved: true,
+          createdAt: new Date('2024-01-01'),
+          sharedAt: new Date('2024-01-02'),
+          status: CampaignParticipationStatuses.SHARED,
+        });
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+          organizationLearnerId,
+          masteryRate: 0,
+          isImproved: true,
+          createdAt: new Date('2024-01-03'),
+          sharedAt: new Date('2024-01-04'),
+          status: CampaignParticipationStatuses.SHARED,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+        });
+
+        // then
+        expect(participations[0].evolution).to.equal('increase');
+      });
+
+      it('should return evolution null when previous participation is deleted', async function () {
+        // given
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+          organizationLearnerId,
+          masteryRate: 0,
+          isImproved: true,
+          createdAt: new Date('2024-01-03'),
+          sharedAt: new Date('2024-01-04'),
+          deletedAt: new Date('2024-01-05'),
+          status: CampaignParticipationStatuses.SHARED,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+        });
+
+        // then
+        expect(participations[0].evolution).to.equal(null);
+      });
+
+      it('should return evolution null when participation does not belong to learner', async function () {
+        // given
+        const otherUserId = databaseBuilder.factory.buildUser({}).id;
+
+        const otherOrganizationLearnerId =
+          databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            firstname: 'John',
+            lastname: 'Doe',
+            userId: otherUserId,
+            organizationId,
+          }).id;
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId: otherUserId,
+          organizationLearnerId: otherOrganizationLearnerId,
+          masteryRate: 0,
+          isImproved: false,
+          createdAt: new Date('2024-01-03'),
+          sharedAt: new Date('2024-01-04'),
+          status: CampaignParticipationStatuses.SHARED,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+        });
+
+        // then
+        expect(participations).lengthOf(2);
+        expect(participations[0].evolution).to.equal(null);
+        expect(participations[1].evolution).to.equal(null);
+      });
+
+      it('should return evolution null when learner has 2 participations to different campaigns', async function () {
+        // given
+        const otherCampaign = databaseBuilder.factory.buildCampaign({
+          type: CampaignTypes.ASSESSMENT,
+          organizationId,
+          multipleSendings: true,
+        });
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: otherCampaign.id,
+          userId,
+          organizationLearnerId,
+          masteryRate: 0.66,
+          isImproved: false,
+          createdAt: new Date('2024-01-03'),
+          sharedAt: new Date('2024-01-04'),
+          status: CampaignParticipationStatuses.SHARED,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+        });
+
+        // then
+        expect(participations[0].evolution).to.equal(null);
       });
     });
 
