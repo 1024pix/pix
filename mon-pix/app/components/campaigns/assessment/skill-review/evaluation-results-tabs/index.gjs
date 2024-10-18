@@ -5,14 +5,17 @@ import Tabs from '../../../../tabs';
 import ResultsDetails from './results-details';
 import Rewards from './rewards';
 import Trainings from './trainings';
+import { service } from '@ember/service';
 
 export default class EvaluationResultsTabs extends Component {
+  @service tabManager;
+
   get showRewardsTab() {
     return this.args.badges.length > 0;
   }
 
   get initialTabIndex() {
-    return this.showRewardsTab ? 0 : 1;
+    return this.showRewardsTab ? this.tabManager.setActiveTab(0): this.tabManager.setActiveTab(1);
   }
 
   get showTrainingsTab() {

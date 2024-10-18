@@ -19,6 +19,7 @@ export default class EvaluationResultsHero extends Component {
   @service currentUser;
   @service router;
   @service store;
+  @service tabManager;
 
   @tracked hasGlobalError = false;
   @tracked isImproveButtonLoading = false;
@@ -49,6 +50,7 @@ export default class EvaluationResultsHero extends Component {
   @action
   handleSeeTrainingsClick() {
     this.args.showTrainings();
+    this.tabManager.setActiveTab(2);
   }
 
   @action
