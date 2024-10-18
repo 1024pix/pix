@@ -87,6 +87,8 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
         get = sinon.stub();
         delete = sinon.stub();
         keys = sinon.stub();
+        increment = sinon.stub();
+        decrement = sinon.stub();
       }
 
       storage = new TestStorage();
@@ -113,6 +115,32 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
 
         // then
         expect(value).to.equal('a-value');
+      });
+    });
+
+    describe('#increment', function () {
+      it('should increment value of prefixed key', async function () {
+        // given
+        storage.increment.withArgs('a-prefix:a-key').resolves();
+
+        // when
+        await prefixedStorage.increment('a-key');
+
+        // then
+        expect(storage.increment).to.have.been.called;
+      });
+    });
+
+    describe('#decrement', function () {
+      it('should decrement value of prefixed key', async function () {
+        // given
+        storage.decrement.withArgs('a-prefix:a-key').resolves();
+
+        // when
+        await prefixedStorage.decrement('a-key');
+
+        // then
+        expect(storage.decrement).to.have.been.called;
       });
     });
 
