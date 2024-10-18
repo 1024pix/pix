@@ -61,8 +61,7 @@ export default class ModulixFlashcards extends Component {
   onSelfAssessment(userAssessment) {
     const answerData = {
       userResponse: [userAssessment],
-      element: this.currentCard,
-      elementType: 'flashcards',
+      cardId: this.currentCard.id,
     };
     this.args.onSelfAssessment(answerData);
     this.goToNextCard();

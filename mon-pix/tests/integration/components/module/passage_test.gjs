@@ -492,6 +492,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
       await clickByName(t('pages.modulix.buttons.flashcards.answers.notAtAll'));
 
       // then
+      sinon.assert.calledWith(createRecordMock, 'element-answer', { userResponse: ['no'], elementId: firstCard.id, passage  });
       sinon.assert.calledWith(saveStub, { adapterOptions: { passageId: passage.id } });
       assert.ok(true);
     });
