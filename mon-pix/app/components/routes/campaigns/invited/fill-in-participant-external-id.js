@@ -6,7 +6,7 @@ import { tracked } from '@glimmer/tracking';
 const ERROR_MESSAGE = {
   INVALID_EMAIL: 'pages.fill-in-participant-external-id.errors.invalid-external-id-email',
   INVALID_EXTERNAL_ID: 'pages.fill-in-participant-external-id.errors.invalid-external-id',
-  MISSING_EXTERNAL_ID: 'pages.fill-in-participant-external-id.errors.missing-id-pix-label',
+  MISSING_EXTERNAL_ID: 'pages.fill-in-participant-external-id.errors.missing-external-id',
 };
 export default class FillInParticipantExternalId extends Component {
   @service intl;
@@ -28,14 +28,14 @@ export default class FillInParticipantExternalId extends Component {
     event.preventDefault();
 
     if (!this.participantExternalId) {
-      this.errorMessage = this.intl.t('pages.fill-in-participant-external-id.errors.missing-id-pix-label', {
+      this.errorMessage = this.intl.t('pages.fill-in-participant-external-id.errors.missing-external-id', {
         idPixLabel: this.args.campaign.idPixLabel,
       });
       return;
     }
 
     if (this.participantExternalId.length > 255) {
-      this.errorMessage = this.intl.t('pages.fill-in-participant-external-id.errors.max-length-id-pix-label', {
+      this.errorMessage = this.intl.t('pages.fill-in-participant-external-id.errors.max-length-external-id', {
         idPixLabel: this.args.campaign.idPixLabel,
       });
       return;

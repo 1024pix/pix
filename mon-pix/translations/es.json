@@ -1215,8 +1215,8 @@
       "errors": {
         "invalid-external-id": "Tu { idPixLabel }  no es válida.",
         "invalid-external-id-email": "La dirección de correo electrónico no es válida.",
-        "max-length-id-pix-label": "Tu { idPixLabel } no debe superar 255 caracteres.",
-        "missing-id-pix-label": "Por favor, introduce tu { idPixLabel }."
+        "max-length-external-id": "Tu { idPixLabel } no debe superar 255 caracteres.",
+        "missing-external-id": "Por favor, introduce tu { idPixLabel }."
       },
       "first-title": "Antes de empezar",
       "title": "Introducir mi nombre de usuario"
