@@ -6,6 +6,7 @@ import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import ModulixFlashcardsCard from 'mon-pix/components/module/element/flashcards/flashcards-card';
 import ModulixFlashcardsIntroCard from 'mon-pix/components/module/element/flashcards/flashcards-intro-card';
+import { fn } from "@ember/helper";
 
 export default class ModulixFlashcards extends Component {
   @tracked
@@ -57,9 +58,9 @@ export default class ModulixFlashcards extends Component {
   }
 
   @action
-  onSelfAssessment(event) {
+  onSelfAssessment(userAssessment) {
     const answerData = {
-      userResponse: [event.target.dataset.label],
+      userResponse: [userAssessment],
       element: this.currentCard,
       elementType: 'flashcards',
     };
@@ -100,24 +101,21 @@ export default class ModulixFlashcards extends Component {
               <button
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--no"
                 type="button"
-                data-label="no"
-                {{on "click" this.onSelfAssessment}}
+                {{on "click" (fn this.onSelfAssessment "no")}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.notAtAll"}}
               </button>
               <button
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--almost"
                 type="button"
-                data-label="almost"
-                {{on "click" this.onSelfAssessment}}
+                {{on "click" (fn this.onSelfAssessment "almost")}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.almost"}}
               </button>
               <button
                 class="element-flashcards__footer__answer__button element-flashcards__footer__answer__button--yes"
                 type="button"
-                data-label="yes"
-                {{on "click" this.onSelfAssessment}}
+                {{on "click" (fn this.onSelfAssessment "yes")}}
               >
                 {{t "pages.modulix.buttons.flashcards.answers.yes"}}
               </button>
