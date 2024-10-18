@@ -1,6 +1,7 @@
 import { HttpErrors } from '../../../shared/application/http-errors.js';
 import {
   CampaignCodeFormatError,
+  CampaignParticipationDoesNotBelongToUser,
   CampaignUniqueCodeError,
   IsForAbsoluteNoviceUpdateError,
   MultipleSendingsUpdateError,
@@ -34,6 +35,10 @@ const campaignDomainErrorMappingConfiguration = [
   {
     name: CampaignCodeFormatError.name,
     httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta),
+  },
+  {
+    name: CampaignParticipationDoesNotBelongToUser.name,
+    httpErrorFn: (error) => new HttpErrors.ForbiddenError(error.message, error.code, error.meta),
   },
 ];
 
