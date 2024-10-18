@@ -16,9 +16,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
       const competenceMarkRepository = {
         findByCertificationCourseId: sinon.stub(),
       };
-      const scoringCertificationService = {
-        calculateCertificationAssessmentScore: sinon.stub(),
-      };
       const certificationCandidateRepository = {
         getByCertificationCourseId: sinon.stub(),
       };
@@ -39,18 +36,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
         state: CertificationAssessmentStates.STARTED,
       });
 
-      const competenceMark = domainBuilder.buildCompetenceMark({
-        competenceId: 'recComp1',
-        areaCode: '1',
-        index: '1.1',
-        name: 'Manger des fruits',
-        level: 1,
-        score: 5,
-      });
-      const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
-        competenceMarks: [competenceMark],
-        percentageCorrectAnswers: 100,
-      });
       const placementProfile = domainBuilder.buildPlacementProfile.buildForCompetences({
         competencesData: [{ id: 'recComp1', index: '1.1', name: 'Manger des fruits', level: 3, score: 45 }],
       });
@@ -65,9 +50,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
         .resolves(certificationAssessment);
 
       competenceMarkRepository.findByCertificationCourseId.resolves([]);
-      scoringCertificationService.calculateCertificationAssessmentScore
-        .withArgs({ certificationAssessment, continueOnError: true })
-        .resolves(certificationAssessmentScore);
 
       certificationCandidateRepository.getByCertificationCourseId
         .withArgs({ certificationCourseId })
@@ -88,32 +70,20 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
         placementProfileService,
         competenceMarkRepository,
         certificationAssessmentRepository,
-        scoringCertificationService,
         certificationCandidateRepository,
       });
 
       //then
       expect(result).to.be.an.instanceof(CertificationDetails);
       expect(result).to.deep.equal({
-        competencesWithMark: [
-          {
-            areaCode: '1',
-            id: 'recComp1',
-            index: '1.1',
-            name: 'Manger des fruits',
-            obtainedLevel: 1,
-            obtainedScore: 5,
-            positionedLevel: 3,
-            positionedScore: 45,
-          },
-        ],
+        competencesWithMark: [],
         createdAt: certificationAssessment.createdAt,
         completedAt: certificationAssessment.completedAt,
         id: certificationAssessment.certificationCourseId,
         listChallengesAndAnswers: [
           {
             challengeId: 'rec123',
-            competence: '1.1',
+            competence: '',
             hasBeenSkippedAutomatically: false,
             isNeutralized: false,
             result: 'ok',
@@ -123,7 +93,7 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
         ],
         percentageCorrectAnswers: 100,
         status: 'started',
-        totalScore: 5,
+        totalScore: 0,
         userId: 123,
       });
     });
@@ -140,9 +110,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
       };
       const competenceMarkRepository = {
         findByCertificationCourseId: sinon.stub(),
-      };
-      const scoringCertificationService = {
-        calculateCertificationAssessmentScore: sinon.stub(),
       };
       const certificationCandidateRepository = {
         getByCertificationCourseId: sinon.stub(),
@@ -209,7 +176,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | get-ce
         competenceMarkRepository,
         certificationCandidateRepository,
         certificationAssessmentRepository,
-        scoringCertificationService,
       });
 
       //then
