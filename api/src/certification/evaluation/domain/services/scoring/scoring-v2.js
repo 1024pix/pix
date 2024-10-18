@@ -5,6 +5,8 @@
  * @typedef {import('../index.js').ScoringDegradationService} ScoringDegradationService
  * @typedef {import('../index.js').ScoringCertificationService} ScoringCertificationService
  * @typedef {import('../index.js').ScoringService} ScoringService
+ * @typedef {import('../index.js').CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {import('../../models/Candidate.js').Candidate} Candidate
  */
 
 import _ from 'lodash';
@@ -32,6 +34,7 @@ import { CERTIFICATION_VERSIONS } from '../../../../shared/domain/models/Certifi
  * @param {AreaRepository} params.areaRepository
  * @param {PlacementProfileService} params.placementProfileService
  * @param {ScoringService} params.scoringService
+ * @param {CertificationCandidateRepository} params.certificationCandidateRepository
  */
 export const handleV2CertificationScoring = async ({
   event,
@@ -44,9 +47,12 @@ export const handleV2CertificationScoring = async ({
   areaRepository,
   placementProfileService,
   scoringService,
+  certificationCandidateRepository,
   dependencies = { calculateCertificationAssessmentScore },
 }) => {
+  const candidate = certificationCandidateRepository.findByAssessmentId({ assessmentId: certificationAssessment.id });
   const certificationAssessmentScore = await dependencies.calculateCertificationAssessmentScore({
+    candidate,
     certificationAssessment,
     continueOnError: false,
     areaRepository,
@@ -79,9 +85,11 @@ export const handleV2CertificationScoring = async ({
 
 /**
  * @param {Object} params
+ * @param {Candidate} params.candidate
  * @param {ScoringService} params.dependencies.scoringService
  */
 export const calculateCertificationAssessmentScore = async function ({
+  candidate,
   certificationAssessment,
   continueOnError,
   areaRepository,
@@ -90,7 +98,7 @@ export const calculateCertificationAssessmentScore = async function ({
 }) {
   const testedCompetences = await _getTestedCompetences({
     userId: certificationAssessment.userId,
-    limitDate: certificationAssessment.createdAt,
+    limitDate: candidate.reconciledAt,
     version: CERTIFICATION_VERSIONS.V2,
     placementProfileService,
   });

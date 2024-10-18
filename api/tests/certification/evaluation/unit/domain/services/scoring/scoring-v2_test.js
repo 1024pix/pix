@@ -12,6 +12,7 @@ import {
   states,
 } from '../../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { ABORT_REASONS } from '../../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { CERTIFICATION_VERSIONS } from '../../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { AutoJuryCommentKeys } from '../../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import * as scoringService from '../../../../../../../src/evaluation/domain/services/scoring/scoring-service.js';
 import { CertificationComputeError } from '../../../../../../../src/shared/domain/errors.js';
@@ -233,12 +234,14 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
       competenceMarkRepository,
       certificationCourseRepository,
       scoringCertificationService,
+      certificationCandidateRepository,
       dependencies;
 
     beforeEach(function () {
       competenceMarkRepository = { save: sinon.stub() };
       assessmentResultRepository = { save: sinon.stub() };
       certificationCourseRepository = { get: sinon.stub() };
+      certificationCandidateRepository = { findByAssessmentId: sinon.stub() };
       dependencies = { calculateCertificationAssessmentScore: sinon.stub() };
       scoringCertificationService = {
         isLackOfAnswersForTechnicalReason: sinon.stub(),
@@ -247,13 +250,20 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
 
     context('for scoring certification', function () {
       context('when candidate has enough correct answers to be certified', function () {
-        let certificationCourseId, certificationAssessmentScore, certificationAssessment, certificationCourse;
+        let certificationCourseId,
+          certificationAssessmentScore,
+          certificationAssessment,
+          certificationCourse,
+          candidate;
 
         beforeEach(function () {
           const assessmentResultId = 123123;
           certificationCourseId = 123;
           const competenceMark1 = domainBuilder.buildCompetenceMark({ assessmentResultId, score: 5 });
           const competenceMark2 = domainBuilder.buildCompetenceMark({ assessmentResultId, score: 4 });
+          candidate = domainBuilder.certification.evaluation.buildCandidate({
+            reconciledAt: new Date('2020-01-01'),
+          });
           certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
             competenceMarks: [competenceMark1, competenceMark2],
             percentageCorrectAnswers: 80,
@@ -277,6 +287,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             assessmentId: certificationAssessment.id,
           });
 
+          certificationCandidateRepository.findByAssessmentId.resolves(candidate);
           dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
           scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
           certificationCourseRepository.get
@@ -297,6 +308,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            certificationCandidateRepository,
             dependencies,
           });
 
@@ -323,6 +335,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            certificationCandidateRepository,
             dependencies,
           });
 
@@ -339,6 +352,9 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             id: certificationCourseId,
             abortReason: null,
           });
+          const candidate = domainBuilder.certification.evaluation.buildCandidate({
+            reconciledAt: new Date('2020-01-01'),
+          });
           const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
             competenceMarks: [],
             percentageCorrectAnswers: 49,
@@ -351,6 +367,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           });
           const savedAssessmentResult = { id: 123123 };
 
+          certificationCandidateRepository.findByAssessmentId.resolves(candidate);
           dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
           scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
           certificationCourseRepository.get
@@ -367,6 +384,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            certificationCandidateRepository,
             dependencies,
           });
 
@@ -417,6 +435,9 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         });
         const competenceMark2 = domainBuilder.buildCompetenceMark({ score: 5 });
         const competenceMark1 = domainBuilder.buildCompetenceMark({ score: 4 });
+        const candidate = domainBuilder.certification.evaluation.buildCandidate({
+          reconciledAt: new Date('2020-01-01'),
+        });
         const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
           nbPix: 9,
           status: AssessmentResult.status.VALIDATED,
@@ -440,6 +461,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           assessmentResult: savedAssessmentResult,
         });
 
+        certificationCandidateRepository.findByAssessmentId.resolves(candidate);
         dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
         scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
         certificationCourseRepository.get
@@ -457,6 +479,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           certificationCourseRepository,
           competenceMarkRepository,
           scoringCertificationService,
+          certificationCandidateRepository,
           dependencies,
         });
 
@@ -497,6 +520,9 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           // given
           const competenceMark2 = domainBuilder.buildCompetenceMark({ score: 12 });
           const competenceMark1 = domainBuilder.buildCompetenceMark({ score: 18 });
+          const candidate = domainBuilder.certification.evaluation.buildCandidate({
+            reconciledAt: new Date('2020-01-01'),
+          });
           const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
             status: AssessmentResult.status.VALIDATED,
             competenceMarks: [competenceMark1, competenceMark2],
@@ -517,6 +543,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             certificationCourseId: 789,
             assessmentResult: savedAssessmentResult,
           });
+          certificationCandidateRepository.findByAssessmentId.resolves(candidate);
           dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
           scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
           certificationCourseRepository.get
@@ -534,6 +561,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            certificationCandidateRepository,
             dependencies,
           });
 
@@ -547,6 +575,9 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         context('when it has insufficient correct answers', function () {
           it('builds and save a not trustable assessment result', async function () {
             // given
+            const candidate = domainBuilder.certification.evaluation.buildCandidate({
+              reconciledAt: new Date('2020-01-01'),
+            });
             const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
               status: AssessmentResult.status.REJECTED,
               percentageCorrectAnswers: 45,
@@ -566,6 +597,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               certificationCourseId: 789,
               assessmentResult: savedAssessmentResult,
             });
+            certificationCandidateRepository.findByAssessmentId.resolves(candidate);
             dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
             scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
             certificationCourseRepository.get
@@ -583,6 +615,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              certificationCandidateRepository,
               dependencies,
             });
 
@@ -618,6 +651,9 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           certificationCourseRepository.get.withArgs({ id: 789 }).resolves(certificationCourse);
           const competenceMark2 = domainBuilder.buildCompetenceMark({ score: 12 });
           const competenceMark1 = domainBuilder.buildCompetenceMark({ score: 18 });
+          const candidate = domainBuilder.certification.evaluation.buildCandidate({
+            reconciledAt: new Date('2020-01-01'),
+          });
           const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
             status: AssessmentResult.status.VALIDATED,
             competenceMarks: [competenceMark1, competenceMark2],
@@ -638,6 +674,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             certificationCourseId: 789,
             assessmentResult: savedAssessmentResult,
           });
+          certificationCandidateRepository.findByAssessmentId.resolves(candidate);
           dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
           scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
           certificationCourseRepository.get
@@ -655,6 +692,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            certificationCandidateRepository,
             dependencies,
           });
 
@@ -692,6 +730,9 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
             });
             const competenceMark2 = domainBuilder.buildCompetenceMark({ score: 12 });
             const competenceMark1 = domainBuilder.buildCompetenceMark({ score: 18 });
+            const candidate = domainBuilder.certification.evaluation.buildCandidate({
+              reconciledAt: new Date('2020-01-01'),
+            });
             const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
               status: AssessmentResult.status.VALIDATED,
               competenceMarks: [competenceMark1, competenceMark2],
@@ -709,6 +750,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               certificationCourseId: 789,
               assessmentResult: savedAssessmentResult,
             });
+            certificationCandidateRepository.findByAssessmentId.resolves(candidate);
             dependencies.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
             scoringCertificationService.isLackOfAnswersForTechnicalReason.returns(false);
             certificationCourseRepository.get
@@ -725,6 +767,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              certificationCandidateRepository,
               dependencies,
             });
 
@@ -796,6 +839,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              certificationCandidateRepository,
               dependencies,
             });
 
@@ -861,6 +905,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
                 certificationCourseRepository,
                 competenceMarkRepository,
                 scoringCertificationService,
+                certificationCandidateRepository,
                 dependencies,
               });
 
@@ -877,7 +922,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
   });
 
   context('#calculateCertificationAssessmentScore', function () {
-    let certificationAssessment, certificationAssessmentData, expectedCertifiedCompetences;
+    let certificationAssessment, certificationAssessmentData, expectedCertifiedCompetences, candidate;
     let competenceWithMarks_1_1, competenceWithMarks_2_2, competenceWithMarks_3_3, competenceWithMarks_4_4;
     let areaRepository;
 
@@ -957,6 +1002,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           certificationAnswersByDate,
           certificationChallenges: challenges,
         };
+        const candidate = domainBuilder.certification.evaluation.buildCandidate();
 
         const placementProfileService = {
           getPlacementProfile: sinon.stub(),
@@ -964,13 +1010,14 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         placementProfileService.getPlacementProfile
           .withArgs({
             userId: certificationAssessment.userId,
-            limitDate: certificationAssessment.createdAt,
-            version: 2,
+            limitDate: candidate.reconciledAt,
+            version: CERTIFICATION_VERSIONS.V2,
           })
           .resolves({ userCompetences });
 
         // when
         const error = await catchErr(calculateCertificationAssessmentScore)({
+          candidate,
           certificationAssessment,
           continueOnError: false,
           areaRepository,
@@ -1008,6 +1055,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           certificationAnswersByDate,
           certificationChallenges: challenges,
         };
+        const candidate = domainBuilder.certification.evaluation.buildCandidate();
 
         const placementProfileService = {
           getPlacementProfile: sinon.stub(),
@@ -1015,13 +1063,14 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         placementProfileService.getPlacementProfile
           .withArgs({
             userId: certificationAssessment.userId,
-            limitDate: certificationAssessment.createdAt,
-            version: 2,
+            limitDate: candidate.reconciledAt,
+            version: CERTIFICATION_VERSIONS.V2,
           })
           .resolves({ userCompetences });
 
         // when
         const error = await catchErr(calculateCertificationAssessmentScore)({
+          candidate,
           certificationAssessment,
           continueOnError: false,
           areaRepository,
@@ -1121,6 +1170,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           certificationAnswersByDate,
           certificationChallenges: challenges,
         };
+        const candidate = domainBuilder.certification.evaluation.buildCandidate();
 
         const placementProfileService = {
           getPlacementProfile: sinon.stub(),
@@ -1128,13 +1178,14 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         placementProfileService.getPlacementProfile
           .withArgs({
             userId: certificationAssessment.userId,
-            limitDate: certificationAssessment.createdAt,
-            version: 2,
+            limitDate: candidate.reconciledAt,
+            version: CERTIFICATION_VERSIONS.V2,
           })
           .resolves({ userCompetences });
 
         // when
         const error = await catchErr(calculateCertificationAssessmentScore)({
+          candidate,
           certificationAssessment,
           continueOnError: false,
           areaRepository,
@@ -1157,6 +1208,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           certificationAnswersByDate: wrongAnswersForAllChallenges(),
           certificationChallenges: challenges,
         });
+        candidate = domainBuilder.certification.evaluation.buildCandidate();
 
         placementProfileService = {
           getPlacementProfile: sinon.stub(),
@@ -1164,8 +1216,8 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         placementProfileService.getPlacementProfile
           .withArgs({
             userId: certificationAssessment.userId,
-            limitDate: certificationAssessment.createdAt,
-            version: 2,
+            limitDate: candidate.reconciledAt,
+            version: CERTIFICATION_VERSIONS.V2,
           })
           .resolves({ userCompetences });
       });
@@ -1173,6 +1225,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
       it('should get user profile', async function () {
         // when
         await calculateCertificationAssessmentScore({
+          candidate,
           certificationAssessment,
           continueOnError,
           areaRepository,
@@ -1198,6 +1251,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         it('should return list of competences with all certifiedLevel at -1', async function () {
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment: startedCertificationAssessment,
             continueOnError,
             areaRepository,
@@ -1214,6 +1268,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         it('should return list of competences with all certifiedLevel at -1', async function () {
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment,
             continueOnError,
             areaRepository,
@@ -1258,6 +1313,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
 
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment,
             continueOnError,
             areaRepository,
@@ -1295,6 +1351,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
 
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment,
             continueOnError,
             areaRepository,
@@ -1336,6 +1393,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
 
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment,
             continueOnError,
             areaRepository,
@@ -1354,6 +1412,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
 
           // when
           const { percentageCorrectAnswers } = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment: certificationAssessmentWithNeutralizedChallenge,
             continueOnError,
             areaRepository,
@@ -1413,13 +1472,14 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
               placementProfileService.getPlacementProfile
                 .withArgs({
                   userId: certificationAssessment.userId,
-                  limitDate: certificationAssessment.createdAt,
-                  version: certificationAssessment.version,
+                  limitDate: candidate.reconciledAt,
+                  version: CERTIFICATION_VERSIONS.V2,
                 })
                 .resolves({ userCompetences });
 
               // When
               const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+                candidate,
                 certificationAssessment,
                 continueOnError,
                 areaRepository,
@@ -1445,14 +1505,15 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           certificationAnswersByDate: wrongAnswersForAllChallenges(),
           certificationChallenges: challenges,
         });
+        candidate = domainBuilder.certification.evaluation.buildCandidate();
         placementProfileService = {
           getPlacementProfile: sinon.stub(),
         };
         placementProfileService.getPlacementProfile
           .withArgs({
             userId: certificationAssessment.userId,
-            limitDate: certificationAssessment.createdAt,
-            version: certificationAssessment.version,
+            limitDate: candidate.reconciledAt,
+            version: CERTIFICATION_VERSIONS.V2,
           })
           .resolves({ userCompetences });
       });
@@ -1461,6 +1522,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         it('should return list of competences with all certifiedLevel at -1', async function () {
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment,
             continueOnError,
             areaRepository,
@@ -1505,6 +1567,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
 
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment,
             continueOnError,
             areaRepository,
@@ -1540,6 +1603,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
 
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment,
             continueOnError,
             areaRepository,
@@ -1581,6 +1645,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
 
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment,
             continueOnError,
             areaRepository,
@@ -1633,8 +1698,8 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           placementProfileService.getPlacementProfile
             .withArgs({
               userId: certificationAssessment.userId,
-              limitDate: certificationAssessment.createdAt,
-              version: certificationAssessment.version,
+              limitDate: candidate.reconciledAt,
+              version: CERTIFICATION_VERSIONS.V2,
             })
             .resolves({ userCompetences });
           certificationAssessment.certificationAnswersByDate = _.map(
@@ -1666,6 +1731,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
 
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment,
             continueOnError,
             areaRepository,
@@ -1728,8 +1794,8 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           placementProfileService.getPlacementProfile
             .withArgs({
               userId: certificationAssessment.userId,
-              limitDate: certificationAssessment.createdAt,
-              version: certificationAssessment.version,
+              limitDate: candidate.reconciledAt,
+              version: CERTIFICATION_VERSIONS.V2,
             })
             .resolves({ userCompetences });
         });
@@ -1766,6 +1832,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
 
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment,
             continueOnError,
             areaRepository,
@@ -1818,6 +1885,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         it('should not include the extra challenges when computing reproducibility', async function () {
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment,
             continueOnError,
             areaRepository,
@@ -1840,6 +1908,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
           certificationAnswersByDate: wrongAnswersForAllChallenges(),
           certificationChallenges: challenges,
         });
+        candidate = domainBuilder.certification.evaluation.buildCandidate();
         certificationAssessment.certificationAnswersByDate = correctAnswersForAllChallenges();
         placementProfileService = {
           getPlacementProfile: sinon.stub(),
@@ -1847,8 +1916,8 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
         placementProfileService.getPlacementProfile
           .withArgs({
             userId: certificationAssessment.userId,
-            limitDate: certificationAssessment.createdAt,
-            version: certificationAssessment.version,
+            limitDate: candidate.reconciledAt,
+            version: CERTIFICATION_VERSIONS.V2,
           })
           .resolves({ userCompetences });
       });
@@ -1864,6 +1933,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
 
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment: certificationAssessmentWithNeutralizedChallenge,
             continueOnError: false,
             areaRepository,
@@ -1889,6 +1959,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring V2', funct
 
           // when
           const certificationAssessmentScore = await calculateCertificationAssessmentScore({
+            candidate,
             certificationAssessment: certificationAssessmentWithNeutralizedChallenge,
             continueOnError: false,
             areaRepository,
