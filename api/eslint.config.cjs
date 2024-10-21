@@ -1,5 +1,4 @@
 const { fixupPluginRules } = require('@eslint/compat');
-
 const babel = require('@babel/eslint-parser');
 const eslintConfig = require('@1024pix/eslint-plugin/config');
 const prettier = require('eslint-plugin-prettier/recommended');
@@ -8,8 +7,10 @@ const n = require('eslint-plugin-n').configs['flat/recommended'];
 const _import = require('eslint-plugin-import-x');
 const knex = require('eslint-plugin-knex');
 const unicorn = require('eslint-plugin-unicorn');
-
 const mocha = require('eslint-plugin-mocha');
+const i18nJsonPlugin = require('eslint-plugin-i18n-json');
+
+const nonPhraseGeneratedFiles = ['translations/en.json', 'translations/fr.json'];
 
 module.exports = [
   ...eslintConfig,
@@ -156,6 +157,17 @@ module.exports = [
             'parseInt is unnecessary here because Joi already casts string into number if the field is properly described (Joi.number())',
         },
       ],
+    },
+  },
+  {
+    files: nonPhraseGeneratedFiles,
+    plugins: { 'i18n-json': i18nJsonPlugin },
+    processor: {
+      meta: { name: '.json' },
+      ...i18nJsonPlugin.processors['.json'],
+    },
+    rules: {
+      ...i18nJsonPlugin.configs.recommended.rules,
     },
   },
 ];
