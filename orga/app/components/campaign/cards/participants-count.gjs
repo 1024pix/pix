@@ -4,7 +4,7 @@ import { t } from 'ember-intl';
 <template>
   <PixIndicatorCard
     @title={{t "cards.participants-count.title"}}
-    @icon="users"
+    @iconName="users"
     @color="blue"
     @info={{t "cards.participants-count.information"}}
     @loadingMessage={{t "cards.participants-count.loader"}}

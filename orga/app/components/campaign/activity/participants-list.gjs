@@ -147,7 +147,7 @@ export default class ParticipantsList extends Component {
                       <PixIconButton
                         @ariaLabel={{t "pages.campaign-activity.table.delete-button-label"}}
                         @withBackground={{true}}
-                        @icon="trash-can"
+                        @iconName="delete"
                         @triggerAction={{fn this.openModal participation}}
                         @size="small"
                         class="campaign-activity-table-actions__button campaign-activity-table-actions__button--delete"

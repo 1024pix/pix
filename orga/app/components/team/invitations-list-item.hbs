@@ -9,7 +9,7 @@
         <:triggerElement>
           <PixIconButton
             @ariaLabel={{t "pages.team-invitations.resend-invitation"}}
-            @icon="redo"
+            @iconName="refresh"
             @triggerAction={{fn this.resendInvitation @invitation}}
             @withBackground={{true}}
             disabled={{this.isResending}}
@@ -29,7 +29,7 @@
         <:triggerElement>
           <PixIconButton
             @ariaLabel={{t "pages.team-invitations.cancel-invitation"}}
-            @icon="trash-can"
+            @iconName="delete"
             @triggerAction={{fn @cancelInvitation @invitation}}
             @withBackground={{true}}
           />
