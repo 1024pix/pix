@@ -187,4 +187,35 @@ describe('Certification | Configuration | Integration | Repository | sessions-re
       ]);
     });
   });
+
+  describe('findV2SessionIdsWithNoCourses', function () {
+    it('should return v2 session ids with no courses of v3 centers', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+        isV3Pilot: true,
+      }).id;
+      const activeSessionId = databaseBuilder.factory.buildSession({
+        version: 2,
+        certificationCenterId,
+      }).id;
+      databaseBuilder.factory.buildCertificationCourse({ sessionId: activeSessionId });
+      const inactiveSessionId = databaseBuilder.factory.buildSession({
+        version: 2,
+        certificationCenterId,
+      }).id;
+      const v2CertificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+        isV2Pilot: true,
+      }).id;
+      databaseBuilder.factory.buildSession({
+        version: 2,
+        certificationCenterId: v2CertificationCenterId,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const sessionIds = await configurationRepositories.sessionsRepository.findV2SessionIdsWithNoCourses();
+
+      expect(sessionIds).to.deep.equal([inactiveSessionId]);
+    });
+  });
 });

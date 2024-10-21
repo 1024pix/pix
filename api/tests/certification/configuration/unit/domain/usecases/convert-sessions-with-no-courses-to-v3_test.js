@@ -16,11 +16,13 @@ describe('Certification | Configuration | Unit | UseCase | convert-sessions-with
     it('should skip update', async function () {
       const sessionsRepository = {
         updateV2SessionsWithNoCourses: sinon.stub().resolves(),
+        findV2SessionIdsWithNoCourses: sinon.stub().resolves(['123']),
       };
 
       await convertSessionsWithNoCoursesToV3({ isDryRun: true, sessionsRepository });
 
       expect(sessionsRepository.updateV2SessionsWithNoCourses).not.to.have.been.called;
+      expect(sessionsRepository.findV2SessionIdsWithNoCourses).to.have.been.calledOnceWith();
     });
   });
 });
