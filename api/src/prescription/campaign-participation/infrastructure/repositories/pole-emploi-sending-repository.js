@@ -1,6 +1,6 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import * as OidcIdentityProviders from '../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
-import { config } from '../../../src/shared/config.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import * as OidcIdentityProviders from '../../../../identity-access-management/domain/constants/oidc-identity-providers.js';
+import { config } from '../../../../shared/config.js';
 
 const create = function ({ poleEmploiSending }) {
   return knex('pole-emploi-sendings').insert({ ...poleEmploiSending });
