@@ -58,8 +58,10 @@ export const updateV2SessionsWithNoCourses = async function () {
       this.select('sessions.id')
         .from('sessions')
         .leftJoin('certification-courses', 'sessions.id', 'certification-courses.sessionId')
-        .where('sessions.version', '=', 2)
-        .whereNull('certification-courses.sessionId');
+        .where('sessions.version', 2)
+        .whereNull('certification-courses.sessionId')
+        .join('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
+        .where('certification-centers.isV3Pilot', true);
     });
 
   return updatedSessions.length;
