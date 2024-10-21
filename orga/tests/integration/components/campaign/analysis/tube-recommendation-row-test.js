@@ -1,6 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -58,7 +59,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     );
 
     // when
-    await click('[data-icon="chevron-down"]');
+    await click(screen.getByLabelText(t('pages.campaign-review.table.analysis.column.tutorial.aria-label')));
 
     // then
     assert.dom('tr[aria-hidden="false"]').containsText('1 tuto recommandé par la communauté Pix');
@@ -93,10 +94,12 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     // given
     this.tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
-    await render(hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`);
+    const screen = await render(
+      hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`,
+    );
 
     // when
-    await click('[data-icon="chevron-down"]');
+    await click(screen.getByLabelText(t('pages.campaign-review.table.analysis.column.tutorial.aria-label')));
 
     // then
     assert.dom('[aria-hidden="false"]').containsText('2 tutos recommandés par la communauté Pix');
@@ -106,11 +109,13 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     // given
     this.tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
-    await render(hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`);
-    await click('[data-icon="chevron-down"]');
+    const screen = await render(
+      hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`,
+    );
+    await click(screen.getByLabelText(t('pages.campaign-review.table.analysis.column.tutorial.aria-label')));
 
     // when
-    await click('[data-icon="chevron-up"]');
+    await click(screen.getByLabelText(t('pages.campaign-review.table.analysis.column.tutorial.aria-label')));
 
     // then
     assert.dom('[aria-hidden="false"]').doesNotExist();
