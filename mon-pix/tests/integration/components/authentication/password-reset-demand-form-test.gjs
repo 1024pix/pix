@@ -30,7 +30,7 @@ module('Integration | Component | Authentication | password-reset-demand-form', 
         const screen = await render(<template><PasswordResetDemandForm /></template>);
 
         // when
-        await fillByLabel(t('pages.password-reset-demand.fields.email.label'), validEmail);
+        await fillByLabel(t('components.authentication.password-reset-demand-form.fields.email.label'), validEmail);
 
         // then
         assert.dom(screen.queryByRole('alert')).doesNotExist();
@@ -44,11 +44,15 @@ module('Integration | Component | Authentication | password-reset-demand-form', 
         const screen = await render(<template><PasswordResetDemandForm /></template>);
 
         // when
-        await fillByLabel(t('pages.password-reset-demand.fields.email.label'), invalidEmail);
+        await fillByLabel(t('components.authentication.password-reset-demand-form.fields.email.label'), invalidEmail);
 
         // then
         assert
-          .dom(screen.queryByText(t('components.authentication.password-reset-demand-form.invalid-email')))
+          .dom(
+            screen.queryByText(
+              t('components.authentication.password-reset-demand-form.fields.email.error-message-invalid'),
+            ),
+          )
           .exists();
       });
     });
@@ -76,7 +80,7 @@ module('Integration | Component | Authentication | password-reset-demand-form', 
         const screen = await render(<template><PasswordResetDemandForm /></template>);
 
         // when
-        await fillByLabel(t('pages.password-reset-demand.fields.email.label'), email);
+        await fillByLabel(t('components.authentication.password-reset-demand-form.fields.email.label'), email);
         await click(
           screen.getByRole('button', {
             name: t('components.authentication.password-reset-demand-form.actions.receive-reset-button'),
@@ -104,7 +108,7 @@ module('Integration | Component | Authentication | password-reset-demand-form', 
         const screen = await render(<template><PasswordResetDemandForm /></template>);
 
         // when
-        await fillByLabel(t('pages.password-reset-demand.fields.email.label'), email);
+        await fillByLabel(t('components.authentication.password-reset-demand-form.fields.email.label'), email);
         await click(
           screen.getByRole('button', {
             name: t('components.authentication.password-reset-demand-form.actions.receive-reset-button'),
@@ -114,7 +118,7 @@ module('Integration | Component | Authentication | password-reset-demand-form', 
         // then
         // The following doesn’t work because of a PixUi span inside the role element
         //assert.dom(screen.queryByRole('alert', { name: t('pages.password-reset-demand.error.message') })).exists();
-        assert.dom(screen.queryByText(t('pages.password-reset-demand.error.message'))).exists();
+        assert.dom(screen.queryByText(t('components.authentication.password-reset-demand-form.404-message'))).exists();
       });
     });
 
@@ -131,7 +135,7 @@ module('Integration | Component | Authentication | password-reset-demand-form', 
         const screen = await render(<template><PasswordResetDemandForm /></template>);
 
         // when
-        await fillByLabel(t('pages.password-reset-demand.fields.email.label'), email);
+        await fillByLabel(t('components.authentication.password-reset-demand-form.fields.email.label'), email);
         await click(
           screen.getByRole('button', {
             name: t('components.authentication.password-reset-demand-form.actions.receive-reset-button'),

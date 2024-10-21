@@ -152,6 +152,7 @@
         "signup-heading": "Autres moyens d’inscription"
       },
       "password-reset-demand-form": {
+        "404-message": "Cette adresse e-mail ne correspond à aucun compte",
         "actions": {
           "receive-reset-button": "Recevoir un lien de réinitialisation"
         },
@@ -159,7 +160,13 @@
           "link-text": "Contactez-nous",
           "link-url": "https://pix.fr/support"
         },
-        "invalid-email": "Votre adresse e-mail n’est pas valide.",
+        "fields": {
+          "email": {
+            "error-message-invalid": "Votre adresse e-mail n’est pas valide.",
+            "label": "Adresse e-mail",
+            "placeholder": "ex: jean.dupont@email.com"
+          }
+        },
         "no-email-question": "Pas d’adresse e-mail renseignée ?",
         "rule": "Tous les champs sont obligatoires."
       },
