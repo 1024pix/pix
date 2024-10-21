@@ -13,9 +13,9 @@ export default class MissionActivitiesController extends Controller {
   @tracked divisions = [];
   @tracked statuses = [];
   @tracked statusOptions = [
-    { value: 'completed', label: this.translateStatusOptionKey('completed') },
-    { value: 'started', label: this.translateStatusOptionKey('started') },
     { value: 'not-started', label: this.translateStatusOptionKey('not-started') },
+    { value: 'started', label: this.translateStatusOptionKey('started') },
+    { value: 'completed', label: this.translateStatusOptionKey('completed') },
   ];
   @tracked name = '';
 
