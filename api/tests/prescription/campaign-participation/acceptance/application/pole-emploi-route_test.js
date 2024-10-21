@@ -4,11 +4,11 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   generateValidRequestAuthorizationHeaderForApplication,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
-import { config as settings } from '../../../../src/shared/config.js';
+import { config as settings } from '../../../../../src/shared/config.js';
 
 describe('Acceptance | API | Pole Emploi envois', function () {
   let server, options;
