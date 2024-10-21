@@ -41,14 +41,14 @@
       "close": "Fermer",
       "confirm": "Confirmer",
       "lets-go": "C'est parti !",
+      "login": "Se connecter sur Pix",
       "quit": "Quitter",
       "refresh-page": "Rafraîchir la page",
       "show-less": "Afficher moins",
       "show-more": "Afficher plus",
       "sign-out": "Se déconnecter",
       "stay": "Rester",
-      "validate": "Valider",
-      "login": "Se connecter sur Pix"
+      "validate": "Valider"
     },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
@@ -151,6 +151,18 @@
         "select-another-organization-link": "Choisir une autre organisation",
         "signup-heading": "Autres moyens d’inscription"
       },
+      "password-reset-demand-form": {
+        "actions": {
+          "receive-reset-button": "Recevoir un lien de réinitialisation"
+        },
+        "contact-us-link": {
+          "link-text": "Contactez-nous",
+          "link-url": "https://pix.fr/support"
+        },
+        "invalid-email": "Votre adresse e-mail n’est pas valide.",
+        "no-email-question": "Pas d’adresse e-mail renseignée ?",
+        "rule": "Tous les champs sont obligatoires."
+      },
       "signup-form": {
         "actions": {
           "submit": "Je m'inscris"
@@ -176,18 +188,6 @@
             "placeholder": "ex: Dupont"
           },
           "legend": "Information nécessaire pour l'inscription."
-        }
-      },
-      "password-reset-demand-form": {
-        "invalid-email": "Votre adresse e-mail n’est pas valide.",
-        "rule": "Tous les champs sont obligatoires.",
-        "no-email-question": "Pas d’adresse e-mail renseignée ?",
-        "contact-us-link": {
-          "link-text": "Contactez-nous",
-          "link-url": "https://pix.fr/support"
-        },
-        "actions": {
-          "receive-reset-button": "Recevoir un lien de réinitialisation"
         }
       }
     },
