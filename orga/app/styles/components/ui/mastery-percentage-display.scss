@@ -9,7 +9,7 @@
 
   &__stars {
     height: 1.5rem;
-    
+
     &--table-display {
       height: 1.125rem;
     }
@@ -23,7 +23,9 @@
   }
 
   &__info-icon {
-    color: var(--pix-neutral-100);
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: var(--pix-neutral-100);
   }
 }
 
