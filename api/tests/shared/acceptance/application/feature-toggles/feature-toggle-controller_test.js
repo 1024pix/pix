@@ -29,6 +29,7 @@ describe('Acceptance | Shared | Application | Controller | feature-toggle', func
             'is-pix-plus-lower-lever-enabled': false,
             'is-need-to-adjust-certification-accessibility-enabled': false,
             'is-text-to-speech-button-enabled': false,
+            'show-new-campaign-presentation-page': false,
             'show-new-result-page': false,
             'show-experimental-missions': false,
             'is-pix-companion-enabled': false,
