@@ -69,3 +69,18 @@ export const updateCentersToV3 = async ({ preservedCenterIds }) => {
 
   return results.length;
 };
+
+/**
+ * @param {Object} params
+ * @param {Array<number>} params.preservedCenterIds
+ * @returns {Promise<Array<number>>} v2 center ids excluding preservedCenterIds
+ */
+export const findV2CenterIds = async ({ preservedCenterIds }) => {
+  const knexConn = DomainTransaction.getConnection();
+  const centers = await knexConn('certification-centers')
+    .select('id')
+    .where({ isV3Pilot: false })
+    .whereNotIn('id', preservedCenterIds);
+
+  return centers.map(({ id }) => id);
+};
