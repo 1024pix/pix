@@ -41,14 +41,14 @@
       "close": "Close",
       "confirm": "Confirm",
       "lets-go": "Let's go!",
+      "login": "Log in to Pix",
       "quit": "Exit",
       "refresh-page": "Refresh the page",
       "show-less": "Show less",
       "show-more": "Show more",
       "sign-out": "Sign out",
       "stay": "Stay",
-      "validate": "Validate",
-      "login": "Log in to Pix"
+      "validate": "Validate"
     },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
@@ -151,6 +151,18 @@
         "select-another-organization-link": "Choose another organisation",
         "signup-heading": "Other ways to sign up"
       },
+      "password-reset-demand-form": {
+        "actions": {
+          "receive-reset-button": "Receive a reset link"
+        },
+        "contact-us-link": {
+          "link-text": "Contact us",
+          "link-url": "https://pix.org/en/support"
+        },
+        "invalid-email": "Your email address is invalid.",
+        "no-email-question": "No email address?",
+        "rule": "All fields are required."
+      },
       "signup-form": {
         "actions": {
           "submit": "Sign up"
@@ -176,18 +188,6 @@
             "placeholder": "ex: Doe"
           },
           "legend": "Information required for sign up."
-        }
-      },
-      "password-reset-demand-form": {
-        "invalid-email": "Your email address is invalid.",
-        "rule": "All fields are required.",
-        "no-email-question": "No email address?",
-        "contact-us-link": {
-          "link-text": "Contact us",
-          "link-url": "https://pix.org/en/support"
-        },
-        "actions": {
-          "receive-reset-button": "Receive a reset link"
         }
       }
     },
