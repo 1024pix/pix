@@ -227,6 +227,31 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         ]);
       });
 
+      context('when there is no user ID', function () {
+        beforeEach(function () {
+          // given
+          knowledgeElementRepository.findUniqByUserIdAndAssessmentId
+            .withArgs({ userId: null, assessmentId: assessment.id })
+            .resolves([]);
+        });
+
+        it('should not call performAsync from answerJobRepository', async function () {
+          // given
+          assessment.userId = null;
+
+          // when
+          await correctAnswerThenUpdateAssessment({
+            answer,
+            userId: null,
+            ...dependencies,
+            locale,
+          });
+
+          // then
+          expect(answerJobRepository.performAsync).not.to.have.been.called;
+        });
+      });
+
       it('should call performAsync from answerJobRepository', async function () {
         // given
         answerJobRepository.performAsync.resolves();

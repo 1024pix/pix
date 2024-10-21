@@ -258,7 +258,9 @@ const correctAnswerThenUpdateAssessment = async function ({
     });
   }
 
-  await answerJobRepository.performAsync(new AnswerJob({ userId }));
+  if (userId) {
+    await answerJobRepository.performAsync(new AnswerJob({ userId }));
+  }
 
   return answerSaved;
 };
