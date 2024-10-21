@@ -152,6 +152,7 @@
         "signup-heading": "Other ways to sign up"
       },
       "password-reset-demand-form": {
+        "404-message": "The email address entered does not match any Pix account",
         "actions": {
           "receive-reset-button": "Receive a reset link"
         },
@@ -159,7 +160,13 @@
           "link-text": "Contact us",
           "link-url": "https://pix.org/en/support"
         },
-        "invalid-email": "Your email address is invalid.",
+        "fields": {
+          "email": {
+            "error-message-invalid": "Your email address is invalid.",
+            "label": "Email address",
+            "placeholder": "ex: john.doe@email.com"
+          }
+        },
         "no-email-question": "No email address?",
         "rule": "All fields are required."
       },

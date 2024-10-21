@@ -17,6 +17,9 @@ export default class PasswordResetDemandForm extends Component {
 
   @tracked isLoading = false;
   @tracked errorMessage;
+  @tracked emailInputPlaceholder = this.intl.t(
+    'components.authentication.password-reset-demand-form.fields.email.placeholder',
+  );
   @tracked emailInputvalidationStatus;
   @tracked emailInputvalidationErrorMessage;
 
@@ -27,7 +30,7 @@ export default class PasswordResetDemandForm extends Component {
     this.email = event.target.value;
     this.emailInputvalidationStatus = isEmailValid(this.email) ? 'success' : 'error';
     this.emailInputvalidationErrorMessage = this.intl.t(
-      'components.authentication.password-reset-demand-form.invalid-email',
+      'components.authentication.password-reset-demand-form.fields.email.error-message-invalid',
     );
   }
 
@@ -53,7 +56,7 @@ export default class PasswordResetDemandForm extends Component {
         body: JSON.stringify({ email }),
       });
       if (response.status == 404) {
-        this.errorMessage = this.intl.t('pages.password-reset-demand.error.message');
+        this.errorMessage = this.intl.t('components.authentication.password-reset-demand-form.404-message');
       } else if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
       }
@@ -87,10 +90,10 @@ export default class PasswordResetDemandForm extends Component {
           {{on "change" this.handleEmailChange}}
           @validationStatus={{this.emailInputvalidationStatus}}
           @errorMessage={{this.emailInputvalidationErrorMessage}}
-          placeholder="jean.dupont@example.net"
+          placeholder={{this.emailInputPlaceholder}}
           required={{true}}
         >
-          <:label>{{t "pages.password-reset-demand.fields.email.label"}}</:label>
+          <:label>{{t "components.authentication.password-reset-demand-form.fields.email.label"}}</:label>
         </PixInput>
       </div>
       <div>
