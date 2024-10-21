@@ -11,21 +11,10 @@ import LastParticipationDateTooltip from '../ui/last-participation-date-tooltip'
 
 export default class TableRow extends Component {
   @service currentUser;
+  @service intl;
 
   displayDate(date) {
     return dayjs(date).format('DD/MM/YYYY');
-  }
-
-  getCustomRowData(extraColumns, key) {
-    const data = extraColumns[key];
-
-    if (!data) return '';
-
-    if (dayjs(data).isValid()) {
-      return this.displayDate(data);
-    } else {
-      return data;
-    }
   }
 
   get rowClass() {
@@ -34,6 +23,34 @@ export default class TableRow extends Component {
     }
     return '';
   }
+
+  getExtraColumnRowValue(extraColumnName, participant) {
+    const extraColumnValue = participant.extraColumns[extraColumnName];
+
+    if (extraColumnName === 'ORALIZATION') {
+      return this.intl.t(
+        `pages.organization-participants.table.row-value.oralization.${extraColumnValue}`,
+      );
+    }
+    if (!extraColumnValue) return '';
+
+    if (dayjs(extraColumnValue).isValid()) {
+      return this.displayDate(extraColumnValue);
+    }
+
+    return extraColumnValue;
+  }
+
+
+  get extraColumnRowInfo() {
+    if (!this.args.participant.extraColumns) {
+      return [];
+    }
+
+    return Object.keys(this.args.participant.extraColumns)
+      .map((extraColumnName) => this.getExtraColumnRowValue(extraColumnName, this.args.participant));
+  }
+
 
   <template>
     <tr
@@ -65,9 +82,13 @@ export default class TableRow extends Component {
         {{/if}}
       </td>
       <td class="ellipsis" title={{@participant.firstName}}>{{@participant.firstName}}</td>
-      {{#each @customRows as |key|}}
-        <td>{{this.getCustomRowData @participant.extraColumns key}}</td>
-      {{/each}}
+      {{#if @customRows}}
+        {{#each this.extraColumnRowInfo as |customCell|}}
+          <td>
+            {{customCell}}
+          </td>
+        {{/each}}
+      {{/if}}
       {{#unless this.currentUser.canAccessMissionsPage}}
         <td class="table__column--center">
           {{@participant.participationCount}}
