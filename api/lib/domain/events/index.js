@@ -2,11 +2,11 @@ import perf_hooks from 'node:perf_hooks';
 
 import _ from 'lodash';
 
+import { services as certificationEvaluationServices } from '../../../src/certification/evaluation/domain/services/index.js';
+import * as certificationAssessmentHistoryRepository from '../../../src/certification/evaluation/infrastructure/repositories/certification-assessment-history-repository.js';
+import * as certificationChallengeForScoringRepository from '../../../src/certification/evaluation/infrastructure/repositories/certification-challenge-for-scoring-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import { scoringDegradationService } from '../../../src/certification/scoring/domain/services/scoring-degradation-service.js';
-import * as certificationAssessmentHistoryRepository from '../../../src/certification/scoring/infrastructure/repositories/certification-assessment-history-repository.js';
-import * as certificationChallengeForScoringRepository from '../../../src/certification/scoring/infrastructure/repositories/certification-challenge-for-scoring-repository.js';
-import * as scoringConfigurationRepository from '../../../src/certification/scoring/infrastructure/repositories/scoring-configuration-repository.js';
 import * as finalizedSessionRepository from '../../../src/certification/session-management/infrastructure/repositories/finalized-session-repository.js';
 import * as juryCertificationSummaryRepository from '../../../src/certification/session-management/infrastructure/repositories/jury-certification-summary-repository.js';
 import * as supervisorAccessRepository from '../../../src/certification/session-management/infrastructure/repositories/supervisor-access-repository.js';
@@ -18,6 +18,7 @@ import * as certificationIssueReportRepository from '../../../src/certification/
 import * as competenceMarkRepository from '../../../src/certification/shared/infrastructure/repositories/competence-mark-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../../src/certification/shared/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/shared/infrastructure/repositories/flash-algorithm-configuration-repository.js';
+import * as scoringConfigurationRepository from '../../../src/certification/shared/infrastructure/repositories/scoring-configuration-repository.js';
 import * as authenticationMethodRepository from '../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
 import * as userRepository from '../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import { config } from '../../../src/shared/config.js';
@@ -97,6 +98,7 @@ const dependencies = {
   supervisorAccessRepository,
   targetProfileRepository,
   userRepository,
+  certificationEvaluationServices,
 };
 
 const handlersToBeInjected = {

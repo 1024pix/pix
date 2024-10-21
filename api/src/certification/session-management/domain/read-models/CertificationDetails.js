@@ -26,7 +26,7 @@ class CertificationDetails {
     this.listChallengesAndAnswers = listChallengesAndAnswers;
   }
 
-  static from({ certificationAssessment, competenceMarks, placementProfile }) {
+  static from({ certificationAssessment, competenceMarks = [], placementProfile }) {
     const answerCollection = AnswerCollectionForScoring.from({
       answers: certificationAssessment.certificationAnswersByDate,
       challenges: certificationAssessment.certificationChallenges,
@@ -51,24 +51,6 @@ class CertificationDetails {
     });
   }
 
-  static fromCertificationAssessmentScore({ certificationAssessmentScore, certificationAssessment, placementProfile }) {
-    const competenceMarks = certificationAssessmentScore.getCompetenceMarks();
-    const competencesWithMark = _buildCompetencesWithMark({ competenceMarks, placementProfile });
-    const listChallengesAndAnswers = _buildListChallengesAndAnswers({ certificationAssessment, competencesWithMark });
-
-    return new CertificationDetails({
-      id: certificationAssessment.certificationCourseId,
-      userId: certificationAssessment.userId,
-      createdAt: certificationAssessment.createdAt,
-      completedAt: certificationAssessment.completedAt,
-      status: certificationAssessment.state,
-      totalScore: certificationAssessmentScore.nbPix,
-      percentageCorrectAnswers: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      competencesWithMark,
-      listChallengesAndAnswers,
-    });
-  }
-
   toDTO() {
     return {
       id: this.id,
@@ -85,6 +67,10 @@ class CertificationDetails {
 }
 
 function _buildCompetencesWithMark({ competenceMarks, placementProfile }) {
+  if (!placementProfile) {
+    return;
+  }
+
   return _.map(competenceMarks, (competenceMark) => {
     const userCompetence = placementProfile.getUserCompetence(competenceMark.competenceId);
 
