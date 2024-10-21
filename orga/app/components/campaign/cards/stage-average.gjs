@@ -24,7 +24,7 @@ export default class StageAverage extends Component {
   <template>
     <PixIndicatorCard
       @title={{t "cards.participants-average-stages.title"}}
-      @icon="crown"
+      @iconName="awards"
       @color="blue"
       @info={{t "cards.participants-average-stages.information"}}
       @isLoading={{@isLoading}}

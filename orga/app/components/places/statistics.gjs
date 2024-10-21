@@ -3,11 +3,11 @@ import { t } from 'ember-intl';
 
 <template>
   <section class="statistics">
-    <PixIndicatorCard @title={{t "cards.available-seats-count.title"}} @color="success" @icon="users">
+    <PixIndicatorCard @title={{t "cards.available-seats-count.title"}} @color="success" @iconName="users">
       {{@model.available}}
       <span class="statistics__total">{{t "cards.available-seats-count.value" total=@model.total}}</span>
     </PixIndicatorCard>
-    <PixIndicatorCard @title={{t "cards.occupied-seats-count.title"}} @color="warning" @icon="users">
+    <PixIndicatorCard @title={{t "cards.occupied-seats-count.title"}} @color="warning" @iconName="users">
       <:default>
         {{@model.occupied}}
 

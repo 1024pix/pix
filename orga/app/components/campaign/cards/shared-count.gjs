@@ -4,7 +4,7 @@ import { t } from 'ember-intl';
 <template>
   <PixIndicatorCard
     @title={{if @isTypeAssessment (t "cards.submitted-count.title") (t "cards.submitted-count.title-profiles")}}
-    @icon="inbox-in"
+    @iconName="inventory"
     @color="green"
     @info={{t "cards.submitted-count.information"}}
     @loadingMessage={{t "cards.submitted-count.loader"}}
