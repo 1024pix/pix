@@ -1,4 +1,6 @@
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases as questUsecases } from '../../../quest/domain/usecases/index.js';
+import { config } from '../../../shared/config.js';
 import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { evaluationUsecases } from '../../domain/usecases/index.js';
 import * as answerSerializer from '../../infrastructure/serializers/jsonapi/answer-serializer.js';
@@ -9,6 +11,9 @@ const save = async function (request, h, dependencies = { answerSerializer, requ
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
   const createdAnswer = await usecases.correctAnswerThenUpdateAssessment({ answer, userId, locale });
+  if (!config.featureToggles.isAsyncQuestRewardingCalculationEnabled && config.featureToggles.isQuestEnabled) {
+    await questUsecases.rewardUser({ userId });
+  }
 
   return h.response(dependencies.answerSerializer.serialize(createdAnswer)).created();
 };

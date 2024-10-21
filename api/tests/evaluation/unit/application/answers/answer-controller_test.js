@@ -1,5 +1,7 @@
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { answerController } from '../../../../../src/evaluation/application/answers/answer-controller.js';
+import { usecases as questUsecases } from '../../../../../src/quest/domain/usecases/index.js';
+import { config } from '../../../../../src/shared/config.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | answer-controller', function () {
@@ -143,6 +145,61 @@ describe('Unit | Controller | answer-controller', function () {
         // then
         expect(response.source).to.deep.equal(serializedAnswer);
         expect(response.statusCode).to.equal(201);
+      });
+
+      context('quests', function () {
+        beforeEach(function () {
+          sinon.stub(config, 'featureToggles');
+          sinon.stub(questUsecases, 'rewardUser');
+        });
+
+        context('when quest feature is not enabled', function () {
+          it('should not call rewardUser', async function () {
+            // given
+            config.featureToggles.isQuestEnabled = false;
+
+            // when
+            await answerController.save(request, hFake, {
+              answerSerializer: answerSerializerStub,
+              requestResponseUtils: requestResponseUtilsStub,
+            });
+
+            // then
+            expect(questUsecases.rewardUser).to.have.not.been.called;
+          });
+        });
+
+        context('when quest feature enabled', function () {
+          it('should not call rewardUser if async is enabled', async function () {
+            // given
+            config.featureToggles.isQuestEnabled = true;
+            config.featureToggles.isAsyncQuestRewardingCalculationEnabled = true;
+
+            // when
+            await answerController.save(request, hFake, {
+              answerSerializer: answerSerializerStub,
+              requestResponseUtils: requestResponseUtilsStub,
+            });
+
+            // then
+            expect(questUsecases.rewardUser).to.have.not.been.called;
+          });
+
+          it('should call rewardUser if async is not enabled', async function () {
+            // given
+            config.featureToggles.isQuestEnabled = true;
+            config.featureToggles.isAsyncQuestRewardingCalculationEnabled = false;
+
+            // when
+            await answerController.save(request, hFake, {
+              answerSerializer: answerSerializerStub,
+              requestResponseUtils: requestResponseUtilsStub,
+            });
+
+            // then
+            expect(questUsecases.rewardUser).to.have.been.calledWith({ userId });
+          });
+        });
       });
     });
   });
