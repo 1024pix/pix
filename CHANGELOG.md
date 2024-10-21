@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v4.228.0 (21/10/2024)
+
+
+### :rocket: Amélioration
+- [#10363](https://github.com/1024pix/pix/pull/10363) [FEATURE] Améliorer le design des flashcards (PIX-14929).
+- [#10343](https://github.com/1024pix/pix/pull/10343) [FEATURE] Ajouter une propriété "evolution" dans la réponse de l'API pour les résultats d'une campagne Évaluation (PIX-14806).
+- [#10332](https://github.com/1024pix/pix/pull/10332) [FEATURE] Ajoute un endpoint pour récupérer les résultats de quêtes dans le cadre d'une campagne (PIX-14837).
+- [#10366](https://github.com/1024pix/pix/pull/10366) [FEATURE] Afficher un bandeau d'information concernant l'extension Companion dans la page du surveillant sur Pix Certif (PIX-12779).
+
+### :building_construction: Tech
+- [#10367](https://github.com/1024pix/pix/pull/10367) [TECH] Ajouter les méthodes increment et decrement dans la méthode withPrefix de Redis (PIX-14936).
+- [#10369](https://github.com/1024pix/pix/pull/10369) [TECH] Feat add back translations lint.
+
 ## v4.227.0 (18/10/2024)
 
 
