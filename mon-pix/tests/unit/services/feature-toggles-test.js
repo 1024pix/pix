@@ -12,6 +12,7 @@ module('Unit | Service | feature-toggles', function (hooks) {
       isTextToSpeechButtonEnabled: false,
       isNewAuthenticationDesignEnabled: false,
       isPixCompanionEnabled: false,
+      showNewCampaignPresentationPage: false,
     });
 
     let storeStub;
@@ -68,6 +69,18 @@ module('Unit | Service | feature-toggles', function (hooks) {
 
       // then
       assert.false(featureToggleService.featureToggles.isPixCompanionEnabled);
+    });
+
+    test('it initializes the feature toggle showNewCampaignPresentationPage to false', async function (assert) {
+      // given
+      const featureToggleService = this.owner.lookup('service:featureToggles');
+      featureToggleService.set('store', storeStub);
+
+      // when
+      await featureToggleService.load();
+
+      // then
+      assert.false(featureToggleService.featureToggles.showNewCampaignPresentationPage);
     });
   });
 });
