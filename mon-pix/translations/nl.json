@@ -1644,6 +1644,7 @@
           "label": "Wachtwoord"
         }
       },
+      "first-title": "Resetting the password",
       "instruction": "Voer uw nieuwe wachtwoord in",
       "succeed": "Uw wachtwoord is gewijzigd.",
       "title": "Mijn wachtwoord wijzigen"

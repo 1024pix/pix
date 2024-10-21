@@ -1644,6 +1644,7 @@
           "label": "Contraseña"
         }
       },
+      "first-title": "Resetting the password",
       "instruction": "Introduce tu nueva contraseña",
       "succeed": "Tu contraseña ha sido cambiada con éxito.",
       "title": "Cambiar mi contraseña"

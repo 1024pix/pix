@@ -1668,6 +1668,7 @@
           "label": "Password"
         }
       },
+      "first-title": "Resetting the password",
       "instruction": "Enter your new password",
       "succeed": "Your password has been changed successfully.",
       "title": "Change my password"

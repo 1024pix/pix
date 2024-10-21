@@ -1668,6 +1668,7 @@
           "label": "Mot de passe"
         }
       },
+      "first-title": "Réinitialisation du mot de passe",
       "instruction": "Saisissez votre nouveau mot de passe",
       "succeed": "Votre mot de passe a été modifié avec succès.",
       "title": "Changer mon mot de passe"
