@@ -1,5 +1,5 @@
 import { getNextChallenge } from '../../../../../../src/certification/evaluation/domain/usecases/get-next-challenge.js';
-import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { SESSIONS_VERSIONS } from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { AssessmentEndedError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
@@ -69,7 +69,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           blindnessCompatibility: 'KO',
         });
         const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-          version: CERTIFICATION_VERSIONS.V3,
+          version: SESSIONS_VERSIONS.V3,
         });
         const locale = 'fr-FR';
 
@@ -159,7 +159,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
             }),
           ];
           const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-            version: CERTIFICATION_VERSIONS.V3,
+            version: SESSIONS_VERSIONS.V3,
           });
           const assessment = domainBuilder.buildAssessment();
           const locale = 'fr-FR';
@@ -245,7 +245,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
           const locale = 'fr-FR';
 
           const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-            version: CERTIFICATION_VERSIONS.V3,
+            version: SESSIONS_VERSIONS.V3,
           });
           const assessment = domainBuilder.buildAssessment();
 
@@ -299,7 +299,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         const skill = domainBuilder.buildSkill({ id: 'skill1' });
 
         const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-          version: CERTIFICATION_VERSIONS.V3,
+          version: SESSIONS_VERSIONS.V3,
         });
         const assessment = domainBuilder.buildAssessment();
 
@@ -389,7 +389,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         const secondSkill = domainBuilder.buildSkill({ id: 'skill2' });
 
         const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-          version: CERTIFICATION_VERSIONS.V3,
+          version: SESSIONS_VERSIONS.V3,
         });
         const assessment = domainBuilder.buildAssessment();
 
@@ -487,7 +487,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
         const answeredChallenge = domainBuilder.buildChallenge();
         const answer = domainBuilder.buildAnswer({ challengeId: answeredChallenge.id });
         const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-          version: CERTIFICATION_VERSIONS.V3,
+          version: SESSIONS_VERSIONS.V3,
         });
         const assessment = domainBuilder.buildAssessment();
         const locale = 'fr-FR';
@@ -569,7 +569,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge', function () {
             });
 
             const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-              version: CERTIFICATION_VERSIONS.V3,
+              version: SESSIONS_VERSIONS.V3,
             });
 
             flashAlgorithmConfigurationRepository.getMostRecentBeforeDate.reset();

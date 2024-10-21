@@ -2,7 +2,7 @@
 /* eslint-disable mocha/no-setup-in-describe */
 import { CertificationCandidateEligibilityError } from '../../../../../../src/certification/enrolment/domain/errors.js';
 import { verifyCandidateSubscriptions } from '../../../../../../src/certification/enrolment/domain/usecases/verify-candidate-subscriptions.js';
-import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { SESSIONS_VERSIONS } from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import { UserNotAuthorizedToCertifyError } from '../../../../../../src/shared/domain/errors.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/index.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
@@ -48,7 +48,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
         reconciledAt: new Date(),
         subscriptions: [domainBuilder.certification.enrolment.buildCoreSubscription()],
       });
-      session = domainBuilder.certification.enrolment.buildSession({ id: 1234, version: CERTIFICATION_VERSIONS.V2 });
+      session = domainBuilder.certification.enrolment.buildSession({ id: 1234, version: SESSIONS_VERSIONS.V2 });
       dependencies.sessionRepository = {
         get: sinon.stub().resolves(session),
       };
@@ -77,7 +77,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | verify-candidate
 
   context('when session is v3', function () {
     beforeEach(function () {
-      session = domainBuilder.certification.enrolment.buildSession({ id: 1234, version: CERTIFICATION_VERSIONS.V3 });
+      session = domainBuilder.certification.enrolment.buildSession({ id: 1234, version: SESSIONS_VERSIONS.V3 });
       dependencies.sessionRepository = {
         get: sinon.stub().resolves(session),
       };

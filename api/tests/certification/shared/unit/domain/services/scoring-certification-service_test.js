@@ -11,8 +11,8 @@ import {
   states,
 } from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { ABORT_REASONS } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
-import { CERTIFICATION_VERSIONS } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { SESSIONS_VERSIONS } from '../../../../../../src/certification/shared/domain/models/SessionVersion.js';
 import * as scoringCertificationService from '../../../../../../src/certification/shared/domain/services/scoring-certification-service.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { CertificationComputeError } from '../../../../../../src/shared/domain/errors.js';
@@ -2050,8 +2050,9 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring Certificat
       it('should save the score', async function () {
         // given
         const certificationCourseStartDate = new Date('2022-01-01');
+        // TODO: switch to certif-course version, not session
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          version: CERTIFICATION_VERSIONS.V3,
+          version: SESSIONS_VERSIONS.V3,
         });
 
         const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
@@ -2405,7 +2406,7 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring Certificat
         certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationCourseId,
           id: assessmentId,
-          version: CERTIFICATION_VERSIONS.V3,
+          version: SESSIONS_VERSIONS.V3,
         });
         baseFlashAlgorithmConfig = domainBuilder.buildFlashAlgorithmConfiguration({
           maximumAssessmentLength,
@@ -2423,8 +2424,9 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring Certificat
         describe('when the certification was not finished due to a lack of time', function () {
           it('should save the score with a rejected status', async function () {
             // given
+            // TODO: switch to certif-course version, not session
             const certificationAssessment = domainBuilder.buildCertificationAssessment({
-              version: CERTIFICATION_VERSIONS.V3,
+              version: SESSIONS_VERSIONS.V3,
             });
 
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
@@ -2664,8 +2666,9 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring Certificat
         describe('when the certification was not finished due to technical difficulties', function () {
           it('should save the score with a rejected status and cancel the certification course', async function () {
             // given
+            // TODO: switch to certif-course version, not session
             const certificationAssessment = domainBuilder.buildCertificationAssessment({
-              version: CERTIFICATION_VERSIONS.V3,
+              version: SESSIONS_VERSIONS.V3,
             });
 
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
@@ -3029,8 +3032,9 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring Certificat
           it('should save the raw score', async function () {
             // given
             const certificationCourseStartDate = new Date('2022-01-01');
+            // TODO: switch to certif-course version, not session
             const certificationAssessment = domainBuilder.buildCertificationAssessment({
-              version: CERTIFICATION_VERSIONS.V3,
+              version: SESSIONS_VERSIONS.V3,
             });
 
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
@@ -3154,8 +3158,9 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring Certificat
           it('should save the score with rejected status', async function () {
             const certificationCourseStartDate = new Date('2022-01-01');
             // given
+            // TODO: switch to certif-course version, not session
             const certificationAssessment = domainBuilder.buildCertificationAssessment({
-              version: CERTIFICATION_VERSIONS.V3,
+              version: SESSIONS_VERSIONS.V3,
             });
 
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
@@ -3275,8 +3280,9 @@ describe('Certification | Shared | Unit | Domain | Services | Scoring Certificat
             // given
             const certificationCourseStartDate = new Date('2022-01-01');
 
+            // TODO: switch to certif-course version, not session
             const certificationAssessment = domainBuilder.buildCertificationAssessment({
-              version: CERTIFICATION_VERSIONS.V3,
+              version: SESSIONS_VERSIONS.V3,
             });
 
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({

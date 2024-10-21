@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { CERTIFICATION_CENTER_TYPES } from '../../../../shared/domain/constants.js';
 import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
-import { CERTIFICATION_VERSIONS } from '../../../shared/domain/models/CertificationVersion.js';
+import { SESSIONS_VERSIONS } from '../../../shared/domain/models/SessionVersion.js';
 
 const INVIGILATOR_PASSWORD_LENGTH = 6;
 const INVIGILATOR_PASSWORD_CHARS = '23456789bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY!*?'.split('');
@@ -25,7 +25,7 @@ class SessionEnrolment {
     certificationCandidates,
     certificationCenterId,
     invigilatorPassword,
-    version = CERTIFICATION_VERSIONS.V2,
+    version = SESSIONS_VERSIONS.V2,
     createdBy,
     finalizedAt,
   } = {}) {
