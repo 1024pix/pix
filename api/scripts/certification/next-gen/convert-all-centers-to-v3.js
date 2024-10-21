@@ -17,8 +17,18 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main({ isDryRun, preservedCenterIds, dependencies }) {
-  await dependencies.convertSessionsWithNoCoursesToV3({ isDryRun });
   await dependencies.convertCentersToV3({ isDryRun, preservedCenterIds });
+  await dependencies.convertSessionsWithNoCoursesToV3({ isDryRun });
+}
+
+async function _readPreservedCenterIdsFromFile({ filePath }) {
+  const preservedCenters = filePath
+    ? await parseCsvWithHeaderAndRequiredFields({
+        filePath,
+        requiredFieldNames: ['id'],
+      })
+    : [];
+  return preservedCenters.map(({ id }) => id);
 }
 
 (async () => {
@@ -27,14 +37,7 @@ async function main({ isDryRun, preservedCenterIds, dependencies }) {
     try {
       const isDryRun = process.env.DRY_RUN === 'true';
       const filePath = process.argv[2];
-      const preservedCenters = filePath
-        ? await parseCsvWithHeaderAndRequiredFields({
-            filePath,
-            requiredFieldNames: ['id'],
-          })
-        : [];
-      const preservedCenterIds = preservedCenters.map(({ id }) => id);
-
+      const preservedCenterIds = await _readPreservedCenterIdsFromFile({ filePath });
       logger.info(`Converting centers to v3...`);
       await main({ isDryRun, preservedCenterIds, dependencies: usecases });
       logger.info(`Converting centers to v3 successfully!`);
