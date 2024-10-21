@@ -151,6 +151,16 @@
         "select-another-organization-link": "Choose another organisation",
         "signup-heading": "Other ways to sign up"
       },
+      "password-reset-form": {
+        "actions": {
+          "submit": "Reset my password"
+        },
+        "fields": {
+          "password": {
+            "label": "Please enter your new password"
+          }
+        }
+      },
       "signup-form": {
         "actions": {
           "submit": "Sign up"

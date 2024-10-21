@@ -151,6 +151,16 @@
         "select-another-organization-link": "Choisir une autre organisation",
         "signup-heading": "Autres moyens d’inscription"
       },
+      "password-reset-form": {
+        "actions": {
+          "submit": "Je réinitialise mon mot de passe"
+        },
+        "fields": {
+          "password": {
+            "label": "Saisissez votre nouveau mot de passe"
+          }
+        }
+      },
       "signup-form": {
         "actions": {
           "submit": "Je m'inscris"
