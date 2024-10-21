@@ -165,7 +165,7 @@
 
 .evaluation-results-hero-details__acquired-badges {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(12rem, 100%), 1fr));
   gap: var(--pix-spacing-6x);
 
   .image-container {
