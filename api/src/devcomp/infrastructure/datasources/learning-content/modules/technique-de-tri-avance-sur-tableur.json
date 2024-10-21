@@ -1,0 +1,343 @@
+{
+    "id": "37e6fb15-1c18-43ed-813c-695a600d9c4a",
+    "slug": "technique-de-tri-avance-sur-tableur",
+    "title": "Les techniques de tri avancées sur tableur",
+    "details": {
+      "image": "https://images.pix.fr/modulix/placeholder-details.svg",
+      "description": "Trier vos données vous permet de visualiser des résultats très clairement. Dans ce module, vous allez apprendre à utiliser les fonctions de tri avancées. Vous pourrez trier vos données en combinant plusieurs critères.",
+      "duration": 10,
+      "level": "Avancé",
+      "tabletSupport": "obstructed",
+      "objectives": [
+        "Trier sur tableur selon plusieurs critères ",
+        "Utiliser des critères de tris avancés ",
+        "Améliorer un tableau existant pour mieux l’exploiter"
+      ]
+    },
+    "transitionTexts": [
+      {
+        "grainId": "0a4d5c4f-a0ad-41f3-9a62-6355bc7e76e4",
+        "content": "<p> Généralement, le tri d'un tableau se fait à partir d’une seule colonne. Pour des cas plus complexes, il existe des moyens de trier un tableau selon plusieurs colonnes.</p><p><span aria-hidden=\"true\">👉</span> Prenons un exemple&nbsp;:  Sarah organise des olympiades pour l'anniversaire de ses enfants. <span aria-hidden=\"true\">🥇🥈🥉</span> Elle a commencé à lister les résultats aux épreuves dans un tableau.</p>"
+      },
+      {
+        "grainId": "cfc00305-ff66-4537-8afe-7fb5b45d5450",
+        "content": "<p>Vous l’avez compris, les raccourcis de tri croissant <span aria-hidden=\"true\">⬆️</span> ou décroissant <span aria-hidden=\"true\">⬇️</span> sont insuffisants pour un tri sur plusieurs colonnes. </p><p> <span aria-hidden=\"true\">📺</span> Maintenant que vous avez identifié le besoin de Sarah, découvrez en vidéo comment utiliser la fenêtre de tri. </p>"
+      },
+      {
+        "grainId": "83714a27-312b-48a1-9d6c-8e930734ef5a",
+        "content": "<p>Maintenant, aidez Sarah à obtenir les résultats de ses olympiades. <span aria-hidden=\"true\">🥇🥈🥉</span></p><p>À vos marques, prêts, partez !</p>"
+      },
+      {
+        "grainId": "83a7a4fc-cae1-4928-92ec-4b35dc2e68fc",
+        "content": "<p>Envie de devenir un as&#8239;? <span aria-hidden=\"true\">♣️</span> <br> Maîtrisez encore mieux l’outil tableur en suivant ces bonnes pratiques.<span aria-hidden=\"true\">🏆</span></p>"
+      },
+      {
+        "grainId": "3c89d821-9e99-412e-947f-b91f3169b217",
+        "content": "<p>Vous savez désormais créer un tri à deux colonnes sur un logiciel de tableur. </p><p><span aria-hidden=\"true\">📖</span> Selon les logiciels, il existe des différences dans les noms ou dans la disposition des boutons.</p>"
+      },
+      {
+        "grainId": "cb2f6b63-eedb-4ecf-8e6c-35da4590d67b",
+        "content": "<p>Dans la majorité des cas, vous n’aurez pas de consignes claires pour trier vos données. Il faudra définir le tri nécessaire à partir du besoin. <span aria-hidden=\"true\">🔍</span> </p><p><span aria-hidden=\"true\">👉</span> Prenons la suite des olympiades de Sarah. Les enfants ont constitué des équipes et ont participé à trois nouvelles épreuves&nbsp;: un memory, un labyrinthe et une chasse au trésor.</p> "
+      }
+    ],
+    "grains": [
+      {
+        "id": "0a4d5c4f-a0ad-41f3-9a62-6355bc7e76e4",
+        "type": "activity",
+        "title": "Tri multicritère",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "701f996c-aa90-4035-9c6d-fe0b9072c4a1",
+              "type": "text",
+              "content": "<p>Voici un aperçu du tableau de Sarah. </p><p>Elle souhaite classer les enfants, d'abord, par ordre du meilleur score au chamboule-tout, puis par ordre de rapidité à la course en sac.<span aria-hidden=\"true\">🏆</span></p>"
+            }
+          },
+          {
+            "type": "element",
+            "element": {
+              "id": "799469c1-1e7a-40e5-ac86-78873d902baa",
+              "type": "image",
+              "url": "https://i.imgur.com/8jxMuVu.png",
+              "alt": "",
+              "alternativeText": "<p>Extrait d'une fenêtre de tableur avec un tableau à 5 colonnes&nbsp;:</p> <ul><li>Colonne A&nbsp;: Prénom</li><li>Colonne B&nbsp;: Nom de famille</li><li>Colonne C&nbsp;: Score au chamboule-tout</li><li>Colonne D&nbsp;: Temps de course en sac</li><li>Colonne E&nbsp;: Couleur de foulard</li></ul><p>Trois propositions sont indiquées sur l'interface&nbsp;:</p><ul><li>Proposition 1) Le bouton de tri personnalisé.</li><li>Proposition 2) Les boutons de tri croissant et décroissant.</li><li>Proposition 3) La colonne F vide.</li></ul>"
+            }
+          },
+          {
+            "type": "element",
+            "element": {
+              "id": "3965b92f-04a9-4ce7-bd40-19a0214084bd",
+              "type": "qcu",
+              "instruction": "Pour obtenir le classement des enfants, quelle manipulation Sarah doit-elle réaliser&#8239;?",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "1) Utiliser la fenêtre de tri personnalisé pour créer un tri à deux critères."
+                },
+                {
+                  "id": "2",
+                  "content": "2) Utiliser « Tri décroissant » pour la colonne C  puis « Tri croissant » en colonne D."
+                },
+                {
+                  "id": "3",
+                  "content": "3) Créer une formule de tri automatique dans la colonne F."
+                }
+              ],
+              "feedbacks": {
+                "valid": "<span class=\"feedback__state\">Correct.</span><p>Pour ajouter le tri des temps de course à ceux des scores au chamboule-tout, il faut créer un tri à deux critères. Cette action est accessible via la fenêtre de tri.</p>",
+                "invalid": "<span class=\"feedback__state\">Incorrect.</span><p> Cette méthode ne permet pas de cumuler les deux critères de tri.</p> "
+              },
+              "solution": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cfc00305-ff66-4537-8afe-7fb5b45d5450",
+        "type": "lesson",
+        "title": "Démonstration de tri avancé sur LibreOffice",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "701f996c-aa90-4035-9c6d-fe0b9072c4a1",
+              "type": "text",
+              "content": "<p>Dans cette vidéo, vous allez voir comment appliquer un tri avancé dans un tableau. Le logiciel utilisé ici est LibreOffice.</p><p> Ensuite, vous devrez appliquer un tri sur plusieurs colonnes dans un tableau.</p>"
+            }
+          },
+       {
+            "type": "element",
+            "element":
+              {
+                    "id": "c2f89648-1f06-4e58-b5a5-422677d24417",
+                    "type": "text",
+                    "content": "<iframe width=\"700\" height=\"400\" src=\"https://www.youtube.com/embed/nzbSTmYNMws\" title=\"Screencast-Les techniques de tri avancées sur tableur\"></iframe>"
+              }
+          }
+        ]
+      },
+      {
+        "id": "83714a27-312b-48a1-9d6c-8e930734ef5a",
+        "type": "activity",
+        "title": "Création d'un tri avancé à 2 critères donnés",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "cabf35be-5916-4e49-acc9-f3e66b27d673",
+              "type": "text",
+              "content": "<p>Les enfants ont jugé les résultats de la course en sacs trop sérrés. Pour départager les enfants autrement, Sarah a créé la «&nbsp;Question Bonus&nbsp;».<span aria-hidden=\"true\">✨</span> </p><p><span aria-hidden=\"true\">📋</span> Elle a ajouté les réponses des enfants dans le tableau de données.<br> Désormais, l’ordre de de tri est donc défini d'abord par le score au chamboule-tout, puis par la réponse à la «&nbsp;Question Bonus&nbsp;» par ordre alphabétique.</p> <br><p><b> <span aria-hidden=\"true\">👉</span> Téléchargez le fichier ci-dessous et triez la liste d'enfants par orde décroissant de score au chamboule-tout, puis par ordre croissant de réponse à la question bonus.</b></p>"
+            }
+          },
+            {
+      "type": "element",
+      "element": {
+        "id": "2080300e-ddbe-4641-b4a8-360426d48adb",
+        "type": "download",
+        "files": [
+          { "url": "https://dl.pix.fr/1724318432534/ICTHKNLOBX.xlsx", "format": ".xlsx" },
+          { "url": "https://dl.pix.fr/1724318432598/GMFCAJMWAW.ods", "format": ".ods" }
+                ]
+            }
+           },
+          {
+            "type": "element",
+            "element": {
+              "id": "f80ba4ce-8e85-4ea5-90aa-b7848e570901",
+              "type": "qrocm",
+              "instruction": "Quel est le mot secret&#8239;?",
+              "proposals": [
+                {
+                    "type": "text",
+                    "content": "<span>Mot secret&nbsp;:</span>"
+                },
+                {
+                    "input": "mot secret",
+                    "type": "input",
+                    "inputType": "text",
+                    "size": 20,
+                    "display": "block",
+                    "placeholder": "",
+                    "ariaLabel": "mot secret1",
+                    "defaultValue": "",
+                    "tolerances": ["t1"],
+                    "solutions": ["SAVOUREUX","savoureux","Savoureux"]
+                }
+              ],
+              "feedbacks": {
+                "valid": "<span class=\"feedback__state\">Correct.</span><p>Le tri avancé a bien permis de classer la liste d’enfants par ordre décroissant de score au chamboule-tout, puis par ordre croissant de réponse à la question bonus.</p> ",
+                "invalid": "<span class=\"feedback__state\">Incorrect.</span> <p>Vérifiez l’ordre de vos critères de tri. En premier le score au chamboule-tout par ordre décroissant, puis la réponse à l aquestion bonus par ordre croissant. Si nécessaire, regardez à nouveau la vidéo pour vous aider.</p>"
+              }
+            }
+          }
+        ]
+      },
+    
+      {
+        "id": "83a7a4fc-cae1-4928-92ec-4b35dc2e68fc",
+        "type": "lesson",
+        "title": "Astuces Pratiques ",
+        "components": [
+          {
+            "type": "stepper",
+            "steps": [
+              {
+                "elements": [
+                  {
+                    "id": "4d323b5f-4abf-4d3b-bee7-89fa205e25f3",
+                    "type": "text",
+                    "content": "<h3>Il n'est pas nécessaire de sélectionner les 350 lignes une par une. </h3><p>Cliquez sur n’importe quelle case remplie de votre tableau et ouvrez la fenêtre de tri. La majorité des logiciels détectent automatiquement l’ensemble de votre tableau à trier.</p><br><details><summary><span aria-hidden=\"true\">💡</span> L’astuce pratique</summary><p><span aria-hidden=\"true\">❌</span> Une colonne ou ligne vide peut bloquer la détection du tableau. <br> <span aria-hidden=\"true\">✅</span> Pensez à supprimer en amont les lignes et colonnes vides.</p></details>"
+                  },
+                  {
+                  "id": "4f131f45-b530-40ba-84de-7f2131593219",
+                  "type": "image",
+                  "url": "https://i.imgur.com/3I8brnA.png",
+                  "alt": "Astuce 1&nbsp;:S electionner les données d'un tableau en cliquant sur une case",
+                  "alternativeText": "Image extraite d'un logiciel de tableur. Un tableau à 5 colonnes et 16 lignes, une case est sélectionnée au milieu du tableau."
+                }
+                ]
+              },
+              {
+                "elements": [
+                  {
+                    "id": "76a09390-8f46-480b-b700-956a08799082",
+                    "type": "text",
+                    "content": "<h3>Une case permet de reconnaître les en-têtes ou étiquettes de colonnes.</h3> <p>Dans la fenêtre de tri, la liste déroulante vous propose  le choix entre «&nbsp;Menu&nbsp;» et «&nbsp;Numéro de table&nbsp;». Si les en-têtes sont correctement remplis, la plupart des logiciels les détectent grâce à une case cochée.</p><p>Cette case s’appelle «&nbsp;<span aria-hidden=\"true\">☑️</span> Mes données ont des en-têtes&nbsp;» ou «&nbsp;<span aria-hidden=\"true\">☑️</span> La plage contient des étiquettes de colonne&nbsp;» </p><br><details><summary><span aria-hidden=\"true\">💡</span> L’astuce pratique</summary><p><span aria-hidden=\"true\">✅</span>Vous pouvez cocher la case manuellement si la liste déroulante vous propose uniquement des intitulés comme «&nbsp;Colonne A&nbsp;»  et «&nbsp;Colonne B&nbsp;». </p><p> <span aria-hidden=\"true\">❌</span>Sachez que si la case n’est pas cochée alors que vous avez des en-têtes, votre ligne d’en-tête va être triée avec les autres. Dans ce cas, «&nbsp;Prénom&nbsp;»  sera placé entre «&nbsp;Pauline&nbsp;»  et «&nbsp;Raphaël&nbsp;» .</p></details>"
+                  },
+                {
+                  "id": "4630b61d-5581-483b-8bad-19ab5f54195a",
+                  "type": "image",
+                  "url": "https://i.imgur.com/Fzf0kE7.png",
+                  "alt": "Astuce 2&nbsp;: La case qui permet de connaître les intitulés des en-têtes",
+                  "alternativeText": "Image de la fenêtre de tri ouverte. La case «&nbsp;La plage contient des intitulés de colonne&nbsp;» est cochée. "
+                }
+                ]
+              },
+              {
+                "elements": [
+                  {
+                    "id": "66af2203-c5ca-422a-b00a-d546acf84754",
+                    "type": "text",
+                    "content": "<h3>Dans l’onglet «&nbsp;Options&nbsp;»  de la fenêtre de tri, vous pouvez effectuer d’autres réglages.</h3> <ul><li>Utiliser la sensibilité à la casse. C'est utile si vous voulez faire un tri en fonction des mots avec majuscules ou minuscules.<span aria-hidden=\"true\">🔠</span></li><li>Cocher ou décocher la case «&nbsp;ordre de tri personnalisé&nbsp;». Cette case vous permet de trier automatiquement les jours de la semaine et les mois. Si cette case est décochée, le tri sera alphabétique&nbsp;: jeudi sera donc avant lundi.<span aria-hidden=\"true\">📆</span></li></ul>"
+                  },
+                {
+                  "id": "36ef789d-2835-4016-9d8d-ed344c12d153",
+                  "type": "image",
+                  "url": "https://i.imgur.com/mkaJMb3.png",
+                  "alt": "Astuce 3&nbsp;: utiliser les options de la fenêtre de tri",
+                  "alternativeText": "Image de la fenêtre de tri ouverte dans l'onglet «&nbsp;Options&nbsp;». La case «&nbsp;Sensible à la casse&nbsp;» est cochée, ainsi que la case «&nbsp;Ordre de tri personnalisé&nbsp;». "
+                }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+   {
+        "id": "cb2f6b63-eedb-4ecf-8e6c-35da4590d67b",
+        "type": "activity",
+        "title": "Création d'un tri avancé à 3 critères à partir d'un modèle",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "949063e9-c3fe-4762-8a45-de450eabf6dc",
+              "type": "text",
+              "content": "<p>Le fichier à télécharger contient les résultats des enfants aux nouvelles épreuves. <span aria-hidden=\"true\">📋</span></p> <br><p><b><span aria-hidden=\"true\">👉</span> Téléchargez ce fichier et triez les données pour reproduire le classsement de Sarah ci-dessous (attention, on ne voit que le début…).</b></p>"
+            }
+          },
+          {
+            "type": "element",
+            "element": {
+              "id": "72e7ee57-6787-420e-b1c7-cfdebed70359",
+              "type": "image",
+              "url": "https://i.imgur.com/R9mEcAh.png",
+              "alt": "",
+              "alternativeText": "Extrait de tableau"
+            }
+          },
+                {
+      "type": "element",
+      "element": {
+        "id": "ee9ec966-e72c-4b4b-9825-74ad1a43a2b8",
+        "type": "download",
+        "files": [
+          { "url": "https://dl.pix.fr/1724163391396/CKXLSURDVH.xlsx", "format": ".xlsx" },
+          { "url": "https://dl.pix.fr/1724163391601/JABYJZPWLU.ods", "format": ".ods" }
+                ]
+            }
+           },
+          {
+            "type": "element",
+            "element": {
+              "id": "83bcfa91-497b-498f-94f7-16b761e98a8c",
+              "type": "qrocm",
+              "instruction": "Quel est le mot secret qui s’affiche&nbsp;?",
+              "proposals": [
+                {
+                    "type": "text",
+                    "content": "<span>Mot secret&nbsp;:</span>"
+                },
+                {
+                    "input": "mot secret",
+                    "type": "input",
+                    "inputType": "text",
+                    "size": 20,
+                    "display": "block",
+                    "placeholder": "",
+                    "ariaLabel": "mot secret2",
+                    "defaultValue": "",
+                    "tolerances": ["t1"],
+                    "solutions": ["TRAITEUR","Traiteur","traiteur"]
+                }
+              ],
+              "feedbacks": {
+                "valid": "<span class=\"feedback__state\">Correct.</span><p>Le tri avancé a bien permis de classer les enfants par équipe, puis par découverte du trésor, puis par plsu grand score au memory puis par temps le plus court au labyrinthe.</p>",
+                "invalid": "<span class=\"feedback__state\">Incorrect.</span> <p>Regardez bien dans l’image. Trouvez d’abord dans quel ordre les colonnes sont triées. Quelle colonne affiche le plus d'éléments similaires les uns à la suite des autres&nbsp;? C’est celle qui représente le premier critère. Ensuite, quel tri est appliqué à cette colonne&nbsp;? Croissant ou décroissant&nbsp;? Continuez avec les autres colonnes.</p>"
+              }
+            }
+          },
+          {
+            "type": "element",
+            "element": {
+              "id": "e33e2f75-d98f-42cc-aa82-3e9a0b0f59cb",
+              "type": "text",
+              "content": "<details><summary>Indice 1</summary><p>Avez-vous pensé à harmoniser vos données&nbsp;? Pensez à supprimer les lignes ou colonnes vides au milieu du tableau pour éviter qu'elles n'influencent le résultat de votre tri.</p></details><details><summary>Indice 2</summary><p>Pour trouver le tri à partir d'une image observez bien les colonnes pour trouver l'ordre des critères de tri. L'ordre des critères de tri ne suit pas forcément l'ordre d'apparition des colonnes dans le tableau.</p></details>"
+            }
+          }
+        ]
+      },
+        {
+        "id": "3c89d821-9e99-412e-947f-b91f3169b217",
+        "type": "lesson",
+        "title": "Récapitulatif  tri avancé ",
+        "components": [
+          {
+            "type": "element",
+            "element": {
+              "id": "c76ef813-7650-4da8-8eb7-490e53d8045b",
+              "type": "text",
+              "content": "<p>Voici un récapitulatif des grandes étapes de tri et des précisions de vocabulaire.</p><br> <h3><span aria-hidden=\"true\">🪟</span>La fenêtre de tri permet de créer un tri basé sur plusieurs colonnes.</h3><p>Il y a généralement deux manières d’accéder à la fenêtre de tri&nbsp;:</p><ul><li>en cliquant sur une icône dans le bandeau principal. Cette icône ressemble souvent à un petit tableau,</li><li>via l’onglet «&nbsp;Données&nbsp;»  ou «&nbsp;Organiser&nbsp;» .<br> </li></ul> <br> <details><summary><span aria-hidden=\"true\">🔤</span> Vocabulaire </summary><p>La fenêtre de tri peut s’appeler «&nbsp;Trier&nbsp;» ou «&nbsp;Tri personnalisé&nbsp;», et même parfois «&nbsp;Options avancées de tri&nbsp;».</p></details>"
+            }
+          },
+          {
+            "type": "element",
+            "element": {
+              "id": "8137ddf4-f689-4297-8beb-a8de0c64b14d",
+              "type": "text",
+              "content": "<hr>"
+            }
+          },
+          {
+            "type": "element",
+            "element": {
+              "id": "0079417d-3054-4c03-8cfa-5f48f0d71282",
+              "type": "text",
+              "content": " <h3><span aria-hidden=\"true\">🥇</span>L’ordre des critères de tri détermine le rendu du tri.</h3>  <p> L’ordre des critères de tri est déterminant. Le second critère s’applique en fonction du premier. Si vous inversez les critères, vous obtiendrez un rendu très différent.</p><br><details><summary><span aria-hidden=\"true\">🔤</span> Vocabulaire </summary><p>Un critère de tri comprend 2 facteurs&nbsp;: une colonne et un tri (croissant ou décroissant). Selon le logiciel, un critère de tri peut aussi s’appeler «&nbsp;Clé de tri&nbsp;» ou «&nbsp;Niveau de tri&nbsp;».</p></details>"
+            }
+          }
+        ]
+      }
+    ]
+  }
