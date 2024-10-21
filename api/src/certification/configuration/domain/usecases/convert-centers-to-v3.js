@@ -1,5 +1,15 @@
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+/**
+ * @typedef {import ('./index.js').CentersRepository} CentersRepository
+ */
 
+/**
+ * @param {Object} params
+ * @param {boolean} params.isDryRun
+ * @param {preservedCenterIds} params.preservedCenterIds
+ * @param {CentersRepository} params.centerRepository
+ * @returns {Promise<void>}
+ */
 export async function convertCentersToV3({ isDryRun, preservedCenterIds, centerRepository }) {
   if (isDryRun) {
     logger.info('Dry run requested, no centers are actually converted');
