@@ -25,11 +25,15 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
 
   module('When header sort is enabled', function () {
     test('should display sort-icon', async function (assert) {
+      // given
+      this.set('defaultLabel', 'mon-label');
       // when
-      await render(hbs`<Table::HeaderSort @isDisabled={{false}}>Header</Table::HeaderSort>`);
+      const screen = await render(
+        hbs`<Table::HeaderSort @isDisabled={{false}} @ariaLabelDefaultSort={{this.defaultLabel}}>Header</Table::HeaderSort>`,
+      );
 
       // then
-      assert.dom('[data-icon="sort"]').exists();
+      assert.ok(screen.getByLabelText('mon-label'));
     });
 
     test('it call onSort with "asc" when no order is given', async function (assert) {

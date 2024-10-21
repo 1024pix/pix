@@ -1,5 +1,4 @@
 import { render } from '@1024pix/ember-testing-library';
-import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -12,15 +11,19 @@ module('Integration | Component | Ui::Chevron', function (hooks) {
     const onClick = sinon.stub();
     this.set('isOpen', false);
     this.set('click', onClick);
+    this.set('label', 'mon-label');
   });
 
   test('it renders', async function (assert) {
     // when
-    await render(hbs`<Ui::Chevron @isOpen={{this.isOpen}} @onClick={{this.click}} />`);
+    const screen = await render(
+      hbs`<Ui::Chevron @isOpen={{this.isOpen}} @onClick={{this.click}} @ariaLabel={{this.label}} />`,
+    );
 
     // then
     assert.dom('button[type=button]').exists();
     assert.dom('[aria-expanded="false"]').exists();
+    assert.ok(screen.getByLabelText('mon-label'));
   });
 
   test('it should open the accordion when it is closed', async function (assert) {
@@ -28,7 +31,6 @@ module('Integration | Component | Ui::Chevron', function (hooks) {
     await render(hbs`<Ui::Chevron @isOpen={{this.isOpen}} @onClick={{this.click}} />`);
 
     // when
-    await click('[data-icon="chevron-down"]');
     this.set('isOpen', true);
 
     // then
@@ -41,7 +43,6 @@ module('Integration | Component | Ui::Chevron', function (hooks) {
     this.set('isOpen', true);
 
     // when
-    await click('[data-icon="chevron-up"]');
     this.set('isOpen', false);
 
     // then
