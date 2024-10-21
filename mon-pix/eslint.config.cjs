@@ -7,13 +7,14 @@ const pixRecommendedConfig = require('@1024pix/eslint-plugin/config');
 const globals = require('globals');
 const babelParser = require('@babel/eslint-parser');
 const emberParser = require('ember-eslint-parser');
+const i18nJsonPlugin = require('eslint-plugin-i18n-json');
 
 const unconventionalJsFiles = ['blueprints/**/files/*', 'app/vendor/*'];
 const compiledOutputFiles = ['dist/*', 'tmp/*'];
 const dependenciesFiles = ['bower_components/*', 'node_modules/*'];
 const miscFiles = ['coverage/*', '!**/.*', '**/.eslintcache'];
 const emberTryFiles = ['.node_modules.ember-try/*', 'bower.json.ember-try', 'package.json.ember-try'];
-const phraseGeneratedFiles = ['translations/*.json', '!translations/en.json', '!translations/fr.json'];
+const nonPhraseGeneratedFiles = ['translations/en.json', 'translations/fr.json'];
 
 const nodeFiles = [
   'eslint.config.cjs',
@@ -43,14 +44,7 @@ module.exports = [
   qunitRecommendedConfig,
   prettierRecommendedConfig,
   {
-    ignores: [
-      ...unconventionalJsFiles,
-      ...compiledOutputFiles,
-      ...dependenciesFiles,
-      ...miscFiles,
-      ...emberTryFiles,
-      ...phraseGeneratedFiles,
-    ],
+    ignores: [...unconventionalJsFiles, ...compiledOutputFiles, ...dependenciesFiles, ...miscFiles, ...emberTryFiles],
   },
   {
     languageOptions: {
@@ -139,6 +133,17 @@ module.exports = [
         ...globals.embertest,
         server: false,
       },
+    },
+  },
+  {
+    files: nonPhraseGeneratedFiles,
+    plugins: { 'i18n-json': i18nJsonPlugin },
+    processor: {
+      meta: { name: '.json' },
+      ...i18nJsonPlugin.processors['.json'],
+    },
+    rules: {
+      ...i18nJsonPlugin.configs.recommended.rules,
     },
   },
 ];
