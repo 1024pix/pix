@@ -112,7 +112,7 @@ export default class SigninForm extends Component {
   <template>
     <form {{on "submit" this.signin}} class="signin-form">
       {{#if this.globalError}}
-        <PixMessage @type="error" @withIcon="true" role="alert">
+        <PixMessage @type="error" @withIcon={{true}} role="alert">
           {{t this.globalError.key this.globalError.values}}
         </PixMessage>
       {{/if}}
