@@ -196,4 +196,37 @@ describe('Certification | Configuration | Integration | Repository | center-repo
       expect(updatedCenter.isScoBlockedAccessWhitelist).to.be.true;
     });
   });
+
+  describe('#updateCentersToV3', function () {
+    it('should set isV3Pilot to true for v2 centers', async function () {
+      const v2Center = databaseBuilder.factory.buildCertificationCenter({
+        isV3Pilot: false,
+      });
+      await databaseBuilder.commit();
+
+      const count = await centerRepository.updateCentersToV3({ preservedCenterIds: [] });
+
+      const updatedCenter = await knex('certification-centers').where({ id: v2Center.id }).first();
+      expect(updatedCenter.isV3Pilot).to.be.true;
+      expect(count).to.equal(1);
+    });
+
+    it('should avoid setting isV3Pilot to true for v2 centers of preservedCenterIds', async function () {
+      const v2Center = databaseBuilder.factory.buildCertificationCenter({
+        isV3Pilot: false,
+      });
+      const v2CenterToPreserve = databaseBuilder.factory.buildCertificationCenter({
+        isV3Pilot: false,
+      });
+      await databaseBuilder.commit();
+
+      await centerRepository.updateCentersToV3({ preservedCenterIds: [v2CenterToPreserve.id] });
+
+      const updatedCenter = await knex('certification-centers').where({ id: v2Center.id }).first();
+      expect(updatedCenter.isV3Pilot).to.be.true;
+
+      const preservedCenter = await knex('certification-centers').where({ id: v2CenterToPreserve.id }).first();
+      expect(preservedCenter.isV3Pilot).to.be.false;
+    });
+  });
 });
