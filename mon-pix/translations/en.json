@@ -41,6 +41,7 @@
       "close": "Close",
       "confirm": "Confirm",
       "lets-go": "Let's go!",
+      "login": "Log in to Pix",
       "quit": "Exit",
       "refresh-page": "Refresh the page",
       "show-less": "Show less",
@@ -149,6 +150,25 @@
         "login-heading": "Other ways to log in",
         "select-another-organization-link": "Choose another organisation",
         "signup-heading": "Other ways to sign up"
+      },
+      "password-reset-demand-form": {
+        "404-message": "The email address entered does not match any Pix account",
+        "actions": {
+          "receive-reset-button": "Receive a reset link"
+        },
+        "contact-us-link": {
+          "link-text": "Contact us",
+          "link-url": "https://pix.org/en/support"
+        },
+        "fields": {
+          "email": {
+            "error-message-invalid": "Your email address is invalid.",
+            "label": "Email address",
+            "placeholder": "ex: john.doe@email.com"
+          }
+        },
+        "no-email-question": "No email address?",
+        "rule": "All fields are required."
       },
       "signup-form": {
         "actions": {
@@ -1574,7 +1594,7 @@
         "instructions": "An email explaining how to reset your password\n has been sent to the email address {email}.",
         "subtitle": "Password reset request"
       },
-      "title": "Forgot your password?"
+      "title": "Forgotten password"
     },
     "profile": {
       "accessibility": {

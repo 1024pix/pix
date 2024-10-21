@@ -41,6 +41,7 @@
       "close": "Fermer",
       "confirm": "Confirmer",
       "lets-go": "C'est parti !",
+      "login": "Se connecter sur Pix",
       "quit": "Quitter",
       "refresh-page": "Rafraîchir la page",
       "show-less": "Afficher moins",
@@ -149,6 +150,25 @@
         "login-heading": "Autres moyens de connexion",
         "select-another-organization-link": "Choisir une autre organisation",
         "signup-heading": "Autres moyens d’inscription"
+      },
+      "password-reset-demand-form": {
+        "404-message": "Cette adresse e-mail ne correspond à aucun compte",
+        "actions": {
+          "receive-reset-button": "Recevoir un lien de réinitialisation"
+        },
+        "contact-us-link": {
+          "link-text": "Contactez-nous",
+          "link-url": "https://pix.fr/support"
+        },
+        "fields": {
+          "email": {
+            "error-message-invalid": "Votre adresse e-mail n’est pas valide.",
+            "label": "Adresse e-mail",
+            "placeholder": "ex: jean.dupont@email.com"
+          }
+        },
+        "no-email-question": "Pas d’adresse e-mail renseignée ?",
+        "rule": "Tous les champs sont obligatoires."
       },
       "signup-form": {
         "actions": {
@@ -1574,7 +1594,7 @@
         "instructions": "Un e-mail contenant la démarche à suivre afin de réinitialiser votre mot de passe\n vous a été envoyé à l’adresse e-mail {email}.",
         "subtitle": "Demande de réinitialisation de mot de passe"
       },
-      "title": "Mot de passe oublié ?"
+      "title": "Mot de passe oublié"
     },
     "profile": {
       "accessibility": {
