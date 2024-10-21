@@ -108,6 +108,7 @@
       "page-results": "{total, plural, =0 {0 item} =1 {1 item} other {{total, number} items}}",
       "result-by-page": "Zie"
     },
+    "password": "Password",
     "pix": "Pix",
     "skip-links": {
       "skip-to-content": "Ga naar inhoud",
@@ -142,6 +143,16 @@
         "label": "Wachtwoord",
         "instructions-label": "Your password must comply with the following rules:",
         "completed-message": "{ rulesCompleted } out of { rulesCount } requirements completed."
+      },
+      "password-reset-form": {
+        "actions": {
+          "submit": "Reset my password"
+        },
+        "fields": {
+          "password": {
+            "label": "Please enter your new password"
+          }
+        }
       },
       "signup-form": {
         "actions": {
@@ -1617,6 +1628,7 @@
           "label": "Wachtwoord"
         }
       },
+      "first-title": "Resetting the password",
       "instruction": "Voer uw nieuwe wachtwoord in",
       "succeed": "Uw wachtwoord is gewijzigd.",
       "title": "Mijn wachtwoord wijzigen"

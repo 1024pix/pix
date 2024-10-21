@@ -115,6 +115,7 @@
       "page-results": "{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}",
       "result-by-page": "See"
     },
+    "password": "Password",
     "pix": "pix",
     "skip-links": {
       "skip-to-content": "Skip to main content",
@@ -149,6 +150,16 @@
         "login-heading": "Other ways to log in",
         "select-another-organization-link": "Choose another organisation",
         "signup-heading": "Other ways to sign up"
+      },
+      "password-reset-form": {
+        "actions": {
+          "submit": "Reset my password"
+        },
+        "fields": {
+          "password": {
+            "label": "Please enter your new password"
+          }
+        }
       },
       "signup-form": {
         "actions": {
@@ -1641,6 +1652,7 @@
           "label": "Password"
         }
       },
+      "first-title": "Resetting the password",
       "instruction": "Enter your new password",
       "succeed": "Your password has been changed successfully.",
       "title": "Change my password"
