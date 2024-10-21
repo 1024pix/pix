@@ -1,5 +1,6 @@
 import { correctAnswerThenUpdateAssessment } from '../../../../lib/domain/usecases/correct-answer-then-update-assessment.js';
 import { EmptyAnswerError } from '../../../../src/evaluation/domain/errors.js';
+import { AnswerJob } from '../../../../src/quest/domain/models/AnwserJob.js';
 import {
   CertificationEndedByFinalizationError,
   CertificationEndedBySupervisorError,
@@ -37,7 +38,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     certificationChallengeLiveAlertRepository,
     certificationEvaluationCandidateRepository,
     flashAlgorithmService,
-    algorithmDataFetcherService;
+    algorithmDataFetcherService,
+    answerJobRepository;
   const competenceEvaluationRepository = {};
 
   const nowDate = new Date('2021-03-11T11:00:04Z');
@@ -60,6 +62,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     certificationEvaluationCandidateRepository = { findByAssessmentId: sinon.stub() };
     flashAlgorithmService = { getCapacityAndErrorRate: sinon.stub() };
     algorithmDataFetcherService = { fetchForFlashLevelEstimation: sinon.stub() };
+    answerJobRepository = {
+      performAsync: sinon.stub(),
+    };
     dateUtils = {
       getNowDate: sinon.stub(),
     };
@@ -93,6 +98,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       flashAlgorithmService,
       algorithmDataFetcherService,
       dateUtils,
+      answerJobRepository,
     };
   });
 
@@ -219,6 +225,47 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           firstCreatedKnowledgeElement,
           secondCreatedKnowledgeElement,
         ]);
+      });
+
+      context('when there is no user ID', function () {
+        beforeEach(function () {
+          // given
+          knowledgeElementRepository.findUniqByUserIdAndAssessmentId
+            .withArgs({ userId: null, assessmentId: assessment.id })
+            .resolves([]);
+        });
+
+        it('should not call performAsync from answerJobRepository', async function () {
+          // given
+          assessment.userId = null;
+
+          // when
+          await correctAnswerThenUpdateAssessment({
+            answer,
+            userId: null,
+            ...dependencies,
+            locale,
+          });
+
+          // then
+          expect(answerJobRepository.performAsync).not.to.have.been.called;
+        });
+      });
+
+      it('should call performAsync from answerJobRepository', async function () {
+        // given
+        answerJobRepository.performAsync.resolves();
+
+        // when
+        await correctAnswerThenUpdateAssessment({
+          answer,
+          userId,
+          ...dependencies,
+          locale,
+        });
+
+        // then
+        expect(answerJobRepository.performAsync).to.have.been.calledWith(new AnswerJob({ userId }));
       });
 
       it('should call repositories to get needed information', async function () {

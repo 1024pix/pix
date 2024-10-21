@@ -207,6 +207,8 @@ const configuration = (function () {
       isNeedToAdjustCertificationAccessibilityEnabled: toBoolean(
         process.env.FT_ENABLE_NEED_TO_ADJUST_CERTIFICATION_ACCESSIBILITY,
       ),
+      isQuestEnabled: toBoolean(process.env.FT_ENABLE_QUESTS),
+      isAsyncQuestRewardingCalculationEnabled: toBoolean(process.env.FT_ENABLE_ASYNC_QUESTS_REWARDS_CALCULATION),
       isNewAuthenticationDesignEnabled: toBoolean(process.env.FT_NEW_AUTHENTICATION_DESIGN_ENABLED),
       isPix1dEnabled: toBoolean(process.env.FT_PIX_1D_ENABLED),
       isPixPlusLowerLeverEnabled: toBoolean(process.env.FT_ENABLE_PIX_PLUS_LOWER_LEVEL),

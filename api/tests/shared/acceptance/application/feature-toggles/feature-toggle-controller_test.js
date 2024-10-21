@@ -32,6 +32,8 @@ describe('Acceptance | Shared | Application | Controller | feature-toggle', func
             'show-new-result-page': false,
             'show-experimental-missions': false,
             'is-pix-companion-enabled': false,
+            'is-quest-enabled': false,
+            'is-async-quest-rewarding-calculation-enabled': false,
           },
         },
       };
