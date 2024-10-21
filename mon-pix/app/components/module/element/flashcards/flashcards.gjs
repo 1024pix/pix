@@ -41,6 +41,10 @@ export default class ModulixFlashcards extends Component {
     return this.args.flashcards.cards.length;
   }
 
+  get footerIsEmpty() {
+    return this.currentStep === 'intro';
+  }
+
   @action
   start() {
     this.currentStep = 'cards';
@@ -74,8 +78,10 @@ export default class ModulixFlashcards extends Component {
           @displayedSideName={{this.displayedSideName}}
           @onCardFlip={{this.flipCard}}
         />
+      {{/if}}
 
-        <div class="element-flashcards__footer">
+      <div class="element-flashcards__footer {{if this.footerIsEmpty 'element-flashcards__footer--empty'}}">
+        {{#if (eq this.currentStep "cards")}}
           {{#if (eq this.displayedSideName "recto")}}
             <p class="element-flashcards__footer__direction">{{t "pages.modulix.flashcards.direction"}}</p>
             <p class="element-flashcards__footer__position">{{t
@@ -110,8 +116,8 @@ export default class ModulixFlashcards extends Component {
               </button>
             </div>
           {{/if}}
-        </div>
-      {{/if}}
+        {{/if}}
+      </div>
     </div>
   </template>
 }
