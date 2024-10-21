@@ -13,6 +13,9 @@ import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 export async function convertCentersToV3({ isDryRun, preservedCenterIds, centerRepository }) {
   if (isDryRun) {
     logger.info('Dry run requested, no centers are actually converted');
+    const centerIdsToConvert = await centerRepository.findV2CenterIds({ preservedCenterIds });
+    logger.info(`${centerIdsToConvert.length} centers would have been converted`);
+    logger.info(`Following centers would have been converted: ${centerIdsToConvert}`);
     return;
   }
   const convertedCentersCount = await centerRepository.updateCentersToV3({ preservedCenterIds });

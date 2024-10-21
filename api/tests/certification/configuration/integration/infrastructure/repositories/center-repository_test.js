@@ -229,4 +229,20 @@ describe('Certification | Configuration | Integration | Repository | center-repo
       expect(preservedCenter.isV3Pilot).to.be.false;
     });
   });
+
+  describe('#findV2Centers', function () {
+    it('should avoid setting isV3Pilot to true for v2 centers of preservedCenterIds', async function () {
+      const v2Center = databaseBuilder.factory.buildCertificationCenter({
+        isV3Pilot: false,
+      });
+      const v2CenterToPreserve = databaseBuilder.factory.buildCertificationCenter({
+        isV3Pilot: false,
+      });
+      await databaseBuilder.commit();
+
+      const centerIds = await centerRepository.findV2CenterIds({ preservedCenterIds: [v2CenterToPreserve.id] });
+
+      expect(centerIds).to.deep.equal([v2Center.id]);
+    });
+  });
 });
