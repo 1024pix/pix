@@ -1,0 +1,292 @@
+{
+  "id": "68bb5e10-9cb4-494a-a3b7-3c028f158a98",
+  "slug": "intelligence-artificielle",
+  "title": "C’est quoi l’intelligence artificielle ?",
+  "details": {
+    "image": "https://cdn-icons-png.flaticon.com/512/13298/13298276.png",
+    "description": "<p>Savez-vous que l’intelligence artificielle (IA) fait partie de votre quotidien ? Découvrons ensemble ce qui se cache derrière ces deux lettres. C’est partix ! 🚀</p>",
+    "duration": 15,
+    "level": "Débutant",
+    "objectives": [
+      "<p>Identifier des situations où l’IA est mobilisée</p><p><br></p>",
+      "<p>Connaître une définition simple de l’IA</p>",
+      "<p>Comprendre le fonctionnement de l’IA</p>"
+    ],
+    "tabletSupport": "comfortable"
+  },
+  "transitionTexts": [],
+  "grains": [
+    {
+      "id": "69c2e101-7f82-4345-b444-309c02205e7f",
+      "type": "activity",
+      "title": "Découverte de l’IA par les usages",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "6694a2e0-c588-4415-b761-9c416b84df30",
+            "type": "text",
+            "content": "\n<p><strong>Comme Iasmine, vous vous faites peut-être aussi beaucoup d’idées sur ce qu’est l’IA. Grâce à ce module, découvrez ses usages au quotidien et parvenez à une définition plus réaliste<br></strong></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "f07170a0-0fe4-4c8c-bcdc-b431fe764325",
+            "type": "image",
+            "url": "https://firefly.adobe.com/public/t2i?id=urn%3Aaaid%3Asc%3AEU%3A2256c5bd-b32b-41fe-adf1-cafb59678b2f&ff_channel=shared_link&ff_source=Text2Image",
+            "alt": "",
+            "alternativeText": "<p><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "b714d656-a05b-4c37-a666-0c49c735939d",
+      "type": "activity",
+      "title": "Identifier les objets qui utilisent l'IA",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "731be66b-0403-4674-b336-edd6b4b4bdd6",
+            "type": "text",
+            "content": "<p><strong>À votre tour de trouver si ces objets quotidiens utilisent l’IA. <br>Déplacer les objets dans la catégorie IA ou pas IA.</strong><br><br><br></p>\n<iframe src=\"https://view.genially.com/670e787b85a0eafb547b36ae\" width=\"680\" height=\"600\" frameborder=\"0\"></iframe>\n\n"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "7174cd19-9c3d-43a6-970a-7d901d525ce5",
+            "type": "text",
+            "content": "<p>ici un embed H5P</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d1e11dbc-38d6-4d29-be1c-c3ee5ead21d9",
+            "type": "text",
+            "content": "<p>Comme Iasmine, vous vous faites peut-être aussi beaucoup d’idées sur ce qu’est l’IA. Grâce à ce module, découvrez ses usages au quotidien et parvenez à une définition plus réaliste</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bf4e9f88-c55d-49f8-8426-2606d7e411cf",
+      "type": "lesson",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "e68b42a7-de49-4cc9-8a63-f7ce4a6bc216",
+            "type": "text",
+            "content": "<p>Pour comprendre ce qu’est l’intelligence artificielle, imaginons que l’intelligence artificielle est comme un apprenti cuisinier qui apprend à faire une recette.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d75ac76b-a598-46eb-bc22-8e778db6882c",
+            "type": "video",
+            "title": "",
+            "url": "",
+            "poster": "",
+            "subtitles": "",
+            "transcription": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "4404a793-f82c-4f73-a90a-0d0569b94a1b",
+      "type": "activity",
+      "title": "",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "fec20038-fa2b-4c1b-844b-675869867d5d",
+            "type": "text",
+            "content": "<p><strong>Vérifions si vous avez compris ce qu’était l’IA…</strong></p><p><br></p>"
+          }
+        },
+        {
+          "type": "stepper",
+          "steps": [
+            {
+              "elements": [
+                {
+                  "id": "89caadd3-9fea-4197-b563-f6d21455d054",
+                  "type": "qcu",
+                  "instruction": "<p>L’IA peut-elle se tromper ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Vrai</p>",
+                      "feedback": "<p>l’IA peut se tromper : elle ne fait que lire et analyser les données qu’on lui donne ! Les données sont comme les ingrédients d’une recette pour l’IA.</p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Faux</p>",
+                      "feedback": "<p>l’IA peut se tromper : elle ne fait que lire et analyser les données qu’on lui donne ! Les données sont comme les ingrédients d’une recette pour l’IA.</p>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<p><br></p>",
+                    "invalid": "<p><br></p>"
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "ac1dc924-fa4e-490c-ba5c-434305e89515",
+                  "type": "qcu",
+                  "instruction": "<p>L’IA ne peut pas apprendre de ses erreurs ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Vrai</p>",
+                      "feedback": "<p>Oui elle le peut mais elle n’apprend qu’à partir de retours d’humains, un peu comme un cuisinier qui a besoin du retour de ses clients !</p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Faux</p>",
+                      "feedback": "<p>Oui elle le peut mais elle n’apprend qu’à partir de retours d’humains, un peu comme un cuisinier qui a besoin du retour de ses clients !</p>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<p><br></p>",
+                    "invalid": ""
+                  },
+                  "solution": "2"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "0cfe33e9-f756-4050-a835-b7d121c133d7",
+                  "type": "qcu",
+                  "instruction": "<p>L'algorithme d’une intelligence artificielle, ce sont les règles auxquelles elle obéit ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Vrai</p>",
+                      "feedback": "<p>L'algorithme est une série de règles de l’IA : comme le cuisinier qui suit sa recette !</p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Faux</p>",
+                      "feedback": "<p>L'algorithme est une série de règles de l’IA : comme le cuisinier qui suit sa recette !</p>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "",
+                    "invalid": ""
+                  },
+                  "solution": "1"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "6ceab41b-6d90-46df-b199-9636ed44bf4f",
+                  "type": "qcu",
+                  "instruction": "<p>L’intelligence artificielle est issue de la physique ?</p>",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "<p>Vrai</p>",
+                      "feedback": "<p>L’intelligence artificielle vient du monde de l’informatique : c’est là où tout se passe comme dans la cuisine !</p>"
+                    },
+                    {
+                      "id": "2",
+                      "content": "<p>Faux</p>",
+                      "feedback": "<p>L’intelligence artificielle vient du monde de l’informatique : c’est là où tout se passe comme dans la cuisine !</p><p><br></p>"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<p><br></p>",
+                    "invalid": ""
+                  },
+                  "solution": "2"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a3290549-299d-4512-b52b-047318d52fe3",
+      "type": "lesson",
+      "title": "Récapitulatif",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "f0ac2f96-054d-471b-899d-68f78b43557a",
+            "type": "text",
+            "content": "<p><strong>Nous avons défini l’intelligence artificielle :&nbsp;</strong> <br>L'Intelligence Artificielle (IA) est :&nbsp; un programme informatique&nbsp;qui suit des règles (algorithme)&nbsp;pour analyser des informations (données) et accomplir des tâches.&nbsp;Elle peut faire des erreurs et apprendre de celles-ci, mais uniquement avec l'aide des humains.&nbsp;<br>L'IA fonctionne un peu comme un cuisinier qui suit une recette (algorithme), utilise des ingrédients (données), et s'améliore grâce aux retours de ses clients (humains). Cependant, contrairement à un vrai cuisinier, l'IA n'a pas de vraie intelligence ou de créativité propre.<br><br></p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "c1ca66f0-206d-4df2-905f-1c5667cb4731",
+      "type": "activity",
+      "title": "Expérimenter l'IA",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "3e7e26ab-96de-4f33-b112-02da1516bcf3",
+            "type": "text",
+            "content": "<p>Comme le cuisinier on va expérimenter une recette grâce à l’IA<br>Demandez lui : <br>Quelle est la différence entre les œufs de vache et les œufs de poule ?</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "11f7cfdd-4fb1-42e3-96c0-13e73573f057",
+            "type": "text",
+            "content": "<iframe src=\"https://deepai.org/chat\" width=\"690\" height=\"600\" frameborder=\"0\"></iframe>\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "98774f53-1886-4253-99f6-4f82f3afa49b",
+      "type": "activity",
+      "title": "Drag & Drop feedback",
+      "components": []
+    },
+    {
+      "id": "aabf19bd-4e50-42a6-a63a-8d582ba4bc4b",
+      "type": "lesson",
+      "title": "vidéo avec IA",
+      "components": []
+    },
+    {
+      "id": "236fec11-16cb-4c2c-b4dd-3088fbf22f6d",
+      "type": "lesson",
+      "title": "Flashcard",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "eb7708b5-0eed-4ca6-a55c-186a6c46295e",
+            "type": "text",
+            "content": "<iframe src=\"https://app.Lumi.education/api/v1/run/TbO_Xa/embed\" width=\"680\" height=\"720\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\" allow=\"geolocation *; microphone *; camera *; midi *; encrypted-media *\"></iframe><script src=\"https://app.Lumi.education/api/v1/h5p/core/js/h5p-resizer.js\" charset=\"UTF-8\"></script>"
+          }
+        }
+      ]
+    }
+  ]
+}
