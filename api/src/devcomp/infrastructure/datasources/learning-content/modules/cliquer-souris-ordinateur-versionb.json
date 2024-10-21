@@ -1,0 +1,426 @@
+{
+  "id": "5a9127ba-8bb6-4456-b513-5d2d3783f7c5",
+  "slug": "cliquer-souris-ordinateur-versionb",
+  "title": "Cliquer avec une souris d’ordinateur",
+  "details": {
+    "image": "https://images.pix.fr/modulix/placeholder-details.svg",
+    "description": "Dans ce module, vous découvrirez comment interagir avec l’ordinateur grâce à la souris. C’est parti pour apprendre à cliquer !",
+    "duration": 10,
+    "level": "Débutant",
+    "objectives": [
+      "Faire ses premiers clics gauche",
+      "Faire ses premiers doubles clics ",
+      "Comprendre la différence entre cliquer et double-cliquer"
+    ],
+    "tabletSupport": "obstructed"
+  },
+  "transitionTexts": [
+    {
+      "grainId": "96f8e83d-88df-44c0-951d-9b9e3a02cde0",
+      "content": "<p>Cliquer, c'est appuyer sur un bouton de la souris.</p><p> Savoir cliquer, c'est comme savoir marcher dans le monde numérique&#8239;! <span aria-hidden=\"\true\">💻 🚶🏼</span>️ <br>Quand on a appris à le faire, ça devient automatique. Voyons cela ensemble dans ce module !</p>"
+    },
+    {
+      "grainId": "4a80afba-d2ef-4f58-a328-a0fc9f204aca",
+      "content": "<p>Mais alors, qu'est-ce que le clic ? Et à quoi il sert ? <span aria-hidden=\"\true\">🖱️️</span></p><p>D'abord, découvrez le clic gauche.</p>"
+    },
+    {
+      "grainId": "b491a99e-2774-469e-a63e-e2d0fb1120f2",
+      "content": "<p>Vous allez maintenant passer à la pratique. <span aria-hidden=\"\true\">👇</span></p>"
+    },
+    {
+      "grainId": "efba1e45-54ca-4829-b203-1e74b9269045",
+      "content": "<p>Le clic gauche sert à ouvrir des pages internet ou démarrer des vidéos.<br>À vous de jouer sur un exemple&#8239;!</p>"
+    },
+    {
+      "grainId": "a1c193e4-50a7-4965-bcc7-82e9283d3c8e",
+      "content": "<p>Vous savez désormais faire un clic gauche. C’est le clic le plus utile.</p><p>Maintenant, découvrez le double&#x002D;clic.</p>"
+    },
+    {
+      "grainId": "c5fff715-80d4-4fba-ac57-80fae9a7d279",
+      "content": "<p>Place à la pratique ! Entraînez-vous au double-clic dans l’activité suivante.<span aria-hidden=\"\true\">👇</span></p>"
+    },
+ {
+      "grainId": "c3d7b3b9-49f4-48c4-913e-354b0e2e301b",
+      "content": "<p>On utilise souvent le double-clic pour ouvrir des dossiers sur son ordinateur. <br>C'est parti !</p>"
+    },
+    {
+      "grainId": "b1cf70fe-411b-4c5d-b069-9b7a341bd5c3",
+      "content": "<p>Bravo, vous savez maintenant cliquer et double&#x002D;cliquer&#8239;! <span aria-hidden=\"\true\">🎉</span></p><p>Pour finir, découvrez le bouton droit et la molette.</p>"
+    }
+  ],
+  "grains": [
+    {
+      "id": "96f8e83d-88df-44c0-951d-9b9e3a02cde0",
+      "type": "activity",
+      "title": "Les 3 boutons de la souris",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "88dfe182-930b-4066-a9bb-7b6eba9cd9ae",
+            "type": "text",
+            "content": "<p><strong>Dans l'image ci-dessous, déplacez votre pointeur sur le dessin de la souris.</strong><br>Découvrez les noms des boutons de la souris. Suivez les consignes pour effectuer vos premiers clics.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "564448dc-6485-4918-a2c1-4452b2552650",
+            "type": "text",
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Modulix-1emarche-clic-3boutonspremiersclics/index.html\" width=\"100%\" height=\"394\"></iframe>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d9e4718d-a15a-4e62-a967-19971e1a611e",
+            "type": "text",
+            "content": "<p>Sur la souris, on trouve toujours deux boutons : un bouton gauche et un bouton droit.<br>En général, il y a une molette.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "4a80afba-d2ef-4f58-a328-a0fc9f204aca",
+      "type": "lesson",
+      "title": "Le clic gauche en texte-image",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "a17877d3-b88a-4670-a618-3e97c16c1f1b",
+            "type": "text",
+            "content": "<p>Le bouton gauche est le plus important. Il permet de faire un <strong>clic gauche</strong>.</p><p>Voici la démonstration du clic gauche. <span aria-hidden=\"true\">👇</span> Vous pourrez vous entraîner ensuite.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d96505a1-c5c0-4dbf-af9d-900453586d45",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "11a9d578-a409-4de5-b20a-c38c932fd534",
+            "type": "text",
+            "content": "<h3>Étape 1&nbsp;: On déplace le pointeur à l'écran</h3><h3>Étape 2&nbsp;: On appuie sur le bouton gauche de la souris</h3><p>Il faut appuyer avec l'index sans faire bouger la souris.<br> Relâcher immédiatement, comme pour un bouton de télécommande.<br>On doit entendre le son «&nbsp;clic&nbsp;».</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "d41bc55d-6539-4be8-8604-87c2d2640b57",
+            "type": "image",
+            "url": "https://i.imgur.com/QSRlUYB.gif",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "7a9a75a3-2dbc-46d4-9d36-a34a8a771519",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "0f2d9e91-8da7-4ca6-80aa-815a4146597c",
+            "type": "text",
+            "content": "<h3><span aria-hidden=\"true\">💡</span> <strong>Astuce</strong></h3><p>Le doigt qui fait le clic gauche&nbsp;peut être positionné de différentes façons.<br>L'important est d'être à l'aise et détendu.</p>"
+          }
+        } 
+      ]
+    },
+      {
+      "id": "b491a99e-2774-469e-a63e-e2d0fb1120f2",
+      "type": "activity",
+      "title": "Premiers clics gauches",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "80070528-b2ca-4e93-99a6-bc495a6029ef",
+            "type": "text",
+            "content": "<p>Voici un rappel des étapes pour faire un clic gauche&nbsp;:</p><ol><li>déplacer le pointeur à l'endroit souhaité,</li><li>appuyer sur le bouton gauche de la souris,</li><li>observer l'effet à l'écran.</li></ol><p><br><strong>Dans la zone ci-dessous, faites un clic sur chaque élément lorsqu'il apparait.</strong><br></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "73b6a6d3-8c76-46e9-ae1f-d208d5bf1960",
+            "type": "text",
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Modulix-1emarche-clic-1erclicsgauchesV2/index.html\" width=\"100%\" height=\"394\"></iframe>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "a6254fc0-1405-4c5a-bbec-3df43bdca573",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "930a995c-2b29-474a-97a3-c90d5e03ad80",
+            "type": "text",
+            "content": "<p>Quand vous avez terminé l'activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "efba1e45-54ca-4829-b203-1e74b9269045",
+      "type": "activity",
+      "title": "Clics gauche de navigation dans le module",
+      "components": [
+        {
+          "type": "stepper",
+          "steps": [
+           {
+              "elements": [
+                {
+                  "id": "734ef21d-3850-40db-840e-e16253d8817b",
+                  "type": "text",
+                  "content": "<h3>Faites un clic gauche sur «&nbsp;Play&nbsp;» <span aria-hidden=\"true\">▶️</span> au centre de l'image ci-dessous.</h3> Ce clic gauche va faire démarrer la vidéo.<br><br><iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/czfvEpLfCV0?si=2Q1MBBnh2-c-0CmD\" title=\"Bravo\"></iframe><p><br>Pour accéder à la suite, faites un clic gauche sur le bouton «&nbsp;Suivant&nbsp;» ci-dessous.</p>"
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "35e0ae32-980e-45fc-bb69-b94da529d6fb",
+                  "type": "text",
+                  "content": "Dans le quiz ci-dessous, cliquez sur une réponse puis cliquez sur «&nbsp;Vérifier&nbsp;»."
+                },
+                {
+                  "id": "7253ded2-df17-4926-930d-0b0947f7de82",
+                  "type": "qcu",
+                  "instruction": "Une phrase a été dite dans la vidéo.<br>Quelle est cette phrase ?",
+                  "proposals": [
+                    {
+                      "id": "1",
+                      "content": "Vous allez voir, c'est facile !"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Vous verrez, c'est plié !"
+                    },
+                    {
+                      "id": "3",
+                      "content": "Vous pensiez que c'était simple ?"
+                    }
+                  ],
+                  "feedbacks": {
+                    "valid": "<span class=\"feedback__state\">Correct&#8239;!</span> <p>Vous avez lancé la vidéo et trouvé la bonne réponse</p>",
+                    "invalid": "<span class=\"feedback__state\">Incorrect.</span><p>Vous avez bien cliqué sur vérifier. Mais ce n’était pas la bonne réponse.<br>Vous pouvez retenter votre chance en cliquant sur «&nbsp;Réessayer&nbsp;».</p>"
+                  },
+                  "solution": "1"
+                },
+                {
+                   "id": "2e9d6046-33d5-46d8-be10-dc7b75ad18f5",
+                    "type": "separator"
+                  },
+                {
+                  "id": "4c2ce336-aa9a-49b5-ba4f-84530e21b52d",
+                  "type": "text",
+                  "content": "<p>Quand vous avez terminé l'activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a1c193e4-50a7-4965-bcc7-82e9283d3c8e",
+      "type": "lesson",
+      "title": "Le double-clic",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "76250cb5-99dc-452d-9e07-061e0313be78",
+            "type": "text",
+            "content": "<p>Pour faire un double&#x002D;clic, il faut appuyer deux fois de suite sur le bouton gauche.</p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "18bd184b-2ff5-4eaa-95fa-75d2d4e897bf",
+            "type": "image",
+            "url": "https://i.imgur.com/5WG7CFI.gif",
+            "alt": "",
+            "alternativeText": ""
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "4345041f-244e-4802-8449-99e670f2621e",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "626c6c46-e397-46bc-adb2-9894f96afc7e",
+            "type": "text",
+            "content": "<p>Dans la vidéo ci-dessous, vous allez voir comment faire un double&#x002D;clic.</p><p><strong>Pour démarrer la vidéo, faites un clic gauche sur le bouton «&nbsp;Play&nbsp;»  <span aria-hidden=\"true\">▶️</span></strong></p><br><iframe width=\"100%\" height=\"410\" src=\"https://www.youtube.com/embed/cDf-Q5tHwVM\" title=\"Première marche souris - Double-clic\"></iframe>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "c5fff715-80d4-4fba-ac57-80fae9a7d279",
+      "type": "activity",
+      "title": "Premiers doubles-clics",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "1ba7575f-d1c6-4acd-9312-7a2dc6f3345e",
+            "type": "text",
+            "content": "<p><strong>Faites un double-clic sur chaque élément qui apparaît ci-dessous.</strong></p>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "31625a13-1f4a-4d10-bd65-64a14505d1f6",
+            "type": "text",
+            "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/RPE/Modulix-1emarche-clic-1erdoublesclics/index.html\" width=\"100%\" height=\"394\"></iframe>"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "dbab40a2-483c-41f2-944d-85e73220ed98",
+            "type": "separator"
+          }
+        },
+        {
+          "type": "element",
+          "element": {
+            "id": "3ebfd2ef-9614-4791-9668-68f56ed1fe32",
+            "type": "text",
+            "content": "<p>Quand vous avez terminé cette activité, faites un clic gauche sur le bouton «&nbsp;Continuer&nbsp;» ci-dessous.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "c3d7b3b9-49f4-48c4-913e-354b0e2e301b",
+      "type": "activity",
+      "title": "Doubles-clics dans un gestionnaire de fichier",
+      "components": [
+        {
+          "type": "element",
+          "element": {
+            "id": "be23697d-9393-405a-bb01-852e660e6818",
+            "type": "text",
+            "content": "<p>Dans l'espace ci-dessous, ouvrez les dossiers en suivant cet ordre :</p><ol><li>Photos,</li><li>Album,</li><li>Famille,</li><li>80 ans Mamie</li></ol>"
+          }
+        },
+     {
+          "type": "element",
+          "element": {
+            "id": "99f1bc24-3a69-458d-b176-2a284db75831",
+            "type": "embed",
+            "isCompletionRequired": false,
+            "title": "Simulateur gestionnaire de fichier",
+            "url": "https://epreuves.pix.fr/filemanager-visu/filemanager-visu.html?mode=example&lang=fr",
+            "instruction": "Pour démarrer, faites un clic gauche sur Commencer",
+            "height": 400
+          }
+        },
+      {
+            "type": "element",
+            "element": {
+              "id": "ec98f950-ba23-4fa2-be43-a36cb9749f27",
+              "type": "qcu",
+              "instruction": "Dans le dossier 80 ans Mamie, combien est-ce qu'il y a de photos ?",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "4"
+                },
+                {
+                  "id": "2",
+                  "content": "5"
+                },
+                {
+                  "id": "3",
+                  "content": "6"
+                }
+              ],
+              "feedbacks": {
+                "valid": "<span class=\"feedback__state\">Correct.</span> <p>Il y a bien 4 photos dans le dossier «&nbsp;80 ans Mamie&nbsp;». Bravo ! Vous avez fait 4 doubles-clics et réussi à naviguer dans un explorateur de fichiers.</p>",
+                "invalid": "<span class=\"feedback__state\">Incorrect.</span> <p><strong>Vous avez répondu au questionnaire, mais vous n'avez pas cliqué sur la bonne réponse.</strong><br>Si vous n'avez pas trouvé le dossier «&nbsp;80 ans Mamie&nbsp;» :</p> <ul><li>Cliquez sur «&nbsp;Réinitialiser&nbsp;» ci-dessus</li> <li>Suivez les étapes qui vous sont données. Vous devriez effectuer 4 doubles-clics.</li> <li>Comptez ensuite le nombre de fichiers qui s'appellent «&nbsp;Photo&nbsp;».</li></ul>"
+              },
+              "solution": "1"
+            }
+          }
+      ]
+    },
+    {
+      "id": "b1cf70fe-411b-4c5d-b069-9b7a341bd5c3",
+      "type": "lesson",
+      "title": "Conclusion : les autres boutons de la souris",
+      "components": [
+        {
+          "type": "stepper",
+          "steps": [
+
+            {
+              "elements": [
+                {
+                  "id": "99ba8a02-fd1e-4827-a51b-32c14225a4e8",
+                  "type": "text",
+                  "content": "<p><strong>Le bouton droit</strong> permet de faire des clics droits.</p><p>Le clic droit sert à afficher une liste d'actions à l'écran.</p><p>Par exemple, avec un dossier, on a le choix de supprimer le dossier, de renommer le dossier, etc.</p>"
+                },
+                {
+                  "id": "48218129-a5ac-4c43-8a4a-db3345400477",
+                  "type": "image",
+                  "url": "https://i.imgur.com/LlDjagi.gif",
+                  "alt": "",
+                  "alternativeText": ""
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "cfb24bf8-75e9-40aa-950c-91a309bb4d4c",
+                  "type": "text",
+                  "content": "<p>Le bouton du milieu est <strong>la molette</strong>, ou roulette.<br>La molette sert à se déplacer de haut en bas dans une page.</p><p>Pour utiliser la molette, il faut la faire rouler vers l'avant ou vers l’arrière avec votre doigt.</p>"
+                },
+                {
+                  "id": "242c6637-6a37-43dc-a1f3-d0e46c5fb2de",
+                  "type": "image",
+                  "url": "https://i.imgur.com/HICByk5.gif",
+                  "alt": "",
+                  "alternativeText": ""
+                }
+              ]
+            },
+            {
+              "elements": [
+                {
+                  "id": "301930f5-8b8c-4e16-a7fd-aa4ab37d3d3f",
+                  "type": "text",
+                  "content": "<h3><span aria-hidden=\"true\"> 📌 </span>Résumons&nbsp;:</h3><ul><li><strong>Le bouton gauche</strong> vous permet de faire des clics gauche et des doubles&#x002D;clics sur des éléments.</li><li><strong>Le bouton droit</strong> vous permet de faire apparaître une liste d’actions possibles avec l'élément.</li><li><strong>La molette </strong> permet de monter ou de descendre dans une page.</li></ul> <p><br><span aria-hidden=\"true\">👉</span> Vous pouvez maintenant <a href=\"https://drive.google.com/file/d/1M46koCUezpjjT6F_I3-L3gMrlkzO4oxN/view\" target=\"_blank\">ouvrir votre fiche de révision en cliquant ici.</a></p>"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
