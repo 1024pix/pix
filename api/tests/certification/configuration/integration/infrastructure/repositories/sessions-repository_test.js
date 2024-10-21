@@ -129,4 +129,34 @@ describe('Certification | Configuration | Integration | Repository | sessions-re
       });
     });
   });
+
+  describe('updateV2SessionsWithNoCourses', function () {
+    it('should update v2 sessions with no courses', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+        isV3Pilot: false,
+      }).id;
+      const activeSessionId = databaseBuilder.factory.buildSession({
+        version: 2,
+        certificationCenterId,
+      }).id;
+      databaseBuilder.factory.buildCertificationCourse({ sessionId: activeSessionId });
+      const inactiveSessionId = databaseBuilder.factory.buildSession({
+        version: 2,
+        certificationCenterId,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const count = await configurationRepositories.sessionsRepository.updateV2SessionsWithNoCourses();
+
+      // then
+      expect(count).to.equal(1);
+      const sessions = await knex('sessions').select('id', 'version').orderBy('version');
+      expect(sessions).to.deep.equal([
+        { id: activeSessionId, version: 2 },
+        { id: inactiveSessionId, version: 3 },
+      ]);
+    });
+  });
 });

@@ -45,3 +45,22 @@ export const deleteUnstartedSession = async function ({ sessionId, sessionsApi }
     throw error;
   }
 };
+
+/**
+ * @returns {Promise<number>} updated sessions count
+ */
+export const updateV2SessionsWithNoCourses = async function () {
+  const knexConn = DomainTransaction.getConnection();
+
+  const updatedSessions = await knexConn('sessions')
+    .update({ version: 3 }, ['id'])
+    .whereIn('id', function () {
+      this.select('sessions.id')
+        .from('sessions')
+        .leftJoin('certification-courses', 'sessions.id', 'certification-courses.sessionId')
+        .where('sessions.version', '=', 2)
+        .whereNull('certification-courses.sessionId');
+    });
+
+  return updatedSessions.length;
+};
