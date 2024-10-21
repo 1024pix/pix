@@ -1,7 +1,7 @@
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { modifier } from 'ember-modifier';
@@ -11,11 +11,11 @@ import TabPanel from './tab-panel';
 
 export default class TabsContainer extends Component {
   @service elementHelper;
+  @service tabManager;
 
   TabPanel = TabPanel;
   TabItem = TabItem;
 
-  @tracked currentTabIndex = this.args.initialTabIndex || 0;
   @tracked hasScrollableTablist = false;
   @tracked isLeftArrowVisible = false;
   @tracked isRightArrowVisible = false;
@@ -26,6 +26,7 @@ export default class TabsContainer extends Component {
   };
 
   onMount = modifier((element) => {
+    this.args.initialTabIndex && this.tabManager.setActiveTab(this.args.initialTabIndex);
     this.elements.tabs = element.querySelectorAll("[role='tab']");
     this.elements.tablist = element.querySelector("[role='tablist'] > div");
 
@@ -66,7 +67,7 @@ export default class TabsContainer extends Component {
           }
           break;
       }
-
+      this.tabManager.setActiveTab(nextTabIndex);
       const tabToFocus = document.getElementById(this.id + '-' + nextTabIndex);
       tabToFocus.focus();
 
@@ -76,8 +77,9 @@ export default class TabsContainer extends Component {
 
   @action
   handleTabChange(tabIndex) {
-    if (tabIndex !== this.currentTabIndex) {
-      this.currentTabIndex = tabIndex;
+    if (tabIndex !== this.tabManager.activeTab) {
+      this.tabManager.setActiveTab(tabIndex);
+
       this.args.onTabChange && this.args.onTabChange(tabIndex);
     }
   }
@@ -89,7 +91,7 @@ export default class TabsContainer extends Component {
     if (this.hasScrollableTablist) {
       this.handleTablistArrowsVisibility();
 
-      const currentTab = this.elements.tabs[this.currentTabIndex];
+      const currentTab = this.elements.tabs[this.tabManager.activeTab];
       this.scrollToTab(currentTab, 'instant');
     } else {
       this.isLeftArrowVisible = false;
@@ -175,7 +177,7 @@ export default class TabsContainer extends Component {
         {{/if}}
         <div {{on "scroll" this.handleTablistArrowsVisibility}}>
           {{yield
-            (component this.TabItem currentTab=this.currentTabIndex id=this.id onTabClick=this.handleTabChange)
+            (component this.TabItem currentTab=this.tabManager.activeTab id=this.id onTabClick=this.handleTabChange)
             to="tabs"
           }}
         </div>
@@ -188,7 +190,7 @@ export default class TabsContainer extends Component {
         {{/if}}
       </div>
 
-      {{yield (component this.TabPanel currentTab=this.currentTabIndex id=this.id) to="panels"}}
+      {{yield (component this.TabPanel currentTab=this.tabManager.activeTab id=this.id) to="panels"}}
     </div>
   </template>
 }

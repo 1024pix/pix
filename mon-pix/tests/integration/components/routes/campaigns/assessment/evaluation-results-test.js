@@ -1,4 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
@@ -51,6 +52,34 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
 
       // then
       assert.dom(screen.getByRole('tablist', { name: t('pages.skill-review.tabs.aria-label') })).exists();
+    });
+  });
+
+  module('when the campaign is shared and has trainings', function (hooks) {
+    hooks.beforeEach(async function () {
+      // given
+      this.model.trainings = [{ duration: { days: 1, hours: 1, minutes: 1 } }];
+      this.model.campaignParticipationResult.isShared = true;
+      this.model.campaignParticipationResult.competenceResults = [Symbol('competences')];
+    });
+
+    test('it should display the training button', async function (assert) {
+      // when
+      screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+
+      // then
+      assert.dom(screen.getByRole('button', { name: /Voir les formations/ })).isVisible();
+    });
+
+    test('when the training button is clicked, it should set trainings tab active', async function (assert) {
+      // when
+      screen = await render(hbs`<Routes::Campaigns::Assessment::EvaluationResults @model={{this.model}} />`);
+
+      // then
+      await click(screen.getByRole('button', { name: /Voir les formations/ }));
+      assert
+        .dom(screen.getByRole('tab', { name: t('pages.skill-review.tabs.trainings.tab-label') }))
+        .hasAttribute('aria-selected', 'true');
     });
   });
 });
