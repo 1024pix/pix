@@ -53,6 +53,7 @@
       padding-bottom: var(--button-border-size-hover);
 
       &__button {
+        width: calc(100% / 3 - 4px);
         padding: var(--pix-spacing-4x) 0;
         font-weight: var(--pix-font-bold);
         line-height: 24px;
