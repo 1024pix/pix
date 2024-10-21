@@ -1,17 +1,55 @@
-import 'dotenv/config';
-
-import * as url from 'node:url';
-
 import _ from 'lodash';
 
-import { disconnect } from '../db/knex-database-connection.js';
 import { updateCertificationCenterDataProtectionOfficerInformation } from '../lib/domain/usecases/update-certification-center-data-protection-officer-information.js';
 import * as dataProtectionOfficerRepository from '../lib/infrastructure/repositories/data-protection-officer-repository.js';
+import { BaseScript } from '../src/shared/application/scripts/base-script.js';
+import { ScriptRunner } from '../src/shared/application/scripts/script-runner.js';
 import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers.js';
 
-const modulePath = url.fileURLToPath(import.meta.url);
-const IS_LAUNCHED_FROM_CLI = process.argv[1] === modulePath;
 const REQUIRED_FIELD_NAMES = ['certificationCenterId', 'firstName', 'lastName', 'email'];
+
+export class AddOrUpdateCertificationCentersDpoInfosScript extends BaseScript {
+  constructor() {
+    super({
+      description: 'This is script is adding or updating certification centers data protection officer information.',
+      permanent: true,
+      options: {
+        filePath: { type: 'string', describe: 'CSV File to process', demandOption: true },
+      },
+    });
+  }
+
+  async handle({ options, logger }) {
+    const { filePath } = options;
+
+    await checkCsvHeader({ filePath, requiredFieldNames: REQUIRED_FIELD_NAMES });
+
+    logger.info('Reading and parsing csv data file... ');
+    const dataProtectionOfficers = await parseCsvWithHeader(filePath, parsingOptions);
+
+    const errors = [];
+    for (const dataProtectionOfficer of dataProtectionOfficers) {
+      try {
+        await updateCertificationCenterDataProtectionOfficerInformation({
+          dataProtectionOfficer,
+          dataProtectionOfficerRepository,
+        });
+      } catch (error) {
+        errors.push({ dataProtectionOfficer, error });
+      }
+    }
+
+    if (errors.length === 0) return;
+
+    logger.info(`Errors occurs on ${errors.length} element!`);
+    errors.forEach((error) => {
+      logger.info(JSON.stringify(error.dataProtectionOfficer));
+      logger.error(error.error?.message);
+    });
+
+    throw new Error('Process done with errors');
+  }
+}
 
 const parsingOptions = {
   skipEmptyLines: true,
@@ -30,67 +68,8 @@ const parsingOptions = {
     } else {
       value = null;
     }
-
     return value;
   },
 };
 
-async function _updateCertificationCentersDataProtectionOfficerInformation(filePath) {
-  const errors = [];
-
-  await checkCsvHeader({
-    filePath,
-    requiredFieldNames: REQUIRED_FIELD_NAMES,
-  });
-
-  console.log('Reading and parsing csv data file... ');
-
-  const dataProtectionOfficers = await parseCsvWithHeader(filePath, parsingOptions);
-
-  for (const dataProtectionOfficer of dataProtectionOfficers) {
-    try {
-      await updateCertificationCenterDataProtectionOfficerInformation({
-        dataProtectionOfficer,
-        dataProtectionOfficerRepository,
-      });
-    } catch (error) {
-      errors.push({ dataProtectionOfficer, error });
-    }
-  }
-
-  if (errors.length === 0) {
-    return;
-  }
-
-  console.log(`Errors occurs on ${errors.length} element!`);
-  errors.forEach((error) => {
-    console.log(JSON.stringify(error.dataProtectionOfficer));
-    console.error(error.error?.message);
-  });
-
-  throw new Error('Process done with errors');
-}
-
-async function main() {
-  console.log('Starting updating certification centers data protection officer information.');
-  console.time('Certification centers DPO updated');
-
-  const filePath = process.argv[2];
-  await _updateCertificationCentersDataProtectionOfficerInformation(filePath);
-
-  console.timeEnd('Certification centers DPO updated');
-}
-
-(async function () {
-  if (IS_LAUNCHED_FROM_CLI) {
-    try {
-      await main();
-      console.log('\nCertification centers DPO information updated with success!');
-    } catch (error) {
-      console.error(error?.message);
-      process.exitCode = 1;
-    } finally {
-      await disconnect();
-    }
-  }
-})();
+await ScriptRunner.execute(import.meta.url, AddOrUpdateCertificationCentersDpoInfosScript);
