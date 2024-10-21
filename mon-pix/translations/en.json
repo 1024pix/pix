@@ -171,6 +171,16 @@
         "no-email-question": "No email address?",
         "rule": "All fields are required."
       },
+      "password-reset-form": {
+        "actions": {
+          "submit": "Reset my password"
+        },
+        "fields": {
+          "password": {
+            "label": "Please enter your new password"
+          }
+        }
+      },
       "signup-form": {
         "actions": {
           "submit": "Sign up"

@@ -145,6 +145,16 @@
         "instructions-label": "Your password must comply with the following rules:",
         "completed-message": "{ rulesCompleted } out of { rulesCount } requirements completed."
       },
+      "password-reset-form": {
+        "actions": {
+          "submit": "Reset my password"
+        },
+        "fields": {
+          "password": {
+            "label": "Please enter your new password"
+          }
+        }
+      },
       "signup-form": {
         "actions": {
           "submit": "Ik wil graag registreren"
